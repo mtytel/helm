@@ -20,28 +20,32 @@
 
 namespace laf {
 
-  Voice::Voice(Processor* voice) : note_(0), velocity_(0), voice_(voice) { }
-
-  void Voice::activate(laf_sample new_note, laf_sample new_velocity) {
-    note_ = new_note;
-    velocity_ = new_velocity;
-    voice_->trigger(true);
-  }
-
-  void Voice::deactivate() {
-    voice_->trigger(false);
-  }
+  Voice::Voice(Processor* processor) : processor_(processor) { }
 
   VoiceHandler::VoiceHandler(int polyphony) :
-      Processor(0, 1), polyphony_(0), sustain_(false),
+      Processor(kNumInputs, 1), polyphony_(0), sustain_(false),
       voice_output_(0), voice_killer_(0) {
     setPolyphony(polyphony);
   }
 
+  void VoiceHandler::prepareVoiceTriggers(Voice* voice) {
+    note_.clearTrigger();
+    velocity_.clearTrigger();
+    voice_event_.clearTrigger();
+
+    if (voice->hasNewEvent()) {
+      voice_event_.trigger(voice->state()->event);
+      if (voice->state()->event == kOn) {
+        note_.trigger(voice->state()->note);
+        velocity_.trigger(voice->state()->velocity);
+      }
+
+      voice->clearEvent();
+    }
+  }
+
   void VoiceHandler::processVoice(Voice* voice) {
-    note_.set(voice->note());
-    velocity_.set(voice->velocity());
-    voice->voice()->process();
+    voice->processor()->process();
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] += voice_output_->output()->buffer[i];
   }
@@ -50,11 +54,13 @@ namespace laf {
     memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_sample));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
-
     while (iter != active_voices_.end()) {
       Voice* voice = *iter;
+      prepareVoiceTriggers(voice);
       processVoice(voice);
-      if (voice_killer_ &&
+
+      // Remove voice if the right processor has a full silent buffer.
+      if (voice_killer_ && voice->state()->event != kOn &&
           utils::isSilent(voice_killer_->output()->buffer, BUFFER_SIZE)) {
         free_voices_.push_back(voice);
         iter = active_voices_.erase(iter);
@@ -67,7 +73,7 @@ namespace laf {
   void VoiceHandler::setSampleRate(int sample_rate) {
     std::set<Voice*>::iterator iter = all_voices_.begin();
     for (; iter != all_voices_.end(); ++iter)
-      (*iter)->voice()->setSampleRate(sample_rate);
+      (*iter)->processor()->setSampleRate(sample_rate);
   }
 
   void VoiceHandler::sustainOn() {
@@ -103,7 +109,7 @@ namespace laf {
     std::list<Voice*>::iterator iter = active_voices_.begin();
     for (; iter != active_voices_.end(); ++iter) {
       Voice* voice = *iter;
-      if (voice->note() == note) {
+      if (voice->state()->note == note) {
         if (sustain_)
           sustained_voices_.push_back(voice);
         else

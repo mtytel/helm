@@ -29,6 +29,7 @@ namespace laf {
         kFrequency,
         kPhase,
         kWaveType,
+        kReset,
         kNumInputs
       };
 
@@ -39,6 +40,7 @@ namespace laf {
 
     protected:
       laf_sample tick(int i);
+      void reset();
 
       laf_sample offset_;
       Wave::Type wave_type_;

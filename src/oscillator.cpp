@@ -38,4 +38,8 @@ namespace laf {
     offset_ = offset_ - floor(offset_);
     return Wave::blwave(wave_type_, offset_ + phase, frequency);
   }
+
+  void Oscillator::reset() {
+    offset_ = 0.0;
+  }
 } // namespace laf

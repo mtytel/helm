@@ -32,7 +32,6 @@ namespace laf {
 
       virtual Processor* clone() const;
       virtual void process();
-      virtual void trigger(bool on);
       virtual void setSampleRate(int sample_rate);
 
       virtual void addProcessor(Processor* processor);

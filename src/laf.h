@@ -42,6 +42,13 @@
 namespace laf {
 
   typedef double laf_sample;
+
+  // Common types of events across different Processors.
+  enum VoiceEvent {
+    kOn,      // Start. (e.g. start attack in an envelope)
+    kOff,     // Stop. (e.g. releast in an envelope)
+    kReset,   // Reset. Immediately reset to initial state.
+  };
 } // namespace laf
 
 #endif // LAF_H

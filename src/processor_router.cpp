@@ -37,12 +37,6 @@ namespace laf {
     return clone;
   }
 
-  void ProcessorRouter::trigger(bool on) {
-    int num_processors = order_->size();
-    for (int i = 0; i < num_processors; ++i)
-      processors_[order_->at(i)]->trigger(on);
-  }
-
   void ProcessorRouter::process() {
     int num_processors = order_->size();
     for (int i = 0; i < num_processors; ++i) {

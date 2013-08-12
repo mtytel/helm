@@ -31,20 +31,28 @@ namespace laf {
         kDecay,
         kSustain,
         kRelease,
+        kTrigger,
         kNumInputs
+      };
+
+      enum Outputs {
+        kValue,
+        kFinished,
+        kNumOutputs
       };
 
       enum State {
         kAttacking,
         kDecaying,
-        kReleasing
+        kReleasing,
+        kKilling,
       };
 
       Envelope();
 
       virtual Processor* clone() const { return new Envelope(*this); }
       void process();
-      void trigger(bool on);
+      void trigger(laf_sample event);
 
     private:
       laf_sample tick(int i);

@@ -34,10 +34,27 @@ namespace laf {
         Output() {
           owner = 0;
           memset(buffer, 0, BUFFER_SIZE * sizeof(laf_sample));
+          clearTrigger();
+        }
+
+        void trigger(laf_sample value, int offset = 0) {
+          triggered = true;
+          trigger_offset = offset;
+          trigger_value = value;
+        }
+
+        void clearTrigger() {
+          triggered = false;
+          trigger_offset = 0;
+          trigger_value = 0.0;
         }
 
         const Processor* owner;
         laf_sample buffer[BUFFER_SIZE];
+
+        bool triggered;
+        int trigger_offset;
+        laf_sample trigger_value;
       };
 
       // An input port to the Processor. You can plug an Output into on of
@@ -58,10 +75,6 @@ namespace laf {
 
       // Subclasses override this for main processing code.
       virtual void process() = 0;
-
-      // Subclasses should override this if they want trigger events to start
-      // an envelope or synchronize an oscillator.
-      virtual void trigger(bool on) { UNUSED(on); }
 
       // Subclasses should override this if they need to adjust for change in
       // sample rate.

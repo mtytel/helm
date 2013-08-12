@@ -26,25 +26,53 @@
 
 namespace laf {
 
+  struct VoiceState {
+    VoiceEvent event;
+    laf_sample note;
+    laf_sample velocity;
+  };
+
   class Voice {
     public:
       Voice(Processor* voice);
 
-      void activate(laf_sample note, laf_sample velocity);
-      void deactivate();
+      Processor* processor() { return processor_; }
+      const VoiceState* state() { return &state_; }
 
-      laf_sample note() { return note_; }
-      laf_sample velocity() { return velocity_; }
-      Processor* voice() { return voice_; }
+      void activate(laf_sample note, laf_sample velocity) {
+        new_event_ = true;
+        state_.event = kOn;
+        state_.note = note;
+        state_.velocity = velocity;
+      }
+
+      void deactivate() {
+        new_event_ = true;
+        state_.event = kOff;
+      }
+
+      bool hasNewEvent() {
+        return new_event_;
+      }
+
+      void clearEvent() {
+        new_event_ = false;
+      }
 
     private:
-      laf_sample note_;
-      laf_sample velocity_;
-      Processor* voice_;
+      bool new_event_;
+      VoiceState state_;
+      Processor* processor_;
   };
 
   class VoiceHandler : public Processor {
     public:
+      enum Inputs {
+        kPolyphony,
+        kLegato,
+        kNumInputs
+      };
+
       VoiceHandler(int polyphony = 1);
 
       virtual Processor* clone() const { LAF_ASSERT(false); }
@@ -56,8 +84,9 @@ namespace laf {
       void sustainOn();
       void sustainOff();
 
-      Value* note() { return &note_; }
-      Value* velocity() { return &velocity_; }
+      Output* voice_event() { return &voice_event_; }
+      Output* note() { return &note_; }
+      Output* velocity() { return &velocity_; }
 
       void addProcessor(Processor* processor);
       void setPolyphony(int polyphony);
@@ -66,20 +95,22 @@ namespace laf {
 
     private:
       Voice* createVoice();
+      void prepareVoiceTriggers(Voice* voice);
       void processVoice(Voice* voice);
 
       int polyphony_;
       bool sustain_;
       const Processor* voice_output_;
       const Processor* voice_killer_;
-      Value note_;
-      Value velocity_;
+      Output voice_event_;
+      Output note_;
+      Output velocity_;
 
       std::set<Voice*> all_voices_;
       std::list<Voice*> free_voices_;
-      std::list<Voice*> released_voices_;
       std::list<Voice*> sustained_voices_;
       std::list<Voice*> active_voices_;
+      std::list<Voice*> reserve_voices_;
       ProcessorRouter router_;
   };
 } // namespace laf

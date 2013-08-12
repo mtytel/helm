@@ -18,20 +18,27 @@
 
 #include <math.h>
 
+#define KILL_TIME 0.02
+
 namespace laf {
 
   Envelope::Envelope() :
-      Processor(kNumInputs, 1), state_(kReleasing),
+      Processor(kNumInputs, kNumOutputs), state_(kReleasing),
       current_value_(0), decay_decay_(0), release_decay_(0) { }
 
-  void Envelope::trigger(bool on) {
-    if (on)
-      state_ = kAttacking;
-    else
+  void Envelope::trigger(laf_sample event) {
+    if (event == kOn)
+      state_ = kKilling;
+    else if (event == kOff)
       state_ = kReleasing;
+    else if (event == kReset) {
+      state_ = kAttacking;
+      current_value_ = 0.0;
+    }
   }
 
   void Envelope::process() {
+    outputs_[kFinished]->clearTrigger();
     // Only update decay and release rate once per buffer.
     laf_sample decay_samples =
         sample_rate_ * inputs_[kDecay]->at(BUFFER_SIZE - 1);
@@ -41,8 +48,18 @@ namespace laf {
         sample_rate_ * inputs_[kRelease]->at(BUFFER_SIZE - 1);
     release_decay_ = pow(CLOSE_ENOUGH, 1.0 / release_samples);
 
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = tick(i);
+    int i = 0;
+    if (inputs_[kTrigger]->source->triggered) {
+      int trigger_offset = inputs_[kRelease]->source->trigger_offset;
+
+      for (; i < trigger_offset; ++i)
+        outputs_[kValue]->buffer[i] = tick(i);
+
+      trigger(inputs_[kRelease]->source->trigger_value);
+    }
+
+    for (; i < BUFFER_SIZE; ++i)
+      outputs_[kValue]->buffer[i] = tick(i);
   }
 
   inline laf_sample Envelope::tick(int i) {
@@ -60,9 +77,15 @@ namespace laf {
       current_value_ = INTERPOLATE(inputs_[kSustain]->at(i), current_value_,
                                    decay_decay_);
     }
-    else if (state_ == kReleasing) {
-      current_value_ *= release_decay_;
+    else if (state_ == kKilling) {
+      current_value_ -= CLAMP(0, 1, 1 / (KILL_TIME * sample_rate_));
+      if (current_value_ <= 0) {
+        outputs_[kFinished]->trigger(kReset, i);
+        state_ = kAttacking;
+      }
     }
+    else if (state_ == kReleasing)
+      current_value_ *= release_decay_;
     return current_value_;
   }
 } // namespace laf

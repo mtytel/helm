@@ -28,6 +28,7 @@ namespace laf {
         kAudio,
         kCutoff,
         kResonance,
+        kReset,
         kNumInputs
       };
 
@@ -44,6 +45,7 @@ namespace laf {
 
     private:
       laf_sample tick(int i);
+      void reset();
       void computeCoefficients(laf_sample cutoff, laf_sample resonance);
 
       Type type_;

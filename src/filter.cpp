@@ -23,7 +23,15 @@ namespace laf {
   }
 
   void Filter::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    int i = 0;
+    if (inputs_[kReset]->source->triggered) {
+      int trigger_offset = inputs_[kReset]->source->trigger_offset;
+      for (; i < trigger_offset; ++i)
+        outputs_[0]->buffer[i] = tick(i);
+
+      reset();
+    }
+    for (; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = tick(i);
   }
 
@@ -42,6 +50,10 @@ namespace laf {
     past_out_2_ = past_out_1_;
     past_out_1_ = out;
     return out;
+  }
+
+  inline void Filter::reset() {
+    past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0;
   }
 
   inline void Filter::computeCoefficients(laf_sample cutoff,

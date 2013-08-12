@@ -24,6 +24,11 @@ namespace laf {
 
   class Value : public Processor {
     public:
+      enum Inputs {
+        kSet,
+        kNumInputs
+      };
+
       Value(laf_sample value = 0.0);
 
       virtual Processor* clone() const { return new Value(*this); }

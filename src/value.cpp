@@ -18,20 +18,35 @@
 
 namespace laf {
 
-  Value::Value(laf_sample value) : Processor(0, 1), value_(value) {
-    process();
+  Value::Value(laf_sample value) : Processor(kNumInputs, 1), value_(value) {
+    for (int i = 0; i < BUFFER_SIZE; ++i)
+      outputs_[0]->buffer[i] = value_;
   }
 
   void Value::process() {
-    if (outputs_[0]->buffer[0] == value_)
+    if (outputs_[0]->buffer[0] == value_ &&
+        outputs_[0]->buffer[BUFFER_SIZE - 1] == value_ &&
+        !inputs_[kSet]->source->triggered) {
       return;
+    }
 
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    int i = 0;
+    if (inputs_[kSet]->source->triggered) {
+      int trigger_offset = inputs_[kSet]->source->trigger_offset;
+
+      for (; i < trigger_offset; ++i)
+        outputs_[0]->buffer[i] = value_;
+
+      set(inputs_[kSet]->source->trigger_value);
+    }
+
+    for (; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = value_;
   }
 
   void Value::set(laf_sample value) {
     value_ = value;
-    process();
+    for (int i = 0; i < BUFFER_SIZE; ++i)
+      outputs_[0]->buffer[i] = value_;
   }
 } // namespace laf
