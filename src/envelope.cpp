@@ -55,7 +55,7 @@ namespace laf {
       for (; i < trigger_offset; ++i)
         outputs_[kValue]->buffer[i] = tick(i);
 
-      trigger(inputs_[kRelease]->source->trigger_value);
+      trigger(inputs_[kTrigger]->source->trigger_value);
     }
 
     for (; i < BUFFER_SIZE; ++i)
