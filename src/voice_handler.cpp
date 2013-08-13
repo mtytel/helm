@@ -92,6 +92,7 @@ namespace laf {
 
   void VoiceHandler::noteOn(laf_sample note, laf_sample velocity) {
     Voice* voice = 0;
+    pressed_notes_.push_back(note);
     if (free_voices_.size()) {
       voice = free_voices_.front();
       free_voices_.pop_front();
@@ -106,14 +107,26 @@ namespace laf {
   }
 
   void VoiceHandler::noteOff(laf_sample note) {
+    std::list<laf_sample>::iterator note_iter = pressed_notes_.begin();
+    while (note_iter != pressed_notes_.end()) {
+      if (*note_iter == note)
+        note_iter = pressed_notes_.erase(note_iter);
+      else
+        note_iter++;
+    }
+
     std::list<Voice*>::iterator iter = active_voices_.begin();
     for (; iter != active_voices_.end(); ++iter) {
       Voice* voice = *iter;
       if (voice->state()->note == note) {
         if (sustain_)
           sustained_voices_.push_back(voice);
-        else
-          voice->deactivate();
+        else {
+          if (polyphony_ == 1 && pressed_notes_.size())
+            voice->activate(pressed_notes_.back(), voice->state()->velocity);
+          else
+            voice->deactivate();
+        }
       }
     }
   }

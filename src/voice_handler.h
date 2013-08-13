@@ -106,6 +106,7 @@ namespace laf {
       Output note_;
       Output velocity_;
 
+      std::list<laf_sample> pressed_notes_;
       std::set<Voice*> all_voices_;
       std::list<Voice*> free_voices_;
       std::list<Voice*> sustained_voices_;
