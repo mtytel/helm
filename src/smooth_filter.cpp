@@ -26,8 +26,8 @@ namespace laf {
     laf_sample decay = inputs_[kDecay]->at(0);
 
     for (int i = 0; i < BUFFER_SIZE; ++i) {
-      laf_sample audio = inputs_[kAudio]->at(i);
-      last_value_ = INTERPOLATE(last_value_, audio, decay);
+      laf_sample target = inputs_[kTarget]->at(i);
+      last_value_ = INTERPOLATE(last_value_, target, decay);
       outputs_[0]->buffer[i] = last_value_;
     }
   }

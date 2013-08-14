@@ -25,8 +25,9 @@ namespace laf {
   class SmoothFilter : public Processor {
     public:
       enum Inputs {
-        kAudio,
+        kTarget,
         kDecay,
+        kTriggerJump,
         kNumInputs
       };
 

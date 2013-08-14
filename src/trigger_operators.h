@@ -15,12 +15,21 @@
  */
 
 #pragma once
-#ifndef TRIGGER_FILTERS_H
-#define TRIGGER_FILTERS_H
+#ifndef TRIGGER_OPERATORS_H
+#define TRIGGER_OPERATORS_H
 
 #include "processor.h"
 
 namespace laf {
+
+  class TriggerCombiner : public Processor {
+    public:
+      TriggerCombiner();
+
+      virtual Processor* clone() const { return new TriggerCombiner(*this); }
+
+      void process();
+  };
 
   class LegatoFilter : public Processor {
     public:
@@ -28,6 +37,12 @@ namespace laf {
         kLegato,
         kTrigger,
         kNumInputs
+      };
+
+      enum Outputs {
+        kRetrigger,
+        kRemain,
+        kNumOutputs
       };
 
       LegatoFilter();
@@ -39,6 +54,30 @@ namespace laf {
     private:
       laf_sample last_value_;
   };
+
+  class PortamentoFilter : public Processor {
+    public:
+      enum Inputs {
+        kPortamento,
+        kTrigger,
+        kNumInputs
+      };
+
+      enum State {
+        kPortamentoOff,
+        kPortamentoAuto,
+        kPortamentoOn
+      };
+
+      PortamentoFilter();
+
+      virtual Processor* clone() const { return new PortamentoFilter(*this); }
+
+      void process();
+
+    private:
+      laf_sample last_value_;
+  };
 } // namespace laf
 
-#endif // TRIGGER_FILTERS_H
+#endif // TRIGGER_OPERATORS_H

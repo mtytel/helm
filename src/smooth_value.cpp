@@ -23,15 +23,10 @@
 namespace laf {
 
   SmoothValue::SmoothValue(laf_sample value) :
-      Value(value), target_value_(value) {
-    setSampleRate(DEFAULT_SAMPLE_RATE);
-  }
-
-  void SmoothValue::setSampleRate(int sample_rate) {
-    decay_ = 1 - exp(-2.0 * PI * SMOOTH_CUTOFF / sample_rate);
-  }
+      Value(value), target_value_(value) { }
 
   void SmoothValue::process() {
+    decay_ = 1 - exp(-2.0 * PI * SMOOTH_CUTOFF / sample_rate_);
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = tick();
   }

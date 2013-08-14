@@ -14,25 +14,33 @@
  * along with laf.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "trigger_filters.h"
+#pragma once
+#ifndef LINEAR_SLOPE_H
+#define LINEAR_SLOPE_H
+
+#include "value.h"
 
 namespace laf {
 
-  LegatoFilter::LegatoFilter() : Processor(kNumInputs, 1),
-                                 last_value_(kOff) { }
+  class LinearSlope : public Processor {
+    public:
+      enum Inputs {
+        kTarget,
+        kRunSeconds,
+        kTriggerJump,
+        kNumInputs
+      };
 
-  void LegatoFilter::process() {
-    outputs_[0]->clearTrigger();
-    if (!inputs_[kTrigger]->source->triggered)
-      return;
+      LinearSlope();
 
-    if (inputs_[kTrigger]->source->trigger_value == kOn &&
-        last_value_ == kOn && inputs_[kLegato]->at(0)) {
-      return;
-    }
+      virtual Processor* clone() const { return new LinearSlope(*this); }
+      virtual void process();
 
-    last_value_ = inputs_[kTrigger]->source->trigger_value;
-    outputs_[0]->trigger(inputs_[kTrigger]->source->trigger_value,
-                         inputs_[kTrigger]->source->trigger_offset);
-  }
+    private:
+      laf_sample tick(int i);
+
+      laf_sample last_value_;
+  };
 } // namespace laf
+
+#endif // LINEAR_SLOPE_H

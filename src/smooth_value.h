@@ -28,7 +28,6 @@ namespace laf {
 
       virtual Processor* clone() const { return new SmoothValue(*this); }
       virtual void process();
-      void setSampleRate(int sample_rate);
 
       void set(laf_sample value) { target_value_ = value; }
       void setHard(laf_sample value) {
