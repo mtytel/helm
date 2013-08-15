@@ -26,7 +26,16 @@ namespace laf {
   void Oscillator::process() {
     wave_type_ = static_cast<Wave::Type>(inputs_[kWaveType]->at(0));
 
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    int i = 0;
+    if (inputs_[kReset]->source->triggered &&
+        inputs_[kReset]->source->trigger_value == kReset) {
+      int trigger_offset = inputs_[kReset]->source->trigger_offset;
+      for (; i < trigger_offset; ++i)
+        outputs_[0]->buffer[i] = tick(i);
+
+      reset();
+    }
+    for (; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = tick(i);
   }
 
