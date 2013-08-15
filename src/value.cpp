@@ -37,7 +37,7 @@ namespace laf {
       for (; i < trigger_offset; ++i)
         outputs_[0]->buffer[i] = value_;
 
-      set(inputs_[kSet]->source->trigger_value);
+      value_ = inputs_[kSet]->source->trigger_value;
     }
 
     for (; i < BUFFER_SIZE; ++i)
