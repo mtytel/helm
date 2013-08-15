@@ -35,7 +35,7 @@ namespace laf {
         outputs_[0]->buffer[i] = last_value_;
       }
 
-      last_value_ = inputs_[kTarget]->at(i + 1);
+      last_value_ = inputs_[kTarget]->at(i);
     }
 
     for (; i < BUFFER_SIZE; ++i) {
