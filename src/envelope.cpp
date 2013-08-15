@@ -26,11 +26,13 @@ namespace laf {
       Processor(kNumInputs, kNumOutputs), state_(kReleasing),
       current_value_(0), decay_decay_(0), release_decay_(0) { }
 
-  void Envelope::trigger(laf_sample event) {
+  void Envelope::trigger(laf_sample event, int offset) {
     if (event == kOn)
       state_ = kKilling;
-    else if (event == kOff)
+    else if (event == kOff) {
       state_ = kReleasing;
+      outputs_[kFinished]->trigger(kOff, offset);
+    }
     else if (event == kReset) {
       state_ = kAttacking;
       current_value_ = 0.0;
@@ -55,7 +57,7 @@ namespace laf {
       for (; i < trigger_offset; ++i)
         outputs_[kValue]->buffer[i] = tick(i);
 
-      trigger(inputs_[kTrigger]->source->trigger_value);
+      trigger(inputs_[kTrigger]->source->trigger_value, trigger_offset);
     }
 
     for (; i < BUFFER_SIZE; ++i)

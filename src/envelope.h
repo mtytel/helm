@@ -52,7 +52,7 @@ namespace laf {
 
       virtual Processor* clone() const { return new Envelope(*this); }
       void process();
-      void trigger(laf_sample event);
+      void trigger(laf_sample event, int offset);
 
     private:
       laf_sample tick(int i);
