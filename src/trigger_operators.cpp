@@ -33,6 +33,41 @@ namespace laf {
     }
   }
 
+  TriggerWait::TriggerWait() : Processor(kNumInputs, 1) { }
+
+  void TriggerWait::waitTrigger(laf_sample trigger_value) {
+    waiting_ = true;
+    trigger_value_ = trigger_value;
+  }
+
+  void TriggerWait::sendTrigger(int trigger_offset) {
+    if (waiting_)
+      outputs_[0]->trigger(trigger_value_, trigger_offset);
+    waiting_ = false;
+  }
+
+  void TriggerWait::process() {
+    outputs_[0]->clearTrigger();
+
+    if (inputs_[kWait]->source->triggered &&
+        inputs_[kTrigger]->source->triggered) {
+
+      if (inputs_[kWait]->source->trigger_offset <=
+          inputs_[kTrigger]->source->trigger_offset) {
+        waitTrigger(inputs_[kWait]->source->trigger_value);
+        sendTrigger(inputs_[kTrigger]->source->trigger_offset);
+      }
+      else {
+        sendTrigger(inputs_[kTrigger]->source->trigger_offset);
+        waitTrigger(inputs_[kWait]->source->trigger_value);
+      }
+    }
+    else if (inputs_[kWait]->source->triggered)
+      waitTrigger(inputs_[kWait]->source->trigger_value);
+    else if (inputs_[kTrigger]->source->triggered)
+      sendTrigger(inputs_[kTrigger]->source->trigger_offset);
+  }
+
   LegatoFilter::LegatoFilter() : Processor(kNumInputs, kNumOutputs),
                                  last_value_(kOff) { }
 
@@ -63,9 +98,9 @@ namespace laf {
       return;
 
     int state = static_cast<int>(inputs_[kPortamento]->at(0));
-    if (inputs_[kTrigger]->source->trigger_value == kOn) {
+    if (inputs_[kTrigger]->source->trigger_value != kOff) {
       if (state == kPortamentoOff || (state == kPortamentoAuto &&
-                                      last_value_ != kOn)) {
+                                      last_value_ == kOff)) {
         outputs_[0]->trigger(inputs_[kTrigger]->source->trigger_value,
                              inputs_[kTrigger]->source->trigger_offset);
       }

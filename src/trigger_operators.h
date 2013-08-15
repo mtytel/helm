@@ -31,6 +31,28 @@ namespace laf {
       void process();
   };
 
+  class TriggerWait : public Processor {
+    public:
+      enum Inputs {
+        kWait,
+        kTrigger,
+        kNumInputs
+      };
+
+      TriggerWait();
+
+      virtual Processor* clone() const { return new TriggerWait(*this); }
+
+      void process();
+
+    private:
+      void waitTrigger(laf_sample trigger_value);
+      void sendTrigger(int trigger_offset);
+
+      bool waiting_;
+      laf_sample trigger_value_;
+  };
+
   class LegatoFilter : public Processor {
     public:
       enum Inputs {
