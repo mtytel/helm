@@ -35,7 +35,7 @@ namespace laf {
 
     if (voice->hasNewEvent()) {
       voice_event_.trigger(voice->state()->event);
-      if (voice->state()->event == kOn) {
+      if (voice->state()->event == kVoiceOn) {
         note_.trigger(voice->state()->note);
         velocity_.trigger(voice->state()->velocity);
       }
@@ -47,7 +47,7 @@ namespace laf {
   void VoiceHandler::processVoice(Voice* voice) {
     voice->processor()->process();
     for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] += voice_output_->output()->buffer[i];
+      outputs_[0]->buffer[i] += voice_output_->buffer[i];
   }
 
   void VoiceHandler::process() {
@@ -60,8 +60,8 @@ namespace laf {
       processVoice(voice);
 
       // Remove voice if the right processor has a full silent buffer.
-      if (voice_killer_ && voice->state()->event != kOn &&
-          utils::isSilent(voice_killer_->output()->buffer, BUFFER_SIZE)) {
+      if (voice_killer_ && voice->state()->event != kVoiceOn &&
+          utils::isSilent(voice_killer_->buffer, BUFFER_SIZE)) {
         free_voices_.push_back(voice);
         iter = active_voices_.erase(iter);
       }

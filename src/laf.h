@@ -45,9 +45,9 @@ namespace laf {
 
   // Common types of events across different Processors.
   enum VoiceEvent {
-    kOff,     // Stop. (e.g. releast in an envelope)
-    kOn,      // Start. (e.g. start attack in an envelope)
-    kReset,   // Reset. Immediately reset to initial state.
+    kVoiceOff,     // Stop. (e.g. releast in an envelope)
+    kVoiceOn,      // Start. (e.g. start attack in an envelope)
+    kVoiceReset,   // Reset. Immediately reset to initial state.
   };
 } // namespace laf
 

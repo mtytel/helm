@@ -27,13 +27,13 @@ namespace laf {
       current_value_(0), decay_decay_(0), release_decay_(0) { }
 
   void Envelope::trigger(laf_sample event, int offset) {
-    if (event == kOn)
+    if (event == kVoiceOn)
       state_ = kKilling;
-    else if (event == kOff) {
+    else if (event == kVoiceOff) {
       state_ = kReleasing;
-      outputs_[kFinished]->trigger(kOff, offset);
+      outputs_[kFinished]->trigger(kVoiceOff, offset);
     }
-    else if (event == kReset) {
+    else if (event == kVoiceReset) {
       state_ = kAttacking;
       current_value_ = 0.0;
     }
@@ -82,7 +82,7 @@ namespace laf {
     else if (state_ == kKilling) {
       current_value_ -= CLAMP(0, 1, 1 / (KILL_TIME * sample_rate_));
       if (current_value_ <= 0) {
-        outputs_[kFinished]->trigger(kReset, i);
+        outputs_[kFinished]->trigger(kVoiceReset, i);
         state_ = kAttacking;
       }
     }

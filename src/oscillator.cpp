@@ -28,12 +28,12 @@ namespace laf {
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
-        inputs_[kReset]->source->trigger_value == kReset) {
+        inputs_[kReset]->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_[kReset]->source->trigger_offset;
       for (; i < trigger_offset; ++i)
         outputs_[0]->buffer[i] = tick(i);
 
-      reset();
+      offset_ = 0.0;
     }
     for (; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = tick(i);
@@ -46,9 +46,5 @@ namespace laf {
     offset_ += frequency / sample_rate_;
     offset_ = offset_ - floor(offset_);
     return Wave::blwave(wave_type_, offset_ + phase, frequency);
-  }
-
-  void Oscillator::reset() {
-    offset_ = 0.0;
   }
 } // namespace laf

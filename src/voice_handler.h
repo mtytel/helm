@@ -41,14 +41,14 @@ namespace laf {
 
       void activate(laf_sample note, laf_sample velocity) {
         new_event_ = true;
-        state_.event = kOn;
+        state_.event = kVoiceOn;
         state_.note = note;
         state_.velocity = velocity;
       }
 
       void deactivate() {
         new_event_ = true;
-        state_.event = kOff;
+        state_.event = kVoiceOff;
       }
 
       bool hasNewEvent() {
@@ -90,8 +90,19 @@ namespace laf {
 
       void addProcessor(Processor* processor);
       void setPolyphony(int polyphony);
-      void setVoiceOutput(const Processor* output) { voice_output_ = output; }
-      void setVoiceKiller(const Processor* killer) { voice_killer_ = killer; }
+
+      void setVoiceOutput(const Output* output) {
+        voice_output_ = output;
+      }
+      void setVoiceOutput(const Processor* output) {
+        setVoiceOutput(output->output());
+      }
+      void setVoiceKiller(const Output* killer) {
+        voice_killer_ = killer;
+      }
+      void setVoiceKiller(const Processor* killer) {
+        setVoiceKiller(killer->output());
+      }
 
     private:
       Voice* createVoice();
@@ -100,8 +111,8 @@ namespace laf {
 
       int polyphony_;
       bool sustain_;
-      const Processor* voice_output_;
-      const Processor* voice_killer_;
+      const Output* voice_output_;
+      const Output* voice_killer_;
       Output voice_event_;
       Output note_;
       Output velocity_;

@@ -54,6 +54,10 @@ namespace laf {
     plug(source->output(), input_index);
   }
 
+  void Processor::unplug(unsigned int input_index) {
+    inputs_[input_index]->source = &Processor::null_source_;
+  }
+
   void Processor::registerInput(Input* input) {
     inputs_.push_back(input);
   }

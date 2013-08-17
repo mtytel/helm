@@ -69,7 +69,7 @@ namespace laf {
   }
 
   LegatoFilter::LegatoFilter() : Processor(kNumInputs, kNumOutputs),
-                                 last_value_(kOff) { }
+                                 last_value_(kVoiceOff) { }
 
   void LegatoFilter::process() {
     outputs_[kRetrigger]->clearTrigger();
@@ -77,8 +77,8 @@ namespace laf {
     if (!inputs_[kTrigger]->source->triggered)
       return;
 
-    if (inputs_[kTrigger]->source->trigger_value == kOn &&
-        last_value_ == kOn && inputs_[kLegato]->at(0)) {
+    if (inputs_[kTrigger]->source->trigger_value == kVoiceOn &&
+        last_value_ == kVoiceOn && inputs_[kLegato]->at(0)) {
       outputs_[kRemain]->trigger(inputs_[kTrigger]->source->trigger_value,
                                  inputs_[kTrigger]->source->trigger_offset);
     }
@@ -90,7 +90,7 @@ namespace laf {
   }
 
   PortamentoFilter::PortamentoFilter() : Processor(kNumInputs, 1),
-                                         last_value_(kOff) { }
+                                         last_value_(kVoiceOff) { }
 
   void PortamentoFilter::process() {
     outputs_[0]->clearTrigger();
@@ -98,9 +98,9 @@ namespace laf {
       return;
 
     int state = static_cast<int>(inputs_[kPortamento]->at(0));
-    if (inputs_[kTrigger]->source->trigger_value != kOff) {
+    if (inputs_[kTrigger]->source->trigger_value != kVoiceOff) {
       if (state == kPortamentoOff || (state == kPortamentoAuto &&
-                                      last_value_ == kOff)) {
+                                      last_value_ == kVoiceOff)) {
         outputs_[0]->trigger(inputs_[kTrigger]->source->trigger_value,
                              inputs_[kTrigger]->source->trigger_offset);
       }
