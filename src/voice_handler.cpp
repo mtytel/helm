@@ -22,7 +22,7 @@ namespace laf {
 
   Voice::Voice(Processor* processor) : processor_(processor) { }
 
-  VoiceHandler::VoiceHandler(int polyphony) :
+  VoiceHandler::VoiceHandler(size_t polyphony) :
       Processor(kNumInputs, 1), polyphony_(0), sustain_(false),
       voice_output_(0), voice_killer_(0) {
     setPolyphony(polyphony);
@@ -51,6 +51,8 @@ namespace laf {
   }
 
   void VoiceHandler::process() {
+    size_t polyphony = static_cast<size_t>(inputs_[kPolyphony]->at(0));
+    setPolyphony(CLAMP(1, polyphony, polyphony));
     memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_sample));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
@@ -93,7 +95,7 @@ namespace laf {
   void VoiceHandler::noteOn(laf_sample note, laf_sample velocity) {
     Voice* voice = 0;
     pressed_notes_.push_back(note);
-    if (free_voices_.size()) {
+    if (free_voices_.size() && active_voices_.size() < polyphony_) {
       voice = free_voices_.front();
       free_voices_.pop_front();
     }
@@ -131,11 +133,16 @@ namespace laf {
     }
   }
 
-  void VoiceHandler::setPolyphony(int polyphony) {
-    for (int i = polyphony_; i < polyphony; ++i) {
+  void VoiceHandler::setPolyphony(size_t polyphony) {
+    while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
       all_voices_.insert(new_voice);
       free_voices_.push_back(new_voice);
+    }
+
+    while (active_voices_.size() > polyphony) {
+      active_voices_.front()->deactivate();
+      active_voices_.pop_front();
     }
 
     polyphony_ = polyphony;

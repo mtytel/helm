@@ -69,11 +69,10 @@ namespace laf {
     public:
       enum Inputs {
         kPolyphony,
-        kLegato,
         kNumInputs
       };
 
-      VoiceHandler(int polyphony = 1);
+      VoiceHandler(size_t polyphony = 1);
 
       virtual Processor* clone() const { LAF_ASSERT(false); }
       virtual void process();
@@ -89,7 +88,7 @@ namespace laf {
       Output* velocity() { return &velocity_; }
 
       void addProcessor(Processor* processor);
-      void setPolyphony(int polyphony);
+      void setPolyphony(size_t polyphony);
 
       void setVoiceOutput(const Output* output) {
         voice_output_ = output;
@@ -109,7 +108,7 @@ namespace laf {
       void prepareVoiceTriggers(Voice* voice);
       void processVoice(Voice* voice);
 
-      int polyphony_;
+      size_t polyphony_;
       bool sustain_;
       const Output* voice_output_;
       const Output* voice_killer_;
@@ -122,7 +121,6 @@ namespace laf {
       std::list<Voice*> free_voices_;
       std::list<Voice*> sustained_voices_;
       std::list<Voice*> active_voices_;
-      std::list<Voice*> reserve_voices_;
       ProcessorRouter router_;
   };
 } // namespace laf

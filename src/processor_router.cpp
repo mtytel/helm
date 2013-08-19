@@ -48,8 +48,8 @@ namespace laf {
   }
 
   void ProcessorRouter::setSampleRate(int sample_rate) {
-    size_t num_processors = order_->size();
-    for (size_t i = 0; i < num_processors; ++i) {
+    int num_processors = order_->size();
+    for (int i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
       if (processors_.find(next) == processors_.end())
         processors_[next] = next->clone();

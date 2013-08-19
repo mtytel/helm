@@ -140,6 +140,7 @@ namespace laf {
         if (harmonics >= MAX_HARMONICS)
           return wave(wave_type, t);
 
+        t = NORMALIZE(t);
         switch (wave_type) {
           case kSin:
             return lookup_.fullsin(t);
