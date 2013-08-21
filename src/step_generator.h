@@ -41,9 +41,9 @@ namespace laf {
       void process();
 
     protected:
-      laf_sample tick(int i);
+      laf_float tick(int i);
 
-      laf_sample offset_;
+      laf_float offset_;
       int current_step_;
       int num_steps_;
   };

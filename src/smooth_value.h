@@ -24,22 +24,22 @@ namespace laf {
 
   class SmoothValue : public Value {
     public:
-      SmoothValue(laf_sample value = 0.0);
+      SmoothValue(laf_float value = 0.0);
 
       virtual Processor* clone() const { return new SmoothValue(*this); }
       virtual void process();
 
-      void set(laf_sample value) { target_value_ = value; }
-      void setHard(laf_sample value) {
+      void set(laf_float value) { target_value_ = value; }
+      void setHard(laf_float value) {
         Value::set(value);
         target_value_ = value;
       }
 
     private:
-      laf_sample tick();
+      laf_float tick();
 
-      laf_sample target_value_;
-      laf_sample decay_;
+      laf_float target_value_;
+      laf_float decay_;
   };
 } // namespace laf
 

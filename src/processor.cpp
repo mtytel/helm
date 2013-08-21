@@ -40,6 +40,10 @@ namespace laf {
     }
   }
 
+  void Processor::plug(const Output* source) {
+    plug(source, 0);
+  }
+
   void Processor::plug(const Output* source, unsigned int input_index) {
     LAF_ASSERT(input_index < inputs_.size());
     LAF_ASSERT(source);
@@ -50,12 +54,30 @@ namespace laf {
       router_->reorder(this);
   }
 
+  void Processor::plug(const Processor* source) {
+    plug(source, 0);
+  }
+
   void Processor::plug(const Processor* source, unsigned int input_index) {
     plug(source->output(), input_index);
   }
 
   void Processor::unplug(unsigned int input_index) {
     inputs_[input_index]->source = &Processor::null_source_;
+  }
+
+  void Processor::unplug(const Output* source) {
+    for (unsigned int i = 0; i < inputs_.size(); ++i) {
+      if (inputs_[i]->source == source)
+        inputs_[i]->source = &Processor::null_source_;
+    }
+  }
+
+  void Processor::unplug(const Processor* source) {
+    for (unsigned int i = 0; i < inputs_.size(); ++i) {
+      if (inputs_[i]->source->owner == source)
+        inputs_[i]->source = &Processor::null_source_;
+    }
   }
 
   void Processor::registerInput(Input* input) {

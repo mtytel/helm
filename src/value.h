@@ -29,16 +29,16 @@ namespace laf {
         kNumInputs
       };
 
-      Value(laf_sample value = 0.0);
+      Value(laf_float value = 0.0);
 
       virtual Processor* clone() const { return new Value(*this); }
       virtual void process();
 
-      laf_sample value() const { return value_; }
-      virtual void set(laf_sample value);
+      laf_float value() const { return value_; }
+      virtual void set(laf_float value);
 
     protected:
-      laf_sample value_;
+      laf_float value_;
   };
 } // namespace laf
 

@@ -25,13 +25,13 @@ namespace laf {
       outputs_[0]->buffer[i] = tick(i);
   }
 
-  inline laf_sample Delay::tick(int i) {
-    laf_sample input = inputs_[kAudio]->at(i);
-    laf_sample wet = inputs_[kWet]->at(i);
-    laf_sample period = inputs_[kDelayTime]->at(i) * sample_rate_;
-    laf_sample feedback = inputs_[kFeedback]->at(i);
+  inline laf_float Delay::tick(int i) {
+    laf_float input = inputs_[kAudio]->at(i);
+    laf_float wet = inputs_[kWet]->at(i);
+    laf_float period = inputs_[kDelayTime]->at(i) * sample_rate_;
+    laf_float feedback = inputs_[kFeedback]->at(i);
 
-    laf_sample read = memory_.get(period);
+    laf_float read = memory_.get(period);
     memory_.push(input + read * feedback);
     return INTERPOLATE(input, read, wet);
   }

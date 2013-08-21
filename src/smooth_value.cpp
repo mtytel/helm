@@ -22,7 +22,7 @@
 
 namespace laf {
 
-  SmoothValue::SmoothValue(laf_sample value) :
+  SmoothValue::SmoothValue(laf_float value) :
       Value(value), target_value_(value) { }
 
   void SmoothValue::process() {
@@ -31,7 +31,7 @@ namespace laf {
       outputs_[0]->buffer[i] = tick();
   }
 
-  inline laf_sample SmoothValue::tick() {
+  inline laf_float SmoothValue::tick() {
     value_ = INTERPOLATE(value_, target_value_, decay_);
     return value_;
   }

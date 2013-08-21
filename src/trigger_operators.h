@@ -46,11 +46,11 @@ namespace laf {
       void process();
 
     private:
-      void waitTrigger(laf_sample trigger_value);
+      void waitTrigger(laf_float trigger_value);
       void sendTrigger(int trigger_offset);
 
       bool waiting_;
-      laf_sample trigger_value_;
+      laf_float trigger_value_;
   };
 
   class LegatoFilter : public Processor {
@@ -74,7 +74,7 @@ namespace laf {
       void process();
 
     private:
-      laf_sample last_value_;
+      laf_float last_value_;
   };
 
   class PortamentoFilter : public Processor {
@@ -98,7 +98,7 @@ namespace laf {
       void process();
 
     private:
-      laf_sample last_value_;
+      laf_float last_value_;
   };
 } // namespace laf
 

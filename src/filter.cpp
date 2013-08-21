@@ -36,15 +36,15 @@ namespace laf {
       outputs_[0]->buffer[i] = tick(i);
   }
 
-  inline laf_sample Filter::tick(int i) {
-    laf_sample input = inputs_[kAudio]->at(i);
-    laf_sample cutoff = inputs_[kCutoff]->at(i);
-    laf_sample resonance = inputs_[kResonance]->at(i);
+  inline laf_float Filter::tick(int i) {
+    laf_float input = inputs_[kAudio]->at(i);
+    laf_float cutoff = inputs_[kCutoff]->at(i);
+    laf_float resonance = inputs_[kResonance]->at(i);
 
     if (cutoff != last_cutoff_ || resonance != last_resonance_)
       computeCoefficients(cutoff, resonance);
 
-    laf_sample out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
+    laf_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
                      past_out_1_ * out_0_ - past_out_2_ * out_1_;
     past_in_2_ = past_in_1_;
     past_in_1_ = input;
@@ -57,15 +57,15 @@ namespace laf {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0;
   }
 
-  inline void Filter::computeCoefficients(laf_sample cutoff,
-                                          laf_sample resonance) {
+  inline void Filter::computeCoefficients(laf_float cutoff,
+                                          laf_float resonance) {
     switch(type_) {
       case kLP12: {
         last_cutoff_ = cutoff;
         last_resonance_ = resonance;
-        laf_sample sf = 1.0 / tan(PI * cutoff / sample_rate_);
-        laf_sample sf_squared = sf * sf;
-        laf_sample norm = 1 + 1 / resonance * sf + sf_squared;
+        laf_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
+        laf_float sf_squared = sf * sf;
+        laf_float norm = 1 + 1 / resonance * sf + sf_squared;
 
         in_2_ = in_0_ = 1 / norm;
         in_1_ = 2.0 / norm;
@@ -74,9 +74,9 @@ namespace laf {
         break;
       }
       case kHP12: {
-        laf_sample sf = 1.0 / tan(PI * cutoff / 44100.0);
-        laf_sample sf_squared = sf * sf;
-        laf_sample norm = 1 + 1 / resonance * sf + sf_squared;
+        laf_float sf = 1.0 / tan(PI * cutoff / 44100.0);
+        laf_float sf_squared = sf * sf;
+        laf_float norm = 1 + 1 / resonance * sf + sf_squared;
 
         in_0_ = sf_squared / norm;
         in_1_ = -2.0 * sf_squared / norm;

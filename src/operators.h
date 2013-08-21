@@ -40,12 +40,12 @@ namespace laf {
 
   class LinearScale : public UnaryOperator {
     public:
-      LinearScale(laf_sample scale = 1) : scale_(scale) { }
+      LinearScale(laf_float scale = 1) : scale_(scale) { }
       virtual Processor* clone() const { return new LinearScale(*this); }
       void process();
 
     private:
-      laf_sample scale_;
+      laf_float scale_;
   };
 
   class MidiScale : public UnaryOperator {

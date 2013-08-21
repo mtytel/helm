@@ -26,7 +26,7 @@ namespace laf {
       Processor(kNumInputs, kNumOutputs), state_(kReleasing),
       current_value_(0), decay_decay_(0), release_decay_(0) { }
 
-  void Envelope::trigger(laf_sample event, int offset) {
+  void Envelope::trigger(laf_float event, int offset) {
     if (event == kVoiceOn)
       state_ = kKilling;
     else if (event == kVoiceOff) {
@@ -42,11 +42,11 @@ namespace laf {
   void Envelope::process() {
     outputs_[kFinished]->clearTrigger();
     // Only update decay and release rate once per buffer.
-    laf_sample decay_samples =
+    laf_float decay_samples =
         sample_rate_ * inputs_[kDecay]->at(BUFFER_SIZE - 1);
     decay_decay_ = pow(CLOSE_ENOUGH, 1.0 / decay_samples);
 
-    laf_sample release_samples =
+    laf_float release_samples =
         sample_rate_ * inputs_[kRelease]->at(BUFFER_SIZE - 1);
     release_decay_ = pow(CLOSE_ENOUGH, 1.0 / release_samples);
 
@@ -64,12 +64,12 @@ namespace laf {
       outputs_[kValue]->buffer[i] = tick(i);
   }
 
-  inline laf_sample Envelope::tick(int i) {
+  inline laf_float Envelope::tick(int i) {
     if (state_ == kAttacking) {
       if (inputs_[kAttack]->at(i) <= 0)
         current_value_ = 1;
       else {
-        laf_sample change = 1.0 / (sample_rate_ * inputs_[kAttack]->at(i));
+        laf_float change = 1.0 / (sample_rate_ * inputs_[kAttack]->at(i));
         current_value_ = CLAMP(0, 1, current_value_ + change);
       }
       if (current_value_ >= 1)

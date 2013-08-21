@@ -68,38 +68,38 @@ namespace laf {
         }
       }
 
-      inline laf_sample fullsin(laf_sample t) const {
+      inline laf_float fullsin(laf_float t) const {
         int index = t * LOOKUP_SIZE;
-        laf_sample fractional = t * LOOKUP_SIZE - index;
+        laf_float fractional = t * LOOKUP_SIZE - index;
         return INTERPOLATE(sin_[index], sin_[index + 1], fractional);
       }
 
-      inline laf_sample square(laf_sample t, int harmonics) const {
+      inline laf_float square(laf_float t, int harmonics) const {
         int index = t * LOOKUP_SIZE;
-        laf_sample fractional = t * LOOKUP_SIZE - index;
+        laf_float fractional = t * LOOKUP_SIZE - index;
         return INTERPOLATE(square_[harmonics][index],
                            square_[harmonics][index + 1], fractional);
       }
 
-      inline laf_sample upsaw(laf_sample t, int harmonics) const {
-        laf_sample normalized = NORMALIZE(t + 0.5);
+      inline laf_float upsaw(laf_float t, int harmonics) const {
+        laf_float normalized = NORMALIZE(t + 0.5);
         int index = normalized * LOOKUP_SIZE;
-        laf_sample fractional = normalized * LOOKUP_SIZE - index;
+        laf_float fractional = normalized * LOOKUP_SIZE - index;
         return INTERPOLATE(saw_[harmonics][index],
                            saw_[harmonics][index + 1], fractional);
       }
 
-      inline laf_sample downsaw(laf_sample t, int harmonics) const {
+      inline laf_float downsaw(laf_float t, int harmonics) const {
         return -upsaw(t, harmonics);
       }
 
-      inline laf_sample step(laf_sample t, int steps, int harmonics) const {
+      inline laf_float step(laf_float t, int steps, int harmonics) const {
         return (1.0 * steps) / (steps - 1) * (upsaw(t, harmonics) +
                downsaw(steps * t, harmonics / steps) / steps);
       }
 
-      inline laf_sample pyramid(laf_sample t, int steps, int harmonics) const {
-        laf_sample out = 0.0;
+      inline laf_float pyramid(laf_float t, int steps, int harmonics) const {
+        laf_float out = 0.0;
 
         unsigned int squares = steps - 1;
         for (unsigned int i = 0; i < squares; ++i)
@@ -109,9 +109,9 @@ namespace laf {
 
     private:
       // Make them 1 larger for wrapping.
-      laf_sample sin_[LOOKUP_SIZE + 1];
-      laf_sample square_[MAX_HARMONICS][LOOKUP_SIZE + 1];
-      laf_sample saw_[MAX_HARMONICS][LOOKUP_SIZE + 1];
+      laf_float sin_[LOOKUP_SIZE + 1];
+      laf_float square_[MAX_HARMONICS][LOOKUP_SIZE + 1];
+      laf_float saw_[MAX_HARMONICS][LOOKUP_SIZE + 1];
   };
 
   class Wave {
@@ -132,8 +132,8 @@ namespace laf {
         kNumWaveforms
       };
 
-      static inline laf_sample blwave(Type wave_type, laf_sample t,
-                                      laf_sample frequency) {
+      static inline laf_float blwave(Type wave_type, laf_float t,
+                                      laf_float frequency) {
         if (fabs(frequency) < 1)
           return wave(wave_type, t);
         int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1;
@@ -167,7 +167,7 @@ namespace laf {
         }
       }
 
-      static inline laf_sample wave(Type wave_type, laf_sample t) {
+      static inline laf_float wave(Type wave_type, laf_float t) {
         switch (wave_type) {
           case kSin:
             return fullsin(t);
@@ -198,45 +198,45 @@ namespace laf {
         }
       }
 
-      static inline laf_sample nullwave() {
+      static inline laf_float nullwave() {
         return 0;
       }
 
-      static inline laf_sample whitenoise() {
+      static inline laf_float whitenoise() {
         return (2.0 * rand()) / RAND_MAX - 1;
       }
 
-      static inline laf_sample fullsin(laf_sample t) {
+      static inline laf_float fullsin(laf_float t) {
         return lookup_.fullsin(NORMALIZE(t));
       }
 
-      static inline laf_sample square(laf_sample t) {
+      static inline laf_float square(laf_float t) {
         return NORMALIZE(t) < 0.5 ? 1 : -1;
       }
 
-      static inline laf_sample triangle(laf_sample t) {
+      static inline laf_float triangle(laf_float t) {
         return fabsf(2.0f - 4.0f * NORMALIZE(t - 0.25f)) - 1;
       }
 
-      static inline laf_sample downsaw(laf_sample t) {
+      static inline laf_float downsaw(laf_float t) {
         return -upsaw(t);
       }
 
-      static inline laf_sample upsaw(laf_sample t) {
+      static inline laf_float upsaw(laf_float t) {
         return NORMALIZE(t) * 2 - 1;
       }
 
-      static inline laf_sample hannwave(laf_sample t) {
+      static inline laf_float hannwave(laf_float t) {
         return 0.5f * (1.0f - cosf(2.0f * PI * t));
       }
 
-      static inline laf_sample step(laf_sample t, int steps) {
-        laf_sample section = (int)(steps * NORMALIZE(t));
+      static inline laf_float step(laf_float t, int steps) {
+        laf_float section = (int)(steps * NORMALIZE(t));
         return 2 * section / (steps - 1) - 1;
       }
 
-      static inline laf_sample pyramid(laf_sample t, int steps) {
-        laf_sample output = 0.0f;
+      static inline laf_float pyramid(laf_float t, int steps) {
+        laf_float output = 0.0f;
 
         int squares = steps - 1;
         for (int i = 0; i < squares; ++i)

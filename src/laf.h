@@ -41,7 +41,7 @@
 
 namespace laf {
 
-  typedef double laf_sample;
+  typedef double laf_float;
 
   // Common types of events across different Processors.
   enum VoiceEvent {

@@ -33,11 +33,11 @@ namespace laf {
       struct Output {
         Output() {
           owner = 0;
-          memset(buffer, 0, BUFFER_SIZE * sizeof(laf_sample));
+          memset(buffer, 0, BUFFER_SIZE * sizeof(laf_float));
           clearTrigger();
         }
 
-        void trigger(laf_sample value, int offset = 0) {
+        void trigger(laf_float value, int offset = 0) {
           triggered = true;
           trigger_offset = offset;
           trigger_value = value;
@@ -50,11 +50,11 @@ namespace laf {
         }
 
         const Processor* owner;
-        laf_sample buffer[BUFFER_SIZE];
+        laf_float buffer[BUFFER_SIZE];
 
         bool triggered;
         int trigger_offset;
-        laf_sample trigger_value;
+        laf_float trigger_value;
       };
 
       // An input port to the Processor. You can plug an Output into on of
@@ -64,7 +64,7 @@ namespace laf {
 
         const Output* source;
 
-        laf_sample at(int i) const { return source->buffer[i]; }
+        laf_float at(int i) const { return source->buffer[i]; }
       };
 
       Processor(int num_inputs, int num_outputs);
@@ -83,9 +83,15 @@ namespace laf {
       }
 
       // Makes a connection between two processors.
-      void plug(const Output* source, unsigned int input_index = 0);
-      void plug(const Processor* source, unsigned int input_index = 0);
-      void unplug(unsigned int input_index = 0);
+      virtual void plug(const Output* source);
+      virtual void plug(const Output* source, unsigned int input_index);
+      virtual void plug(const Processor* source);
+      virtual void plug(const Processor* source, unsigned int input_index);
+
+      // Remove a connection between two processors.
+      virtual void unplug(unsigned int input_index);
+      virtual void unplug(const Output* source);
+      virtual void unplug(const Processor* source);
 
       // Sets the ProcessorRouter that will own this Processor.
       void router(ProcessorRouter* router) { router_ = router; }

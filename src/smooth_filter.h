@@ -37,7 +37,7 @@ namespace laf {
       virtual void process();
 
     private:
-      laf_sample last_value_;
+      laf_float last_value_;
   };
 } // namespace laf
 

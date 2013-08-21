@@ -53,7 +53,7 @@ namespace laf {
   void VoiceHandler::process() {
     size_t polyphony = static_cast<size_t>(inputs_[kPolyphony]->at(0));
     setPolyphony(CLAMP(1, polyphony, polyphony));
-    memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_sample));
+    memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_float));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
@@ -92,7 +92,7 @@ namespace laf {
     sustained_voices_.clear();
   }
 
-  void VoiceHandler::noteOn(laf_sample note, laf_sample velocity) {
+  void VoiceHandler::noteOn(laf_float note, laf_float velocity) {
     Voice* voice = 0;
     pressed_notes_.push_back(note);
     if (free_voices_.size() && active_voices_.size() < polyphony_) {
@@ -108,8 +108,8 @@ namespace laf {
     active_voices_.push_back(voice);
   }
 
-  void VoiceHandler::noteOff(laf_sample note) {
-    std::list<laf_sample>::iterator note_iter = pressed_notes_.begin();
+  void VoiceHandler::noteOff(laf_float note) {
+    std::list<laf_float>::iterator note_iter = pressed_notes_.begin();
     while (note_iter != pressed_notes_.end()) {
       if (*note_iter == note)
         note_iter = pressed_notes_.erase(note_iter);

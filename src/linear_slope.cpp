@@ -44,12 +44,12 @@ namespace laf {
     }
   }
 
-  inline laf_sample LinearSlope::tick(int i) {
-    laf_sample target = inputs_[kTarget]->at(i);
+  inline laf_float LinearSlope::tick(int i) {
+    laf_float target = inputs_[kTarget]->at(i);
     if (utils::closeToZero(inputs_[kRunSeconds]->at(i)))
       return inputs_[kTarget]->at(i);
 
-    laf_sample increment = 1.0 / (sample_rate_ * inputs_[kRunSeconds]->at(0));
+    laf_float increment = 1.0 / (sample_rate_ * inputs_[kRunSeconds]->at(0));
     if (target <= last_value_)
       return CLAMP(target, last_value_, last_value_ - increment);
     return CLAMP(last_value_, target, last_value_ + increment);

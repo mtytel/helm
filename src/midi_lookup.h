@@ -30,33 +30,33 @@ namespace laf {
   class MidiLookupSingleton {
     public:
       MidiLookupSingleton() {
-        laf_sample cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
+        laf_float cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
         for (int i = 0; i <= MAX_CENTS; ++i) {
           frequency_lookup_[i] = MIDI_0_FREQUENCY *
                                  pow(2, i / cents_per_octave);
         }
       }
 
-      laf_sample centsLookup(laf_sample cents_from_0) const {
+      laf_float centsLookup(laf_float cents_from_0) const {
         if (cents_from_0 >= MAX_CENTS)
           return frequency_lookup_[MAX_CENTS];
         if (cents_from_0 < 0)
           return frequency_lookup_[0];
 
         int full_cents = cents_from_0;
-        laf_sample fraction_cents = cents_from_0 - full_cents;
+        laf_float fraction_cents = cents_from_0 - full_cents;
 
         return INTERPOLATE(frequency_lookup_[full_cents],
                            frequency_lookup_[full_cents + 1], fraction_cents);
       }
 
     private:
-      laf_sample frequency_lookup_[MAX_CENTS + 1];
+      laf_float frequency_lookup_[MAX_CENTS + 1];
   };
 
   class MidiLookup {
     public:
-      static laf_sample centsLookup(laf_sample cents_from_0) {
+      static laf_float centsLookup(laf_float cents_from_0) {
         return lookup_.centsLookup(cents_from_0);
       }
 

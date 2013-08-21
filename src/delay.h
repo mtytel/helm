@@ -39,7 +39,7 @@ namespace laf {
       virtual void process();
 
     protected:
-      laf_sample tick(int i);
+      laf_float tick(int i);
 
       Memory memory_;
   };

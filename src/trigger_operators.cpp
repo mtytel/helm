@@ -35,7 +35,7 @@ namespace laf {
 
   TriggerWait::TriggerWait() : Processor(kNumInputs, 1) { }
 
-  void TriggerWait::waitTrigger(laf_sample trigger_value) {
+  void TriggerWait::waitTrigger(laf_float trigger_value) {
     waiting_ = true;
     trigger_value_ = trigger_value;
   }

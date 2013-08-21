@@ -30,30 +30,30 @@ namespace laf {
   class Memory {
     public:
       Memory() : offset_(0) {
-        memset(memory_, 0, MAX_MEMORY * sizeof(laf_sample));
+        memset(memory_, 0, MAX_MEMORY * sizeof(laf_float));
       }
 
-      inline void push(laf_sample sample) {
+      inline void push(laf_float sample) {
         offset_ = (offset_ + 1) % MAX_MEMORY;
         memory_[offset_] = sample;
       }
 
-      inline laf_sample getIndex(int index) const {
+      inline laf_float getIndex(int index) const {
         return memory_[(MAX_MEMORY + offset_ - index) % MAX_MEMORY];
       }
 
-      inline laf_sample get(laf_sample past) const {
-        int index = std::max<laf_sample>(past, 1);
-        laf_sample sample_fraction = past - index;
+      inline laf_float get(laf_float past) const {
+        int index = std::max<laf_float>(past, 1);
+        laf_float sample_fraction = past - index;
 
         // TODO(mtytel): Quadratic or all-pass interpolation is better.
-        laf_sample from = getIndex(index - 1);
-        laf_sample to = getIndex(index);
+        laf_float from = getIndex(index - 1);
+        laf_float to = getIndex(index);
         return INTERPOLATE(from, to, sample_fraction);
       }
 
     protected:
-      laf_sample memory_[MAX_MEMORY];
+      laf_float memory_[MAX_MEMORY];
       int offset_;
   };
 } // namespace laf

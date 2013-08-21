@@ -18,7 +18,7 @@
 
 namespace laf {
 
-  Value::Value(laf_sample value) : Processor(kNumInputs, 1), value_(value) {
+  Value::Value(laf_float value) : Processor(kNumInputs, 1), value_(value) {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = value_;
   }
@@ -44,7 +44,7 @@ namespace laf {
       outputs_[0]->buffer[i] = value_;
   }
 
-  void Value::set(laf_sample value) {
+  void Value::set(laf_float value) {
     value_ = value;
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = value_;

@@ -28,8 +28,8 @@ namespace laf {
 
   struct VoiceState {
     VoiceEvent event;
-    laf_sample note;
-    laf_sample velocity;
+    laf_float note;
+    laf_float velocity;
   };
 
   class Voice {
@@ -39,7 +39,7 @@ namespace laf {
       Processor* processor() { return processor_; }
       const VoiceState* state() { return &state_; }
 
-      void activate(laf_sample note, laf_sample velocity) {
+      void activate(laf_float note, laf_float velocity) {
         new_event_ = true;
         state_.event = kVoiceOn;
         state_.note = note;
@@ -78,8 +78,8 @@ namespace laf {
       virtual void process();
       virtual void setSampleRate(int sample_rate);
 
-      void noteOn(laf_sample note, laf_sample velocity = 1);
-      void noteOff(laf_sample note);
+      void noteOn(laf_float note, laf_float velocity = 1);
+      void noteOff(laf_float note);
       void sustainOn();
       void sustainOff();
 
@@ -116,7 +116,7 @@ namespace laf {
       Output note_;
       Output velocity_;
 
-      std::list<laf_sample> pressed_notes_;
+      std::list<laf_float> pressed_notes_;
       std::set<Voice*> all_voices_;
       std::list<Voice*> free_voices_;
       std::list<Voice*> sustained_voices_;

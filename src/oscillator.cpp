@@ -39,9 +39,9 @@ namespace laf {
       outputs_[0]->buffer[i] = tick(i);
   }
 
-  inline laf_sample Oscillator::tick(int i) {
-    laf_sample frequency = inputs_[kFrequency]->at(i);
-    laf_sample phase = inputs_[kPhase]->at(i);
+  inline laf_float Oscillator::tick(int i) {
+    laf_float frequency = inputs_[kFrequency]->at(i);
+    laf_float phase = inputs_[kPhase]->at(i);
 
     offset_ += frequency / sample_rate_;
     offset_ = offset_ - floor(offset_);

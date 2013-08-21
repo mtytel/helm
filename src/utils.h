@@ -26,11 +26,11 @@ namespace laf {
 
   namespace utils {
 
-    inline bool closeToZero(laf_sample value) {
+    inline bool closeToZero(laf_float value) {
       return value <= EPSILON && value >= -EPSILON;
     }
 
-    inline bool isSilent(const laf_sample* buffer, int length) {
+    inline bool isSilent(const laf_float* buffer, int length) {
       for (int i = 0; i < length; ++i) {
         if (!closeToZero(buffer[i]))
           return false;

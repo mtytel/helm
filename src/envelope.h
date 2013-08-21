@@ -52,15 +52,15 @@ namespace laf {
 
       virtual Processor* clone() const { return new Envelope(*this); }
       void process();
-      void trigger(laf_sample event, int offset);
+      void trigger(laf_float event, int offset);
 
     private:
-      laf_sample tick(int i);
+      laf_float tick(int i);
 
       State state_;
-      laf_sample current_value_;
-      laf_sample decay_decay_;
-      laf_sample release_decay_;
+      laf_float current_value_;
+      laf_float decay_decay_;
+      laf_float release_decay_;
   };
 } // namespace laf
 

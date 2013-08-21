@@ -40,8 +40,8 @@ namespace laf {
       outputs_[0]->buffer[i] = tick(i);
   }
 
-  inline laf_sample StepGenerator::tick(int i) {
-    laf_sample frequency = inputs_[kFrequency]->at(i);
+  inline laf_float StepGenerator::tick(int i) {
+    laf_float frequency = inputs_[kFrequency]->at(i);
 
     offset_ += frequency / sample_rate_;
     if (offset_ >= 1) {

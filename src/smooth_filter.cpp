@@ -23,10 +23,10 @@ namespace laf {
   }
 
   void SmoothFilter::process() {
-    laf_sample decay = inputs_[kDecay]->at(0);
+    laf_float decay = inputs_[kDecay]->at(0);
 
     for (int i = 0; i < BUFFER_SIZE; ++i) {
-      laf_sample target = inputs_[kTarget]->at(i);
+      laf_float target = inputs_[kTarget]->at(i);
       last_value_ = INTERPOLATE(last_value_, target, decay);
       outputs_[0]->buffer[i] = last_value_;
     }

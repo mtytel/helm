@@ -39,9 +39,9 @@ namespace laf {
       void process();
 
     protected:
-      laf_sample tick(int i);
+      laf_float tick(int i);
 
-      laf_sample offset_;
+      laf_float offset_;
       Wave::Type wave_type_;
   };
 } // namespace laf
