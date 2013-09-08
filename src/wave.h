@@ -133,14 +133,13 @@ namespace laf {
       };
 
       static inline laf_float blwave(Type wave_type, laf_float t,
-                                      laf_float frequency) {
+                                     laf_float frequency) {
         if (fabs(frequency) < 1)
           return wave(wave_type, t);
         int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1;
         if (harmonics >= MAX_HARMONICS)
           return wave(wave_type, t);
 
-        t = NORMALIZE(t);
         switch (wave_type) {
           case kSin:
             return lookup_.fullsin(t);
@@ -207,11 +206,11 @@ namespace laf {
       }
 
       static inline laf_float fullsin(laf_float t) {
-        return lookup_.fullsin(NORMALIZE(t));
+        return lookup_.fullsin(t);
       }
 
       static inline laf_float square(laf_float t) {
-        return NORMALIZE(t) < 0.5 ? 1 : -1;
+        return t < 0.5 ? 1 : -1;
       }
 
       static inline laf_float triangle(laf_float t) {
@@ -223,7 +222,7 @@ namespace laf {
       }
 
       static inline laf_float upsaw(laf_float t) {
-        return NORMALIZE(t) * 2 - 1;
+        return t * 2 - 1;
       }
 
       static inline laf_float hannwave(laf_float t) {
@@ -231,7 +230,7 @@ namespace laf {
       }
 
       static inline laf_float step(laf_float t, int steps) {
-        laf_float section = (int)(steps * NORMALIZE(t));
+        laf_float section = (int)(steps * t);
         return 2 * section / (steps - 1) - 1;
       }
 
