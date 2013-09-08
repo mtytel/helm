@@ -35,6 +35,7 @@ namespace laf {
         outputs_[0]->buffer[i] = tick(i);
 
       offset_ = 0.0;
+      current_step_ = 0;
     }
     for (; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = tick(i);

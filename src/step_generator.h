@@ -20,7 +20,7 @@
 
 #include "processor.h"
 
-#define DEFAULT_MAX_STEPS 16
+#define DEFAULT_MAX_STEPS 64
 
 namespace laf {
 
