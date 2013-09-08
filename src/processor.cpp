@@ -82,6 +82,8 @@ namespace laf {
 
   void Processor::registerInput(Input* input) {
     inputs_.push_back(input);
+    if (router_ && input->source != &Processor::null_source_)
+      router_->reorder(this);
   }
 
   void Processor::registerOutput(Output* output) {
