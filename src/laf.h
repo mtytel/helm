@@ -26,7 +26,6 @@
 #define UNUSED(x) (void)(x)
 #define CLAMP(s, b, v) ((v) < (s) ? (s) : ((v) > (b) ? (b) : (v)))
 #define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
-#define NORMALIZE(t) ((t) - floor(t))
 
 #define DEBUG
 

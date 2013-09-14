@@ -51,6 +51,8 @@ namespace laf {
   }
 
   void VoiceHandler::process() {
+    global_router_.process();
+
     size_t polyphony = static_cast<size_t>(inputs_[kPolyphony]->at(0));
     setPolyphony(CLAMP(1, polyphony, polyphony));
     memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_float));
@@ -149,10 +151,14 @@ namespace laf {
   }
 
   void VoiceHandler::addProcessor(Processor* processor) {
-    router_.addProcessor(processor);
+    voice_router_.addProcessor(processor);
+  }
+
+  void VoiceHandler::addGlobalProcessor(Processor* processor) {
+    global_router_.addProcessor(processor);
   }
 
   Voice* VoiceHandler::createVoice() {
-    return new Voice(router_.clone());
+    return new Voice(voice_router_.clone());
   }
 } // namespace laf

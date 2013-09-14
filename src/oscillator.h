@@ -28,7 +28,7 @@ namespace laf {
       enum Inputs {
         kFrequency,
         kPhase,
-        kWaveType,
+        kWaveform,
         kReset,
         kNumInputs
       };
@@ -42,7 +42,7 @@ namespace laf {
       laf_float tick(int i);
 
       laf_float offset_;
-      Wave::Type wave_type_;
+      Wave::Type waveform_;
   };
 } // namespace laf
 

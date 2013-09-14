@@ -88,6 +88,8 @@ namespace laf {
       Output* velocity() { return &velocity_; }
 
       void addProcessor(Processor* processor);
+      void addGlobalProcessor(Processor* processor);
+
       void setPolyphony(size_t polyphony);
 
       void setVoiceOutput(const Output* output) {
@@ -121,7 +123,9 @@ namespace laf {
       std::list<Voice*> free_voices_;
       std::list<Voice*> sustained_voices_;
       std::list<Voice*> active_voices_;
-      ProcessorRouter router_;
+
+      ProcessorRouter voice_router_;
+      ProcessorRouter global_router_;
   };
 } // namespace laf
 

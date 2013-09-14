@@ -45,10 +45,9 @@ namespace laf {
     laf_float frequency = inputs_[kFrequency]->at(i);
 
     offset_ += frequency / sample_rate_;
-    if (offset_ >= 1) {
-      offset_ = offset_ - floor(offset_);
-      current_step_ = (current_step_ + 1) % num_steps_;
-    }
+    double integral;
+    offset_ = modf(offset_, &integral);
+    current_step_ += integral;
     return inputs_[kSteps + current_step_]->at(i);
   }
 } // namespace laf

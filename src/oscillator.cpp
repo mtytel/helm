@@ -21,10 +21,10 @@
 namespace laf {
 
   Oscillator::Oscillator() : Processor(kNumInputs, 1),
-                             offset_(0.0), wave_type_(Wave::kSin) { }
+                             offset_(0.0), waveform_(Wave::kSin) { }
 
   void Oscillator::process() {
-    wave_type_ = static_cast<Wave::Type>(inputs_[kWaveType]->at(0));
+    waveform_ = static_cast<Wave::Type>(inputs_[kWaveform]->at(0));
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
@@ -44,7 +44,8 @@ namespace laf {
     laf_float phase = inputs_[kPhase]->at(i);
 
     offset_ += frequency / sample_rate_;
-    offset_ = offset_ - floor(offset_);
-    return Wave::blwave(wave_type_, offset_ + phase, frequency);
+    double integral;
+    offset_ = modf(offset_, &integral);
+    return Wave::blwave(waveform_, offset_ + phase, frequency);
   }
 } // namespace laf

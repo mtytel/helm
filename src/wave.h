@@ -82,7 +82,8 @@ namespace laf {
       }
 
       inline laf_float upsaw(laf_float t, int harmonics) const {
-        laf_float normalized = NORMALIZE(t + 0.5);
+        double integral;
+        laf_float normalized = modf(t + 0.5, &integral);
         int index = normalized * LOOKUP_SIZE;
         laf_float fractional = normalized * LOOKUP_SIZE - index;
         return INTERPOLATE(saw_[harmonics][index],
@@ -132,15 +133,15 @@ namespace laf {
         kNumWaveforms
       };
 
-      static inline laf_float blwave(Type wave_type, laf_float t,
+      static inline laf_float blwave(Type waveform, laf_float t,
                                      laf_float frequency) {
         if (fabs(frequency) < 1)
-          return wave(wave_type, t);
+          return wave(waveform, t);
         int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1;
         if (harmonics >= MAX_HARMONICS)
-          return wave(wave_type, t);
+          return wave(waveform, t);
 
-        switch (wave_type) {
+        switch (waveform) {
           case kSin:
             return lookup_.fullsin(t);
           case kSquare:
@@ -162,12 +163,12 @@ namespace laf {
           case kNinePyramid:
             return lookup_.pyramid(t, 9, harmonics);
           default:
-            return wave(wave_type, t);
+            return wave(waveform, t);
         }
       }
 
-      static inline laf_float wave(Type wave_type, laf_float t) {
-        switch (wave_type) {
+      static inline laf_float wave(Type waveform, laf_float t) {
+        switch (waveform) {
           case kSin:
             return fullsin(t);
           case kSquare:
@@ -214,7 +215,8 @@ namespace laf {
       }
 
       static inline laf_float triangle(laf_float t) {
-        return fabsf(2.0f - 4.0f * NORMALIZE(t - 0.25f)) - 1;
+        double integral;
+        return fabsf(2.0f - 4.0f * modf(t - 0.25f, &integral)) - 1;
       }
 
       static inline laf_float downsaw(laf_float t) {
