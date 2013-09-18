@@ -43,8 +43,9 @@ namespace laf {
       }
 
       inline laf_float get(laf_float past) const {
-        int index = std::max<laf_float>(past, 1);
-        laf_float sample_fraction = past - index;
+        double float_index;
+        laf_float sample_fraction = modf(past, &float_index);
+        int index = std::max<laf_float>(float_index, 1);
 
         // TODO(mtytel): Quadratic or all-pass interpolation is better.
         laf_float from = getIndex(index - 1);

@@ -55,37 +55,38 @@ namespace laf {
 
         // Saw lookup table.
         for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
-          saw_[0][i] = 2.0f / PI * sin_[i];
+          int p = (i + LOOKUP_SIZE / 2) % LOOKUP_SIZE;
+          saw_[0][i] = 2.0f / PI * sin_[p];
 
-          int p = (i + i) % LOOKUP_SIZE;
           for (int h = 1; h < MAX_HARMONICS; ++h) {
+            p = (p + i) % LOOKUP_SIZE;
             if (h % 2 == 0)
               saw_[h][i] = saw_[h - 1][i] + 2.0f * sin_[p] / (PI * (h + 1));
             else
               saw_[h][i] = saw_[h - 1][i] - 2.0f * sin_[p] / (PI * (h + 1));
-            p = (p + i) % LOOKUP_SIZE;
           }
         }
       }
 
       inline laf_float fullsin(laf_float t) const {
-        int index = t * LOOKUP_SIZE;
-        laf_float fractional = t * LOOKUP_SIZE - index;
+        double integral;
+        laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
+        int index = integral;
         return INTERPOLATE(sin_[index], sin_[index + 1], fractional);
       }
 
       inline laf_float square(laf_float t, int harmonics) const {
-        int index = t * LOOKUP_SIZE;
-        laf_float fractional = t * LOOKUP_SIZE - index;
+        double integral;
+        laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
+        int index = integral;
         return INTERPOLATE(square_[harmonics][index],
                            square_[harmonics][index + 1], fractional);
       }
 
       inline laf_float upsaw(laf_float t, int harmonics) const {
         double integral;
-        laf_float normalized = modf(t + 0.5, &integral);
-        int index = normalized * LOOKUP_SIZE;
-        laf_float fractional = normalized * LOOKUP_SIZE - index;
+        laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
+        int index = integral;
         return INTERPOLATE(saw_[harmonics][index],
                            saw_[harmonics][index + 1], fractional);
       }
