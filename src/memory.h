@@ -23,7 +23,8 @@
 #include <algorithm>
 #include <string.h>
 
-#define MAX_MEMORY 1000000
+#define MAX_MEMORY 1048576
+#define MEMORY_BITMASK 1048575
 
 namespace laf {
 
@@ -34,7 +35,7 @@ namespace laf {
       }
 
       inline void push(laf_float sample) {
-        offset_ = (offset_ + 1) % MAX_MEMORY;
+        offset_ = (offset_ + 1) & MEMORY_BITMASK;
         memory_[offset_] = sample;
       }
 
