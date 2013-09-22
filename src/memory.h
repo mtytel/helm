@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <string.h>
 
+// MAX_MEMORY must be a power of 2.
 #define MAX_MEMORY 1048576
 #define MEMORY_BITMASK 1048575
 
@@ -40,13 +41,13 @@ namespace laf {
       }
 
       inline laf_float getIndex(int index) const {
-        return memory_[(MAX_MEMORY + offset_ - index) % MAX_MEMORY];
+        return memory_[(offset_ - index) & MEMORY_BITMASK];
       }
 
       inline laf_float get(laf_float past) const {
         double float_index;
         laf_float sample_fraction = modf(past, &float_index);
-        int index = std::max<laf_float>(float_index, 1);
+        int index = std::max<int>(float_index, 1);
 
         // TODO(mtytel): Quadratic or all-pass interpolation is better.
         laf_float from = getIndex(index - 1);
@@ -56,7 +57,7 @@ namespace laf {
 
     protected:
       laf_float memory_[MAX_MEMORY];
-      int offset_;
+      unsigned int offset_;
   };
 } // namespace laf
 

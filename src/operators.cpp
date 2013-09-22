@@ -55,4 +55,14 @@ namespace laf {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = inputs_[0]->at(i) * inputs_[1]->at(i);
   }
+
+  Interpolate::Interpolate() : Processor(kNumInputs, 1) { }
+
+  void Interpolate::process() {
+    for (int i = 0; i < BUFFER_SIZE; ++i) {
+      outputs_[0]->buffer[i] = INTERPOLATE(inputs_[kFrom]->at(i),
+                                           inputs_[kTo]->at(i),
+                                           inputs_[kFractional]->at(i));
+    }
+  }
 } // namespace laf

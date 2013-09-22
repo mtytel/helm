@@ -71,6 +71,21 @@ namespace laf {
       virtual Processor* clone() const { return new Multiply(*this); }
       void process();
   };
+
+  class Interpolate : public Processor {
+    public:
+      enum Inputs {
+        kFrom,
+        kTo,
+        kFractional,
+        kNumInputs
+      };
+
+      Interpolate();
+
+      virtual Processor* clone() const { return new Interpolate(*this); }
+      void process();
+  };
 } // namespace laf
 
 #endif // OPERATORS_H
