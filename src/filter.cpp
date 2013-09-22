@@ -18,8 +18,10 @@
 
 namespace laf {
 
-  Filter::Filter() : Processor(Filter::kNumInputs, 1) {
-    past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0;
+  Filter::Filter() : Processor(Filter::kNumInputs, 1), type_(kLP12) {
+    in_0_ = in_1_ = in_2_ = 0.0;
+    out_0_ = out_1_ = 0.0;
+    past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
   }
 
   void Filter::process() {
