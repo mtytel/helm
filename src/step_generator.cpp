@@ -21,33 +21,26 @@
 namespace laf {
 
   StepGenerator::StepGenerator(int max_steps) :
-      Processor(kNumInputs + max_steps, 1), offset_(0.0),
-      current_step_(0), num_steps_(max_steps) { }
+      Processor(kNumInputs + max_steps, 1), offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
-    num_steps_ = static_cast<int>(inputs_[kNumSteps]->at(0));
+    unsigned int num_steps = static_cast<int>(inputs_[kNumSteps]->at(0));
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
-        inputs_[kReset]->source->trigger_value == kVoiceReset) {
-      int trigger_offset = inputs_[kReset]->source->trigger_offset;
-      for (; i < trigger_offset; ++i)
-        outputs_[0]->buffer[i] = tick(i);
+        inputs_[kReset]->source->trigger_value == kVoiceReset)
+      i = inputs_[kReset]->source->trigger_offset;
 
-      offset_ = 0.0;
-      current_step_ = 0;
-    }
+    laf_float total = 0.0;
     for (; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = tick(i);
-  }
+      total += inputs_[kFrequency]->at(i);
 
-  inline laf_float StepGenerator::tick(int i) {
-    laf_float frequency = inputs_[kFrequency]->at(i);
-
-    offset_ += frequency / sample_rate_;
+    total /= sample_rate_;
     laf_float integral;
-    offset_ = modf(offset_, &integral);
-    current_step_ += integral;
-    return inputs_[kSteps + current_step_]->at(i);
+    offset_ = modf(offset_ + total, &integral);
+    current_step_ = (current_step_ + num_steps) % num_steps;
+
+    for (i = 0; i < BUFFER_SIZE; ++i)
+      outputs_[0]->buffer[i] = inputs_[kSteps + current_step_]->at(i);
   }
 } // namespace laf

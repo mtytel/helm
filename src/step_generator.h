@@ -20,7 +20,7 @@
 
 #include "processor.h"
 
-#define DEFAULT_MAX_STEPS 64
+#define DEFAULT_MAX_STEPS 128
 
 namespace laf {
 
@@ -41,11 +41,8 @@ namespace laf {
       void process();
 
     protected:
-      laf_float tick(int i);
-
       laf_float offset_;
-      int current_step_;
-      int num_steps_;
+      unsigned int current_step_;
   };
 } // namespace laf
 
