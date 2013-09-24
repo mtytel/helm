@@ -51,7 +51,7 @@ namespace laf {
 
     laf_float increment = 1.0 / (sample_rate_ * inputs_[kRunSeconds]->at(0));
     if (target <= last_value_)
-      return CLAMP(target, last_value_, last_value_ - increment);
-    return CLAMP(last_value_, target, last_value_ + increment);
+      return CLAMP(last_value_ - increment, target, last_value_);
+    return CLAMP(last_value_ + increment, last_value_, target);
   }
 } // namespace laf

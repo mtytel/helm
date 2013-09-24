@@ -16,6 +16,8 @@
 
 #include "filter.h"
 
+#include <math.h>
+
 namespace laf {
 
   Filter::Filter() : Processor(Filter::kNumInputs, 1), type_(kLP12) {

@@ -70,7 +70,7 @@ namespace laf {
         current_value_ = 1;
       else {
         laf_float change = 1.0 / (sample_rate_ * inputs_[kAttack]->at(i));
-        current_value_ = CLAMP(0, 1, current_value_ + change);
+        current_value_ = CLAMP(current_value_ + change, 0, 1);
       }
       if (current_value_ >= 1)
         state_ = kDecaying;
@@ -80,7 +80,7 @@ namespace laf {
                                    decay_decay_);
     }
     else if (state_ == kKilling) {
-      current_value_ -= CLAMP(0, 1, 1 / (KILL_TIME * sample_rate_));
+      current_value_ -= CLAMP(1 / (KILL_TIME * sample_rate_), 0, 1);
       if (current_value_ <= 0) {
         outputs_[kFinished]->trigger(kVoiceReset, i);
         state_ = kAttacking;

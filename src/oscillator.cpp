@@ -44,7 +44,7 @@ namespace laf {
     laf_float phase = inputs_[kPhase]->at(i);
 
     offset_ += frequency / sample_rate_;
-    double integral;
+    laf_float integral;
     offset_ = modf(offset_, &integral);
     return Wave::blwave(waveform_, offset_ + phase, frequency);
   }

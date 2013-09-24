@@ -21,6 +21,7 @@
 #include "laf.h"
 
 #include <algorithm>
+#include <math.h>
 #include <string.h>
 
 // MAX_MEMORY must be a power of 2.
@@ -45,7 +46,7 @@ namespace laf {
       }
 
       inline laf_float get(laf_float past) const {
-        double float_index;
+        laf_float float_index;
         laf_float sample_fraction = modf(past, &float_index);
         int index = std::max<int>(float_index, 1);
 

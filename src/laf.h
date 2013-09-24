@@ -18,33 +18,35 @@
 #ifndef LAF_H
 #define LAF_H
 
+// Constants.
 #define BUFFER_SIZE 64
 #define DEFAULT_SAMPLE_RATE 44100
 #define MIDI_SIZE 128
 #define PI 3.1415926535897932384626433832795
+#define PPQ 15360 // Pulses per quarter note.
 
+// Utilities.
 #define UNUSED(x) (void)(x)
-#define CLAMP(s, b, v) ((v) < (s) ? (s) : ((v) > (b) ? (b) : (v)))
+#define CLAMP(v, s, b) ((v) < (s) ? (s) : ((v) > (b) ? (b) : (v)))
 #define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
 
+// Debugging.
 #define DEBUG
-
 #ifdef DEBUG
+#include <assert.h>
 #define LAF_ASSERT(x) assert(x)
 #else
 #define LAF_ASSERT(x) (void)(x)
 #endif // DEBUG
 
-#include <assert.h>
-#include <math.h>
-
+// Common Types.
 namespace laf {
 
   typedef double laf_float;
 
   // Common types of events across different Processors.
   enum VoiceEvent {
-    kVoiceOff,     // Stop. (e.g. releast in an envelope)
+    kVoiceOff,     // Stop. (e.g. release in an envelope)
     kVoiceOn,      // Start. (e.g. start attack in an envelope)
     kVoiceReset,   // Reset. Immediately reset to initial state.
   };

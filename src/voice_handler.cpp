@@ -54,7 +54,7 @@ namespace laf {
     global_router_.process();
 
     size_t polyphony = static_cast<size_t>(inputs_[kPolyphony]->at(0));
-    setPolyphony(CLAMP(1, polyphony, polyphony));
+    setPolyphony(CLAMP(polyphony, 1, polyphony));
     memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_float));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();

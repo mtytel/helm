@@ -45,7 +45,7 @@ namespace laf {
     laf_float frequency = inputs_[kFrequency]->at(i);
 
     offset_ += frequency / sample_rate_;
-    double integral;
+    laf_float integral;
     offset_ = modf(offset_, &integral);
     current_step_ += integral;
     return inputs_[kSteps + current_step_]->at(i);

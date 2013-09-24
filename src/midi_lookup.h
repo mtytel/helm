@@ -20,6 +20,8 @@
 
 #include "laf.h"
 
+#include <math.h>
+
 #define MIDI_0_FREQUENCY 8.1757989156
 #define NOTES_PER_OCTAVE 12
 #define CENTS_PER_NOTE 100

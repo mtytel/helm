@@ -17,6 +17,9 @@
 #include "mono_panner.h"
 
 #include "laf.h"
+#include "wave.h"
+
+#include <math.h>
 
 namespace laf {
 
@@ -24,11 +27,12 @@ namespace laf {
       Processor(MonoPanner::kNumInputs, MonoPanner::kNumOutputs) { }
 
   void MonoPanner::process() {
+    double integral;
     for (int i = 0; i < BUFFER_SIZE; ++i) {
       laf_float audio = inputs_[kAudio]->at(i);
-      laf_float pan = inputs_[kPan]->at(i) + PI / 4;
-      laf_float left_gain = cos(pan);
-      laf_float right_gain = sin(pan);
+      laf_float pan = inputs_[kPan]->at(i);
+      laf_float left_gain = Wave::fullsin(modf(pan + 0.125, &integral));
+      laf_float right_gain = Wave::fullsin(modf(pan + 0.375, &integral));
 
       outputs_[kLeft]->buffer[i] = audio * left_gain;
       outputs_[kRight]->buffer[i] = audio * right_gain;

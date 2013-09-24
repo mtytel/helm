@@ -69,14 +69,14 @@ namespace laf {
       }
 
       inline laf_float fullsin(laf_float t) const {
-        double integral;
+        laf_float integral;
         laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(sin_[index], sin_[index + 1], fractional);
       }
 
       inline laf_float square(laf_float t, int harmonics) const {
-        double integral;
+        laf_float integral;
         laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(square_[harmonics][index],
@@ -84,7 +84,7 @@ namespace laf {
       }
 
       inline laf_float upsaw(laf_float t, int harmonics) const {
-        double integral;
+        laf_float integral;
         laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(saw_[harmonics][index],
@@ -216,7 +216,7 @@ namespace laf {
       }
 
       static inline laf_float triangle(laf_float t) {
-        double integral;
+        laf_float integral;
         return fabsf(2.0f - 4.0f * modf(t - 0.25f, &integral)) - 1;
       }
 

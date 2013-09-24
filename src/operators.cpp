@@ -24,6 +24,11 @@ namespace laf {
 
   BinaryOperator::BinaryOperator() : Processor(2, 1) { }
 
+  void Clamp::process() {
+    for (int i = 0; i < BUFFER_SIZE; ++i)
+      outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), -1, 1);
+  }
+
   void Negate::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = -inputs_[0]->at(i);

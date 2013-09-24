@@ -32,6 +32,12 @@ namespace laf {
       BinaryOperator();
   };
 
+  class Clamp : public UnaryOperator {
+    public:
+      virtual Processor* clone() const { return new Clamp(*this); }
+      void process();
+  };
+
   class Negate : public UnaryOperator {
     public:
       virtual Processor* clone() const { return new Negate(*this); }
