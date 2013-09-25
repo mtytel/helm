@@ -18,7 +18,7 @@
 
 #include <math.h>
 
-#define SMOOTH_CUTOFF 0.5
+#define SMOOTH_CUTOFF 3.0
 
 namespace laf {
 
