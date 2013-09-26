@@ -31,8 +31,8 @@ namespace laf {
     for (int i = 0; i < BUFFER_SIZE; ++i) {
       laf_float audio = inputs_[kAudio]->at(i);
       laf_float pan = inputs_[kPan]->at(i);
-      laf_float left_gain = Wave::fullsin(modf(pan + 0.125, &integral));
-      laf_float right_gain = Wave::fullsin(modf(pan + 0.375, &integral));
+      laf_float left_gain = Wave::fullsin(modf(pan + 1.325, &integral));
+      laf_float right_gain = Wave::fullsin(modf(pan + 1.175, &integral));
 
       outputs_[kLeft]->buffer[i] = audio * left_gain;
       outputs_[kRight]->buffer[i] = audio * right_gain;
