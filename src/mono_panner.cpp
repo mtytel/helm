@@ -21,6 +21,9 @@
 
 #include <math.h>
 
+#define LEFT_ROTATION 100.325
+#define RIGHT_ROTATION 100.125
+
 namespace laf {
 
   MonoPanner::MonoPanner() :
@@ -31,8 +34,10 @@ namespace laf {
     for (int i = 0; i < BUFFER_SIZE; ++i) {
       laf_float audio = inputs_[kAudio]->at(i);
       laf_float pan = inputs_[kPan]->at(i);
-      laf_float left_gain = Wave::fullsin(modf(pan + 1.325, &integral));
-      laf_float right_gain = Wave::fullsin(modf(pan + 1.175, &integral));
+      laf_float left_gain = Wave::fullsin(modf(pan + LEFT_ROTATION,
+                                               &integral));
+      laf_float right_gain = Wave::fullsin(modf(pan + RIGHT_ROTATION,
+                                                &integral));
 
       outputs_[kLeft]->buffer[i] = audio * left_gain;
       outputs_[kRight]->buffer[i] = audio * right_gain;
