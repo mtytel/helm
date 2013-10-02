@@ -40,7 +40,8 @@ all: directory $(LAF_LIBRARY)
 tests: test_directory all $(TEST_EXEC)
 
 clean:
-	rm -rf $(OUTPUT_DIR) $(LAF_LIBRARY) $(TEST_EXEC)
+	@echo 'Cleaning $(LAF_LIBRARY) build files'
+	@rm -rf $(OUTPUT_DIR) $(LAF_LIBRARY) $(TEST_EXEC)
 
 # Build Directories
 directory:
