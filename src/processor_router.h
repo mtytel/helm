@@ -41,6 +41,7 @@ namespace laf {
       // Any time new dependencies are added into the ProcessorRouter graph, we
       // should call _reorder_ on the source Processors.
       void reorder(Processor* processor);
+      bool areOrdered(const Processor* first, const Processor* second);
 
     protected:
       // Returns the ancestor of _processor_ which is a child of _this_.

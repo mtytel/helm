@@ -102,6 +102,26 @@ namespace laf {
       router_->reorder(processor);
   }
 
+  bool ProcessorRouter::areOrdered(const Processor* first,
+                                   const Processor* second) {
+    const Processor* first_context = getContext(first);
+    const Processor* second_context = getContext(second);
+
+    if (first_context && second_context) {
+      size_t num_processors = order_->size();
+      for (size_t i = 0; i < num_processors; ++i) {
+        if (order_->at(i) == first_context)
+          return true;
+        else if (order_->at(i) == second_context)
+          return false;
+      }
+    }
+    else if (router_)
+      return router_->areOrdered(first, second);
+
+    return true;
+  }
+
   const Processor* ProcessorRouter::getContext(const Processor* processor) {
     const Processor* context = processor;
     while (context && processors_.find(context) == processors_.end())
