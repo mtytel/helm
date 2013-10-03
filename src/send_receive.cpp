@@ -33,7 +33,7 @@ namespace laf {
     LAF_ASSERT(send_);
     laf_float adjust = 0;
     if (router_ && !router_->areOrdered(send_, this))
-      adjust = BUFFER_SIZE;
+      adjust = -BUFFER_SIZE;
 
     for (int i = 0; i < BUFFER_SIZE; ++i) {
       laf_float delay_time = inputs_[0]->at(i) + adjust;
