@@ -65,8 +65,6 @@ namespace laf {
                                           laf_float resonance) {
     switch(type_) {
       case kLP12: {
-        last_cutoff_ = cutoff;
-        last_resonance_ = resonance;
         laf_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
         laf_float sf_squared = sf * sf;
         laf_float norm = 1 + 1 / resonance * sf + sf_squared;
