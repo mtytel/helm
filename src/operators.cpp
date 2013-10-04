@@ -20,10 +20,6 @@
 
 namespace laf {
 
-  UnaryOperator::UnaryOperator() : Processor(1, 1) { }
-
-  BinaryOperator::BinaryOperator() : Processor(2, 1) { }
-
   void Clamp::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), -1, 1);
@@ -60,8 +56,6 @@ namespace laf {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = inputs_[0]->at(i) * inputs_[1]->at(i);
   }
-
-  Interpolate::Interpolate() : Processor(kNumInputs, 1) { }
 
   void Interpolate::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i) {

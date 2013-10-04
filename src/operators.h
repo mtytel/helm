@@ -22,31 +22,25 @@
 
 namespace laf {
 
-  class UnaryOperator : public Processor {
+  class Clamp : public Processor {
     public:
-      UnaryOperator();
-  };
+      Clamp() : Processor(1, 1) { }
 
-  class BinaryOperator : public Processor {
-    public:
-      BinaryOperator();
-  };
-
-  class Clamp : public UnaryOperator {
-    public:
       virtual Processor* clone() const { return new Clamp(*this); }
       void process();
   };
 
-  class Negate : public UnaryOperator {
+  class Negate : public Processor {
     public:
+      Negate() : Processor(1, 1) { }
+
       virtual Processor* clone() const { return new Negate(*this); }
       void process();
   };
 
-  class LinearScale : public UnaryOperator {
+  class LinearScale : public Processor {
     public:
-      LinearScale(laf_float scale = 1) : scale_(scale) { }
+      LinearScale(laf_float scale = 1) : Processor(1, 1), scale_(scale) { }
       virtual Processor* clone() const { return new LinearScale(*this); }
       void process();
 
@@ -54,26 +48,34 @@ namespace laf {
       laf_float scale_;
   };
 
-  class MidiScale : public UnaryOperator {
+  class MidiScale : public Processor {
     public:
+      MidiScale() : Processor(1, 1) { }
+
       virtual Processor* clone() const { return new MidiScale(*this); }
       void process();
   };
 
-  class Add : public BinaryOperator {
+  class Add : public Processor {
     public:
+      Add() : Processor(2, 1) { }
+
       virtual Processor* clone() const { return new Add(*this); }
       void process();
   };
 
-  class Subtract : public BinaryOperator {
+  class Subtract : public Processor {
     public:
+      Subtract() : Processor(2, 1) { }
+
       virtual Processor* clone() const { return new Subtract(*this); }
       void process();
   };
 
-  class Multiply : public BinaryOperator {
+  class Multiply : public Processor {
     public:
+      Multiply() : Processor(2, 1) { }
+
       virtual Processor* clone() const { return new Multiply(*this); }
       void process();
   };
@@ -87,7 +89,7 @@ namespace laf {
         kNumInputs
       };
 
-      Interpolate();
+      Interpolate() : Processor(kNumInputs, 1) { }
 
       virtual Processor* clone() const { return new Interpolate(*this); }
       void process();
