@@ -88,7 +88,8 @@ namespace laf {
       enum State {
         kPortamentoOff,
         kPortamentoAuto,
-        kPortamentoOn
+        kPortamentoOn,
+        kNumPortamentoStates,
       };
 
       PortamentoFilter();
