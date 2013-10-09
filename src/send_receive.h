@@ -22,6 +22,30 @@
 #include "processor.h"
 
 namespace laf {
+  class Send;
+  class Receive;
+
+  struct MemoryOutput {
+    MemoryOutput() : owner(0), memory(0) { }
+
+    const Send* owner;
+    Memory* memory;
+
+    inline laf_float get(laf_float past) const {
+      return memory->get(past);
+    }
+  };
+
+  struct MemoryInput {
+    MemoryInput() : owner(0), source(0) { }
+
+    const Receive* owner;
+    const MemoryOutput* source;
+
+    inline laf_float get(laf_float past) const {
+      return source->get(past);
+    }
+  };
 
   class Send : public Processor {
     public:
@@ -34,8 +58,12 @@ namespace laf {
         return memory_.get(past);
       }
 
+      const MemoryOutput* memory_output() const { return memory_output_; }
+
     protected:
       Memory memory_;
+
+      MemoryOutput* memory_output_;
   };
 
   class Receive : public Processor {
@@ -46,11 +74,11 @@ namespace laf {
       virtual void process();
 
       void setSend(const Send* send) {
-        send_ = send;
+        memory_input_->source = send->memory_output();
       }
 
     protected:
-      const Send* send_;
+      MemoryInput* memory_input_;
   };
 } // namespace laf
 

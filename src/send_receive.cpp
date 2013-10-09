@@ -20,24 +20,32 @@
 
 namespace laf {
 
-  Send::Send() : Processor(1, 0) { }
+  Send::Send() : Processor(1, 0) {
+    memory_output_ = new MemoryOutput();
+    memory_output_->owner = this;
+    memory_output_->memory = &memory_;
+  }
 
   void Send::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       memory_.push(inputs_[0]->at(i));
   }
 
-  Receive::Receive() : Processor(1, 1) { }
+  Receive::Receive() : Processor(1, 1) {
+    memory_input_ = new MemoryInput();
+    memory_input_->owner = this;
+  }
 
   void Receive::process() {
-    LAF_ASSERT(send_);
     laf_float adjust = 0;
-    if (router_ && !router_->areOrdered(send_, this))
+    if (router_ && !router_->areOrdered(memory_input_->source->owner,
+                                        memory_input_->owner)) {
       adjust = -BUFFER_SIZE;
+    }
 
     for (int i = 0; i < BUFFER_SIZE; ++i) {
       laf_float delay_time = inputs_[0]->at(i) + adjust;
-      outputs_[0]->buffer[i] = send_->get(delay_time);
+      outputs_[0]->buffer[i] = memory_input_->get(delay_time);
     }
   }
 } // namespace laf
