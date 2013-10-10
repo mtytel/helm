@@ -68,14 +68,18 @@ namespace laf {
 
   class Receive : public Processor {
     public:
+      enum Inputs {
+        kDependent,
+        kDelayTime,
+        kNumInputs
+      };
+
       Receive();
 
       virtual Processor* clone() const { return new Receive(*this); }
       virtual void process();
 
-      void setSend(const Send* send) {
-        memory_input_->source = send->memory_output();
-      }
+      void setSend(const Send* send, bool dependent = true);
 
     protected:
       MemoryInput* memory_input_;

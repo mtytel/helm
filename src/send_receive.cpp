@@ -31,7 +31,7 @@ namespace laf {
       memory_.push(inputs_[0]->at(i));
   }
 
-  Receive::Receive() : Processor(1, 1) {
+  Receive::Receive() : Processor(kNumInputs, 1) {
     memory_input_ = new MemoryInput();
     memory_input_->owner = this;
   }
@@ -47,5 +47,11 @@ namespace laf {
       laf_float delay_time = inputs_[0]->at(i) + adjust;
       outputs_[0]->buffer[i] = memory_input_->get(delay_time);
     }
+  }
+
+  void Receive::setSend(const Send* send, bool dependent) {
+    memory_input_->source = send->memory_output();
+    if (dependent)
+      plug(send, kDependent);
   }
 } // namespace laf
