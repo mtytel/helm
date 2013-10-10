@@ -21,6 +21,8 @@
 #include "memory.h"
 #include "processor.h"
 
+// TODO(mtytel): This classes don't work with polyphony. Fix that.
+
 namespace laf {
   class Send;
   class Receive;

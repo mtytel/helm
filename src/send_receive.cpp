@@ -38,15 +38,17 @@ namespace laf {
   }
 
   void Receive::process() {
-    laf_float adjust = 0;
-    if (router_ && !router_->areOrdered(memory_input_->source->owner,
-                                        memory_input_->owner)) {
-      adjust = -BUFFER_SIZE;
+    laf_float adjust = BUFFER_SIZE;
+    if (router_ && !router_->areOrdered(memory_input_->owner,
+                                        memory_input_->source->owner)) {
+      LAF_ASSERT(false);
+      adjust = 0;
     }
 
     for (int i = 0; i < BUFFER_SIZE; ++i) {
-      laf_float delay_time = inputs_[0]->at(i) + adjust;
-      outputs_[0]->buffer[i] = memory_input_->get(delay_time);
+      laf_float time = inputs_[kDelayTime]->at(i) * sample_rate_ + adjust;
+      outputs_[0]->buffer[i] = memory_input_->get(time);
+      adjust -= 1.0;
     }
   }
 
