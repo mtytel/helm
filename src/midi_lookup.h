@@ -42,7 +42,7 @@ namespace laf {
       laf_float centsLookup(laf_float cents_from_0) const {
         if (cents_from_0 >= MAX_CENTS)
           return frequency_lookup_[MAX_CENTS];
-        if (cents_from_0 < 0)
+        if (cents_from_0 <= 0)
           return frequency_lookup_[0];
 
         int full_cents = cents_from_0;
