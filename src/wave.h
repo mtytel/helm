@@ -38,14 +38,13 @@ namespace laf {
 
         // Square lookup table.
         for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
-          square_[0][i] = 4.0f * sin_[i] / PI;
+          laf_float scale = 4.0 / PI;
+          square_[0][i] = scale * sin_[i];
 
           int p = (i + i) % LOOKUP_SIZE;
           for (int h = 1; h < MAX_HARMONICS; ++h) {
-            if (h % 2 == 0) {
-              square_[h][i] = square_[h - 1][i] +
-                              4.0f * sin_[p] / (PI * (h + 1));
-            }
+            if (h % 2 == 0)
+              square_[h][i] = square_[h - 1][i] + scale * sin_[p] / (h + 1);
             else
               square_[h][i] = square_[h - 1][i];
 
@@ -56,14 +55,33 @@ namespace laf {
         // Saw lookup table.
         for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
           int p = (i + LOOKUP_SIZE / 2) % LOOKUP_SIZE;
-          saw_[0][i] = 2.0f / PI * sin_[p];
+          laf_float scale = 2.0 / PI;
+          saw_[0][i] = scale * sin_[p];
 
           for (int h = 1; h < MAX_HARMONICS; ++h) {
             p = (p + i) % LOOKUP_SIZE;
             if (h % 2 == 0)
-              saw_[h][i] = saw_[h - 1][i] + 2.0f * sin_[p] / (PI * (h + 1));
+              saw_[h][i] = saw_[h - 1][i] + scale * sin_[p] / (h + 1);
             else
-              saw_[h][i] = saw_[h - 1][i] - 2.0f * sin_[p] / (PI * (h + 1));
+              saw_[h][i] = saw_[h - 1][i] - scale * sin_[p] / (h + 1);
+          }
+        }
+
+        // Triangle lookup table.
+        for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
+          laf_float scale = 8.0 / (PI * PI);
+          triangle_[0][i] = scale * sin_[i];
+
+          int p = (i + i) % LOOKUP_SIZE;
+          for (int h = 1; h < MAX_HARMONICS; ++h) {
+            if (h % 2 == 0) {
+              triangle_[h][i] = triangle_[h - 1][i] +
+                                scale * sin_[p] / ((h + 1) * (h + 1));
+            }
+            else
+              triangle_[h][i] = triangle_[h - 1][i];
+
+            p = (p + i) % LOOKUP_SIZE;
           }
         }
       }
@@ -95,17 +113,34 @@ namespace laf {
         return -upsaw(t, harmonics);
       }
 
-      inline laf_float step(laf_float t, int steps, int harmonics) const {
+      inline laf_float triangle(laf_float t, int harmonics) const {
+        laf_float integral;
+        laf_float fractional = modf(t * LOOKUP_SIZE, &integral);
+        int index = integral;
+        return INTERPOLATE(triangle_[harmonics][index],
+                           triangle_[harmonics][index + 1], fractional);
+      }
+
+      template<size_t steps>
+      inline laf_float step(laf_float t, int harmonics) const {
         return (1.0 * steps) / (steps - 1) * (upsaw(t, harmonics) +
                downsaw(steps * t, harmonics / steps) / steps);
       }
 
-      inline laf_float pyramid(laf_float t, int steps, int harmonics) const {
+      template<size_t steps>
+      inline laf_float pyramid(laf_float t, int harmonics) const {
+        size_t squares = steps - 1;
+        laf_float phase_increment = 1.0 / (2.0 * squares);
+
+        laf_float phase = 0.5 + t;
         laf_float out = 0.0;
 
-        unsigned int squares = steps - 1;
-        for (unsigned int i = 0; i < squares; ++i)
-          out += square(0.5f + t + i / (2.0f * squares), harmonics) / squares;
+        double integral;
+        for (size_t i = 0; i < squares; ++i) {
+          out += square(modf(phase, &integral), harmonics);
+          phase += phase_increment;
+        }
+        out /= squares;
         return out;
       }
 
@@ -114,6 +149,7 @@ namespace laf {
       laf_float sin_[LOOKUP_SIZE + 1];
       laf_float square_[MAX_HARMONICS][LOOKUP_SIZE + 1];
       laf_float saw_[MAX_HARMONICS][LOOKUP_SIZE + 1];
+      laf_float triangle_[MAX_HARMONICS][LOOKUP_SIZE + 1];
   };
 
   class Wave {
@@ -145,6 +181,8 @@ namespace laf {
         switch (waveform) {
           case kSin:
             return lookup_.fullsin(t);
+          case kTriangle:
+            return lookup_.triangle(t, harmonics);
           case kSquare:
             return lookup_.square(t, harmonics);
           case kDownSaw:
@@ -152,17 +190,17 @@ namespace laf {
           case kUpSaw:
             return lookup_.upsaw(t, harmonics);
           case kThreeStep:
-            return lookup_.step(t, 3, harmonics);
+            return lookup_.step<3>(t, harmonics);
           case kFourStep:
-            return lookup_.step(t, 4, harmonics);
+            return lookup_.step<4>(t, harmonics);
           case kEightStep:
-            return lookup_.step(t, 8, harmonics);
+            return lookup_.step<8>(t, harmonics);
           case kThreePyramid:
-            return lookup_.pyramid(t, 3, harmonics);
+            return lookup_.pyramid<3>(t, harmonics);
           case kFivePyramid:
-            return lookup_.pyramid(t, 5, harmonics);
+            return lookup_.pyramid<5>(t, harmonics);
           case kNinePyramid:
-            return lookup_.pyramid(t, 9, harmonics);
+            return lookup_.pyramid<9>(t, harmonics);
           default:
             return wave(waveform, t);
         }
@@ -181,17 +219,17 @@ namespace laf {
           case kUpSaw:
             return upsaw(t);
           case kThreeStep:
-            return step(t, 3);
+            return step<3>(t);
           case kFourStep:
-            return step(t, 4);
+            return step<4>(t);
           case kEightStep:
-            return step(t, 8);
+            return step<8>(t);
           case kThreePyramid:
-            return pyramid(t, 3);
+            return pyramid<3>(t);
           case kFivePyramid:
-            return pyramid(t, 5);
+            return pyramid<5>(t);
           case kNinePyramid:
-            return pyramid(t, 9);
+            return pyramid<9>(t);
           case kWhiteNoise:
             return whitenoise();
           default:
@@ -217,7 +255,7 @@ namespace laf {
 
       static inline laf_float triangle(laf_float t) {
         laf_float integral;
-        return fabsf(2.0f - 4.0f * modf(t - 0.25f, &integral)) - 1;
+        return fabsf(2.0f - 4.0f * modf(t + 0.75f, &integral)) - 1;
       }
 
       static inline laf_float downsaw(laf_float t) {
@@ -232,19 +270,27 @@ namespace laf {
         return 0.5f * (1.0f - cosf(2.0f * PI * t));
       }
 
-      static inline laf_float step(laf_float t, int steps) {
+      template<size_t steps>
+      static inline laf_float step(laf_float t) {
         laf_float section = (int)(steps * t);
         return 2 * section / (steps - 1) - 1;
       }
 
-      static inline laf_float pyramid(laf_float t, int steps) {
-        laf_float output = 0.0f;
+      template<size_t steps>
+      static inline laf_float pyramid(laf_float t) {
+        size_t squares = steps - 1;
+        laf_float phase_increment = 1.0 / (2.0 * squares);
 
-        int squares = steps - 1;
-        for (int i = 0; i < squares; ++i)
-          output += square(0.5f + t + i / (2.0f * squares)) / squares;
+        laf_float phase = 0.5 + t;
+        laf_float out = 0.0;
 
-        return output;
+        double integral;
+        for (size_t i = 0; i < squares; ++i) {
+          out += square(modf(phase, &integral));
+          phase += phase_increment;
+        }
+        out /= squares;
+        return out;
       }
 
     protected:
