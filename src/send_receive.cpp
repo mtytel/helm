@@ -20,7 +20,7 @@
 
 namespace laf {
 
-  Send::Send() : Processor(1, 0) {
+  Send::Send() : Processor(1, 1) {
     memory_output_ = new MemoryOutput();
     memory_output_->owner = this;
     memory_output_->memory = &memory_;
@@ -29,6 +29,7 @@ namespace laf {
   void Send::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       memory_.push(inputs_[0]->at(i));
+    memory_output_->memory = &memory_;
   }
 
   Receive::Receive() : Processor(kNumInputs, 1) {
