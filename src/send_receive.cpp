@@ -39,8 +39,8 @@ namespace laf {
 
   void Receive::process() {
     laf_float adjust = BUFFER_SIZE;
-    if (router_ && !router_->areOrdered(memory_input_->owner,
-                                        memory_input_->source->owner)) {
+    if (router_ && !router_->areOrdered(memory_input_->source->owner,
+                                        memory_input_->owner)) {
       adjust = 0;
     }
 
