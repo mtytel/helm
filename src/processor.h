@@ -33,7 +33,7 @@ namespace laf {
       struct Output {
         Output() {
           owner = 0;
-          memset(buffer, 0, BUFFER_SIZE * sizeof(laf_float));
+          clearBuffer();
           clearTrigger();
         }
 
@@ -47,6 +47,10 @@ namespace laf {
           triggered = false;
           trigger_offset = 0;
           trigger_value = 0.0;
+        }
+
+        void clearBuffer() {
+          memset(buffer, 0, BUFFER_SIZE * sizeof(laf_float));
         }
 
         const Processor* owner;
