@@ -59,7 +59,7 @@ namespace laf {
   }
 
   void ProcessorRouter::addProcessor(Processor* processor) {
-    LAF_ASSERT(!processor->router());
+    LAF_ASSERT(processor->router() == NULL || processor->router() == this);
     processor->router(this);
     order_->push_back(processor);
     processors_[processor] = processor;
