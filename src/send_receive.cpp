@@ -41,7 +41,6 @@ namespace laf {
     laf_float adjust = BUFFER_SIZE;
     if (router_ && !router_->areOrdered(memory_input_->owner,
                                         memory_input_->source->owner)) {
-      LAF_ASSERT(false);
       adjust = 0;
     }
 
