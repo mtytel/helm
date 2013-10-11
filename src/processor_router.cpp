@@ -18,6 +18,7 @@
 
 #include "laf.h"
 
+#include <algorithm>
 #include <stdio.h>
 #include <vector>
 
@@ -64,6 +65,14 @@ namespace laf {
     processors_[processor] = processor;
 
     reorder(processor);
+  }
+
+  void ProcessorRouter::removeProcessor(const Processor* processor) {
+    LAF_ASSERT(processor->router() == this);
+    std::vector<const Processor*>::iterator pos =
+        std::find(order_->begin(), order_->end(), processor);
+    LAF_ASSERT(pos != order_->end());
+    order_->erase(pos, pos + 1);
   }
 
   void ProcessorRouter::reorder(Processor* processor) {

@@ -35,6 +35,7 @@ namespace laf {
       virtual void setSampleRate(int sample_rate);
 
       virtual void addProcessor(Processor* processor);
+      virtual void removeProcessor(const Processor* processor);
 
       // Makes sure _processor_ runs in a topologically sorted order in
       // relation to all other Processors in _this_.
