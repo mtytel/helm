@@ -46,6 +46,7 @@ namespace laf {
         processors_[next] = next->clone();
       processors_[next]->process();
     }
+    LAF_ASSERT(num_processors != 0);
   }
 
   void ProcessorRouter::setSampleRate(int sample_rate) {
@@ -73,6 +74,7 @@ namespace laf {
         std::find(order_->begin(), order_->end(), processor);
     LAF_ASSERT(pos != order_->end());
     order_->erase(pos, pos + 1);
+    processors_.erase(processor);
   }
 
   void ProcessorRouter::reorder(Processor* processor) {
@@ -81,6 +83,7 @@ namespace laf {
 
     // Stably reorder putting dependencies first.
     std::vector<const Processor*> new_order;
+    new_order.reserve(order_->size());
     int num_processors = processors_.size();
 
     // First put the dependencies.
