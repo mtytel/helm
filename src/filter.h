@@ -26,6 +26,7 @@ namespace laf {
     public:
       enum Inputs {
         kAudio,
+        kType,
         kCutoff,
         kResonance,
         kReset,
@@ -35,27 +36,29 @@ namespace laf {
       enum Type {
         kLP12,
         kHP12,
+        kBP12,
+        kNumTypes,
       };
 
       Filter();
 
       virtual Processor* clone() const { return new Filter(*this); }
       virtual void process();
-      void setType(Type type) { type_ = type; }
 
     private:
       laf_float tick(int i);
       void reset();
-      void computeCoefficients(laf_float cutoff, laf_float resonance);
+      void computeCoefficients(Type type, laf_float cutoff,
+                                          laf_float resonance);
 
-      Type type_;
+      Type current_type_;
+      laf_float current_cutoff_, current_resonance_;
+
       laf_float in_0_, in_1_, in_2_;
       laf_float out_0_, out_1_;
 
       laf_float past_in_1_, past_in_2_;
       laf_float past_out_1_, past_out_2_;
-
-      laf_float last_cutoff_, last_resonance_;
   };
 } // namespace laf
 

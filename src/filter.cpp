@@ -20,13 +20,23 @@
 
 namespace laf {
 
-  Filter::Filter() : Processor(Filter::kNumInputs, 1), type_(kLP12) {
+  Filter::Filter() : Processor(Filter::kNumInputs, 1) {
+    current_type_ = kNumTypes;
+    current_cutoff_ = 0.0;
+    current_resonance_ = 0.0;
+
     in_0_ = in_1_ = in_2_ = 0.0;
     out_0_ = out_1_ = 0.0;
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
   }
 
   void Filter::process() {
+    Type type = static_cast<Type>(inputs_[kType]->at(0));
+    if (current_type_ != type) {
+      computeCoefficients(type, inputs_[kCutoff]->at(0),
+                                inputs_[kResonance]->at(0));
+    }
+
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
         inputs_[kReset]->source->trigger_value == kVoiceReset) {
@@ -45,8 +55,8 @@ namespace laf {
     laf_float cutoff = inputs_[kCutoff]->at(i);
     laf_float resonance = inputs_[kResonance]->at(i);
 
-    if (cutoff != last_cutoff_ || resonance != last_resonance_)
-      computeCoefficients(cutoff, resonance);
+    if (cutoff != current_cutoff_ || resonance != current_resonance_)
+      computeCoefficients(current_type_, cutoff, resonance);
 
     laf_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
                      past_out_1_ * out_0_ - past_out_2_ * out_1_;
@@ -61,35 +71,45 @@ namespace laf {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0;
   }
 
-  inline void Filter::computeCoefficients(laf_float cutoff,
+  inline void Filter::computeCoefficients(Type type,
+                                          laf_float cutoff,
                                           laf_float resonance) {
-    switch(type_) {
-      case kLP12: {
-        laf_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
-        laf_float sf_squared = sf * sf;
-        laf_float norm = 1 + 1 / resonance * sf + sf_squared;
+    laf_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
+    laf_float sf_squared = sf * sf;
 
-        in_2_ = in_0_ = 1 / norm;
+    switch(type) {
+      case kLP12: {
+        laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
+
+        in_2_ = in_0_ = 1.0 / norm;
         in_1_ = 2.0 / norm;
-        out_0_ = 2.0 * (1 - sf_squared) / norm;
-        out_1_ = (1 - 1 / resonance * sf + sf_squared) / norm;
+        out_0_ = 2.0 * (1.0 - sf_squared) / norm;
+        out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
         break;
       }
       case kHP12: {
-        laf_float sf = 1.0 / tan(PI * cutoff / 44100.0);
-        laf_float sf_squared = sf * sf;
-        laf_float norm = 1 + 1 / resonance * sf + sf_squared;
+        laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
 
-        in_0_ = sf_squared / norm;
+        in_2_ = in_0_ = sf_squared / norm;
         in_1_ = -2.0 * sf_squared / norm;
-        in_2_ = sf_squared / norm;
-        out_0_ = 2.0 * (1 - sf_squared) / norm;
-        out_1_ = (1 - 1 / resonance * sf + sf_squared) / norm;
+        out_0_ = 2.0 * (1.0 - sf_squared) / norm;
+        out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
         break;
       }
+      case kBP12: {
+        laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
+
+        in_2_ = in_0_ = sf / norm;
+        in_1_ = 0.0;
+        out_0_ = 2.0 * (1.0 - sf_squared) / norm;
+        out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
+        break;
+      }
+      default:
+        in_2_ = in_1_ = in_0_ = out_1_ = out_0_ = 0.0;
     }
 
-    last_cutoff_ = cutoff;
-    last_resonance_ = resonance;
+    current_cutoff_ = cutoff;
+    current_resonance_ = resonance;
   }
 } // namespace laf
