@@ -31,11 +31,9 @@ namespace laf {
   }
 
   void Filter::process() {
-    Type type = static_cast<Type>(inputs_[kType]->at(0));
-    if (current_type_ != type) {
-      computeCoefficients(type, inputs_[kCutoff]->at(0),
-                                inputs_[kResonance]->at(0));
-    }
+    current_type_ = static_cast<Type>(inputs_[kType]->at(0));
+    computeCoefficients(current_type_, inputs_[kCutoff]->at(0),
+                                       inputs_[kResonance]->at(0));
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
