@@ -99,7 +99,7 @@ namespace laf {
         break;
       }
       case kAP12: {
-        in_0_ = 1.0;
+        in_0_ = 1.0 / norm;
         in_1_ = -2.0 * (1.0 - sf_squared) / norm;
         in_2_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
         out_0_ = -in_1_;
