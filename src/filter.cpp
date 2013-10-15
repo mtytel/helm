@@ -74,11 +74,10 @@ namespace laf {
                                           laf_float resonance) {
     laf_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
     laf_float sf_squared = sf * sf;
+    laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
 
     switch(type) {
       case kLP12: {
-        laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
-
         in_2_ = in_0_ = 1.0 / norm;
         in_1_ = 2.0 / norm;
         out_0_ = 2.0 * (1.0 - sf_squared) / norm;
@@ -86,8 +85,6 @@ namespace laf {
         break;
       }
       case kHP12: {
-        laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
-
         in_2_ = in_0_ = sf_squared / norm;
         in_1_ = -2.0 * sf_squared / norm;
         out_0_ = 2.0 * (1.0 - sf_squared) / norm;
@@ -95,12 +92,18 @@ namespace laf {
         break;
       }
       case kBP12: {
-        laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
-
         in_2_ = in_0_ = sf / norm;
         in_1_ = 0.0;
         out_0_ = 2.0 * (1.0 - sf_squared) / norm;
         out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
+        break;
+      }
+      case kAP12: {
+        in_0_ = 1.0;
+        in_1_ = -2.0 * (1.0 - sf_squared) / norm;
+        in_2_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
+        out_0_ = -in_1_;
+        out_1_ = in_2_;
         break;
       }
       default:

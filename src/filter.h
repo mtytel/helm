@@ -37,6 +37,7 @@ namespace laf {
         kLP12,
         kHP12,
         kBP12,
+        kAP12,
         kNumTypes,
       };
 
