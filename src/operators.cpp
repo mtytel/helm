@@ -47,6 +47,27 @@ namespace laf {
       outputs_[0]->buffer[i] = inputs_[0]->at(i) + inputs_[1]->at(i);
   }
 
+  void VariableAdd::plug(const Output* source) {
+    for (size_t i = 0; i < inputs_.size(); ++i) {
+      if (inputs_[i]->source == &Processor::null_source_) {
+        inputs_[i]->source = source;
+        return;
+      }
+    }
+  }
+
+  void VariableAdd::process() {
+    memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_float));
+
+    int num_inputs = inputs_.size();
+    for (int i = 0; i < num_inputs; ++i) {
+      if (inputs_[i]->source != &Processor::null_source_) {
+        for (int s = 0; s < BUFFER_SIZE; ++s)
+          outputs_[0]->buffer[s] += inputs_[i]->at(s);
+      }
+    }
+  }
+
   void Subtract::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = inputs_[0]->at(i) - inputs_[1]->at(i);

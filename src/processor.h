@@ -89,8 +89,8 @@ namespace laf {
       // Makes a connection between two processors.
       virtual void plug(const Output* source);
       virtual void plug(const Output* source, unsigned int input_index);
-      virtual void plug(const Processor* source);
-      virtual void plug(const Processor* source, unsigned int input_index);
+      void plug(const Processor* source);
+      void plug(const Processor* source, unsigned int input_index);
 
       // Remove a connection between two processors.
       virtual void unplug(unsigned int input_index);
