@@ -62,6 +62,17 @@ namespace laf {
     plug(source->output(), input_index);
   }
 
+  void Processor::plugNext(const Output* source) {
+    for (size_t i = 0; i < inputs_.size(); ++i) {
+      if (inputs_[i]->source == &Processor::null_source_)
+        plug(source, i);
+    }
+  }
+
+  void Processor::plugNext(const Processor* source) {
+    plugNext(source->output());
+  }
+
   void Processor::unplug(unsigned int input_index) {
     inputs_[input_index]->source = &Processor::null_source_;
   }

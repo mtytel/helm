@@ -67,7 +67,6 @@ namespace laf {
   class VariableAdd : public Processor {
     public:
       VariableAdd(int num_inputs) : Processor(num_inputs, 1) { }
-      void plug(const Output* source);
 
       virtual Processor* clone() const { return new VariableAdd(*this); }
       void process();

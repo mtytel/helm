@@ -86,11 +86,15 @@ namespace laf {
         sample_rate_ = sample_rate;
       }
 
-      // Makes a connection between two processors.
-      virtual void plug(const Output* source);
-      virtual void plug(const Output* source, unsigned int input_index);
+      // Attaches an output to an input in this processor.
+      void plug(const Output* source);
+      void plug(const Output* source, unsigned int input_index);
       void plug(const Processor* source);
       void plug(const Processor* source, unsigned int input_index);
+
+      // Attaches an output to the first available input in this processor.
+      void plugNext(const Output* source);
+      void plugNext(const Processor* source);
 
       // Remove a connection between two processors.
       virtual void unplug(unsigned int input_index);
