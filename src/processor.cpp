@@ -75,7 +75,7 @@ namespace laf {
     plugNext(source->output());
   }
 
-  void Processor::unplug(unsigned int input_index) {
+  void Processor::unplugIndex(unsigned int input_index) {
     inputs_[input_index]->source = &Processor::null_source_;
   }
 

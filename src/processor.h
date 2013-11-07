@@ -97,7 +97,7 @@ namespace laf {
       void plugNext(const Processor* source);
 
       // Remove a connection between two processors.
-      virtual void unplug(unsigned int input_index);
+      virtual void unplugIndex(unsigned int input_index);
       virtual void unplug(const Output* source);
       virtual void unplug(const Processor* source);
 
