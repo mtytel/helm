@@ -64,8 +64,10 @@ namespace laf {
 
   void Processor::plugNext(const Output* source) {
     for (size_t i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i]->source == &Processor::null_source_)
+      if (inputs_[i]->source == &Processor::null_source_) {
         plug(source, i);
+        return;
+      }
     }
   }
 
