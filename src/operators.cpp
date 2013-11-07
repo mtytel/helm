@@ -22,7 +22,7 @@ namespace laf {
 
   void Clamp::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), -1, 1);
+      outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), min_, max_);
   }
 
   void Negate::process() {

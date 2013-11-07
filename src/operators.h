@@ -24,10 +24,14 @@ namespace laf {
 
   class Clamp : public Processor {
     public:
-      Clamp() : Processor(1, 1) { }
+      Clamp(laf_float min = -1, laf_float max = 1) : Processor(1, 1),
+                                                     min_(min), max_(max) { }
 
       virtual Processor* clone() const { return new Clamp(*this); }
       void process();
+
+    private:
+      laf_float min_, max_;
   };
 
   class Negate : public Processor {
