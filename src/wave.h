@@ -38,50 +38,52 @@ namespace laf {
 
         // Square lookup table.
         for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
+          int p = i;
           laf_float scale = 4.0 / PI;
-          square_[0][i] = scale * sin_[i];
+          square_[0][i] = scale * sin_[p];
 
-          int p = (i + i) % LOOKUP_SIZE;
           for (int h = 1; h < MAX_HARMONICS; ++h) {
-            if (h % 2 == 0)
-              square_[h][i] = square_[h - 1][i] + scale * sin_[p] / (h + 1);
-            else
-              square_[h][i] = square_[h - 1][i];
-
             p = (p + i) % LOOKUP_SIZE;
+            square_[h][i] = square_[h - 1][i];
+
+            if (h % 2 == 0)
+              square_[h][i] += scale * sin_[p] / (h + 1);
           }
         }
 
         // Saw lookup table.
         for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
-          int p = (i + LOOKUP_SIZE / 2) % LOOKUP_SIZE;
+          int index = (i + (LOOKUP_SIZE / 2)) % LOOKUP_SIZE;
+          int p = i;
           laf_float scale = 2.0 / PI;
-          saw_[0][i] = scale * sin_[p];
+          saw_[0][index] = scale * sin_[p];
 
           for (int h = 1; h < MAX_HARMONICS; ++h) {
             p = (p + i) % LOOKUP_SIZE;
+            laf_float harmonic = scale * sin_[p] / (h + 1);
+
             if (h % 2 == 0)
-              saw_[h][i] = saw_[h - 1][i] + scale * sin_[p] / (h + 1);
+              saw_[h][index] = saw_[h - 1][index] + harmonic;
             else
-              saw_[h][i] = saw_[h - 1][i] - scale * sin_[p] / (h + 1);
+              saw_[h][index] = saw_[h - 1][index] - harmonic;
           }
         }
 
         // Triangle lookup table.
         for (int i = 0; i < LOOKUP_SIZE + 1; ++i) {
+          int p = i;
           laf_float scale = 8.0 / (PI * PI);
-          triangle_[0][i] = scale * sin_[i];
+          triangle_[0][i] = scale * sin_[p];
 
-          int p = (i + i) % LOOKUP_SIZE;
           for (int h = 1; h < MAX_HARMONICS; ++h) {
-            if (h % 2 == 0) {
-              triangle_[h][i] = triangle_[h - 1][i] +
-                                scale * sin_[p] / ((h + 1) * (h + 1));
-            }
-            else
-              triangle_[h][i] = triangle_[h - 1][i];
-
             p = (p + i) % LOOKUP_SIZE;
+            triangle_[h][i] = triangle_[h - 1][i];
+            laf_float harmonic = scale * sin_[p] / ((h + 1) * (h + 1));
+
+            if (h % 4 == 0)
+              triangle_[h][i] += harmonic;
+            else if (h % 2 == 0)
+              triangle_[h][i] -= harmonic;
           }
         }
       }
