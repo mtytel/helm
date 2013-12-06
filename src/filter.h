@@ -1,17 +1,17 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -20,7 +20,7 @@
 
 #include "processor.h"
 
-namespace laf {
+namespace mopo {
 
   class Filter : public Processor {
     public:
@@ -47,20 +47,20 @@ namespace laf {
       virtual void process();
 
     private:
-      laf_float tick(int i);
+      mopo_float tick(int i);
       void reset();
-      void computeCoefficients(Type type, laf_float cutoff,
-                                          laf_float resonance);
+      void computeCoefficients(Type type, mopo_float cutoff,
+                                          mopo_float resonance);
 
       Type current_type_;
-      laf_float current_cutoff_, current_resonance_;
+      mopo_float current_cutoff_, current_resonance_;
 
-      laf_float in_0_, in_1_, in_2_;
-      laf_float out_0_, out_1_;
+      mopo_float in_0_, in_1_, in_2_;
+      mopo_float out_0_, out_1_;
 
-      laf_float past_in_1_, past_in_2_;
-      laf_float past_out_1_, past_out_2_;
+      mopo_float past_in_1_, past_in_2_;
+      mopo_float past_out_1_, past_out_2_;
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // FILTER_H

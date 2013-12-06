@@ -1,29 +1,29 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
-#include "laf.h"
+#include "mopo.h"
 
 #include <string.h>
 #include <vector>
 
-namespace laf {
+namespace mopo {
 
   class ProcessorRouter;
 
@@ -37,7 +37,7 @@ namespace laf {
           clearTrigger();
         }
 
-        void trigger(laf_float value, int offset = 0) {
+        void trigger(mopo_float value, int offset = 0) {
           triggered = true;
           trigger_offset = offset;
           trigger_value = value;
@@ -50,15 +50,15 @@ namespace laf {
         }
 
         void clearBuffer() {
-          memset(buffer, 0, BUFFER_SIZE * sizeof(laf_float));
+          memset(buffer, 0, BUFFER_SIZE * sizeof(mopo_float));
         }
 
         const Processor* owner;
-        laf_float buffer[BUFFER_SIZE];
+        mopo_float buffer[BUFFER_SIZE];
 
         bool triggered;
         int trigger_offset;
-        laf_float trigger_value;
+        mopo_float trigger_value;
       };
 
       // An input port to the Processor. You can plug an Output into on of
@@ -68,7 +68,7 @@ namespace laf {
 
         const Output* source;
 
-        laf_float at(int i) const { return source->buffer[i]; }
+        mopo_float at(int i) const { return source->buffer[i]; }
       };
 
       Processor(int num_inputs, int num_outputs);
@@ -129,6 +129,6 @@ namespace laf {
 
       static const Output null_source_;
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // PROCESSOR_H

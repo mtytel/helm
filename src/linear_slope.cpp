@@ -1,17 +1,17 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "linear_slope.h"
@@ -20,7 +20,7 @@
 
 #include <math.h>
 
-namespace laf {
+namespace mopo {
 
   LinearSlope::LinearSlope() : Processor(kNumInputs, 1) {
     last_value_ = 0.0;
@@ -44,14 +44,14 @@ namespace laf {
     }
   }
 
-  inline laf_float LinearSlope::tick(int i) {
-    laf_float target = inputs_[kTarget]->at(i);
+  inline mopo_float LinearSlope::tick(int i) {
+    mopo_float target = inputs_[kTarget]->at(i);
     if (utils::closeToZero(inputs_[kRunSeconds]->at(i)))
       return inputs_[kTarget]->at(i);
 
-    laf_float increment = 1.0 / (sample_rate_ * inputs_[kRunSeconds]->at(0));
+    mopo_float increment = 1.0 / (sample_rate_ * inputs_[kRunSeconds]->at(0));
     if (target <= last_value_)
       return CLAMP(last_value_ - increment, target, last_value_);
     return CLAMP(last_value_ + increment, last_value_, target);
   }
-} // namespace laf
+} // namespace mopo

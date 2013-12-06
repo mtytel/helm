@@ -1,25 +1,25 @@
 # Copyright 2013 Little IO
 #
-# laf is free software: you can redistribute it and/or modify
+# mopo is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# laf is distributed in the hope that it will be useful,
+# mopo is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with laf.  If not, see <http://www.gnu.org/licenses/>.
+# along with mopo.  If not, see <http://www.gnu.org/licenses/>.
 
-LAF_LIBRARY = laf.a
+MOPO_LIBRARY = mopo.a
 CXXFLAGS += -g -Wall -Wextra -O3
 OUTPUT_DIR = debug
 SOURCE_DIR = src
 
 # Defines for building tests
-TEST_EXEC = laf_test
+TEST_EXEC = mopo_test
 TEST_DIR = test
 TESTS_DIR = $(TEST_DIR)/tests
 GTEST_DIR = $(TEST_DIR)/gtest
@@ -35,13 +35,13 @@ OBJS := $(patsubst $(SOURCE_DIR)/%.cpp,$(OUTPUT_DIR)/$(SOURCE_DIR)/%.o, \
 TEST_OBJS := $(patsubst $(TESTS_DIR)/%.cpp,$(OUTPUT_DIR)/$(TESTS_DIR)/%.o, \
              $(wildcard $(TESTS_DIR)/*.cpp))
 
-all: directory $(LAF_LIBRARY)
+all: directory $(MOPO_LIBRARY)
 
 tests: test_directory all $(TEST_EXEC)
 
 clean:
-	@echo 'Cleaning $(LAF_LIBRARY) build files'
-	@rm -rf $(OUTPUT_DIR) $(LAF_LIBRARY) $(TEST_EXEC)
+	@echo 'Cleaning $(MOPO_LIBRARY) build files'
+	@rm -rf $(OUTPUT_DIR) $(MOPO_LIBRARY) $(TEST_EXEC)
 
 # Build Directories
 directory:
@@ -51,7 +51,7 @@ test_directory:
 	@mkdir -p $(OUTPUT_DIR)/$(TESTS_DIR)
 
 # Building
-$(LAF_LIBRARY): $(OBJS)
+$(MOPO_LIBRARY): $(OBJS)
 	@$(AR) $(ARFLAGS) $@ $^
 	@echo 'Complete'
 	@echo ' '
@@ -61,7 +61,7 @@ $(OUTPUT_DIR)/$(SOURCE_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Testing
-$(TEST_EXEC): $(TEST_OBJS) $(LAF_LIBRARY) $(GTEST_DIR)/gtest_main.a
+$(TEST_EXEC): $(TEST_OBJS) $(MOPO_LIBRARY) $(GTEST_DIR)/gtest_main.a
 	@echo 'Building Testing Executable: $@'
 	@$(CXX) $(TEST_CPPFLAGS) $(TEST_CXXFLAGS) -lpthread $^ -o $@
 	@echo 'Complete'

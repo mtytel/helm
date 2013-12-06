@@ -1,24 +1,24 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include "laf.h"
+#include "mopo.h"
 
 #include <algorithm>
 #include <math.h>
@@ -28,38 +28,38 @@
 #define MAX_MEMORY 1048576
 #define MEMORY_BITMASK 1048575
 
-namespace laf {
+namespace mopo {
 
   class Memory {
     public:
       Memory() : offset_(0) {
-        memset(memory_, 0, MAX_MEMORY * sizeof(laf_float));
+        memset(memory_, 0, MAX_MEMORY * sizeof(mopo_float));
       }
 
-      inline void push(laf_float sample) {
+      inline void push(mopo_float sample) {
         offset_ = (offset_ + 1) & MEMORY_BITMASK;
         memory_[offset_] = sample;
       }
 
-      inline laf_float getIndex(int index) const {
+      inline mopo_float getIndex(int index) const {
         return memory_[(offset_ - index) & MEMORY_BITMASK];
       }
 
-      inline laf_float get(laf_float past) const {
-        laf_float float_index;
-        laf_float sample_fraction = modf(past, &float_index);
+      inline mopo_float get(mopo_float past) const {
+        double float_index;
+        mopo_float sample_fraction = modf(past, &float_index);
         int index = std::max<int>(float_index, 1);
 
         // TODO(mtytel): Quadratic or all-pass interpolation is better.
-        laf_float from = getIndex(index - 1);
-        laf_float to = getIndex(index);
+        mopo_float from = getIndex(index - 1);
+        mopo_float to = getIndex(index);
         return INTERPOLATE(from, to, sample_fraction);
       }
 
     protected:
-      laf_float memory_[MAX_MEMORY];
+      mopo_float memory_[MAX_MEMORY];
       unsigned int offset_;
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // MEMORY_H

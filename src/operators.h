@@ -1,17 +1,17 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -20,18 +20,18 @@
 
 #include "processor.h"
 
-namespace laf {
+namespace mopo {
 
   class Clamp : public Processor {
     public:
-      Clamp(laf_float min = -1, laf_float max = 1) : Processor(1, 1),
-                                                     min_(min), max_(max) { }
+      Clamp(mopo_float min = -1, mopo_float max = 1) : Processor(1, 1),
+                                                       min_(min), max_(max) { }
 
       virtual Processor* clone() const { return new Clamp(*this); }
       void process();
 
     private:
-      laf_float min_, max_;
+      mopo_float min_, max_;
   };
 
   class Negate : public Processor {
@@ -44,12 +44,12 @@ namespace laf {
 
   class LinearScale : public Processor {
     public:
-      LinearScale(laf_float scale = 1) : Processor(1, 1), scale_(scale) { }
+      LinearScale(mopo_float scale = 1) : Processor(1, 1), scale_(scale) { }
       virtual Processor* clone() const { return new LinearScale(*this); }
       void process();
 
     private:
-      laf_float scale_;
+      mopo_float scale_;
   };
 
   class MidiScale : public Processor {
@@ -106,6 +106,6 @@ namespace laf {
       virtual Processor* clone() const { return new Interpolate(*this); }
       void process();
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // OPERATORS_H

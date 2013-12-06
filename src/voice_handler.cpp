@@ -1,24 +1,24 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "voice_handler.h"
 
 #include "utils.h"
 
-namespace laf {
+namespace mopo {
 
   Voice::Voice(Processor* processor) : processor_(processor) { }
 
@@ -55,7 +55,7 @@ namespace laf {
 
     size_t polyphony = static_cast<size_t>(inputs_[kPolyphony]->at(0));
     setPolyphony(CLAMP(polyphony, 1, polyphony));
-    memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(laf_float));
+    memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(mopo_float));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
@@ -94,7 +94,7 @@ namespace laf {
     sustained_voices_.clear();
   }
 
-  void VoiceHandler::noteOn(laf_float note, laf_float velocity) {
+  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity) {
     Voice* voice = 0;
     pressed_notes_.push_back(note);
     if (free_voices_.size() && active_voices_.size() < polyphony_) {
@@ -110,8 +110,8 @@ namespace laf {
     active_voices_.push_back(voice);
   }
 
-  void VoiceHandler::noteOff(laf_float note) {
-    std::list<laf_float>::iterator note_iter = pressed_notes_.begin();
+  void VoiceHandler::noteOff(mopo_float note) {
+    std::list<mopo_float>::iterator note_iter = pressed_notes_.begin();
     while (note_iter != pressed_notes_.end()) {
       if (*note_iter == note)
         note_iter = pressed_notes_.erase(note_iter);
@@ -161,4 +161,4 @@ namespace laf {
   Voice* VoiceHandler::createVoice() {
     return new Voice(voice_router_.clone());
   }
-} // namespace laf
+} // namespace mopo

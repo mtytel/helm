@@ -1,17 +1,17 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -24,12 +24,12 @@
 #include <map>
 #include <list>
 
-namespace laf {
+namespace mopo {
 
   struct VoiceState {
     VoiceEvent event;
-    laf_float note;
-    laf_float velocity;
+    mopo_float note;
+    mopo_float velocity;
   };
 
   class Voice {
@@ -39,7 +39,7 @@ namespace laf {
       Processor* processor() { return processor_; }
       const VoiceState* state() { return &state_; }
 
-      void activate(laf_float note, laf_float velocity) {
+      void activate(mopo_float note, mopo_float velocity) {
         new_event_ = true;
         state_.event = kVoiceOn;
         state_.note = note;
@@ -78,8 +78,8 @@ namespace laf {
       virtual void process();
       virtual void setSampleRate(int sample_rate);
 
-      void noteOn(laf_float note, laf_float velocity = 1);
-      void noteOff(laf_float note);
+      void noteOn(mopo_float note, mopo_float velocity = 1);
+      void noteOff(mopo_float note);
       void sustainOn();
       void sustainOff();
 
@@ -118,7 +118,7 @@ namespace laf {
       Output note_;
       Output velocity_;
 
-      std::list<laf_float> pressed_notes_;
+      std::list<mopo_float> pressed_notes_;
       std::set<Voice*> all_voices_;
       std::list<Voice*> free_voices_;
       std::list<Voice*> sustained_voices_;
@@ -127,6 +127,6 @@ namespace laf {
       ProcessorRouter voice_router_;
       ProcessorRouter global_router_;
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // VOICE_HANDLER_H

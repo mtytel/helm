@@ -1,17 +1,17 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -23,7 +23,7 @@
 
 // TODO(mtytel): This classes don't work with polyphony. Fix that.
 
-namespace laf {
+namespace mopo {
   class Send;
   class Receive;
 
@@ -33,7 +33,7 @@ namespace laf {
     const Send* owner;
     Memory* memory;
 
-    inline laf_float get(laf_float past) const {
+    inline mopo_float get(mopo_float past) const {
       return memory->get(past);
     }
   };
@@ -44,7 +44,7 @@ namespace laf {
     const Receive* owner;
     const MemoryOutput* source;
 
-    inline laf_float get(laf_float past) const {
+    inline mopo_float get(mopo_float past) const {
       return source->get(past);
     }
   };
@@ -56,7 +56,7 @@ namespace laf {
       virtual Processor* clone() const { return new Send(*this); }
       virtual void process();
 
-      inline laf_float get(laf_float past) const {
+      inline mopo_float get(mopo_float past) const {
         return memory_.get(past);
       }
 
@@ -86,6 +86,6 @@ namespace laf {
     protected:
       MemoryInput* memory_input_;
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // SEND_RECEIVE_H

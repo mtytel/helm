@@ -1,24 +1,24 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "filter.h"
 
 #include <math.h>
 
-namespace laf {
+namespace mopo {
 
   Filter::Filter() : Processor(Filter::kNumInputs, 1) {
     current_type_ = kNumTypes;
@@ -48,15 +48,15 @@ namespace laf {
       outputs_[0]->buffer[i] = tick(i);
   }
 
-  inline laf_float Filter::tick(int i) {
-    laf_float input = inputs_[kAudio]->at(i);
-    laf_float cutoff = inputs_[kCutoff]->at(i);
-    laf_float resonance = inputs_[kResonance]->at(i);
+  inline mopo_float Filter::tick(int i) {
+    mopo_float input = inputs_[kAudio]->at(i);
+    mopo_float cutoff = inputs_[kCutoff]->at(i);
+    mopo_float resonance = inputs_[kResonance]->at(i);
 
     if (cutoff != current_cutoff_ || resonance != current_resonance_)
       computeCoefficients(current_type_, cutoff, resonance);
 
-    laf_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
+    mopo_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
                      past_out_1_ * out_0_ - past_out_2_ * out_1_;
     past_in_2_ = past_in_1_;
     past_in_1_ = input;
@@ -70,11 +70,11 @@ namespace laf {
   }
 
   inline void Filter::computeCoefficients(Type type,
-                                          laf_float cutoff,
-                                          laf_float resonance) {
-    laf_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
-    laf_float sf_squared = sf * sf;
-    laf_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
+                                          mopo_float cutoff,
+                                          mopo_float resonance) {
+    mopo_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
+    mopo_float sf_squared = sf * sf;
+    mopo_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
 
     switch(type) {
       case kLP12: {
@@ -113,4 +113,4 @@ namespace laf {
     current_cutoff_ = cutoff;
     current_resonance_ = resonance;
   }
-} // namespace laf
+} // namespace mopo

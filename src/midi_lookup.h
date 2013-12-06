@@ -1,24 +1,24 @@
 /* Copyright 2013 Little IO
  *
- * laf is free software: you can redistribute it and/or modify
+ * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * laf is distributed in the hope that it will be useful,
+ * mopo is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with laf.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
 #ifndef MIDI_LOOKUP_H
 #define MIDI_LOOKUP_H
 
-#include "laf.h"
+#include "mopo.h"
 
 #include <math.h>
 
@@ -27,44 +27,44 @@
 #define CENTS_PER_NOTE 100
 #define MAX_CENTS (MIDI_SIZE * CENTS_PER_NOTE)
 
-namespace laf {
+namespace mopo {
 
   class MidiLookupSingleton {
     public:
       MidiLookupSingleton() {
-        laf_float cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
+        mopo_float cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
         for (int i = 0; i <= MAX_CENTS; ++i) {
           frequency_lookup_[i] = MIDI_0_FREQUENCY *
                                  pow(2, i / cents_per_octave);
         }
       }
 
-      laf_float centsLookup(laf_float cents_from_0) const {
+      mopo_float centsLookup(mopo_float cents_from_0) const {
         if (cents_from_0 >= MAX_CENTS)
           return frequency_lookup_[MAX_CENTS];
         if (cents_from_0 <= 0)
           return frequency_lookup_[0];
 
         int full_cents = cents_from_0;
-        laf_float fraction_cents = cents_from_0 - full_cents;
+        mopo_float fraction_cents = cents_from_0 - full_cents;
 
         return INTERPOLATE(frequency_lookup_[full_cents],
                            frequency_lookup_[full_cents + 1], fraction_cents);
       }
 
     private:
-      laf_float frequency_lookup_[MAX_CENTS + 1];
+      mopo_float frequency_lookup_[MAX_CENTS + 1];
   };
 
   class MidiLookup {
     public:
-      static laf_float centsLookup(laf_float cents_from_0) {
+      static mopo_float centsLookup(mopo_float cents_from_0) {
         return lookup_.centsLookup(cents_from_0);
       }
 
     private:
       static const MidiLookupSingleton lookup_;
   };
-} // namespace laf
+} // namespace mopo
 
 #endif // MIDI_LOOKUP_H
