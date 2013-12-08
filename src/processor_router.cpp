@@ -46,7 +46,7 @@ namespace mopo {
         processors_[next] = next->clone();
       processors_[next]->process();
     }
-    LAF_ASSERT(num_processors != 0);
+    MOPO_ASSERT(num_processors != 0);
   }
 
   void ProcessorRouter::setSampleRate(int sample_rate) {
@@ -60,7 +60,7 @@ namespace mopo {
   }
 
   void ProcessorRouter::addProcessor(Processor* processor) {
-    LAF_ASSERT(processor->router() == NULL || processor->router() == this);
+    MOPO_ASSERT(processor->router() == NULL || processor->router() == this);
     processor->router(this);
     order_->push_back(processor);
     processors_[processor] = processor;
@@ -69,10 +69,10 @@ namespace mopo {
   }
 
   void ProcessorRouter::removeProcessor(const Processor* processor) {
-    LAF_ASSERT(processor->router() == this);
+    MOPO_ASSERT(processor->router() == this);
     std::vector<const Processor*>::iterator pos =
         std::find(order_->begin(), order_->end(), processor);
-    LAF_ASSERT(pos != order_->end());
+    MOPO_ASSERT(pos != order_->end());
     order_->erase(pos, pos + 1);
     processors_.erase(processor);
   }
@@ -106,7 +106,7 @@ namespace mopo {
       }
     }
 
-    LAF_ASSERT(new_order.size() == processors_.size());
+    MOPO_ASSERT(new_order.size() == processors_.size());
     (*order_) = new_order;
 
     // Make sure our parent is ordered as well.

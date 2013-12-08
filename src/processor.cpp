@@ -45,8 +45,8 @@ namespace mopo {
   }
 
   void Processor::plug(const Output* source, unsigned int input_index) {
-    LAF_ASSERT(input_index < inputs_.size());
-    LAF_ASSERT(source);
+    MOPO_ASSERT(input_index < inputs_.size());
+    MOPO_ASSERT(source);
 
     inputs_[input_index]->source = source;
 
@@ -104,13 +104,13 @@ namespace mopo {
   }
 
   Processor::Input* Processor::input(unsigned int index) const {
-    LAF_ASSERT(index < inputs_.size());
+    MOPO_ASSERT(index < inputs_.size());
 
     return inputs_[index];
   }
 
   Processor::Output* Processor::output(unsigned int index) const {
-    LAF_ASSERT(index < outputs_.size());
+    MOPO_ASSERT(index < outputs_.size());
 
     return outputs_[index];
   }

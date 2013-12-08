@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef LAF_H
-#define LAF_H
+#ifndef MOPO_H
+#define MOPO_H
 
 // Constants.
 #define BUFFER_SIZE 64
@@ -34,9 +34,9 @@
 #define DEBUG
 #ifdef DEBUG
 #include <assert.h>
-#define LAF_ASSERT(x) assert(x)
+#define MOPO_ASSERT(x) assert(x)
 #else
-#define LAF_ASSERT(x) (void)(x)
+#define MOPO_ASSERT(x) (void)(x)
 #endif // DEBUG
 
 // Common Types.
@@ -52,4 +52,4 @@ namespace mopo {
   };
 } // namespace mopo
 
-#endif // LAF_H
+#endif // MOPO_H
