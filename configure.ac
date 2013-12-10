@@ -3,7 +3,8 @@
 
 AC_PREREQ([2.68])
 AC_INIT([mopo], [0.1], [littleioaudio@gmail.com])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_SILENT_RULES([yes])
 AC_CONFIG_SRCDIR([src/delay.cpp])
 
 # Checks for programs.
