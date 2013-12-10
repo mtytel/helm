@@ -16,4 +16,25 @@ libmopo_a_SOURCES = delay.cpp \
 										trigger_operators.cpp \
 										value.cpp \
 										voice_handler.cpp \
-										wave.cpp
+										wave.cpp \
+										delay.h \
+										linear_slope.h \
+										mono_panner.h \
+										oscillator.h \
+										send_receive.h \
+										step_generator.h \
+										value.h \
+										envelope.h \
+										memory.h \
+										mopo.h \
+										processor.h \
+										smooth_filter.h \
+										trigger_operators.h \
+										voice_handler.h \
+										filter.h \
+										midi_lookup.h \
+										operators.h \
+										processor_router.h \
+										smooth_value.h \
+										utils.h \
+										wave.h
