@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.68])
 AC_INIT([mopo], [0.1], [littleioaudio@gmail.com])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/delay.cpp])
@@ -18,7 +18,6 @@ AC_CHECK_LIB([pthread], [pthread_create])
 AC_CHECK_HEADERS([limits.h stddef.h stdlib.h string.h strings.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
 AC_C_RESTRICT
 AC_TYPE_SIZE_T
