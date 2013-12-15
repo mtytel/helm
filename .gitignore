@@ -17,6 +17,7 @@ mopo_test
 a.out
 
 # Autotools
+ar-lib
 *.in
 *.la
 *.lo
