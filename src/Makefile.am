@@ -1,40 +1,42 @@
 noinst_LIBRARIES = libmopo.a
 libmopo_a_SOURCES = delay.cpp \
-                    envelope.cpp \
-                    filter.cpp \
-                    linear_slope.cpp \
-                    midi_lookup.cpp \
-                    mono_panner.cpp \
-                    operators.cpp \
-                    oscillator.cpp \
-                    processor.cpp \
-                    processor_router.cpp \
-                    send_receive.cpp \
-                    smooth_filter.cpp \
-                    smooth_value.cpp \
-                    step_generator.cpp \
-                    trigger_operators.cpp \
-                    value.cpp \
-                    voice_handler.cpp \
-                    wave.cpp \
                     delay.h \
-                    linear_slope.h \
-                    mono_panner.h \
-                    oscillator.h \
-                    send_receive.h \
-                    step_generator.h \
-                    value.h \
+                    envelope.cpp \
                     envelope.h \
-                    memory.h \
-                    mopo.h \
-                    processor.h \
-                    smooth_filter.h \
-                    trigger_operators.h \
-                    voice_handler.h \
+                    feedback.cpp \
+                    feedback.h \
+                    filter.cpp \
                     filter.h \
+                    linear_slope.cpp \
+                    linear_slope.h \
+                    memory.h \
+                    midi_lookup.cpp \
                     midi_lookup.h \
+                    mono_panner.cpp \
+                    mono_panner.h \
+                    mopo.h \
+                    operators.cpp \
                     operators.h \
+                    oscillator.cpp \
+                    oscillator.h \
+                    processor.cpp \
+                    processor.h \
+                    processor_router.cpp \
                     processor_router.h \
+                    send_receive.cpp \
+                    send_receive.h \
+                    smooth_filter.cpp \
+                    smooth_filter.h \
+                    smooth_value.cpp \
                     smooth_value.h \
+                    step_generator.cpp \
+                    step_generator.h \
+                    trigger_operators.cpp \
+                    trigger_operators.h \
+                    value.cpp \
+                    value.h \
                     utils.h \
+                    voice_handler.cpp \
+                    voice_handler.h \
+                    wave.cpp \
                     wave.h

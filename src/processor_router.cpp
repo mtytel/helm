@@ -16,6 +16,7 @@
 
 #include "processor_router.h"
 
+#include "feedback.h"
 #include "mopo.h"
 
 #include <algorithm>
@@ -65,7 +66,8 @@ namespace mopo {
     order_->push_back(processor);
     processors_[processor] = processor;
 
-    reorder(processor);
+    for (int i = 0; i < processor->numInputs(); ++i)
+      connect(processor, processor->input(i)->source, i);
   }
 
   void ProcessorRouter::removeProcessor(const Processor* processor) {
@@ -75,6 +77,21 @@ namespace mopo {
     MOPO_ASSERT(pos != order_->end());
     order_->erase(pos, pos + 1);
     processors_.erase(processor);
+  }
+
+  void ProcessorRouter::connect(Processor* destination,
+                                const Output* source, int index) {
+    if (isDownstream(destination, source->owner)) {
+      // We are introducing a cycle so insert a Feedback node.
+      Feedback* feedback = new Feedback();
+      feedback->plug(source);
+      destination->plug(feedback, index);
+      addProcessor(feedback);
+    }
+    else {
+      // Not introducing a cycle so just make sure _destination_ is in order.
+      reorder(destination);
+    }
   }
 
   void ProcessorRouter::reorder(Processor* processor) {
@@ -112,6 +129,12 @@ namespace mopo {
     // Make sure our parent is ordered as well.
     if (router_)
       router_->reorder(processor);
+  }
+
+  bool ProcessorRouter::isDownstream(const Processor* first,
+                                     const Processor* second) {
+    std::set<const Processor*> dependencies = getDependencies(second);
+    return dependencies.find(first) != dependencies.end();
   }
 
   bool ProcessorRouter::areOrdered(const Processor* first,

@@ -37,11 +37,13 @@ namespace mopo {
       virtual void addProcessor(Processor* processor);
       virtual void removeProcessor(const Processor* processor);
 
+      // Any time new dependencies are added into the ProcessorRouter graph, we
+      // should call _connect_ on the destination Processor and source Output.
+      void connect(Processor* destination, const Output* source, int index);
       // Makes sure _processor_ runs in a topologically sorted order in
       // relation to all other Processors in _this_.
-      // Any time new dependencies are added into the ProcessorRouter graph, we
-      // should call _reorder_ on the source Processors.
       void reorder(Processor* processor);
+      bool isDownstream(const Processor* first, const Processor* second);
       bool areOrdered(const Processor* first, const Processor* second);
 
     protected:

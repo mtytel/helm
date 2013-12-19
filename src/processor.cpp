@@ -51,7 +51,7 @@ namespace mopo {
     inputs_[input_index]->source = source;
 
     if (router_)
-      router_->reorder(this);
+      router_->connect(this, source, input_index);
   }
 
   void Processor::plug(const Processor* source) {
@@ -96,7 +96,7 @@ namespace mopo {
   void Processor::registerInput(Input* input) {
     inputs_.push_back(input);
     if (router_ && input->source != &Processor::null_source_)
-      router_->reorder(this);
+      router_->connect(this, input->source, inputs_.size() - 1);
   }
 
   void Processor::registerOutput(Output* output) {
