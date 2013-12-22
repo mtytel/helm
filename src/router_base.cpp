@@ -38,7 +38,8 @@ namespace mopo {
     feedbacks_.push_back(feedback);
   }
 
-  void RouterBase::connect(Processor* destination, const Output* source, int index) {
+  void RouterBase::connect(Processor* destination,
+                           const Output* source, int index) {
     if (isDownstream(destination, source->owner)) {
       // We are introducing a cycle so insert a Feedback node.
       Feedback* feedback = new Feedback();
@@ -90,7 +91,8 @@ namespace mopo {
       router_->reorder(processor);
   }
 
-  bool RouterBase::isDownstream(const Processor* first, const Processor* second) {
+  bool RouterBase::isDownstream(const Processor* first,
+                                const Processor* second) {
     std::set<const Processor*> dependencies = getDependencies(second);
     return dependencies.find(first) != dependencies.end();
   }
