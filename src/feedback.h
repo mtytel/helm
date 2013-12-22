@@ -21,6 +21,7 @@
 #include "processor.h"
 
 namespace mopo {
+
   class Feedback : public Processor {
     public:
       Feedback() : Processor(1, 1) { }
@@ -30,6 +31,7 @@ namespace mopo {
       virtual void refreshOutput();
 
       inline void tick(int i);
+      inline void tickBeginRefreshOutput();
       inline void tickRefreshOutput(int i);
 
     protected:

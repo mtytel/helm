@@ -24,6 +24,7 @@
 // TODO(mtytel): This classes don't work with polyphony. Fix that.
 
 namespace mopo {
+
   class Send;
   class Receive;
 

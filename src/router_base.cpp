@@ -14,79 +14,38 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "processor_router.h"
+#include "router_base.h"
 
 #include "feedback.h"
-#include "mopo.h"
-
-#include <algorithm>
-#include <stdio.h>
-#include <vector>
 
 namespace mopo {
-  ProcessorRouter::ProcessorRouter(int num_inputs, int num_outputs) :
+
+  RouterBase::RouterBase(int num_inputs, int num_outputs) :
       Processor(num_inputs, num_outputs) {
     order_ = new std::vector<const Processor*>;
   }
 
-  Processor* ProcessorRouter::clone() const {
-    ProcessorRouter* clone = new ProcessorRouter(*this);
-
-    size_t num_processors = order_->size();
-    for (size_t i = 0; i < num_processors; ++i)
-      clone->processors_[order_->at(i)] = order_->at(i)->clone();
-
-    return clone;
+  RouterBase::RouterBase(const RouterBase& original) :
+      Processor(original), order_(original.order_) {
+    size_t num_feedbacks = original.feedbacks_.size();
+    for (size_t i = 0; i < num_feedbacks; ++i)
+      feedbacks_[i] = static_cast<Feedback*>(original.feedbacks_[i]->clone());
   }
 
-  void ProcessorRouter::process() {
-    int num_processors = order_->size();
-    for (int i = 0; i < num_processors; ++i) {
-      const Processor* next = order_->at(i);
-      if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
-      processors_[next]->process();
-    }
-    MOPO_ASSERT(num_processors != 0);
+  void RouterBase::addFeedback(Feedback* feedback) {
+    MOPO_ASSERT(feedback->router() == NULL || feedback->router() == this);
+    feedback->router(this);
+    feedbacks_.push_back(feedback);
   }
 
-  void ProcessorRouter::setSampleRate(int sample_rate) {
-    int num_processors = order_->size();
-    for (int i = 0; i < num_processors; ++i) {
-      const Processor* next = order_->at(i);
-      if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
-      processors_[next]->setSampleRate(sample_rate);
-    }
-  }
-
-  void ProcessorRouter::addProcessor(Processor* processor) {
-    MOPO_ASSERT(processor->router() == NULL || processor->router() == this);
-    processor->router(this);
-    order_->push_back(processor);
-    processors_[processor] = processor;
-
-    for (int i = 0; i < processor->numInputs(); ++i)
-      connect(processor, processor->input(i)->source, i);
-  }
-
-  void ProcessorRouter::removeProcessor(const Processor* processor) {
-    MOPO_ASSERT(processor->router() == this);
-    std::vector<const Processor*>::iterator pos =
-        std::find(order_->begin(), order_->end(), processor);
-    MOPO_ASSERT(pos != order_->end());
-    order_->erase(pos, pos + 1);
-    processors_.erase(processor);
-  }
-
-  void ProcessorRouter::connect(Processor* destination,
-                                const Output* source, int index) {
+  void RouterBase::connect(Processor* destination, const Output* source, int index) {
     if (isDownstream(destination, source->owner)) {
       // We are introducing a cycle so insert a Feedback node.
       Feedback* feedback = new Feedback();
       feedback->plug(source);
       destination->plug(feedback, index);
-      addProcessor(feedback);
+      addFeedback(feedback);
+      MOPO_ASSERT(false);
     }
     else {
       // Not introducing a cycle so just make sure _destination_ is in order.
@@ -94,14 +53,14 @@ namespace mopo {
     }
   }
 
-  void ProcessorRouter::reorder(Processor* processor) {
+  void RouterBase::reorder(Processor* processor) {
     // Get all the dependencies inside this router.
     std::set<const Processor*> dependencies = getDependencies(processor);
 
     // Stably reorder putting dependencies first.
     std::vector<const Processor*> new_order;
-    new_order.reserve(order_->size());
-    int num_processors = processors_.size();
+    int num_processors = order_->size();
+    new_order.reserve(num_processors);
 
     // First put the dependencies.
     for (int i = 0; i < num_processors; ++i) {
@@ -111,8 +70,8 @@ namespace mopo {
       }
     }
 
-    // Then the processor if it is in this router.
-    if (processors_.find(processor) != processors_.end())
+    // Then the processor, if it is in this router.
+    if (std::find(order_->begin(), order_->end(), processor) != order_->end())
       new_order.push_back(processor);
 
     // Then the remaining processors.
@@ -123,7 +82,7 @@ namespace mopo {
       }
     }
 
-    MOPO_ASSERT(new_order.size() == processors_.size());
+    MOPO_ASSERT(new_order.size() == order_->size());
     (*order_) = new_order;
 
     // Make sure our parent is ordered as well.
@@ -131,14 +90,12 @@ namespace mopo {
       router_->reorder(processor);
   }
 
-  bool ProcessorRouter::isDownstream(const Processor* first,
-                                     const Processor* second) {
+  bool RouterBase::isDownstream(const Processor* first, const Processor* second) {
     std::set<const Processor*> dependencies = getDependencies(second);
     return dependencies.find(first) != dependencies.end();
   }
 
-  bool ProcessorRouter::areOrdered(const Processor* first,
-                                   const Processor* second) {
+  bool RouterBase::areOrdered(const Processor* first, const Processor* second) {
     const Processor* first_context = getContext(first);
     const Processor* second_context = getContext(second);
 
@@ -157,15 +114,17 @@ namespace mopo {
     return true;
   }
 
-  const Processor* ProcessorRouter::getContext(const Processor* processor) {
+  const Processor* RouterBase::getContext(const Processor* processor) {
     const Processor* context = processor;
-    while (context && processors_.find(context) == processors_.end())
+    while (context && std::find(order_->begin(), order_->end(), context) ==
+                      order_->end()) {
       context = context->router();
+    }
 
     return context;
   }
 
-  std::set<const Processor*> ProcessorRouter::getDependencies(
+  std::set<const Processor*> RouterBase::getDependencies(
       const Processor* processor) {
     std::vector<const Processor*> inputs;
     std::set<const Processor*> visited;

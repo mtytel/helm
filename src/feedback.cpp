@@ -34,10 +34,12 @@ namespace mopo {
     buffer_[i] = inputs_[0]->source->buffer[i];
   }
 
+  void Feedback::tickBeginRefreshOutput() {
+    outputs_[0]->buffer[0] = buffer_[BUFFER_SIZE - 1];
+  }
+
   void Feedback::tickRefreshOutput(int i) {
-    if (i)
-      outputs_[0]->buffer[i] = buffer_[i - 1];
-    else
-      outputs_[0]->buffer[i] = buffer_[BUFFER_SIZE - 1];
+    MOPO_ASSERT(i > 0 && i < i < BUFFER_SIZE);
+    outputs_[0]->buffer[i] = buffer_[i - 1];
   }
 } // namespace mopo
