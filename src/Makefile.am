@@ -33,7 +33,6 @@ libmopo_a_SOURCES = delay.cpp \
                     smooth_value.h \
                     step_generator.cpp \
                     step_generator.h \
-                    tick_router.cpp \
                     tick_router.h \
                     trigger_operators.cpp \
                     trigger_operators.h \

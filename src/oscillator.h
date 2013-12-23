@@ -38,9 +38,18 @@ namespace mopo {
       virtual Processor* clone() const { return new Oscillator(*this); }
       void process();
 
-    protected:
-      mopo_float tick(int i);
+      inline void tick(int i) {
+        mopo_float frequency = inputs_[kFrequency]->at(i);
+        mopo_float phase = inputs_[kPhase]->at(i);
 
+        offset_ += frequency / sample_rate_;
+        double integral;
+        offset_ = modf(offset_, &integral);
+        outputs_[0]->buffer[i] =
+            Wave::blwave(waveform_, offset_ + phase, frequency);
+      }
+
+    protected:
       mopo_float offset_;
       Wave::Type waveform_;
   };

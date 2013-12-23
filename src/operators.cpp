@@ -16,35 +16,11 @@
 
 #include "operators.h"
 
-#include "midi_lookup.h"
-
 namespace mopo {
 
-  void Clamp::process() {
+  void Operator::process() {
     for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), min_, max_);
-  }
-
-  void Negate::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = -inputs_[0]->at(i);
-  }
-
-  void LinearScale::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = scale_ * inputs_[0]->at(i);
-  }
-
-  void MidiScale::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i) {
-      outputs_[0]->buffer[i] =
-          MidiLookup::centsLookup(CENTS_PER_NOTE * inputs_[0]->at(i));
-    }
-  }
-
-  void Add::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = inputs_[0]->at(i) + inputs_[1]->at(i);
+      tick(i);
   }
 
   void VariableAdd::process() {
@@ -56,24 +32,6 @@ namespace mopo {
         for (int s = 0; s < BUFFER_SIZE; ++s)
           outputs_[0]->buffer[s] += inputs_[i]->at(s);
       }
-    }
-  }
-
-  void Subtract::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = inputs_[0]->at(i) - inputs_[1]->at(i);
-  }
-
-  void Multiply::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = inputs_[0]->at(i) * inputs_[1]->at(i);
-  }
-
-  void Interpolate::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i) {
-      outputs_[0]->buffer[i] = INTERPOLATE(inputs_[kFrom]->at(i),
-                                           inputs_[kTo]->at(i),
-                                           inputs_[kFractional]->at(i));
     }
   }
 } // namespace mopo

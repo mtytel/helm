@@ -64,7 +64,7 @@ namespace mopo {
     for (size_t i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
       if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
+        processors_[next] = static_cast<P*>(next->clone());
       processors_[next]->process();
     }
 

@@ -30,9 +30,18 @@ namespace mopo {
       virtual void process();
       virtual void refreshOutput();
 
-      inline void tick(int i);
-      inline void tickBeginRefreshOutput();
-      inline void tickRefreshOutput(int i);
+      inline void tick(int i) {
+        buffer_[i] = inputs_[0]->source->buffer[i];
+      }
+
+      inline void tickBeginRefreshOutput() {
+        outputs_[0]->buffer[0] = buffer_[BUFFER_SIZE - 1];
+      }
+
+      inline void tickRefreshOutput(int i) {
+        MOPO_ASSERT(i > 0 && i < i < BUFFER_SIZE);
+        outputs_[0]->buffer[i] = buffer_[i - 1];
+      }
 
     protected:
       mopo_float buffer_[BUFFER_SIZE];

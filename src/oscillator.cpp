@@ -38,14 +38,4 @@ namespace mopo {
     for (; i < BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = tick(i);
   }
-
-  inline mopo_float Oscillator::tick(int i) {
-    mopo_float frequency = inputs_[kFrequency]->at(i);
-    mopo_float phase = inputs_[kPhase]->at(i);
-
-    offset_ += frequency / sample_rate_;
-    double integral;
-    offset_ = modf(offset_, &integral);
-    return Wave::blwave(waveform_, offset_ + phase, frequency);
-  }
 } // namespace mopo

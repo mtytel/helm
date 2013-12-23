@@ -18,11 +18,9 @@
 #ifndef TICK_ROUTER_H
 #define TICK_ROUTER_H
 
-#include "processor_router.h"
+#include "router.h"
 
 namespace mopo {
-
-  class Feedback;
 
   template<class P>
   class TickRouter : public Router<P> {
@@ -33,38 +31,38 @@ namespace mopo {
 
   template<class P>
   void TickRouter<P>::process() {
-    size_t num_processors = order_->size();
+    size_t num_processors = this->order_->size();
     std::vector<P*> process_list;
     process_list.reserve(num_processors);
 
     for (size_t p = 0; p < num_processors; ++p) {
-      const Processor* next = order_->at(i);
-      if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
+      const Processor* next = this->order_->at(p);
+      if (this->processors_.find(next) == this->processors_.end())
+        this->processors_[next] = static_cast<P*>(next->clone());
 
-      process_list[p] = processors_[next];
+      process_list[p] = this->processors_[next];
     }
 
-    size_t num_feedbacks = feedbacks_.size();
+    size_t num_feedbacks = this->feedbacks_.size();
     for (size_t i = 0; i < num_feedbacks; ++i)
-      feedbacks_[i]->tickBeginRefreshOutput();
+      this->feedbacks_[i]->tickBeginRefreshOutput();
 
     for (int i = 0; i < BUFFER_SIZE - 1; ++i) {
       for (size_t p = 0; p < num_processors; ++p)
         process_list[p]->tick(i);
 
       for (size_t f = 0; f < num_feedbacks; ++f)
-        feedbacks_[f]->tick(i);
+        this->feedbacks_[f]->tick(i);
 
       for (size_t f = 0; f < num_feedbacks; ++f)
-        feedbacks_[f]->tickRefreshOutput(i);
+        this->feedbacks_[f]->tickRefreshOutput(i);
     }
 
     for (size_t p = 0; p < num_processors; ++p)
       process_list[p]->tick(BUFFER_SIZE - 1);
 
     for (size_t f = 0; f < num_feedbacks; ++f)
-      feedbacks_[f]->tick(BUFFER_SIZE - 1);
+      this->feedbacks_[f]->tick(BUFFER_SIZE - 1);
 
     MOPO_ASSERT(num_processors != 0);
   }
