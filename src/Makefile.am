@@ -21,10 +21,8 @@ libmopo_a_SOURCES = delay.cpp \
                     oscillator.h \
                     processor.cpp \
                     processor.h \
+                    processor_router.cpp \
                     processor_router.h \
-                    router.h \
-                    router_base.cpp \
-                    router_base.h \
                     send_receive.cpp \
                     send_receive.h \
                     smooth_filter.cpp \

@@ -31,11 +31,11 @@ namespace mopo {
         inputs_[kReset]->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_[kReset]->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        outputs_[0]->buffer[i] = tick(i);
+        tick(i);
 
       offset_ = 0.0;
     }
     for (; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = tick(i);
+      tick(i);
   }
 } // namespace mopo

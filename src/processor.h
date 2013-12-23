@@ -25,7 +25,7 @@
 
 namespace mopo {
 
-  class RouterBase;
+  class ProcessorRouter;
 
   class Processor {
     public:
@@ -101,11 +101,11 @@ namespace mopo {
       virtual void unplug(const Output* source);
       virtual void unplug(const Processor* source);
 
-      // Sets the Router that will own this Processor.
-      void router(RouterBase* router) { router_ = router; }
+      // Sets the ProcessorRouter that will own this Processor.
+      void router(ProcessorRouter* router) { router_ = router; }
 
-      // Returns the Router that owns this Processor.
-      const RouterBase* router() const { return router_; }
+      // Returns the ProcessorRouter that owns this Processor.
+      const ProcessorRouter* router() const { return router_; }
 
       virtual void registerInput(Input* input);
       virtual void registerOutput(Output* output);
@@ -125,7 +125,7 @@ namespace mopo {
       std::vector<Input*> inputs_;
       std::vector<Output*> outputs_;
 
-      RouterBase* router_;
+      ProcessorRouter* router_;
 
       static const Output null_source_;
   };

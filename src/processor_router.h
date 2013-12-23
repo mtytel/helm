@@ -18,11 +18,44 @@
 #ifndef PROCESSOR_ROUTER_H
 #define PROCESSOR_ROUTER_H
 
-#include "router.h"
+#include "processor.h"
+
+#include <map>
+#include <set>
+#include <vector>
 
 namespace mopo {
 
-  typedef Router<Processor> ProcessorRouter;
+  class ProcessorRouter : public Processor {
+    public:
+      ProcessorRouter(int num_inputs = 0, int num_outputs = 0);
+      ProcessorRouter(const ProcessorRouter& original);
+
+      virtual Processor* clone() const { return new ProcessorRouter(*this); }
+      virtual void process();
+      virtual void setSampleRate(int sample_rate);
+
+      virtual void addProcessor(Processor* processor);
+      virtual void removeProcessor(const Processor* processor);
+
+      // Any time new dependencies are added into the ProcessorRouter graph, we
+      // should call _connect_ on the destination Processor and source Output.
+      void connect(Processor* destination, const Output* source, int index);
+      // Makes sure _processor_ runs in a topologically sorted order in
+      // relation to all other Processors in _this_.
+      void reorder(Processor* processor);
+      bool isDownstream(const Processor* first, const Processor* second);
+      bool areOrdered(const Processor* first, const Processor* second);
+
+    protected:
+      // Returns the ancestor of _processor_ which is a child of _this_.
+      // Returns NULL if _processor_ is not a descendant of _this_.
+      const Processor* getContext(const Processor* processor);
+      std::set<const Processor*> getDependencies(const Processor* processor);
+
+      std::vector<const Processor*>* order_;
+      std::map<const Processor*, Processor*> processors_;
+  };
 } // namespace mopo
 
 #endif // PROCESSOR_ROUTER_H
