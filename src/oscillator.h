@@ -36,6 +36,7 @@ namespace mopo {
       Oscillator();
 
       virtual Processor* clone() const { return new Oscillator(*this); }
+      void preprocess();
       void process();
 
       inline void tick(int i) {

@@ -26,6 +26,8 @@
 
 namespace mopo {
 
+  class Feedback;
+
   class ProcessorRouter : public Processor {
     public:
       ProcessorRouter(int num_inputs = 0, int num_outputs = 0);
@@ -48,6 +50,11 @@ namespace mopo {
       bool areOrdered(const Processor* first, const Processor* second);
 
     protected:
+      virtual void addFeedback(Feedback* feedback);
+
+      // If we are missing some processors or feedbacks, create them.
+      virtual void updateAllProcessors();
+
       // Returns the ancestor of _processor_ which is a child of _this_.
       // Returns NULL if _processor_ is not a descendant of _this_.
       const Processor* getContext(const Processor* processor);
@@ -55,6 +62,9 @@ namespace mopo {
 
       std::vector<const Processor*>* order_;
       std::map<const Processor*, Processor*> processors_;
+
+      std::vector<const Feedback*>* feedback_order_;
+      std::map<const Feedback*, Feedback*> feedback_processors_;
   };
 } // namespace mopo
 

@@ -23,8 +23,12 @@ namespace mopo {
   Oscillator::Oscillator() : Processor(kNumInputs, 1),
                              offset_(0.0), waveform_(Wave::kSin) { }
 
-  void Oscillator::process() {
+  void Oscillator::preprocess() {
     waveform_ = static_cast<Wave::Type>(inputs_[kWaveform]->at(0));
+  }
+
+  void Oscillator::process() {
+    preprocess();
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
