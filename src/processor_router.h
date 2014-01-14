@@ -43,16 +43,19 @@ namespace mopo {
       // Any time new dependencies are added into the ProcessorRouter graph, we
       // should call _connect_ on the destination Processor and source Output.
       void connect(Processor* destination, const Output* source, int index);
-      // Makes sure _processor_ runs in a topologically sorted order in
-      // relation to all other Processors in _this_.
-      void reorder(Processor* processor);
       bool isDownstream(const Processor* first, const Processor* second);
       bool areOrdered(const Processor* first, const Processor* second);
 
     protected:
+      // When we create a cycle into the ProcessorRouter graph, we must insert
+      // a Feedback node and add it here.
       virtual void addFeedback(Feedback* feedback);
 
-      // If we are missing some processors or feedbacks, create them.
+      // Makes sure _processor_ runs in a topologically sorted order in
+      // relation to all other Processors in _this_.
+      void reorder(Processor* processor);
+
+      // Ensures we have all copies of all processors and feedback processors.
       virtual void updateAllProcessors();
 
       // Returns the ancestor of _processor_ which is a child of _this_.
