@@ -24,6 +24,7 @@
 #include <vector>
 
 namespace mopo {
+
   ProcessorRouter::ProcessorRouter(int num_inputs, int num_outputs) :
       Processor(num_inputs, num_outputs) {
     order_ = new std::vector<const Processor*>();

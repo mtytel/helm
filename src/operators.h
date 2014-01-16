@@ -23,6 +23,7 @@
 
 namespace mopo {
 
+  // A base class for arithmetic operators.
   class Operator : public Processor {
     public:
       Operator(int num_inputs, int num_outputs) :
@@ -32,6 +33,7 @@ namespace mopo {
       virtual void tick(int i) = 0;
   };
 
+  // A processor that will clamp a signal output to a given window.
   class Clamp : public Operator {
     public:
       Clamp(mopo_float min = -1, mopo_float max = 1) : Operator(1, 1),
@@ -47,6 +49,7 @@ namespace mopo {
       mopo_float min_, max_;
   };
 
+  // A processor that will invert a signal.
   class Negate : public Operator {
     public:
       Negate() : Operator(1, 1) { }
@@ -58,6 +61,7 @@ namespace mopo {
       }
   };
 
+  // A processor that will scale a signal by a given scalar.
   class LinearScale : public Operator {
     public:
       LinearScale(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
@@ -71,6 +75,7 @@ namespace mopo {
       mopo_float scale_;
   };
 
+  // A processor that will convert a stream of midi to a stream of frequencies.
   class MidiScale : public Operator {
     public:
       MidiScale() : Operator(1, 1) { }
@@ -83,6 +88,7 @@ namespace mopo {
       }
   };
 
+  // A processor that will add two streams together.
   class Add : public Operator {
     public:
       Add() : Operator(2, 1) { }
@@ -94,6 +100,7 @@ namespace mopo {
       }
   };
 
+  // A processor that will add a variable number of strings together.
   class VariableAdd : public Operator {
     public:
       VariableAdd(int num_inputs) : Operator(num_inputs, 1) { }
@@ -109,6 +116,7 @@ namespace mopo {
       }
   };
 
+  // A processor that will subtract one stream from another.
   class Subtract : public Operator {
     public:
       Subtract() : Operator(2, 1) { }
@@ -120,6 +128,7 @@ namespace mopo {
       }
   };
 
+  // A processor that will multiply to streams together.
   class Multiply : public Operator {
     public:
       Multiply() : Operator(2, 1) { }
@@ -131,6 +140,7 @@ namespace mopo {
       }
   };
 
+  // A processor that will interpolate two streams by an interpolation stream.
   class Interpolate : public Operator {
     public:
       enum Inputs {
