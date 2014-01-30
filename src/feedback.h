@@ -42,7 +42,7 @@ namespace mopo {
       }
 
       inline void tickRefreshOutput(int i) {
-        MOPO_ASSERT(i > 0 && i < i < BUFFER_SIZE);
+        MOPO_ASSERT(i > 0 && i < BUFFER_SIZE);
         outputs_[0]->buffer[i] = buffer_[i - 1];
       }
 
