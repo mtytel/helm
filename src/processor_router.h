@@ -26,25 +26,38 @@
 
 namespace mopo {
 
+  class Feedback;
+
   class ProcessorRouter : public Processor {
     public:
       ProcessorRouter(int num_inputs = 0, int num_outputs = 0);
+      ProcessorRouter(const ProcessorRouter& original);
 
-      virtual Processor* clone() const;
+      virtual Processor* clone() const { return new ProcessorRouter(*this); }
       virtual void process();
       virtual void setSampleRate(int sample_rate);
 
       virtual void addProcessor(Processor* processor);
       virtual void removeProcessor(const Processor* processor);
 
-      // Makes sure _processor_ runs in a topologically sorted order in
-      // relation to all other Processors in _this_.
       // Any time new dependencies are added into the ProcessorRouter graph, we
-      // should call _reorder_ on the source Processors.
-      void reorder(Processor* processor);
+      // should call _connect_ on the destination Processor and source Output.
+      void connect(Processor* destination, const Output* source, int index);
+      bool isDownstream(const Processor* first, const Processor* second);
       bool areOrdered(const Processor* first, const Processor* second);
 
     protected:
+      // When we create a cycle into the ProcessorRouter graph, we must insert
+      // a Feedback node and add it here.
+      virtual void addFeedback(Feedback* feedback);
+
+      // Makes sure _processor_ runs in a topologically sorted order in
+      // relation to all other Processors in _this_.
+      void reorder(Processor* processor);
+
+      // Ensures we have all copies of all processors and feedback processors.
+      virtual void updateAllProcessors();
+
       // Returns the ancestor of _processor_ which is a child of _this_.
       // Returns NULL if _processor_ is not a descendant of _this_.
       const Processor* getContext(const Processor* processor);
@@ -52,6 +65,9 @@ namespace mopo {
 
       std::vector<const Processor*>* order_;
       std::map<const Processor*, Processor*> processors_;
+
+      std::vector<const Feedback*>* feedback_order_;
+      std::map<const Feedback*, Feedback*> feedback_processors_;
   };
 } // namespace mopo
 

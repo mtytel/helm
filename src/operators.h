@@ -18,81 +18,130 @@
 #ifndef OPERATORS_H
 #define OPERATORS_H
 
+#include "midi_lookup.h"
 #include "processor.h"
 
 namespace mopo {
 
-  class Clamp : public Processor {
+  // A base class for arithmetic operators.
+  class Operator : public Processor {
     public:
-      Clamp(mopo_float min = -1, mopo_float max = 1) : Processor(1, 1),
+      Operator(int num_inputs, int num_outputs) :
+          Processor(num_inputs, num_outputs) { }
+
+      virtual void process();
+      virtual void tick(int i) = 0;
+  };
+
+  // A processor that will clamp a signal output to a given window.
+  class Clamp : public Operator {
+    public:
+      Clamp(mopo_float min = -1, mopo_float max = 1) : Operator(1, 1),
                                                        min_(min), max_(max) { }
 
       virtual Processor* clone() const { return new Clamp(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), min_, max_);
+      }
 
     private:
       mopo_float min_, max_;
   };
 
-  class Negate : public Processor {
+  // A processor that will invert a signal.
+  class Negate : public Operator {
     public:
-      Negate() : Processor(1, 1) { }
+      Negate() : Operator(1, 1) { }
 
       virtual Processor* clone() const { return new Negate(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = -inputs_[0]->at(i);
+      }
   };
 
-  class LinearScale : public Processor {
+  // A processor that will scale a signal by a given scalar.
+  class LinearScale : public Operator {
     public:
-      LinearScale(mopo_float scale = 1) : Processor(1, 1), scale_(scale) { }
+      LinearScale(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
       virtual Processor* clone() const { return new LinearScale(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = scale_ * inputs_[0]->at(i);
+      }
 
     private:
       mopo_float scale_;
   };
 
-  class MidiScale : public Processor {
+  // A processor that will convert a stream of midi to a stream of frequencies.
+  class MidiScale : public Operator {
     public:
-      MidiScale() : Processor(1, 1) { }
+      MidiScale() : Operator(1, 1) { }
 
       virtual Processor* clone() const { return new MidiScale(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] =
+            MidiLookup::centsLookup(CENTS_PER_NOTE * inputs_[0]->at(i));
+      }
   };
 
-  class Add : public Processor {
+  // A processor that will add two streams together.
+  class Add : public Operator {
     public:
-      Add() : Processor(2, 1) { }
+      Add() : Operator(2, 1) { }
 
       virtual Processor* clone() const { return new Add(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = inputs_[0]->at(i) + inputs_[1]->at(i);
+      }
   };
 
-  class VariableAdd : public Processor {
+  // A processor that will add a variable number of strings together.
+  class VariableAdd : public Operator {
     public:
-      VariableAdd(int num_inputs) : Processor(num_inputs, 1) { }
+      VariableAdd(int num_inputs) : Operator(num_inputs, 1) { }
 
       virtual Processor* clone() const { return new VariableAdd(*this); }
+
       void process();
+      inline void tick(int i) {
+        int num_inputs = inputs_.size();
+        outputs_[0]->buffer[i] = 0.0;
+        for (int input = 0; input < num_inputs; ++input)
+          outputs_[0]->buffer[i] += inputs_[input]->at(i);
+      }
   };
 
-  class Subtract : public Processor {
+  // A processor that will subtract one stream from another.
+  class Subtract : public Operator {
     public:
-      Subtract() : Processor(2, 1) { }
+      Subtract() : Operator(2, 1) { }
 
       virtual Processor* clone() const { return new Subtract(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = inputs_[0]->at(i) - inputs_[1]->at(i);
+      }
   };
 
-  class Multiply : public Processor {
+  // A processor that will multiply to streams together.
+  class Multiply : public Operator {
     public:
-      Multiply() : Processor(2, 1) { }
+      Multiply() : Operator(2, 1) { }
 
       virtual Processor* clone() const { return new Multiply(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = inputs_[0]->at(i) * inputs_[1]->at(i);
+      }
   };
 
-  class Interpolate : public Processor {
+  // A processor that will interpolate two streams by an interpolation stream.
+  class Interpolate : public Operator {
     public:
       enum Inputs {
         kFrom,
@@ -101,10 +150,15 @@ namespace mopo {
         kNumInputs
       };
 
-      Interpolate() : Processor(kNumInputs, 1) { }
+      Interpolate() : Operator(kNumInputs, 1) { }
 
       virtual Processor* clone() const { return new Interpolate(*this); }
-      void process();
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] = INTERPOLATE(inputs_[kFrom]->at(i),
+                                             inputs_[kTo]->at(i),
+                                             inputs_[kFractional]->at(i));
+      }
   };
 } // namespace mopo
 

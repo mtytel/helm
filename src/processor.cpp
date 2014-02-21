@@ -45,13 +45,13 @@ namespace mopo {
   }
 
   void Processor::plug(const Output* source, unsigned int input_index) {
-    LAF_ASSERT(input_index < inputs_.size());
-    LAF_ASSERT(source);
+    MOPO_ASSERT(input_index < inputs_.size());
+    MOPO_ASSERT(source);
 
     inputs_[input_index]->source = source;
 
     if (router_)
-      router_->reorder(this);
+      router_->connect(this, source, input_index);
   }
 
   void Processor::plug(const Processor* source) {
@@ -96,7 +96,7 @@ namespace mopo {
   void Processor::registerInput(Input* input) {
     inputs_.push_back(input);
     if (router_ && input->source != &Processor::null_source_)
-      router_->reorder(this);
+      router_->connect(this, input->source, inputs_.size() - 1);
   }
 
   void Processor::registerOutput(Output* output) {
@@ -104,13 +104,13 @@ namespace mopo {
   }
 
   Processor::Input* Processor::input(unsigned int index) const {
-    LAF_ASSERT(index < inputs_.size());
+    MOPO_ASSERT(index < inputs_.size());
 
     return inputs_[index];
   }
 
   Processor::Output* Processor::output(unsigned int index) const {
-    LAF_ASSERT(index < outputs_.size());
+    MOPO_ASSERT(index < outputs_.size());
 
     return outputs_[index];
   }

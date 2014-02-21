@@ -23,29 +23,23 @@ namespace mopo {
   Oscillator::Oscillator() : Processor(kNumInputs, 1),
                              offset_(0.0), waveform_(Wave::kSin) { }
 
-  void Oscillator::process() {
+  void Oscillator::preprocess() {
     waveform_ = static_cast<Wave::Type>(inputs_[kWaveform]->at(0));
+  }
+
+  void Oscillator::process() {
+    preprocess();
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
         inputs_[kReset]->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_[kReset]->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        outputs_[0]->buffer[i] = tick(i);
+        tick(i);
 
       offset_ = 0.0;
     }
     for (; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = tick(i);
-  }
-
-  inline mopo_float Oscillator::tick(int i) {
-    mopo_float frequency = inputs_[kFrequency]->at(i);
-    mopo_float phase = inputs_[kPhase]->at(i);
-
-    offset_ += frequency / sample_rate_;
-    double integral;
-    offset_ = modf(offset_, &integral);
-    return Wave::blwave(waveform_, offset_ + phase, frequency);
+      tick(i);
   }
 } // namespace mopo

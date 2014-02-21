@@ -15,15 +15,8 @@
  */
 
 #pragma once
-#ifndef LAF_H
-#define LAF_H
-
-// Constants.
-#define BUFFER_SIZE 64
-#define DEFAULT_SAMPLE_RATE 44100
-#define MIDI_SIZE 128
-#define PI 3.1415926535897932384626433832795
-#define PPQ 15360 // Pulses per quarter note.
+#ifndef MOPO_H
+#define MOPO_H
 
 // Utilities.
 #define UNUSED(x) (void)(x)
@@ -34,13 +27,19 @@
 #define DEBUG
 #ifdef DEBUG
 #include <assert.h>
-#define LAF_ASSERT(x) assert(x)
+#define MOPO_ASSERT(x) assert(x)
 #else
-#define LAF_ASSERT(x) (void)(x)
+#define MOPO_ASSERT(x) (void)(x)
 #endif // DEBUG
 
 // Common Types.
 namespace mopo {
+
+  const double PI = 3.1415926535897932384626433832795;
+  const int BUFFER_SIZE = 64;
+  const int DEFAULT_SAMPLE_RATE = 44100;
+  const int MIDI_SIZE = 128;
+  const int PPQ = 15360; // Pulses per quarter note.
 
   typedef double mopo_float;
 
@@ -52,4 +51,4 @@ namespace mopo {
   };
 } // namespace mopo
 
-#endif // LAF_H
+#endif // MOPO_H

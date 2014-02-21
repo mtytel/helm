@@ -14,14 +14,22 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "delay.h"
+#pragma once
+#ifndef TICK_ROUTER_H
+#define TICK_ROUTER_H
+
+#include "processor_router.h"
 
 namespace mopo {
 
-  Delay::Delay() : Processor(Delay::kNumInputs, 1) { }
+  class TickRouter : public ProcessorRouter {
+    public:
+      TickRouter(int num_inputs = 0, int num_outputs = 0) :
+          ProcessorRouter(num_inputs, num_outputs) { }
 
-  void Delay::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = tick(i);
-  }
+      virtual void process() = 0;
+      virtual void tick(int i) = 0;
+  };
 } // namespace mopo
+
+#endif // PROCESSOR_ROUTER_H

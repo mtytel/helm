@@ -16,6 +16,7 @@
 
 #include "processor_router.h"
 
+#include "feedback.h"
 #include "mopo.h"
 
 #include <algorithm>
@@ -23,58 +24,89 @@
 #include <vector>
 
 namespace mopo {
+
   ProcessorRouter::ProcessorRouter(int num_inputs, int num_outputs) :
       Processor(num_inputs, num_outputs) {
-    order_ = new std::vector<const Processor*>;
+    order_ = new std::vector<const Processor*>();
+    feedback_order_ = new std::vector<const Feedback*>();
   }
 
-  Processor* ProcessorRouter::clone() const {
-    ProcessorRouter* clone = new ProcessorRouter(*this);
-
+  ProcessorRouter::ProcessorRouter(const ProcessorRouter& original) :
+      Processor(original), order_(original.order_),
+      feedback_order_(original.feedback_order_) {
     size_t num_processors = order_->size();
-    for (size_t i = 0; i < num_processors; ++i)
-      clone->processors_[order_->at(i)] = order_->at(i)->clone();
+    for (size_t i = 0; i < num_processors; ++i) {
+      const Processor* next = order_->at(i);
+      processors_[next] = next->clone();
+    }
 
-    return clone;
+    size_t num_feedbacks = feedback_order_->size();
+    for (size_t i = 0; i < num_feedbacks; ++i) {
+      const Feedback* next = feedback_order_->at(i);
+      feedback_processors_[next] = new Feedback(*next);
+    }
   }
 
   void ProcessorRouter::process() {
+    updateAllProcessors();
+
+    // First make sure all the Feedback loops are ready to be read.
+    int num_feedbacks = feedback_order_->size();
+    for (int i = 0; i < num_feedbacks; ++i)
+      feedback_processors_[feedback_order_->at(i)]->refreshOutput();
+
+    // Run all the main processors.
     int num_processors = order_->size();
-    for (int i = 0; i < num_processors; ++i) {
-      const Processor* next = order_->at(i);
-      if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
-      processors_[next]->process();
-    }
-    LAF_ASSERT(num_processors != 0);
+    for (int i = 0; i < num_processors; ++i)
+      processors_[order_->at(i)]->process();
+
+    // Store the outputs into the Feedback objects for next time.
+    for (int i = 0; i < num_feedbacks; ++i)
+      feedback_processors_[feedback_order_->at(i)]->process();
+
+    MOPO_ASSERT(num_processors != 0);
   }
 
   void ProcessorRouter::setSampleRate(int sample_rate) {
+    updateAllProcessors();
+
     int num_processors = order_->size();
-    for (int i = 0; i < num_processors; ++i) {
-      const Processor* next = order_->at(i);
-      if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
-      processors_[next]->setSampleRate(sample_rate);
-    }
+    for (int i = 0; i < num_processors; ++i)
+      processors_[order_->at(i)]->setSampleRate(sample_rate);
   }
 
   void ProcessorRouter::addProcessor(Processor* processor) {
-    LAF_ASSERT(processor->router() == NULL || processor->router() == this);
+    MOPO_ASSERT(processor->router() == NULL || processor->router() == this);
     processor->router(this);
     order_->push_back(processor);
     processors_[processor] = processor;
 
-    reorder(processor);
+    for (int i = 0; i < processor->numInputs(); ++i)
+      connect(processor, processor->input(i)->source, i);
   }
 
   void ProcessorRouter::removeProcessor(const Processor* processor) {
-    LAF_ASSERT(processor->router() == this);
+    MOPO_ASSERT(processor->router() == this);
     std::vector<const Processor*>::iterator pos =
         std::find(order_->begin(), order_->end(), processor);
-    LAF_ASSERT(pos != order_->end());
+    MOPO_ASSERT(pos != order_->end());
     order_->erase(pos, pos + 1);
     processors_.erase(processor);
+  }
+
+  void ProcessorRouter::connect(Processor* destination,
+                                const Output* source, int index) {
+    if (isDownstream(destination, source->owner)) {
+      // We are introducing a cycle so insert a Feedback node.
+      Feedback* feedback = new Feedback();
+      feedback->plug(source);
+      destination->plug(feedback, index);
+      addFeedback(feedback);
+    }
+    else {
+      // Not introducing a cycle so just make sure _destination_ is in order.
+      reorder(destination);
+    }
   }
 
   void ProcessorRouter::reorder(Processor* processor) {
@@ -106,12 +138,18 @@ namespace mopo {
       }
     }
 
-    LAF_ASSERT(new_order.size() == processors_.size());
+    MOPO_ASSERT(new_order.size() == processors_.size());
     (*order_) = new_order;
 
     // Make sure our parent is ordered as well.
     if (router_)
       router_->reorder(processor);
+  }
+
+  bool ProcessorRouter::isDownstream(const Processor* first,
+                                     const Processor* second) {
+    std::set<const Processor*> dependencies = getDependencies(second);
+    return dependencies.find(first) != dependencies.end();
   }
 
   bool ProcessorRouter::areOrdered(const Processor* first,
@@ -132,6 +170,28 @@ namespace mopo {
       return router_->areOrdered(first, second);
 
     return true;
+  }
+
+  void ProcessorRouter::addFeedback(Feedback* feedback) {
+    feedback->router(this);
+    feedback_order_->push_back(feedback);
+    feedback_processors_[feedback] = feedback;
+  }
+
+  void ProcessorRouter::updateAllProcessors() {
+    size_t num_processors = order_->size();
+    for (int i = 0; i < num_processors; ++i) {
+      const Processor* next = order_->at(i);
+      if (processors_.find(next) == processors_.end())
+        processors_[next] = next->clone();
+    }
+
+    size_t num_feedbacks = feedback_order_->size();
+    for (int i = 0; i < num_feedbacks; ++i) {
+      const Feedback* next = feedback_order_->at(i);
+      if (feedback_processors_.find(next) == feedback_processors_.end())
+        feedback_processors_[next] = new Feedback(*next);
+    }
   }
 
   const Processor* ProcessorRouter::getContext(const Processor* processor) {

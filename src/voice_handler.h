@@ -74,7 +74,7 @@ namespace mopo {
 
       VoiceHandler(size_t polyphony = 1);
 
-      virtual Processor* clone() const { LAF_ASSERT(false); }
+      virtual Processor* clone() const { MOPO_ASSERT(false); return NULL; }
       virtual void process();
       virtual void setSampleRate(int sample_rate);
 

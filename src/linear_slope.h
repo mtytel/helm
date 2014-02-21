@@ -22,6 +22,8 @@
 
 namespace mopo {
 
+  // A processor that will slope to the target value over a given amount of
+  // time. Useful for portamento or smoothing out values.
   class LinearSlope : public Processor {
     public:
       enum Inputs {

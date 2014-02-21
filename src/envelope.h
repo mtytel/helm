@@ -24,6 +24,15 @@
 
 namespace mopo {
 
+  // An ADSR (Attack, Decay, Sustain, Release) Envelope.
+  // The attack is a linear scale and completes in the exact amount of time.
+  // The decay and release are exponential and get down to the _CLOSE_ENOUGH_
+  // level in the specified amount of time.
+  //
+  // The reason for this is that technically the decay and release
+  // take an extremely long time to finish because they are exponential. But
+  // users are used to specifying the amount of time the decay or release take
+  // so we make this compromise of _CLOSE_ENOUGH_.
   class Envelope : public Processor {
     public:
       enum Inputs {

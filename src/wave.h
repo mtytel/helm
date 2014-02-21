@@ -173,7 +173,7 @@ namespace mopo {
       };
 
       static inline mopo_float blwave(Type waveform, mopo_float t,
-                                     mopo_float frequency) {
+                                      mopo_float frequency) {
         if (fabs(frequency) < 1)
           return wave(waveform, t);
         int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1;

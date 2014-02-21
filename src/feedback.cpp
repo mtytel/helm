@@ -14,14 +14,19 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "delay.h"
+#include "feedback.h"
+
+#include "processor_router.h"
 
 namespace mopo {
 
-  Delay::Delay() : Processor(Delay::kNumInputs, 1) { }
+  void Feedback::process() {
+    memcpy(buffer_, inputs_[0]->source->buffer,
+           BUFFER_SIZE * sizeof(mopo_float));
+    refreshOutput();
+  }
 
-  void Delay::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
-      outputs_[0]->buffer[i] = tick(i);
+  void Feedback::refreshOutput() {
+    memcpy(outputs_[0]->buffer, buffer_, BUFFER_SIZE * sizeof(mopo_float));
   }
 } // namespace mopo
