@@ -1,4 +1,4 @@
-laf: little audio framework
+mopo: MOdular and POlyphonic synthesis library.
 -----------------------------
 
-laf is an audio synthesis library aimed at creating modular polyphonic synthesizers.
+mopo is an audio synthesis library aimed at creating modular polyphonic synthesizers.
