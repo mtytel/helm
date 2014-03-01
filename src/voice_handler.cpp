@@ -75,6 +75,8 @@ namespace mopo {
   }
 
   void VoiceHandler::setSampleRate(int sample_rate) {
+    voice_router_.setSampleRate(sample_rate);
+    global_router_.setSampleRate(sample_rate);
     std::set<Voice*>::iterator iter = all_voices_.begin();
     for (; iter != all_voices_.end(); ++iter)
       (*iter)->processor()->setSampleRate(sample_rate);
