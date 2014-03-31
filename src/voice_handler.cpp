@@ -82,6 +82,14 @@ namespace mopo {
       (*iter)->processor()->setSampleRate(sample_rate);
   }
 
+  void VoiceHandler::setBufferSize(int buffer_size) {
+    voice_router_.setBufferSize(buffer_size);
+    global_router_.setBufferSize(buffer_size);
+    std::set<Voice*>::iterator iter = all_voices_.begin();
+    for (; iter != all_voices_.end(); ++iter)
+      (*iter)->processor()->setBufferSize(buffer_size);
+  }
+
   void VoiceHandler::sustainOn() {
     sustain_ = true;
   }

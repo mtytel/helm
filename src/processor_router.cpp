@@ -75,6 +75,14 @@ namespace mopo {
       processors_[order_->at(i)]->setSampleRate(sample_rate);
   }
 
+  void ProcessorRouter::setBufferSize(int buffer_size) {
+    updateAllProcessors();
+
+    int num_processors = order_->size();
+    for (int i = 0; i < num_processors; ++i)
+      processors_[order_->at(i)]->setBufferSize(buffer_size);
+  }
+
   void ProcessorRouter::addProcessor(Processor* processor) {
     MOPO_ASSERT(processor->router() == NULL || processor->router() == this);
     processor->router(this);
