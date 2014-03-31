@@ -39,7 +39,7 @@ namespace mopo {
 
       offset_ = 0.0;
     }
-    for (; i < BUFFER_SIZE; ++i)
+    for (; i < buffer_size_; ++i)
       tick(i);
   }
 } // namespace mopo

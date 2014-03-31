@@ -27,7 +27,7 @@ namespace mopo {
 
   void SmoothValue::process() {
     decay_ = 1 - exp(-2.0 * PI * SMOOTH_CUTOFF / sample_rate_);
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    for (int i = 0; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = tick();
   }
 

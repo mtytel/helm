@@ -22,7 +22,9 @@ namespace mopo {
 
   const Processor::Output Processor::null_source_;
 
-  Processor::Processor(int num_inputs, int num_outputs) : router_(0) {
+  Processor::Processor(int num_inputs, int num_outputs) :
+      sample_rate_(DEFAULT_SAMPLE_RATE), buffer_size_(DEFAULT_BUFFER_SIZE),
+      router_(0) {
     for (int i = 0; i < num_inputs; ++i) {
       Input* input = new Input();
 

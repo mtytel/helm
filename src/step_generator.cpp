@@ -32,7 +32,7 @@ namespace mopo {
       i = inputs_[kReset]->source->trigger_offset;
 
     mopo_float total = 0.0;
-    for (; i < BUFFER_SIZE; ++i)
+    for (; i < buffer_size_; ++i)
       total += inputs_[kFrequency]->at(i);
 
     total /= sample_rate_;
@@ -40,7 +40,7 @@ namespace mopo {
     offset_ = modf(offset_ + total, &integral);
     current_step_ = (current_step_ + num_steps) % num_steps;
 
-    for (i = 0; i < BUFFER_SIZE; ++i)
+    for (i = 0; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = inputs_[kSteps + current_step_]->at(i);
   }
 } // namespace mopo

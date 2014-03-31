@@ -19,13 +19,13 @@
 namespace mopo {
 
   Value::Value(mopo_float value) : Processor(kNumInputs, 1), value_(value) {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    for (int i = 0; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = value_;
   }
 
   void Value::process() {
     if (outputs_[0]->buffer[0] == value_ &&
-        outputs_[0]->buffer[BUFFER_SIZE - 1] == value_ &&
+        outputs_[0]->buffer[buffer_size_ - 1] == value_ &&
         !inputs_[kSet]->source->triggered) {
       return;
     }
@@ -40,13 +40,13 @@ namespace mopo {
       value_ = inputs_[kSet]->source->trigger_value;
     }
 
-    for (; i < BUFFER_SIZE; ++i)
+    for (; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = value_;
   }
 
   void Value::set(mopo_float value) {
     value_ = value;
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    for (int i = 0; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = value_;
   }
 } // namespace mopo

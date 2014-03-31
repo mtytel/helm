@@ -22,11 +22,11 @@ namespace mopo {
 
   void Feedback::process() {
     memcpy(buffer_, inputs_[0]->source->buffer,
-           BUFFER_SIZE * sizeof(mopo_float));
+           buffer_size_ * sizeof(mopo_float));
     refreshOutput();
   }
 
   void Feedback::refreshOutput() {
-    memcpy(outputs_[0]->buffer, buffer_, BUFFER_SIZE * sizeof(mopo_float));
+    memcpy(outputs_[0]->buffer, buffer_, MAX_BUFFER_SIZE * sizeof(mopo_float));
   }
 } // namespace mopo

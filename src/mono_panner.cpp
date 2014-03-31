@@ -31,7 +31,7 @@ namespace mopo {
 
   void MonoPanner::process() {
     double integral;
-    for (int i = 0; i < BUFFER_SIZE; ++i) {
+    for (int i = 0; i < buffer_size_; ++i) {
       mopo_float audio = inputs_[kAudio]->at(i);
       mopo_float pan = inputs_[kPan]->at(i);
       mopo_float left_gain = Wave::fullsin(modf(pan + LEFT_ROTATION,

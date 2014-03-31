@@ -19,17 +19,17 @@
 namespace mopo {
 
   void Operator::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    for (int i = 0; i < buffer_size_; ++i)
       tick(i);
   }
 
   void VariableAdd::process() {
-    memset(outputs_[0]->buffer, 0, BUFFER_SIZE * sizeof(mopo_float));
+    memset(outputs_[0]->buffer, 0, buffer_size_ * sizeof(mopo_float));
 
     int num_inputs = inputs_.size();
     for (int i = 0; i < num_inputs; ++i) {
       if (inputs_[i]->source != &Processor::null_source_) {
-        for (int s = 0; s < BUFFER_SIZE; ++s)
+        for (int s = 0; s < buffer_size_; ++s)
           outputs_[0]->buffer[s] += inputs_[i]->at(s);
       }
     }

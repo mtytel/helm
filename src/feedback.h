@@ -35,16 +35,16 @@ namespace mopo {
       }
 
       inline void tickBeginRefreshOutput() {
-        outputs_[0]->buffer[0] = buffer_[BUFFER_SIZE - 1];
+        outputs_[0]->buffer[0] = buffer_[buffer_size_ - 1];
       }
 
       inline void tickRefreshOutput(int i) {
-        MOPO_ASSERT(i > 0 && i < i < BUFFER_SIZE);
+        MOPO_ASSERT(i > 0 && i < buffer_size_);
         outputs_[0]->buffer[i] = buffer_[i - 1];
       }
 
     protected:
-      mopo_float buffer_[BUFFER_SIZE];
+      mopo_float buffer_[MAX_BUFFER_SIZE];
   };
 } // namespace mopo
 

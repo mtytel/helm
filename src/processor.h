@@ -50,11 +50,11 @@ namespace mopo {
         }
 
         void clearBuffer() {
-          memset(buffer, 0, BUFFER_SIZE * sizeof(mopo_float));
+          memset(buffer, 0, MAX_BUFFER_SIZE * sizeof(mopo_float));
         }
 
         const Processor* owner;
-        mopo_float buffer[BUFFER_SIZE];
+        mopo_float buffer[MAX_BUFFER_SIZE];
 
         bool triggered;
         int trigger_offset;
@@ -84,6 +84,10 @@ namespace mopo {
       // sample rate.
       virtual void setSampleRate(int sample_rate) {
         sample_rate_ = sample_rate;
+      }
+
+      virtual void setBufferSize(int buffer_size) {
+        buffer_size_ = buffer_size;
       }
 
       // Attaches an output to an input in this processor.
@@ -121,6 +125,7 @@ namespace mopo {
 
     protected:
       int sample_rate_;
+      int buffer_size_;
 
       std::vector<Input*> inputs_;
       std::vector<Output*> outputs_;

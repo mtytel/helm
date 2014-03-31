@@ -44,7 +44,7 @@ namespace mopo {
 
       reset();
     }
-    for (; i < BUFFER_SIZE; ++i)
+    for (; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = tick(i);
   }
 

@@ -38,7 +38,7 @@ namespace mopo {
       last_value_ = inputs_[kTarget]->at(i);
     }
 
-    for (; i < BUFFER_SIZE; ++i) {
+    for (; i < buffer_size_; ++i) {
       last_value_ = tick(i);
       outputs_[0]->buffer[i] = last_value_;
     }

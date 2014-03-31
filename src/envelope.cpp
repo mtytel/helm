@@ -43,11 +43,11 @@ namespace mopo {
     outputs_[kFinished]->clearTrigger();
     // Only update decay and release rate once per buffer.
     mopo_float decay_samples =
-        sample_rate_ * inputs_[kDecay]->at(BUFFER_SIZE - 1);
+        sample_rate_ * inputs_[kDecay]->at(buffer_size_ - 1);
     decay_decay_ = pow(CLOSE_ENOUGH, 1.0 / decay_samples);
 
     mopo_float release_samples =
-        sample_rate_ * inputs_[kRelease]->at(BUFFER_SIZE - 1);
+        sample_rate_ * inputs_[kRelease]->at(buffer_size_ - 1);
     release_decay_ = pow(CLOSE_ENOUGH, 1.0 / release_samples);
 
     int i = 0;
@@ -60,7 +60,7 @@ namespace mopo {
       trigger(inputs_[kTrigger]->source->trigger_value, trigger_offset);
     }
 
-    for (; i < BUFFER_SIZE; ++i)
+    for (; i < buffer_size_; ++i)
       outputs_[kValue]->buffer[i] = tick(i);
   }
 

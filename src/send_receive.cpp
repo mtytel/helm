@@ -27,7 +27,7 @@ namespace mopo {
   }
 
   void Send::process() {
-    for (int i = 0; i < BUFFER_SIZE; ++i)
+    for (int i = 0; i < buffer_size_; ++i)
       memory_.push(inputs_[0]->at(i));
     memory_output_->memory = &memory_;
   }
@@ -38,13 +38,13 @@ namespace mopo {
   }
 
   void Receive::process() {
-    mopo_float adjust = BUFFER_SIZE;
+    mopo_float adjust = buffer_size_;
     if (router_ && !router_->areOrdered(memory_input_->source->owner,
                                         memory_input_->owner)) {
       adjust = 0;
     }
 
-    for (int i = 0; i < BUFFER_SIZE; ++i) {
+    for (int i = 0; i < buffer_size_; ++i) {
       mopo_float time = inputs_[kDelayTime]->at(i) * sample_rate_ + adjust;
       outputs_[0]->buffer[i] = memory_input_->get(time);
       adjust -= 1.0;
