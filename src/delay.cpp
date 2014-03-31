@@ -24,15 +24,4 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       outputs_[0]->buffer[i] = tick(i);
   }
-
-  inline mopo_float Delay::tick(int i) {
-    mopo_float input = inputs_[kAudio]->at(i);
-    mopo_float wet = inputs_[kWet]->at(i);
-    mopo_float period = inputs_[kDelayTime]->at(i) * sample_rate_;
-    mopo_float feedback = inputs_[kFeedback]->at(i);
-
-    mopo_float read = memory_.get(period);
-    memory_.push(input + read * feedback);
-    return INTERPOLATE(input, read, wet);
-  }
 } // namespace mopo

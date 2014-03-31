@@ -29,6 +29,8 @@ namespace mopo {
       virtual Processor* clone() const { return new SmoothValue(*this); }
       virtual void process();
 
+      virtual void setSampleRate(int sample_rate);
+
       void set(mopo_float value) { target_value_ = value; }
       void setHard(mopo_float value) {
         Value::set(value);

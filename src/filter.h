@@ -22,6 +22,8 @@
 
 namespace mopo {
 
+  // 12 dB per octave filters. There is a low pass filter, high pass filter,
+  // band pass filter, and all pass filter.
   class Filter : public Processor {
     public:
       enum Inputs {

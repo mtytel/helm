@@ -23,6 +23,9 @@
 
 namespace mopo {
 
+  // A processor that produces an oscillation stream based on the input
+  // frequency, phase, and waveform. You can reset the waveform stream using
+  // the reset input.
   class Oscillator : public Processor {
     public:
       enum Inputs {

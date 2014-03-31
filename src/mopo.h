@@ -18,14 +18,6 @@
 #ifndef MOPO_H
 #define MOPO_H
 
-// Constants.
-#define DEFAULT_BUFFER_SIZE 64
-#define MAX_BUFFER_SIZE 4096
-#define DEFAULT_SAMPLE_RATE 44100
-#define MIDI_SIZE 128
-#define PI 3.1415926535897932384626433832795
-#define PPQ 15360 // Pulses per quarter note.
-
 // Utilities.
 #define UNUSED(x) (void)(x)
 #define CLAMP(v, s, b) ((v) < (s) ? (s) : ((v) > (b) ? (b) : (v)))
@@ -40,8 +32,14 @@
 #define MOPO_ASSERT(x) (void)(x)
 #endif // DEBUG
 
-// Common Types.
 namespace mopo {
+
+  const double PI = 3.1415926535897932384626433832795;
+  const int MAX_BUFFER_SIZE = 4096;
+  const int DEFAULT_BUFFER_SIZE = 64;
+  const int DEFAULT_SAMPLE_RATE = 44100;
+  const int MIDI_SIZE = 128;
+  const int PPQ = 15360; // Pulses per quarter note.
 
   typedef double mopo_float;
 

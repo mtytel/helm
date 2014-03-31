@@ -30,6 +30,7 @@
 
 namespace mopo {
 
+  // A processor utility to store a stream of data for later lookup.
   class Memory {
     public:
       Memory() : offset_(0) {
