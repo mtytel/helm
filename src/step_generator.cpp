@@ -16,7 +16,7 @@
 
 #include "step_generator.h"
 
-#include <math.h>
+#include <cmath>
 
 namespace mopo {
 

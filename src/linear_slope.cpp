@@ -18,7 +18,7 @@
 
 #include "utils.h"
 
-#include <math.h>
+#include <cmath>
 
 namespace mopo {
 

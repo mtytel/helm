@@ -20,7 +20,6 @@
 #include "mopo.h"
 
 #include <algorithm>
-#include <stdio.h>
 #include <vector>
 
 namespace mopo {

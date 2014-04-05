@@ -19,11 +19,9 @@
 #define WAVE_H
 
 #include "mopo.h"
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
 
 #define LOOKUP_SIZE 2048
-#define TRANSITION_OCTAVE 300
 #define HIGH_FREQUENCY 20000
 #define MAX_HARMONICS 100
 

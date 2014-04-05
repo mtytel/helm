@@ -21,8 +21,8 @@
 #include "mopo.h"
 
 #include <algorithm>
-#include <math.h>
-#include <string.h>
+#include <cmath>
+#include <cstring>
 
 // MAX_MEMORY must be a power of 2.
 #define MAX_MEMORY 1048576

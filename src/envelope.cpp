@@ -16,7 +16,7 @@
 
 #include "envelope.h"
 
-#include <math.h>
+#include <cmath>
 
 #define KILL_TIME 0.02
 

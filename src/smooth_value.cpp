@@ -16,7 +16,7 @@
 
 #include "smooth_value.h"
 
-#include <math.h>
+#include <cmath>
 
 #define SMOOTH_CUTOFF 3.0
 

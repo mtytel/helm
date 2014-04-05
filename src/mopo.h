@@ -26,7 +26,7 @@
 // Debugging.
 #define DEBUG
 #ifdef DEBUG
-#include <assert.h>
+#include <cassert>
 #define MOPO_ASSERT(x) assert(x)
 #else
 #define MOPO_ASSERT(x) (void)(x)

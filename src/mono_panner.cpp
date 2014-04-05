@@ -19,7 +19,7 @@
 #include "mopo.h"
 #include "wave.h"
 
-#include <math.h>
+#include <cmath>
 
 #define LEFT_ROTATION 100.325
 #define RIGHT_ROTATION 100.125

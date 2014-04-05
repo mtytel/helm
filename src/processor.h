@@ -20,7 +20,7 @@
 
 #include "mopo.h"
 
-#include <string.h>
+#include <cstring>
 #include <vector>
 
 namespace mopo {

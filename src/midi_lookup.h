@@ -20,7 +20,7 @@
 
 #include "mopo.h"
 
-#include <math.h>
+#include <cmath>
 
 #define MIDI_0_FREQUENCY 8.1757989156
 #define NOTES_PER_OCTAVE 12
