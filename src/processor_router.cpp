@@ -68,19 +68,29 @@ namespace mopo {
   }
 
   void ProcessorRouter::setSampleRate(int sample_rate) {
+    Processor::setSampleRate(sample_rate);
     updateAllProcessors();
 
     int num_processors = order_->size();
     for (int i = 0; i < num_processors; ++i)
       processors_[order_->at(i)]->setSampleRate(sample_rate);
+
+    int num_feedbacks = feedback_order_->size();
+    for (int i = 0; i < num_feedbacks; ++i)
+      feedback_processors_[feedback_order_->at(i)]->setSampleRate(sample_rate);
   }
 
   void ProcessorRouter::setBufferSize(int buffer_size) {
+    Processor::setBufferSize(buffer_size);
     updateAllProcessors();
 
     int num_processors = order_->size();
     for (int i = 0; i < num_processors; ++i)
       processors_[order_->at(i)]->setBufferSize(buffer_size);
+
+    int num_feedbacks = feedback_order_->size();
+    for (int i = 0; i < num_feedbacks; ++i)
+      feedback_processors_[feedback_order_->at(i)]->setBufferSize(buffer_size);
   }
 
   void ProcessorRouter::addProcessor(Processor* processor) {

@@ -19,7 +19,7 @@
 namespace mopo {
 
   Value::Value(mopo_float value) : Processor(kNumInputs, 1), value_(value) {
-    for (int i = 0; i < buffer_size_; ++i)
+    for (int i = 0; i < MAX_BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = value_;
   }
 
