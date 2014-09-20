@@ -20,7 +20,7 @@
 
 #include "mopo.h"
 #include <math.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 #define LOOKUP_SIZE 2048
 #define TRANSITION_OCTAVE 300
