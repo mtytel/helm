@@ -369,7 +369,7 @@ namespace mopo {
       destination_names.push_back(d_iter->first);
 
     for (int i = 0; i < MOD_MATRIX_SIZE; ++i) {
-      mod_matrix_scales_[i] = new Value(0.01);
+      mod_matrix_scales_[i] = new Value(0.0);
       mod_matrix_[i] = new Multiply();
       mod_matrix_[i]->plug(mod_matrix_scales_[i], 1);
 
@@ -415,8 +415,7 @@ namespace mopo {
     std::vector<std::string> legato_strings = std::vector<std::string>(
         CursynthStrings::legato_strings_,
         CursynthStrings::legato_strings_ + 2);
-    controls_["legato"] =
-        new Control(legato, legato_strings, 1);
+    controls_["legato"] = new Control(legato, legato_strings, 1);
     addProcessor(legato_filter);
 
     // Amplitude envelope.

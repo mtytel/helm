@@ -49,7 +49,7 @@ namespace mopo {
       int resolution() const { return resolution_; }
 
       mopo_float getIncrementSize() const {
-        if (resolution_ == 0)
+        if (resolution_ == 0 || resolution_ >= MIDI_SIZE)
           return 0;
         return (max_ - min_) / resolution_;
       }

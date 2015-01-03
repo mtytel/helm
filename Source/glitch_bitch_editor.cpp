@@ -11,13 +11,12 @@ GlitchBitchEditor::GlitchBitchEditor(GlitchBitch& gb) : AudioProcessorEditor(&gb
     next_slider->setRange(control->min(), control->max(), control->getIncrementSize());
     next_slider->setSliderStyle(Slider::LinearHorizontal);
     next_slider->setTextBoxStyle(Slider::TextBoxLeft, false, 80, 20);
-    next_slider->setValue(control->current_value());
+    next_slider->setValue(control->current_value(), NotificationType::dontSendNotification);
     next_slider->addListener(this);
     addAndMakeVisible(next_slider);
 
     sliders_[iter->first] = next_slider;
   }
-
   setSize(1000, 700);
 }
 
@@ -28,6 +27,8 @@ GlitchBitchEditor::~GlitchBitchEditor() {
 }
 
 void GlitchBitchEditor::paint(Graphics& g) {
+  setSize(1000, 700);
+
   g.fillAll(Colours::white);
   g.setColour(Colours::black);
   g.setFont(15.0f);
@@ -62,5 +63,8 @@ void GlitchBitchEditor::resized() {
 }
 
 void GlitchBitchEditor::sliderValueChanged(Slider* edited_slider) {
-  controls_[edited_slider->getName().toStdString()]->set(edited_slider->getValue());
+  double new_value = edited_slider->getValue();
+  std::string name = edited_slider->getName().toStdString();
+  mopo::Control* control = controls_[name];
+  control->set(new_value);
 }

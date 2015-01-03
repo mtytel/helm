@@ -116,23 +116,26 @@ void GlitchBitch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messa
   MidiMessage midi_message;
   int midi_sample_position = 0;
   while (midi_iter.getNextEvent(midi_message, midi_sample_position)) {
-    if (midi_message.isNoteOn())
-      synth_.noteOn(midi_message.getNoteNumber(), midi_message.getVelocity());
+    if (midi_message.isNoteOn()) {
+      float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
+      synth_.noteOn(midi_message.getNoteNumber(), velocity);
+    }
     else if (midi_message.isNoteOff())
       synth_.noteOff(midi_message.getNoteNumber());
   }
 
+  int num_samples = buffer.getNumSamples();
+  int num_channels = getNumOutputChannels();
+
+  synth_.setBufferSize(num_samples);
   synth_.process();
 
-  float* channelData = buffer.getWritePointer(0);
-  for (int i = 0; i < buffer.getNumSamples(); ++i) {
-    channelData[i] = synth_.output()->buffer[i];
-    phase += 0.05;
-  }
-  for (int channel = 1; channel < getNumOutputChannels(); ++channel) {
-    float* otherChannelData = buffer.getWritePointer(channel);
-    for (int i = 0; i < buffer.getNumSamples(); ++i)
-      otherChannelData[i] = channelData[i];
+  const mopo::mopo_float* synth_output = synth_.output()->buffer;
+  for (int channel = 0; channel < num_channels; ++channel) {
+    float* channelData = buffer.getWritePointer(channel);
+
+    for (int i = 0; i < num_samples; ++i)
+      channelData[i] = synth_output[i];
   }
 }
 
