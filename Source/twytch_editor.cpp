@@ -14,10 +14,13 @@ TwytchEditor::TwytchEditor(Twytch& gb) : AudioProcessorEditor(&gb), glitch_bitch
     next_slider->setTextBoxStyle(Slider::TextBoxLeft, false, 80, 20);
     next_slider->setValue(control->current_value(), NotificationType::dontSendNotification);
     next_slider->addListener(this);
-    addAndMakeVisible(next_slider);
+    // addAndMakeVisible(next_slider);
 
     sliders_[iter->first] = next_slider;
   }
+
+  envelope_ = new GraphicalEnvelope();
+  addAndMakeVisible(envelope_);
   setSize(1000, 700);
 }
 
@@ -38,7 +41,7 @@ void TwytchEditor::paint(Graphics& g) {
   int y = 20;
   std::map<std::string, Slider*>::iterator iter = sliders_.begin();
   for (; iter != sliders_.end(); ++iter) {
-    g.drawText(iter->first, x, y, 100, 18, Justification::centredLeft);
+    // g.drawText(iter->first, x, y, 100, 18, Justification::centredLeft);
     y+= 20;
 
     if (y > 600) {
@@ -61,11 +64,11 @@ void TwytchEditor::resized() {
       x = 620;
     }
   }
+
+  envelope_->setBounds(0, 0, 500, 500);
 }
 
 void TwytchEditor::sliderValueChanged(Slider* edited_slider) {
-  double new_value = edited_slider->getValue();
   std::string name = edited_slider->getName().toStdString();
-  mopo::Control* control = controls_[name];
-  control->set(new_value);
+  controls_[name]->set(edited_slider->getValue());
 }

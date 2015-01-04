@@ -12,7 +12,368 @@
               companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
               companyWebsite="littleio.co">
   <MAINGROUP id="OwcEM5" name="Twytch">
+    <GROUP id="{E3AC7BED-53FF-15BC-010D-FBEF1DC79368}" name="CoreAudio">
+      <GROUP id="{95E5F29E-99C9-3AEF-9B1E-2539A0F0990B}" name="AudioCodecs">
+        <GROUP id="{0A81D10C-F970-166C-28D8-57C30452FBAD}" name="ACPublic">
+          <FILE id="njXo38" name="ACBaseCodec.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACBaseCodec.cpp"/>
+          <FILE id="B5myaU" name="ACBaseCodec.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACBaseCodec.h"/>
+          <FILE id="AAz3w3" name="ACCodec.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACCodec.cpp"/>
+          <FILE id="C2eXHH" name="ACCodec.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACCodec.h"/>
+          <FILE id="ICC0PM" name="ACCodecDispatchTypes.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACCodecDispatchTypes.h"/>
+          <FILE id="O8dSPw" name="ACConditionalMacros.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACConditionalMacros.h"/>
+          <FILE id="whvVwc" name="ACPlugInDispatch.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACPlugInDispatch.cpp"/>
+          <FILE id="dU7COh" name="ACPlugInDispatch.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACPlugInDispatch.h"/>
+          <FILE id="s2el7J" name="ACSimpleCodec.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACSimpleCodec.cpp"/>
+          <FILE id="UPO0Lo" name="ACSimpleCodec.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioCodecs/ACPublic/ACSimpleCodec.h"/>
+          <FILE id="mWzG0A" name="GetCodecBundle.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/GetCodecBundle.cpp"/>
+          <FILE id="nF6bhE" name="GetCodecBundle.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioCodecs/ACPublic/GetCodecBundle.h"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{2E459B34-682F-43C1-5FD9-250A74A35EFF}" name="AudioFile">
+        <GROUP id="{8D2373AB-81E9-95E6-9AE4-597D274994CD}" name="AFPublic">
+          <FILE id="yGxQ1R" name="AudioFileComponentBase.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/AudioFileComponentBase.cpp"/>
+          <FILE id="NmvMq4" name="AudioFileComponentBase.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/AudioFileComponentBase.h"/>
+          <FILE id="iWr5RN" name="AudioFileFormat.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/AudioFileFormat.cpp"/>
+          <FILE id="gP5IVe" name="AudioFileFormat.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/AudioFileFormat.h"/>
+          <FILE id="JztN3l" name="AudioFileObject.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/AudioFileObject.cpp"/>
+          <FILE id="m8v1KU" name="AudioFileObject.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/AudioFileObject.h"/>
+          <FILE id="XzO0vR" name="CompressedPacketTable.cpp" compile="1" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/CompressedPacketTable.cpp"/>
+          <FILE id="fYnOZg" name="CompressedPacketTable.h" compile="0" resource="0"
+                file="../srcs/CoreAudio/AudioFile/AFPublic/CompressedPacketTable.h"/>
+          <FILE id="fgylWV" name="DataSource.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioFile/AFPublic/DataSource.cpp"/>
+          <FILE id="LXOdAG" name="DataSource.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioFile/AFPublic/DataSource.h"/>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{EF4057F6-7D60-80A8-8E5A-2F684631560E}" name="AudioUnits">
+        <GROUP id="{A42A75AA-E949-089C-E3C4-8269535F6939}" name="AUPublic">
+          <GROUP id="{3C149A06-6F8D-F7D8-C2AA-730D8175FDD3}" name="AUBase">
+            <FILE id="YP4yuE" name="AUBase.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUBase.cpp"/>
+            <FILE id="xfNEP5" name="AUBase.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUBase.h"/>
+            <FILE id="febue3" name="AUDispatch.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUDispatch.cpp"/>
+            <FILE id="qu0Tzd" name="AUDispatch.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUDispatch.h"/>
+            <FILE id="GU2yCr" name="AUInputElement.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUInputElement.cpp"/>
+            <FILE id="t4tn4x" name="AUInputElement.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUInputElement.h"/>
+            <FILE id="bGkEmu" name="AUOutputElement.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUOutputElement.cpp"/>
+            <FILE id="M29uIR" name="AUOutputElement.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUOutputElement.h"/>
+            <FILE id="FTHW5F" name="AUPlugInDispatch.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUPlugInDispatch.cpp"/>
+            <FILE id="mMkCxk" name="AUPlugInDispatch.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUPlugInDispatch.h"/>
+            <FILE id="N01Poz" name="AUScopeElement.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUScopeElement.cpp"/>
+            <FILE id="LtpECZ" name="AUScopeElement.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUScopeElement.h"/>
+            <FILE id="mZN4Kv" name="ComponentBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/ComponentBase.cpp"/>
+            <FILE id="wWiygF" name="ComponentBase.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/ComponentBase.h"/>
+          </GROUP>
+          <GROUP id="{7CF3D76E-5625-67D7-B6EE-5E94EC09078B}" name="AUCarbonViewBase">
+            <FILE id="NN8zKG" name="AUCarbonViewBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUCarbonViewBase.cpp"/>
+            <FILE id="lWxbU4" name="AUCarbonViewBase.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUCarbonViewBase.h"/>
+            <FILE id="raqN2P" name="AUCarbonViewControl.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUCarbonViewControl.cpp"/>
+            <FILE id="wfVzEq" name="AUCarbonViewControl.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUCarbonViewControl.h"/>
+            <FILE id="zPm0hZ" name="AUCarbonViewDispatch.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUCarbonViewDispatch.cpp"/>
+            <FILE id="VI3hES" name="AUControlGroup.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUControlGroup.cpp"/>
+            <FILE id="GVu1Ra" name="AUControlGroup.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/AUControlGroup.h"/>
+            <FILE id="DAZMCz" name="CarbonEventHandler.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/CarbonEventHandler.cpp"/>
+            <FILE id="tomxLz" name="CarbonEventHandler.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/CarbonEventHandler.h"/>
+          </GROUP>
+          <GROUP id="{A9DFCCE1-22E7-CC49-F4F0-76817818FD75}" name="AUInstrumentBase">
+            <FILE id="a0BK8k" name="AUInstrumentBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/AUInstrumentBase.cpp"/>
+            <FILE id="HmCFJu" name="AUInstrumentBase.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/AUInstrumentBase.h"/>
+            <FILE id="TkH6tT" name="LockFreeFIFO.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/LockFreeFIFO.h"/>
+            <FILE id="HX9x23" name="MIDIControlHandler.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/MIDIControlHandler.h"/>
+            <FILE id="Xpqugy" name="SynthElement.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthElement.cpp"/>
+            <FILE id="i8h0vW" name="SynthElement.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthElement.h"/>
+            <FILE id="SFQwcM" name="SynthEvent.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthEvent.h"/>
+            <FILE id="iJZW2p" name="SynthNote.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthNote.cpp"/>
+            <FILE id="lBJD3a" name="SynthNote.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthNote.h"/>
+            <FILE id="HOY0JO" name="SynthNoteList.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthNoteList.cpp"/>
+            <FILE id="u6KP1Z" name="SynthNoteList.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthNoteList.h"/>
+          </GROUP>
+          <GROUP id="{C49AE281-CB79-6E2C-8DF2-195C5425BBD7}" name="AUViewBase">
+            <FILE id="wGkU34" name="AUViewLocalizedStringKeys.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/AUViewBase/AUViewLocalizedStringKeys.h"/>
+          </GROUP>
+          <GROUP id="{A979B2DD-DA90-F370-A68B-5F77CC7B3131}" name="OtherBases">
+            <FILE id="a0l2SP" name="AUEffectBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUEffectBase.cpp"/>
+            <FILE id="FIyouO" name="AUEffectBase.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUEffectBase.h"/>
+            <FILE id="utR0o7" name="AUMIDIBase.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUMIDIBase.cpp"/>
+            <FILE id="KkP61n" name="AUMIDIBase.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUMIDIBase.h"/>
+            <FILE id="wSBn5y" name="AUMIDIEffectBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUMIDIEffectBase.cpp"/>
+            <FILE id="hFMuQC" name="AUMIDIEffectBase.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUMIDIEffectBase.h"/>
+            <FILE id="AedYow" name="AUOutputBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUOutputBase.cpp"/>
+            <FILE id="Bl5ATC" name="AUOutputBase.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUOutputBase.h"/>
+            <FILE id="y9pyzL" name="AUPannerBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUPannerBase.cpp"/>
+            <FILE id="SA94Ia" name="AUPannerBase.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/AUPannerBase.h"/>
+            <FILE id="Fku708" name="MusicDeviceBase.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/MusicDeviceBase.cpp"/>
+            <FILE id="sNHkmH" name="MusicDeviceBase.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/OtherBases/MusicDeviceBase.h"/>
+          </GROUP>
+          <GROUP id="{D87E4877-7DD9-78F6-D71D-6E7CC87C18D9}" name="Utility">
+            <FILE id="YlV8PW" name="AUBaseHelper.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUBaseHelper.cpp"/>
+            <FILE id="hnUFZv" name="AUBaseHelper.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUBaseHelper.h"/>
+            <FILE id="glFhwB" name="AUBuffer.cpp" compile="1" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.cpp"/>
+            <FILE id="u4VKag" name="AUBuffer.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUBuffer.h"/>
+            <FILE id="AwnkvG" name="AUInputFormatConverter.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUInputFormatConverter.h"/>
+            <FILE id="IZFyw1" name="AUMIDIDefs.h" compile="0" resource="0" file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUMIDIDefs.h"/>
+            <FILE id="arHEQn" name="AUSilentTimeout.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUSilentTimeout.h"/>
+            <FILE id="c2Il7v" name="AUTimestampGenerator.cpp" compile="1" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUTimestampGenerator.cpp"/>
+            <FILE id="D2l4G8" name="AUTimestampGenerator.h" compile="0" resource="0"
+                  file="../srcs/CoreAudio/AudioUnits/AUPublic/Utility/AUTimestampGenerator.h"/>
+          </GROUP>
+        </GROUP>
+      </GROUP>
+      <GROUP id="{951E090B-7D13-4984-DC38-AF32B966BC2D}" name="PublicUtility">
+        <FILE id="cQS7eG" name="AUOutputBL.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/AUOutputBL.cpp"/>
+        <FILE id="Um3E8S" name="AUOutputBL.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/AUOutputBL.h"/>
+        <FILE id="DwxISD" name="AUParamInfo.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/AUParamInfo.cpp"/>
+        <FILE id="QxTsSM" name="AUParamInfo.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/AUParamInfo.h"/>
+        <FILE id="VAl2nh" name="CAAtomic.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAtomic.h"/>
+        <FILE id="fdzGHa" name="CAAtomicStack.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAtomicStack.h"/>
+        <FILE id="OgZucg" name="CAAudioBufferList.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioBufferList.cpp"/>
+        <FILE id="kB0ZeP" name="CAAudioBufferList.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioBufferList.h"/>
+        <FILE id="NMKEsH" name="CAAudioChannelLayout.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioChannelLayout.cpp"/>
+        <FILE id="Z6F6gk" name="CAAudioChannelLayout.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioChannelLayout.h"/>
+        <FILE id="ARzgQ4" name="CAAudioChannelLayoutObject.cpp" compile="1"
+              resource="0" file="../srcs/CoreAudio/PublicUtility/CAAudioChannelLayoutObject.cpp"/>
+        <FILE id="mcLStn" name="CAAudioFileFormats.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioFileFormats.cpp"/>
+        <FILE id="jyvogR" name="CAAudioFileFormats.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioFileFormats.h"/>
+        <FILE id="MirrLq" name="CAAudioTimeStamp.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioTimeStamp.cpp"/>
+        <FILE id="bpQwL6" name="CAAudioTimeStamp.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioTimeStamp.h"/>
+        <FILE id="imHnxC" name="CAAudioUnit.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAudioUnit.cpp"/>
+        <FILE id="Q6hSdK" name="CAAudioUnit.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAudioUnit.h"/>
+        <FILE id="u4Ya6c" name="CAAudioUnitOutputCapturer.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioUnitOutputCapturer.h"/>
+        <FILE id="c4c231" name="CAAudioValueRange.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioValueRange.cpp"/>
+        <FILE id="fV530a" name="CAAudioValueRange.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAudioValueRange.h"/>
+        <FILE id="PBBECm" name="CAAUMIDIMap.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAUMIDIMap.cpp"/>
+        <FILE id="dZUq0d" name="CAAUMIDIMap.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAUMIDIMap.h"/>
+        <FILE id="h25Gc8" name="CAAUMIDIMapManager.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAUMIDIMapManager.cpp"/>
+        <FILE id="NYr2tX" name="CAAUMIDIMapManager.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAUMIDIMapManager.h"/>
+        <FILE id="SqvuWU" name="CAAUParameter.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAUParameter.cpp"/>
+        <FILE id="A4zSHs" name="CAAUParameter.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAUParameter.h"/>
+        <FILE id="g80ORc" name="CAAUProcessor.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAUProcessor.cpp"/>
+        <FILE id="zEUK3m" name="CAAUProcessor.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAAUProcessor.h"/>
+        <FILE id="ntIbba" name="CAAutoDisposer.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAAutoDisposer.h"/>
+        <FILE id="uzW3zZ" name="CABitOperations.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CABitOperations.h"/>
+        <FILE id="E3e7eJ" name="CABool.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CABool.h"/>
+        <FILE id="wzRvV5" name="CABufferList.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CABufferList.cpp"/>
+        <FILE id="aOqIR4" name="CABufferList.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CABufferList.h"/>
+        <FILE id="fgNiFA" name="CABundleLocker.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CABundleLocker.cpp"/>
+        <FILE id="W8QGD9" name="CABundleLocker.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CABundleLocker.h"/>
+        <FILE id="QR6MMI" name="CAByteOrder.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAByteOrder.h"/>
+        <FILE id="fJS1TZ" name="CACFArray.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFArray.cpp"/>
+        <FILE id="nXGTNV" name="CACFArray.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFArray.h"/>
+        <FILE id="ipNAN7" name="CACFData.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFData.h"/>
+        <FILE id="mnu5ga" name="CACFDictionary.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFDictionary.cpp"/>
+        <FILE id="nyFFXH" name="CACFDictionary.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFDictionary.h"/>
+        <FILE id="Mqw8ce" name="CACFDistributedNotification.cpp" compile="1"
+              resource="0" file="../srcs/CoreAudio/PublicUtility/CACFDistributedNotification.cpp"/>
+        <FILE id="ruW82R" name="CACFDistributedNotification.h" compile="0"
+              resource="0" file="../srcs/CoreAudio/PublicUtility/CACFDistributedNotification.h"/>
+        <FILE id="xHcAYN" name="CACFMachPort.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFMachPort.cpp"/>
+        <FILE id="UflFog" name="CACFMachPort.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFMachPort.h"/>
+        <FILE id="h0fv6y" name="CACFMessagePort.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFMessagePort.cpp"/>
+        <FILE id="kz4z1x" name="CACFMessagePort.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFMessagePort.h"/>
+        <FILE id="nKzhHK" name="CACFNumber.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFNumber.cpp"/>
+        <FILE id="vUCsNu" name="CACFNumber.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFNumber.h"/>
+        <FILE id="vuDnBe" name="CACFObject.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFObject.h"/>
+        <FILE id="CgSjTy" name="CACFPlugIn.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFPlugIn.h"/>
+        <FILE id="BBaunL" name="CACFPreferences.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFPreferences.cpp"/>
+        <FILE id="hgOwYe" name="CACFPreferences.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CACFPreferences.h"/>
+        <FILE id="FjJ9cm" name="CACFString.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFString.cpp"/>
+        <FILE id="p1go9b" name="CACFString.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CACFString.h"/>
+        <FILE id="llTpyT" name="CAComponent.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAComponent.cpp"/>
+        <FILE id="ptxNqX" name="CAComponent.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAComponent.h"/>
+        <FILE id="YsHnIN" name="CAComponentDescription.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAComponentDescription.cpp"/>
+        <FILE id="jvPirR" name="CAComponentDescription.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAComponentDescription.h"/>
+        <FILE id="PmVe73" name="CADebugger.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CADebugger.cpp"/>
+        <FILE id="KBFVYo" name="CADebugger.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CADebugger.h"/>
+        <FILE id="eSTxQH" name="CADebugMacros.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CADebugMacros.cpp"/>
+        <FILE id="YHWjyS" name="CADebugMacros.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CADebugMacros.h"/>
+        <FILE id="tPqwyH" name="CADebugPrintf.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CADebugPrintf.cpp"/>
+        <FILE id="te9lCh" name="CADebugPrintf.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CADebugPrintf.h"/>
+        <FILE id="K00aRI" name="CAException.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAException.h"/>
+        <FILE id="KGAJy1" name="CAExtAudioFile.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAExtAudioFile.h"/>
+        <FILE id="jcn0Ag" name="CAFilePathUtils.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAFilePathUtils.cpp"/>
+        <FILE id="DkzbZ4" name="CAFilePathUtils.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAFilePathUtils.h"/>
+        <FILE id="beRYSG" name="CAGuard.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAGuard.cpp"/>
+        <FILE id="Hq9JzL" name="CAGuard.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAGuard.h"/>
+        <FILE id="H0iKZb" name="CAHALAudioDevice.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioDevice.cpp"/>
+        <FILE id="MTZdIH" name="CAHALAudioDevice.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioDevice.h"/>
+        <FILE id="YDRsCW" name="CAHALAudioObject.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioObject.cpp"/>
+        <FILE id="CZdPfv" name="CAHALAudioObject.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioObject.h"/>
+        <FILE id="hBiqM1" name="CAHALAudioStream.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioStream.cpp"/>
+        <FILE id="bUHmuf" name="CAHALAudioStream.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioStream.h"/>
+        <FILE id="WS2TSw" name="CAHALAudioSystemObject.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioSystemObject.cpp"/>
+        <FILE id="CtCmza" name="CAHALAudioSystemObject.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHALAudioSystemObject.h"/>
+        <FILE id="SydJOy" name="CAHostTimeBase.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHostTimeBase.cpp"/>
+        <FILE id="kc5zXi" name="CAHostTimeBase.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAHostTimeBase.h"/>
+        <FILE id="AVqL7p" name="CALogMacros.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CALogMacros.h"/>
+        <FILE id="WTui0r" name="CAMath.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAMath.h"/>
+        <FILE id="If7b0L" name="CAMixMap.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAMixMap.h"/>
+        <FILE id="SQyqO2" name="CAMutex.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAMutex.cpp"/>
+        <FILE id="WvwNZ7" name="CAMutex.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAMutex.h"/>
+        <FILE id="l9t6AV" name="CAPersistence.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAPersistence.cpp"/>
+        <FILE id="z5wvvp" name="CAProcess.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAProcess.cpp"/>
+        <FILE id="txYT6X" name="CAProcess.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAProcess.h"/>
+        <FILE id="uim69Q" name="CAPropertyAddress.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAPropertyAddress.h"/>
+        <FILE id="uEp3n4" name="CAPThread.cpp" compile="1" resource="0" file="../srcs/CoreAudio/PublicUtility/CAPThread.cpp"/>
+        <FILE id="YJLL6e" name="CAPThread.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAPThread.h"/>
+        <FILE id="EVWNMb" name="CAReferenceCounted.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAReferenceCounted.h"/>
+        <FILE id="ILcSf0" name="CARingBuffer.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CARingBuffer.cpp"/>
+        <FILE id="WwgKCQ" name="CARingBuffer.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CARingBuffer.h"/>
+        <FILE id="kVVmLO" name="CASettingsStorage.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CASettingsStorage.cpp"/>
+        <FILE id="oyWwny" name="CASettingsStorage.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CASettingsStorage.h"/>
+        <FILE id="oGyEaS" name="CASharedLibrary.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CASharedLibrary.cpp"/>
+        <FILE id="EjHaDU" name="CASharedLibrary.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CASharedLibrary.h"/>
+        <FILE id="XsFJ8L" name="CASpectralProcessor.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CASpectralProcessor.cpp"/>
+        <FILE id="E5Xc9b" name="CASpectralProcessor.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CASpectralProcessor.h"/>
+        <FILE id="p6tQd1" name="CAStreamBasicDescription.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAStreamBasicDescription.cpp"/>
+        <FILE id="FIfzcY" name="CAStreamBasicDescription.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAStreamBasicDescription.h"/>
+        <FILE id="v8TpDz" name="CAStreamRangedDescription.cpp" compile="1"
+              resource="0" file="../srcs/CoreAudio/PublicUtility/CAStreamRangedDescription.cpp"/>
+        <FILE id="Ffpcg9" name="CAStreamRangedDescription.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAStreamRangedDescription.h"/>
+        <FILE id="kJc1S3" name="CAThreadSafeList.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAThreadSafeList.h"/>
+        <FILE id="F0nZnf" name="CATink.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CATink.h"/>
+        <FILE id="DFQaXw" name="CATokenMap.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CATokenMap.h"/>
+        <FILE id="rxHSaz" name="CAVectorUnit.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAVectorUnit.cpp"/>
+        <FILE id="RdYvPp" name="CAVectorUnit.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAVectorUnit.h"/>
+        <FILE id="SBKRXX" name="CAVectorUnitTypes.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAVectorUnitTypes.h"/>
+        <FILE id="elugGd" name="CAVolumeCurve.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAVolumeCurve.cpp"/>
+        <FILE id="ddbIhU" name="CAVolumeCurve.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAVolumeCurve.h"/>
+        <FILE id="VNbuJL" name="CAXException.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/CAXException.cpp"/>
+        <FILE id="IksI79" name="CAXException.h" compile="0" resource="0" file="../srcs/CoreAudio/PublicUtility/CAXException.h"/>
+        <FILE id="GUnWJi" name="MatrixMixerVolumes.cpp" compile="1" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/MatrixMixerVolumes.cpp"/>
+        <FILE id="woyErO" name="MatrixMixerVolumes.h" compile="0" resource="0"
+              file="../srcs/CoreAudio/PublicUtility/MatrixMixerVolumes.h"/>
+      </GROUP>
+    </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="Source">
+      <GROUP id="{FCF2530F-DB48-EBE5-0A1F-6CE4E9864A3F}" name="editor">
+        <FILE id="Gx6Llu" name="draggable_component.cpp" compile="1" resource="0"
+              file="Source/editor/draggable_component.cpp"/>
+        <FILE id="IjC6nB" name="draggable_component.h" compile="0" resource="0"
+              file="Source/editor/draggable_component.h"/>
+        <FILE id="LH6ofU" name="graphical_envelope.cpp" compile="1" resource="0"
+              file="Source/editor/graphical_envelope.cpp"/>
+        <FILE id="nYUiNt" name="graphical_envelope.h" compile="0" resource="0"
+              file="Source/editor/graphical_envelope.h"/>
+        <FILE id="rmDSdf" name="twytch_look_and_feel.cpp" compile="1" resource="0"
+              file="Source/editor/twytch_look_and_feel.cpp"/>
+        <FILE id="pMtTAu" name="twytch_look_and_feel.h" compile="0" resource="0"
+              file="Source/editor/twytch_look_and_feel.h"/>
+      </GROUP>
+      <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="Source/twytch.cpp"/>
+      <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="Source/twytch.h"/>
+      <FILE id="yvB2yS" name="twytch_editor.cpp" compile="1" resource="0"
+            file="Source/twytch_editor.cpp"/>
+      <FILE id="BfbyOk" name="twytch_editor.h" compile="0" resource="0" file="Source/twytch_editor.h"/>
       <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
         <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
           <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
@@ -80,29 +441,16 @@
             file="Source/cursynth_strings.cpp"/>
       <FILE id="zYST12" name="cursynth_strings.h" compile="0" resource="0"
             file="Source/cursynth_strings.h"/>
-      <GROUP id="{9BD3F55A-4EFF-C932-5413-8EEFB5D61E53}" name="editor">
-        <FILE id="ADq0LF" name="glitch_look_and_feel.cpp" compile="1" resource="0"
-              file="Source/editor/glitch_look_and_feel.cpp"/>
-        <FILE id="QOiKA0" name="glitch_look_and_feel.h" compile="0" resource="0"
-              file="Source/editor/glitch_look_and_feel.h"/>
-      </GROUP>
-      <FILE id="riWESw" name="glitch_bitch.cpp" compile="1" resource="0"
-            file="Source/glitch_bitch.cpp"/>
-      <FILE id="uV6Sv5" name="glitch_bitch.h" compile="0" resource="0" file="Source/glitch_bitch.h"/>
-      <FILE id="FFuwbm" name="glitch_bitch_editor.cpp" compile="1" resource="0"
-            file="Source/glitch_bitch_editor.cpp"/>
-      <FILE id="DLOse7" name="glitch_bitch_editor.h" compile="0" resource="0"
-            file="Source/glitch_bitch_editor.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="~/SDKs/vstsdk2.4" postbuildCommand="&#13;&#10;# This script takes the build product and copies it to the AU, VST, VST3, RTAS and AAX folders, depending on &#13;&#10;# which plugin types you've built&#13;&#10;&#13;&#10;original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#13;&#10;&#13;&#10;# this looks inside the binary to detect which platforms are needed.. &#13;&#10;copyAU=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'AudioUnit' | wc -l&#96;&#13;&#10;copyVST=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'VSTPlugin' | wc -l&#96;&#13;&#10;copyVST3=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'GetPluginFactory' | wc -l&#96;&#13;&#10;copyRTAS=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'CProcess' | wc -l&#96;&#13;&#10;copyAAX=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'ACFStartup' | wc -l&#96;&#13;&#10;&#13;&#10;if [ $copyAU -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AudioUnit folder...&quot;&#13;&#10;  AU=~/Library/Audio/Plug-Ins/Components/$PRODUCT_NAME.component&#13;&#10;  if [ -d &quot;$AU&quot; ]; then &#13;&#10;    rm -r &quot;$AU&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$AU&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;&#13;&#10;&#13;&#10;  # Fix info.plist for AUs built with Xcode 3&#13;&#10;  if [ -f &quot;$DEVELOPER_DIR/Library/Developer/CoreAudio/AudioUnits/AUPublic/AUBase/AUPlugInDispatch.cpp&quot; ]; then&#13;&#10;    echo&#13;&#10;  else&#13;&#10;    echo &quot;Removing AudioComponents entry from Info.plist because this is not a new-format AU&quot;&#13;&#10;    /usr/libexec/PlistBuddy -c &quot;Delete AudioComponents&quot; &quot;$AU/Contents/Info.plist&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST folder...&quot;&#13;&#10;  VST=~/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME.vst&#13;&#10;  if [ -d &quot;$VST&quot; ]; then &#13;&#10;    rm -r &quot;$VST&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST3 -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST3 folder...&quot;&#13;&#10;  VST3=~/Library/Audio/Plug-Ins/VST3/$PRODUCT_NAME.vst3&#13;&#10;  if [ -d &quot;$VST3&quot; ]; then &#13;&#10;    rm -r &quot;$VST3&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST3&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST3/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST3/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyRTAS -gt 0 ]; then&#13;&#10;  echo &quot;Copying to RTAS folder...&quot;&#13;&#10;  RTAS=/Library/Application\ Support/Digidesign/Plug-Ins/$PRODUCT_NAME.dpm&#13;&#10;  if [ -d &quot;$RTAS&quot; ]; then&#13;&#10;    rm -r &quot;$RTAS&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$RTAS&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyAAX -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AAX folder...&quot;&#13;&#10;&#13;&#10;  if [ -d &quot;/Applications/ProTools_3PDev/Plug-Ins&quot; ]; then&#13;&#10;    AAX1=&quot;/Applications/ProTools_3PDev/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX1&quot; ]; then&#13;&#10;      rm -r &quot;$AAX1&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX1&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  if [ -d &quot;/Library/Application Support/Avid/Audio/Plug-Ins&quot; ]; then&#13;&#10;    AAX2=&quot;/Library/Application Support/Avid/Audio/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX2&quot; ]; then&#13;&#10;      rm -r &quot;$AAX2&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX2&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;"
-               vst3Folder="~/SDKs/VST3 SDK" rtasFolder="~/SDKs/PT_80_SDK" aaxFolder="~/SDKs/AAX">
+    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="~/srcs/vstsdk2.4" postbuildCommand="&#13;&#10;# This script takes the build product and copies it to the AU, VST, VST3, RTAS and AAX folders, depending on &#13;&#10;# which plugin types you've built&#13;&#10;&#13;&#10;original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#13;&#10;&#13;&#10;# this looks inside the binary to detect which platforms are needed.. &#13;&#10;copyAU=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'AudioUnit' | wc -l&#96;&#13;&#10;copyVST=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'VSTPlugin' | wc -l&#96;&#13;&#10;copyVST3=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'GetPluginFactory' | wc -l&#96;&#13;&#10;copyRTAS=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'CProcess' | wc -l&#96;&#13;&#10;copyAAX=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'ACFStartup' | wc -l&#96;&#13;&#10;&#13;&#10;if [ $copyAU -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AudioUnit folder...&quot;&#13;&#10;  AU=~/Library/Audio/Plug-Ins/Components/$PRODUCT_NAME.component&#13;&#10;  if [ -d &quot;$AU&quot; ]; then &#13;&#10;    rm -r &quot;$AU&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$AU&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;&#13;&#10;&#13;&#10;  # Fix info.plist for AUs built with Xcode 3&#13;&#10;  if [ -f &quot;$DEVELOPER_DIR/Library/Developer/CoreAudio/AudioUnits/AUPublic/AUBase/AUPlugInDispatch.cpp&quot; ]; then&#13;&#10;    echo&#13;&#10;  else&#13;&#10;    echo &quot;Removing AudioComponents entry from Info.plist because this is not a new-format AU&quot;&#13;&#10;    /usr/libexec/PlistBuddy -c &quot;Delete AudioComponents&quot; &quot;$AU/Contents/Info.plist&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST folder...&quot;&#13;&#10;  VST=~/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME.vst&#13;&#10;  if [ -d &quot;$VST&quot; ]; then &#13;&#10;    rm -r &quot;$VST&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST3 -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST3 folder...&quot;&#13;&#10;  VST3=~/Library/Audio/Plug-Ins/VST3/$PRODUCT_NAME.vst3&#13;&#10;  if [ -d &quot;$VST3&quot; ]; then &#13;&#10;    rm -r &quot;$VST3&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST3&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST3/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST3/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyRTAS -gt 0 ]; then&#13;&#10;  echo &quot;Copying to RTAS folder...&quot;&#13;&#10;  RTAS=/Library/Application\ Support/Digidesign/Plug-Ins/$PRODUCT_NAME.dpm&#13;&#10;  if [ -d &quot;$RTAS&quot; ]; then&#13;&#10;    rm -r &quot;$RTAS&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$RTAS&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyAAX -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AAX folder...&quot;&#13;&#10;&#13;&#10;  if [ -d &quot;/Applications/ProTools_3PDev/Plug-Ins&quot; ]; then&#13;&#10;    AAX1=&quot;/Applications/ProTools_3PDev/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX1&quot; ]; then&#13;&#10;      rm -r &quot;$AAX1&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX1&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  if [ -d &quot;/Library/Application Support/Avid/Audio/Plug-Ins&quot; ]; then&#13;&#10;    AAX2=&quot;/Library/Application Support/Avid/Audio/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX2&quot; ]; then&#13;&#10;      rm -r &quot;$AAX2&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX2&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;"
+               vst3Folder="~/srcs/VST3 SDK" rtasFolder="~/SDKs/PT_80_SDK" aaxFolder="~/SDKs/AAX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="1" optimisation="1" targetName="twytch" headerPath="~/srcs/VST3SDK"/>
+                       isDebug="1" optimisation="1" targetName="twytch" headerPath=""/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="0" optimisation="2" targetName="twytch" headerPath="~/srcs/VST3SDK"/>
+                       isDebug="0" optimisation="2" targetName="twytch" headerPath=""/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../srcs/JUCE-OSX/modules"/>
@@ -121,7 +469,8 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE-OSX/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2012 targetFolder="Builds/VisualStudio2012">
+    <VS2012 targetFolder="Builds/VisualStudio2012" vstFolder="c:\SDKs\vstsdk2.4"
+            vst3Folder="c:\SDKs\VST3 SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="twytch"/>

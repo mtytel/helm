@@ -1,5 +1,5 @@
-#ifndef GLITCH_LOOK_AND_FEEL_H
-#define GLITCH_LOOK_AND_FEEL_H
+#ifndef TWYTCH_LOOK_AND_FEEL_H
+#define TWYTCH_LOOK_AND_FEEL_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
@@ -17,9 +17,6 @@ class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
                                int width, int height,
                                float sliderPos, float minSliderPos, float maxSliderPos,
                                const Slider::SliderStyle style, Slider& slider) override;
-  
-  private:
 };
 
-
-#endif // GLITCH_LOOK_AND_FEEL_H
+#endif // TWYTCH_LOOK_AND_FEEL_H

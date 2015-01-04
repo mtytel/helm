@@ -50,10 +50,9 @@ public:
   double volume, phase;
 
 private:
-
   mopo::CursynthEngine synth_;
+  
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Twytch)
 };
-
 
 #endif // TWYTCH_H
