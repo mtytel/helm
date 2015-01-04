@@ -8,56 +8,56 @@
  ==============================================================================
  */
 
-#include "glitch_bitch.h"
-#include "glitch_bitch_editor.h"
+#include "twytch.h"
+#include "twytch_editor.h"
 
 
 //==============================================================================
-GlitchBitch::GlitchBitch() : volume(0.0), phase(0.0) { }
+Twytch::Twytch() : volume(0.0), phase(0.0) { }
 
-GlitchBitch::~GlitchBitch() { }
+Twytch::~Twytch() { }
 
 //==============================================================================
-const String GlitchBitch::getName() const {
+const String Twytch::getName() const {
   return JucePlugin_Name;
 }
 
-int GlitchBitch::getNumParameters() {
+int Twytch::getNumParameters() {
   return 0;
 }
 
-float GlitchBitch::getParameter(int index) {
+float Twytch::getParameter(int index) {
   return 0.0f;
 }
 
-void GlitchBitch::setParameter(int index, float new_value) {
+void Twytch::setParameter(int index, float new_value) {
 }
 
-const String GlitchBitch::getParameterName(int index) {
+const String Twytch::getParameterName(int index) {
   return String();
 }
 
-const String GlitchBitch::getParameterText(int index) {
+const String Twytch::getParameterText(int index) {
   return String();
 }
 
-const String GlitchBitch::getInputChannelName(int channel_index) const {
+const String Twytch::getInputChannelName(int channel_index) const {
   return String (channel_index + 1);
 }
 
-const String GlitchBitch::getOutputChannelName(int channel_index) const {
+const String Twytch::getOutputChannelName(int channel_index) const {
   return String (channel_index + 1);
 }
 
-bool GlitchBitch::isInputChannelStereoPair(int index) const {
+bool Twytch::isInputChannelStereoPair(int index) const {
   return true;
 }
 
-bool GlitchBitch::isOutputChannelStereoPair(int index) const {
+bool Twytch::isOutputChannelStereoPair(int index) const {
   return true;
 }
 
-bool GlitchBitch::acceptsMidi() const {
+bool Twytch::acceptsMidi() const {
 #if JucePlugin_WantsMidiInput
   return true;
 #else
@@ -65,7 +65,7 @@ bool GlitchBitch::acceptsMidi() const {
 #endif
 }
 
-bool GlitchBitch::producesMidi() const {
+bool Twytch::producesMidi() const {
 #if JucePlugin_ProducesMidiOutput
   return true;
 #else
@@ -73,45 +73,45 @@ bool GlitchBitch::producesMidi() const {
 #endif
 }
 
-bool GlitchBitch::silenceInProducesSilenceOut() const {
+bool Twytch::silenceInProducesSilenceOut() const {
   return false;
 }
 
-double GlitchBitch::getTailLengthSeconds() const {
+double Twytch::getTailLengthSeconds() const {
   return 0.0;
 }
 
-int GlitchBitch::getNumPrograms() {
+int Twytch::getNumPrograms() {
   return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
   // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int GlitchBitch::getCurrentProgram() {
+int Twytch::getCurrentProgram() {
   return 0;
 }
 
-void GlitchBitch::setCurrentProgram(int index) {
+void Twytch::setCurrentProgram(int index) {
 }
 
-const String GlitchBitch::getProgramName(int index) {
+const String Twytch::getProgramName(int index) {
   return String();
 }
 
-void GlitchBitch::changeProgramName(int index, const String& new_name) {
+void Twytch::changeProgramName(int index, const String& new_name) {
 }
 
 //==============================================================================
-void GlitchBitch::prepareToPlay(double sample_rate, int buffer_size) {
+void Twytch::prepareToPlay(double sample_rate, int buffer_size) {
   synth_.setSampleRate(sample_rate);
   synth_.setBufferSize(buffer_size);
 }
 
-void GlitchBitch::releaseResources() {
+void Twytch::releaseResources() {
   // When playback stops, you can use this as an opportunity to free up any
   // spare memory, etc.
 }
 
-void GlitchBitch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
+void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
   int midi_sample_position = 0;
@@ -140,22 +140,22 @@ void GlitchBitch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messa
 }
 
 //==============================================================================
-bool GlitchBitch::hasEditor() const {
+bool Twytch::hasEditor() const {
   return true;
 }
 
-AudioProcessorEditor* GlitchBitch::createEditor() {
-  return new GlitchBitchEditor(*this);
+AudioProcessorEditor* Twytch::createEditor() {
+  return new TwytchEditor(*this);
 }
 
 //==============================================================================
-void GlitchBitch::getStateInformation(MemoryBlock& dest_data) {
+void Twytch::getStateInformation(MemoryBlock& dest_data) {
   // You should use this method to store your parameters in the memory block.
   // You could do that either as raw data, or use the XML or ValueTree classes
   // as intermediaries to make it easy to save and load complex data.
 }
 
-void GlitchBitch::setStateInformation(const void* data, int size_in_bytes) {
+void Twytch::setStateInformation(const void* data, int size_in_bytes) {
   // You should use this method to restore your parameters from this memory block,
   // whose contents will have been created by the getStateInformation() call.
 }
@@ -163,5 +163,5 @@ void GlitchBitch::setStateInformation(const void* data, int size_in_bytes) {
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new GlitchBitch();
+  return new Twytch();
 }

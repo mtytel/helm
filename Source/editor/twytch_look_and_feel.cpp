@@ -1,4 +1,4 @@
-#include "glitch_look_and_feel.h"
+#include "twytch_look_and_feel.h"
 
 namespace {
 
@@ -6,7 +6,7 @@ namespace {
   const float SLIDER_ROUNDING = 3.0;
 } // namespace
 
-void GlitchLookAndFeel::drawLinearSlider(Graphics& g,
+void TwytchLookAndFeel::drawLinearSlider(Graphics& g,
                                          int x, int y,
                                          int width, int height,
                                          float sliderPos, float minSliderPos, float maxSliderPos,
@@ -22,7 +22,7 @@ void GlitchLookAndFeel::drawLinearSlider(Graphics& g,
 
 }
 
-void GlitchLookAndFeel::drawLinearSliderThumb(Graphics& g,
+void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g,
                                               int x, int y,
                                               int width, int height,
                                               float sliderPos,

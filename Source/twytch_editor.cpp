@@ -1,7 +1,7 @@
-#include "glitch_bitch.h"
-#include "glitch_bitch_editor.h"
+#include "twytch.h"
+#include "twytch_editor.h"
 
-GlitchBitchEditor::GlitchBitchEditor(GlitchBitch& gb) : AudioProcessorEditor(&gb), glitch_bitch_(gb) {
+TwytchEditor::TwytchEditor(Twytch& gb) : AudioProcessorEditor(&gb), glitch_bitch_(gb) {
   controls_ = glitch_bitch_.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
@@ -21,13 +21,13 @@ GlitchBitchEditor::GlitchBitchEditor(GlitchBitch& gb) : AudioProcessorEditor(&gb
   setSize(1000, 700);
 }
 
-GlitchBitchEditor::~GlitchBitchEditor() {
+TwytchEditor::~TwytchEditor() {
   std::map<std::string, Slider*>::iterator iter = sliders_.begin();
   for (; iter != sliders_.end(); ++iter)
     delete iter->second;
 }
 
-void GlitchBitchEditor::paint(Graphics& g) {
+void TwytchEditor::paint(Graphics& g) {
   setSize(1000, 700);
 
   g.fillAll(Colours::white);
@@ -48,7 +48,7 @@ void GlitchBitchEditor::paint(Graphics& g) {
   }
 }
 
-void GlitchBitchEditor::resized() {
+void TwytchEditor::resized() {
   int x = 120;
   int y = 20;
   std::map<std::string, Slider*>::iterator iter = sliders_.begin();
@@ -63,7 +63,7 @@ void GlitchBitchEditor::resized() {
   }
 }
 
-void GlitchBitchEditor::sliderValueChanged(Slider* edited_slider) {
+void TwytchEditor::sliderValueChanged(Slider* edited_slider) {
   double new_value = edited_slider->getValue();
   std::string name = edited_slider->getName().toStdString();
   mopo::Control* control = controls_[name];

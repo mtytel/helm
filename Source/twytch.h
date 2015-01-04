@@ -1,13 +1,13 @@
-#ifndef GLITCH_BITCH_H
-#define GLITCH_BITCH_H
+#ifndef TWYTCH_H
+#define TWYTCH_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "cursynth_engine.h"
 
-class GlitchBitch : public AudioProcessor {
+class Twytch : public AudioProcessor {
 public:
-  GlitchBitch();
-  virtual ~GlitchBitch();
+  Twytch();
+  virtual ~Twytch();
 
   void prepareToPlay(double sample_rate, int buffer_size) override;
   void releaseResources() override;
@@ -52,8 +52,8 @@ public:
 private:
 
   mopo::CursynthEngine synth_;
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GlitchBitch)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Twytch)
 };
 
 
-#endif // GLITCH_BITCH_H
+#endif // TWYTCH_H

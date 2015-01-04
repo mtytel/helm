@@ -3,7 +3,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class GlitchLookAndFeel : public juce::LookAndFeel_V3 {
+class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
   public:
 
     void drawLinearSlider(Graphics& g,
