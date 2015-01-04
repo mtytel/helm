@@ -2,20 +2,20 @@
 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="glitch_bitch">
-      <UniqueIdentifier>{DD101324-1C2F-2722-97DF-B4F564DDD673}</UniqueIdentifier>
+    <Filter Include="Twytch">
+      <UniqueIdentifier>{2BDA1589-AF74-EE13-E153-0DA5697B4EC7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="glitch_bitch\Source">
-      <UniqueIdentifier>{C4872EDD-58BE-B33F-2349-03FA0062C611}</UniqueIdentifier>
+    <Filter Include="Twytch\Source">
+      <UniqueIdentifier>{B933C0A6-DA9C-F04E-F1AF-12B7BBA949CD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="glitch_bitch\Source\mopo">
-      <UniqueIdentifier>{359CC493-914F-947D-EF61-98270E7481CF}</UniqueIdentifier>
+    <Filter Include="Twytch\Source\mopo">
+      <UniqueIdentifier>{41CA8CDC-4C6A-D55B-78F2-13FE70EFDFF3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="glitch_bitch\Source\mopo\src">
-      <UniqueIdentifier>{7340FC68-C7DF-A7C6-243F-C62FF017A08C}</UniqueIdentifier>
+    <Filter Include="Twytch\Source\mopo\src">
+      <UniqueIdentifier>{EC702691-6E90-C5F7-DB7E-34376806C743}</UniqueIdentifier>
     </Filter>
-    <Filter Include="glitch_bitch\Source\editor">
-      <UniqueIdentifier>{9D8E6833-2CAF-AF7E-E740-AA73E7597693}</UniqueIdentifier>
+    <Filter Include="Twytch\Source\editor">
+      <UniqueIdentifier>{828EA25E-A688-D5F2-C3CB-198F7ED16218}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
@@ -332,76 +332,76 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\mopo\src\delay.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\envelope.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\feedback.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\filter.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\linear_slope.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\midi_lookup.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\mono_panner.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\operators.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\oscillator.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor_router.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\send_receive.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_filter.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_value.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\step_generator.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\trigger_operators.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\value.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\wave.cpp">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\cursynth_engine.cpp">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\cursynth_strings.cpp">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\editor\glitch_look_and_feel.cpp">
-      <Filter>glitch_bitch\Source\editor</Filter>
+      <Filter>Twytch\Source\editor</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\glitch_bitch.cpp">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\glitch_bitch_editor.cpp">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -1648,91 +1648,91 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\mopo\src\delay.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\envelope.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\feedback.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\filter.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\linear_slope.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\memory.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\midi_lookup.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\mono_panner.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\mopo.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\operators.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\oscillator.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor_router.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\send_receive.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_filter.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_value.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\step_generator.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\tick_router.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\trigger_operators.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\utils.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\value.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\voice_handler.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
-      <Filter>glitch_bitch\Source\mopo\src</Filter>
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\cursynth_common.h">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\cursynth_engine.h">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\cursynth_strings.h">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\editor\glitch_look_and_feel.h">
-      <Filter>glitch_bitch\Source\editor</Filter>
+      <Filter>Twytch\Source\editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\glitch_bitch.h">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\glitch_bitch_editor.h">
-      <Filter>glitch_bitch\Source</Filter>
+      <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>

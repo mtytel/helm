@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:glitch_bitch.xcodeproj">
+      location = "self:Twytch.xcodeproj">
    </FileRef>
 </Workspace>

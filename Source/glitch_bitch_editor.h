@@ -3,8 +3,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "glitch_bitch.h"
+#include "editor/glitch_look_and_feel.h"
 
-class GlitchBitchEditor  : public AudioProcessorEditor, juce::Slider::Listener {
+class GlitchBitchEditor : public AudioProcessorEditor, juce::Slider::Listener {
 public:
   GlitchBitchEditor(GlitchBitch&);
   ~GlitchBitchEditor();
@@ -20,9 +21,10 @@ private:
   Slider* volume_;
   mopo::control_map controls_;
   std::map<std::string, Slider*> sliders_;
+  GlitchLookAndFeel look_and_feel_;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GlitchBitchEditor)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GlitchBitchEditor)
 };
 
 
-#endif  // GLITCH_BITCH_EDITOR_H
+#endif // GLITCH_BITCH_EDITOR_H

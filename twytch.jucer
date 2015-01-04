@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="C9WuMW" name="Twytch" projectType="audioplug" version="1.0.0"
+              bundleIdentifier="co.littleio.twytch" includeBinaryInAppConfig="1"
+              buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
+              pluginName="Twytch" pluginDesc="" pluginManufacturer="Little O Studio"
+              pluginManufacturerCode="Manu" pluginCode="Plug" pluginChannelConfigs="{1, 1}, {2, 2}"
+              pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
+              pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
+              pluginAUExportPrefix="twytch" pluginRTASCategory="" aaxIdentifier="co.littleio.twytch"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
+              companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
+              companyWebsite="littleio.co">
+  <MAINGROUP id="OwcEM5" name="Twytch">
+    <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="Source">
+      <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
+        <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
+          <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
+          <FILE id="vmg9rF" name="delay.h" compile="0" resource="0" file="mopo/src/delay.h"/>
+          <FILE id="MVE4Uh" name="envelope.cpp" compile="1" resource="0" file="mopo/src/envelope.cpp"/>
+          <FILE id="q7ALND" name="envelope.h" compile="0" resource="0" file="mopo/src/envelope.h"/>
+          <FILE id="btwOeq" name="feedback.cpp" compile="1" resource="0" file="mopo/src/feedback.cpp"/>
+          <FILE id="ZAlv8o" name="feedback.h" compile="0" resource="0" file="mopo/src/feedback.h"/>
+          <FILE id="nLnW5X" name="filter.cpp" compile="1" resource="0" file="mopo/src/filter.cpp"/>
+          <FILE id="dO8njp" name="filter.h" compile="0" resource="0" file="mopo/src/filter.h"/>
+          <FILE id="r3pqqh" name="linear_slope.cpp" compile="1" resource="0"
+                file="mopo/src/linear_slope.cpp"/>
+          <FILE id="Ee7FW3" name="linear_slope.h" compile="0" resource="0" file="mopo/src/linear_slope.h"/>
+          <FILE id="GKDQJa" name="memory.h" compile="0" resource="0" file="mopo/src/memory.h"/>
+          <FILE id="Shd5Ou" name="midi_lookup.cpp" compile="1" resource="0" file="mopo/src/midi_lookup.cpp"/>
+          <FILE id="X6PdHk" name="midi_lookup.h" compile="0" resource="0" file="mopo/src/midi_lookup.h"/>
+          <FILE id="S0ZpfT" name="mono_panner.cpp" compile="1" resource="0" file="mopo/src/mono_panner.cpp"/>
+          <FILE id="Tr5ova" name="mono_panner.h" compile="0" resource="0" file="mopo/src/mono_panner.h"/>
+          <FILE id="GtjtzM" name="mopo.h" compile="0" resource="0" file="mopo/src/mopo.h"/>
+          <FILE id="iseRQB" name="operators.cpp" compile="1" resource="0" file="mopo/src/operators.cpp"/>
+          <FILE id="Ta5BdT" name="operators.h" compile="0" resource="0" file="mopo/src/operators.h"/>
+          <FILE id="BNbV33" name="oscillator.cpp" compile="1" resource="0" file="mopo/src/oscillator.cpp"/>
+          <FILE id="KMlHeH" name="oscillator.h" compile="0" resource="0" file="mopo/src/oscillator.h"/>
+          <FILE id="B9nzMm" name="processor.cpp" compile="1" resource="0" file="mopo/src/processor.cpp"/>
+          <FILE id="unhGBY" name="processor.h" compile="0" resource="0" file="mopo/src/processor.h"/>
+          <FILE id="RDdsuF" name="processor_router.cpp" compile="1" resource="0"
+                file="mopo/src/processor_router.cpp"/>
+          <FILE id="VnD850" name="processor_router.h" compile="0" resource="0"
+                file="mopo/src/processor_router.h"/>
+          <FILE id="JHZseW" name="send_receive.cpp" compile="1" resource="0"
+                file="mopo/src/send_receive.cpp"/>
+          <FILE id="yCR2Si" name="send_receive.h" compile="0" resource="0" file="mopo/src/send_receive.h"/>
+          <FILE id="FNCsKO" name="smooth_filter.cpp" compile="1" resource="0"
+                file="mopo/src/smooth_filter.cpp"/>
+          <FILE id="RoiNhg" name="smooth_filter.h" compile="0" resource="0" file="mopo/src/smooth_filter.h"/>
+          <FILE id="axayHO" name="smooth_value.cpp" compile="1" resource="0"
+                file="mopo/src/smooth_value.cpp"/>
+          <FILE id="jJtWLp" name="smooth_value.h" compile="0" resource="0" file="mopo/src/smooth_value.h"/>
+          <FILE id="bRqJGe" name="step_generator.cpp" compile="1" resource="0"
+                file="mopo/src/step_generator.cpp"/>
+          <FILE id="UxOwp5" name="step_generator.h" compile="0" resource="0"
+                file="mopo/src/step_generator.h"/>
+          <FILE id="rT6M6K" name="tick_router.h" compile="0" resource="0" file="mopo/src/tick_router.h"/>
+          <FILE id="Kfh1nM" name="trigger_operators.cpp" compile="1" resource="0"
+                file="mopo/src/trigger_operators.cpp"/>
+          <FILE id="y1dwf9" name="trigger_operators.h" compile="0" resource="0"
+                file="mopo/src/trigger_operators.h"/>
+          <FILE id="fgOWBL" name="utils.h" compile="0" resource="0" file="mopo/src/utils.h"/>
+          <FILE id="IHTSNf" name="value.cpp" compile="1" resource="0" file="mopo/src/value.cpp"/>
+          <FILE id="ZEnRSp" name="value.h" compile="0" resource="0" file="mopo/src/value.h"/>
+          <FILE id="BryA4y" name="voice_handler.cpp" compile="1" resource="0"
+                file="mopo/src/voice_handler.cpp"/>
+          <FILE id="ioNiaI" name="voice_handler.h" compile="0" resource="0" file="mopo/src/voice_handler.h"/>
+          <FILE id="CtyuIv" name="wave.cpp" compile="1" resource="0" file="mopo/src/wave.cpp"/>
+          <FILE id="sJSR4u" name="wave.h" compile="0" resource="0" file="mopo/src/wave.h"/>
+        </GROUP>
+      </GROUP>
+      <FILE id="RMS3Jg" name="cursynth_common.h" compile="0" resource="0"
+            file="Source/cursynth_common.h"/>
+      <FILE id="yT4rTk" name="cursynth_engine.cpp" compile="1" resource="0"
+            file="Source/cursynth_engine.cpp"/>
+      <FILE id="p2MXuu" name="cursynth_engine.h" compile="0" resource="0"
+            file="Source/cursynth_engine.h"/>
+      <FILE id="taAu8n" name="cursynth_strings.cpp" compile="1" resource="0"
+            file="Source/cursynth_strings.cpp"/>
+      <FILE id="zYST12" name="cursynth_strings.h" compile="0" resource="0"
+            file="Source/cursynth_strings.h"/>
+      <GROUP id="{9BD3F55A-4EFF-C932-5413-8EEFB5D61E53}" name="editor">
+        <FILE id="ADq0LF" name="glitch_look_and_feel.cpp" compile="1" resource="0"
+              file="Source/editor/glitch_look_and_feel.cpp"/>
+        <FILE id="QOiKA0" name="glitch_look_and_feel.h" compile="0" resource="0"
+              file="Source/editor/glitch_look_and_feel.h"/>
+      </GROUP>
+      <FILE id="riWESw" name="glitch_bitch.cpp" compile="1" resource="0"
+            file="Source/glitch_bitch.cpp"/>
+      <FILE id="uV6Sv5" name="glitch_bitch.h" compile="0" resource="0" file="Source/glitch_bitch.h"/>
+      <FILE id="FFuwbm" name="glitch_bitch_editor.cpp" compile="1" resource="0"
+            file="Source/glitch_bitch_editor.cpp"/>
+      <FILE id="DLOse7" name="glitch_bitch_editor.h" compile="0" resource="0"
+            file="Source/glitch_bitch_editor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" vstFolder="~/SDKs/vstsdk2.4" postbuildCommand="&#13;&#10;# This script takes the build product and copies it to the AU, VST, VST3, RTAS and AAX folders, depending on &#13;&#10;# which plugin types you've built&#13;&#10;&#13;&#10;original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#13;&#10;&#13;&#10;# this looks inside the binary to detect which platforms are needed.. &#13;&#10;copyAU=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'AudioUnit' | wc -l&#96;&#13;&#10;copyVST=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'VSTPlugin' | wc -l&#96;&#13;&#10;copyVST3=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'GetPluginFactory' | wc -l&#96;&#13;&#10;copyRTAS=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'CProcess' | wc -l&#96;&#13;&#10;copyAAX=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'ACFStartup' | wc -l&#96;&#13;&#10;&#13;&#10;if [ $copyAU -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AudioUnit folder...&quot;&#13;&#10;  AU=~/Library/Audio/Plug-Ins/Components/$PRODUCT_NAME.component&#13;&#10;  if [ -d &quot;$AU&quot; ]; then &#13;&#10;    rm -r &quot;$AU&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$AU&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;&#13;&#10;&#13;&#10;  # Fix info.plist for AUs built with Xcode 3&#13;&#10;  if [ -f &quot;$DEVELOPER_DIR/Library/Developer/CoreAudio/AudioUnits/AUPublic/AUBase/AUPlugInDispatch.cpp&quot; ]; then&#13;&#10;    echo&#13;&#10;  else&#13;&#10;    echo &quot;Removing AudioComponents entry from Info.plist because this is not a new-format AU&quot;&#13;&#10;    /usr/libexec/PlistBuddy -c &quot;Delete AudioComponents&quot; &quot;$AU/Contents/Info.plist&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST folder...&quot;&#13;&#10;  VST=~/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME.vst&#13;&#10;  if [ -d &quot;$VST&quot; ]; then &#13;&#10;    rm -r &quot;$VST&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyVST3 -gt 0 ]; then&#13;&#10;  echo &quot;Copying to VST3 folder...&quot;&#13;&#10;  VST3=~/Library/Audio/Plug-Ins/VST3/$PRODUCT_NAME.vst3&#13;&#10;  if [ -d &quot;$VST3&quot; ]; then &#13;&#10;    rm -r &quot;$VST3&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$VST3&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST3/Contents/PkgInfo&quot;&#13;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST3/Contents/$INFOPLIST_FILE&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyRTAS -gt 0 ]; then&#13;&#10;  echo &quot;Copying to RTAS folder...&quot;&#13;&#10;  RTAS=/Library/Application\ Support/Digidesign/Plug-Ins/$PRODUCT_NAME.dpm&#13;&#10;  if [ -d &quot;$RTAS&quot; ]; then&#13;&#10;    rm -r &quot;$RTAS&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  cp -r &quot;$original&quot; &quot;$RTAS&quot;&#13;&#10;fi&#13;&#10;&#13;&#10;if [ $copyAAX -gt 0 ]; then&#13;&#10;  echo &quot;Copying to AAX folder...&quot;&#13;&#10;&#13;&#10;  if [ -d &quot;/Applications/ProTools_3PDev/Plug-Ins&quot; ]; then&#13;&#10;    AAX1=&quot;/Applications/ProTools_3PDev/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX1&quot; ]; then&#13;&#10;      rm -r &quot;$AAX1&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX1&quot;&#13;&#10;  fi&#13;&#10;&#13;&#10;  if [ -d &quot;/Library/Application Support/Avid/Audio/Plug-Ins&quot; ]; then&#13;&#10;    AAX2=&quot;/Library/Application Support/Avid/Audio/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#13;&#10;&#13;&#10;    if [ -d &quot;$AAX2&quot; ]; then&#13;&#10;      rm -r &quot;$AAX2&quot;&#13;&#10;    fi&#13;&#10;&#13;&#10;    cp -R -H &quot;$original&quot; &quot;$AAX2&quot;&#13;&#10;  fi&#13;&#10;fi&#13;&#10;"
+               vst3Folder="~/SDKs/VST3 SDK" rtasFolder="~/SDKs/PT_80_SDK" aaxFolder="~/SDKs/AAX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="twytch" headerPath="~/srcs/VST3SDK"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="twytch" headerPath="~/srcs/VST3SDK"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_events" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_graphics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_video" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_opengl" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE-OSX/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2012 targetFolder="Builds/VisualStudio2012">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="twytch"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="twytch"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_events" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_graphics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_video" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_opengl" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE-OSX/modules"/>
+      </MODULEPATHS>
+    </VS2012>
+    <LINUX_MAKE targetFolder="Builds/Linux">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="twytch"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+                       targetName="twytch"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_events" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_graphics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_video" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_opengl" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE-OSX/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+</JUCERPROJECT>

@@ -213,7 +213,7 @@
  #define JucePlugin_Build_AAX              0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "Glitch Bitch"
+ #define JucePlugin_Name                   "Twytch"
 #endif
 #ifndef  JucePlugin_Desc
  #define JucePlugin_Desc                   ""
@@ -279,16 +279,16 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         glitch_bitch
+ #define JucePlugin_AUExportPrefix         twytch
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "glitch_bitch"
+ #define JucePlugin_AUExportPrefixQuoted   "twytch"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     co.littleio.glitch_bitch
+ #define JucePlugin_CFBundleIdentifier     co.littleio.twytch
 #endif
 #ifndef  JucePlugin_RTASCategory
  #define JucePlugin_RTASCategory           ePlugInCategory_SWGenerators
@@ -306,7 +306,7 @@
  #define JucePlugin_RTASDisableMultiMono   0
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.yourcompany.glitch_bitch
+ #define JucePlugin_AAXIdentifier          co.littleio.twytch
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode

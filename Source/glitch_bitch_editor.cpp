@@ -3,6 +3,7 @@
 
 GlitchBitchEditor::GlitchBitchEditor(GlitchBitch& gb) : AudioProcessorEditor(&gb), glitch_bitch_(gb) {
   controls_ = glitch_bitch_.getSynth()->getControls();
+  setLookAndFeel(&look_and_feel_);
 
   mopo::control_map::iterator iter = controls_.begin();
   for (; iter != controls_.end(); ++iter) {
@@ -37,7 +38,7 @@ void GlitchBitchEditor::paint(Graphics& g) {
   int y = 20;
   std::map<std::string, Slider*>::iterator iter = sliders_.begin();
   for (; iter != sliders_.end(); ++iter) {
-    g.drawText(iter->first, x, y, 100, 20, Justification::centredLeft);
+    g.drawText(iter->first, x, y, 100, 18, Justification::centredLeft);
     y+= 20;
 
     if (y > 600) {
@@ -52,7 +53,7 @@ void GlitchBitchEditor::resized() {
   int y = 20;
   std::map<std::string, Slider*>::iterator iter = sliders_.begin();
   for (; iter != sliders_.end(); ++iter) {
-    iter->second->setBounds(x, y, 360, 20);
+    iter->second->setBounds(x, y, 360, 18);
     y+= 20;
 
     if (y > 600) {

@@ -175,7 +175,7 @@ namespace mopo {
                                       mopo_float frequency) {
         if (fabs(frequency) < 1)
           return wave(waveform, t);
-        int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1;
+        int harmonics = HIGH_FREQUENCY / fabs(frequency);
         if (harmonics >= MAX_HARMONICS)
           return wave(waveform, t);
 
