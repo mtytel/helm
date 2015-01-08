@@ -223,6 +223,8 @@
     <ClCompile Include="..\..\..\srcs\CoreAudio\PublicUtility\CAVolumeCurve.cpp"/>
     <ClCompile Include="..\..\..\srcs\CoreAudio\PublicUtility\CAXException.cpp"/>
     <ClCompile Include="..\..\..\srcs\CoreAudio\PublicUtility\MatrixMixerVolumes.cpp"/>
+    <ClCompile Include="..\..\Source\twytch_engine.cpp"/>
+    <ClCompile Include="..\..\Source\twytch_strings.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\draggable_component.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\graphical_envelope.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\graphical_step_sequencer.cpp"/>
@@ -249,8 +251,6 @@
     <ClCompile Include="..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp"/>
     <ClCompile Include="..\..\mopo\src\wave.cpp"/>
-    <ClCompile Include="..\..\Source\cursynth_engine.cpp"/>
-    <ClCompile Include="..\..\Source\cursynth_strings.cpp"/>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1482,6 +1482,9 @@
     <ClInclude Include="..\..\..\srcs\CoreAudio\PublicUtility\CAVolumeCurve.h"/>
     <ClInclude Include="..\..\..\srcs\CoreAudio\PublicUtility\CAXException.h"/>
     <ClInclude Include="..\..\..\srcs\CoreAudio\PublicUtility\MatrixMixerVolumes.h"/>
+    <ClInclude Include="..\..\Source\twytch_common.h"/>
+    <ClInclude Include="..\..\Source\twytch_engine.h"/>
+    <ClInclude Include="..\..\Source\twytch_strings.h"/>
     <ClInclude Include="..\..\Source\editor_components\draggable_component.h"/>
     <ClInclude Include="..\..\Source\editor_components\graphical_envelope.h"/>
     <ClInclude Include="..\..\Source\editor_components\graphical_step_sequencer.h"/>
@@ -1512,9 +1515,6 @@
     <ClInclude Include="..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\mopo\src\wave.h"/>
-    <ClInclude Include="..\..\Source\cursynth_common.h"/>
-    <ClInclude Include="..\..\Source\cursynth_engine.h"/>
-    <ClInclude Include="..\..\Source\cursynth_strings.h"/>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>

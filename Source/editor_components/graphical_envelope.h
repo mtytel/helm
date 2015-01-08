@@ -22,7 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
-#include "cursynth_common.h"
+#include "twytch_common.h"
 //[/Headers]
 
 #include "draggable_component.h"

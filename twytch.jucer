@@ -355,6 +355,14 @@
       </GROUP>
     </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="Source">
+      <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="Source/twytch_common.h"/>
+      <FILE id="A2sQkJ" name="twytch_engine.cpp" compile="1" resource="0"
+            file="Source/twytch_engine.cpp"/>
+      <FILE id="bbx5kE" name="twytch_engine.h" compile="0" resource="0" file="Source/twytch_engine.h"/>
+      <FILE id="xJiEDe" name="twytch_strings.cpp" compile="1" resource="0"
+            file="Source/twytch_strings.cpp"/>
+      <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
+            file="Source/twytch_strings.h"/>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
         <FILE id="UuS7xw" name="draggable_component.cpp" compile="1" resource="0"
               file="Source/editor_components/draggable_component.cpp"/>
@@ -439,16 +447,6 @@
           <FILE id="sJSR4u" name="wave.h" compile="0" resource="0" file="mopo/src/wave.h"/>
         </GROUP>
       </GROUP>
-      <FILE id="RMS3Jg" name="cursynth_common.h" compile="0" resource="0"
-            file="Source/cursynth_common.h"/>
-      <FILE id="yT4rTk" name="cursynth_engine.cpp" compile="1" resource="0"
-            file="Source/cursynth_engine.cpp"/>
-      <FILE id="p2MXuu" name="cursynth_engine.h" compile="0" resource="0"
-            file="Source/cursynth_engine.h"/>
-      <FILE id="taAu8n" name="cursynth_strings.cpp" compile="1" resource="0"
-            file="Source/cursynth_strings.cpp"/>
-      <FILE id="zYST12" name="cursynth_strings.h" compile="0" resource="0"
-            file="Source/cursynth_strings.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

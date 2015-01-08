@@ -135,6 +135,8 @@ OBJECTS := \
   $(OBJDIR)/CAVolumeCurve_32dd5257.o \
   $(OBJDIR)/CAXException_4b95941f.o \
   $(OBJDIR)/MatrixMixerVolumes_2141177b.o \
+  $(OBJDIR)/twytch_engine_9a8780bf.o \
+  $(OBJDIR)/twytch_strings_fab1886f.o \
   $(OBJDIR)/draggable_component_3fda2ae5.o \
   $(OBJDIR)/graphical_envelope_81dd68ac.o \
   $(OBJDIR)/graphical_step_sequencer_849bfbba.o \
@@ -161,8 +163,6 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
-  $(OBJDIR)/cursynth_engine_27e324e6.o \
-  $(OBJDIR)/cursynth_strings_18ca6928.o \
   $(OBJDIR)/juce_audio_basics_e9ef128d.o \
   $(OBJDIR)/juce_audio_devices_b01ff80b.o \
   $(OBJDIR)/juce_audio_formats_dea141ab.o \
@@ -617,6 +617,16 @@ $(OBJDIR)/MatrixMixerVolumes_2141177b.o: ../../../srcs/CoreAudio/PublicUtility/M
 	@echo "Compiling MatrixMixerVolumes.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/twytch_engine_9a8780bf.o: ../../Source/twytch_engine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_engine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_strings.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/draggable_component_3fda2ae5.o: ../../Source/editor_components/draggable_component.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling draggable_component.cpp"
@@ -745,16 +755,6 @@ $(OBJDIR)/voice_handler_b8888f39.o: ../../mopo/src/voice_handler.cpp
 $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/cursynth_engine_27e324e6.o: ../../Source/cursynth_engine.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling cursynth_engine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/cursynth_strings_18ca6928.o: ../../Source/cursynth_strings.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling cursynth_strings.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_e9ef128d.o: ../../../srcs/JUCE/modules/juce_audio_basics/juce_audio_basics.cpp

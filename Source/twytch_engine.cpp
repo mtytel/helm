@@ -1,20 +1,20 @@
 /* Copyright 2013-2014 Little IO
  *
- * cursynth is free software: you can redistribute it and/or modify
+ * twytch is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * cursynth is distributed in the hope that it will be useful,
+ * twytch is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with cursynth.  If not, see <http://www.gnu.org/licenses/>.
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cursynth_engine.h"
+#include "twytch_engine.h"
 
 #include "delay.h"
 #include "envelope.h"
@@ -24,7 +24,7 @@
 #include "processor_router.h"
 #include "linear_slope.h"
 #include "smooth_value.h"
-#include "cursynth_strings.h"
+#include "twytch_strings.h"
 #include "trigger_operators.h"
 #include "value.h"
 
@@ -34,7 +34,7 @@
 
 namespace mopo {
 
-  CursynthOscillators::CursynthOscillators() : TickRouter(0, 0) {
+  TwytchOscillators::TwytchOscillators() : TickRouter(0, 0) {
     oscillator1_ = new Oscillator();
     oscillator2_ = new Oscillator();
     frequency1_ = new Multiply();
@@ -78,7 +78,7 @@ namespace mopo {
     registerOutput(oscillator2_->output());
   }
 
-  void CursynthOscillators::process() {
+  void TwytchOscillators::process() {
     int num_feedbacks = feedback_order_->size();
     for (int i = 0; i < num_feedbacks; ++i)
       feedback_processors_[feedback_order_->at(i)]->tickBeginRefreshOutput();
@@ -98,7 +98,7 @@ namespace mopo {
     }
   }
 
-  void CursynthVoiceHandler::createOscillators(Output* midi, Output* reset) {
+  void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
     Value* pitch_bend_range = new Value(2);
     Multiply* pitch_bend = new Multiply();
@@ -126,7 +126,7 @@ namespace mopo {
     controls_["pitch bend range"] = new Control(pitch_bend_range, 0, 48, 48);
 
     // Oscillator 1.
-    oscillators_ = new CursynthOscillators();
+    oscillators_ = new TwytchOscillators();
     Value* oscillator1_waveform = new Value(Wave::kDownSaw);
     MidiScale* oscillator1_frequency = new MidiScale();
     oscillator1_frequency->plug(final_midi);
@@ -152,8 +152,8 @@ namespace mopo {
     controls_["cross modulation"] = new Control(cross_mod, 0, 1, MIDI_SIZE);
 
     std::vector<std::string> wave_strings = std::vector<std::string>(
-        CursynthStrings::wave_strings_,
-        CursynthStrings::wave_strings_ + Wave::kNumWaveforms);
+        TwytchStrings::wave_strings_,
+        TwytchStrings::wave_strings_ + Wave::kNumWaveforms);
     int wave_resolution = Wave::kNumWaveforms - 1;
     controls_["osc 1 waveform"] = new Control(oscillator1_waveform,
                                               wave_strings,
@@ -248,7 +248,7 @@ namespace mopo {
     mod_destinations_["osc mix"] = mix_mod_sources;
   }
 
-  void CursynthVoiceHandler::createFilter(
+  void TwytchVoiceHandler::createFilter(
       Output* audio, Output* keytrack, Output* reset) {
     // Filter envelope.
     Value* filter_attack = new Value(0.0);
@@ -341,8 +341,8 @@ namespace mopo {
     addProcessor(filter_);
 
     std::vector<std::string> filter_strings = std::vector<std::string>(
-        CursynthStrings::filter_strings_,
-        CursynthStrings::filter_strings_ + Filter::kHP12 + 1);
+        TwytchStrings::filter_strings_,
+        TwytchStrings::filter_strings_ + Filter::kHP12 + 1);
     controls_["filter type"] = new Control(filter_type, filter_strings,
                                            Filter::kHP12);
     controls_["cutoff"] =
@@ -355,7 +355,7 @@ namespace mopo {
     mod_destinations_["resonance"] = resonance_mod_sources;
   }
 
-  void CursynthVoiceHandler::createModMatrix() {
+  void TwytchVoiceHandler::createModMatrix() {
     std::vector<std::string> source_names;
     source_names.push_back("");
     output_map::iterator s_iter = mod_sources_.begin();
@@ -404,7 +404,7 @@ namespace mopo {
     }
   }
 
-  void CursynthVoiceHandler::createArticulation(
+  void TwytchVoiceHandler::createArticulation(
       Output* note, Output* velocity, Output* trigger) {
     // Legato.
     Value* legato = new Value(0);
@@ -413,8 +413,8 @@ namespace mopo {
     legato_filter->plug(trigger, LegatoFilter::kTrigger);
 
     std::vector<std::string> legato_strings = std::vector<std::string>(
-        CursynthStrings::legato_strings_,
-        CursynthStrings::legato_strings_ + 2);
+        TwytchStrings::legato_strings_,
+        TwytchStrings::legato_strings_ + 2);
     controls_["legato"] = new Control(legato, legato_strings, 1);
     addProcessor(legato_filter);
 
@@ -516,8 +516,8 @@ namespace mopo {
     addProcessor(current_frequency_);
     controls_["portamento"] = new Control(portamento, 0.0, 0.2, MIDI_SIZE);
     std::vector<std::string> portamento_strings = std::vector<std::string>(
-        CursynthStrings::portamento_strings_,
-        CursynthStrings::portamento_strings_ +
+        TwytchStrings::portamento_strings_,
+        TwytchStrings::portamento_strings_ +
         PortamentoFilter::kNumPortamentoStates);
     int port_type_resolution = PortamentoFilter::kNumPortamentoStates - 1;
     controls_["portamento type"] =
@@ -528,7 +528,7 @@ namespace mopo {
     mod_sources_["velocity"] = current_velocity->output();
   }
 
-  CursynthVoiceHandler::CursynthVoiceHandler() {
+  TwytchVoiceHandler::TwytchVoiceHandler() {
     // Create modulation and pitch wheels.
     mod_wheel_amount_ = new SmoothValue(0);
     pitch_wheel_amount_ = new SmoothValue(0);
@@ -556,10 +556,10 @@ namespace mopo {
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
   }
 
-  CursynthEngine::CursynthEngine() {
+  TwytchEngine::TwytchEngine() {
     // Voice Handler.
     Value* polyphony = new Value(1);
-    voice_handler_ = new CursynthVoiceHandler();
+    voice_handler_ = new TwytchVoiceHandler();
     voice_handler_->setPolyphony(64);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
 
@@ -603,36 +603,36 @@ namespace mopo {
     controls_["volume"] = new Control(volume, 0, 1, MIDI_SIZE);
   }
 
-  control_map CursynthEngine::getControls() {
+  control_map TwytchEngine::getControls() {
     control_map voice_controls = voice_handler_->getControls();
     voice_controls.insert(controls_.begin(), controls_.end());
     return voice_controls;
   }
 
-  void CursynthEngine::noteOn(mopo_float note, mopo_float velocity) {
+  void TwytchEngine::noteOn(mopo_float note, mopo_float velocity) {
     voice_handler_->noteOn(note, velocity);
   }
 
-  void CursynthEngine::noteOff(mopo_float note) {
+  void TwytchEngine::noteOff(mopo_float note) {
     voice_handler_->noteOff(note);
   }
 
-  void CursynthVoiceHandler::setModWheel(mopo_float value) {
+  void TwytchVoiceHandler::setModWheel(mopo_float value) {
     mod_wheel_amount_->set(value);
   }
 
-  void CursynthVoiceHandler::setPitchWheel(mopo_float value) {
+  void TwytchVoiceHandler::setPitchWheel(mopo_float value) {
     pitch_wheel_amount_->set(value);
   }
 
-  void CursynthVoiceHandler::setModulationSource(int matrix_index,
+  void TwytchVoiceHandler::setModulationSource(int matrix_index,
                                                  std::string source) {
     mod_matrix_[matrix_index]->unplugIndex(0);
     if (source.length())
       mod_matrix_[matrix_index]->plug(mod_sources_[source], 0);
   }
 
-  void CursynthVoiceHandler::setModulationDestination(
+  void TwytchVoiceHandler::setModulationDestination(
       int matrix_index, std::string destination) {
     std::string current = current_mod_destinations_[matrix_index];
 

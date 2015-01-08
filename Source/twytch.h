@@ -2,7 +2,7 @@
 #define TWYTCH_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "cursynth_engine.h"
+#include "twytch_engine.h"
 
 class Twytch : public AudioProcessor {
 public:
@@ -45,12 +45,12 @@ public:
   void getStateInformation(MemoryBlock& destData) override;
   void setStateInformation(const void* data, int size_in_bytes) override;
 
-  mopo::CursynthEngine* getSynth() { return &synth_; }
+  mopo::TwytchEngine* getSynth() { return &synth_; }
 
   double volume, phase;
 
 private:
-  mopo::CursynthEngine synth_;
+  mopo::TwytchEngine synth_;
   
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Twytch)
 };

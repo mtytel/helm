@@ -625,6 +625,12 @@
     <ClCompile Include="..\..\..\srcs\CoreAudio\PublicUtility\MatrixMixerVolumes.cpp">
       <Filter>Twytch\CoreAudio\PublicUtility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\twytch_engine.cpp">
+      <Filter>Twytch\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\twytch_strings.cpp">
+      <Filter>Twytch\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\draggable_component.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
@@ -702,12 +708,6 @@
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\wave.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\cursynth_engine.cpp">
-      <Filter>Twytch\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\cursynth_strings.cpp">
-      <Filter>Twytch\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -2286,6 +2286,15 @@
     <ClInclude Include="..\..\..\srcs\CoreAudio\PublicUtility\MatrixMixerVolumes.h">
       <Filter>Twytch\CoreAudio\PublicUtility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\twytch_common.h">
+      <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\twytch_engine.h">
+      <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\twytch_strings.h">
+      <Filter>Twytch\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\draggable_component.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
@@ -2375,15 +2384,6 @@
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
       <Filter>Twytch\Source\mopo\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\cursynth_common.h">
-      <Filter>Twytch\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\cursynth_engine.h">
-      <Filter>Twytch\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\cursynth_strings.h">
-      <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>

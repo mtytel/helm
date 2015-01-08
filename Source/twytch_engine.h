@@ -1,27 +1,27 @@
 /* Copyright 2013-2014 Little IO
  *
- * cursynth is free software: you can redistribute it and/or modify
+ * twytch is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * cursynth is distributed in the hope that it will be useful,
+ * twytch is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with cursynth.  If not, see <http://www.gnu.org/licenses/>.
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
-#ifndef CURSYNTH_SYNTH_H
-#define CURSYNTH_SYNTH_H
+#ifndef TWYTCH_SYNTH_H
+#define TWYTCH_SYNTH_H
 
 #include "feedback.h"
 #include "operators.h"
 #include "oscillator.h"
-#include "cursynth_common.h"
+#include "twytch_common.h"
 #include "tick_router.h"
 #include "voice_handler.h"
 
@@ -41,10 +41,10 @@ namespace mopo {
 
   // The oscillators of the synthesizer. This section of the synth is processed
   // sample by sample to allow for cross modulation.
-  class CursynthOscillators : public TickRouter {
+  class TwytchOscillators : public TickRouter {
     public:
-      CursynthOscillators();
-      CursynthOscillators(const CursynthOscillators& original) :
+      TwytchOscillators();
+      TwytchOscillators(const TwytchOscillators& original) :
           TickRouter(original) {
         oscillator1_ = new Oscillator(*original.oscillator1_);
         oscillator2_ = new Oscillator(*original.oscillator2_);
@@ -57,7 +57,7 @@ namespace mopo {
       }
 
       virtual void process();
-      virtual Processor* clone() const { return new CursynthOscillators(*this); }
+      virtual Processor* clone() const { return new TwytchOscillators(*this); }
 
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
@@ -86,9 +86,9 @@ namespace mopo {
   // The voice handler duplicates processors to produce polyphony.
   // Everything in the synthesizer we want per-voice instances of must be
   // contained in here.
-  class CursynthVoiceHandler : public VoiceHandler {
+  class TwytchVoiceHandler : public VoiceHandler {
     public:
-      CursynthVoiceHandler();
+      TwytchVoiceHandler();
 
       control_map getControls() { return controls_; }
 
@@ -119,7 +119,7 @@ namespace mopo {
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
 
-      CursynthOscillators* oscillators_;
+      TwytchOscillators* oscillators_;
       Oscillator* lfo1_;
       Oscillator* lfo2_;
       Interpolate* oscillator_mix_;
@@ -143,7 +143,7 @@ namespace mopo {
   // A modulation matrix source entry.
   class MatrixSourceValue : public Value {
     public:
-      MatrixSourceValue(CursynthVoiceHandler* handler) :
+      MatrixSourceValue(TwytchVoiceHandler* handler) :
           Value(0), handler_(handler), mod_index_(0) { }
 
       virtual Processor* clone() const { return new MatrixSourceValue(*this); }
@@ -162,7 +162,7 @@ namespace mopo {
       }
 
     private:
-      CursynthVoiceHandler* handler_;
+      TwytchVoiceHandler* handler_;
       std::vector<std::string> sources_;
       int mod_index_;
   };
@@ -170,7 +170,7 @@ namespace mopo {
   // A modulation matrix destination entry.
   class MatrixDestinationValue : public Value {
     public:
-      MatrixDestinationValue(CursynthVoiceHandler* handler) :
+      MatrixDestinationValue(TwytchVoiceHandler* handler) :
           Value(0), handler_(handler), mod_index_(0) { }
 
       virtual Processor* clone() const {
@@ -191,15 +191,15 @@ namespace mopo {
       }
 
     private:
-      CursynthVoiceHandler* handler_;
+      TwytchVoiceHandler* handler_;
       std::vector<std::string> destinations_;
       int mod_index_;
   };
 
-  // The overall cursynth engine. All audio processing is contained in here.
-  class CursynthEngine : public ProcessorRouter {
+  // The overall twytch engine. All audio processing is contained in here.
+  class TwytchEngine : public ProcessorRouter {
     public:
-      CursynthEngine();
+      TwytchEngine();
 
       control_map getControls();
 
@@ -219,10 +219,10 @@ namespace mopo {
       void sustainOff() { voice_handler_->sustainOff(); }
 
     private:
-      CursynthVoiceHandler* voice_handler_;
+      TwytchVoiceHandler* voice_handler_;
 
       control_map controls_;
   };
 } // namespace mopo
 
-#endif // CURSYNTH_SYNTH_H
+#endif // TWYTCH_SYNTH_H

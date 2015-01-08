@@ -1,23 +1,24 @@
 /* Copyright 2013-2014 Little IO
  *
- * cursynth is free software: you can redistribute it and/or modify
+ * twytch is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * cursynth is distributed in the hope that it will be useful,
+ * twytch is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with cursynth.  If not, see <http://www.gnu.org/licenses/>.
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #pragma once
-#ifndef CURSYNTH_COMMON_H
-#define CURSYNTH_COMMON_H
+#ifndef TWYTCH_COMMON_H
+#define TWYTCH_COMMON_H
 
+#include "mopo.h"
 #include "value.h"
 
 #include <map>
@@ -107,4 +108,4 @@ namespace mopo {
 
 } // namespace mopo
 
-#endif // CURSYNTH_COMMON_H
+#endif // TWYTCH_COMMON_H
