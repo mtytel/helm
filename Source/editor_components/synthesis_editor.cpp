@@ -39,6 +39,9 @@ SynthesisEditor::SynthesisEditor ()
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
 
     //[UserPreSize]
+    addAndMakeVisible(knob_ = new Slider("knob"));
+    knob_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    knob_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     amplitude_envelope_->setTimeSkewFactor(TIME_SKEW_FACTOR);
     filter_envelope_->setTimeSkewFactor(TIME_SKEW_FACTOR);
     //[/UserPreSize]
@@ -85,6 +88,7 @@ void SynthesisEditor::resized()
     amplitude_envelope_->setBounds (56, 88, 300, 100);
     filter_envelope_->setBounds (56, 224, 300, 100);
     //[UserResized] Add your own custom resize handling here..
+    knob_->setBounds(400, 100, 50, 50);
     //[/UserResized]
 }
 

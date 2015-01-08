@@ -271,10 +271,10 @@ namespace mopo {
     addProcessor(filter_envelope_);
     addProcessor(scaled_envelope);
 
-    controls_["fil attack"] = new Control(filter_attack, 0, 3, MIDI_SIZE);
-    controls_["fil decay"] = new Control(filter_decay, 0, 3, MIDI_SIZE);
+    controls_["fil attack"] = new Control(filter_attack, 0, 10, MIDI_SIZE);
+    controls_["fil decay"] = new Control(filter_decay, 0, 10, MIDI_SIZE);
     controls_["fil sustain"] = new Control(filter_sustain, 0, 1, MIDI_SIZE);
-    controls_["fil release"] = new Control(filter_release, 0, 3, MIDI_SIZE);
+    controls_["fil release"] = new Control(filter_release, 0, 10, MIDI_SIZE);
     controls_["fil env depth"] =
         new Control(filter_envelope_depth, -MIDI_SIZE, MIDI_SIZE, MIDI_SIZE);
 
@@ -435,10 +435,10 @@ namespace mopo {
     addProcessor(amplitude_envelope_);
     addGlobalProcessor(amplitude_sustain);
 
-    controls_["amp attack"] = new Control(amplitude_attack, 0, 3, MIDI_SIZE);
-    controls_["amp decay"] = new Control(amplitude_decay, 0, 3, MIDI_SIZE);
+    controls_["amp attack"] = new Control(amplitude_attack, 0, 10, MIDI_SIZE);
+    controls_["amp decay"] = new Control(amplitude_decay, 0, 10, MIDI_SIZE);
     controls_["amp sustain"] = new Control(amplitude_sustain, 0, 1, MIDI_SIZE);
-    controls_["amp release"] = new Control(amplitude_release, 0, 3, MIDI_SIZE);
+    controls_["amp release"] = new Control(amplitude_release, 0, 10, MIDI_SIZE);
 
     // Voice and frequency resetting logic.
     TriggerCombiner* frequency_trigger = new TriggerCombiner();

@@ -1761,8 +1761,10 @@
 				F5CC629A2DDB1585BCD47115 /* synthesis_editor.cpp */,
 				A78E1040C803DE66884E44EF /* synthesis_editor.h */,
 			);
+			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		2910F7AEBAD05059BC063908 /* code_editor */ = {
 			isa = PBXGroup;
