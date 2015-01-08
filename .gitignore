@@ -3,6 +3,7 @@
 *.swp
 *.Trashes
 xcuserdata
+xcshareddata
 build
 *.pbxuser
 *.perspective
