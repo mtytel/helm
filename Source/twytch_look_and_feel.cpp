@@ -35,7 +35,7 @@ void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wid
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_t, float start_angle, float end_angle,
                                          Slider& slider) {
-  static const float stroke_width = 5.0f;
+  static const float stroke_width = 8.0f;
   static const PathStrokeType stroke_type =
       PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
 
@@ -53,7 +53,7 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   rail.addCentredArc(center_x, center_y, slider_radius, slider_radius,
                      0.0f, start_angle, end_angle, true);
 
-  g.setColour(Colours::darkslategrey);
+  g.setColour(Colours::black);
   g.strokePath(rail, stroke_type);
 
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
@@ -61,6 +61,6 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   active_section.addCentredArc(center_x, center_y, slider_radius, slider_radius,
                                0.0f, start_angle, current_angle, true);
 
-  g.setColour(Colours::lightgoldenrodyellow);
+  g.setColour(Colour(0xffcccccc));
   g.strokePath(active_section, stroke_type);
 }

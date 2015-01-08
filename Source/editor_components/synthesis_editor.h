@@ -26,6 +26,7 @@
 
 #include "graphical_step_sequencer.h"
 #include "graphical_envelope.h"
+#include "wave_form_selector.h"
 
 
 //==============================================================================
@@ -56,6 +57,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     ScopedPointer<Slider> knob_;
+    ScopedPointer<WaveFormSelector> wave_form_1_;
     //[/UserVariables]
 
     //==============================================================================

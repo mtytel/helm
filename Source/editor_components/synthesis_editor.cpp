@@ -42,6 +42,9 @@ SynthesisEditor::SynthesisEditor ()
     addAndMakeVisible(knob_ = new Slider("knob"));
     knob_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
     knob_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+
+    addAndMakeVisible(wave_form_1_ = new WaveFormSelector(128));
+
     amplitude_envelope_->setTimeSkewFactor(TIME_SKEW_FACTOR);
     filter_envelope_->setTimeSkewFactor(TIME_SKEW_FACTOR);
     //[/UserPreSize]
@@ -89,6 +92,7 @@ void SynthesisEditor::resized()
     filter_envelope_->setBounds (56, 224, 300, 100);
     //[UserResized] Add your own custom resize handling here..
     knob_->setBounds(400, 100, 50, 50);
+    wave_form_1_->setBounds(400, 300, 300, 100);
     //[/UserResized]
 }
 
@@ -109,6 +113,7 @@ void SynthesisEditor::addControls(mopo::control_map controls) {
 
     amplitude_envelope_->setPositionsFromValues();
     filter_envelope_->setPositionsFromValues();
+    wave_form_1_->setWaveControl(controls["osc 1 waveform"]);
 }
 
 //[/MiscUserCode]

@@ -364,6 +364,10 @@
       <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
             file="Source/twytch_strings.h"/>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
+        <FILE id="hTmsfB" name="wave_form_selector.cpp" compile="1" resource="0"
+              file="Source/editor_components/wave_form_selector.cpp"/>
+        <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
+              file="Source/editor_components/wave_form_selector.h"/>
         <FILE id="UuS7xw" name="draggable_component.cpp" compile="1" resource="0"
               file="Source/editor_components/draggable_component.cpp"/>
         <FILE id="GO0BK9" name="draggable_component.h" compile="0" resource="0"

@@ -631,6 +631,9 @@
     <ClCompile Include="..\..\Source\twytch_strings.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\editor_components\wave_form_selector.cpp">
+      <Filter>Twytch\Source\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\draggable_component.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
@@ -2294,6 +2297,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\twytch_strings.h">
       <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\editor_components\wave_form_selector.h">
+      <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\draggable_component.h">
       <Filter>Twytch\Source\editor_components</Filter>

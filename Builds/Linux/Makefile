@@ -137,6 +137,7 @@ OBJECTS := \
   $(OBJDIR)/MatrixMixerVolumes_2141177b.o \
   $(OBJDIR)/twytch_engine_9a8780bf.o \
   $(OBJDIR)/twytch_strings_fab1886f.o \
+  $(OBJDIR)/wave_form_selector_d4921d64.o \
   $(OBJDIR)/draggable_component_3fda2ae5.o \
   $(OBJDIR)/graphical_envelope_81dd68ac.o \
   $(OBJDIR)/graphical_step_sequencer_849bfbba.o \
@@ -625,6 +626,11 @@ $(OBJDIR)/twytch_engine_9a8780bf.o: ../../Source/twytch_engine.cpp
 $(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_strings.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/wave_form_selector_d4921d64.o: ../../Source/editor_components/wave_form_selector.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling wave_form_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/draggable_component_3fda2ae5.o: ../../Source/editor_components/draggable_component.cpp

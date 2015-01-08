@@ -74,14 +74,17 @@ void GraphicalStepSequencer::paint (Graphics& g)
             g.setColour(Colour(0xff606060));
 
         float val = sequence_[i];
+        float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
         if (val >= 0) {
-            float y_start = proportionOfHeight((1.0f - val) / 2.0f);
-            g.fillRoundedRectangle(x, y_start, x_inc, proportionOfHeight(0.5f) - y_start, 2.0f);
+            g.fillRect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
         }
         else {
-            float height = proportionOfHeight(-val / 2.0f);
-            g.fillRoundedRectangle(x, proportionOfHeight(0.5f), x_inc, height, 2.0f);
+            float half_height = proportionOfHeight(0.5f);
+            g.fillRect(x, half_height, x_inc, bar_position - half_height);
         }
+
+        g.setColour(Colour(0xffcccccc));
+        g.fillRect(x, bar_position - 1.0f, x_inc, 2.0f);
 
         x += x_inc;
     }

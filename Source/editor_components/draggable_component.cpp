@@ -58,10 +58,7 @@ void DraggableComponent::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.setColour (Colour (0xa98b93ff));
-    g.fillRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - (proportionOfWidth (0.2500f) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - (proportionOfHeight (0.2500f) / 2)), static_cast<float> (proportionOfWidth (0.2500f)), static_cast<float> (proportionOfHeight (0.2500f)), 2.000f);
-
-    g.setColour (Colour (0xff2a55a5));
+    g.setColour (Colour (0xffc8c8c8));
     g.drawRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - (proportionOfWidth (0.2500f) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - (proportionOfHeight (0.2500f) / 2)), static_cast<float> (proportionOfWidth (0.2500f)), static_cast<float> (proportionOfHeight (0.2500f)), 2.000f, 4.000f);
 
     //[UserPaint] Add your own custom painting code here..
@@ -157,8 +154,8 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseEnter (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="464646">
-    <ROUNDRECT pos="50%c 50%c 25% 25%" cornerSize="2" fill="solid: a98b93ff"
-               hasStroke="1" stroke="4, mitered, butt" strokeColour="solid: ff2a55a5"/>
+    <ROUNDRECT pos="50%c 50%c 25% 25%" cornerSize="2" fill="solid: 8b93ff" hasStroke="1"
+               stroke="4, mitered, butt" strokeColour="solid: ffc8c8c8"/>
   </BACKGROUND>
 </JUCER_COMPONENT>
 

@@ -96,17 +96,16 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.fillAll (Colour (0xff303030));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setGradientFill (ColourGradient (Colour (0xff3875ea),
-                                       static_cast<float> (proportionOfWidth (0.5000f)), static_cast<float> (proportionOfHeight (0.0000f)),
-                                       Colour (0xff1c2b35),
-                                       static_cast<float> (proportionOfWidth (0.5000f)), static_cast<float> (proportionOfHeight (1.0000f)),
-                                       false));
+    g.setGradientFill(ColourGradient(Colour (0xff888888),
+                                     static_cast<float> (proportionOfWidth (0.5000f)), static_cast<float> (proportionOfHeight (0.0000f)),
+                                     Colour (0x00000000),
+                                     static_cast<float> (proportionOfWidth (0.5000f)), static_cast<float> (proportionOfHeight (1.0000f)),
+                                     false));
     g.fillPath(envelope_line_);
-    g.setColour(Colour(0xff568596));
-    g.setColour (Colour (0xff66bdff));
-    g.strokePath(envelope_line_, PathStrokeType(5.000f, PathStrokeType::beveled, PathStrokeType::rounded));
+    g.setColour(Colour(0xffcccccc));
+    g.strokePath(envelope_line_, PathStrokeType(2.000f, PathStrokeType::beveled, PathStrokeType::rounded));
 
-    g.setColour(Colour(0x22ffffff));
+    g.setColour(Colour(0x08ffffff));
     if (hovered_over_ == attack_ || attack_->isHovered())
         g.fillRect(0, 0, attack_->getBounds().getCentre().x, getHeight());
     else if(hovered_over_ == decay_ || decay_->isHovered()) {
@@ -122,8 +121,8 @@ void GraphicalEnvelope::paint (Graphics& g)
                    release_->getX() - sustain_->getX(), getHeight());
     }
 
-    g.setColour (Colour (0xff2a55a5));
-    g.drawRoundedRectangle (static_cast<float> (-4), static_cast<float> (getHeight() - 4), 8.0f, 8.0f, 2.000f, 4.000f);
+    g.setColour(Colour(0xffc8c8c8));
+    g.drawRoundedRectangle(-2.0f, getHeight() - 2.0f, 4.0f, 4.0f, 2.0f, 4.0f);
     //[/UserPaint]
 }
 
@@ -143,10 +142,10 @@ void GraphicalEnvelope::resized()
                                       proportionOfWidth(RELEASE_RANGE_PERCENT), 0);
     //[/UserPreResize]
 
-    attack_->setBounds (proportionOfWidth (0.1004f), 0, 32, 32);
-    decay_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.2996f), 32, 32);
-    sustain_->setBounds (proportionOfWidth (0.5000f), proportionOfHeight (0.2996f), 32, 32);
-    release_->setBounds (proportionOfWidth (0.8996f), 304, 32, 32);
+    attack_->setBounds (proportionOfWidth (0.1004f), 0, 16, 16);
+    decay_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.2996f), 16, 16);
+    sustain_->setBounds (proportionOfWidth (0.5000f), proportionOfHeight (0.2996f), 16, 16);
+    release_->setBounds (proportionOfWidth (0.8996f), 304, 16, 16);
     //[UserResized] Add your own custom resize handling here..
     setPositionsFromValues();
     resetEnvelopeLine();
@@ -296,16 +295,16 @@ BEGIN_JUCER_METADATA
   </METHODS>
   <BACKGROUND backgroundColour="ff303030"/>
   <JUCERCOMP name="" id="24607738ba2dcb76" memberName="attack_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="10.044% 0 32 32" sourceFile="draggable_component.cpp"
+             explicitFocusOrder="1" pos="10.044% 0 16 16" sourceFile="draggable_component.cpp"
              constructorParams=""/>
   <JUCERCOMP name="" id="a55a7d6beda6b886" memberName="decay_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="19.978% 29.963% 32 32" sourceFile="draggable_component.cpp"
+             explicitFocusOrder="1" pos="19.978% 29.963% 16 16" sourceFile="draggable_component.cpp"
              constructorParams=""/>
   <JUCERCOMP name="" id="33c87b37efec2a9f" memberName="sustain_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="50% 29.963% 32 32" sourceFile="draggable_component.cpp"
+             explicitFocusOrder="1" pos="50% 29.963% 16 16" sourceFile="draggable_component.cpp"
              constructorParams=""/>
   <JUCERCOMP name="" id="81a378f6086fec18" memberName="release_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="89.956% 304 32 32" sourceFile="draggable_component.cpp"
+             explicitFocusOrder="1" pos="89.956% 304 16 16" sourceFile="draggable_component.cpp"
              constructorParams=""/>
 </JUCER_COMPONENT>
 
