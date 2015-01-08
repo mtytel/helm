@@ -17,14 +17,13 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_37075276847E8E25__
-#define __JUCE_HEADER_37075276847E8E25__
+#ifndef __JUCE_HEADER_FD9A527AD144B567__
+#define __JUCE_HEADER_FD9A527AD144B567__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 //[/Headers]
 
-#include "draggable_component.h"
 
 
 //==============================================================================
@@ -35,36 +34,48 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class GraphicalEnvelope  : public Component,
-                           public DragAndDropContainer
+class DraggableComponent  : public Component
 {
 public:
     //==============================================================================
-    GraphicalEnvelope ();
-    ~GraphicalEnvelope();
+    DraggableComponent ();
+    ~DraggableComponent();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void setMovementRestrictions(Rectangle<int> restrictions) { restrictions_ = restrictions; }
+    void setMovementRestrictions(int x, int y, int w, int h) {
+        setMovementRestrictions(Rectangle<int>(x, y, w, h));
+    }
+    Rectangle<int> getMovementRestrictions() { return restrictions_; }
+    bool isHovered() { return is_hovered_; }
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
+    void moved();
+    void mouseEnter (const MouseEvent& e);
+    void mouseExit (const MouseEvent& e);
+    void mouseDown (const MouseEvent& e);
+    void mouseDrag (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    ComponentDragger dragger_;
+    Rectangle<int> restrictions_;
+    bool is_hovered_;
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<DraggableComponent> component;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GraphicalEnvelope)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DraggableComponent)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_37075276847E8E25__
+#endif   // __JUCE_HEADER_FD9A527AD144B567__

@@ -17,13 +17,15 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_FD9A527AD144B567__
-#define __JUCE_HEADER_FD9A527AD144B567__
+#ifndef __JUCE_HEADER_5885895E7B5509B9__
+#define __JUCE_HEADER_5885895E7B5509B9__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 //[/Headers]
 
+#include "graphical_step_sequencer.h"
+#include "graphical_envelope.h"
 
 
 //==============================================================================
@@ -34,38 +36,38 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class DraggableComponent  : public Component
+class SynthesisEditor  : public Component
 {
 public:
     //==============================================================================
-    DraggableComponent ();
-    ~DraggableComponent();
+    SynthesisEditor ();
+    ~SynthesisEditor();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void addControls(mopo::control_map controls);
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
-    void moved();
-    void mouseDown (const MouseEvent& e);
-    void mouseDrag (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    ComponentDragger dragger_;
     //[/UserVariables]
 
     //==============================================================================
+    ScopedPointer<GraphicalStepSequencer> step_sequencer_;
+    ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
+    ScopedPointer<GraphicalEnvelope> filter_envelope_;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DraggableComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisEditor)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_FD9A527AD144B567__
+#endif   // __JUCE_HEADER_5885895E7B5509B9__

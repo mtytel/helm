@@ -31,6 +31,7 @@ DraggableComponent::DraggableComponent ()
 {
 
     //[UserPreSize]
+    is_hovered_ = false;
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -58,10 +59,10 @@ void DraggableComponent::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.setColour (Colour (0xa98b93ff));
-    g.fillRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - ((getWidth() - 4) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - ((getHeight() - 4) / 2)), static_cast<float> (getWidth() - 4), static_cast<float> (getHeight() - 4), 2.000f);
+    g.fillRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - (proportionOfWidth (0.2500f) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - (proportionOfHeight (0.2500f) / 2)), static_cast<float> (proportionOfWidth (0.2500f)), static_cast<float> (proportionOfHeight (0.2500f)), 2.000f);
 
     g.setColour (Colour (0xff2a55a5));
-    g.drawRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - ((getWidth() - 4) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - ((getHeight() - 4) / 2)), static_cast<float> (getWidth() - 4), static_cast<float> (getHeight() - 4), 2.000f, 4.000f);
+    g.drawRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - (proportionOfWidth (0.2500f) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - (proportionOfHeight (0.2500f) / 2)), static_cast<float> (proportionOfWidth (0.2500f)), static_cast<float> (proportionOfHeight (0.2500f)), 2.000f, 4.000f);
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -79,11 +80,39 @@ void DraggableComponent::resized()
 void DraggableComponent::moved()
 {
     //[UserCode_moved] -- Add your code here...
-    Rectangle<int> parent_bounds = getParentComponent()->getLocalBounds();
-    Rectangle<int> constrained_bounds = getBoundsInParent().constrainedWithin(parent_bounds);
-    if (constrained_bounds != getBoundsInParent())
-        setBounds(constrained_bounds);
+    Point<int> center = getBoundsInParent().getCentre();
+    Point<int> constrained_center = center;
+    constrained_center.x = std::min(restrictions_.getX() + restrictions_.getWidth(), center.x);
+    constrained_center.x = std::max(restrictions_.getX(), constrained_center.x);
+    constrained_center.y = std::min(restrictions_.getY() + restrictions_.getHeight(), center.y);
+    constrained_center.y = std::max(restrictions_.getY(), constrained_center.y);
+
+    if (constrained_center != center)
+      setCentrePosition(constrained_center.x, constrained_center.y);
+
     //[/UserCode_moved]
+}
+
+void DraggableComponent::mouseEnter (const MouseEvent& e)
+{
+    //[UserCode_mouseEnter] -- Add your code here...
+    is_hovered_ = true;
+    // We will repaint the parent just in case the hovering changes something in the parent.
+    Component* parent = getParentComponent();
+    if (parent)
+        parent->repaint();
+    //[/UserCode_mouseEnter]
+}
+
+void DraggableComponent::mouseExit (const MouseEvent& e)
+{
+    //[UserCode_mouseExit] -- Add your code here...
+    is_hovered_ = false;
+    // We will repaint the parent just in case the hovering changes something in the parent.
+    Component* parent = getParentComponent();
+    if (parent)
+        parent->repaint();
+    //[/UserCode_mouseExit]
 }
 
 void DraggableComponent::mouseDown (const MouseEvent& e)
@@ -124,10 +153,12 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
     <METHOD name="moved()"/>
+    <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseEnter (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="464646">
-    <ROUNDRECT pos="50%c 50%c 4M 4M" cornerSize="2" fill="solid: a98b93ff" hasStroke="1"
-               stroke="4, mitered, butt" strokeColour="solid: ff2a55a5"/>
+    <ROUNDRECT pos="50%c 50%c 25% 25%" cornerSize="2" fill="solid: a98b93ff"
+               hasStroke="1" stroke="4, mitered, butt" strokeColour="solid: ff2a55a5"/>
   </BACKGROUND>
 </JUCER_COMPONENT>
 

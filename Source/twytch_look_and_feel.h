@@ -6,6 +6,13 @@
 class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
   public:
 
+    enum ColorId {
+      kBackground,
+      kStepSeqBackground,
+      kStepSeqSlider,
+      kStepSeqHover,
+    };
+
     void drawLinearSlider(Graphics& g,
                           int x, int y,
                           int width, int height,

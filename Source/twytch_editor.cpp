@@ -19,8 +19,9 @@ TwytchEditor::TwytchEditor(Twytch& gb) : AudioProcessorEditor(&gb), glitch_bitch
     sliders_[iter->first] = next_slider;
   }
 
-  envelope_ = new GraphicalEnvelope();
-  addAndMakeVisible(envelope_);
+  synth_editor_ = new SynthesisEditor();
+  synth_editor_->addControls(controls_);
+  addAndMakeVisible(synth_editor_);
   setSize(1000, 700);
 }
 
@@ -65,7 +66,7 @@ void TwytchEditor::resized() {
     }
   }
 
-  envelope_->setBounds(0, 0, 500, 500);
+  synth_editor_->setBounds(0, 0, getWidth(), getHeight());
 }
 
 void TwytchEditor::sliderValueChanged(Slider* edited_slider) {

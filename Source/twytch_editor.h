@@ -3,8 +3,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "twytch.h"
-#include "editor/twytch_look_and_feel.h"
-#include "editor/graphical_envelope.h"
+#include "twytch_look_and_feel.h"
+#include "synthesis_editor.h"
 
 class TwytchEditor : public AudioProcessorEditor, juce::Slider::Listener {
 public:
@@ -22,7 +22,7 @@ private:
   mopo::control_map controls_;
   std::map<std::string, Slider*> sliders_;
 
-  GraphicalEnvelope* envelope_;
+  SynthesisEditor* synth_editor_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchEditor)
 };
