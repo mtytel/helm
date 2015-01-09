@@ -1,13 +1,27 @@
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "twytch.h"
 #include "twytch_editor.h"
 
 
-//==============================================================================
 Twytch::Twytch() : volume(0.0), phase(0.0) { }
 
 Twytch::~Twytch() { }
 
-//==============================================================================
 const String Twytch::getName() const {
   return JucePlugin_Name;
 }
@@ -72,8 +86,9 @@ double Twytch::getTailLengthSeconds() const {
 }
 
 int Twytch::getNumPrograms() {
-  return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
+  // Some hosts don't cope very well if you tell them there are 0 programs,
   // so this should be at least 1, even if you're not really implementing programs.
+  return 1;
 }
 
 int Twytch::getCurrentProgram() {
@@ -90,7 +105,6 @@ const String Twytch::getProgramName(int index) {
 void Twytch::changeProgramName(int index, const String& new_name) {
 }
 
-//==============================================================================
 void Twytch::prepareToPlay(double sample_rate, int buffer_size) {
   synth_.setSampleRate(sample_rate);
   synth_.setBufferSize(buffer_size);
@@ -129,7 +143,6 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   }
 }
 
-//==============================================================================
 bool Twytch::hasEditor() const {
   return true;
 }
@@ -138,7 +151,6 @@ AudioProcessorEditor* Twytch::createEditor() {
   return new TwytchEditor(*this);
 }
 
-//==============================================================================
 void Twytch::getStateInformation(MemoryBlock& dest_data) {
   // You should use this method to store your parameters in the memory block.
   // You could do that either as raw data, or use the XML or ValueTree classes
@@ -150,8 +162,6 @@ void Twytch::setStateInformation(const void* data, int size_in_bytes) {
   // whose contents will have been created by the getStateInformation() call.
 }
 
-//==============================================================================
-// This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
   return new Twytch();
 }
