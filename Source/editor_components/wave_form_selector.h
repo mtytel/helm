@@ -54,6 +54,7 @@ public:
 
     void paint (Graphics& g);
     void resized();
+    void mouseDown (const MouseEvent& e);
 
 
 

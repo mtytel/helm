@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * twytch is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,12 +73,20 @@ namespace mopo {
         setPercentage(midi_val / (MIDI_SIZE - 1.0));
       }
 
-      void increment() {
-        set(current_value_ + (max_ - min_) / resolution_);
+      void increment(bool wrap = false) {
+        float new_value = current_value_ + (max_ - min_) / resolution_;
+        if (wrap && new_value > max_)
+          set(min_);
+        else
+          set(new_value);
       }
 
-      void decrement() {
-        set(current_value_ - (max_ - min_) / resolution_);
+      void decrement(bool wrap = false) {
+        float new_value = current_value_ - (max_ - min_) / resolution_;
+        if (wrap && new_value < min_)
+          set(max_);
+        else
+          set(new_value);
       }
 
       int midi_learn() const { return midi_learn_; }

@@ -37,7 +37,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SynthesisEditor  : public Component
+class SynthesisEditor  : public Component,
+                         public SliderListener
 {
 public:
     //==============================================================================
@@ -51,19 +52,24 @@ public:
 
     void paint (Graphics& g);
     void resized();
+    void sliderValueChanged (Slider* sliderThatWasMoved);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    ScopedPointer<Slider> knob_;
-    ScopedPointer<WaveFormSelector> wave_form_1_;
     //[/UserVariables]
 
     //==============================================================================
     ScopedPointer<GraphicalStepSequencer> step_sequencer_;
     ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
+    ScopedPointer<WaveFormSelector> wave_form_1_;
+    ScopedPointer<WaveFormSelector> wave_form_2_;
+    ScopedPointer<Slider> knob1_;
+    ScopedPointer<Slider> knob2_;
+    ScopedPointer<Slider> knob3_;
+    ScopedPointer<Slider> knob4_;
 
 
     //==============================================================================

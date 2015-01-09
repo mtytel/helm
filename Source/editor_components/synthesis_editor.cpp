@@ -37,14 +37,34 @@ SynthesisEditor::SynthesisEditor ()
     addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer (16));
     addAndMakeVisible (amplitude_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
+    addAndMakeVisible (wave_form_1_ = new WaveFormSelector (128));
+    addAndMakeVisible (wave_form_2_ = new WaveFormSelector (128));
+    addAndMakeVisible (knob1_ = new Slider ("knob 1"));
+    knob1_->setRange (0, 10, 0);
+    knob1_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    knob1_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    knob1_->addListener (this);
+
+    addAndMakeVisible (knob2_ = new Slider ("knob 2"));
+    knob2_->setRange (0, 10, 0);
+    knob2_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    knob2_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    knob2_->addListener (this);
+
+    addAndMakeVisible (knob3_ = new Slider ("knob 3"));
+    knob3_->setRange (0, 10, 0);
+    knob3_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    knob3_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    knob3_->addListener (this);
+
+    addAndMakeVisible (knob4_ = new Slider ("knob 4"));
+    knob4_->setRange (0, 10, 0);
+    knob4_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    knob4_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    knob4_->addListener (this);
+
 
     //[UserPreSize]
-    addAndMakeVisible(knob_ = new Slider("knob"));
-    knob_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-    knob_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-
-    addAndMakeVisible(wave_form_1_ = new WaveFormSelector(128));
-
     amplitude_envelope_->setTimeSkewFactor(TIME_SKEW_FACTOR);
     filter_envelope_->setTimeSkewFactor(TIME_SKEW_FACTOR);
     //[/UserPreSize]
@@ -64,6 +84,12 @@ SynthesisEditor::~SynthesisEditor()
     step_sequencer_ = nullptr;
     amplitude_envelope_ = nullptr;
     filter_envelope_ = nullptr;
+    wave_form_1_ = nullptr;
+    wave_form_2_ = nullptr;
+    knob1_ = nullptr;
+    knob2_ = nullptr;
+    knob3_ = nullptr;
+    knob4_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -90,10 +116,44 @@ void SynthesisEditor::resized()
     step_sequencer_->setBounds (56, 400, 300, 100);
     amplitude_envelope_->setBounds (56, 88, 300, 100);
     filter_envelope_->setBounds (56, 224, 300, 100);
+    wave_form_1_->setBounds (384, 88, 300, 100);
+    wave_form_2_->setBounds (384, 224, 300, 100);
+    knob1_->setBounds (400, 400, 50, 50);
+    knob2_->setBounds (472, 400, 50, 50);
+    knob3_->setBounds (544, 400, 50, 50);
+    knob4_->setBounds (616, 400, 50, 50);
     //[UserResized] Add your own custom resize handling here..
-    knob_->setBounds(400, 100, 50, 50);
-    wave_form_1_->setBounds(400, 300, 300, 100);
     //[/UserResized]
+}
+
+void SynthesisEditor::sliderValueChanged (Slider* sliderThatWasMoved)
+{
+    //[UsersliderValueChanged_Pre]
+    //[/UsersliderValueChanged_Pre]
+
+    if (sliderThatWasMoved == knob1_)
+    {
+        //[UserSliderCode_knob1_] -- add your slider handling code here..
+        //[/UserSliderCode_knob1_]
+    }
+    else if (sliderThatWasMoved == knob2_)
+    {
+        //[UserSliderCode_knob2_] -- add your slider handling code here..
+        //[/UserSliderCode_knob2_]
+    }
+    else if (sliderThatWasMoved == knob3_)
+    {
+        //[UserSliderCode_knob3_] -- add your slider handling code here..
+        //[/UserSliderCode_knob3_]
+    }
+    else if (sliderThatWasMoved == knob4_)
+    {
+        //[UserSliderCode_knob4_] -- add your slider handling code here..
+        //[/UserSliderCode_knob4_]
+    }
+
+    //[UsersliderValueChanged_Post]
+    //[/UsersliderValueChanged_Post]
 }
 
 
@@ -113,7 +173,9 @@ void SynthesisEditor::addControls(mopo::control_map controls) {
 
     amplitude_envelope_->setPositionsFromValues();
     filter_envelope_->setPositionsFromValues();
+
     wave_form_1_->setWaveControl(controls["osc 1 waveform"]);
+    wave_form_2_->setWaveControl(controls["osc 2 waveform"]);
 }
 
 //[/MiscUserCode]
@@ -142,6 +204,28 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="" id="87feb60c88df4fcc" memberName="filter_envelope_" virtualName="GraphicalEnvelope"
              explicitFocusOrder="0" pos="56 224 300 100" sourceFile="graphical_envelope.cpp"
              constructorParams=""/>
+  <JUCERCOMP name="" id="55100715382ea344" memberName="wave_form_1_" virtualName="WaveFormSelector"
+             explicitFocusOrder="0" pos="384 88 300 100" sourceFile="wave_form_selector.cpp"
+             constructorParams="128"/>
+  <JUCERCOMP name="" id="c0c3e4a3ab2f045f" memberName="wave_form_2_" virtualName="WaveFormSelector"
+             explicitFocusOrder="0" pos="384 224 300 100" sourceFile="wave_form_selector.cpp"
+             constructorParams="128"/>
+  <SLIDER name="knob 1" id="952bde38857bdba7" memberName="knob1_" virtualName=""
+          explicitFocusOrder="0" pos="400 400 50 50" min="0" max="10" int="0"
+          style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="knob 2" id="9de85cc1c5f64eaa" memberName="knob2_" virtualName=""
+          explicitFocusOrder="0" pos="472 400 50 50" min="0" max="10" int="0"
+          style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="knob 3" id="e53afc6d1a04c708" memberName="knob3_" virtualName=""
+          explicitFocusOrder="0" pos="544 400 50 50" min="0" max="10" int="0"
+          style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="knob 4" id="1d3e4b59d6e470fb" memberName="knob4_" virtualName=""
+          explicitFocusOrder="0" pos="616 400 50 50" min="0" max="10" int="0"
+          style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -31,14 +31,14 @@ GraphicalStepSequencer::GraphicalStepSequencer (int num_steps)
 {
 
     //[UserPreSize]
+    setNumSteps(num_steps);
+    highlighted_step_ = -1;
     //[/UserPreSize]
 
     setSize (600, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
-    setNumSteps(num_steps);
-    highlighted_step_ = -1;
     //[/Constructor]
 }
 
@@ -110,13 +110,14 @@ void GraphicalStepSequencer::mouseMove (const MouseEvent& e)
 void GraphicalStepSequencer::mouseExit (const MouseEvent& e)
 {
     //[UserCode_mouseExit] -- Add your code here...
-    updateHover(-1);
+    updateHover(getHoveredStep(e.getPosition().x));
     //[/UserCode_mouseExit]
 }
 
 void GraphicalStepSequencer::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
+    last_edit_position_ = e.getPosition();
     updateHover(getHoveredStep(e.getPosition().x));
     changeStep(e);
     //[/UserCode_mouseDown]
@@ -127,6 +128,7 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
     //[UserCode_mouseDrag] -- Add your code here...
     updateHover(getHoveredStep(e.getPosition().x));
     changeStep(e);
+    last_edit_position_ = e.getPosition();
     //[/UserCode_mouseDrag]
 }
 
@@ -137,25 +139,45 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 void GraphicalStepSequencer::setNumSteps(int num_steps) {
     num_steps_ = num_steps;
     for (int i = sequence_.size(); i < num_steps_; ++i)
-      sequence_.push_back(i % 2 ? 0.5f : -0.5f);
+        sequence_.push_back(i % 2 ? 0.5f : -0.5f);
     repaint();
 }
 
+// Sets the height of the steps based on mouse positions.
+// If the mouse skipped over some steps between last mouseDrag event, we'll interpolate
+// and set all the steps inbetween to appropriate values.
 void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
-    int selected_step = getHoveredStep(e.getPosition().x);
-    if (selected_step < 0)
-        return;
+    Point<int> mouse_position = e.getPosition();
+    int from_step = getHoveredStep(last_edit_position_.x);
+    int selected_step = getHoveredStep(mouse_position.x);
 
-    float new_value = -2.0f * e.getPosition().y / getHeight() + 1.0f;
-    sequence_[selected_step] = std::max(std::min(new_value, 1.0f), -1.0f);
+    float x = mouse_position.x;
+    float y = mouse_position.y;
+    float x_delta = last_edit_position_.x - x;
+    float y_delta = last_edit_position_.y - y;
+    float slope = y_delta == 0 ? 0 : y_delta / x_delta;
+    float next_x = getWidth() * (1.0f * selected_step) / num_steps_;
+    int direction = -1;
+
+    if (selected_step < from_step) {
+        direction = 1;
+        next_x += getWidth() * 1.0f / num_steps_;
+    }
+    float inc_x = next_x - x;
+
+    for (int step = selected_step; step != from_step + direction; step += direction) {
+        if (step >= 0 && step < num_steps_) {
+            float new_value = -2.0f * y / getHeight() + 1.0f;
+            sequence_[step] = std::max(std::min(new_value, 1.0f), -1.0f);
+        }
+        y += inc_x * slope;
+        inc_x = direction * getWidth() * 1.0f / num_steps_;
+    }
     repaint();
 }
 
 int GraphicalStepSequencer::getHoveredStep(float x_position) {
-    int selected_step = num_steps_ * x_position / getWidth();
-    if (x_position >= 0 && selected_step >= 0 && selected_step < num_steps_)
-        return selected_step;
-    return -1;
+    return num_steps_ * x_position / getWidth();
 }
 
 void GraphicalStepSequencer::updateHover(int step_index) {

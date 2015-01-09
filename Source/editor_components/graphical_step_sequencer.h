@@ -64,6 +64,7 @@ private:
     int num_steps_;
     int highlighted_step_;
     std::vector<float> sequence_;
+    Point<int> last_edit_position_;
     //[/UserVariables]
 
     //==============================================================================

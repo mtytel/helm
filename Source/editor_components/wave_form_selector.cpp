@@ -79,6 +79,19 @@ void WaveFormSelector::resized()
     //[/UserResized]
 }
 
+void WaveFormSelector::mouseDown (const MouseEvent& e)
+{
+    //[UserCode_mouseDown] -- Add your code here...
+    if (wave_control_) {
+        if (e.mods.isRightButtonDown())
+            wave_control_->decrement(true);
+        else
+            wave_control_->increment(true);
+        resetWavePath();
+    }
+    //[/UserCode_mouseDown]
+}
+
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
@@ -121,6 +134,9 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="int resolution"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
+  <METHODS>
+    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
+  </METHODS>
   <BACKGROUND backgroundColour="ff303030"/>
 </JUCER_COMPONENT>
 
