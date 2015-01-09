@@ -103,14 +103,14 @@ void GraphicalStepSequencer::resized()
 void GraphicalStepSequencer::mouseMove (const MouseEvent& e)
 {
     //[UserCode_mouseMove] -- Add your code here...
-    updateHover(getHoveredStep(e.getPosition().x));
+    updateHover(getHoveredStep(e.getPosition()));
     //[/UserCode_mouseMove]
 }
 
 void GraphicalStepSequencer::mouseExit (const MouseEvent& e)
 {
     //[UserCode_mouseExit] -- Add your code here...
-    updateHover(getHoveredStep(e.getPosition().x));
+    updateHover(-1);
     //[/UserCode_mouseExit]
 }
 
@@ -118,7 +118,7 @@ void GraphicalStepSequencer::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     last_edit_position_ = e.getPosition();
-    updateHover(getHoveredStep(e.getPosition().x));
+    updateHover(getHoveredStep(e.getPosition()));
     changeStep(e);
     //[/UserCode_mouseDown]
 }
@@ -126,7 +126,7 @@ void GraphicalStepSequencer::mouseDown (const MouseEvent& e)
 void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 {
     //[UserCode_mouseDrag] -- Add your code here...
-    updateHover(getHoveredStep(e.getPosition().x));
+    updateHover(getHoveredStep(e.getPosition()));
     changeStep(e);
     last_edit_position_ = e.getPosition();
     //[/UserCode_mouseDrag]
@@ -148,8 +148,8 @@ void GraphicalStepSequencer::setNumSteps(int num_steps) {
 // and set all the steps inbetween to appropriate values.
 void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
     Point<int> mouse_position = e.getPosition();
-    int from_step = getHoveredStep(last_edit_position_.x);
-    int selected_step = getHoveredStep(mouse_position.x);
+    int from_step = getHoveredStep(last_edit_position_);
+    int selected_step = getHoveredStep(mouse_position);
 
     float x = mouse_position.x;
     float y = mouse_position.y;
@@ -176,8 +176,8 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
     repaint();
 }
 
-int GraphicalStepSequencer::getHoveredStep(float x_position) {
-    return num_steps_ * x_position / getWidth();
+int GraphicalStepSequencer::getHoveredStep(Point<int> position) {
+    return floorf(num_steps_ * (1.0f * position.x) / getWidth());
 }
 
 void GraphicalStepSequencer::updateHover(int step_index) {

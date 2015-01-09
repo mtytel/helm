@@ -46,7 +46,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setNumSteps(int num_steps);
     void changeStep(const MouseEvent& e);
-    int getHoveredStep(float x_position);
+    int getHoveredStep(Point<int> position);
     void updateHover(int step_index);
     //[/UserMethods]
 
