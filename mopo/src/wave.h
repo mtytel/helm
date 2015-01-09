@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -130,10 +130,10 @@ namespace mopo {
 
       template<size_t steps>
       inline mopo_float pyramid(mopo_float t, int harmonics) const {
-        size_t squares = steps - 1;
-        mopo_float phase_increment = 1.0 / (2.0 * squares);
+        static const size_t squares = steps - 1;
+        static const mopo_float phase_increment = 1.0 / (2.0 * squares);
 
-        mopo_float phase = 0.5 + t;
+        mopo_float phase = 0.75 + t;
         mopo_float out = 0.0;
 
         double integral;
@@ -279,10 +279,10 @@ namespace mopo {
 
       template<size_t steps>
       static inline mopo_float pyramid(mopo_float t) {
-        size_t squares = steps - 1;
-        mopo_float phase_increment = 1.0 / (2.0 * squares);
+        static const size_t squares = steps - 1;
+        static const mopo_float phase_increment = 1.0 / (2.0 * squares);
 
-        mopo_float phase = 0.5 + t;
+        mopo_float phase = 0.75 + t;
         mopo_float out = 0.0;
 
         double integral;
