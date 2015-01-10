@@ -279,7 +279,7 @@ namespace mopo {
         new Control(filter_envelope_depth, -MIDI_SIZE, MIDI_SIZE, MIDI_SIZE);
 
     // Filter.
-    Value* filter_type = new Value(Filter::kLP12);
+    Value* filter_type = new Value(Filter::kLowPass);
     Value* keytrack_amount = new Value(0);
     Multiply* current_keytrack = new Multiply();
     current_keytrack->plug(keytrack, 0);
@@ -342,9 +342,9 @@ namespace mopo {
 
     std::vector<std::string> filter_strings = std::vector<std::string>(
         TwytchStrings::filter_strings_,
-        TwytchStrings::filter_strings_ + Filter::kHP12 + 1);
+        TwytchStrings::filter_strings_ + Filter::kNumTypes);
     controls_["filter type"] = new Control(filter_type, filter_strings,
-                                           Filter::kHP12);
+                                           Filter::kNumTypes - 1);
     controls_["cutoff"] =
         new Control(base_cutoff, 28, MIDI_SIZE - 1, MIDI_SIZE);
     controls_["keytrack"] = new Control(keytrack_amount, -1, 1, MIDI_SIZE);

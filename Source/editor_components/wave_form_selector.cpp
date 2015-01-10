@@ -88,6 +88,7 @@ void WaveFormSelector::mouseDown (const MouseEvent& e)
         else
             wave_control_->increment(true);
         resetWavePath();
+        repaint();
     }
     //[/UserCode_mouseDown]
 }
@@ -115,8 +116,6 @@ void WaveFormSelector::resetWavePath() {
     }
 
     wave_path_.lineTo(getWidth() - padding, getHeight() / 2.0f);
-
-    repaint();
 }
 //[/MiscUserCode]
 

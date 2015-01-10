@@ -47,18 +47,15 @@ namespace {
 //==============================================================================
 GraphicalEnvelope::GraphicalEnvelope ()
 {
-    addAndMakeVisible (attack_ = new DraggableComponent());
-    attack_->setExplicitFocusOrder (1);
-    addAndMakeVisible (decay_ = new DraggableComponent());
-    decay_->setExplicitFocusOrder (1);
-    addAndMakeVisible (sustain_ = new DraggableComponent());
-    sustain_->setExplicitFocusOrder (1);
-    addAndMakeVisible (release_ = new DraggableComponent());
-    release_->setExplicitFocusOrder (1);
 
     //[UserPreSize]
+    attack_percent_ = 0.5f;
+    decay_percent_ = 0.5f;
+    sustain_percent_ = 0.5f;
+    release_percent_ = 0.5f;
+
     time_skew_factor_ = 1.0;
-    hovered_over_ = nullptr;
+    
     attack_control_ = nullptr;
     decay_control_ = nullptr;
     sustain_control_ = nullptr;
@@ -77,10 +74,6 @@ GraphicalEnvelope::~GraphicalEnvelope()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    attack_ = nullptr;
-    decay_ = nullptr;
-    sustain_ = nullptr;
-    release_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -96,30 +89,12 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.fillAll (Colour (0xff303030));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setGradientFill(ColourGradient(Colour (0xff888888),
-                                     static_cast<float> (proportionOfWidth (0.5000f)), static_cast<float> (proportionOfHeight (0.0000f)),
-                                     Colour (0x00000000),
-                                     static_cast<float> (proportionOfWidth (0.5000f)), static_cast<float> (proportionOfHeight (1.0000f)),
-                                     false));
+    g.setGradientFill(ColourGradient(Colour(0xff888888), 0.0f, 0.0f,
+                                     Colour(0x00000000), 0.0f, getHeight(), false));
     g.fillPath(envelope_line_);
+
     g.setColour(Colour(0xffcccccc));
     g.strokePath(envelope_line_, PathStrokeType(2.000f, PathStrokeType::beveled, PathStrokeType::rounded));
-
-    g.setColour(Colour(0x08ffffff));
-    if (hovered_over_ == attack_ || attack_->isHovered())
-        g.fillRect(0, 0, attack_->getBounds().getCentre().x, getHeight());
-    else if(hovered_over_ == decay_ || decay_->isHovered()) {
-        g.fillRect(attack_->getBounds().getCentre().x, 0,
-                   decay_->getX() - attack_->getX(), getHeight());
-    }
-    else if(hovered_over_ == sustain_ || sustain_->isHovered()) {
-        g.fillRect(decay_->getBounds().getCentre().x, 0,
-                   sustain_->getX() - decay_->getX(), getHeight());
-    }
-    else if(hovered_over_ == release_ || release_->isHovered()) {
-        g.fillRect(sustain_->getBounds().getCentre().x, 0,
-                   release_->getX() - sustain_->getX(), getHeight());
-    }
 
     g.setColour(Colour(0xffc8c8c8));
     g.drawRoundedRectangle(-2.0f, getHeight() - 2.0f, 4.0f, 4.0f, 2.0f, 4.0f);
@@ -129,6 +104,7 @@ void GraphicalEnvelope::paint (Graphics& g)
 void GraphicalEnvelope::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
+    /*
     attack_->setMovementRestrictions(0, 0, proportionOfWidth(ATTACK_RANGE_PERCENT), 0);
 
     decay_->setMovementRestrictions(proportionOfWidth(ATTACK_RANGE_PERCENT), 0,
@@ -140,37 +116,43 @@ void GraphicalEnvelope::resized()
     release_->setMovementRestrictions(proportionOfWidth(1.0f - RELEASE_RANGE_PERCENT),
                                       getHeight(),
                                       proportionOfWidth(RELEASE_RANGE_PERCENT), 0);
+     */
     //[/UserPreResize]
 
-    attack_->setBounds (proportionOfWidth (0.1004f), 0, 16, 16);
-    decay_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.2996f), 16, 16);
-    sustain_->setBounds (proportionOfWidth (0.5000f), proportionOfHeight (0.2996f), 16, 16);
-    release_->setBounds (proportionOfWidth (0.8996f), 304, 16, 16);
     //[UserResized] Add your own custom resize handling here..
     setPositionsFromValues();
     resetEnvelopeLine();
-    last_attack_x_ = attack_->getX();
     //[/UserResized]
 }
 
 void GraphicalEnvelope::mouseMove (const MouseEvent& e)
 {
     //[UserCode_mouseMove] -- Add your code here...
-    DraggableComponent* hovered = hovered_over_;
-    hovered_over_ = getHoveredSection(e);
-    if (hovered_over_ != hovered)
-        repaint();
     //[/UserCode_mouseMove]
 }
 
 void GraphicalEnvelope::mouseExit (const MouseEvent& e)
 {
     //[UserCode_mouseExit] -- Add your code here...
-    DraggableComponent* hovered = hovered_over_;
-    hovered_over_ = nullptr;
-    if (hovered)
-        repaint();
     //[/UserCode_mouseExit]
+}
+
+void GraphicalEnvelope::mouseDown (const MouseEvent& e)
+{
+    //[UserCode_mouseDown] -- Add your code here...
+    //[/UserCode_mouseDown]
+}
+
+void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
+{
+    //[UserCode_mouseDrag] -- Add your code here...
+    //[/UserCode_mouseDrag]
+}
+
+void GraphicalEnvelope::mouseUp (const MouseEvent& e)
+{
+    //[UserCode_mouseUp] -- Add your code here...
+    //[/UserCode_mouseUp]
 }
 
 
@@ -179,6 +161,7 @@ void GraphicalEnvelope::mouseExit (const MouseEvent& e)
 
 void GraphicalEnvelope::childBoundsChanged(Component *child) {
     resetEnvelopeLine();
+    /*
     if (child == attack_) {
         int delta = attack_->getX() - last_attack_x_;
         Rectangle<int> decay_restrictions = decay_->getMovementRestrictions();
@@ -221,10 +204,12 @@ void GraphicalEnvelope::childBoundsChanged(Component *child) {
         }
     }
     repaint();
+     */
 }
 
 void GraphicalEnvelope::setPositionsFromValues() {
     // This order is important because attack and sustain modify decay position.
+    /*
     if (decay_control_) {
         double decay_percent = getPercentFromControl(decay_control_, time_skew_factor_);
         double decay_x = attack_->getBounds().getCentre().x +
@@ -247,29 +232,22 @@ void GraphicalEnvelope::setPositionsFromValues() {
                            proportionOfWidth(RELEASE_RANGE_PERCENT * release_percent);
         release_->setCentrePosition(release_x, release_->getBounds().getCentre().y);
     }
+     */
 }
 
 void GraphicalEnvelope::resetEnvelopeLine() {
+    float attack_x = proportionOfWidth(attack_percent_ * ATTACK_RANGE_PERCENT);
+    float decay_x = attack_x + proportionOfWidth(decay_percent_ * DECAY_RANGE_PERCENT);
+    float sustain_x = proportionOfWidth(1.0f - RELEASE_RANGE_PERCENT);
+    float sustain_height = proportionOfHeight(sustain_percent_);
+    float release_x = sustain_x + proportionOfWidth(release_percent_ * RELEASE_RANGE_PERCENT);
+
     envelope_line_.clear();
     envelope_line_.startNewSubPath(0, getHeight());
-    envelope_line_.lineTo(attack_->getBounds().toFloat().getCentre());
-    envelope_line_.lineTo(decay_->getBounds().toFloat().getCentre());
-    envelope_line_.lineTo(sustain_->getBounds().toFloat().getCentre());
-    Point<float> rel_control = release_->getBounds().toFloat().getCentre();
-    rel_control.setX((sustain_->getBounds().getCentre().getX() + rel_control.getX()) / 2.0f);
-    envelope_line_.quadraticTo(rel_control, release_->getBounds().toFloat().getCentre());
-}
-
-DraggableComponent* GraphicalEnvelope::getHoveredSection(const MouseEvent& e) {
-    if (e.getPosition().x < attack_->getBounds().getCentre().x)
-        return attack_.get();
-    if (e.getPosition().x < decay_->getBounds().getCentre().x)
-        return decay_.get();
-    if (e.getPosition().x < sustain_->getBounds().getCentre().x)
-        return sustain_.get();
-    if (e.getPosition().x < release_->getBounds().getCentre().x)
-        return release_.get();
-    return nullptr;
+    envelope_line_.lineTo(attack_x, 0.0f);
+    envelope_line_.lineTo(decay_x, sustain_height);
+    envelope_line_.lineTo(sustain_x, sustain_height);
+    envelope_line_.quadraticTo((release_x + sustain_x) / 2.0f, getHeight(), release_x, getHeight());
 }
 
 //[/MiscUserCode]
@@ -292,20 +270,11 @@ BEGIN_JUCER_METADATA
   <METHODS>
     <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ff303030"/>
-  <JUCERCOMP name="" id="24607738ba2dcb76" memberName="attack_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="10.044% 0 16 16" sourceFile="draggable_component.cpp"
-             constructorParams=""/>
-  <JUCERCOMP name="" id="a55a7d6beda6b886" memberName="decay_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="19.978% 29.963% 16 16" sourceFile="draggable_component.cpp"
-             constructorParams=""/>
-  <JUCERCOMP name="" id="33c87b37efec2a9f" memberName="sustain_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="50% 29.963% 16 16" sourceFile="draggable_component.cpp"
-             constructorParams=""/>
-  <JUCERCOMP name="" id="81a378f6086fec18" memberName="release_" virtualName="DraggableComponent"
-             explicitFocusOrder="1" pos="89.956% 304 16 16" sourceFile="draggable_component.cpp"
-             constructorParams=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

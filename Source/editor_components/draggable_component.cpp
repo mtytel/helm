@@ -85,7 +85,7 @@ void DraggableComponent::moved()
     constrained_center.y = std::max(restrictions_.getY(), constrained_center.y);
 
     if (constrained_center != center)
-      setCentrePosition(constrained_center.x, constrained_center.y);
+        setCentrePosition(constrained_center.x, constrained_center.y);
 
     //[/UserCode_moved]
 }

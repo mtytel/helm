@@ -17,17 +17,15 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_5885895E7B5509B9__
-#define __JUCE_HEADER_5885895E7B5509B9__
+#ifndef __JUCE_HEADER_A5EB01B215C341A5__
+#define __JUCE_HEADER_A5EB01B215C341A5__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "twytch_common.h"
+#include "filter.h"
 //[/Headers]
 
-#include "graphical_step_sequencer.h"
-#include "graphical_envelope.h"
-#include "wave_form_selector.h"
-#include "filter_response.h"
 
 
 //==============================================================================
@@ -38,47 +36,55 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SynthesisEditor  : public Component,
-                         public SliderListener
+class FilterResponse  : public Component
 {
 public:
     //==============================================================================
-    SynthesisEditor ();
-    ~SynthesisEditor();
+    FilterResponse (int resolution);
+    ~FilterResponse();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void addControls(mopo::control_map controls);
+    void resetResponsePath();
+    void computeFilterCoefficients();
+    void setFilterSettingsFromPosition(Point<int> position);
+
+    void setResonanceSkew(float skew) { resonance_skew_ = skew; }
+    void setResonanceControl(mopo::Control* control) { resonance_control_ = control; }
+    void setFrequencyControl(mopo::Control* control) { frequency_control_ = control; }
+    void setFilterTypeControl(mopo::Control* control) { filter_type_control_ = control; }
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
-    void sliderValueChanged (Slider* sliderThatWasMoved);
+    void mouseDown (const MouseEvent& e);
+    void mouseDrag (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    Path filter_response_path_;
+    int resolution_;
+    float resonance_skew_;
+
+    float frequency_;
+    float resonance_;
+    mopo::Filter filter_;
+
+    mopo::Control* filter_type_control_;
+    mopo::Control* frequency_control_;
+    mopo::Control* resonance_control_;
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<GraphicalStepSequencer> step_sequencer_;
-    ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
-    ScopedPointer<GraphicalEnvelope> filter_envelope_;
-    ScopedPointer<WaveFormSelector> wave_form_1_;
-    ScopedPointer<WaveFormSelector> wave_form_2_;
-    ScopedPointer<Slider> knob1_;
-    ScopedPointer<Slider> knob2_;
-    ScopedPointer<Slider> knob3_;
-    ScopedPointer<Slider> knob4_;
-    ScopedPointer<FilterResponse> filter_response_;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterResponse)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_5885895E7B5509B9__
+#endif   // __JUCE_HEADER_A5EB01B215C341A5__

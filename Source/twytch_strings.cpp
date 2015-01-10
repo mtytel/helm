@@ -22,6 +22,7 @@ namespace mopo {
     "low pass",
     "high pass",
     "band pass",
+    "notch",
     "all pass"
   };
 

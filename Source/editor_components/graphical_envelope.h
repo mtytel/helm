@@ -25,7 +25,6 @@
 #include "twytch_common.h"
 //[/Headers]
 
-#include "draggable_component.h"
 
 
 //==============================================================================
@@ -49,7 +48,6 @@ public:
 
     void childBoundsChanged (Component *child) override;
     void resetEnvelopeLine();
-    DraggableComponent* getHoveredSection(const MouseEvent& e);
 
     void setTimeSkewFactor(double skew) {
         time_skew_factor_ = skew;
@@ -79,14 +77,19 @@ public:
     void resized();
     void mouseMove (const MouseEvent& e);
     void mouseExit (const MouseEvent& e);
+    void mouseDown (const MouseEvent& e);
+    void mouseDrag (const MouseEvent& e);
+    void mouseUp (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    float attack_percent_;
+    float decay_percent_;
+    float sustain_percent_;
+    float release_percent_;
     Path envelope_line_;
-    int last_attack_x_;
-    DraggableComponent* hovered_over_;
 
     double time_skew_factor_;
     mopo::Control* attack_control_;
@@ -96,10 +99,6 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<DraggableComponent> attack_;
-    ScopedPointer<DraggableComponent> decay_;
-    ScopedPointer<DraggableComponent> sustain_;
-    ScopedPointer<DraggableComponent> release_;
 
 
     //==============================================================================
