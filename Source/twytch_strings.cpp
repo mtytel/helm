@@ -23,6 +23,8 @@ namespace mopo {
     "high pass",
     "band pass",
     "notch",
+    "low shelf",
+    "high shelf",
     "all pass"
   };
 

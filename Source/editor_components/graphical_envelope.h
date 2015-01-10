@@ -46,30 +46,42 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
 
-    void childBoundsChanged (Component *child) override;
     void resetEnvelopeLine();
 
     void setTimeSkewFactor(double skew) {
         time_skew_factor_ = skew;
     }
 
+    double getAttackX();
+    double getDecayX();
+    double getSustainX();
+    double getSustainY();
+    double getReleaseX();
+
+    void setAttackX(double x);
+    void setDecayX(double x);
+    void setSustainY(double y);
+    void setReleaseX(double x);
+
     void setAttackControl(mopo::Control* attack_control) {
         attack_control_ = attack_control;
+        resetEnvelopeLine();
     }
 
     void setDecayControl(mopo::Control* decay_control) {
         decay_control_ = decay_control;
+        resetEnvelopeLine();
     }
 
     void setSustainControl(mopo::Control* sustain_control) {
         sustain_control_ = sustain_control;
+        resetEnvelopeLine();
     }
 
     void setReleaseControl(mopo::Control* release_control) {
         release_control_ = release_control;
+        resetEnvelopeLine();
     }
-
-    void setPositionsFromValues();
 
     //[/UserMethods]
 
@@ -77,18 +89,16 @@ public:
     void resized();
     void mouseMove (const MouseEvent& e);
     void mouseExit (const MouseEvent& e);
-    void mouseDown (const MouseEvent& e);
     void mouseDrag (const MouseEvent& e);
-    void mouseUp (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    float attack_percent_;
-    float decay_percent_;
-    float sustain_percent_;
-    float release_percent_;
+    bool attack_hover_;
+    bool decay_hover_;
+    bool sustain_hover_;
+    bool release_hover_;
     Path envelope_line_;
 
     double time_skew_factor_;

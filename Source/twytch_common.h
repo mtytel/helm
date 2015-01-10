@@ -49,6 +49,9 @@ namespace mopo {
       mopo_float max() const { return max_; }
       int resolution() const { return resolution_; }
 
+      void setMin(mopo_float min) { min_ = min; set(current_value_); }
+      void setMax(mopo_float max) { max_ = max; set(current_value_); }
+
       mopo_float getIncrementSize() const {
         if (resolution_ == 0 || resolution_ >= MIDI_SIZE)
           return 0;
@@ -65,8 +68,12 @@ namespace mopo {
       }
 
       void setPercentage(mopo_float percentage) {
-        int index = resolution_ * percentage;
-        set(min_ + index * (max_ - min_) / resolution_);
+        if (resolution_ == 0 || resolution_ >= MIDI_SIZE)
+          set(INTERPOLATE(min_, max_, percentage));
+        else {
+          int index = resolution_ * percentage;
+          set(min_ + index * (max_ - min_) / resolution_);
+        }
       }
 
       void setMidi(int midi_val) {

@@ -26,7 +26,7 @@
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
 namespace {
-    const double TIME_SKEW_FACTOR = 2.0;
+    const double TIME_SKEW_FACTOR = 3.3;
 }
 
 //[/MiscUserDefs]
@@ -174,9 +174,6 @@ void SynthesisEditor::addControls(mopo::control_map controls) {
     filter_envelope_->setDecayControl(controls["fil decay"]);
     filter_envelope_->setSustainControl(controls["fil sustain"]);
     filter_envelope_->setReleaseControl(controls["fil release"]);
-
-    amplitude_envelope_->setPositionsFromValues();
-    filter_envelope_->setPositionsFromValues();
 
     wave_form_1_->setWaveControl(controls["osc 1 waveform"]);
     wave_form_2_->setWaveControl(controls["osc 2 waveform"]);

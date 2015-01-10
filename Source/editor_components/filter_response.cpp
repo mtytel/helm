@@ -22,12 +22,15 @@
 //[/Headers]
 
 #include "filter_response.h"
+#include "utils.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #define MAG_TO_DB_CONSTANT 20.0f
 #define MIN_GAIN_DB -30.0f
 #define MAX_GAIN_DB 24.0f
+#define MIN_RESONANCE 0.5
+#define MAX_RESONANCE 16.0
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -41,8 +44,6 @@ FilterResponse::FilterResponse (int resolution)
     filter_type_control_ = nullptr;
     resonance_skew_ = 1.0f;
 
-    frequency_ = 0.0f;
-    resonance_ = 1.0f;
     filter_.setSampleRate(44100);
     //[/UserPreSize]
 
@@ -98,7 +99,22 @@ void FilterResponse::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     if (e.mods.isRightButtonDown() && filter_type_control_) {
+        mopo::Filter::Type type =
+            static_cast<mopo::Filter::Type>(filter_type_control_->current_value());
+
         filter_type_control_->increment(true);
+
+        if (resonance_control_) {
+            if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
+                resonance_control_->setMin(mopo::utils::dbToGain(MIN_GAIN_DB));
+                resonance_control_->setMax(mopo::utils::dbToGain(MAX_GAIN_DB));
+            }
+            else {
+                resonance_control_->setMin(MIN_RESONANCE);
+                resonance_control_->setMax(MAX_RESONANCE);
+            }
+        }
+        
         computeFilterCoefficients();
     }
     else
@@ -149,24 +165,41 @@ void FilterResponse::resetResponsePath() {
 
 void FilterResponse::computeFilterCoefficients() {
     mopo::Filter::Type filter_type = mopo::Filter::kAllPass;
+    float frequency = 0.0f;
+    float resonance = 1.0f;
+
+    if (frequency_control_) {
+        float cents = frequency_control_->current_value() * mopo::CENTS_PER_NOTE;
+        frequency = mopo::MidiLookup::centsLookup(cents);
+    }
+    if (resonance_control_)
+        resonance = resonance_control_->current_value();
+
     if (filter_type_control_)
         filter_type = static_cast<mopo::Filter::Type>(filter_type_control_->current_value());
 
-    filter_.computeCoefficients(filter_type, frequency_, resonance_);
+    filter_.computeCoefficients(filter_type, frequency, resonance);
     resetResponsePath();
 }
 
 void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
+    mopo::Filter::Type type = mopo::Filter::kAllPass;
+    if (filter_type_control_)
+        type = static_cast<mopo::Filter::Type>(filter_type_control_->current_value());
+
     if (frequency_control_) {
         float percent = (1.0f * position.x) / getWidth();
         frequency_control_->setPercentage(percent);
-        float cents = frequency_control_->current_value() * mopo::CENTS_PER_NOTE;
-        frequency_ = mopo::MidiLookup::centsLookup(cents);
     }
     if (resonance_control_) {
         float percent = 1.0f - (1.0f * position.y) / getHeight();
-        resonance_control_->setPercentage(powf(percent, resonance_skew_));
-        resonance_ = resonance_control_->current_value();
+
+        if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
+            float decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, percent);
+            resonance_control_->set(mopo::utils::dbToGain(decibals));
+        }
+        else
+            resonance_control_->setPercentage(powf(percent, resonance_skew_));
     }
 
     computeFilterCoefficients();

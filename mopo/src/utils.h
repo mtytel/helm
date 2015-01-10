@@ -19,15 +19,27 @@
 #define UTILS_H
 
 #include "mopo.h"
-
-#define EPSILON 0.000000000001
+#include <cmath>
 
 namespace mopo {
+
+  namespace {
+    const mopo_float EPSILON = 1e-16;
+    const mopo_float DB_GAIN_CONVERSION_MULT = 40.0;
+  }
 
   namespace utils {
 
     inline bool closeToZero(mopo_float value) {
       return value <= EPSILON && value >= -EPSILON;
+    }
+
+    inline mopo_float gainToDb(mopo_float gain) {
+      return DB_GAIN_CONVERSION_MULT * log10(gain);
+    }
+
+    inline mopo_float dbToGain(mopo_float decibals) {
+      return std::pow(10.0, decibals / DB_GAIN_CONVERSION_MULT);
     }
 
     inline bool isSilent(const mopo_float* buffer, int length) {

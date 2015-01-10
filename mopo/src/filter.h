@@ -41,6 +41,8 @@ namespace mopo {
         kHighPass,
         kBandPass,
         kNotch,
+        kLowShelf,
+        kHighShelf,
         kAllPass,
         kNumTypes,
       };
@@ -62,14 +64,16 @@ namespace mopo {
       virtual void process();
     
       void computeCoefficients(Type type, mopo_float cutoff, mopo_float resonance) {
-        double phase_delta = 2.0 * PI * cutoff / sample_rate_;
-        double real_delta = cos(phase_delta);
-        double imag_delta = sin(phase_delta);
+        static const mopo_float shelf_slope = 1.0;
+
+        mopo_float phase_delta = 2.0 * PI * cutoff / sample_rate_;
+        mopo_float real_delta = cos(phase_delta);
+        mopo_float imag_delta = sin(phase_delta);
 
         switch(type) {
           case kLowPass: {
-            double alpha = imag_delta / (2.0 * resonance);
-            double norm = 1.0 + alpha;
+            mopo_float alpha = imag_delta / (2.0 * resonance);
+            mopo_float norm = 1.0 + alpha;
             target_in_0_ = (1.0 - real_delta) / (2.0 * norm);
             target_in_1_ = (1.0 - real_delta) / norm;
             target_in_2_ = target_in_0_;
@@ -78,8 +82,8 @@ namespace mopo {
             break;
           }
           case kHighPass: {
-            double alpha = imag_delta / (2.0 * resonance);
-            double norm = 1.0 + alpha;
+            mopo_float alpha = imag_delta / (2.0 * resonance);
+            mopo_float norm = 1.0 + alpha;
             target_in_0_ = (1.0 + real_delta) / (2.0 * norm);
             target_in_1_ = -(1.0 + real_delta) / norm;
             target_in_2_ = target_in_0_;
@@ -88,8 +92,8 @@ namespace mopo {
             break;
           }
           case kBandPass: {
-            double alpha = imag_delta / (2.0 * resonance);
-            double norm = 1.0 + alpha;
+            mopo_float alpha = imag_delta / (2.0 * resonance);
+            mopo_float norm = 1.0 + alpha;
             target_in_0_ = (imag_delta / 2.0) / norm;
             target_in_1_ = 0;
             target_in_2_ = -target_in_0_;
@@ -98,8 +102,8 @@ namespace mopo {
             break;
           }
           case kNotch: {
-            double alpha = imag_delta / (2.0 * resonance);
-            double norm = 1.0 + alpha;
+            mopo_float alpha = imag_delta / (2.0 * resonance);
+            mopo_float norm = 1.0 + alpha;
             target_in_0_ = 1.0 / norm;
             target_in_1_ = -2.0 * real_delta / norm;
             target_in_2_ = target_in_0_;
@@ -107,9 +111,37 @@ namespace mopo {
             target_out_2_ = (1.0 - alpha) / norm;
             break;
           }
+          case kLowShelf: {
+            mopo_float mag = resonance;
+            mopo_float alpha = (imag_delta / 2.0) *
+                               std::sqrt((mag + 1.0 / mag) * (1.0 / shelf_slope - 1) + 2.0);
+            mopo_float sq = 2 * std::sqrt(mag) * alpha;
+            mopo_float norm = (mag + 1) + (mag - 1) * real_delta + sq;
+
+            target_in_0_ = mag * ((mag + 1) - (mag - 1) * real_delta + sq) / norm;
+            target_in_1_ = 2 * mag * ((mag - 1) - (mag + 1) * real_delta) / norm;
+            target_in_2_ = mag * ((mag + 1) - (mag - 1) * real_delta - sq) / norm;
+            target_out_1_ = -2 * ((mag - 1) + (mag + 1) * real_delta) / norm;
+            target_out_2_ = ((mag + 1) + (mag - 1) * real_delta - sq) / norm;
+            break;
+          }
+          case kHighShelf: {
+            mopo_float mag = resonance;
+            mopo_float alpha = (imag_delta / 2.0) *
+                               std::sqrt((mag + 1.0 / mag) * (1.0 / shelf_slope - 1) + 2.0);
+            mopo_float sq = 2 * std::sqrt(mag) * alpha;
+            mopo_float norm = (mag + 1) - (mag - 1) * real_delta + sq;
+
+            target_in_0_ = mag * ((mag + 1) + (mag - 1) * real_delta + sq) / norm;
+            target_in_1_ = -2 * mag * ((mag - 1) + (mag + 1) * real_delta) / norm;
+            target_in_2_ = mag * ((mag + 1) + (mag - 1) * real_delta - sq) / norm;
+            target_out_1_ = 2 * ((mag - 1) - (mag + 1) * real_delta) / norm;
+            target_out_2_ = ((mag + 1) - (mag - 1) * real_delta - sq) / norm;
+            break;
+          }
           case kAllPass: {
-            double alpha = imag_delta / (2.0 * resonance);
-            double norm = 1.0 + alpha;
+            mopo_float alpha = imag_delta / (2.0 * resonance);
+            mopo_float norm = 1.0 + alpha;
             target_in_0_ = (1.0 - alpha) / norm;
             target_in_1_ = -2.0 * real_delta / norm;
             target_in_2_ = 1.0;

@@ -29,17 +29,7 @@ namespace {
     const float ATTACK_RANGE_PERCENT = 0.3f;
     const float DECAY_RANGE_PERCENT = 0.3f;
     const float RELEASE_RANGE_PERCENT = 0.3f;
-
-    void setSkewedValue(mopo::Control* control, double t, double skew) {
-        double skewed_t = pow(t, skew);
-        control->set(control->min() + skewed_t * (control->max() - control->min()));
-    }
-
-    double getPercentFromControl(mopo::Control* control, double skew) {
-        double t = (control->value()->value() - control->min()) / (control->max() - control->min());
-        return pow(t, 1.0 / skew);
-    }
-
+    const float HOVER_DISTANCE = 20.0f;
 } // namespace
 
 //[/MiscUserDefs]
@@ -49,13 +39,13 @@ GraphicalEnvelope::GraphicalEnvelope ()
 {
 
     //[UserPreSize]
-    attack_percent_ = 0.5f;
-    decay_percent_ = 0.5f;
-    sustain_percent_ = 0.5f;
-    release_percent_ = 0.5f;
+    attack_hover_ = false;
+    decay_hover_ = false;
+    sustain_hover_ = false;
+    release_hover_ = false;
 
     time_skew_factor_ = 1.0;
-    
+
     attack_control_ = nullptr;
     decay_control_ = nullptr;
     sustain_control_ = nullptr;
@@ -89,6 +79,11 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.fillAll (Colour (0xff303030));
 
     //[UserPaint] Add your own custom painting code here..
+    g.setColour(Colour (0xff383838));
+    g.fillRect(0, 0, getAttackX(), getHeight());
+    g.fillRect(getDecayX(), 0, getSustainX() - getDecayX(), getHeight());
+    g.fillRect(getReleaseX(), 0, getWidth() - getReleaseX(), getHeight());
+
     g.setGradientFill(ColourGradient(Colour(0xff888888), 0.0f, 0.0f,
                                      Colour(0x00000000), 0.0f, getHeight(), false));
     g.fillPath(envelope_line_);
@@ -98,29 +93,30 @@ void GraphicalEnvelope::paint (Graphics& g)
 
     g.setColour(Colour(0xffc8c8c8));
     g.drawRoundedRectangle(-2.0f, getHeight() - 2.0f, 4.0f, 4.0f, 2.0f, 4.0f);
+
+    g.setColour(Colour(0xffffffff));
+
+    int hover_line_x = -20;
+    if (attack_hover_)
+        hover_line_x = getAttackX();
+    else if (decay_hover_)
+        hover_line_x = getDecayX();
+    else if (release_hover_)
+        hover_line_x = getReleaseX();
+
+    g.fillRect(hover_line_x - 1.0f, 0.0f, 2.0f, 1.0f * getHeight());
+
+    if (sustain_hover_)
+        g.fillRect(getDecayX(), getSustainY() - 1.0f, getSustainX() - getDecayX(), 2.0f);
     //[/UserPaint]
 }
 
 void GraphicalEnvelope::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
-    /*
-    attack_->setMovementRestrictions(0, 0, proportionOfWidth(ATTACK_RANGE_PERCENT), 0);
-
-    decay_->setMovementRestrictions(proportionOfWidth(ATTACK_RANGE_PERCENT), 0,
-                                    proportionOfWidth(DECAY_RANGE_PERCENT), 0);
-
-    sustain_->setMovementRestrictions(proportionOfWidth(1.0f - RELEASE_RANGE_PERCENT), 0,
-                                      0, getHeight());
-
-    release_->setMovementRestrictions(proportionOfWidth(1.0f - RELEASE_RANGE_PERCENT),
-                                      getHeight(),
-                                      proportionOfWidth(RELEASE_RANGE_PERCENT), 0);
-     */
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
-    setPositionsFromValues();
     resetEnvelopeLine();
     //[/UserResized]
 }
@@ -128,126 +124,138 @@ void GraphicalEnvelope::resized()
 void GraphicalEnvelope::mouseMove (const MouseEvent& e)
 {
     //[UserCode_mouseMove] -- Add your code here...
+    float x = e.getPosition().x;
+    float attack_delta = fabs(x - getAttackX());
+    float decay_delta = fabs(x - getDecayX());
+    float release_delta = fabs(x - getReleaseX());
+    float sustain_delta = fabs(e.getPosition().y - getSustainY());
+
+    bool a_hover = attack_delta < decay_delta && attack_delta < HOVER_DISTANCE;
+    bool d_hover = !attack_hover_ && decay_delta < release_delta && decay_delta < HOVER_DISTANCE;
+    bool r_hover = !decay_hover_ && release_delta < decay_delta && release_delta < HOVER_DISTANCE;
+    bool s_hover = !a_hover && !r_hover && x > getDecayX() - HOVER_DISTANCE &&
+                   x < getSustainX() + HOVER_DISTANCE && sustain_delta < HOVER_DISTANCE;
+
+    if (a_hover != attack_hover_ || d_hover != decay_hover_ ||
+        s_hover != sustain_hover_ || r_hover != release_hover_) {
+        attack_hover_ = a_hover;
+        decay_hover_ = d_hover;
+        sustain_hover_ = s_hover;
+        release_hover_ = r_hover;
+        repaint();
+    }
     //[/UserCode_mouseMove]
 }
 
 void GraphicalEnvelope::mouseExit (const MouseEvent& e)
 {
     //[UserCode_mouseExit] -- Add your code here...
+    attack_hover_ = false;
+    decay_hover_ = false;
+    sustain_hover_ = false;
+    release_hover_ = false;
+    repaint();
     //[/UserCode_mouseExit]
-}
-
-void GraphicalEnvelope::mouseDown (const MouseEvent& e)
-{
-    //[UserCode_mouseDown] -- Add your code here...
-    //[/UserCode_mouseDown]
 }
 
 void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
 {
     //[UserCode_mouseDrag] -- Add your code here...
-    //[/UserCode_mouseDrag]
-}
+    if (attack_hover_)
+        setAttackX(e.getPosition().x);
+    else if (decay_hover_)
+        setDecayX(e.getPosition().x);
+    else if (release_hover_)
+        setReleaseX(e.getPosition().x);
 
-void GraphicalEnvelope::mouseUp (const MouseEvent& e)
-{
-    //[UserCode_mouseUp] -- Add your code here...
-    //[/UserCode_mouseUp]
+    if (sustain_hover_)
+        setSustainY(e.getPosition().y);
+
+    if (attack_hover_ || decay_hover_ || sustain_hover_ || release_hover_) {
+        resetEnvelopeLine();
+        repaint();
+    }
+    //[/UserCode_mouseDrag]
 }
 
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void GraphicalEnvelope::childBoundsChanged(Component *child) {
-    resetEnvelopeLine();
-    /*
-    if (child == attack_) {
-        int delta = attack_->getX() - last_attack_x_;
-        Rectangle<int> decay_restrictions = decay_->getMovementRestrictions();
-        decay_restrictions.setX(attack_->getBounds().getCentre().x);
-        decay_->setMovementRestrictions(decay_restrictions);
+double GraphicalEnvelope::getAttackX() {
+    if (!attack_control_)
+        return 0.0;
 
-        decay_->setTopLeftPosition(decay_->getX() + delta, decay_->getY());
-        last_attack_x_ = attack_->getX();
-        if (attack_control_) {
-            double x_pos = attack_->getBounds().getCentre().x;
-            double t = x_pos / proportionOfWidth(ATTACK_RANGE_PERCENT);
-            setSkewedValue(attack_control_, t, time_skew_factor_);
-        }
-    }
-    else if (child == decay_) {
-        if (decay_control_) {
-            double x_pos = decay_->getX() - attack_->getX();
-            double t = x_pos / proportionOfWidth(DECAY_RANGE_PERCENT);
-            setSkewedValue(decay_control_, t, time_skew_factor_);
-        }
-    }
-    else if (child == sustain_) {
-        Rectangle<int> decay_restrictions = decay_->getMovementRestrictions();
-        decay_restrictions.setHeight(0);
-        decay_restrictions.setY(sustain_->getBounds().getCentre().y);
-        decay_->setMovementRestrictions(decay_restrictions);
-
-        decay_->setTopLeftPosition(decay_->getX(), sustain_->getY());
-
-        if (sustain_control_) {
-            double y_pos = getHeight() - sustain_->getBounds().getCentre().y;
-            sustain_control_->set(y_pos / getHeight());
-        }
-    }
-    else if (child == release_) {
-        if (release_control_) {
-            double x_pos = release_->getX() - sustain_->getX();
-            double t = x_pos / proportionOfWidth(RELEASE_RANGE_PERCENT);
-            setSkewedValue(release_control_, t, time_skew_factor_);
-        }
-    }
-    repaint();
-     */
+    double percent = pow(attack_control_->getPercentage(), 1.0 / time_skew_factor_);
+    return getWidth() * percent * ATTACK_RANGE_PERCENT;
 }
 
-void GraphicalEnvelope::setPositionsFromValues() {
-    // This order is important because attack and sustain modify decay position.
-    /*
-    if (decay_control_) {
-        double decay_percent = getPercentFromControl(decay_control_, time_skew_factor_);
-        double decay_x = attack_->getBounds().getCentre().x +
-        proportionOfWidth(DECAY_RANGE_PERCENT * decay_percent);
-        decay_->setCentrePosition(decay_x, decay_->getBounds().getCentre().y);
-    }
-    if (attack_control_) {
-        double attack_percent = getPercentFromControl(attack_control_, time_skew_factor_);
-        double attack_x = proportionOfWidth(ATTACK_RANGE_PERCENT * attack_percent);
-        attack_->setCentrePosition(attack_x, attack_->getBounds().getCentre().y);
-    }
-    if (sustain_control_) {
-        double sustain_percent = getPercentFromControl(sustain_control_, 1.0);
-        double sustain_x = sustain_->getBounds().getCentre().x;
-        sustain_->setCentrePosition(sustain_x, proportionOfHeight(1.0 - sustain_percent));
-    }
-    if (release_control_) {
-        double release_percent = getPercentFromControl(release_control_, time_skew_factor_);
-        double release_x = sustain_->getBounds().getCentre().x +
-                           proportionOfWidth(RELEASE_RANGE_PERCENT * release_percent);
-        release_->setCentrePosition(release_x, release_->getBounds().getCentre().y);
-    }
-     */
+double GraphicalEnvelope::getDecayX() {
+    if (!decay_control_)
+        return 0.0;
+
+    double percent = pow(decay_control_->getPercentage(), 1.0 / time_skew_factor_);
+    return getAttackX() + getWidth() * percent * DECAY_RANGE_PERCENT;
+}
+
+double GraphicalEnvelope::getSustainX() {
+    return getWidth() * (1.0 - RELEASE_RANGE_PERCENT);
+}
+
+double GraphicalEnvelope::getSustainY() {
+    if (!sustain_control_)
+        return 0.0;
+
+    return getHeight() * (1.0 - sustain_control_->getPercentage());
+}
+
+double GraphicalEnvelope::getReleaseX() {
+    if (!release_control_)
+        return 0.0;
+
+    double percent = pow(release_control_->getPercentage(), 1.0 / time_skew_factor_);
+    return getSustainX() + getWidth() * percent * RELEASE_RANGE_PERCENT;
+}
+
+void GraphicalEnvelope::setAttackX(double x) {
+    if (!attack_control_)
+        return;
+
+    double percent = x / (getWidth() * ATTACK_RANGE_PERCENT);
+    attack_control_->setPercentage(pow(CLAMP(percent, 0.0, 1.0), time_skew_factor_));
+}
+
+void GraphicalEnvelope::setDecayX(double x) {
+    if (!decay_control_)
+        return;
+
+    double percent = (x - getAttackX()) / (getWidth() * DECAY_RANGE_PERCENT);
+    decay_control_->setPercentage(pow(CLAMP(percent, 0.0, 1.0), time_skew_factor_));
+}
+
+void GraphicalEnvelope::setSustainY(double y) {
+    if (!sustain_control_)
+        return;
+
+    sustain_control_->setPercentage(CLAMP(1.0 - y / getHeight(), 0.0, 1.0));
+}
+
+void GraphicalEnvelope::setReleaseX(double x) {
+    if (!release_control_)
+        return;
+
+    double percent = (x - getSustainX()) / (getWidth() * (RELEASE_RANGE_PERCENT));
+    release_control_->setPercentage(pow(CLAMP(percent, 0.0, 1.0), time_skew_factor_));
 }
 
 void GraphicalEnvelope::resetEnvelopeLine() {
-    float attack_x = proportionOfWidth(attack_percent_ * ATTACK_RANGE_PERCENT);
-    float decay_x = attack_x + proportionOfWidth(decay_percent_ * DECAY_RANGE_PERCENT);
-    float sustain_x = proportionOfWidth(1.0f - RELEASE_RANGE_PERCENT);
-    float sustain_height = proportionOfHeight(sustain_percent_);
-    float release_x = sustain_x + proportionOfWidth(release_percent_ * RELEASE_RANGE_PERCENT);
-
     envelope_line_.clear();
     envelope_line_.startNewSubPath(0, getHeight());
-    envelope_line_.lineTo(attack_x, 0.0f);
-    envelope_line_.lineTo(decay_x, sustain_height);
-    envelope_line_.lineTo(sustain_x, sustain_height);
-    envelope_line_.quadraticTo((release_x + sustain_x) / 2.0f, getHeight(), release_x, getHeight());
+    envelope_line_.lineTo(getAttackX(), 0.0f);
+    envelope_line_.lineTo(getDecayX(), getSustainY());
+    envelope_line_.lineTo(getSustainX(), getSustainY());
+    envelope_line_.quadraticTo(0.5f * (getReleaseX() + getSustainX()), getHeight(),
+                               getReleaseX(), getHeight());
 }
 
 //[/MiscUserCode]
@@ -270,9 +278,7 @@ BEGIN_JUCER_METADATA
   <METHODS>
     <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ff303030"/>
 </JUCER_COMPONENT>

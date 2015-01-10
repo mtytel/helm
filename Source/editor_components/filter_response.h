@@ -50,9 +50,23 @@ public:
     void setFilterSettingsFromPosition(Point<int> position);
 
     void setResonanceSkew(float skew) { resonance_skew_ = skew; }
-    void setResonanceControl(mopo::Control* control) { resonance_control_ = control; }
-    void setFrequencyControl(mopo::Control* control) { frequency_control_ = control; }
-    void setFilterTypeControl(mopo::Control* control) { filter_type_control_ = control; }
+    
+    void setResonanceControl(mopo::Control* control) {
+        resonance_control_ = control;
+        computeFilterCoefficients();
+    }
+    
+    void setFrequencyControl(mopo::Control* control) {
+        frequency_control_ = control;
+        computeFilterCoefficients();
+
+    }
+
+    void setFilterTypeControl(mopo::Control* control) {
+        filter_type_control_ = control;
+        computeFilterCoefficients();
+    }
+
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -68,8 +82,6 @@ private:
     int resolution_;
     float resonance_skew_;
 
-    float frequency_;
-    float resonance_;
     mopo::Filter filter_;
 
     mopo::Control* filter_type_control_;
