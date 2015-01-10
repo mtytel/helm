@@ -64,7 +64,7 @@ namespace mopo {
       virtual void process();
     
       void computeCoefficients(Type type, mopo_float cutoff, mopo_float resonance) {
-        static const mopo_float shelf_slope = 1.0;
+        static const mopo_float shelf_slope = 1.3;
 
         mopo_float phase_delta = 2.0 * PI * cutoff / sample_rate_;
         mopo_float real_delta = cos(phase_delta);

@@ -99,10 +99,9 @@ void FilterResponse::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     if (e.mods.isRightButtonDown() && filter_type_control_) {
+        filter_type_control_->increment(true);
         mopo::Filter::Type type =
             static_cast<mopo::Filter::Type>(filter_type_control_->current_value());
-
-        filter_type_control_->increment(true);
 
         if (resonance_control_) {
             if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
@@ -192,7 +191,7 @@ void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
         frequency_control_->setPercentage(percent);
     }
     if (resonance_control_) {
-        float percent = 1.0f - (1.0f * position.y) / getHeight();
+        float percent = CLAMP(1.0f - (1.0f * position.y) / getHeight(), 0.0f, 1.0f);
 
         if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
             float decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, percent);
