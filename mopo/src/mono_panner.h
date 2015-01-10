@@ -40,6 +40,7 @@ namespace mopo {
       };
 
       MonoPanner();
+      virtual ~MonoPanner() { }
 
       virtual Processor* clone() const { return new MonoPanner(*this); }
       virtual void process();

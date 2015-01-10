@@ -20,14 +20,13 @@
 
 #include "processor.h"
 
+#include <complex>
+
 namespace mopo {
 
-  // 12 dB per octave filters. There is a low pass filter, high pass filter,
-  // band pass filter, and all pass filter.
+  // Implements RBJ biquad filters of different types.
   class Filter : public Processor {
     public:
-      virtual ~Filter() { }
-
       enum Inputs {
         kAudio,
         kType,
@@ -38,30 +37,112 @@ namespace mopo {
       };
 
       enum Type {
-        kLP12,
-        kHP12,
-        kBP12,
-        kAP12,
+        kLowPass,
+        kHighPass,
+        kBandPass,
+        kNotch,
+        kAllPass,
         kNumTypes,
       };
 
       Filter();
+      virtual ~Filter() { }
+
+      std::complex<mopo_float> getResponse(mopo_float frequency);
+
+      mopo_float getAmplitudeResponse(mopo_float frequency) {
+        return std::abs(getResponse(frequency));
+      }
+
+      mopo_float getPhaseResponse(mopo_float frequency) {
+        return std::arg(getResponse(frequency));
+      }
 
       virtual Processor* clone() const { return new Filter(*this); }
       virtual void process();
+    
+      void computeCoefficients(Type type, mopo_float cutoff, mopo_float resonance) {
+        double phase_delta = 2.0 * PI * cutoff / sample_rate_;
+        double real_delta = cos(phase_delta);
+        double imag_delta = sin(phase_delta);
+
+        switch(type) {
+          case kLowPass: {
+            double alpha = imag_delta / (2.0 * resonance);
+            double norm = 1.0 + alpha;
+            target_in_0_ = (1.0 - real_delta) / (2.0 * norm);
+            target_in_1_ = (1.0 - real_delta) / norm;
+            target_in_2_ = target_in_0_;
+            target_out_1_ = -2.0 * real_delta / norm;
+            target_out_2_ = (1.0 - alpha) / norm;
+            break;
+          }
+          case kHighPass: {
+            double alpha = imag_delta / (2.0 * resonance);
+            double norm = 1.0 + alpha;
+            target_in_0_ = (1.0 + real_delta) / (2.0 * norm);
+            target_in_1_ = -(1.0 + real_delta) / norm;
+            target_in_2_ = target_in_0_;
+            target_out_1_ = -2.0 * real_delta / norm;
+            target_out_2_ = (1.0 - alpha) / norm;
+            break;
+          }
+          case kBandPass: {
+            double alpha = imag_delta / (2.0 * resonance);
+            double norm = 1.0 + alpha;
+            target_in_0_ = (imag_delta / 2.0) / norm;
+            target_in_1_ = 0;
+            target_in_2_ = -target_in_0_;
+            target_out_1_ = -2.0 * real_delta / norm;
+            target_out_2_ = (1.0 - alpha) / norm;
+            break;
+          }
+          case kNotch: {
+            double alpha = imag_delta / (2.0 * resonance);
+            double norm = 1.0 + alpha;
+            target_in_0_ = 1.0 / norm;
+            target_in_1_ = -2.0 * real_delta / norm;
+            target_in_2_ = target_in_0_;
+            target_out_1_ = target_in_1_;
+            target_out_2_ = (1.0 - alpha) / norm;
+            break;
+          }
+          case kAllPass: {
+            double alpha = imag_delta / (2.0 * resonance);
+            double norm = 1.0 + alpha;
+            target_in_0_ = (1.0 - alpha) / norm;
+            target_in_1_ = -2.0 * real_delta / norm;
+            target_in_2_ = 1.0;
+            target_out_1_ = -2.0 * real_delta / norm;
+            target_out_2_ = (1.0 - alpha) / norm;
+            break;
+          }
+          default: {
+            target_in_0_ = 1.0;
+            target_in_2_ = target_in_1_ = target_out_2_ = target_out_1_ = 0.0;
+          }
+        }
+        
+        current_cutoff_ = cutoff;
+        current_resonance_ = resonance;
+      }
 
     private:
       mopo_float tick(int i);
       void reset();
-      void computeCoefficients(Type type, mopo_float cutoff,
-                                          mopo_float resonance);
 
       Type current_type_;
       mopo_float current_cutoff_, current_resonance_;
 
+      // Current biquad coefficients.
       mopo_float in_0_, in_1_, in_2_;
-      mopo_float out_0_, out_1_;
+      mopo_float out_1_, out_2_;
 
+      // Target biquad coefficients.
+      mopo_float target_in_0_, target_in_1_, target_in_2_;
+      mopo_float target_out_1_, target_out_2_;
+
+      // Past input and output values.
       mopo_float past_in_1_, past_in_2_;
       mopo_float past_out_1_, past_out_2_;
   };

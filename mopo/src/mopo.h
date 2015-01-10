@@ -24,11 +24,11 @@
 #define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
 
 // Debugging.
-#ifdef DEBUG
+#if DEBUG
 #include <cassert>
 #define MOPO_ASSERT(x) assert(x)
 #else
-#define MOPO_ASSERT(x) (void)(x)
+#define MOPO_ASSERT(x) ((void)0)
 #endif // DEBUG
 
 namespace mopo {

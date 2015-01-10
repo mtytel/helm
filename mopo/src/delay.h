@@ -36,6 +36,7 @@ namespace mopo {
       };
 
       Delay();
+      virtual ~Delay() { }
 
       virtual Processor* clone() const { return new Delay(*this); }
       virtual void process();

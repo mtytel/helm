@@ -58,6 +58,7 @@ namespace mopo {
       };
 
       Envelope();
+      virtual ~Envelope() { }
 
       virtual Processor* clone() const { return new Envelope(*this); }
       void process();

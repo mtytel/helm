@@ -31,6 +31,9 @@ namespace mopo {
 
       virtual void process();
       virtual void tick(int i) = 0;
+
+    private:
+      Operator() : Processor(0, 0) { }
   };
 
   // A processor that will clamp a signal output to a given window.

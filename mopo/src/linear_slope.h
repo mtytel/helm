@@ -34,6 +34,7 @@ namespace mopo {
       };
 
       LinearSlope();
+      virtual ~LinearSlope() { }
 
       virtual Processor* clone() const { return new LinearSlope(*this); }
       virtual void process();

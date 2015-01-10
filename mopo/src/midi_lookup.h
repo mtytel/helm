@@ -22,30 +22,27 @@
 
 #include <cmath>
 
-#define MIDI_0_FREQUENCY 8.1757989156
-#define NOTES_PER_OCTAVE 12
-#define CENTS_PER_NOTE 100
-#define MAX_CENTS (MIDI_SIZE * CENTS_PER_NOTE)
-
 namespace mopo {
+
+  namespace {
+    const mopo_float MIDI_0_FREQUENCY = 8.1757989156;
+    const int NOTES_PER_OCTAVE = 12;
+    const int CENTS_PER_NOTE = 100;
+    const int MAX_CENTS = MIDI_SIZE * CENTS_PER_NOTE;
+  } // namespace
 
   class MidiLookupSingleton {
     public:
       MidiLookupSingleton() {
         mopo_float cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
-        for (int i = 0; i <= MAX_CENTS; ++i) {
+        for (int i = 0; i < MAX_CENTS + 2; ++i) {
           frequency_lookup_[i] = MIDI_0_FREQUENCY *
                                  pow(2, i / cents_per_octave);
         }
       }
 
       mopo_float centsLookup(mopo_float cents_from_0) const {
-        if (cents_from_0 >= MAX_CENTS)
-          return frequency_lookup_[MAX_CENTS];
-        if (cents_from_0 <= 0)
-          return frequency_lookup_[0];
-
-        int full_cents = cents_from_0;
+        int full_cents = CLAMP(cents_from_0, 0.0, MAX_CENTS);
         mopo_float fraction_cents = cents_from_0 - full_cents;
 
         return INTERPOLATE(frequency_lookup_[full_cents],
@@ -53,7 +50,7 @@ namespace mopo {
       }
 
     private:
-      mopo_float frequency_lookup_[MAX_CENTS + 1];
+      mopo_float frequency_lookup_[MAX_CENTS + 2];
   };
 
   class MidiLookup {

@@ -60,6 +60,8 @@ namespace mopo {
       }
 
     private:
+      Voice() { }
+
       bool new_event_;
       VoiceState state_;
       Processor* processor_;
