@@ -123,7 +123,7 @@ namespace mopo {
     addProcessor(midi_mod);
     addProcessor(final_midi);
 
-    controls_["pitch bend range"] = new Control(pitch_bend_range, 0, 48, 48);
+    controls_["pitch bend range"] = pitch_bend_range;
 
     // Oscillator 1.
     oscillators_ = new TwytchOscillators();
@@ -149,15 +149,13 @@ namespace mopo {
     addProcessor(oscillator1_frequency);
     addProcessor(oscillators_);
 
-    controls_["cross modulation"] = new Control(cross_mod, 0, 1, MIDI_SIZE);
+    controls_["cross modulation"] = cross_mod;
 
     std::vector<std::string> wave_strings = std::vector<std::string>(
         TwytchStrings::wave_strings_,
         TwytchStrings::wave_strings_ + Wave::kNumWaveforms);
     int wave_resolution = Wave::kNumWaveforms - 1;
-    controls_["osc 1 waveform"] = new Control(oscillator1_waveform,
-                                              wave_strings,
-                                              wave_resolution);
+    controls_["osc 1 waveform"] = oscillator1_waveform;
 
     // Oscillator 2.
     Value* oscillator2_waveform = new Value(Wave::kDownSaw);
@@ -179,13 +177,9 @@ namespace mopo {
     addProcessor(oscillator2_midi);
     addProcessor(oscillator2_frequency);
 
-    controls_["osc 2 waveform"] = new Control(oscillator2_waveform,
-                                              wave_strings,
-                                              wave_resolution);
-    controls_["osc 2 transpose"] =
-        new Control(oscillator2_transpose, -48, 48, 96);
-    controls_["osc 2 tune"] =
-        new Control(oscillator2_tune, -1, 1, MIDI_SIZE);
+    controls_["osc 2 waveform"] = oscillator2_waveform;
+    controls_["osc 2 transpose"] = oscillator2_transpose;
+    controls_["osc 2 tune"] = oscillator2_tune;
 
     // Oscillator mix.
     Value* oscillator_mix_amount = new Value(0.5);
@@ -205,8 +199,7 @@ namespace mopo {
     addProcessor(mix_mod_sources);
     addProcessor(mix_total);
     addProcessor(clamp_mix);
-    controls_["osc mix"] =
-        new Control(oscillator_mix_amount, 0, 1, MIDI_SIZE);
+    controls_["osc mix"] = oscillator_mix_amount;
 
     // LFO 1.
     Value* lfo1_waveform = new Value(Wave::kSin);
@@ -218,11 +211,8 @@ namespace mopo {
 
     int lfo_wave_resolution = wave_resolution - 1;
     addProcessor(lfo1_);
-    controls_["lfo 1 waveform"] = new Control(lfo1_waveform,
-                                              wave_strings,
-                                              lfo_wave_resolution);
-    controls_["lfo 1 frequency"] =
-        new Control(lfo1_frequency, 0, 10, MIDI_SIZE);
+    controls_["lfo 1 waveform"] = lfo1_waveform;
+    controls_["lfo 1 frequency"] = lfo1_frequency;
 
     // LFO 2.
     Value* lfo2_waveform = new Value(Wave::kSin);
@@ -233,11 +223,8 @@ namespace mopo {
     lfo2_->plug(lfo2_frequency, Oscillator::kFrequency);
 
     addProcessor(lfo2_);
-    controls_["lfo 2 waveform"] = new Control(lfo2_waveform,
-                                              wave_strings,
-                                              lfo_wave_resolution);
-    controls_["lfo 2 frequency"] =
-        new Control(lfo2_frequency, 0, 10, MIDI_SIZE);
+    controls_["lfo 2 waveform"] = lfo2_waveform;
+    controls_["lfo 2 frequency"] = lfo2_frequency;
 
     // Modulation sources/destinations.
     mod_sources_["lfo 1"] = lfo1_->output();
@@ -271,12 +258,11 @@ namespace mopo {
     addProcessor(filter_envelope_);
     addProcessor(scaled_envelope);
 
-    controls_["fil attack"] = new Control(filter_attack, 0, 10, MIDI_SIZE);
-    controls_["fil decay"] = new Control(filter_decay, 0, 10, MIDI_SIZE);
-    controls_["fil sustain"] = new Control(filter_sustain, 0, 1, MIDI_SIZE);
-    controls_["fil release"] = new Control(filter_release, 0, 10, MIDI_SIZE);
-    controls_["fil env depth"] =
-        new Control(filter_envelope_depth, -MIDI_SIZE, MIDI_SIZE, MIDI_SIZE);
+    controls_["fil attack"] = filter_attack;
+    controls_["fil decay"] = filter_decay;
+    controls_["fil sustain"] = filter_sustain;
+    controls_["fil release"] = filter_release;
+    controls_["fil env depth"] = filter_envelope_depth;
 
     // Filter.
     Value* filter_type = new Value(Filter::kLowPass);
@@ -343,12 +329,10 @@ namespace mopo {
     std::vector<std::string> filter_strings = std::vector<std::string>(
         TwytchStrings::filter_strings_,
         TwytchStrings::filter_strings_ + Filter::kNumTypes);
-    controls_["filter type"] = new Control(filter_type, filter_strings,
-                                           Filter::kNumTypes - 1);
-    controls_["cutoff"] =
-        new Control(base_cutoff, 28, MIDI_SIZE - 1, MIDI_SIZE);
-    controls_["keytrack"] = new Control(keytrack_amount, -1, 1, MIDI_SIZE);
-    controls_["resonance"] = new Control(resonance, 0.5, 15, MIDI_SIZE);
+    controls_["filter type"] = filter_type;
+    controls_["cutoff"] = base_cutoff;
+    controls_["keytrack"] = keytrack_amount;
+    controls_["resonance"] = resonance;
 
     mod_sources_["filter env"] = filter_envelope_->output();
     mod_destinations_["cutoff"] = cutoff_mod_sources;
@@ -387,20 +371,17 @@ namespace mopo {
 
       std::stringstream scale_name;
       scale_name << "mod scale " << i + 1;
-      controls_[scale_name.str()] =
-          new Control(mod_matrix_scales_[i], -1, 1, MIDI_SIZE);
+      controls_[scale_name.str()] = mod_matrix_scales_[i];
 
       std::stringstream source_name;
       source_name << "mod source " << i + 1;
       int source_size = source_names.size() - 1;
-      controls_[source_name.str()] =
-          new Control(source_value, source_names, source_size);
+      controls_[source_name.str()] = source_value;
 
       std::stringstream destination_name;
       destination_name << "mod destination " << i + 1;
       int dest_size = destination_names.size() - 1;
-      controls_[destination_name.str()] =
-          new Control(destination_value, destination_names, dest_size);
+      controls_[destination_name.str()] = destination_value;
     }
   }
 
@@ -415,7 +396,7 @@ namespace mopo {
     std::vector<std::string> legato_strings = std::vector<std::string>(
         TwytchStrings::legato_strings_,
         TwytchStrings::legato_strings_ + 2);
-    controls_["legato"] = new Control(legato, legato_strings, 1);
+    controls_["legato"] = legato;
     addProcessor(legato_filter);
 
     // Amplitude envelope.
@@ -435,10 +416,10 @@ namespace mopo {
     addProcessor(amplitude_envelope_);
     addGlobalProcessor(amplitude_sustain);
 
-    controls_["amp attack"] = new Control(amplitude_attack, 0, 10, MIDI_SIZE);
-    controls_["amp decay"] = new Control(amplitude_decay, 0, 10, MIDI_SIZE);
-    controls_["amp sustain"] = new Control(amplitude_sustain, 0, 1, MIDI_SIZE);
-    controls_["amp release"] = new Control(amplitude_release, 0, 10, MIDI_SIZE);
+    controls_["amp attack"] = amplitude_attack;
+    controls_["amp decay"] = amplitude_decay;
+    controls_["amp sustain"] = amplitude_sustain;
+    controls_["amp release"] = amplitude_release;
 
     // Voice and frequency resetting logic.
     TriggerCombiner* frequency_trigger = new TriggerCombiner();
@@ -490,8 +471,7 @@ namespace mopo {
     velocity_track_mult->plug(velocity_track_amount, Interpolate::kFractional);
 
     addProcessor(velocity_track_mult);
-    controls_["velocity track"] =
-        new Control(velocity_track_amount, 0.0, 1.0, MIDI_SIZE);
+    controls_["velocity track"] = velocity_track_amount;
 
     // Current amplitude using envelope and velocity.
     amplitude_ = new Multiply();
@@ -514,14 +494,13 @@ namespace mopo {
     current_frequency_->plug(portamento_filter, LinearSlope::kTriggerJump);
 
     addProcessor(current_frequency_);
-    controls_["portamento"] = new Control(portamento, 0.0, 0.2, MIDI_SIZE);
+    controls_["portamento"] = portamento;
     std::vector<std::string> portamento_strings = std::vector<std::string>(
         TwytchStrings::portamento_strings_,
         TwytchStrings::portamento_strings_ +
         PortamentoFilter::kNumPortamentoStates);
     int port_type_resolution = PortamentoFilter::kNumPortamentoStates - 1;
-    controls_["portamento type"] =
-        new Control(portamento_type, portamento_strings, port_type_resolution);
+    controls_["portamento type"] = portamento_type;
 
     mod_sources_["amp env"] = amplitude_envelope_->output();
     mod_sources_["note"] = note_percentage->output();
@@ -564,7 +543,7 @@ namespace mopo {
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
 
     addProcessor(voice_handler_);
-    controls_["polyphony"] = new Control(polyphony, 1, 32, 31);
+    controls_["polyphony"] = polyphony;
 
     // Delay effect.
     SmoothValue* delay_time = new SmoothValue(0.06);
@@ -582,10 +561,9 @@ namespace mopo {
     addProcessor(delay_wet);
     addProcessor(delay);
 
-    controls_["delay time"] = new Control(delay_time, 0.01, 1, MIDI_SIZE);
-    controls_["delay feedback"] =
-        new Control(delay_feedback, -1, 1, MIDI_SIZE);
-    controls_["delay dry/wet"] = new Control(delay_wet, 0, 1, MIDI_SIZE);
+    controls_["delay time"] = delay_time;
+    controls_["delay feedback"] = delay_feedback;
+    controls_["delay dry/wet"] = delay_wet;
 
     // Volume.
     SmoothValue* volume = new SmoothValue(0.6);
@@ -600,7 +578,7 @@ namespace mopo {
     addProcessor(scaled_audio);
     registerOutput(clamp->output());
 
-    controls_["volume"] = new Control(volume, 0, 1, MIDI_SIZE);
+    controls_["volume"] = volume;
   }
 
   control_map TwytchEngine::getControls() {

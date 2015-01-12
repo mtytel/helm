@@ -631,6 +631,9 @@
     <ClCompile Include="..\..\Source\twytch_strings.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\editor_components\frequency_slider.cpp">
+      <Filter>Twytch\Source\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\filter_response.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
@@ -2300,6 +2303,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\twytch_strings.h">
       <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\editor_components\frequency_slider.h">
+      <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\filter_response.h">
       <Filter>Twytch\Source\editor_components</Filter>

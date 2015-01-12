@@ -36,7 +36,7 @@
                                                                     //[/Comments]
 */
 class GraphicalEnvelope  : public Component,
-                           public DragAndDropContainer
+                           public SliderListener
 {
 public:
     //==============================================================================
@@ -47,10 +47,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
 
     void resetEnvelopeLine();
-
-    void setTimeSkewFactor(double skew) {
-        time_skew_factor_ = skew;
-    }
+    void sliderValueChanged(Slider* sliderThatWasMoved) override;
 
     double getAttackX();
     double getDecayX();
@@ -63,25 +60,10 @@ public:
     void setSustainY(double y);
     void setReleaseX(double x);
 
-    void setAttackControl(mopo::Control* attack_control) {
-        attack_control_ = attack_control;
-        resetEnvelopeLine();
-    }
-
-    void setDecayControl(mopo::Control* decay_control) {
-        decay_control_ = decay_control;
-        resetEnvelopeLine();
-    }
-
-    void setSustainControl(mopo::Control* sustain_control) {
-        sustain_control_ = sustain_control;
-        resetEnvelopeLine();
-    }
-
-    void setReleaseControl(mopo::Control* release_control) {
-        release_control_ = release_control;
-        resetEnvelopeLine();
-    }
+    void setAttackSlider(Slider* attack_slider);
+    void setDecaySlider(Slider* decay_slider);
+    void setSustainSlider(Slider* sustain_slider);
+    void setReleaseSlider(Slider* release_slider);
 
     //[/UserMethods]
 
@@ -101,11 +83,10 @@ private:
     bool release_hover_;
     Path envelope_line_;
 
-    double time_skew_factor_;
-    mopo::Control* attack_control_;
-    mopo::Control* decay_control_;
-    mopo::Control* sustain_control_;
-    mopo::Control* release_control_;
+    Slider* attack_slider_;
+    Slider* decay_slider_;
+    Slider* sustain_slider_;
+    Slider* release_slider_;
     //[/UserVariables]
 
     //==============================================================================

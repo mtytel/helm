@@ -137,6 +137,7 @@ OBJECTS := \
   $(OBJDIR)/MatrixMixerVolumes_2141177b.o \
   $(OBJDIR)/twytch_engine_9a8780bf.o \
   $(OBJDIR)/twytch_strings_fab1886f.o \
+  $(OBJDIR)/frequency_slider_9ea98714.o \
   $(OBJDIR)/filter_response_c5a98742.o \
   $(OBJDIR)/wave_form_selector_d4921d64.o \
   $(OBJDIR)/draggable_component_3fda2ae5.o \
@@ -627,6 +628,11 @@ $(OBJDIR)/twytch_engine_9a8780bf.o: ../../Source/twytch_engine.cpp
 $(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_strings.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/frequency_slider_9ea98714.o: ../../Source/editor_components/frequency_slider.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling frequency_slider.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_c5a98742.o: ../../Source/editor_components/filter_response.cpp

@@ -26,6 +26,11 @@ namespace mopo {
   namespace {
     const mopo_float EPSILON = 1e-16;
     const mopo_float DB_GAIN_CONVERSION_MULT = 40.0;
+    const mopo_float MIDI_0_FREQUENCY = 8.1757989156;
+    const int NOTES_PER_OCTAVE = 12;
+    const int CENTS_PER_NOTE = 100;
+    const int CENTS_PER_OCTAVE = NOTES_PER_OCTAVE * CENTS_PER_NOTE;
+    const int MAX_CENTS = MIDI_SIZE * CENTS_PER_NOTE;
   }
 
   namespace utils {
@@ -40,6 +45,22 @@ namespace mopo {
 
     inline mopo_float dbToGain(mopo_float decibals) {
       return std::pow(10.0, decibals / DB_GAIN_CONVERSION_MULT);
+    }
+
+    inline mopo_float midiCentsToFrequency(double cents) {
+      return MIDI_0_FREQUENCY * pow(2.0, cents / CENTS_PER_OCTAVE);
+    }
+
+    inline mopo_float midiNoteToFrequency(double note) {
+      return midiCentsToFrequency(note * CENTS_PER_NOTE);
+    }
+
+    inline mopo_float frequencyToMidiNote(double frequency) {
+      return NOTES_PER_OCTAVE * log2(frequency / MIDI_0_FREQUENCY);
+    }
+
+    inline mopo_float frequencyToMidiCents(double frequency) {
+      return CENTS_PER_NOTE * frequencyToMidiNote(frequency);
     }
 
     inline bool isSilent(const mopo_float* buffer, int length) {

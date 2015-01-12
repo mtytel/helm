@@ -31,7 +31,7 @@ WaveFormSelector::WaveFormSelector (int resolution)
 {
 
     //[UserPreSize]
-    wave_control_ = nullptr;
+    wave_slider_ = nullptr;
     resolution_ = resolution;
     //[/UserPreSize]
 
@@ -82,11 +82,14 @@ void WaveFormSelector::resized()
 void WaveFormSelector::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
-    if (wave_control_) {
+    if (wave_slider_) {
+        int current_value = wave_slider_->getValue();
         if (e.mods.isRightButtonDown())
-            wave_control_->decrement(true);
+            current_value = current_value + wave_slider_->getMaximum() - 1;
         else
-            wave_control_->increment(true);
+            current_value = current_value + 1;
+        wave_slider_->setValue(current_value % static_cast<int>(wave_slider_->getMaximum()));
+
         resetWavePath();
         repaint();
     }
@@ -97,18 +100,27 @@ void WaveFormSelector::mouseDown (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void WaveFormSelector::setWaveSlider(Slider* slider) {
+    if (wave_slider_)
+        wave_slider_->removeListener(this);
+    wave_slider_ = slider;
+    wave_slider_->addListener(this);
+    resetWavePath();
+    repaint();
+}
+
 void WaveFormSelector::resetWavePath() {
     static const float padding = 5.0f;
     wave_path_.clear();
 
-    if (wave_control_ == nullptr)
+    if (wave_slider_ == nullptr)
         return;
 
     float draw_width = getWidth() - 2.0f * padding;
     float draw_height = getHeight() - 2.0f * padding;
 
     wave_path_.startNewSubPath(padding, getHeight() / 2.0f);
-    mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_control_->current_value());
+    mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
     for (int i = 1; i < resolution_ - 1; ++i) {
         float t = (1.0f * i) / resolution_;
         float val = mopo::Wave::wave(type, t);
@@ -117,6 +129,12 @@ void WaveFormSelector::resetWavePath() {
 
     wave_path_.lineTo(getWidth() - padding, getHeight() / 2.0f);
 }
+
+void WaveFormSelector::sliderValueChanged(Slider* sliderThatWasMoved) {
+    resetWavePath();
+    repaint();
+}
+
 //[/MiscUserCode]
 
 

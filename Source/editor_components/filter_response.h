@@ -36,7 +36,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class FilterResponse  : public Component
+class FilterResponse  : public Component,
+                        public SliderListener
 {
 public:
     //==============================================================================
@@ -48,25 +49,11 @@ public:
     void resetResponsePath();
     void computeFilterCoefficients();
     void setFilterSettingsFromPosition(Point<int> position);
+    void sliderValueChanged(Slider* sliderThatWasMoved) override;
 
-    void setResonanceSkew(float skew) { resonance_skew_ = skew; }
-    
-    void setResonanceControl(mopo::Control* control) {
-        resonance_control_ = control;
-        computeFilterCoefficients();
-    }
-    
-    void setFrequencyControl(mopo::Control* control) {
-        frequency_control_ = control;
-        computeFilterCoefficients();
-
-    }
-
-    void setFilterTypeControl(mopo::Control* control) {
-        filter_type_control_ = control;
-        computeFilterCoefficients();
-    }
-
+    void setResonanceSlider(Slider* slider);
+    void setCutoffSlider(Slider* slider);
+    void setFilterTypeSlider(Slider* slider);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -80,13 +67,12 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Path filter_response_path_;
     int resolution_;
-    float resonance_skew_;
 
     mopo::Filter filter_;
 
-    mopo::Control* filter_type_control_;
-    mopo::Control* frequency_control_;
-    mopo::Control* resonance_control_;
+    Slider* filter_type_slider_;
+    Slider* cutoff_slider_;
+    Slider* resonance_slider_;
     //[/UserVariables]
 
     //==============================================================================

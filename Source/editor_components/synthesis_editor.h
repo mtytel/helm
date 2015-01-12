@@ -48,7 +48,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void addControls(mopo::control_map controls);
+    void addControls(mopo::control_map controls) { controls_ = controls; }
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -59,6 +59,7 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    mopo::control_map controls_;
     //[/UserVariables]
 
     //==============================================================================
@@ -67,11 +68,36 @@ private:
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
     ScopedPointer<WaveFormSelector> wave_form_1_;
     ScopedPointer<WaveFormSelector> wave_form_2_;
-    ScopedPointer<Slider> knob1_;
-    ScopedPointer<Slider> knob2_;
-    ScopedPointer<Slider> knob3_;
-    ScopedPointer<Slider> knob4_;
+    ScopedPointer<Slider> polyphony_;
+    ScopedPointer<Slider> portamento_;
+    ScopedPointer<Slider> pitch_bend_range_;
+    ScopedPointer<Slider> cross_modulation_;
     ScopedPointer<FilterResponse> filter_response_;
+    ScopedPointer<Slider> legato_;
+    ScopedPointer<Slider> portamento_type_;
+    ScopedPointer<Slider> osc_mix_;
+    ScopedPointer<Slider> osc_2_transpose_;
+    ScopedPointer<Slider> osc_2_tune_;
+    ScopedPointer<Slider> volume_;
+    ScopedPointer<Slider> delay_time_;
+    ScopedPointer<Slider> delay_feedback_;
+    ScopedPointer<Slider> delay_dry_wet_;
+    ScopedPointer<Slider> velocity_track_;
+    ScopedPointer<Slider> amp_attack_;
+    ScopedPointer<Slider> amp_decay_;
+    ScopedPointer<Slider> amp_release_;
+    ScopedPointer<Slider> amp_sustain_;
+    ScopedPointer<Slider> fil_attack_;
+    ScopedPointer<Slider> fil_decay_;
+    ScopedPointer<Slider> fil_release_;
+    ScopedPointer<Slider> fil_sustain_;
+    ScopedPointer<Slider> resonance_;
+    ScopedPointer<Slider> filter_type_;
+    ScopedPointer<Slider> osc_1_waveform_;
+    ScopedPointer<Slider> osc_2_waveform_;
+    ScopedPointer<Slider> cutoff_;
+    ScopedPointer<Slider> fil_env_depth_;
+    ScopedPointer<Slider> keytrack_;
 
 
     //==============================================================================

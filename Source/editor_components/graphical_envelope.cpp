@@ -44,12 +44,10 @@ GraphicalEnvelope::GraphicalEnvelope ()
     sustain_hover_ = false;
     release_hover_ = false;
 
-    time_skew_factor_ = 1.0;
-
-    attack_control_ = nullptr;
-    decay_control_ = nullptr;
-    sustain_control_ = nullptr;
-    release_control_ = nullptr;
+    attack_slider_ = nullptr;
+    decay_slider_ = nullptr;
+    sustain_slider_ = nullptr;
+    release_slider_ = nullptr;
     //[/UserPreSize]
 
     setSize (200, 100);
@@ -182,19 +180,24 @@ void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void GraphicalEnvelope::sliderValueChanged(Slider* sliderThatWasMoved) {
+    resetEnvelopeLine();
+    repaint();
+}
+
 double GraphicalEnvelope::getAttackX() {
-    if (!attack_control_)
+    if (!attack_slider_)
         return 0.0;
 
-    double percent = pow(attack_control_->getPercentage(), 1.0 / time_skew_factor_);
+    double percent = attack_slider_->valueToProportionOfLength(attack_slider_->getValue());
     return getWidth() * percent * ATTACK_RANGE_PERCENT;
 }
 
 double GraphicalEnvelope::getDecayX() {
-    if (!decay_control_)
+    if (!decay_slider_)
         return 0.0;
 
-    double percent = pow(decay_control_->getPercentage(), 1.0 / time_skew_factor_);
+    double percent = decay_slider_->valueToProportionOfLength(decay_slider_->getValue());
     return getAttackX() + getWidth() * percent * DECAY_RANGE_PERCENT;
 }
 
@@ -203,49 +206,86 @@ double GraphicalEnvelope::getSustainX() {
 }
 
 double GraphicalEnvelope::getSustainY() {
-    if (!sustain_control_)
+    if (!sustain_slider_)
         return 0.0;
 
-    return getHeight() * (1.0 - sustain_control_->getPercentage());
+    double percent = sustain_slider_->valueToProportionOfLength(sustain_slider_->getValue());
+    return getHeight() * (1.0 - percent);
 }
 
 double GraphicalEnvelope::getReleaseX() {
-    if (!release_control_)
+    if (!release_slider_)
         return 0.0;
 
-    double percent = pow(release_control_->getPercentage(), 1.0 / time_skew_factor_);
+    double percent = release_slider_->valueToProportionOfLength(release_slider_->getValue());
     return getSustainX() + getWidth() * percent * RELEASE_RANGE_PERCENT;
 }
 
 void GraphicalEnvelope::setAttackX(double x) {
-    if (!attack_control_)
+    if (!attack_slider_)
         return;
 
     double percent = x / (getWidth() * ATTACK_RANGE_PERCENT);
-    attack_control_->setPercentage(pow(CLAMP(percent, 0.0, 1.0), time_skew_factor_));
+    attack_slider_->setValue(attack_slider_->proportionOfLengthToValue(percent));
 }
 
 void GraphicalEnvelope::setDecayX(double x) {
-    if (!decay_control_)
+    if (!decay_slider_)
         return;
 
     double percent = (x - getAttackX()) / (getWidth() * DECAY_RANGE_PERCENT);
-    decay_control_->setPercentage(pow(CLAMP(percent, 0.0, 1.0), time_skew_factor_));
+    decay_slider_->setValue(decay_slider_->proportionOfLengthToValue(percent));
 }
 
 void GraphicalEnvelope::setSustainY(double y) {
-    if (!sustain_control_)
+    if (!sustain_slider_)
         return;
 
-    sustain_control_->setPercentage(CLAMP(1.0 - y / getHeight(), 0.0, 1.0));
+    sustain_slider_->setValue(sustain_slider_->proportionOfLengthToValue(1.0 - y / getHeight()));
 }
 
 void GraphicalEnvelope::setReleaseX(double x) {
-    if (!release_control_)
+    if (!release_slider_)
         return;
 
     double percent = (x - getSustainX()) / (getWidth() * (RELEASE_RANGE_PERCENT));
-    release_control_->setPercentage(pow(CLAMP(percent, 0.0, 1.0), time_skew_factor_));
+    release_slider_->setValue(release_slider_->proportionOfLengthToValue(percent));
+}
+
+void GraphicalEnvelope::setAttackSlider(Slider* attack_slider) {
+    if (attack_slider_)
+        attack_slider_->removeListener(this);
+    attack_slider_ = attack_slider;
+    attack_slider_->addListener(this);
+    resetEnvelopeLine();
+    repaint();
+}
+
+void GraphicalEnvelope::setDecaySlider(Slider* decay_slider) {
+    if (decay_slider_)
+        decay_slider_->removeListener(this);
+    decay_slider_ = decay_slider;
+    decay_slider_->addListener(this);
+    resetEnvelopeLine();
+    repaint();
+}
+
+void GraphicalEnvelope::setSustainSlider(Slider* sustain_slider) {
+    if (sustain_slider_)
+        sustain_slider_->removeListener(this);
+    sustain_slider_ = sustain_slider;
+    sustain_slider_->addListener(this);
+    resetEnvelopeLine();
+    repaint();
+}
+
+void GraphicalEnvelope::setReleaseSlider(Slider* release_slider) {
+    if (release_slider_)
+        release_slider_->removeListener(this);
+    release_slider_ = release_slider;
+    release_slider_->addListener(this);
+    resetEnvelopeLine();
+    repaint();
 }
 
 void GraphicalEnvelope::resetEnvelopeLine() {

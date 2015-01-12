@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\..\srcs\CoreAudio\PublicUtility\MatrixMixerVolumes.cpp"/>
     <ClCompile Include="..\..\Source\twytch_engine.cpp"/>
     <ClCompile Include="..\..\Source\twytch_strings.cpp"/>
+    <ClCompile Include="..\..\Source\editor_components\frequency_slider.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\wave_form_selector.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\draggable_component.cpp"/>
@@ -1487,6 +1488,7 @@
     <ClInclude Include="..\..\Source\twytch_common.h"/>
     <ClInclude Include="..\..\Source\twytch_engine.h"/>
     <ClInclude Include="..\..\Source\twytch_strings.h"/>
+    <ClInclude Include="..\..\Source\editor_components\frequency_slider.h"/>
     <ClInclude Include="..\..\Source\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\Source\editor_components\wave_form_selector.h"/>
     <ClInclude Include="..\..\Source\editor_components\draggable_component.h"/>

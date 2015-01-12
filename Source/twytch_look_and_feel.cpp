@@ -79,4 +79,9 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
 
   g.setColour(Colour(0xffcccccc));
   g.strokePath(active_section, stroke_type);
+
+  if (slider.getInterval() == 1) {
+    g.drawText(String(slider.getValue()), slider.getLocalBounds(),
+               Justification::horizontallyCentred | Justification::verticallyCentred);
+  }
 }

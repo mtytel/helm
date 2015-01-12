@@ -19,31 +19,28 @@
 #define MIDI_LOOKUP_H
 
 #include "mopo.h"
+#include "utils.h"
 
 #include <cmath>
 
 namespace mopo {
 
   namespace {
-    const mopo_float MIDI_0_FREQUENCY = 8.1757989156;
-    const int NOTES_PER_OCTAVE = 12;
-    const int CENTS_PER_NOTE = 100;
-    const int MAX_CENTS = MIDI_SIZE * CENTS_PER_NOTE;
+
   } // namespace
 
   class MidiLookupSingleton {
     public:
       MidiLookupSingleton() {
-        mopo_float cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
         for (int i = 0; i < MAX_CENTS + 2; ++i) {
-          frequency_lookup_[i] = MIDI_0_FREQUENCY *
-                                 pow(2, i / cents_per_octave);
+          frequency_lookup_[i] = utils::midiCentsToFrequency(i);
         }
       }
 
       mopo_float centsLookup(mopo_float cents_from_0) const {
-        int full_cents = CLAMP(cents_from_0, 0.0, MAX_CENTS);
-        mopo_float fraction_cents = cents_from_0 - full_cents;
+        mopo_float clamped_cents = CLAMP(cents_from_0, 0.0, MAX_CENTS);
+        int full_cents = clamped_cents;
+        mopo_float fraction_cents = clamped_cents - full_cents;
 
         return INTERPOLATE(frequency_lookup_[full_cents],
                            frequency_lookup_[full_cents + 1], fraction_cents);
