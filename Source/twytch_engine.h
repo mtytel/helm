@@ -43,6 +43,18 @@ namespace mopo {
   // sample by sample to allow for cross modulation.
   class TwytchOscillators : public TickRouter {
     public:
+
+      enum Inputs {
+        kOscillator1Waveform,
+        kOscillator2Waveform,
+        kOscillator1Reset,
+        kOscillator2Reset,
+        kOscillator1BaseFrequency,
+        kOscillator2BaseFrequency,
+        kOscillator1FM,
+        kOscillator2FM,
+      };
+    
       TwytchOscillators();
       TwytchOscillators(const TwytchOscillators& original) :
           TickRouter(original) {

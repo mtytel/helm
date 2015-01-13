@@ -54,14 +54,14 @@ namespace mopo {
     addProcessor(oscillator1_);
     addProcessor(oscillator2_);
 
-    registerInput(oscillator1_->input(Oscillator::kWaveform));
-    registerInput(oscillator2_->input(Oscillator::kWaveform));
-    registerInput(oscillator1_->input(Oscillator::kReset));
-    registerInput(oscillator2_->input(Oscillator::kReset));
-    registerInput(frequency1_->input(0));
-    registerInput(frequency2_->input(0));
-    registerInput(freq_mod1_->input(0));
-    registerInput(freq_mod2_->input(0));
+    registerInput(oscillator1_->input(Oscillator::kWaveform), kOscillator1Waveform);
+    registerInput(oscillator2_->input(Oscillator::kWaveform), kOscillator2Waveform);
+    registerInput(oscillator1_->input(Oscillator::kReset), kOscillator1Reset);
+    registerInput(oscillator2_->input(Oscillator::kReset), kOscillator2Reset);
+    registerInput(frequency1_->input(0), kOscillator1BaseFrequency);
+    registerInput(frequency2_->input(0), kOscillator2BaseFrequency);
+    registerInput(freq_mod1_->input(0), kOscillator1FM);
+    registerInput(freq_mod2_->input(0), kOscillator2FM);
 
     normalized_fm1_->plug(freq_mod1_, 0);
     normalized_fm2_->plug(freq_mod2_, 0);
@@ -130,10 +130,10 @@ namespace mopo {
     Value* oscillator1_waveform = new Value(Wave::kDownSaw);
     MidiScale* oscillator1_frequency = new MidiScale();
     oscillator1_frequency->plug(final_midi);
-    oscillators_->plug(oscillator1_waveform, 0);
-    oscillators_->plug(reset, 2);
-    oscillators_->plug(reset, 3);
-    oscillators_->plug(oscillator1_frequency, 4);
+    oscillators_->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
+    oscillators_->plug(reset, TwytchOscillators::kOscillator1Waveform);
+    oscillators_->plug(reset, TwytchOscillators::kOscillator2Waveform);
+    oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Value* cross_mod = new Value(0.15);
     VariableAdd* cross_mod_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
@@ -141,8 +141,8 @@ namespace mopo {
     cross_mod_total->plug(cross_mod, 0);
     cross_mod_total->plug(cross_mod_mod_sources, 1);
 
-    oscillators_->plug(cross_mod_total, 6);
-    oscillators_->plug(cross_mod_total, 7);
+    oscillators_->plug(cross_mod_total, TwytchOscillators::kOscillator1FM);
+    oscillators_->plug(cross_mod_total, TwytchOscillators::kOscillator2FM);
 
     addProcessor(cross_mod_mod_sources);
     addProcessor(cross_mod_total);
@@ -169,8 +169,8 @@ namespace mopo {
 
     MidiScale* oscillator2_frequency = new MidiScale();
     oscillator2_frequency->plug(oscillator2_midi);
-    oscillators_->plug(oscillator2_waveform, 1);
-    oscillators_->plug(oscillator2_frequency, 5);
+    oscillators_->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
+    oscillators_->plug(oscillator2_frequency, TwytchOscillators::kOscillator2BaseFrequency);
 
     addProcessor(oscillator2_transposed);
     addProcessor(oscillator2_midi);
