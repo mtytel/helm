@@ -25,7 +25,9 @@ namespace {
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
-  g.fillAll(Colours::black);
+  g.setColour(Colours::black);
+  g.fillRect(x, y, width, height);
+  
   g.setColour(Colours::grey);
   if (style == Slider::SliderStyle::LinearHorizontal) {
     float percent_smaller = (width - 2 * SLIDER_PADDING) / width;
