@@ -39,7 +39,6 @@ namespace mopo {
       virtual Processor* clone() const { return new Alias(*this); }
       virtual void process();
 
-    protected:
       mopo_float tick(int i) {
         mopo_float input = inputs_[kAudio]->at(i);
         mopo_float wet = inputs_[kWet]->at(i);
@@ -54,6 +53,7 @@ namespace mopo {
         return INTERPOLATE(input, current_sample_, wet);
       }
 
+    protected:
       mopo_float current_sample_;
       mopo_float static_samples_;
   };

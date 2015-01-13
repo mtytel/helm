@@ -159,8 +159,9 @@ namespace mopo {
         current_resonance_ = resonance;
       }
 
-    private:
       mopo_float tick(int i);
+
+    private:
       void reset();
 
       Type current_type_;
