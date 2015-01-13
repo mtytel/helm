@@ -30,7 +30,7 @@ namespace mopo {
       enum Inputs {
         kAudio,
         kWet,
-        kAliasTime,
+        kFrequency,
         kNumInputs
       };
 
@@ -42,7 +42,7 @@ namespace mopo {
       mopo_float tick(int i) {
         mopo_float input = inputs_[kAudio]->at(i);
         mopo_float wet = inputs_[kWet]->at(i);
-        mopo_float period = inputs_[kAliasTime]->at(i) * sample_rate_;
+        mopo_float period = sample_rate_ / inputs_[kFrequency]->at(i);
 
         static_samples_ += 1.0;
         if (static_samples_ >= period) {
