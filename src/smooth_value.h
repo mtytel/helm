@@ -38,7 +38,7 @@ namespace mopo {
       }
 
     private:
-      mopo_float tick();
+      void tick(int i);
 
       mopo_float target_value_;
       mopo_float decay_;

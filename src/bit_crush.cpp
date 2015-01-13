@@ -28,6 +28,6 @@ namespace mopo {
     magnification_ = pow(2.0, bits / 2.0);
 
     for (int i = 0; i < buffer_size_; ++i)
-      outputs_[0]->buffer[i] = tick(i);
+      tick(i);
   }
 } // namespace mopo

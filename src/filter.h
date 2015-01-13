@@ -159,7 +159,7 @@ namespace mopo {
         current_resonance_ = resonance;
       }
 
-      mopo_float tick(int i);
+      void tick(int i);
 
     private:
       void reset();
