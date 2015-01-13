@@ -154,7 +154,6 @@ namespace mopo {
     std::vector<std::string> wave_strings = std::vector<std::string>(
         TwytchStrings::wave_strings_,
         TwytchStrings::wave_strings_ + Wave::kNumWaveforms);
-    int wave_resolution = Wave::kNumWaveforms - 1;
     controls_["osc 1 waveform"] = oscillator1_waveform;
 
     // Oscillator 2.
@@ -209,7 +208,6 @@ namespace mopo {
     lfo1_->plug(lfo1_waveform, Oscillator::kWaveform);
     lfo1_->plug(lfo1_frequency, Oscillator::kFrequency);
 
-    int lfo_wave_resolution = wave_resolution - 1;
     addProcessor(lfo1_);
     controls_["lfo 1 waveform"] = lfo1_waveform;
     controls_["lfo 1 frequency"] = lfo1_frequency;
@@ -375,12 +373,10 @@ namespace mopo {
 
       std::stringstream source_name;
       source_name << "mod source " << i + 1;
-      int source_size = source_names.size() - 1;
       controls_[source_name.str()] = source_value;
 
       std::stringstream destination_name;
       destination_name << "mod destination " << i + 1;
-      int dest_size = destination_names.size() - 1;
       controls_[destination_name.str()] = destination_value;
     }
   }
@@ -499,7 +495,6 @@ namespace mopo {
         TwytchStrings::portamento_strings_,
         TwytchStrings::portamento_strings_ +
         PortamentoFilter::kNumPortamentoStates);
-    int port_type_resolution = PortamentoFilter::kNumPortamentoStates - 1;
     controls_["portamento type"] = portamento_type;
 
     mod_sources_["amp env"] = amplitude_envelope_->output();
