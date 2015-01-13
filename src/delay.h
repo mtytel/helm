@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ namespace mopo {
       };
 
       Delay();
+      virtual ~Delay() { }
 
       virtual Processor* clone() const { return new Delay(*this); }
       virtual void process();

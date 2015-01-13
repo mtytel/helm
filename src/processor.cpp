@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ namespace mopo {
   void Processor::plug(const Output* source, unsigned int input_index) {
     MOPO_ASSERT(input_index < inputs_.size());
     MOPO_ASSERT(source);
+    MOPO_ASSERT(inputs_[input_index]);
 
     inputs_[input_index]->source = source;
 
@@ -66,7 +67,7 @@ namespace mopo {
 
   void Processor::plugNext(const Output* source) {
     for (size_t i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i]->source == &Processor::null_source_) {
+      if (inputs_[i] && inputs_[i]->source == &Processor::null_source_) {
         plug(source, i);
         return;
       }
@@ -78,19 +79,20 @@ namespace mopo {
   }
 
   void Processor::unplugIndex(unsigned int input_index) {
-    inputs_[input_index]->source = &Processor::null_source_;
+    if (inputs_[input_index])
+      inputs_[input_index]->source = &Processor::null_source_;
   }
 
   void Processor::unplug(const Output* source) {
     for (unsigned int i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i]->source == source)
+      if (inputs_[i] && inputs_[i]->source == source)
         inputs_[i]->source = &Processor::null_source_;
     }
   }
 
   void Processor::unplug(const Processor* source) {
     for (unsigned int i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i]->source->owner == source)
+      if (inputs_[i] && inputs_[i]->source->owner == source)
         inputs_[i]->source = &Processor::null_source_;
     }
   }
@@ -103,6 +105,23 @@ namespace mopo {
 
   void Processor::registerOutput(Output* output) {
     outputs_.push_back(output);
+  }
+
+  void Processor::registerInput(Input* input, int index) {
+    while (inputs_.size() <= index)
+      inputs_.push_back(nullptr);
+
+    inputs_[index] = input;
+
+    if (router_ && input->source != &Processor::null_source_)
+      router_->connect(this, input->source, index);
+  }
+
+  void Processor::registerOutput(Output* output, int index) {
+    while (outputs_.size() <= index)
+      outputs_.push_back(nullptr);
+
+    outputs_[index] = output;
   }
 
   Processor::Input* Processor::input(unsigned int index) const {

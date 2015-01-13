@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,8 @@ namespace mopo {
       }
 
     private:
+      Voice() { }
+
       bool new_event_;
       VoiceState state_;
       Processor* processor_;
@@ -74,7 +76,7 @@ namespace mopo {
 
       VoiceHandler(size_t polyphony = 1);
 
-      virtual Processor* clone() const { MOPO_ASSERT(false); return NULL; }
+      virtual Processor* clone() const { MOPO_ASSERT(false); return nullptr; }
       virtual void process();
       virtual void setSampleRate(int sample_rate);
       virtual void setBufferSize(int buffer_size);

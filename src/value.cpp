@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ namespace mopo {
 
   void Value::set(mopo_float value) {
     value_ = value;
-    for (int i = 0; i < buffer_size_; ++i)
+    for (int i = 0; i < MAX_BUFFER_SIZE; ++i)
       outputs_[0]->buffer[i] = value_;
   }
 } // namespace mopo

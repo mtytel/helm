@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 
 #include <cmath>
 
-#define KILL_TIME 0.02
+#define KILL_TIME 0.04
 
 namespace mopo {
 
   Envelope::Envelope() :
       Processor(kNumInputs, kNumOutputs), state_(kReleasing),
-      current_value_(0), decay_decay_(0), release_decay_(0) { }
+      current_value_(0), decay_decay_(0), release_decay_(0), kill_decrement_(0) { }
 
   void Envelope::trigger(mopo_float event, int offset) {
     if (event == kVoiceOn)
@@ -40,6 +40,7 @@ namespace mopo {
   }
 
   void Envelope::process() {
+    kill_decrement_ = 1.0 / (KILL_TIME * sample_rate_);
     outputs_[kFinished]->clearTrigger();
     // Only update decay and release rate once per buffer.
     mopo_float decay_samples =
@@ -80,7 +81,7 @@ namespace mopo {
                                    decay_decay_);
     }
     else if (state_ == kKilling) {
-      current_value_ -= CLAMP(1 / (KILL_TIME * sample_rate_), 0, 1);
+      current_value_ -= kill_decrement_;
       if (current_value_ <= 0) {
         outputs_[kFinished]->trigger(kVoiceReset, i);
         state_ = kAttacking;

@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include "mopo.h"
 #include <cmath>
+#include <cstdlib>
 
 #define LOOKUP_SIZE 2048
 #define HIGH_FREQUENCY 20000
@@ -129,10 +130,10 @@ namespace mopo {
 
       template<size_t steps>
       inline mopo_float pyramid(mopo_float t, int harmonics) const {
-        size_t squares = steps - 1;
-        mopo_float phase_increment = 1.0 / (2.0 * squares);
+        static const size_t squares = steps - 1;
+        static const mopo_float phase_increment = 1.0 / (2.0 * squares);
 
-        mopo_float phase = 0.5 + t;
+        mopo_float phase = 0.75 + t;
         mopo_float out = 0.0;
 
         double integral;
@@ -174,7 +175,7 @@ namespace mopo {
                                       mopo_float frequency) {
         if (fabs(frequency) < 1)
           return wave(waveform, t);
-        int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1;
+        int harmonics = HIGH_FREQUENCY / fabs(frequency);
         if (harmonics >= MAX_HARMONICS)
           return wave(waveform, t);
 
@@ -278,10 +279,10 @@ namespace mopo {
 
       template<size_t steps>
       static inline mopo_float pyramid(mopo_float t) {
-        size_t squares = steps - 1;
-        mopo_float phase_increment = 1.0 / (2.0 * squares);
+        static const size_t squares = steps - 1;
+        static const mopo_float phase_increment = 1.0 / (2.0 * squares);
 
-        mopo_float phase = 0.5 + t;
+        mopo_float phase = 0.75 + t;
         mopo_float out = 0.0;
 
         double integral;

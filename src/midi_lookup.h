@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,41 +19,35 @@
 #define MIDI_LOOKUP_H
 
 #include "mopo.h"
+#include "utils.h"
 
 #include <cmath>
 
-#define MIDI_0_FREQUENCY 8.1757989156
-#define NOTES_PER_OCTAVE 12
-#define CENTS_PER_NOTE 100
-#define MAX_CENTS (MIDI_SIZE * CENTS_PER_NOTE)
-
 namespace mopo {
+
+  namespace {
+
+  } // namespace
 
   class MidiLookupSingleton {
     public:
       MidiLookupSingleton() {
-        mopo_float cents_per_octave = CENTS_PER_NOTE * NOTES_PER_OCTAVE;
-        for (int i = 0; i <= MAX_CENTS; ++i) {
-          frequency_lookup_[i] = MIDI_0_FREQUENCY *
-                                 pow(2, i / cents_per_octave);
+        for (int i = 0; i < MAX_CENTS + 2; ++i) {
+          frequency_lookup_[i] = utils::midiCentsToFrequency(i);
         }
       }
 
       mopo_float centsLookup(mopo_float cents_from_0) const {
-        if (cents_from_0 >= MAX_CENTS)
-          return frequency_lookup_[MAX_CENTS];
-        if (cents_from_0 <= 0)
-          return frequency_lookup_[0];
-
-        int full_cents = cents_from_0;
-        mopo_float fraction_cents = cents_from_0 - full_cents;
+        mopo_float clamped_cents = CLAMP(cents_from_0, 0.0, MAX_CENTS);
+        int full_cents = clamped_cents;
+        mopo_float fraction_cents = clamped_cents - full_cents;
 
         return INTERPOLATE(frequency_lookup_[full_cents],
                            frequency_lookup_[full_cents + 1], fraction_cents);
       }
 
     private:
-      mopo_float frequency_lookup_[MAX_CENTS + 1];
+      mopo_float frequency_lookup_[MAX_CENTS + 2];
   };
 
   class MidiLookup {

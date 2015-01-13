@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,10 @@
 
 #include <cmath>
 
+namespace {
+  const mopo::mopo_float COEFFICIENT_FILTERING = 0.9;
+} // namespace
+
 namespace mopo {
 
   Filter::Filter() : Processor(Filter::kNumInputs, 1) {
@@ -25,9 +29,25 @@ namespace mopo {
     current_cutoff_ = 0.0;
     current_resonance_ = 0.0;
 
-    in_0_ = in_1_ = in_2_ = 0.0;
-    out_0_ = out_1_ = 0.0;
+    target_in_0_ = 1.0;
+    target_in_1_ = target_in_2_ = 0.0;
+    target_out_1_ = target_out_2_ = 0.0;
+
+    in_0_ = 1.0;
+    in_1_ = in_2_ = 0.0;
+    out_1_ = out_2_ = 0.0;
+
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
+  }
+
+  std::complex<mopo_float> Filter::getResponse(mopo_float frequency) {
+    static const std::complex<mopo_float> one(1.0, 0.0);
+    const mopo_float phase_delta = 2.0 * PI * frequency / sample_rate_;
+    const std::complex<mopo_float> freq_tick1 = std::polar(1.0, -phase_delta);
+    const std::complex<mopo_float> freq_tick2 = std::polar(1.0, -2 * phase_delta);
+
+    return (target_in_0_ * one + target_in_1_ * freq_tick1 + target_in_2_ * freq_tick2) /
+           (one + target_out_1_ * freq_tick1 + target_out_2_ * freq_tick2);
   }
 
   void Filter::process() {
@@ -50,14 +70,14 @@ namespace mopo {
 
   inline mopo_float Filter::tick(int i) {
     mopo_float input = inputs_[kAudio]->at(i);
-    mopo_float cutoff = inputs_[kCutoff]->at(i);
-    mopo_float resonance = inputs_[kResonance]->at(i);
-
-    if (cutoff != current_cutoff_ || resonance != current_resonance_)
-      computeCoefficients(current_type_, cutoff, resonance);
+    in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
+    in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
+    in_2_ = INTERPOLATE(target_in_2_, in_2_, COEFFICIENT_FILTERING);
+    out_1_ = INTERPOLATE(target_out_1_, out_1_, COEFFICIENT_FILTERING);
+    out_2_ = INTERPOLATE(target_out_2_, out_2_, COEFFICIENT_FILTERING);
 
     mopo_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
-                     past_out_1_ * out_0_ - past_out_2_ * out_1_;
+                     past_out_1_ * out_1_ - past_out_2_ * out_2_;
     past_in_2_ = past_in_1_;
     past_in_1_ = input;
     past_out_2_ = past_out_1_;
@@ -69,48 +89,4 @@ namespace mopo {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0;
   }
 
-  inline void Filter::computeCoefficients(Type type,
-                                          mopo_float cutoff,
-                                          mopo_float resonance) {
-    mopo_float sf = 1.0 / tan(PI * cutoff / sample_rate_);
-    mopo_float sf_squared = sf * sf;
-    mopo_float norm = 1.0 + 1.0 / resonance * sf + sf_squared;
-
-    switch(type) {
-      case kLP12: {
-        in_2_ = in_0_ = 1.0 / norm;
-        in_1_ = 2.0 / norm;
-        out_0_ = 2.0 * (1.0 - sf_squared) / norm;
-        out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
-        break;
-      }
-      case kHP12: {
-        in_2_ = in_0_ = sf_squared / norm;
-        in_1_ = -2.0 * sf_squared / norm;
-        out_0_ = 2.0 * (1.0 - sf_squared) / norm;
-        out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
-        break;
-      }
-      case kBP12: {
-        in_2_ = in_0_ = sf / norm;
-        in_1_ = 0.0;
-        out_0_ = 2.0 * (1.0 - sf_squared) / norm;
-        out_1_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
-        break;
-      }
-      case kAP12: {
-        in_0_ = 1.0 / norm;
-        in_1_ = -2.0 * (1.0 - sf_squared) / norm;
-        in_2_ = (1.0 - 1.0 / resonance * sf + sf_squared) / norm;
-        out_0_ = -in_1_;
-        out_1_ = in_2_;
-        break;
-      }
-      default:
-        in_2_ = in_1_ = in_0_ = out_1_ = out_0_ = 0.0;
-    }
-
-    current_cutoff_ = cutoff;
-    current_resonance_ = resonance;
-  }
 } // namespace mopo

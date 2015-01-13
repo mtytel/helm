@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ namespace mopo {
       };
 
       Envelope();
+      virtual ~Envelope() { }
 
       virtual Processor* clone() const { return new Envelope(*this); }
       void process();
@@ -70,6 +71,7 @@ namespace mopo {
       mopo_float current_value_;
       mopo_float decay_decay_;
       mopo_float release_decay_;
+      mopo_float kill_decrement_;
   };
 } // namespace mopo
 

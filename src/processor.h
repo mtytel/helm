@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@ namespace mopo {
 
   class Processor {
     public:
+      virtual ~Processor() { }
+    
       // An output port from the Processor.
       struct Output {
         Output() {
@@ -111,6 +113,8 @@ namespace mopo {
       // Returns the ProcessorRouter that owns this Processor.
       const ProcessorRouter* router() const { return router_; }
 
+      virtual void registerInput(Input* input, int index);
+      virtual void registerOutput(Output* output, int index);
       virtual void registerInput(Input* input);
       virtual void registerOutput(Output* output);
 

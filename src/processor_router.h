@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ namespace mopo {
       virtual void updateAllProcessors();
 
       // Returns the ancestor of _processor_ which is a child of _this_.
-      // Returns NULL if _processor_ is not a descendant of _this_.
+      // Returns nullptr if _processor_ is not a descendant of _this_.
       const Processor* getContext(const Processor* processor);
       std::set<const Processor*> getDependencies(const Processor* processor);
 

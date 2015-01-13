@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,24 +24,23 @@
 #define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
 
 // Debugging.
-#define DEBUG
-#ifdef DEBUG
+#if DEBUG
 #include <cassert>
 #define MOPO_ASSERT(x) assert(x)
 #else
-#define MOPO_ASSERT(x) (void)(x)
+#define MOPO_ASSERT(x) ((void)0)
 #endif // DEBUG
 
 namespace mopo {
 
-  const double PI = 3.1415926535897932384626433832795;
+  typedef double mopo_float;
+
+  const mopo_float PI = 3.1415926535897932384626433832795;
   const int MAX_BUFFER_SIZE = 4096;
   const int DEFAULT_BUFFER_SIZE = 64;
   const int DEFAULT_SAMPLE_RATE = 44100;
   const int MIDI_SIZE = 128;
   const int PPQ = 15360; // Pulses per quarter note.
-
-  typedef double mopo_float;
 
   // Common types of events across different Processors.
   enum VoiceEvent {

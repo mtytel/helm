@@ -1,4 +1,4 @@
-/* Copyright 2013-2014 Little IO
+/* Copyright 2013-2015 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ namespace mopo {
   }
 
   void ProcessorRouter::addProcessor(Processor* processor) {
-    MOPO_ASSERT(processor->router() == NULL || processor->router() == this);
+    MOPO_ASSERT(processor->router() == nullptr || processor->router() == this);
     processor->router(this);
     order_->push_back(processor);
     processors_[processor] = processor;
