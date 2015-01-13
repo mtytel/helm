@@ -72,6 +72,7 @@ GraphicalEnvelope::~GraphicalEnvelope()
 void GraphicalEnvelope::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    static const PathStrokeType stroke(2.000f, PathStrokeType::beveled, PathStrokeType::rounded);
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff303030));
@@ -87,10 +88,7 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.fillPath(envelope_line_);
 
     g.setColour(Colour(0xffcccccc));
-    g.strokePath(envelope_line_, PathStrokeType(2.000f, PathStrokeType::beveled, PathStrokeType::rounded));
-
-    g.setColour(Colour(0xffc8c8c8));
-    g.drawRoundedRectangle(-2.0f, getHeight() - 2.0f, 4.0f, 4.0f, 2.0f, 4.0f);
+    g.strokePath(envelope_line_, stroke);
 
     g.setColour(Colour(0xffffffff));
 
