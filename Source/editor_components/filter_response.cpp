@@ -101,18 +101,6 @@ void FilterResponse::mouseDown (const MouseEvent& e)
         int current_value = filter_type_slider_->getValue();
         filter_type_slider_->setValue((current_value + 1) % max);
 
-        mopo::Filter::Type type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
-
-        if (resonance_slider_) {
-            if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
-                resonance_slider_->setRange(mopo::utils::dbToGain(MIN_GAIN_DB),
-                                            mopo::utils::dbToGain(MAX_GAIN_DB));
-            }
-            else {
-                resonance_slider_->setRange(MIN_RESONANCE, MAX_RESONANCE);
-            }
-        }
-
         computeFilterCoefficients();
     }
     else
@@ -136,7 +124,6 @@ void FilterResponse::mouseDrag (const MouseEvent& e)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void FilterResponse::resetResponsePath() {
-    static const float center = 0.5f;
     static const int wrap_size = 10;
 
     if (cutoff_slider_ == nullptr)
@@ -144,7 +131,7 @@ void FilterResponse::resetResponsePath() {
 
     filter_response_path_.clear();
     filter_response_path_.startNewSubPath(-wrap_size, getHeight() + wrap_size);
-    filter_response_path_.lineTo(-wrap_size, proportionOfHeight(1.0f - center));
+    filter_response_path_.lineTo(-wrap_size, getHeight() / 2.0f);
 
     for (int i = 0; i < resolution_; ++i) {
         float t = (1.0f * i) / (resolution_ - 1);
@@ -157,7 +144,7 @@ void FilterResponse::resetResponsePath() {
         filter_response_path_.lineTo(getWidth() * t, getHeight() * (1.0f - percent));
     }
 
-    filter_response_path_.lineTo(getWidth() + wrap_size, proportionOfHeight(1.0f - center));
+    filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() / 2.0f);
     filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() + wrap_size);
 }
 
@@ -190,6 +177,19 @@ void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
 }
 
 void FilterResponse::sliderValueChanged(Slider* sliderThatWasMoved) {
+    if (sliderThatWasMoved == filter_type_slider_) {
+        mopo::Filter::Type type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
+
+        if (resonance_slider_) {
+            if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
+                resonance_slider_->setRange(mopo::utils::dbToGain(MIN_GAIN_DB),
+                                            mopo::utils::dbToGain(MAX_GAIN_DB));
+            }
+            else {
+                resonance_slider_->setRange(MIN_RESONANCE, MAX_RESONANCE);
+            }
+        }
+    }
     computeFilterCoefficients();
     repaint();
 }
