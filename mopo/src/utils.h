@@ -19,6 +19,7 @@
 #define UTILS_H
 
 #include "mopo.h"
+#include "value.h"
 #include <cmath>
 
 namespace mopo {
@@ -34,6 +35,13 @@ namespace mopo {
   }
 
   namespace utils {
+
+    const Value value_zero(0.0);
+    const Value value_one(1.0);
+    const Value value_two(2.0);
+    const Value value_pi(PI);
+    const Value value_2pi(2.0 * PI);
+    const Value value_neg_one(-1.0);
 
     inline bool closeToZero(mopo_float value) {
       return value <= EPSILON && value >= -EPSILON;
