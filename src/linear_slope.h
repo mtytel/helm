@@ -38,10 +38,9 @@ namespace mopo {
 
       virtual Processor* clone() const { return new LinearSlope(*this); }
       virtual void process();
-
-    private:
       mopo_float tick(int i);
 
+    private:
       mopo_float last_value_;
   };
 } // namespace mopo
