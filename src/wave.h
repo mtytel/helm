@@ -88,14 +88,14 @@ namespace mopo {
       }
 
       inline mopo_float fullsin(mopo_float t) const {
-        double integral;
+        mopo_float integral;
         mopo_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(sin_[index], sin_[index + 1], fractional);
       }
 
       inline mopo_float square(mopo_float t, int harmonics) const {
-        double integral;
+        mopo_float integral;
         mopo_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(square_[harmonics][index],
@@ -103,7 +103,7 @@ namespace mopo {
       }
 
       inline mopo_float upsaw(mopo_float t, int harmonics) const {
-        double integral;
+        mopo_float integral;
         mopo_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(saw_[harmonics][index],
@@ -115,7 +115,7 @@ namespace mopo {
       }
 
       inline mopo_float triangle(mopo_float t, int harmonics) const {
-        double integral;
+        mopo_float integral;
         mopo_float fractional = modf(t * LOOKUP_SIZE, &integral);
         int index = integral;
         return INTERPOLATE(triangle_[harmonics][index],
@@ -136,7 +136,7 @@ namespace mopo {
         mopo_float phase = 0.75 + t;
         mopo_float out = 0.0;
 
-        double integral;
+        mopo_float integral;
         for (size_t i = 0; i < squares; ++i) {
           out += square(modf(phase, &integral), harmonics);
           phase += phase_increment;
@@ -255,7 +255,7 @@ namespace mopo {
       }
 
       static inline mopo_float triangle(mopo_float t) {
-        double integral;
+        mopo_float integral;
         return fabsf(2.0f - 4.0f * modf(t + 0.75f, &integral)) - 1;
       }
 
@@ -285,7 +285,7 @@ namespace mopo {
         mopo_float phase = 0.75 + t;
         mopo_float out = 0.0;
 
-        double integral;
+        mopo_float integral;
         for (size_t i = 0; i < squares; ++i) {
           out += square(modf(phase, &integral));
           phase += phase_increment;

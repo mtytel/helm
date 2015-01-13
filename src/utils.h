@@ -47,19 +47,19 @@ namespace mopo {
       return std::pow(10.0, decibals / DB_GAIN_CONVERSION_MULT);
     }
 
-    inline mopo_float midiCentsToFrequency(double cents) {
+    inline mopo_float midiCentsToFrequency(mopo_float cents) {
       return MIDI_0_FREQUENCY * pow(2.0, cents / CENTS_PER_OCTAVE);
     }
 
-    inline mopo_float midiNoteToFrequency(double note) {
+    inline mopo_float midiNoteToFrequency(mopo_float note) {
       return midiCentsToFrequency(note * CENTS_PER_NOTE);
     }
 
-    inline mopo_float frequencyToMidiNote(double frequency) {
+    inline mopo_float frequencyToMidiNote(mopo_float frequency) {
       return NOTES_PER_OCTAVE * log2(frequency / MIDI_0_FREQUENCY);
     }
 
-    inline mopo_float frequencyToMidiCents(double frequency) {
+    inline mopo_float frequencyToMidiCents(mopo_float frequency) {
       return CENTS_PER_NOTE * frequencyToMidiNote(frequency);
     }
 

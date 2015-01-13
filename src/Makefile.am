@@ -1,5 +1,7 @@
 noinst_LIBRARIES = libmopo.a
-libmopo_a_SOURCES = delay.cpp \
+libmopo_a_SOURCES = alias.cpp \
+										alias.h \
+										delay.cpp \
                     delay.h \
                     envelope.cpp \
                     envelope.h \
