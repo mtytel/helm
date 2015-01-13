@@ -88,7 +88,7 @@ void WaveFormSelector::mouseDown (const MouseEvent& e)
             current_value = current_value + wave_slider_->getMaximum() - 1;
         else
             current_value = current_value + 1;
-        wave_slider_->setValue(current_value % static_cast<int>(wave_slider_->getMaximum()));
+        wave_slider_->setValue(current_value % static_cast<int>(wave_slider_->getMaximum() + 1));
 
         resetWavePath();
         repaint();

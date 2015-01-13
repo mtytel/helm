@@ -189,13 +189,13 @@ SynthesisEditor::SynthesisEditor ()
     filter_type_->addListener (this);
 
     addAndMakeVisible (osc_1_waveform_ = new Slider ("osc 1 waveform"));
-    osc_1_waveform_->setRange (0, 12, 1);
+    osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearHorizontal);
     osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
     osc_1_waveform_->addListener (this);
 
     addAndMakeVisible (osc_2_waveform_ = new Slider ("osc 2 waveform"));
-    osc_2_waveform_->setRange (0, 12, 1);
+    osc_2_waveform_->setRange (0, 11, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearHorizontal);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     osc_2_waveform_->addListener (this);
@@ -251,40 +251,11 @@ SynthesisEditor::SynthesisEditor ()
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
 
-    std::vector<Slider*> sliders;
-
-    sliders.push_back(polyphony_);
-    sliders.push_back(portamento_);
-    sliders.push_back(pitch_bend_range_);
-    sliders.push_back(cross_modulation_);
-    sliders.push_back(legato_);
-    sliders.push_back(portamento_type_);
-    sliders.push_back(osc_mix_);
-    sliders.push_back(osc_2_transpose_);
-    sliders.push_back(osc_2_tune_);
-    sliders.push_back(volume_);
-    sliders.push_back(delay_time_);
-    sliders.push_back(delay_feedback_);
-    sliders.push_back(delay_dry_wet_);
-    sliders.push_back(velocity_track_);
-    sliders.push_back(amp_attack_);
-    sliders.push_back(amp_decay_);
-    sliders.push_back(amp_release_);
-    sliders.push_back(amp_sustain_);
-    sliders.push_back(fil_attack_);
-    sliders.push_back(fil_decay_);
-    sliders.push_back(fil_release_);
-    sliders.push_back(fil_sustain_);
-    sliders.push_back(resonance_);
-    sliders.push_back(filter_type_);
-    sliders.push_back(osc_1_waveform_);
-    sliders.push_back(osc_2_waveform_);
-    sliders.push_back(cutoff_);
-    sliders.push_back(fil_env_depth_);
-    sliders.push_back(keytrack_);
-
-    for (int i = 0; i < sliders.size(); ++i)
-        slider_lookup_[sliders[i]->getName().toStdString()] = sliders[i];
+    for (int i = 0; i < getNumChildComponents(); ++i) {
+        Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
+        if (slider)
+            slider_lookup_[slider->getName().toStdString()] = slider;
+    }
     //[/Constructor]
 }
 
@@ -750,11 +721,11 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 1 waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
           virtualName="" explicitFocusOrder="0" pos="8 112 240 24" min="0"
-          max="12" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
+          max="11" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc 2 waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
           virtualName="" explicitFocusOrder="0" pos="8 240 240 24" min="0"
-          max="12" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
+          max="11" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName=""
           explicitFocusOrder="0" pos="408 112 296 24" min="28" max="127"
