@@ -162,7 +162,7 @@ SynthesisEditor::SynthesisEditor ()
     fil_decay_->addListener (this);
     fil_decay_->setSkewFactor (0.3);
 
-    addAndMakeVisible (fil_release_ = new Slider ("amp release"));
+    addAndMakeVisible (fil_release_ = new Slider ("fil release"));
     fil_release_->setRange (0, 10, 0);
     fil_release_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     fil_release_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -189,13 +189,13 @@ SynthesisEditor::SynthesisEditor ()
     filter_type_->addListener (this);
 
     addAndMakeVisible (osc_1_waveform_ = new Slider ("osc 1 waveform"));
-    osc_1_waveform_->setRange (0, 11, 1);
+    osc_1_waveform_->setRange (0, 12, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearHorizontal);
-    osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
     osc_1_waveform_->addListener (this);
 
     addAndMakeVisible (osc_2_waveform_ = new Slider ("osc 2 waveform"));
-    osc_2_waveform_->setRange (0, 11, 1);
+    osc_2_waveform_->setRange (0, 12, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearHorizontal);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     osc_2_waveform_->addListener (this);
@@ -218,6 +218,14 @@ SynthesisEditor::SynthesisEditor ()
     keytrack_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     keytrack_->addListener (this);
 
+    addAndMakeVisible (save_button_ = new TextButton ("save"));
+    save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
+    save_button_->addListener (this);
+
+    addAndMakeVisible (load_button_ = new TextButton ("load"));
+    load_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
+    load_button_->addListener (this);
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -226,7 +234,6 @@ SynthesisEditor::SynthesisEditor ()
 
 
     //[Constructor] You can add your own custom stuff here..
-
     amplitude_envelope_->setAttackSlider(amp_attack_);
     amplitude_envelope_->setDecaySlider(amp_decay_);
     amplitude_envelope_->setSustainSlider(amp_sustain_);
@@ -243,6 +250,41 @@ SynthesisEditor::SynthesisEditor ()
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
+
+    std::vector<Slider*> sliders;
+
+    sliders.push_back(polyphony_);
+    sliders.push_back(portamento_);
+    sliders.push_back(pitch_bend_range_);
+    sliders.push_back(cross_modulation_);
+    sliders.push_back(legato_);
+    sliders.push_back(portamento_type_);
+    sliders.push_back(osc_mix_);
+    sliders.push_back(osc_2_transpose_);
+    sliders.push_back(osc_2_tune_);
+    sliders.push_back(volume_);
+    sliders.push_back(delay_time_);
+    sliders.push_back(delay_feedback_);
+    sliders.push_back(delay_dry_wet_);
+    sliders.push_back(velocity_track_);
+    sliders.push_back(amp_attack_);
+    sliders.push_back(amp_decay_);
+    sliders.push_back(amp_release_);
+    sliders.push_back(amp_sustain_);
+    sliders.push_back(fil_attack_);
+    sliders.push_back(fil_decay_);
+    sliders.push_back(fil_release_);
+    sliders.push_back(fil_sustain_);
+    sliders.push_back(resonance_);
+    sliders.push_back(filter_type_);
+    sliders.push_back(osc_1_waveform_);
+    sliders.push_back(osc_2_waveform_);
+    sliders.push_back(cutoff_);
+    sliders.push_back(fil_env_depth_);
+    sliders.push_back(keytrack_);
+
+    for (int i = 0; i < sliders.size(); ++i)
+        slider_lookup_[sliders[i]->getName().toStdString()] = sliders[i];
     //[/Constructor]
 }
 
@@ -286,6 +328,8 @@ SynthesisEditor::~SynthesisEditor()
     cutoff_ = nullptr;
     fil_env_depth_ = nullptr;
     keytrack_ = nullptr;
+    save_button_ = nullptr;
+    load_button_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -301,6 +345,7 @@ void SynthesisEditor::paint (Graphics& g)
     g.fillAll (Colour (0xff1f1f1f));
 
     //[UserPaint] Add your own custom painting code here..
+    g.setColour(Colours::white);
     //[/UserPaint]
 }
 
@@ -344,6 +389,8 @@ void SynthesisEditor::resized()
     cutoff_->setBounds (408, 112, 296, 24);
     fil_env_depth_->setBounds (416, 136, 50, 50);
     keytrack_->setBounds (472, 136, 50, 50);
+    save_button_->setBounds (448, 616, 80, 24);
+    load_button_->setBounds (600, 616, 80, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -504,9 +551,71 @@ void SynthesisEditor::sliderValueChanged (Slider* sliderThatWasMoved)
     //[/UsersliderValueChanged_Post]
 }
 
+void SynthesisEditor::buttonClicked (Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == save_button_)
+    {
+        //[UserButtonCode_save_button_] -- add your button handler code here..
+        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
+        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
+        FileChooserDialogBox save_dialog("save patch", "save your gerdamm patch", browser, true, Colours::white);
+        if (save_dialog.show()) {
+            File save_file = browser.getSelectedFile(0);
+            save_file.replaceWithText(writeStateToString());
+        }
+        //[/UserButtonCode_save_button_]
+    }
+    else if (buttonThatWasClicked == load_button_)
+    {
+        //[UserButtonCode_load_button_] -- add your button handler code here..
+        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode;
+        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
+        FileChooserDialogBox load_dialog("load patch", "load a gerdamm patch", browser, true, Colours::white);
+        if (load_dialog.show()) {
+            File load_file = browser.getSelectedFile(0);
+            readStateFromString(load_file.loadFileAsString());
+        }
+        //[/UserButtonCode_load_button_]
+    }
+
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
+}
+
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+String SynthesisEditor::writeStateToString() {
+    DynamicObject* state_object = new DynamicObject();
+    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
+    for (; iter != slider_lookup_.end(); ++iter) {
+        state_object->setProperty(String(iter->first), iter->second->getValue());
+    }
+    return JSON::toString(state_object);
+}
+
+void SynthesisEditor::readStateFromString(String json_string) {
+    var parsed_json;
+    if (JSON::parse(json_string, parsed_json).failed())
+        return;
+
+    DynamicObject* object_state = parsed_json.getDynamicObject();
+    NamedValueSet properties = object_state->getProperties();
+    int size = properties.size();
+    for (int i = 0; i < size; ++i) {
+        Identifier id = properties.getName(i);
+        if (id.isValid()) {
+            String name = id.toString();
+            mopo::mopo_float value = properties.getValueAt(i);
+            slider_lookup_[name.toStdString()]->setValue(value);
+        }
+    }
+}
+
 //[/MiscUserCode]
 
 
@@ -623,7 +732,7 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="472 304 50 50" min="0"
           max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
-  <SLIDER name="amp release" id="c878127a7ada93f0" memberName="fil_release_"
+  <SLIDER name="fil release" id="c878127a7ada93f0" memberName="fil_release_"
           virtualName="" explicitFocusOrder="0" pos="584 304 50 50" min="0"
           max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
@@ -641,11 +750,11 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 1 waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
           virtualName="" explicitFocusOrder="0" pos="8 112 240 24" min="0"
-          max="11" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
-          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          max="12" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc 2 waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
           virtualName="" explicitFocusOrder="0" pos="8 240 240 24" min="0"
-          max="11" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
+          max="12" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName=""
           explicitFocusOrder="0" pos="408 112 296 24" min="28" max="127"
@@ -659,6 +768,12 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="472 136 50 50" min="-1"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TEXTBUTTON name="save" id="d7d30d30acc402a6" memberName="save_button_" virtualName=""
+              explicitFocusOrder="0" pos="448 616 80 24" buttonText="save"
+              connectedEdges="3" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="load" id="b40e3a18d3cffb96" memberName="load_button_" virtualName=""
+              explicitFocusOrder="0" pos="600 616 80 24" buttonText="load"
+              connectedEdges="3" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

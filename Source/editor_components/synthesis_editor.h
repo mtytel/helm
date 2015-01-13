@@ -39,7 +39,8 @@
                                                                     //[/Comments]
 */
 class SynthesisEditor  : public Component,
-                         public SliderListener
+                         public SliderListener,
+                         public ButtonListener
 {
 public:
     //==============================================================================
@@ -49,17 +50,21 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void addControls(mopo::control_map controls) { controls_ = controls; }
+    String writeStateToString();
+    void readStateFromString(String json_string);
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
     void sliderValueChanged (Slider* sliderThatWasMoved);
+    void buttonClicked (Button* buttonThatWasClicked);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     mopo::control_map controls_;
+    std::map<std::string, juce::Slider*> slider_lookup_;
     //[/UserVariables]
 
     //==============================================================================
@@ -98,6 +103,8 @@ private:
     ScopedPointer<Slider> cutoff_;
     ScopedPointer<Slider> fil_env_depth_;
     ScopedPointer<Slider> keytrack_;
+    ScopedPointer<TextButton> save_button_;
+    ScopedPointer<TextButton> load_button_;
 
 
     //==============================================================================
