@@ -52,16 +52,28 @@ namespace mopo {
       mopo_float min_, max_;
   };
 
-  // A processor that will invert a signal.
+  // A processor that will negate the amplitude of a signal.
   class Negate : public Operator {
-    public:
-      Negate() : Operator(1, 1) { }
+  public:
+    Negate() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new Negate(*this); }
+    virtual Processor* clone() const { return new Negate(*this); }
 
-      inline void tick(int i) {
-        outputs_[0]->buffer[i] = -inputs_[0]->at(i);
-      }
+    inline void tick(int i) {
+      outputs_[0]->buffer[i] = -inputs_[0]->at(i);
+    }
+  };
+
+  // A processor that will invert a signal value by value x -> x^-1.
+  class Inverse : public Operator {
+  public:
+    Inverse() : Operator(1, 1) { }
+
+    virtual Processor* clone() const { return new Inverse(*this); }
+
+    inline void tick(int i) {
+      outputs_[0]->buffer[i] = 1.0 / inputs_[0]->at(i);
+    }
   };
 
   // A processor that will scale a signal by a given scalar.
