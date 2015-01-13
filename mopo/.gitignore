@@ -1,0 +1,45 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Executables
+mopo_test
+a.out
+
+# Autotools
+ar-lib
+*.in
+*.la
+*.lo
+*~
+.deps/
+.libs/
+Makefile
+aclocal.m4
+autom4te.cache
+autoscan.log
+compile
+config.guess
+config.h
+config.log
+config.status
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+m4/
+missing
+stamp*
+*.tar.gz
