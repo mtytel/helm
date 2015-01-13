@@ -37,7 +37,7 @@
                                                                     //[/Comments]
 */
 class WaveFormSelector  : public Component,
-                          public SliderListener
+                          SliderListener
 {
 public:
     //==============================================================================

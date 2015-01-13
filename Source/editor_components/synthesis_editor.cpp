@@ -65,7 +65,7 @@ SynthesisEditor::SynthesisEditor ()
     legato_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     legato_->addListener (this);
 
-    addAndMakeVisible (portamento_type_ = new Slider ("portamento"));
+    addAndMakeVisible (portamento_type_ = new Slider ("portamento type"));
     portamento_type_->setRange (0, 2, 1);
     portamento_type_->setSliderStyle (Slider::LinearHorizontal);
     portamento_type_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -643,7 +643,7 @@ BEGIN_JUCER_METADATA
           explicitFocusOrder="0" pos="88 448 64 24" min="0" max="1" int="1"
           style="LinearHorizontal" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="portamento" id="909956998c46045e" memberName="portamento_type_"
+  <SLIDER name="portamento type" id="909956998c46045e" memberName="portamento_type_"
           virtualName="" explicitFocusOrder="0" pos="88 504 64 24" min="0"
           max="2" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>

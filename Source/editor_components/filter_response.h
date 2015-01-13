@@ -37,7 +37,7 @@
                                                                     //[/Comments]
 */
 class FilterResponse  : public Component,
-                        public SliderListener
+                        SliderListener
 {
 public:
     //==============================================================================

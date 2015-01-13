@@ -36,7 +36,7 @@
                                                                     //[/Comments]
 */
 class GraphicalEnvelope  : public Component,
-                           public SliderListener
+                           SliderListener
 {
 public:
     //==============================================================================

@@ -148,7 +148,7 @@ void WaveFormSelector::sliderValueChanged(Slider* sliderThatWasMoved) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="WaveFormSelector" componentName=""
-                 parentClasses="public Component" constructorParams="int resolution"
+                 parentClasses="public Component, SliderListener" constructorParams="int resolution"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <METHODS>

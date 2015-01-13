@@ -631,9 +631,6 @@
     <ClCompile Include="..\..\Source\twytch_strings.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\editor_components\frequency_slider.cpp">
-      <Filter>Twytch\Source\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\filter_response.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
@@ -660,6 +657,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\twytch.cpp">
       <Filter>Twytch\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\alias.cpp">
+      <Filter>Twytch\Source\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\bit_crush.cpp">
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\delay.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
@@ -2304,9 +2307,6 @@
     <ClInclude Include="..\..\Source\twytch_strings.h">
       <Filter>Twytch\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\editor_components\frequency_slider.h">
-      <Filter>Twytch\Source\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\filter_response.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
@@ -2333,6 +2333,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\twytch.h">
       <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\alias.h">
+      <Filter>Twytch\Source\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\bit_crush.h">
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\delay.h">
       <Filter>Twytch\Source\mopo\src</Filter>

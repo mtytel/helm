@@ -309,10 +309,9 @@ void GraphicalEnvelope::resetEnvelopeLine() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GraphicalEnvelope" componentName=""
-                 parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="200"
-                 initialHeight="100">
+                 parentClasses="public Component, SliderListener" constructorParams=""
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="200" initialHeight="100">
   <METHODS>
     <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>

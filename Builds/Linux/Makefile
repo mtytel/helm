@@ -137,7 +137,6 @@ OBJECTS := \
   $(OBJDIR)/MatrixMixerVolumes_2141177b.o \
   $(OBJDIR)/twytch_engine_9a8780bf.o \
   $(OBJDIR)/twytch_strings_fab1886f.o \
-  $(OBJDIR)/frequency_slider_9ea98714.o \
   $(OBJDIR)/filter_response_c5a98742.o \
   $(OBJDIR)/wave_form_selector_d4921d64.o \
   $(OBJDIR)/draggable_component_3fda2ae5.o \
@@ -147,6 +146,8 @@ OBJECTS := \
   $(OBJDIR)/twytch_editor_e7ee1a6a.o \
   $(OBJDIR)/twytch_look_and_feel_4eb9069b.o \
   $(OBJDIR)/twytch_10347fac.o \
+  $(OBJDIR)/alias_1d388dcc.o \
+  $(OBJDIR)/bit_crush_f4910885.o \
   $(OBJDIR)/delay_a1e4df7f.o \
   $(OBJDIR)/envelope_265dd45e.o \
   $(OBJDIR)/feedback_1ba2cd93.o \
@@ -630,11 +631,6 @@ $(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
 	@echo "Compiling twytch_strings.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/frequency_slider_9ea98714.o: ../../Source/editor_components/frequency_slider.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling frequency_slider.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/filter_response_c5a98742.o: ../../Source/editor_components/filter_response.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_response.cpp"
@@ -678,6 +674,16 @@ $(OBJDIR)/twytch_look_and_feel_4eb9069b.o: ../../Source/twytch_look_and_feel.cpp
 $(OBJDIR)/twytch_10347fac.o: ../../Source/twytch.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling alias.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/bit_crush_f4910885.o: ../../mopo/src/bit_crush.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling bit_crush.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/delay_a1e4df7f.o: ../../mopo/src/delay.cpp

@@ -364,10 +364,6 @@
       <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
             file="Source/twytch_strings.h"/>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
-        <FILE id="yjofsa" name="frequency_slider.cpp" compile="1" resource="0"
-              file="Source/editor_components/frequency_slider.cpp"/>
-        <FILE id="zbjGjL" name="frequency_slider.h" compile="0" resource="0"
-              file="Source/editor_components/frequency_slider.h"/>
         <FILE id="YxeKKD" name="filter_response.cpp" compile="1" resource="0"
               file="Source/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"
@@ -404,6 +400,10 @@
       <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="Source/twytch.h"/>
       <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
         <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
+          <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>
+          <FILE id="vgDlZD" name="alias.h" compile="0" resource="0" file="mopo/src/alias.h"/>
+          <FILE id="pCAsWe" name="bit_crush.cpp" compile="1" resource="0" file="mopo/src/bit_crush.cpp"/>
+          <FILE id="jlEkLP" name="bit_crush.h" compile="0" resource="0" file="mopo/src/bit_crush.h"/>
           <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
           <FILE id="vmg9rF" name="delay.h" compile="0" resource="0" file="mopo/src/delay.h"/>
           <FILE id="MVE4Uh" name="envelope.cpp" compile="1" resource="0" file="mopo/src/envelope.cpp"/>
