@@ -47,7 +47,7 @@ namespace mopo {
       }
 
       inline mopo_float get(mopo_float past) const {
-        double float_index;
+        mopo_float float_index;
         mopo_float sample_fraction = modf(past, &float_index);
         int index = std::max<int>(float_index, 1);
 

@@ -36,7 +36,7 @@ namespace mopo {
       total += inputs_[kFrequency]->at(i);
 
     total /= sample_rate_;
-    double integral;
+    mopo_float integral;
     offset_ = modf(offset_ + total, &integral);
     current_step_ = (current_step_ + num_steps) % num_steps;
 

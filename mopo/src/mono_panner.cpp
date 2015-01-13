@@ -30,7 +30,7 @@ namespace mopo {
       Processor(MonoPanner::kNumInputs, MonoPanner::kNumOutputs) { }
 
   void MonoPanner::process() {
-    double integral;
+    mopo_float integral;
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float audio = inputs_[kAudio]->at(i);
       mopo_float pan = inputs_[kPan]->at(i);
