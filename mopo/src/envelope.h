@@ -63,7 +63,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Envelope(*this); }
       void process();
       void trigger(mopo_float event, int offset);
-      mopo_float tick(int i);
+      void tick(int i);
 
     protected:
       State state_;

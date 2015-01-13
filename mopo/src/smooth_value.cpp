@@ -32,11 +32,11 @@ namespace mopo {
 
   void SmoothValue::process() {
     for (int i = 0; i < buffer_size_; ++i)
-      outputs_[0]->buffer[i] = tick();
+      tick(i);
   }
 
-  inline mopo_float SmoothValue::tick() {
+  inline void SmoothValue::tick(int i) {
     value_ = INTERPOLATE(value_, target_value_, decay_);
-    return value_;
+    outputs_[0]->buffer[i] = value_;
   }
 } // namespace mopo

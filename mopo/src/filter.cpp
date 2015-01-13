@@ -60,15 +60,15 @@ namespace mopo {
         inputs_[kReset]->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_[kReset]->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        outputs_[0]->buffer[i] = tick(i);
+        tick(i);
 
       reset();
     }
     for (; i < buffer_size_; ++i)
-      outputs_[0]->buffer[i] = tick(i);
+      tick(i);
   }
 
-  inline mopo_float Filter::tick(int i) {
+  inline void Filter::tick(int i) {
     mopo_float input = inputs_[kAudio]->at(i);
     in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
     in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
@@ -82,7 +82,7 @@ namespace mopo {
     past_in_1_ = input;
     past_out_2_ = past_out_1_;
     past_out_1_ = out;
-    return out;
+    outputs_[0]->buffer[i] = out;
   }
 
   inline void Filter::reset() {

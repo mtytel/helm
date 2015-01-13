@@ -41,7 +41,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Delay(*this); }
       virtual void process();
 
-      mopo_float tick(int i) {
+      void tick(int i) {
         mopo_float input = inputs_[kAudio]->at(i);
         mopo_float wet = inputs_[kWet]->at(i);
         mopo_float period = inputs_[kDelayTime]->at(i) * sample_rate_;
@@ -49,7 +49,7 @@ namespace mopo {
 
         mopo_float read = memory_.get(period);
         memory_.push(input + read * feedback);
-        return INTERPOLATE(input, read, wet);
+        outputs_[0]->buffer[i] = INTERPOLATE(input, read, wet);
       }
 
     protected:

@@ -38,13 +38,13 @@ namespace mopo {
       virtual Processor* clone() const { return new BitCrush(*this); }
       virtual void process();
 
-      mopo_float tick(int i) {
+      void tick(int i) {
         mopo_float input = inputs_[kAudio]->at(i);
         mopo_float wet = inputs_[kWet]->at(i);
 
         mopo_float output = round(magnification_ * input) / magnification_;
 
-        return INTERPOLATE(input, output, wet);
+        outputs_[0]->buffer[i] = INTERPOLATE(input, output, wet);
       }
 
     protected:

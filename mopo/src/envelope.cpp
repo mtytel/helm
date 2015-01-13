@@ -56,16 +56,16 @@ namespace mopo {
       int trigger_offset = inputs_[kRelease]->source->trigger_offset;
 
       for (; i < trigger_offset; ++i)
-        outputs_[kValue]->buffer[i] = tick(i);
+        tick(i);
 
       trigger(inputs_[kTrigger]->source->trigger_value, trigger_offset);
     }
 
     for (; i < buffer_size_; ++i)
-      outputs_[kValue]->buffer[i] = tick(i);
+      tick(i);
   }
 
-  inline mopo_float Envelope::tick(int i) {
+  inline void Envelope::tick(int i) {
     if (state_ == kAttacking) {
       if (inputs_[kAttack]->at(i) <= 0)
         current_value_ = 1;
@@ -89,6 +89,6 @@ namespace mopo {
     }
     else if (state_ == kReleasing)
       current_value_ *= release_decay_;
-    return current_value_;
+    outputs_[kValue]->buffer[i] = current_value_;
   }
 } // namespace mopo

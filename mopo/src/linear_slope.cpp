@@ -30,28 +30,26 @@ namespace mopo {
     int i = 0;
     if (inputs_[kTriggerJump]->source->triggered) {
       int trigger_offset = inputs_[kTriggerJump]->source->trigger_offset;
-      for (; i < trigger_offset; ++i) {
-        last_value_ = tick(i);
-        outputs_[0]->buffer[i] = last_value_;
-      }
+      for (; i < trigger_offset; ++i)
+        tick(i);
 
       last_value_ = inputs_[kTarget]->at(i);
     }
 
-    for (; i < buffer_size_; ++i) {
-      last_value_ = tick(i);
-      outputs_[0]->buffer[i] = last_value_;
-    }
+    for (; i < buffer_size_; ++i)
+      tick(i);
   }
 
-  inline mopo_float LinearSlope::tick(int i) {
+  inline void LinearSlope::tick(int i) {
     mopo_float target = inputs_[kTarget]->at(i);
     if (utils::closeToZero(inputs_[kRunSeconds]->at(i)))
-      return inputs_[kTarget]->at(i);
+      last_value_ = inputs_[kTarget]->at(i);
 
     mopo_float increment = 1.0 / (sample_rate_ * inputs_[kRunSeconds]->at(0));
     if (target <= last_value_)
-      return CLAMP(last_value_ - increment, target, last_value_);
-    return CLAMP(last_value_ + increment, last_value_, target);
+      last_value_ = CLAMP(last_value_ - increment, target, last_value_);
+    else
+      last_value_ = CLAMP(last_value_ + increment, last_value_, target);
+    outputs_[0]->buffer[i] = last_value_;
   }
 } // namespace mopo

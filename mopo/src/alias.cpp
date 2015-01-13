@@ -23,6 +23,6 @@ namespace mopo {
 
   void Alias::process() {
     for (int i = 0; i < buffer_size_; ++i)
-      outputs_[0]->buffer[i] = tick(i);
+      tick(i);
   }
 } // namespace mopo
