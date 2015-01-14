@@ -105,6 +105,9 @@ private:
     ScopedPointer<Slider> keytrack_;
     ScopedPointer<TextButton> save_button_;
     ScopedPointer<TextButton> load_button_;
+    ScopedPointer<Slider> osc_feedback_transpose_;
+    ScopedPointer<Slider> osc_feedback_amount_;
+    ScopedPointer<Slider> osc_feedback_tune_;
 
 
     //==============================================================================

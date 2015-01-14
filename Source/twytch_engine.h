@@ -18,7 +18,8 @@
 #ifndef TWYTCH_SYNTH_H
 #define TWYTCH_SYNTH_H
 
-#include "feedback.h"
+#include "alias.h"
+#include "delay.h"
 #include "operators.h"
 #include "oscillator.h"
 #include "twytch_common.h"
@@ -53,6 +54,7 @@ namespace mopo {
         kOscillator2BaseFrequency,
         kOscillator1FM,
         kOscillator2FM,
+        kNumInputs
       };
     
       TwytchOscillators();
@@ -132,6 +134,7 @@ namespace mopo {
       Multiply* amplitude_;
 
       TwytchOscillators* oscillators_;
+      Delay* osc_feedback_;
       Oscillator* lfo1_;
       Oscillator* lfo2_;
       Interpolate* oscillator_mix_;

@@ -18,6 +18,7 @@
 
 #include "delay.h"
 #include "envelope.h"
+#include "feedback.h"
 #include "filter.h"
 #include "operators.h"
 #include "oscillator.h"
@@ -26,6 +27,7 @@
 #include "smooth_value.h"
 #include "twytch_strings.h"
 #include "trigger_operators.h"
+#include "utils.h"
 #include "value.h"
 
 #include <sstream>
@@ -43,7 +45,6 @@ namespace mopo {
     freq_mod2_ = new Multiply();
     normalized_fm1_ = new Add();
     normalized_fm2_ = new Add();
-    Value* one = new Value(1);
 
     addProcessor(normalized_fm1_);
     addProcessor(normalized_fm2_);
@@ -65,8 +66,8 @@ namespace mopo {
 
     normalized_fm1_->plug(freq_mod1_, 0);
     normalized_fm2_->plug(freq_mod2_, 0);
-    normalized_fm1_->plug(one, 1);
-    normalized_fm2_->plug(one, 1);
+    normalized_fm1_->plug(&utils::value_one, 1);
+    normalized_fm2_->plug(&utils::value_one, 1);
     frequency1_->plug(normalized_fm1_, 1);
     frequency2_->plug(normalized_fm2_, 1);
     oscillator1_->plug(frequency1_, Oscillator::kFrequency);
@@ -97,7 +98,7 @@ namespace mopo {
         feedback_processors_[feedback_order_->at(f)]->tick(i);
     }
   }
-
+  
   void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
     Value* pitch_bend_range = new Value(2);
@@ -131,8 +132,8 @@ namespace mopo {
     MidiScale* oscillator1_frequency = new MidiScale();
     oscillator1_frequency->plug(final_midi);
     oscillators_->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
-    oscillators_->plug(reset, TwytchOscillators::kOscillator1Waveform);
-    oscillators_->plug(reset, TwytchOscillators::kOscillator2Waveform);
+    oscillators_->plug(reset, TwytchOscillators::kOscillator1Reset);
+    oscillators_->plug(reset, TwytchOscillators::kOscillator2Reset);
     oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Value* cross_mod = new Value(0.15);
@@ -199,6 +200,38 @@ namespace mopo {
     addProcessor(mix_total);
     addProcessor(clamp_mix);
     controls_["osc mix"] = oscillator_mix_amount;
+
+    // Oscillator feedback.
+    Value* osc_feedback_transpose = new Value(-12);
+    Value* osc_feedback_amount = new Value(0.0);
+    Value* osc_feedback_tune = new Value(0.00);
+    Add* osc_feedback_transposed = new Add();
+    osc_feedback_transposed->plug(final_midi, 0);
+    osc_feedback_transposed->plug(osc_feedback_transpose, 1);
+    Add* osc_feedback_midi = new Add();
+    osc_feedback_midi->plug(osc_feedback_transposed, 0);
+    osc_feedback_midi->plug(osc_feedback_tune, 1);
+
+    controls_["osc feedback transpose"] = osc_feedback_transpose;
+    controls_["osc feedback amount"] = osc_feedback_amount;
+    controls_["osc feedback tune"] = osc_feedback_tune;
+
+    MidiScale* osc_feedback_frequency = new MidiScale();
+    osc_feedback_frequency->plug(osc_feedback_midi);
+    Inverse* osc_feedback_period = new Inverse();
+    osc_feedback_period->plug(osc_feedback_frequency);
+
+    addProcessor(osc_feedback_transposed);
+    addProcessor(osc_feedback_midi);
+    addProcessor(osc_feedback_frequency);
+    addProcessor(osc_feedback_period);
+
+    osc_feedback_ = new Delay();
+    osc_feedback_->plug(oscillator_mix_, Delay::kAudio);
+    osc_feedback_->plug(osc_feedback_period, Delay::kDelayTime);
+    osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
+    osc_feedback_->plug(&utils::value_half, Delay::kWet);
+    addProcessor(osc_feedback_);
 
     // LFO 1.
     Value* lfo1_waveform = new Value(Wave::kSin);
@@ -459,10 +492,9 @@ namespace mopo {
     addProcessor(current_velocity);
 
     Value* velocity_track_amount = new Value(0.3);
-    Value* one = new Value(1.0);
 
     Interpolate* velocity_track_mult = new Interpolate();
-    velocity_track_mult->plug(one, Interpolate::kFrom);
+    velocity_track_mult->plug(&utils::value_one, Interpolate::kFrom);
     velocity_track_mult->plug(current_velocity, Interpolate::kTo);
     velocity_track_mult->plug(velocity_track_amount, Interpolate::kFractional);
 
@@ -514,7 +546,7 @@ namespace mopo {
     createArticulation(note(), velocity(), voice_event());
     createOscillators(current_frequency_->output(),
                       amplitude_envelope_->output(Envelope::kFinished));
-    createFilter(oscillator_mix_->output(), note_from_center_->output(),
+    createFilter(osc_feedback_->output(0), note_from_center_->output(),
                  amplitude_envelope_->output(Envelope::kFinished));
     createModMatrix();
 
