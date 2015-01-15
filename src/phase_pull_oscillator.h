@@ -34,7 +34,6 @@ namespace mopo {
         kTargetFrequency,
         kFrequency,
         kPhasePullStrength,
-        kPhase,
         kWaveform,
         kReset,
         kNumInputs
@@ -53,17 +52,19 @@ namespace mopo {
         mopo_float integral;
 
         mopo_float target_delta = (target_cycles_ - cycles_) + (target_offset_ - offset_);
+        velocity_to_target_ += target_delta * phase_pull_strength;
+        velocity_to_target_ *= 0.9;
 
-        target_offset_ += target_frequency / sample_rate_;
+        target_offset_ += 1.0 + target_frequency / sample_rate_;
         target_offset_ = modf(target_offset_, &integral);
-        target_cycles_ += integral;
+        target_cycles_ += integral - 1.0;
 
-        offset_ += frequency / sample_rate_ + phase_pull_strength * target_delta;
+        offset_ += 1.0 + frequency / sample_rate_ + velocity_to_target_;
         offset_ = modf(offset_, &integral);
-        cycles_ += integral;
+        cycles_ += integral - 1.0;
 
         outputs_[0]->buffer[i] =
-            Wave::blwave(waveform_, 1.0 + offset_, frequency);
+            Wave::blwave(waveform_, offset_, frequency);
       }
 
     protected:
@@ -71,6 +72,7 @@ namespace mopo {
       mopo_float target_offset_;
       mopo_float cycles_;
       mopo_float offset_;
+      mopo_float velocity_to_target_;
       Wave::Type waveform_;
   };
 } // namespace mopo

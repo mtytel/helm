@@ -39,6 +39,7 @@ namespace mopo {
     const Value value_zero(0.0);
     const Value value_one(1.0);
     const Value value_two(2.0);
+    const Value value_half(0.5);
     const Value value_pi(PI);
     const Value value_2pi(2.0 * PI);
     const Value value_neg_one(-1.0);

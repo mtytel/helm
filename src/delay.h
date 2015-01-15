@@ -48,7 +48,7 @@ namespace mopo {
         mopo_float feedback = inputs_[kFeedback]->at(i);
 
         mopo_float read = memory_.get(period);
-        memory_.push(input + read * feedback);
+        memory_.push((input + read) * feedback);
         outputs_[0]->buffer[i] = INTERPOLATE(input, read, wet);
       }
 
