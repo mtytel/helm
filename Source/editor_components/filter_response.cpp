@@ -154,7 +154,10 @@ void FilterResponse::computeFilterCoefficients() {
 
     mopo::Filter::Type type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
     double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
-    filter_.computeCoefficients(type, frequency, resonance_slider_->getValue());
+    double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
+    double decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
+    double gain = mopo::utils::dbToGain(decibals);
+    filter_.computeCoefficients(type, frequency, resonance, gain);
     resetResponsePath();
 }
 
@@ -177,24 +180,6 @@ void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
 }
 
 void FilterResponse::sliderValueChanged(Slider* sliderThatWasMoved) {
-    if (sliderThatWasMoved == filter_type_slider_) {
-        mopo::Filter::Type type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
-
-        if (resonance_slider_) {
-            float current_val = resonance_slider_->getValue();
-            float percent = resonance_slider_->valueToProportionOfLength(current_val);
-            float min = MIN_RESONANCE;
-            float max = MAX_RESONANCE;
-
-            if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
-                min = mopo::utils::dbToGain(MIN_GAIN_DB);
-                max = mopo::utils::dbToGain(MAX_GAIN_DB);
-            }
-            resonance_slider_->setRange(min, max);
-            float new_val = CLAMP(resonance_slider_->proportionOfLengthToValue(percent), min, max);
-            resonance_slider_->setValue(new_val);
-        }
-    }
     computeFilterCoefficients();
     repaint();
 }

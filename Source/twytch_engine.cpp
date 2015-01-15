@@ -137,16 +137,13 @@ namespace mopo {
     oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Value* cross_mod = new Value(0.15);
-    VariableAdd* cross_mod_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
-    Add* cross_mod_total = new Add();
-    cross_mod_total->plug(cross_mod, 0);
-    cross_mod_total->plug(cross_mod_mod_sources, 1);
+    VariableAdd* cross_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    cross_mod_sources->plug(cross_mod, 0);
 
-    oscillators_->plug(cross_mod_total, TwytchOscillators::kOscillator1FM);
-    oscillators_->plug(cross_mod_total, TwytchOscillators::kOscillator2FM);
+    oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator1FM);
+    oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator2FM);
 
-    addProcessor(cross_mod_mod_sources);
-    addProcessor(cross_mod_total);
+    addProcessor(cross_mod_sources);
     addProcessor(oscillator1_frequency);
     addProcessor(oscillators_);
 
@@ -183,21 +180,18 @@ namespace mopo {
 
     // Oscillator mix.
     Value* oscillator_mix_amount = new Value(0.5);
-    VariableAdd* mix_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
-    Add* mix_total = new Add();
-    mix_total->plug(oscillator_mix_amount, 0);
-    mix_total->plug(mix_mod_sources, 1);
+    VariableAdd* osc_mix_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    osc_mix_sources->plug(oscillator_mix_amount, 0);
 
     Clamp* clamp_mix = new Clamp(0, 1);
-    clamp_mix->plug(mix_total);
+    clamp_mix->plug(osc_mix_sources);
     oscillator_mix_ = new Interpolate();
     oscillator_mix_->plug(oscillators_->output(0), Interpolate::kFrom);
     oscillator_mix_->plug(oscillators_->output(1), Interpolate::kTo);
     oscillator_mix_->plug(clamp_mix, Interpolate::kFractional);
 
     addProcessor(oscillator_mix_);
-    addProcessor(mix_mod_sources);
-    addProcessor(mix_total);
+    addProcessor(osc_mix_sources);
     addProcessor(clamp_mix);
     controls_["osc mix"] = oscillator_mix_amount;
 
@@ -261,9 +255,9 @@ namespace mopo {
     mod_sources_["lfo 1"] = lfo1_->output();
     mod_sources_["lfo 2"] = lfo2_->output();
 
-    mod_destinations_["cross modulation"] = cross_mod_mod_sources;
+    mod_destinations_["cross modulation"] = cross_mod_sources;
     mod_destinations_["pitch"] = midi_mod_sources;
-    mod_destinations_["osc mix"] = mix_mod_sources;
+    mod_destinations_["osc mix"] = osc_mix_sources;
   }
 
   void TwytchVoiceHandler::createFilter(
@@ -323,25 +317,22 @@ namespace mopo {
     MidiScale* frequency_cutoff = new MidiScale();
     frequency_cutoff->plug(midi_cutoff_modulated);
 
-    Value* resonance = new Value(3);
+    Value* resonance = new Value(0.5);
 
-    VariableAdd* resonance_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
-    Value* resonance_mod_scale = new Value(8);
-    Multiply* resonance_modulation_scaled = new Multiply();
-    resonance_modulation_scaled->plug(resonance_mod_sources, 0);
-    resonance_modulation_scaled->plug(resonance_mod_scale, 1);
-    Add* resonance_modulated = new Add();
-    resonance_modulated->plug(resonance, 0);
-    resonance_modulated->plug(resonance_modulation_scaled, 1);
-    Clamp* clamp_resonance = new Clamp(0.5, 30);
-    clamp_resonance->plug(resonance_modulated);
+    VariableAdd* resonance_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    resonance_sources->plug(resonance, 0);
+    ResonanceScale* final_resonance = new ResonanceScale();
+    MagnitudeScale* final_gain = new MagnitudeScale();
+    final_resonance->plug(resonance_sources);
+    final_gain->plug(resonance_sources);
 
     filter_ = new Filter();
     filter_->plug(audio, Filter::kAudio);
     filter_->plug(filter_type, Filter::kType);
     filter_->plug(reset, Filter::kReset);
     filter_->plug(frequency_cutoff, Filter::kCutoff);
-    filter_->plug(clamp_resonance, Filter::kResonance);
+    filter_->plug(final_resonance, Filter::kResonance);
+    filter_->plug(final_gain, Filter::kGain);
 
     addGlobalProcessor(base_cutoff);
     addProcessor(current_keytrack);
@@ -350,10 +341,9 @@ namespace mopo {
     addProcessor(cutoff_mod_sources);
     addProcessor(cutoff_modulation_scaled);
     addProcessor(midi_cutoff_modulated);
-    addProcessor(resonance_mod_sources);
-    addProcessor(resonance_modulation_scaled);
-    addProcessor(resonance_modulated);
-    addProcessor(clamp_resonance);
+    addProcessor(resonance_sources);
+    addProcessor(final_resonance);
+    addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter_);
 
@@ -367,7 +357,7 @@ namespace mopo {
 
     mod_sources_["filter env"] = filter_envelope_->output();
     mod_destinations_["cutoff"] = cutoff_mod_sources;
-    mod_destinations_["resonance"] = resonance_mod_sources;
+    mod_destinations_["resonance"] = resonance_sources;
   }
 
   void TwytchVoiceHandler::createModMatrix() {

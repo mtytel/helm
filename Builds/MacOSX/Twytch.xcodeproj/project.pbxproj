@@ -115,6 +115,7 @@
 		AF2F790832C0AE117591E455 /* CACFDistributedNotification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 276D29E3F79A74E86009C76B /* CACFDistributedNotification.cpp */; };
 		AFC826323259932266F78F8B /* juce_core.mm in Sources */ = {isa = PBXBuildFile; fileRef = C3D4FB551E4724336A361B95 /* juce_core.mm */; };
 		B2C89D0DA1FE8B2B4B96EDF7 /* juce_AU_Resources.r in Rez */ = {isa = PBXBuildFile; fileRef = 27B66D91F3A422029E008A08 /* juce_AU_Resources.r */; };
+		B4F4B4EFC020279F013DD082 /* magnitude_lookup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B282284B006A1F5E54F838BD /* magnitude_lookup.cpp */; };
 		B741D9FB396786833126653B /* juce_audio_devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EEB43F5E3AFD7B45531CD9D /* juce_audio_devices.mm */; };
 		B7A93DE2CBBD1958A1294A9F /* AUParamInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C234CBE43225ACF7F4FF62 /* AUParamInfo.cpp */; };
 		B9AD3487F35DA7B6926C4D08 /* CAFilePathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F8529C094E5168762C0BF62 /* CAFilePathUtils.cpp */; };
@@ -124,6 +125,7 @@
 		BF7AFD0DD42D98B763C09841 /* AudioFileFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83A468C8C3646B4470D4D2D8 /* AudioFileFormat.cpp */; };
 		C0FABEFAFAA1678C6079EA29 /* AUOutputBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C19ECF1E4CFB9BBEC933 /* AUOutputBase.cpp */; };
 		C1C74E856435FBD0EE930A00 /* linear_slope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE9F7DD56A6A047F2CF264F /* linear_slope.cpp */; };
+		C8E97209238D3CFBB147AC63 /* resonance_lookup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04973A95DD52439F3A873176 /* resonance_lookup.cpp */; };
 		C903A687B8B2FD051F2D55BD /* AUControlGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6589010CF5C3A8D559485B03 /* AUControlGroup.cpp */; };
 		CA782E3C964852E20D827D4B /* CAHALAudioSystemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9D6AE0367983897767CCD2 /* CAHALAudioSystemObject.cpp */; };
 		CBEB8E328EE902F35B65ACDB /* CAAUMIDIMapManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7577157610BA9533364A9EA7 /* CAAUMIDIMapManager.cpp */; };
@@ -191,6 +193,7 @@
 		03EEE307031FDE99204E0DE6 /* CAAudioTimeStamp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CAAudioTimeStamp.cpp; path = ../../../srcs/CoreAudio/PublicUtility/CAAudioTimeStamp.cpp; sourceTree = SOURCE_ROOT; };
 		0429B725F3BACE1483F295E5 /* juce_MemoryBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MemoryBlock.cpp; path = ../../../srcs/JUCE/modules/juce_core/memory/juce_MemoryBlock.cpp; sourceTree = SOURCE_ROOT; };
 		047B0264AEC35F6D145992E3 /* CAAUMIDIMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CAAUMIDIMap.cpp; path = ../../../srcs/CoreAudio/PublicUtility/CAAUMIDIMap.cpp; sourceTree = SOURCE_ROOT; };
+		04973A95DD52439F3A873176 /* resonance_lookup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = resonance_lookup.cpp; path = ../../mopo/src/resonance_lookup.cpp; sourceTree = SOURCE_ROOT; };
 		05147A361DF0467375AFBDA7 /* juce_ApplicationBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ApplicationBase.h; path = ../../../srcs/JUCE/modules/juce_events/messages/juce_ApplicationBase.h; sourceTree = SOURCE_ROOT; };
 		0524CEFD7848E2FCBB8A4334 /* juce_OwnedArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OwnedArray.h; path = ../../../srcs/JUCE/modules/juce_core/containers/juce_OwnedArray.h; sourceTree = SOURCE_ROOT; };
 		052801F294E833C2D8CAC008 /* juce_UnitTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_UnitTest.h; path = ../../../srcs/JUCE/modules/juce_core/unit_tests/juce_UnitTest.h; sourceTree = SOURCE_ROOT; };
@@ -949,6 +952,7 @@
 		AD3ADC97D0F1BFA92DDFA6E2 /* modulation_source.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = modulation_source.h; path = ../../Source/editor_components/modulation_source.h; sourceTree = SOURCE_ROOT; };
 		ADB0ACE84F9E50008695362D /* juce_InterprocessConnection.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_InterprocessConnection.cpp; path = ../../../srcs/JUCE/modules/juce_events/interprocess/juce_InterprocessConnection.cpp; sourceTree = SOURCE_ROOT; };
 		AE4485FE75568AC602C966E8 /* juce_SplashScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_SplashScreen.cpp; path = ../../../srcs/JUCE/modules/juce_gui_extra/misc/juce_SplashScreen.cpp; sourceTree = SOURCE_ROOT; };
+		AE5BB751CBBB6F3ACBC65F82 /* magnitude_lookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = magnitude_lookup.h; path = ../../mopo/src/magnitude_lookup.h; sourceTree = SOURCE_ROOT; };
 		AEABF77843B11497E3C88D23 /* juce_win32_Threads.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_win32_Threads.cpp; path = ../../../srcs/JUCE/modules/juce_core/native/juce_win32_Threads.cpp; sourceTree = SOURCE_ROOT; };
 		AEDC17CA9D9A96714B6A08AF /* juce_osx_ObjCHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_osx_ObjCHelpers.h; path = ../../../srcs/JUCE/modules/juce_core/native/juce_osx_ObjCHelpers.h; sourceTree = SOURCE_ROOT; };
 		AEF37F79B20E1F48ACDB47B3 /* juce_OpenGL_android.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OpenGL_android.h; path = ../../../srcs/JUCE/modules/juce_opengl/native/juce_OpenGL_android.h; sourceTree = SOURCE_ROOT; };
@@ -966,6 +970,7 @@
 		B219C3AD507A5D3A9C4AD850 /* juce_module_info */ = {isa = PBXFileReference; lastKnownFileType = text; name = juce_module_info; path = ../../../srcs/JUCE/modules/juce_gui_basics/juce_module_info; sourceTree = SOURCE_ROOT; };
 		B22B594002CC3F6E62562FE5 /* juce_NamedValueSet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_NamedValueSet.cpp; path = ../../../srcs/JUCE/modules/juce_core/containers/juce_NamedValueSet.cpp; sourceTree = SOURCE_ROOT; };
 		B263D1D9C9E22A83A00763D3 /* juce_AttributedString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_AttributedString.cpp; path = ../../../srcs/JUCE/modules/juce_graphics/fonts/juce_AttributedString.cpp; sourceTree = SOURCE_ROOT; };
+		B282284B006A1F5E54F838BD /* magnitude_lookup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = magnitude_lookup.cpp; path = ../../mopo/src/magnitude_lookup.cpp; sourceTree = SOURCE_ROOT; };
 		B2AACA5C8515B6EE0038D53D /* juce_StringPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_StringPool.h; path = ../../../srcs/JUCE/modules/juce_core/text/juce_StringPool.h; sourceTree = SOURCE_ROOT; };
 		B2BB44D3E3D9F733FF22E7CB /* CAMixMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CAMixMap.h; path = ../../../srcs/CoreAudio/PublicUtility/CAMixMap.h; sourceTree = SOURCE_ROOT; };
 		B47C309078D552B2DDCC54FC /* AUBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AUBase.h; path = ../../../srcs/CoreAudio/AudioUnits/AUPublic/AUBase/AUBase.h; sourceTree = SOURCE_ROOT; };
@@ -988,6 +993,7 @@
 		B85B84952CE7302674A540E3 /* juce_HyperlinkButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_HyperlinkButton.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/buttons/juce_HyperlinkButton.h; sourceTree = SOURCE_ROOT; };
 		B88C4BBC382CD2A6A61B3D29 /* juce_KeyMappingEditorComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_KeyMappingEditorComponent.cpp; path = ../../../srcs/JUCE/modules/juce_gui_extra/misc/juce_KeyMappingEditorComponent.cpp; sourceTree = SOURCE_ROOT; };
 		B8A0DDDAF6DBCBE228905675 /* ACCodec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ACCodec.cpp; path = ../../../srcs/CoreAudio/AudioCodecs/ACPublic/ACCodec.cpp; sourceTree = SOURCE_ROOT; };
+		B8D1CAB9D2E626F8325AFE8F /* resonance_lookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = resonance_lookup.h; path = ../../mopo/src/resonance_lookup.h; sourceTree = SOURCE_ROOT; };
 		B8E1F4634548A17ED7F326FB /* juce_mac_AppleRemote.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_mac_AppleRemote.mm; path = ../../../srcs/JUCE/modules/juce_gui_extra/native/juce_mac_AppleRemote.mm; sourceTree = SOURCE_ROOT; };
 		B9ABD95AE1EFD536FB78716B /* SynthElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SynthElement.cpp; path = ../../../srcs/CoreAudio/AudioUnits/AUPublic/AUInstrumentBase/SynthElement.cpp; sourceTree = SOURCE_ROOT; };
 		B9AFE96A2EAC40428E827308 /* juce_RelativeCoordinatePositioner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_RelativeCoordinatePositioner.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/positioning/juce_RelativeCoordinatePositioner.h; sourceTree = SOURCE_ROOT; };
@@ -1386,18 +1392,18 @@
 		033892D93A1DFF24698FF130 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				CC8C93ACE448BECE10E66A46 /* twytch_common.h */,
-				4B83A5A9C203488B017412BA /* twytch_engine.cpp */,
-				D1A721153F7A15BA25284FBC /* twytch_engine.h */,
-				385655AD3EC3D2F33BFF116C /* twytch_strings.cpp */,
-				69D7F0A07770A5BA7864E1E9 /* twytch_strings.h */,
 				27BEE01F67E414CCF5F44AF9 /* editor_components */,
-				A808CFDBF650C3BA4E49B1E6 /* twytch_editor.cpp */,
-				5B5ED3DB626E43609BE14AEB /* twytch_editor.h */,
-				F000FF32AC33261CE47CE578 /* twytch_look_and_feel.cpp */,
-				E77CA7875E624C411146B20F /* twytch_look_and_feel.h */,
 				BE660988AC0907645F17614D /* twytch.cpp */,
 				8F79BEE0E4898D4AFB7283E0 /* twytch.h */,
+				CC8C93ACE448BECE10E66A46 /* twytch_common.h */,
+				A808CFDBF650C3BA4E49B1E6 /* twytch_editor.cpp */,
+				5B5ED3DB626E43609BE14AEB /* twytch_editor.h */,
+				4B83A5A9C203488B017412BA /* twytch_engine.cpp */,
+				D1A721153F7A15BA25284FBC /* twytch_engine.h */,
+				F000FF32AC33261CE47CE578 /* twytch_look_and_feel.cpp */,
+				E77CA7875E624C411146B20F /* twytch_look_and_feel.h */,
+				385655AD3EC3D2F33BFF116C /* twytch_strings.cpp */,
+				69D7F0A07770A5BA7864E1E9 /* twytch_strings.h */,
 				909056EFC28FEAF753F91831 /* mopo */,
 			);
 			name = Source;
@@ -1771,27 +1777,25 @@
 		27BEE01F67E414CCF5F44AF9 /* editor_components */ = {
 			isa = PBXGroup;
 			children = (
-				13FF6830527B3C325A70BAAC /* full_interface.cpp */,
-				98BCAE41768415D0AFE9E2F7 /* full_interface.h */,
-				7A0837A05A6F2FC071BBDDF4 /* modulation_destination.cpp */,
-				18E44E66BD3AF54B829F5DE6 /* modulation_destination.h */,
 				78D9137F99AC54C8847B5B20 /* filter_response.cpp */,
 				DFB0025891001872475AB7D3 /* filter_response.h */,
-				1E74959CF084F5409B6E0CA2 /* wave_form_selector.cpp */,
-				55798BD191A3B8A43A12D0AB /* wave_form_selector.h */,
-				D65A5DACA0E00FA8D9803CDF /* modulation_source.cpp */,
-				AD3ADC97D0F1BFA92DDFA6E2 /* modulation_source.h */,
+				13FF6830527B3C325A70BAAC /* full_interface.cpp */,
+				98BCAE41768415D0AFE9E2F7 /* full_interface.h */,
 				88230B786857592713809CE4 /* graphical_envelope.cpp */,
 				90AAF7360AE72C907668D7B0 /* graphical_envelope.h */,
 				53D2B7F5E3911D6954D6F3BC /* graphical_step_sequencer.cpp */,
 				C507289494B844218F109D5C /* graphical_step_sequencer.h */,
+				7A0837A05A6F2FC071BBDDF4 /* modulation_destination.cpp */,
+				18E44E66BD3AF54B829F5DE6 /* modulation_destination.h */,
+				D65A5DACA0E00FA8D9803CDF /* modulation_source.cpp */,
+				AD3ADC97D0F1BFA92DDFA6E2 /* modulation_source.h */,
 				EEFF2CD5DEC8078772F4DC9A /* synthesis_interface.cpp */,
 				88D55552185529074F1C9961 /* synthesis_interface.h */,
+				1E74959CF084F5409B6E0CA2 /* wave_form_selector.cpp */,
+				55798BD191A3B8A43A12D0AB /* wave_form_selector.h */,
 			);
-			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
-			tabWidth = 4;
 		};
 		2910F7AEBAD05059BC063908 /* code_editor */ = {
 			isa = PBXGroup;
@@ -2635,8 +2639,6 @@
 		813AC1E33E8C29BCD33879A4 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				BE8060F1AE8BF00A020E5130 /* phase_pull_oscillator.cpp */,
-				2E5414B816656F191B0C9D48 /* phase_pull_oscillator.h */,
 				CFC75C72B897C4862B6F2A99 /* alias.cpp */,
 				85457B3953A583BE2EC9D027 /* alias.h */,
 				D81F70BCB2284A3CA4E202C9 /* bit_crush.cpp */,
@@ -2651,6 +2653,8 @@
 				1FEF31F93B4294F9E76A1825 /* filter.h */,
 				4DE9F7DD56A6A047F2CF264F /* linear_slope.cpp */,
 				2F38D026CC7F1E83A63D99A8 /* linear_slope.h */,
+				B282284B006A1F5E54F838BD /* magnitude_lookup.cpp */,
+				AE5BB751CBBB6F3ACBC65F82 /* magnitude_lookup.h */,
 				6477CD42E1AB64F40B79A48F /* memory.h */,
 				7F5C13E3E6D6E580EA330D0E /* midi_lookup.cpp */,
 				4D8A838542D61C7AC42FA75A /* midi_lookup.h */,
@@ -2661,10 +2665,14 @@
 				54B9C0FCBE122E8F1E96734D /* operators.h */,
 				44E13CAB15B1A247C36F16D9 /* oscillator.cpp */,
 				11CFCFB927886EBE8554555C /* oscillator.h */,
+				BE8060F1AE8BF00A020E5130 /* phase_pull_oscillator.cpp */,
+				2E5414B816656F191B0C9D48 /* phase_pull_oscillator.h */,
 				2B561BCB8E02B205A0DC6F9F /* processor.cpp */,
 				2A457823EE75131ADB88C259 /* processor.h */,
 				1E2DB287C0CB71FFB89BB037 /* processor_router.cpp */,
 				D32DB457025ABB9991CDA9A5 /* processor_router.h */,
+				04973A95DD52439F3A873176 /* resonance_lookup.cpp */,
+				B8D1CAB9D2E626F8325AFE8F /* resonance_lookup.h */,
 				CB3DEE8B0ADA86ECD99F552C /* send_receive.cpp */,
 				D338D0A5F9DA56D035742453 /* send_receive.h */,
 				5B8C6FFE61949085AD56B2EF /* smooth_filter.cpp */,
@@ -3726,20 +3734,19 @@
 				2362B5388B28814F723CDD09 /* CAVolumeCurve.cpp in Sources */,
 				74A7F45F2482CEB836261F6B /* CAXException.cpp in Sources */,
 				36554893090ADADA0526DD5A /* MatrixMixerVolumes.cpp in Sources */,
-				0518E36A2BEE0084DAC68BBF /* twytch_engine.cpp in Sources */,
-				97BB206D8C51DE724ADC2B31 /* twytch_strings.cpp in Sources */,
-				85C59CB161EC13AA66B5B184 /* full_interface.cpp in Sources */,
-				811E0A5F8A6C5139446CF845 /* modulation_destination.cpp in Sources */,
 				03954F028E72945D30EFEBAA /* filter_response.cpp in Sources */,
-				52B271C939CCEA5A330A49EA /* wave_form_selector.cpp in Sources */,
-				CDC47E99E091B04D65CA9E88 /* modulation_source.cpp in Sources */,
+				85C59CB161EC13AA66B5B184 /* full_interface.cpp in Sources */,
 				EE31379B622E356B23B7D10F /* graphical_envelope.cpp in Sources */,
 				622E0476F7EF47C1E2000399 /* graphical_step_sequencer.cpp in Sources */,
+				811E0A5F8A6C5139446CF845 /* modulation_destination.cpp in Sources */,
+				CDC47E99E091B04D65CA9E88 /* modulation_source.cpp in Sources */,
 				5E384BD894D27C51EC893F02 /* synthesis_interface.cpp in Sources */,
-				A9E61C9E47102004310F5124 /* twytch_editor.cpp in Sources */,
-				465434DD358BD23E73BBCF18 /* twytch_look_and_feel.cpp in Sources */,
+				52B271C939CCEA5A330A49EA /* wave_form_selector.cpp in Sources */,
 				7229C2F61D50B705DC0D96A9 /* twytch.cpp in Sources */,
-				7DC07F0011A5AF8F2A59A4B1 /* phase_pull_oscillator.cpp in Sources */,
+				A9E61C9E47102004310F5124 /* twytch_editor.cpp in Sources */,
+				0518E36A2BEE0084DAC68BBF /* twytch_engine.cpp in Sources */,
+				465434DD358BD23E73BBCF18 /* twytch_look_and_feel.cpp in Sources */,
+				97BB206D8C51DE724ADC2B31 /* twytch_strings.cpp in Sources */,
 				AD38AB2D86AD9CA34D52E96B /* alias.cpp in Sources */,
 				EA7AAD743DFF1A28E1EC417D /* bit_crush.cpp in Sources */,
 				EE4446DF4776616F7813054B /* delay.cpp in Sources */,
@@ -3747,12 +3754,15 @@
 				3C9B2580FAE41794E7D52C96 /* feedback.cpp in Sources */,
 				E215857ACE8C499AA1EC8A54 /* filter.cpp in Sources */,
 				C1C74E856435FBD0EE930A00 /* linear_slope.cpp in Sources */,
+				B4F4B4EFC020279F013DD082 /* magnitude_lookup.cpp in Sources */,
 				463C018F5F794FC98C77AEB0 /* midi_lookup.cpp in Sources */,
 				DE31B8215341063EDDB02C36 /* mono_panner.cpp in Sources */,
 				129F86230AE6565FD254DC33 /* operators.cpp in Sources */,
 				40C01DA356D1576FF5CFF57A /* oscillator.cpp in Sources */,
+				7DC07F0011A5AF8F2A59A4B1 /* phase_pull_oscillator.cpp in Sources */,
 				183B1863EC215F2C8F4D88AB /* processor.cpp in Sources */,
 				27B007CD0F35B4B32398A1B8 /* processor_router.cpp in Sources */,
+				C8E97209238D3CFBB147AC63 /* resonance_lookup.cpp in Sources */,
 				E65586055B46997D761AC686 /* send_receive.cpp in Sources */,
 				442B4AAC93BB086FBC1C0F8A /* smooth_filter.cpp in Sources */,
 				F71CA12DDAF21F8FA9D1824E /* smooth_value.cpp in Sources */,

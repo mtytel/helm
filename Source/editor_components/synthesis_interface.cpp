@@ -179,13 +179,12 @@ SynthesisInterface::SynthesisInterface ()
     fil_sustain_->addListener (this);
 
     addAndMakeVisible (resonance_ = new Slider ("resonance"));
-    resonance_->setRange (0.5, 16, 0);
+    resonance_->setRange (0, 1, 0);
     resonance_->setSliderStyle (Slider::LinearBar);
     resonance_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     resonance_->setColour (Slider::backgroundColourId, Colours::black);
     resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
     resonance_->addListener (this);
-    resonance_->setSkewFactor (0.5);
 
     addAndMakeVisible (filter_type_ = new Slider ("filter type"));
     filter_type_->setRange (0, 6, 1);
@@ -370,7 +369,7 @@ void SynthesisInterface::resized()
     wave_form_2_->setBounds (40, 112, 240, 100);
     polyphony_->setBounds (24, 544, 50, 50);
     portamento_->setBounds (24, 600, 50, 50);
-    pitch_bend_range_->setBounds (24, 656, 50, 50);
+    pitch_bend_range_->setBounds (176, 544, 50, 50);
     cross_modulation_->setBounds (320, 16, 50, 50);
     filter_response_->setBounds (408, 8, 300, 100);
     legato_->setBounds (88, 552, 64, 24);
@@ -652,7 +651,7 @@ BEGIN_JUCER_METADATA
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="pitch bend range" id="e53afc6d1a04c708" memberName="pitch_bend_range_"
-          virtualName="" explicitFocusOrder="0" pos="24 656 50 50" min="0"
+          virtualName="" explicitFocusOrder="0" pos="176 544 50 50" min="0"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cross modulation" id="1d3e4b59d6e470fb" memberName="cross_modulation_"
@@ -736,9 +735,9 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="resonance" id="6c1c82a2d59d4b6e" memberName="resonance_"
           virtualName="" explicitFocusOrder="0" pos="708 8 12 100" bkgcol="ff000000"
-          textboxoutline="808080" min="0.5" max="16" int="0" style="LinearBar"
+          textboxoutline="808080" min="0" max="1" int="0" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.5"/>
+          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter type" id="30ae8dead7514514" memberName="filter_type_"
           virtualName="" explicitFocusOrder="0" pos="736 8 24 96" min="0"
           max="6" int="1" style="LinearVertical" textBoxPos="NoTextBox"

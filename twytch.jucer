@@ -355,35 +355,15 @@
       </GROUP>
     </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="Source">
-      <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="Source/twytch_common.h"/>
-      <FILE id="A2sQkJ" name="twytch_engine.cpp" compile="1" resource="0"
-            file="Source/twytch_engine.cpp"/>
-      <FILE id="bbx5kE" name="twytch_engine.h" compile="0" resource="0" file="Source/twytch_engine.h"/>
-      <FILE id="xJiEDe" name="twytch_strings.cpp" compile="1" resource="0"
-            file="Source/twytch_strings.cpp"/>
-      <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
-            file="Source/twytch_strings.h"/>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
-        <FILE id="fSCHrW" name="full_interface.cpp" compile="1" resource="0"
-              file="Source/editor_components/full_interface.cpp"/>
-        <FILE id="wMecW2" name="full_interface.h" compile="0" resource="0"
-              file="Source/editor_components/full_interface.h"/>
-        <FILE id="RCNEUe" name="modulation_destination.cpp" compile="1" resource="0"
-              file="Source/editor_components/modulation_destination.cpp"/>
-        <FILE id="QeaVmG" name="modulation_destination.h" compile="0" resource="0"
-              file="Source/editor_components/modulation_destination.h"/>
         <FILE id="YxeKKD" name="filter_response.cpp" compile="1" resource="0"
               file="Source/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"
               file="Source/editor_components/filter_response.h"/>
-        <FILE id="hTmsfB" name="wave_form_selector.cpp" compile="1" resource="0"
-              file="Source/editor_components/wave_form_selector.cpp"/>
-        <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
-              file="Source/editor_components/wave_form_selector.h"/>
-        <FILE id="UuS7xw" name="modulation_source.cpp" compile="1" resource="0"
-              file="Source/editor_components/modulation_source.cpp"/>
-        <FILE id="GO0BK9" name="modulation_source.h" compile="0" resource="0"
-              file="Source/editor_components/modulation_source.h"/>
+        <FILE id="fSCHrW" name="full_interface.cpp" compile="1" resource="0"
+              file="Source/editor_components/full_interface.cpp"/>
+        <FILE id="wMecW2" name="full_interface.h" compile="0" resource="0"
+              file="Source/editor_components/full_interface.h"/>
         <FILE id="tAT6Ed" name="graphical_envelope.cpp" compile="1" resource="0"
               file="Source/editor_components/graphical_envelope.cpp"/>
         <FILE id="sENd7I" name="graphical_envelope.h" compile="0" resource="0"
@@ -392,26 +372,42 @@
               file="Source/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="q0fgMb" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="Source/editor_components/graphical_step_sequencer.h"/>
+        <FILE id="RCNEUe" name="modulation_destination.cpp" compile="1" resource="0"
+              file="Source/editor_components/modulation_destination.cpp"/>
+        <FILE id="QeaVmG" name="modulation_destination.h" compile="0" resource="0"
+              file="Source/editor_components/modulation_destination.h"/>
+        <FILE id="UuS7xw" name="modulation_source.cpp" compile="1" resource="0"
+              file="Source/editor_components/modulation_source.cpp"/>
+        <FILE id="GO0BK9" name="modulation_source.h" compile="0" resource="0"
+              file="Source/editor_components/modulation_source.h"/>
         <FILE id="JmaRDY" name="synthesis_interface.cpp" compile="1" resource="0"
               file="Source/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
               file="Source/editor_components/synthesis_interface.h"/>
+        <FILE id="hTmsfB" name="wave_form_selector.cpp" compile="1" resource="0"
+              file="Source/editor_components/wave_form_selector.cpp"/>
+        <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
+              file="Source/editor_components/wave_form_selector.h"/>
       </GROUP>
+      <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="Source/twytch.cpp"/>
+      <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="Source/twytch.h"/>
+      <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="Source/twytch_common.h"/>
       <FILE id="MbH1j3" name="twytch_editor.cpp" compile="1" resource="0"
             file="Source/twytch_editor.cpp"/>
       <FILE id="p2h383" name="twytch_editor.h" compile="0" resource="0" file="Source/twytch_editor.h"/>
+      <FILE id="A2sQkJ" name="twytch_engine.cpp" compile="1" resource="0"
+            file="Source/twytch_engine.cpp"/>
+      <FILE id="bbx5kE" name="twytch_engine.h" compile="0" resource="0" file="Source/twytch_engine.h"/>
       <FILE id="a7i9Fo" name="twytch_look_and_feel.cpp" compile="1" resource="0"
             file="Source/twytch_look_and_feel.cpp"/>
       <FILE id="XrTq1O" name="twytch_look_and_feel.h" compile="0" resource="0"
             file="Source/twytch_look_and_feel.h"/>
-      <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="Source/twytch.cpp"/>
-      <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="Source/twytch.h"/>
+      <FILE id="xJiEDe" name="twytch_strings.cpp" compile="1" resource="0"
+            file="Source/twytch_strings.cpp"/>
+      <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
+            file="Source/twytch_strings.h"/>
       <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
         <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
-          <FILE id="F4wOr8" name="phase_pull_oscillator.cpp" compile="1" resource="0"
-                file="mopo/src/phase_pull_oscillator.cpp"/>
-          <FILE id="rF5bZm" name="phase_pull_oscillator.h" compile="0" resource="0"
-                file="mopo/src/phase_pull_oscillator.h"/>
           <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>
           <FILE id="vgDlZD" name="alias.h" compile="0" resource="0" file="mopo/src/alias.h"/>
           <FILE id="pCAsWe" name="bit_crush.cpp" compile="1" resource="0" file="mopo/src/bit_crush.cpp"/>
@@ -427,6 +423,10 @@
           <FILE id="r3pqqh" name="linear_slope.cpp" compile="1" resource="0"
                 file="mopo/src/linear_slope.cpp"/>
           <FILE id="Ee7FW3" name="linear_slope.h" compile="0" resource="0" file="mopo/src/linear_slope.h"/>
+          <FILE id="lrdC9e" name="magnitude_lookup.cpp" compile="1" resource="0"
+                file="mopo/src/magnitude_lookup.cpp"/>
+          <FILE id="wsCS5k" name="magnitude_lookup.h" compile="0" resource="0"
+                file="mopo/src/magnitude_lookup.h"/>
           <FILE id="GKDQJa" name="memory.h" compile="0" resource="0" file="mopo/src/memory.h"/>
           <FILE id="Shd5Ou" name="midi_lookup.cpp" compile="1" resource="0" file="mopo/src/midi_lookup.cpp"/>
           <FILE id="X6PdHk" name="midi_lookup.h" compile="0" resource="0" file="mopo/src/midi_lookup.h"/>
@@ -437,12 +437,20 @@
           <FILE id="Ta5BdT" name="operators.h" compile="0" resource="0" file="mopo/src/operators.h"/>
           <FILE id="BNbV33" name="oscillator.cpp" compile="1" resource="0" file="mopo/src/oscillator.cpp"/>
           <FILE id="KMlHeH" name="oscillator.h" compile="0" resource="0" file="mopo/src/oscillator.h"/>
+          <FILE id="F4wOr8" name="phase_pull_oscillator.cpp" compile="1" resource="0"
+                file="mopo/src/phase_pull_oscillator.cpp"/>
+          <FILE id="rF5bZm" name="phase_pull_oscillator.h" compile="0" resource="0"
+                file="mopo/src/phase_pull_oscillator.h"/>
           <FILE id="B9nzMm" name="processor.cpp" compile="1" resource="0" file="mopo/src/processor.cpp"/>
           <FILE id="unhGBY" name="processor.h" compile="0" resource="0" file="mopo/src/processor.h"/>
           <FILE id="RDdsuF" name="processor_router.cpp" compile="1" resource="0"
                 file="mopo/src/processor_router.cpp"/>
           <FILE id="VnD850" name="processor_router.h" compile="0" resource="0"
                 file="mopo/src/processor_router.h"/>
+          <FILE id="W4p5FU" name="resonance_lookup.cpp" compile="1" resource="0"
+                file="mopo/src/resonance_lookup.cpp"/>
+          <FILE id="pTH1Hf" name="resonance_lookup.h" compile="0" resource="0"
+                file="mopo/src/resonance_lookup.h"/>
           <FILE id="JHZseW" name="send_receive.cpp" compile="1" resource="0"
                 file="mopo/src/send_receive.cpp"/>
           <FILE id="yCR2Si" name="send_receive.h" compile="0" resource="0" file="mopo/src/send_receive.h"/>
