@@ -33,7 +33,7 @@ namespace mopo {
     public:
       ResonanceLookupSingleton() {
         for (int i = 0; i < Q_RESOLUTION + 2; ++i) {
-          q_lookup_[i] = utils::magnitudeToQ(i);
+          q_lookup_[i] = utils::magnitudeToQ(i / (Q_RESOLUTION + 2.0));
         }
       }
 
