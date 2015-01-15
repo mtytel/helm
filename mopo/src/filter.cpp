@@ -18,10 +18,6 @@
 
 #include <cmath>
 
-namespace {
-  const mopo::mopo_float COEFFICIENT_FILTERING = 0.9;
-} // namespace
-
 namespace mopo {
 
   Filter::Filter() : Processor(Filter::kNumInputs, 1) {
@@ -53,7 +49,7 @@ namespace mopo {
   void Filter::process() {
     current_type_ = static_cast<Type>(inputs_[kType]->at(0));
     computeCoefficients(current_type_, inputs_[kCutoff]->at(0),
-                                       inputs_[kResonance]->at(0));
+                        inputs_[kResonance]->at(0), inputs_[kGain]->at(0));
 
     int i = 0;
     if (inputs_[kReset]->source->triggered &&
@@ -66,23 +62,6 @@ namespace mopo {
     }
     for (; i < buffer_size_; ++i)
       tick(i);
-  }
-
-  inline void Filter::tick(int i) {
-    mopo_float input = inputs_[kAudio]->at(i);
-    in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
-    in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
-    in_2_ = INTERPOLATE(target_in_2_, in_2_, COEFFICIENT_FILTERING);
-    out_1_ = INTERPOLATE(target_out_1_, out_1_, COEFFICIENT_FILTERING);
-    out_2_ = INTERPOLATE(target_out_2_, out_2_, COEFFICIENT_FILTERING);
-
-    mopo_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
-                     past_out_1_ * out_1_ - past_out_2_ * out_2_;
-    past_in_2_ = past_in_1_;
-    past_in_1_ = input;
-    past_out_2_ = past_out_1_;
-    past_out_1_ = out;
-    outputs_[0]->buffer[i] = out;
   }
 
   inline void Filter::reset() {

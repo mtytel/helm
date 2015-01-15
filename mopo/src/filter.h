@@ -24,6 +24,10 @@
 
 namespace mopo {
 
+  namespace {
+    const mopo::mopo_float COEFFICIENT_FILTERING = 0.9;
+  } // namespace
+
   // Implements RBJ biquad filters of different types.
   class Filter : public Processor {
     public:
@@ -32,6 +36,7 @@ namespace mopo {
         kType,
         kCutoff,
         kResonance,
+        kGain,
         kReset,
         kNumInputs
       };
@@ -63,8 +68,9 @@ namespace mopo {
       virtual Processor* clone() const { return new Filter(*this); }
       virtual void process();
     
-      void computeCoefficients(Type type, mopo_float cutoff, mopo_float resonance) {
-        static const mopo_float shelf_slope = 1.3;
+      void computeCoefficients(Type type, mopo_float cutoff, mopo_float resonance,
+                               mopo_float gain) {
+        static const mopo_float shelf_slope = 1.2;
 
         mopo_float phase_delta = 2.0 * PI * cutoff / sample_rate_;
         mopo_float real_delta = cos(phase_delta);
@@ -112,31 +118,29 @@ namespace mopo {
             break;
           }
           case kLowShelf: {
-            mopo_float mag = resonance;
             mopo_float alpha = (imag_delta / 2.0) *
-                               std::sqrt((mag + 1.0 / mag) * (1.0 / shelf_slope - 1) + 2.0);
-            mopo_float sq = 2 * std::sqrt(mag) * alpha;
-            mopo_float norm = (mag + 1) + (mag - 1) * real_delta + sq;
+                               std::sqrt((gain + 1.0 / gain) * (1.0 / shelf_slope - 1) + 2.0);
+            mopo_float sq = 2 * std::sqrt(gain) * alpha;
+            mopo_float norm = (gain + 1) + (gain - 1) * real_delta + sq;
 
-            target_in_0_ = mag * ((mag + 1) - (mag - 1) * real_delta + sq) / norm;
-            target_in_1_ = 2 * mag * ((mag - 1) - (mag + 1) * real_delta) / norm;
-            target_in_2_ = mag * ((mag + 1) - (mag - 1) * real_delta - sq) / norm;
-            target_out_1_ = -2 * ((mag - 1) + (mag + 1) * real_delta) / norm;
-            target_out_2_ = ((mag + 1) + (mag - 1) * real_delta - sq) / norm;
+            target_in_0_ = gain * ((gain + 1) - (gain - 1) * real_delta + sq) / norm;
+            target_in_1_ = 2 * gain * ((gain - 1) - (gain + 1) * real_delta) / norm;
+            target_in_2_ = gain * ((gain + 1) - (gain - 1) * real_delta - sq) / norm;
+            target_out_1_ = -2 * ((gain - 1) + (gain + 1) * real_delta) / norm;
+            target_out_2_ = ((gain + 1) + (gain - 1) * real_delta - sq) / norm;
             break;
           }
           case kHighShelf: {
-            mopo_float mag = resonance;
             mopo_float alpha = (imag_delta / 2.0) *
-                               std::sqrt((mag + 1.0 / mag) * (1.0 / shelf_slope - 1) + 2.0);
-            mopo_float sq = 2 * std::sqrt(mag) * alpha;
-            mopo_float norm = (mag + 1) - (mag - 1) * real_delta + sq;
+                               std::sqrt((gain + 1.0 / gain) * (1.0 / shelf_slope - 1) + 2.0);
+            mopo_float sq = 2 * std::sqrt(gain) * alpha;
+            mopo_float norm = (gain + 1) - (gain - 1) * real_delta + sq;
 
-            target_in_0_ = mag * ((mag + 1) + (mag - 1) * real_delta + sq) / norm;
-            target_in_1_ = -2 * mag * ((mag - 1) + (mag + 1) * real_delta) / norm;
-            target_in_2_ = mag * ((mag + 1) + (mag - 1) * real_delta - sq) / norm;
-            target_out_1_ = 2 * ((mag - 1) - (mag + 1) * real_delta) / norm;
-            target_out_2_ = ((mag + 1) - (mag - 1) * real_delta - sq) / norm;
+            target_in_0_ = gain * ((gain + 1) + (gain - 1) * real_delta + sq) / norm;
+            target_in_1_ = -2 * gain * ((gain - 1) + (gain + 1) * real_delta) / norm;
+            target_in_2_ = gain * ((gain + 1) + (gain - 1) * real_delta - sq) / norm;
+            target_out_1_ = 2 * ((gain - 1) - (gain + 1) * real_delta) / norm;
+            target_out_2_ = ((gain + 1) - (gain - 1) * real_delta - sq) / norm;
             break;
           }
           case kAllPass: {
@@ -159,7 +163,22 @@ namespace mopo {
         current_resonance_ = resonance;
       }
 
-      void tick(int i);
+      void tick(int i) {
+        mopo_float input = inputs_[kAudio]->at(i);
+        in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
+        in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
+        in_2_ = INTERPOLATE(target_in_2_, in_2_, COEFFICIENT_FILTERING);
+        out_1_ = INTERPOLATE(target_out_1_, out_1_, COEFFICIENT_FILTERING);
+        out_2_ = INTERPOLATE(target_out_2_, out_2_, COEFFICIENT_FILTERING);
+
+        mopo_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
+        past_out_1_ * out_1_ - past_out_2_ * out_2_;
+        past_in_2_ = past_in_1_;
+        past_in_1_ = input;
+        past_out_2_ = past_out_1_;
+        past_out_1_ = out;
+        outputs_[0]->buffer[i] = out;
+      }
 
     private:
       void reset();
