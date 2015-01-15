@@ -18,6 +18,7 @@
 #ifndef OPERATORS_H
 #define OPERATORS_H
 
+#include "magnitude_lookup.h"
 #include "midi_lookup.h"
 #include "resonance_lookup.h"
 #include "processor.h"
@@ -115,6 +116,20 @@ namespace mopo {
       inline void tick(int i) {
         outputs_[0]->buffer[i] =
             ResonanceLookup::qLookup(inputs_[0]->at(i));
+      }
+  };
+
+  // A processor that will convert a stream of decibals to a stream of
+  // magnitudes.
+  class MagnitudeScale : public Operator {
+    public:
+      MagnitudeScale() : Operator(1, 1) { }
+
+      virtual Processor* clone() const { return new MagnitudeScale(*this); }
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] =
+            MagnitudeLookup::magnitudeLookup(inputs_[0]->at(i));
       }
   };
 
