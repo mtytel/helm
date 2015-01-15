@@ -25,10 +25,6 @@
 
 namespace mopo {
 
-  namespace {
-
-  } // namespace
-
   class MidiLookupSingleton {
     public:
       MidiLookupSingleton() {
