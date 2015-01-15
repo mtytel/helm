@@ -31,7 +31,7 @@ public:
   void resized() override;
 
 private:
-  Twytch& glitch_bitch_;
+  Twytch& twytch_;
   TwytchLookAndFeel look_and_feel_;
 
   SynthesisEditor* synth_editor_;

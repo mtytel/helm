@@ -181,13 +181,18 @@ void FilterResponse::sliderValueChanged(Slider* sliderThatWasMoved) {
         mopo::Filter::Type type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
 
         if (resonance_slider_) {
+            float current_val = resonance_slider_->getValue();
+            float percent = resonance_slider_->valueToProportionOfLength(current_val);
+            float min = MIN_RESONANCE;
+            float max = MAX_RESONANCE;
+
             if (type == mopo::Filter::kLowShelf || type == mopo::Filter::kHighShelf) {
-                resonance_slider_->setRange(mopo::utils::dbToGain(MIN_GAIN_DB),
-                                            mopo::utils::dbToGain(MAX_GAIN_DB));
+                min = mopo::utils::dbToGain(MIN_GAIN_DB);
+                max = mopo::utils::dbToGain(MAX_GAIN_DB);
             }
-            else {
-                resonance_slider_->setRange(MIN_RESONANCE, MAX_RESONANCE);
-            }
+            resonance_slider_->setRange(min, max);
+            float new_val = CLAMP(resonance_slider_->proportionOfLengthToValue(percent), min, max);
+            resonance_slider_->setValue(new_val);
         }
     }
     computeFilterCoefficients();

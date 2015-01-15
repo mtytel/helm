@@ -364,6 +364,10 @@
       <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
             file="Source/twytch_strings.h"/>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
+        <FILE id="RCNEUe" name="modulation_destination.cpp" compile="1" resource="0"
+              file="Source/editor_components/modulation_destination.cpp"/>
+        <FILE id="QeaVmG" name="modulation_destination.h" compile="0" resource="0"
+              file="Source/editor_components/modulation_destination.h"/>
         <FILE id="YxeKKD" name="filter_response.cpp" compile="1" resource="0"
               file="Source/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"
@@ -372,10 +376,10 @@
               file="Source/editor_components/wave_form_selector.cpp"/>
         <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
               file="Source/editor_components/wave_form_selector.h"/>
-        <FILE id="UuS7xw" name="draggable_component.cpp" compile="1" resource="0"
-              file="Source/editor_components/draggable_component.cpp"/>
-        <FILE id="GO0BK9" name="draggable_component.h" compile="0" resource="0"
-              file="Source/editor_components/draggable_component.h"/>
+        <FILE id="UuS7xw" name="modulation_source.cpp" compile="1" resource="0"
+              file="Source/editor_components/modulation_source.cpp"/>
+        <FILE id="GO0BK9" name="modulation_source.h" compile="0" resource="0"
+              file="Source/editor_components/modulation_source.h"/>
         <FILE id="tAT6Ed" name="graphical_envelope.cpp" compile="1" resource="0"
               file="Source/editor_components/graphical_envelope.cpp"/>
         <FILE id="sENd7I" name="graphical_envelope.h" compile="0" resource="0"
@@ -400,6 +404,10 @@
       <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="Source/twytch.h"/>
       <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
         <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
+          <FILE id="F4wOr8" name="phase_pull_oscillator.cpp" compile="1" resource="0"
+                file="mopo/src/phase_pull_oscillator.cpp"/>
+          <FILE id="rF5bZm" name="phase_pull_oscillator.h" compile="0" resource="0"
+                file="mopo/src/phase_pull_oscillator.h"/>
           <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>
           <FILE id="vgDlZD" name="alias.h" compile="0" resource="0" file="mopo/src/alias.h"/>
           <FILE id="pCAsWe" name="bit_crush.cpp" compile="1" resource="0" file="mopo/src/bit_crush.cpp"/>

@@ -631,13 +631,16 @@
     <ClCompile Include="..\..\Source\twytch_strings.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\editor_components\modulation_destination.cpp">
+      <Filter>Twytch\Source\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\filter_response.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\wave_form_selector.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\editor_components\draggable_component.cpp">
+    <ClCompile Include="..\..\Source\editor_components\modulation_source.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\graphical_envelope.cpp">
@@ -657,6 +660,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\twytch.cpp">
       <Filter>Twytch\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\phase_pull_oscillator.cpp">
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\alias.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
@@ -2307,13 +2313,16 @@
     <ClInclude Include="..\..\Source\twytch_strings.h">
       <Filter>Twytch\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\editor_components\modulation_destination.h">
+      <Filter>Twytch\Source\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\filter_response.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\wave_form_selector.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\editor_components\draggable_component.h">
+    <ClInclude Include="..\..\Source\editor_components\modulation_source.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\graphical_envelope.h">
@@ -2333,6 +2342,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\twytch.h">
       <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\phase_pull_oscillator.h">
+      <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\alias.h">
       <Filter>Twytch\Source\mopo\src</Filter>

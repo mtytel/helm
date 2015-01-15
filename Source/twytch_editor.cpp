@@ -17,8 +17,8 @@
 #include "twytch.h"
 #include "twytch_editor.h"
 
-TwytchEditor::TwytchEditor(Twytch& gb) : AudioProcessorEditor(&gb), glitch_bitch_(gb) {
-  mopo::control_map controls = glitch_bitch_.getSynth()->getControls();
+TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
+  mopo::control_map controls = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
   synth_editor_ = new SynthesisEditor();

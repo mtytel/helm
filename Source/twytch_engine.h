@@ -31,14 +31,11 @@
 #define MOD_MATRIX_SIZE 5
 
 namespace mopo {
-  class Add;
   class Envelope;
   class Filter;
-  class Interpolate;
   class LinearSlope;
-  class Multiply;
-  class Oscillator;
   class SmoothValue;
+  class StepSequencer;
 
   // The oscillators of the synthesizer. This section of the synth is processed
   // sample by sample to allow for cross modulation.

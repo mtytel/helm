@@ -28,6 +28,8 @@
 #include "graphical_envelope.h"
 #include "wave_form_selector.h"
 #include "filter_response.h"
+#include "modulation_source.h"
+#include "modulation_destination.h"
 
 
 //==============================================================================
@@ -39,6 +41,7 @@
                                                                     //[/Comments]
 */
 class SynthesisEditor  : public Component,
+                         public DragAndDropContainer,
                          public SliderListener,
                          public ButtonListener
 {
@@ -108,6 +111,12 @@ private:
     ScopedPointer<Slider> osc_feedback_transpose_;
     ScopedPointer<Slider> osc_feedback_amount_;
     ScopedPointer<Slider> osc_feedback_tune_;
+    ScopedPointer<ModulationSource> component;
+    ScopedPointer<ModulationSource> component2;
+    ScopedPointer<ModulationSource> component3;
+    ScopedPointer<ModulationDestination> component4;
+    ScopedPointer<ModulationDestination> component5;
+    ScopedPointer<ModulationDestination> component6;
 
 
     //==============================================================================

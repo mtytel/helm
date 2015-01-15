@@ -21,8 +21,8 @@
 namespace mopo {
 
   PhasePullOscillator::PhasePullOscillator() : Processor(kNumInputs, 1),
-                                               offset_(0.0), cycles_(0.0),
-                                               target_offset_(0.0), target_cycles_(0.0),
+                                               target_cycles_(0.0), target_offset_(0.0),
+                                               cycles_(0.0), offset_(0.0),
                                                waveform_(Wave::kSin) { }
 
   void PhasePullOscillator::preprocess() {

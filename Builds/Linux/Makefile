@@ -137,15 +137,17 @@ OBJECTS := \
   $(OBJDIR)/MatrixMixerVolumes_2141177b.o \
   $(OBJDIR)/twytch_engine_9a8780bf.o \
   $(OBJDIR)/twytch_strings_fab1886f.o \
+  $(OBJDIR)/modulation_destination_e92c1ffb.o \
   $(OBJDIR)/filter_response_c5a98742.o \
   $(OBJDIR)/wave_form_selector_d4921d64.o \
-  $(OBJDIR)/draggable_component_3fda2ae5.o \
+  $(OBJDIR)/modulation_source_4d88e218.o \
   $(OBJDIR)/graphical_envelope_81dd68ac.o \
   $(OBJDIR)/graphical_step_sequencer_849bfbba.o \
   $(OBJDIR)/synthesis_editor_9bca1868.o \
   $(OBJDIR)/twytch_editor_e7ee1a6a.o \
   $(OBJDIR)/twytch_look_and_feel_4eb9069b.o \
   $(OBJDIR)/twytch_10347fac.o \
+  $(OBJDIR)/phase_pull_oscillator_77bc7292.o \
   $(OBJDIR)/alias_1d388dcc.o \
   $(OBJDIR)/bit_crush_f4910885.o \
   $(OBJDIR)/delay_a1e4df7f.o \
@@ -631,6 +633,11 @@ $(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
 	@echo "Compiling twytch_strings.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/modulation_destination_e92c1ffb.o: ../../Source/editor_components/modulation_destination.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_destination.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/filter_response_c5a98742.o: ../../Source/editor_components/filter_response.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_response.cpp"
@@ -641,9 +648,9 @@ $(OBJDIR)/wave_form_selector_d4921d64.o: ../../Source/editor_components/wave_for
 	@echo "Compiling wave_form_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/draggable_component_3fda2ae5.o: ../../Source/editor_components/draggable_component.cpp
+$(OBJDIR)/modulation_source_4d88e218.o: ../../Source/editor_components/modulation_source.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling draggable_component.cpp"
+	@echo "Compiling modulation_source.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/graphical_envelope_81dd68ac.o: ../../Source/editor_components/graphical_envelope.cpp
@@ -674,6 +681,11 @@ $(OBJDIR)/twytch_look_and_feel_4eb9069b.o: ../../Source/twytch_look_and_feel.cpp
 $(OBJDIR)/twytch_10347fac.o: ../../Source/twytch.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/phase_pull_oscillator_77bc7292.o: ../../mopo/src/phase_pull_oscillator.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling phase_pull_oscillator.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp

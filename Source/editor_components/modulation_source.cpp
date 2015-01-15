@@ -20,28 +20,28 @@
 //[Headers] You can add your own extra header files here...
 //[/Headers]
 
-#include "draggable_component.h"
+#include "modulation_source.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 //[/MiscUserDefs]
 
 //==============================================================================
-DraggableComponent::DraggableComponent ()
+ModulationSource::ModulationSource ()
 {
 
     //[UserPreSize]
     is_hovered_ = false;
     //[/UserPreSize]
 
-    setSize (600, 400);
+    setSize (20, 20);
 
 
     //[Constructor] You can add your own custom stuff here..
     //[/Constructor]
 }
 
-DraggableComponent::~DraggableComponent()
+ModulationSource::~ModulationSource()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
@@ -53,7 +53,7 @@ DraggableComponent::~DraggableComponent()
 }
 
 //==============================================================================
-void DraggableComponent::paint (Graphics& g)
+void ModulationSource::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -65,65 +65,60 @@ void DraggableComponent::paint (Graphics& g)
     //[/UserPaint]
 }
 
-void DraggableComponent::resized()
+void ModulationSource::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
+    initial_bounds_ = getBounds();
     //[/UserResized]
 }
 
-void DraggableComponent::moved()
+void ModulationSource::moved()
 {
     //[UserCode_moved] -- Add your code here...
-    Point<int> center = getBoundsInParent().getCentre();
-    Point<int> constrained_center = center;
-    constrained_center.x = std::min(restrictions_.getX() + restrictions_.getWidth(), center.x);
-    constrained_center.x = std::max(restrictions_.getX(), constrained_center.x);
-    constrained_center.y = std::min(restrictions_.getY() + restrictions_.getHeight(), center.y);
-    constrained_center.y = std::max(restrictions_.getY(), constrained_center.y);
-
-    if (constrained_center != center)
-        setCentrePosition(constrained_center.x, constrained_center.y);
-
     //[/UserCode_moved]
 }
 
-void DraggableComponent::mouseEnter (const MouseEvent& e)
+void ModulationSource::mouseEnter (const MouseEvent& e)
 {
     //[UserCode_mouseEnter] -- Add your code here...
     is_hovered_ = true;
-    // We will repaint the parent just in case the hovering changes something in the parent.
-    Component* parent = getParentComponent();
-    if (parent)
-        parent->repaint();
     //[/UserCode_mouseEnter]
 }
 
-void DraggableComponent::mouseExit (const MouseEvent& e)
+void ModulationSource::mouseExit (const MouseEvent& e)
 {
     //[UserCode_mouseExit] -- Add your code here...
     is_hovered_ = false;
-    // We will repaint the parent just in case the hovering changes something in the parent.
-    Component* parent = getParentComponent();
-    if (parent)
-        parent->repaint();
     //[/UserCode_mouseExit]
 }
 
-void DraggableComponent::mouseDown (const MouseEvent& e)
+void ModulationSource::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
-    dragger_.startDraggingComponent(this, e);
+    // dragger_.startDraggingComponent(this, e);
+    DragAndDropContainer* drag_container = DragAndDropContainer::findParentDragContainerFor(this);
+    if (!drag_container->isDragAndDropActive()) {
+        drag_container->startDragging("description string", this);
+    }
     //[/UserCode_mouseDown]
 }
 
-void DraggableComponent::mouseDrag (const MouseEvent& e)
+void ModulationSource::mouseDrag (const MouseEvent& e)
 {
     //[UserCode_mouseDrag] -- Add your code here...
-    dragger_.dragComponent(this, e, nullptr);
+    // dragger_.dragComponent(this, e, nullptr);
     //[/UserCode_mouseDrag]
+}
+
+void ModulationSource::mouseUp (const MouseEvent& e)
+{
+    //[UserCode_mouseUp] -- Add your code here...
+    // if (getBounds() != initial_bounds_)
+    //     setBounds(initial_bounds_);
+    //[/UserCode_mouseUp]
 }
 
 
@@ -142,16 +137,18 @@ void DraggableComponent::mouseDrag (const MouseEvent& e)
 
 BEGIN_JUCER_METADATA
 
-<JUCER_COMPONENT documentType="Component" className="DraggableComponent" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
+<JUCER_COMPONENT documentType="Component" className="ModulationSource" componentName=""
+                 parentClasses="public Component, public DragAndDropContainer"
+                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="20"
+                 initialHeight="20">
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
     <METHOD name="moved()"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
     <METHOD name="mouseEnter (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="464646">
     <ROUNDRECT pos="50%c 50%c 25% 25%" cornerSize="2" fill="solid: 8b93ff" hasStroke="1"

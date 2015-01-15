@@ -18,36 +18,31 @@
 
 namespace {
 
-  const float SLIDER_PADDING = 1.0;
-  const float SLIDER_ROUNDING = 3.0;
+  const float SLIDER_ROUNDING = 1.0;
 } // namespace
 
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
-  g.setColour(Colours::black);
-  g.fillRect(x, y, width, height);
-  
+  g.fillAll(Colours::black);
   g.setColour(Colours::grey);
-  if (style == Slider::SliderStyle::LinearHorizontal) {
-    float percent_smaller = (width - 2 * SLIDER_PADDING) / width;
-    g.fillRoundedRectangle(x + SLIDER_PADDING, y + SLIDER_PADDING,
-                           (slider_pos - x) * percent_smaller, height - 2 * SLIDER_PADDING,
-                           SLIDER_ROUNDING);
+  if (style == Slider::SliderStyle::LinearBar) {
+    g.fillRoundedRectangle(x, y, slider_pos - x, height, SLIDER_ROUNDING);
   }
 
-  else if (style == Slider::SliderStyle::LinearVertical) {
-    float percent_smaller = (height - 2 * SLIDER_PADDING) / height;
-    g.fillRoundedRectangle(x + SLIDER_PADDING, y + SLIDER_PADDING,
-                           width - 2 * SLIDER_PADDING, percent_smaller * (slider_pos - y),
-                           SLIDER_ROUNDING);
+  else if (style == Slider::SliderStyle::LinearBarVertical) {
+    g.fillRoundedRectangle(x, slider_pos, width, y + height - slider_pos, SLIDER_ROUNDING);
+  }
+  else {
+    LookAndFeel_V3::drawLinearSlider(g, x, y, width, height, slider_pos, min, max, style, slider);
   }
 }
 
 void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int width, int height,
                                               float slider_pos, float min, float max,
                                               const Slider::SliderStyle style, Slider& slider) {
-
+  LookAndFeel_V3::drawLinearSliderThumb(g, x, y, width, height,
+                                        slider_pos, min, max, style, slider);
 }
 
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
