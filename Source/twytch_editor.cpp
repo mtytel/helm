@@ -21,14 +21,14 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
   mopo::control_map controls = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
-  synth_editor_ = new SynthesisEditor();
-  synth_editor_->addControls(controls);
-  addAndMakeVisible(synth_editor_);
+  gui_ = new FullInterface();
+  gui_->addControls(controls);
+  addAndMakeVisible(gui_);
   setSize(1000, 700);
 }
 
 TwytchEditor::~TwytchEditor() {
-  delete synth_editor_;
+  delete gui_;
 }
 
 void TwytchEditor::paint(Graphics& g) {
@@ -37,5 +37,5 @@ void TwytchEditor::paint(Graphics& g) {
 }
 
 void TwytchEditor::resized() {
-  synth_editor_->setBounds(0, 0, getWidth(), getHeight());
+  gui_->setBounds(0, 0, getWidth(), getHeight());
 }

@@ -631,6 +631,9 @@
     <ClCompile Include="..\..\Source\twytch_strings.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\editor_components\full_interface.cpp">
+      <Filter>Twytch\Source\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\editor_components\modulation_destination.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
@@ -649,7 +652,7 @@
     <ClCompile Include="..\..\Source\editor_components\graphical_step_sequencer.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\editor_components\synthesis_editor.cpp">
+    <ClCompile Include="..\..\Source\editor_components\synthesis_interface.cpp">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\twytch_editor.cpp">
@@ -2313,6 +2316,9 @@
     <ClInclude Include="..\..\Source\twytch_strings.h">
       <Filter>Twytch\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\editor_components\full_interface.h">
+      <Filter>Twytch\Source\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\editor_components\modulation_destination.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
@@ -2331,7 +2337,7 @@
     <ClInclude Include="..\..\Source\editor_components\graphical_step_sequencer.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\editor_components\synthesis_editor.h">
+    <ClInclude Include="..\..\Source\editor_components\synthesis_interface.h">
       <Filter>Twytch\Source\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\twytch_editor.h">

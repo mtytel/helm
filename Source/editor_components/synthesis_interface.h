@@ -17,8 +17,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_5885895E7B5509B9__
-#define __JUCE_HEADER_5885895E7B5509B9__
+#ifndef __JUCE_HEADER_BFBAB84DA31A01CD__
+#define __JUCE_HEADER_BFBAB84DA31A01CD__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -40,27 +40,25 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SynthesisEditor  : public Component,
-                         public DragAndDropContainer,
-                         public SliderListener,
-                         public ButtonListener
+class SynthesisInterface  : public Component,
+                            public DragAndDropContainer,
+                            public SliderListener
 {
 public:
     //==============================================================================
-    SynthesisEditor ();
-    ~SynthesisEditor();
+    SynthesisInterface ();
+    ~SynthesisInterface();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void addControls(mopo::control_map controls) { controls_ = controls; }
-    String writeStateToString();
-    void readStateFromString(String json_string);
+    var getState();
+    void writeState(var state);
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
     void sliderValueChanged (Slider* sliderThatWasMoved);
-    void buttonClicked (Button* buttonThatWasClicked);
 
 
 
@@ -106,8 +104,6 @@ private:
     ScopedPointer<Slider> cutoff_;
     ScopedPointer<Slider> fil_env_depth_;
     ScopedPointer<Slider> keytrack_;
-    ScopedPointer<TextButton> save_button_;
-    ScopedPointer<TextButton> load_button_;
     ScopedPointer<Slider> osc_feedback_transpose_;
     ScopedPointer<Slider> osc_feedback_amount_;
     ScopedPointer<Slider> osc_feedback_tune_;
@@ -120,10 +116,10 @@ private:
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisInterface)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_5885895E7B5509B9__
+#endif   // __JUCE_HEADER_BFBAB84DA31A01CD__

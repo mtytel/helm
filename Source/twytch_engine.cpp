@@ -590,7 +590,7 @@ namespace mopo {
 
     controls_["delay time"] = delay_time;
     controls_["delay feedback"] = delay_feedback;
-    controls_["delay dry/wet"] = delay_wet;
+    controls_["delay dry wet"] = delay_wet;
 
     // Volume.
     SmoothValue* volume = new SmoothValue(0.6);

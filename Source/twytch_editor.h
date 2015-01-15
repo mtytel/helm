@@ -20,7 +20,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "twytch.h"
 #include "twytch_look_and_feel.h"
-#include "synthesis_editor.h"
+#include "full_interface.h"
 
 class TwytchEditor : public AudioProcessorEditor {
 public:
@@ -34,7 +34,7 @@ private:
   Twytch& twytch_;
   TwytchLookAndFeel look_and_feel_;
 
-  SynthesisEditor* synth_editor_;
+  FullInterface* gui_;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchEditor)
 };

@@ -364,6 +364,10 @@
       <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
             file="Source/twytch_strings.h"/>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
+        <FILE id="fSCHrW" name="full_interface.cpp" compile="1" resource="0"
+              file="Source/editor_components/full_interface.cpp"/>
+        <FILE id="wMecW2" name="full_interface.h" compile="0" resource="0"
+              file="Source/editor_components/full_interface.h"/>
         <FILE id="RCNEUe" name="modulation_destination.cpp" compile="1" resource="0"
               file="Source/editor_components/modulation_destination.cpp"/>
         <FILE id="QeaVmG" name="modulation_destination.h" compile="0" resource="0"
@@ -388,10 +392,10 @@
               file="Source/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="q0fgMb" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="Source/editor_components/graphical_step_sequencer.h"/>
-        <FILE id="JmaRDY" name="synthesis_editor.cpp" compile="1" resource="0"
-              file="Source/editor_components/synthesis_editor.cpp"/>
-        <FILE id="PoLLPR" name="synthesis_editor.h" compile="0" resource="0"
-              file="Source/editor_components/synthesis_editor.h"/>
+        <FILE id="JmaRDY" name="synthesis_interface.cpp" compile="1" resource="0"
+              file="Source/editor_components/synthesis_interface.cpp"/>
+        <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
+              file="Source/editor_components/synthesis_interface.h"/>
       </GROUP>
       <FILE id="MbH1j3" name="twytch_editor.cpp" compile="1" resource="0"
             file="Source/twytch_editor.cpp"/>
