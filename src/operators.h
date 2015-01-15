@@ -19,6 +19,7 @@
 #define OPERATORS_H
 
 #include "midi_lookup.h"
+#include "resonance_lookup.h"
 #include "processor.h"
 
 namespace mopo {
@@ -100,6 +101,20 @@ namespace mopo {
       inline void tick(int i) {
         outputs_[0]->buffer[i] =
             MidiLookup::centsLookup(CENTS_PER_NOTE * inputs_[0]->at(i));
+      }
+  };
+
+  // A processor that will convert a stream of magnitudes to a stream of
+  // q resonance values.
+  class ResonanceScale : public Operator {
+    public:
+      ResonanceScale() : Operator(1, 1) { }
+
+      virtual Processor* clone() const { return new ResonanceScale(*this); }
+
+      inline void tick(int i) {
+        outputs_[0]->buffer[i] =
+            ResonanceLookup::qLookup(inputs_[0]->at(i));
       }
   };
 
