@@ -32,6 +32,7 @@ namespace mopo {
     const int CENTS_PER_NOTE = 100;
     const int CENTS_PER_OCTAVE = NOTES_PER_OCTAVE * CENTS_PER_NOTE;
     const int MAX_CENTS = MIDI_SIZE * CENTS_PER_NOTE;
+    const mopo_float MAX_Q = 16.0;
   }
 
   namespace utils {
@@ -70,6 +71,14 @@ namespace mopo {
 
     inline mopo_float frequencyToMidiCents(mopo_float frequency) {
       return CENTS_PER_NOTE * frequencyToMidiNote(frequency);
+    }
+
+    inline mopo_float magnitudeToQ(mopo_float magnitude) {
+      return MAX_Q * magnitude * magnitude;
+    }
+
+    inline mopo_float qToMagnitude(mopo_float q) {
+      return std::sqrt(q / MAX_Q);
     }
 
     inline bool isSilent(const mopo_float* buffer, int length) {
