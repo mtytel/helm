@@ -25,6 +25,8 @@ namespace mopo {
   Processor::Processor(int num_inputs, int num_outputs) :
       sample_rate_(DEFAULT_SAMPLE_RATE), buffer_size_(DEFAULT_BUFFER_SIZE),
       router_(0) {
+    inputs_ = new std::vector<Input*>();
+    outputs_ = new std::vector<Output*>();
     for (int i = 0; i < num_inputs; ++i) {
       Input* input = new Input();
 
