@@ -33,6 +33,8 @@
 #include <sstream>
 
 #define PITCH_MOD_RANGE 12
+#define MIN_GAIN_DB -24.0
+#define MAX_GAIN_DB 24.0
 
 namespace mopo {
 
@@ -322,9 +324,15 @@ namespace mopo {
     VariableAdd* resonance_sources = new VariableAdd(MOD_MATRIX_SIZE);
     resonance_sources->plug(resonance, 0);
     ResonanceScale* final_resonance = new ResonanceScale();
+    Value* min_db = new Value(MIN_GAIN_DB);
+    Value* max_db = new Value(MAX_GAIN_DB);
+    Interpolate* decibals = new Interpolate();
+    decibals->plug(min_db, Interpolate::kFrom);
+    decibals->plug(max_db, Interpolate::kTo);
+    decibals->plug(resonance, Interpolate::kFractional);
     MagnitudeScale* final_gain = new MagnitudeScale();
     final_resonance->plug(resonance_sources);
-    final_gain->plug(resonance_sources);
+    final_gain->plug(decibals);
 
     filter_ = new Filter();
     filter_->plug(audio, Filter::kAudio);
@@ -343,6 +351,7 @@ namespace mopo {
     addProcessor(midi_cutoff_modulated);
     addProcessor(resonance_sources);
     addProcessor(final_resonance);
+    addProcessor(decibals);
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter_);
