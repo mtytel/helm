@@ -114,7 +114,7 @@ namespace mopo {
     while (inputs_->size() <= index)
       inputs_->push_back(nullptr);
 
-    inputs_->assign(index, input);
+    inputs_->at(index) = input;
 
     if (router_ && input->source != &Processor::null_source_)
       router_->connect(this, input->source, index);
@@ -124,7 +124,7 @@ namespace mopo {
     while (outputs_->size() <= index)
       outputs_->push_back(nullptr);
 
-    outputs_->assign(index, output);
+    outputs_->at(index) = output;
   }
 
   Processor::Input* Processor::input(unsigned int index) const {
