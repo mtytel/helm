@@ -47,11 +47,11 @@ namespace mopo {
   }
 
   void Processor::plug(const Output* source, unsigned int input_index) {
-    MOPO_ASSERT(input_index < inputs_.size());
+    MOPO_ASSERT(input_index < inputs_->size());
     MOPO_ASSERT(source);
-    MOPO_ASSERT(inputs_[input_index]);
+    MOPO_ASSERT(inputs_->at(input_index));
 
-    inputs_[input_index]->source = source;
+    inputs_->at(input_index)->source = source;
 
     if (router_)
       router_->connect(this, source, input_index);
@@ -66,8 +66,9 @@ namespace mopo {
   }
 
   void Processor::plugNext(const Output* source) {
-    for (size_t i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i] && inputs_[i]->source == &Processor::null_source_) {
+    for (size_t i = 0; i < inputs_->size(); ++i) {
+      Input* input = inputs_->at(i);
+      if (input && input->source == &Processor::null_source_) {
         plug(source, i);
         return;
       }
@@ -79,60 +80,60 @@ namespace mopo {
   }
 
   void Processor::unplugIndex(unsigned int input_index) {
-    if (inputs_[input_index])
-      inputs_[input_index]->source = &Processor::null_source_;
+    if (inputs_->at(input_index))
+      inputs_->at(input_index)->source = &Processor::null_source_;
   }
 
   void Processor::unplug(const Output* source) {
-    for (unsigned int i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i] && inputs_[i]->source == source)
-        inputs_[i]->source = &Processor::null_source_;
+    for (unsigned int i = 0; i < inputs_->size(); ++i) {
+      if (inputs_->at(i) && inputs_->at(i)->source == source)
+        inputs_->at(i)->source = &Processor::null_source_;
     }
   }
 
   void Processor::unplug(const Processor* source) {
-    for (unsigned int i = 0; i < inputs_.size(); ++i) {
-      if (inputs_[i] && inputs_[i]->source->owner == source)
-        inputs_[i]->source = &Processor::null_source_;
+    for (unsigned int i = 0; i < inputs_->size(); ++i) {
+      if (inputs_->at(i) && inputs_->at(i)->source->owner == source)
+        inputs_->at(i)->source = &Processor::null_source_;
     }
   }
 
   void Processor::registerInput(Input* input) {
-    inputs_.push_back(input);
+    inputs_->push_back(input);
     if (router_ && input->source != &Processor::null_source_)
-      router_->connect(this, input->source, inputs_.size() - 1);
+      router_->connect(this, input->source, inputs_->size() - 1);
   }
 
   void Processor::registerOutput(Output* output) {
-    outputs_.push_back(output);
+    outputs_->push_back(output);
   }
 
   void Processor::registerInput(Input* input, int index) {
-    while (inputs_.size() <= index)
-      inputs_.push_back(nullptr);
+    while (inputs_->size() <= index)
+      inputs_->push_back(nullptr);
 
-    inputs_[index] = input;
+    inputs_->assign(index, input);
 
     if (router_ && input->source != &Processor::null_source_)
       router_->connect(this, input->source, index);
   }
 
   void Processor::registerOutput(Output* output, int index) {
-    while (outputs_.size() <= index)
-      outputs_.push_back(nullptr);
+    while (outputs_->size() <= index)
+      outputs_->push_back(nullptr);
 
-    outputs_[index] = output;
+    outputs_->assign(index, output);
   }
 
   Processor::Input* Processor::input(unsigned int index) const {
-    MOPO_ASSERT(index < inputs_.size());
+    MOPO_ASSERT(index < inputs_->size());
 
-    return inputs_[index];
+    return inputs_->at(index);
   }
 
   Processor::Output* Processor::output(unsigned int index) const {
-    MOPO_ASSERT(index < outputs_.size());
+    MOPO_ASSERT(index < outputs_->size());
 
-    return outputs_[index];
+    return outputs_->at(index);
   }
 } // namespace mopo

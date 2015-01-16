@@ -30,11 +30,11 @@ namespace mopo {
   class Processor {
     public:
       virtual ~Processor() { }
-    
+
       // An output port from the Processor.
       struct Output {
         Output() {
-          owner = 0;
+          owner = nullptr;
           clearBuffer();
           clearTrigger();
         }
@@ -66,7 +66,7 @@ namespace mopo {
       // An input port to the Processor. You can plug an Output into on of
       // these inputs.
       struct Input {
-        Input() { source = 0; }
+        Input() { source = nullptr; }
 
         const Output* source;
 
@@ -118,8 +118,8 @@ namespace mopo {
       virtual void registerInput(Input* input);
       virtual void registerOutput(Output* output);
 
-      virtual int numInputs() const { return inputs_.size(); }
-      virtual int numOutputs() const { return outputs_.size(); }
+      virtual int numInputs() const { return inputs_->size(); }
+      virtual int numOutputs() const { return outputs_->size(); }
 
       // Returns the Input port corresponding to the passed in index.
       Input* input(unsigned int index = 0) const;
@@ -131,8 +131,8 @@ namespace mopo {
       int sample_rate_;
       int buffer_size_;
 
-      std::vector<Input*> inputs_;
-      std::vector<Output*> outputs_;
+      std::vector<Input*>* inputs_;
+      std::vector<Output*>* outputs_;
 
       ProcessorRouter* router_;
 

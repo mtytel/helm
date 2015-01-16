@@ -23,12 +23,12 @@ namespace mopo {
   }
 
   void SmoothFilter::process() {
-    mopo_float decay = inputs_[kDecay]->at(0);
+    mopo_float decay = inputs_->at(kDecay)->at(0);
 
     for (int i = 0; i < buffer_size_; ++i) {
-      mopo_float target = inputs_[kTarget]->at(i);
+      mopo_float target = inputs_->at(kTarget)->at(i);
       last_value_ = INTERPOLATE(last_value_, target, decay);
-      outputs_[0]->buffer[i] = last_value_;
+      outputs_->at(0)->buffer[i] = last_value_;
     }
   }
 } // namespace mopo

@@ -47,14 +47,14 @@ namespace mopo {
   }
 
   void Filter::process() {
-    current_type_ = static_cast<Type>(inputs_[kType]->at(0));
-    computeCoefficients(current_type_, inputs_[kCutoff]->at(0),
-                        inputs_[kResonance]->at(0), inputs_[kGain]->at(0));
+    current_type_ = static_cast<Type>(inputs_->at(kType)->at(0));
+    computeCoefficients(current_type_, inputs_->at(kCutoff)->at(0),
+                        inputs_->at(kResonance)->at(0), inputs_->at(kGain)->at(0));
 
     int i = 0;
-    if (inputs_[kReset]->source->triggered &&
-        inputs_[kReset]->source->trigger_value == kVoiceReset) {
-      int trigger_offset = inputs_[kReset]->source->trigger_offset;
+    if (inputs_->at(kReset)->source->triggered &&
+        inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
+      int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
         tick(i);
 

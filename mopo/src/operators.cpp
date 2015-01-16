@@ -24,13 +24,13 @@ namespace mopo {
   }
 
   void VariableAdd::process() {
-    memset(outputs_[0]->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    memset(outputs_->at(0)->buffer, 0, buffer_size_ * sizeof(mopo_float));
 
-    int num_inputs = inputs_.size();
+    int num_inputs = inputs_->size();
     for (int i = 0; i < num_inputs; ++i) {
-      if (inputs_[i]->source != &Processor::null_source_) {
+      if (inputs_->at(i)->source != &Processor::null_source_) {
         for (int s = 0; s < buffer_size_; ++s)
-          outputs_[0]->buffer[s] += inputs_[i]->at(s);
+          outputs_->at(0)->buffer[s] += inputs_->at(i)->at(s);
       }
     }
   }
