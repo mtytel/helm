@@ -72,8 +72,8 @@ private:
     ScopedPointer<GraphicalStepSequencer> step_sequencer_;
     ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
-    ScopedPointer<WaveFormSelector> wave_form_1_;
-    ScopedPointer<WaveFormSelector> wave_form_2_;
+    ScopedPointer<WaveFormSelector> osc_1_wave_display_;
+    ScopedPointer<WaveFormSelector> osc_2_wave_display_;
     ScopedPointer<Slider> polyphony_;
     ScopedPointer<Slider> portamento_;
     ScopedPointer<Slider> pitch_bend_range_;
@@ -107,12 +107,19 @@ private:
     ScopedPointer<Slider> osc_feedback_transpose_;
     ScopedPointer<Slider> osc_feedback_amount_;
     ScopedPointer<Slider> osc_feedback_tune_;
-    ScopedPointer<ModulationSource> component;
-    ScopedPointer<ModulationSource> component2;
-    ScopedPointer<ModulationSource> component3;
-    ScopedPointer<ModulationDestination> component4;
-    ScopedPointer<ModulationDestination> component5;
-    ScopedPointer<ModulationDestination> component6;
+    ScopedPointer<ModulationSource> amplitude_env_mod_source_;
+    ScopedPointer<ModulationSource> step_generator_mod_source_;
+    ScopedPointer<ModulationSource> filter_env_mod_source_;
+    ScopedPointer<ModulationDestination> cross_mod_destination_;
+    ScopedPointer<ModulationDestination> pitch_mod_destination_;
+    ScopedPointer<ModulationDestination> cutoff_mod_destination_;
+    ScopedPointer<WaveFormSelector> lfo_1_wave_display_;
+    ScopedPointer<WaveFormSelector> lfo_2_wave_display_;
+    ScopedPointer<Slider> lfo_1_waveform_;
+    ScopedPointer<Slider> lfo_2_waveform_;
+    ScopedPointer<ModulationSource> lfo_1_mod_source_;
+    ScopedPointer<ModulationSource> lfo_2_mod_source_;
+    ScopedPointer<ModulationDestination> resonance_mod_destination_;
 
 
     //==============================================================================
