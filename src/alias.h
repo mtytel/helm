@@ -40,9 +40,9 @@ namespace mopo {
       virtual void process();
 
       void tick(int i) {
-        mopo_float input = inputs_[kAudio]->at(i);
-        mopo_float wet = inputs_[kWet]->at(i);
-        mopo_float period = sample_rate_ / inputs_[kFrequency]->at(i);
+        mopo_float input = inputs_->at(kAudio)->at(i);
+        mopo_float wet = inputs_->at(kWet)->at(i);
+        mopo_float period = sample_rate_ / inputs_->at(kFrequency)->at(i);
 
         static_samples_ += 1.0;
         if (static_samples_ >= period) {
@@ -50,7 +50,7 @@ namespace mopo {
           current_sample_ = input;
         }
 
-        outputs_[0]->buffer[i] = INTERPOLATE(input, current_sample_, wet);
+        outputs_->at(0)->buffer[i] = INTERPOLATE(input, current_sample_, wet);
       }
 
     protected:

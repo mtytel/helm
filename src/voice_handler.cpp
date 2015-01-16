@@ -47,15 +47,15 @@ namespace mopo {
   void VoiceHandler::processVoice(Voice* voice) {
     voice->processor()->process();
     for (int i = 0; i < buffer_size_; ++i)
-      outputs_[0]->buffer[i] += voice_output_->buffer[i];
+      outputs_->at(0)->buffer[i] += voice_output_->buffer[i];
   }
 
   void VoiceHandler::process() {
     global_router_.process();
 
-    size_t polyphony = static_cast<size_t>(inputs_[kPolyphony]->at(0));
+    size_t polyphony = static_cast<size_t>(inputs_->at(kPolyphony)->at(0));
     setPolyphony(CLAMP(polyphony, 1, polyphony));
-    memset(outputs_[0]->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    memset(outputs_->at(0)->buffer, 0, buffer_size_ * sizeof(mopo_float));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {

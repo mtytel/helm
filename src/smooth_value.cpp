@@ -37,6 +37,6 @@ namespace mopo {
 
   inline void SmoothValue::tick(int i) {
     value_ = INTERPOLATE(value_, target_value_, decay_);
-    outputs_[0]->buffer[i] = value_;
+    outputs_->at(0)->buffer[i] = value_;
   }
 } // namespace mopo

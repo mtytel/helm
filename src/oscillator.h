@@ -43,13 +43,13 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        mopo_float frequency = inputs_[kFrequency]->at(i);
-        mopo_float phase = inputs_[kPhase]->at(i);
+        mopo_float frequency = inputs_->at(kFrequency)->at(i);
+        mopo_float phase = inputs_->at(kPhase)->at(i);
 
         offset_ += frequency / sample_rate_;
         mopo_float integral;
         offset_ = modf(offset_, &integral);
-        outputs_[0]->buffer[i] =
+        outputs_->at(0)->buffer[i] =
             Wave::blwave(waveform_, offset_ + phase, frequency);
       }
 

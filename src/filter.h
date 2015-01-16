@@ -158,13 +158,13 @@ namespace mopo {
             target_in_2_ = target_in_1_ = target_out_2_ = target_out_1_ = 0.0;
           }
         }
-        
+
         current_cutoff_ = cutoff;
         current_resonance_ = resonance;
       }
 
       void tick(int i) {
-        mopo_float input = inputs_[kAudio]->at(i);
+        mopo_float input = inputs_->at(kAudio)->at(i);
         in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
         in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
         in_2_ = INTERPOLATE(target_in_2_, in_2_, COEFFICIENT_FILTERING);
@@ -177,7 +177,7 @@ namespace mopo {
         past_in_1_ = input;
         past_out_2_ = past_out_1_;
         past_out_1_ = out;
-        outputs_[0]->buffer[i] = out;
+        outputs_->at(0)->buffer[i] = out;
       }
 
     private:

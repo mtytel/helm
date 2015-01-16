@@ -23,6 +23,12 @@
 #include "resonance_lookup.h"
 #include "processor.h"
 
+#define PROCESS_TICK_FUNCTION \
+void process() { \
+  for (int i = 0; i < buffer_size_; ++i) \
+    tick(i); \
+}
+
 namespace mopo {
 
   // A base class for arithmetic operators.
@@ -47,8 +53,10 @@ namespace mopo {
       virtual Processor* clone() const { return new Clamp(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] = CLAMP(inputs_[0]->at(i), min_, max_);
+        outputs_->at(0)->buffer[i] = CLAMP(inputs_->at(0)->at(i), min_, max_);
       }
+
+      PROCESS_TICK_FUNCTION
 
     private:
       mopo_float min_, max_;
@@ -56,26 +64,30 @@ namespace mopo {
 
   // A processor that will negate the amplitude of a signal.
   class Negate : public Operator {
-  public:
-    Negate() : Operator(1, 1) { }
+    public:
+      Negate() : Operator(1, 1) { }
 
-    virtual Processor* clone() const { return new Negate(*this); }
+      virtual Processor* clone() const { return new Negate(*this); }
 
-    inline void tick(int i) {
-      outputs_[0]->buffer[i] = -inputs_[0]->at(i);
-    }
+      inline void tick(int i) {
+        outputs_->at(0)->buffer[i] = -inputs_->at(0)->at(i);
+      }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will invert a signal value by value x -> x^-1.
   class Inverse : public Operator {
-  public:
-    Inverse() : Operator(1, 1) { }
+    public:
+      Inverse() : Operator(1, 1) { }
 
-    virtual Processor* clone() const { return new Inverse(*this); }
+      virtual Processor* clone() const { return new Inverse(*this); }
 
-    inline void tick(int i) {
-      outputs_[0]->buffer[i] = 1.0 / inputs_[0]->at(i);
-    }
+      inline void tick(int i) {
+        outputs_->at(0)->buffer[i] = 1.0 / inputs_->at(0)->at(i);
+      }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will scale a signal by a given scalar.
@@ -85,8 +97,10 @@ namespace mopo {
       virtual Processor* clone() const { return new LinearScale(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] = scale_ * inputs_[0]->at(i);
+        outputs_->at(0)->buffer[i] = scale_ * inputs_->at(0)->at(i);
       }
+
+      PROCESS_TICK_FUNCTION
 
     private:
       mopo_float scale_;
@@ -100,9 +114,11 @@ namespace mopo {
       virtual Processor* clone() const { return new MidiScale(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] =
-            MidiLookup::centsLookup(CENTS_PER_NOTE * inputs_[0]->at(i));
+        outputs_->at(0)->buffer[i] =
+            MidiLookup::centsLookup(CENTS_PER_NOTE * inputs_->at(0)->at(i));
       }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will convert a stream of magnitudes to a stream of
@@ -114,9 +130,11 @@ namespace mopo {
       virtual Processor* clone() const { return new ResonanceScale(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] =
-            ResonanceLookup::qLookup(inputs_[0]->at(i));
+        outputs_->at(0)->buffer[i] =
+            ResonanceLookup::qLookup(inputs_->at(0)->at(i));
       }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will convert a stream of decibals to a stream of
@@ -128,9 +146,11 @@ namespace mopo {
       virtual Processor* clone() const { return new MagnitudeScale(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] =
-            MagnitudeLookup::magnitudeLookup(inputs_[0]->at(i));
+        outputs_->at(0)->buffer[i] =
+            MagnitudeLookup::magnitudeLookup(inputs_->at(0)->at(i));
       }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will add two streams together.
@@ -141,8 +161,11 @@ namespace mopo {
       virtual Processor* clone() const { return new Add(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] = inputs_[0]->at(i) + inputs_[1]->at(i);
+        outputs_->at(0)->buffer[i] = inputs_->at(0)->at(i) +
+                                     inputs_->at(1)->at(i);
       }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will add a variable number of strings together.
@@ -154,10 +177,10 @@ namespace mopo {
 
       void process();
       inline void tick(int i) {
-        int num_inputs = inputs_.size();
-        outputs_[0]->buffer[i] = 0.0;
+        int num_inputs = inputs_->size();
+        outputs_->at(0)->buffer[i] = 0.0;
         for (int input = 0; input < num_inputs; ++input)
-          outputs_[0]->buffer[i] += inputs_[input]->at(i);
+          outputs_->at(0)->buffer[i] += inputs_->at(input)->at(i);
       }
   };
 
@@ -169,8 +192,11 @@ namespace mopo {
       virtual Processor* clone() const { return new Subtract(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] = inputs_[0]->at(i) - inputs_[1]->at(i);
+        outputs_->at(0)->buffer[i] = inputs_->at(0)->at(i) -
+                                     inputs_->at(1)->at(i);
       }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will multiply to streams together.
@@ -181,8 +207,11 @@ namespace mopo {
       virtual Processor* clone() const { return new Multiply(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] = inputs_[0]->at(i) * inputs_[1]->at(i);
+        outputs_->at(0)->buffer[i] = inputs_->at(0)->at(i) *
+                                     inputs_->at(1)->at(i);
       }
+
+      PROCESS_TICK_FUNCTION
   };
 
   // A processor that will interpolate two streams by an interpolation stream.
@@ -200,10 +229,13 @@ namespace mopo {
       virtual Processor* clone() const { return new Interpolate(*this); }
 
       inline void tick(int i) {
-        outputs_[0]->buffer[i] = INTERPOLATE(inputs_[kFrom]->at(i),
-                                             inputs_[kTo]->at(i),
-                                             inputs_[kFractional]->at(i));
+        outputs_->at(0)->buffer[i] =
+            INTERPOLATE(inputs_->at(kFrom)->at(i),
+                        inputs_->at(kTo)->at(i),
+                        inputs_->at(kFractional)->at(i));
       }
+
+      PROCESS_TICK_FUNCTION
   };
 } // namespace mopo
 

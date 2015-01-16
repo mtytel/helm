@@ -24,16 +24,16 @@ namespace mopo {
       Processor(kNumInputs + max_steps, 1), offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
-    unsigned int num_steps = static_cast<int>(inputs_[kNumSteps]->at(0));
+    unsigned int num_steps = static_cast<int>(inputs_->at(kNumSteps)->at(0));
 
     int i = 0;
-    if (inputs_[kReset]->source->triggered &&
-        inputs_[kReset]->source->trigger_value == kVoiceReset)
-      i = inputs_[kReset]->source->trigger_offset;
+    if (inputs_->at(kReset)->source->triggered &&
+        inputs_->at(kReset)->source->trigger_value == kVoiceReset)
+      i = inputs_->at(kReset)->source->trigger_offset;
 
     mopo_float total = 0.0;
     for (; i < buffer_size_; ++i)
-      total += inputs_[kFrequency]->at(i);
+      total += inputs_->at(kFrequency)->at(i);
 
     total /= sample_rate_;
     mopo_float integral;
@@ -41,6 +41,6 @@ namespace mopo {
     current_step_ = (current_step_ + num_steps) % num_steps;
 
     for (i = 0; i < buffer_size_; ++i)
-      outputs_[0]->buffer[i] = inputs_[kSteps + current_step_]->at(i);
+      outputs_->at(0)->buffer[i] = inputs_->at(kSteps + current_step_)->at(i);
   }
 } // namespace mopo
