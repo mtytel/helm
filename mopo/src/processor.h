@@ -70,7 +70,10 @@ namespace mopo {
 
         const Output* source;
 
-        mopo_float at(int i) const { return source->buffer[i]; }
+        inline mopo_float at(int i) const { return source->buffer[i]; }
+        inline const mopo_float& operator[](std::size_t i) {
+          return source->buffer[i];
+        }
       };
 
       Processor(int num_inputs, int num_outputs);
@@ -120,6 +123,16 @@ namespace mopo {
 
       virtual int numInputs() const { return inputs_->size(); }
       virtual int numOutputs() const { return outputs_->size(); }
+
+      // Input sample access.
+      inline mopo_float getInputSample(int input, int sample) {
+        return inputs_->operator[](input)->at(sample);
+      }
+
+      // Output sample writin.
+      inline void writeOutputSample(int output, int sample, mopo_float value) {
+        outputs_->operator[](output)->buffer[sample] = value;
+      }
 
       // Returns the Input port corresponding to the passed in index.
       Input* input(unsigned int index = 0) const;

@@ -130,12 +130,12 @@ namespace mopo {
   Processor::Input* Processor::input(unsigned int index) const {
     MOPO_ASSERT(index < inputs_->size());
 
-    return inputs_->at(index);
+    return (*inputs_)[index];
   }
 
   Processor::Output* Processor::output(unsigned int index) const {
     MOPO_ASSERT(index < outputs_->size());
 
-    return outputs_->at(index);
+    return (*outputs_)[index];
   }
 } // namespace mopo

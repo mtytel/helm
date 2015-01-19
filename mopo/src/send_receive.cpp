@@ -28,7 +28,7 @@ namespace mopo {
 
   void Send::process() {
     for (int i = 0; i < buffer_size_; ++i)
-      memory_.push(inputs_->at(0)->at(i));
+      memory_.push(input(0)->at(i));
     memory_output_->memory = &memory_;
   }
 
@@ -45,8 +45,8 @@ namespace mopo {
     }
 
     for (int i = 0; i < buffer_size_; ++i) {
-      mopo_float time = inputs_->at(kDelayTime)->at(i) * sample_rate_ + adjust;
-      outputs_->at(0)->buffer[i] = memory_input_->get(time);
+      mopo_float time = input(kDelayTime)->at(i) * sample_rate_ + adjust;
+      output(0)->buffer[i] = memory_input_->get(time);
       adjust -= 1.0;
     }
   }

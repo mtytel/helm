@@ -31,7 +31,7 @@ namespace mopo {
       state_ = kKilling;
     else if (event == kVoiceOff) {
       state_ = kReleasing;
-      outputs_->at(kFinished)->trigger(kVoiceOff, offset);
+      output(kFinished)->trigger(kVoiceOff, offset);
     }
     else if (event == kVoiceReset) {
       state_ = kAttacking;
@@ -41,24 +41,24 @@ namespace mopo {
 
   void Envelope::process() {
     kill_decrement_ = 1.0 / (KILL_TIME * sample_rate_);
-    outputs_->at(kFinished)->clearTrigger();
+    output(kFinished)->clearTrigger();
     // Only update decay and release rate once per buffer.
     mopo_float decay_samples =
-        sample_rate_ * inputs_->at(kDecay)->at(buffer_size_ - 1);
+        sample_rate_ * input(kDecay)->at(buffer_size_ - 1);
     decay_decay_ = pow(CLOSE_ENOUGH, 1.0 / decay_samples);
 
     mopo_float release_samples =
-        sample_rate_ * inputs_->at(kRelease)->at(buffer_size_ - 1);
+        sample_rate_ * input(kRelease)->at(buffer_size_ - 1);
     release_decay_ = pow(CLOSE_ENOUGH, 1.0 / release_samples);
 
     int i = 0;
-    if (inputs_->at(kTrigger)->source->triggered) {
-      int trigger_offset = inputs_->at(kRelease)->source->trigger_offset;
+    if (input(kTrigger)->source->triggered) {
+      int trigger_offset = input(kRelease)->source->trigger_offset;
 
       for (; i < trigger_offset; ++i)
         tick(i);
 
-      trigger(inputs_->at(kTrigger)->source->trigger_value, trigger_offset);
+      trigger(input(kTrigger)->source->trigger_value, trigger_offset);
     }
 
     for (; i < buffer_size_; ++i)
@@ -67,29 +67,29 @@ namespace mopo {
 
   inline void Envelope::tick(int i) {
     if (state_ == kAttacking) {
-      if (inputs_->at(kAttack)->at(i) <= 0)
+      if (input(kAttack)->at(i) <= 0)
         current_value_ = 1;
       else {
-        mopo_float change = 1.0 / (sample_rate_ * inputs_->at(kAttack)->at(i));
+        mopo_float change = 1.0 / (sample_rate_ * input(kAttack)->at(i));
         current_value_ = CLAMP(current_value_ + change, 0, 1);
       }
       if (current_value_ >= 1)
         state_ = kDecaying;
     }
     else if (state_ == kDecaying) {
-      current_value_ = INTERPOLATE(inputs_->at(kSustain)->at(i),
+      current_value_ = INTERPOLATE(input(kSustain)->at(i),
                                    current_value_,
                                    decay_decay_);
     }
     else if (state_ == kKilling) {
       current_value_ -= kill_decrement_;
       if (current_value_ <= 0) {
-        outputs_->at(kFinished)->trigger(kVoiceReset, i);
+        output(kFinished)->trigger(kVoiceReset, i);
         state_ = kAttacking;
       }
     }
     else if (state_ == kReleasing)
       current_value_ *= release_decay_;
-    outputs_->at(kValue)->buffer[i] = current_value_;
+    output(kValue)->buffer[i] = current_value_;
   }
 } // namespace mopo

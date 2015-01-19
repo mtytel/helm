@@ -53,7 +53,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Clamp(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = CLAMP(inputs_->at(0)->at(i), min_, max_);
+        output(0)->buffer[i] = CLAMP(input(0)->at(i), min_, max_);
       }
 
       PROCESS_TICK_FUNCTION
@@ -70,7 +70,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Negate(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = -inputs_->at(0)->at(i);
+        output(0)->buffer[i] = -input(0)->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -84,7 +84,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Inverse(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = 1.0 / inputs_->at(0)->at(i);
+        output(0)->buffer[i] = 1.0 / input(0)->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -97,7 +97,7 @@ namespace mopo {
       virtual Processor* clone() const { return new LinearScale(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = scale_ * inputs_->at(0)->at(i);
+        output(0)->buffer[i] = scale_ * input(0)->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -114,8 +114,8 @@ namespace mopo {
       virtual Processor* clone() const { return new MidiScale(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] =
-            MidiLookup::centsLookup(CENTS_PER_NOTE * inputs_->at(0)->at(i));
+        output(0)->buffer[i] =
+            MidiLookup::centsLookup(CENTS_PER_NOTE * input(0)->at(i));
       }
 
       PROCESS_TICK_FUNCTION
@@ -130,8 +130,8 @@ namespace mopo {
       virtual Processor* clone() const { return new ResonanceScale(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] =
-            ResonanceLookup::qLookup(inputs_->at(0)->at(i));
+        output(0)->buffer[i] =
+            ResonanceLookup::qLookup(input(0)->at(i));
       }
 
       PROCESS_TICK_FUNCTION
@@ -146,8 +146,8 @@ namespace mopo {
       virtual Processor* clone() const { return new MagnitudeScale(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] =
-            MagnitudeLookup::magnitudeLookup(inputs_->at(0)->at(i));
+        output(0)->buffer[i] =
+            MagnitudeLookup::magnitudeLookup(input(0)->at(i));
       }
 
       PROCESS_TICK_FUNCTION
@@ -161,8 +161,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Add(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = inputs_->at(0)->at(i) +
-                                     inputs_->at(1)->at(i);
+        output(0)->buffer[i] = input(0)->at(i) + input(1)->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -178,9 +177,9 @@ namespace mopo {
       void process();
       inline void tick(int i) {
         int num_inputs = inputs_->size();
-        outputs_->at(0)->buffer[i] = 0.0;
-        for (int input = 0; input < num_inputs; ++input)
-          outputs_->at(0)->buffer[i] += inputs_->at(input)->at(i);
+        output(0)->buffer[i] = 0.0;
+        for (int in = 0; in < num_inputs; ++in)
+          output(0)->buffer[i] += input(in)->at(i);
       }
   };
 
@@ -192,8 +191,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Subtract(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = inputs_->at(0)->at(i) -
-                                     inputs_->at(1)->at(i);
+        output(0)->buffer[i] = input(0)->at(i) - input(1)->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -207,8 +205,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Multiply(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] = inputs_->at(0)->at(i) *
-                                     inputs_->at(1)->at(i);
+        output(0)->buffer[i] = input(0)->at(i) * input(1)->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -229,10 +226,10 @@ namespace mopo {
       virtual Processor* clone() const { return new Interpolate(*this); }
 
       inline void tick(int i) {
-        outputs_->at(0)->buffer[i] =
-            INTERPOLATE(inputs_->at(kFrom)->at(i),
-                        inputs_->at(kTo)->at(i),
-                        inputs_->at(kFractional)->at(i));
+        output(0)->buffer[i] =
+            INTERPOLATE(input(kFrom)->at(i),
+                        input(kTo)->at(i),
+                        input(kFractional)->at(i));
       }
 
       PROCESS_TICK_FUNCTION
