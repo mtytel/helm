@@ -24,7 +24,7 @@ namespace mopo {
                          magnification_(0.0) { }
 
   void BitCrush::process() {
-    mopo_float bits = inputs_->at(kBits)->at(0);
+    mopo_float bits = input(kBits)->at(0);
     magnification_ = pow(2.0, bits / 2.0);
 
     for (int i = 0; i < buffer_size_; ++i)

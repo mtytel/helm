@@ -67,8 +67,10 @@ namespace mopo {
 
       virtual Processor* clone() const { return new Filter(*this); }
       virtual void process();
-    
-      void computeCoefficients(Type type, mopo_float cutoff, mopo_float resonance,
+
+      void computeCoefficients(Type type,
+                               mopo_float cutoff,
+                               mopo_float resonance,
                                mopo_float gain) {
         static const mopo_float shelf_slope = 1.2;
 
@@ -119,26 +121,34 @@ namespace mopo {
           }
           case kLowShelf: {
             mopo_float alpha = (imag_delta / 2.0) *
-                               std::sqrt((gain + 1.0 / gain) * (1.0 / shelf_slope - 1) + 2.0);
+                               std::sqrt((gain + 1.0 / gain) *
+                                         (1.0 / shelf_slope - 1) + 2.0);
             mopo_float sq = 2 * std::sqrt(gain) * alpha;
             mopo_float norm = (gain + 1) + (gain - 1) * real_delta + sq;
 
-            target_in_0_ = gain * ((gain + 1) - (gain - 1) * real_delta + sq) / norm;
-            target_in_1_ = 2 * gain * ((gain - 1) - (gain + 1) * real_delta) / norm;
-            target_in_2_ = gain * ((gain + 1) - (gain - 1) * real_delta - sq) / norm;
+            target_in_0_ = ((gain + 1) - (gain - 1) * real_delta + sq) *
+                           (gain / norm);
+            target_in_1_ = 2 * ((gain - 1) - (gain + 1) * real_delta) *
+                           (gain / norm);
+            target_in_2_ = ((gain + 1) - (gain - 1) * real_delta - sq) *
+                           (gain / norm);
             target_out_1_ = -2 * ((gain - 1) + (gain + 1) * real_delta) / norm;
             target_out_2_ = ((gain + 1) + (gain - 1) * real_delta - sq) / norm;
             break;
           }
           case kHighShelf: {
             mopo_float alpha = (imag_delta / 2.0) *
-                               std::sqrt((gain + 1.0 / gain) * (1.0 / shelf_slope - 1) + 2.0);
+                               std::sqrt((gain + 1.0 / gain) *
+                                         (1.0 / shelf_slope - 1) + 2.0);
             mopo_float sq = 2 * std::sqrt(gain) * alpha;
             mopo_float norm = (gain + 1) - (gain - 1) * real_delta + sq;
 
-            target_in_0_ = gain * ((gain + 1) + (gain - 1) * real_delta + sq) / norm;
-            target_in_1_ = -2 * gain * ((gain - 1) + (gain + 1) * real_delta) / norm;
-            target_in_2_ = gain * ((gain + 1) + (gain - 1) * real_delta - sq) / norm;
+            target_in_0_ = ((gain + 1) + (gain - 1) * real_delta + sq) *
+                           (gain / norm);
+            target_in_1_ = -2 * ((gain - 1) + (gain + 1) * real_delta) *
+                           (gain / norm);
+            target_in_2_ = ((gain + 1) + (gain - 1) * real_delta - sq) *
+                           (gain / norm);
             target_out_1_ = 2 * ((gain - 1) - (gain + 1) * real_delta) / norm;
             target_out_2_ = ((gain + 1) - (gain - 1) * real_delta - sq) / norm;
             break;
@@ -164,20 +174,23 @@ namespace mopo {
       }
 
       void tick(int i) {
-        mopo_float input = inputs_->at(kAudio)->at(i);
+        mopo_float audio = input(kAudio)->at(i);
         in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
         in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
         in_2_ = INTERPOLATE(target_in_2_, in_2_, COEFFICIENT_FILTERING);
         out_1_ = INTERPOLATE(target_out_1_, out_1_, COEFFICIENT_FILTERING);
         out_2_ = INTERPOLATE(target_out_2_, out_2_, COEFFICIENT_FILTERING);
 
-        mopo_float out = input * in_0_ + past_in_1_ * in_1_ + past_in_2_ * in_2_ -
-        past_out_1_ * out_1_ - past_out_2_ * out_2_;
+        mopo_float out = audio * in_0_ +
+                         past_in_1_ * in_1_ +
+                         past_in_2_ * in_2_ -
+                         past_out_1_ * out_1_ -
+                         past_out_2_ * out_2_;
         past_in_2_ = past_in_1_;
-        past_in_1_ = input;
+        past_in_1_ = audio;
         past_out_2_ = past_out_1_;
         past_out_1_ = out;
-        outputs_->at(0)->buffer[i] = out;
+        output(0)->buffer[i] = out;
       }
 
     private:

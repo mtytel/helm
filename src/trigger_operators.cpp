@@ -21,15 +21,15 @@ namespace mopo {
   TriggerCombiner::TriggerCombiner() : Processor(2, 1) { }
 
   void TriggerCombiner::process() {
-    outputs_->at(0)->clearTrigger();
+    output(0)->clearTrigger();
 
-    if (inputs_->at(0)->source->triggered) {
-      outputs_->at(0)->trigger(inputs_->at(0)->source->trigger_value,
-                           inputs_->at(0)->source->trigger_offset);
+    if (input(0)->source->triggered) {
+      output(0)->trigger(input(0)->source->trigger_value,
+                         input(0)->source->trigger_offset);
     }
-    else if (inputs_->at(1)->source->triggered) {
-      outputs_->at(0)->trigger(inputs_->at(1)->source->trigger_value,
-                           inputs_->at(1)->source->trigger_offset);
+    else if (input(1)->source->triggered) {
+      output(0)->trigger(input(1)->source->trigger_value,
+                         input(1)->source->trigger_offset);
     }
   }
 
@@ -42,72 +42,72 @@ namespace mopo {
 
   void TriggerWait::sendTrigger(int trigger_offset) {
     if (waiting_)
-      outputs_->at(0)->trigger(trigger_value_, trigger_offset);
+      output(0)->trigger(trigger_value_, trigger_offset);
     waiting_ = false;
   }
 
   void TriggerWait::process() {
-    outputs_->at(0)->clearTrigger();
+    output(0)->clearTrigger();
 
-    if (inputs_->at(kWait)->source->triggered &&
-        inputs_->at(kTrigger)->source->triggered) {
+    if (input(kWait)->source->triggered &&
+        input(kTrigger)->source->triggered) {
 
-      if (inputs_->at(kWait)->source->trigger_offset <=
-          inputs_->at(kTrigger)->source->trigger_offset) {
-        waitTrigger(inputs_->at(kWait)->source->trigger_value);
-        sendTrigger(inputs_->at(kTrigger)->source->trigger_offset);
+      if (input(kWait)->source->trigger_offset <=
+          input(kTrigger)->source->trigger_offset) {
+        waitTrigger(input(kWait)->source->trigger_value);
+        sendTrigger(input(kTrigger)->source->trigger_offset);
       }
       else {
-        sendTrigger(inputs_->at(kTrigger)->source->trigger_offset);
-        waitTrigger(inputs_->at(kWait)->source->trigger_value);
+        sendTrigger(input(kTrigger)->source->trigger_offset);
+        waitTrigger(input(kWait)->source->trigger_value);
       }
     }
-    else if (inputs_->at(kWait)->source->triggered)
-      waitTrigger(inputs_->at(kWait)->source->trigger_value);
-    else if (inputs_->at(kTrigger)->source->triggered)
-      sendTrigger(inputs_->at(kTrigger)->source->trigger_offset);
+    else if (input(kWait)->source->triggered)
+      waitTrigger(input(kWait)->source->trigger_value);
+    else if (input(kTrigger)->source->triggered)
+      sendTrigger(input(kTrigger)->source->trigger_offset);
   }
 
   LegatoFilter::LegatoFilter() : Processor(kNumInputs, kNumOutputs),
                                  last_value_(kVoiceOff) { }
 
   void LegatoFilter::process() {
-    outputs_->at(kRetrigger)->clearTrigger();
-    outputs_->at(kRemain)->clearTrigger();
-    if (!inputs_->at(kTrigger)->source->triggered)
+    output(kRetrigger)->clearTrigger();
+    output(kRemain)->clearTrigger();
+    if (!input(kTrigger)->source->triggered)
       return;
 
-    if (inputs_->at(kTrigger)->source->trigger_value == kVoiceOn &&
-        last_value_ == kVoiceOn && inputs_->at(kLegato)->at(0)) {
-      outputs_->at(kRemain)->trigger(
-          inputs_->at(kTrigger)->source->trigger_value,
-          inputs_->at(kTrigger)->source->trigger_offset);
+    if (input(kTrigger)->source->trigger_value == kVoiceOn &&
+        last_value_ == kVoiceOn && input(kLegato)->at(0)) {
+      output(kRemain)->trigger(
+          input(kTrigger)->source->trigger_value,
+          input(kTrigger)->source->trigger_offset);
     }
     else {
-      outputs_->at(kRetrigger)->trigger(
-          inputs_->at(kTrigger)->source->trigger_value,
-          inputs_->at(kTrigger)->source->trigger_offset);
+      output(kRetrigger)->trigger(
+          input(kTrigger)->source->trigger_value,
+          input(kTrigger)->source->trigger_offset);
     }
-    last_value_ = inputs_->at(kTrigger)->source->trigger_value;
+    last_value_ = input(kTrigger)->source->trigger_value;
   }
 
   PortamentoFilter::PortamentoFilter() : Processor(kNumInputs, 1),
                                          last_value_(kVoiceOff) { }
 
   void PortamentoFilter::process() {
-    outputs_->at(0)->clearTrigger();
-    if (!inputs_->at(kTrigger)->source->triggered)
+    output(0)->clearTrigger();
+    if (!input(kTrigger)->source->triggered)
       return;
 
-    int state = static_cast<int>(inputs_->at(kPortamento)->at(0));
-    if (inputs_->at(kTrigger)->source->trigger_value != kVoiceOff) {
+    int state = static_cast<int>(input(kPortamento)->at(0));
+    if (input(kTrigger)->source->trigger_value != kVoiceOff) {
       if (state == kPortamentoOff || (state == kPortamentoAuto &&
                                       last_value_ == kVoiceOff)) {
-        outputs_->at(0)->trigger(inputs_->at(kTrigger)->source->trigger_value,
-                             inputs_->at(kTrigger)->source->trigger_offset);
+        output(0)->trigger(input(kTrigger)->source->trigger_value,
+                           input(kTrigger)->source->trigger_offset);
       }
     }
 
-    last_value_ = inputs_->at(kTrigger)->source->trigger_value;
+    last_value_ = input(kTrigger)->source->trigger_value;
   }
 } // namespace mopo

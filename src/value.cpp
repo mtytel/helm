@@ -20,33 +20,33 @@ namespace mopo {
 
   Value::Value(mopo_float value) : Processor(kNumInputs, 1), value_(value) {
     for (int i = 0; i < MAX_BUFFER_SIZE; ++i)
-      outputs_->at(0)->buffer[i] = value_;
+      output(0)->buffer[i] = value_;
   }
 
   void Value::process() {
-    if (outputs_->at(0)->buffer[0] == value_ &&
-        outputs_->at(0)->buffer[buffer_size_ - 1] == value_ &&
-        !inputs_->at(kSet)->source->triggered) {
+    if (output(0)->buffer[0] == value_ &&
+        output(0)->buffer[buffer_size_ - 1] == value_ &&
+        !input(kSet)->source->triggered) {
       return;
     }
 
     int i = 0;
-    if (inputs_->at(kSet)->source->triggered) {
-      int trigger_offset = inputs_->at(kSet)->source->trigger_offset;
+    if (input(kSet)->source->triggered) {
+      int trigger_offset = input(kSet)->source->trigger_offset;
 
       for (; i < trigger_offset; ++i)
-        outputs_->at(0)->buffer[i] = value_;
+        output(0)->buffer[i] = value_;
 
-      value_ = inputs_->at(kSet)->source->trigger_value;
+      value_ = input(kSet)->source->trigger_value;
     }
 
     for (; i < buffer_size_; ++i)
-      outputs_->at(0)->buffer[i] = value_;
+      output(0)->buffer[i] = value_;
   }
 
   void Value::set(mopo_float value) {
     value_ = value;
     for (int i = 0; i < MAX_BUFFER_SIZE; ++i)
-      outputs_->at(0)->buffer[i] = value_;
+      output(0)->buffer[i] = value_;
   }
 } // namespace mopo

@@ -24,16 +24,16 @@ namespace mopo {
                              offset_(0.0), waveform_(Wave::kSin) { }
 
   void Oscillator::preprocess() {
-    waveform_ = static_cast<Wave::Type>(inputs_->at(kWaveform)->at(0));
+    waveform_ = static_cast<Wave::Type>(input(kWaveform)->at(0));
   }
 
   void Oscillator::process() {
     preprocess();
 
     int i = 0;
-    if (inputs_->at(kReset)->source->triggered &&
-        inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
-      int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
+    if (input(kReset)->source->triggered &&
+        input(kReset)->source->trigger_value == kVoiceReset) {
+      int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
         tick(i);
 

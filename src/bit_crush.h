@@ -39,12 +39,12 @@ namespace mopo {
       virtual void process();
 
       void tick(int i) {
-        mopo_float input = inputs_->at(kAudio)->at(i);
-        mopo_float wet = inputs_->at(kWet)->at(i);
+        mopo_float audio = input(kAudio)->at(i);
+        mopo_float wet = input(kWet)->at(i);
 
-        mopo_float output = round(magnification_ * input) / magnification_;
+        mopo_float out = round(magnification_ * audio) / magnification_;
 
-        outputs_->at(0)->buffer[i] = INTERPOLATE(input, output, wet);
+        output(0)->buffer[i] = INTERPOLATE(audio, out, wet);
       }
 
     protected:

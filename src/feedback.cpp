@@ -21,13 +21,13 @@
 namespace mopo {
 
   void Feedback::process() {
-    memcpy(buffer_, inputs_->at(0)->source->buffer,
+    memcpy(buffer_, input(0)->source->buffer,
            buffer_size_ * sizeof(mopo_float));
     refreshOutput();
   }
 
   void Feedback::refreshOutput() {
-    memcpy(outputs_->at(0)->buffer, buffer_,
+    memcpy(output(0)->buffer, buffer_,
            MAX_BUFFER_SIZE * sizeof(mopo_float));
   }
 } // namespace mopo
