@@ -700,9 +700,6 @@
     <ClCompile Include="..\..\mopo\src\oscillator.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mopo\src\phase_pull_oscillator.cpp">
-      <Filter>Twytch\Source\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
@@ -2395,9 +2392,6 @@
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\oscillator.h">
-      <Filter>Twytch\Source\mopo\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mopo\src\phase_pull_oscillator.h">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor.h">

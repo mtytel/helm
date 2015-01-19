@@ -78,6 +78,7 @@ void ModulationDestination::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
+    
     std::string name = drag_source.sourceComponent->getName().toStdString();
     std::cout << name << std::endl;
 }

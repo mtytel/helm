@@ -22,6 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "twytch_common.h"
 //[/Headers]
 
 
@@ -55,6 +56,8 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    mopo::input_map destinations_;
+    mopo::output_map sources_;
     //[/UserVariables]
 
     //==============================================================================

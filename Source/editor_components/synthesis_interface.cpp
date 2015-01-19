@@ -265,7 +265,7 @@ SynthesisInterface::SynthesisInterface ()
     addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo 2 waveform"));
     lfo_2_waveform_->setRange (0, 11, 1);
     lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
-    lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
     lfo_2_waveform_->setColour (Slider::backgroundColourId, Colours::black);
     lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
     lfo_2_waveform_->addListener (this);
@@ -858,15 +858,15 @@ BEGIN_JUCER_METADATA
   <SLIDER name="lfo 2 waveform" id="72004168ec47b7e7" memberName="lfo_2_waveform_"
           virtualName="" explicitFocusOrder="0" pos="28 384 12 100" bkgcol="ff000000"
           textboxoutline="0" min="0" max="11" int="1" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="1" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
+          skewFactor="1"/>
   <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="288 320 24 24" sourceFile="modulation_source.cpp"
              constructorParams=""/>
   <JUCERCOMP name="lfo 2" id="57b28b867a25f366" memberName="lfo_2_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="288 424 24 24" sourceFile="modulation_source.cpp"
              constructorParams=""/>
-  <JUCERCOMP name="cutoff" id="5bac7839db359a73" memberName="resonance_mod_destination_"
+  <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="680 120 24 24" sourceFile="modulation_destination.cpp"
              constructorParams=""/>
 </JUCER_COMPONENT>

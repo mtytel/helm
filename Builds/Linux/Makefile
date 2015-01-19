@@ -160,7 +160,6 @@ OBJECTS := \
   $(OBJDIR)/mono_panner_e32a65f6.o \
   $(OBJDIR)/operators_17db10cb.o \
   $(OBJDIR)/oscillator_f8f582ee.o \
-  $(OBJDIR)/phase_pull_oscillator_77bc7292.o \
   $(OBJDIR)/processor_4dff978e.o \
   $(OBJDIR)/processor_router_23bde824.o \
   $(OBJDIR)/resonance_lookup_12e6d099.o \
@@ -749,11 +748,6 @@ $(OBJDIR)/operators_17db10cb.o: ../../mopo/src/operators.cpp
 $(OBJDIR)/oscillator_f8f582ee.o: ../../mopo/src/oscillator.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscillator.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/phase_pull_oscillator_77bc7292.o: ../../mopo/src/phase_pull_oscillator.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling phase_pull_oscillator.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/processor_4dff978e.o: ../../mopo/src/processor.cpp
