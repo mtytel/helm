@@ -135,10 +135,18 @@ namespace mopo {
       }
 
       // Returns the Input port corresponding to the passed in index.
-      Input* input(unsigned int index = 0) const;
+      Input* input(unsigned int index = 0) const {
+        MOPO_ASSERT(index < inputs_->size());
+
+        return inputs_->operator[](index);
+      }
 
       // Returns the Output port corresponding to the passed in index.
-      Output* output(unsigned int index = 0) const;
+      Output* output(unsigned int index = 0) const {
+        MOPO_ASSERT(index < outputs_->size());
+
+        return outputs_->operator[](index);
+      }
 
     protected:
       int sample_rate_;
