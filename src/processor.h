@@ -63,7 +63,7 @@ namespace mopo {
         mopo_float trigger_value;
       };
 
-      // An input port to the Processor. You can plug an Output into on of
+      // An input port to the Processor. You can plug an Output into one of
       // these inputs.
       struct Input {
         Input() { source = nullptr; }
