@@ -34,10 +34,10 @@ namespace mopo {
     voice_event_.clearTrigger();
 
     if (voice->hasNewEvent()) {
-      voice_event_.trigger(voice->state()->event);
+      voice_event_.trigger(voice->state()->event, voice->event_sample());
       if (voice->state()->event == kVoiceOn) {
-        note_.trigger(voice->state()->note);
-        velocity_.trigger(voice->state()->velocity);
+        note_.trigger(voice->state()->note, voice->event_sample());
+        velocity_.trigger(voice->state()->velocity, voice->event_sample());
       }
 
       voice->clearEvent();
@@ -96,17 +96,17 @@ namespace mopo {
     sustain_ = true;
   }
 
-  void VoiceHandler::sustainOff() {
+  void VoiceHandler::sustainOff(int sample) {
     sustain_ = false;
     std::list<Voice*>::iterator iter = sustained_voices_.begin();
     for (; iter != sustained_voices_.end(); ++iter) {
       Voice* voice = *iter;
-      voice->deactivate();
+      voice->deactivate(sample);
     }
     sustained_voices_.clear();
   }
 
-  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity) {
+  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
     Voice* voice = 0;
     pressed_notes_.push_back(note);
     if (free_voices_.size() && active_voices_.size() < polyphony_) {
@@ -118,11 +118,11 @@ namespace mopo {
       active_voices_.pop_front();
     }
 
-    voice->activate(note, velocity);
+    voice->activate(note, velocity, sample);
     active_voices_.push_back(voice);
   }
 
-  void VoiceHandler::noteOff(mopo_float note) {
+  void VoiceHandler::noteOff(mopo_float note, int sample) {
     std::list<mopo_float>::iterator note_iter = pressed_notes_.begin();
     while (note_iter != pressed_notes_.end()) {
       if (*note_iter == note)
@@ -138,10 +138,12 @@ namespace mopo {
         if (sustain_)
           sustained_voices_.push_back(voice);
         else {
-          if (polyphony_ == 1 && pressed_notes_.size())
-            voice->activate(pressed_notes_.back(), voice->state()->velocity);
+          if (polyphony_ == 1 && pressed_notes_.size()) {
+            mopo_float old_note = pressed_notes_.back();
+            voice->activate(old_note, voice->state()->velocity, sample);
+          }
           else
-            voice->deactivate();
+            voice->deactivate(sample);
         }
       }
     }

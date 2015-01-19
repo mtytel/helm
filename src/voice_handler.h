@@ -38,31 +38,32 @@ namespace mopo {
 
       Processor* processor() { return processor_; }
       const VoiceState* state() { return &state_; }
+      int event_sample() { return event_sample_; }
 
-      void activate(mopo_float note, mopo_float velocity) {
-        new_event_ = true;
+      void activate(mopo_float note, mopo_float velocity, int sample = 0) {
+        event_sample_ = sample;
         state_.event = kVoiceOn;
         state_.note = note;
         state_.velocity = velocity;
       }
 
-      void deactivate() {
-        new_event_ = true;
+      void deactivate(int sample = 0) {
+        event_sample_ = 0;
         state_.event = kVoiceOff;
       }
 
       bool hasNewEvent() {
-        return new_event_;
+        return event_sample_ >= 0;
       }
 
       void clearEvent() {
-        new_event_ = false;
+        event_sample_ = -1;
       }
 
     private:
       Voice() { }
 
-      bool new_event_;
+      int event_sample_;
       VoiceState state_;
       Processor* processor_;
   };
@@ -81,10 +82,10 @@ namespace mopo {
       virtual void setSampleRate(int sample_rate);
       virtual void setBufferSize(int buffer_size);
 
-      void noteOn(mopo_float note, mopo_float velocity = 1);
-      void noteOff(mopo_float note);
+      void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
+      void noteOff(mopo_float note, int sample = 0);
       void sustainOn();
-      void sustainOff();
+      void sustainOff(int sample = 0);
 
       Output* voice_event() { return &voice_event_; }
       Output* note() { return &note_; }
