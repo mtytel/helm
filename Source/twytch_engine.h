@@ -19,6 +19,7 @@
 #define TWYTCH_SYNTH_H
 
 #include "alias.h"
+#include "arpeggiator.h"
 #include "delay.h"
 #include "operators.h"
 #include "oscillator.h"
@@ -31,6 +32,7 @@
 #define MOD_MATRIX_SIZE 5
 
 namespace mopo {
+  class Arpeggiator;
   class Envelope;
   class Filter;
   class LinearSlope;
@@ -223,8 +225,8 @@ namespace mopo {
       }
 
       // Keyboard events.
-      void noteOn(mopo_float note, mopo_float velocity = 1.0);
-      void noteOff(mopo_float note);
+      void noteOn(mopo_float note, mopo_float velocity = 1.0, int sample = 0);
+      void noteOff(mopo_float note, int sample = 0);
 
       // Sustain pedal events.
       void sustainOn() { voice_handler_->sustainOn(); }
@@ -232,6 +234,7 @@ namespace mopo {
 
     private:
       TwytchVoiceHandler* voice_handler_;
+      Arpeggiator* arpeggiator_;
 
       control_map controls_;
   };

@@ -237,6 +237,7 @@
     <ClCompile Include="..\..\Source\twytch_look_and_feel.cpp"/>
     <ClCompile Include="..\..\Source\twytch_strings.cpp"/>
     <ClCompile Include="..\..\mopo\src\alias.cpp"/>
+    <ClCompile Include="..\..\mopo\src\arpeggiator.cpp"/>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp"/>
     <ClCompile Include="..\..\mopo\src\delay.cpp"/>
     <ClCompile Include="..\..\mopo\src\envelope.cpp"/>
@@ -1505,6 +1506,7 @@
     <ClInclude Include="..\..\Source\twytch_look_and_feel.h"/>
     <ClInclude Include="..\..\Source\twytch_strings.h"/>
     <ClInclude Include="..\..\mopo\src\alias.h"/>
+    <ClInclude Include="..\..\mopo\src\arpeggiator.h"/>
     <ClInclude Include="..\..\mopo\src\bit_crush.h"/>
     <ClInclude Include="..\..\mopo\src\delay.h"/>
     <ClInclude Include="..\..\mopo\src\envelope.h"/>

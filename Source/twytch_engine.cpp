@@ -567,9 +567,16 @@ namespace mopo {
     voice_handler_ = new TwytchVoiceHandler();
     voice_handler_->setPolyphony(64);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
-
-    addProcessor(voice_handler_);
     controls_["polyphony"] = polyphony;
+
+    // Arpeggiator.
+    Value* arpeggiator_frequency = new Value(5.0);
+    Value* arpeggiator_gate = new Value(0.5);
+    arpeggiator_ = new Arpeggiator(voice_handler_);
+    arpeggiator_->plug(arpeggiator_frequency, Arpeggiator::kFrequency);
+    arpeggiator_->plug(arpeggiator_gate, Arpeggiator::kGate);
+    addProcessor(arpeggiator_);
+    addProcessor(voice_handler_);
 
     // Delay effect.
     SmoothValue* delay_time = new SmoothValue(0.06);
@@ -613,12 +620,12 @@ namespace mopo {
     return voice_controls;
   }
 
-  void TwytchEngine::noteOn(mopo_float note, mopo_float velocity) {
-    voice_handler_->noteOn(note, velocity);
+  void TwytchEngine::noteOn(mopo_float note, mopo_float velocity, int sample) {
+    arpeggiator_->noteOn(note, velocity, sample);
   }
 
-  void TwytchEngine::noteOff(mopo_float note) {
-    voice_handler_->noteOff(note);
+  void TwytchEngine::noteOff(mopo_float note, int sample) {
+    arpeggiator_->noteOff(note, sample);
   }
 
   void TwytchVoiceHandler::setModWheel(mopo_float value) {
@@ -629,8 +636,7 @@ namespace mopo {
     pitch_wheel_amount_->set(value);
   }
 
-  void TwytchVoiceHandler::setModulationSource(int matrix_index,
-                                                 std::string source) {
+  void TwytchVoiceHandler::setModulationSource(int matrix_index, std::string source) {
     mod_matrix_[matrix_index]->unplugIndex(0);
     if (source.length())
       mod_matrix_[matrix_index]->plug(mod_sources_[source], 0);

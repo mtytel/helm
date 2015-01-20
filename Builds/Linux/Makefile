@@ -149,6 +149,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_look_and_feel_4eb9069b.o \
   $(OBJDIR)/twytch_strings_fab1886f.o \
   $(OBJDIR)/alias_1d388dcc.o \
+  $(OBJDIR)/arpeggiator_9d4b0575.o \
   $(OBJDIR)/bit_crush_f4910885.o \
   $(OBJDIR)/delay_a1e4df7f.o \
   $(OBJDIR)/envelope_265dd45e.o \
@@ -693,6 +694,11 @@ $(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
 $(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling alias.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/arpeggiator_9d4b0575.o: ../../mopo/src/arpeggiator.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling arpeggiator.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/bit_crush_f4910885.o: ../../mopo/src/bit_crush.cpp

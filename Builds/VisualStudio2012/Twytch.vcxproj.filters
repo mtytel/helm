@@ -667,6 +667,9 @@
     <ClCompile Include="..\..\mopo\src\alias.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\arpeggiator.cpp">
+      <Filter>Twytch\Source\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
@@ -2353,6 +2356,9 @@
       <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\alias.h">
+      <Filter>Twytch\Source\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\arpeggiator.h">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\bit_crush.h">
