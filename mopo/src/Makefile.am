@@ -1,6 +1,8 @@
 noinst_LIBRARIES = libmopo.a
 libmopo_a_SOURCES = alias.cpp \
 										alias.h \
+										arpeggiator.cpp \
+										arpeggiator.h \
 										bit_crush.cpp \
 										bit_crush.h \
 										delay.cpp \
