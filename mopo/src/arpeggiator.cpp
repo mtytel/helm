@@ -23,26 +23,40 @@ namespace mopo {
 
   Arpeggiator::Arpeggiator(VoiceHandler* voice_handler) :
       Processor(kNumInputs, 1), voice_handler_(voice_handler),
-      sustain_(false), phase_(0.0), note_index_(0.0) {
+      sustain_(false), phase_(1.0), note_index_(-1), last_played_note_(0) {
     MOPO_ASSERT(voice_handler);
   }
 
   void Arpeggiator::process() {
+    if (active_notes_.size() == 0) {
+      if (last_played_note_ >= 0) {
+        voice_handler_->noteOff(last_played_note_, 0);
+        last_played_note_ = -1;
+      }
+      return;
+    }
+
     mopo_float gate = input(kGate)->at(0);
     mopo_float frequency = input(kFrequency)->at(0);
 
     mopo_float delta_phase = frequency / sample_rate_;
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;
 
-    if (new_phase >= gate) {
+    if (new_phase >= gate && phase_ < gate) {
       int sample_note_off = (gate - phase_) / delta_phase;
-      voice_handler_->noteOff(active_notes_[note_index_], sample_note_off);
+      voice_handler_->noteOff(last_played_note_, 0);
+      last_played_note_ = -1;
     }
     if (new_phase >= 1) {
       int sample_note_on = (1 - phase_) / delta_phase;
-      note_index_ = (note_index_ + 1) % active_notes_.size();
-      voice_handler_->noteOn(active_notes_[note_index_], sample_note_on);
+      note_index_ = (note_index_ + 1) % note_order_.size();
+      mopo_float note = note_order_[note_index_];
+      voice_handler_->noteOn(note, active_notes_[note], 0);
+      last_played_note_ = note;
+      phase_ = new_phase - 1.0;
     }
+    else
+      phase_ = new_phase;
   }
 
   void Arpeggiator::sustainOn() {
@@ -51,15 +65,22 @@ namespace mopo {
 
   void Arpeggiator::sustainOff() {
     sustain_ = false;
-    std::map<mopo_float, mopo_float>::iterator iter = sustained_notes_.begin();
+    std::set<mopo_float>::iterator iter = sustained_notes_.begin();
     for (; iter != sustained_notes_.end(); ++iter)
-      std::remove(active_notes_.begin(), active_notes_.end(), iter->first);
+      noteOff(*iter);
     sustained_notes_.clear();
   }
 
   void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample) {
-    pressed_notes_[note] = velocity;
-    active_notes_.push_back(note);
+    if (active_notes_.count(note))
+      return;
+    if (pressed_notes_.size() == 0) {
+      note_index_ = -1;
+      phase_ = 1.0;
+    }
+    active_notes_[note] = velocity;
+    pressed_notes_.insert(note);
+    note_order_.push_back(note);
   }
 
   void Arpeggiator::noteOff(mopo_float note, int sample) {
@@ -67,10 +88,16 @@ namespace mopo {
       return;
 
     if (sustain_)
-      sustained_notes_[note] = pressed_notes_[note];
-    else
-      std::remove(active_notes_.begin(), active_notes_.end(), note);
+      sustained_notes_.insert(note);
+    else {
+      active_notes_.erase(note);
+      note_order_.erase(std::remove(note_order_.begin(), note_order_.end(), note));
+    }
 
     pressed_notes_.erase(note);
+    if (note_order_.size() == 0)
+      note_index_ = -1;
+    else
+      note_index_ %= note_order_.size();
   }
 } // namespace mopo
