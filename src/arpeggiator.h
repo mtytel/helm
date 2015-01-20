@@ -22,6 +22,7 @@
 #include "value.h"
 
 #include <map>
+#include <set>
 #include <vector>
 
 namespace mopo {
@@ -62,9 +63,11 @@ namespace mopo {
       mopo_float phase_;
       int note_index_;
 
-      std::vector<mopo_float> active_notes_;
-      std::map<mopo_float, mopo_float> pressed_notes_;
-      std::map<mopo_float, mopo_float> sustained_notes_;
+      mopo_float last_played_note_;
+      std::map<mopo_float, mopo_float> active_notes_;
+      std::vector<mopo_float> note_order_;
+      std::set<mopo_float> pressed_notes_;
+      std::set<mopo_float> sustained_notes_;
   };
 } // namespace mopo
 
