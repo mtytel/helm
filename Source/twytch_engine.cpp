@@ -570,11 +570,14 @@ namespace mopo {
     controls_["polyphony"] = polyphony;
 
     // Arpeggiator.
-    Value* arpeggiator_frequency = new Value(5.0);
-    Value* arpeggiator_gate = new Value(0.5);
+    Value* arp_frequency = new Value(5.0);
+    Value* arp_gate = new Value(0.5);
     arpeggiator_ = new Arpeggiator(voice_handler_);
-    arpeggiator_->plug(arpeggiator_frequency, Arpeggiator::kFrequency);
-    arpeggiator_->plug(arpeggiator_gate, Arpeggiator::kGate);
+    arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
+    arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
+    controls_["arp frequency"] = arp_frequency;
+    controls_["arp gate"] = arp_gate;
+
     addProcessor(arpeggiator_);
     addProcessor(voice_handler_);
 

@@ -120,6 +120,8 @@ private:
     ScopedPointer<ModulationSource> lfo_1_mod_source_;
     ScopedPointer<ModulationSource> lfo_2_mod_source_;
     ScopedPointer<ModulationDestination> resonance_mod_destination_;
+    ScopedPointer<Slider> arp_frequency_;
+    ScopedPointer<Slider> arp_gate_;
 
 
     //==============================================================================
