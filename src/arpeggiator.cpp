@@ -42,7 +42,7 @@ namespace mopo {
     mopo_float delta_phase = frequency / sample_rate_;
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;
 
-    if (new_phase >= gate && phase_ < gate) {
+    if (new_phase >= gate && last_played_note_ >= 0) {
       int sample_note_off = (gate - phase_) / delta_phase;
       voice_handler_->noteOff(last_played_note_, 0);
       last_played_note_ = -1;
