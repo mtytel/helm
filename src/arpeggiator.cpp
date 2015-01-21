@@ -44,14 +44,14 @@ namespace mopo {
 
     if (new_phase >= gate && last_played_note_ >= 0) {
       int sample_note_off = (gate - phase_) / delta_phase;
-      voice_handler_->noteOff(last_played_note_, 0);
+      voice_handler_->noteOff(last_played_note_, sample_note_off);
       last_played_note_ = -1;
     }
     if (new_phase >= 1) {
       int sample_note_on = (1 - phase_) / delta_phase;
       note_index_ = (note_index_ + 1) % note_order_.size();
       mopo_float note = note_order_[note_index_];
-      voice_handler_->noteOn(note, active_notes_[note], 0);
+      voice_handler_->noteOn(note, active_notes_[note], sample_note_on);
       last_played_note_ = note;
       phase_ = new_phase - 1.0;
     }
