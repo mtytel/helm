@@ -122,10 +122,10 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   while (midi_iter.getNextEvent(midi_message, midi_sample_position)) {
     if (midi_message.isNoteOn()) {
       float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
-      synth_.noteOn(midi_message.getNoteNumber(), velocity);
+      synth_.noteOn(midi_message.getNoteNumber(), velocity, 0);
     }
     else if (midi_message.isNoteOff())
-      synth_.noteOff(midi_message.getNoteNumber());
+      synth_.noteOff(midi_message.getNoteNumber(), 0);
   }
 
   int num_samples = buffer.getNumSamples();

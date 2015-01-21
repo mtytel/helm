@@ -452,8 +452,7 @@ namespace mopo {
     // Voice and frequency resetting logic.
     TriggerCombiner* frequency_trigger = new TriggerCombiner();
     frequency_trigger->plug(legato_filter->output(LegatoFilter::kRemain), 0);
-    frequency_trigger->plug(
-        amplitude_envelope_->output(Envelope::kFinished), 1);
+    frequency_trigger->plug(amplitude_envelope_->output(Envelope::kFinished), 1);
 
     TriggerWait* note_wait = new TriggerWait();
     Value* current_note = new Value();
@@ -512,7 +511,8 @@ namespace mopo {
     Value* portamento_type = new Value(0);
     PortamentoFilter* portamento_filter = new PortamentoFilter();
     portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);
-    portamento_filter->plug(frequency_trigger, PortamentoFilter::kTrigger);
+    portamento_filter->plug(frequency_trigger, PortamentoFilter::kFrequencyTrigger);
+    portamento_filter->plug(trigger, PortamentoFilter::kVoiceTrigger);
     addProcessor(portamento_filter);
 
     current_frequency_ = new LinearSlope();
