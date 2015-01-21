@@ -18,19 +18,24 @@
 
 #include <cmath>
 
-#define KILL_TIME 0.03
-
 namespace mopo {
 
   Envelope::Envelope() :
-      Processor(kNumInputs, kNumOutputs), state_(kReleasing),
+      Processor(kNumInputs, kNumOutputs),
+      state_(kReleasing), next_life_state_(kReleasing),
       current_value_(0), decay_decay_(0), release_decay_(0), kill_decrement_(0) { }
 
   void Envelope::trigger(mopo_float event, int offset) {
-    if (event == kVoiceOn)
+    if (event == kVoiceOn) {
       state_ = kKilling;
-    else if (event == kVoiceOff)
-      state_ = kReleasing;
+      next_life_state_ = kAttacking;
+    }
+    else if (event == kVoiceOff) {
+      if (state_ == kKilling)
+        next_life_state_ = kReleasing;
+      else
+        state_ = kReleasing;
+    }
     else if (event == kVoiceReset) {
       state_ = kAttacking;
       current_value_ = 0.0;
@@ -38,7 +43,7 @@ namespace mopo {
   }
 
   void Envelope::process() {
-    kill_decrement_ = 1.0 / (KILL_TIME * sample_rate_);
+    kill_decrement_ = 1.0 / (VOICE_KILL_TIME * sample_rate_);
     output(kFinished)->clearTrigger();
     // Only update decay and release rate once per buffer.
     mopo_float decay_samples =
@@ -83,7 +88,7 @@ namespace mopo {
       current_value_ -= kill_decrement_;
       if (current_value_ <= 0) {
         output(kFinished)->trigger(kVoiceReset, i);
-        state_ = kAttacking;
+        state_ = next_life_state_;
       }
     }
     else if (state_ == kReleasing)

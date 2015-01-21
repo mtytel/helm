@@ -36,8 +36,8 @@ namespace mopo {
     if (voice->hasNewEvent()) {
       voice_event_.trigger(voice->state()->event, voice->event_sample());
       if (voice->state()->event == kVoiceOn) {
-        note_.trigger(voice->state()->note, voice->event_sample());
-        velocity_.trigger(voice->state()->velocity, voice->event_sample());
+        note_.trigger(voice->state()->note, 0);
+        velocity_.trigger(voice->state()->velocity, 0);
       }
 
       voice->clearEvent();

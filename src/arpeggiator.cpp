@@ -21,6 +21,10 @@
 
 namespace mopo {
 
+  namespace {
+    const float MIN_VOICE_TIME = 0.01;
+  } // namespace
+
   Arpeggiator::Arpeggiator(VoiceHandler* voice_handler) :
       Processor(kNumInputs, 1), voice_handler_(voice_handler),
       sustain_(false), phase_(1.0), note_index_(-1), last_played_note_(0) {
@@ -36,19 +40,23 @@ namespace mopo {
       return;
     }
 
-    mopo_float gate = input(kGate)->at(0);
     mopo_float frequency = input(kFrequency)->at(0);
+    float min_gate = (MIN_VOICE_TIME + VOICE_KILL_TIME) * frequency;
+    mopo_float gate = INTERPOLATE(min_gate, 1.0, input(kGate)->at(0));
 
     mopo_float delta_phase = frequency / sample_rate_;
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;
 
     if (new_phase >= gate && last_played_note_ >= 0) {
-      int sample_note_off = (gate - phase_) / delta_phase;
+      int sample_note_off = std::max<int>((gate - phase_) / delta_phase, 0);
+      sample_note_off = std::min<int>(buffer_size_ - 1, sample_note_off);
       voice_handler_->noteOff(last_played_note_, sample_note_off);
       last_played_note_ = -1;
     }
     if (new_phase >= 1) {
       int sample_note_on = (1 - phase_) / delta_phase;
+      sample_note_on = std::max<int>(0, sample_note_on);
+      sample_note_on = std::min<int>(buffer_size_ - 1, sample_note_on);
       note_index_ = (note_index_ + 1) % note_order_.size();
       mopo_float note = note_order_[note_index_];
       voice_handler_->noteOn(note, active_notes_[note], sample_note_on);

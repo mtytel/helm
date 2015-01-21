@@ -67,6 +67,7 @@ namespace mopo {
 
     protected:
       State state_;
+      State next_life_state_;
       mopo_float current_value_;
       mopo_float decay_decay_;
       mopo_float release_decay_;
