@@ -81,7 +81,8 @@ namespace mopo {
     public:
       enum Inputs {
         kPortamento,
-        kTrigger,
+        kFrequencyTrigger,
+        kVoiceTrigger,
         kNumInputs
       };
 
@@ -99,6 +100,9 @@ namespace mopo {
       void process();
 
     private:
+
+      void updateReleased();
+      void updateTrigger();
       bool released_;
   };
 } // namespace mopo

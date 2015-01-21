@@ -48,8 +48,7 @@ namespace mopo {
       }
 
       void deactivate(int sample = 0) {
-        MOPO_ASSERT(event_sample_ < 0);
-        event_sample_ = 0;
+        event_sample_ = sample;
         state_.event = kVoiceOff;
       }
 
