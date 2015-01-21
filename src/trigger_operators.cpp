@@ -92,7 +92,7 @@ namespace mopo {
   }
 
   PortamentoFilter::PortamentoFilter() : Processor(kNumInputs, 1),
-                                         last_value_(kVoiceOff) { }
+                                         released_(true) { }
 
   void PortamentoFilter::process() {
     output(0)->clearTrigger();
@@ -100,14 +100,16 @@ namespace mopo {
       return;
 
     int state = static_cast<int>(input(kPortamento)->at(0));
-    if (input(kTrigger)->source->trigger_value != kVoiceOff) {
-      if (state == kPortamentoOff || (state == kPortamentoAuto &&
-                                      last_value_ == kVoiceOff)) {
-        output(0)->trigger(input(kTrigger)->source->trigger_value,
-                           input(kTrigger)->source->trigger_offset);
-      }
+    int trigger_value = input(kTrigger)->source->trigger_value;
+    if (trigger_value == kVoiceOff)
+      released_ = true;
+    else if (state == kPortamentoOff || (state == kPortamentoAuto &&
+                                         released_)) {
+      output(0)->trigger(input(kTrigger)->source->trigger_value,
+                         input(kTrigger)->source->trigger_offset);
     }
 
-    last_value_ = input(kTrigger)->source->trigger_value;
+    if (trigger_value == kVoiceOn)
+      released_ = false;
   }
 } // namespace mopo

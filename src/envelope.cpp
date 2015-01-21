@@ -18,7 +18,7 @@
 
 #include <cmath>
 
-#define KILL_TIME 0.04
+#define KILL_TIME 0.03
 
 namespace mopo {
 
@@ -29,10 +29,8 @@ namespace mopo {
   void Envelope::trigger(mopo_float event, int offset) {
     if (event == kVoiceOn)
       state_ = kKilling;
-    else if (event == kVoiceOff) {
+    else if (event == kVoiceOff)
       state_ = kReleasing;
-      output(kFinished)->trigger(kVoiceOff, offset);
-    }
     else if (event == kVoiceReset) {
       state_ = kAttacking;
       current_value_ = 0.0;
