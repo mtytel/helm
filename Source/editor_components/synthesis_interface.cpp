@@ -285,7 +285,6 @@ SynthesisInterface::SynthesisInterface ()
     arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_gate_->addListener (this);
-    arp_gate_->setSkewFactor (0.5);
 
 
     //[UserPreSize]
@@ -904,7 +903,7 @@ BEGIN_JUCER_METADATA
   <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
           virtualName="" explicitFocusOrder="0" pos="88 576 50 50" min="0"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

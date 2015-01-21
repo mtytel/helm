@@ -99,7 +99,7 @@ void FilterResponse::mouseDown (const MouseEvent& e)
     if (e.mods.isRightButtonDown() && filter_type_slider_) {
         int max = filter_type_slider_->getMaximum();
         int current_value = filter_type_slider_->getValue();
-        filter_type_slider_->setValue((current_value + 1) % max);
+        filter_type_slider_->setValue((current_value + 1) % (max + 1));
 
         computeFilterCoefficients();
     }
