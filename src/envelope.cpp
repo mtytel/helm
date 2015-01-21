@@ -23,7 +23,8 @@ namespace mopo {
   Envelope::Envelope() :
       Processor(kNumInputs, kNumOutputs),
       state_(kReleasing), next_life_state_(kReleasing),
-      current_value_(0), decay_decay_(0), release_decay_(0), kill_decrement_(0) { }
+      current_value_(0), decay_decay_(0), release_decay_(0),
+      kill_decrement_(0) { }
 
   void Envelope::trigger(mopo_float event, int offset) {
     if (event == kVoiceOn) {

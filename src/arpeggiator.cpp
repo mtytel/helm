@@ -48,18 +48,15 @@ namespace mopo {
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;
 
     if (new_phase >= gate && last_played_note_ >= 0) {
-      int sample_note_off = std::max<int>((gate - phase_) / delta_phase, 0);
-      sample_note_off = std::min<int>(buffer_size_ - 1, sample_note_off);
-      voice_handler_->noteOff(last_played_note_, sample_note_off);
+      int offset = CLAMP((gate - phase_) / delta_phase, 0, buffer_size_ - 1);
+      voice_handler_->noteOff(last_played_note_, offset);
       last_played_note_ = -1;
     }
     if (new_phase >= 1) {
-      int sample_note_on = (1 - phase_) / delta_phase;
-      sample_note_on = std::max<int>(0, sample_note_on);
-      sample_note_on = std::min<int>(buffer_size_ - 1, sample_note_on);
+      int offset = CLAMP((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
       note_index_ = (note_index_ + 1) % note_order_.size();
       mopo_float note = note_order_[note_index_];
-      voice_handler_->noteOn(note, active_notes_[note], sample_note_on);
+      voice_handler_->noteOn(note, active_notes_[note], offset);
       last_played_note_ = note;
       phase_ = new_phase - 1.0;
     }
@@ -99,7 +96,8 @@ namespace mopo {
       sustained_notes_.insert(note);
     else {
       active_notes_.erase(note);
-      note_order_.erase(std::remove(note_order_.begin(), note_order_.end(), note));
+      note_order_.erase(
+          std::remove(note_order_.begin(), note_order_.end(), note));
     }
 
     pressed_notes_.erase(note);
