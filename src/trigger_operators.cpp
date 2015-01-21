@@ -101,8 +101,6 @@ namespace mopo {
     int voice_trigger = input(kVoiceTrigger)->source->trigger_value;
     if (voice_trigger == kVoiceOff)
       released_ = true;
-    else
-      released_ = false;
   }
 
   void PortamentoFilter::updateTrigger() {
@@ -114,6 +112,7 @@ namespace mopo {
     if (state == kPortamentoOff || (state == kPortamentoAuto && released_)) {
       output(0)->trigger(input(kFrequencyTrigger)->source->trigger_value,
                          input(kFrequencyTrigger)->source->trigger_offset);
+      released_ = false;
     }
   }
 
