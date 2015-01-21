@@ -42,15 +42,12 @@ namespace mopo {
     mopo_float delta_phase = frequency / sample_rate_;
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;
 
-    if (new_phase < gate)
-      phase_ = new_phase;
-    else if (last_played_note_ >= 0) {
+    if (new_phase >= gate && last_played_note_ >= 0) {
       int sample_note_off = (gate - phase_) / delta_phase;
       voice_handler_->noteOff(last_played_note_, 0);
       last_played_note_ = -1;
-      phase_ = new_phase;
     }
-    else if (new_phase >= 1) {
+    if (new_phase >= 1) {
       int sample_note_on = (1 - phase_) / delta_phase;
       note_index_ = (note_index_ + 1) % note_order_.size();
       mopo_float note = note_order_[note_index_];
@@ -58,6 +55,8 @@ namespace mopo {
       last_played_note_ = note;
       phase_ = new_phase - 1.0;
     }
+    else
+      phase_ = new_phase;
   }
 
   void Arpeggiator::sustainOn() {
