@@ -99,7 +99,7 @@ namespace mopo {
       void process();
 
     private:
-      mopo_float last_value_;
+      bool released_;
   };
 } // namespace mopo
 
