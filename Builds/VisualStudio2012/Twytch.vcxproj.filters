@@ -661,7 +661,13 @@
     <ClCompile Include="..\..\Source\twytch_look_and_feel.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\twytch_oscillators.cpp">
+      <Filter>Twytch\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\twytch_strings.cpp">
+      <Filter>Twytch\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\twytch_voice_handler.cpp">
       <Filter>Twytch\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\alias.cpp">
@@ -2352,7 +2358,16 @@
     <ClInclude Include="..\..\Source\twytch_look_and_feel.h">
       <Filter>Twytch\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\twytch_mod_matrix.h">
+      <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\twytch_oscillators.h">
+      <Filter>Twytch\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\twytch_strings.h">
+      <Filter>Twytch\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\twytch_voice_handler.h">
       <Filter>Twytch\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\alias.h">

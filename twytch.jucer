@@ -402,10 +402,20 @@
             file="Source/twytch_look_and_feel.cpp"/>
       <FILE id="XrTq1O" name="twytch_look_and_feel.h" compile="0" resource="0"
             file="Source/twytch_look_and_feel.h"/>
+      <FILE id="U55hw9" name="twytch_mod_matrix.h" compile="0" resource="0"
+            file="Source/twytch_mod_matrix.h"/>
+      <FILE id="oGbWtN" name="twytch_oscillators.cpp" compile="1" resource="0"
+            file="Source/twytch_oscillators.cpp"/>
+      <FILE id="icA6dv" name="twytch_oscillators.h" compile="0" resource="0"
+            file="Source/twytch_oscillators.h"/>
       <FILE id="xJiEDe" name="twytch_strings.cpp" compile="1" resource="0"
             file="Source/twytch_strings.cpp"/>
       <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
             file="Source/twytch_strings.h"/>
+      <FILE id="uc0tDL" name="twytch_voice_handler.cpp" compile="1" resource="0"
+            file="Source/twytch_voice_handler.cpp"/>
+      <FILE id="DJ7wVM" name="twytch_voice_handler.h" compile="0" resource="0"
+            file="Source/twytch_voice_handler.h"/>
       <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
         <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
           <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>

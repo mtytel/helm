@@ -235,7 +235,9 @@
     <ClCompile Include="..\..\Source\twytch_editor.cpp"/>
     <ClCompile Include="..\..\Source\twytch_engine.cpp"/>
     <ClCompile Include="..\..\Source\twytch_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\Source\twytch_oscillators.cpp"/>
     <ClCompile Include="..\..\Source\twytch_strings.cpp"/>
+    <ClCompile Include="..\..\Source\twytch_voice_handler.cpp"/>
     <ClCompile Include="..\..\mopo\src\alias.cpp"/>
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp"/>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp"/>
@@ -1504,7 +1506,10 @@
     <ClInclude Include="..\..\Source\twytch_editor.h"/>
     <ClInclude Include="..\..\Source\twytch_engine.h"/>
     <ClInclude Include="..\..\Source\twytch_look_and_feel.h"/>
+    <ClInclude Include="..\..\Source\twytch_mod_matrix.h"/>
+    <ClInclude Include="..\..\Source\twytch_oscillators.h"/>
     <ClInclude Include="..\..\Source\twytch_strings.h"/>
+    <ClInclude Include="..\..\Source\twytch_voice_handler.h"/>
     <ClInclude Include="..\..\mopo\src\alias.h"/>
     <ClInclude Include="..\..\mopo\src\arpeggiator.h"/>
     <ClInclude Include="..\..\mopo\src\bit_crush.h"/>

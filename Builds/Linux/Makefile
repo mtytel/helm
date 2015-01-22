@@ -147,7 +147,9 @@ OBJECTS := \
   $(OBJDIR)/twytch_editor_e7ee1a6a.o \
   $(OBJDIR)/twytch_engine_9a8780bf.o \
   $(OBJDIR)/twytch_look_and_feel_4eb9069b.o \
+  $(OBJDIR)/twytch_oscillators_8eae5540.o \
   $(OBJDIR)/twytch_strings_fab1886f.o \
+  $(OBJDIR)/twytch_voice_handler_cb9f93aa.o \
   $(OBJDIR)/alias_1d388dcc.o \
   $(OBJDIR)/arpeggiator_9d4b0575.o \
   $(OBJDIR)/bit_crush_f4910885.o \
@@ -686,9 +688,19 @@ $(OBJDIR)/twytch_look_and_feel_4eb9069b.o: ../../Source/twytch_look_and_feel.cpp
 	@echo "Compiling twytch_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/twytch_oscillators_8eae5540.o: ../../Source/twytch_oscillators.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_oscillators.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_strings.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_voice_handler_cb9f93aa.o: ../../Source/twytch_voice_handler.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_voice_handler.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp
