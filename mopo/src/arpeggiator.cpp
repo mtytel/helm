@@ -54,14 +54,31 @@ namespace mopo {
     }
     if (new_phase >= 1) {
       int offset = CLAMP((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
-      note_index_ = (note_index_ + 1) % note_order_.size();
-      mopo_float note = note_order_[note_index_];
+      mopo_float note = getNextNote();
       voice_handler_->noteOn(note, active_notes_[note], offset);
       last_played_note_ = note;
       phase_ = new_phase - 1.0;
     }
     else
       phase_ = new_phase;
+  }
+
+  mopo_float Arpeggiator::getNextNote() {
+    note_index_ = (note_index_ + 1) % as_played_.size();
+    return as_played_[note_index_];
+  }
+
+  void Arpeggiator::addNoteToPatterns(mopo_float note) {
+    as_played_.push_back(note);
+  }
+
+  void Arpeggiator::removeNoteFromPatterns(mopo_float note) {
+    as_played_.erase(
+        std::remove(as_played_.begin(), as_played_.end(), note));
+    if (as_played_.size() == 0)
+      note_index_ = -1;
+    else
+      note_index_ %= as_played_.size();
   }
 
   void Arpeggiator::sustainOn() {
@@ -85,7 +102,7 @@ namespace mopo {
     }
     active_notes_[note] = velocity;
     pressed_notes_.insert(note);
-    note_order_.push_back(note);
+    addNoteToPatterns(note);
   }
 
   void Arpeggiator::noteOff(mopo_float note, int sample) {
@@ -96,14 +113,9 @@ namespace mopo {
       sustained_notes_.insert(note);
     else {
       active_notes_.erase(note);
-      note_order_.erase(
-          std::remove(note_order_.begin(), note_order_.end(), note));
+      removeNoteFromPatterns(note);
     }
 
     pressed_notes_.erase(note);
-    if (note_order_.size() == 0)
-      note_index_ = -1;
-    else
-      note_index_ %= note_order_.size();
   }
 } // namespace mopo
