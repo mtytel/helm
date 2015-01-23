@@ -26,6 +26,7 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
 
   gui_ = new FullInterface();
   gui_->addControls(controls);
+  gui_->setOutputMemory(twytch.getOutputMemory());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
 }

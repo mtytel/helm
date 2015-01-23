@@ -141,6 +141,7 @@ OBJECTS := \
   $(OBJDIR)/graphical_step_sequencer_849bfbba.o \
   $(OBJDIR)/modulation_destination_e92c1ffb.o \
   $(OBJDIR)/modulation_source_4d88e218.o \
+  $(OBJDIR)/oscilloscope_113eddff.o \
   $(OBJDIR)/synthesis_interface_e6f64ae8.o \
   $(OBJDIR)/wave_form_selector_d4921d64.o \
   $(OBJDIR)/twytch_10347fac.o \
@@ -148,7 +149,6 @@ OBJECTS := \
   $(OBJDIR)/twytch_engine_9a8780bf.o \
   $(OBJDIR)/twytch_look_and_feel_4eb9069b.o \
   $(OBJDIR)/twytch_oscillators_8eae5540.o \
-  $(OBJDIR)/twytch_strings_fab1886f.o \
   $(OBJDIR)/twytch_voice_handler_cb9f93aa.o \
   $(OBJDIR)/alias_1d388dcc.o \
   $(OBJDIR)/arpeggiator_9d4b0575.o \
@@ -658,6 +658,11 @@ $(OBJDIR)/modulation_source_4d88e218.o: ../../Source/editor_components/modulatio
 	@echo "Compiling modulation_source.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/oscilloscope_113eddff.o: ../../Source/editor_components/oscilloscope.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling oscilloscope.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/synthesis_interface_e6f64ae8.o: ../../Source/editor_components/synthesis_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
@@ -691,11 +696,6 @@ $(OBJDIR)/twytch_look_and_feel_4eb9069b.o: ../../Source/twytch_look_and_feel.cpp
 $(OBJDIR)/twytch_oscillators_8eae5540.o: ../../Source/twytch_oscillators.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_oscillators.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_strings_fab1886f.o: ../../Source/twytch_strings.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_strings.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_voice_handler_cb9f93aa.o: ../../Source/twytch_voice_handler.cpp

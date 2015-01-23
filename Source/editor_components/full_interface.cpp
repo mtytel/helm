@@ -68,6 +68,7 @@ FullInterface::FullInterface ()
     arp_on_->addListener (this);
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
 
+    addAndMakeVisible (oscilloscope_ = new Oscilloscope (2048));
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -97,6 +98,7 @@ FullInterface::~FullInterface()
     arp_octaves_ = nullptr;
     arp_pattern_ = nullptr;
     arp_on_ = nullptr;
+    oscilloscope_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -128,6 +130,7 @@ void FullInterface::resized()
     arp_octaves_->setBounds (240, 728, 50, 50);
     arp_pattern_->setBounds (304, 728, 50, 50);
     arp_on_->setBounds (48, 744, 48, 24);
+    oscilloscope_->setBounds (600, 664, 272, getHeight() - 681);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -222,6 +225,10 @@ void FullInterface::addControls(mopo::control_map controls) {
     controls_ = controls;
 }
 
+void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
+    oscilloscope_->setOutputMemory(output_memory);
+}
+
 var FullInterface::getState() {
     DynamicObject* state_object = new DynamicObject();
     state_object->setProperty("synthesis", synthesis_interface_->getState());
@@ -296,6 +303,9 @@ BEGIN_JUCER_METADATA
   <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
                 explicitFocusOrder="0" pos="48 744 48 24" txtcol="ffffffff" buttonText="arp"
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
+             virtualName="" explicitFocusOrder="0" pos="600 664 272 681M"
+             sourceFile="oscilloscope.cpp" constructorParams="2048"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

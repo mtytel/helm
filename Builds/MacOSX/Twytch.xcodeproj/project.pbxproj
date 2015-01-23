@@ -124,6 +124,7 @@
 		BF7AFD0DD42D98B763C09841 /* AudioFileFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83A468C8C3646B4470D4D2D8 /* AudioFileFormat.cpp */; };
 		C0FABEFAFAA1678C6079EA29 /* AUOutputBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C19ECF1E4CFB9BBEC933 /* AUOutputBase.cpp */; };
 		C1C74E856435FBD0EE930A00 /* linear_slope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DE9F7DD56A6A047F2CF264F /* linear_slope.cpp */; };
+		C773F4262E157A21B127645C /* oscilloscope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81ABAB1BA4E307B04F3D8E1 /* oscilloscope.cpp */; };
 		C8E97209238D3CFBB147AC63 /* resonance_lookup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04973A95DD52439F3A873176 /* resonance_lookup.cpp */; };
 		C903A687B8B2FD051F2D55BD /* AUControlGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6589010CF5C3A8D559485B03 /* AUControlGroup.cpp */; };
 		CA782E3C964852E20D827D4B /* CAHALAudioSystemObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF9D6AE0367983897767CCD2 /* CAHALAudioSystemObject.cpp */; };
@@ -856,6 +857,7 @@
 		96325845D75C78BEEA7D1CD7 /* juce_Colours.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Colours.h; path = ../../../srcs/JUCE/modules/juce_graphics/colour/juce_Colours.h; sourceTree = SOURCE_ROOT; };
 		96466E6E9D695F7C52FC4008 /* juce_AiffAudioFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AiffAudioFormat.h; path = ../../../srcs/JUCE/modules/juce_audio_formats/codecs/juce_AiffAudioFormat.h; sourceTree = SOURCE_ROOT; };
 		96536ACB47EEA8C1524B33B6 /* juce_RenderingHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_RenderingHelpers.h; path = ../../../srcs/JUCE/modules/juce_graphics/native/juce_RenderingHelpers.h; sourceTree = SOURCE_ROOT; };
+		96902435DA2EFBC9B414C74D /* oscilloscope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = oscilloscope.h; path = ../../Source/editor_components/oscilloscope.h; sourceTree = SOURCE_ROOT; };
 		96D5BF90197719F0EBA8EB4C /* juce_ArrowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ArrowButton.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/buttons/juce_ArrowButton.h; sourceTree = SOURCE_ROOT; };
 		96F6269AE27C1629F57A933C /* juce_Expression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Expression.cpp; path = ../../../srcs/JUCE/modules/juce_core/maths/juce_Expression.cpp; sourceTree = SOURCE_ROOT; };
 		9709AC817D11ED1DB0EE54DC /* juce_Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Application.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/application/juce_Application.h; sourceTree = SOURCE_ROOT; };
@@ -1075,6 +1077,7 @@
 		C7D8BBDA40D21807171FE020 /* juce_FileInputSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_FileInputSource.cpp; path = ../../../srcs/JUCE/modules/juce_core/streams/juce_FileInputSource.cpp; sourceTree = SOURCE_ROOT; };
 		C7FC481DEA739DD007BACCA1 /* juce_PreferencesPanel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_PreferencesPanel.cpp; path = ../../../srcs/JUCE/modules/juce_gui_extra/misc/juce_PreferencesPanel.cpp; sourceTree = SOURCE_ROOT; };
 		C80EADF1FAAB6ED2037B541E /* juce_UIViewComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_UIViewComponent.h; path = ../../../srcs/JUCE/modules/juce_gui_extra/embedding/juce_UIViewComponent.h; sourceTree = SOURCE_ROOT; };
+		C81ABAB1BA4E307B04F3D8E1 /* oscilloscope.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = oscilloscope.cpp; path = ../../Source/editor_components/oscilloscope.cpp; sourceTree = SOURCE_ROOT; };
 		C862DC1E3D029002785A148F /* juce_RelativeRectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_RelativeRectangle.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/positioning/juce_RelativeRectangle.h; sourceTree = SOURCE_ROOT; };
 		C8961F2C81ACA331DACDCD4C /* juce_video.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_video.h; path = ../../../srcs/JUCE/modules/juce_video/juce_video.h; sourceTree = SOURCE_ROOT; };
 		C93922BCDE3CDBB8718C7419 /* juce_FileTreeComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_FileTreeComponent.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/filebrowser/juce_FileTreeComponent.h; sourceTree = SOURCE_ROOT; };
@@ -1796,6 +1799,8 @@
 				18E44E66BD3AF54B829F5DE6 /* modulation_destination.h */,
 				D65A5DACA0E00FA8D9803CDF /* modulation_source.cpp */,
 				AD3ADC97D0F1BFA92DDFA6E2 /* modulation_source.h */,
+				C81ABAB1BA4E307B04F3D8E1 /* oscilloscope.cpp */,
+				96902435DA2EFBC9B414C74D /* oscilloscope.h */,
 				EEFF2CD5DEC8078772F4DC9A /* synthesis_interface.cpp */,
 				88D55552185529074F1C9961 /* synthesis_interface.h */,
 				1E74959CF084F5409B6E0CA2 /* wave_form_selector.cpp */,
@@ -3749,6 +3754,7 @@
 				622E0476F7EF47C1E2000399 /* graphical_step_sequencer.cpp in Sources */,
 				811E0A5F8A6C5139446CF845 /* modulation_destination.cpp in Sources */,
 				CDC47E99E091B04D65CA9E88 /* modulation_source.cpp in Sources */,
+				C773F4262E157A21B127645C /* oscilloscope.cpp in Sources */,
 				5E384BD894D27C51EC893F02 /* synthesis_interface.cpp in Sources */,
 				52B271C939CCEA5A330A49EA /* wave_form_selector.cpp in Sources */,
 				7229C2F61D50B705DC0D96A9 /* twytch.cpp in Sources */,

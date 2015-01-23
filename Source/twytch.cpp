@@ -150,8 +150,10 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   for (int channel = 0; channel < num_channels; ++channel) {
     float* channelData = buffer.getWritePointer(channel);
 
-    for (int i = 0; i < num_samples; ++i)
+    for (int i = 0; i < num_samples; ++i) {
       channelData[i] = synth_output[i];
+      output_memory_.push(synth_output[i]);
+    }
   }
 }
 

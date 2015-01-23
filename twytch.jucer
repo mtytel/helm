@@ -380,6 +380,9 @@
               file="Source/editor_components/modulation_source.cpp"/>
         <FILE id="GO0BK9" name="modulation_source.h" compile="0" resource="0"
               file="Source/editor_components/modulation_source.h"/>
+        <FILE id="RExuEw" name="oscilloscope.cpp" compile="1" resource="0"
+              file="Source/editor_components/oscilloscope.cpp"/>
+        <FILE id="amErBQ" name="oscilloscope.h" compile="0" resource="0" file="Source/editor_components/oscilloscope.h"/>
         <FILE id="JmaRDY" name="synthesis_interface.cpp" compile="1" resource="0"
               file="Source/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
@@ -408,10 +411,6 @@
             file="Source/twytch_oscillators.cpp"/>
       <FILE id="icA6dv" name="twytch_oscillators.h" compile="0" resource="0"
             file="Source/twytch_oscillators.h"/>
-      <FILE id="xJiEDe" name="twytch_strings.cpp" compile="1" resource="0"
-            file="Source/twytch_strings.cpp"/>
-      <FILE id="JTG7Mp" name="twytch_strings.h" compile="0" resource="0"
-            file="Source/twytch_strings.h"/>
       <FILE id="uc0tDL" name="twytch_voice_handler.cpp" compile="1" resource="0"
             file="Source/twytch_voice_handler.cpp"/>
       <FILE id="DJ7wVM" name="twytch_voice_handler.h" compile="0" resource="0"

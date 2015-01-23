@@ -229,6 +229,7 @@
     <ClCompile Include="..\..\Source\editor_components\graphical_step_sequencer.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\modulation_destination.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\modulation_source.cpp"/>
+    <ClCompile Include="..\..\Source\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\Source\editor_components\wave_form_selector.cpp"/>
     <ClCompile Include="..\..\Source\twytch.cpp"/>
@@ -236,7 +237,6 @@
     <ClCompile Include="..\..\Source\twytch_engine.cpp"/>
     <ClCompile Include="..\..\Source\twytch_look_and_feel.cpp"/>
     <ClCompile Include="..\..\Source\twytch_oscillators.cpp"/>
-    <ClCompile Include="..\..\Source\twytch_strings.cpp"/>
     <ClCompile Include="..\..\Source\twytch_voice_handler.cpp"/>
     <ClCompile Include="..\..\mopo\src\alias.cpp"/>
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp"/>
@@ -1499,6 +1499,7 @@
     <ClInclude Include="..\..\Source\editor_components\graphical_step_sequencer.h"/>
     <ClInclude Include="..\..\Source\editor_components\modulation_destination.h"/>
     <ClInclude Include="..\..\Source\editor_components\modulation_source.h"/>
+    <ClInclude Include="..\..\Source\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\Source\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\Source\editor_components\wave_form_selector.h"/>
     <ClInclude Include="..\..\Source\twytch.h"/>
@@ -1508,7 +1509,6 @@
     <ClInclude Include="..\..\Source\twytch_look_and_feel.h"/>
     <ClInclude Include="..\..\Source\twytch_mod_matrix.h"/>
     <ClInclude Include="..\..\Source\twytch_oscillators.h"/>
-    <ClInclude Include="..\..\Source\twytch_strings.h"/>
     <ClInclude Include="..\..\Source\twytch_voice_handler.h"/>
     <ClInclude Include="..\..\mopo\src\alias.h"/>
     <ClInclude Include="..\..\mopo\src\arpeggiator.h"/>

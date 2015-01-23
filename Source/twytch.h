@@ -18,6 +18,7 @@
 #define TWYTCH_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "memory.h"
 #include "twytch_engine.h"
 
 class Twytch : public AudioProcessor {
@@ -62,9 +63,11 @@ public:
   void setStateInformation(const void* data, int size_in_bytes) override;
 
   mopo::TwytchEngine* getSynth() { return &synth_; }
+  const mopo::Memory* getOutputMemory() { return &output_memory_; }
 
 private:
   mopo::TwytchEngine synth_;
+  mopo::Memory output_memory_;
   
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Twytch)
 };

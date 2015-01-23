@@ -17,15 +17,14 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_B574069E15301B7__
-#define __JUCE_HEADER_B574069E15301B7__
+#ifndef __JUCE_HEADER_3190D8EC0F31F326__
+#define __JUCE_HEADER_3190D8EC0F31F326__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "memory.h"
 //[/Headers]
 
-#include "synthesis_interface.h"
-#include "oscilloscope.h"
 
 
 //==============================================================================
@@ -36,53 +35,40 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class FullInterface  : public Component,
-                       public ButtonListener,
-                       public SliderListener
+class Oscilloscope  : public AnimatedAppComponent
 {
 public:
     //==============================================================================
-    FullInterface ();
-    ~FullInterface();
+    Oscilloscope (int num_samples);
+    ~Oscilloscope();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void addControls(mopo::control_map controls);
-    void setOutputMemory(const mopo::Memory* output_memory);
-    var getState();
-    void writeState(var state);
+    void update() override;
+    void resetWavePath();
+    void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
-    void sliderValueChanged (Slider* sliderThatWasMoved);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    mopo::control_map controls_;
-    std::map<std::string, juce::Slider*> slider_lookup_;
+    const mopo::Memory* output_memory_;
+    int samples_to_show_;
+    Path wave_path_;
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<TextButton> save_button_;
-    ScopedPointer<TextButton> load_button_;
-    ScopedPointer<Slider> arp_frequency_;
-    ScopedPointer<Slider> arp_gate_;
-    ScopedPointer<Slider> arp_octaves_;
-    ScopedPointer<Slider> arp_pattern_;
-    ScopedPointer<ToggleButton> arp_on_;
-    ScopedPointer<Oscilloscope> oscilloscope_;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FullInterface)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Oscilloscope)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_B574069E15301B7__
+#endif   // __JUCE_HEADER_3190D8EC0F31F326__
