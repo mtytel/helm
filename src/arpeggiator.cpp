@@ -19,6 +19,8 @@
 #include "utils.h"
 #include "voice_handler.h"
 
+#include <cstdlib>
+
 namespace mopo {
 
   namespace {
@@ -27,19 +29,12 @@ namespace mopo {
 
   Arpeggiator::Arpeggiator(VoiceHandler* voice_handler) :
       Processor(kNumInputs, 1), voice_handler_(voice_handler),
-      sustain_(false), phase_(1.0), note_index_(-1), last_played_note_(0) {
+      sustain_(false), phase_(1.0), note_index_(-1),
+      current_octave_(0), last_played_note_(0) {
     MOPO_ASSERT(voice_handler);
   }
 
   void Arpeggiator::process() {
-    if (active_notes_.size() == 0) {
-      if (last_played_note_ >= 0) {
-        voice_handler_->noteOff(last_played_note_, 0);
-        last_played_note_ = -1;
-      }
-      return;
-    }
-
     mopo_float frequency = input(kFrequency)->at(0);
     float min_gate = (MIN_VOICE_TIME + VOICE_KILL_TIME) * frequency;
     mopo_float gate = INTERPOLATE(min_gate, 1.0, input(kGate)->at(0));
@@ -47,38 +42,95 @@ namespace mopo {
     mopo_float delta_phase = frequency / sample_rate_;
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;
 
+    // If we're past the gate phase and we're playing a note, turn it off.
     if (new_phase >= gate && last_played_note_ >= 0) {
       int offset = CLAMP((gate - phase_) / delta_phase, 0, buffer_size_ - 1);
       voice_handler_->noteOff(last_played_note_, offset);
       last_played_note_ = -1;
     }
-    if (new_phase >= 1) {
+
+    // Check if it's time to play the next note.
+    if (getNumNotes() && new_phase >= 1) {
       int offset = CLAMP((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
-      mopo_float note = getNextNote();
-      voice_handler_->noteOn(note, active_notes_[note], offset);
-      last_played_note_ = note;
+      std::pair<mopo_float, mopo_float> note = getNextNote();
+      voice_handler_->noteOn(note.first, note.second, offset);
+      last_played_note_ = note.first;
       phase_ = new_phase - 1.0;
     }
     else
       phase_ = new_phase;
   }
 
-  mopo_float Arpeggiator::getNextNote() {
-    note_index_ = (note_index_ + 1) % as_played_.size();
-    return as_played_[note_index_];
+  std::pair<mopo_float, mopo_float> Arpeggiator::getNextNote() {
+    int octaves = std::max<int>(1, input(kOctaves)->at(0));
+    Pattern type = static_cast<Pattern>(input(kPattern)->at(0));
+    std::vector<mopo_float>* pattern = &as_played_;
+
+    note_index_++;
+
+    switch (type) {
+      case kUp:
+        pattern = &ascending_;
+        break;
+      case kDown:
+        pattern = &decending_;
+        break;
+      case kRandom:
+        pattern = &ascending_;
+        note_index_ = random() % ascending_.size();
+        current_octave_ = random() % octaves;
+        break;
+      case kUpDown:
+        // Skippping over duplicates.
+        if (note_index_ >= up_down_.size() - 1) {
+          note_index_ = 0;
+          current_octave_ = (current_octave_ + 1) % octaves;
+        }
+        else if (note_index_ == ascending_.size() - 1)
+          note_index_++;
+        pattern = &up_down_;
+        break;
+      case kAsPlayed:
+        pattern = &as_played_;
+        break;
+      default:
+        break;
+    }
+
+    if (note_index_ >= pattern->size()) {
+      note_index_ = 0;
+      current_octave_ = (current_octave_ + 1) % octaves;
+    }
+    mopo_float base_note = pattern->at(note_index_);
+    mopo_float note = base_note + mopo::NOTES_PER_OCTAVE * current_octave_;
+    mopo_float velocity = active_notes_[base_note];
+    return std::pair<mopo_float, mopo_float>(note, velocity);
   }
 
   void Arpeggiator::addNoteToPatterns(mopo_float note) {
     as_played_.push_back(note);
+    ascending_.push_back(note);
+    std::sort(ascending_.begin(), ascending_.end());
+    decending_.push_back(note);
+    std::sort(decending_.rbegin(), decending_.rend());
+
+    up_down_.insert(up_down_.begin(), note);
+    up_down_.push_back(note);
+    std::sort(up_down_.begin(), up_down_.begin() + ascending_.size());
+    std::sort(up_down_.rbegin(), up_down_.rbegin() + ascending_.size());
   }
 
   void Arpeggiator::removeNoteFromPatterns(mopo_float note) {
     as_played_.erase(
         std::remove(as_played_.begin(), as_played_.end(), note));
-    if (as_played_.size() == 0)
-      note_index_ = -1;
-    else
-      note_index_ %= as_played_.size();
+    ascending_.erase(
+        std::remove(ascending_.begin(), ascending_.end(), note));
+    decending_.erase(
+        std::remove(decending_.begin(), decending_.end(), note));
+    up_down_.erase(std::remove(up_down_.begin(),
+                               up_down_.begin() + as_played_.size(), note));
+    up_down_.erase(std::remove(up_down_.begin() + as_played_.size(),
+                               up_down_.end(), note));
   }
 
   void Arpeggiator::sustainOn() {
