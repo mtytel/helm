@@ -99,6 +99,10 @@ namespace mopo {
     return voice_controls;
   }
 
+  void TwytchEngine::allNotesOff(int sample) {
+    arpeggiator_->allNotesOff(sample);
+  }
+
   void TwytchEngine::noteOn(mopo_float note, mopo_float velocity, int sample) {
     arpeggiator_->noteOn(note, velocity, sample);
   }

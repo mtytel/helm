@@ -136,6 +136,8 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
       double value = 2 * percent - 1.0;
       synth_.setPitchWheel(value);
     }
+    else if (midi_message.isAllNotesOff())
+      synth_.allNotesOff();
   }
 
   int num_samples = buffer.getNumSamples();

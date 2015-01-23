@@ -33,6 +33,7 @@ namespace mopo {
       control_map getControls();
 
       // Keyboard events.
+      void allNotesOff(int sample = 0);
       void noteOn(mopo_float note, mopo_float velocity = 1.0, int sample = 0);
       void noteOff(mopo_float note, int sample = 0);
       void setModWheel(mopo_float value);
