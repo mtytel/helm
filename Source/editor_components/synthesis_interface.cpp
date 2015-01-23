@@ -286,6 +286,18 @@ SynthesisInterface::SynthesisInterface ()
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_gate_->addListener (this);
 
+    addAndMakeVisible (arp_octaves_ = new Slider ("arp octaves"));
+    arp_octaves_->setRange (1, 4, 1);
+    arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_octaves_->addListener (this);
+
+    addAndMakeVisible (arp_pattern_ = new Slider ("arp pattern"));
+    arp_pattern_->setRange (0, 4, 1);
+    arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_pattern_->addListener (this);
+
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
@@ -385,6 +397,8 @@ SynthesisInterface::~SynthesisInterface()
     resonance_mod_destination_ = nullptr;
     arp_frequency_ = nullptr;
     arp_gate_ = nullptr;
+    arp_octaves_ = nullptr;
+    arp_pattern_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -460,8 +474,10 @@ void SynthesisInterface::resized()
     lfo_1_mod_source_->setBounds (288, 320, 24, 24);
     lfo_2_mod_source_->setBounds (288, 424, 24, 24);
     resonance_mod_destination_->setBounds (680, 120, 24, 24);
-    arp_frequency_->setBounds (176, 576, 50, 50);
-    arp_gate_->setBounds (88, 576, 50, 50);
+    arp_frequency_->setBounds (88, 576, 50, 50);
+    arp_gate_->setBounds (24, 576, 50, 50);
+    arp_octaves_->setBounds (152, 576, 50, 50);
+    arp_pattern_->setBounds (216, 576, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -651,6 +667,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_arp_gate_] -- add your slider handling code here..
         //[/UserSliderCode_arp_gate_]
+    }
+    else if (sliderThatWasMoved == arp_octaves_)
+    {
+        //[UserSliderCode_arp_octaves_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_octaves_]
+    }
+    else if (sliderThatWasMoved == arp_pattern_)
+    {
+        //[UserSliderCode_arp_pattern_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_pattern_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -897,12 +923,20 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="680 120 24 24" sourceFile="modulation_destination.cpp"
              constructorParams=""/>
   <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="176 576 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="88 576 50 50" min="1"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="" explicitFocusOrder="0" pos="88 576 50 50" min="0"
+          virtualName="" explicitFocusOrder="0" pos="24 576 50 50" min="0"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
+          virtualName="" explicitFocusOrder="0" pos="152 576 50 50" min="1"
+          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
+          virtualName="" explicitFocusOrder="0" pos="216 576 50 50" min="0"
+          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 

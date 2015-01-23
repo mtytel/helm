@@ -17,6 +17,7 @@
 #include "twytch.h"
 #include "twytch_editor.h"
 
+#define PITCH_WHEEL_RESOLUTION 0x1fff
 
 Twytch::Twytch() : volume(0.0), phase(0.0) { }
 
@@ -126,6 +127,15 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
     }
     else if (midi_message.isNoteOff())
       synth_.noteOff(midi_message.getNoteNumber(), midi_sample_position);
+    else if (midi_message.isSustainPedalOn())
+      synth_.sustainOn();
+    else if (midi_message.isSustainPedalOff())
+      synth_.sustainOff();
+    else if (midi_message.isPitchWheel()) {
+      double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
+      double value = 2 * percent - 1.0;
+      synth_.setPitchWheel(value);
+    }
   }
 
   int num_samples = buffer.getNumSamples();

@@ -122,6 +122,8 @@ private:
     ScopedPointer<ModulationDestination> resonance_mod_destination_;
     ScopedPointer<Slider> arp_frequency_;
     ScopedPointer<Slider> arp_gate_;
+    ScopedPointer<Slider> arp_octaves_;
+    ScopedPointer<Slider> arp_pattern_;
 
 
     //==============================================================================

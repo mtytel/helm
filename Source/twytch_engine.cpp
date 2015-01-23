@@ -40,11 +40,18 @@ namespace mopo {
 
     // Arpeggiator.
     Value* arp_frequency = new Value(5.0);
+    Value* arp_octaves = new Value(1);
+    Value* arp_pattern = new Value(0);
     Value* arp_gate = new Value(0.5);
     arpeggiator_ = new Arpeggiator(voice_handler_);
     arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
+    arpeggiator_->plug(arp_octaves, Arpeggiator::kOctaves);
+    arpeggiator_->plug(arp_pattern, Arpeggiator::kPattern);
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
+
     controls_["arp frequency"] = arp_frequency;
+    controls_["arp octaves"] = arp_octaves;
+    controls_["arp pattern"] = arp_pattern;
     controls_["arp gate"] = arp_gate;
 
     addProcessor(arpeggiator_);
