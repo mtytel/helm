@@ -30,7 +30,7 @@ namespace mopo {
   Arpeggiator::Arpeggiator(VoiceHandler* voice_handler) :
       Processor(kNumInputs, 1), voice_handler_(voice_handler),
       sustain_(false), phase_(1.0), note_index_(-1),
-      current_octave_(0), last_played_note_(0) {
+      current_octave_(0), octave_up_(true), last_played_note_(0) {
     MOPO_ASSERT(voice_handler);
   }
 
@@ -71,9 +71,11 @@ namespace mopo {
     switch (type) {
       case kUp:
         pattern = &ascending_;
+        octave_up_ = true;
         break;
       case kDown:
         pattern = &decending_;
+        octave_up_ = false;
         break;
       case kRandom:
         pattern = &ascending_;
@@ -81,14 +83,14 @@ namespace mopo {
         current_octave_ = random() % octaves;
         break;
       case kUpDown:
-        // Skippping over duplicates.
-        if (note_index_ >= up_down_.size() - 1) {
-          note_index_ = 0;
-          current_octave_ = (current_octave_ + 1) % octaves;
+        if (note_index_ >= ascending_.size() - 1) {
+          if ((current_octave_ == 0 && !octave_up_) ||
+              (current_octave_ >= octaves - 1 && octave_up_)) {
+            note_index_ = 0;
+            octave_up_ = !octave_up_;
+          }
         }
-        else if (note_index_ == ascending_.size() - 1)
-          note_index_++;
-        pattern = &up_down_;
+        pattern = octave_up_ ? &ascending_ : &decending_;
         break;
       case kAsPlayed:
         pattern = &as_played_;
@@ -99,7 +101,10 @@ namespace mopo {
 
     if (note_index_ >= pattern->size()) {
       note_index_ = 0;
-      current_octave_ = (current_octave_ + 1) % octaves;
+      if (octave_up_)
+        current_octave_ = (current_octave_ + 1) % octaves;
+      else
+        current_octave_ = (current_octave_ + octaves - 1) % octaves;
     }
     mopo_float base_note = pattern->at(note_index_);
     mopo_float note = base_note + mopo::NOTES_PER_OCTAVE * current_octave_;
@@ -113,11 +118,6 @@ namespace mopo {
     std::sort(ascending_.begin(), ascending_.end());
     decending_.push_back(note);
     std::sort(decending_.rbegin(), decending_.rend());
-
-    up_down_.insert(up_down_.begin(), note);
-    up_down_.push_back(note);
-    std::sort(up_down_.begin(), up_down_.begin() + ascending_.size());
-    std::sort(up_down_.rbegin(), up_down_.rbegin() + ascending_.size());
   }
 
   void Arpeggiator::removeNoteFromPatterns(mopo_float note) {
@@ -127,10 +127,6 @@ namespace mopo {
         std::remove(ascending_.begin(), ascending_.end(), note));
     decending_.erase(
         std::remove(decending_.begin(), decending_.end(), note));
-    up_down_.erase(std::remove(up_down_.begin(),
-                               up_down_.begin() + as_played_.size(), note));
-    up_down_.erase(std::remove(up_down_.begin() + as_played_.size(),
-                               up_down_.end(), note));
   }
 
   void Arpeggiator::sustainOn() {
@@ -143,6 +139,15 @@ namespace mopo {
     for (; iter != sustained_notes_.end(); ++iter)
       noteOff(*iter);
     sustained_notes_.clear();
+  }
+
+  void Arpeggiator::allNotesOff(int sample) {
+    active_notes_.clear();
+    pressed_notes_.clear();
+    sustained_notes_.clear();
+    ascending_.clear();
+    decending_.clear();
+    as_played_.clear();
   }
 
   void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample) {
