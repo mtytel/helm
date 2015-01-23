@@ -19,7 +19,7 @@
 
 #define PITCH_WHEEL_RESOLUTION 0x1fff
 
-Twytch::Twytch() : volume(0.0), phase(0.0) { }
+Twytch::Twytch() { }
 
 Twytch::~Twytch() { }
 

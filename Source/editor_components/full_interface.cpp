@@ -38,6 +38,36 @@ FullInterface::FullInterface ()
     load_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
     load_button_->addListener (this);
 
+    addAndMakeVisible (arp_frequency_ = new Slider ("arp frequency"));
+    arp_frequency_->setRange (1, 20, 0);
+    arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_frequency_->addListener (this);
+    arp_frequency_->setSkewFactor (0.5);
+
+    addAndMakeVisible (arp_gate_ = new Slider ("arp gate"));
+    arp_gate_->setRange (0, 1, 0);
+    arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_gate_->addListener (this);
+
+    addAndMakeVisible (arp_octaves_ = new Slider ("arp octaves"));
+    arp_octaves_->setRange (1, 4, 1);
+    arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_octaves_->addListener (this);
+
+    addAndMakeVisible (arp_pattern_ = new Slider ("arp pattern"));
+    arp_pattern_->setRange (0, 4, 1);
+    arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_pattern_->addListener (this);
+
+    addAndMakeVisible (arp_on_ = new ToggleButton ("arp on"));
+    arp_on_->setButtonText (TRANS("arp"));
+    arp_on_->addListener (this);
+    arp_on_->setColour (ToggleButton::textColourId, Colours::white);
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -46,6 +76,11 @@ FullInterface::FullInterface ()
 
 
     //[Constructor] You can add your own custom stuff here..
+    for (int i = 0; i < getNumChildComponents(); ++i) {
+        Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
+        if (slider)
+            slider_lookup_[slider->getName().toStdString()] = slider;
+    }
     //[/Constructor]
 }
 
@@ -57,6 +92,11 @@ FullInterface::~FullInterface()
     synthesis_interface_ = nullptr;
     save_button_ = nullptr;
     load_button_ = nullptr;
+    arp_frequency_ = nullptr;
+    arp_gate_ = nullptr;
+    arp_octaves_ = nullptr;
+    arp_pattern_ = nullptr;
+    arp_on_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -80,9 +120,14 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (0, 40, proportionOfWidth (1.0000f), getHeight() - 40);
+    synthesis_interface_->setBounds (0, 40, proportionOfWidth (1.0000f), getHeight() - 113);
     save_button_->setBounds (192, 8, 150, 24);
     load_button_->setBounds (24, 8, 150, 24);
+    arp_frequency_->setBounds (176, 728, 50, 50);
+    arp_gate_->setBounds (112, 728, 50, 50);
+    arp_octaves_->setBounds (240, 728, 50, 50);
+    arp_pattern_->setBounds (304, 728, 50, 50);
+    arp_on_->setBounds (48, 744, 48, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -90,6 +135,11 @@ void FullInterface::resized()
 void FullInterface::buttonClicked (Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
+    std::string name = buttonThatWasClicked->getName().toStdString();
+    if (controls_.count(name)) {
+        int val = buttonThatWasClicked->getToggleState() ? 1 : 0;
+        controls_[name]->set(val);
+    }
     //[/UserbuttonClicked_Pre]
 
     if (buttonThatWasClicked == save_button_)
@@ -119,24 +169,86 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
         }
         //[/UserButtonCode_load_button_]
     }
+    else if (buttonThatWasClicked == arp_on_)
+    {
+        //[UserButtonCode_arp_on_] -- add your button handler code here..
+
+        //[/UserButtonCode_arp_on_]
+    }
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
+}
+
+void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
+{
+    //[UsersliderValueChanged_Pre]
+    std::string name = sliderThatWasMoved->getName().toStdString();
+    if (controls_.count(name))
+        controls_[name]->set(sliderThatWasMoved->getValue());
+    //[/UsersliderValueChanged_Pre]
+
+    if (sliderThatWasMoved == arp_frequency_)
+    {
+        //[UserSliderCode_arp_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_frequency_]
+    }
+    else if (sliderThatWasMoved == arp_gate_)
+    {
+        //[UserSliderCode_arp_gate_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_gate_]
+    }
+    else if (sliderThatWasMoved == arp_octaves_)
+    {
+        //[UserSliderCode_arp_octaves_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_octaves_]
+    }
+    else if (sliderThatWasMoved == arp_pattern_)
+    {
+        //[UserSliderCode_arp_pattern_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_pattern_]
+    }
+
+    //[UsersliderValueChanged_Post]
+    //[/UsersliderValueChanged_Post]
 }
 
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void FullInterface::addControls(mopo::control_map controls) {
+    synthesis_interface_->addControls(controls);
+    controls_ = controls;
+}
+
 var FullInterface::getState() {
     DynamicObject* state_object = new DynamicObject();
     state_object->setProperty("synthesis", synthesis_interface_->getState());
+
+    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
+    for (; iter != slider_lookup_.end(); ++iter)
+        state_object->setProperty(String(iter->first), iter->second->getValue());
+
     return state_object;
 }
 
 void FullInterface::writeState(var state) {
     DynamicObject* object_state = state.getDynamicObject();
     synthesis_interface_->writeState(object_state->getProperty("synthesis"));
+
+    NamedValueSet properties = object_state->getProperties();
+    int size = properties.size();
+    for (int i = 0; i < size; ++i) {
+        Identifier id = properties.getName(i);
+        if (id.isValid()) {
+            String name = id.toString();
+            if (slider_lookup_.count(name.toStdString())) {
+                mopo::mopo_float value = properties.getValueAt(i);
+                slider_lookup_[name.toStdString()]->setValue(value);
+            }
+        }
+    }
 }
 
 //[/MiscUserCode]
@@ -157,7 +269,7 @@ BEGIN_JUCER_METADATA
                  fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff000000"/>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="0 40 100% 40M" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="0 40 100% 113M" sourceFile="synthesis_interface.cpp"
              constructorParams=""/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="192 8 150 24" buttonText="save" connectedEdges="3"
@@ -165,6 +277,25 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
               explicitFocusOrder="0" pos="24 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
+  <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
+          virtualName="" explicitFocusOrder="0" pos="176 728 50 50" min="1"
+          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
+  <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
+          virtualName="" explicitFocusOrder="0" pos="112 728 50 50" min="0"
+          max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
+          virtualName="" explicitFocusOrder="0" pos="240 728 50 50" min="1"
+          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
+          virtualName="" explicitFocusOrder="0" pos="304 728 50 50" min="0"
+          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
+                explicitFocusOrder="0" pos="48 744 48 24" txtcol="ffffffff" buttonText="arp"
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

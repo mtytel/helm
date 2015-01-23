@@ -63,8 +63,6 @@ public:
 
   mopo::TwytchEngine* getSynth() { return &synth_; }
 
-  double volume, phase;
-
 private:
   mopo::TwytchEngine synth_;
   

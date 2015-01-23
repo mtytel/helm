@@ -28,7 +28,7 @@
 
 namespace mopo {
 
-  TwytchEngine::TwytchEngine() {
+  TwytchEngine::TwytchEngine() : was_playing_arp_(false) {
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
 
     // Voice Handler.
@@ -43,6 +43,7 @@ namespace mopo {
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
     Value* arp_gate = new Value(0.5);
+    arp_on_ = new Value(0);
     arpeggiator_ = new Arpeggiator(voice_handler_);
     arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
     arpeggiator_->plug(arp_octaves, Arpeggiator::kOctaves);
@@ -53,6 +54,7 @@ namespace mopo {
     controls_["arp octaves"] = arp_octaves;
     controls_["arp pattern"] = arp_pattern;
     controls_["arp gate"] = arp_gate;
+    controls_["arp on"] = arp_on_;
 
     addProcessor(arpeggiator_);
     addProcessor(voice_handler_);
@@ -99,16 +101,31 @@ namespace mopo {
     return voice_controls;
   }
 
+  void TwytchEngine::process() {
+    bool playing_arp = arp_on_->value();
+    if (was_playing_arp_ != playing_arp)
+      arpeggiator_->allNotesOff();
+    
+    was_playing_arp_ = playing_arp;
+    ProcessorRouter::process();
+  }
+
   void TwytchEngine::allNotesOff(int sample) {
     arpeggiator_->allNotesOff(sample);
   }
 
   void TwytchEngine::noteOn(mopo_float note, mopo_float velocity, int sample) {
-    arpeggiator_->noteOn(note, velocity, sample);
+    if (arp_on_->value())
+      arpeggiator_->noteOn(note, velocity, sample);
+    else
+      voice_handler_->noteOn(note, velocity, sample);
   }
 
   void TwytchEngine::noteOff(mopo_float note, int sample) {
-    arpeggiator_->noteOff(note, sample);
+    if (arp_on_->value())
+      arpeggiator_->noteOff(note, sample);
+    else
+      voice_handler_->noteOff(note, sample);
   }
 
   void TwytchEngine::setModWheel(mopo_float value) {

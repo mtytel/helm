@@ -17,6 +17,9 @@
 #include "twytch.h"
 #include "twytch_editor.h"
 
+#define WIDTH 1000
+#define HEIGHT 800
+
 TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
   mopo::control_map controls = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
@@ -24,7 +27,7 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
   gui_ = new FullInterface();
   gui_->addControls(controls);
   addAndMakeVisible(gui_);
-  setSize(1000, 700);
+  setSize(WIDTH, HEIGHT);
 }
 
 TwytchEditor::~TwytchEditor() {
@@ -32,7 +35,7 @@ TwytchEditor::~TwytchEditor() {
 }
 
 void TwytchEditor::paint(Graphics& g) {
-  setSize(1000, 700);
+  setSize(WIDTH, HEIGHT);
   g.fillAll(Colours::white);
 }
 

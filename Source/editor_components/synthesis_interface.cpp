@@ -273,38 +273,13 @@ SynthesisInterface::SynthesisInterface ()
     addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource());
     addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource());
     addAndMakeVisible (resonance_mod_destination_ = new ModulationDestination());
-    addAndMakeVisible (arp_frequency_ = new Slider ("arp frequency"));
-    arp_frequency_->setRange (1, 20, 0);
-    arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_frequency_->addListener (this);
-    arp_frequency_->setSkewFactor (0.5);
-
-    addAndMakeVisible (arp_gate_ = new Slider ("arp gate"));
-    arp_gate_->setRange (0, 1, 0);
-    arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_gate_->addListener (this);
-
-    addAndMakeVisible (arp_octaves_ = new Slider ("arp octaves"));
-    arp_octaves_->setRange (1, 4, 1);
-    arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_octaves_->addListener (this);
-
-    addAndMakeVisible (arp_pattern_ = new Slider ("arp pattern"));
-    arp_pattern_->setRange (0, 4, 1);
-    arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_pattern_->addListener (this);
-
     addAndMakeVisible (num_steps_ = new Slider ("num steps"));
     num_steps_->setRange (1, 32, 1);
     num_steps_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     num_steps_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     num_steps_->addListener (this);
 
-    addAndMakeVisible (step_frequency_ = new Slider ("arp frequency"));
+    addAndMakeVisible (step_frequency_ = new Slider ("step frequency"));
     step_frequency_->setRange (1, 20, 0);
     step_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     step_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -410,10 +385,6 @@ SynthesisInterface::~SynthesisInterface()
     lfo_1_mod_source_ = nullptr;
     lfo_2_mod_source_ = nullptr;
     resonance_mod_destination_ = nullptr;
-    arp_frequency_ = nullptr;
-    arp_gate_ = nullptr;
-    arp_octaves_ = nullptr;
-    arp_pattern_ = nullptr;
     num_steps_ = nullptr;
     step_frequency_ = nullptr;
 
@@ -491,12 +462,8 @@ void SynthesisInterface::resized()
     lfo_1_mod_source_->setBounds (288, 320, 24, 24);
     lfo_2_mod_source_->setBounds (288, 424, 24, 24);
     resonance_mod_destination_->setBounds (680, 120, 24, 24);
-    arp_frequency_->setBounds (88, 576, 50, 50);
-    arp_gate_->setBounds (24, 576, 50, 50);
-    arp_octaves_->setBounds (152, 576, 50, 50);
-    arp_pattern_->setBounds (216, 576, 50, 50);
-    num_steps_->setBounds (360, 288, 50, 50);
-    step_frequency_->setBounds (360, 336, 50, 50);
+    num_steps_->setBounds (360, 296, 50, 50);
+    step_frequency_->setBounds (360, 344, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -677,26 +644,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_lfo_2_waveform_] -- add your slider handling code here..
         //[/UserSliderCode_lfo_2_waveform_]
     }
-    else if (sliderThatWasMoved == arp_frequency_)
-    {
-        //[UserSliderCode_arp_frequency_] -- add your slider handling code here..
-        //[/UserSliderCode_arp_frequency_]
-    }
-    else if (sliderThatWasMoved == arp_gate_)
-    {
-        //[UserSliderCode_arp_gate_] -- add your slider handling code here..
-        //[/UserSliderCode_arp_gate_]
-    }
-    else if (sliderThatWasMoved == arp_octaves_)
-    {
-        //[UserSliderCode_arp_octaves_] -- add your slider handling code here..
-        //[/UserSliderCode_arp_octaves_]
-    }
-    else if (sliderThatWasMoved == arp_pattern_)
-    {
-        //[UserSliderCode_arp_pattern_] -- add your slider handling code here..
-        //[/UserSliderCode_arp_pattern_]
-    }
     else if (sliderThatWasMoved == num_steps_)
     {
         //[UserSliderCode_num_steps_] -- add your slider handling code here..
@@ -719,9 +666,9 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 var SynthesisInterface::getState() {
     DynamicObject* state_object = new DynamicObject();
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
-    for (; iter != slider_lookup_.end(); ++iter) {
+    for (; iter != slider_lookup_.end(); ++iter)
         state_object->setProperty(String(iter->first), iter->second->getValue());
-    }
+
     return state_object;
 }
 
@@ -951,28 +898,12 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="680 120 24 24" sourceFile="modulation_destination.cpp"
              constructorParams=""/>
-  <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="88 576 50 50" min="1"
-          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
-  <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="" explicitFocusOrder="0" pos="24 576 50 50" min="0"
-          max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="" explicitFocusOrder="0" pos="152 576 50 50" min="1"
-          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="" explicitFocusOrder="0" pos="216 576 50 50" min="0"
-          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="num steps" id="8be29885961d7617" memberName="num_steps_"
-          virtualName="" explicitFocusOrder="0" pos="360 288 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="360 296 50 50" min="1"
           max="32" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="arp frequency" id="788574c1265fb47" memberName="step_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="360 336 50 50" min="1"
+  <SLIDER name="step frequency" id="788574c1265fb47" memberName="step_frequency_"
+          virtualName="" explicitFocusOrder="0" pos="360 344 50 50" min="1"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
 </JUCER_COMPONENT>

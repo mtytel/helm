@@ -36,7 +36,8 @@
                                                                     //[/Comments]
 */
 class FullInterface  : public Component,
-                       public ButtonListener
+                       public ButtonListener,
+                       public SliderListener
 {
 public:
     //==============================================================================
@@ -45,7 +46,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void addControls(mopo::control_map controls) { synthesis_interface_->addControls(controls); }
+    void addControls(mopo::control_map controls);
     var getState();
     void writeState(var state);
     //[/UserMethods]
@@ -53,17 +54,25 @@ public:
     void paint (Graphics& g);
     void resized();
     void buttonClicked (Button* buttonThatWasClicked);
+    void sliderValueChanged (Slider* sliderThatWasMoved);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    mopo::control_map controls_;
+    std::map<std::string, juce::Slider*> slider_lookup_;
     //[/UserVariables]
 
     //==============================================================================
     ScopedPointer<SynthesisInterface> synthesis_interface_;
     ScopedPointer<TextButton> save_button_;
     ScopedPointer<TextButton> load_button_;
+    ScopedPointer<Slider> arp_frequency_;
+    ScopedPointer<Slider> arp_gate_;
+    ScopedPointer<Slider> arp_octaves_;
+    ScopedPointer<Slider> arp_pattern_;
+    ScopedPointer<ToggleButton> arp_on_;
 
 
     //==============================================================================

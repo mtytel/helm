@@ -24,6 +24,7 @@
 namespace mopo {
   class Arpeggiator;
   class TwytchVoiceHandler;
+  class Value;
 
   // The overall twytch engine. All audio processing is contained in here.
   class TwytchEngine : public ProcessorRouter {
@@ -31,6 +32,8 @@ namespace mopo {
       TwytchEngine();
 
       control_map getControls();
+
+      void process() override;
 
       // Keyboard events.
       void allNotesOff(int sample = 0);
@@ -46,6 +49,8 @@ namespace mopo {
     private:
       TwytchVoiceHandler* voice_handler_;
       Arpeggiator* arpeggiator_;
+      Value* arp_on_;
+      bool was_playing_arp_;
 
       control_map controls_;
   };
