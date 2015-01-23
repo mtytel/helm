@@ -124,6 +124,8 @@ private:
     ScopedPointer<Slider> arp_gate_;
     ScopedPointer<Slider> arp_octaves_;
     ScopedPointer<Slider> arp_pattern_;
+    ScopedPointer<Slider> num_steps_;
+    ScopedPointer<Slider> step_frequency_;
 
 
     //==============================================================================

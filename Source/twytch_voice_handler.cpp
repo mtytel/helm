@@ -23,6 +23,7 @@
 #include "oscillator.h"
 #include "linear_slope.h"
 #include "smooth_value.h"
+#include "step_generator.h"
 #include "twytch_mod_matrix.h"
 #include "twytch_oscillators.h"
 #include "trigger_operators.h"
@@ -215,6 +216,17 @@ namespace mopo {
     addProcessor(lfo2_);
     controls_["lfo 2 waveform"] = lfo2_waveform;
     controls_["lfo 2 frequency"] = lfo2_frequency;
+
+    // Step Sequencer.
+    Value* num_steps = new Value(16);
+    Value* step_frequency = new Value(5.0);
+    step_sequencer_ = new StepGenerator();
+    step_sequencer_->plug(num_steps, StepGenerator::kNumSteps);
+    step_sequencer_->plug(step_frequency, StepGenerator::kFrequency);
+
+    addProcessor(step_sequencer_);
+    controls_["num steps"] = num_steps;
+    controls_["step frequency"] = step_frequency;
 
     // Modulation sources/destinations.
     mod_sources_["lfo 1"] = lfo1_->output();

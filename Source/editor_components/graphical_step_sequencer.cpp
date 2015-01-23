@@ -27,11 +27,11 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-GraphicalStepSequencer::GraphicalStepSequencer (int num_steps)
+GraphicalStepSequencer::GraphicalStepSequencer ()
 {
 
     //[UserPreSize]
-    setNumSteps(num_steps);
+    num_steps_slider_ = nullptr;
     highlighted_step_ = -1;
     //[/UserPreSize]
 
@@ -136,11 +136,28 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void GraphicalStepSequencer::setNumSteps(int num_steps) {
-    num_steps_ = num_steps;
-    for (int i = sequence_.size(); i < num_steps_; ++i)
-        sequence_.push_back(i % 2 ? 0.5f : -0.5f);
+void GraphicalStepSequencer::sliderValueChanged(Slider* moved_slider) {
+    ensureMinSize();
     repaint();
+}
+
+void GraphicalStepSequencer::setNumStepsSlider(Slider* num_steps_slider) {
+    if (num_steps_slider_)
+        num_steps_slider_->removeListener(this);
+    num_steps_slider_ = num_steps_slider;
+    num_steps_slider_->addListener(this);
+
+    ensureMinSize();
+    repaint();
+}
+
+void GraphicalStepSequencer::ensureMinSize() {
+    if (num_steps_slider_ == nullptr)
+        return;
+
+    num_steps_ = num_steps_slider_->getValue();
+    while (sequence_.size() < num_steps_)
+        sequence_.push_back(0.0);
 }
 
 // Sets the height of the steps based on mouse positions.
@@ -200,7 +217,7 @@ void GraphicalStepSequencer::updateHover(int step_index) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GraphicalStepSequencer" componentName=""
-                 parentClasses="public Component" constructorParams="int num_steps"
+                 parentClasses="public Component, SliderListener" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <METHODS>

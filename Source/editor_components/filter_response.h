@@ -49,7 +49,7 @@ public:
     void resetResponsePath();
     void computeFilterCoefficients();
     void setFilterSettingsFromPosition(Point<int> position);
-    void sliderValueChanged(Slider* sliderThatWasMoved) override;
+    void sliderValueChanged(Slider* moved_slider) override;
 
     void setResonanceSlider(Slider* slider);
     void setCutoffSlider(Slider* slider);

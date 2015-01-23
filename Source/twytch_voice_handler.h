@@ -33,7 +33,7 @@ namespace mopo {
   class LinearSlope;
   class Oscillator;
   class SmoothValue;
-  class StepSequencer;
+  class StepGenerator;
   class TwytchOscillators;
 
   // The voice handler duplicates processors to produce polyphony.
@@ -77,6 +77,7 @@ namespace mopo {
       Delay* osc_feedback_;
       Oscillator* lfo1_;
       Oscillator* lfo2_;
+      StepGenerator* step_sequencer_;
       Interpolate* oscillator_mix_;
 
       Filter* filter_;

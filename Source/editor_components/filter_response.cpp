@@ -179,7 +179,7 @@ void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
     computeFilterCoefficients();
 }
 
-void FilterResponse::sliderValueChanged(Slider* sliderThatWasMoved) {
+void FilterResponse::sliderValueChanged(Slider* moved_slider) {
     computeFilterCoefficients();
     repaint();
 }

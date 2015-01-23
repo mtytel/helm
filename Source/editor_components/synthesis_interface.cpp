@@ -29,7 +29,7 @@
 //==============================================================================
 SynthesisInterface::SynthesisInterface ()
 {
-    addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer (16));
+    addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer());
     addAndMakeVisible (amplitude_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (osc_1_wave_display_ = new WaveFormSelector (128));
@@ -298,6 +298,19 @@ SynthesisInterface::SynthesisInterface ()
     arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_pattern_->addListener (this);
 
+    addAndMakeVisible (num_steps_ = new Slider ("num steps"));
+    num_steps_->setRange (1, 32, 1);
+    num_steps_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    num_steps_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    num_steps_->addListener (this);
+
+    addAndMakeVisible (step_frequency_ = new Slider ("arp frequency"));
+    step_frequency_->setRange (1, 20, 0);
+    step_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    step_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    step_frequency_->addListener (this);
+    step_frequency_->setSkewFactor (0.5);
+
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
@@ -330,6 +343,8 @@ SynthesisInterface::SynthesisInterface ()
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
+
+    step_sequencer_->setNumStepsSlider(num_steps_);
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
@@ -399,6 +414,8 @@ SynthesisInterface::~SynthesisInterface()
     arp_gate_ = nullptr;
     arp_octaves_ = nullptr;
     arp_pattern_ = nullptr;
+    num_steps_ = nullptr;
+    step_frequency_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -478,6 +495,8 @@ void SynthesisInterface::resized()
     arp_gate_->setBounds (24, 576, 50, 50);
     arp_octaves_->setBounds (152, 576, 50, 50);
     arp_pattern_->setBounds (216, 576, 50, 50);
+    num_steps_->setBounds (360, 288, 50, 50);
+    step_frequency_->setBounds (360, 336, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -678,6 +697,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_arp_pattern_] -- add your slider handling code here..
         //[/UserSliderCode_arp_pattern_]
     }
+    else if (sliderThatWasMoved == num_steps_)
+    {
+        //[UserSliderCode_num_steps_] -- add your slider handling code here..
+        //[/UserSliderCode_num_steps_]
+    }
+    else if (sliderThatWasMoved == step_frequency_)
+    {
+        //[UserSliderCode_step_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_step_frequency_]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -730,7 +759,7 @@ BEGIN_JUCER_METADATA
   <BACKGROUND backgroundColour="ff1f1f1f"/>
   <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
              explicitFocusOrder="0" pos="416 288 300 100" sourceFile="graphical_step_sequencer.cpp"
-             constructorParams="16"/>
+             constructorParams=""/>
   <JUCERCOMP name="" id="b4880edb8b39ec9d" memberName="amplitude_envelope_"
              virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="416 392 300 100"
              sourceFile="graphical_envelope.cpp" constructorParams=""/>
@@ -938,6 +967,14 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="216 576 50 50" min="0"
           max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="num steps" id="8be29885961d7617" memberName="num_steps_"
+          virtualName="" explicitFocusOrder="0" pos="360 288 50 50" min="1"
+          max="32" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="arp frequency" id="788574c1265fb47" memberName="step_frequency_"
+          virtualName="" explicitFocusOrder="0" pos="360 336 50 50" min="1"
+          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

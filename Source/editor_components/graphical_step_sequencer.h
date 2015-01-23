@@ -35,19 +35,22 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class GraphicalStepSequencer  : public Component
+class GraphicalStepSequencer  : public Component,
+                                SliderListener
 {
 public:
     //==============================================================================
-    GraphicalStepSequencer (int num_steps);
+    GraphicalStepSequencer ();
     ~GraphicalStepSequencer();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setNumSteps(int num_steps);
+    void setNumStepsSlider(Slider* num_steps_slider);
     void changeStep(const MouseEvent& e);
     int getHoveredStep(Point<int> position);
     void updateHover(int step_index);
+    void sliderValueChanged(Slider* moved_slider) override;
+    void ensureMinSize();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -62,6 +65,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     int num_steps_;
+    Slider* num_steps_slider_;
     int highlighted_step_;
     std::vector<float> sequence_;
     Point<int> last_edit_position_;
