@@ -31,7 +31,7 @@ namespace mopo {
 
   class Arpeggiator : public Processor {
     public:
-      enum Type {
+      enum Pattern {
         kUp,
         kDown,
         kUpDown,
@@ -39,9 +39,11 @@ namespace mopo {
         kRandom,
         kNumTypes
       };
+
       enum Inputs {
         kFrequency,
         kGate,
+        kPattern,
         kOctaves,
         kNumInputs
       };
@@ -51,7 +53,8 @@ namespace mopo {
       virtual Processor* clone() const { MOPO_ASSERT(false); return nullptr; }
       virtual void process();
 
-      mopo_float getNextNote();
+      int getNumNotes() { return pressed_notes_.size(); }
+      std::pair<mopo_float, mopo_float> getNextNote();
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
       void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
@@ -61,12 +64,15 @@ namespace mopo {
 
     private:
       Arpeggiator() : Processor(0, 0) { }
+
       VoiceHandler* voice_handler_;
+
       bool sustain_;
       mopo_float phase_;
       int note_index_;
-
+      int current_octave_;
       mopo_float last_played_note_;
+
       std::vector<mopo_float> as_played_;
       std::vector<mopo_float> ascending_;
       std::vector<mopo_float> decending_;
