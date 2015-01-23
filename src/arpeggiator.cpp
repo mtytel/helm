@@ -148,6 +148,7 @@ namespace mopo {
     ascending_.clear();
     decending_.clear();
     as_played_.clear();
+    voice_handler_->allNotesOff();
   }
 
   void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample) {
