@@ -57,6 +57,8 @@ namespace mopo {
       std::pair<mopo_float, mopo_float> getNextNote();
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
+
+      void allNotesOff(int sample = 0);
       void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
       void noteOff(mopo_float note, int sample = 0);
       void sustainOn();
@@ -71,12 +73,12 @@ namespace mopo {
       mopo_float phase_;
       int note_index_;
       int current_octave_;
+      bool octave_up_;
       mopo_float last_played_note_;
 
       std::vector<mopo_float> as_played_;
       std::vector<mopo_float> ascending_;
       std::vector<mopo_float> decending_;
-      std::vector<mopo_float> up_down_;
 
       std::map<mopo_float, mopo_float> active_notes_;
       std::set<mopo_float> pressed_notes_;

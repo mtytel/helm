@@ -82,6 +82,7 @@ namespace mopo {
       virtual void setSampleRate(int sample_rate);
       virtual void setBufferSize(int buffer_size);
 
+      void allNotesOff(int sample = 0);
       void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
       void noteOff(mopo_float note, int sample = 0);
       void sustainOn();

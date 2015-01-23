@@ -106,6 +106,16 @@ namespace mopo {
     sustained_voices_.clear();
   }
 
+  void VoiceHandler::allNotesOff(int sample) {
+    pressed_notes_.clear();
+
+    std::list<Voice*>::iterator iter = active_voices_.begin();
+    for (; iter != active_voices_.end(); ++iter) {
+      Voice* voice = *iter;
+      voice->deactivate(sample);
+    }
+  }
+
   void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
     Voice* voice = 0;
     pressed_notes_.push_back(note);
@@ -123,13 +133,7 @@ namespace mopo {
   }
 
   void VoiceHandler::noteOff(mopo_float note, int sample) {
-    std::list<mopo_float>::iterator note_iter = pressed_notes_.begin();
-    while (note_iter != pressed_notes_.end()) {
-      if (*note_iter == note)
-        note_iter = pressed_notes_.erase(note_iter);
-      else
-        note_iter++;
-    }
+    pressed_notes_.remove(note);
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     for (; iter != active_voices_.end(); ++iter) {
