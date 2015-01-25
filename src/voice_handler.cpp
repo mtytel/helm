@@ -172,8 +172,16 @@ namespace mopo {
     voice_router_.addProcessor(processor);
   }
 
+  void VoiceHandler::removeProcessor(Processor* processor) {
+    voice_router_.removeProcessor(processor);
+  }
+
   void VoiceHandler::addGlobalProcessor(Processor* processor) {
     global_router_.addProcessor(processor);
+  }
+
+  void VoiceHandler::removeGlobalProcessor(Processor* processor) {
+    global_router_.removeProcessor(processor);
   }
 
   Voice* VoiceHandler::createVoice() {
