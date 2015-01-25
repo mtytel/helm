@@ -152,8 +152,8 @@ namespace mopo {
       int sample_rate_;
       int buffer_size_;
 
-      std::vector<Input*>* inputs_;
-      std::vector<Output*>* outputs_;
+      std::shared_ptr<std::vector<Input*>> inputs_;
+      std::shared_ptr<std::vector<Output*>> outputs_;
 
       ProcessorRouter* router_;
 

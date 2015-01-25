@@ -93,7 +93,9 @@ namespace mopo {
       Output* velocity() { return &velocity_; }
 
       void addProcessor(Processor* processor);
+      void removeProcessor(Processor* processor);
       void addGlobalProcessor(Processor* processor);
+      void removeGlobalProcessor(Processor* processor);
 
       void setPolyphony(size_t polyphony);
 
