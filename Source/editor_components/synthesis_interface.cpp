@@ -328,6 +328,7 @@ SynthesisInterface::SynthesisInterface ()
         
         Slider* step = new Slider(String("step seq ") + num);
         step->setRange(-1.0, 1.0);
+        step->addListener(this);
         step_sequencer_sliders_.push_back(step);
         slider_lookup_[step->getName().toStdString()] = step;
     }
