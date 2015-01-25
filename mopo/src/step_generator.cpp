@@ -39,6 +39,7 @@ namespace mopo {
     total /= sample_rate_;
     mopo_float integral;
     offset_ = modf(offset_ + total, &integral);
+    current_step_ += integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
 
     for (i = 0; i < buffer_size_; ++i)
