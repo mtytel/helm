@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include <iomanip>
 //[/Headers]
 
 #include "synthesis_interface.h"
@@ -320,6 +321,17 @@ SynthesisInterface::SynthesisInterface ()
     filter_response_->setFilterTypeSlider(filter_type_);
 
     step_sequencer_->setNumStepsSlider(num_steps_);
+    for (int i = 0; i < num_steps_->getMaximum(); ++i) {
+        String num(i);
+        if (num.length() == 1)
+            num = String("0") + num;
+        
+        Slider* step = new Slider(String("step seq ") + num);
+        step->setRange(-1.0, 1.0);
+        step_sequencer_sliders_.push_back(step);
+        slider_lookup_[step->getName().toStdString()] = step;
+    }
+    step_sequencer_->setStepSliders(&step_sequencer_sliders_);
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
@@ -471,6 +483,7 @@ void SynthesisInterface::resized()
 void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
+    MOPO_ASSERT(controls_.count(sliderThatWasMoved->getName().toStdString()));
     controls_[sliderThatWasMoved->getName().toStdString()]->set(sliderThatWasMoved->getValue());
     //[/UsersliderValueChanged_Pre]
 

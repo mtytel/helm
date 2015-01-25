@@ -32,6 +32,7 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
 
     //[UserPreSize]
     num_steps_slider_ = nullptr;
+    sequence_ = nullptr;
     highlighted_step_ = -1;
     //[/UserPreSize]
 
@@ -62,6 +63,8 @@ void GraphicalStepSequencer::paint (Graphics& g)
     g.fillAll (Colour (0xff303030));
 
     //[UserPaint] Add your own custom painting code here..
+    if (sequence_ == nullptr)
+        return;
     float x = 0.0f;
     float x_inc = getWidth() / (1.0f * num_steps_);
     for (int i = 0; i < num_steps_; ++i) {
@@ -73,7 +76,7 @@ void GraphicalStepSequencer::paint (Graphics& g)
         else
             g.setColour(Colour(0xff606060));
 
-        float val = sequence_[i];
+        float val = sequence_->at(i)->getValue();
         float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
         if (val >= 0) {
             g.fillRect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
@@ -136,6 +139,13 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void GraphicalStepSequencer::setStepSliders(std::vector<Slider*>* sliders) {
+    sequence_ = sliders;
+    for (int i = 0; i < sliders->size(); ++i)
+        sequence_->at(i)->addListener(this);
+    repaint();
+}
+
 void GraphicalStepSequencer::sliderValueChanged(Slider* moved_slider) {
     ensureMinSize();
     repaint();
@@ -156,8 +166,6 @@ void GraphicalStepSequencer::ensureMinSize() {
         return;
 
     num_steps_ = num_steps_slider_->getValue();
-    while (sequence_.size() < num_steps_)
-        sequence_.push_back(0.0);
 }
 
 // Sets the height of the steps based on mouse positions.
@@ -185,7 +193,7 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
     for (int step = selected_step; step != from_step + direction; step += direction) {
         if (step >= 0 && step < num_steps_) {
             float new_value = -2.0f * y / getHeight() + 1.0f;
-            sequence_[step] = std::max(std::min(new_value, 1.0f), -1.0f);
+            sequence_->at(step)->setValue(std::max(std::min(new_value, 1.0f), -1.0f));
         }
         y += inc_x * slope;
         inc_x = direction * getWidth() * 1.0f / num_steps_;

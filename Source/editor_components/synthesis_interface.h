@@ -66,6 +66,7 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     mopo::control_map controls_;
     std::map<std::string, juce::Slider*> slider_lookup_;
+    std::vector<Slider*> step_sequencer_sliders_;
     //[/UserVariables]
 
     //==============================================================================

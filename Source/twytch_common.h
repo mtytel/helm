@@ -26,6 +26,8 @@
 
 namespace mopo {
 
+  const mopo_float MAX_STEPS = 32;
+
   typedef std::map<std::string, Value*> control_map;
   typedef std::map<char, std::string> midi_learn_map;
   typedef std::map<std::string, Processor*> input_map;

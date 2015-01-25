@@ -220,13 +220,22 @@ namespace mopo {
     // Step Sequencer.
     Value* num_steps = new Value(16);
     Value* step_frequency = new Value(5.0);
-    step_sequencer_ = new StepGenerator();
+    step_sequencer_ = new StepGenerator(MAX_STEPS);
     step_sequencer_->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer_->plug(step_frequency, StepGenerator::kFrequency);
 
     addProcessor(step_sequencer_);
     controls_["num steps"] = num_steps;
     controls_["step frequency"] = step_frequency;
+
+    for (int i = 0; i < MAX_STEPS; ++i) {
+      std::string num = std::to_string(i);
+      if (num.length() == 1)
+        num = "0" + num;
+      Value* step = new Value(0.0);
+      controls_[std::string("step seq ") + num] = step;
+      step_sequencer_->plug(step, StepGenerator::kSteps + i);
+    }
 
     // Modulation sources/destinations.
     mod_sources_["lfo 1"] = lfo1_->output();
