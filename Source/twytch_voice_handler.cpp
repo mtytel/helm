@@ -486,6 +486,9 @@ namespace mopo {
   }
 
   void TwytchVoiceHandler::connectModulation(std::string from, std::string to) {
+    MOPO_ASSERT(mod_sources_.count(from));
+    MOPO_ASSERT(mod_destinations_.count(to));
+
     Multiply* modulation_scale = new Multiply();
     Value* modulation_amount = new Value(1.0);
     modulation_scale->plug(mod_sources_[from], 0);
