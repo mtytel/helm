@@ -458,9 +458,6 @@
                 file="mopo/src/resonance_lookup.cpp"/>
           <FILE id="pTH1Hf" name="resonance_lookup.h" compile="0" resource="0"
                 file="mopo/src/resonance_lookup.h"/>
-          <FILE id="JHZseW" name="send_receive.cpp" compile="1" resource="0"
-                file="mopo/src/send_receive.cpp"/>
-          <FILE id="yCR2Si" name="send_receive.h" compile="0" resource="0" file="mopo/src/send_receive.h"/>
           <FILE id="FNCsKO" name="smooth_filter.cpp" compile="1" resource="0"
                 file="mopo/src/smooth_filter.cpp"/>
           <FILE id="RoiNhg" name="smooth_filter.h" compile="0" resource="0" file="mopo/src/smooth_filter.h"/>

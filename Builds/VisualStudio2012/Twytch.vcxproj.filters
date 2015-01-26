@@ -718,9 +718,6 @@
     <ClCompile Include="..\..\mopo\src\resonance_lookup.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mopo\src\send_receive.cpp">
-      <Filter>Twytch\Source\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_filter.cpp">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClCompile>
@@ -2422,9 +2419,6 @@
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\resonance_lookup.h">
-      <Filter>Twytch\Source\mopo\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\mopo\src\send_receive.h">
       <Filter>Twytch\Source\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_filter.h">

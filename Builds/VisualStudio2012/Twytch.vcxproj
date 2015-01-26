@@ -254,7 +254,6 @@
     <ClCompile Include="..\..\mopo\src\processor.cpp"/>
     <ClCompile Include="..\..\mopo\src\processor_router.cpp"/>
     <ClCompile Include="..\..\mopo\src\resonance_lookup.cpp"/>
-    <ClCompile Include="..\..\mopo\src\send_receive.cpp"/>
     <ClCompile Include="..\..\mopo\src\smooth_filter.cpp"/>
     <ClCompile Include="..\..\mopo\src\smooth_value.cpp"/>
     <ClCompile Include="..\..\mopo\src\step_generator.cpp"/>
@@ -1528,7 +1527,6 @@
     <ClInclude Include="..\..\mopo\src\processor.h"/>
     <ClInclude Include="..\..\mopo\src\processor_router.h"/>
     <ClInclude Include="..\..\mopo\src\resonance_lookup.h"/>
-    <ClInclude Include="..\..\mopo\src\send_receive.h"/>
     <ClInclude Include="..\..\mopo\src\smooth_filter.h"/>
     <ClInclude Include="..\..\mopo\src\smooth_value.h"/>
     <ClInclude Include="..\..\mopo\src\step_generator.h"/>
