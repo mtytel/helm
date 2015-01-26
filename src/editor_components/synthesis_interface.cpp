@@ -250,7 +250,7 @@ SynthesisInterface::SynthesisInterface ()
     addAndMakeVisible (amplitude_env_mod_source_ = new ModulationSource ("amplitude env"));
     addAndMakeVisible (step_generator_mod_source_ = new ModulationSource ("step sequencer"));
     addAndMakeVisible (filter_env_mod_source_ = new ModulationSource ("filter env"));
-    addAndMakeVisible (cross_mod_destination_ = new ModulationDestination ("cross mod"));
+    addAndMakeVisible (cross_mod_destination_ = new ModulationDestination ("cross modulation"));
     addAndMakeVisible (pitch_mod_destination_ = new ModulationDestination ("pitch"));
     addAndMakeVisible (cutoff_mod_destination_ = new ModulationDestination ("cutoff"));
     addAndMakeVisible (lfo_1_wave_display_ = new WaveFormSelector (128));
@@ -887,7 +887,7 @@ BEGIN_JUCER_METADATA
              constructorParams="&quot;filter env&quot;"/>
   <JUCERCOMP name="cross modulation" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="368 32 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;cross mod&quot;"/>
+             constructorParams="&quot;cross modulation&quot;"/>
   <JUCERCOMP name="pitch" id="146986590a708b08" memberName="pitch_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="368 88 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;pitch&quot;"/>
