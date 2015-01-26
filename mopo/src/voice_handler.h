@@ -126,7 +126,7 @@ namespace mopo {
       Output velocity_;
 
       std::list<mopo_float> pressed_notes_;
-      std::set<Voice*> all_voices_;
+      std::vector<std::unique_ptr<Voice> > all_voices_;
       std::list<Voice*> free_voices_;
       std::list<Voice*> sustained_voices_;
       std::list<Voice*> active_voices_;

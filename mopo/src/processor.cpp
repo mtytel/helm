@@ -28,6 +28,7 @@ namespace mopo {
       router_(nullptr) {
     for (int i = 0; i < num_inputs; ++i) {
       Input* input = new Input();
+      owned_inputs_.push_back(std::shared_ptr<Input>(input));
 
       // All inputs start off with null input.
       input->source = &Processor::null_source_;
@@ -36,6 +37,7 @@ namespace mopo {
 
     for (int i = 0; i < num_outputs; ++i) {
       Output* output = new Output();
+      owned_outputs_.push_back(std::shared_ptr<Output>(output));
 
       // All outputs are owned by this Processor.
       output->owner = this;

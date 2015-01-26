@@ -25,9 +25,9 @@
 namespace mopo {
 
   ProcessorRouter::ProcessorRouter(int num_inputs, int num_outputs) :
-      Processor(num_inputs, num_outputs) {
-    order_ = new std::vector<const Processor*>();
-    feedback_order_ = new std::vector<const Feedback*>();
+      Processor(num_inputs, num_outputs),
+      order_(new std::vector<const Processor*>()),
+      feedback_order_(new std::vector<const Feedback*>()) {
   }
 
   ProcessorRouter::ProcessorRouter(const ProcessorRouter& original) :
@@ -36,13 +36,13 @@ namespace mopo {
     size_t num_processors = order_->size();
     for (size_t i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
-      processors_[next] = next->clone();
+      processors_[next].reset(next->clone());
     }
 
     size_t num_feedbacks = feedback_order_->size();
     for (size_t i = 0; i < num_feedbacks; ++i) {
       const Feedback* next = feedback_order_->at(i);
-      feedback_processors_[next] = new Feedback(*next);
+      feedback_processors_[next].reset(new Feedback(*next));
     }
   }
 
@@ -96,7 +96,7 @@ namespace mopo {
     MOPO_ASSERT(processor->router() == nullptr || processor->router() == this);
     processor->router(this);
     order_->push_back(processor);
-    processors_[processor] = processor;
+    processors_[processor].reset(processor);
 
     for (int i = 0; i < processor->numInputs(); ++i)
       connect(processor, processor->input(i)->source, i);
@@ -192,7 +192,7 @@ namespace mopo {
   void ProcessorRouter::addFeedback(Feedback* feedback) {
     feedback->router(this);
     feedback_order_->push_back(feedback);
-    feedback_processors_[feedback] = feedback;
+    feedback_processors_[feedback].reset(feedback);
   }
 
   void ProcessorRouter::updateAllProcessors() {
@@ -200,14 +200,14 @@ namespace mopo {
     for (int i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
       if (processors_.find(next) == processors_.end())
-        processors_[next] = next->clone();
+        processors_[next].reset(next->clone());
     }
 
     size_t num_feedbacks = feedback_order_->size();
     for (int i = 0; i < num_feedbacks; ++i) {
       const Feedback* next = feedback_order_->at(i);
       if (feedback_processors_.find(next) == feedback_processors_.end())
-        feedback_processors_[next] = new Feedback(*next);
+        feedback_processors_[next].reset(new Feedback(*next));
     }
   }
 
