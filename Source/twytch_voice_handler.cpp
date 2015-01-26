@@ -472,7 +472,7 @@ namespace mopo {
     controls_["portamento"] = portamento;
     controls_["portamento type"] = portamento_type;
 
-    mod_sources_["amp env"] = amplitude_envelope_->output();
+    mod_sources_["amplitude env"] = amplitude_envelope_->output();
     mod_sources_["note"] = note_percentage->output();
     mod_sources_["velocity"] = current_velocity->output();
   }
