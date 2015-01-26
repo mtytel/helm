@@ -78,18 +78,16 @@ namespace mopo {
     Processor::setSampleRate(sample_rate);
     voice_router_.setSampleRate(sample_rate);
     global_router_.setSampleRate(sample_rate);
-    std::set<Voice*>::iterator iter = all_voices_.begin();
-    for (; iter != all_voices_.end(); ++iter)
-      (*iter)->processor()->setSampleRate(sample_rate);
+    for (int i = 0; i < all_voices_.size(); ++i)
+      all_voices_[i]->processor()->setSampleRate(sample_rate);
   }
 
   void VoiceHandler::setBufferSize(int buffer_size) {
     Processor::setBufferSize(buffer_size);
     voice_router_.setBufferSize(buffer_size);
     global_router_.setBufferSize(buffer_size);
-    std::set<Voice*>::iterator iter = all_voices_.begin();
-    for (; iter != all_voices_.end(); ++iter)
-      (*iter)->processor()->setBufferSize(buffer_size);
+    for (int i = 0; i < all_voices_.size(); ++i)
+      all_voices_[i]->processor()->setBufferSize(buffer_size);
   }
 
   void VoiceHandler::sustainOn() {
@@ -156,7 +154,7 @@ namespace mopo {
   void VoiceHandler::setPolyphony(size_t polyphony) {
     while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
-      all_voices_.insert(new_voice);
+      all_voices_.push_back(std::unique_ptr<Voice>(new_voice));
       free_voices_.push_back(new_voice);
     }
 

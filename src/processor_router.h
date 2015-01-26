@@ -18,6 +18,7 @@
 #ifndef PROCESSOR_ROUTER_H
 #define PROCESSOR_ROUTER_H
 
+#include "feedback.h"
 #include "processor.h"
 
 #include <map>
@@ -25,8 +26,6 @@
 #include <vector>
 
 namespace mopo {
-
-  class Feedback;
 
   class ProcessorRouter : public Processor {
     public:
@@ -64,11 +63,12 @@ namespace mopo {
       const Processor* getContext(const Processor* processor);
       std::set<const Processor*> getDependencies(const Processor* processor);
 
-      std::vector<const Processor*>* order_;
-      std::map<const Processor*, Processor*> processors_;
+      std::shared_ptr<std::vector<const Processor*> > order_;
+      std::map<const Processor*, std::unique_ptr<Processor> > processors_;
 
-      std::vector<const Feedback*>* feedback_order_;
-      std::map<const Feedback*, Feedback*> feedback_processors_;
+      std::shared_ptr<std::vector<const Feedback*> > feedback_order_;
+      std::map<const Feedback*, std::unique_ptr<Feedback> >
+          feedback_processors_;
   };
 } // namespace mopo
 
