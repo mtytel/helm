@@ -135,21 +135,6 @@ OBJECTS := \
   $(OBJDIR)/CAVolumeCurve_32dd5257.o \
   $(OBJDIR)/CAXException_4b95941f.o \
   $(OBJDIR)/MatrixMixerVolumes_2141177b.o \
-  $(OBJDIR)/filter_response_c5a98742.o \
-  $(OBJDIR)/full_interface_d7b651b9.o \
-  $(OBJDIR)/graphical_envelope_81dd68ac.o \
-  $(OBJDIR)/graphical_step_sequencer_849bfbba.o \
-  $(OBJDIR)/modulation_destination_e92c1ffb.o \
-  $(OBJDIR)/modulation_source_4d88e218.o \
-  $(OBJDIR)/oscilloscope_113eddff.o \
-  $(OBJDIR)/synthesis_interface_e6f64ae8.o \
-  $(OBJDIR)/wave_form_selector_d4921d64.o \
-  $(OBJDIR)/twytch_10347fac.o \
-  $(OBJDIR)/twytch_editor_e7ee1a6a.o \
-  $(OBJDIR)/twytch_engine_9a8780bf.o \
-  $(OBJDIR)/twytch_look_and_feel_4eb9069b.o \
-  $(OBJDIR)/twytch_oscillators_8eae5540.o \
-  $(OBJDIR)/twytch_voice_handler_cb9f93aa.o \
   $(OBJDIR)/alias_1d388dcc.o \
   $(OBJDIR)/arpeggiator_9d4b0575.o \
   $(OBJDIR)/bit_crush_f4910885.o \
@@ -173,6 +158,21 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
+  $(OBJDIR)/filter_response_802ac2eb.o \
+  $(OBJDIR)/full_interface_ddba7cf0.o \
+  $(OBJDIR)/graphical_envelope_46db2063.o \
+  $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
+  $(OBJDIR)/modulation_destination_4892432.o \
+  $(OBJDIR)/modulation_source_6ca9d781.o \
+  $(OBJDIR)/oscilloscope_75f26af6.o \
+  $(OBJDIR)/synthesis_interface_c1af8a11.o \
+  $(OBJDIR)/wave_form_selector_998fd51b.o \
+  $(OBJDIR)/twytch_8ac0c1a3.o \
+  $(OBJDIR)/twytch_editor_1e890493.o \
+  $(OBJDIR)/twytch_engine_d1226ae8.o \
+  $(OBJDIR)/twytch_look_and_feel_ccf30c52.o \
+  $(OBJDIR)/twytch_oscillators_fc4c5cb7.o \
+  $(OBJDIR)/twytch_voice_handler_49d99961.o \
   $(OBJDIR)/juce_audio_basics_e9ef128d.o \
   $(OBJDIR)/juce_audio_devices_b01ff80b.o \
   $(OBJDIR)/juce_audio_formats_dea141ab.o \
@@ -627,81 +627,6 @@ $(OBJDIR)/MatrixMixerVolumes_2141177b.o: ../../../srcs/CoreAudio/PublicUtility/M
 	@echo "Compiling MatrixMixerVolumes.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/filter_response_c5a98742.o: ../../Source/editor_components/filter_response.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling filter_response.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/full_interface_d7b651b9.o: ../../Source/editor_components/full_interface.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling full_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/graphical_envelope_81dd68ac.o: ../../Source/editor_components/graphical_envelope.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling graphical_envelope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/graphical_step_sequencer_849bfbba.o: ../../Source/editor_components/graphical_step_sequencer.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling graphical_step_sequencer.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/modulation_destination_e92c1ffb.o: ../../Source/editor_components/modulation_destination.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_destination.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/modulation_source_4d88e218.o: ../../Source/editor_components/modulation_source.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_source.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/oscilloscope_113eddff.o: ../../Source/editor_components/oscilloscope.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling oscilloscope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/synthesis_interface_e6f64ae8.o: ../../Source/editor_components/synthesis_interface.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling synthesis_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/wave_form_selector_d4921d64.o: ../../Source/editor_components/wave_form_selector.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling wave_form_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_10347fac.o: ../../Source/twytch.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_editor_e7ee1a6a.o: ../../Source/twytch_editor.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_editor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_engine_9a8780bf.o: ../../Source/twytch_engine.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_engine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_look_and_feel_4eb9069b.o: ../../Source/twytch_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_look_and_feel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_oscillators_8eae5540.o: ../../Source/twytch_oscillators.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_oscillators.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_voice_handler_cb9f93aa.o: ../../Source/twytch_voice_handler.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_voice_handler.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling alias.cpp"
@@ -815,6 +740,81 @@ $(OBJDIR)/voice_handler_b8888f39.o: ../../mopo/src/voice_handler.cpp
 $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_response.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling filter_response.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/full_interface_ddba7cf0.o: ../../src/editor_components/full_interface.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling full_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/graphical_envelope_46db2063.o: ../../src/editor_components/graphical_envelope.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling graphical_envelope.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/graphical_step_sequencer_3cc8ce31.o: ../../src/editor_components/graphical_step_sequencer.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling graphical_step_sequencer.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_destination_4892432.o: ../../src/editor_components/modulation_destination.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_destination.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_source_6ca9d781.o: ../../src/editor_components/modulation_source.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_source.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/oscilloscope_75f26af6.o: ../../src/editor_components/oscilloscope.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling oscilloscope.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/synthesis_interface_c1af8a11.o: ../../src/editor_components/synthesis_interface.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synthesis_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/wave_form_selector_998fd51b.o: ../../src/editor_components/wave_form_selector.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling wave_form_selector.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_8ac0c1a3.o: ../../src/twytch.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_editor_1e890493.o: ../../src/twytch_editor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_editor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_engine_d1226ae8.o: ../../src/twytch_engine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_engine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_look_and_feel_ccf30c52.o: ../../src/twytch_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_look_and_feel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_oscillators_fc4c5cb7.o: ../../src/twytch_oscillators.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_oscillators.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_voice_handler_49d99961.o: ../../src/twytch_voice_handler.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_voice_handler.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_e9ef128d.o: ../../../srcs/JUCE/modules/juce_audio_basics/juce_audio_basics.cpp

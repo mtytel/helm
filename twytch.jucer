@@ -354,135 +354,135 @@
               file="../srcs/CoreAudio/PublicUtility/MatrixMixerVolumes.h"/>
       </GROUP>
     </GROUP>
-    <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="Source">
+    <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
+      <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
+        <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>
+        <FILE id="vgDlZD" name="alias.h" compile="0" resource="0" file="mopo/src/alias.h"/>
+        <FILE id="XTF77j" name="arpeggiator.cpp" compile="1" resource="0" file="mopo/src/arpeggiator.cpp"/>
+        <FILE id="Nxf74w" name="arpeggiator.h" compile="0" resource="0" file="mopo/src/arpeggiator.h"/>
+        <FILE id="pCAsWe" name="bit_crush.cpp" compile="1" resource="0" file="mopo/src/bit_crush.cpp"/>
+        <FILE id="jlEkLP" name="bit_crush.h" compile="0" resource="0" file="mopo/src/bit_crush.h"/>
+        <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
+        <FILE id="vmg9rF" name="delay.h" compile="0" resource="0" file="mopo/src/delay.h"/>
+        <FILE id="MVE4Uh" name="envelope.cpp" compile="1" resource="0" file="mopo/src/envelope.cpp"/>
+        <FILE id="q7ALND" name="envelope.h" compile="0" resource="0" file="mopo/src/envelope.h"/>
+        <FILE id="btwOeq" name="feedback.cpp" compile="1" resource="0" file="mopo/src/feedback.cpp"/>
+        <FILE id="ZAlv8o" name="feedback.h" compile="0" resource="0" file="mopo/src/feedback.h"/>
+        <FILE id="nLnW5X" name="filter.cpp" compile="1" resource="0" file="mopo/src/filter.cpp"/>
+        <FILE id="dO8njp" name="filter.h" compile="0" resource="0" file="mopo/src/filter.h"/>
+        <FILE id="r3pqqh" name="linear_slope.cpp" compile="1" resource="0"
+              file="mopo/src/linear_slope.cpp"/>
+        <FILE id="Ee7FW3" name="linear_slope.h" compile="0" resource="0" file="mopo/src/linear_slope.h"/>
+        <FILE id="lrdC9e" name="magnitude_lookup.cpp" compile="1" resource="0"
+              file="mopo/src/magnitude_lookup.cpp"/>
+        <FILE id="wsCS5k" name="magnitude_lookup.h" compile="0" resource="0"
+              file="mopo/src/magnitude_lookup.h"/>
+        <FILE id="GKDQJa" name="memory.h" compile="0" resource="0" file="mopo/src/memory.h"/>
+        <FILE id="Shd5Ou" name="midi_lookup.cpp" compile="1" resource="0" file="mopo/src/midi_lookup.cpp"/>
+        <FILE id="X6PdHk" name="midi_lookup.h" compile="0" resource="0" file="mopo/src/midi_lookup.h"/>
+        <FILE id="S0ZpfT" name="mono_panner.cpp" compile="1" resource="0" file="mopo/src/mono_panner.cpp"/>
+        <FILE id="Tr5ova" name="mono_panner.h" compile="0" resource="0" file="mopo/src/mono_panner.h"/>
+        <FILE id="GtjtzM" name="mopo.h" compile="0" resource="0" file="mopo/src/mopo.h"/>
+        <FILE id="iseRQB" name="operators.cpp" compile="1" resource="0" file="mopo/src/operators.cpp"/>
+        <FILE id="Ta5BdT" name="operators.h" compile="0" resource="0" file="mopo/src/operators.h"/>
+        <FILE id="BNbV33" name="oscillator.cpp" compile="1" resource="0" file="mopo/src/oscillator.cpp"/>
+        <FILE id="KMlHeH" name="oscillator.h" compile="0" resource="0" file="mopo/src/oscillator.h"/>
+        <FILE id="B9nzMm" name="processor.cpp" compile="1" resource="0" file="mopo/src/processor.cpp"/>
+        <FILE id="unhGBY" name="processor.h" compile="0" resource="0" file="mopo/src/processor.h"/>
+        <FILE id="RDdsuF" name="processor_router.cpp" compile="1" resource="0"
+              file="mopo/src/processor_router.cpp"/>
+        <FILE id="VnD850" name="processor_router.h" compile="0" resource="0"
+              file="mopo/src/processor_router.h"/>
+        <FILE id="W4p5FU" name="resonance_lookup.cpp" compile="1" resource="0"
+              file="mopo/src/resonance_lookup.cpp"/>
+        <FILE id="pTH1Hf" name="resonance_lookup.h" compile="0" resource="0"
+              file="mopo/src/resonance_lookup.h"/>
+        <FILE id="FNCsKO" name="smooth_filter.cpp" compile="1" resource="0"
+              file="mopo/src/smooth_filter.cpp"/>
+        <FILE id="RoiNhg" name="smooth_filter.h" compile="0" resource="0" file="mopo/src/smooth_filter.h"/>
+        <FILE id="axayHO" name="smooth_value.cpp" compile="1" resource="0"
+              file="mopo/src/smooth_value.cpp"/>
+        <FILE id="jJtWLp" name="smooth_value.h" compile="0" resource="0" file="mopo/src/smooth_value.h"/>
+        <FILE id="bRqJGe" name="step_generator.cpp" compile="1" resource="0"
+              file="mopo/src/step_generator.cpp"/>
+        <FILE id="UxOwp5" name="step_generator.h" compile="0" resource="0"
+              file="mopo/src/step_generator.h"/>
+        <FILE id="rT6M6K" name="tick_router.h" compile="0" resource="0" file="mopo/src/tick_router.h"/>
+        <FILE id="Kfh1nM" name="trigger_operators.cpp" compile="1" resource="0"
+              file="mopo/src/trigger_operators.cpp"/>
+        <FILE id="y1dwf9" name="trigger_operators.h" compile="0" resource="0"
+              file="mopo/src/trigger_operators.h"/>
+        <FILE id="fgOWBL" name="utils.h" compile="0" resource="0" file="mopo/src/utils.h"/>
+        <FILE id="IHTSNf" name="value.cpp" compile="1" resource="0" file="mopo/src/value.cpp"/>
+        <FILE id="ZEnRSp" name="value.h" compile="0" resource="0" file="mopo/src/value.h"/>
+        <FILE id="BryA4y" name="voice_handler.cpp" compile="1" resource="0"
+              file="mopo/src/voice_handler.cpp"/>
+        <FILE id="ioNiaI" name="voice_handler.h" compile="0" resource="0" file="mopo/src/voice_handler.h"/>
+        <FILE id="CtyuIv" name="wave.cpp" compile="1" resource="0" file="mopo/src/wave.cpp"/>
+        <FILE id="sJSR4u" name="wave.h" compile="0" resource="0" file="mopo/src/wave.h"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="src">
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
         <FILE id="YxeKKD" name="filter_response.cpp" compile="1" resource="0"
-              file="Source/editor_components/filter_response.cpp"/>
+              file="src/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"
-              file="Source/editor_components/filter_response.h"/>
+              file="src/editor_components/filter_response.h"/>
         <FILE id="fSCHrW" name="full_interface.cpp" compile="1" resource="0"
-              file="Source/editor_components/full_interface.cpp"/>
+              file="src/editor_components/full_interface.cpp"/>
         <FILE id="wMecW2" name="full_interface.h" compile="0" resource="0"
-              file="Source/editor_components/full_interface.h"/>
+              file="src/editor_components/full_interface.h"/>
         <FILE id="tAT6Ed" name="graphical_envelope.cpp" compile="1" resource="0"
-              file="Source/editor_components/graphical_envelope.cpp"/>
+              file="src/editor_components/graphical_envelope.cpp"/>
         <FILE id="sENd7I" name="graphical_envelope.h" compile="0" resource="0"
-              file="Source/editor_components/graphical_envelope.h"/>
+              file="src/editor_components/graphical_envelope.h"/>
         <FILE id="CQsmQR" name="graphical_step_sequencer.cpp" compile="1" resource="0"
-              file="Source/editor_components/graphical_step_sequencer.cpp"/>
+              file="src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="q0fgMb" name="graphical_step_sequencer.h" compile="0" resource="0"
-              file="Source/editor_components/graphical_step_sequencer.h"/>
+              file="src/editor_components/graphical_step_sequencer.h"/>
         <FILE id="RCNEUe" name="modulation_destination.cpp" compile="1" resource="0"
-              file="Source/editor_components/modulation_destination.cpp"/>
+              file="src/editor_components/modulation_destination.cpp"/>
         <FILE id="QeaVmG" name="modulation_destination.h" compile="0" resource="0"
-              file="Source/editor_components/modulation_destination.h"/>
+              file="src/editor_components/modulation_destination.h"/>
         <FILE id="UuS7xw" name="modulation_source.cpp" compile="1" resource="0"
-              file="Source/editor_components/modulation_source.cpp"/>
+              file="src/editor_components/modulation_source.cpp"/>
         <FILE id="GO0BK9" name="modulation_source.h" compile="0" resource="0"
-              file="Source/editor_components/modulation_source.h"/>
+              file="src/editor_components/modulation_source.h"/>
         <FILE id="RExuEw" name="oscilloscope.cpp" compile="1" resource="0"
-              file="Source/editor_components/oscilloscope.cpp"/>
-        <FILE id="amErBQ" name="oscilloscope.h" compile="0" resource="0" file="Source/editor_components/oscilloscope.h"/>
+              file="src/editor_components/oscilloscope.cpp"/>
+        <FILE id="amErBQ" name="oscilloscope.h" compile="0" resource="0" file="src/editor_components/oscilloscope.h"/>
         <FILE id="JmaRDY" name="synthesis_interface.cpp" compile="1" resource="0"
-              file="Source/editor_components/synthesis_interface.cpp"/>
+              file="src/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
-              file="Source/editor_components/synthesis_interface.h"/>
+              file="src/editor_components/synthesis_interface.h"/>
         <FILE id="hTmsfB" name="wave_form_selector.cpp" compile="1" resource="0"
-              file="Source/editor_components/wave_form_selector.cpp"/>
+              file="src/editor_components/wave_form_selector.cpp"/>
         <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
-              file="Source/editor_components/wave_form_selector.h"/>
+              file="src/editor_components/wave_form_selector.h"/>
       </GROUP>
-      <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="Source/twytch.cpp"/>
-      <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="Source/twytch.h"/>
-      <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="Source/twytch_common.h"/>
+      <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="src/twytch.cpp"/>
+      <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="src/twytch.h"/>
+      <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="src/twytch_common.h"/>
       <FILE id="MbH1j3" name="twytch_editor.cpp" compile="1" resource="0"
-            file="Source/twytch_editor.cpp"/>
-      <FILE id="p2h383" name="twytch_editor.h" compile="0" resource="0" file="Source/twytch_editor.h"/>
+            file="src/twytch_editor.cpp"/>
+      <FILE id="p2h383" name="twytch_editor.h" compile="0" resource="0" file="src/twytch_editor.h"/>
       <FILE id="A2sQkJ" name="twytch_engine.cpp" compile="1" resource="0"
-            file="Source/twytch_engine.cpp"/>
-      <FILE id="bbx5kE" name="twytch_engine.h" compile="0" resource="0" file="Source/twytch_engine.h"/>
+            file="src/twytch_engine.cpp"/>
+      <FILE id="bbx5kE" name="twytch_engine.h" compile="0" resource="0" file="src/twytch_engine.h"/>
       <FILE id="a7i9Fo" name="twytch_look_and_feel.cpp" compile="1" resource="0"
-            file="Source/twytch_look_and_feel.cpp"/>
+            file="src/twytch_look_and_feel.cpp"/>
       <FILE id="XrTq1O" name="twytch_look_and_feel.h" compile="0" resource="0"
-            file="Source/twytch_look_and_feel.h"/>
+            file="src/twytch_look_and_feel.h"/>
       <FILE id="U55hw9" name="twytch_mod_matrix.h" compile="0" resource="0"
-            file="Source/twytch_mod_matrix.h"/>
+            file="src/twytch_mod_matrix.h"/>
       <FILE id="oGbWtN" name="twytch_oscillators.cpp" compile="1" resource="0"
-            file="Source/twytch_oscillators.cpp"/>
+            file="src/twytch_oscillators.cpp"/>
       <FILE id="icA6dv" name="twytch_oscillators.h" compile="0" resource="0"
-            file="Source/twytch_oscillators.h"/>
+            file="src/twytch_oscillators.h"/>
       <FILE id="uc0tDL" name="twytch_voice_handler.cpp" compile="1" resource="0"
-            file="Source/twytch_voice_handler.cpp"/>
+            file="src/twytch_voice_handler.cpp"/>
       <FILE id="DJ7wVM" name="twytch_voice_handler.h" compile="0" resource="0"
-            file="Source/twytch_voice_handler.h"/>
-      <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
-        <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
-          <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>
-          <FILE id="vgDlZD" name="alias.h" compile="0" resource="0" file="mopo/src/alias.h"/>
-          <FILE id="XTF77j" name="arpeggiator.cpp" compile="1" resource="0" file="mopo/src/arpeggiator.cpp"/>
-          <FILE id="Nxf74w" name="arpeggiator.h" compile="0" resource="0" file="mopo/src/arpeggiator.h"/>
-          <FILE id="pCAsWe" name="bit_crush.cpp" compile="1" resource="0" file="mopo/src/bit_crush.cpp"/>
-          <FILE id="jlEkLP" name="bit_crush.h" compile="0" resource="0" file="mopo/src/bit_crush.h"/>
-          <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
-          <FILE id="vmg9rF" name="delay.h" compile="0" resource="0" file="mopo/src/delay.h"/>
-          <FILE id="MVE4Uh" name="envelope.cpp" compile="1" resource="0" file="mopo/src/envelope.cpp"/>
-          <FILE id="q7ALND" name="envelope.h" compile="0" resource="0" file="mopo/src/envelope.h"/>
-          <FILE id="btwOeq" name="feedback.cpp" compile="1" resource="0" file="mopo/src/feedback.cpp"/>
-          <FILE id="ZAlv8o" name="feedback.h" compile="0" resource="0" file="mopo/src/feedback.h"/>
-          <FILE id="nLnW5X" name="filter.cpp" compile="1" resource="0" file="mopo/src/filter.cpp"/>
-          <FILE id="dO8njp" name="filter.h" compile="0" resource="0" file="mopo/src/filter.h"/>
-          <FILE id="r3pqqh" name="linear_slope.cpp" compile="1" resource="0"
-                file="mopo/src/linear_slope.cpp"/>
-          <FILE id="Ee7FW3" name="linear_slope.h" compile="0" resource="0" file="mopo/src/linear_slope.h"/>
-          <FILE id="lrdC9e" name="magnitude_lookup.cpp" compile="1" resource="0"
-                file="mopo/src/magnitude_lookup.cpp"/>
-          <FILE id="wsCS5k" name="magnitude_lookup.h" compile="0" resource="0"
-                file="mopo/src/magnitude_lookup.h"/>
-          <FILE id="GKDQJa" name="memory.h" compile="0" resource="0" file="mopo/src/memory.h"/>
-          <FILE id="Shd5Ou" name="midi_lookup.cpp" compile="1" resource="0" file="mopo/src/midi_lookup.cpp"/>
-          <FILE id="X6PdHk" name="midi_lookup.h" compile="0" resource="0" file="mopo/src/midi_lookup.h"/>
-          <FILE id="S0ZpfT" name="mono_panner.cpp" compile="1" resource="0" file="mopo/src/mono_panner.cpp"/>
-          <FILE id="Tr5ova" name="mono_panner.h" compile="0" resource="0" file="mopo/src/mono_panner.h"/>
-          <FILE id="GtjtzM" name="mopo.h" compile="0" resource="0" file="mopo/src/mopo.h"/>
-          <FILE id="iseRQB" name="operators.cpp" compile="1" resource="0" file="mopo/src/operators.cpp"/>
-          <FILE id="Ta5BdT" name="operators.h" compile="0" resource="0" file="mopo/src/operators.h"/>
-          <FILE id="BNbV33" name="oscillator.cpp" compile="1" resource="0" file="mopo/src/oscillator.cpp"/>
-          <FILE id="KMlHeH" name="oscillator.h" compile="0" resource="0" file="mopo/src/oscillator.h"/>
-          <FILE id="B9nzMm" name="processor.cpp" compile="1" resource="0" file="mopo/src/processor.cpp"/>
-          <FILE id="unhGBY" name="processor.h" compile="0" resource="0" file="mopo/src/processor.h"/>
-          <FILE id="RDdsuF" name="processor_router.cpp" compile="1" resource="0"
-                file="mopo/src/processor_router.cpp"/>
-          <FILE id="VnD850" name="processor_router.h" compile="0" resource="0"
-                file="mopo/src/processor_router.h"/>
-          <FILE id="W4p5FU" name="resonance_lookup.cpp" compile="1" resource="0"
-                file="mopo/src/resonance_lookup.cpp"/>
-          <FILE id="pTH1Hf" name="resonance_lookup.h" compile="0" resource="0"
-                file="mopo/src/resonance_lookup.h"/>
-          <FILE id="FNCsKO" name="smooth_filter.cpp" compile="1" resource="0"
-                file="mopo/src/smooth_filter.cpp"/>
-          <FILE id="RoiNhg" name="smooth_filter.h" compile="0" resource="0" file="mopo/src/smooth_filter.h"/>
-          <FILE id="axayHO" name="smooth_value.cpp" compile="1" resource="0"
-                file="mopo/src/smooth_value.cpp"/>
-          <FILE id="jJtWLp" name="smooth_value.h" compile="0" resource="0" file="mopo/src/smooth_value.h"/>
-          <FILE id="bRqJGe" name="step_generator.cpp" compile="1" resource="0"
-                file="mopo/src/step_generator.cpp"/>
-          <FILE id="UxOwp5" name="step_generator.h" compile="0" resource="0"
-                file="mopo/src/step_generator.h"/>
-          <FILE id="rT6M6K" name="tick_router.h" compile="0" resource="0" file="mopo/src/tick_router.h"/>
-          <FILE id="Kfh1nM" name="trigger_operators.cpp" compile="1" resource="0"
-                file="mopo/src/trigger_operators.cpp"/>
-          <FILE id="y1dwf9" name="trigger_operators.h" compile="0" resource="0"
-                file="mopo/src/trigger_operators.h"/>
-          <FILE id="fgOWBL" name="utils.h" compile="0" resource="0" file="mopo/src/utils.h"/>
-          <FILE id="IHTSNf" name="value.cpp" compile="1" resource="0" file="mopo/src/value.cpp"/>
-          <FILE id="ZEnRSp" name="value.h" compile="0" resource="0" file="mopo/src/value.h"/>
-          <FILE id="BryA4y" name="voice_handler.cpp" compile="1" resource="0"
-                file="mopo/src/voice_handler.cpp"/>
-          <FILE id="ioNiaI" name="voice_handler.h" compile="0" resource="0" file="mopo/src/voice_handler.h"/>
-          <FILE id="CtyuIv" name="wave.cpp" compile="1" resource="0" file="mopo/src/wave.cpp"/>
-          <FILE id="sJSR4u" name="wave.h" compile="0" resource="0" file="mopo/src/wave.h"/>
-        </GROUP>
-      </GROUP>
+            file="src/twytch_voice_handler.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
@@ -491,10 +491,10 @@
                extraDefs="" customPList="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="1" optimisation="1" targetName="twytch" headerPath="../../Source&#10;../../Source/editor_components"
+                       isDebug="1" optimisation="1" targetName="twytch" headerPath="../../src&#10;../../src/editor_components"
                        linkTimeOptimisation="0" fastMath="0"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="0" optimisation="2" targetName="twytch" headerPath="../../Source&#10;../../Source/editor_components"
+                       isDebug="0" optimisation="2" targetName="twytch" headerPath="../../src&#10;../../src/editor_components"
                        fastMath="1" linkTimeOptimisation="0"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
