@@ -276,9 +276,10 @@ void FullInterface::writeState(var state) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
+                 parentClasses="public Component, public DragAndDropContainer"
+                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
+                 initialHeight="400">
   <BACKGROUND backgroundColour="ff000000"/>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 40 100% 113M" sourceFile="synthesis_interface.cpp"

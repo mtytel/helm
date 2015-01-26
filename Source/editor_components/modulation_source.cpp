@@ -27,7 +27,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationSource::ModulationSource ()
+ModulationSource::ModulationSource (std::string name)
 {
 
     //[UserPreSize]
@@ -38,6 +38,7 @@ ModulationSource::ModulationSource ()
 
 
     //[Constructor] You can add your own custom stuff here..
+    setName(name);
     //[/Constructor]
 }
 
@@ -100,9 +101,9 @@ void ModulationSource::mouseDown (const MouseEvent& e)
     //[UserCode_mouseDown] -- Add your code here...
     // dragger_.startDraggingComponent(this, e);
     DragAndDropContainer* drag_container = DragAndDropContainer::findParentDragContainerFor(this);
-    if (!drag_container->isDragAndDropActive()) {
-        drag_container->startDragging("description string", this);
-    }
+    std::string name = getName().toStdString();
+    if (!drag_container->isDragAndDropActive())
+        drag_container->startDragging(name.c_str(), this);
     //[/UserCode_mouseDown]
 }
 
@@ -139,9 +140,9 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationSource" componentName=""
                  parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="20"
-                 initialHeight="20">
+                 constructorParams="std::string name" variableInitialisers=""
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="0" initialWidth="20" initialHeight="20">
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>

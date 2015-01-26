@@ -34,11 +34,12 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class ModulationSource  : public Component
+class ModulationSource  : public Component,
+                          public DragAndDropContainer
 {
 public:
     //==============================================================================
-    ModulationSource ();
+    ModulationSource (std::string name);
     ~ModulationSource();
 
     //==============================================================================

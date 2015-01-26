@@ -27,16 +27,18 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationDestination::ModulationDestination ()
+ModulationDestination::ModulationDestination (std::string name)
 {
 
     //[UserPreSize]
+    synth_ = nullptr;
     //[/UserPreSize]
 
     setSize (600, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
+    setName(name);
     //[/Constructor]
 }
 
@@ -78,9 +80,10 @@ void ModulationDestination::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
-    
-    std::string name = drag_source.sourceComponent->getName().toStdString();
-    std::cout << name << std::endl;
+    if (synth_) {
+        std::string source_name = drag_source.description.toString().toStdString();
+        synth_->connectModulation(source_name, getName().toStdString());
+    }
 }
 
 bool ModulationDestination::isInterestedInDragSource(const SourceDetails &drag_source) {
@@ -100,7 +103,7 @@ bool ModulationDestination::isInterestedInDragSource(const SourceDetails &drag_s
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationDestination" componentName=""
-                 parentClasses="public Component, public DragAndDropTarget" constructorParams=""
+                 parentClasses="public Component, public DragAndDropTarget" constructorParams="std::string name"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ffffff">

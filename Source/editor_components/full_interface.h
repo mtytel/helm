@@ -37,6 +37,7 @@
                                                                     //[/Comments]
 */
 class FullInterface  : public Component,
+                       public DragAndDropContainer,
                        public ButtonListener,
                        public SliderListener
 {

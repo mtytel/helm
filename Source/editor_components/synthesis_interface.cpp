@@ -247,12 +247,12 @@ SynthesisInterface::SynthesisInterface ()
     osc_feedback_tune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     osc_feedback_tune_->addListener (this);
 
-    addAndMakeVisible (amplitude_env_mod_source_ = new ModulationSource());
-    addAndMakeVisible (step_generator_mod_source_ = new ModulationSource());
-    addAndMakeVisible (filter_env_mod_source_ = new ModulationSource());
-    addAndMakeVisible (cross_mod_destination_ = new ModulationDestination());
-    addAndMakeVisible (pitch_mod_destination_ = new ModulationDestination());
-    addAndMakeVisible (cutoff_mod_destination_ = new ModulationDestination());
+    addAndMakeVisible (amplitude_env_mod_source_ = new ModulationSource ("amplitude env"));
+    addAndMakeVisible (step_generator_mod_source_ = new ModulationSource ("step sequencer"));
+    addAndMakeVisible (filter_env_mod_source_ = new ModulationSource ("filter env"));
+    addAndMakeVisible (cross_mod_destination_ = new ModulationDestination ("cross mod"));
+    addAndMakeVisible (pitch_mod_destination_ = new ModulationDestination ("pitch"));
+    addAndMakeVisible (cutoff_mod_destination_ = new ModulationDestination ("cutoff"));
     addAndMakeVisible (lfo_1_wave_display_ = new WaveFormSelector (128));
     addAndMakeVisible (lfo_2_wave_display_ = new WaveFormSelector (128));
     addAndMakeVisible (lfo_1_waveform_ = new Slider ("lfo 1 waveform"));
@@ -271,9 +271,9 @@ SynthesisInterface::SynthesisInterface ()
     lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
     lfo_2_waveform_->addListener (this);
 
-    addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource());
-    addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource());
-    addAndMakeVisible (resonance_mod_destination_ = new ModulationDestination());
+    addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource ("lfo 1"));
+    addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource ("lfo 2"));
+    addAndMakeVisible (resonance_mod_destination_ = new ModulationDestination ("resonance"));
     addAndMakeVisible (num_steps_ = new Slider ("num steps"));
     num_steps_->setRange (1, 32, 1);
     num_steps_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
@@ -325,7 +325,7 @@ SynthesisInterface::SynthesisInterface ()
         String num(i);
         if (num.length() == 1)
             num = String("0") + num;
-        
+
         Slider* step = new Slider(String("step seq ") + num);
         step->setRange(-1.0, 1.0);
         step->addListener(this);
@@ -677,6 +677,14 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void SynthesisInterface::setSynth(mopo::TwytchEngine *synth) {
+    for (int i = 0; i < getNumChildComponents(); ++i) {
+        ModulationDestination* dest = dynamic_cast<ModulationDestination*>(getChildComponent(i));
+        if (dest)
+            dest->setSynth(synth);
+    }
+}
+
 var SynthesisInterface::getState() {
     DynamicObject* state_object = new DynamicObject();
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
@@ -713,10 +721,9 @@ void SynthesisInterface::writeState(var state) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SynthesisInterface" componentName=""
-                 parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
-                 initialHeight="400">
+                 parentClasses="public Component" constructorParams="" variableInitialisers=""
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff1f1f1f"/>
   <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
              explicitFocusOrder="0" pos="416 288 300 100" sourceFile="graphical_step_sequencer.cpp"
@@ -871,22 +878,22 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="amplitude env" id="49107c44dc2f49e9" memberName="amplitude_env_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="728 424 24 24" sourceFile="modulation_source.cpp"
-             constructorParams=""/>
-  <JUCERCOMP name="step generator" id="539abd48959288ef" memberName="step_generator_mod_source_"
+             constructorParams="&quot;amplitude env&quot;"/>
+  <JUCERCOMP name="step sequencer" id="539abd48959288ef" memberName="step_generator_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="728 328 24 24" sourceFile="modulation_source.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;step sequencer&quot;"/>
   <JUCERCOMP name="filter env" id="36ddd25be02a4fe1" memberName="filter_env_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="720 184 24 24" sourceFile="modulation_source.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;filter env&quot;"/>
   <JUCERCOMP name="cross mod" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="368 32 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;cross mod&quot;"/>
   <JUCERCOMP name="pitch" id="146986590a708b08" memberName="pitch_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="368 88 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;pitch&quot;"/>
   <JUCERCOMP name="cutoff" id="9fcdd6545a5e9cd2" memberName="cutoff_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="720 8 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;cutoff&quot;"/>
   <JUCERCOMP name="lfo 1 wave display" id="24d32b65108fb2a5" memberName="lfo_1_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="40 280 240 100"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
@@ -905,13 +912,13 @@ BEGIN_JUCER_METADATA
           skewFactor="1"/>
   <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="288 320 24 24" sourceFile="modulation_source.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;lfo 1&quot;"/>
   <JUCERCOMP name="lfo 2" id="57b28b867a25f366" memberName="lfo_2_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="288 424 24 24" sourceFile="modulation_source.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;lfo 2&quot;"/>
   <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="680 120 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams=""/>
+             constructorParams="&quot;resonance&quot;"/>
   <SLIDER name="num steps" id="8be29885961d7617" memberName="num_steps_"
           virtualName="" explicitFocusOrder="0" pos="360 296 50 50" min="1"
           max="32" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"

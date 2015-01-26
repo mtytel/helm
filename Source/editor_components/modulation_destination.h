@@ -23,6 +23,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_common.h"
+#include "twytch_engine.h"
 //[/Headers]
 
 
@@ -40,13 +41,14 @@ class ModulationDestination  : public Component,
 {
 public:
     //==============================================================================
-    ModulationDestination ();
+    ModulationDestination (std::string name);
     ~ModulationDestination();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void itemDropped(const SourceDetails &drag_source) override;
     bool isInterestedInDragSource(const SourceDetails &drag_source) override;
+    void setSynth(mopo::TwytchEngine* synth) { synth_ = synth; }
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -58,6 +60,7 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     mopo::input_map destinations_;
     mopo::output_map sources_;
+    mopo::TwytchEngine* synth_;
     //[/UserVariables]
 
     //==============================================================================

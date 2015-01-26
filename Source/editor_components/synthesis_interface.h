@@ -42,7 +42,6 @@
                                                                     //[/Comments]
 */
 class SynthesisInterface  : public Component,
-                            public DragAndDropContainer,
                             public SliderListener
 {
 public:
@@ -53,7 +52,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void addControls(mopo::control_map controls) { controls_ = controls; }
-    void setSynth(mopo::TwytchEngine* synth) { synth_ = synth; }
+    void setSynth(mopo::TwytchEngine* synth);
     var getState();
     void writeState(var state);
     //[/UserMethods]
