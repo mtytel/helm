@@ -2,6 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
+AC_CONFIG_MACRO_DIR([m4])
 AC_INIT([mopo], [0.1], [littleioaudio@gmail.com])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AM_SILENT_RULES(yes)
@@ -11,7 +12,9 @@ AC_CONFIG_SRCDIR([src/delay.cpp])
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_RANLIB
+AC_PROG_CXXCPP
 AM_PROG_AR
+AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
 
 # Checks for libraries.
 AC_CHECK_LIB([pthread], [pthread_create])
