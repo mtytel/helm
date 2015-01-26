@@ -95,6 +95,14 @@ namespace mopo {
         buffer_size_ = buffer_size;
       }
 
+      int getSampleRate() {
+        return sample_rate_;
+      }
+
+      int getBufferSize() {
+        return buffer_size_;
+      }
+
       // Attaches an output to an input in this processor.
       void plug(const Output* source);
       void plug(const Output* source, unsigned int input_index);

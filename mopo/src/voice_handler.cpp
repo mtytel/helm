@@ -167,6 +167,8 @@ namespace mopo {
   }
 
   void VoiceHandler::addProcessor(Processor* processor) {
+    processor->setBufferSize(getBufferSize());
+    processor->setSampleRate(getSampleRate());
     voice_router_.addProcessor(processor);
   }
 
