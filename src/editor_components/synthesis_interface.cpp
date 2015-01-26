@@ -885,7 +885,7 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="filter env" id="36ddd25be02a4fe1" memberName="filter_env_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="720 184 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;filter env&quot;"/>
-  <JUCERCOMP name="cross mod" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
+  <JUCERCOMP name="cross modulation" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="368 32 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cross mod&quot;"/>
   <JUCERCOMP name="pitch" id="146986590a708b08" memberName="pitch_mod_destination_"
