@@ -24,7 +24,6 @@
 #include "linear_slope.h"
 #include "smooth_value.h"
 #include "step_generator.h"
-#include "twytch_mod_matrix.h"
 #include "twytch_oscillators.h"
 #include "trigger_operators.h"
 #include "utils.h"
@@ -227,6 +226,7 @@ namespace mopo {
     addProcessor(step_sequencer_);
     controls_["num steps"] = num_steps;
     controls_["step frequency"] = step_frequency;
+    mod_sources_["step sequencer"] = step_sequencer_->output();
 
     for (int i = 0; i < MAX_STEPS; ++i) {
       std::string num = std::to_string(i);
@@ -362,36 +362,6 @@ namespace mopo {
     input_map::iterator d_iter = mod_destinations_.begin();
     for (; d_iter != mod_destinations_.end(); ++d_iter)
       destination_names.push_back(d_iter->first);
-
-    for (int i = 0; i < MOD_MATRIX_SIZE; ++i) {
-      mod_matrix_scales_[i] = new Value(0.0);
-      mod_matrix_[i] = new Multiply();
-      mod_matrix_[i]->plug(mod_matrix_scales_[i], 1);
-
-      addGlobalProcessor(mod_matrix_scales_[i]);
-      addProcessor(mod_matrix_[i]);
-
-      MatrixSourceValue* source_value = new MatrixSourceValue(this);
-      source_value->setSources(source_names);
-      source_value->setModulationIndex(i);
-
-      MatrixDestinationValue* destination_value =
-          new MatrixDestinationValue(this);
-      destination_value->setDestinations(destination_names);
-      destination_value->setModulationIndex(i);
-
-      std::stringstream scale_name;
-      scale_name << "mod scale " << i + 1;
-      controls_[scale_name.str()] = mod_matrix_scales_[i];
-
-      std::stringstream source_name;
-      source_name << "mod source " << i + 1;
-      controls_[source_name.str()] = source_value;
-
-      std::stringstream destination_name;
-      destination_name << "mod destination " << i + 1;
-      controls_[destination_name.str()] = destination_value;
-    }
   }
 
   void TwytchVoiceHandler::createArticulation(
@@ -515,23 +485,16 @@ namespace mopo {
     pitch_wheel_amount_->set(value);
   }
 
-  void TwytchVoiceHandler::setModulationSource(int matrix_index, std::string source) {
-    mod_matrix_[matrix_index]->unplugIndex(0);
-    if (source.length())
-      mod_matrix_[matrix_index]->plug(mod_sources_[source], 0);
+  void TwytchVoiceHandler::connectModulation(std::string from, std::string to) {
+    Multiply* modulation_scale = new Multiply();
+    Value* modulation_amount = new Value(1.0);
+    modulation_scale->plug(mod_sources_[from], 0);
+    modulation_scale->plug(modulation_amount, 1);
+
+    mod_destinations_[to]->plugNext(modulation_scale);
+    addProcessor(modulation_scale);
   }
 
-  void TwytchVoiceHandler::setModulationDestination(
-      int matrix_index, std::string destination) {
-    std::string current = current_mod_destinations_[matrix_index];
-
-    // First unplug the previous destination.
-    if (current.length())
-      mod_destinations_[current]->unplug(mod_matrix_[matrix_index]);
-
-    // Then plug in to the new destination.
-    current_mod_destinations_[matrix_index] = destination;
-    if (destination.length())
-      mod_destinations_[destination]->plugNext(mod_matrix_[matrix_index]);
+  void TwytchVoiceHandler::disconnectModulation(std::string from, std::string to) {
   }
 } // namespace mopo

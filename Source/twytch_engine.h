@@ -35,6 +35,8 @@ namespace mopo {
 
       void process() override;
 
+      void connectModulation(std::string from, std::string to);
+
       // Keyboard events.
       void allNotesOff(int sample = 0);
       void noteOn(mopo_float note, mopo_float velocity = 1.0, int sample = 0);

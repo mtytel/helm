@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "twytch_engine.h"
 //[/Headers]
 
 #include "full_interface.h"
@@ -227,6 +228,10 @@ void FullInterface::addControls(mopo::control_map controls) {
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
+}
+
+void FullInterface::setSynth(mopo::TwytchEngine* synth) {
+    synthesis_interface_->setSynth(synth);
 }
 
 var FullInterface::getState() {

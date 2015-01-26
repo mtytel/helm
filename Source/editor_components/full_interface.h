@@ -49,6 +49,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void addControls(mopo::control_map controls);
     void setOutputMemory(const mopo::Memory* output_memory);
+    void setSynth(mopo::TwytchEngine* synth);
     var getState();
     void writeState(var state);
     //[/UserMethods]

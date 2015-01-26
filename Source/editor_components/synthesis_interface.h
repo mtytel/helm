@@ -22,6 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "twytch_engine.h"
 //[/Headers]
 
 #include "graphical_step_sequencer.h"
@@ -52,6 +53,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void addControls(mopo::control_map controls) { controls_ = controls; }
+    void setSynth(mopo::TwytchEngine* synth) { synth_ = synth; }
     var getState();
     void writeState(var state);
     //[/UserMethods]
@@ -65,6 +67,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     mopo::control_map controls_;
+    mopo::TwytchEngine* synth_;
     std::map<std::string, juce::Slider*> slider_lookup_;
     std::vector<Slider*> step_sequencer_sliders_;
     //[/UserVariables]

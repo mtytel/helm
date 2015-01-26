@@ -17,7 +17,7 @@
 #include "twytch.h"
 #include "twytch_editor.h"
 
-#define PITCH_WHEEL_RESOLUTION 0x1fff
+#define PITCH_WHEEL_RESOLUTION 0x3fff
 
 Twytch::Twytch() { }
 
@@ -143,7 +143,8 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   int num_samples = buffer.getNumSamples();
   int num_channels = getNumOutputChannels();
 
-  synth_.setBufferSize(num_samples);
+  if (synth_.getBufferSize() != num_samples)
+    synth_.setBufferSize(num_samples);
   synth_.process();
 
   const mopo::mopo_float* synth_output = synth_.output()->buffer;

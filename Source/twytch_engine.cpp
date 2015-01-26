@@ -101,6 +101,10 @@ namespace mopo {
     return voice_controls;
   }
 
+  void TwytchEngine::connectModulation(std::string from, std::string to) {
+    voice_handler_->connectModulation(from, to);
+  }
+
   void TwytchEngine::process() {
     bool playing_arp = arp_on_->value();
     if (was_playing_arp_ != playing_arp)
