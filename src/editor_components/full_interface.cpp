@@ -28,9 +28,9 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-FullInterface::FullInterface ()
+FullInterface::FullInterface (mopo::control_map controls)
 {
-    addAndMakeVisible (synthesis_interface_ = new SynthesisInterface());
+    addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (save_button_ = new TextButton ("save"));
     save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
     save_button_->addListener (this);
@@ -72,17 +72,18 @@ FullInterface::FullInterface ()
     addAndMakeVisible (oscilloscope_ = new Oscilloscope (1024));
 
     //[UserPreSize]
+    for (int i = 0; i < getNumChildComponents(); ++i) {
+        Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
+        if (slider)
+            slider_lookup_[slider->getName().toStdString()] = slider;
+    }
+    addControls(controls);
     //[/UserPreSize]
 
     setSize (600, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
-    for (int i = 0; i < getNumChildComponents(); ++i) {
-        Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
-        if (slider)
-            slider_lookup_[slider->getName().toStdString()] = slider;
-    }
     //[/Constructor]
 }
 
@@ -222,8 +223,12 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void FullInterface::addControls(mopo::control_map controls) {
-    synthesis_interface_->addControls(controls);
     controls_ = controls;
+
+    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
+    for (; iter != slider_lookup_.end(); ++iter)
+        iter->second->setValue(controls_[iter->first]->value(),
+                               NotificationType::dontSendNotification);
 }
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
@@ -277,13 +282,13 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
                  parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
-                 initialHeight="400">
+                 constructorParams="mopo::control_map controls" variableInitialisers=""
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff000000"/>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 40 100% 113M" sourceFile="synthesis_interface.cpp"
-             constructorParams=""/>
+             constructorParams="controls"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="192 8 150 24" buttonText="save" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>

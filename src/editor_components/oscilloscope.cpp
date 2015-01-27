@@ -33,6 +33,7 @@ Oscilloscope::Oscilloscope (int num_samples)
 {
 
     //[UserPreSize]
+    output_memory_ = nullptr;
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -77,6 +78,7 @@ void Oscilloscope::resized()
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
+    resetWavePath();
     //[/UserResized]
 }
 
@@ -86,6 +88,10 @@ void Oscilloscope::resized()
 
 void Oscilloscope::resetWavePath() {
     static const float padding = 5.0f;
+
+    if (output_memory_ == nullptr)
+        return;
+
     wave_path_.clear();
 
     float draw_width = getWidth() - 2.0f * padding;

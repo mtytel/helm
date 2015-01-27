@@ -34,6 +34,7 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
     num_steps_slider_ = nullptr;
     sequence_ = nullptr;
     highlighted_step_ = -1;
+    num_steps_ = 1;
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -58,13 +59,13 @@ GraphicalStepSequencer::~GraphicalStepSequencer()
 void GraphicalStepSequencer::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    if (sequence_ == nullptr || num_steps_slider_ == nullptr)
+        return;
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff303030));
 
     //[UserPaint] Add your own custom painting code here..
-    if (sequence_ == nullptr)
-        return;
     float x = 0.0f;
     float x_inc = getWidth() / (1.0f * num_steps_);
     for (int i = 0; i < num_steps_; ++i) {
@@ -100,6 +101,7 @@ void GraphicalStepSequencer::resized()
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
+    ensureMinSize();
     //[/UserResized]
 }
 

@@ -46,12 +46,12 @@ class SynthesisInterface  : public Component,
 {
 public:
     //==============================================================================
-    SynthesisInterface ();
+    SynthesisInterface (mopo::control_map controls);
     ~SynthesisInterface();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void addControls(mopo::control_map controls) { controls_ = controls; }
+    void addControls(mopo::control_map controls);
     void setSynth(mopo::TwytchEngine* synth);
     var getState();
     void writeState(var state);

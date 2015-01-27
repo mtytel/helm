@@ -24,12 +24,12 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
   mopo::control_map controls = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface();
-  gui_->addControls(controls);
+  gui_ = new FullInterface(controls);
   gui_->setSynth(twytch.getSynth());
   gui_->setOutputMemory(twytch.getOutputMemory());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
+  repaint();
 }
 
 TwytchEditor::~TwytchEditor() {

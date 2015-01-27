@@ -43,13 +43,13 @@ FilterResponse::FilterResponse (int resolution)
     filter_type_slider_ = nullptr;
 
     filter_.setSampleRate(44100);
+    resetResponsePath();
     //[/UserPreSize]
 
     setSize (600, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
-    resetResponsePath();
     //[/Constructor]
 }
 
@@ -89,6 +89,7 @@ void FilterResponse::resized()
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
+    computeFilterCoefficients();
     resetResponsePath();
     //[/UserResized]
 }

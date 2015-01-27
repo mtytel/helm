@@ -28,7 +28,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-SynthesisInterface::SynthesisInterface ()
+SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 {
     addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer());
     addAndMakeVisible (amplitude_envelope_ = new GraphicalEnvelope());
@@ -295,12 +295,7 @@ SynthesisInterface::SynthesisInterface ()
     lfo_1_waveform_->setSliderStyle(Slider::LinearBarVertical);
     lfo_2_waveform_->setSliderStyle(Slider::LinearBarVertical);
     osc_mix_->setSliderStyle(Slider::LinearBarVertical);
-    //[/UserPreSize]
 
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
     amplitude_envelope_->setAttackSlider(amp_attack_);
     amplitude_envelope_->setDecaySlider(amp_decay_);
     amplitude_envelope_->setSustainSlider(amp_sustain_);
@@ -320,7 +315,6 @@ SynthesisInterface::SynthesisInterface ()
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
 
-    step_sequencer_->setNumStepsSlider(num_steps_);
     for (int i = 0; i < num_steps_->getMaximum(); ++i) {
         String num(i);
         if (num.length() == 1)
@@ -333,12 +327,21 @@ SynthesisInterface::SynthesisInterface ()
         slider_lookup_[step->getName().toStdString()] = step;
     }
     step_sequencer_->setStepSliders(&step_sequencer_sliders_);
+    step_sequencer_->setNumStepsSlider(num_steps_);
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
         if (slider)
             slider_lookup_[slider->getName().toStdString()] = slider;
     }
+
+    addControls(controls);
+    //[/UserPreSize]
+
+    setSize (600, 400);
+
+
+    //[Constructor] You can add your own custom stuff here..
     //[/Constructor]
 }
 
@@ -677,6 +680,13 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void SynthesisInterface::addControls(mopo::control_map controls) {
+    controls_ = controls;
+    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
+    for (; iter != slider_lookup_.end(); ++iter)
+        iter->second->setValue(controls_[iter->first]->value());
+}
+
 void SynthesisInterface::setSynth(mopo::TwytchEngine *synth) {
     for (int i = 0; i < getNumChildComponents(); ++i) {
         ModulationDestination* dest = dynamic_cast<ModulationDestination*>(getChildComponent(i));
@@ -721,9 +731,9 @@ void SynthesisInterface::writeState(var state) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SynthesisInterface" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
+                 parentClasses="public Component" constructorParams="mopo::control_map controls"
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff1f1f1f"/>
   <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
              explicitFocusOrder="0" pos="416 288 300 100" sourceFile="graphical_step_sequencer.cpp"

@@ -43,7 +43,7 @@ class FullInterface  : public Component,
 {
 public:
     //==============================================================================
-    FullInterface ();
+    FullInterface (mopo::control_map controls);
     ~FullInterface();
 
     //==============================================================================
