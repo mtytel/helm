@@ -49,8 +49,8 @@ namespace mopo {
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
 
-      void connectModulation(std::string from, std::string to);
-      void disconnectModulation(std::string from, std::string to);
+      void connectModulation(std::string from, std::string to, Value* scale);
+      void disconnectModulation(std::string to, Value* scale);
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
@@ -88,6 +88,7 @@ namespace mopo {
       control_map controls_;
       output_map mod_sources_;
       input_map mod_destinations_;
+      std::map<Value*, Multiply*> modulation_lookup_;
   };
 } // namespace mopo
 

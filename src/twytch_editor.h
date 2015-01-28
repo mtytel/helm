@@ -21,18 +21,23 @@
 #include "twytch.h"
 #include "twytch_look_and_feel.h"
 #include "full_interface.h"
+#include "value_change_manager.h" 
 
-class TwytchEditor : public AudioProcessorEditor {
+class TwytchEditor : public AudioProcessorEditor, public ValueChangeManager {
 public:
   TwytchEditor(Twytch&);
   ~TwytchEditor();
 
   void paint(Graphics&) override;
   void resized() override;
+  void valueChanged(std::string name, mopo::mopo_float value) override;
+  void connectModulation(std::string from, std::string to, mopo::Value* scale) override;
+  void disconnectModulation(std::string to, mopo::Value* scale) override;
 
 private:
   Twytch& twytch_;
   TwytchLookAndFeel look_and_feel_;
+  mopo::control_map controls_;
 
   FullInterface* gui_;
 

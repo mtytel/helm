@@ -19,6 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "twytch_engine.h"
+#include "value_change_manager.h"
 //[/Headers]
 
 #include "full_interface.h"
@@ -77,7 +78,7 @@ FullInterface::FullInterface (mopo::control_map controls)
         if (slider)
             slider_lookup_[slider->getName().toStdString()] = slider;
     }
-    addControls(controls);
+    setAllValues(controls);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -140,11 +141,6 @@ void FullInterface::resized()
 void FullInterface::buttonClicked (Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
-    std::string name = buttonThatWasClicked->getName().toStdString();
-    if (controls_.count(name)) {
-        int val = buttonThatWasClicked->getToggleState() ? 1 : 0;
-        controls_[name]->set(val);
-    }
     //[/UserbuttonClicked_Pre]
 
     if (buttonThatWasClicked == save_button_)
@@ -189,8 +185,8 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
     std::string name = sliderThatWasMoved->getName().toStdString();
-    if (controls_.count(name))
-        controls_[name]->set(sliderThatWasMoved->getValue());
+    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    parent->valueChanged(name, sliderThatWasMoved->getValue());
     //[/UsersliderValueChanged_Pre]
 
     if (sliderThatWasMoved == arp_frequency_)
@@ -222,21 +218,16 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void FullInterface::addControls(mopo::control_map controls) {
-    controls_ = controls;
-
+void FullInterface::setAllValues(mopo::control_map controls) {
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
-    for (; iter != slider_lookup_.end(); ++iter)
-        iter->second->setValue(controls_[iter->first]->value(),
+    for (; iter != slider_lookup_.end(); ++iter) {
+        iter->second->setValue(controls[iter->first]->value(),
                                NotificationType::dontSendNotification);
+    }
 }
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
-}
-
-void FullInterface::setSynth(mopo::TwytchEngine* synth) {
-    synthesis_interface_->setSynth(synth);
 }
 
 var FullInterface::getState() {

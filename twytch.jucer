@@ -483,6 +483,8 @@
             file="src/twytch_voice_handler.cpp"/>
       <FILE id="DJ7wVM" name="twytch_voice_handler.h" compile="0" resource="0"
             file="src/twytch_voice_handler.h"/>
+      <FILE id="Z9Vvgc" name="value_change_manager.h" compile="0" resource="0"
+            file="src/value_change_manager.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

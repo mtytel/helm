@@ -1536,6 +1536,7 @@
     <ClInclude Include="..\..\src\twytch_mod_matrix.h"/>
     <ClInclude Include="..\..\src\twytch_oscillators.h"/>
     <ClInclude Include="..\..\src\twytch_voice_handler.h"/>
+    <ClInclude Include="..\..\src\value_change_manager.h"/>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>

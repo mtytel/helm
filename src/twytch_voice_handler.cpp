@@ -485,19 +485,23 @@ namespace mopo {
     pitch_wheel_amount_->set(value);
   }
 
-  void TwytchVoiceHandler::connectModulation(std::string from, std::string to) {
+  void TwytchVoiceHandler::connectModulation(std::string from, std::string to, Value* scale) {
     MOPO_ASSERT(mod_sources_.count(from));
     MOPO_ASSERT(mod_destinations_.count(to));
 
     Multiply* modulation_scale = new Multiply();
-    Value* modulation_amount = new Value(1.0);
+
     modulation_scale->plug(mod_sources_[from], 0);
-    modulation_scale->plug(modulation_amount, 1);
+    modulation_scale->plug(scale, 1);
 
     mod_destinations_[to]->plugNext(modulation_scale);
     addProcessor(modulation_scale);
+    modulation_lookup_[scale] = modulation_scale;
   }
 
-  void TwytchVoiceHandler::disconnectModulation(std::string from, std::string to) {
+  void TwytchVoiceHandler::disconnectModulation(std::string to, Value* scale) {
+    MOPO_ASSERT(modulation_lookup_.count(scale));
+    removeProcessor(modulation_lookup_[scale]);
+    mod_destinations_[to]->unplug(modulation_lookup_[scale]);
   }
 } // namespace mopo

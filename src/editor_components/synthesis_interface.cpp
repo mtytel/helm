@@ -19,6 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include <iomanip>
+#include "value_change_manager.h"
 //[/Headers]
 
 #include "synthesis_interface.h"
@@ -335,7 +336,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
             slider_lookup_[slider->getName().toStdString()] = slider;
     }
 
-    addControls(controls);
+    setAllValues(controls);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -487,8 +488,9 @@ void SynthesisInterface::resized()
 void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
-    MOPO_ASSERT(controls_.count(sliderThatWasMoved->getName().toStdString()));
-    controls_[sliderThatWasMoved->getName().toStdString()]->set(sliderThatWasMoved->getValue());
+    std::string name = sliderThatWasMoved->getName().toStdString();
+    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    parent->valueChanged(name, sliderThatWasMoved->getValue());
     //[/UsersliderValueChanged_Pre]
 
     if (sliderThatWasMoved == polyphony_)
@@ -680,19 +682,10 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void SynthesisInterface::addControls(mopo::control_map controls) {
-    controls_ = controls;
+void SynthesisInterface::setAllValues(mopo::control_map controls) {
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
     for (; iter != slider_lookup_.end(); ++iter)
-        iter->second->setValue(controls_[iter->first]->value());
-}
-
-void SynthesisInterface::setSynth(mopo::TwytchEngine *synth) {
-    for (int i = 0; i < getNumChildComponents(); ++i) {
-        ModulationDestination* dest = dynamic_cast<ModulationDestination*>(getChildComponent(i));
-        if (dest)
-            dest->setSynth(synth);
-    }
+        iter->second->setValue(controls[iter->first]->value());
 }
 
 var SynthesisInterface::getState() {

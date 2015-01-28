@@ -596,6 +596,7 @@
 		5D0C81559A3E10D69F629FBD /* juce_BooleanPropertyComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_BooleanPropertyComponent.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/properties/juce_BooleanPropertyComponent.h; sourceTree = SOURCE_ROOT; };
 		5D936C76CDB107D5B4B444F5 /* juce_android_Windowing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_Windowing.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/native/juce_android_Windowing.cpp; sourceTree = SOURCE_ROOT; };
 		5DD3C0B0DE1C68E6755697FD /* juce_video.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_video.mm; path = ../../../srcs/JUCE/modules/juce_video/juce_video.mm; sourceTree = SOURCE_ROOT; };
+		5DEDD371871CD7D650A8DC14 /* value_change_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = value_change_manager.h; path = ../../src/value_change_manager.h; sourceTree = SOURCE_ROOT; };
 		5E2B26B54DD8B4020A92A166 /* juce_BubbleComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BubbleComponent.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/misc/juce_BubbleComponent.cpp; sourceTree = SOURCE_ROOT; };
 		5E3956D0FBE26E4A5F12C84E /* juce_mac_WebBrowserComponent.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_mac_WebBrowserComponent.mm; path = ../../../srcs/JUCE/modules/juce_gui_extra/native/juce_mac_WebBrowserComponent.mm; sourceTree = SOURCE_ROOT; };
 		5E8BDB55A557D26BC57BDF7D /* juce_FileChooser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_FileChooser.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/filebrowser/juce_FileChooser.h; sourceTree = SOURCE_ROOT; };
@@ -1411,6 +1412,7 @@
 				FB09DA93712A7F23D222B075 /* twytch_oscillators.h */,
 				E26DA95B5879AA16FDC92D96 /* twytch_voice_handler.cpp */,
 				EA0D111A650179C645589D88 /* twytch_voice_handler.h */,
+				5DEDD371871CD7D650A8DC14 /* value_change_manager.h */,
 			);
 			name = src;
 			sourceTree = "<group>";

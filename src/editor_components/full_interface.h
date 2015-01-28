@@ -48,9 +48,8 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void addControls(mopo::control_map controls);
+    void setAllValues(mopo::control_map controls);
     void setOutputMemory(const mopo::Memory* output_memory);
-    void setSynth(mopo::TwytchEngine* synth);
     var getState();
     void writeState(var state);
     //[/UserMethods]
@@ -64,7 +63,6 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    mopo::control_map controls_;
     std::map<std::string, juce::Slider*> slider_lookup_;
     //[/UserVariables]
 

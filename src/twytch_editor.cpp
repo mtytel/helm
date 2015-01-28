@@ -21,11 +21,10 @@
 #define HEIGHT 800
 
 TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
-  mopo::control_map controls = twytch.getSynth()->getControls();
+  controls_ = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface(controls);
-  gui_->setSynth(twytch.getSynth());
+  gui_ = new FullInterface(controls_);
   gui_->setOutputMemory(twytch.getOutputMemory());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
@@ -43,4 +42,19 @@ void TwytchEditor::paint(Graphics& g) {
 
 void TwytchEditor::resized() {
   gui_->setBounds(0, 0, getWidth(), getHeight());
+}
+
+void TwytchEditor::valueChanged(std::string name, mopo::mopo_float value) {
+  MOPO_ASSERT(controls_.count(name));
+  controls_[name]->set(value);
+}
+
+void TwytchEditor::connectModulation(std::string from, std::string to, mopo::Value* scale) {
+  ScopedLock(twytch_.getCallbackLock());
+  twytch_.getSynth()->connectModulation(from, to, scale);
+}
+
+void TwytchEditor::disconnectModulation(std::string to, mopo::Value* scale) {
+  ScopedLock(twytch_.getCallbackLock());
+  twytch_.getSynth()->disconnectModulation(to, scale);
 }

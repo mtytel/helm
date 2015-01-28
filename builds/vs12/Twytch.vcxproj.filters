@@ -2448,6 +2448,9 @@
     <ClInclude Include="..\..\src\twytch_voice_handler.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\value_change_manager.h">
+      <Filter>Twytch\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
     </ClInclude>
