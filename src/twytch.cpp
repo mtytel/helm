@@ -116,7 +116,7 @@ void Twytch::releaseResources() {
   // spare memory, etc.
 }
 
-void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
+void Twytch::processMidi(juce::MidiBuffer& midi_messages) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
   int midi_sample_position = 0;
@@ -139,6 +139,10 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
     else if (midi_message.isAllNotesOff())
       synth_.allNotesOff();
   }
+}
+
+void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
+  processMidi(midi_messages);
 
   int num_samples = buffer.getNumSamples();
   int num_channels = getNumOutputChannels();
