@@ -27,11 +27,16 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationSource::ModulationSource (std::string name)
+ModulationSource::ModulationSource (std::string name, Colour color)
 {
 
     //[UserPreSize]
     is_hovered_ = false;
+    color_ = color;
+    DynamicObject* description_object = new DynamicObject();
+    description_object->setProperty("name", name.c_str());
+    description_object->setProperty("color", (int)color.getARGB());
+    description_ = var(description_object);
     //[/UserPreSize]
 
     setSize (20, 20);
@@ -63,6 +68,8 @@ void ModulationSource::paint (Graphics& g)
     g.drawRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - (proportionOfWidth (0.2500f) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - (proportionOfHeight (0.2500f) / 2)), static_cast<float> (proportionOfWidth (0.2500f)), static_cast<float> (proportionOfHeight (0.2500f)), 2.000f, 4.000f);
 
     //[UserPaint] Add your own custom painting code here..
+    g.setColour (color_);
+    g.drawRoundedRectangle (static_cast<float> (proportionOfWidth (0.5000f) - (proportionOfWidth (0.2500f) / 2)), static_cast<float> (proportionOfHeight (0.5000f) - (proportionOfHeight (0.2500f) / 2)), static_cast<float> (proportionOfWidth (0.2500f)), static_cast<float> (proportionOfHeight (0.2500f)), 2.000f, 4.000f);
     //[/UserPaint]
 }
 
@@ -101,9 +108,8 @@ void ModulationSource::mouseDown (const MouseEvent& e)
     //[UserCode_mouseDown] -- Add your code here...
     // dragger_.startDraggingComponent(this, e);
     DragAndDropContainer* drag_container = DragAndDropContainer::findParentDragContainerFor(this);
-    std::string name = getName().toStdString();
     if (!drag_container->isDragAndDropActive())
-        drag_container->startDragging(name.c_str(), this);
+        drag_container->startDragging(description_, this);
     //[/UserCode_mouseDown]
 }
 
@@ -140,7 +146,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationSource" componentName=""
                  parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="std::string name" variableInitialisers=""
+                 constructorParams="std::string name, Colour color" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="0" initialWidth="20" initialHeight="20">
   <METHODS>

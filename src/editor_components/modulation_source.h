@@ -39,7 +39,7 @@ class ModulationSource  : public Component,
 {
 public:
     //==============================================================================
-    ModulationSource (std::string name);
+    ModulationSource (std::string name, Colour color);
     ~ModulationSource();
 
     //==============================================================================
@@ -63,6 +63,8 @@ private:
     ComponentDragger dragger_;
     bool is_hovered_;
     Rectangle<int> initial_bounds_;
+    Colour color_;
+    var description_;
     //[/UserVariables]
 
     //==============================================================================

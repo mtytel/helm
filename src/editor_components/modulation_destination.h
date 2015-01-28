@@ -59,6 +59,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     std::vector<mopo::Value*> modulation_scales_;
+    std::vector<Colour> modulation_colors_;
     //[/UserVariables]
 
     //==============================================================================

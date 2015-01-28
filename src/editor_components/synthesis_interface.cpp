@@ -248,9 +248,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_tune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     osc_feedback_tune_->addListener (this);
 
-    addAndMakeVisible (amplitude_env_mod_source_ = new ModulationSource ("amplitude env"));
-    addAndMakeVisible (step_generator_mod_source_ = new ModulationSource ("step sequencer"));
-    addAndMakeVisible (filter_env_mod_source_ = new ModulationSource ("filter env"));
+    addAndMakeVisible (amplitude_env_mod_source_ = new ModulationSource ("amplitude env", Colour (0xff0000ff)));
+    addAndMakeVisible (step_generator_mod_source_ = new ModulationSource ("step sequencer", Colour (0xff00ff00)));
+    addAndMakeVisible (filter_env_mod_source_ = new ModulationSource ("filter env", Colour (0xffff0000)));
     addAndMakeVisible (cross_mod_destination_ = new ModulationDestination ("cross modulation"));
     addAndMakeVisible (pitch_mod_destination_ = new ModulationDestination ("pitch"));
     addAndMakeVisible (cutoff_mod_destination_ = new ModulationDestination ("cutoff"));
@@ -272,8 +272,8 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
     lfo_2_waveform_->addListener (this);
 
-    addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource ("lfo 1"));
-    addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource ("lfo 2"));
+    addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource ("lfo 1", Colour (0xffffff00)));
+    addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource ("lfo 2", Colour (0xffff00ff)));
     addAndMakeVisible (resonance_mod_destination_ = new ModulationDestination ("resonance"));
     addAndMakeVisible (num_steps_ = new Slider ("num steps"));
     num_steps_->setRange (1, 32, 1);
@@ -881,13 +881,13 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="amplitude env" id="49107c44dc2f49e9" memberName="amplitude_env_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="728 424 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;amplitude env&quot;"/>
+             constructorParams="&quot;amplitude env&quot;, Colour (0xff0000ff)"/>
   <JUCERCOMP name="step sequencer" id="539abd48959288ef" memberName="step_generator_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="728 328 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;step sequencer&quot;"/>
+             constructorParams="&quot;step sequencer&quot;, Colour (0xff00ff00)"/>
   <JUCERCOMP name="filter env" id="36ddd25be02a4fe1" memberName="filter_env_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="720 184 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;filter env&quot;"/>
+             constructorParams="&quot;filter env&quot;, Colour (0xffff0000)"/>
   <JUCERCOMP name="cross modulation" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="368 32 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cross modulation&quot;"/>
@@ -915,10 +915,10 @@ BEGIN_JUCER_METADATA
           skewFactor="1"/>
   <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="288 320 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;lfo 1&quot;"/>
+             constructorParams="&quot;lfo 1&quot;, Colour (0xffffff00)"/>
   <JUCERCOMP name="lfo 2" id="57b28b867a25f366" memberName="lfo_2_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="288 424 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;lfo 2&quot;"/>
+             constructorParams="&quot;lfo 2&quot;, Colour (0xffff00ff)"/>
   <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="680 120 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;resonance&quot;"/>
