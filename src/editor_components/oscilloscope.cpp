@@ -68,7 +68,7 @@ void Oscilloscope::paint (Graphics& g)
     g.setColour(Colour(0xff444444));
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
-    g.strokePath(wave_path_, PathStrokeType(2.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+    g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
     //[/UserPaint]
 }
 
