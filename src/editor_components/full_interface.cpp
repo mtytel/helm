@@ -173,7 +173,9 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == arp_on_)
     {
         //[UserButtonCode_arp_on_] -- add your button handler code here..
-
+        std::string name = buttonThatWasClicked->getName().toStdString();
+        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
         //[/UserButtonCode_arp_on_]
     }
 
