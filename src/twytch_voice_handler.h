@@ -24,8 +24,6 @@
 
 #include <vector>
 
-#define MOD_MATRIX_SIZE 5
-
 namespace mopo {
   class Delay;
   class Envelope;

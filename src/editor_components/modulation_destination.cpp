@@ -19,13 +19,13 @@
 
 //[Headers] You can add your own extra header files here...
 #include "value_change_manager.h"
+#include "twytch_common.h"
 //[/Headers]
 
 #include "modulation_destination.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define MAX_CONNECTIONS 4
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -33,7 +33,7 @@ ModulationDestination::ModulationDestination (std::string name)
 {
 
     //[UserPreSize]
-    for (int i = 0; i < MAX_CONNECTIONS; ++i) {
+    for (int i = 0; i < mopo::MAX_MODULATION_CONNECTIONS; ++i) {
         modulation_scales_.push_back(nullptr);
         modulation_colors_.push_back(Colours::black);
     }
@@ -120,9 +120,9 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
 
 void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
     int index = 0;
-    while (modulation_scales_[index] && index < MAX_CONNECTIONS)
+    while (modulation_scales_[index] && index < mopo::MAX_MODULATION_CONNECTIONS)
         index++;
-    if (index >= MAX_CONNECTIONS)
+    if (index >= mopo::MAX_MODULATION_CONNECTIONS)
         return;
 
     DynamicObject* source = drag_source.description.getDynamicObject();

@@ -190,7 +190,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
     addAndMakeVisible (filter_type_ = new Slider ("filter type"));
     filter_type_->setRange (0, 6, 1);
-    filter_type_->setSliderStyle (Slider::LinearVertical);
+    filter_type_->setSliderStyle (Slider::LinearHorizontal);
     filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     filter_type_->addListener (this);
 
@@ -288,6 +288,21 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_frequency_->addListener (this);
     step_frequency_->setSkewFactor (0.5);
 
+    addAndMakeVisible (lfo_1_frequency_ = new Slider ("lfo 1 frequency"));
+    lfo_1_frequency_->setRange (1, 20, 0);
+    lfo_1_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    lfo_1_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    lfo_1_frequency_->addListener (this);
+    lfo_1_frequency_->setSkewFactor (0.5);
+
+    addAndMakeVisible (lfo_2_frequency_ = new Slider ("lfo 2 frequency"));
+    lfo_2_frequency_->setRange (1, 20, 0);
+    lfo_2_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    lfo_2_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    lfo_2_frequency_->addListener (this);
+    lfo_2_frequency_->setSkewFactor (0.5);
+
+    addAndMakeVisible (osc_mix_mod_destination_ = new ModulationDestination ("osc mix"));
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
@@ -404,6 +419,9 @@ SynthesisInterface::~SynthesisInterface()
     resonance_mod_destination_ = nullptr;
     num_steps_ = nullptr;
     step_frequency_ = nullptr;
+    lfo_1_frequency_ = nullptr;
+    lfo_2_frequency_ = nullptr;
+    osc_mix_mod_destination_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -428,59 +446,62 @@ void SynthesisInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    step_sequencer_->setBounds (416, 288, 300, 100);
-    amplitude_envelope_->setBounds (416, 392, 300, 100);
-    filter_envelope_->setBounds (408, 152, 300, 100);
-    osc_1_wave_display_->setBounds (40, 8, 240, 100);
-    osc_2_wave_display_->setBounds (40, 112, 240, 100);
-    polyphony_->setBounds (424, 552, 50, 50);
-    portamento_->setBounds (424, 608, 50, 50);
-    pitch_bend_range_->setBounds (576, 552, 50, 50);
-    cross_modulation_->setBounds (320, 16, 50, 50);
-    filter_response_->setBounds (408, 8, 300, 100);
-    legato_->setBounds (488, 560, 64, 24);
-    portamento_type_->setBounds (488, 616, 64, 24);
-    osc_mix_->setBounds (280, 8, 20, 204);
-    osc_2_transpose_->setBounds (320, 80, 50, 50);
-    osc_2_tune_->setBounds (320, 144, 50, 50);
-    volume_->setBounds (32, 552, 248, 24);
-    delay_time_->setBounds (96, 496, 50, 50);
-    delay_feedback_->setBounds (160, 496, 50, 50);
-    delay_dry_wet_->setBounds (224, 496, 50, 50);
-    velocity_track_->setBounds (680, 496, 50, 50);
-    amp_attack_->setBounds (424, 496, 50, 50);
-    amp_decay_->setBounds (480, 496, 50, 50);
-    amp_release_->setBounds (592, 496, 50, 50);
-    amp_sustain_->setBounds (536, 496, 50, 50);
-    fil_attack_->setBounds (416, 256, 32, 32);
-    fil_decay_->setBounds (456, 256, 32, 32);
-    fil_release_->setBounds (536, 256, 32, 32);
-    fil_sustain_->setBounds (496, 256, 32, 32);
-    resonance_->setBounds (708, 8, 12, 100);
-    filter_type_->setBounds (752, 8, 24, 96);
-    osc_1_waveform_->setBounds (28, 8, 12, 100);
-    osc_2_waveform_->setBounds (28, 112, 12, 100);
-    cutoff_->setBounds (408, 108, 300, 12);
-    fil_env_depth_->setBounds (624, 256, 32, 32);
-    keytrack_->setBounds (664, 256, 32, 32);
+    step_sequencer_->setBounds (456, 296, 300, 100);
+    amplitude_envelope_->setBounds (456, 152, 300, 100);
+    filter_envelope_->setBounds (456, 8, 300, 100);
+    osc_1_wave_display_->setBounds (32, 8, 240, 100);
+    osc_2_wave_display_->setBounds (32, 112, 240, 100);
+    polyphony_->setBounds (320, 496, 50, 50);
+    portamento_->setBounds (320, 552, 50, 50);
+    pitch_bend_range_->setBounds (472, 496, 50, 50);
+    cross_modulation_->setBounds (328, 24, 50, 50);
+    filter_response_->setBounds (32, 312, 300, 100);
+    legato_->setBounds (384, 504, 64, 24);
+    portamento_type_->setBounds (384, 560, 64, 24);
+    osc_mix_->setBounds (272, 8, 20, 204);
+    osc_2_transpose_->setBounds (328, 88, 50, 50);
+    osc_2_tune_->setBounds (328, 152, 50, 50);
+    volume_->setBounds (504, 560, 248, 24);
+    delay_time_->setBounds (568, 488, 50, 50);
+    delay_feedback_->setBounds (632, 488, 50, 50);
+    delay_dry_wet_->setBounds (696, 488, 50, 50);
+    velocity_track_->setBounds (720, 256, 32, 32);
+    amp_attack_->setBounds (456, 256, 32, 32);
+    amp_decay_->setBounds (496, 256, 32, 32);
+    amp_release_->setBounds (576, 256, 32, 32);
+    amp_sustain_->setBounds (536, 256, 32, 32);
+    fil_attack_->setBounds (456, 112, 32, 32);
+    fil_decay_->setBounds (496, 112, 32, 32);
+    fil_release_->setBounds (576, 112, 32, 32);
+    fil_sustain_->setBounds (536, 112, 32, 32);
+    resonance_->setBounds (332, 312, 12, 100);
+    filter_type_->setBounds (32, 296, 296, 16);
+    osc_1_waveform_->setBounds (20, 8, 12, 100);
+    osc_2_waveform_->setBounds (20, 112, 12, 100);
+    cutoff_->setBounds (32, 412, 300, 12);
+    fil_env_depth_->setBounds (680, 112, 32, 32);
+    keytrack_->setBounds (720, 112, 32, 32);
     osc_feedback_transpose_->setBounds (64, 224, 50, 50);
     osc_feedback_amount_->setBounds (200, 224, 50, 50);
     osc_feedback_tune_->setBounds (128, 224, 50, 50);
-    amplitude_env_mod_source_->setBounds (728, 424, 24, 24);
-    step_generator_mod_source_->setBounds (728, 328, 24, 24);
-    filter_env_mod_source_->setBounds (720, 184, 24, 24);
-    cross_mod_destination_->setBounds (368, 32, 24, 24);
-    pitch_mod_destination_->setBounds (368, 88, 24, 24);
-    cutoff_mod_destination_->setBounds (720, 8, 24, 24);
-    lfo_1_wave_display_->setBounds (40, 280, 240, 100);
-    lfo_2_wave_display_->setBounds (40, 384, 240, 100);
-    lfo_1_waveform_->setBounds (28, 280, 12, 100);
-    lfo_2_waveform_->setBounds (28, 384, 12, 100);
-    lfo_1_mod_source_->setBounds (288, 320, 24, 24);
-    lfo_2_mod_source_->setBounds (288, 424, 24, 24);
-    resonance_mod_destination_->setBounds (680, 120, 24, 24);
-    num_steps_->setBounds (360, 296, 50, 50);
-    step_frequency_->setBounds (360, 344, 50, 50);
+    amplitude_env_mod_source_->setBounds (432, 184, 24, 24);
+    step_generator_mod_source_->setBounds (432, 328, 24, 24);
+    filter_env_mod_source_->setBounds (432, 40, 24, 24);
+    cross_mod_destination_->setBounds (384, 40, 24, 24);
+    pitch_mod_destination_->setBounds (384, 128, 24, 24);
+    cutoff_mod_destination_->setBounds (168, 424, 24, 24);
+    lfo_1_wave_display_->setBounds (32, 464, 140, 80);
+    lfo_2_wave_display_->setBounds (32, 552, 140, 80);
+    lfo_1_waveform_->setBounds (20, 464, 12, 80);
+    lfo_2_waveform_->setBounds (20, 552, 12, 80);
+    lfo_1_mod_source_->setBounds (184, 520, 24, 24);
+    lfo_2_mod_source_->setBounds (184, 608, 24, 24);
+    resonance_mod_destination_->setBounds (344, 344, 24, 24);
+    num_steps_->setBounds (456, 400, 50, 50);
+    step_frequency_->setBounds (512, 400, 50, 50);
+    lfo_1_frequency_->setBounds (176, 464, 50, 50);
+    lfo_2_frequency_->setBounds (176, 552, 50, 50);
+    osc_mix_mod_destination_->setBounds (296, 96, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -673,6 +694,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_step_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_step_frequency_]
     }
+    else if (sliderThatWasMoved == lfo_1_frequency_)
+    {
+        //[UserSliderCode_lfo_1_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_lfo_1_frequency_]
+    }
+    else if (sliderThatWasMoved == lfo_2_frequency_)
+    {
+        //[UserSliderCode_lfo_2_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_lfo_2_frequency_]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -729,142 +760,142 @@ BEGIN_JUCER_METADATA
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff1f1f1f"/>
   <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
-             explicitFocusOrder="0" pos="416 288 300 100" sourceFile="graphical_step_sequencer.cpp"
+             explicitFocusOrder="0" pos="456 296 300 100" sourceFile="graphical_step_sequencer.cpp"
              constructorParams=""/>
   <JUCERCOMP name="" id="b4880edb8b39ec9d" memberName="amplitude_envelope_"
-             virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="416 392 300 100"
+             virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="456 152 300 100"
              sourceFile="graphical_envelope.cpp" constructorParams=""/>
   <JUCERCOMP name="" id="87feb60c88df4fcc" memberName="filter_envelope_" virtualName="GraphicalEnvelope"
-             explicitFocusOrder="0" pos="408 152 300 100" sourceFile="graphical_envelope.cpp"
+             explicitFocusOrder="0" pos="456 8 300 100" sourceFile="graphical_envelope.cpp"
              constructorParams=""/>
   <JUCERCOMP name="osc 1 wave display" id="55100715382ea344" memberName="osc_1_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="40 8 240 100"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="32 8 240 100"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <JUCERCOMP name="osc 2 wave display" id="c0c3e4a3ab2f045f" memberName="osc_2_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="40 112 240 100"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="32 112 240 100"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="polyphony" id="952bde38857bdba7" memberName="polyphony_"
-          virtualName="" explicitFocusOrder="0" pos="424 552 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="320 496 50 50" min="1"
           max="32" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento" id="9de85cc1c5f64eaa" memberName="portamento_"
-          virtualName="" explicitFocusOrder="0" pos="424 608 50 50" min="0"
+          virtualName="" explicitFocusOrder="0" pos="320 552 50 50" min="0"
           max="0.2000000000000000111" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="pitch bend range" id="e53afc6d1a04c708" memberName="pitch_bend_range_"
-          virtualName="" explicitFocusOrder="0" pos="576 552 50 50" min="0"
+          virtualName="" explicitFocusOrder="0" pos="472 496 50 50" min="0"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cross modulation" id="1d3e4b59d6e470fb" memberName="cross_modulation_"
-          virtualName="" explicitFocusOrder="0" pos="320 16 50 50" min="0"
+          virtualName="" explicitFocusOrder="0" pos="328 24 50 50" min="0"
           max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="" id="e5ebb41c4c259ce1" memberName="filter_response_" virtualName="FilterResponse"
-             explicitFocusOrder="0" pos="408 8 300 100" sourceFile="filter_response.cpp"
+             explicitFocusOrder="0" pos="32 312 300 100" sourceFile="filter_response.cpp"
              constructorParams="128"/>
   <SLIDER name="legato" id="bae65942d016a0ea" memberName="legato_" virtualName=""
-          explicitFocusOrder="0" pos="488 560 64 24" min="0" max="1" int="1"
+          explicitFocusOrder="0" pos="384 504 64 24" min="0" max="1" int="1"
           style="LinearHorizontal" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento type" id="909956998c46045e" memberName="portamento_type_"
-          virtualName="" explicitFocusOrder="0" pos="488 616 64 24" min="0"
+          virtualName="" explicitFocusOrder="0" pos="384 560 64 24" min="0"
           max="2" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName=""
-          explicitFocusOrder="0" pos="280 8 20 204" bkgcol="ff000000" textboxoutline="808080"
+          explicitFocusOrder="0" pos="272 8 20 204" bkgcol="ff000000" textboxoutline="808080"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 2 transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
-          virtualName="" explicitFocusOrder="0" pos="320 80 50 50" min="-48"
+          virtualName="" explicitFocusOrder="0" pos="328 88 50 50" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 2 tune" id="a8bc3bcffe7146f" memberName="osc_2_tune_"
-          virtualName="" explicitFocusOrder="0" pos="320 144 50 50" min="-1"
+          virtualName="" explicitFocusOrder="0" pos="328 152 50 50" min="-1"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName=""
-          explicitFocusOrder="0" pos="32 552 248 24" min="0" max="1" int="0"
+          explicitFocusOrder="0" pos="504 560 248 24" min="0" max="1" int="0"
           style="LinearHorizontal" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
   <SLIDER name="delay time" id="1c4c7f1a27492c1d" memberName="delay_time_"
-          virtualName="" explicitFocusOrder="0" pos="96 496 50 50" min="0.010000000000000000208"
+          virtualName="" explicitFocusOrder="0" pos="568 488 50 50" min="0.010000000000000000208"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="2"/>
   <SLIDER name="delay feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
-          virtualName="" explicitFocusOrder="0" pos="160 496 50 50" min="-1"
+          virtualName="" explicitFocusOrder="0" pos="632 488 50 50" min="-1"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay dry wet" id="dbc9d35179b5bac7" memberName="delay_dry_wet_"
-          virtualName="" explicitFocusOrder="0" pos="224 496 50 50" min="0"
+          virtualName="" explicitFocusOrder="0" pos="696 488 50 50" min="0"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="velocity track" id="113bdc65c4c0f18f" memberName="velocity_track_"
-          virtualName="" explicitFocusOrder="0" pos="680 496 50 50" min="-1"
+          virtualName="" explicitFocusOrder="0" pos="720 256 32 32" min="-1"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="amp attack" id="f6cda312a5619a33" memberName="amp_attack_"
-          virtualName="" explicitFocusOrder="0" pos="424 496 50 50" min="0"
-          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
-  <SLIDER name="amp decay" id="6de7c8b3a5a4826d" memberName="amp_decay_"
-          virtualName="" explicitFocusOrder="0" pos="480 496 50 50" min="0"
-          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
-  <SLIDER name="amp release" id="86b41ada65ec49c0" memberName="amp_release_"
-          virtualName="" explicitFocusOrder="0" pos="592 496 50 50" min="0"
-          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
-  <SLIDER name="amp sustain" id="3853f65a726f763" memberName="amp_sustain_"
-          virtualName="" explicitFocusOrder="0" pos="536 496 50 50" min="0"
-          max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="fil attack" id="bc169bc84bd26782" memberName="fil_attack_"
-          virtualName="" explicitFocusOrder="0" pos="416 256 32 32" min="0"
-          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
-  <SLIDER name="fil decay" id="f5b3d1ec7fc18e1" memberName="fil_decay_"
           virtualName="" explicitFocusOrder="0" pos="456 256 32 32" min="0"
           max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
-  <SLIDER name="fil release" id="c878127a7ada93f0" memberName="fil_release_"
+  <SLIDER name="amp decay" id="6de7c8b3a5a4826d" memberName="amp_decay_"
+          virtualName="" explicitFocusOrder="0" pos="496 256 32 32" min="0"
+          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+  <SLIDER name="amp release" id="86b41ada65ec49c0" memberName="amp_release_"
+          virtualName="" explicitFocusOrder="0" pos="576 256 32 32" min="0"
+          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+  <SLIDER name="amp sustain" id="3853f65a726f763" memberName="amp_sustain_"
           virtualName="" explicitFocusOrder="0" pos="536 256 32 32" min="0"
+          max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="fil attack" id="bc169bc84bd26782" memberName="fil_attack_"
+          virtualName="" explicitFocusOrder="0" pos="456 112 32 32" min="0"
+          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+  <SLIDER name="fil decay" id="f5b3d1ec7fc18e1" memberName="fil_decay_"
+          virtualName="" explicitFocusOrder="0" pos="496 112 32 32" min="0"
+          max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+  <SLIDER name="fil release" id="c878127a7ada93f0" memberName="fil_release_"
+          virtualName="" explicitFocusOrder="0" pos="576 112 32 32" min="0"
           max="10" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
   <SLIDER name="fil sustain" id="5b25f915f3694f34" memberName="fil_sustain_"
-          virtualName="" explicitFocusOrder="0" pos="496 256 32 32" min="0"
+          virtualName="" explicitFocusOrder="0" pos="536 112 32 32" min="0"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="resonance" id="6c1c82a2d59d4b6e" memberName="resonance_"
-          virtualName="" explicitFocusOrder="0" pos="708 8 12 100" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="332 312 12 100" bkgcol="ff000000"
           textboxoutline="808080" min="0" max="1" int="0" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter type" id="30ae8dead7514514" memberName="filter_type_"
-          virtualName="" explicitFocusOrder="0" pos="752 8 24 96" min="0"
-          max="6" int="1" style="LinearVertical" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="32 296 296 16" min="0"
+          max="6" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 1 waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="28 8 12 100" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="20 8 12 100" bkgcol="ff000000"
           textboxoutline="808080" min="0" max="11" int="1" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
           skewFactor="1"/>
   <SLIDER name="osc 2 waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="28 112 12 100" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="20 112 12 100" bkgcol="ff000000"
           textboxoutline="0" min="0" max="11" int="1" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="1" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName=""
-          explicitFocusOrder="0" pos="408 108 300 12" bkgcol="ff000000"
+          explicitFocusOrder="0" pos="32 412 300 12" bkgcol="ff000000"
           textboxoutline="808080" min="28" max="127" int="0" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="1" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil env depth" id="ac3a5967de6a1a92" memberName="fil_env_depth_"
-          virtualName="" explicitFocusOrder="0" pos="624 256 32 32" min="-128"
+          virtualName="" explicitFocusOrder="0" pos="680 112 32 32" min="-128"
           max="128" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="keytrack" id="33bbd8b71aa721c1" memberName="keytrack_"
-          virtualName="" explicitFocusOrder="0" pos="664 256 32 32" min="-1"
+          virtualName="" explicitFocusOrder="0" pos="720 112 32 32" min="-1"
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc feedback transpose" id="e747becfc7a4f3f7" memberName="osc_feedback_transpose_"
@@ -880,56 +911,67 @@ BEGIN_JUCER_METADATA
           max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="amplitude env" id="49107c44dc2f49e9" memberName="amplitude_env_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="728 424 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="432 184 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;amplitude env&quot;, Colour (0xff0000ff)"/>
   <JUCERCOMP name="step sequencer" id="539abd48959288ef" memberName="step_generator_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="728 328 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="432 328 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;step sequencer&quot;, Colour (0xff00ff00)"/>
   <JUCERCOMP name="filter env" id="36ddd25be02a4fe1" memberName="filter_env_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="720 184 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="432 40 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;filter env&quot;, Colour (0xffff0000)"/>
   <JUCERCOMP name="cross modulation" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="368 32 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="384 40 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cross modulation&quot;"/>
   <JUCERCOMP name="pitch" id="146986590a708b08" memberName="pitch_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="368 88 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="384 128 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;pitch&quot;"/>
   <JUCERCOMP name="cutoff" id="9fcdd6545a5e9cd2" memberName="cutoff_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="720 8 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="168 424 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cutoff&quot;"/>
   <JUCERCOMP name="lfo 1 wave display" id="24d32b65108fb2a5" memberName="lfo_1_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="40 280 240 100"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="32 464 140 80"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <JUCERCOMP name="lfo 2 wave display" id="fec9561bdacebdbe" memberName="lfo_2_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="40 384 240 100"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="32 552 140 80"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="lfo 1 waveform" id="4ed06bb2c6901afe" memberName="lfo_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="28 280 12 100" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="20 464 12 80" bkgcol="ff000000"
           textboxoutline="808080" min="0" max="11" int="1" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
           skewFactor="1"/>
   <SLIDER name="lfo 2 waveform" id="72004168ec47b7e7" memberName="lfo_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="28 384 12 100" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="20 552 12 80" bkgcol="ff000000"
           textboxoutline="0" min="0" max="11" int="1" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
           skewFactor="1"/>
   <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="288 320 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="184 520 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;lfo 1&quot;, Colour (0xffffff00)"/>
   <JUCERCOMP name="lfo 2" id="57b28b867a25f366" memberName="lfo_2_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="288 424 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="184 608 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;lfo 2&quot;, Colour (0xffff00ff)"/>
   <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="680 120 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="344 344 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;resonance&quot;"/>
   <SLIDER name="num steps" id="8be29885961d7617" memberName="num_steps_"
-          virtualName="" explicitFocusOrder="0" pos="360 296 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="456 400 50 50" min="1"
           max="32" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="step frequency" id="788574c1265fb47" memberName="step_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="360 344 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="512 400 50 50" min="1"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
+  <SLIDER name="lfo 1 frequency" id="ebc4a57528113c39" memberName="lfo_1_frequency_"
+          virtualName="" explicitFocusOrder="0" pos="176 464 50 50" min="1"
+          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
+  <SLIDER name="lfo 2 frequency" id="41dc8f7fbc0e8586" memberName="lfo_2_frequency_"
+          virtualName="" explicitFocusOrder="0" pos="176 552 50 50" min="1"
+          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
+  <JUCERCOMP name="osc mix" id="45625f8553a02da7" memberName="osc_mix_mod_destination_"
+             virtualName="" explicitFocusOrder="0" pos="296 96 24 24" sourceFile="modulation_destination.cpp"
+             constructorParams="&quot;osc mix&quot;"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

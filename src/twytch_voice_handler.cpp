@@ -79,7 +79,7 @@ namespace mopo {
     bent_midi->plug(pitch_bend, 1);
 
     Value* pitch_mod_range = new Value(PITCH_MOD_RANGE);
-    VariableAdd* midi_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    VariableAdd* midi_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
     Multiply* midi_mod = new Multiply();
     midi_mod->plug(pitch_mod_range, 0);
     midi_mod->plug(midi_mod_sources, 1);
@@ -106,7 +106,7 @@ namespace mopo {
     oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Value* cross_mod = new Value(0.15);
-    VariableAdd* cross_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    VariableAdd* cross_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
     cross_mod_sources->plug(cross_mod, 0);
 
     oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator1FM);
@@ -145,7 +145,7 @@ namespace mopo {
 
     // Oscillator mix.
     Value* oscillator_mix_amount = new Value(0.5);
-    VariableAdd* osc_mix_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    VariableAdd* osc_mix_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
     osc_mix_sources->plug(oscillator_mix_amount, 0);
 
     Clamp* clamp_mix = new Clamp(0, 1);
@@ -291,7 +291,7 @@ namespace mopo {
     midi_cutoff->plug(keytracked_cutoff, 0);
     midi_cutoff->plug(scaled_envelope, 1);
 
-    VariableAdd* cutoff_mod_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    VariableAdd* cutoff_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
     Value* cutoff_mod_scale = new Value(MIDI_SIZE / 2);
     Multiply* cutoff_modulation_scaled = new Multiply();
     cutoff_modulation_scaled->plug(cutoff_mod_sources, 0);
@@ -305,7 +305,7 @@ namespace mopo {
 
     Value* resonance = new Value(0.5);
 
-    VariableAdd* resonance_sources = new VariableAdd(MOD_MATRIX_SIZE);
+    VariableAdd* resonance_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
     resonance_sources->plug(resonance, 0);
     ResonanceScale* final_resonance = new ResonanceScale();
     Value* min_db = new Value(MIN_GAIN_DB);
