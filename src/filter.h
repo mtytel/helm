@@ -25,7 +25,7 @@
 namespace mopo {
 
   namespace {
-    const mopo::mopo_float COEFFICIENT_FILTERING = 0.9;
+    const mopo::mopo_float COEFFICIENT_FILTERING = 0.99;
   } // namespace
 
   // Implements RBJ biquad filters of different types.
