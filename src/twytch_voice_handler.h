@@ -32,6 +32,7 @@ namespace mopo {
   class Oscillator;
   class SmoothValue;
   class StepGenerator;
+  class TriggerCombiner;
   class TwytchOscillators;
 
   // The voice handler duplicates processors to produce polyphony.
@@ -59,7 +60,7 @@ namespace mopo {
       void createOscillators(Output* frequency, Output* reset);
 
       // Create the filter and filter envelope.
-      void createFilter(Output* audio, Output* keytrack, Output* reset);
+      void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
 
       // Create the modulation matrix.
       void createModMatrix();
@@ -68,6 +69,7 @@ namespace mopo {
       SmoothValue* mod_wheel_amount_;
       SmoothValue* pitch_wheel_amount_;
       LinearSlope* current_frequency_;
+      TriggerCombiner* note_change_trigger_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
 

@@ -52,7 +52,7 @@ namespace mopo {
     createOscillators(current_frequency_->output(),
                       amplitude_envelope_->output(Envelope::kFinished));
     createFilter(osc_feedback_->output(0), note_from_center_->output(),
-                 amplitude_envelope_->output(Envelope::kFinished));
+                 note_change_trigger_->output(), voice_event());
     createModMatrix();
 
     output_ = new Multiply();
@@ -247,19 +247,25 @@ namespace mopo {
   }
 
   void TwytchVoiceHandler::createFilter(
-      Output* audio, Output* keytrack, Output* reset) {
+      Output* audio, Output* keytrack, Output* reset, Output* note_event) {
     // Filter envelope.
     Value* filter_attack = new Value(0.0);
     Value* filter_decay = new Value(0.3);
     Value* filter_sustain = new Value(0.3);
     Value* filter_release = new Value(0.3);
 
+    TriggerFilter* note_off = new TriggerFilter(VoiceEvent::kVoiceOff);
+    TriggerCombiner* filter_env_trigger = new TriggerCombiner();
+    filter_env_trigger->plug(note_off, 0);
+    filter_env_trigger->plug(reset, 1);
+    note_off->plug(note_event);
+
     filter_envelope_ = new Envelope();
     filter_envelope_->plug(filter_attack, Envelope::kAttack);
     filter_envelope_->plug(filter_decay, Envelope::kDecay);
     filter_envelope_->plug(filter_sustain, Envelope::kSustain);
     filter_envelope_->plug(filter_release, Envelope::kRelease);
-    filter_envelope_->plug(reset, Envelope::kTrigger);
+    filter_envelope_->plug(filter_env_trigger, Envelope::kTrigger);
 
     Value* filter_envelope_depth = new Value(36);
     Multiply* scaled_envelope = new Multiply();
@@ -267,6 +273,8 @@ namespace mopo {
     scaled_envelope->plug(filter_envelope_depth, 1);
 
     addProcessor(filter_envelope_);
+    addProcessor(note_off);
+    addProcessor(filter_env_trigger);
     addProcessor(scaled_envelope);
 
     controls_["fil attack"] = filter_attack;
@@ -318,8 +326,13 @@ namespace mopo {
     final_resonance->plug(resonance_sources);
     final_gain->plug(decibals);
 
+    Multiply* saturated_audio = new Multiply();
+    Value* filter_saturation = new Value(1.0);
+    saturated_audio->plug(audio, 0);
+    saturated_audio->plug(filter_saturation, 1);
+
     filter_ = new Filter();
-    filter_->plug(audio, Filter::kAudio);
+    filter_->plug(saturated_audio, Filter::kAudio);
     filter_->plug(filter_type, Filter::kType);
     filter_->plug(reset, Filter::kReset);
     filter_->plug(frequency_cutoff, Filter::kCutoff);
@@ -328,6 +341,7 @@ namespace mopo {
 
     addGlobalProcessor(base_cutoff);
     addProcessor(current_keytrack);
+    addProcessor(saturated_audio);
     addProcessor(keytracked_cutoff);
     addProcessor(midi_cutoff);
     addProcessor(cutoff_mod_sources);
@@ -341,6 +355,7 @@ namespace mopo {
     addProcessor(filter_);
 
     controls_["filter type"] = filter_type;
+    controls_["filter saturation"] = filter_saturation;
     controls_["cutoff"] = base_cutoff;
     controls_["keytrack"] = keytrack_amount;
     controls_["resonance"] = resonance;
@@ -398,14 +413,14 @@ namespace mopo {
     controls_["amp release"] = amplitude_release;
 
     // Voice and frequency resetting logic.
-    TriggerCombiner* frequency_trigger = new TriggerCombiner();
-    frequency_trigger->plug(legato_filter->output(LegatoFilter::kRemain), 0);
-    frequency_trigger->plug(amplitude_envelope_->output(Envelope::kFinished), 1);
+    note_change_trigger_ = new TriggerCombiner();
+    note_change_trigger_->plug(legato_filter->output(LegatoFilter::kRemain), 0);
+    note_change_trigger_->plug(amplitude_envelope_->output(Envelope::kFinished), 1);
 
     TriggerWait* note_wait = new TriggerWait();
     Value* current_note = new Value();
     note_wait->plug(note, TriggerWait::kWait);
-    note_wait->plug(frequency_trigger, TriggerWait::kTrigger);
+    note_wait->plug(note_change_trigger_, TriggerWait::kTrigger);
     current_note->plug(note_wait);
 
     Value* max_midi_invert = new Value(1.0 / (MIDI_SIZE - 1));
@@ -413,7 +428,7 @@ namespace mopo {
     note_percentage->plug(max_midi_invert, 0);
     note_percentage->plug(current_note, 1);
 
-    addProcessor(frequency_trigger);
+    addProcessor(note_change_trigger_);
     addProcessor(note_wait);
     addProcessor(current_note);
 
@@ -431,7 +446,7 @@ namespace mopo {
     TriggerWait* velocity_wait = new TriggerWait();
     Value* current_velocity = new Value();
     velocity_wait->plug(velocity, TriggerWait::kWait);
-    velocity_wait->plug(frequency_trigger, TriggerWait::kTrigger);
+    velocity_wait->plug(note_change_trigger_, TriggerWait::kTrigger);
     current_velocity->plug(velocity_wait);
 
     addProcessor(velocity_wait);
@@ -459,7 +474,7 @@ namespace mopo {
     Value* portamento_type = new Value(0);
     PortamentoFilter* portamento_filter = new PortamentoFilter();
     portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);
-    portamento_filter->plug(frequency_trigger, PortamentoFilter::kFrequencyTrigger);
+    portamento_filter->plug(note_change_trigger_, PortamentoFilter::kFrequencyTrigger);
     portamento_filter->plug(trigger, PortamentoFilter::kVoiceTrigger);
     addProcessor(portamento_filter);
 

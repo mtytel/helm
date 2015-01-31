@@ -303,6 +303,12 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_2_frequency_->setSkewFactor (0.5);
 
     addAndMakeVisible (osc_mix_mod_destination_ = new ModulationDestination ("osc mix"));
+    addAndMakeVisible (filter_saturation_ = new Slider ("filter saturation"));
+    filter_saturation_->setRange (1, 32, 0);
+    filter_saturation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    filter_saturation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    filter_saturation_->addListener (this);
+
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
@@ -422,6 +428,7 @@ SynthesisInterface::~SynthesisInterface()
     lfo_1_frequency_ = nullptr;
     lfo_2_frequency_ = nullptr;
     osc_mix_mod_destination_ = nullptr;
+    filter_saturation_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -490,18 +497,19 @@ void SynthesisInterface::resized()
     cross_mod_destination_->setBounds (384, 40, 24, 24);
     pitch_mod_destination_->setBounds (384, 128, 24, 24);
     cutoff_mod_destination_->setBounds (168, 424, 24, 24);
-    lfo_1_wave_display_->setBounds (32, 464, 140, 80);
-    lfo_2_wave_display_->setBounds (32, 552, 140, 80);
-    lfo_1_waveform_->setBounds (20, 464, 12, 80);
-    lfo_2_waveform_->setBounds (20, 552, 12, 80);
-    lfo_1_mod_source_->setBounds (184, 520, 24, 24);
-    lfo_2_mod_source_->setBounds (184, 608, 24, 24);
-    resonance_mod_destination_->setBounds (344, 344, 24, 24);
+    lfo_1_wave_display_->setBounds (56, 488, 140, 80);
+    lfo_2_wave_display_->setBounds (56, 576, 140, 80);
+    lfo_1_waveform_->setBounds (44, 488, 12, 80);
+    lfo_2_waveform_->setBounds (44, 576, 12, 80);
+    lfo_1_mod_source_->setBounds (208, 544, 24, 24);
+    lfo_2_mod_source_->setBounds (208, 632, 24, 24);
+    resonance_mod_destination_->setBounds (344, 328, 24, 24);
     num_steps_->setBounds (456, 400, 50, 50);
     step_frequency_->setBounds (512, 400, 50, 50);
-    lfo_1_frequency_->setBounds (176, 464, 50, 50);
-    lfo_2_frequency_->setBounds (176, 552, 50, 50);
+    lfo_1_frequency_->setBounds (200, 488, 50, 50);
+    lfo_2_frequency_->setBounds (200, 576, 50, 50);
     osc_mix_mod_destination_->setBounds (296, 96, 24, 24);
+    filter_saturation_->setBounds (240, 424, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -703,6 +711,11 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_lfo_2_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_lfo_2_frequency_]
+    }
+    else if (sliderThatWasMoved == filter_saturation_)
+    {
+        //[UserSliderCode_filter_saturation_] -- add your slider handling code here..
+        //[/UserSliderCode_filter_saturation_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -929,29 +942,29 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="168 424 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cutoff&quot;"/>
   <JUCERCOMP name="lfo 1 wave display" id="24d32b65108fb2a5" memberName="lfo_1_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="32 464 140 80"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="56 488 140 80"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <JUCERCOMP name="lfo 2 wave display" id="fec9561bdacebdbe" memberName="lfo_2_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="32 552 140 80"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="56 576 140 80"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="lfo 1 waveform" id="4ed06bb2c6901afe" memberName="lfo_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="20 464 12 80" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="44 488 12 80" bkgcol="ff000000"
           textboxoutline="808080" min="0" max="11" int="1" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
           skewFactor="1"/>
   <SLIDER name="lfo 2 waveform" id="72004168ec47b7e7" memberName="lfo_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="20 552 12 80" bkgcol="ff000000"
+          virtualName="" explicitFocusOrder="0" pos="44 576 12 80" bkgcol="ff000000"
           textboxoutline="0" min="0" max="11" int="1" style="LinearBar"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
           skewFactor="1"/>
   <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="184 520 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="208 544 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;lfo 1&quot;, Colour (0xffffff00)"/>
   <JUCERCOMP name="lfo 2" id="57b28b867a25f366" memberName="lfo_2_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="184 608 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="208 632 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;lfo 2&quot;, Colour (0xffff00ff)"/>
   <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="344 344 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="344 328 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;resonance&quot;"/>
   <SLIDER name="num steps" id="8be29885961d7617" memberName="num_steps_"
           virtualName="" explicitFocusOrder="0" pos="456 400 50 50" min="1"
@@ -962,16 +975,20 @@ BEGIN_JUCER_METADATA
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="lfo 1 frequency" id="ebc4a57528113c39" memberName="lfo_1_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="176 464 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="200 488 50 50" min="1"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="lfo 2 frequency" id="41dc8f7fbc0e8586" memberName="lfo_2_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="176 552 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="200 576 50 50" min="1"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="osc mix" id="45625f8553a02da7" memberName="osc_mix_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="296 96 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;osc mix&quot;"/>
+  <SLIDER name="filter saturation" id="b5014a266e860882" memberName="filter_saturation_"
+          virtualName="" explicitFocusOrder="0" pos="240 424 50 50" min="1"
+          max="32" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -125,6 +125,7 @@ private:
     ScopedPointer<Slider> lfo_1_frequency_;
     ScopedPointer<Slider> lfo_2_frequency_;
     ScopedPointer<ModulationDestination> osc_mix_mod_destination_;
+    ScopedPointer<Slider> filter_saturation_;
 
 
     //==============================================================================
