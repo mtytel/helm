@@ -64,8 +64,8 @@ namespace mopo {
       tick(i);
   }
 
-  inline void Filter::reset() {
-    past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0;
+  void Filter::reset() {
+    past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
   }
 
 } // namespace mopo
