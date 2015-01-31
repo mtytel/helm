@@ -68,6 +68,23 @@ namespace mopo {
       sendTrigger(input(kTrigger)->source->trigger_offset);
   }
 
+  TriggerFilter::TriggerFilter(mopo_float trigger_filter) :
+      Processor(kNumInputs, 1), trigger_filter_(trigger_filter) {
+
+  }
+
+  void TriggerFilter::process() {
+    output()->clearTrigger();
+    
+    if (input(kTrigger)->source->triggered) {
+      mopo_float trigger_value = input(kTrigger)->source->trigger_value;
+      if (trigger_value == trigger_filter_) {
+        output()->trigger(input(kTrigger)->source->trigger_value,
+                          input(kTrigger)->source->trigger_offset);
+      }
+    }
+  }
+
   LegatoFilter::LegatoFilter() : Processor(kNumInputs, kNumOutputs),
                                  last_value_(kVoiceOff) { }
 
