@@ -251,7 +251,7 @@ namespace mopo {
     // Filter envelope.
     Value* filter_attack = new Value(0.0);
     Value* filter_decay = new Value(0.3);
-    Value* filter_sustain = new Value(0.0);
+    Value* filter_sustain = new Value(0.3);
     Value* filter_release = new Value(0.3);
 
     filter_envelope_ = new Envelope();
@@ -261,7 +261,7 @@ namespace mopo {
     filter_envelope_->plug(filter_release, Envelope::kRelease);
     filter_envelope_->plug(reset, Envelope::kTrigger);
 
-    Value* filter_envelope_depth = new Value(12);
+    Value* filter_envelope_depth = new Value(36);
     Multiply* scaled_envelope = new Multiply();
     scaled_envelope->plug(filter_envelope_, 0);
     scaled_envelope->plug(filter_envelope_depth, 1);
@@ -282,7 +282,7 @@ namespace mopo {
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
 
-    SmoothValue* base_cutoff = new SmoothValue(92);
+    SmoothValue* base_cutoff = new SmoothValue(80);
     Add* keytracked_cutoff = new Add();
     keytracked_cutoff->plug(base_cutoff, 0);
     keytracked_cutoff->plug(current_keytrack, 1);
@@ -378,7 +378,7 @@ namespace mopo {
     // Amplitude envelope.
     Value* amplitude_attack = new Value(0.01);
     Value* amplitude_decay = new Value(0.7);
-    Value* amplitude_sustain = new SmoothValue(0.0);
+    Value* amplitude_sustain = new SmoothValue(0.5);
     Value* amplitude_release = new Value(0.3);
 
     amplitude_envelope_ = new Envelope();
