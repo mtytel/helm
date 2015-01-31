@@ -23,6 +23,11 @@
 #include "resonance_lookup.h"
 #include "processor.h"
 
+#if defined (__APPLE__)
+  #include <Accelerate/Accelerate.h>
+  #define USE_APPLE_ACCELERATE
+#endif
+
 #define PROCESS_TICK_FUNCTION \
 void process() { \
   for (int i = 0; i < buffer_size_; ++i) \
@@ -56,8 +61,15 @@ namespace mopo {
         output(0)->buffer[i] = CLAMP(input(0)->at(i), min_, max_);
       }
 
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vclipD(input(0)->source->buffer, 1,
+                    &min_, &max_,
+                    output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
-
+#endif
     private:
       mopo_float min_, max_;
   };
@@ -73,7 +85,14 @@ namespace mopo {
         output(0)->buffer[i] = -input(0)->at(i);
       }
 
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vnegD(input(0)->source->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
+#endif 
   };
 
   // A processor that will invert a signal value by value x -> x^-1.
@@ -100,7 +119,14 @@ namespace mopo {
         output(0)->buffer[i] = scale_ * input(0)->at(i);
       }
 
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vsmulD(input(0)->source->buffer, 1, &scale_,
+                    output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
+#endif
 
     private:
       mopo_float scale_;
@@ -163,8 +189,15 @@ namespace mopo {
       inline void tick(int i) {
         output(0)->buffer[i] = input(0)->at(i) + input(1)->at(i);
       }
-
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vaddD(input(0)->source->buffer, 1,
+                   input(1)->source->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
+#endif
   };
 
   // A processor that will add a variable number of strings together.
@@ -193,8 +226,15 @@ namespace mopo {
       inline void tick(int i) {
         output(0)->buffer[i] = input(0)->at(i) - input(1)->at(i);
       }
-
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vsubD(input(0)->source->buffer, 1,
+                   input(1)->source->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
+#endif
   };
 
   // A processor that will multiply to streams together.
@@ -208,7 +248,15 @@ namespace mopo {
         output(0)->buffer[i] = input(0)->at(i) * input(1)->at(i);
       }
 
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vmulD(input(0)->source->buffer, 1,
+                   input(1)->source->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
+#endif
   };
 
   // A processor that will interpolate two streams by an interpolation stream.
@@ -232,7 +280,20 @@ namespace mopo {
                         input(kFractional)->at(i));
       }
 
+#ifdef USE_APPLE_ACCELERATE
+      void process() {
+        vDSP_vsbmD(input(kTo)->source->buffer, 1,
+                   input(kFrom)->source->buffer, 1,
+                   input(kFractional)->source->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+
+        vDSP_vaddD(input(kFrom)->source->buffer, 1,
+                   output(0)->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+      }
+#else
       PROCESS_TICK_FUNCTION
+#endif
   };
 } // namespace mopo
 
