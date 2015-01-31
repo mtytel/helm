@@ -173,6 +173,14 @@ namespace mopo {
         current_resonance_ = resonance;
       }
 
+      mopo_float saturate(mopo_float val) {
+        mopo_float magnitude = fabs(val);
+        if (magnitude <= 0.5)
+          return val;
+        float drive = CLAMP(2.0 * magnitude - 1.0, 0.0, 1.0);
+        return INTERPOLATE(val, tanh(val), drive);
+      }
+
       void tick(int i) {
         mopo_float audio = input(kAudio)->at(i);
         in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
@@ -181,7 +189,7 @@ namespace mopo {
         out_1_ = INTERPOLATE(target_out_1_, out_1_, COEFFICIENT_FILTERING);
         out_2_ = INTERPOLATE(target_out_2_, out_2_, COEFFICIENT_FILTERING);
 
-        mopo_float out = audio * in_0_ +
+        mopo_float out = saturate(audio) * in_0_ +
                          past_in_1_ * in_1_ +
                          past_in_2_ * in_2_ -
                          past_out_1_ * out_1_ -
@@ -190,7 +198,7 @@ namespace mopo {
         past_in_1_ = audio;
         past_out_2_ = past_out_1_;
         past_out_1_ = out;
-        output(0)->buffer[i] = out;
+        output(0)->buffer[i] = saturate(out);
       }
 
     private:
