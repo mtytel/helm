@@ -29,8 +29,14 @@ namespace mopo {
     int num_inputs = inputs_->size();
     for (int i = 0; i < num_inputs; ++i) {
       if (input(i)->source != &Processor::null_source_) {
+#ifdef USE_APPLE_ACCELERATE
+        vDSP_vaddD(input(i)->source->buffer, 1,
+                   output(0)->buffer, 1,
+                   output(0)->buffer, 1, buffer_size_);
+#else
         for (int s = 0; s < buffer_size_; ++s)
           output(0)->buffer[s] += input(i)->at(s);
+#endif
       }
     }
   }
