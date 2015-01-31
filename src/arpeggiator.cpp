@@ -156,6 +156,7 @@ namespace mopo {
       return;
     if (pressed_notes_.size() == 0) {
       note_index_ = -1;
+      current_octave_ = 0;
       phase_ = 1.0;
     }
     active_notes_[note] = velocity;
