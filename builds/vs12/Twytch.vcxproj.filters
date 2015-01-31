@@ -2439,9 +2439,6 @@
     <ClInclude Include="..\..\src\twytch_look_and_feel.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\twytch_mod_matrix.h">
-      <Filter>Twytch\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\twytch_oscillators.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>

@@ -1009,7 +1009,6 @@
 		BA410FB14F365DBDE5063A02 /* juce_LocalisedStrings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_LocalisedStrings.cpp; path = ../../../srcs/JUCE/modules/juce_core/text/juce_LocalisedStrings.cpp; sourceTree = SOURCE_ROOT; };
 		BA4AEEE39FD54C0A322A3020 /* CAAudioFileFormats.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CAAudioFileFormats.cpp; path = ../../../srcs/CoreAudio/PublicUtility/CAAudioFileFormats.cpp; sourceTree = SOURCE_ROOT; };
 		BA5C95766D44E1AE21F1CCFC /* juce_ThreadLocalValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ThreadLocalValue.h; path = ../../../srcs/JUCE/modules/juce_core/threads/juce_ThreadLocalValue.h; sourceTree = SOURCE_ROOT; };
-		BB944B12DB6DF96FDC7C56CA /* twytch_mod_matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = twytch_mod_matrix.h; path = ../../src/twytch_mod_matrix.h; sourceTree = SOURCE_ROOT; };
 		BBBBFE7D7ED2F384DBC7462E /* full_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = full_interface.h; path = ../../src/editor_components/full_interface.h; sourceTree = SOURCE_ROOT; };
 		BBE43A4CA112AB8A6B5EF69C /* juce_ColourSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ColourSelector.h; path = ../../../srcs/JUCE/modules/juce_gui_extra/misc/juce_ColourSelector.h; sourceTree = SOURCE_ROOT; };
 		BBE4D1E22FF8F869F6C34FE9 /* juce_LADSPAPluginFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LADSPAPluginFormat.h; path = ../../../srcs/JUCE/modules/juce_audio_processors/format_types/juce_LADSPAPluginFormat.h; sourceTree = SOURCE_ROOT; };
@@ -1407,7 +1406,6 @@
 				3E5F3A91625ADAAE0BB98C2B /* twytch_engine.h */,
 				A25C072115CAA654E3EC4586 /* twytch_look_and_feel.cpp */,
 				90B958466DA351FB67738D2D /* twytch_look_and_feel.h */,
-				BB944B12DB6DF96FDC7C56CA /* twytch_mod_matrix.h */,
 				01BF2A8DF025D2F4FEB41F90 /* twytch_oscillators.cpp */,
 				FB09DA93712A7F23D222B075 /* twytch_oscillators.h */,
 				E26DA95B5879AA16FDC92D96 /* twytch_voice_handler.cpp */,
@@ -1804,10 +1802,8 @@
 				0FD9A52B0EA2CC234599FBC6 /* wave_form_selector.cpp */,
 				273B932A45CAF826ADCCC893 /* wave_form_selector.h */,
 			);
-			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
-			tabWidth = 4;
 		};
 		2910F7AEBAD05059BC063908 /* code_editor */ = {
 			isa = PBXGroup;

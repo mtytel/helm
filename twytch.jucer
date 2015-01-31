@@ -473,8 +473,6 @@
             file="src/twytch_look_and_feel.cpp"/>
       <FILE id="XrTq1O" name="twytch_look_and_feel.h" compile="0" resource="0"
             file="src/twytch_look_and_feel.h"/>
-      <FILE id="U55hw9" name="twytch_mod_matrix.h" compile="0" resource="0"
-            file="src/twytch_mod_matrix.h"/>
       <FILE id="oGbWtN" name="twytch_oscillators.cpp" compile="1" resource="0"
             file="src/twytch_oscillators.cpp"/>
       <FILE id="icA6dv" name="twytch_oscillators.h" compile="0" resource="0"
