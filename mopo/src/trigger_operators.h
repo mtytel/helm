@@ -53,6 +53,23 @@ namespace mopo {
       mopo_float trigger_value_;
   };
 
+  class TriggerFilter : public Processor {
+    public:
+      enum Inputs {
+        kTrigger,
+        kNumInputs
+      };
+
+      TriggerFilter(mopo_float fitler = 0.0);
+      ~TriggerFilter() { }
+
+      virtual Processor* clone() const { return new TriggerFilter(*this); }
+      void process();
+
+    private:
+      mopo_float trigger_filter_;
+  };
+
   class LegatoFilter : public Processor {
     public:
       enum Inputs {
