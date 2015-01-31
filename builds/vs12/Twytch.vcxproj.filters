@@ -637,6 +637,9 @@
     <ClCompile Include="..\..\mopo\src\delay.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\distortion.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\envelope.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
@@ -2326,6 +2329,9 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\delay.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\distortion.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\envelope.h">

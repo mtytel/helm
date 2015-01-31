@@ -282,21 +282,21 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     num_steps_->addListener (this);
 
     addAndMakeVisible (step_frequency_ = new Slider ("step frequency"));
-    step_frequency_->setRange (1, 20, 0);
+    step_frequency_->setRange (0, 20, 0);
     step_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     step_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     step_frequency_->addListener (this);
     step_frequency_->setSkewFactor (0.5);
 
     addAndMakeVisible (lfo_1_frequency_ = new Slider ("lfo 1 frequency"));
-    lfo_1_frequency_->setRange (1, 20, 0);
+    lfo_1_frequency_->setRange (0, 20, 0);
     lfo_1_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     lfo_1_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     lfo_1_frequency_->addListener (this);
     lfo_1_frequency_->setSkewFactor (0.5);
 
     addAndMakeVisible (lfo_2_frequency_ = new Slider ("lfo 2 frequency"));
-    lfo_2_frequency_->setRange (1, 20, 0);
+    lfo_2_frequency_->setRange (0, 20, 0);
     lfo_2_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     lfo_2_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     lfo_2_frequency_->addListener (this);
@@ -308,6 +308,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_saturation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     filter_saturation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     filter_saturation_->addListener (this);
+    filter_saturation_->setSkewFactor (0.3);
 
 
     //[UserPreSize]
@@ -971,15 +972,15 @@ BEGIN_JUCER_METADATA
           max="32" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="step frequency" id="788574c1265fb47" memberName="step_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="512 400 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="512 400 50 50" min="0"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="lfo 1 frequency" id="ebc4a57528113c39" memberName="lfo_1_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="200 488 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="200 488 50 50" min="0"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="lfo 2 frequency" id="41dc8f7fbc0e8586" memberName="lfo_2_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="200 576 50 50" min="1"
+          virtualName="" explicitFocusOrder="0" pos="200 576 50 50" min="0"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="osc mix" id="45625f8553a02da7" memberName="osc_mix_mod_destination_"
@@ -988,7 +989,7 @@ BEGIN_JUCER_METADATA
   <SLIDER name="filter saturation" id="b5014a266e860882" memberName="filter_saturation_"
           virtualName="" explicitFocusOrder="0" pos="240 424 50 50" min="1"
           max="32" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

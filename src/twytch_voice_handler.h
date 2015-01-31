@@ -26,6 +26,7 @@
 
 namespace mopo {
   class Delay;
+  class Distortion;
   class Envelope;
   class Filter;
   class LinearSlope;
@@ -81,6 +82,7 @@ namespace mopo {
       Interpolate* oscillator_mix_;
 
       Filter* filter_;
+      Distortion* distorted_filter_;
       Envelope* filter_envelope_;
 
       Multiply* output_;

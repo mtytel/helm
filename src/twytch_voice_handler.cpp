@@ -17,6 +17,7 @@
 #include "twytch_voice_handler.h"
 
 #include "delay.h"
+#include "distortion.h"
 #include "envelope.h"
 #include "filter.h"
 #include "operators.h"
@@ -56,7 +57,7 @@ namespace mopo {
     createModMatrix();
 
     output_ = new Multiply();
-    output_->plug(filter_->output(), 0);
+    output_->plug(distorted_filter_, 0);
     output_->plug(amplitude_, 1);
 
     addProcessor(output_);
@@ -339,6 +340,13 @@ namespace mopo {
     filter_->plug(final_resonance, Filter::kResonance);
     filter_->plug(final_gain, Filter::kGain);
 
+    distorted_filter_ = new Distortion();
+    Value* distortion_type = new Value(Distortion::kTanh);
+    Value* distortion_threshold = new Value(0.5);
+    distorted_filter_->plug(filter_, Distortion::kAudio);
+    distorted_filter_->plug(distortion_type, Distortion::kType);
+    distorted_filter_->plug(distortion_threshold, Distortion::kThreshold);
+
     addGlobalProcessor(base_cutoff);
     addProcessor(current_keytrack);
     addProcessor(saturated_audio);
@@ -353,6 +361,7 @@ namespace mopo {
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter_);
+    addProcessor(distorted_filter_);
 
     controls_["filter type"] = filter_type;
     controls_["filter saturation"] = filter_saturation;

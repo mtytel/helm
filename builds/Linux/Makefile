@@ -139,6 +139,7 @@ OBJECTS := \
   $(OBJDIR)/arpeggiator_9d4b0575.o \
   $(OBJDIR)/bit_crush_f4910885.o \
   $(OBJDIR)/delay_a1e4df7f.o \
+  $(OBJDIR)/distortion_9a4df46b.o \
   $(OBJDIR)/envelope_265dd45e.o \
   $(OBJDIR)/feedback_1ba2cd93.o \
   $(OBJDIR)/filter_a2f71e46.o \
@@ -645,6 +646,11 @@ $(OBJDIR)/bit_crush_f4910885.o: ../../mopo/src/bit_crush.cpp
 $(OBJDIR)/delay_a1e4df7f.o: ../../mopo/src/delay.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delay.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/distortion_9a4df46b.o: ../../mopo/src/distortion.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling distortion.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/envelope_265dd45e.o: ../../mopo/src/envelope.cpp

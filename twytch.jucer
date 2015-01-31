@@ -364,6 +364,8 @@
         <FILE id="jlEkLP" name="bit_crush.h" compile="0" resource="0" file="mopo/src/bit_crush.h"/>
         <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
         <FILE id="vmg9rF" name="delay.h" compile="0" resource="0" file="mopo/src/delay.h"/>
+        <FILE id="gdJXLr" name="distortion.cpp" compile="1" resource="0" file="mopo/src/distortion.cpp"/>
+        <FILE id="X94USs" name="distortion.h" compile="0" resource="0" file="mopo/src/distortion.h"/>
         <FILE id="MVE4Uh" name="envelope.cpp" compile="1" resource="0" file="mopo/src/envelope.cpp"/>
         <FILE id="q7ALND" name="envelope.h" compile="0" resource="0" file="mopo/src/envelope.h"/>
         <FILE id="btwOeq" name="feedback.cpp" compile="1" resource="0" file="mopo/src/feedback.cpp"/>

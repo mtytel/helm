@@ -48,6 +48,7 @@
 		499100958BA774EB3CAAE0C7 /* full_interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1BA5C4899709C40AD4488 /* full_interface.cpp */; };
 		4C99F85A6B701B200CF6CC78 /* AUMIDIEffectBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CBEC4ED86ED41A3846382A43 /* AUMIDIEffectBase.cpp */; };
 		4EAC920ADCE322F2F13B6A9E /* CAAudioFileFormats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA4AEEE39FD54C0A322A3020 /* CAAudioFileFormats.cpp */; };
+		4FC62A1B1E2766A18D79732B /* distortion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8907E9EDCA8C1418EAAF1A5C /* distortion.cpp */; };
 		5175C46EF6CFCF0DA91C27E4 /* MusicDeviceBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4016C6A356F2DB608B2450DB /* MusicDeviceBase.cpp */; };
 		519B1882F441DD9D75CB48E9 /* juce_events.mm in Sources */ = {isa = PBXBuildFile; fileRef = 137C5A0341A3746C304ED11F /* juce_events.mm */; };
 		53BBBE2BF67ADAAB20AA1C3E /* twytch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2D70E9BEAA0628B31772C5EF /* twytch.cpp */; };
@@ -595,6 +596,7 @@
 		5CC8364905E05F5F93E0B285 /* juce_ThreadWithProgressWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ThreadWithProgressWindow.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/windows/juce_ThreadWithProgressWindow.cpp; sourceTree = SOURCE_ROOT; };
 		5D0C81559A3E10D69F629FBD /* juce_BooleanPropertyComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_BooleanPropertyComponent.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/properties/juce_BooleanPropertyComponent.h; sourceTree = SOURCE_ROOT; };
 		5D936C76CDB107D5B4B444F5 /* juce_android_Windowing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_Windowing.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/native/juce_android_Windowing.cpp; sourceTree = SOURCE_ROOT; };
+		5D9A302CB7FF10EA72A1B265 /* distortion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = distortion.h; path = ../../mopo/src/distortion.h; sourceTree = SOURCE_ROOT; };
 		5DD3C0B0DE1C68E6755697FD /* juce_video.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_video.mm; path = ../../../srcs/JUCE/modules/juce_video/juce_video.mm; sourceTree = SOURCE_ROOT; };
 		5DEDD371871CD7D650A8DC14 /* value_change_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = value_change_manager.h; path = ../../src/value_change_manager.h; sourceTree = SOURCE_ROOT; };
 		5E2B26B54DD8B4020A92A166 /* juce_BubbleComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BubbleComponent.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/misc/juce_BubbleComponent.cpp; sourceTree = SOURCE_ROOT; };
@@ -801,6 +803,7 @@
 		8811E69AB58ED977F38C26B8 /* juce_PluginDescription.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_PluginDescription.cpp; path = ../../../srcs/JUCE/modules/juce_audio_processors/processors/juce_PluginDescription.cpp; sourceTree = SOURCE_ROOT; };
 		8821C8B18D234BFB88056F60 /* juce_OpenGLGraphicsContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OpenGLGraphicsContext.h; path = ../../../srcs/JUCE/modules/juce_opengl/opengl/juce_OpenGLGraphicsContext.h; sourceTree = SOURCE_ROOT; };
 		88F85C353BFC1F73FAFEEFC5 /* juce_opengl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_opengl.h; path = ../../../srcs/JUCE/modules/juce_opengl/juce_opengl.h; sourceTree = SOURCE_ROOT; };
+		8907E9EDCA8C1418EAAF1A5C /* distortion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = distortion.cpp; path = ../../mopo/src/distortion.cpp; sourceTree = SOURCE_ROOT; };
 		8919A3D91E616F3BCEFD0E4C /* juce_PluginDirectoryScanner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_PluginDirectoryScanner.cpp; path = ../../../srcs/JUCE/modules/juce_audio_processors/scanning/juce_PluginDirectoryScanner.cpp; sourceTree = SOURCE_ROOT; };
 		89270FFD0AC2C49EFD2D4987 /* CAAudioValueRange.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CAAudioValueRange.cpp; path = ../../../srcs/CoreAudio/PublicUtility/CAAudioValueRange.cpp; sourceTree = SOURCE_ROOT; };
 		894B050EB184362162D93B70 /* mopo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mopo.h; path = ../../mopo/src/mopo.h; sourceTree = SOURCE_ROOT; };
@@ -2655,6 +2658,8 @@
 				ED43F170CFD80182906D3F22 /* bit_crush.h */,
 				CE0D7C19D0DED50FD61098FF /* delay.cpp */,
 				58E3B9307E5D81E2BE58ED37 /* delay.h */,
+				8907E9EDCA8C1418EAAF1A5C /* distortion.cpp */,
+				5D9A302CB7FF10EA72A1B265 /* distortion.h */,
 				27335B054A775475EA1E3F18 /* envelope.cpp */,
 				5350D38A52A991B5E5CA8C64 /* envelope.h */,
 				056C8E1A1461CDE963935169 /* feedback.cpp */,
@@ -3745,6 +3750,7 @@
 				EEF285D2EF218766F3649F00 /* arpeggiator.cpp in Sources */,
 				EA7AAD743DFF1A28E1EC417D /* bit_crush.cpp in Sources */,
 				EE4446DF4776616F7813054B /* delay.cpp in Sources */,
+				4FC62A1B1E2766A18D79732B /* distortion.cpp in Sources */,
 				AD71353579AD6676DF6F6415 /* envelope.cpp in Sources */,
 				3C9B2580FAE41794E7D52C96 /* feedback.cpp in Sources */,
 				E215857ACE8C499AA1EC8A54 /* filter.cpp in Sources */,

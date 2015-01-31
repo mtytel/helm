@@ -227,6 +227,7 @@
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp"/>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp"/>
     <ClCompile Include="..\..\mopo\src\delay.cpp"/>
+    <ClCompile Include="..\..\mopo\src\distortion.cpp"/>
     <ClCompile Include="..\..\mopo\src\envelope.cpp"/>
     <ClCompile Include="..\..\mopo\src\feedback.cpp"/>
     <ClCompile Include="..\..\mopo\src\filter.cpp"/>
@@ -1496,6 +1497,7 @@
     <ClInclude Include="..\..\mopo\src\arpeggiator.h"/>
     <ClInclude Include="..\..\mopo\src\bit_crush.h"/>
     <ClInclude Include="..\..\mopo\src\delay.h"/>
+    <ClInclude Include="..\..\mopo\src\distortion.h"/>
     <ClInclude Include="..\..\mopo\src\envelope.h"/>
     <ClInclude Include="..\..\mopo\src\feedback.h"/>
     <ClInclude Include="..\..\mopo\src\filter.h"/>
