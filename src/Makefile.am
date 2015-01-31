@@ -7,6 +7,8 @@ libmopo_a_SOURCES = alias.cpp \
 										bit_crush.h \
 										delay.cpp \
                     delay.h \
+                    distortion.cpp \
+                    distortion.h \
                     envelope.cpp \
                     envelope.h \
                     feedback.cpp \
