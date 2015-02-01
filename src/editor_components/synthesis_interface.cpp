@@ -356,6 +356,10 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
         if (slider)
             slider_lookup_[slider->getName().toStdString()] = slider;
+
+        Button* button = dynamic_cast<Button*>(getChildComponent(i));
+        if (button)
+            button_lookup_[button->getName().toStdString()] = button;
     }
 
     setAllValues(controls);
@@ -731,6 +735,14 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
     for (; iter != slider_lookup_.end(); ++iter)
         iter->second->setValue(controls[iter->first]->value());
+
+    std::map<std::string, Button*>::iterator biter = button_lookup_.begin();
+    for (; biter != button_lookup_.end(); ++biter) {
+        if (controls.count(biter->first)) {
+            biter->second->setToggleState((bool)controls[biter->first]->value(),
+                                          NotificationType::sendNotification);
+        }
+    }
 }
 
 //[/MiscUserCode]

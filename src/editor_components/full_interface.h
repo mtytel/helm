@@ -62,6 +62,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     std::map<std::string, juce::Slider*> slider_lookup_;
+    std::map<std::string, juce::Button*> button_lookup_;
     //[/UserVariables]
 
     //==============================================================================
