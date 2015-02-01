@@ -98,10 +98,11 @@ void Oscilloscope::resetWavePath() {
     float draw_height = getHeight() - 2.0f * padding;
 
     wave_path_.startNewSubPath(padding, getHeight() / 2.0f);
+    const mopo::mopo_float* memory = output_memory_->getPointer(samples_to_show_);
     int inc = samples_to_show_ / MAX_RESOLUTION;
     for (int i = samples_to_show_; i >= 0; i -= inc) {
         float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
-        float val = output_memory_->get(i);
+        float val = memory[i];
         wave_path_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
     }
 
