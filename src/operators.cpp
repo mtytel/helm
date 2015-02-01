@@ -16,11 +16,97 @@
 
 #include "operators.h"
 
+#if defined (__APPLE__)
+  #include <Accelerate/Accelerate.h>
+  #define USE_APPLE_ACCELERATE
+#endif
+
 namespace mopo {
 
   void Operator::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+  }
+
+
+  void Clamp::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vclipD(input(0)->source->buffer, 1,
+                &min_, &max_,
+                output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void Negate::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vnegD(input(0)->source->buffer, 1,
+               output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void LinearScale::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vsmulD(input(0)->source->buffer, 1, &scale_,
+                output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void Add::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vaddD(input(0)->source->buffer, 1,
+               input(1)->source->buffer, 1,
+               output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void Subtract::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vsubD(input(0)->source->buffer, 1,
+               input(1)->source->buffer, 1,
+               output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void Multiply::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vmulD(input(0)->source->buffer, 1,
+               input(1)->source->buffer, 1,
+               output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void Interpolate::process() {
+#ifdef USE_APPLE_ACCELERATE
+    vDSP_vsbmD(input(kTo)->source->buffer, 1,
+               input(kFrom)->source->buffer, 1,
+               input(kFractional)->source->buffer, 1,
+               output(0)->buffer, 1, buffer_size_);
+
+    vDSP_vaddD(input(kFrom)->source->buffer, 1,
+               output(0)->buffer, 1,
+               output(0)->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
   }
 
   void VariableAdd::process() {
