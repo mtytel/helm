@@ -509,23 +509,21 @@ namespace mopo {
     pitch_wheel_amount_->set(value);
   }
 
-  void TwytchVoiceHandler::connectModulation(std::string from, std::string to, Value* scale) {
-    MOPO_ASSERT(mod_sources_.count(from));
-    MOPO_ASSERT(mod_destinations_.count(to));
+  void TwytchVoiceHandler::connectModulation(ModulationConnection* connection) {
+    MOPO_ASSERT(mod_sources_.count(connection->source));
+    MOPO_ASSERT(mod_destinations_.count(connection->destination));
 
-    Multiply* modulation_scale = new Multiply();
+    connection->modulation_scale.plug(mod_sources_[connection->source], 0);
+    connection->modulation_scale.plug(&connection->amount, 1);
 
-    modulation_scale->plug(mod_sources_[from], 0);
-    modulation_scale->plug(scale, 1);
-
-    mod_destinations_[to]->plugNext(modulation_scale);
-    addProcessor(modulation_scale);
-    modulation_lookup_[scale] = modulation_scale;
+    mod_destinations_[connection->destination]->plugNext(&connection->modulation_scale);
+    addProcessor(&connection->modulation_scale);
+    mod_connections_.insert(connection);
   }
 
-  void TwytchVoiceHandler::disconnectModulation(std::string to, Value* scale) {
-    MOPO_ASSERT(modulation_lookup_.count(scale));
-    removeProcessor(modulation_lookup_[scale]);
-    mod_destinations_[to]->unplug(modulation_lookup_[scale]);
+  void TwytchVoiceHandler::disconnectModulation(ModulationConnection* connection) {
+    mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
+    removeProcessor(&connection->modulation_scale);
+    mod_connections_.erase(connection);
   }
 } // namespace mopo

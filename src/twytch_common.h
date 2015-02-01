@@ -20,6 +20,7 @@
 
 #include "mopo.h"
 #include "value.h"
+#include "operators.h"
 
 #include <map>
 #include <string>
@@ -34,6 +35,15 @@ namespace mopo {
   typedef std::map<std::string, Processor*> input_map;
   typedef std::map<std::string, Processor::Output*> output_map;
 
+  struct ModulationConnection {
+    ModulationConnection(std::string from, std::string to) :
+        source(from), destination(to) { }
+
+    std::string source;
+    std::string destination;
+    Value amount;
+    Multiply modulation_scale;
+  };
 } // namespace mopo
 
 #endif // TWYTCH_COMMON_H

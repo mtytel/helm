@@ -101,12 +101,12 @@ namespace mopo {
     return voice_controls;
   }
 
-  void TwytchEngine::connectModulation(std::string from, std::string to, Value* scale) {
-    voice_handler_->connectModulation(from, to, scale);
+  void TwytchEngine::connectModulation(ModulationConnection* connection) {
+    voice_handler_->connectModulation(connection);
   }
 
-  void TwytchEngine::disconnectModulation(std::string to, Value* scale) {
-    voice_handler_->disconnectModulation(to, scale);
+  void TwytchEngine::disconnectModulation(ModulationConnection* connection) {
+    voice_handler_->disconnectModulation(connection);
   }
 
   void TwytchEngine::process() {

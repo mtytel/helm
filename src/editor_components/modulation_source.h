@@ -45,6 +45,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     bool isHovered() { return is_hovered_; }
+    Colour getColor() { return color_; }
     //[/UserMethods]
 
     void paint (Graphics& g);

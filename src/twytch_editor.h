@@ -31,8 +31,8 @@ public:
   void paint(Graphics&) override;
   void resized() override;
   void valueChanged(std::string name, mopo::mopo_float value) override;
-  void connectModulation(std::string from, std::string to, mopo::Value* scale) override;
-  void disconnectModulation(std::string to, mopo::Value* scale) override;
+  void connectModulation(mopo::ModulationConnection* connection) override;
+  void disconnectModulation(mopo::ModulationConnection* connection) override;
 
 private:
   Twytch& twytch_;

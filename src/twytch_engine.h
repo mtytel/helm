@@ -35,8 +35,8 @@ namespace mopo {
 
       void process() override;
 
-      void connectModulation(std::string from, std::string to, Value* scale);
-      void disconnectModulation(std::string to, Value* scale);
+      void connectModulation(ModulationConnection* connection);
+      void disconnectModulation(ModulationConnection* connection);
 
       // Keyboard events.
       void allNotesOff(int sample = 0);

@@ -34,8 +34,8 @@ ModulationDestination::ModulationDestination (std::string name)
 
     //[UserPreSize]
     for (int i = 0; i < mopo::MAX_MODULATION_CONNECTIONS; ++i) {
-        modulation_scales_.push_back(nullptr);
-        modulation_colors_.push_back(Colours::black);
+        connections_.push_back(nullptr);
+        connection_colors_.push_back(Colours::black);
     }
     //[/UserPreSize]
 
@@ -68,18 +68,18 @@ void ModulationDestination::paint (Graphics& g)
     g.drawRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f), 3);
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(modulation_colors_[0]);
+    g.setColour(connection_colors_[0]);
     g.fillRect(3, 3, proportionOfWidth(0.5f) - 3, proportionOfHeight(0.5f) - 3);
 
-    g.setColour(modulation_colors_[1]);
+    g.setColour(connection_colors_[1]);
     g.fillRect(proportionOfWidth(0.5f), 3,
                proportionOfWidth(0.5f) - 3, proportionOfHeight(0.5f) - 3);
 
-    g.setColour(modulation_colors_[2]);
+    g.setColour(connection_colors_[2]);
     g.fillRect(3, proportionOfHeight(0.5f),
                proportionOfWidth(0.5f) - 3, proportionOfHeight(0.5f) - 3);
 
-    g.setColour(modulation_colors_[3]);
+    g.setColour(connection_colors_[3]);
     g.fillRect(proportionOfWidth(0.5f), proportionOfHeight(0.5f),
                proportionOfWidth(0.5f) - 3, proportionOfHeight(0.5f) - 3);
     //[/UserPaint]
@@ -103,11 +103,13 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
             index += 1;
         if (e.getPosition().y > proportionOfWidth(0.5f))
             index += 2;
-        if (modulation_scales_[index]) {
+        if (connections_[index]) {
             ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
-            parent->disconnectModulation(getName().toStdString(), modulation_scales_[index]);
-            modulation_scales_[index] = nullptr;
-            modulation_colors_[index] = Colours::black;
+            parent->disconnectModulation(connections_[index]);
+
+            delete connections_[index];
+            connections_[index] = nullptr;
+            connection_colors_[index] = Colours::black;
         }
         repaint();
     }
@@ -118,24 +120,28 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
+void ModulationDestination::connectToSource(std::string source_name, juce::Colour source_color) {
     int index = 0;
-    while (modulation_scales_[index] && index < mopo::MAX_MODULATION_CONNECTIONS)
+    while (connections_[index] && index < mopo::MAX_MODULATION_CONNECTIONS)
         index++;
     if (index >= mopo::MAX_MODULATION_CONNECTIONS)
         return;
 
-    DynamicObject* source = drag_source.description.getDynamicObject();
-
-    std::string source_name = source->getProperty("name").toString().toStdString();
-    Colour color = Colour((int)source->getProperty("color"));
-    mopo::Value* scale = new mopo::Value(1.0);
-    
+    std::string name = getName().toStdString();
+    connections_[index] = new mopo::ModulationConnection(source_name, name);
+    connections_[index]->amount.set(0.5);
     ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
-    parent->connectModulation(source_name, getName().toStdString(), scale);
-    modulation_scales_[index] = scale;
-    modulation_colors_[index] = color;
+    parent->connectModulation(connections_[index]);
+
+    connection_colors_[index] = source_color;
     repaint();
+}
+
+void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
+    DynamicObject* source = drag_source.description.getDynamicObject();
+    std::string source_name = source->getProperty("name").toString().toStdString();
+    Colour source_color = Colour((int)source->getProperty("color"));
+    connectToSource(source_name, source_color);
 }
 
 bool ModulationDestination::isInterestedInDragSource(const SourceDetails &drag_source) {

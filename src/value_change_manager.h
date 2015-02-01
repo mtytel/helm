@@ -17,6 +17,7 @@
 #ifndef VALUE_CHANGE_MANAGER_H
 #define VALUE_CHANGE_MANAGER_H
 
+#include "twytch_common.h"
 #include "value.h"
 #include <string>
 
@@ -25,8 +26,8 @@ class ValueChangeManager {
     virtual ~ValueChangeManager() { }
 
     virtual void valueChanged(std::string name, mopo::mopo_float value) = 0;
-    virtual void connectModulation(std::string from, std::string to, mopo::Value* scale) = 0;
-    virtual void disconnectModulation(std::string to, mopo::Value* scale) = 0;
+    virtual void connectModulation(mopo::ModulationConnection* connection) = 0;
+    virtual void disconnectModulation(mopo::ModulationConnection* connection) = 0;
 };
 
 #endif // VALUE_CHANGE_MANAGER_H

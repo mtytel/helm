@@ -23,7 +23,6 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_common.h"
-#include "twytch_engine.h"
 //[/Headers]
 
 
@@ -46,6 +45,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void connectToSource(std::string source_name, Colour source_color);
     void itemDropped(const SourceDetails &drag_source) override;
     bool isInterestedInDragSource(const SourceDetails &drag_source) override;
     //[/UserMethods]
@@ -58,8 +58,8 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    std::vector<mopo::Value*> modulation_scales_;
-    std::vector<Colour> modulation_colors_;
+    std::vector<mopo::ModulationConnection*> connections_;
+    std::vector<Colour> connection_colors_;
     //[/UserVariables]
 
     //==============================================================================

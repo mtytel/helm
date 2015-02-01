@@ -14,8 +14,10 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch.h"
 #include "twytch_editor.h"
+
+#include "twytch.h"
+#include "twytch_common.h"
 
 #define WIDTH 1000
 #define HEIGHT 800
@@ -49,12 +51,12 @@ void TwytchEditor::valueChanged(std::string name, mopo::mopo_float value) {
   controls_[name]->set(value);
 }
 
-void TwytchEditor::connectModulation(std::string from, std::string to, mopo::Value* scale) {
+void TwytchEditor::connectModulation(mopo::ModulationConnection* connection) {
   ScopedLock(twytch_.getCallbackLock());
-  twytch_.getSynth()->connectModulation(from, to, scale);
+  twytch_.getSynth()->connectModulation(connection);
 }
 
-void TwytchEditor::disconnectModulation(std::string to, mopo::Value* scale) {
+void TwytchEditor::disconnectModulation(mopo::ModulationConnection* connection) {
   ScopedLock(twytch_.getCallbackLock());
-  twytch_.getSynth()->disconnectModulation(to, scale);
+  twytch_.getSynth()->disconnectModulation(connection);
 }
