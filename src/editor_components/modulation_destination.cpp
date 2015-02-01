@@ -106,8 +106,6 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
         if (connections_[index]) {
             ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
             parent->disconnectModulation(connections_[index]);
-
-            delete connections_[index];
             connections_[index] = nullptr;
             connection_colors_[index] = Colours::black;
         }
@@ -120,21 +118,33 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void ModulationDestination::connectToSource(std::string source_name, juce::Colour source_color) {
-    int index = 0;
-    while (connections_[index] && index < mopo::MAX_MODULATION_CONNECTIONS)
-        index++;
-    if (index >= mopo::MAX_MODULATION_CONNECTIONS)
-        return;
+bool ModulationDestination::addConnection(mopo::ModulationConnection* connection,
+                                          juce::Colour source_color) {
+    int index = getNextAvailableIndex();
+    if (index < 0)
+        return false;
 
-    std::string name = getName().toStdString();
-    connections_[index] = new mopo::ModulationConnection(source_name, name);
-    connections_[index]->amount.set(0.5);
-    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
-    parent->connectModulation(connections_[index]);
-
+    connections_[index] = connection;
     connection_colors_[index] = source_color;
     repaint();
+    return true;
+}
+
+void ModulationDestination::clearConnections() {
+    for (int i = 0; i < mopo::MAX_MODULATION_CONNECTIONS; ++i) {
+        connections_[i] = nullptr;
+        connection_colors_[i] = Colours::black;
+    }
+}
+
+void ModulationDestination::connectToSource(std::string source_name, juce::Colour source_color) {
+    std::string name = getName().toStdString();
+    mopo::ModulationConnection* connection = new mopo::ModulationConnection(source_name, name);
+    connection->amount.set(0.5);
+    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    parent->connectModulation(connection);
+
+    addConnection(connection, source_color);
 }
 
 void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
@@ -145,7 +155,16 @@ void ModulationDestination::itemDropped(const SourceDetails &drag_source) {
 }
 
 bool ModulationDestination::isInterestedInDragSource(const SourceDetails &drag_source) {
-    return true;
+    return getNextAvailableIndex() >= 0;
+}
+
+int ModulationDestination::getNextAvailableIndex() {
+    int index = 0;
+    while (connections_[index] && index < mopo::MAX_MODULATION_CONNECTIONS)
+        index++;
+    if (index >= mopo::MAX_MODULATION_CONNECTIONS)
+        return -1;
+    return index;
 }
 
 //[/MiscUserCode]

@@ -113,6 +113,10 @@ namespace mopo {
     voice_handler_->disconnectModulation(connection);
   }
 
+  void TwytchEngine::clearModulations() {
+    voice_handler_->clearModulations();
+  }
+
   void TwytchEngine::process() {
     bool playing_arp = arp_on_->value();
     if (was_playing_arp_ != playing_arp)

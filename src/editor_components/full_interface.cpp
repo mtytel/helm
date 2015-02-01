@@ -243,6 +243,10 @@ void FullInterface::setAllValues(mopo::control_map& controls) {
     synthesis_interface_->setAllValues(controls);
 }
 
+void FullInterface::setModulations(std::set<mopo::ModulationConnection*> connections) {
+    synthesis_interface_->setModulations(connections);
+}
+
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
 }

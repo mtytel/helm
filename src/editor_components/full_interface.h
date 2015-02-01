@@ -49,6 +49,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
+    void setModulations(std::set<mopo::ModulationConnection*> connections);
     void setOutputMemory(const mopo::Memory* output_memory);
     //[/UserMethods]
 

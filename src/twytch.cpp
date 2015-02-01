@@ -204,13 +204,16 @@ void Twytch::varToState(var state) {
     }
   }
 
+  synth_.clearModulations();
   Array<var>* modulations = object_state->getProperty("modulations").getArray();
   var* modulation = modulations->begin();
   for (; modulation != modulations->end(); ++modulation) {
     DynamicObject* mod = modulation->getDynamicObject();
     std::string source = mod->getProperty("source").toString().toStdString();
     std::string destination = mod->getProperty("destination").toString().toStdString();
-    mopo::mopo_float amount = mod->getProperty("amount");
+    mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
+    connection->amount.set(mod->getProperty("amount"));
+    synth_.connectModulation(connection);
   }
 }
 

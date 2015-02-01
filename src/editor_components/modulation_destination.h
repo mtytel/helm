@@ -45,9 +45,12 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    bool addConnection(mopo::ModulationConnection* connection, juce::Colour source_color);
+    void clearConnections();
     void connectToSource(std::string source_name, Colour source_color);
     void itemDropped(const SourceDetails &drag_source) override;
     bool isInterestedInDragSource(const SourceDetails &drag_source) override;
+    int getNextAvailableIndex();
     //[/UserMethods]
 
     void paint (Graphics& g);

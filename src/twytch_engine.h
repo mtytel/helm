@@ -38,6 +38,7 @@ namespace mopo {
 
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
+      void clearModulations();
 
       // Keyboard events.
       void allNotesOff(int sample = 0);

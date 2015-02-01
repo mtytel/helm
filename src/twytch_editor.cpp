@@ -28,6 +28,7 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
 
   gui_ = new FullInterface(controls_);
   gui_->setOutputMemory(twytch.getOutputMemory());
+  gui_->setModulations(twytch_.getSynth()->getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
   repaint();
@@ -68,4 +69,5 @@ var TwytchEditor::stateToVar() {
 void TwytchEditor::varToState(var state) {
   twytch_.varToState(state);
   gui_->setAllValues(controls_);
+  gui_->setModulations(twytch_.getSynth()->getModulationConnections());
 }

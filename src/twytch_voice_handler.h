@@ -52,6 +52,7 @@ namespace mopo {
 
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
+      void clearModulations();
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors

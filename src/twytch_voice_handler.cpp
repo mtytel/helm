@@ -525,4 +525,10 @@ namespace mopo {
     removeProcessor(&connection->modulation_scale);
     mod_connections_.erase(connection);
   }
+
+  void TwytchVoiceHandler::clearModulations() {
+    std::set<ModulationConnection*>::iterator iter = mod_connections_.begin();
+    for (; iter != mod_connections_.end(); ++iter)
+      disconnectModulation(*iter);
+  }
 } // namespace mopo

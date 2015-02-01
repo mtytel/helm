@@ -360,6 +360,14 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
         Button* button = dynamic_cast<Button*>(getChildComponent(i));
         if (button)
             button_lookup_[button->getName().toStdString()] = button;
+
+        ModulationDestination* dest = dynamic_cast<ModulationDestination*>(getChildComponent(i));
+        if (dest)
+            dest_lookup_[dest->getName().toStdString()] = dest;
+
+        ModulationSource* source = dynamic_cast<ModulationSource*>(getChildComponent(i));
+        if (source)
+            source_lookup_[source->getName().toStdString()] = source;
     }
 
     setAllValues(controls);
@@ -743,6 +751,21 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
                                           NotificationType::sendNotification);
         }
     }
+}
+
+void SynthesisInterface::setModulations(std::set<mopo::ModulationConnection*> connections) {
+    std::set<mopo::ModulationConnection*>::iterator iter = connections.begin();
+    for (; iter != connections.end(); ++iter) {
+        mopo::ModulationConnection* connection = *iter;
+        juce::Colour source_color = source_lookup_[connection->source]->getColor();
+        dest_lookup_[connection->destination]->addConnection(connection, source_color);
+    }
+}
+
+void SynthesisInterface::clearModulations() {
+    std::map<std::string, ModulationDestination*>::iterator iter = dest_lookup_.begin();
+    for (; iter != dest_lookup_.end(); ++iter)
+        iter->second->clearConnections();
 }
 
 //[/MiscUserCode]
