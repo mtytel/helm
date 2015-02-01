@@ -1530,6 +1530,7 @@
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h"/>
+    <ClInclude Include="..\..\src\save_load_manager.h"/>
     <ClInclude Include="..\..\src\twytch.h"/>
     <ClInclude Include="..\..\src\twytch_common.h"/>
     <ClInclude Include="..\..\src\twytch_editor.h"/>

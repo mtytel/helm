@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "save_load_manager.h"
 #include "twytch_engine.h"
 #include "value_change_manager.h"
 //[/Headers]
@@ -150,8 +151,9 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
         FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
         FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
         if (save_dialog.show()) {
+            SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
             File save_file = browser.getSelectedFile(0);
-            save_file.replaceWithText(JSON::toString(getState()));
+            save_file.replaceWithText(JSON::toString(parent->stateToVar()));
         }
         //[/UserButtonCode_save_button_]
     }
@@ -165,8 +167,10 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
             File load_file = browser.getSelectedFile(0);
 
             var parsed_json_state;
-            if (JSON::parse(load_file.loadFileAsString(), parsed_json_state).wasOk())
-                writeState(parsed_json_state);
+            if (JSON::parse(load_file.loadFileAsString(), parsed_json_state).wasOk()) {
+                SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
+                parent->varToState(parsed_json_state);
+            }
         }
         //[/UserButtonCode_load_button_]
     }
@@ -220,45 +224,16 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void FullInterface::setAllValues(mopo::control_map controls) {
+void FullInterface::setAllValues(mopo::control_map& controls) {
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
     for (; iter != slider_lookup_.end(); ++iter) {
-        iter->second->setValue(controls[iter->first]->value(),
-                               NotificationType::dontSendNotification);
+        iter->second->setValue(controls[iter->first]->value());
     }
+    synthesis_interface_->setAllValues(controls);
 }
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
-}
-
-var FullInterface::getState() {
-    DynamicObject* state_object = new DynamicObject();
-    state_object->setProperty("synthesis", synthesis_interface_->getState());
-
-    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
-    for (; iter != slider_lookup_.end(); ++iter)
-        state_object->setProperty(String(iter->first), iter->second->getValue());
-
-    return state_object;
-}
-
-void FullInterface::writeState(var state) {
-    DynamicObject* object_state = state.getDynamicObject();
-    synthesis_interface_->writeState(object_state->getProperty("synthesis"));
-
-    NamedValueSet properties = object_state->getProperties();
-    int size = properties.size();
-    for (int i = 0; i < size; ++i) {
-        Identifier id = properties.getName(i);
-        if (id.isValid()) {
-            String name = id.toString();
-            if (slider_lookup_.count(name.toStdString())) {
-                mopo::mopo_float value = properties.getValueAt(i);
-                slider_lookup_[name.toStdString()]->setValue(value);
-            }
-        }
-    }
 }
 
 //[/MiscUserCode]

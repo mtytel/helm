@@ -727,33 +727,10 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void SynthesisInterface::setAllValues(mopo::control_map controls) {
+void SynthesisInterface::setAllValues(mopo::control_map& controls) {
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
     for (; iter != slider_lookup_.end(); ++iter)
         iter->second->setValue(controls[iter->first]->value());
-}
-
-var SynthesisInterface::getState() {
-    DynamicObject* state_object = new DynamicObject();
-    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
-    for (; iter != slider_lookup_.end(); ++iter)
-        state_object->setProperty(String(iter->first), iter->second->getValue());
-
-    return state_object;
-}
-
-void SynthesisInterface::writeState(var state) {
-    DynamicObject* object_state = state.getDynamicObject();
-    NamedValueSet properties = object_state->getProperties();
-    int size = properties.size();
-    for (int i = 0; i < size; ++i) {
-        Identifier id = properties.getName(i);
-        if (id.isValid()) {
-            String name = id.toString();
-            mopo::mopo_float value = properties.getValueAt(i);
-            slider_lookup_[name.toStdString()]->setValue(value);
-        }
-    }
 }
 
 //[/MiscUserCode]

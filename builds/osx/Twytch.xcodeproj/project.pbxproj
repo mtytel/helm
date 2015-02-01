@@ -578,6 +578,7 @@
 		569645A6F5785506F3982CC4 /* CAAudioChannelLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CAAudioChannelLayout.h; path = ../../../srcs/CoreAudio/PublicUtility/CAAudioChannelLayout.h; sourceTree = SOURCE_ROOT; };
 		5743C0366F025CE0713712E2 /* juce_ResizableCornerComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ResizableCornerComponent.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/layout/juce_ResizableCornerComponent.h; sourceTree = SOURCE_ROOT; };
 		5771E12A03FEF3D1A165F7E4 /* juce_AudioFormatReaderSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_AudioFormatReaderSource.cpp; path = ../../../srcs/JUCE/modules/juce_audio_formats/format/juce_AudioFormatReaderSource.cpp; sourceTree = SOURCE_ROOT; };
+		57AFC9DCCF9792E46626CED6 /* save_load_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = save_load_manager.h; path = ../../src/save_load_manager.h; sourceTree = SOURCE_ROOT; };
 		57F508CF1D557AA421ACB302 /* juce_linux_FileChooser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_linux_FileChooser.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/native/juce_linux_FileChooser.cpp; sourceTree = SOURCE_ROOT; };
 		57FBB8D0E1B7CBFC953A481C /* CarbonEventHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CarbonEventHandler.h; path = ../../../srcs/CoreAudio/AudioUnits/AUPublic/AUCarbonViewBase/CarbonEventHandler.h; sourceTree = SOURCE_ROOT; };
 		586A91047DF4E56E0C8EB8DD /* juce_PluginListComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_PluginListComponent.h; path = ../../../srcs/JUCE/modules/juce_audio_processors/scanning/juce_PluginListComponent.h; sourceTree = SOURCE_ROOT; };
@@ -1400,6 +1401,7 @@
 			isa = PBXGroup;
 			children = (
 				27BEE01F67E414CCF5F44AF9 /* editor_components */,
+				57AFC9DCCF9792E46626CED6 /* save_load_manager.h */,
 				2D70E9BEAA0628B31772C5EF /* twytch.cpp */,
 				F4FBD4EE75B635FE516BB7AC /* twytch.h */,
 				01D6C1712A236B1CE409425E /* twytch_common.h */,

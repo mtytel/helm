@@ -162,6 +162,33 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   }
 }
 
+var Twytch::stateToVar() {
+  mopo::control_map controls = synth_.getControls();
+  DynamicObject* state_object = new DynamicObject();
+
+  mopo::control_map::iterator iter = controls.begin();
+  for (; iter != controls.end(); ++iter)
+    state_object->setProperty(String(iter->first), iter->second->value());
+
+  return state_object;
+}
+
+void Twytch::varToState(var state) {
+  mopo::control_map controls = synth_.getControls();
+  DynamicObject* object_state = state.getDynamicObject();
+
+  NamedValueSet properties = object_state->getProperties();
+  int size = properties.size();
+  for (int i = 0; i < size; ++i) {
+    Identifier id = properties.getName(i);
+    if (id.isValid()) {
+      std::string name = id.toString().toStdString();
+      mopo::mopo_float value = properties.getValueAt(i);
+      controls[name]->set(value);
+    }
+  }
+}
+
 bool Twytch::hasEditor() const {
   return true;
 }

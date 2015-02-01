@@ -21,18 +21,25 @@
 #include "twytch.h"
 #include "twytch_look_and_feel.h"
 #include "full_interface.h"
-#include "value_change_manager.h" 
+#include "save_load_manager.h"
+#include "value_change_manager.h"
 
-class TwytchEditor : public AudioProcessorEditor, public ValueChangeManager {
+class TwytchEditor : public AudioProcessorEditor,
+                     public ValueChangeManager,
+                     public SaveLoadManager {
 public:
   TwytchEditor(Twytch&);
   ~TwytchEditor();
 
   void paint(Graphics&) override;
   void resized() override;
+
   void valueChanged(std::string name, mopo::mopo_float value) override;
   void connectModulation(mopo::ModulationConnection* connection) override;
   void disconnectModulation(mopo::ModulationConnection* connection) override;
+
+  var stateToVar() override;
+  void varToState(var state) override;
 
 private:
   Twytch& twytch_;

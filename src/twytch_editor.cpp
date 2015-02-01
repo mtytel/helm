@@ -60,3 +60,12 @@ void TwytchEditor::disconnectModulation(mopo::ModulationConnection* connection) 
   ScopedLock(twytch_.getCallbackLock());
   twytch_.getSynth()->disconnectModulation(connection);
 }
+
+var TwytchEditor::stateToVar() {
+  return twytch_.stateToVar();
+}
+
+void TwytchEditor::varToState(var state) {
+  twytch_.varToState(state);
+  gui_->setAllValues(controls_);
+}

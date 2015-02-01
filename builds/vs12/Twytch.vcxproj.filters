@@ -2430,6 +2430,9 @@
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\save_load_manager.h">
+      <Filter>Twytch\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\twytch.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>

@@ -51,9 +51,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setAllValues(mopo::control_map controls);
-    var getState();
-    void writeState(var state);
+    void setAllValues(mopo::control_map& controls);
     //[/UserMethods]
 
     void paint (Graphics& g);

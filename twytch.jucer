@@ -462,6 +462,8 @@
         <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
               file="src/editor_components/wave_form_selector.h"/>
       </GROUP>
+      <FILE id="p7mev0" name="save_load_manager.h" compile="0" resource="0"
+            file="src/save_load_manager.h"/>
       <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="src/twytch.cpp"/>
       <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="src/twytch.h"/>
       <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="src/twytch_common.h"/>

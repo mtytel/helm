@@ -19,9 +19,10 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "memory.h"
+#include "save_load_manager.h"
 #include "twytch_engine.h"
 
-class Twytch : public AudioProcessor {
+class Twytch : public AudioProcessor, public SaveLoadManager {
   public:
     Twytch();
     virtual ~Twytch();
@@ -65,6 +66,9 @@ class Twytch : public AudioProcessor {
 
     mopo::TwytchEngine* getSynth() { return &synth_; }
     const mopo::Memory* getOutputMemory() { return &output_memory_; }
+
+    var stateToVar() override;
+    void varToState(var state) override;
 
   private:
     mopo::TwytchEngine synth_;
