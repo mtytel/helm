@@ -37,16 +37,16 @@ namespace mopo {
         memset(memory_, 0, MAX_MEMORY * sizeof(mopo_float));
       }
 
-      inline void push(mopo_float sample) {
+      void push(mopo_float sample) {
         offset_ = (offset_ + 1) & MEMORY_BITMASK;
         memory_[offset_] = sample;
       }
 
-      inline mopo_float getIndex(int index) const {
+      mopo_float getIndex(int index) const {
         return memory_[(offset_ - index) & MEMORY_BITMASK];
       }
 
-      inline mopo_float get(mopo_float past) const {
+      mopo_float get(mopo_float past) const {
         mopo_float float_index;
         mopo_float sample_fraction = modf(past, &float_index);
         int index = std::max<int>(float_index, 1);
@@ -55,6 +55,10 @@ namespace mopo {
         mopo_float from = getIndex(index - 1);
         mopo_float to = getIndex(index);
         return INTERPOLATE(from, to, sample_fraction);
+      }
+
+      const mopo_float* getPointer(int past) const {
+        return memory_ + ((offset_ - past) & MEMORY_BITMASK);
       }
 
     protected:
