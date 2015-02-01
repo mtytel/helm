@@ -32,6 +32,7 @@ namespace mopo {
       TwytchEngine();
 
       control_map getControls();
+      std::set<ModulationConnection*> getModulationConnections();
 
       void process() override;
 

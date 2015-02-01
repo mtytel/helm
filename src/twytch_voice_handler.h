@@ -45,6 +45,7 @@ namespace mopo {
       virtual ~TwytchVoiceHandler() { } // Should probably delete things.
 
       control_map getControls() { return controls_; }
+      std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
 
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);

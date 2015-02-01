@@ -15,6 +15,7 @@
  */
 
 #include "twytch.h"
+#include "twytch_common.h"
 #include "twytch_editor.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
@@ -155,11 +156,11 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   for (int channel = 0; channel < num_channels; ++channel) {
     float* channelData = buffer.getWritePointer(channel);
 
-    for (int i = 0; i < num_samples; ++i) {
+    for (int i = 0; i < num_samples; ++i)
       channelData[i] = synth_output[i];
-      output_memory_.push(synth_output[i]);
-    }
   }
+  for (int i = 0; i < num_samples; ++i)
+    output_memory_.push(synth_output[i]);
 }
 
 var Twytch::stateToVar() {
@@ -170,6 +171,19 @@ var Twytch::stateToVar() {
   for (; iter != controls.end(); ++iter)
     state_object->setProperty(String(iter->first), iter->second->value());
 
+  std::set<mopo::ModulationConnection*> modulations = synth_.getModulationConnections();
+  std::set<mopo::ModulationConnection*>::iterator miter = modulations.begin();
+  Array<var> modulation_states;
+  for (; miter != modulations.end(); ++miter) {
+    mopo::ModulationConnection* connection = *miter;
+    DynamicObject* mod_object = new DynamicObject();
+    mod_object->setProperty("source", connection->source.c_str());
+    mod_object->setProperty("destination", connection->destination.c_str());
+    mod_object->setProperty("amount", connection->amount.value());
+    modulation_states.add(mod_object);
+  }
+
+  state_object->setProperty("modulations", modulation_states);
   return state_object;
 }
 
@@ -183,9 +197,20 @@ void Twytch::varToState(var state) {
     Identifier id = properties.getName(i);
     if (id.isValid()) {
       std::string name = id.toString().toStdString();
-      mopo::mopo_float value = properties.getValueAt(i);
-      controls[name]->set(value);
+      if (controls.count(name)) {
+        mopo::mopo_float value = properties.getValueAt(i);
+        controls[name]->set(value);
+      }
     }
+  }
+
+  Array<var>* modulations = object_state->getProperty("modulations").getArray();
+  var* modulation = modulations->begin();
+  for (; modulation != modulations->end(); ++modulation) {
+    DynamicObject* mod = modulation->getDynamicObject();
+    std::string source = mod->getProperty("source").toString().toStdString();
+    std::string destination = mod->getProperty("destination").toString().toStdString();
+    mopo::mopo_float amount = mod->getProperty("amount");
   }
 }
 

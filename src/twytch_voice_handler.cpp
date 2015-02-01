@@ -68,7 +68,6 @@ namespace mopo {
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
   }
 
-
   void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
     Value* pitch_bend_range = new Value(2);

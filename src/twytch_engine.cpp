@@ -101,6 +101,10 @@ namespace mopo {
     return voice_controls;
   }
 
+  std::set<ModulationConnection*> TwytchEngine::getModulationConnections() {
+    return voice_handler_->getModulationConnections();
+  }
+
   void TwytchEngine::connectModulation(ModulationConnection* connection) {
     voice_handler_->connectModulation(connection);
   }
