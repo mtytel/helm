@@ -34,7 +34,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Value(*this); }
       virtual void process();
 
-      mopo_float value() const { return value_; }
+      virtual mopo_float value() const { return value_; }
       virtual void set(mopo_float value);
 
     protected:

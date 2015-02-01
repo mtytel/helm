@@ -37,6 +37,8 @@ namespace mopo {
         target_value_ = value;
       }
 
+      mopo_float value() const { return target_value_; }
+
     private:
       void tick(int i);
 
