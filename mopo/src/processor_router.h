@@ -64,7 +64,7 @@ namespace mopo {
       std::set<const Processor*> getDependencies(const Processor* processor);
 
       std::shared_ptr<std::vector<const Processor*> > order_;
-      std::map<const Processor*, std::unique_ptr<Processor> > processors_;
+      std::map<const Processor*, Processor*> processors_;
 
       std::shared_ptr<std::vector<const Feedback*> > feedback_order_;
       std::map<const Feedback*, std::unique_ptr<Feedback> >
