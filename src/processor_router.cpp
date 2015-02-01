@@ -36,7 +36,7 @@ namespace mopo {
     size_t num_processors = order_->size();
     for (size_t i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
-      processors_[next].reset(next->clone());
+      processors_[next] = next->clone();
     }
 
     size_t num_feedbacks = feedback_order_->size();
@@ -96,7 +96,7 @@ namespace mopo {
     MOPO_ASSERT(processor->router() == nullptr || processor->router() == this);
     processor->router(this);
     order_->push_back(processor);
-    processors_[processor].reset(processor);
+    processors_[processor] = processor;
 
     for (int i = 0; i < processor->numInputs(); ++i)
       connect(processor, processor->input(i)->source, i);
@@ -200,7 +200,7 @@ namespace mopo {
     for (int i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
       if (processors_.find(next) == processors_.end())
-        processors_[next].reset(next->clone());
+        processors_[next] = next->clone();
     }
 
     size_t num_feedbacks = feedback_order_->size();
