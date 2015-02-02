@@ -22,7 +22,7 @@
 
 namespace mopo {
 
-  Phaser::Phaser() : ProcessorRouter(0, 0) {
+  Phaser::Phaser(int num_phases) : ProcessorRouter(0, 0) {
     Oscillator* oscillator = new Oscillator();
     registerInput(oscillator->input(Oscillator::kFrequency), kOscFrequency);
     registerInput(oscillator->input(Oscillator::kWaveform), kOscWaveform);
@@ -39,24 +39,37 @@ namespace mopo {
     MidiScale* frequency_cutoff = new MidiScale();
     frequency_cutoff->plug(midi_cutoff);
 
-    Filter* filter = new Filter();
+    Filter* first_filter = new Filter();
     Value* filter_type = new Value(Filter::kAllPass);
-    registerInput(filter->input(Filter::kAudio), kAudio);
-    registerInput(filter->input(Filter::kResonance), kFilterResonance);
-    filter->plug(filter_type, Filter::kType);
-    filter->plug(frequency_cutoff, Filter::kCutoff);
+    first_filter->plug(filter_type, Filter::kType);
+    first_filter->plug(frequency_cutoff, Filter::kCutoff);
+    registerInput(first_filter->input(Filter::kAudio), kAudio);
+    registerInput(first_filter->input(Filter::kResonance), kFilterResonance);
+    Filter* last_filter = first_filter;
+
+    for (int i = 1; i < num_phases; ++i) {
+      Filter* filter = new Filter();
+      filter->registerInput(first_filter->input(Filter::kResonance),
+                            Filter::kResonance);
+      filter->plug(last_filter, Filter::kAudio);
+      filter->plug(filter_type, Filter::kType);
+      filter->plug(frequency_cutoff, Filter::kCutoff);
+      addProcessor(filter);
+      last_filter = filter;
+    }
 
     Interpolate* mixer = new Interpolate();
-    mixer->registerInput(filter->input(Filter::kAudio), Interpolate::kFrom);
-    mixer->plug(filter, Interpolate::kTo);
+    mixer->registerInput(first_filter->input(Filter::kAudio),
+                         Interpolate::kFrom);
+    mixer->plug(last_filter, Interpolate::kTo);
     registerInput(mixer->input(Interpolate::kFractional), kMix);
 
     addProcessor(oscillator);
     addProcessor(scaled_oscillator);
     addProcessor(midi_cutoff);
     addProcessor(frequency_cutoff);
-    addProcessor(filter);
     addProcessor(mixer);
+    addProcessor(first_filter);
 
     registerOutput(mixer->output(), 0);
   }
