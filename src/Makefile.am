@@ -29,6 +29,8 @@ libmopo_a_SOURCES = alias.cpp \
                     operators.h \
                     oscillator.cpp \
                     oscillator.h \
+                    phaser.cpp \
+                    phaser.h \
                     processor.cpp \
                     processor.h \
                     processor_router.cpp \
