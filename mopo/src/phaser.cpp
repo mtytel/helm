@@ -40,8 +40,10 @@ namespace mopo {
     frequency_cutoff->plug(midi_cutoff);
 
     Filter* filter = new Filter();
+    Value* filter_type = new Value(Filter::kAllPass);
     registerInput(filter->input(Filter::kAudio), kAudio);
     registerInput(filter->input(Filter::kResonance), kFilterResonance);
+    filter->plug(filter_type, Filter::kType);
     filter->plug(frequency_cutoff, Filter::kCutoff);
 
     Interpolate* mixer = new Interpolate();
