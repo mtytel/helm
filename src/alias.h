@@ -18,7 +18,6 @@
 #ifndef ALIAS_H
 #define ALIAS_H
 
-#include "memory.h"
 #include "processor.h"
 
 namespace mopo {
