@@ -140,6 +140,7 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
             parent->addAndMakeVisible(slider);
 
             slider->setRange(-1, 1, 0);
+            slider->setValue(connections_[index]->amount.value());
             slider->setSliderStyle(Slider::LinearBarVertical);
             slider->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
             slider->setColour(Slider::backgroundColourId, Colours::black);
@@ -191,6 +192,10 @@ void ModulationDestination::clearConnections() {
     for (int i = 0; i < mopo::MAX_MODULATION_CONNECTIONS; ++i) {
         connections_[i] = nullptr;
         connection_colors_[i] = Colours::black;
+        if (modulation_sliders_[i]) {
+            removeModulationSlider(modulation_sliders_[i]);
+            modulation_sliders_[i] = nullptr;
+        }
     }
 }
 
