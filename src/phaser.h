@@ -43,7 +43,6 @@ namespace mopo {
       Phaser();
 
       virtual Processor* clone() const { return new Phaser(*this); }
-      virtual void process();
   };
 } // namespace mopo
 
