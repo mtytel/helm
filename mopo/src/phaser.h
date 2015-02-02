@@ -15,47 +15,36 @@
  */
 
 #pragma once
-#ifndef ALIAS_H
-#define ALIAS_H
+#ifndef PHASER_H
+#define PHASER_H
 
-#include "processor.h"
+#include "processor_router.h"
 
 namespace mopo {
 
+  class Interpolate;
+
   // A signal delay processor with wet/dry, delay time and feedback controls.
   // Handles fractional delay amounts through interpolation.
-  class Alias : public Processor {
+  class Phaser : public ProcessorRouter {
     public:
       enum Inputs {
         kAudio,
-        kWet,
-        kFrequency,
+        kMix,
+        kOscFrequency,
+        kOscWaveform,
+        kFilterCutoffMidi,
+        kFilterResonance,
+        kSemitoneSweep,
+        kReset,
         kNumInputs
       };
 
-      Alias();
+      Phaser();
 
-      virtual Processor* clone() const { return new Alias(*this); }
+      virtual Processor* clone() const { return new Phaser(*this); }
       virtual void process();
-
-      void tick(int i) {
-        mopo_float audio = input(kAudio)->at(i);
-        mopo_float wet = input(kWet)->at(i);
-        mopo_float period = sample_rate_ / input(kFrequency)->at(i);
-
-        static_samples_ += 1.0;
-        if (static_samples_ >= period) {
-          static_samples_ -= period;
-          current_sample_ = audio;
-        }
-
-        output(0)->buffer[i] = INTERPOLATE(audio, current_sample_, wet);
-      }
-
-    protected:
-      mopo_float current_sample_;
-      mopo_float static_samples_;
   };
 } // namespace mopo
 
-#endif // ALIAS_H
+#endif // PHASER_H

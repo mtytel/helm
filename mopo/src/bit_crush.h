@@ -18,8 +18,8 @@
 #ifndef BIT_CRUSH_H
 #define BIT_CRUSH_H
 
-#include "memory.h"
 #include "processor.h"
+#include <cmath>
 
 namespace mopo {
 
