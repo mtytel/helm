@@ -33,16 +33,17 @@ ModulationDestination::ModulationDestination (std::string name)
 {
 
     //[UserPreSize]
-    for (int i = 0; i < mopo::MAX_MODULATION_CONNECTIONS; ++i) {
-        connections_.push_back(nullptr);
-        connection_colors_.push_back(Colours::black);
-    }
     //[/UserPreSize]
 
     setSize (600, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
+    for (int i = 0; i < mopo::MAX_MODULATION_CONNECTIONS; ++i) {
+        connections_.push_back(nullptr);
+        connection_colors_.push_back(Colours::black);
+        modulation_sliders_.push_back(nullptr);
+    }
     setName(name);
     //[/Constructor]
 }
@@ -94,22 +95,68 @@ void ModulationDestination::resized()
     //[/UserResized]
 }
 
+void ModulationDestination::mouseMove (const MouseEvent& e)
+{
+    //[UserCode_mouseMove] -- Add your code here...
+
+    //[/UserCode_mouseMove]
+}
+
+void ModulationDestination::mouseExit (const MouseEvent& e)
+{
+    //[UserCode_mouseExit] -- Add your code here...
+    /*
+    Component* parent = getParentComponent();
+    parent->removeChildComponent(modulation_slider_);
+    delete modulation_slider_;
+    modulation_slider_ = nullptr;
+     */
+    //[/UserCode_mouseExit]
+}
+
 void ModulationDestination::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
-    if (!e.mods.isRightButtonDown()) {
-        int index = 0;
-        if (e.getPosition().x > proportionOfWidth(0.5f))
-            index += 1;
-        if (e.getPosition().y > proportionOfWidth(0.5f))
-            index += 2;
+    if (e.mods.isRightButtonDown()) {
+        int index = getHoverIndex(e.getPosition());
         if (connections_[index]) {
             ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
             parent->disconnectModulation(connections_[index]);
             connections_[index] = nullptr;
             connection_colors_[index] = Colours::black;
+
+            if (modulation_sliders_[index])
+                removeModulationSlider(modulation_sliders_[index]);
         }
         repaint();
+    }
+    else {
+        Component* parent = getParentComponent();
+        int index = getHoverIndex(e.getPosition());
+
+        if (connections_[index] && modulation_sliders_[index] == nullptr) {
+            HoverSlider* slider = new HoverSlider(this);
+            modulation_sliders_[index] = slider;
+            parent->addAndMakeVisible(slider);
+
+            slider->setRange(-1, 1, 0);
+            slider->setSliderStyle(Slider::LinearBarVertical);
+            slider->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+            slider->setColour(Slider::backgroundColourId, Colours::black);
+            slider->setColour(Slider::trackColourId, connection_colors_[index]);
+            slider->addListener(this);
+
+            Rectangle<int> bounds = getBounds();
+            if (index % 2)
+                bounds.setX(bounds.getX() + bounds.getWidth());
+            else
+                bounds.setX(bounds.getX() - bounds.getWidth());
+            if (index >= 2)
+                bounds.setY(bounds.getY() + bounds.getHeight() / 2.0);
+            else
+                bounds.setY(bounds.getY() - bounds.getHeight() / 2.0);
+            slider->setBounds(bounds);
+        }
     }
     //[/UserCode_mouseDown]
 }
@@ -117,6 +164,16 @@ void ModulationDestination::mouseDown (const MouseEvent& e)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+void ModulationDestination::removeModulationSlider(HoverSlider* slider) {
+    for (int i = 0; i < modulation_sliders_.size(); ++i) {
+        if (modulation_sliders_[i] == slider) {
+            getParentComponent()->removeChildComponent(slider);
+            delete slider;
+            modulation_sliders_[i] = nullptr;
+        }
+    }
+}
 
 bool ModulationDestination::addConnection(mopo::ModulationConnection* connection,
                                           juce::Colour source_color) {
@@ -167,6 +224,22 @@ int ModulationDestination::getNextAvailableIndex() {
     return index;
 }
 
+int ModulationDestination::getHoverIndex(Point<int> position) {
+    int index = 0;
+    if (position.x > proportionOfWidth(0.5f))
+        index += 1;
+    if (position.y > proportionOfWidth(0.5f))
+        index += 2;
+    return index;
+}
+
+void ModulationDestination::sliderValueChanged(Slider *slider) {
+    for (int i = 0; i < modulation_sliders_.size(); ++i) {
+        if (modulation_sliders_[i] == slider && connections_[i])
+            connections_[i]->amount.set(slider->getValue());
+    }
+}
+
 //[/MiscUserCode]
 
 
@@ -180,11 +253,14 @@ int ModulationDestination::getNextAvailableIndex() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationDestination" componentName=""
-                 parentClasses="public Component, public DragAndDropTarget" constructorParams="std::string name"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
+                 parentClasses="public Component, public DragAndDropTarget, public SliderListener"
+                 constructorParams="std::string name" variableInitialisers=""
+                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
+                 fixedSize="0" initialWidth="600" initialHeight="400">
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ffffff">
     <RECT pos="0 0 100% 100%" fill="solid: 2aa530" hasStroke="1" stroke="3.1, mitered, butt"

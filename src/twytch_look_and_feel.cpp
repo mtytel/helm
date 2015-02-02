@@ -25,7 +25,7 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
   g.fillAll(Colours::black);
-  g.setColour(Colours::grey);
+  g.setColour(slider.findColour(Slider::trackColourId));
   if (style == Slider::SliderStyle::LinearBar) {
     g.fillRoundedRectangle(x, y, slider_pos - x, height, SLIDER_ROUNDING);
   }
