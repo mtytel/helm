@@ -40,7 +40,7 @@ namespace mopo {
         kNumInputs
       };
 
-      Phaser();
+      Phaser(int num_channels = 8);
 
       virtual Processor* clone() const { return new Phaser(*this); }
   };
