@@ -53,7 +53,7 @@ namespace mopo {
     createOscillators(current_frequency_->output(),
                       amplitude_envelope_->output(Envelope::kFinished));
     createFilter(osc_feedback_->output(0), note_from_center_->output(),
-                 note_change_trigger_->output(), voice_event());
+                 amplitude_envelope_->output(Envelope::kFinished), voice_event());
     createModMatrix();
 
     output_ = new Multiply();
@@ -255,10 +255,10 @@ namespace mopo {
     Value* filter_release = new Value(0.3);
 
     TriggerFilter* note_off = new TriggerFilter(VoiceEvent::kVoiceOff);
+    note_off->plug(note_event);
     TriggerCombiner* filter_env_trigger = new TriggerCombiner();
     filter_env_trigger->plug(note_off, 0);
     filter_env_trigger->plug(reset, 1);
-    note_off->plug(note_event);
 
     filter_envelope_ = new Envelope();
     filter_envelope_->plug(filter_attack, Envelope::kAttack);
