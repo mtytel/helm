@@ -72,18 +72,18 @@ GraphicalEnvelope::~GraphicalEnvelope()
 void GraphicalEnvelope::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-    static const PathStrokeType stroke(2.000f, PathStrokeType::beveled, PathStrokeType::rounded);
+    static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff303030));
+    g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour (0xff383838));
+    g.setColour(Colour (0xff43165f));
     g.fillRect(0, 0, getAttackX(), getHeight());
     g.fillRect(getDecayX(), 0, getSustainX() - getDecayX(), getHeight());
     g.fillRect(getReleaseX(), 0, getWidth() - getReleaseX(), getHeight());
 
-    g.setGradientFill(ColourGradient(Colour(0xff888888), 0.0f, 0.0f,
+    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0f,
                                      Colour(0x00000000), 0.0f, getHeight(), false));
     g.fillPath(envelope_line_);
 
@@ -317,7 +317,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff303030"/>
+  <BACKGROUND backgroundColour="ff33064f"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

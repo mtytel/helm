@@ -57,7 +57,7 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   float center_y = y + height / 2.0f;
   background.addCentredArc(center_x, center_y, width / 2.0f, height / 2.0f,
                            0.0f, start_angle, end_angle, true);
-  g.setColour(Colours::darkgrey);
+  g.setColour(slider.findColour(Slider::backgroundColourId));
   g.fillPath(background);
 
   float slider_radius = width / 2.0f - stroke_width;
@@ -66,7 +66,7 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   rail.addCentredArc(center_x, center_y, slider_radius, slider_radius,
                      0.0f, start_angle, end_angle, true);
 
-  g.setColour(Colours::black);
+  g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
   g.strokePath(rail, stroke_type);
 
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
@@ -74,10 +74,11 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   active_section.addCentredArc(center_x, center_y, slider_radius, slider_radius,
                                0.0f, start_angle, current_angle, true);
 
-  g.setColour(Colour(0xffcccccc));
+  g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
   g.strokePath(active_section, stroke_type);
 
   if (slider.getInterval() == 1) {
+    g.setColour(slider.findColour(Slider::textBoxTextColourId));
     g.drawText(String(slider.getValue()), slider.getLocalBounds(),
                Justification::horizontallyCentred | Justification::verticallyCentred);
   }

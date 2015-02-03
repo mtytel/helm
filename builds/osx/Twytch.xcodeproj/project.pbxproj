@@ -1810,8 +1810,10 @@
 				0FD9A52B0EA2CC234599FBC6 /* wave_form_selector.cpp */,
 				273B932A45CAF826ADCCC893 /* wave_form_selector.h */,
 			);
+			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		2910F7AEBAD05059BC063908 /* code_editor */ = {
 			isa = PBXGroup;

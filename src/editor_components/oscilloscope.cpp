@@ -62,10 +62,10 @@ void Oscilloscope::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff303030));
+    g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff444444));
+    g.setColour(Colour(0xff43165f));
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
     g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
@@ -129,7 +129,7 @@ BEGIN_JUCER_METADATA
                  parentClasses="public AnimatedAppComponent" constructorParams="int num_samples"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff303030"/>
+  <BACKGROUND backgroundColour="ff33064f"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

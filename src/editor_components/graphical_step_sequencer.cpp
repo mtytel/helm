@@ -63,32 +63,33 @@ void GraphicalStepSequencer::paint (Graphics& g)
         return;
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff303030));
+    g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
     float x = 0.0f;
     float x_inc = getWidth() / (1.0f * num_steps_);
     for (int i = 0; i < num_steps_; ++i) {
-        if (highlighted_step_ == i) {
-            g.setColour(Colour(0xff404040));
-            g.fillRect(x, 0.0f, x_inc, 1.0f * getHeight());
-            g.setColour(Colour(0xff707070));
-        }
-        else
-            g.setColour(Colour(0xff606060));
-
         float val = sequence_->at(i)->getValue();
         float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
         if (val >= 0) {
+            g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0,
+                                             Colour(0x55cb587a), 0.0f, getHeight() / 2.0f, false));
             g.fillRect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
         }
         else {
             float half_height = proportionOfHeight(0.5f);
+            g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, getHeight(),
+                                             Colour(0x55cb587a), 0.0f, half_height, false));
             g.fillRect(x, half_height, x_inc, bar_position - half_height);
         }
 
         g.setColour(Colour(0xffcccccc));
         g.fillRect(x, bar_position - 1.0f, x_inc, 2.0f);
+
+        if (highlighted_step_ == i) {
+            g.setColour(Colour(0x22ffffff));
+            g.fillRect(x, 0.0f, x_inc, 1.0f * getHeight());
+        }
 
         x += x_inc;
     }
@@ -236,7 +237,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff303030"/>
+  <BACKGROUND backgroundColour="ff33064f"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

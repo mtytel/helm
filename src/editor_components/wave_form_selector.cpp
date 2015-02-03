@@ -59,13 +59,13 @@ void WaveFormSelector::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff303030));
+    g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff444444));
+    g.setColour(Colour(0xff43165f));
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
-    g.strokePath(wave_path_, PathStrokeType(2.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+    g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
     //[/UserPaint]
 }
 
@@ -154,7 +154,7 @@ BEGIN_JUCER_METADATA
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff303030"/>
+  <BACKGROUND backgroundColour="ff33064f"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -45,6 +45,8 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_frequency_->setRange (1, 20, 0);
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_frequency_->addListener (this);
     arp_frequency_->setSkewFactor (0.5);
 
@@ -52,18 +54,24 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_gate_->setRange (0, 1, 0);
     arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_gate_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_gate_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_gate_->addListener (this);
 
     addAndMakeVisible (arp_octaves_ = new Slider ("arp octaves"));
     arp_octaves_->setRange (1, 4, 1);
     arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_octaves_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_octaves_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_octaves_->addListener (this);
 
     addAndMakeVisible (arp_pattern_ = new Slider ("arp pattern"));
     arp_pattern_->setRange (0, 4, 1);
     arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    arp_pattern_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_pattern_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_pattern_->addListener (this);
 
     addAndMakeVisible (arp_on_ = new ToggleButton ("arp on"));
@@ -119,7 +127,7 @@ void FullInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colours::black);
+    g.fillAll (Colour (0xff271436));
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -268,7 +276,7 @@ BEGIN_JUCER_METADATA
                  constructorParams="mopo::control_map controls" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff000000"/>
+  <BACKGROUND backgroundColour="ff271436"/>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 40 100% 113M" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
@@ -279,21 +287,25 @@ BEGIN_JUCER_METADATA
               explicitFocusOrder="0" pos="24 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="176 728 50 50" min="1"
-          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
+          virtualName="" explicitFocusOrder="0" pos="176 728 50 50" rotarysliderfill="7fb8b8ff"
+          textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="" explicitFocusOrder="0" pos="112 728 50 50" min="0"
-          max="1" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="112 728 50 50" rotarysliderfill="7fb8b8ff"
+          textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="" explicitFocusOrder="0" pos="240 728 50 50" min="1"
-          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="240 728 50 50" rotarysliderfill="7fb8b8ff"
+          textboxtext="ffdddddd" min="1" max="4" int="1" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="" explicitFocusOrder="0" pos="304 728 50 50" min="0"
-          max="4" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="304 728 50 50" rotarysliderfill="7fb8b8ff"
+          textboxtext="ffdddddd" min="0" max="4" int="1" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
                 explicitFocusOrder="0" pos="48 744 48 24" txtcol="ffffffff" buttonText="arp"
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>

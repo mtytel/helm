@@ -22,13 +22,6 @@
 class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
   public:
 
-    enum ColorId {
-      kBackground,
-      kStepSeqBackground,
-      kStepSeqSlider,
-      kStepSeqHover,
-    };
-
     void drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                           float slider_pos, float min, float max,
                           const Slider::SliderStyle style, Slider& slider) override;
