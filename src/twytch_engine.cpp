@@ -34,7 +34,7 @@ namespace mopo {
     // Voice Handler.
     Value* polyphony = new Value(1);
     voice_handler_ = new TwytchVoiceHandler();
-    voice_handler_->setPolyphony(64);
+    voice_handler_->setPolyphony(32);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
     controls_["polyphony"] = polyphony;
 
