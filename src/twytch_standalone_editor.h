@@ -14,24 +14,33 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_EDITOR_H
-#define TWYTCH_EDITOR_H
+#ifndef TWYTCH_STANDALONE_EDITOR_H
+#define TWYTCH_STANDALONE_EDITOR_H
 
 #include "JuceHeader.h"
-#include "twytch.h"
-#include "twytch_look_and_feel.h"
+
 #include "full_interface.h"
+#include "memory.h"
 #include "save_load_manager.h"
+#include "twytch_engine.h"
+#include "twytch_look_and_feel.h"
 #include "value_change_manager.h"
 
-class TwytchEditor : public AudioProcessorEditor,
-                     public ValueChangeManager,
-                     public SaveLoadManager {
+class TwytchStandaloneEditor : public AudioAppComponent,
+                               public MidiInputCallback,
+                               public SaveLoadManager,
+                               public ValueChangeManager {
   public:
-    TwytchEditor(Twytch&);
-    ~TwytchEditor();
+    TwytchStandaloneEditor();
+    ~TwytchStandaloneEditor();
 
-    void paint(Graphics&) override;
+    void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
+
+    void prepareToPlay(int buffer_size, double sample_rate) override;
+    void getNextAudioBlock(const AudioSourceChannelInfo& buffer) override;
+    void releaseResources() override;
+
+    void paint(Graphics& g) override;
     void resized() override;
 
     void valueChanged(std::string name, mopo::mopo_float value) override;
@@ -42,13 +51,15 @@ class TwytchEditor : public AudioProcessorEditor,
     void varToState(var state) override;
 
   private:
-    Twytch& twytch_;
+    mopo::TwytchEngine synth_;
+    CriticalSection critical_section_;
     TwytchLookAndFeel look_and_feel_;
     mopo::control_map controls_;
+    mopo::Memory output_memory_;
 
     FullInterface* gui_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchStandaloneEditor)
 };
 
-#endif // TWYTCH_EDITOR_H
+#endif  // TWYTCH_STANDALONE_EDITOR_H

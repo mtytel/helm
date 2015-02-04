@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="GfsdNK" name="Twytch" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="co.littleio.twytch" includeBinaryInAppConfig="1"
+              jucerVersion="3.1.0" companyName="Little O Studio" companyWebsite="littleio.co"
+              companyEmail="matthewtytel@gmail.com">
+  <MAINGROUP id="CeypXq" name="Twytch">
+    <GROUP id="{E650F2E1-07E8-77DB-1520-2000D9FBD2DB}" name="mopo">
+      <GROUP id="{FAEF11EB-46DB-8DAD-D372-EC764D4E6B43}" name="src">
+        <FILE id="lPFaPu" name="alias.cpp" compile="1" resource="0" file="../mopo/src/alias.cpp"/>
+        <FILE id="rfD2YA" name="alias.h" compile="0" resource="0" file="../mopo/src/alias.h"/>
+        <FILE id="gSsZeW" name="arpeggiator.cpp" compile="1" resource="0" file="../mopo/src/arpeggiator.cpp"/>
+        <FILE id="sUs9IS" name="arpeggiator.h" compile="0" resource="0" file="../mopo/src/arpeggiator.h"/>
+        <FILE id="rXQ447" name="bit_crush.cpp" compile="1" resource="0" file="../mopo/src/bit_crush.cpp"/>
+        <FILE id="YIBNAo" name="bit_crush.h" compile="0" resource="0" file="../mopo/src/bit_crush.h"/>
+        <FILE id="DLx1sK" name="delay.cpp" compile="1" resource="0" file="../mopo/src/delay.cpp"/>
+        <FILE id="gGK7fA" name="delay.h" compile="0" resource="0" file="../mopo/src/delay.h"/>
+        <FILE id="pqB9SV" name="distortion.cpp" compile="1" resource="0" file="../mopo/src/distortion.cpp"/>
+        <FILE id="jOUEbj" name="distortion.h" compile="0" resource="0" file="../mopo/src/distortion.h"/>
+        <FILE id="PxwVW8" name="envelope.cpp" compile="1" resource="0" file="../mopo/src/envelope.cpp"/>
+        <FILE id="pib6Ig" name="envelope.h" compile="0" resource="0" file="../mopo/src/envelope.h"/>
+        <FILE id="o8RYzw" name="feedback.cpp" compile="1" resource="0" file="../mopo/src/feedback.cpp"/>
+        <FILE id="PAi1Fd" name="feedback.h" compile="0" resource="0" file="../mopo/src/feedback.h"/>
+        <FILE id="NkSEh2" name="filter.cpp" compile="1" resource="0" file="../mopo/src/filter.cpp"/>
+        <FILE id="DEyNse" name="filter.h" compile="0" resource="0" file="../mopo/src/filter.h"/>
+        <FILE id="Y2TuOh" name="linear_slope.cpp" compile="1" resource="0"
+              file="../mopo/src/linear_slope.cpp"/>
+        <FILE id="luOcgR" name="linear_slope.h" compile="0" resource="0" file="../mopo/src/linear_slope.h"/>
+        <FILE id="vl4EKs" name="magnitude_lookup.cpp" compile="1" resource="0"
+              file="../mopo/src/magnitude_lookup.cpp"/>
+        <FILE id="k0bfJe" name="magnitude_lookup.h" compile="0" resource="0"
+              file="../mopo/src/magnitude_lookup.h"/>
+        <FILE id="ZqrWj5" name="Makefile.am" compile="0" resource="1" file="../mopo/src/Makefile.am"/>
+        <FILE id="boqXps" name="memory.h" compile="0" resource="0" file="../mopo/src/memory.h"/>
+        <FILE id="WTPAPV" name="midi_lookup.cpp" compile="1" resource="0" file="../mopo/src/midi_lookup.cpp"/>
+        <FILE id="zEC3Wh" name="midi_lookup.h" compile="0" resource="0" file="../mopo/src/midi_lookup.h"/>
+        <FILE id="aP2Jej" name="mono_panner.cpp" compile="1" resource="0" file="../mopo/src/mono_panner.cpp"/>
+        <FILE id="KAVWSa" name="mono_panner.h" compile="0" resource="0" file="../mopo/src/mono_panner.h"/>
+        <FILE id="V215fq" name="mopo.h" compile="0" resource="0" file="../mopo/src/mopo.h"/>
+        <FILE id="dpDpv5" name="operators.cpp" compile="1" resource="0" file="../mopo/src/operators.cpp"/>
+        <FILE id="EYwhsr" name="operators.h" compile="0" resource="0" file="../mopo/src/operators.h"/>
+        <FILE id="FKKptw" name="oscillator.cpp" compile="1" resource="0" file="../mopo/src/oscillator.cpp"/>
+        <FILE id="z41xo5" name="oscillator.h" compile="0" resource="0" file="../mopo/src/oscillator.h"/>
+        <FILE id="QMLVgN" name="phaser.cpp" compile="1" resource="0" file="../mopo/src/phaser.cpp"/>
+        <FILE id="zGmIsl" name="phaser.h" compile="0" resource="0" file="../mopo/src/phaser.h"/>
+        <FILE id="ZHtC9H" name="processor.cpp" compile="1" resource="0" file="../mopo/src/processor.cpp"/>
+        <FILE id="vWZjQi" name="processor.h" compile="0" resource="0" file="../mopo/src/processor.h"/>
+        <FILE id="IDPyqs" name="processor_router.cpp" compile="1" resource="0"
+              file="../mopo/src/processor_router.cpp"/>
+        <FILE id="sX0SJO" name="processor_router.h" compile="0" resource="0"
+              file="../mopo/src/processor_router.h"/>
+        <FILE id="X6QZXj" name="resonance_lookup.cpp" compile="1" resource="0"
+              file="../mopo/src/resonance_lookup.cpp"/>
+        <FILE id="TCFC0r" name="resonance_lookup.h" compile="0" resource="0"
+              file="../mopo/src/resonance_lookup.h"/>
+        <FILE id="YGc6FT" name="smooth_filter.cpp" compile="1" resource="0"
+              file="../mopo/src/smooth_filter.cpp"/>
+        <FILE id="BNhEhc" name="smooth_filter.h" compile="0" resource="0" file="../mopo/src/smooth_filter.h"/>
+        <FILE id="slb38X" name="smooth_value.cpp" compile="1" resource="0"
+              file="../mopo/src/smooth_value.cpp"/>
+        <FILE id="pKTIhU" name="smooth_value.h" compile="0" resource="0" file="../mopo/src/smooth_value.h"/>
+        <FILE id="REyikp" name="step_generator.cpp" compile="1" resource="0"
+              file="../mopo/src/step_generator.cpp"/>
+        <FILE id="jpUYsG" name="step_generator.h" compile="0" resource="0"
+              file="../mopo/src/step_generator.h"/>
+        <FILE id="k3oU8u" name="tick_router.h" compile="0" resource="0" file="../mopo/src/tick_router.h"/>
+        <FILE id="y5FiJ9" name="trigger_operators.cpp" compile="1" resource="0"
+              file="../mopo/src/trigger_operators.cpp"/>
+        <FILE id="CkTYyf" name="trigger_operators.h" compile="0" resource="0"
+              file="../mopo/src/trigger_operators.h"/>
+        <FILE id="ueK1eY" name="utils.h" compile="0" resource="0" file="../mopo/src/utils.h"/>
+        <FILE id="efoXKk" name="value.cpp" compile="1" resource="0" file="../mopo/src/value.cpp"/>
+        <FILE id="K9oWFI" name="value.h" compile="0" resource="0" file="../mopo/src/value.h"/>
+        <FILE id="wfhZmW" name="voice_handler.cpp" compile="1" resource="0"
+              file="../mopo/src/voice_handler.cpp"/>
+        <FILE id="NK5IsM" name="voice_handler.h" compile="0" resource="0" file="../mopo/src/voice_handler.h"/>
+        <FILE id="oTnqIq" name="wave.cpp" compile="1" resource="0" file="../mopo/src/wave.cpp"/>
+        <FILE id="jRssuU" name="wave.h" compile="0" resource="0" file="../mopo/src/wave.h"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
+      <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
+        <FILE id="yQH4BO" name="filter_response.cpp" compile="1" resource="0"
+              file="../src/editor_components/filter_response.cpp"/>
+        <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"
+              file="../src/editor_components/filter_response.h"/>
+        <FILE id="jfNGho" name="full_interface.cpp" compile="1" resource="0"
+              file="../src/editor_components/full_interface.cpp"/>
+        <FILE id="d7Az9b" name="full_interface.h" compile="0" resource="0"
+              file="../src/editor_components/full_interface.h"/>
+        <FILE id="LenDmM" name="graphical_envelope.cpp" compile="1" resource="0"
+              file="../src/editor_components/graphical_envelope.cpp"/>
+        <FILE id="g8iXWR" name="graphical_envelope.h" compile="0" resource="0"
+              file="../src/editor_components/graphical_envelope.h"/>
+        <FILE id="LHSN74" name="graphical_step_sequencer.cpp" compile="1" resource="0"
+              file="../src/editor_components/graphical_step_sequencer.cpp"/>
+        <FILE id="I0Msfq" name="graphical_step_sequencer.h" compile="0" resource="0"
+              file="../src/editor_components/graphical_step_sequencer.h"/>
+        <FILE id="sqnr1l" name="modulation_destination.cpp" compile="1" resource="0"
+              file="../src/editor_components/modulation_destination.cpp"/>
+        <FILE id="RPNVCt" name="modulation_destination.h" compile="0" resource="0"
+              file="../src/editor_components/modulation_destination.h"/>
+        <FILE id="DaTKrO" name="modulation_source.cpp" compile="1" resource="0"
+              file="../src/editor_components/modulation_source.cpp"/>
+        <FILE id="XZxEtg" name="modulation_source.h" compile="0" resource="0"
+              file="../src/editor_components/modulation_source.h"/>
+        <FILE id="GKIniw" name="oscilloscope.cpp" compile="1" resource="0"
+              file="../src/editor_components/oscilloscope.cpp"/>
+        <FILE id="AMolKW" name="oscilloscope.h" compile="0" resource="0" file="../src/editor_components/oscilloscope.h"/>
+        <FILE id="mo2hyt" name="synthesis_interface.cpp" compile="1" resource="0"
+              file="../src/editor_components/synthesis_interface.cpp"/>
+        <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
+              file="../src/editor_components/synthesis_interface.h"/>
+        <FILE id="hOGFLv" name="wave_form_selector.cpp" compile="1" resource="0"
+              file="../src/editor_components/wave_form_selector.cpp"/>
+        <FILE id="b7atE4" name="wave_form_selector.h" compile="0" resource="0"
+              file="../src/editor_components/wave_form_selector.h"/>
+      </GROUP>
+      <FILE id="FG9703" name="main.cpp" compile="1" resource="0" file="../src/main.cpp"/>
+      <FILE id="VpiFXo" name="save_load_manager.h" compile="0" resource="0"
+            file="../src/save_load_manager.h"/>
+      <FILE id="kuzAfS" name="twytch_common.h" compile="0" resource="0" file="../src/twytch_common.h"/>
+      <FILE id="m81hYi" name="twytch_engine.cpp" compile="1" resource="0"
+            file="../src/twytch_engine.cpp"/>
+      <FILE id="UKVnRi" name="twytch_engine.h" compile="0" resource="0" file="../src/twytch_engine.h"/>
+      <FILE id="EpAnp8" name="twytch_look_and_feel.cpp" compile="1" resource="0"
+            file="../src/twytch_look_and_feel.cpp"/>
+      <FILE id="tAHzyu" name="twytch_look_and_feel.h" compile="0" resource="0"
+            file="../src/twytch_look_and_feel.h"/>
+      <FILE id="byjjmo" name="twytch_oscillators.cpp" compile="1" resource="0"
+            file="../src/twytch_oscillators.cpp"/>
+      <FILE id="XCSfNh" name="twytch_oscillators.h" compile="0" resource="0"
+            file="../src/twytch_oscillators.h"/>
+      <FILE id="ZSGOAp" name="twytch_standalone_editor.cpp" compile="1" resource="0"
+            file="../src/twytch_standalone_editor.cpp"/>
+      <FILE id="IEfpSq" name="twytch_standalone_editor.h" compile="0" resource="0"
+            file="../src/twytch_standalone_editor.h"/>
+      <FILE id="Zign6R" name="twytch_voice_handler.cpp" compile="1" resource="0"
+            file="../src/twytch_voice_handler.cpp"/>
+      <FILE id="DvhHbK" name="twytch_voice_handler.h" compile="0" resource="0"
+            file="../src/twytch_voice_handler.h"/>
+      <FILE id="nR1G5S" name="value_change_manager.h" compile="0" resource="0"
+            file="../src/value_change_manager.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="builds/osc">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="Twytch" headerPath="../../../src&#10;../../../src/editor_components"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="Twytch" headerPath="../../../src&#10;../../../src/editor_components"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_events" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_video" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE-OSX/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2012 targetFolder="builds/vs12">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="Twytch"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="Twytch"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_events" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_video" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE-OSX/modules"/>
+      </MODULEPATHS>
+    </VS2012>
+    <LINUX_MAKE targetFolder="builds/linux">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="Twytch"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
+                       targetName="Twytch"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_events" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_video" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE-OSX/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE-OSX/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>

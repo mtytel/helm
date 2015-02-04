@@ -17,7 +17,7 @@
 #ifndef TWYTCH_LOOK_AND_FEEL_H
 #define TWYTCH_LOOK_AND_FEEL_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 
 class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
   public:

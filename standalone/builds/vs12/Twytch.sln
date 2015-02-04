@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2012
+Project("{F40E15ED-7148-EA87-BFB9-4455F1A76FF4}") = "Twytch", "Twytch.vcxproj", "{821EE9D1-07EA-DB3A-3DCC-FD3EB30F85E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{821EE9D1-07EA-DB3A-3DCC-FD3EB30F85E4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{821EE9D1-07EA-DB3A-3DCC-FD3EB30F85E4}.Debug|Win32.Build.0 = Debug|Win32
+		{821EE9D1-07EA-DB3A-3DCC-FD3EB30F85E4}.Release|Win32.ActiveCfg = Release|Win32
+		{821EE9D1-07EA-DB3A-3DCC-FD3EB30F85E4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

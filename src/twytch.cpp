@@ -159,6 +159,7 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
     for (int i = 0; i < num_samples; ++i)
       channelData[i] = synth_output[i];
   }
+
   for (int i = 0; i < num_samples; ++i)
     output_memory_.push(synth_output[i]);
 }

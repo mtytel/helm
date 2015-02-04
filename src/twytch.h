@@ -17,7 +17,7 @@
 #ifndef TWYTCH_H
 #define TWYTCH_H
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include "JuceHeader.h"
 #include "memory.h"
 #include "save_load_manager.h"
 #include "twytch_engine.h"
