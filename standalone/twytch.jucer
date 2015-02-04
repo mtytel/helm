@@ -144,7 +144,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="builds/osc">
+    <XCODE_MAC targetFolder="builds/osx">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="Twytch" headerPath="../../../src&#10;../../../src/editor_components"/>
