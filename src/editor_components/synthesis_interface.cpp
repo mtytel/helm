@@ -810,6 +810,7 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
 }
 
 void SynthesisInterface::setModulations(std::set<mopo::ModulationConnection*> connections) {
+    clearModulations();
     std::set<mopo::ModulationConnection*>::iterator iter = connections.begin();
     for (; iter != connections.end(); ++iter) {
         mopo::ModulationConnection* connection = *iter;
