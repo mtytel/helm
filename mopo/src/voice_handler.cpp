@@ -20,7 +20,8 @@
 
 namespace mopo {
 
-  Voice::Voice(Processor* processor) : processor_(processor) { }
+  Voice::Voice(Processor* processor) : event_sample_(-1),
+      aftertouch_sample_(-1), aftertouch_(0.0), processor_(processor) { }
 
   VoiceHandler::VoiceHandler(size_t polyphony) :
       Processor(kNumInputs, 1), polyphony_(0), sustain_(false),
@@ -32,6 +33,7 @@ namespace mopo {
     note_.clearTrigger();
     velocity_.clearTrigger();
     voice_event_.clearTrigger();
+    aftertouch_.clearTrigger();
 
     if (voice->hasNewEvent()) {
       voice_event_.trigger(voice->state()->event, voice->event_sample());
@@ -39,9 +41,12 @@ namespace mopo {
         note_.trigger(voice->state()->note, 0);
         velocity_.trigger(voice->state()->velocity, 0);
       }
-
-      voice->clearEvent();
     }
+
+    if (voice->hasNewAftertouch())
+      aftertouch_.trigger(voice->aftertouch(), voice->aftertouch_sample());
+
+    voice->clearEvents();
   }
 
   void VoiceHandler::processVoice(Voice* voice) {
@@ -148,6 +153,15 @@ namespace mopo {
             voice->deactivate(sample);
         }
       }
+    }
+  }
+
+  void VoiceHandler::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {
+    std::list<Voice*>::iterator iter = active_voices_.begin();
+    for (; iter != active_voices_.end(); ++iter) {
+      Voice* voice = *iter;
+      if (voice->state()->note == note)
+        voice->setAftertouch(aftertouch, sample);
     }
   }
 
