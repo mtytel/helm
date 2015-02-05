@@ -24,9 +24,13 @@
 
 #define WIDTH 1000
 #define HEIGHT 800
+#define DEFAULT_KEYBOARD_OFFSET 48
+#define KEYBOARD "awsedftgyhujkolp;'"
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {
   setAudioChannels(0, NUM_CHANNELS);
+
+  computer_keyboard_offset_ = DEFAULT_KEYBOARD_OFFSET;
 
   int midi_index = MidiInput::getDefaultDeviceIndex();
   MidiInput* midi_input = MidiInput::openDevice(midi_index, this);
@@ -41,6 +45,10 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   gui_->setModulations(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
+
+  setWantsKeyboardFocus(true);
+  grabKeyboardFocus();
+  addKeyListener(this);
 }
 
 TwytchStandaloneEditor::~TwytchStandaloneEditor() {
@@ -179,4 +187,56 @@ void TwytchStandaloneEditor::varToState(var state) {
 
   gui_->setAllValues(controls_);
   gui_->setModulations(synth_.getModulationConnections());
+}
+
+void TwytchStandaloneEditor::changeKeyboardOffset(int new_offset) {
+  for (int i = 0; i < strlen(KEYBOARD); ++i) {
+    int note = computer_keyboard_offset_ + i;
+    synth_.noteOff(note);
+    keys_pressed_.erase(KEYBOARD[i]);
+  }
+
+  computer_keyboard_offset_ = CLAMP(new_offset, 0, mopo::MIDI_SIZE - mopo::NOTES_PER_OCTAVE);
+}
+
+bool TwytchStandaloneEditor::keyPressed(const KeyPress &key, Component *origin) {
+  return false;
+}
+
+bool TwytchStandaloneEditor::keyStateChanged(bool isKeyDown, Component *originatingComponent) {
+  bool consumed = false;
+  ScopedLock lock(critical_section_);
+  for (int i = 0; i < strlen(KEYBOARD); ++i) {
+    int note = computer_keyboard_offset_ + i;
+
+    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && !keys_pressed_.count(KEYBOARD[i])) {
+      keys_pressed_.insert(KEYBOARD[i]);
+      synth_.noteOn(note);
+    }
+    else if (!KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && keys_pressed_.count(KEYBOARD[i])) {
+      keys_pressed_.erase(KEYBOARD[i]);
+      synth_.noteOff(note);
+    }
+    consumed = true;
+  }
+
+  if (KeyPress::isKeyCurrentlyDown('z')) {
+    if (!keys_pressed_.count('z')) {
+      keys_pressed_.insert('z');
+      changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
+    }
+  }
+  else
+    keys_pressed_.erase('z');
+
+  if (KeyPress::isKeyCurrentlyDown('x')) {
+    if (!keys_pressed_.count('x')) {
+      keys_pressed_.insert('x');
+      changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
+    }
+  }
+  else
+    keys_pressed_.erase('x');
+
+  return consumed;
 }

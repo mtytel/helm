@@ -29,7 +29,8 @@
 class TwytchStandaloneEditor : public AudioAppComponent,
                                public MidiInputCallback,
                                public SaveLoadManager,
-                               public ValueChangeManager {
+                               public ValueChangeManager,
+                               public KeyListener {
   public:
     TwytchStandaloneEditor();
     ~TwytchStandaloneEditor();
@@ -50,6 +51,10 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     var stateToVar() override;
     void varToState(var state) override;
 
+    void changeKeyboardOffset(int new_offset);
+    bool keyPressed(const KeyPress &key, Component *origin) override;
+    bool keyStateChanged(bool isKeyDown, Component *originatingComponent) override;
+
   private:
     mopo::TwytchEngine synth_;
     CriticalSection critical_section_;
@@ -57,7 +62,10 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     mopo::control_map controls_;
     mopo::Memory output_memory_;
 
-    FullInterface* gui_;
+    ScopedPointer<FullInterface> gui_;
+
+    std::set<char> keys_pressed_;
+    int computer_keyboard_offset_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchStandaloneEditor)
 };
