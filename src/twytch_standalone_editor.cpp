@@ -52,21 +52,28 @@ void TwytchStandaloneEditor::handleIncomingMidiMessage(MidiInput *source,
   ScopedLock lock(critical_section_);
   if (midi_message.isNoteOn()) {
     float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
-    synth_.noteOn(midi_message.getNoteNumber(), velocity, 0);
+    synth_.noteOn(midi_message.getNoteNumber(), velocity);
   }
   else if (midi_message.isNoteOff())
-    synth_.noteOff(midi_message.getNoteNumber(), 0);
+    synth_.noteOff(midi_message.getNoteNumber());
   else if (midi_message.isSustainPedalOn())
     synth_.sustainOn();
   else if (midi_message.isSustainPedalOff())
     synth_.sustainOff();
+  else if (midi_message.isAllNotesOff())
+    synth_.allNotesOff();
+  else if (midi_message.isAftertouch()) {
+    mopo::mopo_float note = midi_message.getNoteNumber();
+    mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
+    synth_.setAftertouch(note, value);
+  }
   else if (midi_message.isPitchWheel()) {
     double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
     double value = 2 * percent - 1.0;
     synth_.setPitchWheel(value);
+    int tmp = midi_message.getNoteNumber();
+    std::cout<< tmp << std::endl;
   }
-  else if (midi_message.isAllNotesOff())
-    synth_.allNotesOff();
 }
 
 void TwytchStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {

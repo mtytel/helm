@@ -366,6 +366,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_saturation_->addListener (this);
     filter_saturation_->setSkewFactor (0.3);
 
+    addAndMakeVisible (note_mod_source_ = new ModulationSource ("note", Colour (0xffaaffaa)));
+    addAndMakeVisible (velocity_mod_source_ = new ModulationSource ("velocity", Colour (0xffaaaaff)));
+    addAndMakeVisible (aftertouch_mod_source_ = new ModulationSource ("aftertouch", Colour (0xffffaaaa)));
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
@@ -498,6 +501,9 @@ SynthesisInterface::~SynthesisInterface()
     lfo_2_frequency_ = nullptr;
     osc_mix_mod_destination_ = nullptr;
     filter_saturation_ = nullptr;
+    note_mod_source_ = nullptr;
+    velocity_mod_source_ = nullptr;
+    aftertouch_mod_source_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -579,6 +585,9 @@ void SynthesisInterface::resized()
     lfo_2_frequency_->setBounds (200, 576, 50, 50);
     osc_mix_mod_destination_->setBounds (296, 96, 24, 24);
     filter_saturation_->setBounds (240, 424, 50, 50);
+    note_mod_source_->setBounds (376, 624, 24, 24);
+    velocity_mod_source_->setBounds (432, 624, 24, 24);
+    aftertouch_mod_source_->setBounds (496, 624, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -1086,6 +1095,15 @@ BEGIN_JUCER_METADATA
           textboxtext="ffdddddd" min="1" max="32" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+  <JUCERCOMP name="note" id="782251ca8e671721" memberName="note_mod_source_"
+             virtualName="" explicitFocusOrder="0" pos="376 624 24 24" sourceFile="modulation_source.cpp"
+             constructorParams="&quot;note&quot;, Colour (0xffaaffaa)"/>
+  <JUCERCOMP name="note" id="6d8cf28aeb3b0f90" memberName="velocity_mod_source_"
+             virtualName="" explicitFocusOrder="0" pos="432 624 24 24" sourceFile="modulation_source.cpp"
+             constructorParams="&quot;velocity&quot;, Colour (0xffaaaaff)"/>
+  <JUCERCOMP name="aftertouch" id="e1423dfe9212fdb6" memberName="aftertouch_mod_source_"
+             virtualName="" explicitFocusOrder="0" pos="496 624 24 24" sourceFile="modulation_source.cpp"
+             constructorParams="&quot;aftertouch&quot;, Colour (0xffffaaaa)"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

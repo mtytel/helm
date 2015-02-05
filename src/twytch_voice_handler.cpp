@@ -56,6 +56,12 @@ namespace mopo {
                  amplitude_envelope_->output(Envelope::kFinished), voice_event());
     createModMatrix();
 
+    Value* aftertouch_value = new Value();
+    aftertouch_value->plug(aftertouch());
+
+    addProcessor(aftertouch_value);
+    mod_sources_["aftertouch"] = aftertouch_value->output();
+
     output_ = new Multiply();
     output_->plug(distorted_filter_, 0);
     output_->plug(amplitude_, 1);

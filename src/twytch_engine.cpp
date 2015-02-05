@@ -152,6 +152,10 @@ namespace mopo {
     voice_handler_->setPitchWheel(value);
   }
 
+  void TwytchEngine::setAftertouch(mopo_float note, mopo_float value, int sample) {
+    voice_handler_->setAftertouch(note, value, sample);
+  }
+
   void TwytchEngine::sustainOn() {
     voice_handler_->sustainOn();
   }
