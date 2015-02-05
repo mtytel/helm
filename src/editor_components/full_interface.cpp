@@ -45,7 +45,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_frequency_->setRange (1, 20, 0);
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     arp_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_frequency_->addListener (this);
     arp_frequency_->setSkewFactor (0.5);
@@ -54,7 +54,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_gate_->setRange (0, 1, 0);
     arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_gate_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_gate_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     arp_gate_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_gate_->addListener (this);
 
@@ -62,7 +62,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_octaves_->setRange (1, 4, 1);
     arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_octaves_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_octaves_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     arp_octaves_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_octaves_->addListener (this);
 
@@ -70,7 +70,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_pattern_->setRange (0, 4, 1);
     arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    arp_pattern_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fb8b8ff));
+    arp_pattern_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     arp_pattern_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_pattern_->addListener (this);
 
@@ -287,22 +287,22 @@ BEGIN_JUCER_METADATA
               explicitFocusOrder="0" pos="24 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="176 728 50 50" rotarysliderfill="7fb8b8ff"
+          virtualName="" explicitFocusOrder="0" pos="176 728 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="" explicitFocusOrder="0" pos="112 728 50 50" rotarysliderfill="7fb8b8ff"
+          virtualName="" explicitFocusOrder="0" pos="112 728 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="" explicitFocusOrder="0" pos="240 728 50 50" rotarysliderfill="7fb8b8ff"
+          virtualName="" explicitFocusOrder="0" pos="240 728 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="" explicitFocusOrder="0" pos="304 728 50 50" rotarysliderfill="7fb8b8ff"
+          virtualName="" explicitFocusOrder="0" pos="304 728 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
