@@ -91,7 +91,6 @@ OBJECTS := \
   $(OBJDIR)/twytch_oscillators_8d8f9326.o \
   $(OBJDIR)/twytch_standalone_editor_626e757a.o \
   $(OBJDIR)/twytch_voice_handler_9728f010.o \
-  $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_196aec63.o \
   $(OBJDIR)/juce_audio_devices_f00cb461.o \
   $(OBJDIR)/juce_audio_formats_1e8dfe01.o \
@@ -322,11 +321,6 @@ $(OBJDIR)/twytch_standalone_editor_626e757a.o: ../../../src/twytch_standalone_ed
 $(OBJDIR)/twytch_voice_handler_9728f010.o: ../../../src/twytch_voice_handler.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_voice_handler.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling BinaryData.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_196aec63.o: ../../../../srcs/JUCE-OSX/modules/juce_audio_basics/juce_audio_basics.cpp
