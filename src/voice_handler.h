@@ -40,6 +40,9 @@ namespace mopo {
       const VoiceState* state() { return &state_; }
       int event_sample() { return event_sample_; }
 
+      mopo_float aftertouch() { return aftertouch_; }
+      mopo_float aftertouch_sample() { return aftertouch_sample_; }
+
       void activate(mopo_float note, mopo_float velocity, int sample = 0) {
         event_sample_ = sample;
         state_.event = kVoiceOn;
@@ -56,8 +59,18 @@ namespace mopo {
         return event_sample_ >= 0;
       }
 
-      void clearEvent() {
+      void setAftertouch(mopo_float aftertouch, int sample = 0) {
+        aftertouch_ = aftertouch;
+        aftertouch_sample_ = sample;
+      }
+
+      bool hasNewAftertouch() {
+        return aftertouch_sample_ >= 0;
+      }
+
+      void clearEvents() {
         event_sample_ = -1;
+        aftertouch_sample_ = -1;
       }
 
     private:
@@ -65,6 +78,10 @@ namespace mopo {
 
       int event_sample_;
       VoiceState state_;
+
+      int aftertouch_sample_;
+      mopo_float aftertouch_;
+
       Processor* processor_;
   };
 
@@ -85,12 +102,14 @@ namespace mopo {
       void allNotesOff(int sample = 0);
       void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
       void noteOff(mopo_float note, int sample = 0);
+      void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
       void sustainOn();
       void sustainOff(int sample = 0);
 
       Output* voice_event() { return &voice_event_; }
       Output* note() { return &note_; }
       Output* velocity() { return &velocity_; }
+      Output* aftertouch() { return &aftertouch_; }
 
       void addProcessor(Processor* processor);
       void removeProcessor(Processor* processor);
@@ -124,6 +143,7 @@ namespace mopo {
       Output voice_event_;
       Output note_;
       Output velocity_;
+      Output aftertouch_;
 
       std::list<mopo_float> pressed_notes_;
       std::vector<std::unique_ptr<Voice> > all_voices_;
