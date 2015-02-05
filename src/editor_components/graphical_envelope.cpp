@@ -30,6 +30,7 @@ namespace {
     const float DECAY_RANGE_PERCENT = 0.3f;
     const float RELEASE_RANGE_PERCENT = 0.3f;
     const float HOVER_DISTANCE = 20.0f;
+    const int GRID_CELL_WIDTH = 10;
 } // namespace
 
 //[/MiscUserDefs]
@@ -78,7 +79,13 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour (0xff43165f));
+    g.setColour(Colour(0xff43165f));
+    for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+        g.drawLine(x, 0, x, getHeight());
+    for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+        g.drawLine(0, y, getWidth(), y);
+
+    g.setColour(Colour (0x11ffffff));
     g.fillRect(0, 0, getAttackX(), getHeight());
     g.fillRect(getDecayX(), 0, getSustainX() - getDecayX(), getHeight());
     g.fillRect(getReleaseX(), 0, getWidth() - getReleaseX(), getHeight());

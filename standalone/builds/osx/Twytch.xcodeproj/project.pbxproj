@@ -2613,8 +2613,10 @@
 				FAA2315F14EB8C6C01A73CAF /* wave_form_selector.cpp */,
 				66EC1D865BB475904AB9D226 /* wave_form_selector.h */,
 			);
+			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		CAB3615425E728EAFAB20561 /* mopo */ = {
 			isa = PBXGroup;

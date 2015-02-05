@@ -30,6 +30,7 @@
 #define MAX_GAIN_DB 24.0f
 #define MIN_RESONANCE 0.5
 #define MAX_RESONANCE 16.0
+#define GRID_CELL_WIDTH 10
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -74,6 +75,13 @@ void FilterResponse::paint (Graphics& g)
     g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
+
+    g.setColour(Colour(0xff43165f));
+    for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+        g.drawLine(x, 0, x, getHeight());
+    for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+        g.drawLine(0, y, getWidth(), y);
+
     g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0f,
                                      Colour(0x00000000), 0.0f, getHeight(), false));
     g.fillPath(filter_response_path_);

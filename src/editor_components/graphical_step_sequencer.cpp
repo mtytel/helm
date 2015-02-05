@@ -66,8 +66,12 @@ void GraphicalStepSequencer::paint (Graphics& g)
     g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
-    float x = 0.0f;
     float x_inc = getWidth() / (1.0f * num_steps_);
+    g.setColour(Colour(0xff43165f));
+    for (int i = 1; i * x_inc < getWidth(); ++i)
+        g.drawLine(i * x_inc, 0, i * x_inc, getHeight());
+
+    float x = 0.0f;
     for (int i = 0; i < num_steps_; ++i) {
         float val = sequence_->at(i)->getValue();
         float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
