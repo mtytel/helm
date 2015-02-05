@@ -68,7 +68,7 @@ private:
     std::map<std::string, juce::Button*> button_lookup_;
     std::map<std::string, ModulationDestination*> dest_lookup_;
     std::map<std::string, ModulationSource*> source_lookup_;
-    std::vector<Slider*> step_sequencer_sliders_;
+    std::vector<ScopedPointer<Slider> > step_sequencer_sliders_;
     //[/UserVariables]
 
     //==============================================================================

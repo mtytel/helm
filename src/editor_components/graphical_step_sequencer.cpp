@@ -146,7 +146,7 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void GraphicalStepSequencer::setStepSliders(std::vector<Slider*>* sliders) {
+void GraphicalStepSequencer::setStepSliders(std::vector<ScopedPointer<Slider> >* sliders) {
     sequence_ = sliders;
     for (int i = 0; i < sliders->size(); ++i)
         sequence_->at(i)->addListener(this);
