@@ -30,12 +30,14 @@ class TwytchStandaloneEditor : public AudioAppComponent,
                                public MidiInputCallback,
                                public SaveLoadManager,
                                public ValueChangeManager,
-                               public KeyListener {
+                               public KeyListener,
+                               public MessageListener {
   public:
     TwytchStandaloneEditor();
     ~TwytchStandaloneEditor();
 
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
+    void handleMessage(const Message& message) override;
 
     void prepareToPlay(int buffer_size, double sample_rate) override;
     void getNextAudioBlock(const AudioSourceChannelInfo& buffer) override;

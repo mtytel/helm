@@ -46,9 +46,10 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
 
+  addKeyListener(this);
   setWantsKeyboardFocus(true);
   grabKeyboardFocus();
-  addKeyListener(this);
+  postMessage(new Message());
 }
 
 TwytchStandaloneEditor::~TwytchStandaloneEditor() {
@@ -160,6 +161,7 @@ void TwytchStandaloneEditor::varToState(var state) {
   mopo::control_map controls = synth_.getControls();
   DynamicObject* object_state = state.getDynamicObject();
 
+  ScopedLock lock(critical_section_);
   NamedValueSet properties = object_state->getProperties();
   int size = properties.size();
   for (int i = 0; i < size; ++i) {
@@ -239,4 +241,12 @@ bool TwytchStandaloneEditor::keyStateChanged(bool isKeyDown, Component *originat
     keys_pressed_.erase('x');
 
   return consumed;
+}
+
+void TwytchStandaloneEditor::handleMessage(const Message& message) {
+#ifdef JUCE_MAC
+  if(!hasKeyboardFocus(false))
+    postMessage(new Message());
+  grabKeyboardFocus();
+#endif
 }
