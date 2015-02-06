@@ -69,6 +69,7 @@ class TwytchStandaloneEditor : public AudioAppComponent,
 
     std::set<char> keys_pressed_;
     int computer_keyboard_offset_;
+    std::unique_ptr<MidiInput> midi_input_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchStandaloneEditor)
 };

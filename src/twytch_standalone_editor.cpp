@@ -34,9 +34,9 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   computer_keyboard_offset_ = DEFAULT_KEYBOARD_OFFSET;
 
   int midi_index = MidiInput::getDefaultDeviceIndex();
-  MidiInput* midi_input = MidiInput::openDevice(midi_index, this);
-  if (midi_input)
-    midi_input->start();
+  midi_input_.reset(MidiInput::openDevice(midi_index, this));
+  if (midi_input_.get())
+    midi_input_->start();
 
   controls_ = synth_.getControls();
   setLookAndFeel(&look_and_feel_);
