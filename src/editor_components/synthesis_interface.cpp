@@ -418,10 +418,15 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_sequencer_->setStepSliders(&step_sequencer_sliders_);
     step_sequencer_->setNumStepsSlider(num_steps_);
 
+    osc_mix_->setLookAndFeel(&bipolar_look_and_feel_);
+
     for (int i = 0; i < getNumChildComponents(); ++i) {
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
-        if (slider)
+        if (slider) {
             slider_lookup_[slider->getName().toStdString()] = slider;
+            if (slider->getMaximum() == -slider->getMinimum())
+                slider->setLookAndFeel(&bipolar_look_and_feel_);
+        }
 
         Button* button = dynamic_cast<Button*>(getChildComponent(i));
         if (button)

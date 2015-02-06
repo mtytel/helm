@@ -142,6 +142,7 @@
 		D7F78C1B8B06995EFCD1CFBA /* AudioFileComponentBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 11341218D72F33FEC8D14295 /* AudioFileComponentBase.cpp */; };
 		D839BFC7C92CBD2EFE9C9393 /* juce_gui_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = EC7BF852A0B669344F71C78E /* juce_gui_basics.mm */; };
 		D925B014E481A7C1348C299F /* CARingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A606364C6048D16F2C4792E6 /* CARingBuffer.cpp */; };
+		DA9CF52D809C98C15D2CC6EC /* bipolar_look_and_feel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC3BE94A88233F3EFC261FB2 /* bipolar_look_and_feel.cpp */; };
 		DE31B8215341063EDDB02C36 /* mono_panner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EEDB167694A369C490171 /* mono_panner.cpp */; };
 		DFB06E0D6EABA42B1E76F050 /* AUCarbonViewDispatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD1F3E6B03A2F110C3D730B9 /* AUCarbonViewDispatch.cpp */; };
 		DFF9FF980B15415C154295AE /* CACFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F601985612556548F4B35AC9 /* CACFString.cpp */; };
@@ -616,6 +617,7 @@
 		6047BF22A47993A83DD09C70 /* juce_Draggable3DOrientation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Draggable3DOrientation.h; path = ../../../srcs/JUCE/modules/juce_opengl/geometry/juce_Draggable3DOrientation.h; sourceTree = SOURCE_ROOT; };
 		606C3F6A3C3732E9A78877D2 /* juce_MD5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MD5.cpp; path = ../../../srcs/JUCE/modules/juce_cryptography/hashing/juce_MD5.cpp; sourceTree = SOURCE_ROOT; };
 		60812E479C4E6D61FBBD0D5B /* juce_ApplicationCommandID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ApplicationCommandID.h; path = ../../../srcs/JUCE/modules/juce_gui_basics/commands/juce_ApplicationCommandID.h; sourceTree = SOURCE_ROOT; };
+		60EBB654F8210CBC8515B759 /* bipolar_look_and_feel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bipolar_look_and_feel.h; path = ../../src/bipolar_look_and_feel.h; sourceTree = SOURCE_ROOT; };
 		60EFF4E92B1C9046F67A0FCA /* juce_ApplicationBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ApplicationBase.cpp; path = ../../../srcs/JUCE/modules/juce_events/messages/juce_ApplicationBase.cpp; sourceTree = SOURCE_ROOT; };
 		610E7DE012417583AEDBDB1E /* juce_AttributedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AttributedString.h; path = ../../../srcs/JUCE/modules/juce_graphics/fonts/juce_AttributedString.h; sourceTree = SOURCE_ROOT; };
 		61600527022CB696D5A2903F /* juce_OpenGLRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OpenGLRenderer.h; path = ../../../srcs/JUCE/modules/juce_opengl/opengl/juce_OpenGLRenderer.h; sourceTree = SOURCE_ROOT; };
@@ -1253,6 +1255,7 @@
 		EC162622E2C9DA8D2526663D /* juce_SpinLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_SpinLock.h; path = ../../../srcs/JUCE/modules/juce_core/threads/juce_SpinLock.h; sourceTree = SOURCE_ROOT; };
 		EC249336D3E63643BDC1184D /* juce_ActiveXControlComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ActiveXControlComponent.h; path = ../../../srcs/JUCE/modules/juce_gui_extra/embedding/juce_ActiveXControlComponent.h; sourceTree = SOURCE_ROOT; };
 		EC26BDA91ED38E8F7D0DEFE1 /* juce_Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Application.cpp; path = ../../../srcs/JUCE/modules/juce_gui_basics/application/juce_Application.cpp; sourceTree = SOURCE_ROOT; };
+		EC3BE94A88233F3EFC261FB2 /* bipolar_look_and_feel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = bipolar_look_and_feel.cpp; path = ../../src/bipolar_look_and_feel.cpp; sourceTree = SOURCE_ROOT; };
 		EC5895B28740A74E69FD6B41 /* juce_OpenGLHelpers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_OpenGLHelpers.cpp; path = ../../../srcs/JUCE/modules/juce_opengl/opengl/juce_OpenGLHelpers.cpp; sourceTree = SOURCE_ROOT; };
 		EC7A59394D1F171A910E5549 /* juce_WildcardFileFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_WildcardFileFilter.cpp; path = ../../../srcs/JUCE/modules/juce_core/files/juce_WildcardFileFilter.cpp; sourceTree = SOURCE_ROOT; };
 		EC7BF852A0B669344F71C78E /* juce_gui_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_gui_basics.mm; path = ../../../srcs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm; sourceTree = SOURCE_ROOT; };
@@ -1404,6 +1407,8 @@
 			isa = PBXGroup;
 			children = (
 				27BEE01F67E414CCF5F44AF9 /* editor_components */,
+				EC3BE94A88233F3EFC261FB2 /* bipolar_look_and_feel.cpp */,
+				60EBB654F8210CBC8515B759 /* bipolar_look_and_feel.h */,
 				57AFC9DCCF9792E46626CED6 /* save_load_manager.h */,
 				2D70E9BEAA0628B31772C5EF /* twytch.cpp */,
 				F4FBD4EE75B635FE516BB7AC /* twytch.h */,
@@ -3789,6 +3794,7 @@
 				CFC6119D805C7A25562666EB /* oscilloscope.cpp in Sources */,
 				2D5FBE8B8AC8EF79C596F1CA /* synthesis_interface.cpp in Sources */,
 				BB68BE050BCBAB39BCE711B8 /* wave_form_selector.cpp in Sources */,
+				DA9CF52D809C98C15D2CC6EC /* bipolar_look_and_feel.cpp in Sources */,
 				53BBBE2BF67ADAAB20AA1C3E /* twytch.cpp in Sources */,
 				EDADB1D3AEEB7D08D474B882 /* twytch_editor.cpp in Sources */,
 				0840EAC7A0AF35C7A707C839 /* twytch_engine.cpp in Sources */,

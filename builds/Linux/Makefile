@@ -169,6 +169,7 @@ OBJECTS := \
   $(OBJDIR)/oscilloscope_75f26af6.o \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
   $(OBJDIR)/wave_form_selector_998fd51b.o \
+  $(OBJDIR)/bipolar_look_and_feel_9852a770.o \
   $(OBJDIR)/twytch_8ac0c1a3.o \
   $(OBJDIR)/twytch_editor_1e890493.o \
   $(OBJDIR)/twytch_engine_d1226ae8.o \
@@ -797,6 +798,11 @@ $(OBJDIR)/synthesis_interface_c1af8a11.o: ../../src/editor_components/synthesis_
 $(OBJDIR)/wave_form_selector_998fd51b.o: ../../src/editor_components/wave_form_selector.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave_form_selector.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/bipolar_look_and_feel_9852a770.o: ../../src/bipolar_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling bipolar_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_8ac0c1a3.o: ../../src/twytch.cpp

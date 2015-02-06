@@ -22,6 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "bipolar_look_and_feel.h"
 #include "twytch_engine.h"
 //[/Headers]
 
@@ -69,6 +70,7 @@ private:
     std::map<std::string, ModulationDestination*> dest_lookup_;
     std::map<std::string, ModulationSource*> source_lookup_;
     std::vector<ScopedPointer<Slider> > step_sequencer_sliders_;
+    BipolarLookAndFeel bipolar_look_and_feel_;
     //[/UserVariables]
 
     //==============================================================================

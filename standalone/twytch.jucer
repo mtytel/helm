@@ -115,6 +115,10 @@
         <FILE id="b7atE4" name="wave_form_selector.h" compile="0" resource="0"
               file="../src/editor_components/wave_form_selector.h"/>
       </GROUP>
+      <FILE id="LEoVB9" name="bipolar_look_and_feel.cpp" compile="1" resource="0"
+            file="../src/bipolar_look_and_feel.cpp"/>
+      <FILE id="gNBGQk" name="bipolar_look_and_feel.h" compile="0" resource="0"
+            file="../src/bipolar_look_and_feel.h"/>
       <FILE id="FG9703" name="main.cpp" compile="1" resource="0" file="../src/main.cpp"/>
       <FILE id="VpiFXo" name="save_load_manager.h" compile="0" resource="0"
             file="../src/save_load_manager.h"/>
