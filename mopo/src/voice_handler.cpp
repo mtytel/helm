@@ -36,10 +36,10 @@ namespace mopo {
     aftertouch_.clearTrigger();
 
     if (voice->hasNewEvent()) {
-      voice_event_.trigger(voice->state()->event, voice->event_sample());
-      if (voice->state()->event == kVoiceOn) {
-        note_.trigger(voice->state()->note, 0);
-        velocity_.trigger(voice->state()->velocity, 0);
+      voice_event_.trigger(voice->state().event, voice->event_sample());
+      if (voice->state().event == kVoiceOn) {
+        note_.trigger(voice->state().note, 0);
+        velocity_.trigger(voice->state().velocity, 0);
       }
     }
 
@@ -69,7 +69,7 @@ namespace mopo {
       processVoice(voice);
 
       // Remove voice if the right processor has a full silent buffer.
-      if (voice_killer_ && voice->state()->event != kVoiceOn &&
+      if (voice_killer_ && voice->state().event != kVoiceOn &&
           utils::isSilent(voice_killer_->buffer, buffer_size_)) {
         free_voices_.push_back(voice);
         iter = active_voices_.erase(iter);
@@ -101,12 +101,12 @@ namespace mopo {
 
   void VoiceHandler::sustainOff(int sample) {
     sustain_ = false;
-    std::list<Voice*>::iterator iter = sustained_voices_.begin();
-    for (; iter != sustained_voices_.end(); ++iter) {
+    std::list<Voice*>::iterator iter = active_voices_.begin();
+    for (; iter != active_voices_.end(); ++iter) {
       Voice* voice = *iter;
-      voice->deactivate(sample);
+      if (voice->key_state() == Voice::kSustained)
+        voice->deactivate(sample);
     }
-    sustained_voices_.clear();
   }
 
   void VoiceHandler::allNotesOff(int sample) {
@@ -141,13 +141,13 @@ namespace mopo {
     std::list<Voice*>::iterator iter = active_voices_.begin();
     for (; iter != active_voices_.end(); ++iter) {
       Voice* voice = *iter;
-      if (voice->state()->note == note) {
+      if (voice->state().note == note) {
         if (sustain_)
-          sustained_voices_.push_back(voice);
+          voice->sustain();
         else {
           if (polyphony_ == 1 && pressed_notes_.size()) {
             mopo_float old_note = pressed_notes_.back();
-            voice->activate(old_note, voice->state()->velocity, sample);
+            voice->activate(old_note, voice->state().velocity, sample);
           }
           else
             voice->deactivate(sample);
@@ -160,7 +160,7 @@ namespace mopo {
     std::list<Voice*>::iterator iter = active_voices_.begin();
     for (; iter != active_voices_.end(); ++iter) {
       Voice* voice = *iter;
-      if (voice->state()->note == note)
+      if (voice->state().note == note)
         voice->setAftertouch(aftertouch, sample);
     }
   }
