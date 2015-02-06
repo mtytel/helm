@@ -34,10 +34,18 @@ namespace mopo {
 
   class Voice {
     public:
+      enum KeyState {
+        kHeld,
+        kSustained,
+        kReleased,
+        kNumStates
+      };
+
       Voice(Processor* voice);
 
       Processor* processor() { return processor_; }
-      const VoiceState* state() { return &state_; }
+      const VoiceState& state() { return state_; }
+      const KeyState key_state() { return key_state_; }
       int event_sample() { return event_sample_; }
 
       mopo_float aftertouch() { return aftertouch_; }
@@ -48,11 +56,17 @@ namespace mopo {
         state_.event = kVoiceOn;
         state_.note = note;
         state_.velocity = velocity;
+        key_state_ = kHeld;
+      }
+
+      void sustain() {
+        key_state_ = kSustained;
       }
 
       void deactivate(int sample = 0) {
         event_sample_ = sample;
         state_.event = kVoiceOff;
+        key_state_ = kReleased;
       }
 
       bool hasNewEvent() {
@@ -78,6 +92,7 @@ namespace mopo {
 
       int event_sample_;
       VoiceState state_;
+      KeyState key_state_;
 
       int aftertouch_sample_;
       mopo_float aftertouch_;
@@ -147,8 +162,8 @@ namespace mopo {
 
       std::list<mopo_float> pressed_notes_;
       std::vector<std::unique_ptr<Voice> > all_voices_;
+
       std::list<Voice*> free_voices_;
-      std::list<Voice*> sustained_voices_;
       std::list<Voice*> active_voices_;
 
       ProcessorRouter voice_router_;
