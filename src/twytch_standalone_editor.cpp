@@ -29,6 +29,7 @@
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {
   setAudioChannels(0, NUM_CHANNELS);
+  postMessage(new Message());
 
   computer_keyboard_offset_ = DEFAULT_KEYBOARD_OFFSET;
 
@@ -46,10 +47,9 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
 
-  addKeyListener(this);
-  setWantsKeyboardFocus(true);
   grabKeyboardFocus();
-  postMessage(new Message());
+  setWantsKeyboardFocus(true);
+  addKeyListener(this);
 }
 
 TwytchStandaloneEditor::~TwytchStandaloneEditor() {
@@ -245,8 +245,9 @@ bool TwytchStandaloneEditor::keyStateChanged(bool isKeyDown, Component *originat
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {
 #ifdef JUCE_MAC
-  if(!hasKeyboardFocus(false))
+  if(!hasKeyboardFocus(false)) {
     postMessage(new Message());
-  grabKeyboardFocus();
+    grabKeyboardFocus();
+  }
 #endif
 }

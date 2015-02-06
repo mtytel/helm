@@ -26,6 +26,7 @@
 #include "twytch_look_and_feel.h"
 #include "value_change_manager.h"
 
+// TODO: This multiple inheritance is little out of hand.
 class TwytchStandaloneEditor : public AudioAppComponent,
                                public MidiInputCallback,
                                public SaveLoadManager,

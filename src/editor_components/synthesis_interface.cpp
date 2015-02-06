@@ -86,8 +86,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_mix_->setRange (0, 1, 0);
     osc_mix_->setSliderStyle (Slider::LinearBar);
     osc_mix_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    osc_mix_->setColour (Slider::backgroundColourId, Colours::black);
-    osc_mix_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
+    osc_mix_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    osc_mix_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    osc_mix_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     osc_mix_->addListener (this);
 
     addAndMakeVisible (osc_2_transpose_ = new Slider ("osc 2 transpose"));
@@ -220,8 +221,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     resonance_->setRange (0, 1, 0);
     resonance_->setSliderStyle (Slider::LinearBar);
     resonance_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    resonance_->setColour (Slider::backgroundColourId, Colours::black);
-    resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
+    resonance_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    resonance_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     resonance_->addListener (this);
 
     addAndMakeVisible (filter_type_ = new Slider ("filter type"));
@@ -234,24 +236,27 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearBar);
     osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    osc_1_waveform_->setColour (Slider::backgroundColourId, Colours::black);
-    osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
+    osc_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    osc_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     osc_1_waveform_->addListener (this);
 
     addAndMakeVisible (osc_2_waveform_ = new Slider ("osc 2 waveform"));
     osc_2_waveform_->setRange (0, 11, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearBar);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    osc_2_waveform_->setColour (Slider::backgroundColourId, Colours::black);
-    osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
+    osc_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    osc_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     osc_2_waveform_->addListener (this);
 
     addAndMakeVisible (cutoff_ = new Slider ("cutoff"));
     cutoff_->setRange (28, 127, 0);
     cutoff_->setSliderStyle (Slider::LinearBar);
     cutoff_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    cutoff_->setColour (Slider::backgroundColourId, Colours::black);
-    cutoff_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
+    cutoff_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    cutoff_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    cutoff_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     cutoff_->addListener (this);
 
     addAndMakeVisible (fil_env_depth_ = new Slider ("fil env depth"));
@@ -306,16 +311,18 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_1_waveform_->setRange (0, 11, 1);
     lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
     lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    lfo_1_waveform_->setColour (Slider::backgroundColourId, Colours::black);
-    lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
+    lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    lfo_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     lfo_1_waveform_->addListener (this);
 
     addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo 2 waveform"));
     lfo_2_waveform_->setRange (0, 11, 1);
     lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    lfo_2_waveform_->setColour (Slider::backgroundColourId, Colours::black);
-    lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
+    lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     lfo_2_waveform_->addListener (this);
 
     addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource ("lfo 1", Colour (0xffffff00)));
@@ -898,9 +905,10 @@ BEGIN_JUCER_METADATA
           max="2" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName=""
-          explicitFocusOrder="0" pos="272 8 20 204" bkgcol="ff000000" textboxoutline="808080"
-          min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          explicitFocusOrder="0" pos="272 8 20 204" bkgcol="ff190327" trackcol="ff9765bc"
+          textboxoutline="ff452e60" min="0" max="1" int="0" style="LinearBar"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 2 transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
           virtualName="" explicitFocusOrder="0" pos="328 88 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-48" max="48" int="1" style="RotaryHorizontalVerticalDrag"
@@ -976,29 +984,29 @@ BEGIN_JUCER_METADATA
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="resonance" id="6c1c82a2d59d4b6e" memberName="resonance_"
-          virtualName="" explicitFocusOrder="0" pos="332 312 12 100" bkgcol="ff000000"
-          textboxoutline="808080" min="0" max="1" int="0" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="332 312 12 100" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
+          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter type" id="30ae8dead7514514" memberName="filter_type_"
           virtualName="" explicitFocusOrder="0" pos="32 296 296 16" min="0"
           max="6" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 1 waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="20 8 12 100" bkgcol="ff000000"
-          textboxoutline="808080" min="0" max="11" int="1" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
-          skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="20 8 12 100" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
+          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc 2 waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="20 112 12 100" bkgcol="ff000000"
-          textboxoutline="0" min="0" max="11" int="1" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="1" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="20 112 12 100" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
+          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName=""
-          explicitFocusOrder="0" pos="32 412 300 12" bkgcol="ff000000"
-          textboxoutline="808080" min="28" max="127" int="0" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="1" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          explicitFocusOrder="0" pos="32 412 300 12" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="28" max="127"
+          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil env depth" id="ac3a5967de6a1a92" memberName="fil_env_depth_"
           virtualName="" explicitFocusOrder="0" pos="680 112 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-128" max="128" int="0" style="RotaryHorizontalVerticalDrag"
@@ -1049,15 +1057,15 @@ BEGIN_JUCER_METADATA
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="56 576 140 80"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="lfo 1 waveform" id="4ed06bb2c6901afe" memberName="lfo_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="44 488 12 80" bkgcol="ff000000"
-          textboxoutline="808080" min="0" max="11" int="1" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
-          skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="44 488 12 80" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
+          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="lfo 2 waveform" id="72004168ec47b7e7" memberName="lfo_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="44 576 12 80" bkgcol="ff000000"
-          textboxoutline="0" min="0" max="11" int="1" style="LinearBar"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="0" textBoxHeight="0"
-          skewFactor="1"/>
+          virtualName="" explicitFocusOrder="0" pos="44 576 12 80" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
+          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="208 544 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;lfo 1&quot;, Colour (0xffffff00)"/>
