@@ -56,6 +56,8 @@ namespace mopo {
         state_.event = kVoiceOn;
         state_.note = note;
         state_.velocity = velocity;
+        aftertouch_ = velocity;
+        aftertouch_sample_ = sample;
         key_state_ = kHeld;
       }
 
