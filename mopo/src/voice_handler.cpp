@@ -119,18 +119,46 @@ namespace mopo {
     }
   }
 
-  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
-    Voice* voice = 0;
-    pressed_notes_.push_back(note);
+  Voice* VoiceHandler::grabVoice() {
+    Voice* voice = nullptr;
+
+    // First check free voices.
     if (free_voices_.size() && active_voices_.size() < polyphony_) {
       voice = free_voices_.front();
       free_voices_.pop_front();
-    }
-    else {
-      voice = active_voices_.front();
-      active_voices_.pop_front();
+      return voice;
     }
 
+    // Next check released voices.
+    std::list<Voice*>::iterator iter = active_voices_.begin();
+    for (; iter != active_voices_.end(); ++iter) {
+      voice = *iter;
+      if (voice->key_state() == Voice::kReleased) {
+        active_voices_.erase(iter);
+        return voice;
+      }
+    }
+
+    // Then check sustained voices.
+    iter = active_voices_.begin();
+    for (; iter != active_voices_.end(); ++iter) {
+      voice = *iter;
+      if (voice->key_state() == Voice::kSustained) {
+        active_voices_.erase(iter);
+        return voice;
+      }
+    }
+
+    // If all are active just grab the oldest voice.
+    voice = active_voices_.front();
+    active_voices_.pop_front();
+    return voice;
+  }
+
+  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
+    pressed_notes_.push_front(note);
+
+    Voice* voice = grabVoice();
     voice->activate(note, velocity, sample);
     active_voices_.push_back(voice);
   }
@@ -145,8 +173,10 @@ namespace mopo {
         if (sustain_)
           voice->sustain();
         else {
-          if (polyphony_ == 1 && pressed_notes_.size()) {
+          if (polyphony_ <= pressed_notes_.size()) {
             mopo_float old_note = pressed_notes_.back();
+            pressed_notes_.pop_back();
+            pressed_notes_.push_front(old_note);
             voice->activate(old_note, voice->state().velocity, sample);
           }
           else
