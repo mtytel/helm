@@ -115,6 +115,7 @@ namespace mopo {
       virtual void setBufferSize(int buffer_size);
 
       void allNotesOff(int sample = 0);
+      Voice* grabVoice();
       void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
       void noteOff(mopo_float note, int sample = 0);
       void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
