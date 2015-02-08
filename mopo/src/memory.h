@@ -61,6 +61,18 @@ namespace mopo {
         return memory_ + ((offset_ - past) & MEMORY_BITMASK);
       }
 
+      const mopo_float* getBuffer() const {
+        return memory_;
+      }
+
+      int getOffset() const {
+        return offset_;
+      }
+
+      int getSize() const {
+        return MAX_MEMORY;
+      }
+
     protected:
       mopo_float memory_[MAX_MEMORY];
       unsigned int offset_;

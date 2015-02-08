@@ -332,10 +332,21 @@ namespace mopo {
     final_resonance->plug(resonance_sources);
     final_gain->plug(decibals);
 
+    Value* filter_saturation = new Value(0.0);
+    VariableAdd* saturation_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
+    Value* max_saturation = new Value(60.0);
+    Multiply* saturation_mod = new Multiply();
+    saturation_mod->plug(max_saturation, 0);
+    saturation_mod->plug(saturation_mod_sources, 1);
+    Add* total_saturation = new Add();
+    total_saturation->plug(saturation_mod, 0);
+    total_saturation->plug(filter_saturation, 1);
+    MagnitudeScale* saturation_magnitude = new MagnitudeScale();
+    saturation_magnitude->plug(total_saturation);
+
     Multiply* saturated_audio = new Multiply();
-    Value* filter_saturation = new Value(1.0);
     saturated_audio->plug(audio, 0);
-    saturated_audio->plug(filter_saturation, 1);
+    saturated_audio->plug(saturation_magnitude, 1);
 
     filter_ = new Filter();
     filter_->plug(saturated_audio, Filter::kAudio);
@@ -366,6 +377,12 @@ namespace mopo {
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter_);
+
+    addProcessor(saturation_mod_sources);
+    addProcessor(saturation_mod);
+    addProcessor(total_saturation);
+    addProcessor(saturation_magnitude);
+
     addProcessor(distorted_filter_);
 
     controls_["filter type"] = filter_type;
@@ -377,6 +394,7 @@ namespace mopo {
     mod_sources_["filter env"] = filter_envelope_->output();
     mod_destinations_["cutoff"] = cutoff_mod_sources;
     mod_destinations_["resonance"] = resonance_sources;
+    mod_destinations_["saturation"] = saturation_mod_sources;
   }
 
   void TwytchVoiceHandler::createModMatrix() {

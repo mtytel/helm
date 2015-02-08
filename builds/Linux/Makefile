@@ -160,6 +160,7 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
+  $(OBJDIR)/audio_viewer_85409b82.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
   $(OBJDIR)/full_interface_ddba7cf0.o \
   $(OBJDIR)/graphical_envelope_46db2063.o \
@@ -753,6 +754,11 @@ $(OBJDIR)/voice_handler_b8888f39.o: ../../mopo/src/voice_handler.cpp
 $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/audio_viewer_85409b82.o: ../../src/editor_components/audio_viewer.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling audio_viewer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_response.cpp

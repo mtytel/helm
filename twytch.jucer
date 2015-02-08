@@ -428,6 +428,9 @@
     </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="src">
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
+        <FILE id="dybaea" name="audio_viewer.cpp" compile="1" resource="0"
+              file="src/editor_components/audio_viewer.cpp"/>
+        <FILE id="OamFZZ" name="audio_viewer.h" compile="0" resource="0" file="src/editor_components/audio_viewer.h"/>
         <FILE id="YxeKKD" name="filter_response.cpp" compile="1" resource="0"
               file="src/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"

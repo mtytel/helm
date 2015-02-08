@@ -20,17 +20,17 @@
 //[Headers] You can add your own extra header files here...
 //[/Headers]
 
-#include "oscilloscope.h"
+#include "audio_viewer.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #define FRAMES_PER_SECOND 32
-#define MAX_RESOLUTION 256
+#define MAX_RESOLUTION 512
 #define GRID_CELL_WIDTH 10
 //[/MiscUserDefs]
 
 //==============================================================================
-Oscilloscope::Oscilloscope (int num_samples)
+AudioViewer::AudioViewer (int num_samples)
 {
 
     //[UserPreSize]
@@ -42,11 +42,14 @@ Oscilloscope::Oscilloscope (int num_samples)
 
     //[Constructor] You can add your own custom stuff here..
     samples_to_show_ = num_samples;
+    for (int i = 0; i < MAX_RESOLUTION; ++i)
+      peak_values_.push_back(0.0f);
+    last_offset_ = 0;
     setFramesPerSecond(FRAMES_PER_SECOND);
     //[/Constructor]
 }
 
-Oscilloscope::~Oscilloscope()
+AudioViewer::~AudioViewer()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
@@ -58,7 +61,7 @@ Oscilloscope::~Oscilloscope()
 }
 
 //==============================================================================
-void Oscilloscope::paint (Graphics& g)
+void AudioViewer::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -72,14 +75,19 @@ void Oscilloscope::paint (Graphics& g)
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setColour(Colour(0xff43165f));
-    g.fillPath(wave_path_);
+    g.setGradientFill(ColourGradient(Colour(0x33cb587a), 0.0f, getHeight() / 2.0f,
+                                     Colour(0xffeca769), 0.0f, getHeight() / 4.0f, false));
+    g.fillPath(wave_top_);
+    g.setGradientFill(ColourGradient(Colour(0x33cb587a), 0.0f, getHeight() / 2.0f,
+                                     Colour(0xffeca769), 0.0f, 3.0f * getHeight() / 4.0f, false));
+    g.fillPath(wave_bottom_);
     g.setColour(Colour(0xffaaaaaa));
-    g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+    g.strokePath(wave_top_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+    g.strokePath(wave_bottom_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
     //[/UserPaint]
 }
 
-void Oscilloscope::resized()
+void AudioViewer::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
@@ -93,29 +101,50 @@ void Oscilloscope::resized()
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void Oscilloscope::resetWavePath() {
+void AudioViewer::resetWavePath() {
     static const float padding = 5.0f;
 
     if (output_memory_ == nullptr)
         return;
 
-    wave_path_.clear();
+    wave_bottom_.clear();
+    wave_top_.clear();
 
     float draw_width = getWidth() - 2.0f * padding;
     float draw_height = getHeight() - 2.0f * padding;
 
-    wave_path_.startNewSubPath(padding, getHeight() / 2.0f);
+    wave_top_.startNewSubPath(padding, getHeight() / 2.0f);
+    wave_bottom_.startNewSubPath(padding, getHeight() / 2.0f);
     int inc = samples_to_show_ / MAX_RESOLUTION;
-    for (int i = samples_to_show_; i >= 0; i -= inc) {
-        float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
-        float val = output_memory_->get(i);
-        wave_path_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
+    int size = output_memory_->getSize();
+    int new_samples = (output_memory_->getOffset() + size - last_offset_) % size;
+
+    const mopo::mopo_float* memory = output_memory_->getBuffer();
+    int new_points = new_samples / inc;
+
+    for (int i = 0; i < new_points; ++i) {
+        float max = 0.0f;
+        for (int s = 0; s < inc; ++s) {
+            last_offset_ = (last_offset_ + 1) % size;
+            max = std::max<float>(max, std::fabs(memory[last_offset_]));
+        }
+        peak_values_.pop_front();
+        peak_values_.push_back(max);
     }
 
-    wave_path_.lineTo(getWidth() - padding, getHeight() / 2.0f);
+    std::list<float>::iterator iter = peak_values_.begin();
+    for (int i = 0; iter != peak_values_.end(); ++i, ++iter) {
+        float t = (1.0f * i) / MAX_RESOLUTION;
+        float val = *iter;
+        wave_top_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
+        wave_bottom_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f + val) / 2.0f));
+    }
+
+    wave_top_.lineTo(getWidth() - padding, getHeight() / 2.0f);
+    wave_bottom_.lineTo(getWidth() - padding, getHeight() / 2.0f);
 }
 
-void Oscilloscope::update() {
+void AudioViewer::update() {
     resetWavePath();
     repaint();
 }
@@ -131,7 +160,7 @@ void Oscilloscope::update() {
 
 BEGIN_JUCER_METADATA
 
-<JUCER_COMPONENT documentType="Component" className="Oscilloscope" componentName=""
+<JUCER_COMPONENT documentType="Component" className="AudioViewer" componentName=""
                  parentClasses="public AnimatedAppComponent" constructorParams="int num_samples"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">

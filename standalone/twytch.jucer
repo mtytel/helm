@@ -79,6 +79,9 @@
     </GROUP>
     <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
       <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
+        <FILE id="QS9Chq" name="audio_viewer.cpp" compile="1" resource="0"
+              file="../src/editor_components/audio_viewer.cpp"/>
+        <FILE id="IQ13WZ" name="audio_viewer.h" compile="0" resource="0" file="../src/editor_components/audio_viewer.h"/>
         <FILE id="yQH4BO" name="filter_response.cpp" compile="1" resource="0"
               file="../src/editor_components/filter_response.cpp"/>
         <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"

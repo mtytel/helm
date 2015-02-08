@@ -700,6 +700,9 @@
     <ClCompile Include="..\..\mopo\src\wave.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\audio_viewer.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -2411,6 +2414,9 @@
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
       <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\audio_viewer.h">
+      <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_response.h">
       <Filter>Twytch\src\editor_components</Filter>

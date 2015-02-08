@@ -134,6 +134,7 @@ private:
     ScopedPointer<ModulationSource> note_mod_source_;
     ScopedPointer<ModulationSource> velocity_mod_source_;
     ScopedPointer<ModulationSource> aftertouch_mod_source_;
+    ScopedPointer<ModulationDestination> saturation_mod_destination_;
 
 
     //==============================================================================

@@ -17,16 +17,15 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_B574069E15301B7__
-#define __JUCE_HEADER_B574069E15301B7__
+#ifndef __JUCE_HEADER_523C1D32EA61B457__
+#define __JUCE_HEADER_523C1D32EA61B457__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "memory.h"
+#include <list>
 //[/Headers]
 
-#include "synthesis_interface.h"
-#include "oscilloscope.h"
-#include "audio_viewer.h"
 
 
 //==============================================================================
@@ -37,54 +36,46 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class FullInterface  : public Component,
-                       public DragAndDropContainer,
-                       public ButtonListener,
-                       public SliderListener
+class AudioViewer  : public AnimatedAppComponent
 {
 public:
     //==============================================================================
-    FullInterface (mopo::control_map controls);
-    ~FullInterface();
+    AudioViewer (int num_samples);
+    ~AudioViewer();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setAllValues(mopo::control_map& controls);
-    void setModulations(std::set<mopo::ModulationConnection*> connections);
-    void setOutputMemory(const mopo::Memory* output_memory);
+    void update() override;
+    void resetWavePath();
+    void setOutputMemory(const mopo::Memory* memory) {
+      output_memory_ = memory;
+      last_offset_ = output_memory_->getOffset();
+    }
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
-    void sliderValueChanged (Slider* sliderThatWasMoved);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    std::map<std::string, juce::Slider*> slider_lookup_;
-    std::map<std::string, juce::Button*> button_lookup_;
+    const mopo::Memory* output_memory_;
+    std::list<float> peak_values_;
+    int last_offset_;
+    int samples_to_show_;
+    Path wave_top_;
+    Path wave_bottom_;
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<TextButton> save_button_;
-    ScopedPointer<TextButton> load_button_;
-    ScopedPointer<Slider> arp_frequency_;
-    ScopedPointer<Slider> arp_gate_;
-    ScopedPointer<Slider> arp_octaves_;
-    ScopedPointer<Slider> arp_pattern_;
-    ScopedPointer<ToggleButton> arp_on_;
-    ScopedPointer<Oscilloscope> oscilloscope_;
-    ScopedPointer<AudioViewer> recording_;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FullInterface)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioViewer)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_B574069E15301B7__
+#endif   // __JUCE_HEADER_523C1D32EA61B457__

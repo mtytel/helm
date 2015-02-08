@@ -80,6 +80,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
 
     addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
+    addAndMakeVisible (recording_ = new AudioViewer (1048575));
 
     //[UserPreSize]
     for (int i = 0; i < getNumChildComponents(); ++i) {
@@ -115,6 +116,7 @@ FullInterface::~FullInterface()
     arp_pattern_ = nullptr;
     arp_on_ = nullptr;
     oscilloscope_ = nullptr;
+    recording_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -138,15 +140,16 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (0, 40, proportionOfWidth (1.0000f), getHeight() - 113);
+    synthesis_interface_->setBounds (0, 56, proportionOfWidth (1.0000f), getHeight() - 113);
     save_button_->setBounds (192, 8, 150, 24);
     load_button_->setBounds (24, 8, 150, 24);
-    arp_frequency_->setBounds (176, 728, 50, 50);
-    arp_gate_->setBounds (112, 728, 50, 50);
-    arp_octaves_->setBounds (240, 728, 50, 50);
-    arp_pattern_->setBounds (304, 728, 50, 50);
-    arp_on_->setBounds (48, 744, 48, 24);
-    oscilloscope_->setBounds (600, 664, 272, getHeight() - 681);
+    arp_frequency_->setBounds (496, 8, 50, 50);
+    arp_gate_->setBounds (432, 8, 50, 50);
+    arp_octaves_->setBounds (560, 8, 50, 50);
+    arp_pattern_->setBounds (624, 8, 50, 50);
+    arp_on_->setBounds (368, 8, 48, 24);
+    oscilloscope_->setBounds (528, 648, 240, getHeight() - 697);
+    recording_->setBounds (8, 720, 512, getHeight() - 721);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -257,6 +260,7 @@ void FullInterface::setModulations(std::set<mopo::ModulationConnection*> connect
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
+    recording_->setOutputMemory(output_memory);
 }
 
 //[/MiscUserCode]
@@ -278,7 +282,7 @@ BEGIN_JUCER_METADATA
                  fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff271436"/>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="0 40 100% 113M" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="0 56 100% 113M" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="192 8 150 24" buttonText="save" connectedEdges="3"
@@ -287,31 +291,34 @@ BEGIN_JUCER_METADATA
               explicitFocusOrder="0" pos="24 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="176 728 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="496 8 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="" explicitFocusOrder="0" pos="112 728 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="432 8 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="" explicitFocusOrder="0" pos="240 728 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="560 8 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="" explicitFocusOrder="0" pos="304 728 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="624 8 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
-                explicitFocusOrder="0" pos="48 744 48 24" txtcol="ffffffff" buttonText="arp"
+                explicitFocusOrder="0" pos="368 8 48 24" txtcol="ffffffff" buttonText="arp"
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
-             virtualName="" explicitFocusOrder="0" pos="600 664 272 681M"
+             virtualName="" explicitFocusOrder="0" pos="528 648 240 697M"
              sourceFile="oscilloscope.cpp" constructorParams="512"/>
+  <JUCERCOMP name="recording" id="e8f76c3c396fd34e" memberName="recording_"
+             virtualName="" explicitFocusOrder="0" pos="8 720 512 721M" sourceFile="audio_viewer.cpp"
+             constructorParams="1048575"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

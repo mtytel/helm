@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\wave.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\audio_viewer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\full_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\graphical_envelope.cpp"/>
@@ -1321,6 +1322,7 @@
     <ClInclude Include="..\..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\..\mopo\src\wave.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\audio_viewer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\..\src\editor_components\full_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_components\graphical_envelope.h"/>
