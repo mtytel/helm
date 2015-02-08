@@ -69,7 +69,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     cross_modulation_->addListener (this);
     cross_modulation_->setSkewFactor (0.5);
 
-    addAndMakeVisible (filter_response_ = new FilterResponse (128));
+    addAndMakeVisible (filter_response_ = new FilterResponse (300));
     addAndMakeVisible (legato_ = new Slider ("legato"));
     legato_->setRange (0, 1, 1);
     legato_->setSliderStyle (Slider::LinearHorizontal);
@@ -905,7 +905,7 @@ BEGIN_JUCER_METADATA
           textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="" id="e5ebb41c4c259ce1" memberName="filter_response_" virtualName="FilterResponse"
              explicitFocusOrder="0" pos="24 312 300 100" sourceFile="filter_response.cpp"
-             constructorParams="128"/>
+             constructorParams="300"/>
   <SLIDER name="legato" id="bae65942d016a0ea" memberName="legato_" virtualName=""
           explicitFocusOrder="0" pos="376 504 64 24" min="0" max="1" int="1"
           style="LinearHorizontal" textBoxPos="NoTextBox" textBoxEditable="1"
