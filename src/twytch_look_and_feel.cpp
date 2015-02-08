@@ -30,10 +30,14 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
 
   if (style == Slider::SliderStyle::LinearBar) {
     g.fillRoundedRectangle(x, y, slider_pos - x, height, SLIDER_ROUNDING);
+    g.setColour(slider.findColour(Slider::thumbColourId));
+    g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);
   }
 
   else if (style == Slider::SliderStyle::LinearBarVertical) {
     g.fillRoundedRectangle(x, slider_pos, width, y + height - slider_pos, SLIDER_ROUNDING);
+    g.setColour(slider.findColour(Slider::thumbColourId));
+    g.fillRect(1.0f * x, slider_pos - y, 1.0f * width, 2.0f);
   }
   else {
     LookAndFeel_V3::drawLinearSlider(g, x, y, width, height, slider_pos, min, max, style, slider);
