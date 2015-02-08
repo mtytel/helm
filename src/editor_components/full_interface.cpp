@@ -80,7 +80,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
 
     addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
-    addAndMakeVisible (recording_ = new AudioViewer (1048575));
+    addAndMakeVisible (recording_ = new AudioViewer (441000));
 
     //[UserPreSize]
     for (int i = 0; i < getNumChildComponents(); ++i) {
@@ -318,7 +318,7 @@ BEGIN_JUCER_METADATA
              sourceFile="oscilloscope.cpp" constructorParams="512"/>
   <JUCERCOMP name="recording" id="e8f76c3c396fd34e" memberName="recording_"
              virtualName="" explicitFocusOrder="0" pos="8 720 512 721M" sourceFile="audio_viewer.cpp"
-             constructorParams="1048575"/>
+             constructorParams="441000"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
