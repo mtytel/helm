@@ -62,6 +62,23 @@ namespace mopo {
       mopo_float min_, max_;
   };
 
+  // A processor that passes input to output.
+  class Bypass : public Operator {
+    public:
+      Bypass() : Operator(1, 1) { }
+
+      virtual Processor* clone() const { return new Bypass(*this); }
+
+      void process() {
+        memcpy(output()->buffer, input()->source->buffer,
+               buffer_size_ * sizeof(mopo_float));
+      }
+
+      inline void tick(int i) {
+        output(0)->buffer[i] = -input(0)->at(i);
+      }
+  };
+
   // A processor that will negate the amplitude of a signal.
   class Negate : public Operator {
     public:
