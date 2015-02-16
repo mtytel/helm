@@ -14,32 +14,26 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#ifndef PHASER_H
-#define PHASER_H
+#include "formant.h"
 
-#include "processor_router.h"
+#include "filter.h"
+#include "operators.h"
 
 namespace mopo {
 
-  class Phaser : public ProcessorRouter {
-    public:
-      enum Inputs {
-        kAudio,
-        kMix,
-        kOscFrequency,
-        kOscWaveform,
-        kFilterCutoffMidi,
-        kFilterResonance,
-        kSemitoneSweep,
-        kReset,
-        kNumInputs
-      };
+  Formant::Formant() : ProcessorRouter(0, 0) {
+    static const Value filter_type(Filter::kBandPass);
 
-      Phaser(int num_passes = 8);
+    Filter* filter = new Filter();
+    registerInput(filter->input(Filter::kAudio), kAudio);
+    registerInput(filter->input(Filter::kResonance), kResonance);
+    registerInput(filter->input(Filter::kCutoff), kFrequency);
+    filter->plug(&filter_type, Filter::kType);
 
-      virtual Processor* clone() const { return new Phaser(*this); }
-  };
+    Multiply* total = new Multiply();
+    registerInput(total->input(0), kGain);
+    total->plug(filter, 1);
+
+    registerOutput(total->output());
+  }
 } // namespace mopo
-
-#endif // PHASER_H

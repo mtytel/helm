@@ -22,7 +22,7 @@
 
 namespace mopo {
 
-  Phaser::Phaser(int num_phases) : ProcessorRouter(0, 0) {
+  Phaser::Phaser(int num_passes) : ProcessorRouter(0, 0) {
     Oscillator* oscillator = new Oscillator();
     registerInput(oscillator->input(Oscillator::kFrequency), kOscFrequency);
     registerInput(oscillator->input(Oscillator::kWaveform), kOscWaveform);
@@ -47,7 +47,7 @@ namespace mopo {
     registerInput(first_filter->input(Filter::kResonance), kFilterResonance);
     Filter* last_filter = first_filter;
 
-    for (int i = 1; i < num_phases; ++i) {
+    for (int i = 1; i < num_passes; ++i) {
       Filter* filter = new Filter();
       filter->registerInput(first_filter->input(Filter::kResonance),
                             Filter::kResonance);
