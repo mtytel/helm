@@ -34,17 +34,19 @@ namespace mopo {
     VariableAdd* total = new VariableAdd(num_formants + 1);
     total->plug(passthrough, 0);
 
+    addProcessor(audio_input);
+    addProcessor(reset_input);
+    addProcessor(passthrough);
+
     for (int i = 0; i < num_formants; ++i) {
       Formant* formant = new Formant();
       formant->plug(audio_input, Formant::kAudio);
       formants_.push_back(formant);
+      addProcessor(formant);
       total->plug(formant, i + 1);
     }
 
-    addProcessor(audio_input);
-    addProcessor(passthrough);
     addProcessor(total);
-
     registerOutput(total->output());
   }
 } // namespace mopo

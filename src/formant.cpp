@@ -34,6 +34,8 @@ namespace mopo {
     registerInput(total->input(0), kGain);
     total->plug(filter, 1);
 
+    addProcessor(filter);
+    addProcessor(total);
     registerOutput(total->output());
   }
 } // namespace mopo
