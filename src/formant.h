@@ -15,31 +15,27 @@
  */
 
 #pragma once
-#ifndef PHASER_H
-#define PHASER_H
+#ifndef FORMANT_H
+#define FORMANT_H
 
 #include "processor_router.h"
 
 namespace mopo {
 
-  class Phaser : public ProcessorRouter {
+  class Formant : public ProcessorRouter {
     public:
       enum Inputs {
         kAudio,
-        kMix,
-        kOscFrequency,
-        kOscWaveform,
-        kFilterCutoffMidi,
-        kFilterResonance,
-        kSemitoneSweep,
-        kReset,
+        kFrequency,
+        kGain,
+        kResonance,
         kNumInputs
       };
 
-      Phaser(int num_passes = 8);
+      Formant();
 
-      virtual Processor* clone() const { return new Phaser(*this); }
+      virtual Processor* clone() const { return new Formant(*this); }
   };
 } // namespace mopo
 
-#endif // PHASER_H
+#endif // FORMANT_H
