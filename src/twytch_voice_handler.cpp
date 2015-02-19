@@ -16,10 +16,13 @@
 
 #include "twytch_voice_handler.h"
 
+#include "bypass_router.h"
 #include "delay.h"
 #include "distortion.h"
 #include "envelope.h"
 #include "filter.h"
+#include "formant.h"
+#include "formant_manager.h"
 #include "operators.h"
 #include "oscillator.h"
 #include "linear_slope.h"
@@ -52,9 +55,9 @@ namespace mopo {
     createArticulation(note(), velocity(), voice_event());
     createOscillators(current_frequency_->output(),
                       amplitude_envelope_->output(Envelope::kFinished));
+    createModulators(amplitude_envelope_->output(Envelope::kFinished));
     createFilter(osc_feedback_->output(0), note_from_center_->output(),
                  amplitude_envelope_->output(Envelope::kFinished), voice_event());
-    createModMatrix();
 
     Value* aftertouch_value = new Value();
     aftertouch_value->plug(aftertouch());
@@ -63,7 +66,7 @@ namespace mopo {
     mod_sources_["aftertouch"] = aftertouch_value->output();
 
     output_ = new Multiply();
-    output_->plug(distorted_filter_, 0);
+    output_->plug(formant_container_, 0);
     output_->plug(amplitude_, 1);
 
     addProcessor(output_);
@@ -198,6 +201,15 @@ namespace mopo {
     osc_feedback_->plug(&utils::value_half, Delay::kWet);
     addProcessor(osc_feedback_);
 
+    mod_sources_["osc 1"] = oscillators_->getOscillator1Output();
+    mod_sources_["osc 2"] = oscillators_->getOscillator2Output();
+
+    mod_destinations_["cross modulation"] = cross_mod_sources;
+    mod_destinations_["pitch"] = midi_mod_sources;
+    mod_destinations_["osc mix"] = osc_mix_sources;
+  }
+
+  void TwytchVoiceHandler::createModulators(Output* reset) {
     // LFO 1.
     Value* lfo1_waveform = new Value(Wave::kSin);
     Value* lfo1_frequency = new Value(2);
@@ -232,7 +244,6 @@ namespace mopo {
     addProcessor(step_sequencer_);
     controls_["num steps"] = num_steps;
     controls_["step frequency"] = step_frequency;
-    mod_sources_["step sequencer"] = step_sequencer_->output();
 
     for (int i = 0; i < MAX_STEPS; ++i) {
       std::string num = std::to_string(i);
@@ -246,10 +257,7 @@ namespace mopo {
     // Modulation sources/destinations.
     mod_sources_["lfo 1"] = lfo1_->output();
     mod_sources_["lfo 2"] = lfo2_->output();
-
-    mod_destinations_["cross modulation"] = cross_mod_sources;
-    mod_destinations_["pitch"] = midi_mod_sources;
-    mod_destinations_["osc mix"] = osc_mix_sources;
+    mod_sources_["step sequencer"] = step_sequencer_->output();
   }
 
   void TwytchVoiceHandler::createFilter(
@@ -382,7 +390,6 @@ namespace mopo {
     addProcessor(saturation_mod);
     addProcessor(total_saturation);
     addProcessor(saturation_magnitude);
-
     addProcessor(distorted_filter_);
 
     controls_["filter type"] = filter_type;
@@ -395,20 +402,39 @@ namespace mopo {
     mod_destinations_["cutoff"] = cutoff_mod_sources;
     mod_destinations_["resonance"] = resonance_sources;
     mod_destinations_["saturation"] = saturation_mod_sources;
-  }
 
-  void TwytchVoiceHandler::createModMatrix() {
-    std::vector<std::string> source_names;
-    source_names.push_back("");
-    output_map::iterator s_iter = mod_sources_.begin();
-    for (; s_iter != mod_sources_.end(); ++s_iter)
-      source_names.push_back(s_iter->first);
+    // Formant Filter.
+    formant_container_ = new BypassRouter();
+    Value* formant_bypass = new Value(1);
+    formant_container_->plug(formant_bypass, BypassRouter::kBypass);
+    formant_container_->plug(distorted_filter_, BypassRouter::kAudio);
 
-    std::vector<std::string> destination_names;
-    destination_names.push_back("");
-    input_map::iterator d_iter = mod_destinations_.begin();
-    for (; d_iter != mod_destinations_.end(); ++d_iter)
-      destination_names.push_back(d_iter->first);
+    formant_filter_ = new FormantManager(NUM_FORMANTS);
+    Value* formant_passthrough = new Value(0.5);
+    formant_filter_->plug(distorted_filter_, FormantManager::kAudio);
+    formant_filter_->plug(formant_passthrough, FormantManager::kPassthroughGain);
+    formant_filter_->plug(reset, FormantManager::kReset);
+
+    controls_["formant bypass"] = formant_bypass;
+    controls_["formant passthrough"] = formant_passthrough;
+
+    for (int i = 0; i < NUM_FORMANTS; ++i) {
+      Value* formant_gain = new Value(0.0);
+      Value* formant_q = new Value(0.5);
+      Value* formant_frequency = new Value(1000.0);
+      formant_filter_->getFormant(i)->plug(formant_gain, Formant::kGain);
+      formant_filter_->getFormant(i)->plug(formant_q, Formant::kResonance);
+      formant_filter_->getFormant(i)->plug(formant_frequency, Formant::kFrequency);
+
+      controls_[std::string("formant gain ") + std::to_string(i)] = formant_gain;
+      controls_[std::string("formant resonance ") + std::to_string(i)] = formant_q;
+      controls_[std::string("formant frequency ") + std::to_string(i)] = formant_frequency;
+    }
+
+    formant_container_->addProcessor(formant_filter_);
+    formant_container_->registerOutput(formant_filter_->output());
+
+    addProcessor(formant_container_);
   }
 
   void TwytchVoiceHandler::createArticulation(

@@ -25,10 +25,12 @@
 #include <vector>
 
 namespace mopo {
+  class BypassRouter;
   class Delay;
   class Distortion;
   class Envelope;
   class Filter;
+  class FormantManager;
   class LinearSlope;
   class Oscillator;
   class SmoothValue;
@@ -62,11 +64,11 @@ namespace mopo {
       // Create the oscillators and hook up frequency controls.
       void createOscillators(Output* frequency, Output* reset);
 
+      // Create the LFOs, Step Sequencers, etc.
+      void createModulators(Output* reset);
+
       // Create the filter and filter envelope.
       void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
-
-      // Create the modulation matrix.
-      void createModMatrix();
 
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;
@@ -85,7 +87,9 @@ namespace mopo {
 
       Filter* filter_;
       Distortion* distorted_filter_;
+      FormantManager* formant_filter_;
       Envelope* filter_envelope_;
+      BypassRouter* formant_container_;
 
       Multiply* output_;
 
