@@ -73,6 +73,9 @@ namespace mopo {
                                mopo_float resonance,
                                mopo_float gain) {
         static const mopo_float shelf_slope = 1.2;
+        MOPO_ASSERT(resonance > 0.0);
+        MOPO_ASSERT(cutoff > 0.0);
+        MOPO_ASSERT(gain >= 0.0);
 
         mopo_float phase_delta = 2.0 * PI * cutoff / sample_rate_;
         mopo_float real_delta = cos(phase_delta);

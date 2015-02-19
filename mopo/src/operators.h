@@ -72,6 +72,10 @@ namespace mopo {
       void process() {
         memcpy(output()->buffer, input()->source->buffer,
                buffer_size_ * sizeof(mopo_float));
+        
+        output()->triggered = input()->source->triggered;
+        output()->trigger_value = input()->source->trigger_value;
+        output()->trigger_offset = input()->source->trigger_offset;
       }
 
       inline void tick(int i) {

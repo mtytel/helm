@@ -14,28 +14,28 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "formant.h"
+#pragma once
+#ifndef BYPASS_ROUTER_H
+#define BYPASS_ROUTER_H
 
-#include "filter.h"
-#include "operators.h"
+#include "processor_router.h"
 
 namespace mopo {
 
-  Formant::Formant() : ProcessorRouter(0, 0) {
-    static const Value filter_type(Filter::kBandPass);
+  class BypassRouter : public ProcessorRouter {
+    public:
+      enum Inputs {
+        kAudio,
+        kBypass,
+        kNumInputs
+      };
 
-    Filter* filter = new Filter();
-    registerInput(filter->input(Filter::kAudio), kAudio);
-    registerInput(filter->input(Filter::kResonance), kResonance);
-    registerInput(filter->input(Filter::kCutoff), kFrequency);
-    filter->plug(&filter_type, Filter::kType);
+      BypassRouter(int num_inputs = kNumInputs, int num_outputs = 0);
 
-    Multiply* total = new Multiply();
-    registerInput(total->input(0), kGain);
-    total->plug(filter, 1);
+      virtual Processor* clone() const { return new BypassRouter(*this); }
 
-    addProcessor(filter);
-    addProcessor(total);
-    registerOutput(total->output());
-  }
+      void process();
+  };
 } // namespace mopo
+
+#endif // BYPASS_ROUTER_H
