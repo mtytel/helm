@@ -57,8 +57,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\srcs\JUCE\modules;c:\SDKs\vstsdk2.4;c:\SDKs\VST3 SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\srcs\JUCE\modules;c:\SDKs\vstsdk2.4;c:\SDKs\VST3 SDK;c:\SDKs\AAX;c:\SDKs\AAX\Interfaces;c:\SDKs\AAX\Interfaces\ACF;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>JucePlugin_AAXLibs_path=&quot;c:\\SDKs\\AAX\\Libs&quot;;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -73,7 +73,7 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\twytch.dll</OutputFile>
+      <OutputFile>$(OutDir)\twytch.aaxplugin</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>libcmt.lib; msvcrt.lib;;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,8 +102,8 @@
     </Midl>
     <ClCompile>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\srcs\JUCE\modules;c:\SDKs\vstsdk2.4;c:\SDKs\VST3 SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\srcs\JUCE\modules;c:\SDKs\vstsdk2.4;c:\SDKs\VST3 SDK;c:\SDKs\AAX;c:\SDKs\AAX\Interfaces;c:\SDKs\AAX\Interfaces\ACF;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>JucePlugin_AAXLibs_path=&quot;c:\\SDKs\\AAX\\Libs&quot;;WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=1.0.0;JUCE_APP_VERSION_HEX=0x10000;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -118,7 +118,7 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <OutputFile>$(OutDir)\twytch.dll</OutputFile>
+      <OutputFile>$(OutDir)\twytch.aaxplugin</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -226,11 +226,14 @@
     <ClCompile Include="..\..\mopo\src\alias.cpp"/>
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp"/>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp"/>
+    <ClCompile Include="..\..\mopo\src\bypass_router.cpp"/>
     <ClCompile Include="..\..\mopo\src\delay.cpp"/>
     <ClCompile Include="..\..\mopo\src\distortion.cpp"/>
     <ClCompile Include="..\..\mopo\src\envelope.cpp"/>
     <ClCompile Include="..\..\mopo\src\feedback.cpp"/>
     <ClCompile Include="..\..\mopo\src\filter.cpp"/>
+    <ClCompile Include="..\..\mopo\src\formant.cpp"/>
+    <ClCompile Include="..\..\mopo\src\formant_manager.cpp"/>
     <ClCompile Include="..\..\mopo\src\linear_slope.cpp"/>
     <ClCompile Include="..\..\mopo\src\magnitude_lookup.cpp"/>
     <ClCompile Include="..\..\mopo\src\midi_lookup.cpp"/>
@@ -1499,11 +1502,14 @@
     <ClInclude Include="..\..\mopo\src\alias.h"/>
     <ClInclude Include="..\..\mopo\src\arpeggiator.h"/>
     <ClInclude Include="..\..\mopo\src\bit_crush.h"/>
+    <ClInclude Include="..\..\mopo\src\bypass_router.h"/>
     <ClInclude Include="..\..\mopo\src\delay.h"/>
     <ClInclude Include="..\..\mopo\src\distortion.h"/>
     <ClInclude Include="..\..\mopo\src\envelope.h"/>
     <ClInclude Include="..\..\mopo\src\feedback.h"/>
     <ClInclude Include="..\..\mopo\src\filter.h"/>
+    <ClInclude Include="..\..\mopo\src\formant.h"/>
+    <ClInclude Include="..\..\mopo\src\formant_manager.h"/>
     <ClInclude Include="..\..\mopo\src\linear_slope.h"/>
     <ClInclude Include="..\..\mopo\src\magnitude_lookup.h"/>
     <ClInclude Include="..\..\mopo\src\memory.h"/>

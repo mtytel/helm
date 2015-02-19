@@ -634,6 +634,9 @@
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\bypass_router.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\delay.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
@@ -647,6 +650,12 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\filter.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\formant.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\formant_manager.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\linear_slope.cpp">
@@ -2337,6 +2346,9 @@
     <ClInclude Include="..\..\mopo\src\bit_crush.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\mopo\src\bypass_router.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\mopo\src\delay.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
@@ -2350,6 +2362,12 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\filter.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\formant.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\formant_manager.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\linear_slope.h">

@@ -95,7 +95,7 @@ FullInterface::FullInterface (mopo::control_map controls)
     setAllValues(controls);
     //[/UserPreSize]
 
-    setSize (600, 400);
+    setSize (800, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -131,6 +131,30 @@ void FullInterface::paint (Graphics& g)
 
     g.fillAll (Colour (0xff271436));
 
+    g.setColour (Colour (0xffbf9bc7));
+    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.drawText (TRANS("GATE"),
+                804, 164, 52, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffbf9bc7));
+    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.drawText (TRANS("FREQ"),
+                876, 164, 52, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffbf9bc7));
+    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.drawText (TRANS("OCTAVES"),
+                804, 252, 60, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffbf9bc7));
+    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.drawText (TRANS("PATTERN"),
+                876, 252, 60, 20,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
 }
@@ -140,16 +164,16 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (0, 56, proportionOfWidth (1.0000f), getHeight() - 113);
-    save_button_->setBounds (192, 8, 150, 24);
-    load_button_->setBounds (24, 8, 150, 24);
-    arp_frequency_->setBounds (496, 8, 50, 50);
-    arp_gate_->setBounds (432, 8, 50, 50);
-    arp_octaves_->setBounds (560, 8, 50, 50);
-    arp_pattern_->setBounds (624, 8, 50, 50);
-    arp_on_->setBounds (368, 8, 48, 24);
-    oscilloscope_->setBounds (528, 648, 240, getHeight() - 697);
-    recording_->setBounds (8, 720, 512, getHeight() - 721);
+    synthesis_interface_->setBounds (0, 0, proportionOfWidth (0.8368f), getHeight() - 57);
+    save_button_->setBounds (800, 40, 150, 24);
+    load_button_->setBounds (800, 8, 150, 24);
+    arp_frequency_->setBounds (880, 112, 50, 50);
+    arp_gate_->setBounds (808, 112, 50, 50);
+    arp_octaves_->setBounds (808, 200, 50, 50);
+    arp_pattern_->setBounds (880, 200, 50, 50);
+    arp_on_->setBounds (808, 80, 48, 24);
+    oscilloscope_->setBounds (808, 416, 144, getHeight() - 665);
+    recording_->setBounds (808, 280, 144, getHeight() - 673);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -279,46 +303,59 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component, public DragAndDropContainer"
                  constructorParams="mopo::control_map controls" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff271436"/>
+                 fixedSize="0" initialWidth="800" initialHeight="400">
+  <BACKGROUND backgroundColour="ff271436">
+    <TEXT pos="804 164 52 20" fill="solid: ffbf9bc7" hasStroke="0" text="GATE"
+          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+          italic="0" justification="36"/>
+    <TEXT pos="876 164 52 20" fill="solid: ffbf9bc7" hasStroke="0" text="FREQ"
+          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+          italic="0" justification="36"/>
+    <TEXT pos="804 252 60 20" fill="solid: ffbf9bc7" hasStroke="0" text="OCTAVES"
+          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+          italic="0" justification="36"/>
+    <TEXT pos="876 252 60 20" fill="solid: ffbf9bc7" hasStroke="0" text="PATTERN"
+          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+          italic="0" justification="36"/>
+  </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="0 56 100% 113M" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="0 0 83.682% 57M" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
-              explicitFocusOrder="0" pos="192 8 150 24" buttonText="save" connectedEdges="3"
-              needsCallback="1" radioGroupId="0"/>
+              explicitFocusOrder="0" pos="800 40 150 24" buttonText="save"
+              connectedEdges="3" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
-              explicitFocusOrder="0" pos="24 8 150 24" buttonText="load" connectedEdges="3"
+              explicitFocusOrder="0" pos="800 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="496 8 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="880 112 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="" explicitFocusOrder="0" pos="432 8 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="808 112 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="" explicitFocusOrder="0" pos="560 8 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="808 200 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="" explicitFocusOrder="0" pos="624 8 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="880 200 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
-                explicitFocusOrder="0" pos="368 8 48 24" txtcol="ffffffff" buttonText="arp"
+                explicitFocusOrder="0" pos="808 80 48 24" txtcol="ffffffff" buttonText="arp"
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
-             virtualName="" explicitFocusOrder="0" pos="528 648 240 697M"
+             virtualName="" explicitFocusOrder="0" pos="808 416 144 665M"
              sourceFile="oscilloscope.cpp" constructorParams="512"/>
   <JUCERCOMP name="recording" id="e8f76c3c396fd34e" memberName="recording_"
-             virtualName="" explicitFocusOrder="0" pos="8 720 512 721M" sourceFile="audio_viewer.cpp"
-             constructorParams="441000"/>
+             virtualName="" explicitFocusOrder="0" pos="808 280 144 673M"
+             sourceFile="audio_viewer.cpp" constructorParams="441000"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

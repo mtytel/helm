@@ -57,6 +57,9 @@ namespace mopo {
       virtual void process();
       virtual Processor* clone() const { return new TwytchOscillators(*this); }
 
+      Output* getOscillator1Output() { return oscillator1_->output(); }
+      Output* getOscillator2Output() { return oscillator2_->output(); }
+
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
       void tick(int i) {

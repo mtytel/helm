@@ -138,11 +138,14 @@ OBJECTS := \
   $(OBJDIR)/alias_1d388dcc.o \
   $(OBJDIR)/arpeggiator_9d4b0575.o \
   $(OBJDIR)/bit_crush_f4910885.o \
+  $(OBJDIR)/bypass_router_af85fafc.o \
   $(OBJDIR)/delay_a1e4df7f.o \
   $(OBJDIR)/distortion_9a4df46b.o \
   $(OBJDIR)/envelope_265dd45e.o \
   $(OBJDIR)/feedback_1ba2cd93.o \
   $(OBJDIR)/filter_a2f71e46.o \
+  $(OBJDIR)/formant_416d86df.o \
+  $(OBJDIR)/formant_manager_a6e78c4d.o \
   $(OBJDIR)/linear_slope_aafebf9f.o \
   $(OBJDIR)/magnitude_lookup_2d96b997.o \
   $(OBJDIR)/midi_lookup_47a7ae94.o \
@@ -646,6 +649,11 @@ $(OBJDIR)/bit_crush_f4910885.o: ../../mopo/src/bit_crush.cpp
 	@echo "Compiling bit_crush.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/bypass_router_af85fafc.o: ../../mopo/src/bypass_router.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling bypass_router.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/delay_a1e4df7f.o: ../../mopo/src/delay.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delay.cpp"
@@ -669,6 +677,16 @@ $(OBJDIR)/feedback_1ba2cd93.o: ../../mopo/src/feedback.cpp
 $(OBJDIR)/filter_a2f71e46.o: ../../mopo/src/filter.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/formant_416d86df.o: ../../mopo/src/formant.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling formant.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/formant_manager_a6e78c4d.o: ../../mopo/src/formant_manager.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling formant_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/linear_slope_aafebf9f.o: ../../mopo/src/linear_slope.cpp

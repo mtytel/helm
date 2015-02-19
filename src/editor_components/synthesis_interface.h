@@ -43,7 +43,8 @@
                                                                     //[/Comments]
 */
 class SynthesisInterface  : public Component,
-                            public SliderListener
+                            public SliderListener,
+                            public ButtonListener
 {
 public:
     //==============================================================================
@@ -60,6 +61,7 @@ public:
     void paint (Graphics& g);
     void resized();
     void sliderValueChanged (Slider* sliderThatWasMoved);
+    void buttonClicked (Button* buttonThatWasClicked);
 
 
 
@@ -84,7 +86,6 @@ private:
     ScopedPointer<Slider> pitch_bend_range_;
     ScopedPointer<Slider> cross_modulation_;
     ScopedPointer<FilterResponse> filter_response_;
-    ScopedPointer<Slider> legato_;
     ScopedPointer<Slider> portamento_type_;
     ScopedPointer<Slider> osc_mix_;
     ScopedPointer<Slider> osc_2_transpose_;
@@ -135,6 +136,25 @@ private:
     ScopedPointer<ModulationSource> velocity_mod_source_;
     ScopedPointer<ModulationSource> aftertouch_mod_source_;
     ScopedPointer<ModulationDestination> saturation_mod_destination_;
+    ScopedPointer<Slider> formant_gain_0_;
+    ScopedPointer<Slider> formant_resonance_0_;
+    ScopedPointer<Slider> formant_frequency_0_;
+    ScopedPointer<Slider> formant_gain_1_;
+    ScopedPointer<Slider> formant_resonance_1_;
+    ScopedPointer<Slider> formant_frequency_1_;
+    ScopedPointer<Slider> formant_gain_2_;
+    ScopedPointer<Slider> formant_resonance_2_;
+    ScopedPointer<Slider> formant_frequency_2_;
+    ScopedPointer<Slider> formant_gain_3_;
+    ScopedPointer<Slider> formant_resonance_3_;
+    ScopedPointer<Slider> formant_frequency_3_;
+    ScopedPointer<Slider> formant_passthrough_;
+    ScopedPointer<ToggleButton> formant_bypass_;
+    ScopedPointer<ModulationSource> osc_1_mod_source_;
+    ScopedPointer<ModulationSource> osc_2_mod_source_;
+    ScopedPointer<ModulationSource> pitch_bend_mod_source_;
+    ScopedPointer<ModulationSource> mod_wheel_mod_source_2;
+    ScopedPointer<Slider> legato_;
 
 
     //==============================================================================
