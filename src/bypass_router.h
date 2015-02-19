@@ -25,6 +25,7 @@ namespace mopo {
   class BypassRouter : public ProcessorRouter {
     public:
       enum Inputs {
+        kAudio,
         kBypass,
         kNumInputs
       };
