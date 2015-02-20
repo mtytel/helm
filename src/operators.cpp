@@ -109,6 +109,11 @@ namespace mopo {
 #endif
   }
 
+  void BilinearInterpolate::process() {
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+  }
+
   void VariableAdd::process() {
     memset(output(0)->buffer, 0, buffer_size_ * sizeof(mopo_float));
 

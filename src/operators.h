@@ -256,6 +256,39 @@ namespace mopo {
                         input(kFractional)->at(i));
       }
   };
+
+  // A processor that will interpolate two streams by an interpolation stream.
+  class BilinearInterpolate : public Operator {
+    public:
+      enum Inputs {
+        kTopLeft,
+        kTopRight,
+        kBottomLeft,
+        kBottomRight,
+        kXPosition,
+        kYPosition,
+        kNumInputs
+      };
+
+      BilinearInterpolate() : Operator(kNumInputs, 1) { }
+
+      virtual Processor* clone() const {
+        return new BilinearInterpolate(*this);
+      }
+
+      void process();
+
+      inline void tick(int i) {
+        float top = INTERPOLATE(input(kTopLeft)->at(i),
+                                input(kTopRight)->at(i),
+                                input(kXPosition)->at(i));
+        float bottom = INTERPOLATE(input(kBottomLeft)->at(i),
+                                   input(kBottomRight)->at(i),
+                                   input(kXPosition)->at(i));
+        output(0)->buffer[i] = INTERPOLATE(top, bottom,
+                                           input(kYPosition)->at(i));
+      }
+  };
 } // namespace mopo
 
 #endif // OPERATORS_H
