@@ -45,12 +45,13 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     polyphony_->addListener (this);
 
     addAndMakeVisible (portamento_ = new Slider ("portamento"));
-    portamento_->setRange (0, 0.2, 0);
+    portamento_->setRange (0, 0.4, 0);
     portamento_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     portamento_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     portamento_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     portamento_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     portamento_->addListener (this);
+    portamento_->setSkewFactor (0.5);
 
     addAndMakeVisible (pitch_bend_range_ = new Slider ("pitch bend range"));
     pitch_bend_range_->setRange (0, 48, 1);
@@ -61,7 +62,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     pitch_bend_range_->addListener (this);
 
     addAndMakeVisible (cross_modulation_ = new Slider ("cross modulation"));
-    cross_modulation_->setRange (0, 10, 0);
+    cross_modulation_->setRange (0, 1, 0);
     cross_modulation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     cross_modulation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     cross_modulation_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -121,7 +122,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_time_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     delay_time_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     delay_time_->addListener (this);
-    delay_time_->setSkewFactor (0.2);
+    delay_time_->setSkewFactor (0.4);
 
     addAndMakeVisible (delay_feedback_ = new Slider ("delay feedback"));
     delay_feedback_->setRange (-1, 1, 0);
@@ -502,7 +503,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (pitch_bend_mod_source_ = new ModulationSource ("pitch bend", Colour (0xffaa00aa)));
     addAndMakeVisible (mod_wheel_mod_source_2 = new ModulationSource ("mod wheel", Colour (0xff00aaaa)));
     addAndMakeVisible (legato_ = new Slider ("legato"));
-    legato_->setRange (0, 2, 1);
+    legato_->setRange (0, 1, 1);
     legato_->setSliderStyle (Slider::LinearBar);
     legato_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
     legato_->setColour (Slider::backgroundColourId, Colour (0xff190327));
@@ -513,11 +514,8 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
-    osc_1_waveform_->setSliderStyle(Slider::LinearBarVertical);
-    osc_2_waveform_->setSliderStyle(Slider::LinearBarVertical);
     lfo_1_waveform_->setSliderStyle(Slider::LinearBarVertical);
     lfo_2_waveform_->setSliderStyle(Slider::LinearBarVertical);
-    osc_mix_->setSliderStyle(Slider::LinearBarVertical);
 
     amplitude_envelope_->setAttackSlider(amp_attack_);
     amplitude_envelope_->setDecaySlider(amp_decay_);
@@ -687,27 +685,30 @@ void SynthesisInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff271436));
+    g.fillAll (Colour (0xff3c2e50));
 
     g.setColour (Colour (0xff563e70));
     g.fillRect (4, 4, 420, 236);
 
+    g.setColour (Colour (0xff6a4584));
+    g.fillRect (12, 24, 408, 152);
+
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OSC 2 TRANSPOSE"),
-                308, 132, 92, 20,
+                236, 220, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OSC 2 TUNE"),
-                308, 196, 92, 20,
+                316, 220, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("CROSS MOD"),
-                308, 68, 92, 20,
+    g.drawText (TRANS("X MOD"),
+                172, 108, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff563e70));
@@ -764,7 +765,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("SATURATION"),
-                340, 452, 92, 20,
+                340, 412, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffd4b0e0));
@@ -944,6 +945,12 @@ void SynthesisInterface::paint (Graphics& g)
                 708, 308, 60, 12,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("KEY TRACK"),
+                340, 476, 92, 20,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     g.setColour(Colours::white);
     //[/UserPaint]
@@ -957,17 +964,17 @@ void SynthesisInterface::resized()
     step_sequencer_->setBounds (464, 360, 300, 100);
     amplitude_envelope_->setBounds (464, 196, 300, 100);
     filter_envelope_->setBounds (464, 32, 300, 100);
-    osc_1_wave_display_->setBounds (24, 24, 256, 100);
-    osc_2_wave_display_->setBounds (24, 128, 256, 100);
+    osc_1_wave_display_->setBounds (16, 40, 176, 112);
+    osc_2_wave_display_->setBounds (240, 40, 176, 112);
     polyphony_->setBounds (40, 632, 50, 50);
     portamento_->setBounds (128, 632, 50, 50);
     pitch_bend_range_->setBounds (328, 624, 50, 50);
-    cross_modulation_->setBounds (328, 24, 50, 50);
+    cross_modulation_->setBounds (192, 64, 50, 50);
     filter_response_->setBounds (16, 360, 300, 100);
     portamento_type_->setBounds (224, 624, 64, 16);
-    osc_mix_->setBounds (281, 24, 20, 204);
-    osc_2_transpose_->setBounds (328, 88, 50, 50);
-    osc_2_tune_->setBounds (328, 152, 50, 50);
+    osc_mix_->setBounds (16, 152, 400, 24);
+    osc_2_transpose_->setBounds (256, 176, 50, 50);
+    osc_2_tune_->setBounds (336, 176, 50, 50);
     volume_->setBounds (672, 528, 96, 56);
     delay_time_->setBounds (448, 536, 50, 50);
     delay_feedback_->setBounds (512, 536, 50, 50);
@@ -983,19 +990,19 @@ void SynthesisInterface::resized()
     fil_sustain_->setBounds (544, 136, 32, 32);
     resonance_->setBounds (316, 360, 12, 100);
     filter_type_->setBounds (16, 344, 304, 16);
-    osc_1_waveform_->setBounds (12, 24, 12, 100);
-    osc_2_waveform_->setBounds (12, 128, 12, 100);
+    osc_1_waveform_->setBounds (16, 24, 176, 16);
+    osc_2_waveform_->setBounds (240, 24, 176, 16);
     cutoff_->setBounds (16, 460, 300, 12);
     fil_env_depth_->setBounds (688, 136, 32, 32);
-    keytrack_->setBounds (728, 136, 32, 32);
+    keytrack_->setBounds (360, 432, 50, 50);
     osc_feedback_transpose_->setBounds (112, 248, 50, 50);
     osc_feedback_amount_->setBounds (280, 248, 50, 50);
     osc_feedback_tune_->setBounds (192, 248, 50, 50);
     amplitude_env_mod_source_->setBounds (440, 228, 24, 24);
     step_generator_mod_source_->setBounds (440, 392, 24, 24);
     filter_env_mod_source_->setBounds (440, 64, 24, 24);
-    cross_mod_destination_->setBounds (384, 40, 24, 24);
-    pitch_mod_destination_->setBounds (384, 104, 24, 24);
+    cross_mod_destination_->setBounds (208, 32, 24, 24);
+    pitch_mod_destination_->setBounds (56, 192, 24, 24);
     cutoff_mod_destination_->setBounds (64, 472, 24, 24);
     lfo_1_wave_display_->setBounds (27, 530, 140, 70);
     lfo_2_wave_display_->setBounds (236, 530, 140, 70);
@@ -1008,12 +1015,12 @@ void SynthesisInterface::resized()
     step_frequency_->setBounds (616, 464, 40, 40);
     lfo_1_frequency_->setBounds (171, 529, 40, 40);
     lfo_2_frequency_->setBounds (380, 532, 40, 40);
-    osc_mix_mod_destination_->setBounds (304, 112, 24, 24);
-    filter_saturation_->setBounds (360, 408, 50, 50);
+    osc_mix_mod_destination_->setBounds (192, 176, 24, 24);
+    filter_saturation_->setBounds (360, 360, 50, 50);
     note_mod_source_->setBounds (352, 704, 24, 24);
     velocity_mod_source_->setBounds (504, 704, 24, 24);
     aftertouch_mod_source_->setBounds (640, 704, 24, 24);
-    saturation_mod_destination_->setBounds (376, 384, 24, 24);
+    saturation_mod_destination_->setBounds (376, 336, 24, 24);
     formant_gain_0_->setBounds (552, 616, 12, 72);
     formant_resonance_0_->setBounds (568, 616, 12, 72);
     formant_frequency_0_->setBounds (584, 616, 12, 72);
@@ -1028,8 +1035,8 @@ void SynthesisInterface::resized()
     formant_frequency_3_->setBounds (776, 616, 12, 72);
     formant_passthrough_->setBounds (432, 656, 112, 16);
     formant_bypass_->setBounds (432, 624, 120, 24);
-    osc_1_mod_source_->setBounds (296, 56, 24, 24);
-    osc_2_mod_source_->setBounds (296, 168, 24, 24);
+    osc_1_mod_source_->setBounds (16, 184, 24, 24);
+    osc_2_mod_source_->setBounds (392, 184, 24, 24);
     pitch_bend_mod_source_->setBounds (24, 704, 24, 24);
     mod_wheel_mod_source_2->setBounds (176, 704, 24, 24);
     legato_->setBounds (224, 660, 64, 16);
@@ -1379,15 +1386,16 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff271436">
+  <BACKGROUND backgroundColour="ff3c2e50">
     <RECT pos="4 4 420 236" fill="solid: ff563e70" hasStroke="0"/>
-    <TEXT pos="308 132 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TRANSPOSE"
+    <RECT pos="12 24 408 152" fill="solid: ff6a4584" hasStroke="0"/>
+    <TEXT pos="236 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="308 196 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TUNE"
+    <TEXT pos="316 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="308 68 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="CROSS MOD"
+    <TEXT pos="172 108 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="X MOD"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <RECT pos="4 244 420 68" fill="solid: ff563e70" hasStroke="0"/>
@@ -1412,7 +1420,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="260 292 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMOUNT"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="340 452 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="SATURATION"
+    <TEXT pos="340 412 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="SATURATION"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="12 316 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER"
@@ -1501,6 +1509,9 @@ BEGIN_JUCER_METADATA
     <TEXT pos="708 308 60 12" fill="solid: ffd4b0e0" hasStroke="0" text="VEL TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
+    <TEXT pos="340 476 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="KEY TRACK"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
              explicitFocusOrder="0" pos="464 360 300 100" sourceFile="graphical_step_sequencer.cpp"
@@ -1512,10 +1523,10 @@ BEGIN_JUCER_METADATA
              explicitFocusOrder="0" pos="464 32 300 100" sourceFile="graphical_envelope.cpp"
              constructorParams=""/>
   <JUCERCOMP name="osc 1 wave display" id="55100715382ea344" memberName="osc_1_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="24 24 256 100"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="16 40 176 112"
              sourceFile="wave_form_selector.cpp" constructorParams="256"/>
   <JUCERCOMP name="osc 2 wave display" id="c0c3e4a3ab2f045f" memberName="osc_2_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="24 128 256 100"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="240 40 176 112"
              sourceFile="wave_form_selector.cpp" constructorParams="256"/>
   <SLIDER name="polyphony" id="952bde38857bdba7" memberName="polyphony_"
           virtualName="" explicitFocusOrder="0" pos="40 632 50 50" rotarysliderfill="7fffffff"
@@ -1524,17 +1535,17 @@ BEGIN_JUCER_METADATA
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento" id="9de85cc1c5f64eaa" memberName="portamento_"
           virtualName="" explicitFocusOrder="0" pos="128 632 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="0.2000000000000000111" int="0"
+          textboxtext="ffdddddd" min="0" max="0.4000000000000000222" int="0"
           style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="pitch bend range" id="e53afc6d1a04c708" memberName="pitch_bend_range_"
           virtualName="" explicitFocusOrder="0" pos="328 624 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="48" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cross modulation" id="1d3e4b59d6e470fb" memberName="cross_modulation_"
-          virtualName="" explicitFocusOrder="0" pos="328 24 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
+          virtualName="" explicitFocusOrder="0" pos="192 64 50 50" rotarysliderfill="7fffffff"
+          textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="" id="e5ebb41c4c259ce1" memberName="filter_response_" virtualName="FilterResponse"
@@ -1546,17 +1557,17 @@ BEGIN_JUCER_METADATA
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName=""
-          explicitFocusOrder="0" pos="281 24 20 204" bkgcol="ff190327"
+          explicitFocusOrder="0" pos="16 152 400 24" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 2 transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
-          virtualName="" explicitFocusOrder="0" pos="328 88 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="256 176 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-48" max="48" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 2 tune" id="a8bc3bcffe7146f" memberName="osc_2_tune_"
-          virtualName="" explicitFocusOrder="0" pos="328 152 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="336 176 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
@@ -1569,7 +1580,7 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="448 536 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0.010000000000000000208" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.2000000000000000111"/>
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.4000000000000000222"/>
   <SLIDER name="delay feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
           virtualName="" explicitFocusOrder="0" pos="512 536 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
@@ -1635,12 +1646,12 @@ BEGIN_JUCER_METADATA
           max="6" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 1 waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="12 24 12 100" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="16 24 176 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc 2 waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="12 128 12 100" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="240 24 176 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -1655,7 +1666,7 @@ BEGIN_JUCER_METADATA
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="keytrack" id="33bbd8b71aa721c1" memberName="keytrack_"
-          virtualName="" explicitFocusOrder="0" pos="728 136 32 32" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="360 432 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
@@ -1684,10 +1695,10 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="440 64 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;filter env&quot;, Colour (0xffff0000)"/>
   <JUCERCOMP name="cross modulation" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="384 40 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="208 32 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cross modulation&quot;"/>
   <JUCERCOMP name="pitch" id="146986590a708b08" memberName="pitch_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="384 104 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="56 192 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;pitch&quot;"/>
   <JUCERCOMP name="cutoff" id="9fcdd6545a5e9cd2" memberName="cutoff_mod_destination_"
              virtualName="" explicitFocusOrder="0" pos="64 472 24 24" sourceFile="modulation_destination.cpp"
@@ -1738,10 +1749,10 @@ BEGIN_JUCER_METADATA
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="osc mix" id="45625f8553a02da7" memberName="osc_mix_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="304 112 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="192 176 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;osc mix&quot;"/>
   <SLIDER name="filter saturation" id="b5014a266e860882" memberName="filter_saturation_"
-          virtualName="" explicitFocusOrder="0" pos="360 408 50 50" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="360 360 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="60" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
@@ -1755,7 +1766,7 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="640 704 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;aftertouch&quot;, Colour (0xffffaaaa)"/>
   <JUCERCOMP name="saturation" id="a02f7ea80706c89e" memberName="saturation_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="376 384 24 24" sourceFile="modulation_destination.cpp"
+             virtualName="" explicitFocusOrder="0" pos="376 336 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;saturation&quot;"/>
   <SLIDER name="formant gain 0" id="7445acea26274d0c" memberName="formant_gain_0_"
           virtualName="" explicitFocusOrder="0" pos="552 616 12 72" bkgcol="ff190327"
@@ -1827,10 +1838,10 @@ BEGIN_JUCER_METADATA
                 buttonText="formant bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
   <JUCERCOMP name="osc 1" id="17ff3610f864792" memberName="osc_1_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="296 56 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="16 184 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;osc 1&quot;, Colour (0xff00ffaa)"/>
   <JUCERCOMP name="osc 2" id="926572c411bd767f" memberName="osc_2_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="296 168 24 24" sourceFile="modulation_source.cpp"
+             virtualName="" explicitFocusOrder="0" pos="392 184 24 24" sourceFile="modulation_source.cpp"
              constructorParams="&quot;osc 2&quot;, Colour (0xff00aaff)"/>
   <JUCERCOMP name="pitch bend" id="683312335aa289d0" memberName="pitch_bend_mod_source_"
              virtualName="" explicitFocusOrder="0" pos="24 704 24 24" sourceFile="modulation_source.cpp"
@@ -1840,7 +1851,7 @@ BEGIN_JUCER_METADATA
              constructorParams="&quot;mod wheel&quot;, Colour (0xff00aaaa)"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName=""
           explicitFocusOrder="0" pos="224 660 64 16" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>

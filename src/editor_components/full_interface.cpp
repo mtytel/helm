@@ -164,7 +164,7 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (0, 0, proportionOfWidth (0.8368f), getHeight() - 57);
+    synthesis_interface_->setBounds (0, 0, 800, getHeight() - 57);
     save_button_->setBounds (800, 40, 150, 24);
     load_button_->setBounds (800, 8, 150, 24);
     arp_frequency_->setBounds (880, 112, 50, 50);
@@ -319,7 +319,7 @@ BEGIN_JUCER_METADATA
           italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="0 0 83.682% 57M" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="0 0 800 57M" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="800 40 150 24" buttonText="save"
