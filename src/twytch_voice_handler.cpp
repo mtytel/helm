@@ -43,6 +43,42 @@
 
 namespace mopo {
 
+  namespace {
+    struct FormantValues {
+      Value* gain;
+      Value* resonance;
+      Value* frequency;
+    };
+
+    static const FormantValues top_left_formants[NUM_FORMANTS] = {
+      {new Value(1.0), new Value(6.0), new Value(270.0)},
+      {new Value(1.0), new Value(4.0), new Value(2300.0)},
+      {new Value(1.0), new Value(8.0), new Value(3000.0)},
+      {new Value(0.2), new Value(0.5), new Value(500.0)},
+    };
+
+    static const FormantValues top_right_formants[NUM_FORMANTS] = {
+      {new Value(1.0), new Value(6.0), new Value(270.0)},
+      {new Value(1.0), new Value(12.0), new Value(500.0)},
+      {new Value(1.0), new Value(8.0), new Value(3000.0)},
+      {new Value(1.0), new Value(9.0), new Value(3500.0)},
+    };
+
+    static const FormantValues bottom_left_formants[NUM_FORMANTS] = {
+      {new Value(1.0), new Value(6.0), new Value(270.0)},
+      {new Value(1.0), new Value(4.0), new Value(2300.0)},
+      {new Value(1.0), new Value(8.0), new Value(3000.0)},
+      {new Value(0.2), new Value(0.5), new Value(500.0)},
+    };
+
+    static const FormantValues bottom_right_formants[NUM_FORMANTS] = {
+      {new Value(0.0), new Value(6.0), new Value(270.0)},
+      {new Value(0.0), new Value(12.0), new Value(500.0)},
+      {new Value(0.0), new Value(8.0), new Value(3000.0)},
+      {new Value(0.0), new Value(9.0), new Value(3500.0)},
+    };
+  } // namespace
+
   TwytchVoiceHandler::TwytchVoiceHandler() {
     // Create modulation and pitch wheels.
     mod_wheel_amount_ = new SmoothValue(0);
@@ -410,7 +446,7 @@ namespace mopo {
     formant_container_->plug(distorted_filter_, BypassRouter::kAudio);
 
     formant_filter_ = new FormantManager(NUM_FORMANTS);
-    Value* formant_passthrough = new Value(0.5);
+    Value* formant_passthrough = new Value(0.0);
     formant_filter_->plug(distorted_filter_, FormantManager::kAudio);
     formant_filter_->plug(formant_passthrough, FormantManager::kPassthroughGain);
     formant_filter_->plug(reset, FormantManager::kReset);
@@ -418,17 +454,56 @@ namespace mopo {
     controls_["formant bypass"] = formant_bypass;
     controls_["formant passthrough"] = formant_passthrough;
 
+    SmoothValue* formant_x = new SmoothValue(0.0);
+    SmoothValue* formant_y = new SmoothValue(0.0);
+
+    addGlobalProcessor(formant_x);
+    addGlobalProcessor(formant_y);
+
+    controls_["formant x"] = formant_x;
+    controls_["formant y"] = formant_y;
+
     for (int i = 0; i < NUM_FORMANTS; ++i) {
-      Value* formant_gain = new Value(0.0);
-      Value* formant_q = new Value(0.5);
-      Value* formant_frequency = new Value(1000.0);
+      BilinearInterpolate* formant_gain = new BilinearInterpolate();
+      BilinearInterpolate* formant_q = new BilinearInterpolate();
+      BilinearInterpolate* formant_frequency = new BilinearInterpolate();
+
+      formant_gain->plug(top_left_formants[i].gain, BilinearInterpolate::kTopLeft);
+      formant_gain->plug(top_right_formants[i].gain, BilinearInterpolate::kTopRight);
+      formant_gain->plug(bottom_left_formants[i].gain, BilinearInterpolate::kBottomLeft);
+      formant_gain->plug(bottom_right_formants[i].gain, BilinearInterpolate::kBottomRight);
+
+      formant_q->plug(top_left_formants[i].resonance, BilinearInterpolate::kTopLeft);
+      formant_q->plug(top_right_formants[i].resonance, BilinearInterpolate::kTopRight);
+      formant_q->plug(bottom_left_formants[i].resonance, BilinearInterpolate::kBottomLeft);
+      formant_q->plug(bottom_right_formants[i].resonance, BilinearInterpolate::kBottomRight);
+
+      formant_frequency->plug(top_left_formants[i].frequency, BilinearInterpolate::kTopLeft);
+      formant_frequency->plug(top_right_formants[i].frequency, BilinearInterpolate::kTopRight);
+      formant_frequency->plug(bottom_left_formants[i].frequency, BilinearInterpolate::kBottomLeft);
+      formant_frequency->plug(bottom_right_formants[i].frequency, BilinearInterpolate::kBottomRight);
+
+      formant_gain->plug(formant_x, BilinearInterpolate::kXPosition);
+      formant_q->plug(formant_x, BilinearInterpolate::kXPosition);
+      formant_frequency->plug(formant_x, BilinearInterpolate::kXPosition);
+
+      formant_gain->plug(formant_y, BilinearInterpolate::kYPosition);
+      formant_q->plug(formant_y, BilinearInterpolate::kYPosition);
+      formant_frequency->plug(formant_y, BilinearInterpolate::kYPosition);
+
       formant_filter_->getFormant(i)->plug(formant_gain, Formant::kGain);
       formant_filter_->getFormant(i)->plug(formant_q, Formant::kResonance);
       formant_filter_->getFormant(i)->plug(formant_frequency, Formant::kFrequency);
 
+      addProcessor(formant_gain);
+      addProcessor(formant_q);
+      addProcessor(formant_frequency);
+
+      /*
       controls_[std::string("formant gain ") + std::to_string(i)] = formant_gain;
       controls_[std::string("formant resonance ") + std::to_string(i)] = formant_q;
       controls_[std::string("formant frequency ") + std::to_string(i)] = formant_frequency;
+       */
     }
 
     formant_container_->addProcessor(formant_filter_);

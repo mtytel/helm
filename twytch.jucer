@@ -475,6 +475,8 @@
               file="src/editor_components/wave_form_selector.cpp"/>
         <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
               file="src/editor_components/wave_form_selector.h"/>
+        <FILE id="Zo8EBy" name="xy_pad.cpp" compile="1" resource="0" file="src/editor_components/xy_pad.cpp"/>
+        <FILE id="d6J1TW" name="xy_pad.h" compile="0" resource="0" file="src/editor_components/xy_pad.h"/>
       </GROUP>
       <FILE id="OplfZt" name="bipolar_look_and_feel.cpp" compile="1" resource="0"
             file="src/bipolar_look_and_feel.cpp"/>

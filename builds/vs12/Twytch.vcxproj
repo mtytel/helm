@@ -261,6 +261,7 @@
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_form_selector.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\xy_pad.cpp"/>
     <ClCompile Include="..\..\src\bipolar_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\twytch.cpp"/>
     <ClCompile Include="..\..\src\twytch_editor.cpp"/>
@@ -1541,6 +1542,7 @@
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h"/>
+    <ClInclude Include="..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\src\bipolar_look_and_feel.h"/>
     <ClInclude Include="..\..\src\save_load_manager.h"/>
     <ClInclude Include="..\..\src\twytch.h"/>

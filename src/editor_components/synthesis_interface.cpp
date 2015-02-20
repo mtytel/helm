@@ -511,9 +511,29 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     legato_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     legato_->addListener (this);
 
+    addAndMakeVisible (formant_xy_pad_ = new XYPad());
+    addAndMakeVisible (formant_x_ = new Slider ("formant x"));
+    formant_x_->setRange (0, 1, 0);
+    formant_x_->setSliderStyle (Slider::LinearBar);
+    formant_x_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    formant_x_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    formant_x_->addListener (this);
+
+    addAndMakeVisible (formant_y_ = new Slider ("formant y"));
+    formant_y_->setRange (0, 1, 0);
+    formant_y_->setSliderStyle (Slider::LinearBar);
+    formant_y_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    formant_y_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    formant_y_->addListener (this);
+
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
+    formant_y_->setSliderStyle(Slider::LinearBarVertical);
     lfo_1_waveform_->setSliderStyle(Slider::LinearBarVertical);
     lfo_2_waveform_->setSliderStyle(Slider::LinearBarVertical);
 
@@ -535,6 +555,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
+
+    formant_xy_pad_->setXSlider(formant_x_);
+    formant_xy_pad_->setYSlider(formant_y_);
 
     for (int i = 0; i < num_steps_->getMaximum(); ++i) {
         String num(i);
@@ -673,6 +696,9 @@ SynthesisInterface::~SynthesisInterface()
     pitch_bend_mod_source_ = nullptr;
     mod_wheel_mod_source_2 = nullptr;
     legato_ = nullptr;
+    formant_xy_pad_ = nullptr;
+    formant_x_ = nullptr;
+    formant_y_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1021,25 +1047,28 @@ void SynthesisInterface::resized()
     velocity_mod_source_->setBounds (504, 704, 24, 24);
     aftertouch_mod_source_->setBounds (640, 704, 24, 24);
     saturation_mod_destination_->setBounds (376, 336, 24, 24);
-    formant_gain_0_->setBounds (552, 616, 12, 72);
-    formant_resonance_0_->setBounds (568, 616, 12, 72);
-    formant_frequency_0_->setBounds (584, 616, 12, 72);
-    formant_gain_1_->setBounds (616, 616, 12, 72);
-    formant_resonance_1_->setBounds (632, 616, 12, 72);
-    formant_frequency_1_->setBounds (648, 616, 12, 72);
-    formant_gain_2_->setBounds (680, 616, 12, 72);
-    formant_resonance_2_->setBounds (696, 616, 12, 72);
-    formant_frequency_2_->setBounds (712, 616, 12, 72);
-    formant_gain_3_->setBounds (744, 616, 12, 72);
-    formant_resonance_3_->setBounds (760, 616, 12, 72);
-    formant_frequency_3_->setBounds (776, 616, 12, 72);
-    formant_passthrough_->setBounds (432, 656, 112, 16);
-    formant_bypass_->setBounds (432, 624, 120, 24);
+    formant_gain_0_->setBounds (456, 736, 12, 72);
+    formant_resonance_0_->setBounds (472, 736, 12, 72);
+    formant_frequency_0_->setBounds (488, 736, 12, 72);
+    formant_gain_1_->setBounds (520, 736, 12, 72);
+    formant_resonance_1_->setBounds (536, 736, 12, 72);
+    formant_frequency_1_->setBounds (552, 736, 12, 72);
+    formant_gain_2_->setBounds (584, 736, 12, 72);
+    formant_resonance_2_->setBounds (600, 736, 12, 72);
+    formant_frequency_2_->setBounds (616, 736, 12, 72);
+    formant_gain_3_->setBounds (648, 736, 12, 72);
+    formant_resonance_3_->setBounds (664, 736, 12, 72);
+    formant_frequency_3_->setBounds (680, 736, 12, 72);
+    formant_passthrough_->setBounds (336, 776, 112, 16);
+    formant_bypass_->setBounds (424, 616, 120, 24);
     osc_1_mod_source_->setBounds (16, 184, 24, 24);
     osc_2_mod_source_->setBounds (392, 184, 24, 24);
     pitch_bend_mod_source_->setBounds (24, 704, 24, 24);
     mod_wheel_mod_source_2->setBounds (176, 704, 24, 24);
     legato_->setBounds (224, 660, 64, 16);
+    formant_xy_pad_->setBounds (544, 608, 184, 80);
+    formant_x_->setBounds (544, 688, 184, 12);
+    formant_y_->setBounds (728, 608, 12, 80);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -1312,6 +1341,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_legato_] -- add your slider handling code here..
         //[/UserSliderCode_legato_]
     }
+    else if (sliderThatWasMoved == formant_x_)
+    {
+        //[UserSliderCode_formant_x_] -- add your slider handling code here..
+        //[/UserSliderCode_formant_x_]
+    }
+    else if (sliderThatWasMoved == formant_y_)
+    {
+        //[UserSliderCode_formant_y_] -- add your slider handling code here..
+        //[/UserSliderCode_formant_y_]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -1342,8 +1381,10 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
 
 void SynthesisInterface::setAllValues(mopo::control_map& controls) {
     std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
-    for (; iter != slider_lookup_.end(); ++iter)
-        iter->second->setValue(controls[iter->first]->value());
+    for (; iter != slider_lookup_.end(); ++iter) {
+        if (controls.count(iter->first))
+            iter->second->setValue(controls[iter->first]->value());
+    }
 
     std::map<std::string, Button*>::iterator biter = button_lookup_.begin();
     for (; biter != button_lookup_.end(); ++biter) {
@@ -1769,72 +1810,72 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="376 336 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;saturation&quot;"/>
   <SLIDER name="formant gain 0" id="7445acea26274d0c" memberName="formant_gain_0_"
-          virtualName="" explicitFocusOrder="0" pos="552 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="456 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant resonance 0" id="a1166eff2b3b6567" memberName="formant_resonance_0_"
-          virtualName="" explicitFocusOrder="0" pos="568 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="472 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0.5" max="15"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant frequency 0" id="e18eaf9056a405d" memberName="formant_frequency_0_"
-          virtualName="" explicitFocusOrder="0" pos="584 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="488 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="10" max="5000"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant gain 1" id="9601c630fe693c63" memberName="formant_gain_1_"
-          virtualName="" explicitFocusOrder="0" pos="616 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="520 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant resonance 1" id="4dc251d80763956c" memberName="formant_resonance_1_"
-          virtualName="" explicitFocusOrder="0" pos="632 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="536 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0.5" max="15"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant frequency 1" id="8589ba088fbb5875" memberName="formant_frequency_1_"
-          virtualName="" explicitFocusOrder="0" pos="648 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="552 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="10" max="5000"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant gain 2" id="28248ad5785f2cc6" memberName="formant_gain_2_"
-          virtualName="" explicitFocusOrder="0" pos="680 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="584 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant resonance 2" id="e8b740fe8d402bf0" memberName="formant_resonance_2_"
-          virtualName="" explicitFocusOrder="0" pos="696 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="600 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0.5" max="15"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant frequency 2" id="d3fd31f7f3439932" memberName="formant_frequency_2_"
-          virtualName="" explicitFocusOrder="0" pos="712 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="616 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="10" max="5000"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant gain 3" id="ebcc9ad147b57478" memberName="formant_gain_3_"
-          virtualName="" explicitFocusOrder="0" pos="744 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="648 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant resonance 3" id="31544fb199eb0cc7" memberName="formant_resonance_3_"
-          virtualName="" explicitFocusOrder="0" pos="760 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="664 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0.5" max="15"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant frequency 3" id="2fd6f7bbc87ff01d" memberName="formant_frequency_3_"
-          virtualName="" explicitFocusOrder="0" pos="776 616 12 72" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="680 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="10" max="5000"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant passthrough" id="4bec3c81bedb48a2" memberName="formant_passthrough_"
-          virtualName="" explicitFocusOrder="0" pos="432 656 112 16" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="336 776 112 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="formant bypass" id="a27029ddc5597777" memberName="formant_bypass_"
-                virtualName="" explicitFocusOrder="0" pos="432 624 120 24" txtcol="ffffffff"
+                virtualName="" explicitFocusOrder="0" pos="424 616 120 24" txtcol="ffffffff"
                 buttonText="formant bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
   <JUCERCOMP name="osc 1" id="17ff3610f864792" memberName="osc_1_mod_source_"
@@ -1853,6 +1894,19 @@ BEGIN_JUCER_METADATA
           explicitFocusOrder="0" pos="224 660 64 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <JUCERCOMP name="" id="202ea6e8e33b6ac7" memberName="formant_xy_pad_" virtualName="XYPad"
+             explicitFocusOrder="0" pos="544 608 184 80" sourceFile="xy_pad.cpp"
+             constructorParams=""/>
+  <SLIDER name="formant x" id="d182d63c43cb241f" memberName="formant_x_"
+          virtualName="" explicitFocusOrder="0" pos="544 688 184 12" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
+          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
+          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="formant y" id="f9e64695877940a6" memberName="formant_y_"
+          virtualName="" explicitFocusOrder="0" pos="728 608 12 80" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
+          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 

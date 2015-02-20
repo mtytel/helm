@@ -739,6 +739,9 @@
     <ClCompile Include="..\..\src\editor_components\wave_form_selector.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\xy_pad.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\bipolar_look_and_feel.cpp">
       <Filter>Twytch\src</Filter>
     </ClCompile>
@@ -2461,6 +2464,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\xy_pad.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\bipolar_look_and_feel.h">

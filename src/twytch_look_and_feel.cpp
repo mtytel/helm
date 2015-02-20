@@ -16,10 +16,6 @@
 
 #include "twytch_look_and_feel.h"
 
-namespace {
-  const float SLIDER_ROUNDING = 1.0;
-} // namespace
-
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
@@ -29,13 +25,13 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
   g.setColour(slider.findColour(Slider::trackColourId));
 
   if (style == Slider::SliderStyle::LinearBar) {
-    g.fillRoundedRectangle(x, y, slider_pos - x, height, SLIDER_ROUNDING);
+    g.fillRect(float(x), float(y), slider_pos - x, float(height));
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);
   }
 
   else if (style == Slider::SliderStyle::LinearBarVertical) {
-    g.fillRoundedRectangle(x, slider_pos, width, y + height - slider_pos, SLIDER_ROUNDING);
+    g.fillRect(float(x), slider_pos, float(width), y + height - slider_pos);
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(1.0f * x, slider_pos - y, 1.0f * width, 2.0f);
   }

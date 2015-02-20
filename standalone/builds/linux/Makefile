@@ -89,6 +89,7 @@ OBJECTS := \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/wave_form_selector_9d91edca.o \
+  $(OBJDIR)/xy_pad_77c192eb.o \
   $(OBJDIR)/bipolar_look_and_feel_f4ee26a1.o \
   $(OBJDIR)/main_d7bc4a08.o \
   $(OBJDIR)/twytch_engine_92e4ab19.o \
@@ -316,6 +317,11 @@ $(OBJDIR)/synthesis_interface_3df08742.o: ../../../src/editor_components/synthes
 $(OBJDIR)/wave_form_selector_9d91edca.o: ../../../src/editor_components/wave_form_selector.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave_form_selector.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling xy_pad.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/bipolar_look_and_feel_f4ee26a1.o: ../../../src/bipolar_look_and_feel.cpp

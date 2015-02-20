@@ -32,6 +32,7 @@
 #include "filter_response.h"
 #include "modulation_source.h"
 #include "modulation_destination.h"
+#include "xy_pad.h"
 
 
 //==============================================================================
@@ -155,6 +156,9 @@ private:
     ScopedPointer<ModulationSource> pitch_bend_mod_source_;
     ScopedPointer<ModulationSource> mod_wheel_mod_source_2;
     ScopedPointer<Slider> legato_;
+    ScopedPointer<XYPad> formant_xy_pad_;
+    ScopedPointer<Slider> formant_x_;
+    ScopedPointer<Slider> formant_y_;
 
 
     //==============================================================================

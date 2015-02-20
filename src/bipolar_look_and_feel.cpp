@@ -17,10 +17,6 @@
 #include "bipolar_look_and_feel.h"
 #include "mopo.h"
 
-namespace {
-  const float SLIDER_ROUNDING = 1.0;
-} // namespace
-
 void BipolarLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                           float slider_pos, float min, float max,
                                           const Slider::SliderStyle style, Slider& slider) {
@@ -32,14 +28,14 @@ void BipolarLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
   if (style == Slider::SliderStyle::LinearBar) {
     float from = std::min<float>(width / 2.0, slider_pos - x);
     float to = std::max<float>(width / 2.0, slider_pos - x);
-    g.fillRoundedRectangle(x + from, y, to - from, height, SLIDER_ROUNDING);
+    g.fillRect(x + from, float(y), to - from, float(height));
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
     float from = std::min<float>(height / 2.0, slider_pos - y);
     float to = std::max<float>(height / 2.0, slider_pos - y);
-    g.fillRoundedRectangle(x, y + from, width, to - from, SLIDER_ROUNDING);
+    g.fillRect(float(x), y + from, float(width), to - from);
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(1.0f * x, slider_pos - y, 1.0f * width, 2.0f);
   }
