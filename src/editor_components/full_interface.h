@@ -39,8 +39,8 @@
 */
 class FullInterface  : public Component,
                        public DragAndDropContainer,
-                       public ButtonListener,
-                       public SliderListener
+                       public SliderListener,
+                       public ButtonListener
 {
 public:
     //==============================================================================
@@ -56,8 +56,8 @@ public:
 
     void paint (Graphics& g);
     void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
     void sliderValueChanged (Slider* sliderThatWasMoved);
+    void buttonClicked (Button* buttonThatWasClicked);
 
 
 
@@ -69,15 +69,15 @@ private:
 
     //==============================================================================
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<TextButton> save_button_;
-    ScopedPointer<TextButton> load_button_;
     ScopedPointer<Slider> arp_frequency_;
     ScopedPointer<Slider> arp_gate_;
     ScopedPointer<Slider> arp_octaves_;
     ScopedPointer<Slider> arp_pattern_;
-    ScopedPointer<ToggleButton> arp_on_;
     ScopedPointer<Oscilloscope> oscilloscope_;
     ScopedPointer<AudioViewer> recording_;
+    ScopedPointer<TextButton> load_button_;
+    ScopedPointer<ToggleButton> arp_on_;
+    ScopedPointer<TextButton> save_button_;
 
 
     //==============================================================================

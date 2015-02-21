@@ -105,7 +105,6 @@ private:
     ScopedPointer<Slider> fil_release_;
     ScopedPointer<Slider> fil_sustain_;
     ScopedPointer<Slider> resonance_;
-    ScopedPointer<Slider> filter_type_;
     ScopedPointer<Slider> osc_1_waveform_;
     ScopedPointer<Slider> osc_2_waveform_;
     ScopedPointer<Slider> cutoff_;
@@ -121,9 +120,7 @@ private:
     ScopedPointer<ModulationDestination> pitch_mod_destination_;
     ScopedPointer<ModulationDestination> cutoff_mod_destination_;
     ScopedPointer<WaveFormSelector> lfo_1_wave_display_;
-    ScopedPointer<WaveFormSelector> lfo_2_wave_display_;
     ScopedPointer<Slider> lfo_1_waveform_;
-    ScopedPointer<Slider> lfo_2_waveform_;
     ScopedPointer<ModulationSource> lfo_1_mod_source_;
     ScopedPointer<ModulationSource> lfo_2_mod_source_;
     ScopedPointer<ModulationDestination> resonance_mod_destination_;
@@ -159,6 +156,9 @@ private:
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<Slider> formant_x_;
     ScopedPointer<Slider> formant_y_;
+    ScopedPointer<Slider> filter_type_;
+    ScopedPointer<WaveFormSelector> lfo_2_wave_display_;
+    ScopedPointer<Slider> lfo_2_waveform_;
 
 
     //==============================================================================

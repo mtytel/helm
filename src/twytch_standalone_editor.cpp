@@ -119,8 +119,8 @@ void TwytchStandaloneEditor::resized() {
 }
 
 void TwytchStandaloneEditor::valueChanged(std::string name, mopo::mopo_float value) {
-  MOPO_ASSERT(controls_.count(name));
-  controls_[name]->set(value);
+  if (controls_.count(name))
+    controls_[name]->set(value);
 }
 
 void TwytchStandaloneEditor::connectModulation(mopo::ModulationConnection* connection) {

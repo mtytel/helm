@@ -227,12 +227,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     resonance_->addListener (this);
 
-    addAndMakeVisible (filter_type_ = new Slider ("filter type"));
-    filter_type_->setRange (0, 6, 1);
-    filter_type_->setSliderStyle (Slider::LinearHorizontal);
-    filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    filter_type_->addListener (this);
-
     addAndMakeVisible (osc_1_waveform_ = new Slider ("osc 1 waveform"));
     osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearBar);
@@ -307,7 +301,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (pitch_mod_destination_ = new ModulationDestination ("pitch"));
     addAndMakeVisible (cutoff_mod_destination_ = new ModulationDestination ("cutoff"));
     addAndMakeVisible (lfo_1_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (lfo_2_wave_display_ = new WaveFormSelector (128));
     addAndMakeVisible (lfo_1_waveform_ = new Slider ("lfo 1 waveform"));
     lfo_1_waveform_->setRange (0, 11, 1);
     lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
@@ -316,15 +309,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     lfo_1_waveform_->addListener (this);
-
-    addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo 2 waveform"));
-    lfo_2_waveform_->setRange (0, 11, 1);
-    lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
-    lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
-    lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
-    lfo_2_waveform_->addListener (this);
 
     addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource ("lfo 1", Colour (0xffffff00)));
     addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource ("lfo 2", Colour (0xffff00ff)));
@@ -530,12 +514,29 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     formant_y_->addListener (this);
 
+    addAndMakeVisible (filter_type_ = new Slider ("filter type"));
+    filter_type_->setRange (0, 6, 1);
+    filter_type_->setSliderStyle (Slider::LinearBar);
+    filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    filter_type_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    filter_type_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    filter_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    filter_type_->addListener (this);
+
+    addAndMakeVisible (lfo_2_wave_display_ = new WaveFormSelector (128));
+    addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo 1 waveform"));
+    lfo_2_waveform_->setRange (0, 11, 1);
+    lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
+    lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    lfo_2_waveform_->addListener (this);
+
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
     formant_y_->setSliderStyle(Slider::LinearBarVertical);
-    lfo_1_waveform_->setSliderStyle(Slider::LinearBarVertical);
-    lfo_2_waveform_->setSliderStyle(Slider::LinearBarVertical);
 
     amplitude_envelope_->setAttackSlider(amp_attack_);
     amplitude_envelope_->setDecaySlider(amp_decay_);
@@ -645,7 +646,6 @@ SynthesisInterface::~SynthesisInterface()
     fil_release_ = nullptr;
     fil_sustain_ = nullptr;
     resonance_ = nullptr;
-    filter_type_ = nullptr;
     osc_1_waveform_ = nullptr;
     osc_2_waveform_ = nullptr;
     cutoff_ = nullptr;
@@ -661,9 +661,7 @@ SynthesisInterface::~SynthesisInterface()
     pitch_mod_destination_ = nullptr;
     cutoff_mod_destination_ = nullptr;
     lfo_1_wave_display_ = nullptr;
-    lfo_2_wave_display_ = nullptr;
     lfo_1_waveform_ = nullptr;
-    lfo_2_waveform_ = nullptr;
     lfo_1_mod_source_ = nullptr;
     lfo_2_mod_source_ = nullptr;
     resonance_mod_destination_ = nullptr;
@@ -699,6 +697,9 @@ SynthesisInterface::~SynthesisInterface()
     formant_xy_pad_ = nullptr;
     formant_x_ = nullptr;
     formant_y_ = nullptr;
+    filter_type_ = nullptr;
+    lfo_2_wave_display_ = nullptr;
+    lfo_2_waveform_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1001,7 +1002,7 @@ void SynthesisInterface::resized()
     osc_mix_->setBounds (16, 152, 400, 24);
     osc_2_transpose_->setBounds (256, 176, 50, 50);
     osc_2_tune_->setBounds (336, 176, 50, 50);
-    volume_->setBounds (672, 528, 96, 56);
+    volume_->setBounds (672, 536, 96, 56);
     delay_time_->setBounds (448, 536, 50, 50);
     delay_feedback_->setBounds (512, 536, 50, 50);
     delay_dry_wet_->setBounds (576, 536, 50, 50);
@@ -1015,11 +1016,10 @@ void SynthesisInterface::resized()
     fil_release_->setBounds (584, 136, 32, 32);
     fil_sustain_->setBounds (544, 136, 32, 32);
     resonance_->setBounds (316, 360, 12, 100);
-    filter_type_->setBounds (16, 344, 304, 16);
     osc_1_waveform_->setBounds (16, 24, 176, 16);
     osc_2_waveform_->setBounds (240, 24, 176, 16);
     cutoff_->setBounds (16, 460, 300, 12);
-    fil_env_depth_->setBounds (688, 136, 32, 32);
+    fil_env_depth_->setBounds (680, 136, 32, 32);
     keytrack_->setBounds (360, 432, 50, 50);
     osc_feedback_transpose_->setBounds (112, 248, 50, 50);
     osc_feedback_amount_->setBounds (280, 248, 50, 50);
@@ -1030,10 +1030,8 @@ void SynthesisInterface::resized()
     cross_mod_destination_->setBounds (208, 32, 24, 24);
     pitch_mod_destination_->setBounds (56, 192, 24, 24);
     cutoff_mod_destination_->setBounds (64, 472, 24, 24);
-    lfo_1_wave_display_->setBounds (27, 530, 140, 70);
-    lfo_2_wave_display_->setBounds (236, 530, 140, 70);
-    lfo_1_waveform_->setBounds (15, 530, 12, 70);
-    lfo_2_waveform_->setBounds (224, 530, 12, 70);
+    lfo_1_wave_display_->setBounds (24, 544, 144, 64);
+    lfo_1_waveform_->setBounds (24, 528, 144, 14);
     lfo_1_mod_source_->setBounds (179, 577, 24, 24);
     lfo_2_mod_source_->setBounds (388, 580, 24, 24);
     resonance_mod_destination_->setBounds (328, 376, 24, 24);
@@ -1059,7 +1057,7 @@ void SynthesisInterface::resized()
     formant_gain_3_->setBounds (648, 736, 12, 72);
     formant_resonance_3_->setBounds (664, 736, 12, 72);
     formant_frequency_3_->setBounds (680, 736, 12, 72);
-    formant_passthrough_->setBounds (336, 776, 112, 16);
+    formant_passthrough_->setBounds (336, 768, 112, 16);
     formant_bypass_->setBounds (424, 616, 120, 24);
     osc_1_mod_source_->setBounds (16, 184, 24, 24);
     osc_2_mod_source_->setBounds (392, 184, 24, 24);
@@ -1069,6 +1067,9 @@ void SynthesisInterface::resized()
     formant_xy_pad_->setBounds (544, 608, 184, 80);
     formant_x_->setBounds (544, 688, 184, 12);
     formant_y_->setBounds (728, 608, 12, 80);
+    filter_type_->setBounds (16, 344, 300, 16);
+    lfo_2_wave_display_->setBounds (232, 544, 144, 64);
+    lfo_2_waveform_->setBounds (232, 528, 144, 14);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -1191,11 +1192,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_resonance_] -- add your slider handling code here..
         //[/UserSliderCode_resonance_]
     }
-    else if (sliderThatWasMoved == filter_type_)
-    {
-        //[UserSliderCode_filter_type_] -- add your slider handling code here..
-        //[/UserSliderCode_filter_type_]
-    }
     else if (sliderThatWasMoved == osc_1_waveform_)
     {
         //[UserSliderCode_osc_1_waveform_] -- add your slider handling code here..
@@ -1240,11 +1236,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_lfo_1_waveform_] -- add your slider handling code here..
         //[/UserSliderCode_lfo_1_waveform_]
-    }
-    else if (sliderThatWasMoved == lfo_2_waveform_)
-    {
-        //[UserSliderCode_lfo_2_waveform_] -- add your slider handling code here..
-        //[/UserSliderCode_lfo_2_waveform_]
     }
     else if (sliderThatWasMoved == num_steps_)
     {
@@ -1350,6 +1341,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_formant_y_] -- add your slider handling code here..
         //[/UserSliderCode_formant_y_]
+    }
+    else if (sliderThatWasMoved == filter_type_)
+    {
+        //[UserSliderCode_filter_type_] -- add your slider handling code here..
+        //[/UserSliderCode_filter_type_]
+    }
+    else if (sliderThatWasMoved == lfo_2_waveform_)
+    {
+        //[UserSliderCode_lfo_2_waveform_] -- add your slider handling code here..
+        //[/UserSliderCode_lfo_2_waveform_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -1613,7 +1614,7 @@ BEGIN_JUCER_METADATA
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName=""
-          explicitFocusOrder="0" pos="672 528 96 56" bkgcol="ff190327"
+          explicitFocusOrder="0" pos="672 536 96 56" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
@@ -1682,10 +1683,6 @@ BEGIN_JUCER_METADATA
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="filter type" id="30ae8dead7514514" memberName="filter_type_"
-          virtualName="" explicitFocusOrder="0" pos="16 344 304 16" min="0"
-          max="6" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc 1 waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
           virtualName="" explicitFocusOrder="0" pos="16 24 176 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
@@ -1702,7 +1699,7 @@ BEGIN_JUCER_METADATA
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil env depth" id="ac3a5967de6a1a92" memberName="fil_env_depth_"
-          virtualName="" explicitFocusOrder="0" pos="688 136 32 32" rotarysliderfill="7fffffff"
+          virtualName="" explicitFocusOrder="0" pos="680 136 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-128" max="128" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
@@ -1745,18 +1742,10 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="64 472 24 24" sourceFile="modulation_destination.cpp"
              constructorParams="&quot;cutoff&quot;"/>
   <JUCERCOMP name="lfo 1 wave display" id="24d32b65108fb2a5" memberName="lfo_1_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="27 530 140 70"
-             sourceFile="wave_form_selector.cpp" constructorParams="128"/>
-  <JUCERCOMP name="lfo 2 wave display" id="fec9561bdacebdbe" memberName="lfo_2_wave_display_"
-             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="236 530 140 70"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="24 544 144 64"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="lfo 1 waveform" id="4ed06bb2c6901afe" memberName="lfo_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="15 530 12 70" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <SLIDER name="lfo 2 waveform" id="72004168ec47b7e7" memberName="lfo_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="224 530 12 70" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="24 528 144 14" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
@@ -1870,7 +1859,7 @@ BEGIN_JUCER_METADATA
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant passthrough" id="4bec3c81bedb48a2" memberName="formant_passthrough_"
-          virtualName="" explicitFocusOrder="0" pos="336 776 112 16" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="336 768 112 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -1908,6 +1897,19 @@ BEGIN_JUCER_METADATA
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="filter type" id="8d1283d4f2ace0ec" memberName="filter_type_"
+          virtualName="" explicitFocusOrder="0" pos="16 344 300 16" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="6"
+          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+  <JUCERCOMP name="lfo 1 wave display" id="d0c6b9dad7409074" memberName="lfo_2_wave_display_"
+             virtualName="WaveFormSelector" explicitFocusOrder="0" pos="232 544 144 64"
+             sourceFile="wave_form_selector.cpp" constructorParams="128"/>
+  <SLIDER name="lfo 1 waveform" id="315f17d5a0e21167" memberName="lfo_2_waveform_"
+          virtualName="" explicitFocusOrder="0" pos="232 528 144 14" bkgcol="ff190327"
+          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
+          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
+          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

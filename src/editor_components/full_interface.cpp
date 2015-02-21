@@ -33,14 +33,6 @@
 FullInterface::FullInterface (mopo::control_map controls)
 {
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
-    addAndMakeVisible (save_button_ = new TextButton ("save"));
-    save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
-    save_button_->addListener (this);
-
-    addAndMakeVisible (load_button_ = new TextButton ("load"));
-    load_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
-    load_button_->addListener (this);
-
     addAndMakeVisible (arp_frequency_ = new Slider ("arp frequency"));
     arp_frequency_->setRange (1, 20, 0);
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
@@ -74,13 +66,21 @@ FullInterface::FullInterface (mopo::control_map controls)
     arp_pattern_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_pattern_->addListener (this);
 
+    addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
+    addAndMakeVisible (recording_ = new AudioViewer (441000));
+    addAndMakeVisible (load_button_ = new TextButton ("load"));
+    load_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
+    load_button_->addListener (this);
+
     addAndMakeVisible (arp_on_ = new ToggleButton ("arp on"));
     arp_on_->setButtonText (TRANS("arp"));
     arp_on_->addListener (this);
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
 
-    addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
-    addAndMakeVisible (recording_ = new AudioViewer (441000));
+    addAndMakeVisible (save_button_ = new TextButton ("save"));
+    save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
+    save_button_->addListener (this);
+
 
     //[UserPreSize]
     for (int i = 0; i < getNumChildComponents(); ++i) {
@@ -108,15 +108,15 @@ FullInterface::~FullInterface()
     //[/Destructor_pre]
 
     synthesis_interface_ = nullptr;
-    save_button_ = nullptr;
-    load_button_ = nullptr;
     arp_frequency_ = nullptr;
     arp_gate_ = nullptr;
     arp_octaves_ = nullptr;
     arp_pattern_ = nullptr;
-    arp_on_ = nullptr;
     oscilloscope_ = nullptr;
     recording_ = nullptr;
+    load_button_ = nullptr;
+    arp_on_ = nullptr;
+    save_button_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -165,65 +165,17 @@ void FullInterface::resized()
     //[/UserPreResize]
 
     synthesis_interface_->setBounds (0, 0, 800, getHeight() - 57);
-    save_button_->setBounds (800, 40, 150, 24);
-    load_button_->setBounds (800, 8, 150, 24);
     arp_frequency_->setBounds (880, 112, 50, 50);
     arp_gate_->setBounds (808, 112, 50, 50);
     arp_octaves_->setBounds (808, 200, 50, 50);
     arp_pattern_->setBounds (880, 200, 50, 50);
-    arp_on_->setBounds (808, 80, 48, 24);
     oscilloscope_->setBounds (808, 416, 144, getHeight() - 665);
     recording_->setBounds (808, 280, 144, getHeight() - 673);
+    load_button_->setBounds (800, 8, 150, 24);
+    arp_on_->setBounds (808, 80, 48, 24);
+    save_button_->setBounds (800, 40, 150, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
-}
-
-void FullInterface::buttonClicked (Button* buttonThatWasClicked)
-{
-    //[UserbuttonClicked_Pre]
-    //[/UserbuttonClicked_Pre]
-
-    if (buttonThatWasClicked == save_button_)
-    {
-        //[UserButtonCode_save_button_] -- add your button handler code here..
-        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
-        FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
-        if (save_dialog.show()) {
-            SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
-            File save_file = browser.getSelectedFile(0);
-            save_file.replaceWithText(JSON::toString(parent->stateToVar()));
-        }
-        //[/UserButtonCode_save_button_]
-    }
-    else if (buttonThatWasClicked == load_button_)
-    {
-        //[UserButtonCode_load_button_] -- add your button handler code here..
-        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode;
-        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
-        FileChooserDialogBox load_dialog("load patch", "load", browser, true, Colours::white);
-        if (load_dialog.show()) {
-            File load_file = browser.getSelectedFile(0);
-
-            var parsed_json_state;
-            if (JSON::parse(load_file.loadFileAsString(), parsed_json_state).wasOk()) {
-                SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
-                parent->varToState(parsed_json_state);
-            }
-        }
-        //[/UserButtonCode_load_button_]
-    }
-    else if (buttonThatWasClicked == arp_on_)
-    {
-        //[UserButtonCode_arp_on_] -- add your button handler code here..
-        std::string name = buttonThatWasClicked->getName().toStdString();
-        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
-        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-        //[/UserButtonCode_arp_on_]
-    }
-
-    //[UserbuttonClicked_Post]
-    //[/UserbuttonClicked_Post]
 }
 
 void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
@@ -257,6 +209,54 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
+}
+
+void FullInterface::buttonClicked (Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == load_button_)
+    {
+        //[UserButtonCode_load_button_] -- add your button handler code here..
+        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode;
+        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
+        FileChooserDialogBox load_dialog("load patch", "load", browser, true, Colours::white);
+        if (load_dialog.show()) {
+            File load_file = browser.getSelectedFile(0);
+
+            var parsed_json_state;
+            if (JSON::parse(load_file.loadFileAsString(), parsed_json_state).wasOk()) {
+                SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
+                parent->varToState(parsed_json_state);
+            }
+        }
+        //[/UserButtonCode_load_button_]
+    }
+    else if (buttonThatWasClicked == arp_on_)
+    {
+        //[UserButtonCode_arp_on_] -- add your button handler code here..
+        std::string name = buttonThatWasClicked->getName().toStdString();
+        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+        //[/UserButtonCode_arp_on_]
+    }
+    else if (buttonThatWasClicked == save_button_)
+    {
+        //[UserButtonCode_save_button_] -- add your button handler code here..
+        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
+        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
+        FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
+        if (save_dialog.show()) {
+            SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
+            File save_file = browser.getSelectedFile(0);
+            save_file.replaceWithText(JSON::toString(parent->stateToVar()));
+        }
+        //[/UserButtonCode_save_button_]
+    }
+
+    //[UserbuttonClicked_Post]
+    //[/UserbuttonClicked_Post]
 }
 
 
@@ -321,12 +321,6 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 0 800 57M" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
-  <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
-              explicitFocusOrder="0" pos="800 40 150 24" buttonText="save"
-              connectedEdges="3" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
-              explicitFocusOrder="0" pos="800 8 150 24" buttonText="load" connectedEdges="3"
-              needsCallback="1" radioGroupId="0"/>
   <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="" explicitFocusOrder="0" pos="880 112 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
@@ -347,15 +341,21 @@ BEGIN_JUCER_METADATA
           textboxtext="ffdddddd" min="0" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
-  <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
-                explicitFocusOrder="0" pos="808 80 48 24" txtcol="ffffffff" buttonText="arp"
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
              virtualName="" explicitFocusOrder="0" pos="808 416 144 665M"
              sourceFile="oscilloscope.cpp" constructorParams="512"/>
   <JUCERCOMP name="recording" id="e8f76c3c396fd34e" memberName="recording_"
              virtualName="" explicitFocusOrder="0" pos="808 280 144 673M"
              sourceFile="audio_viewer.cpp" constructorParams="441000"/>
+  <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
+              explicitFocusOrder="0" pos="800 8 150 24" buttonText="load" connectedEdges="3"
+              needsCallback="1" radioGroupId="0"/>
+  <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
+                explicitFocusOrder="0" pos="808 80 48 24" txtcol="ffffffff" buttonText="arp"
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
+              explicitFocusOrder="0" pos="800 40 150 24" buttonText="save"
+              connectedEdges="3" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
