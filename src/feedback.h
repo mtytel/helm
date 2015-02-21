@@ -27,7 +27,10 @@ namespace mopo {
   // sample feedback processing.
   class Feedback : public Processor {
     public:
-      Feedback() : Processor(1, 1) { }
+      Feedback() : Processor(1, 1) {
+        memset(buffer_, 0, MAX_BUFFER_SIZE * sizeof(mopo_float));
+      }
+    
       virtual ~Feedback() { }
 
       virtual Processor* clone() const { return new Feedback(*this); }
