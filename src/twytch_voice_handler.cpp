@@ -52,16 +52,16 @@ namespace mopo {
 
     static const FormantValues top_left_formants[NUM_FORMANTS] = {
       {new Value(1.0), new Value(6.0), new Value(270.0)},
-      {new Value(1.0), new Value(4.0), new Value(2300.0)},
+      {new Value(1.0), new Value(10.0), new Value(2300.0)},
       {new Value(1.0), new Value(8.0), new Value(3000.0)},
-      {new Value(0.2), new Value(0.5), new Value(500.0)},
+      {new Value(0.2), new Value(15.0), new Value(500.0)},
     };
 
     static const FormantValues top_right_formants[NUM_FORMANTS] = {
       {new Value(1.0), new Value(6.0), new Value(270.0)},
       {new Value(1.0), new Value(12.0), new Value(500.0)},
-      {new Value(1.0), new Value(8.0), new Value(3000.0)},
-      {new Value(1.0), new Value(9.0), new Value(3500.0)},
+      {new Value(1.0), new Value(8.0), new Value(2000.0)},
+      {new Value(1.0), new Value(9.0), new Value(1500.0)},
     };
 
     static const FormantValues bottom_left_formants[NUM_FORMANTS] = {
