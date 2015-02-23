@@ -76,6 +76,12 @@ namespace mopo {
         return;
       }
     }
+
+    // If there are no empty inputs, create another.
+    Input* input = new Input();
+    owned_inputs_.push_back(std::shared_ptr<Input>(input));
+    input->source = source;
+    registerInput(input);
   }
 
   void Processor::plugNext(const Processor* source) {
