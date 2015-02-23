@@ -254,7 +254,7 @@ namespace mopo {
     lfo1_->plug(lfo1_waveform, Oscillator::kWaveform);
     lfo1_->plug(lfo1_frequency, Oscillator::kFrequency);
 
-    addProcessor(lfo1_);
+    addGlobalProcessor(lfo1_);
     controls_["lfo 1 waveform"] = lfo1_waveform;
     controls_["lfo 1 frequency"] = lfo1_frequency;
 

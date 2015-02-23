@@ -524,7 +524,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_type_->addListener (this);
 
     addAndMakeVisible (lfo_2_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo 1 waveform"));
+    addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo 2 waveform"));
     lfo_2_waveform_->setRange (0, 11, 1);
     lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -812,13 +812,13 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
-    g.drawText (TRANS("LFO 1"),
+    g.drawText (TRANS("MONO LFO"),
                 436, 508, 84, 20,
                 Justification::centredLeft, true);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
-    g.drawText (TRANS("LFO 2"),
+    g.drawText (TRANS("POLY LFO"),
                 620, 508, 84, 20,
                 Justification::centredLeft, true);
 
@@ -1471,10 +1471,10 @@ BEGIN_JUCER_METADATA
     <TEXT pos="12 316 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="436 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="LFO 1"
+    <TEXT pos="436 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="MONO LFO"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="620 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="LFO 2"
+    <TEXT pos="620 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="POLY LFO"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
     <TEXT pos="612 564 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
@@ -1905,7 +1905,7 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="lfo 1 wave display" id="d0c6b9dad7409074" memberName="lfo_2_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="664 544 120 64"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
-  <SLIDER name="lfo 1 waveform" id="315f17d5a0e21167" memberName="lfo_2_waveform_"
+  <SLIDER name="lfo 2 waveform" id="315f17d5a0e21167" memberName="lfo_2_waveform_"
           virtualName="" explicitFocusOrder="0" pos="664 528 120 14" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
