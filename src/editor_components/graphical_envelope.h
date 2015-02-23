@@ -49,11 +49,10 @@ public:
     void resetEnvelopeLine();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
 
-    double getAttackX();
-    double getDecayX();
-    double getSustainX();
-    double getSustainY();
-    double getReleaseX();
+    float getAttackX();
+    float getDecayX();
+    float getSustainY();
+    float getReleaseX();
 
     void setAttackX(double x);
     void setDecayX(double x);

@@ -137,15 +137,12 @@ var TwytchStandaloneEditor::stateToVar() {
   mopo::control_map controls = synth_.getControls();
   DynamicObject* state_object = new DynamicObject();
 
-  mopo::control_map::iterator iter = controls.begin();
-  for (; iter != controls.end(); ++iter)
-    state_object->setProperty(String(iter->first), iter->second->value());
+  for (auto control : controls)
+    state_object->setProperty(String(control.first), control.second->value());
 
   std::set<mopo::ModulationConnection*> modulations = synth_.getModulationConnections();
-  std::set<mopo::ModulationConnection*>::iterator miter = modulations.begin();
   Array<var> modulation_states;
-  for (; miter != modulations.end(); ++miter) {
-    mopo::ModulationConnection* connection = *miter;
+  for (mopo::ModulationConnection* connection: modulations) {
     DynamicObject* mod_object = new DynamicObject();
     mod_object->setProperty("source", connection->source.c_str());
     mod_object->setProperty("destination", connection->destination.c_str());

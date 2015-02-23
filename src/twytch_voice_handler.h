@@ -56,6 +56,8 @@ namespace mopo {
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
 
+      std::vector<std::string> getModulationDestinations();
+
     private:
       // Create the portamento, legato, amplifier envelope and other processors
       // that effect how voices start and turn into other notes.

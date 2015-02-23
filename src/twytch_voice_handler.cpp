@@ -124,7 +124,7 @@ namespace mopo {
     bent_midi->plug(pitch_bend, 1);
 
     Value* pitch_mod_range = new Value(PITCH_MOD_RANGE);
-    VariableAdd* midi_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
+    VariableAdd* midi_mod_sources = new VariableAdd();
     Multiply* midi_mod = new Multiply();
     midi_mod->plug(pitch_mod_range, 0);
     midi_mod->plug(midi_mod_sources, 1);
@@ -151,8 +151,8 @@ namespace mopo {
     oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Value* cross_mod = new Value(0.15);
-    VariableAdd* cross_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
-    cross_mod_sources->plug(cross_mod, 0);
+    VariableAdd* cross_mod_sources = new VariableAdd();
+    cross_mod_sources->plugNext(cross_mod);
 
     oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator1FM);
     oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator2FM);
@@ -190,8 +190,8 @@ namespace mopo {
 
     // Oscillator mix.
     Value* oscillator_mix_amount = new Value(0.5);
-    VariableAdd* osc_mix_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
-    osc_mix_sources->plug(oscillator_mix_amount, 0);
+    VariableAdd* osc_mix_sources = new VariableAdd();
+    osc_mix_sources->plugNext(oscillator_mix_amount);
 
     Clamp* clamp_mix = new Clamp(0, 1);
     clamp_mix->plug(osc_mix_sources);
@@ -349,7 +349,7 @@ namespace mopo {
     midi_cutoff->plug(keytracked_cutoff, 0);
     midi_cutoff->plug(scaled_envelope, 1);
 
-    VariableAdd* cutoff_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
+    VariableAdd* cutoff_mod_sources = new VariableAdd();
     Value* cutoff_mod_scale = new Value(MIDI_SIZE / 2);
     Multiply* cutoff_modulation_scaled = new Multiply();
     cutoff_modulation_scaled->plug(cutoff_mod_sources, 0);
@@ -363,8 +363,8 @@ namespace mopo {
 
     Value* resonance = new Value(0.5);
 
-    VariableAdd* resonance_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
-    resonance_sources->plug(resonance, 0);
+    VariableAdd* resonance_sources = new VariableAdd();
+    resonance_sources->plugNext(resonance);
     ResonanceScale* final_resonance = new ResonanceScale();
     Value* min_db = new Value(MIN_GAIN_DB);
     Value* max_db = new Value(MAX_GAIN_DB);
@@ -377,7 +377,7 @@ namespace mopo {
     final_gain->plug(decibals);
 
     Value* filter_saturation = new Value(0.0);
-    VariableAdd* saturation_mod_sources = new VariableAdd(MAX_MODULATION_CONNECTIONS);
+    VariableAdd* saturation_mod_sources = new VariableAdd();
     Value* max_saturation = new Value(60.0);
     Multiply* saturation_mod = new Multiply();
     saturation_mod->plug(max_saturation, 0);
@@ -652,12 +652,17 @@ namespace mopo {
   }
 
   void TwytchVoiceHandler::clearModulations() {
-    std::set<ModulationConnection*>::iterator iter = mod_connections_.begin();
-    for (; iter != mod_connections_.end(); ++iter) {
-      ModulationConnection* connection = *iter;
+    for (auto connection : mod_connections_) {
       mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
       removeProcessor(&connection->modulation_scale);
     }
     mod_connections_.clear();
+  }
+
+  std::vector<std::string> TwytchVoiceHandler::getModulationDestinations() {
+    std::vector<std::string> destination_names;
+    for (auto iter : mod_destinations_)
+      destination_names.push_back(iter.first);
+    return destination_names;
   }
 } // namespace mopo

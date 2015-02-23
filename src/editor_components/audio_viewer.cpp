@@ -132,10 +132,9 @@ void AudioViewer::resetWavePath() {
         peak_values_.push_back(max);
     }
 
-    std::list<float>::iterator iter = peak_values_.begin();
-    for (int i = 0; iter != peak_values_.end(); ++i, ++iter) {
-        float t = (1.0f * i) / MAX_RESOLUTION;
-        float val = *iter;
+    float t = 0.0f;
+    for (float val : peak_values_) {
+        t += 1.0f / MAX_RESOLUTION;
         wave_top_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
         wave_bottom_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f + val) / 2.0f));
     }

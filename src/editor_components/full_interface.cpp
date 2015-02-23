@@ -264,14 +264,12 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void FullInterface::setAllValues(mopo::control_map& controls) {
-    std::map<std::string, Slider*>::iterator siter = slider_lookup_.begin();
-    for (; siter != slider_lookup_.end(); ++siter)
-        siter->second->setValue(controls[siter->first]->value());
+    for (auto slider : slider_lookup_)
+        slider.second->setValue(controls[slider.first]->value());
 
-    std::map<std::string, Button*>::iterator biter = button_lookup_.begin();
-    for (; biter != button_lookup_.end(); ++biter) {
-        if (controls.count(biter->first)) {
-            biter->second->setToggleState((bool)controls[biter->first]->value(),
+    for (auto button : button_lookup_) {
+        if (controls.count(button.first)) {
+            button.second->setToggleState((bool)controls[button.first]->value(),
                                           NotificationType::sendNotification);
         }
     }

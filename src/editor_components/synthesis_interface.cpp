@@ -1381,16 +1381,14 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void SynthesisInterface::setAllValues(mopo::control_map& controls) {
-    std::map<std::string, Slider*>::iterator iter = slider_lookup_.begin();
-    for (; iter != slider_lookup_.end(); ++iter) {
-        if (controls.count(iter->first))
-            iter->second->setValue(controls[iter->first]->value());
+    for (auto slider : slider_lookup_) {
+        if (controls.count(slider.first))
+            slider.second->setValue(controls[slider.first]->value());
     }
 
-    std::map<std::string, Button*>::iterator biter = button_lookup_.begin();
-    for (; biter != button_lookup_.end(); ++biter) {
-        if (controls.count(biter->first)) {
-            biter->second->setToggleState((bool)controls[biter->first]->value(),
+    for (auto button : button_lookup_) {
+        if (controls.count(button.first)) {
+            button.second->setToggleState((bool)controls[button.first]->value(),
                                           NotificationType::sendNotification);
         }
     }
@@ -1398,18 +1396,15 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
 
 void SynthesisInterface::setModulations(std::set<mopo::ModulationConnection*> connections) {
     clearModulations();
-    std::set<mopo::ModulationConnection*>::iterator iter = connections.begin();
-    for (; iter != connections.end(); ++iter) {
-        mopo::ModulationConnection* connection = *iter;
+    for (mopo::ModulationConnection* connection : connections) {
         juce::Colour source_color = source_lookup_[connection->source]->getColor();
         dest_lookup_[connection->destination]->addConnection(connection, source_color);
     }
 }
 
 void SynthesisInterface::clearModulations() {
-    std::map<std::string, ModulationDestination*>::iterator iter = dest_lookup_.begin();
-    for (; iter != dest_lookup_.end(); ++iter)
-        iter->second->clearConnections();
+    for (auto destination : dest_lookup_)
+        destination.second->clearConnections();
 }
 
 //[/MiscUserCode]
