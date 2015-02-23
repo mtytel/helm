@@ -191,7 +191,7 @@ namespace mopo {
   // A processor that will add a variable number of strings together.
   class VariableAdd : public Operator {
     public:
-      VariableAdd(int num_inputs) : Operator(num_inputs, 1) { }
+      VariableAdd(int num_inputs = 0) : Operator(num_inputs, 1) { }
 
       virtual Processor* clone() const { return new VariableAdd(*this); }
 

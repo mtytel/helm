@@ -31,8 +31,8 @@ namespace mopo {
     registerInput(reset_input->input(), kReset);
     registerInput(passthrough->input(1), kPassthroughGain);
 
-    VariableAdd* total = new VariableAdd(num_formants + 1);
-    total->plug(passthrough, 0);
+    VariableAdd* total = new VariableAdd();
+    total->plugNext(passthrough);
 
     addProcessor(audio_input);
     addProcessor(reset_input);
@@ -43,7 +43,7 @@ namespace mopo {
       formant->plug(audio_input, Formant::kAudio);
       formants_.push_back(formant);
       addProcessor(formant);
-      total->plug(formant, i + 1);
+      total->plugNext(formant);
     }
 
     addProcessor(total);

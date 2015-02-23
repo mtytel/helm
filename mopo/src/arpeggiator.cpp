@@ -135,9 +135,8 @@ namespace mopo {
 
   void Arpeggiator::sustainOff() {
     sustain_ = false;
-    std::set<mopo_float>::iterator iter = sustained_notes_.begin();
-    for (; iter != sustained_notes_.end(); ++iter)
-      noteOff(*iter);
+    for (mopo_float note : sustained_notes_)
+      noteOff(note);
     sustained_notes_.clear();
   }
 

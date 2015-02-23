@@ -101,9 +101,7 @@ namespace mopo {
 
   void VoiceHandler::sustainOff(int sample) {
     sustain_ = false;
-    std::list<Voice*>::iterator iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
-      Voice* voice = *iter;
+    for (Voice* voice : active_voices_) {
       if (voice->key_state() == Voice::kSustained)
         voice->deactivate(sample);
     }
@@ -112,11 +110,8 @@ namespace mopo {
   void VoiceHandler::allNotesOff(int sample) {
     pressed_notes_.clear();
 
-    std::list<Voice*>::iterator iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
-      Voice* voice = *iter;
+    for (Voice* voice : active_voices_)
       voice->deactivate(sample);
-    }
   }
 
   Voice* VoiceHandler::grabVoice() {
@@ -166,9 +161,7 @@ namespace mopo {
   void VoiceHandler::noteOff(mopo_float note, int sample) {
     pressed_notes_.remove(note);
 
-    std::list<Voice*>::iterator iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
-      Voice* voice = *iter;
+    for (Voice* voice : active_voices_) {
       if (voice->state().note == note) {
         if (sustain_)
           voice->sustain();
@@ -187,14 +180,12 @@ namespace mopo {
   }
 
   void VoiceHandler::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {
-    std::list<Voice*>::iterator iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
-      Voice* voice = *iter;
+    for (Voice* voice : active_voices_) {
       if (voice->state().note == note)
         voice->setAftertouch(aftertouch, sample);
     }
   }
-
+  
   void VoiceHandler::setPolyphony(size_t polyphony) {
     while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
