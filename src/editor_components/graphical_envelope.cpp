@@ -26,9 +26,8 @@
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
 namespace {
-    const float ATTACK_RANGE_PERCENT = 0.3f;
-    const float DECAY_RANGE_PERCENT = 0.3f;
-    const float RELEASE_RANGE_PERCENT = 0.3f;
+    const float ATTACK_RANGE_PERCENT = 0.33f;
+    const float DECAY_RANGE_PERCENT = 0.33f;
     const float HOVER_DISTANCE = 20.0f;
     const int GRID_CELL_WIDTH = 10;
 } // namespace
@@ -85,10 +84,12 @@ void GraphicalEnvelope::paint (Graphics& g)
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setColour(Colour (0x11ffffff));
-    g.fillRect(0, 0, getAttackX(), getHeight());
-    g.fillRect(getDecayX(), 0, getSustainX() - getDecayX(), getHeight());
-    g.fillRect(getReleaseX(), 0, getWidth() - getReleaseX(), getHeight());
+    g.setColour(Colour(0x18ffffff));
+    g.fillRect(0.0f, 0.0f, getAttackX(), 1.0f * getHeight());
+    g.setColour(Colour(0x10ffffff));
+    g.fillRect(getAttackX(), 0.0f, getDecayX() - getAttackX(), 1.0f * getHeight());
+    g.setColour(Colour(0x08ffffff));
+    g.fillRect(getDecayX(), 0.0f, getReleaseX() - getDecayX(), 1.0f * getHeight());
 
     g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0f,
                                      Colour(0x00000000), 0.0f, getHeight(), false));
@@ -97,9 +98,9 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0xffcccccc));
     g.strokePath(envelope_line_, stroke);
 
-    g.setColour(Colour(0xffffffff));
+    g.setColour(Colour(0x66ffffff));
 
-    int hover_line_x = -20;
+    float hover_line_x = -20;
     if (attack_hover_)
         hover_line_x = getAttackX();
     else if (decay_hover_)
@@ -107,10 +108,13 @@ void GraphicalEnvelope::paint (Graphics& g)
     else if (release_hover_)
         hover_line_x = getReleaseX();
 
-    g.fillRect(hover_line_x - 1.0f, 0.0f, 2.0f, 1.0f * getHeight());
+    g.fillRect(hover_line_x - 0.5f, 0.0f, 1.0f, 1.0f * getHeight());
 
     if (sustain_hover_)
-        g.fillRect(getDecayX(), getSustainY() - 1.0f, getSustainX() - getDecayX(), 2.0f);
+        g.drawEllipse(getDecayX() - 4.0, getSustainY() - 4.0, 8.0, 8.0, 1.0);
+
+    g.setColour(Colour(0xffcccccc));
+    g.fillEllipse(getDecayX() - 2.0, getSustainY() - 2.0, 4.0, 4.0);
     //[/UserPaint]
 }
 
@@ -137,7 +141,7 @@ void GraphicalEnvelope::mouseMove (const MouseEvent& e)
     bool d_hover = !attack_hover_ && decay_delta < release_delta && decay_delta < HOVER_DISTANCE;
     bool r_hover = !decay_hover_ && release_delta < decay_delta && release_delta < HOVER_DISTANCE;
     bool s_hover = !a_hover && !r_hover && x > getDecayX() - HOVER_DISTANCE &&
-                   x < getSustainX() + HOVER_DISTANCE && sustain_delta < HOVER_DISTANCE;
+                   x < getDecayX() + HOVER_DISTANCE && sustain_delta < HOVER_DISTANCE;
 
     if (a_hover != attack_hover_ || d_hover != decay_hover_ ||
         s_hover != sustain_hover_ || r_hover != release_hover_) {
@@ -190,7 +194,7 @@ void GraphicalEnvelope::sliderValueChanged(Slider* sliderThatWasMoved) {
     repaint();
 }
 
-double GraphicalEnvelope::getAttackX() {
+float GraphicalEnvelope::getAttackX() {
     if (!attack_slider_)
         return 0.0;
 
@@ -198,7 +202,7 @@ double GraphicalEnvelope::getAttackX() {
     return getWidth() * percent * ATTACK_RANGE_PERCENT;
 }
 
-double GraphicalEnvelope::getDecayX() {
+float GraphicalEnvelope::getDecayX() {
     if (!decay_slider_)
         return 0.0;
 
@@ -206,11 +210,7 @@ double GraphicalEnvelope::getDecayX() {
     return getAttackX() + getWidth() * percent * DECAY_RANGE_PERCENT;
 }
 
-double GraphicalEnvelope::getSustainX() {
-    return getWidth() * (1.0 - RELEASE_RANGE_PERCENT);
-}
-
-double GraphicalEnvelope::getSustainY() {
+float GraphicalEnvelope::getSustainY() {
     if (!sustain_slider_)
         return 0.0;
 
@@ -218,12 +218,12 @@ double GraphicalEnvelope::getSustainY() {
     return getHeight() * (1.0 - percent);
 }
 
-double GraphicalEnvelope::getReleaseX() {
+float GraphicalEnvelope::getReleaseX() {
     if (!release_slider_)
         return 0.0;
 
     double percent = release_slider_->valueToProportionOfLength(release_slider_->getValue());
-    return getSustainX() + getWidth() * percent * RELEASE_RANGE_PERCENT;
+    return getDecayX() + getWidth() * percent * (1.0 - DECAY_RANGE_PERCENT - ATTACK_RANGE_PERCENT);
 }
 
 void GraphicalEnvelope::setAttackX(double x) {
@@ -253,7 +253,8 @@ void GraphicalEnvelope::setReleaseX(double x) {
     if (!release_slider_)
         return;
 
-    double percent = (x - getSustainX()) / (getWidth() * (RELEASE_RANGE_PERCENT));
+    double percent = (x - getDecayX()) /
+                     (getWidth() * (1.0 - DECAY_RANGE_PERCENT - ATTACK_RANGE_PERCENT));
     release_slider_->setValue(release_slider_->proportionOfLengthToValue(percent));
 }
 
@@ -297,9 +298,10 @@ void GraphicalEnvelope::resetEnvelopeLine() {
     envelope_line_.clear();
     envelope_line_.startNewSubPath(0, getHeight());
     envelope_line_.lineTo(getAttackX(), 0.0f);
-    envelope_line_.lineTo(getDecayX(), getSustainY());
-    envelope_line_.lineTo(getSustainX(), getSustainY());
-    envelope_line_.quadraticTo(0.5f * (getReleaseX() + getSustainX()), getHeight(),
+    envelope_line_.quadraticTo(0.5f * (getAttackX() + getDecayX()), getSustainY(),
+                               getDecayX(), getSustainY());
+
+    envelope_line_.quadraticTo(0.5f * (getReleaseX() + getDecayX()), getHeight(),
                                getReleaseX(), getHeight());
 }
 
