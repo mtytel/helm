@@ -66,6 +66,12 @@ namespace mopo {
 
   void Filter::reset() {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
+
+    in_0_ = target_in_0_;
+    in_1_ = target_in_1_;
+    in_2_ = target_in_2_;
+    out_1_ = target_out_1_;
+    out_2_ = target_out_2_;
   }
 
 } // namespace mopo
