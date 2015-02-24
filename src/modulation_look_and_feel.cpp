@@ -15,29 +15,42 @@
  */
 
 #include "modulation_look_and_feel.h"
+#include "modulation_slider.h"
 #include "mopo.h"
 
 void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_pos, float min, float max,
                                              const Slider::SliderStyle style, Slider& slider) {
-  g.fillAll(slider.findColour(Slider::textBoxOutlineColourId));
+  ModulationSlider* mod_slider = dynamic_cast<ModulationSlider*>(&slider);
+  if (!mod_slider)
+    return;
+  Slider* source = mod_slider->getSourceSlider();
+  float source_percentage = source->valueToProportionOfLength(source->getValue());
+
+  g.fillAll(Colour(0x22ffaa00));
   g.setColour(slider.findColour(Slider::backgroundColourId));
   g.fillRect(x, y, width, height);
-  g.setColour(slider.findColour(Slider::trackColourId));
+  g.setColour(Colour(0x55ffaa00));
 
   if (style == Slider::SliderStyle::LinearBar) {
-    float from = std::min<float>(width / 2.0, slider_pos - x);
-    float to = std::max<float>(width / 2.0, slider_pos - x);
+    float source_position = width * source_percentage;
+    float mod_diff = width * slider.getValue();
+    float from = std::min<float>(source_position + mod_diff, source_position);
+    float to = std::max<float>(source_position + mod_diff, source_position);
+
     g.fillRect(x + from, float(y), to - from, float(height));
-    g.setColour(slider.findColour(Slider::thumbColourId));
-    g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);
+    g.setColour(Colour(0x88ffaa00));
+    g.fillRect(x + source_position + mod_diff, 1.0f * y, 2.0f, 1.0f * height);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
-    float from = std::min<float>(height / 2.0, slider_pos - y);
-    float to = std::max<float>(height / 2.0, slider_pos - y);
+    float source_position = height * source_percentage;
+    float mod_diff = height * slider.getValue();
+    float from = std::min<float>(source_position + mod_diff, source_position);
+    float to = std::max<float>(source_position + mod_diff, source_position);
+
     g.fillRect(float(x), y + from, float(width), to - from);
-    g.setColour(slider.findColour(Slider::thumbColourId));
-    g.fillRect(1.0f * x, slider_pos - y, 1.0f * width, 2.0f);
+    g.setColour(Colour(0x88ffddaa));
+    g.fillRect(1.0f * x, y + source_position + mod_diff, 1.0f * width, 2.0f);
   }
 }
 
@@ -49,35 +62,37 @@ void ModulationLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int
 void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_t, float start_angle, float end_angle,
                                              Slider& slider) {
-  static const float stroke_width = 8.0f;
+  static const float outer_stroke_width = 12.0f;
+  static const float radius = width / 2.0 - outer_stroke_width;
   static const PathStrokeType stroke_type =
-      PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+      PathStrokeType(radius, PathStrokeType::beveled, PathStrokeType::butt);
 
-  float current_angle = start_angle + slider_t * (end_angle - start_angle);
+  ModulationSlider* mod_slider = dynamic_cast<ModulationSlider*>(&slider);
+  if (!mod_slider)
+    return;
+  Slider* source = mod_slider->getSourceSlider();
+  float source_percentage = source->valueToProportionOfLength(source->getValue());
+  float source_angle = start_angle + source_percentage * (end_angle - start_angle);
 
-  Path background;
-  float center_x = x + width / 2.0f;
-  float center_y = y + height / 2.0f;
-  background.addCentredArc(center_x, center_y, width / 2.0f, height / 2.0f,
-                           0.0f, start_angle, end_angle, true);
-  g.setColour(slider.findColour(Slider::backgroundColourId));
-  g.fillPath(background);
-
-  float slider_radius = width / 2.0f - stroke_width;
-
-  Path rail;
-  rail.addCentredArc(center_x, center_y, slider_radius, slider_radius,
-                     0.0f, start_angle, end_angle, true);
-
-  g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
-  g.strokePath(rail, stroke_type);
+  float mod_diff = slider.getValue() * (end_angle - start_angle);
 
   Path active_section;
-  if (current_angle > mopo::PI)
-    current_angle -= 2.0 * mopo::PI;
-  active_section.addCentredArc(center_x, center_y, slider_radius, slider_radius,
-                               0.0f, current_angle, 0, true);
+  float center_x = x + width / 2.0f;
+  float center_y = y + height / 2.0f;
 
-  g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
+  if (source_angle > mopo::PI)
+    source_angle -= 2.0 * mopo::PI;
+  active_section.addCentredArc(center_x, center_y, radius / 2.0, radius / 2.0,
+                               source_angle, mod_diff, 0, true);
+
+  g.setColour(Colour(0x22ffaa00));
+  g.fillEllipse(width / 2.0f - radius, height / 2.0f - radius, 2.0 * radius, 2.0 * radius);
+
+  g.setColour(Colour(0x55ffaa00));
   g.strokePath(active_section, stroke_type);
+
+  float end_x = width / 2.0f + radius * sin(source_angle + mod_diff);
+  float end_y = height / 2.0f - radius * cos(source_angle + mod_diff);
+  g.setColour(Colour(0x88ffddaa));
+  g.drawLine(width / 2.0f, height / 2.0f, end_x, end_y);
 }

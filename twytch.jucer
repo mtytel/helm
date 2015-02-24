@@ -460,6 +460,10 @@
               file="src/editor_components/modulation_manager.cpp"/>
         <FILE id="v5mbLo" name="modulation_manager.h" compile="0" resource="0"
               file="src/editor_components/modulation_manager.h"/>
+        <FILE id="MijHP4" name="modulation_slider.cpp" compile="1" resource="0"
+              file="src/editor_components/modulation_slider.cpp"/>
+        <FILE id="UELLbp" name="modulation_slider.h" compile="0" resource="0"
+              file="src/editor_components/modulation_slider.h"/>
         <FILE id="RExuEw" name="oscilloscope.cpp" compile="1" resource="0"
               file="src/editor_components/oscilloscope.cpp"/>
         <FILE id="amErBQ" name="oscilloscope.h" compile="0" resource="0" file="src/editor_components/oscilloscope.h"/>
@@ -478,6 +482,10 @@
             file="src/bipolar_look_and_feel.cpp"/>
       <FILE id="S3saDv" name="bipolar_look_and_feel.h" compile="0" resource="0"
             file="src/bipolar_look_and_feel.h"/>
+      <FILE id="OcmBHI" name="modulation_look_and_feel.cpp" compile="1" resource="0"
+            file="src/modulation_look_and_feel.cpp"/>
+      <FILE id="gCPbni" name="modulation_look_and_feel.h" compile="0" resource="0"
+            file="src/modulation_look_and_feel.h"/>
       <FILE id="p7mev0" name="save_load_manager.h" compile="0" resource="0"
             file="src/save_load_manager.h"/>
       <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="src/twytch.cpp"/>

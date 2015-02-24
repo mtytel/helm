@@ -23,6 +23,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_common.h"
+#include "modulation_look_and_feel.h"
 #include <set>
 //[/Headers]
 
@@ -64,6 +65,8 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    ModulationLookAndFeel look_and_feel_;
+
     std::map<std::string, std::map<std::string, mopo::ModulationConnection*>> connections_;
     std::string current_modulator_;
 

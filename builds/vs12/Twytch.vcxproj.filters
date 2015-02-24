@@ -727,6 +727,9 @@
     <ClCompile Include="..\..\src\editor_components\modulation_manager.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -740,6 +743,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\bipolar_look_and_feel.cpp">
+      <Filter>Twytch\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\modulation_look_and_feel.cpp">
       <Filter>Twytch\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\twytch.cpp">
@@ -2451,6 +2457,9 @@
     <ClInclude Include="..\..\src\editor_components\modulation_manager.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\modulation_slider.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
@@ -2464,6 +2473,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\bipolar_look_and_feel.h">
+      <Filter>Twytch\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\modulation_look_and_feel.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\save_load_manager.h">

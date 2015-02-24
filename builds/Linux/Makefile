@@ -169,11 +169,13 @@ OBJECTS := \
   $(OBJDIR)/graphical_envelope_46db2063.o \
   $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
   $(OBJDIR)/modulation_manager_329c97d1.o \
+  $(OBJDIR)/modulation_slider_f0d81547.o \
   $(OBJDIR)/oscilloscope_75f26af6.o \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
   $(OBJDIR)/wave_form_selector_998fd51b.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
   $(OBJDIR)/bipolar_look_and_feel_9852a770.o \
+  $(OBJDIR)/modulation_look_and_feel_1908f24b.o \
   $(OBJDIR)/twytch_8ac0c1a3.o \
   $(OBJDIR)/twytch_editor_1e890493.o \
   $(OBJDIR)/twytch_engine_d1226ae8.o \
@@ -804,6 +806,11 @@ $(OBJDIR)/modulation_manager_329c97d1.o: ../../src/editor_components/modulation_
 	@echo "Compiling modulation_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/modulation_slider_f0d81547.o: ../../src/editor_components/modulation_slider.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_slider.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/oscilloscope_75f26af6.o: ../../src/editor_components/oscilloscope.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscilloscope.cpp"
@@ -827,6 +834,11 @@ $(OBJDIR)/xy_pad_a46b2bbc.o: ../../src/editor_components/xy_pad.cpp
 $(OBJDIR)/bipolar_look_and_feel_9852a770.o: ../../src/bipolar_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling bipolar_look_and_feel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_look_and_feel_1908f24b.o: ../../src/modulation_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_8ac0c1a3.o: ../../src/twytch.cpp

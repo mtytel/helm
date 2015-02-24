@@ -26,8 +26,8 @@ void BipolarLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
   g.setColour(slider.findColour(Slider::trackColourId));
 
   if (style == Slider::SliderStyle::LinearBar) {
-    float from = std::min<float>(width / 2.0, slider_pos - x);
-    float to = std::max<float>(width / 2.0, slider_pos - x);
+    float from = std::min<float>(width / 2.0f, slider_pos - x);
+    float to = std::max<float>(width / 2.0f, slider_pos - x);
     g.fillRect(x + from, float(y), to - from, float(height));
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);

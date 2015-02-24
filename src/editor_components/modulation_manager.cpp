@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "modulation_slider.h"
 #include "value_change_manager.h"
 #include "twytch_common.h"
 //[/Headers]
@@ -135,16 +136,14 @@ void ModulationManager::changeModulator(std::string new_modulator) {
 void ModulationManager::createModulationSlider(Slider* destination) {
     std::string name = destination->getName().toStdString();
     slider_model_lookup_[name] = destination;
-    Slider* mod_slider = new Slider(name);
-    slider_lookup_[name] = mod_slider;
-    owned_sliders_.push_back(mod_slider);
 
-    mod_slider->setRange(-1.0, 1.0);
-    mod_slider->setDoubleClickReturnValue(true, 0.0f);
-    mod_slider->setSliderStyle(destination->getSliderStyle());
-    mod_slider->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    ModulationSlider* mod_slider = new ModulationSlider(destination);
+    mod_slider->setLookAndFeel(&look_and_feel_);
     mod_slider->addListener(this);
     addAndMakeVisible(mod_slider);
+
+    slider_lookup_[name] = mod_slider;
+    owned_sliders_.push_back(mod_slider);
 }
 
 void ModulationManager::clearModulationConnections() {
