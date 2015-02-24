@@ -84,14 +84,14 @@ OBJECTS := \
   $(OBJDIR)/full_interface_bc4a451f.o \
   $(OBJDIR)/graphical_envelope_4add3912.o \
   $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
-  $(OBJDIR)/modulation_destination_93614d61.o \
-  $(OBJDIR)/modulation_source_2aba6cf2.o \
+  $(OBJDIR)/modulation_manager_369eb080.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/wave_form_selector_9d91edca.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
   $(OBJDIR)/bipolar_look_and_feel_f4ee26a1.o \
   $(OBJDIR)/main_d7bc4a08.o \
+  $(OBJDIR)/modulation_look_and_feel_ec5f597a.o \
   $(OBJDIR)/twytch_engine_92e4ab19.o \
   $(OBJDIR)/twytch_look_and_feel_1a426301.o \
   $(OBJDIR)/twytch_oscillators_8d8f9326.o \
@@ -294,14 +294,9 @@ $(OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/gr
 	@echo "Compiling graphical_step_sequencer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_destination_93614d61.o: ../../../src/editor_components/modulation_destination.cpp
+$(OBJDIR)/modulation_manager_369eb080.o: ../../../src/editor_components/modulation_manager.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_destination.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/modulation_source_2aba6cf2.o: ../../../src/editor_components/modulation_source.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_source.cpp"
+	@echo "Compiling modulation_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp
@@ -332,6 +327,11 @@ $(OBJDIR)/bipolar_look_and_feel_f4ee26a1.o: ../../../src/bipolar_look_and_feel.c
 $(OBJDIR)/main_d7bc4a08.o: ../../../src/main.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling main.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_look_and_feel_ec5f597a.o: ../../../src/modulation_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_engine_92e4ab19.o: ../../../src/twytch_engine.cpp

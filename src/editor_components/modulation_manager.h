@@ -17,13 +17,13 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_B702F1CB5F8201CF__
-#define __JUCE_HEADER_B702F1CB5F8201CF__
+#ifndef __JUCE_HEADER_4114FD08478B2179__
+#define __JUCE_HEADER_4114FD08478B2179__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_common.h"
-
+#include <set>
 //[/Headers]
 
 
@@ -36,63 +36,50 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class ModulationDestination  : public Component,
-                               public DragAndDropTarget,
-                               public SliderListener
+class ModulationManager  : public Component,
+                           public SliderListener
 {
 public:
     //==============================================================================
-    ModulationDestination (std::string name);
-    ~ModulationDestination();
+    ModulationManager ();
+    ~ModulationManager();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    class HoverSlider : public Slider {
-    public:
-        HoverSlider(ModulationDestination* owner) : owner_(owner) { }
-
-        void mouseUp(const MouseEvent& e) {
-            owner_->removeModulationSlider(this);
-        }
-
-    private:
-        ModulationDestination* owner_;
-    };
-
-    void removeModulationSlider(HoverSlider* slider);
-    bool addConnection(mopo::ModulationConnection* connection, juce::Colour source_color);
-    void clearConnections();
-    void connectToSource(std::string source_name, Colour source_color);
-    void itemDropped(const SourceDetails &drag_source) override;
-    bool isInterestedInDragSource(const SourceDetails &drag_source) override;
-    int getNextAvailableIndex();
-    int getHoverIndex(Point<int> position);
     void sliderValueChanged(Slider *slider);
+    void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
+    void clearModulation(std::string source, std::string destination);
+
+    void changeModulator(std::string new_modulator);
+    void createModulationSlider(Slider* destination);
+    
+    void clearModulationConnections();
+    void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
-    void mouseMove (const MouseEvent& e);
-    void mouseExit (const MouseEvent& e);
-    void mouseDown (const MouseEvent& e);
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    std::vector<mopo::ModulationConnection*> connections_;
-    std::vector<Colour> connection_colors_;
-    std::vector<HoverSlider*> modulation_sliders_;
+    std::map<std::string, std::map<std::string, mopo::ModulationConnection*>> connections_;
+    std::string current_modulator_;
+
+    std::map<std::string, Slider*> slider_lookup_;
+    std::map<std::string, Slider*> slider_model_lookup_;
+    std::vector<ScopedPointer<Slider>> owned_sliders_;
     //[/UserVariables]
 
     //==============================================================================
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModulationDestination)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModulationManager)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_B702F1CB5F8201CF__
+#endif   // __JUCE_HEADER_4114FD08478B2179__

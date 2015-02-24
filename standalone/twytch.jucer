@@ -107,14 +107,10 @@
               file="../src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="I0Msfq" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="../src/editor_components/graphical_step_sequencer.h"/>
-        <FILE id="sqnr1l" name="modulation_destination.cpp" compile="1" resource="0"
-              file="../src/editor_components/modulation_destination.cpp"/>
-        <FILE id="RPNVCt" name="modulation_destination.h" compile="0" resource="0"
-              file="../src/editor_components/modulation_destination.h"/>
-        <FILE id="DaTKrO" name="modulation_source.cpp" compile="1" resource="0"
-              file="../src/editor_components/modulation_source.cpp"/>
-        <FILE id="XZxEtg" name="modulation_source.h" compile="0" resource="0"
-              file="../src/editor_components/modulation_source.h"/>
+        <FILE id="sqnr1l" name="modulation_manager.cpp" compile="1" resource="0"
+              file="../src/editor_components/modulation_manager.cpp"/>
+        <FILE id="RPNVCt" name="modulation_manager.h" compile="0" resource="0"
+              file="../src/editor_components/modulation_manager.h"/>
         <FILE id="GKIniw" name="oscilloscope.cpp" compile="1" resource="0"
               file="../src/editor_components/oscilloscope.cpp"/>
         <FILE id="AMolKW" name="oscilloscope.h" compile="0" resource="0" file="../src/editor_components/oscilloscope.h"/>
@@ -134,6 +130,10 @@
       <FILE id="gNBGQk" name="bipolar_look_and_feel.h" compile="0" resource="0"
             file="../src/bipolar_look_and_feel.h"/>
       <FILE id="FG9703" name="main.cpp" compile="1" resource="0" file="../src/main.cpp"/>
+      <FILE id="HNE5l9" name="modulation_look_and_feel.cpp" compile="1" resource="0"
+            file="../src/modulation_look_and_feel.cpp"/>
+      <FILE id="Jp0SWN" name="modulation_look_and_feel.h" compile="0" resource="0"
+            file="../src/modulation_look_and_feel.h"/>
       <FILE id="VpiFXo" name="save_load_manager.h" compile="0" resource="0"
             file="../src/save_load_manager.h"/>
       <FILE id="kuzAfS" name="twytch_common.h" compile="0" resource="0" file="../src/twytch_common.h"/>

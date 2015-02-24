@@ -22,6 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "modulation_manager.h"
 //[/Headers]
 
 #include "synthesis_interface.h"
@@ -44,14 +45,18 @@ class FullInterface  : public Component,
 {
 public:
     //==============================================================================
-    FullInterface (mopo::control_map controls);
+    FullInterface (mopo::control_map controls, std::vector<std::string> mod_destinations);
     ~FullInterface();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
-    void setModulations(std::set<mopo::ModulationConnection*> connections);
     void setOutputMemory(const mopo::Memory* output_memory);
+
+    Slider* getSlider(std::string name);
+    void createModulationSliders(std::vector<std::string> mod_destinations);
+    void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
+    void changeModulator(std::string source);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -65,6 +70,7 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     std::map<std::string, juce::Slider*> slider_lookup_;
     std::map<std::string, juce::Button*> button_lookup_;
+    ScopedPointer<ModulationManager> modulation_manager_;
     //[/UserVariables]
 
     //==============================================================================

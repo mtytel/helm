@@ -19,6 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include <iomanip>
+#include "full_interface.h"
 #include "value_change_manager.h"
 //[/Headers]
 
@@ -294,12 +295,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_feedback_tune_->addListener (this);
 
-    addAndMakeVisible (amplitude_env_mod_source_ = new ModulationSource ("amplitude env", Colour (0xff0000ff)));
-    addAndMakeVisible (step_generator_mod_source_ = new ModulationSource ("step sequencer", Colour (0xff00ff00)));
-    addAndMakeVisible (filter_env_mod_source_ = new ModulationSource ("filter env", Colour (0xffff0000)));
-    addAndMakeVisible (cross_mod_destination_ = new ModulationDestination ("cross modulation"));
-    addAndMakeVisible (pitch_mod_destination_ = new ModulationDestination ("pitch"));
-    addAndMakeVisible (cutoff_mod_destination_ = new ModulationDestination ("cutoff"));
     addAndMakeVisible (lfo_1_wave_display_ = new WaveFormSelector (128));
     addAndMakeVisible (lfo_1_waveform_ = new Slider ("lfo 1 waveform"));
     lfo_1_waveform_->setRange (0, 11, 1);
@@ -310,9 +305,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     lfo_1_waveform_->addListener (this);
 
-    addAndMakeVisible (lfo_1_mod_source_ = new ModulationSource ("lfo 1", Colour (0xffffff00)));
-    addAndMakeVisible (lfo_2_mod_source_ = new ModulationSource ("lfo 2", Colour (0xffff00ff)));
-    addAndMakeVisible (resonance_mod_destination_ = new ModulationDestination ("resonance"));
     addAndMakeVisible (num_steps_ = new Slider ("num steps"));
     num_steps_->setRange (1, 32, 1);
     num_steps_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
@@ -348,7 +340,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_2_frequency_->addListener (this);
     lfo_2_frequency_->setSkewFactor (0.5);
 
-    addAndMakeVisible (osc_mix_mod_destination_ = new ModulationDestination ("osc mix"));
     addAndMakeVisible (filter_saturation_ = new Slider ("filter saturation"));
     filter_saturation_->setRange (0, 60, 0);
     filter_saturation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
@@ -357,10 +348,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_saturation_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     filter_saturation_->addListener (this);
 
-    addAndMakeVisible (note_mod_source_ = new ModulationSource ("note", Colour (0xffaaffaa)));
-    addAndMakeVisible (velocity_mod_source_ = new ModulationSource ("velocity", Colour (0xffaaaaff)));
-    addAndMakeVisible (aftertouch_mod_source_ = new ModulationSource ("aftertouch", Colour (0xffffaaaa)));
-    addAndMakeVisible (saturation_mod_destination_ = new ModulationDestination ("saturation"));
     addAndMakeVisible (formant_gain_0_ = new Slider ("formant gain 0"));
     formant_gain_0_->setRange (0, 2, 0);
     formant_gain_0_->setSliderStyle (Slider::LinearBar);
@@ -482,10 +469,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_bypass_->addListener (this);
     formant_bypass_->setColour (ToggleButton::textColourId, Colours::white);
 
-    addAndMakeVisible (osc_1_mod_source_ = new ModulationSource ("osc 1", Colour (0xff00ffaa)));
-    addAndMakeVisible (osc_2_mod_source_ = new ModulationSource ("osc 2", Colour (0xff00aaff)));
-    addAndMakeVisible (pitch_bend_mod_source_ = new ModulationSource ("pitch bend", Colour (0xffaa00aa)));
-    addAndMakeVisible (mod_wheel_mod_source_2 = new ModulationSource ("mod wheel", Colour (0xff00aaaa)));
     addAndMakeVisible (legato_ = new Slider ("legato"));
     legato_->setRange (0, 1, 1);
     legato_->setSliderStyle (Slider::LinearBar);
@@ -532,6 +515,54 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     lfo_2_waveform_->addListener (this);
+
+    addAndMakeVisible (filter_envelope_mod_ = new TextButton ("filter env"));
+    filter_envelope_mod_->setButtonText (TRANS("M"));
+    filter_envelope_mod_->addListener (this);
+
+    addAndMakeVisible (amplitude_envelope_mod_ = new TextButton ("amplitude env"));
+    amplitude_envelope_mod_->setButtonText (TRANS("M"));
+    amplitude_envelope_mod_->addListener (this);
+
+    addAndMakeVisible (step_sequencer_mod_ = new TextButton ("step sequencer"));
+    step_sequencer_mod_->setButtonText (TRANS("M"));
+    step_sequencer_mod_->addListener (this);
+
+    addAndMakeVisible (lfo_1_mod_ = new TextButton ("lfo 1"));
+    lfo_1_mod_->setButtonText (TRANS("M"));
+    lfo_1_mod_->addListener (this);
+
+    addAndMakeVisible (lfo_2_mod_ = new TextButton ("lfo 2"));
+    lfo_2_mod_->setButtonText (TRANS("M"));
+    lfo_2_mod_->addListener (this);
+
+    addAndMakeVisible (osc_1_mod_ = new TextButton ("osc 1"));
+    osc_1_mod_->setButtonText (TRANS("M"));
+    osc_1_mod_->addListener (this);
+
+    addAndMakeVisible (osc_2_mod_ = new TextButton ("osc 2"));
+    osc_2_mod_->setButtonText (TRANS("M"));
+    osc_2_mod_->addListener (this);
+
+    addAndMakeVisible (pitch_wheel_mod_ = new TextButton ("pitch wheel"));
+    pitch_wheel_mod_->setButtonText (TRANS("M"));
+    pitch_wheel_mod_->addListener (this);
+
+    addAndMakeVisible (mod_wheel_mod_ = new TextButton ("mod wheel"));
+    mod_wheel_mod_->setButtonText (TRANS("M"));
+    mod_wheel_mod_->addListener (this);
+
+    addAndMakeVisible (note_mod_ = new TextButton ("note"));
+    note_mod_->setButtonText (TRANS("M"));
+    note_mod_->addListener (this);
+
+    addAndMakeVisible (velocity_mod_ = new TextButton ("velocity"));
+    velocity_mod_->setButtonText (TRANS("M"));
+    velocity_mod_->addListener (this);
+
+    addAndMakeVisible (aftertouch_mod_ = new TextButton ("aftertouch"));
+    aftertouch_mod_->setButtonText (TRANS("M"));
+    aftertouch_mod_->addListener (this);
 
 
     //[UserPreSize]
@@ -587,14 +618,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
         Button* button = dynamic_cast<Button*>(getChildComponent(i));
         if (button)
             button_lookup_[button->getName().toStdString()] = button;
-
-        ModulationDestination* dest = dynamic_cast<ModulationDestination*>(getChildComponent(i));
-        if (dest)
-            dest_lookup_[dest->getName().toStdString()] = dest;
-
-        ModulationSource* source = dynamic_cast<ModulationSource*>(getChildComponent(i));
-        if (source)
-            source_lookup_[source->getName().toStdString()] = source;
     }
 
     for (int i = 0; i < 4; ++i) {
@@ -654,27 +677,13 @@ SynthesisInterface::~SynthesisInterface()
     osc_feedback_transpose_ = nullptr;
     osc_feedback_amount_ = nullptr;
     osc_feedback_tune_ = nullptr;
-    amplitude_env_mod_source_ = nullptr;
-    step_generator_mod_source_ = nullptr;
-    filter_env_mod_source_ = nullptr;
-    cross_mod_destination_ = nullptr;
-    pitch_mod_destination_ = nullptr;
-    cutoff_mod_destination_ = nullptr;
     lfo_1_wave_display_ = nullptr;
     lfo_1_waveform_ = nullptr;
-    lfo_1_mod_source_ = nullptr;
-    lfo_2_mod_source_ = nullptr;
-    resonance_mod_destination_ = nullptr;
     num_steps_ = nullptr;
     step_frequency_ = nullptr;
     lfo_1_frequency_ = nullptr;
     lfo_2_frequency_ = nullptr;
-    osc_mix_mod_destination_ = nullptr;
     filter_saturation_ = nullptr;
-    note_mod_source_ = nullptr;
-    velocity_mod_source_ = nullptr;
-    aftertouch_mod_source_ = nullptr;
-    saturation_mod_destination_ = nullptr;
     formant_gain_0_ = nullptr;
     formant_resonance_0_ = nullptr;
     formant_frequency_0_ = nullptr;
@@ -689,10 +698,6 @@ SynthesisInterface::~SynthesisInterface()
     formant_frequency_3_ = nullptr;
     formant_passthrough_ = nullptr;
     formant_bypass_ = nullptr;
-    osc_1_mod_source_ = nullptr;
-    osc_2_mod_source_ = nullptr;
-    pitch_bend_mod_source_ = nullptr;
-    mod_wheel_mod_source_2 = nullptr;
     legato_ = nullptr;
     formant_xy_pad_ = nullptr;
     formant_x_ = nullptr;
@@ -700,6 +705,18 @@ SynthesisInterface::~SynthesisInterface()
     filter_type_ = nullptr;
     lfo_2_wave_display_ = nullptr;
     lfo_2_waveform_ = nullptr;
+    filter_envelope_mod_ = nullptr;
+    amplitude_envelope_mod_ = nullptr;
+    step_sequencer_mod_ = nullptr;
+    lfo_1_mod_ = nullptr;
+    lfo_2_mod_ = nullptr;
+    osc_1_mod_ = nullptr;
+    osc_2_mod_ = nullptr;
+    pitch_wheel_mod_ = nullptr;
+    mod_wheel_mod_ = nullptr;
+    note_mod_ = nullptr;
+    velocity_mod_ = nullptr;
+    aftertouch_mod_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1024,27 +1041,13 @@ void SynthesisInterface::resized()
     osc_feedback_transpose_->setBounds (112, 248, 50, 50);
     osc_feedback_amount_->setBounds (280, 248, 50, 50);
     osc_feedback_tune_->setBounds (192, 248, 50, 50);
-    amplitude_env_mod_source_->setBounds (440, 228, 24, 24);
-    step_generator_mod_source_->setBounds (440, 392, 24, 24);
-    filter_env_mod_source_->setBounds (440, 64, 24, 24);
-    cross_mod_destination_->setBounds (208, 32, 24, 24);
-    pitch_mod_destination_->setBounds (56, 192, 24, 24);
-    cutoff_mod_destination_->setBounds (64, 472, 24, 24);
     lfo_1_wave_display_->setBounds (480, 544, 120, 64);
     lfo_1_waveform_->setBounds (480, 528, 120, 14);
-    lfo_1_mod_source_->setBounds (443, 577, 24, 24);
-    lfo_2_mod_source_->setBounds (624, 584, 24, 24);
-    resonance_mod_destination_->setBounds (328, 376, 24, 24);
     num_steps_->setBounds (480, 464, 40, 40);
     step_frequency_->setBounds (616, 464, 40, 40);
     lfo_1_frequency_->setBounds (432, 528, 40, 40);
     lfo_2_frequency_->setBounds (616, 528, 40, 40);
-    osc_mix_mod_destination_->setBounds (192, 176, 24, 24);
     filter_saturation_->setBounds (360, 360, 50, 50);
-    note_mod_source_->setBounds (352, 704, 24, 24);
-    velocity_mod_source_->setBounds (504, 704, 24, 24);
-    aftertouch_mod_source_->setBounds (640, 704, 24, 24);
-    saturation_mod_destination_->setBounds (376, 336, 24, 24);
     formant_gain_0_->setBounds (456, 736, 12, 72);
     formant_resonance_0_->setBounds (472, 736, 12, 72);
     formant_frequency_0_->setBounds (488, 736, 12, 72);
@@ -1059,10 +1062,6 @@ void SynthesisInterface::resized()
     formant_frequency_3_->setBounds (680, 736, 12, 72);
     formant_passthrough_->setBounds (336, 768, 112, 16);
     formant_bypass_->setBounds (8, 512, 120, 24);
-    osc_1_mod_source_->setBounds (16, 184, 24, 24);
-    osc_2_mod_source_->setBounds (392, 184, 24, 24);
-    pitch_bend_mod_source_->setBounds (24, 704, 24, 24);
-    mod_wheel_mod_source_2->setBounds (176, 704, 24, 24);
     legato_->setBounds (224, 660, 64, 16);
     formant_xy_pad_->setBounds (144, 512, 256, 80);
     formant_x_->setBounds (144, 592, 256, 12);
@@ -1070,6 +1069,18 @@ void SynthesisInterface::resized()
     filter_type_->setBounds (16, 344, 300, 16);
     lfo_2_wave_display_->setBounds (664, 544, 120, 64);
     lfo_2_waveform_->setBounds (664, 528, 120, 14);
+    filter_envelope_mod_->setBounds (432, 80, 24, 24);
+    amplitude_envelope_mod_->setBounds (432, 248, 24, 24);
+    step_sequencer_mod_->setBounds (432, 408, 24, 24);
+    lfo_1_mod_->setBounds (440, 584, 24, 24);
+    lfo_2_mod_->setBounds (624, 584, 24, 24);
+    osc_1_mod_->setBounds (16, 184, 24, 24);
+    osc_2_mod_->setBounds (392, 184, 24, 24);
+    pitch_wheel_mod_->setBounds (24, 704, 24, 24);
+    mod_wheel_mod_->setBounds (176, 704, 24, 24);
+    note_mod_->setBounds (352, 704, 24, 24);
+    velocity_mod_->setBounds (504, 704, 24, 24);
+    aftertouch_mod_->setBounds (632, 704, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -1360,16 +1371,84 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
-    std::string name = buttonThatWasClicked->getName().toStdString();
-    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
-    if (parent)
-        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    if (buttonThatWasClicked == formant_bypass_) {
+        std::string name = buttonThatWasClicked->getName().toStdString();
+        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        if (parent)
+            parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    }
+    else {
+        std::string name = buttonThatWasClicked->getName().toStdString();
+        FullInterface* parent = findParentComponentOfClass<FullInterface>();
+        if (parent)
+            parent->changeModulator(name);
+    }
     //[/UserbuttonClicked_Pre]
 
     if (buttonThatWasClicked == formant_bypass_)
     {
         //[UserButtonCode_formant_bypass_] -- add your button handler code here..
         //[/UserButtonCode_formant_bypass_]
+    }
+    else if (buttonThatWasClicked == filter_envelope_mod_)
+    {
+        //[UserButtonCode_filter_envelope_mod_] -- add your button handler code here..
+        //[/UserButtonCode_filter_envelope_mod_]
+    }
+    else if (buttonThatWasClicked == amplitude_envelope_mod_)
+    {
+        //[UserButtonCode_amplitude_envelope_mod_] -- add your button handler code here..
+        //[/UserButtonCode_amplitude_envelope_mod_]
+    }
+    else if (buttonThatWasClicked == step_sequencer_mod_)
+    {
+        //[UserButtonCode_step_sequencer_mod_] -- add your button handler code here..
+        //[/UserButtonCode_step_sequencer_mod_]
+    }
+    else if (buttonThatWasClicked == lfo_1_mod_)
+    {
+        //[UserButtonCode_lfo_1_mod_] -- add your button handler code here..
+        //[/UserButtonCode_lfo_1_mod_]
+    }
+    else if (buttonThatWasClicked == lfo_2_mod_)
+    {
+        //[UserButtonCode_lfo_2_mod_] -- add your button handler code here..
+        //[/UserButtonCode_lfo_2_mod_]
+    }
+    else if (buttonThatWasClicked == osc_1_mod_)
+    {
+        //[UserButtonCode_osc_1_mod_] -- add your button handler code here..
+        //[/UserButtonCode_osc_1_mod_]
+    }
+    else if (buttonThatWasClicked == osc_2_mod_)
+    {
+        //[UserButtonCode_osc_2_mod_] -- add your button handler code here..
+        //[/UserButtonCode_osc_2_mod_]
+    }
+    else if (buttonThatWasClicked == pitch_wheel_mod_)
+    {
+        //[UserButtonCode_pitch_wheel_mod_] -- add your button handler code here..
+        //[/UserButtonCode_pitch_wheel_mod_]
+    }
+    else if (buttonThatWasClicked == mod_wheel_mod_)
+    {
+        //[UserButtonCode_mod_wheel_mod_] -- add your button handler code here..
+        //[/UserButtonCode_mod_wheel_mod_]
+    }
+    else if (buttonThatWasClicked == note_mod_)
+    {
+        //[UserButtonCode_note_mod_] -- add your button handler code here..
+        //[/UserButtonCode_note_mod_]
+    }
+    else if (buttonThatWasClicked == velocity_mod_)
+    {
+        //[UserButtonCode_velocity_mod_] -- add your button handler code here..
+        //[/UserButtonCode_velocity_mod_]
+    }
+    else if (buttonThatWasClicked == aftertouch_mod_)
+    {
+        //[UserButtonCode_aftertouch_mod_] -- add your button handler code here..
+        //[/UserButtonCode_aftertouch_mod_]
     }
 
     //[UserbuttonClicked_Post]
@@ -1394,17 +1473,10 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
     }
 }
 
-void SynthesisInterface::setModulations(std::set<mopo::ModulationConnection*> connections) {
-    clearModulations();
-    for (mopo::ModulationConnection* connection : connections) {
-        juce::Colour source_color = source_lookup_[connection->source]->getColor();
-        dest_lookup_[connection->destination]->addConnection(connection, source_color);
-    }
-}
-
-void SynthesisInterface::clearModulations() {
-    for (auto destination : dest_lookup_)
-        destination.second->clearConnections();
+Slider* SynthesisInterface::getSlider(std::string name) {
+    if (slider_lookup_.count(name))
+        return slider_lookup_[name];
+    return nullptr;
 }
 
 //[/MiscUserCode]
@@ -1718,24 +1790,6 @@ BEGIN_JUCER_METADATA
           textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
-  <JUCERCOMP name="amplitude env" id="49107c44dc2f49e9" memberName="amplitude_env_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="440 228 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;amplitude env&quot;, Colour (0xff0000ff)"/>
-  <JUCERCOMP name="step sequencer" id="539abd48959288ef" memberName="step_generator_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="440 392 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;step sequencer&quot;, Colour (0xff00ff00)"/>
-  <JUCERCOMP name="filter env" id="36ddd25be02a4fe1" memberName="filter_env_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="440 64 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;filter env&quot;, Colour (0xffff0000)"/>
-  <JUCERCOMP name="cross modulation" id="82ee43b8fbcceb78" memberName="cross_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="208 32 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;cross modulation&quot;"/>
-  <JUCERCOMP name="pitch" id="146986590a708b08" memberName="pitch_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="56 192 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;pitch&quot;"/>
-  <JUCERCOMP name="cutoff" id="9fcdd6545a5e9cd2" memberName="cutoff_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="64 472 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;cutoff&quot;"/>
   <JUCERCOMP name="lfo 1 wave display" id="24d32b65108fb2a5" memberName="lfo_1_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="480 544 120 64"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
@@ -1744,15 +1798,6 @@ BEGIN_JUCER_METADATA
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <JUCERCOMP name="lfo 1" id="9571e0e9ba0fa53a" memberName="lfo_1_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="443 577 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;lfo 1&quot;, Colour (0xffffff00)"/>
-  <JUCERCOMP name="lfo 2" id="57b28b867a25f366" memberName="lfo_2_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="624 584 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;lfo 2&quot;, Colour (0xffff00ff)"/>
-  <JUCERCOMP name="resonance" id="5bac7839db359a73" memberName="resonance_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="328 376 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;resonance&quot;"/>
   <SLIDER name="num steps" id="8be29885961d7617" memberName="num_steps_"
           virtualName="" explicitFocusOrder="0" pos="480 464 40 40" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="32" int="1" style="RotaryHorizontalVerticalDrag"
@@ -1773,26 +1818,11 @@ BEGIN_JUCER_METADATA
           textboxtext="ffdddddd" min="0" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
-  <JUCERCOMP name="osc mix" id="45625f8553a02da7" memberName="osc_mix_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="192 176 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;osc mix&quot;"/>
   <SLIDER name="filter saturation" id="b5014a266e860882" memberName="filter_saturation_"
           virtualName="" explicitFocusOrder="0" pos="360 360 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="60" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
-  <JUCERCOMP name="note" id="782251ca8e671721" memberName="note_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="352 704 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;note&quot;, Colour (0xffaaffaa)"/>
-  <JUCERCOMP name="note" id="6d8cf28aeb3b0f90" memberName="velocity_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="504 704 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;velocity&quot;, Colour (0xffaaaaff)"/>
-  <JUCERCOMP name="aftertouch" id="e1423dfe9212fdb6" memberName="aftertouch_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="640 704 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;aftertouch&quot;, Colour (0xffffaaaa)"/>
-  <JUCERCOMP name="saturation" id="a02f7ea80706c89e" memberName="saturation_mod_destination_"
-             virtualName="" explicitFocusOrder="0" pos="376 336 24 24" sourceFile="modulation_destination.cpp"
-             constructorParams="&quot;saturation&quot;"/>
   <SLIDER name="formant gain 0" id="7445acea26274d0c" memberName="formant_gain_0_"
           virtualName="" explicitFocusOrder="0" pos="456 736 12 72" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
@@ -1862,18 +1892,6 @@ BEGIN_JUCER_METADATA
                 virtualName="" explicitFocusOrder="0" pos="8 512 120 24" txtcol="ffffffff"
                 buttonText="formant bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
-  <JUCERCOMP name="osc 1" id="17ff3610f864792" memberName="osc_1_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="16 184 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;osc 1&quot;, Colour (0xff00ffaa)"/>
-  <JUCERCOMP name="osc 2" id="926572c411bd767f" memberName="osc_2_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="392 184 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;osc 2&quot;, Colour (0xff00aaff)"/>
-  <JUCERCOMP name="pitch bend" id="683312335aa289d0" memberName="pitch_bend_mod_source_"
-             virtualName="" explicitFocusOrder="0" pos="24 704 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;pitch bend&quot;, Colour (0xffaa00aa)"/>
-  <JUCERCOMP name="mod wheel" id="a8175d77ecf9da67" memberName="mod_wheel_mod_source_2"
-             virtualName="" explicitFocusOrder="0" pos="176 704 24 24" sourceFile="modulation_source.cpp"
-             constructorParams="&quot;mod wheel&quot;, Colour (0xff00aaaa)"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName=""
           explicitFocusOrder="0" pos="224 660 64 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
@@ -1905,6 +1923,42 @@ BEGIN_JUCER_METADATA
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+  <TEXTBUTTON name="filter env" id="b1c0e1b81ba12955" memberName="filter_envelope_mod_"
+              virtualName="" explicitFocusOrder="0" pos="432 80 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="amplitude env" id="f8f7a3ca2ba5265d" memberName="amplitude_envelope_mod_"
+              virtualName="" explicitFocusOrder="0" pos="432 248 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="step sequencer" id="4fd19f52e690cd89" memberName="step_sequencer_mod_"
+              virtualName="" explicitFocusOrder="0" pos="432 408 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="lfo 1" id="1ea938f771b995ba" memberName="lfo_1_mod_" virtualName=""
+              explicitFocusOrder="0" pos="440 584 24 24" buttonText="M" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="lfo 2" id="db902bdbd3d218a6" memberName="lfo_2_mod_" virtualName=""
+              explicitFocusOrder="0" pos="624 584 24 24" buttonText="M" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="osc 1" id="4dcc36c544b0bbf7" memberName="osc_1_mod_" virtualName=""
+              explicitFocusOrder="0" pos="16 184 24 24" buttonText="M" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="osc 2" id="19039c3681943288" memberName="osc_2_mod_" virtualName=""
+              explicitFocusOrder="0" pos="392 184 24 24" buttonText="M" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="pitch wheel" id="527add472856006" memberName="pitch_wheel_mod_"
+              virtualName="" explicitFocusOrder="0" pos="24 704 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="mod wheel" id="38b300e016b7fbb" memberName="mod_wheel_mod_"
+              virtualName="" explicitFocusOrder="0" pos="176 704 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="note" id="f119ef83db8634e0" memberName="note_mod_" virtualName=""
+              explicitFocusOrder="0" pos="352 704 24 24" buttonText="M" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="velocity" id="fc46bb54c2093224" memberName="velocity_mod_"
+              virtualName="" explicitFocusOrder="0" pos="504 704 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="aftertouch" id="5e4c99bb63fbb5c6" memberName="aftertouch_mod_"
+              virtualName="" explicitFocusOrder="0" pos="632 704 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

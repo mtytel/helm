@@ -117,6 +117,10 @@ namespace mopo {
     voice_handler_->clearModulations();
   }
 
+  std::vector<std::string> TwytchEngine::getModulationDestinations() {
+    return voice_handler_->getModulationDestinations();
+  }
+
   void TwytchEngine::process() {
     bool playing_arp = arp_on_->value();
     if (was_playing_arp_ != playing_arp)

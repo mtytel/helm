@@ -724,10 +724,7 @@
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\editor_components\modulation_destination.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\editor_components\modulation_source.cpp">
+    <ClCompile Include="..\..\src\editor_components\modulation_manager.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp">
@@ -2451,10 +2448,7 @@
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\editor_components\modulation_destination.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\editor_components\modulation_source.h">
+    <ClInclude Include="..\..\src\editor_components\modulation_manager.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">

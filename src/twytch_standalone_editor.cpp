@@ -41,9 +41,9 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   controls_ = synth_.getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface(controls_);
+  gui_ = new FullInterface(controls_, synth_.getModulationDestinations());
   gui_->setOutputMemory(&output_memory_);
-  gui_->setModulations(synth_.getModulationConnections());
+  gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
 
@@ -185,7 +185,7 @@ void TwytchStandaloneEditor::varToState(var state) {
   }
 
   gui_->setAllValues(controls_);
-  gui_->setModulations(synth_.getModulationConnections());
+  gui_->setModulationConnections(synth_.getModulationConnections());
 }
 
 void TwytchStandaloneEditor::changeKeyboardOffset(int new_offset) {

@@ -256,8 +256,7 @@
     <ClCompile Include="..\..\src\editor_components\full_interface.cpp"/>
     <ClCompile Include="..\..\src\editor_components\graphical_envelope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp"/>
-    <ClCompile Include="..\..\src\editor_components\modulation_destination.cpp"/>
-    <ClCompile Include="..\..\src\editor_components\modulation_source.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\modulation_manager.cpp"/>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_form_selector.cpp"/>
@@ -1537,8 +1536,7 @@
     <ClInclude Include="..\..\src\editor_components\full_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\graphical_envelope.h"/>
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h"/>
-    <ClInclude Include="..\..\src\editor_components\modulation_destination.h"/>
-    <ClInclude Include="..\..\src\editor_components\modulation_source.h"/>
+    <ClInclude Include="..\..\src\editor_components\modulation_manager.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h"/>

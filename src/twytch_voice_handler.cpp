@@ -437,7 +437,7 @@ namespace mopo {
     mod_sources_["filter env"] = filter_envelope_->output();
     mod_destinations_["cutoff"] = cutoff_mod_sources;
     mod_destinations_["resonance"] = resonance_sources;
-    mod_destinations_["saturation"] = saturation_mod_sources;
+    mod_destinations_["filter saturation"] = saturation_mod_sources;
 
     // Formant Filter.
     formant_container_ = new BypassRouter();

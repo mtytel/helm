@@ -39,7 +39,8 @@ namespace mopo {
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
-
+      std::vector<std::string> getModulationDestinations();
+    
       // Keyboard events.
       void allNotesOff(int sample = 0);
       void noteOn(mopo_float note, mopo_float velocity = 1.0, int sample = 0);

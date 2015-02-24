@@ -30,7 +30,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-FullInterface::FullInterface (mopo::control_map controls)
+FullInterface::FullInterface (mopo::control_map controls, std::vector<std::string> mod_destinations)
 {
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (arp_frequency_ = new Slider ("arp frequency"));
@@ -93,6 +93,7 @@ FullInterface::FullInterface (mopo::control_map controls)
             button_lookup_[button->getName().toStdString()] = button;
     }
     setAllValues(controls);
+    createModulationSliders(mod_destinations);
     //[/UserPreSize]
 
     setSize (800, 400);
@@ -175,6 +176,7 @@ void FullInterface::resized()
     arp_on_->setBounds (808, 80, 48, 24);
     save_button_->setBounds (800, 40, 150, 24);
     //[UserResized] Add your own custom resize handling here..
+    modulation_manager_->setBounds(0, 0, getWidth(), getHeight());
     //[/UserResized]
 }
 
@@ -276,13 +278,36 @@ void FullInterface::setAllValues(mopo::control_map& controls) {
     synthesis_interface_->setAllValues(controls);
 }
 
-void FullInterface::setModulations(std::set<mopo::ModulationConnection*> connections) {
-    synthesis_interface_->setModulations(connections);
-}
-
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
     recording_->setOutputMemory(output_memory);
+}
+
+Slider* FullInterface::getSlider(std::string name) {
+    if (slider_lookup_.count(name))
+        return slider_lookup_[name];
+    return synthesis_interface_->getSlider(name);
+}
+
+void FullInterface::createModulationSliders(std::vector<std::string> mod_destinations) {
+    modulation_manager_ = new ModulationManager();
+    modulation_manager_->setInterceptsMouseClicks(false, true);
+    modulation_manager_->setOpaque(false);
+    addChildComponent(modulation_manager_);
+
+    for (std::string destination : mod_destinations) {
+        Slider* slider = getSlider(destination);
+        if (slider)
+            modulation_manager_->createModulationSlider(slider);
+    }
+}
+
+void FullInterface::setModulationConnections(std::set<mopo::ModulationConnection*> connections) {
+    modulation_manager_->setModulationConnections(connections);
+}
+
+void FullInterface::changeModulator(std::string source) {
+    modulation_manager_->changeModulator(source);
 }
 
 //[/MiscUserCode]
@@ -299,9 +324,9 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
                  parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="mopo::control_map controls" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="800" initialHeight="400">
+                 constructorParams="mopo::control_map controls, std::vector&lt;std::string&gt; mod_destinations"
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff271436">
     <TEXT pos="804 164 52 20" fill="solid: ffbf9bc7" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"

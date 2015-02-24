@@ -30,8 +30,6 @@
 #include "graphical_envelope.h"
 #include "wave_form_selector.h"
 #include "filter_response.h"
-#include "modulation_source.h"
-#include "modulation_destination.h"
 #include "xy_pad.h"
 
 
@@ -55,8 +53,8 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
-    void setModulations(std::set<mopo::ModulationConnection*> connections);
-    void clearModulations();
+
+    Slider* getSlider(std::string name);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -70,8 +68,6 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     std::map<std::string, juce::Slider*> slider_lookup_;
     std::map<std::string, juce::Button*> button_lookup_;
-    std::map<std::string, ModulationDestination*> dest_lookup_;
-    std::map<std::string, ModulationSource*> source_lookup_;
     std::vector<ScopedPointer<Slider> > step_sequencer_sliders_;
     BipolarLookAndFeel bipolar_look_and_feel_;
     //[/UserVariables]
@@ -113,27 +109,13 @@ private:
     ScopedPointer<Slider> osc_feedback_transpose_;
     ScopedPointer<Slider> osc_feedback_amount_;
     ScopedPointer<Slider> osc_feedback_tune_;
-    ScopedPointer<ModulationSource> amplitude_env_mod_source_;
-    ScopedPointer<ModulationSource> step_generator_mod_source_;
-    ScopedPointer<ModulationSource> filter_env_mod_source_;
-    ScopedPointer<ModulationDestination> cross_mod_destination_;
-    ScopedPointer<ModulationDestination> pitch_mod_destination_;
-    ScopedPointer<ModulationDestination> cutoff_mod_destination_;
     ScopedPointer<WaveFormSelector> lfo_1_wave_display_;
     ScopedPointer<Slider> lfo_1_waveform_;
-    ScopedPointer<ModulationSource> lfo_1_mod_source_;
-    ScopedPointer<ModulationSource> lfo_2_mod_source_;
-    ScopedPointer<ModulationDestination> resonance_mod_destination_;
     ScopedPointer<Slider> num_steps_;
     ScopedPointer<Slider> step_frequency_;
     ScopedPointer<Slider> lfo_1_frequency_;
     ScopedPointer<Slider> lfo_2_frequency_;
-    ScopedPointer<ModulationDestination> osc_mix_mod_destination_;
     ScopedPointer<Slider> filter_saturation_;
-    ScopedPointer<ModulationSource> note_mod_source_;
-    ScopedPointer<ModulationSource> velocity_mod_source_;
-    ScopedPointer<ModulationSource> aftertouch_mod_source_;
-    ScopedPointer<ModulationDestination> saturation_mod_destination_;
     ScopedPointer<Slider> formant_gain_0_;
     ScopedPointer<Slider> formant_resonance_0_;
     ScopedPointer<Slider> formant_frequency_0_;
@@ -148,10 +130,6 @@ private:
     ScopedPointer<Slider> formant_frequency_3_;
     ScopedPointer<Slider> formant_passthrough_;
     ScopedPointer<ToggleButton> formant_bypass_;
-    ScopedPointer<ModulationSource> osc_1_mod_source_;
-    ScopedPointer<ModulationSource> osc_2_mod_source_;
-    ScopedPointer<ModulationSource> pitch_bend_mod_source_;
-    ScopedPointer<ModulationSource> mod_wheel_mod_source_2;
     ScopedPointer<Slider> legato_;
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<Slider> formant_x_;
@@ -159,6 +137,18 @@ private:
     ScopedPointer<Slider> filter_type_;
     ScopedPointer<WaveFormSelector> lfo_2_wave_display_;
     ScopedPointer<Slider> lfo_2_waveform_;
+    ScopedPointer<TextButton> filter_envelope_mod_;
+    ScopedPointer<TextButton> amplitude_envelope_mod_;
+    ScopedPointer<TextButton> step_sequencer_mod_;
+    ScopedPointer<TextButton> lfo_1_mod_;
+    ScopedPointer<TextButton> lfo_2_mod_;
+    ScopedPointer<TextButton> osc_1_mod_;
+    ScopedPointer<TextButton> osc_2_mod_;
+    ScopedPointer<TextButton> pitch_wheel_mod_;
+    ScopedPointer<TextButton> mod_wheel_mod_;
+    ScopedPointer<TextButton> note_mod_;
+    ScopedPointer<TextButton> velocity_mod_;
+    ScopedPointer<TextButton> aftertouch_mod_;
 
 
     //==============================================================================

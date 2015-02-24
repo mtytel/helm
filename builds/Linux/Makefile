@@ -168,8 +168,7 @@ OBJECTS := \
   $(OBJDIR)/full_interface_ddba7cf0.o \
   $(OBJDIR)/graphical_envelope_46db2063.o \
   $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
-  $(OBJDIR)/modulation_destination_4892432.o \
-  $(OBJDIR)/modulation_source_6ca9d781.o \
+  $(OBJDIR)/modulation_manager_329c97d1.o \
   $(OBJDIR)/oscilloscope_75f26af6.o \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
   $(OBJDIR)/wave_form_selector_998fd51b.o \
@@ -800,14 +799,9 @@ $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o: ../../src/editor_components/graph
 	@echo "Compiling graphical_step_sequencer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_destination_4892432.o: ../../src/editor_components/modulation_destination.cpp
+$(OBJDIR)/modulation_manager_329c97d1.o: ../../src/editor_components/modulation_manager.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_destination.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/modulation_source_6ca9d781.o: ../../src/editor_components/modulation_source.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_source.cpp"
+	@echo "Compiling modulation_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/oscilloscope_75f26af6.o: ../../src/editor_components/oscilloscope.cpp
