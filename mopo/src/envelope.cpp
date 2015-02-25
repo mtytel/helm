@@ -47,12 +47,10 @@ namespace mopo {
     kill_decrement_ = 1.0 / (VOICE_KILL_TIME * sample_rate_);
     output(kFinished)->clearTrigger();
     // Only update decay and release rate once per buffer.
-    mopo_float decay_samples =
-        sample_rate_ * input(kDecay)->at(buffer_size_ - 1);
+    mopo_float decay_samples = sample_rate_ * input(kDecay)->at(0);
     decay_decay_ = pow(CLOSE_ENOUGH, 1.0 / decay_samples);
 
-    mopo_float release_samples =
-        sample_rate_ * input(kRelease)->at(buffer_size_ - 1);
+    mopo_float release_samples = sample_rate_ * input(kRelease)->at(0);
     release_decay_ = pow(CLOSE_ENOUGH, 1.0 / release_samples);
 
     int i = 0;

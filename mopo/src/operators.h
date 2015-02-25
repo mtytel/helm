@@ -55,7 +55,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] = CLAMP(input(0)->at(i), min_, max_);
+        output()->buffer[i] = CLAMP(input()->at(i), min_, max_);
       }
 
     private:
@@ -72,14 +72,14 @@ namespace mopo {
       void process() {
         memcpy(output()->buffer, input()->source->buffer,
                buffer_size_ * sizeof(mopo_float));
-        
+
         output()->triggered = input()->source->triggered;
         output()->trigger_value = input()->source->trigger_value;
         output()->trigger_offset = input()->source->trigger_offset;
       }
 
       inline void tick(int i) {
-        output(0)->buffer[i] = -input(0)->at(i);
+        output()->buffer[i] = input()->at(i);
       }
   };
 
@@ -93,7 +93,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] = -input(0)->at(i);
+        output()->buffer[i] = -input()->at(i);
       }
   };
 
@@ -105,7 +105,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Inverse(*this); }
 
       inline void tick(int i) {
-        output(0)->buffer[i] = 1.0 / input(0)->at(i);
+        output()->buffer[i] = 1.0 / input()->at(i);
       }
 
       PROCESS_TICK_FUNCTION
@@ -120,7 +120,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] = scale_ * input(0)->at(i);
+        output()->buffer[i] = scale_ * input()->at(i);
       }
 
     private:
@@ -135,8 +135,8 @@ namespace mopo {
       virtual Processor* clone() const { return new MidiScale(*this); }
 
       inline void tick(int i) {
-        output(0)->buffer[i] =
-            MidiLookup::centsLookup(CENTS_PER_NOTE * input(0)->at(i));
+        output()->buffer[i] =
+            MidiLookup::centsLookup(CENTS_PER_NOTE * input()->at(i));
       }
 
       PROCESS_TICK_FUNCTION
@@ -151,8 +151,7 @@ namespace mopo {
       virtual Processor* clone() const { return new ResonanceScale(*this); }
 
       inline void tick(int i) {
-        output(0)->buffer[i] =
-            ResonanceLookup::qLookup(input(0)->at(i));
+        output()->buffer[i] = ResonanceLookup::qLookup(input()->at(i));
       }
 
       PROCESS_TICK_FUNCTION
@@ -167,8 +166,7 @@ namespace mopo {
       virtual Processor* clone() const { return new MagnitudeScale(*this); }
 
       inline void tick(int i) {
-        output(0)->buffer[i] =
-            MagnitudeLookup::magnitudeLookup(input(0)->at(i));
+        output()->buffer[i] = MagnitudeLookup::magnitudeLookup(input()->at(i));
       }
 
       PROCESS_TICK_FUNCTION
@@ -184,7 +182,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] = input(0)->at(i) + input(1)->at(i);
+        output()->buffer[i] = input(0)->at(i) + input(1)->at(i);
       }
   };
 
@@ -199,7 +197,7 @@ namespace mopo {
 
       inline void tick(int i) {
         int num_inputs = inputs_->size();
-        output(0)->buffer[i] = 0.0;
+        output()->buffer[i] = 0.0;
         for (int in = 0; in < num_inputs; ++in)
           output(0)->buffer[i] += input(in)->at(i);
       }
@@ -215,7 +213,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] = input(0)->at(i) - input(1)->at(i);
+        output()->buffer[i] = input(0)->at(i) - input(1)->at(i);
       }
   };
 
@@ -229,7 +227,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] = input(0)->at(i) * input(1)->at(i);
+        output()->buffer[i] = input(0)->at(i) * input(1)->at(i);
       }
   };
 
@@ -250,7 +248,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output(0)->buffer[i] =
+        output()->buffer[i] =
             INTERPOLATE(input(kFrom)->at(i),
                         input(kTo)->at(i),
                         input(kFractional)->at(i));
@@ -285,8 +283,8 @@ namespace mopo {
         float bottom = INTERPOLATE(input(kBottomLeft)->at(i),
                                    input(kBottomRight)->at(i),
                                    input(kXPosition)->at(i));
-        output(0)->buffer[i] = INTERPOLATE(top, bottom,
-                                           input(kYPosition)->at(i));
+        output()->buffer[i] = INTERPOLATE(top, bottom,
+                                          input(kYPosition)->at(i));
       }
   };
 } // namespace mopo
