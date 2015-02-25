@@ -72,6 +72,9 @@ namespace mopo {
       // Create the filter and filter envelope.
       void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
 
+      VariableAdd* createModControl(std::string name, mopo_float start_val,
+                                    bool control_rate, bool smooth_value = false);
+
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;
       SmoothValue* pitch_wheel_amount_;

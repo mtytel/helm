@@ -113,6 +113,25 @@ namespace mopo {
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
   }
 
+  VariableAdd* TwytchVoiceHandler::createModControl(std::string name, mopo_float start_val,
+                                                    bool control_rate, bool smooth_value) {
+    Value* val = nullptr;
+    if (smooth_value) {
+      val = new SmoothValue(start_val);
+      addGlobalProcessor(val);
+    }
+    else
+      val = new Value(start_val);
+
+    VariableAdd* total = new VariableAdd();
+    total->setControlRate(control_rate);
+    total->plugNext(val);
+    addProcessor(total);
+    controls_[name] = val;
+    mod_destinations_[name] = total;
+    return total;
+  }
+
   void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
     Value* pitch_bend_range = new Value(2);
@@ -150,18 +169,13 @@ namespace mopo {
     oscillators_->plug(reset, TwytchOscillators::kOscillator2Reset);
     oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
-    Value* cross_mod = new Value(0.15);
-    VariableAdd* cross_mod_sources = new VariableAdd();
-    cross_mod_sources->plugNext(cross_mod);
+    VariableAdd* cross_mod = createModControl("cross modulation", 0.15, false);
+    oscillators_->plug(cross_mod, TwytchOscillators::kOscillator1FM);
+    oscillators_->plug(cross_mod, TwytchOscillators::kOscillator2FM);
 
-    oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator1FM);
-    oscillators_->plug(cross_mod_sources, TwytchOscillators::kOscillator2FM);
-
-    addProcessor(cross_mod_sources);
     addProcessor(oscillator1_frequency);
     addProcessor(oscillators_);
 
-    controls_["cross modulation"] = cross_mod;
     controls_["osc 1 waveform"] = oscillator1_waveform;
 
     // Oscillator 2.
@@ -189,36 +203,28 @@ namespace mopo {
     controls_["osc 2 tune"] = oscillator2_tune;
 
     // Oscillator mix.
-    Value* oscillator_mix_amount = new Value(0.5);
-    VariableAdd* osc_mix_sources = new VariableAdd();
-    osc_mix_sources->plugNext(oscillator_mix_amount);
+    VariableAdd* oscillator_mix_amount = createModControl("osc mix", 0.5, false);
 
     Clamp* clamp_mix = new Clamp(0, 1);
-    clamp_mix->plug(osc_mix_sources);
+    clamp_mix->plug(oscillator_mix_amount);
     oscillator_mix_ = new Interpolate();
     oscillator_mix_->plug(oscillators_->output(0), Interpolate::kFrom);
     oscillator_mix_->plug(oscillators_->output(1), Interpolate::kTo);
     oscillator_mix_->plug(clamp_mix, Interpolate::kFractional);
 
     addProcessor(oscillator_mix_);
-    addProcessor(osc_mix_sources);
     addProcessor(clamp_mix);
-    controls_["osc mix"] = oscillator_mix_amount;
 
     // Oscillator feedback.
-    Value* osc_feedback_transpose = new Value(-12);
-    Value* osc_feedback_amount = new Value(0.0);
-    Value* osc_feedback_tune = new Value(0.00);
+    VariableAdd* osc_feedback_transpose = createModControl("osc feedback transpose", -12, false);
+    VariableAdd* osc_feedback_amount = createModControl("osc feedback amount", 0.0, false);
+    VariableAdd* osc_feedback_tune = createModControl("osc feedback tune", 0.0, false);
     Add* osc_feedback_transposed = new Add();
     osc_feedback_transposed->plug(final_midi, 0);
     osc_feedback_transposed->plug(osc_feedback_transpose, 1);
     Add* osc_feedback_midi = new Add();
     osc_feedback_midi->plug(osc_feedback_transposed, 0);
     osc_feedback_midi->plug(osc_feedback_tune, 1);
-
-    controls_["osc feedback transpose"] = osc_feedback_transpose;
-    controls_["osc feedback amount"] = osc_feedback_amount;
-    controls_["osc feedback tune"] = osc_feedback_tune;
 
     MidiScale* osc_feedback_frequency = new MidiScale();
     osc_feedback_frequency->plug(osc_feedback_midi);
@@ -240,9 +246,7 @@ namespace mopo {
     mod_sources_["osc 1"] = oscillators_->getOscillator1Output();
     mod_sources_["osc 2"] = oscillators_->getOscillator2Output();
 
-    mod_destinations_["cross modulation"] = cross_mod_sources;
     mod_destinations_["pitch"] = midi_mod_sources;
-    mod_destinations_["osc mix"] = osc_mix_sources;
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
@@ -340,8 +344,9 @@ namespace mopo {
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
 
-    SmoothValue* base_cutoff = new SmoothValue(80);
+    VariableAdd* base_cutoff = createModControl("cutoff", 80, true, true);
     Add* keytracked_cutoff = new Add();
+    keytracked_cutoff->setControlRate();
     keytracked_cutoff->plug(base_cutoff, 0);
     keytracked_cutoff->plug(current_keytrack, 1);
 
@@ -350,27 +355,15 @@ namespace mopo {
     midi_cutoff->plug(keytracked_cutoff, 0);
     midi_cutoff->plug(scaled_envelope, 1);
 
-    VariableAdd* cutoff_mod_sources = new VariableAdd();
-    cutoff_mod_sources->setControlRate();
-    Value* cutoff_mod_scale = new Value(MIDI_SIZE / 2);
-    Multiply* cutoff_modulation_scaled = new Multiply();
-    cutoff_modulation_scaled->plug(cutoff_mod_sources, 0);
-    cutoff_modulation_scaled->plug(cutoff_mod_scale, 1);
-    Add* midi_cutoff_modulated = new Add();
-    midi_cutoff_modulated->plug(midi_cutoff, 0);
-    midi_cutoff_modulated->plug(cutoff_modulation_scaled, 1);
-
     MidiScale* frequency_cutoff = new MidiScale();
     frequency_cutoff->setControlRate();
-    frequency_cutoff->plug(midi_cutoff_modulated);
+    frequency_cutoff->plug(midi_cutoff);
 
-    Value* resonance = new Value(0.5);
-
-    VariableAdd* resonance_sources = new VariableAdd();
-    resonance_sources->setControlRate();
-    resonance_sources->plugNext(resonance);
+    VariableAdd* resonance = createModControl("resonance", 0.5, true);
     ResonanceScale* final_resonance = new ResonanceScale();
     final_resonance->setControlRate();
+    final_resonance->plug(resonance);
+
     Value* min_db = new Value(MIN_GAIN_DB);
     Value* max_db = new Value(MAX_GAIN_DB);
     Interpolate* decibals = new Interpolate();
@@ -380,20 +373,11 @@ namespace mopo {
     decibals->plug(resonance, Interpolate::kFractional);
     MagnitudeScale* final_gain = new MagnitudeScale();
     final_gain->setControlRate();
-    final_resonance->plug(resonance_sources);
     final_gain->plug(decibals);
 
-    Value* filter_saturation = new Value(0.0);
-    VariableAdd* saturation_mod_sources = new VariableAdd();
-    Value* max_saturation = new Value(60.0);
-    Multiply* saturation_mod = new Multiply();
-    saturation_mod->plug(max_saturation, 0);
-    saturation_mod->plug(saturation_mod_sources, 1);
-    Add* total_saturation = new Add();
-    total_saturation->plug(saturation_mod, 0);
-    total_saturation->plug(filter_saturation, 1);
+    VariableAdd* filter_saturation = createModControl("filter saturation", 0.0, false);
     MagnitudeScale* saturation_magnitude = new MagnitudeScale();
-    saturation_magnitude->plug(total_saturation);
+    saturation_magnitude->plug(filter_saturation);
 
     Multiply* saturated_audio = new Multiply();
     saturated_audio->plug(audio, 0);
@@ -414,37 +398,23 @@ namespace mopo {
     distorted_filter_->plug(distortion_type, Distortion::kType);
     distorted_filter_->plug(distortion_threshold, Distortion::kThreshold);
 
-    addGlobalProcessor(base_cutoff);
     addProcessor(current_keytrack);
     addProcessor(saturated_audio);
     addProcessor(keytracked_cutoff);
     addProcessor(midi_cutoff);
-    addProcessor(cutoff_mod_sources);
-    addProcessor(cutoff_modulation_scaled);
-    addProcessor(midi_cutoff_modulated);
-    addProcessor(resonance_sources);
     addProcessor(final_resonance);
     addProcessor(decibals);
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter_);
 
-    addProcessor(saturation_mod_sources);
-    addProcessor(saturation_mod);
-    addProcessor(total_saturation);
     addProcessor(saturation_magnitude);
     addProcessor(distorted_filter_);
 
     controls_["filter type"] = filter_type;
-    controls_["filter saturation"] = filter_saturation;
-    controls_["cutoff"] = base_cutoff;
     controls_["keytrack"] = keytrack_amount;
-    controls_["resonance"] = resonance;
 
     mod_sources_["filter env"] = filter_envelope_->output();
-    mod_destinations_["cutoff"] = cutoff_mod_sources;
-    mod_destinations_["resonance"] = resonance_sources;
-    mod_destinations_["filter saturation"] = saturation_mod_sources;
 
     // Formant Filter.
     formant_container_ = new BypassRouter();
@@ -461,14 +431,8 @@ namespace mopo {
     controls_["formant bypass"] = formant_bypass;
     controls_["formant passthrough"] = formant_passthrough;
 
-    SmoothValue* formant_x = new SmoothValue(0.0);
-    SmoothValue* formant_y = new SmoothValue(0.0);
-
-    addGlobalProcessor(formant_x);
-    addGlobalProcessor(formant_y);
-
-    controls_["formant x"] = formant_x;
-    controls_["formant y"] = formant_y;
+    VariableAdd* formant_x = createModControl("formant x", 0.0, false, true);
+    VariableAdd* formant_y = createModControl("formant y", 0.0, false, true);
 
     for (int i = 0; i < NUM_FORMANTS; ++i) {
       BilinearInterpolate* formant_gain = new BilinearInterpolate();

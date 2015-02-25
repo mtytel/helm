@@ -24,10 +24,10 @@ public:
     ModulationSlider (Slider* source);
     ~ModulationSlider();
 
-    Slider* getSourceSlider() { return source_slider_; }
+    Slider* getDestinationSlider() { return destination_slider_; }
 
 private:
-    Slider* source_slider_;
+    Slider* destination_slider_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationSlider)
 };

@@ -24,8 +24,9 @@ void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int widt
   ModulationSlider* mod_slider = dynamic_cast<ModulationSlider*>(&slider);
   if (!mod_slider)
     return;
-  Slider* source = mod_slider->getSourceSlider();
-  float source_percentage = source->valueToProportionOfLength(source->getValue());
+  Slider* destination = mod_slider->getDestinationSlider();
+  float destination_percentage = destination->valueToProportionOfLength(destination->getValue());
+  float destination_range = destination->getMaximum() - destination->getMinimum();
 
   g.fillAll(Colour(0x22ffaa00));
   g.setColour(slider.findColour(Slider::backgroundColourId));
@@ -33,24 +34,24 @@ void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int widt
   g.setColour(Colour(0x55ffaa00));
 
   if (style == Slider::SliderStyle::LinearBar) {
-    float source_position = width * source_percentage;
-    float mod_diff = width * slider.getValue();
-    float from = std::min<float>(source_position + mod_diff, source_position);
-    float to = std::max<float>(source_position + mod_diff, source_position);
+    float destination_position = width * destination_percentage;
+    float mod_diff = width * slider.getValue() / destination_range;
+    float from = std::min<float>(destination_position + mod_diff, destination_position);
+    float to = std::max<float>(destination_position + mod_diff, destination_position);
 
     g.fillRect(x + from, float(y), to - from, float(height));
     g.setColour(Colour(0x88ffaa00));
-    g.fillRect(x + source_position + mod_diff, 1.0f * y, 2.0f, 1.0f * height);
+    g.fillRect(x + destination_position + mod_diff, 1.0f * y, 2.0f, 1.0f * height);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
-    float source_position = height * (1.0f - source_percentage);
-    float mod_diff = height * slider.getValue();
-    float from = std::min<float>(source_position - mod_diff, source_position);
-    float to = std::max<float>(source_position - mod_diff, source_position);
+    float destination_position = height * (1.0f - destination_percentage);
+    float mod_diff = height * slider.getValue() / destination_range;
+    float from = std::min<float>(destination_position - mod_diff, destination_position);
+    float to = std::max<float>(destination_position - mod_diff, destination_position);
 
     g.fillRect(float(x), y + from, float(width), to - from);
     g.setColour(Colour(0xbbffddaa));
-    g.fillRect(1.0f * x, y + source_position - mod_diff, 1.0f * width, 2.0f);
+    g.fillRect(1.0f * x, y + destination_position - mod_diff, 1.0f * width, 2.0f);
   }
 }
 
@@ -66,10 +67,11 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   if (!mod_slider)
     return;
 
-  Slider* source = mod_slider->getSourceSlider();
-  float source_percentage = source->valueToProportionOfLength(source->getValue());
-  float source_angle = start_angle + source_percentage * (end_angle - start_angle);
-  float mod_diff = slider.getValue() * (end_angle - start_angle);
+  Slider* destination = mod_slider->getDestinationSlider();
+  float destination_percentage = destination->valueToProportionOfLength(destination->getValue());
+  float destination_range = destination->getMaximum() - destination->getMinimum();
+  float destination_angle = start_angle + destination_percentage * (end_angle - start_angle);
+  float mod_diff = slider.getValue() * (end_angle - start_angle) / destination_range;
 
   float draw_radius = std::min(width / 2.0f, height / 2.0f);
   float knob_radius = 0.65f * draw_radius;
@@ -83,16 +85,16 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   Path active_section;
   float center_x = x + draw_radius;
   float center_y = y + draw_radius;
-  if (source_angle > mopo::PI)
-    source_angle -= 2.0 * mopo::PI;
+  if (destination_angle > mopo::PI)
+    destination_angle -= 2.0 * mopo::PI;
   active_section.addCentredArc(center_x, center_y, knob_radius / 2.0, knob_radius / 2.0,
-                               source_angle, mod_diff, 0, true);
+                               destination_angle, mod_diff, 0, true);
 
   g.setColour(Colour(0x55ffaa00));
   g.strokePath(active_section, stroke_type);
 
-  float end_x = draw_radius + knob_radius * sin(source_angle + mod_diff);
-  float end_y = draw_radius - knob_radius * cos(source_angle + mod_diff);
+  float end_x = draw_radius + knob_radius * sin(destination_angle + mod_diff);
+  float end_y = draw_radius - knob_radius * cos(destination_angle + mod_diff);
   g.setColour(Colour(0xbbffddaa));
   g.drawLine(draw_radius, draw_radius, end_x, end_y, 2.0f);
 }

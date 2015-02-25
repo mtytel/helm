@@ -15,13 +15,17 @@
  */
 
 #include "modulation_slider.h"
+#include "mopo.h"
 
-ModulationSlider::ModulationSlider(Slider* source) {
-    source_slider_ = source;
-    setName(source->getName());
-    setRange(-1.0, 1.0);
+ModulationSlider::ModulationSlider(Slider* destination) {
+    MOPO_ASSERT(destination->getSkewFactor() == 1.0);
+    destination_slider_ = destination;
+
+    float destination_range = destination->getMaximum() - destination->getMinimum();
+    setName(destination->getName());
+    setRange(-destination_range, destination_range);
     setDoubleClickReturnValue(true, 0.0f);
-    setSliderStyle(source->getSliderStyle());
+    setSliderStyle(destination->getSliderStyle());
     setVelocityBasedMode(true);
     setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 }
