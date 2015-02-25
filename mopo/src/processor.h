@@ -98,7 +98,7 @@ namespace mopo {
           buffer_size_ = buffer_size;
       }
 
-      virtual void setControlRate(bool control_rate) {
+      virtual void setControlRate(bool control_rate = true) {
         control_rate_ = control_rate;
         buffer_size_ = 1;
       }
