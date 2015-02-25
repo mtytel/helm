@@ -21,21 +21,22 @@
 
 namespace mopo {
 
-  Formant::Formant() : ProcessorRouter(0, 0) {
+  Formant::Formant() : ProcessorRouter(kNumInputs, 1) {
     static const Value filter_type(Filter::kBandPass);
 
     Filter* filter = new Filter();
-    registerInput(filter->input(Filter::kAudio), kAudio);
-    registerInput(filter->input(Filter::kResonance), kResonance);
-    registerInput(filter->input(Filter::kCutoff), kFrequency);
+    filter->registerInput(input(kAudio), Filter::kAudio);
+    filter->registerInput(input(kResonance), Filter::kResonance);
+    filter->registerInput(input(kFrequency), Filter::kCutoff);
+    filter->registerInput(input(kReset), Filter::kReset);
     filter->plug(&filter_type, Filter::kType);
 
     Multiply* total = new Multiply();
-    registerInput(total->input(0), kGain);
+    total->registerInput(input(kGain), 0);
     total->plug(filter, 1);
 
     addProcessor(filter);
     addProcessor(total);
-    registerOutput(total->output());
+    total->registerOutput(output(), 0);
   }
 } // namespace mopo
