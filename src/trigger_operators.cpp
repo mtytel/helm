@@ -21,15 +21,15 @@ namespace mopo {
   TriggerCombiner::TriggerCombiner() : Processor(2, 1) { }
 
   void TriggerCombiner::process() {
-    output(0)->clearTrigger();
+    output()->clearTrigger();
 
     if (input(0)->source->triggered) {
-      output(0)->trigger(input(0)->source->trigger_value,
-                         input(0)->source->trigger_offset);
+      output()->trigger(input(0)->source->trigger_value,
+                        input(0)->source->trigger_offset);
     }
     else if (input(1)->source->triggered) {
-      output(0)->trigger(input(1)->source->trigger_value,
-                         input(1)->source->trigger_offset);
+      output()->trigger(input(1)->source->trigger_value,
+                        input(1)->source->trigger_offset);
     }
   }
 
@@ -42,12 +42,12 @@ namespace mopo {
 
   void TriggerWait::sendTrigger(int trigger_offset) {
     if (waiting_)
-      output(0)->trigger(trigger_value_, trigger_offset);
+      output()->trigger(trigger_value_, trigger_offset);
     waiting_ = false;
   }
 
   void TriggerWait::process() {
-    output(0)->clearTrigger();
+    output()->clearTrigger();
 
     if (input(kWait)->source->triggered &&
         input(kTrigger)->source->triggered) {
@@ -75,7 +75,7 @@ namespace mopo {
 
   void TriggerFilter::process() {
     output()->clearTrigger();
-    
+
     if (input(kTrigger)->source->triggered) {
       mopo_float trigger_value = input(kTrigger)->source->trigger_value;
       if (trigger_value == trigger_filter_) {
@@ -121,14 +121,14 @@ namespace mopo {
   }
 
   void PortamentoFilter::updateTrigger() {
-    output(0)->clearTrigger();
+    output()->clearTrigger();
     if (!input(kFrequencyTrigger)->source->triggered)
       return;
 
     int state = static_cast<int>(input(kPortamento)->at(0));
     if (state == kPortamentoOff || (state == kPortamentoAuto && released_)) {
-      output(0)->trigger(input(kFrequencyTrigger)->source->trigger_value,
-                         input(kFrequencyTrigger)->source->trigger_offset);
+      output()->trigger(input(kFrequencyTrigger)->source->trigger_value,
+                        input(kFrequencyTrigger)->source->trigger_offset);
       released_ = false;
     }
   }

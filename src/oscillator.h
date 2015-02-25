@@ -49,7 +49,7 @@ namespace mopo {
         offset_ += frequency / sample_rate_;
         mopo_float integral;
         offset_ = modf(offset_, &integral);
-        output(0)->buffer[i] =
+        output()->buffer[i] =
             Wave::blwave(waveform_, offset_ + phase, frequency);
       }
 

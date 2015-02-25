@@ -30,7 +30,7 @@ namespace mopo {
       Feedback() : Processor(1, 1) {
         memset(buffer_, 0, MAX_BUFFER_SIZE * sizeof(mopo_float));
       }
-    
+
       virtual ~Feedback() { }
 
       virtual Processor* clone() const { return new Feedback(*this); }

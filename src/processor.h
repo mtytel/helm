@@ -92,7 +92,15 @@ namespace mopo {
       }
 
       virtual void setBufferSize(int buffer_size) {
-        buffer_size_ = buffer_size;
+        if (control_rate_)
+          buffer_size_ = 1;
+        else
+          buffer_size_ = buffer_size;
+      }
+
+      virtual void setControlRate(bool control_rate) {
+        control_rate_ = control_rate;
+        buffer_size_ = 1;
       }
 
       int getSampleRate() {
@@ -101,6 +109,10 @@ namespace mopo {
 
       int getBufferSize() {
         return buffer_size_;
+      }
+
+      bool isControlRate() {
+        return control_rate_;
       }
 
       // Attaches an output to an input in this processor.
@@ -159,6 +171,7 @@ namespace mopo {
     protected:
       int sample_rate_;
       int buffer_size_;
+      bool control_rate_;
 
       std::vector<std::shared_ptr<Input> > owned_inputs_;
       std::vector<std::shared_ptr<Output> > owned_outputs_;

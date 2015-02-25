@@ -43,6 +43,6 @@ namespace mopo {
     current_step_ = (current_step_ + num_steps) % num_steps;
 
     for (i = 0; i < buffer_size_; ++i)
-      output(0)->buffer[i] = input(kSteps + current_step_)->at(i);
+      output()->buffer[i] = input(kSteps + current_step_)->at(i);
   }
 } // namespace mopo
