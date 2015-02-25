@@ -29,6 +29,7 @@ namespace mopo {
         kFrequency,
         kGain,
         kResonance,
+        kReset,
         kNumInputs
       };
 
