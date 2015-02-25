@@ -200,7 +200,7 @@ namespace mopo {
     controls_["osc 2 waveform"] = oscillator2_waveform;
 
     // Oscillator mix.
-    VariableAdd* oscillator_mix_amount = createModControl("osc mix", 0.5, false);
+    VariableAdd* oscillator_mix_amount = createModControl("osc mix", 0.5, false, true);
 
     Clamp* clamp_mix = new Clamp(0, 1);
     clamp_mix->plug(oscillator_mix_amount);
