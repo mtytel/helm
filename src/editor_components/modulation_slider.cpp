@@ -18,7 +18,7 @@
 #include "mopo.h"
 
 ModulationSlider::ModulationSlider(Slider* destination) {
-    MOPO_ASSERT(destination->getSkewFactor() == 1.0);
+    // MOPO_ASSERT(destination->getSkewFactor() == 1.0);
     destination_slider_ = destination;
 
     float destination_range = destination->getMaximum() - destination->getMinimum();

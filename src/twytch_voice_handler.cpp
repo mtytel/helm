@@ -142,28 +142,25 @@ namespace mopo {
     bent_midi->plug(midi, 0);
     bent_midi->plug(pitch_bend, 1);
 
-    Value* pitch_mod_range = new Value(PITCH_MOD_RANGE);
-    VariableAdd* midi_mod_sources = new VariableAdd();
-    Multiply* midi_mod = new Multiply();
-    midi_mod->plug(pitch_mod_range, 0);
-    midi_mod->plug(midi_mod_sources, 1);
-    Add* final_midi = new Add();
-    final_midi->plug(bent_midi, 0);
-    final_midi->plug(midi_mod, 1);
-
     addGlobalProcessor(pitch_bend);
     addProcessor(bent_midi);
-    addProcessor(midi_mod_sources);
-    addProcessor(midi_mod);
-    addProcessor(final_midi);
 
     controls_["pitch bend range"] = pitch_bend_range;
 
     // Oscillator 1.
     oscillators_ = new TwytchOscillators();
     Value* oscillator1_waveform = new Value(Wave::kDownSaw);
+    VariableAdd* oscillator1_transpose = createModControl("osc 1 transpose", 0, false);
+    VariableAdd* oscillator1_tune = createModControl("osc 1 tune", 0.0, false);
+    Add* oscillator1_transposed = new Add();
+    oscillator1_transposed->plug(bent_midi, 0);
+    oscillator1_transposed->plug(oscillator1_transpose, 1);
+    Add* oscillator1_midi = new Add();
+    oscillator1_midi->plug(oscillator1_transposed, 0);
+    oscillator1_midi->plug(oscillator1_tune, 1);
+
     MidiScale* oscillator1_frequency = new MidiScale();
-    oscillator1_frequency->plug(final_midi);
+    oscillator1_frequency->plug(oscillator1_midi);
     oscillators_->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
     oscillators_->plug(reset, TwytchOscillators::kOscillator1Reset);
     oscillators_->plug(reset, TwytchOscillators::kOscillator2Reset);
@@ -173,6 +170,8 @@ namespace mopo {
     oscillators_->plug(cross_mod, TwytchOscillators::kOscillator1FM);
     oscillators_->plug(cross_mod, TwytchOscillators::kOscillator2FM);
 
+    addProcessor(oscillator1_transposed);
+    addProcessor(oscillator1_midi);
     addProcessor(oscillator1_frequency);
     addProcessor(oscillators_);
 
@@ -180,10 +179,10 @@ namespace mopo {
 
     // Oscillator 2.
     Value* oscillator2_waveform = new Value(Wave::kDownSaw);
-    Value* oscillator2_transpose = new Value(-12);
-    Value* oscillator2_tune = new Value(0.08);
+    VariableAdd* oscillator2_transpose = createModControl("osc 2 transpose", -12, false);
+    VariableAdd* oscillator2_tune = createModControl("osc 2 tune", 0.08, false);
     Add* oscillator2_transposed = new Add();
-    oscillator2_transposed->plug(final_midi, 0);
+    oscillator2_transposed->plug(bent_midi, 0);
     oscillator2_transposed->plug(oscillator2_transpose, 1);
     Add* oscillator2_midi = new Add();
     oscillator2_midi->plug(oscillator2_transposed, 0);
@@ -199,8 +198,6 @@ namespace mopo {
     addProcessor(oscillator2_frequency);
 
     controls_["osc 2 waveform"] = oscillator2_waveform;
-    controls_["osc 2 transpose"] = oscillator2_transpose;
-    controls_["osc 2 tune"] = oscillator2_tune;
 
     // Oscillator mix.
     VariableAdd* oscillator_mix_amount = createModControl("osc mix", 0.5, false);
@@ -220,7 +217,7 @@ namespace mopo {
     VariableAdd* osc_feedback_amount = createModControl("osc feedback amount", 0.0, false);
     VariableAdd* osc_feedback_tune = createModControl("osc feedback tune", 0.0, false);
     Add* osc_feedback_transposed = new Add();
-    osc_feedback_transposed->plug(final_midi, 0);
+    osc_feedback_transposed->plug(bent_midi, 0);
     osc_feedback_transposed->plug(osc_feedback_transpose, 1);
     Add* osc_feedback_midi = new Add();
     osc_feedback_midi->plug(osc_feedback_transposed, 0);
@@ -245,14 +242,12 @@ namespace mopo {
 
     mod_sources_["osc 1"] = oscillators_->getOscillator1Output();
     mod_sources_["osc 2"] = oscillators_->getOscillator2Output();
-
-    mod_destinations_["pitch"] = midi_mod_sources;
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
     // LFO 1.
     Value* lfo1_waveform = new Value(Wave::kSin);
-    Value* lfo1_frequency = new Value(2);
+    VariableAdd* lfo1_frequency = createModControl("lfo 1 frequency", 2.0, false);
     lfo1_ = new Oscillator();
     lfo1_->plug(reset, Oscillator::kReset);
     lfo1_->plug(lfo1_waveform, Oscillator::kWaveform);
@@ -260,11 +255,10 @@ namespace mopo {
 
     addGlobalProcessor(lfo1_);
     controls_["lfo 1 waveform"] = lfo1_waveform;
-    controls_["lfo 1 frequency"] = lfo1_frequency;
 
     // LFO 2.
     Value* lfo2_waveform = new Value(Wave::kSin);
-    Value* lfo2_frequency = new Value(2);
+    VariableAdd* lfo2_frequency = createModControl("lfo 2 frequency", 2.0, false);
     lfo2_ = new Oscillator();
     lfo2_->plug(reset, Oscillator::kReset);
     lfo2_->plug(lfo2_waveform, Oscillator::kWaveform);
@@ -272,18 +266,16 @@ namespace mopo {
 
     addProcessor(lfo2_);
     controls_["lfo 2 waveform"] = lfo2_waveform;
-    controls_["lfo 2 frequency"] = lfo2_frequency;
 
     // Step Sequencer.
     Value* num_steps = new Value(16);
-    Value* step_frequency = new Value(5.0);
+    VariableAdd* step_frequency = createModControl("step frequency", 5.0, false);
     step_sequencer_ = new StepGenerator(MAX_STEPS);
     step_sequencer_->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer_->plug(step_frequency, StepGenerator::kFrequency);
 
     addProcessor(step_sequencer_);
     controls_["num steps"] = num_steps;
-    controls_["step frequency"] = step_frequency;
 
     for (int i = 0; i < MAX_STEPS; ++i) {
       std::string num = std::to_string(i);
@@ -303,10 +295,10 @@ namespace mopo {
   void TwytchVoiceHandler::createFilter(
       Output* audio, Output* keytrack, Output* reset, Output* note_event) {
     // Filter envelope.
-    Value* filter_attack = new Value(0.0);
-    Value* filter_decay = new Value(0.3);
-    Value* filter_sustain = new Value(0.3);
-    Value* filter_release = new Value(0.3);
+    VariableAdd* filter_attack = createModControl("fil attack", 0.01, false);
+    VariableAdd* filter_decay = createModControl("fil decay", 0.3, true);
+    VariableAdd* filter_sustain = createModControl("fil sustain", 0.3, false);
+    VariableAdd* filter_release = createModControl("fil release", 0.3, true);
 
     TriggerFilter* note_off = new TriggerFilter(VoiceEvent::kVoiceOff);
     note_off->plug(note_event);
@@ -331,15 +323,11 @@ namespace mopo {
     addProcessor(filter_env_trigger);
     addProcessor(scaled_envelope);
 
-    controls_["fil attack"] = filter_attack;
-    controls_["fil decay"] = filter_decay;
-    controls_["fil sustain"] = filter_sustain;
-    controls_["fil release"] = filter_release;
     controls_["fil env depth"] = filter_envelope_depth;
 
     // Filter.
     Value* filter_type = new Value(Filter::kLowPass);
-    Value* keytrack_amount = new Value(0);
+    VariableAdd* keytrack_amount = createModControl("keytrack", 0.0, true);
     Multiply* current_keytrack = new Multiply();
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
@@ -412,7 +400,6 @@ namespace mopo {
     addProcessor(distorted_filter_);
 
     controls_["filter type"] = filter_type;
-    controls_["keytrack"] = keytrack_amount;
 
     mod_sources_["filter env"] = filter_envelope_->output();
 
@@ -491,10 +478,10 @@ namespace mopo {
     addProcessor(legato_filter);
 
     // Amplitude envelope.
-    Value* amplitude_attack = new Value(0.01);
-    Value* amplitude_decay = new Value(0.7);
-    Value* amplitude_sustain = new SmoothValue(0.5);
-    Value* amplitude_release = new Value(0.3);
+    VariableAdd* amplitude_attack = createModControl("amp attack", 0.01, false);
+    VariableAdd* amplitude_decay = createModControl("amp decay", 0.7, true);
+    VariableAdd* amplitude_sustain = createModControl("amp sustain", 0.5, false);
+    VariableAdd* amplitude_release = createModControl("amp release", 0.3, true);
 
     amplitude_envelope_ = new Envelope();
     amplitude_envelope_->plug(legato_filter->output(LegatoFilter::kRetrigger),
@@ -503,14 +490,7 @@ namespace mopo {
     amplitude_envelope_->plug(amplitude_decay, Envelope::kDecay);
     amplitude_envelope_->plug(amplitude_sustain, Envelope::kSustain);
     amplitude_envelope_->plug(amplitude_release, Envelope::kRelease);
-
     addProcessor(amplitude_envelope_);
-    addGlobalProcessor(amplitude_sustain);
-
-    controls_["amp attack"] = amplitude_attack;
-    controls_["amp decay"] = amplitude_decay;
-    controls_["amp sustain"] = amplitude_sustain;
-    controls_["amp release"] = amplitude_release;
 
     // Voice and frequency resetting logic.
     note_change_trigger_ = new TriggerCombiner();

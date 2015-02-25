@@ -149,6 +149,8 @@ private:
     ScopedPointer<TextButton> note_mod_;
     ScopedPointer<TextButton> velocity_mod_;
     ScopedPointer<TextButton> aftertouch_mod_;
+    ScopedPointer<Slider> osc_1_transpose_;
+    ScopedPointer<Slider> osc_1_tune_;
 
 
     //==============================================================================

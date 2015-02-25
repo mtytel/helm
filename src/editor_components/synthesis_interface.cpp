@@ -69,6 +69,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     cross_modulation_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     cross_modulation_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     cross_modulation_->addListener (this);
+    cross_modulation_->setSkewFactor (0.5);
 
     addAndMakeVisible (filter_response_ = new FilterResponse (300));
     addAndMakeVisible (portamento_type_ = new Slider ("portamento type"));
@@ -563,6 +564,22 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     aftertouch_mod_->setButtonText (TRANS("M"));
     aftertouch_mod_->addListener (this);
 
+    addAndMakeVisible (osc_1_transpose_ = new Slider ("osc 1 transpose"));
+    osc_1_transpose_->setRange (-48, 48, 1);
+    osc_1_transpose_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_1_transpose_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_1_transpose_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_1_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    osc_1_transpose_->addListener (this);
+
+    addAndMakeVisible (osc_1_tune_ = new Slider ("osc 1 tune"));
+    osc_1_tune_->setRange (-1, 1, 0);
+    osc_1_tune_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_1_tune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_1_tune_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_1_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    osc_1_tune_->addListener (this);
+
 
     //[UserPreSize]
     resonance_->setSliderStyle(Slider::LinearBarVertical);
@@ -716,6 +733,8 @@ SynthesisInterface::~SynthesisInterface()
     note_mod_ = nullptr;
     velocity_mod_ = nullptr;
     aftertouch_mod_ = nullptr;
+    osc_1_transpose_ = nullptr;
+    osc_1_tune_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -994,6 +1013,18 @@ void SynthesisInterface::paint (Graphics& g)
                 340, 476, 92, 20,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("OSC 1 TRANSPOSE"),
+                28, 220, 92, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("OSC 1 TUNE"),
+                108, 220, 92, 20,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     g.setColour(Colours::white);
     //[/UserPaint]
@@ -1080,6 +1111,8 @@ void SynthesisInterface::resized()
     note_mod_->setBounds (352, 704, 24, 24);
     velocity_mod_->setBounds (504, 704, 24, 24);
     aftertouch_mod_->setBounds (632, 704, 24, 24);
+    osc_1_transpose_->setBounds (48, 176, 50, 50);
+    osc_1_tune_->setBounds (128, 176, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -1362,6 +1395,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_lfo_2_waveform_] -- add your slider handling code here..
         //[/UserSliderCode_lfo_2_waveform_]
     }
+    else if (sliderThatWasMoved == osc_1_transpose_)
+    {
+        //[UserSliderCode_osc_1_transpose_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_transpose_]
+    }
+    else if (sliderThatWasMoved == osc_1_tune_)
+    {
+        //[UserSliderCode_osc_1_tune_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_tune_]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -1620,6 +1663,12 @@ BEGIN_JUCER_METADATA
     <TEXT pos="340 476 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="KEY TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
+    <TEXT pos="28 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 1 TRANSPOSE"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="108 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 1 TUNE"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
              explicitFocusOrder="0" pos="464 360 300 100" sourceFile="graphical_step_sequencer.cpp"
@@ -1655,7 +1704,7 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="192 64 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <JUCERCOMP name="" id="e5ebb41c4c259ce1" memberName="filter_response_" virtualName="FilterResponse"
              explicitFocusOrder="0" pos="16 360 300 100" sourceFile="filter_response.cpp"
              constructorParams="300"/>
@@ -1958,6 +2007,16 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="aftertouch" id="5e4c99bb63fbb5c6" memberName="aftertouch_mod_"
               virtualName="" explicitFocusOrder="0" pos="632 704 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <SLIDER name="osc 1 transpose" id="15c1bacac4dfbb8b" memberName="osc_1_transpose_"
+          virtualName="" explicitFocusOrder="0" pos="48 176 50 50" rotarysliderfill="7fffffff"
+          textboxtext="ffdddddd" min="-48" max="48" int="1" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="osc 1 tune" id="19b20e4d54ff8b49" memberName="osc_1_tune_"
+          virtualName="" explicitFocusOrder="0" pos="128 176 50 50" rotarysliderfill="7fffffff"
+          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
