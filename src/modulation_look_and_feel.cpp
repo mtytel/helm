@@ -43,14 +43,14 @@ void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int widt
     g.fillRect(x + source_position + mod_diff, 1.0f * y, 2.0f, 1.0f * height);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
-    float source_position = height * source_percentage;
+    float source_position = height * (1.0f - source_percentage);
     float mod_diff = height * slider.getValue();
-    float from = std::min<float>(source_position + mod_diff, source_position);
-    float to = std::max<float>(source_position + mod_diff, source_position);
+    float from = std::min<float>(source_position - mod_diff, source_position);
+    float to = std::max<float>(source_position - mod_diff, source_position);
 
     g.fillRect(float(x), y + from, float(width), to - from);
-    g.setColour(Colour(0x88ffddaa));
-    g.fillRect(1.0f * x, y + source_position + mod_diff, 1.0f * width, 2.0f);
+    g.setColour(Colour(0xbbffddaa));
+    g.fillRect(1.0f * x, y + source_position - mod_diff, 1.0f * width, 2.0f);
   }
 }
 
@@ -93,6 +93,6 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
 
   float end_x = draw_radius + knob_radius * sin(source_angle + mod_diff);
   float end_y = draw_radius - knob_radius * cos(source_angle + mod_diff);
-  g.setColour(Colour(0x88ffddaa));
-  g.drawLine(draw_radius, draw_radius, end_x, end_y);
+  g.setColour(Colour(0xbbffddaa));
+  g.drawLine(draw_radius, draw_radius, end_x, end_y, 2.0f);
 }
