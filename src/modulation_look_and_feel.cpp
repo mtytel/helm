@@ -62,37 +62,37 @@ void ModulationLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int
 void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_t, float start_angle, float end_angle,
                                              Slider& slider) {
-  static const float outer_stroke_width = 12.0f;
-  static const float radius = width / 2.0 - outer_stroke_width;
-  static const PathStrokeType stroke_type =
-      PathStrokeType(radius, PathStrokeType::beveled, PathStrokeType::butt);
-
   ModulationSlider* mod_slider = dynamic_cast<ModulationSlider*>(&slider);
   if (!mod_slider)
     return;
+
   Slider* source = mod_slider->getSourceSlider();
   float source_percentage = source->valueToProportionOfLength(source->getValue());
   float source_angle = start_angle + source_percentage * (end_angle - start_angle);
-
   float mod_diff = slider.getValue() * (end_angle - start_angle);
 
-  Path active_section;
-  float center_x = x + width / 2.0f;
-  float center_y = y + height / 2.0f;
-
-  if (source_angle > mopo::PI)
-    source_angle -= 2.0 * mopo::PI;
-  active_section.addCentredArc(center_x, center_y, radius / 2.0, radius / 2.0,
-                               source_angle, mod_diff, 0, true);
+  float draw_radius = std::min(width / 2.0f, height / 2.0f);
+  float knob_radius = 0.65f * draw_radius;
+  PathStrokeType stroke_type =
+      PathStrokeType(knob_radius, PathStrokeType::beveled, PathStrokeType::butt);
 
   g.setColour(Colour(0x22ffaa00));
-  g.fillEllipse(width / 2.0f - radius, height / 2.0f - radius, 2.0 * radius, 2.0 * radius);
+  g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
+                2.0 * knob_radius, 2.0 * knob_radius);
+
+  Path active_section;
+  float center_x = x + draw_radius;
+  float center_y = y + draw_radius;
+  if (source_angle > mopo::PI)
+    source_angle -= 2.0 * mopo::PI;
+  active_section.addCentredArc(center_x, center_y, knob_radius / 2.0, knob_radius / 2.0,
+                               source_angle, mod_diff, 0, true);
 
   g.setColour(Colour(0x55ffaa00));
   g.strokePath(active_section, stroke_type);
 
-  float end_x = width / 2.0f + radius * sin(source_angle + mod_diff);
-  float end_y = height / 2.0f - radius * cos(source_angle + mod_diff);
+  float end_x = draw_radius + knob_radius * sin(source_angle + mod_diff);
+  float end_y = draw_radius - knob_radius * cos(source_angle + mod_diff);
   g.setColour(Colour(0x88ffddaa));
-  g.drawLine(width / 2.0f, height / 2.0f, end_x, end_y);
+  g.drawLine(draw_radius, draw_radius, end_x, end_y);
 }

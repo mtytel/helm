@@ -49,37 +49,39 @@ void BipolarLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wi
 void BipolarLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                           float slider_t, float start_angle, float end_angle,
                                           Slider& slider) {
-  static const float stroke_width = 8.0f;
-  static const PathStrokeType stroke_type =
+  static const float stroke_width = 4.0f;
+  static const PathStrokeType outer_stroke_type =
       PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
 
+  float full_radius = std::min(width / 2.0f, height / 2.0f);
+  float knob_radius = 0.65f * full_radius;
+  float outer_radius = full_radius - stroke_width;
+  float center_x = x + full_radius;
+  float center_y = y + full_radius;
+
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
-
-  Path background;
-  float center_x = x + width / 2.0f;
-  float center_y = y + height / 2.0f;
-  background.addCentredArc(center_x, center_y, width / 2.0f, height / 2.0f,
-                           0.0f, start_angle, end_angle, true);
-  g.setColour(slider.findColour(Slider::backgroundColourId));
-  g.fillPath(background);
-
-  float slider_radius = width / 2.0f - stroke_width;
+  if (current_angle > mopo::PI)
+    current_angle -= 2.0 * mopo::PI;
 
   Path rail;
-  rail.addCentredArc(center_x, center_y, slider_radius, slider_radius,
+  rail.addCentredArc(center_x, center_y, outer_radius, outer_radius,
                      0.0f, start_angle, end_angle, true);
 
   g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
-  g.strokePath(rail, stroke_type);
+  g.strokePath(rail, outer_stroke_type);
+  g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
+                2.0f * knob_radius, 2.0f * knob_radius);
 
   Path active_section;
-  if (current_angle > mopo::PI)
-    current_angle -= 2.0 * mopo::PI;
-  active_section.addCentredArc(center_x, center_y, slider_radius, slider_radius,
+  active_section.addCentredArc(center_x, center_y, outer_radius, outer_radius,
                                0.0f, current_angle, 0, true);
 
   g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
-  g.strokePath(active_section, stroke_type);
+  g.strokePath(active_section, outer_stroke_type);
+
+  float end_x = full_radius + knob_radius * sin(current_angle);
+  float end_y = full_radius - knob_radius * cos(current_angle);
+  g.drawLine(full_radius, full_radius, end_x, end_y, 2.0f);
 
   if (slider.getInterval() == 1) {
     g.setColour(slider.findColour(Slider::textBoxTextColourId));
