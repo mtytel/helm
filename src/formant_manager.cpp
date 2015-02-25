@@ -38,6 +38,7 @@ namespace mopo {
       total->plugNext(formant);
     }
 
+    addProcessor(passthrough);
     addProcessor(total);
     registerOutput(total->output());
   }
