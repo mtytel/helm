@@ -346,10 +346,12 @@ namespace mopo {
     keytracked_cutoff->plug(current_keytrack, 1);
 
     Add* midi_cutoff = new Add();
+    midi_cutoff->setControlRate();
     midi_cutoff->plug(keytracked_cutoff, 0);
     midi_cutoff->plug(scaled_envelope, 1);
 
     VariableAdd* cutoff_mod_sources = new VariableAdd();
+    cutoff_mod_sources->setControlRate();
     Value* cutoff_mod_scale = new Value(MIDI_SIZE / 2);
     Multiply* cutoff_modulation_scaled = new Multiply();
     cutoff_modulation_scaled->plug(cutoff_mod_sources, 0);
@@ -359,20 +361,25 @@ namespace mopo {
     midi_cutoff_modulated->plug(cutoff_modulation_scaled, 1);
 
     MidiScale* frequency_cutoff = new MidiScale();
+    frequency_cutoff->setControlRate();
     frequency_cutoff->plug(midi_cutoff_modulated);
 
     Value* resonance = new Value(0.5);
 
     VariableAdd* resonance_sources = new VariableAdd();
+    resonance_sources->setControlRate();
     resonance_sources->plugNext(resonance);
     ResonanceScale* final_resonance = new ResonanceScale();
+    final_resonance->setControlRate();
     Value* min_db = new Value(MIN_GAIN_DB);
     Value* max_db = new Value(MAX_GAIN_DB);
     Interpolate* decibals = new Interpolate();
+    decibals->setControlRate();
     decibals->plug(min_db, Interpolate::kFrom);
     decibals->plug(max_db, Interpolate::kTo);
     decibals->plug(resonance, Interpolate::kFractional);
     MagnitudeScale* final_gain = new MagnitudeScale();
+    final_gain->setControlRate();
     final_resonance->plug(resonance_sources);
     final_gain->plug(decibals);
 
@@ -466,7 +473,9 @@ namespace mopo {
     for (int i = 0; i < NUM_FORMANTS; ++i) {
       BilinearInterpolate* formant_gain = new BilinearInterpolate();
       BilinearInterpolate* formant_q = new BilinearInterpolate();
+      formant_q->setControlRate();
       BilinearInterpolate* formant_frequency = new BilinearInterpolate();
+      formant_frequency->setControlRate();
 
       formant_gain->plug(top_left_formants[i].gain, BilinearInterpolate::kTopLeft);
       formant_gain->plug(top_right_formants[i].gain, BilinearInterpolate::kTopRight);
@@ -498,12 +507,6 @@ namespace mopo {
       addProcessor(formant_gain);
       addProcessor(formant_q);
       addProcessor(formant_frequency);
-
-      /*
-      controls_[std::string("formant gain ") + std::to_string(i)] = formant_gain;
-      controls_[std::string("formant resonance ") + std::to_string(i)] = formant_q;
-      controls_[std::string("formant frequency ") + std::to_string(i)] = formant_frequency;
-       */
     }
 
     formant_container_->addProcessor(formant_filter_);
