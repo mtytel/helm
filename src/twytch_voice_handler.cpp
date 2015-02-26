@@ -149,7 +149,7 @@ namespace mopo {
 
     // Oscillator 1.
     oscillators_ = new TwytchOscillators();
-    Value* oscillator1_waveform = new Value(Wave::kDownSaw);
+    VariableAdd* oscillator1_waveform = createModControl("osc 1 waveform", Wave::kDownSaw, true);
     VariableAdd* oscillator1_transpose = createModControl("osc 1 transpose", 0, false);
     VariableAdd* oscillator1_tune = createModControl("osc 1 tune", 0.0, false);
     Add* oscillator1_transposed = new Add();
@@ -175,10 +175,8 @@ namespace mopo {
     addProcessor(oscillator1_frequency);
     addProcessor(oscillators_);
 
-    controls_["osc 1 waveform"] = oscillator1_waveform;
-
     // Oscillator 2.
-    Value* oscillator2_waveform = new Value(Wave::kDownSaw);
+    VariableAdd* oscillator2_waveform = createModControl("osc 2 waveform", Wave::kDownSaw, true);
     VariableAdd* oscillator2_transpose = createModControl("osc 2 transpose", -12, false);
     VariableAdd* oscillator2_tune = createModControl("osc 2 tune", 0.08, false);
     Add* oscillator2_transposed = new Add();
@@ -196,8 +194,6 @@ namespace mopo {
     addProcessor(oscillator2_transposed);
     addProcessor(oscillator2_midi);
     addProcessor(oscillator2_frequency);
-
-    controls_["osc 2 waveform"] = oscillator2_waveform;
 
     // Oscillator mix.
     VariableAdd* oscillator_mix_amount = createModControl("osc mix", 0.5, false, true);
@@ -313,7 +309,7 @@ namespace mopo {
     filter_envelope_->plug(filter_release, Envelope::kRelease);
     filter_envelope_->plug(filter_env_trigger, Envelope::kTrigger);
 
-    Value* filter_envelope_depth = new Value(36);
+    VariableAdd* filter_envelope_depth = createModControl("fil env depth", 48, false);
     Multiply* scaled_envelope = new Multiply();
     scaled_envelope->plug(filter_envelope_, 0);
     scaled_envelope->plug(filter_envelope_depth, 1);
@@ -323,11 +319,9 @@ namespace mopo {
     addProcessor(filter_env_trigger);
     addProcessor(scaled_envelope);
 
-    controls_["fil env depth"] = filter_envelope_depth;
-
     // Filter.
     Value* filter_type = new Value(Filter::kLowPass);
-    VariableAdd* keytrack_amount = createModControl("keytrack", 0.0, true);
+    VariableAdd* keytrack_amount = createModControl("keytrack", 0.0, false);
     Multiply* current_keytrack = new Multiply();
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
@@ -532,15 +526,12 @@ namespace mopo {
     addProcessor(velocity_wait);
     addProcessor(current_velocity);
 
-    Value* velocity_track_amount = new Value(0.3);
-
+    VariableAdd* velocity_track_amount = createModControl("velocity track", 0.3, false);
     Interpolate* velocity_track_mult = new Interpolate();
     velocity_track_mult->plug(&utils::value_one, Interpolate::kFrom);
     velocity_track_mult->plug(current_velocity, Interpolate::kTo);
     velocity_track_mult->plug(velocity_track_amount, Interpolate::kFractional);
-
     addProcessor(velocity_track_mult);
-    controls_["velocity track"] = velocity_track_amount;
 
     // Current amplitude using envelope and velocity.
     amplitude_ = new Multiply();
