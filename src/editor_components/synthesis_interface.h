@@ -53,6 +53,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
+    void setDefaultDoubleClickValues();
 
     Slider* getSlider(std::string name);
     //[/UserMethods]

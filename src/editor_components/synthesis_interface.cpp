@@ -643,6 +643,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     }
 
     setAllValues(controls);
+    setDefaultDoubleClickValues();
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -1513,6 +1514,54 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
                                           NotificationType::sendNotification);
         }
     }
+}
+
+void SynthesisInterface::setDefaultDoubleClickValues() {
+    cross_modulation_->setDoubleClickReturnValue(true, 0.0f);
+    osc_mix_->setDoubleClickReturnValue(true, 0.5f);
+    osc_1_transpose_->setDoubleClickReturnValue(true, 0.0f);
+    osc_1_tune_->setDoubleClickReturnValue(true, 0.0f);
+    osc_1_waveform_->setDoubleClickReturnValue(true, 0.0f);
+    osc_2_transpose_->setDoubleClickReturnValue(true, 0.0f);
+    osc_2_tune_->setDoubleClickReturnValue(true, 0.0f);
+    osc_2_waveform_->setDoubleClickReturnValue(true, 0.0f);
+
+    osc_feedback_amount_->setDoubleClickReturnValue(true, 0.0f);
+    osc_feedback_transpose_->setDoubleClickReturnValue(true, 0.0f);
+    osc_feedback_tune_->setDoubleClickReturnValue(true, 0.0f);
+
+    filter_saturation_->setDoubleClickReturnValue(true, 0.0f);
+    keytrack_->setDoubleClickReturnValue(true, 0.0f);
+    cutoff_->setDoubleClickReturnValue(true, 80);
+    resonance_->setDoubleClickReturnValue(true, 0.5f);
+
+    formant_x_->setDoubleClickReturnValue(true, 0.5f);
+    formant_y_->setDoubleClickReturnValue(true, 0.5f);
+
+    portamento_->setDoubleClickReturnValue(true, 0.0f);
+    pitch_bend_range_->setDoubleClickReturnValue(true, 2.0f);
+
+    fil_attack_->setDoubleClickReturnValue(true, 0.01f);
+    fil_decay_->setDoubleClickReturnValue(true, 0.5f);
+    fil_sustain_->setDoubleClickReturnValue(true, 1.0f);
+    fil_release_->setDoubleClickReturnValue(true, 0.01f);
+    fil_env_depth_->setDoubleClickReturnValue(true, 0.0f);
+
+    amp_attack_->setDoubleClickReturnValue(true, 0.01f);
+    amp_decay_->setDoubleClickReturnValue(true, 0.5f);
+    amp_sustain_->setDoubleClickReturnValue(true, 1.0f);
+    amp_release_->setDoubleClickReturnValue(true, 0.01f);
+    velocity_track_->setDoubleClickReturnValue(true, 0.0f);
+
+    num_steps_->setDoubleClickReturnValue(true, 16.0f);
+    step_frequency_->setDoubleClickReturnValue(true, 4.0f);
+
+    lfo_1_frequency_->setDoubleClickReturnValue(true, 1.0f);
+    lfo_2_frequency_->setDoubleClickReturnValue(true, 1.0f);
+
+    delay_dry_wet_->setDoubleClickReturnValue(true, 0.0f);
+    delay_time_->setDoubleClickReturnValue(true, 0.25f);
+    delay_feedback_->setDoubleClickReturnValue(true, 0.0f);
 }
 
 Slider* SynthesisInterface::getSlider(std::string name) {
