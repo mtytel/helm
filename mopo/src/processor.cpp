@@ -46,6 +46,12 @@ namespace mopo {
     }
   }
 
+  bool Processor::isPolyphonic() {
+    if (router_)
+      return router_->isPolyphonic();
+    return false;
+  }
+
   void Processor::plug(const Output* source) {
     plug(source, 0);
   }

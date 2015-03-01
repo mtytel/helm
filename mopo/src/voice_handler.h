@@ -139,14 +139,21 @@ namespace mopo {
       void setVoiceOutput(const Output* output) {
         voice_output_ = output;
       }
+
       void setVoiceOutput(const Processor* output) {
         setVoiceOutput(output->output());
       }
+
       void setVoiceKiller(const Output* killer) {
         voice_killer_ = killer;
       }
+
       void setVoiceKiller(const Processor* killer) {
         setVoiceKiller(killer->output());
+      }
+
+      bool isPolyphonic() {
+        return true;
       }
 
     private:
