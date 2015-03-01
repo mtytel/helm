@@ -603,4 +603,8 @@ namespace mopo {
       destination_names.push_back(iter.first);
     return destination_names;
   }
+
+  const Processor::Output* TwytchVoiceHandler::getModulationSourceOutput(std::string name) {
+    return mod_sources_[name];
+  }
 } // namespace mopo

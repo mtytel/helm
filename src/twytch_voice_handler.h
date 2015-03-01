@@ -57,6 +57,7 @@ namespace mopo {
       void clearModulations();
 
       std::vector<std::string> getModulationDestinations();
+      const Processor::Output* getModulationSourceOutput(std::string name);
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors

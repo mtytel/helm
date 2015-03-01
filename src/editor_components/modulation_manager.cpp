@@ -95,8 +95,7 @@ void ModulationManager::sliderValueChanged(Slider *slider) {
 
 void ModulationManager::setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount) {
     if (connections_[source].count(destination) == 0) {
-        mopo::ModulationConnection* connection =
-        new mopo::ModulationConnection(current_modulator_, destination);
+        mopo::ModulationConnection* connection = new mopo::ModulationConnection(current_modulator_, destination);
         connections_[source][destination] = connection;
 
         ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();

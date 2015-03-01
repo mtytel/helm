@@ -40,6 +40,7 @@ namespace mopo {
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
       std::vector<std::string> getModulationDestinations();
+      const Processor::Output* getModulationSourceOutput(std::string name);
     
       // Keyboard events.
       void allNotesOff(int sample = 0);

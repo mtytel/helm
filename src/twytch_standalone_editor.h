@@ -28,35 +28,43 @@
 
 // TODO: This multiple inheritance is little out of hand.
 class TwytchStandaloneEditor : public AudioAppComponent,
+                               public KeyListener,
+                               public MessageListener,
                                public MidiInputCallback,
                                public SaveLoadManager,
-                               public ValueChangeManager,
-                               public KeyListener,
-                               public MessageListener {
+                               public ValueChangeManager {
   public:
     TwytchStandaloneEditor();
     ~TwytchStandaloneEditor();
 
-    void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
-    void handleMessage(const Message& message) override;
+    void changeKeyboardOffset(int new_offset);
 
+    // AudioAppComponent
     void prepareToPlay(int buffer_size, double sample_rate) override;
     void getNextAudioBlock(const AudioSourceChannelInfo& buffer) override;
     void releaseResources() override;
-
     void paint(Graphics& g) override;
     void resized() override;
 
-    void valueChanged(std::string name, mopo::mopo_float value) override;
-    void connectModulation(mopo::ModulationConnection* connection) override;
-    void disconnectModulation(mopo::ModulationConnection* connection) override;
+    // KeyListener
+    bool keyPressed(const KeyPress &key, Component *origin) override;
+    bool keyStateChanged(bool isKeyDown, Component *originatingComponent) override;
 
+    // MessageListener
+    void handleMessage(const Message& message) override;
+
+    // MidiInputCallback
+    void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
+
+    // SaveLoadManager
     var stateToVar() override;
     void varToState(var state) override;
 
-    void changeKeyboardOffset(int new_offset);
-    bool keyPressed(const KeyPress &key, Component *origin) override;
-    bool keyStateChanged(bool isKeyDown, Component *originatingComponent) override;
+    // ValueChangeManager
+    void valueChanged(std::string name, mopo::mopo_float value) override;
+    void connectModulation(mopo::ModulationConnection* connection) override;
+    void disconnectModulation(mopo::ModulationConnection* connection) override;
+    const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
 
   private:
     mopo::TwytchEngine synth_;

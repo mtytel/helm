@@ -56,33 +56,14 @@ TwytchStandaloneEditor::~TwytchStandaloneEditor() {
   shutdownAudio();
 }
 
-void TwytchStandaloneEditor::handleIncomingMidiMessage(MidiInput *source,
-                                                       const MidiMessage &midi_message) {
-  ScopedLock lock(critical_section_);
-  if (midi_message.isNoteOn()) {
-    float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
-    synth_.noteOn(midi_message.getNoteNumber(), velocity);
+void TwytchStandaloneEditor::changeKeyboardOffset(int new_offset) {
+  for (int i = 0; i < strlen(KEYBOARD); ++i) {
+    int note = computer_keyboard_offset_ + i;
+    synth_.noteOff(note);
+    keys_pressed_.erase(KEYBOARD[i]);
   }
-  else if (midi_message.isNoteOff())
-    synth_.noteOff(midi_message.getNoteNumber());
-  else if (midi_message.isSustainPedalOn())
-    synth_.sustainOn();
-  else if (midi_message.isSustainPedalOff())
-    synth_.sustainOff();
-  else if (midi_message.isAllNotesOff())
-    synth_.allNotesOff();
-  else if (midi_message.isAftertouch()) {
-    mopo::mopo_float note = midi_message.getNoteNumber();
-    mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
-    synth_.setAftertouch(note, value);
-  }
-  else if (midi_message.isPitchWheel()) {
-    double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
-    double value = 2 * percent - 1.0;
-    synth_.setPitchWheel(value);
-    int tmp = midi_message.getNoteNumber();
-    std::cout<< tmp << std::endl;
-  }
+
+  computer_keyboard_offset_ = CLAMP(new_offset, 0, mopo::MIDI_SIZE - mopo::NOTES_PER_OCTAVE);
 }
 
 void TwytchStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
@@ -118,6 +99,77 @@ void TwytchStandaloneEditor::resized() {
   gui_->setBounds(0, 0, getWidth(), getHeight());
 }
 
+bool TwytchStandaloneEditor::keyPressed(const KeyPress &key, Component *origin) {
+  return false;
+}
+
+bool TwytchStandaloneEditor::keyStateChanged(bool isKeyDown, Component *originatingComponent) {
+  bool consumed = false;
+  ScopedLock lock(critical_section_);
+  for (int i = 0; i < strlen(KEYBOARD); ++i) {
+    int note = computer_keyboard_offset_ + i;
+
+    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && !keys_pressed_.count(KEYBOARD[i])) {
+      keys_pressed_.insert(KEYBOARD[i]);
+      synth_.noteOn(note);
+    }
+    else if (!KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && keys_pressed_.count(KEYBOARD[i])) {
+      keys_pressed_.erase(KEYBOARD[i]);
+      synth_.noteOff(note);
+    }
+    consumed = true;
+  }
+
+  if (KeyPress::isKeyCurrentlyDown('z')) {
+    if (!keys_pressed_.count('z')) {
+      keys_pressed_.insert('z');
+      changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
+    }
+  }
+  else
+    keys_pressed_.erase('z');
+
+  if (KeyPress::isKeyCurrentlyDown('x')) {
+    if (!keys_pressed_.count('x')) {
+      keys_pressed_.insert('x');
+      changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
+    }
+  }
+  else
+    keys_pressed_.erase('x');
+
+  return consumed;
+}
+
+void TwytchStandaloneEditor::handleIncomingMidiMessage(MidiInput *source,
+                                                       const MidiMessage &midi_message) {
+  ScopedLock lock(critical_section_);
+  if (midi_message.isNoteOn()) {
+    float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
+    synth_.noteOn(midi_message.getNoteNumber(), velocity);
+  }
+  else if (midi_message.isNoteOff())
+    synth_.noteOff(midi_message.getNoteNumber());
+  else if (midi_message.isSustainPedalOn())
+    synth_.sustainOn();
+  else if (midi_message.isSustainPedalOff())
+    synth_.sustainOff();
+  else if (midi_message.isAllNotesOff())
+    synth_.allNotesOff();
+  else if (midi_message.isAftertouch()) {
+    mopo::mopo_float note = midi_message.getNoteNumber();
+    mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
+    synth_.setAftertouch(note, value);
+  }
+  else if (midi_message.isPitchWheel()) {
+    double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
+    double value = 2 * percent - 1.0;
+    synth_.setPitchWheel(value);
+    int tmp = midi_message.getNoteNumber();
+    std::cout<< tmp << std::endl;
+  }
+}
+
 void TwytchStandaloneEditor::valueChanged(std::string name, mopo::mopo_float value) {
   if (controls_.count(name))
     controls_[name]->set(value);
@@ -131,6 +183,10 @@ void TwytchStandaloneEditor::connectModulation(mopo::ModulationConnection* conne
 void TwytchStandaloneEditor::disconnectModulation(mopo::ModulationConnection* connection) {
   ScopedLock lock(critical_section_);
   synth_.disconnectModulation(connection);
+}
+
+const mopo::Processor::Output* TwytchStandaloneEditor::getModulationSourceOutput(std::string name) {
+  return synth_.getModulationSourceOutput(name);
 }
 
 var TwytchStandaloneEditor::stateToVar() {
@@ -186,58 +242,6 @@ void TwytchStandaloneEditor::varToState(var state) {
 
   gui_->setAllValues(controls_);
   gui_->setModulationConnections(synth_.getModulationConnections());
-}
-
-void TwytchStandaloneEditor::changeKeyboardOffset(int new_offset) {
-  for (int i = 0; i < strlen(KEYBOARD); ++i) {
-    int note = computer_keyboard_offset_ + i;
-    synth_.noteOff(note);
-    keys_pressed_.erase(KEYBOARD[i]);
-  }
-
-  computer_keyboard_offset_ = CLAMP(new_offset, 0, mopo::MIDI_SIZE - mopo::NOTES_PER_OCTAVE);
-}
-
-bool TwytchStandaloneEditor::keyPressed(const KeyPress &key, Component *origin) {
-  return false;
-}
-
-bool TwytchStandaloneEditor::keyStateChanged(bool isKeyDown, Component *originatingComponent) {
-  bool consumed = false;
-  ScopedLock lock(critical_section_);
-  for (int i = 0; i < strlen(KEYBOARD); ++i) {
-    int note = computer_keyboard_offset_ + i;
-
-    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && !keys_pressed_.count(KEYBOARD[i])) {
-      keys_pressed_.insert(KEYBOARD[i]);
-      synth_.noteOn(note);
-    }
-    else if (!KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && keys_pressed_.count(KEYBOARD[i])) {
-      keys_pressed_.erase(KEYBOARD[i]);
-      synth_.noteOff(note);
-    }
-    consumed = true;
-  }
-
-  if (KeyPress::isKeyCurrentlyDown('z')) {
-    if (!keys_pressed_.count('z')) {
-      keys_pressed_.insert('z');
-      changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
-    }
-  }
-  else
-    keys_pressed_.erase('z');
-
-  if (KeyPress::isKeyCurrentlyDown('x')) {
-    if (!keys_pressed_.count('x')) {
-      keys_pressed_.insert('x');
-      changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
-    }
-  }
-  else
-    keys_pressed_.erase('x');
-
-  return consumed;
 }
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {

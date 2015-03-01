@@ -28,6 +28,7 @@ class ValueChangeManager {
     virtual void valueChanged(std::string name, mopo::mopo_float value) = 0;
     virtual void connectModulation(mopo::ModulationConnection* connection) = 0;
     virtual void disconnectModulation(mopo::ModulationConnection* connection) = 0;
+    virtual const mopo::Processor::Output* getModulationSourceOutput(std::string name) = 0;
 };
 
 #endif // VALUE_CHANGE_MANAGER_H
