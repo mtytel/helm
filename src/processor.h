@@ -115,6 +115,8 @@ namespace mopo {
         return control_rate_;
       }
 
+      virtual bool isPolyphonic();
+
       // Attaches an output to an input in this processor.
       void plug(const Output* source);
       void plug(const Output* source, unsigned int input_index);
