@@ -191,7 +191,7 @@ namespace mopo {
 
   bool ProcessorRouter::isPolyphonic(const Processor* processor) const {
     if (router_)
-      router_->isPolyphonic(this);
+      return router_->isPolyphonic(this);
     return false;
   }
 
