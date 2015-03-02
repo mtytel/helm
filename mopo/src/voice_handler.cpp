@@ -185,7 +185,7 @@ namespace mopo {
         voice->setAftertouch(aftertouch, sample);
     }
   }
-  
+
   void VoiceHandler::setPolyphony(size_t polyphony) {
     while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
