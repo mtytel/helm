@@ -22,22 +22,12 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
   g.fillAll(slider.findColour(Slider::textBoxOutlineColourId));
   g.setColour(slider.findColour(Slider::backgroundColourId));
   g.fillRect(x, y, width, height);
-  g.setColour(slider.findColour(Slider::trackColourId));
+  g.setColour(slider.findColour(Slider::thumbColourId));
 
-  if (style == Slider::SliderStyle::LinearBar) {
-    g.fillRect(float(x), float(y), slider_pos - x, float(height));
-    g.setColour(slider.findColour(Slider::thumbColourId));
+  if (style == Slider::SliderStyle::LinearBar)
     g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);
-  }
-
-  else if (style == Slider::SliderStyle::LinearBarVertical) {
-    g.fillRect(float(x), slider_pos, float(width), y + height - slider_pos);
-    g.setColour(slider.findColour(Slider::thumbColourId));
+  else if (style == Slider::SliderStyle::LinearBarVertical)
     g.fillRect(1.0f * x, slider_pos - y, 1.0f * width, 2.0f);
-  }
-  else {
-    LookAndFeel_V3::drawLinearSlider(g, x, y, width, height, slider_pos, min, max, style, slider);
-  }
 }
 
 void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int width, int height,
@@ -50,35 +40,17 @@ void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wid
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_t, float start_angle, float end_angle,
                                          Slider& slider) {
-  static const float stroke_width = 4.0f;
-  static const PathStrokeType stroke_type =
-      PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
-
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float knob_radius = 0.65f * full_radius;
-  float outer_radius = full_radius - stroke_width;
-  float center_x = x + full_radius;
-  float center_y = y + full_radius;
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
-
-  Path rail;
-  rail.addCentredArc(center_x, center_y, outer_radius, outer_radius,
-                     0.0f, start_angle, end_angle, true);
+  float end_x = full_radius + knob_radius * sin(current_angle);
+  float end_y = full_radius - knob_radius * cos(current_angle);
 
   g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
-  g.strokePath(rail, stroke_type);
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 
-  Path active_section;
-  active_section.addCentredArc(center_x, center_y, outer_radius, outer_radius,
-                               0.0f, start_angle, current_angle, true);
-
   g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
-  g.strokePath(active_section, stroke_type);
-
-  float end_x = full_radius + knob_radius * sin(current_angle);
-  float end_y = full_radius - knob_radius * cos(current_angle);
   g.drawLine(full_radius, full_radius, end_x, end_y, 2.0f);
   
   if (slider.getInterval() == 1) {

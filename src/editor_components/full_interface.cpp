@@ -176,7 +176,7 @@ void FullInterface::resized()
     arp_on_->setBounds (808, 80, 48, 24);
     save_button_->setBounds (800, 40, 150, 24);
     //[UserResized] Add your own custom resize handling here..
-    modulation_manager_->setBounds(0, 0, getWidth(), getHeight());
+    modulation_manager_->setBounds(getBounds());
     //[/UserResized]
 }
 
@@ -291,9 +291,8 @@ Slider* FullInterface::getSlider(std::string name) {
 
 void FullInterface::createModulationSliders(std::vector<std::string> mod_destinations) {
     modulation_manager_ = new ModulationManager();
-    modulation_manager_->setInterceptsMouseClicks(false, true);
     modulation_manager_->setOpaque(false);
-    addChildComponent(modulation_manager_);
+    addAndMakeVisible(modulation_manager_);
 
     for (std::string destination : mod_destinations) {
         Slider* slider = getSlider(destination);

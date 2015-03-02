@@ -62,6 +62,15 @@ void TwytchEditor::disconnectModulation(mopo::ModulationConnection* connection) 
   twytch_.getSynth()->disconnectModulation(connection);
 }
 
+
+const mopo::Processor::Output* TwytchEditor::getModulationSourceOutput(std::string name) {
+  return twytch_.getSynth()->getModulationSourceOutput(name);
+}
+
+const mopo::Processor* TwytchEditor::getModulationTotal(std::string name) {
+  return twytch_.getSynth()->getModulationTotal(name);
+}
+
 var TwytchEditor::stateToVar() {
   return twytch_.stateToVar();
 }

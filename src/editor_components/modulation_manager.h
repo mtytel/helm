@@ -66,6 +66,8 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     ModulationLookAndFeel look_and_feel_;
+    ScopedPointer<Component> polyphonic_destinations_;
+    ScopedPointer<Component> monophonic_destinations_;
 
     std::map<std::string, std::map<std::string, mopo::ModulationConnection*>> connections_;
     std::string current_modulator_;

@@ -34,7 +34,17 @@ ModulationManager::ModulationManager ()
 {
 
     //[UserPreSize]
+    setInterceptsMouseClicks(false, true);
+
     current_modulator_ = "";
+    
+    polyphonic_destinations_ = new Component();
+    addAndMakeVisible(polyphonic_destinations_);
+    polyphonic_destinations_->setInterceptsMouseClicks(false, true);
+
+    monophonic_destinations_ = new Component();
+    addAndMakeVisible(monophonic_destinations_);
+    monophonic_destinations_->setInterceptsMouseClicks(false, true);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -71,6 +81,8 @@ void ModulationManager::resized()
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
+    polyphonic_destinations_->setBounds(getBounds());
+    monophonic_destinations_->setBounds(getBounds());
     for (auto slider : slider_lookup_) {
         Slider* model = slider_model_lookup_[slider.first];
         Point<int> global_top_left = model->localPointToGlobal(Point<int>(0, 0));
@@ -115,7 +127,8 @@ void ModulationManager::clearModulation(std::string source, std::string destinat
 
 void ModulationManager::changeModulator(std::string new_modulator) {
     if (new_modulator == current_modulator_ || new_modulator == "") {
-        setVisible(false);
+        polyphonic_destinations_->setVisible(false);
+        monophonic_destinations_->setVisible(false);
         current_modulator_ = "";
     }
     else {
@@ -128,7 +141,8 @@ void ModulationManager::changeModulator(std::string new_modulator) {
             slider.second->setValue(value);
         }
 
-        setVisible(true);
+        polyphonic_destinations_->setVisible(true);
+        monophonic_destinations_->setVisible(true);
     }
 }
 
@@ -139,7 +153,7 @@ void ModulationManager::createModulationSlider(Slider* destination) {
     ModulationSlider* mod_slider = new ModulationSlider(destination);
     mod_slider->setLookAndFeel(&look_and_feel_);
     mod_slider->addListener(this);
-    addAndMakeVisible(mod_slider);
+    polyphonic_destinations_->addAndMakeVisible(mod_slider);
 
     slider_lookup_[name] = mod_slider;
     owned_sliders_.push_back(mod_slider);

@@ -169,6 +169,7 @@ OBJECTS := \
   $(OBJDIR)/graphical_envelope_46db2063.o \
   $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
   $(OBJDIR)/modulation_manager_329c97d1.o \
+  $(OBJDIR)/modulation_meter_c566156d.o \
   $(OBJDIR)/modulation_slider_f0d81547.o \
   $(OBJDIR)/oscilloscope_75f26af6.o \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
@@ -804,6 +805,11 @@ $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o: ../../src/editor_components/graph
 $(OBJDIR)/modulation_manager_329c97d1.o: ../../src/editor_components/modulation_manager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_manager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_meter_c566156d.o: ../../src/editor_components/modulation_meter.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_meter.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_slider_f0d81547.o: ../../src/editor_components/modulation_slider.cpp

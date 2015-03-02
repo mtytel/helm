@@ -21,7 +21,7 @@
 
 class ModulationSlider : public Slider {
 public:
-    ModulationSlider (Slider* source);
+    ModulationSlider(Slider* source);
     ~ModulationSlider();
 
     Slider* getDestinationSlider() { return destination_slider_; }
@@ -32,4 +32,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationSlider)
 };
 
-#endif   // MODULATIONS_SLIDER_H
+#endif // MODULATIONS_SLIDER_H

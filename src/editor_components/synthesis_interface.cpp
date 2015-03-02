@@ -621,14 +621,10 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_sequencer_->setStepSliders(&step_sequencer_sliders_);
     step_sequencer_->setNumStepsSlider(num_steps_);
 
-    osc_mix_->setLookAndFeel(&bipolar_look_and_feel_);
-
     for (int i = 0; i < getNumChildComponents(); ++i) {
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
         if (slider) {
             slider_lookup_[slider->getName().toStdString()] = slider;
-            if (slider->getMaximum() == -slider->getMinimum())
-                slider->setLookAndFeel(&bipolar_look_and_feel_);
         }
 
         Button* button = dynamic_cast<Button*>(getChildComponent(i));
@@ -1034,6 +1030,8 @@ void SynthesisInterface::paint (Graphics& g)
 void SynthesisInterface::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
+    if (meters_.size() == 0)
+        initMeters();
     //[/UserPreResize]
 
     step_sequencer_->setBounds (464, 360, 300, 100);
@@ -1115,6 +1113,8 @@ void SynthesisInterface::resized()
     osc_1_transpose_->setBounds (48, 176, 50, 50);
     osc_1_tune_->setBounds (128, 176, 50, 50);
     //[UserResized] Add your own custom resize handling here..
+    for (ModulationMeter* meter : meters_)
+        meter->setBounds(slider_lookup_[meter->getName().toStdString()]->getBounds());
     //[/UserResized]
 }
 
@@ -1562,6 +1562,23 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
     delay_dry_wet_->setDoubleClickReturnValue(true, 0.0f);
     delay_time_->setDoubleClickReturnValue(true, 0.25f);
     delay_feedback_->setDoubleClickReturnValue(true, 0.0f);
+}
+
+void SynthesisInterface::initMeters() {
+    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    if (parent == nullptr)
+        return;
+
+    for (auto slider : slider_lookup_) {
+        const mopo::Processor* total = parent->getModulationTotal(slider.second->getName().toStdString());
+        if (total) {
+            ModulationMeter* meter = new ModulationMeter(total, slider.second);
+            meter->setName(slider.second->getName());
+            addAndMakeVisible(meter);
+            meter->setBounds(slider.second->getBounds());
+            meters_.push_back(meter);
+        }
+    }
 }
 
 Slider* SynthesisInterface::getSlider(std::string name) {

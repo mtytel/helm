@@ -257,6 +257,7 @@
     <ClCompile Include="..\..\src\editor_components\graphical_envelope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\modulation_manager.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\modulation_meter.cpp"/>
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp"/>
@@ -1539,6 +1540,7 @@
     <ClInclude Include="..\..\src\editor_components\graphical_envelope.h"/>
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_manager.h"/>
+    <ClInclude Include="..\..\src\editor_components\modulation_meter.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h"/>

@@ -111,6 +111,10 @@
               file="../src/editor_components/modulation_manager.cpp"/>
         <FILE id="RPNVCt" name="modulation_manager.h" compile="0" resource="0"
               file="../src/editor_components/modulation_manager.h"/>
+        <FILE id="kgMXal" name="modulation_meter.cpp" compile="1" resource="0"
+              file="../src/editor_components/modulation_meter.cpp"/>
+        <FILE id="dlWqbU" name="modulation_meter.h" compile="0" resource="0"
+              file="../src/editor_components/modulation_meter.h"/>
         <FILE id="OBpiI8" name="modulation_slider.cpp" compile="1" resource="0"
               file="../src/editor_components/modulation_slider.cpp"/>
         <FILE id="detWeI" name="modulation_slider.h" compile="0" resource="0"

@@ -125,6 +125,10 @@ namespace mopo {
     return voice_handler_->getModulationSourceOutput(name);
   }
 
+  const Processor* TwytchEngine::getModulationTotal(std::string name) {
+    return voice_handler_->getModulationTotal(name);
+  }
+
   void TwytchEngine::process() {
     bool playing_arp = arp_on_->value();
     if (was_playing_arp_ != playing_arp)

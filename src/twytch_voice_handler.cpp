@@ -245,7 +245,6 @@ namespace mopo {
     Value* lfo1_waveform = new Value(Wave::kSin);
     VariableAdd* lfo1_frequency = createModControl("lfo 1 frequency", 2.0, false);
     lfo1_ = new Oscillator();
-    lfo1_->plug(reset, Oscillator::kReset);
     lfo1_->plug(lfo1_waveform, Oscillator::kWaveform);
     lfo1_->plug(lfo1_frequency, Oscillator::kFrequency);
 
@@ -606,5 +605,11 @@ namespace mopo {
 
   const Processor::Output* TwytchVoiceHandler::getModulationSourceOutput(std::string name) {
     return mod_sources_[name];
+  }
+
+  const Processor* TwytchVoiceHandler::getModulationTotal(std::string name) {
+    if (mod_destinations_.count(name))
+      return mod_destinations_[name];
+    return nullptr;
   }
 } // namespace mopo

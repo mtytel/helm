@@ -14,22 +14,31 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VALUE_CHANGE_MANAGER_H
-#define VALUE_CHANGE_MANAGER_H
+#ifndef MODULATIONS_METER_H
+#define MODULATIONS_METER_H
 
-#include "twytch_common.h"
-#include "value.h"
-#include <string>
+#include "JuceHeader.h"
+#include "processor.h"
 
-class ValueChangeManager {
-  public:
-    virtual ~ValueChangeManager() { }
+class ModulationMeter : public Component, Timer {
+public:
+    ModulationMeter(const mopo::Processor* modulation_total, const Slider* slider);
+    ~ModulationMeter();
 
-    virtual void valueChanged(std::string name, mopo::mopo_float value) = 0;
-    virtual void connectModulation(mopo::ModulationConnection* connection) = 0;
-    virtual void disconnectModulation(mopo::ModulationConnection* connection) = 0;
-    virtual const mopo::Processor::Output* getModulationSourceOutput(std::string name) = 0;
-    virtual const mopo::Processor* getModulationTotal(std::string name) = 0;
+    void timerCallback() override;
+    
+    void paint(Graphics& g) override;
+
+private:
+    void drawSlider(Graphics& g);
+    void drawKnob(Graphics& g);
+
+    const mopo::Processor* modulation_total_;
+    const Slider* destination_;
+
+    float current_percent_;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
 };
 
-#endif // VALUE_CHANGE_MANAGER_H
+#endif // MODULATIONS_METER_H

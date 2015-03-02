@@ -81,7 +81,6 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   PathStrokeType stroke_type =
       PathStrokeType(knob_radius, PathStrokeType::beveled, PathStrokeType::butt);
 
-
   if (mod_diff == 0.0)
     g.setColour(Colour(0x22ffaa00));
   else

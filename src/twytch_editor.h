@@ -31,13 +31,18 @@ class TwytchEditor : public AudioProcessorEditor,
     TwytchEditor(Twytch&);
     ~TwytchEditor();
 
+    // AudioProcessorEditor
     void paint(Graphics&) override;
     void resized() override;
 
+    // ValueChangeManager
     void valueChanged(std::string name, mopo::mopo_float value) override;
     void connectModulation(mopo::ModulationConnection* connection) override;
     void disconnectModulation(mopo::ModulationConnection* connection) override;
+    const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
+    const mopo::Processor* getModulationTotal(std::string name) override;
 
+    // SaveLoadManager
     var stateToVar() override;
     void varToState(var state) override;
 
