@@ -152,7 +152,7 @@ namespace mopo {
         setVoiceKiller(killer->output());
       }
 
-      bool isPolyphonic() {
+      bool isPolyphonic() const {
         return true;
       }
 
