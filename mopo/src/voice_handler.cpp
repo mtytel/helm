@@ -24,9 +24,11 @@ namespace mopo {
       aftertouch_sample_(-1), aftertouch_(0.0), processor_(processor) { }
 
   VoiceHandler::VoiceHandler(size_t polyphony) :
-      Processor(kNumInputs, 1), polyphony_(0), sustain_(false),
+      ProcessorRouter(kNumInputs, 1), polyphony_(0), sustain_(false),
       voice_output_(0), voice_killer_(0) {
     setPolyphony(polyphony);
+    voice_router_.router(this);
+    global_router_.router(this);
   }
 
   void VoiceHandler::prepareVoiceTriggers(Voice* voice) {
@@ -80,7 +82,7 @@ namespace mopo {
   }
 
   void VoiceHandler::setSampleRate(int sample_rate) {
-    Processor::setSampleRate(sample_rate);
+    ProcessorRouter::setSampleRate(sample_rate);
     voice_router_.setSampleRate(sample_rate);
     global_router_.setSampleRate(sample_rate);
     for (int i = 0; i < all_voices_.size(); ++i)
@@ -88,7 +90,7 @@ namespace mopo {
   }
 
   void VoiceHandler::setBufferSize(int buffer_size) {
-    Processor::setBufferSize(buffer_size);
+    ProcessorRouter::setBufferSize(buffer_size);
     voice_router_.setBufferSize(buffer_size);
     global_router_.setBufferSize(buffer_size);
     for (int i = 0; i < all_voices_.size(); ++i)
@@ -217,6 +219,10 @@ namespace mopo {
 
   void VoiceHandler::removeGlobalProcessor(Processor* processor) {
     global_router_.removeProcessor(processor);
+  }
+
+  bool VoiceHandler::isPolyphonic(const Processor* processor) const {
+    return processor == &voice_router_;
   }
 
   Voice* VoiceHandler::createVoice() {

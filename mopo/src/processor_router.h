@@ -43,8 +43,10 @@ namespace mopo {
       // Any time new dependencies are added into the ProcessorRouter graph, we
       // should call _connect_ on the destination Processor and source Output.
       void connect(Processor* destination, const Output* source, int index);
-      bool isDownstream(const Processor* first, const Processor* second);
-      bool areOrdered(const Processor* first, const Processor* second);
+      bool isDownstream(const Processor* first, const Processor* second) const;
+      bool areOrdered(const Processor* first, const Processor* second) const;
+
+      virtual bool isPolyphonic(const Processor* processor) const;
 
     protected:
       // When we create a cycle into the ProcessorRouter graph, we must insert
@@ -60,8 +62,9 @@ namespace mopo {
 
       // Returns the ancestor of _processor_ which is a child of _this_.
       // Returns nullptr if _processor_ is not a descendant of _this_.
-      const Processor* getContext(const Processor* processor);
-      std::set<const Processor*> getDependencies(const Processor* processor);
+      const Processor* getContext(const Processor* processor) const;
+      std::set<const Processor*>
+          getDependencies(const Processor* processor) const;
 
       std::shared_ptr<std::vector<const Processor*> > order_;
       std::map<const Processor*, Processor*> processors_;

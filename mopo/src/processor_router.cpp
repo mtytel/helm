@@ -164,13 +164,13 @@ namespace mopo {
   }
 
   bool ProcessorRouter::isDownstream(const Processor* first,
-                                     const Processor* second) {
+                                     const Processor* second) const {
     std::set<const Processor*> dependencies = getDependencies(second);
     return dependencies.find(first) != dependencies.end();
   }
 
   bool ProcessorRouter::areOrdered(const Processor* first,
-                                   const Processor* second) {
+                                   const Processor* second) const {
     const Processor* first_context = getContext(first);
     const Processor* second_context = getContext(second);
 
@@ -187,6 +187,12 @@ namespace mopo {
       return router_->areOrdered(first, second);
 
     return true;
+  }
+
+  bool ProcessorRouter::isPolyphonic(const Processor* processor) const {
+    if (router_)
+      router_->isPolyphonic(this);
+    return false;
   }
 
   void ProcessorRouter::addFeedback(Feedback* feedback) {
@@ -211,7 +217,8 @@ namespace mopo {
     }
   }
 
-  const Processor* ProcessorRouter::getContext(const Processor* processor) {
+  const Processor* ProcessorRouter::getContext(const Processor* processor)
+      const {
     const Processor* context = processor;
     while (context && processors_.find(context) == processors_.end())
       context = context->router();
@@ -220,7 +227,7 @@ namespace mopo {
   }
 
   std::set<const Processor*> ProcessorRouter::getDependencies(
-      const Processor* processor) {
+      const Processor* processor) const {
     std::vector<const Processor*> inputs;
     std::set<const Processor*> visited;
     std::set<const Processor*> dependencies;

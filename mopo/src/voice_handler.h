@@ -102,7 +102,7 @@ namespace mopo {
       Processor* processor_;
   };
 
-  class VoiceHandler : public Processor {
+  class VoiceHandler : public ProcessorRouter {
     public:
       enum Inputs {
         kPolyphony,
@@ -152,9 +152,7 @@ namespace mopo {
         setVoiceKiller(killer->output());
       }
 
-      bool isPolyphonic() const {
-        return true;
-      }
+      bool isPolyphonic(const Processor* processor) const;
 
     private:
       Voice* createVoice();

@@ -48,7 +48,7 @@ namespace mopo {
 
   bool Processor::isPolyphonic() const {
     if (router_)
-      return router_->isPolyphonic();
+      return router_->isPolyphonic(this);
     return false;
   }
 
