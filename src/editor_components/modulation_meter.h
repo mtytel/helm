@@ -20,14 +20,14 @@
 #include "JuceHeader.h"
 #include "processor.h"
 
-class ModulationMeter : public Component, Timer {
+class ModulationMeter : public Component {
 public:
     ModulationMeter(const mopo::Processor* modulation_total, const Slider* slider);
     ~ModulationMeter();
-
-    void timerCallback() override;
     
     void paint(Graphics& g) override;
+  
+    void update();
 
 private:
     void drawSlider(Graphics& g);

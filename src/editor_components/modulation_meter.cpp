@@ -17,25 +17,23 @@
 #include "modulation_meter.h"
 #include "mopo.h"
 
-#define FRAMES_PER_SECOND 60
 #define ANGLE 2.51327412f
 
 ModulationMeter::ModulationMeter(const mopo::Processor* modulation_total, const Slider* slider) :
         modulation_total_(modulation_total), destination_(slider), current_percent_(0.0f) {
     setInterceptsMouseClicks(false, false);
-    startTimerHz(FRAMES_PER_SECOND);
     setOpaque(false);
 }
 
 ModulationMeter::~ModulationMeter() {
 }
 
-void ModulationMeter::timerCallback() {
+void ModulationMeter::update() {
     if (modulation_total_) {
         float range = destination_->getMaximum() - destination_->getMinimum();
-        float percent = (modulation_total_->output()->buffer[0] - destination_->getMinimum()) /
-                        range;
-        percent = CLAMP(percent, 0.0f, 1.0f);
+        float offset = modulation_total_->output()->buffer[0] - destination_->getMinimum();
+        float percent = CLAMP(offset / range, 0.0f, 1.0f);
+        
         if (percent != current_percent_) {
             current_percent_ = percent;
             repaint();

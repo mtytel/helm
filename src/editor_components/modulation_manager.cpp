@@ -27,6 +27,9 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+
+#define FRAMES_PER_SECOND 60
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -35,6 +38,7 @@ ModulationManager::ModulationManager ()
 
     //[UserPreSize]
     setInterceptsMouseClicks(false, true);
+    startTimerHz(FRAMES_PER_SECOND);
 
     current_modulator_ = "";
     
@@ -78,6 +82,8 @@ void ModulationManager::paint (Graphics& g)
 void ModulationManager::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
+    if (meters_.size() == 0)
+        initMeters();
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
@@ -89,12 +95,27 @@ void ModulationManager::resized()
         slider.second->setBounds(global_top_left.x, global_top_left.y,
                                  model->getWidth(), model->getHeight());
     }
+
+    for (ModulationMeter* meter : meters_)
+        meter->setBounds(slider_model_lookup_[meter->getName().toStdString()]->getBounds());
     //[/UserResized]
 }
 
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+void ModulationManager::timerCallback() {
+    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    if (parent == nullptr)
+        return;
+
+    parent->enterCriticalSection();
+    for (ModulationMeter* meter : meters_) {
+        meter->update();
+    }
+    parent->exitCriticalSection();
+}
 
 void ModulationManager::sliderValueChanged(Slider *slider) {
     std::string destination_name = slider->getName().toStdString();
@@ -169,6 +190,24 @@ void ModulationManager::setModulationConnections(std::set<mopo::ModulationConnec
     clearModulationConnections();
     for (mopo::ModulationConnection* connection : connections)
         connections_[connection->source][connection->destination] = connection;
+}
+
+void ModulationManager::initMeters() {
+    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    if (parent == nullptr)
+        return;
+
+    for (auto slider : slider_model_lookup_) {
+        const mopo::Processor* total =
+            parent->getModulationTotal(slider.second->getName().toStdString());
+        if (total) {
+            ModulationMeter* meter = new ModulationMeter(total, slider.second);
+            meter->setName(slider.second->getName());
+            addAndMakeVisible(meter);
+            meter->setBounds(slider.second->getBounds());
+            meters_.push_back(meter);
+        }
+    }
 }
 
 //[/MiscUserCode]

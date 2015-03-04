@@ -66,6 +66,8 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     void disconnectModulation(mopo::ModulationConnection* connection) override;
     const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
     const mopo::Processor* getModulationTotal(std::string name) override;
+    void enterCriticalSection() { critical_section_.enter(); }
+    void exitCriticalSection() { critical_section_.exit(); }
 
   private:
     mopo::TwytchEngine synth_;

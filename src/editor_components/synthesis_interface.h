@@ -23,7 +23,6 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_engine.h"
-#include "modulation_meter.h"
 //[/Headers]
 
 #include "graphical_step_sequencer.h"
@@ -54,7 +53,6 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
     void setDefaultDoubleClickValues();
-    void initMeters();
 
     Slider* getSlider(std::string name);
     //[/UserMethods]
@@ -71,7 +69,6 @@ private:
     std::map<std::string, juce::Slider*> slider_lookup_;
     std::map<std::string, juce::Button*> button_lookup_;
     std::vector<ScopedPointer<Slider>> step_sequencer_sliders_;
-    std::vector<ScopedPointer<ModulationMeter>> meters_;
     //[/UserVariables]
 
     //==============================================================================

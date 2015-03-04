@@ -24,6 +24,7 @@
 #include "JuceHeader.h"
 #include "twytch_common.h"
 #include "modulation_look_and_feel.h"
+#include "modulation_meter.h"
 #include <set>
 //[/Headers]
 
@@ -38,7 +39,8 @@
                                                                     //[/Comments]
 */
 class ModulationManager  : public Component,
-                           public SliderListener
+                           public SliderListener,
+                           public Timer
 {
 public:
     //==============================================================================
@@ -53,9 +55,12 @@ public:
 
     void changeModulator(std::string new_modulator);
     void createModulationSlider(Slider* destination);
-    
+
+    void timerCallback() override;
+
     void clearModulationConnections();
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
+    void initMeters();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -75,6 +80,8 @@ private:
     std::map<std::string, Slider*> slider_lookup_;
     std::map<std::string, Slider*> slider_model_lookup_;
     std::vector<ScopedPointer<Slider>> owned_sliders_;
+
+    std::vector<ScopedPointer<ModulationMeter>> meters_;
     //[/UserVariables]
 
     //==============================================================================
