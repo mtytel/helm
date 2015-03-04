@@ -95,6 +95,7 @@ namespace mopo {
   void ProcessorRouter::addProcessor(Processor* processor) {
     MOPO_ASSERT(processor->router() == nullptr || processor->router() == this);
     processor->router(this);
+    processor->setBufferSize(getBufferSize());
     order_->push_back(processor);
     processors_[processor] = processor;
 
