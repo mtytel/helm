@@ -103,15 +103,15 @@ namespace mopo {
         buffer_size_ = 1;
       }
 
-      int getSampleRate() {
+      int getSampleRate() const {
         return sample_rate_;
       }
 
-      int getBufferSize() {
+      int getBufferSize() const {
         return buffer_size_;
       }
 
-      bool isControlRate() {
+      bool isControlRate() const {
         return control_rate_;
       }
 
