@@ -41,6 +41,8 @@ class TwytchEditor : public AudioProcessorEditor,
     void disconnectModulation(mopo::ModulationConnection* connection) override;
     const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
     const mopo::Processor* getModulationTotal(std::string name) override;
+    void enterCriticalSection() { twytch_.getCallbackLock().enter(); }
+    void exitCriticalSection() { twytch_.getCallbackLock().exit(); }
 
     // SaveLoadManager
     var stateToVar() override;
