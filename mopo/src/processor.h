@@ -100,7 +100,8 @@ namespace mopo {
 
       virtual void setControlRate(bool control_rate = true) {
         control_rate_ = control_rate;
-        buffer_size_ = 1;
+        if (control_rate)
+          buffer_size_ = 1;
       }
 
       int getSampleRate() const {
