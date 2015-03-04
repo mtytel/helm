@@ -75,7 +75,8 @@ namespace mopo {
       void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
 
       VariableAdd* createModControl(std::string name, mopo_float start_val,
-                                    bool control_rate, bool smooth_value = false);
+                                    bool control_rate, bool smooth_value = false,
+                                    bool poly = true);
 
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;
@@ -102,7 +103,8 @@ namespace mopo {
 
       control_map controls_;
       output_map mod_sources_;
-      input_map mod_destinations_;
+      input_map mono_mod_destinations_;
+      input_map poly_mod_destinations_;
       std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo

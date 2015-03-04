@@ -114,7 +114,8 @@ namespace mopo {
   }
 
   VariableAdd* TwytchVoiceHandler::createModControl(std::string name, mopo_float start_val,
-                                                    bool control_rate, bool smooth_value) {
+                                                    bool control_rate, bool smooth_value,
+                                                    bool poly) {
     Value* val = nullptr;
     if (smooth_value) {
       val = new SmoothValue(start_val);
@@ -123,13 +124,24 @@ namespace mopo {
     else
       val = new Value(start_val);
 
-    VariableAdd* total = new VariableAdd();
-    total->setControlRate(control_rate);
-    total->plugNext(val);
-    addProcessor(total);
     controls_[name] = val;
-    mod_destinations_[name] = total;
-    return total;
+
+    VariableAdd* mono_total = new VariableAdd();
+    mono_total->setControlRate(control_rate);
+    mono_total->plugNext(val);
+    addGlobalProcessor(mono_total);
+    mono_mod_destinations_[name] = mono_total;
+
+    if (poly) {
+      VariableAdd* poly_total = new VariableAdd();
+      poly_total->setControlRate(control_rate);
+      poly_total->plugNext(mono_total);
+      addProcessor(poly_total);
+      poly_mod_destinations_[name] = poly_total;
+      return poly_total;
+    }
+
+    return mono_total;
   }
 
   void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {
@@ -243,7 +255,7 @@ namespace mopo {
   void TwytchVoiceHandler::createModulators(Output* reset) {
     // LFO 1.
     Value* lfo1_waveform = new Value(Wave::kSin);
-    VariableAdd* lfo1_frequency = createModControl("lfo 1 frequency", 2.0, false);
+    VariableAdd* lfo1_frequency = createModControl("lfo 1 frequency", 2.0, false, false, false);
     lfo1_ = new Oscillator();
     lfo1_->plug(lfo1_waveform, Oscillator::kWaveform);
     lfo1_->plug(lfo1_frequency, Oscillator::kFrequency);
@@ -572,33 +584,60 @@ namespace mopo {
 
   void TwytchVoiceHandler::connectModulation(ModulationConnection* connection) {
     MOPO_ASSERT(mod_sources_.count(connection->source));
-    MOPO_ASSERT(mod_destinations_.count(connection->destination));
+    bool source_is_poly = mod_sources_[connection->source]->owner->isPolyphonic();
 
     connection->modulation_scale.plug(mod_sources_[connection->source], 0);
     connection->modulation_scale.plug(&connection->amount, 1);
+    connection->modulation_scale.setControlRate(
+        mod_sources_[connection->source]->owner->isControlRate());
 
-    mod_destinations_[connection->destination]->plugNext(&connection->modulation_scale);
-    addProcessor(&connection->modulation_scale);
+    if (source_is_poly) {
+      addProcessor(&connection->modulation_scale);
+      MOPO_ASSERT(poly_mod_destinations_.count(connection->destination));
+      poly_mod_destinations_[connection->destination]->plugNext(&connection->modulation_scale);
+    }
+    else {
+      addGlobalProcessor(&connection->modulation_scale);
+      MOPO_ASSERT(mono_mod_destinations_.count(connection->destination));
+      mono_mod_destinations_[connection->destination]->plugNext(&connection->modulation_scale);
+    }
+
     mod_connections_.insert(connection);
   }
 
   void TwytchVoiceHandler::disconnectModulation(ModulationConnection* connection) {
-    mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
-    removeProcessor(&connection->modulation_scale);
+    bool source_is_poly = mod_sources_[connection->source]->owner->isPolyphonic();
+
+    if (source_is_poly) {
+      poly_mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
+      removeProcessor(&connection->modulation_scale);
+    }
+    else {
+      mono_mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
+      removeGlobalProcessor(&connection->modulation_scale);
+    }
+
     mod_connections_.erase(connection);
   }
 
   void TwytchVoiceHandler::clearModulations() {
     for (auto connection : mod_connections_) {
-      mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
-      removeProcessor(&connection->modulation_scale);
+      bool source_is_poly = mod_sources_[connection->source]->owner->isPolyphonic();
+      if (source_is_poly) {
+        poly_mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
+        removeProcessor(&connection->modulation_scale);
+      }
+      else {
+        mono_mod_destinations_[connection->destination]->unplug(&connection->modulation_scale);
+        removeGlobalProcessor(&connection->modulation_scale);
+      }
     }
     mod_connections_.clear();
   }
 
   std::vector<std::string> TwytchVoiceHandler::getModulationDestinations() {
     std::vector<std::string> destination_names;
-    for (auto iter : mod_destinations_)
+    for (auto iter : mono_mod_destinations_)
       destination_names.push_back(iter.first);
     return destination_names;
   }
@@ -608,8 +647,8 @@ namespace mopo {
   }
 
   const Processor* TwytchVoiceHandler::getModulationTotal(std::string name) {
-    if (mod_destinations_.count(name))
-      return mod_destinations_[name];
+    if (mono_mod_destinations_.count(name))
+      return mono_mod_destinations_[name];
     return nullptr;
   }
 } // namespace mopo

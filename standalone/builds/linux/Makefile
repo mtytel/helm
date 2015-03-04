@@ -91,7 +91,6 @@ OBJECTS := \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/wave_form_selector_9d91edca.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
-  $(OBJDIR)/bipolar_look_and_feel_f4ee26a1.o \
   $(OBJDIR)/main_d7bc4a08.o \
   $(OBJDIR)/modulation_look_and_feel_ec5f597a.o \
   $(OBJDIR)/twytch_engine_92e4ab19.o \
@@ -329,11 +328,6 @@ $(OBJDIR)/wave_form_selector_9d91edca.o: ../../../src/editor_components/wave_for
 $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling xy_pad.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/bipolar_look_and_feel_f4ee26a1.o: ../../../src/bipolar_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling bipolar_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/main_d7bc4a08.o: ../../../src/main.cpp

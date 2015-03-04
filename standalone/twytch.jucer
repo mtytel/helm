@@ -133,10 +133,6 @@
         <FILE id="lfzZz8" name="xy_pad.cpp" compile="1" resource="0" file="../src/editor_components/xy_pad.cpp"/>
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
       </GROUP>
-      <FILE id="LEoVB9" name="bipolar_look_and_feel.cpp" compile="1" resource="0"
-            file="../src/bipolar_look_and_feel.cpp"/>
-      <FILE id="gNBGQk" name="bipolar_look_and_feel.h" compile="0" resource="0"
-            file="../src/bipolar_look_and_feel.h"/>
       <FILE id="FG9703" name="main.cpp" compile="1" resource="0" file="../src/main.cpp"/>
       <FILE id="HNE5l9" name="modulation_look_and_feel.cpp" compile="1" resource="0"
             file="../src/modulation_look_and_feel.cpp"/>

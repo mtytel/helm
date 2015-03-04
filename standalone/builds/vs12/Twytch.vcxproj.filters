@@ -439,9 +439,6 @@
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\bipolar_look_and_feel.cpp">
-      <Filter>Twytch\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\main.cpp">
       <Filter>Twytch\src</Filter>
     </ClCompile>
@@ -1817,9 +1814,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h">
       <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\bipolar_look_and_feel.h">
-      <Filter>Twytch\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\modulation_look_and_feel.h">
       <Filter>Twytch\src</Filter>

@@ -482,10 +482,6 @@
         <FILE id="Zo8EBy" name="xy_pad.cpp" compile="1" resource="0" file="src/editor_components/xy_pad.cpp"/>
         <FILE id="d6J1TW" name="xy_pad.h" compile="0" resource="0" file="src/editor_components/xy_pad.h"/>
       </GROUP>
-      <FILE id="OplfZt" name="bipolar_look_and_feel.cpp" compile="1" resource="0"
-            file="src/bipolar_look_and_feel.cpp"/>
-      <FILE id="S3saDv" name="bipolar_look_and_feel.h" compile="0" resource="0"
-            file="src/bipolar_look_and_feel.h"/>
       <FILE id="OcmBHI" name="modulation_look_and_feel.cpp" compile="1" resource="0"
             file="src/modulation_look_and_feel.cpp"/>
       <FILE id="gCPbni" name="modulation_look_and_feel.h" compile="0" resource="0"
