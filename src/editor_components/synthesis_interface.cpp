@@ -20,7 +20,7 @@
 //[Headers] You can add your own extra header files here...
 #include <iomanip>
 #include "full_interface.h"
-#include "value_change_manager.h"
+#include "synth_gui_interface.h"
 //[/Headers]
 
 #include "synthesis_interface.h"
@@ -1118,7 +1118,7 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
     std::string name = sliderThatWasMoved->getName().toStdString();
-    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     parent->valueChanged(name, sliderThatWasMoved->getValue());
     //[/UsersliderValueChanged_Pre]
 
@@ -1412,7 +1412,7 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     //[UserbuttonClicked_Pre]
     if (buttonThatWasClicked == formant_bypass_) {
         std::string name = buttonThatWasClicked->getName().toStdString();
-        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         if (parent)
             parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     }

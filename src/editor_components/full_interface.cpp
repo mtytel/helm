@@ -20,7 +20,7 @@
 //[Headers] You can add your own extra header files here...
 #include "save_load_manager.h"
 #include "twytch_engine.h"
-#include "value_change_manager.h"
+#include "synth_gui_interface.h"
 //[/Headers]
 
 #include "full_interface.h"
@@ -184,7 +184,7 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
     std::string name = sliderThatWasMoved->getName().toStdString();
-    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     parent->valueChanged(name, sliderThatWasMoved->getValue());
     //[/UsersliderValueChanged_Pre]
 
@@ -239,7 +239,7 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_arp_on_] -- add your button handler code here..
         std::string name = buttonThatWasClicked->getName().toStdString();
-        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
         //[/UserButtonCode_arp_on_]
     }

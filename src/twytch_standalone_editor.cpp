@@ -189,8 +189,12 @@ const mopo::Processor::Output* TwytchStandaloneEditor::getModulationSourceOutput
   return synth_.getModulationSourceOutput(name);
 }
 
-const mopo::Processor* TwytchStandaloneEditor::getModulationTotal(std::string name) {
-  return synth_.getModulationTotal(name);
+const mopo::Processor::Output* TwytchStandaloneEditor::getMonoModulationTotal(std::string name) {
+  return synth_.getMonoModulationTotal(name);
+}
+
+const mopo::Processor::Output* TwytchStandaloneEditor::getPolyModulationTotal(std::string name) {
+  return synth_.getPolyModulationTotal(name);
 }
 
 var TwytchStandaloneEditor::stateToVar() {

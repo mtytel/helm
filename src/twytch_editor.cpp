@@ -66,7 +66,7 @@ const mopo::Processor::Output* TwytchEditor::getModulationSourceOutput(std::stri
   return twytch_.getSynth()->getModulationSourceOutput(name);
 }
 
-const mopo::Processor* TwytchEditor::getModulationTotal(std::string name) {
+const mopo::Processor::Output* TwytchEditor::getModulationTotal(std::string name) {
   return twytch_.getSynth()->getModulationTotal(name);
 }
 

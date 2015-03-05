@@ -14,24 +14,26 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VALUE_CHANGE_MANAGER_H
-#define VALUE_CHANGE_MANAGER_H
+#ifndef SYNTH_GUI_INTERFACE_H
+#define SYNTH_GUI_INTERFACE_H
 
 #include "twytch_common.h"
 #include "value.h"
 #include <string>
 
-class ValueChangeManager {
+class SynthGuiInterface {
   public:
-    virtual ~ValueChangeManager() { }
+    virtual ~SynthGuiInterface() { }
 
     virtual void valueChanged(std::string name, mopo::mopo_float value) = 0;
     virtual void connectModulation(mopo::ModulationConnection* connection) = 0;
     virtual void disconnectModulation(mopo::ModulationConnection* connection) = 0;
     virtual const mopo::Processor::Output* getModulationSourceOutput(std::string name) = 0;
-    virtual const mopo::Processor* getModulationTotal(std::string name) = 0;
+    virtual const mopo::Processor::Output* getMonoModulationTotal(std::string name) = 0;
+    virtual const mopo::Processor::Output* getPolyModulationTotal(std::string name) = 0;
+    virtual int getNumActiveVoices() = 0;
     virtual void enterCriticalSection() = 0;
     virtual void exitCriticalSection() = 0;
 };
 
-#endif // VALUE_CHANGE_MANAGER_H
+#endif // SYNTH_GUI_INTERFACE_H

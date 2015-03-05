@@ -19,7 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "modulation_slider.h"
-#include "value_change_manager.h"
+#include "synth_gui_interface.h"
 #include "twytch_common.h"
 //[/Headers]
 
@@ -106,7 +106,7 @@ void ModulationManager::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void ModulationManager::timerCallback() {
-    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     if (parent == nullptr)
         return;
 
@@ -131,7 +131,7 @@ void ModulationManager::setModulationAmount(std::string source, std::string dest
         mopo::ModulationConnection* connection = new mopo::ModulationConnection(current_modulator_, destination);
         connections_[source][destination] = connection;
 
-        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         parent->connectModulation(connection);
     }
 
@@ -140,7 +140,7 @@ void ModulationManager::setModulationAmount(std::string source, std::string dest
 
 void ModulationManager::clearModulation(std::string source, std::string destination) {
     if (connections_[source].count(destination)) {
-        ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         parent->disconnectModulation(connections_[source][destination]);
         connections_[source].erase(destination);
     }
@@ -193,15 +193,17 @@ void ModulationManager::setModulationConnections(std::set<mopo::ModulationConnec
 }
 
 void ModulationManager::initMeters() {
-    ValueChangeManager* parent = findParentComponentOfClass<ValueChangeManager>();
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     if (parent == nullptr)
         return;
 
     for (auto slider : slider_model_lookup_) {
-        const mopo::Processor* total =
-            parent->getModulationTotal(slider.second->getName().toStdString());
-        if (total) {
-            ModulationMeter* meter = new ModulationMeter(total, slider.second);
+        const mopo::Processor::Output* mono_total =
+            parent->getMonoModulationTotal(slider.second->getName().toStdString());
+        const mopo::Processor::Output* poly_total =
+            parent->getPolyModulationTotal(slider.second->getName().toStdString());
+        if (mono_total) {
+            ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
             meter->setName(slider.second->getName());
             addAndMakeVisible(meter);
             meter->setBounds(slider.second->getBounds());

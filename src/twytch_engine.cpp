@@ -125,8 +125,16 @@ namespace mopo {
     return voice_handler_->getModulationSourceOutput(name);
   }
 
-  const Processor* TwytchEngine::getModulationTotal(std::string name) {
-    return voice_handler_->getModulationTotal(name);
+  const Processor::Output* TwytchEngine::getMonoModulationTotal(std::string name) {
+    return voice_handler_->getMonoModulationTotal(name);
+  }
+
+  const Processor::Output* TwytchEngine::getPolyModulationTotal(std::string name) {
+    return voice_handler_->getPolyModulationTotal(name);
+  }
+
+  int TwytchEngine::getNumActiveVoices() {
+    return voice_handler_->getNumActiveVoices();
   }
 
   void TwytchEngine::process() {

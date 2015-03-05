@@ -58,7 +58,8 @@ namespace mopo {
 
       std::vector<std::string> getModulationDestinations();
       const Processor::Output* getModulationSourceOutput(std::string name);
-      const Processor* getModulationTotal(std::string name);
+      const Output* getMonoModulationTotal(std::string name);
+      const Output* getPolyModulationTotal(std::string name);
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
@@ -74,9 +75,9 @@ namespace mopo {
       // Create the filter and filter envelope.
       void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
 
-      VariableAdd* createModControl(std::string name, mopo_float start_val,
-                                    bool control_rate, bool smooth_value = false,
-                                    bool poly = true);
+      Processor* createModControl(std::string name, mopo_float start_val,
+                                  bool control_rate, bool smooth_value = false,
+                                  bool poly = true);
 
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;
@@ -105,6 +106,7 @@ namespace mopo {
       output_map mod_sources_;
       input_map mono_mod_destinations_;
       input_map poly_mod_destinations_;
+      output_map poly_modulation_readout_;
       std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo

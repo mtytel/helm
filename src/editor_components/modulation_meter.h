@@ -22,7 +22,9 @@
 
 class ModulationMeter : public Component {
 public:
-    ModulationMeter(const mopo::Processor* modulation_total, const Slider* slider);
+    ModulationMeter(const mopo::Processor::Output* mono_total,
+                    const mopo::Processor::Output* poly_total,
+                    const Slider* slider);
     ~ModulationMeter();
     
     void paint(Graphics& g) override;
@@ -33,7 +35,8 @@ private:
     void drawSlider(Graphics& g);
     void drawKnob(Graphics& g);
 
-    const mopo::Processor* modulation_total_;
+    const mopo::Processor::Output* mono_total_;
+    const mopo::Processor::Output* poly_total_;
     const Slider* destination_;
 
     float current_percent_;

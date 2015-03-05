@@ -19,8 +19,11 @@
 
 #define ANGLE 2.51327412f
 
-ModulationMeter::ModulationMeter(const mopo::Processor* modulation_total, const Slider* slider) :
-        modulation_total_(modulation_total), destination_(slider), current_percent_(0.0f) {
+ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
+                                 const mopo::Processor::Output* poly_total,
+                                 const Slider* slider) :
+        mono_total_(mono_total), poly_total_(poly_total),
+        destination_(slider), current_percent_(0.0f) {
     setInterceptsMouseClicks(false, false);
     setOpaque(false);
 }
@@ -29,9 +32,13 @@ ModulationMeter::~ModulationMeter() {
 }
 
 void ModulationMeter::update() {
-    if (modulation_total_) {
+    if (mono_total_) {
+        float value = mono_total_->buffer[0];
+        if (poly_total_)
+            value += poly_total_->buffer[0];
+
         float range = destination_->getMaximum() - destination_->getMinimum();
-        float offset = modulation_total_->output()->buffer[0] - destination_->getMinimum();
+        float offset = value - destination_->getMinimum();
         float percent = CLAMP(offset / range, 0.0f, 1.0f);
         
         if (percent != current_percent_) {

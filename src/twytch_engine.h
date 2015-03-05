@@ -41,7 +41,9 @@ namespace mopo {
       void clearModulations();
       std::vector<std::string> getModulationDestinations();
       const Processor::Output* getModulationSourceOutput(std::string name);
-      const Processor* getModulationTotal(std::string name);
+      const Processor::Output* getMonoModulationTotal(std::string name);
+      const Processor::Output* getPolyModulationTotal(std::string name);
+      int getNumActiveVoices();
 
       // Keyboard events.
       void allNotesOff(int sample = 0);

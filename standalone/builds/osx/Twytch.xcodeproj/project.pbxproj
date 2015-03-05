@@ -201,7 +201,7 @@
 		1DD062F4D0E149832E9F2990 /* bypass_router.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = bypass_router.cpp; path = ../../../mopo/src/bypass_router.cpp; sourceTree = SOURCE_ROOT; };
 		1DE19DA8036D2A6BF8DAFA3C /* juce_linux_Midi.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_linux_Midi.cpp; path = "../../../../srcs/JUCE-OSX/modules/juce_audio_devices/native/juce_linux_Midi.cpp"; sourceTree = SOURCE_ROOT; };
 		1E369BE67CC6E896BE0F8CF4 /* juce_MixerAudioSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_MixerAudioSource.h; path = "../../../../srcs/JUCE-OSX/modules/juce_audio_basics/sources/juce_MixerAudioSource.h"; sourceTree = SOURCE_ROOT; };
-		1E5F6B99B639F07FAA95AEDF /* value_change_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = value_change_manager.h; path = ../../../src/value_change_manager.h; sourceTree = SOURCE_ROOT; };
+		1E5F6B99B639F07FAA95AEDF /* synth_gui_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = synth_gui_interface.h; path = ../../../src/synth_gui_interface.h; sourceTree = SOURCE_ROOT; };
 		1E89565738C6965DCEBE5728 /* juce_android_OpenSL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_OpenSL.cpp; path = "../../../../srcs/JUCE-OSX/modules/juce_audio_devices/native/juce_android_OpenSL.cpp"; sourceTree = SOURCE_ROOT; };
 		1F60717786A184A29284CD1E /* juce_ReverbAudioSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ReverbAudioSource.cpp; path = "../../../../srcs/JUCE-OSX/modules/juce_audio_basics/sources/juce_ReverbAudioSource.cpp"; sourceTree = SOURCE_ROOT; };
 		1F7D88773C4526660C0E47B6 /* juce_AudioIODeviceType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_AudioIODeviceType.cpp; path = "../../../../srcs/JUCE-OSX/modules/juce_audio_devices/audio_io/juce_AudioIODeviceType.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1348,7 +1348,7 @@
 				96C3FC74475FBCE56AC414D5 /* twytch_standalone_editor.h */,
 				D105A7737363AC675AEC161E /* twytch_voice_handler.cpp */,
 				BCA3AE267239894FDFCFE186 /* twytch_voice_handler.h */,
-				1E5F6B99B639F07FAA95AEDF /* value_change_manager.h */,
+				1E5F6B99B639F07FAA95AEDF /* synth_gui_interface.h */,
 			);
 			name = src;
 			sourceTree = "<group>";

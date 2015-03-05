@@ -24,7 +24,7 @@
 #include "save_load_manager.h"
 #include "twytch_engine.h"
 #include "twytch_look_and_feel.h"
-#include "value_change_manager.h"
+#include "synth_gui_interface.h"
 
 // TODO: This multiple inheritance is little out of hand.
 class TwytchStandaloneEditor : public AudioAppComponent,
@@ -32,7 +32,7 @@ class TwytchStandaloneEditor : public AudioAppComponent,
                                public MessageListener,
                                public MidiInputCallback,
                                public SaveLoadManager,
-                               public ValueChangeManager {
+                               public SynthGuiInterface {
   public:
     TwytchStandaloneEditor();
     ~TwytchStandaloneEditor();
@@ -60,12 +60,13 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     var stateToVar() override;
     void varToState(var state) override;
 
-    // ValueChangeManager
+    // SynthGuiInterface
     void valueChanged(std::string name, mopo::mopo_float value) override;
     void connectModulation(mopo::ModulationConnection* connection) override;
     void disconnectModulation(mopo::ModulationConnection* connection) override;
     const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
-    const mopo::Processor* getModulationTotal(std::string name) override;
+    const mopo::Processor::Output* getMonoModulationTotal(std::string name) override;
+    const mopo::Processor::Output* getPolyModulationTotal(std::string name) override;
     void enterCriticalSection() { critical_section_.enter(); }
     void exitCriticalSection() { critical_section_.exit(); }
 
