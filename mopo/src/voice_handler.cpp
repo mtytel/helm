@@ -24,7 +24,7 @@ namespace mopo {
       aftertouch_sample_(-1), aftertouch_(0.0), processor_(processor) { }
 
   VoiceHandler::VoiceHandler(size_t polyphony) :
-      ProcessorRouter(kNumInputs, 1), polyphony_(0), sustain_(false),
+      ProcessorRouter(kNumInputs, 0), polyphony_(0), sustain_(false),
       voice_killer_(0) {
     setPolyphony(polyphony);
     voice_router_.router(this);
