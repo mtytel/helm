@@ -22,10 +22,10 @@
 #include "twytch_look_and_feel.h"
 #include "full_interface.h"
 #include "save_load_manager.h"
-#include "value_change_manager.h"
+#include "synth_gui_interface.h"
 
 class TwytchEditor : public AudioProcessorEditor,
-                     public ValueChangeManager,
+                     public SynthGuiInterface,
                      public SaveLoadManager {
   public:
     TwytchEditor(Twytch&);
@@ -35,12 +35,14 @@ class TwytchEditor : public AudioProcessorEditor,
     void paint(Graphics&) override;
     void resized() override;
 
-    // ValueChangeManager
+    // SynthGuiInterface
     void valueChanged(std::string name, mopo::mopo_float value) override;
     void connectModulation(mopo::ModulationConnection* connection) override;
     void disconnectModulation(mopo::ModulationConnection* connection) override;
     const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
-    const mopo::Processor::Output* getModulationTotal(std::string name) override;
+    const mopo::Processor::Output* getMonoModulationTotal(std::string name) override;
+    const mopo::Processor::Output* getPolyModulationTotal(std::string name) override;
+    int getNumActiveVoices() override;
     void enterCriticalSection() { twytch_.getCallbackLock().enter(); }
     void exitCriticalSection() { twytch_.getCallbackLock().exit(); }
 

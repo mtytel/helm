@@ -197,6 +197,10 @@ const mopo::Processor::Output* TwytchStandaloneEditor::getPolyModulationTotal(st
   return synth_.getPolyModulationTotal(name);
 }
 
+int TwytchStandaloneEditor::getNumActiveVoices() {
+  return synth_.getNumActiveVoices();
+}
+
 var TwytchStandaloneEditor::stateToVar() {
   mopo::control_map controls = synth_.getControls();
   DynamicObject* state_object = new DynamicObject();

@@ -488,6 +488,8 @@
             file="src/modulation_look_and_feel.h"/>
       <FILE id="p7mev0" name="save_load_manager.h" compile="0" resource="0"
             file="src/save_load_manager.h"/>
+      <FILE id="C6VG27" name="synth_gui_interface.h" compile="0" resource="0"
+            file="src/synth_gui_interface.h"/>
       <FILE id="psv1Wq" name="twytch.cpp" compile="1" resource="0" file="src/twytch.cpp"/>
       <FILE id="iejB3X" name="twytch.h" compile="0" resource="0" file="src/twytch.h"/>
       <FILE id="EzCy5S" name="twytch_common.h" compile="0" resource="0" file="src/twytch_common.h"/>
@@ -509,8 +511,6 @@
             file="src/twytch_voice_handler.cpp"/>
       <FILE id="DJ7wVM" name="twytch_voice_handler.h" compile="0" resource="0"
             file="src/twytch_voice_handler.h"/>
-      <FILE id="Z9Vvgc" name="value_change_manager.h" compile="0" resource="0"
-            file="src/value_change_manager.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

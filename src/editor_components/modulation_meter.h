@@ -29,7 +29,7 @@ public:
     
     void paint(Graphics& g) override;
   
-    void update();
+    void update(int num_voices);
 
 private:
     void drawSlider(Graphics& g);

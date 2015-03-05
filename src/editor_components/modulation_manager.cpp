@@ -111,9 +111,11 @@ void ModulationManager::timerCallback() {
         return;
 
     parent->enterCriticalSection();
-    for (ModulationMeter* meter : meters_) {
-        meter->update();
-    }
+    int num_voices = parent->getNumActiveVoices();
+
+    for (ModulationMeter* meter : meters_)
+        meter->update(num_voices);
+
     parent->exitCriticalSection();
 }
 

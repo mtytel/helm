@@ -1821,6 +1821,9 @@
     <ClInclude Include="..\..\..\src\save_load_manager.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\synth_gui_interface.h">
+      <Filter>Twytch\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\twytch_common.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>
@@ -1837,9 +1840,6 @@
       <Filter>Twytch\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\twytch_voice_handler.h">
-      <Filter>Twytch\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\value_change_manager.h">
       <Filter>Twytch\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">

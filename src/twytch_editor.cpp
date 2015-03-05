@@ -66,8 +66,16 @@ const mopo::Processor::Output* TwytchEditor::getModulationSourceOutput(std::stri
   return twytch_.getSynth()->getModulationSourceOutput(name);
 }
 
-const mopo::Processor::Output* TwytchEditor::getModulationTotal(std::string name) {
-  return twytch_.getSynth()->getModulationTotal(name);
+const mopo::Processor::Output* TwytchEditor::getMonoModulationTotal(std::string name) {
+  return twytch_.getSynth()->getMonoModulationTotal(name);
+}
+
+const mopo::Processor::Output* TwytchEditor::getPolyModulationTotal(std::string name) {
+  return twytch_.getSynth()->getPolyModulationTotal(name);
+}
+
+int TwytchEditor::getNumActiveVoices() {
+  return twytch_.getSynth()->getNumActiveVoices();
 }
 
 var TwytchEditor::stateToVar() {

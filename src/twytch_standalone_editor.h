@@ -67,6 +67,7 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
     const mopo::Processor::Output* getMonoModulationTotal(std::string name) override;
     const mopo::Processor::Output* getPolyModulationTotal(std::string name) override;
+    int getNumActiveVoices() override;
     void enterCriticalSection() { critical_section_.enter(); }
     void exitCriticalSection() { critical_section_.exit(); }
 

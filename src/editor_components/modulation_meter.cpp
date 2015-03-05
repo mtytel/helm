@@ -31,11 +31,11 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
 ModulationMeter::~ModulationMeter() {
 }
 
-void ModulationMeter::update() {
+void ModulationMeter::update(int num_voices) {
     if (mono_total_) {
         float value = mono_total_->buffer[0];
-        if (poly_total_)
-            value += poly_total_->buffer[0];
+        if (poly_total_ && num_voices)
+            value += poly_total_->buffer[0] / num_voices;
 
         float range = destination_->getMaximum() - destination_->getMinimum();
         float offset = value - destination_->getMinimum();

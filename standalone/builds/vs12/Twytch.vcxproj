@@ -1344,13 +1344,13 @@
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\..\src\modulation_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\save_load_manager.h"/>
+    <ClInclude Include="..\..\..\src\synth_gui_interface.h"/>
     <ClInclude Include="..\..\..\src\twytch_common.h"/>
     <ClInclude Include="..\..\..\src\twytch_engine.h"/>
     <ClInclude Include="..\..\..\src\twytch_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\twytch_oscillators.h"/>
     <ClInclude Include="..\..\..\src\twytch_standalone_editor.h"/>
     <ClInclude Include="..\..\..\src\twytch_voice_handler.h"/>
-    <ClInclude Include="..\..\..\src\value_change_manager.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>

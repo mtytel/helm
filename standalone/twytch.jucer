@@ -140,6 +140,8 @@
             file="../src/modulation_look_and_feel.h"/>
       <FILE id="VpiFXo" name="save_load_manager.h" compile="0" resource="0"
             file="../src/save_load_manager.h"/>
+      <FILE id="EAB16a" name="synth_gui_interface.h" compile="0" resource="0"
+            file="../src/synth_gui_interface.h"/>
       <FILE id="kuzAfS" name="twytch_common.h" compile="0" resource="0" file="../src/twytch_common.h"/>
       <FILE id="m81hYi" name="twytch_engine.cpp" compile="1" resource="0"
             file="../src/twytch_engine.cpp"/>
@@ -160,8 +162,6 @@
             file="../src/twytch_voice_handler.cpp"/>
       <FILE id="DvhHbK" name="twytch_voice_handler.h" compile="0" resource="0"
             file="../src/twytch_voice_handler.h"/>
-      <FILE id="nR1G5S" name="value_change_manager.h" compile="0" resource="0"
-            file="../src/value_change_manager.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
