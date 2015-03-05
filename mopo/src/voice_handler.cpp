@@ -226,15 +226,15 @@ namespace mopo {
   }
 
   void VoiceHandler::registerOutput(Output* output) {
-    ProcessorRouter::registerOutput(output);
+    Output* new_output = new Output();
+    new_output->owner = this;
+    ProcessorRouter::registerOutput(new_output);
     voice_outputs_.push_back(output);
   }
 
   void VoiceHandler::registerOutput(Output* output, int index) {
-    ProcessorRouter::registerOutput(output, index);
-
     while (voice_outputs_.size() <= index)
-      voice_outputs_.push_back(nullptr);
+      registerOutput(nullptr);
     voice_outputs_[index] = output;
   }
 
