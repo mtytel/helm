@@ -133,16 +133,10 @@ namespace mopo {
       void removeProcessor(Processor* processor);
       void addGlobalProcessor(Processor* processor);
       void removeGlobalProcessor(Processor* processor);
+      void registerOutput(Output* output);
+      void registerOutput(Output* output, int index);
 
       void setPolyphony(size_t polyphony);
-
-      void setVoiceOutput(const Output* output) {
-        voice_output_ = output;
-      }
-
-      void setVoiceOutput(const Processor* output) {
-        setVoiceOutput(output->output());
-      }
 
       void setVoiceKiller(const Output* killer) {
         voice_killer_ = killer;
@@ -161,7 +155,7 @@ namespace mopo {
 
       size_t polyphony_;
       bool sustain_;
-      const Output* voice_output_;
+      std::vector<Output*> voice_outputs_;
       const Output* voice_killer_;
       Output voice_event_;
       Output note_;
