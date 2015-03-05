@@ -101,6 +101,10 @@ namespace mopo {
       all_voices_[i]->processor()->setBufferSize(buffer_size);
   }
 
+  int VoiceHandler::getNumActiveVoices() {
+    return active_voices_.size();
+  }
+
   void VoiceHandler::sustainOn() {
     sustain_ = true;
   }
@@ -235,6 +239,7 @@ namespace mopo {
   void VoiceHandler::registerOutput(Output* output, int index) {
     while (voice_outputs_.size() <= index)
       registerOutput(nullptr);
+
     voice_outputs_[index] = output;
   }
 

@@ -115,6 +115,7 @@ namespace mopo {
       virtual void process();
       virtual void setSampleRate(int sample_rate);
       virtual void setBufferSize(int buffer_size);
+      int getNumActiveVoices();
 
       void allNotesOff(int sample = 0);
       Voice* grabVoice();
