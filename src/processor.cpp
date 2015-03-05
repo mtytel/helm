@@ -115,11 +115,14 @@ namespace mopo {
   }
 
   void Processor::registerInput(Input* input) {
-    registerInput(input, inputs_->size());
+    inputs_->push_back(input);
+
+    if (router_ && input->source != &Processor::null_source_)
+      router_->connect(this, input->source, inputs_->size() - 1);
   }
 
   void Processor::registerOutput(Output* output) {
-    registerOutput(output, outputs_->size());
+    outputs_->push_back(output);
   }
 
   void Processor::registerInput(Input* input, int index) {
