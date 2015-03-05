@@ -109,7 +109,7 @@ namespace mopo {
     addGlobalProcessor(pitch_wheel_amount_);
     addGlobalProcessor(mod_wheel_amount_);
 
-    setVoiceOutput(output_);
+    registerOutput(output_->output());
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
   }
 
