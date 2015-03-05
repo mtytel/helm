@@ -26,6 +26,7 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
         destination_(slider), current_percent_(0.0f) {
     setInterceptsMouseClicks(false, false);
     setOpaque(false);
+    update(0);
 }
 
 ModulationMeter::~ModulationMeter() {
@@ -38,8 +39,7 @@ void ModulationMeter::update(int num_voices) {
             value += poly_total_->buffer[0] / num_voices;
 
         float range = destination_->getMaximum() - destination_->getMinimum();
-        float offset = value - destination_->getMinimum();
-        float percent = CLAMP(offset / range, 0.0f, 1.0f);
+        float percent = CLAMP((value - destination_->getMinimum()) / range, 0.0f, 1.0f);
         
         if (percent != current_percent_) {
             current_percent_ = percent;

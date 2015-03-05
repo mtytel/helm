@@ -41,7 +41,7 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   controls_ = synth_.getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface(controls_, synth_.getModulationDestinations());
+  gui_ = new FullInterface(controls_, synth_.getMonoModulations(), synth_.getPolyModulations());
   gui_->setOutputMemory(&output_memory_);
   gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
@@ -183,18 +183,6 @@ void TwytchStandaloneEditor::connectModulation(mopo::ModulationConnection* conne
 void TwytchStandaloneEditor::disconnectModulation(mopo::ModulationConnection* connection) {
   ScopedLock lock(critical_section_);
   synth_.disconnectModulation(connection);
-}
-
-const mopo::Processor::Output* TwytchStandaloneEditor::getModulationSourceOutput(std::string name) {
-  return synth_.getModulationSourceOutput(name);
-}
-
-const mopo::Processor::Output* TwytchStandaloneEditor::getMonoModulationTotal(std::string name) {
-  return synth_.getMonoModulationTotal(name);
-}
-
-const mopo::Processor::Output* TwytchStandaloneEditor::getPolyModulationTotal(std::string name) {
-  return synth_.getPolyModulationTotal(name);
 }
 
 int TwytchStandaloneEditor::getNumActiveVoices() {

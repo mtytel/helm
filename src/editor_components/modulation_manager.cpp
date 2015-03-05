@@ -33,7 +33,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationManager::ModulationManager ()
+ModulationManager::ModulationManager (std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
 
     //[UserPreSize]
@@ -41,7 +41,7 @@ ModulationManager::ModulationManager ()
     startTimerHz(FRAMES_PER_SECOND);
 
     current_modulator_ = "";
-    
+
     polyphonic_destinations_ = new Component();
     addAndMakeVisible(polyphonic_destinations_);
     polyphonic_destinations_->setInterceptsMouseClicks(false, true);
@@ -49,6 +49,32 @@ ModulationManager::ModulationManager ()
     monophonic_destinations_ = new Component();
     addAndMakeVisible(monophonic_destinations_);
     monophonic_destinations_->setInterceptsMouseClicks(false, true);
+
+    slider_model_lookup_ = sliders;
+    for (auto slider : slider_model_lookup_) {
+        // Create modulation slider.
+        std::string name = slider.first;
+
+        ModulationSlider* mod_slider = new ModulationSlider(slider.second);
+        mod_slider->setLookAndFeel(&look_and_feel_);
+        mod_slider->addListener(this);
+        polyphonic_destinations_->addAndMakeVisible(mod_slider);
+
+        slider_lookup_[name] = mod_slider;
+        owned_sliders_.push_back(mod_slider);
+
+        // Create modulation meter.
+        const mopo::Processor::Output* mono_total = mono_modulations[slider.first];
+        const mopo::Processor::Output* poly_total = poly_modulations[slider.first];
+
+        if (mono_total) {
+            ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
+            meter->setName(slider.second->getName());
+            addAndMakeVisible(meter);
+            meter->setBounds(slider.second->getBounds());
+            meters_.push_back(meter);
+        }
+    }
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -82,8 +108,6 @@ void ModulationManager::paint (Graphics& g)
 void ModulationManager::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
-    if (meters_.size() == 0)
-        initMeters();
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
@@ -169,19 +193,6 @@ void ModulationManager::changeModulator(std::string new_modulator) {
     }
 }
 
-void ModulationManager::createModulationSlider(Slider* destination) {
-    std::string name = destination->getName().toStdString();
-    slider_model_lookup_[name] = destination;
-
-    ModulationSlider* mod_slider = new ModulationSlider(destination);
-    mod_slider->setLookAndFeel(&look_and_feel_);
-    mod_slider->addListener(this);
-    polyphonic_destinations_->addAndMakeVisible(mod_slider);
-
-    slider_lookup_[name] = mod_slider;
-    owned_sliders_.push_back(mod_slider);
-}
-
 void ModulationManager::clearModulationConnections() {
     changeModulator("");
     for (auto source : connections_)
@@ -192,26 +203,6 @@ void ModulationManager::setModulationConnections(std::set<mopo::ModulationConnec
     clearModulationConnections();
     for (mopo::ModulationConnection* connection : connections)
         connections_[connection->source][connection->destination] = connection;
-}
-
-void ModulationManager::initMeters() {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent == nullptr)
-        return;
-
-    for (auto slider : slider_model_lookup_) {
-        const mopo::Processor::Output* mono_total =
-            parent->getMonoModulationTotal(slider.second->getName().toStdString());
-        const mopo::Processor::Output* poly_total =
-            parent->getPolyModulationTotal(slider.second->getName().toStdString());
-        if (mono_total) {
-            ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
-            meter->setName(slider.second->getName());
-            addAndMakeVisible(meter);
-            meter->setBounds(slider.second->getBounds());
-            meters_.push_back(meter);
-        }
-    }
 }
 
 //[/MiscUserCode]
@@ -227,7 +218,8 @@ void ModulationManager::initMeters() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationManager" componentName=""
-                 parentClasses="public Component, public SliderListener" constructorParams=""
+                 parentClasses="public Component, public SliderListener, public Timer"
+                 constructorParams="std::map&lt;std::string, Slider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>

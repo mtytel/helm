@@ -44,7 +44,7 @@ class ModulationManager  : public Component,
 {
 public:
     //==============================================================================
-    ModulationManager ();
+    ModulationManager (std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~ModulationManager();
 
     //==============================================================================
@@ -52,15 +52,12 @@ public:
     void sliderValueChanged(Slider *slider);
     void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
     void clearModulation(std::string source, std::string destination);
-
     void changeModulator(std::string new_modulator);
-    void createModulationSlider(Slider* destination);
 
     void timerCallback() override;
 
     void clearModulationConnections();
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
-    void initMeters();
     //[/UserMethods]
 
     void paint (Graphics& g);

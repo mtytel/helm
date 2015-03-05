@@ -56,10 +56,8 @@ namespace mopo {
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
 
-      std::vector<std::string> getModulationDestinations();
-      const Processor::Output* getModulationSourceOutput(std::string name);
-      const Output* getMonoModulationTotal(std::string name);
-      const Output* getPolyModulationTotal(std::string name);
+      output_map getMonoModulations() { return mono_modulation_readout_; }
+      output_map getPolyModulations() { return poly_modulation_readout_; }
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
@@ -106,6 +104,7 @@ namespace mopo {
       output_map mod_sources_;
       input_map mono_mod_destinations_;
       input_map poly_mod_destinations_;
+      output_map mono_modulation_readout_;
       output_map poly_modulation_readout_;
       std::set<ModulationConnection*> mod_connections_;
   };

@@ -39,10 +39,8 @@ namespace mopo {
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
-      std::vector<std::string> getModulationDestinations();
-      const Processor::Output* getModulationSourceOutput(std::string name);
-      const Processor::Output* getMonoModulationTotal(std::string name);
-      const Processor::Output* getPolyModulationTotal(std::string name);
+      output_map getMonoModulations();
+      output_map getPolyModulations();
       int getNumActiveVoices();
 
       // Keyboard events.

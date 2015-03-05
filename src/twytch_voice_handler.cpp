@@ -132,6 +132,7 @@ namespace mopo {
     mono_total->plugNext(val);
     addGlobalProcessor(mono_total);
     mono_mod_destinations_[name] = mono_total;
+    mono_modulation_readout_[name] = mono_total->output();
 
     if (poly) {
       VariableAdd* poly_total = new VariableAdd();
@@ -641,28 +642,5 @@ namespace mopo {
       }
     }
     mod_connections_.clear();
-  }
-
-  std::vector<std::string> TwytchVoiceHandler::getModulationDestinations() {
-    std::vector<std::string> destination_names;
-    for (auto iter : mono_mod_destinations_)
-      destination_names.push_back(iter.first);
-    return destination_names;
-  }
-
-  const Processor::Output* TwytchVoiceHandler::getModulationSourceOutput(std::string name) {
-    return mod_sources_[name];
-  }
-
-  const Processor::Output* TwytchVoiceHandler::getMonoModulationTotal(std::string name) {
-    if (mono_mod_destinations_.count(name))
-      return mono_mod_destinations_[name]->output();
-    return nullptr;
-  }
-
-  const Processor::Output* TwytchVoiceHandler::getPolyModulationTotal(std::string name) {
-    if (poly_modulation_readout_.count(name))
-      return poly_modulation_readout_[name];
-    return nullptr;
   }
 } // namespace mopo

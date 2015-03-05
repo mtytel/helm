@@ -45,7 +45,7 @@ class FullInterface  : public Component,
 {
 public:
     //==============================================================================
-    FullInterface (mopo::control_map controls, std::vector<std::string> mod_destinations);
+    FullInterface (mopo::control_map controls, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~FullInterface();
 
     //==============================================================================
@@ -54,7 +54,8 @@ public:
     void setOutputMemory(const mopo::Memory* output_memory);
 
     Slider* getSlider(std::string name);
-    void createModulationSliders(std::vector<std::string> mod_destinations);
+    void createModulationSliders(mopo::output_map mono_modulations,
+                                 mopo::output_map poly_modulations);
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     void changeModulator(std::string source);
     //[/UserMethods]

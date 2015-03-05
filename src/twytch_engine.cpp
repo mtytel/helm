@@ -117,20 +117,12 @@ namespace mopo {
     voice_handler_->clearModulations();
   }
 
-  std::vector<std::string> TwytchEngine::getModulationDestinations() {
-    return voice_handler_->getModulationDestinations();
+  output_map TwytchEngine::getMonoModulations() {
+    return voice_handler_->getMonoModulations();
   }
 
-  const Processor::Output* TwytchEngine::getModulationSourceOutput(std::string name) {
-    return voice_handler_->getModulationSourceOutput(name);
-  }
-
-  const Processor::Output* TwytchEngine::getMonoModulationTotal(std::string name) {
-    return voice_handler_->getMonoModulationTotal(name);
-  }
-
-  const Processor::Output* TwytchEngine::getPolyModulationTotal(std::string name) {
-    return voice_handler_->getPolyModulationTotal(name);
+  output_map TwytchEngine::getPolyModulations() {
+    return voice_handler_->getPolyModulations();
   }
 
   int TwytchEngine::getNumActiveVoices() {
