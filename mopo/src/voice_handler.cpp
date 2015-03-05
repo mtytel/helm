@@ -25,7 +25,7 @@ namespace mopo {
 
   VoiceHandler::VoiceHandler(size_t polyphony) :
       ProcessorRouter(kNumInputs, 1), polyphony_(0), sustain_(false),
-      voice_output_(0), voice_killer_(0) {
+      voice_killer_(0) {
     setPolyphony(polyphony);
     voice_router_.router(this);
     global_router_.router(this);
@@ -53,8 +53,11 @@ namespace mopo {
 
   void VoiceHandler::processVoice(Voice* voice) {
     voice->processor()->process();
-    for (int i = 0; i < buffer_size_; ++i)
-      output(0)->buffer[i] += voice_output_->buffer[i];
+    for (int out = 0; out < numOutputs(); ++out) {
+      int buffer_size = voice_outputs_[out]->owner->getBufferSize();
+      for (int i = 0; i < buffer_size; ++i)
+        output(out)->buffer[i] += voice_outputs_[out]->buffer[i];
+    }
   }
 
   void VoiceHandler::process() {
@@ -62,7 +65,8 @@ namespace mopo {
 
     size_t polyphony = static_cast<size_t>(input(kPolyphony)->at(0));
     setPolyphony(CLAMP(polyphony, 1, polyphony));
-    memset(output(0)->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    for (int out = 0; out < numOutputs(); ++out)
+      memset(output(out)->buffer, 0, buffer_size_ * sizeof(mopo_float));
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
@@ -219,6 +223,19 @@ namespace mopo {
 
   void VoiceHandler::removeGlobalProcessor(Processor* processor) {
     global_router_.removeProcessor(processor);
+  }
+
+  void VoiceHandler::registerOutput(Output* output) {
+    ProcessorRouter::registerOutput(output);
+    voice_outputs_.push_back(output);
+  }
+
+  void VoiceHandler::registerOutput(Output* output, int index) {
+    ProcessorRouter::registerOutput(output, index);
+
+    while (voice_outputs_.size() <= index)
+      voice_outputs_.push_back(nullptr);
+    voice_outputs_[index] = output;
   }
 
   bool VoiceHandler::isPolyphonic(const Processor* processor) const {
