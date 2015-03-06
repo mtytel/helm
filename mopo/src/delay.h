@@ -35,7 +35,7 @@ namespace mopo {
         kNumInputs
       };
 
-      Delay();
+      Delay(int size);
       virtual ~Delay() { }
 
       virtual Processor* clone() const { return new Delay(*this); }
@@ -47,13 +47,13 @@ namespace mopo {
         mopo_float period = input(kDelayTime)->at(i) * sample_rate_;
         mopo_float feedback = input(kFeedback)->at(i);
 
-        mopo_float read = memory_.get(period);
-        memory_.push((audio + read) * feedback);
+        mopo_float read = memory_->get(period);
+        memory_->push((audio + read) * feedback);
         output(0)->buffer[i] = INTERPOLATE(audio, read, wet);
       }
 
     protected:
-      Memory memory_;
+      Memory* memory_;
   };
 } // namespace mopo
 

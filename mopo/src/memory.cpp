@@ -14,16 +14,21 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "delay.h"
+#include "memory.h"
+
+#include <cmath>
 
 namespace mopo {
 
-  Delay::Delay(int size) : Processor(Delay::kNumInputs, 1) {
-    memory_ = new Memory(size);
+  Memory::Memory(int size) : offset_(0) {
+    // Get the next largest power of two for optimization.
+    size_ = pow(2.0, ceil(log(size) / log(2)));
+    bitmask_ = size_ - 1;
+    memory_ = new mopo_float[size_];
+    memset(memory_, 0, size_ * sizeof(mopo_float));
   }
 
-  void Delay::process() {
-    for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+  Memory::~Memory() {
+    delete memory_;
   }
 } // namespace mopo

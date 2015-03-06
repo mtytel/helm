@@ -23,6 +23,7 @@ libmopo_a_SOURCES = alias.cpp \
                     linear_slope.h \
                     magnitude_lookup.cpp \
                     magnitude_lookup.h \
+                    memory.cpp \
                     memory.h \
                     midi_lookup.cpp \
                     midi_lookup.h \
