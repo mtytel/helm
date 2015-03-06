@@ -27,6 +27,7 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
   setLookAndFeel(&look_and_feel_);
 
   gui_ = new FullInterface(controls_,
+                           twytch.getSynth()->getModulationSources(),
                            twytch.getSynth()->getMonoModulations(),
                            twytch.getSynth()->getPolyModulations());
   gui_->setOutputMemory(twytch.getOutputMemory());
