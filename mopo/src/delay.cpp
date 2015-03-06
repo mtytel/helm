@@ -22,6 +22,10 @@ namespace mopo {
     memory_ = new Memory(size);
   }
 
+  Delay::Delay(const Delay& other) : Processor(other) {
+    this->memory_ = new Memory(*other.memory_);
+  }
+
   void Delay::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);

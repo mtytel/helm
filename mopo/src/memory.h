@@ -29,6 +29,7 @@ namespace mopo {
   class Memory {
     public:
       Memory(int size);
+      Memory(const Memory& other);
       ~Memory();
 
       void push(mopo_float sample) {
