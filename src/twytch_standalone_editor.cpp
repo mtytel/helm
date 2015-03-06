@@ -247,6 +247,7 @@ void TwytchStandaloneEditor::varToState(var state) {
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {
 #ifdef JUCE_MAC
+  Thread::sleep(100);
   if(!hasKeyboardFocus(false)) {
     postMessage(new Message());
     grabKeyboardFocus();
