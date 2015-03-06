@@ -43,6 +43,7 @@ namespace mopo {
       // Any time new dependencies are added into the ProcessorRouter graph, we
       // should call _connect_ on the destination Processor and source Output.
       void connect(Processor* destination, const Output* source, int index);
+      void disconnect(Processor* destination, const Output* source);
       bool isDownstream(const Processor* first, const Processor* second) const;
       bool areOrdered(const Processor* first, const Processor* second) const;
 
@@ -52,6 +53,7 @@ namespace mopo {
       // When we create a cycle into the ProcessorRouter graph, we must insert
       // a Feedback node and add it here.
       virtual void addFeedback(Feedback* feedback);
+      virtual void removeFeedback(Feedback* feedback);
 
       // Makes sure _processor_ runs in a topologically sorted order in
       // relation to all other Processors in _this_.
@@ -70,7 +72,7 @@ namespace mopo {
       std::map<const Processor*, Processor*> processors_;
 
       std::shared_ptr<std::vector<const Feedback*> > feedback_order_;
-      std::map<const Feedback*, std::unique_ptr<Feedback> >
+      std::map<const Processor*, std::unique_ptr<Feedback> >
           feedback_processors_;
   };
 } // namespace mopo

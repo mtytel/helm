@@ -199,7 +199,7 @@ namespace mopo {
         int num_inputs = inputs_->size();
         output()->buffer[i] = 0.0;
         for (int in = 0; in < num_inputs; ++in)
-          output(0)->buffer[i] += input(in)->at(i);
+          output()->buffer[i] += input(in)->at(i);
       }
   };
 
