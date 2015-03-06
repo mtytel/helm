@@ -26,8 +26,10 @@
 #define HEIGHT 800
 #define DEFAULT_KEYBOARD_OFFSET 48
 #define KEYBOARD "awsedftgyhujkolp;'"
+#define MAX_OUTPUT_MEMORY 1048576
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {
+  output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   setAudioChannels(0, NUM_CHANNELS);
   postMessage(new Message());
 
@@ -43,7 +45,7 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
 
   gui_ = new FullInterface(controls_, synth_.getModulationSources(),
                            synth_.getMonoModulations(), synth_.getPolyModulations());
-  gui_->setOutputMemory(&output_memory_);
+  gui_->setOutputMemory(output_memory_);
   gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
@@ -69,24 +71,30 @@ void TwytchStandaloneEditor::changeKeyboardOffset(int new_offset) {
 
 void TwytchStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
   synth_.setSampleRate(sample_rate);
-  synth_.setBufferSize(buffer_size);
+  synth_.setBufferSize(std::min(buffer_size, mopo::MAX_BUFFER_SIZE));
 }
 
 void TwytchStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffer) {
   ScopedLock lock(critical_section_);
-  synth_.process();
   int num_samples = buffer.buffer->getNumSamples();
+  int synth_samples = std::min(num_samples, mopo::MAX_BUFFER_SIZE);
 
-  const mopo::mopo_float* synth_output = synth_.output()->buffer;
-  for (int channel = 0; channel < NUM_CHANNELS; ++channel) {
-    float* channelData = buffer.buffer->getWritePointer(channel);
+  MOPO_ASSERT(num_samples % synth_samples == 0);
 
-    for (int i = 0; i < num_samples; ++i)
-      channelData[i] = synth_output[i];
+  for (int b = 0; b < num_samples; b += synth_samples) {
+    synth_.process();
+
+    const mopo::mopo_float* synth_output = synth_.output()->buffer;
+    for (int channel = 0; channel < NUM_CHANNELS; ++channel) {
+      float* channelData = buffer.buffer->getWritePointer(channel);
+
+      for (int i = 0; i < synth_samples; ++i)
+        channelData[b + i] = synth_output[i];
+    }
+
+    for (int i = 0; i < synth_samples; ++i)
+      output_memory_->push(synth_output[i]);
   }
-
-  for (int i = 0; i < num_samples; ++i)
-    output_memory_.push(synth_output[i]);
 }
 
 void TwytchStandaloneEditor::releaseResources() {

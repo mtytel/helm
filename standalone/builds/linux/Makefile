@@ -64,6 +64,7 @@ OBJECTS := \
   $(OBJDIR)/formant_manager_f436e2fc.o \
   $(OBJDIR)/linear_slope_44537f50.o \
   $(OBJDIR)/magnitude_lookup_8a3238c8.o \
+  $(OBJDIR)/memory_5ee1bbc0.o \
   $(OBJDIR)/midi_lookup_33d3b4c3.o \
   $(OBJDIR)/mono_panner_cf566c25.o \
   $(OBJDIR)/operators_8e60d6ba.o \
@@ -193,6 +194,11 @@ $(OBJDIR)/linear_slope_44537f50.o: ../../../mopo/src/linear_slope.cpp
 $(OBJDIR)/magnitude_lookup_8a3238c8.o: ../../../mopo/src/magnitude_lookup.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling magnitude_lookup.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/memory_5ee1bbc0.o: ../../../mopo/src/memory.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling memory.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/midi_lookup_33d3b4c3.o: ../../../mopo/src/midi_lookup.cpp

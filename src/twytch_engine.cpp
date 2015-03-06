@@ -26,6 +26,8 @@
 
 #include <fenv.h>
 
+#define MAX_DELAY_SAMPLES 1000000
+
 namespace mopo {
 
   TwytchEngine::TwytchEngine() : was_playing_arp_(false) {
@@ -64,7 +66,7 @@ namespace mopo {
     SmoothValue* delay_feedback = new SmoothValue(-0.3);
     SmoothValue* delay_wet = new SmoothValue(0.3);
 
-    Delay* delay = new Delay();
+    Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);
     delay->plug(delay_time, Delay::kDelayTime);
     delay->plug(delay_feedback, Delay::kFeedback);

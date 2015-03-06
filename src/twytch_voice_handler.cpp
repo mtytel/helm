@@ -41,6 +41,8 @@
 #define MIN_GAIN_DB -24.0
 #define MAX_GAIN_DB 24.0
 
+#define MAX_FEEDBACK_SAMPLES 20000
+
 namespace mopo {
 
   namespace {
@@ -250,7 +252,7 @@ namespace mopo {
     addProcessor(osc_feedback_frequency);
     addProcessor(osc_feedback_period);
 
-    osc_feedback_ = new Delay();
+    osc_feedback_ = new Delay(MAX_FEEDBACK_SAMPLES);
     osc_feedback_->plug(oscillator_mix_, Delay::kAudio);
     osc_feedback_->plug(osc_feedback_period, Delay::kDelayTime);
     osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);

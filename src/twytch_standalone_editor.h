@@ -73,7 +73,7 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     CriticalSection critical_section_;
     TwytchLookAndFeel look_and_feel_;
     mopo::control_map controls_;
-    mopo::Memory output_memory_;
+    mopo::Memory* output_memory_;
 
     ScopedPointer<FullInterface> gui_;
 

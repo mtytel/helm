@@ -42,8 +42,7 @@ namespace mopo {
       };
 
       TwytchOscillators();
-      TwytchOscillators(const TwytchOscillators& original) :
-          TickRouter(original) {
+      TwytchOscillators(const TwytchOscillators& original) : TickRouter(original) {
         oscillator1_ = new Oscillator(*original.oscillator1_);
         oscillator2_ = new Oscillator(*original.oscillator2_);
         frequency1_ = new Multiply(*original.frequency1_);

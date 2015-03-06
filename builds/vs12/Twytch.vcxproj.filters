@@ -664,6 +664,9 @@
     <ClCompile Include="..\..\mopo\src\magnitude_lookup.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\memory.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\midi_lookup.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>

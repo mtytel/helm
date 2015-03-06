@@ -144,6 +144,7 @@
     <ClCompile Include="..\..\..\mopo\src\formant_manager.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\linear_slope.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\magnitude_lookup.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\memory.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\midi_lookup.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\mono_panner.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\operators.cpp"/>

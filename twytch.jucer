@@ -388,6 +388,7 @@
               file="mopo/src/magnitude_lookup.cpp"/>
         <FILE id="wsCS5k" name="magnitude_lookup.h" compile="0" resource="0"
               file="mopo/src/magnitude_lookup.h"/>
+        <FILE id="p0bl9S" name="memory.cpp" compile="1" resource="0" file="mopo/src/memory.cpp"/>
         <FILE id="GKDQJa" name="memory.h" compile="0" resource="0" file="mopo/src/memory.h"/>
         <FILE id="Shd5Ou" name="midi_lookup.cpp" compile="1" resource="0" file="mopo/src/midi_lookup.cpp"/>
         <FILE id="X6PdHk" name="midi_lookup.h" compile="0" resource="0" file="mopo/src/midi_lookup.h"/>
