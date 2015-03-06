@@ -625,6 +625,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
         Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
         if (slider) {
             slider_lookup_[slider->getName().toStdString()] = slider;
+            slider->setPopupDisplayEnabled(true, getParentComponent());
         }
 
         Button* button = dynamic_cast<Button*>(getChildComponent(i));

@@ -232,7 +232,7 @@ void GraphicalStepSequencer::updateHover(int step_index) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GraphicalStepSequencer" componentName=""
-                 parentClasses="public Component, SliderListener" constructorParams=""
+                 parentClasses="public Component, public SliderListener" constructorParams=""
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <METHODS>

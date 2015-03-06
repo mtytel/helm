@@ -73,6 +73,7 @@ private:
     std::map<std::string, juce::Slider*> slider_lookup_;
     std::map<std::string, juce::Button*> button_lookup_;
     ScopedPointer<ModulationManager> modulation_manager_;
+    TooltipWindow tooltip_;
     //[/UserVariables]
 
     //==============================================================================

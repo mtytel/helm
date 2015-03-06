@@ -36,7 +36,7 @@
                                                                     //[/Comments]
 */
 class GraphicalStepSequencer  : public Component,
-                                SliderListener
+                                public SliderListener
 {
 public:
     //==============================================================================
