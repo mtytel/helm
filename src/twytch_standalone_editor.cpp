@@ -41,7 +41,8 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   controls_ = synth_.getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface(controls_, synth_.getMonoModulations(), synth_.getPolyModulations());
+  gui_ = new FullInterface(controls_, synth_.getModulationSources(),
+                           synth_.getMonoModulations(), synth_.getPolyModulations());
   gui_->setOutputMemory(&output_memory_);
   gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);

@@ -26,7 +26,9 @@ TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twyt
   controls_ = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface(controls_, twytch.getSynth()->getModulationDestinations());
+  gui_ = new FullInterface(controls_,
+                           twytch.getSynth()->getMonoModulations(),
+                           twytch.getSynth()->getPolyModulations());
   gui_->setOutputMemory(twytch.getOutputMemory());
   gui_->setModulationConnections(twytch_.getSynth()->getModulationConnections());
   addAndMakeVisible(gui_);
@@ -60,18 +62,6 @@ void TwytchEditor::connectModulation(mopo::ModulationConnection* connection) {
 void TwytchEditor::disconnectModulation(mopo::ModulationConnection* connection) {
   ScopedLock(twytch_.getCallbackLock());
   twytch_.getSynth()->disconnectModulation(connection);
-}
-
-const mopo::Processor::Output* TwytchEditor::getModulationSourceOutput(std::string name) {
-  return twytch_.getSynth()->getModulationSourceOutput(name);
-}
-
-const mopo::Processor::Output* TwytchEditor::getMonoModulationTotal(std::string name) {
-  return twytch_.getSynth()->getMonoModulationTotal(name);
-}
-
-const mopo::Processor::Output* TwytchEditor::getPolyModulationTotal(std::string name) {
-  return twytch_.getSynth()->getPolyModulationTotal(name);
 }
 
 int TwytchEditor::getNumActiveVoices() {

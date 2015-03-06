@@ -31,7 +31,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-FullInterface::FullInterface (mopo::control_map controls, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
+FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (arp_frequency_ = new Slider ("arp frequency"));
@@ -94,7 +94,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map mono_
             button_lookup_[button->getName().toStdString()] = button;
     }
     setAllValues(controls);
-    createModulationSliders(mono_modulations, poly_modulations);
+    createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
     //[/UserPreSize]
 
     setSize (800, 400);
@@ -290,7 +290,8 @@ Slider* FullInterface::getSlider(std::string name) {
     return synthesis_interface_->getSlider(name);
 }
 
-void FullInterface::createModulationSliders(mopo::output_map mono_modulations,
+void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
+                                            mopo::output_map mono_modulations,
                                             mopo::output_map poly_modulations) {
     std::map<std::string, Slider*> modulatable_sliders;
 
@@ -298,7 +299,8 @@ void FullInterface::createModulationSliders(mopo::output_map mono_modulations,
         Slider* slider = getSlider(destination.first);
         modulatable_sliders[destination.first] = slider;
     }
-    modulation_manager_ = new ModulationManager(modulatable_sliders,
+    modulation_manager_ = new ModulationManager(modulation_sources,
+                                                modulatable_sliders,
                                                 mono_modulations, poly_modulations);
     modulation_manager_->setOpaque(false);
     addAndMakeVisible(modulation_manager_);
@@ -326,7 +328,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
                  parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="mopo::control_map controls, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
+                 constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff271436">

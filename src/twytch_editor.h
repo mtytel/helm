@@ -39,9 +39,6 @@ class TwytchEditor : public AudioProcessorEditor,
     void valueChanged(std::string name, mopo::mopo_float value) override;
     void connectModulation(mopo::ModulationConnection* connection) override;
     void disconnectModulation(mopo::ModulationConnection* connection) override;
-    const mopo::Processor::Output* getModulationSourceOutput(std::string name) override;
-    const mopo::Processor::Output* getMonoModulationTotal(std::string name) override;
-    const mopo::Processor::Output* getPolyModulationTotal(std::string name) override;
     int getNumActiveVoices() override;
     void enterCriticalSection() { twytch_.getCallbackLock().enter(); }
     void exitCriticalSection() { twytch_.getCallbackLock().exit(); }

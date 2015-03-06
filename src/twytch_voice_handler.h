@@ -56,6 +56,7 @@ namespace mopo {
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
 
+      output_map getModulationSources() { return mod_sources_; }
       output_map getMonoModulations() { return mono_modulation_readout_; }
       output_map getPolyModulations() { return poly_modulation_readout_; }
 

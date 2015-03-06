@@ -117,6 +117,10 @@ namespace mopo {
     voice_handler_->clearModulations();
   }
 
+  output_map TwytchEngine::getModulationSources() {
+    return voice_handler_->getModulationSources();
+  }
+
   output_map TwytchEngine::getMonoModulations() {
     return voice_handler_->getMonoModulations();
   }

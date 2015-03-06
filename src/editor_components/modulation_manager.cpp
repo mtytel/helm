@@ -33,10 +33,11 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationManager::ModulationManager (std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
+ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
 
     //[UserPreSize]
+    modulation_sources_ = modulation_sources;
     setInterceptsMouseClicks(false, true);
     startTimerHz(FRAMES_PER_SECOND);
 
@@ -52,21 +53,23 @@ ModulationManager::ModulationManager (std::map<std::string, Slider*> sliders, mo
 
     slider_model_lookup_ = sliders;
     for (auto slider : slider_model_lookup_) {
-        // Create modulation slider.
         std::string name = slider.first;
+        const mopo::Processor::Output* mono_total = mono_modulations[name];
+        const mopo::Processor::Output* poly_total = poly_modulations[name];
 
+        // Create modulation slider.
         ModulationSlider* mod_slider = new ModulationSlider(slider.second);
         mod_slider->setLookAndFeel(&look_and_feel_);
         mod_slider->addListener(this);
-        polyphonic_destinations_->addAndMakeVisible(mod_slider);
+        if (poly_total)
+            polyphonic_destinations_->addAndMakeVisible(mod_slider);
+        else
+            monophonic_destinations_->addAndMakeVisible(mod_slider);
 
         slider_lookup_[name] = mod_slider;
         owned_sliders_.push_back(mod_slider);
 
         // Create modulation meter.
-        const mopo::Processor::Output* mono_total = mono_modulations[slider.first];
-        const mopo::Processor::Output* poly_total = poly_modulations[slider.first];
-
         if (mono_total) {
             ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
             meter->setName(slider.second->getName());
@@ -189,7 +192,8 @@ void ModulationManager::changeModulator(std::string new_modulator) {
         }
 
         polyphonic_destinations_->setVisible(true);
-        monophonic_destinations_->setVisible(true);
+        bool source_is_poly = modulation_sources_[current_modulator_]->owner->isPolyphonic();
+        monophonic_destinations_->setVisible(!source_is_poly);
     }
 }
 
@@ -219,7 +223,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationManager" componentName=""
                  parentClasses="public Component, public SliderListener, public Timer"
-                 constructorParams="std::map&lt;std::string, Slider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
+                 constructorParams="mopo::output_map modulation_sources, std::map&lt;std::string, Slider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>

@@ -39,6 +39,7 @@ namespace mopo {
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
+      output_map getModulationSources();
       output_map getMonoModulations();
       output_map getPolyModulations();
       int getNumActiveVoices();

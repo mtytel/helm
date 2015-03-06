@@ -44,7 +44,7 @@ class ModulationManager  : public Component,
 {
 public:
     //==============================================================================
-    ModulationManager (std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
+    ModulationManager (mopo::output_map modulation_sources, std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~ModulationManager();
 
     //==============================================================================
@@ -79,6 +79,7 @@ private:
     std::vector<ScopedPointer<Slider>> owned_sliders_;
 
     std::vector<ScopedPointer<ModulationMeter>> meters_;
+    mopo::output_map modulation_sources_;
     //[/UserVariables]
 
     //==============================================================================
