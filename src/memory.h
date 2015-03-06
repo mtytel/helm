@@ -22,28 +22,22 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstring>
-
-// MAX_MEMORY must be a power of 2.
-#define MAX_MEMORY 1048576
-#define MEMORY_BITMASK 1048575
 
 namespace mopo {
 
   // A processor utility to store a stream of data for later lookup.
   class Memory {
     public:
-      Memory() : offset_(0) {
-        memset(memory_, 0, MAX_MEMORY * sizeof(mopo_float));
-      }
+      Memory(int size);
+      ~Memory();
 
       void push(mopo_float sample) {
-        offset_ = (offset_ + 1) & MEMORY_BITMASK;
+        offset_ = (offset_ + 1) & bitmask_;
         memory_[offset_] = sample;
       }
 
       mopo_float getIndex(int index) const {
-        return memory_[(offset_ - index) & MEMORY_BITMASK];
+        return memory_[(offset_ - index) & bitmask_];
       }
 
       mopo_float get(mopo_float past) const {
@@ -58,7 +52,7 @@ namespace mopo {
       }
 
       const mopo_float* getPointer(int past) const {
-        return memory_ + ((offset_ - past) & MEMORY_BITMASK);
+        return memory_ + ((offset_ - past) & bitmask_);
       }
 
       const mopo_float* getBuffer() const {
@@ -70,11 +64,13 @@ namespace mopo {
       }
 
       int getSize() const {
-        return MAX_MEMORY;
+        return size_;
       }
 
     protected:
-      mopo_float memory_[MAX_MEMORY];
+      mopo_float* memory_;
+      unsigned int size_;
+      unsigned int bitmask_;
       unsigned int offset_;
   };
 } // namespace mopo
