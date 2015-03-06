@@ -127,6 +127,23 @@ namespace mopo {
     }
   }
 
+  void ProcessorRouter::disconnect(Processor* destination,
+                                   const Output* source) {
+    if (isDownstream(destination, source->owner)) {
+      // We're fine unless there is a cycle and need to delete a Feedback node.
+      for (int i = 0; i < destination->numInputs(); ++i) {
+        const Processor* owner = destination->input(i)->source->owner;
+
+        if (feedback_processors_.find(owner) != feedback_processors_.end()) {
+          Feedback* feedback = feedback_processors_[owner].get();
+          if (feedback->input()->source == source)
+            removeFeedback(feedback_processors_[owner].get());
+          destination->input(i)->source = &Processor::null_source_;
+        }
+      }
+    }
+  }
+
   void ProcessorRouter::reorder(Processor* processor) {
     // Get all the dependencies inside this router.
     std::set<const Processor*> dependencies = getDependencies(processor);
@@ -200,6 +217,14 @@ namespace mopo {
     feedback->router(this);
     feedback_order_->push_back(feedback);
     feedback_processors_[feedback].reset(feedback);
+  }
+
+  void ProcessorRouter::removeFeedback(Feedback* feedback) {
+    std::vector<const Feedback*>::iterator pos =
+        std::find(feedback_order_->begin(), feedback_order_->end(), feedback);
+    MOPO_ASSERT(pos != feedback_order_->end());
+    feedback_order_->erase(pos, pos + 1);
+    feedback_processors_.erase(feedback);
   }
 
   void ProcessorRouter::updateAllProcessors() {

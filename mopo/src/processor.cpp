@@ -16,6 +16,7 @@
 
 #include "processor.h"
 
+#include "feedback.h"
 #include "processor_router.h"
 
 namespace mopo {
@@ -101,6 +102,9 @@ namespace mopo {
   }
 
   void Processor::unplug(const Output* source) {
+    if (router_)
+      router_->disconnect(this, source);
+
     for (unsigned int i = 0; i < inputs_->size(); ++i) {
       if (inputs_->at(i) && inputs_->at(i)->source == source)
         inputs_->at(i)->source = &Processor::null_source_;
@@ -108,6 +112,10 @@ namespace mopo {
   }
 
   void Processor::unplug(const Processor* source) {
+    if (router_) {
+      for (int i = 0; i < source->numOutputs(); ++i)
+        router_->disconnect(this, source->output(i));
+    }
     for (unsigned int i = 0; i < inputs_->size(); ++i) {
       if (inputs_->at(i) && inputs_->at(i)->source->owner == source)
         inputs_->at(i)->source = &Processor::null_source_;

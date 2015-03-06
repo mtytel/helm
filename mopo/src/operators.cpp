@@ -31,9 +31,9 @@ namespace mopo {
 
   void Clamp::process() {
 #ifdef USE_APPLE_ACCELERATE
-    vDSP_vclipD(input(0)->source->buffer, 1,
+    vDSP_vclipD(input()->source->buffer, 1,
                 &min_, &max_,
-                output(0)->buffer, 1, buffer_size_);
+                output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -42,8 +42,8 @@ namespace mopo {
 
   void Negate::process() {
 #ifdef USE_APPLE_ACCELERATE
-    vDSP_vnegD(input(0)->source->buffer, 1,
-               output(0)->buffer, 1, buffer_size_);
+    vDSP_vnegD(input()->source->buffer, 1,
+               output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -52,8 +52,8 @@ namespace mopo {
 
   void LinearScale::process() {
 #ifdef USE_APPLE_ACCELERATE
-    vDSP_vsmulD(input(0)->source->buffer, 1, &scale_,
-                output(0)->buffer, 1, buffer_size_);
+    vDSP_vsmulD(input()->source->buffer, 1, &scale_,
+                output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -64,7 +64,7 @@ namespace mopo {
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vaddD(input(0)->source->buffer, 1,
                input(1)->source->buffer, 1,
-               output(0)->buffer, 1, buffer_size_);
+               output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -75,7 +75,7 @@ namespace mopo {
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vsubD(input(0)->source->buffer, 1,
                input(1)->source->buffer, 1,
-               output(0)->buffer, 1, buffer_size_);
+               output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -86,7 +86,7 @@ namespace mopo {
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vmulD(input(0)->source->buffer, 1,
                input(1)->source->buffer, 1,
-               output(0)->buffer, 1, buffer_size_);
+               output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -98,11 +98,11 @@ namespace mopo {
     vDSP_vsbmD(input(kTo)->source->buffer, 1,
                input(kFrom)->source->buffer, 1,
                input(kFractional)->source->buffer, 1,
-               output(0)->buffer, 1, buffer_size_);
+               output()->buffer, 1, buffer_size_);
 
     vDSP_vaddD(input(kFrom)->source->buffer, 1,
-               output(0)->buffer, 1,
-               output(0)->buffer, 1, buffer_size_);
+               output()->buffer, 1,
+               output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
@@ -115,18 +115,18 @@ namespace mopo {
   }
 
   void VariableAdd::process() {
-    memset(output(0)->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    memset(output()->buffer, 0, buffer_size_ * sizeof(mopo_float));
 
     int num_inputs = inputs_->size();
     for (int i = 0; i < num_inputs; ++i) {
       if (input(i)->source != &Processor::null_source_) {
 #ifdef USE_APPLE_ACCELERATE
         vDSP_vaddD(input(i)->source->buffer, 1,
-                   output(0)->buffer, 1,
-                   output(0)->buffer, 1, buffer_size_);
+                   output()->buffer, 1,
+                   output()->buffer, 1, buffer_size_);
 #else
         for (int s = 0; s < buffer_size_; ++s)
-          output(0)->buffer[s] += input(i)->at(s);
+          output()->buffer[s] += input(i)->at(s);
 #endif
       }
     }
