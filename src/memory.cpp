@@ -28,6 +28,11 @@ namespace mopo {
     memset(memory_, 0, size_ * sizeof(mopo_float));
   }
 
+  Memory::Memory(const Memory& other) {
+    this->memory_ = new mopo_float[size_];
+    memset(this->memory_, 0, size_ * sizeof(mopo_float));
+  }
+
   Memory::~Memory() {
     delete memory_;
   }
