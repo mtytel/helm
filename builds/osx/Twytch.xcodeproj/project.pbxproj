@@ -1828,6 +1828,7 @@
 				17E1DEF73599947B36158A72 /* xy_pad.cpp */,
 				824852FC626BBBDA05C51FB3 /* xy_pad.h */,
 			);
+			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
 			tabWidth = 4;
