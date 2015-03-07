@@ -43,6 +43,7 @@ GraphicalEnvelope::GraphicalEnvelope ()
     decay_hover_ = false;
     sustain_hover_ = false;
     release_hover_ = false;
+    mouse_down_ = false;
 
     attack_slider_ = nullptr;
     decay_slider_ = nullptr;
@@ -98,7 +99,6 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0xffcccccc));
     g.strokePath(envelope_line_, stroke);
 
-    g.setColour(Colour(0x66ffffff));
 
     float hover_line_x = -20;
     if (attack_hover_)
@@ -108,10 +108,23 @@ void GraphicalEnvelope::paint (Graphics& g)
     else if (release_hover_)
         hover_line_x = getReleaseX();
 
+    if (mouse_down_) {
+        g.setColour(Colour(0x11ffffff));
+        g.fillRect(hover_line_x - 10.0f, 0.0f, 20.0f, 1.0f * getHeight());
+    }
+
+    g.setColour(Colour(0x66ffffff));
     g.fillRect(hover_line_x - 0.5f, 0.0f, 1.0f, 1.0f * getHeight());
 
-    if (sustain_hover_)
+    if (sustain_hover_) {
+        if (mouse_down_) {
+            g.setColour(Colour(0x11ffffff));
+            g.fillEllipse(getDecayX() - 20.0, getSustainY() - 20.0, 40.0, 40.0);
+        }
+
+        g.setColour(Colour(0x66ffffff));
         g.drawEllipse(getDecayX() - 4.0, getSustainY() - 4.0, 8.0, 8.0, 1.0);
+    }
 
     g.setColour(Colour(0xffcccccc));
     g.fillEllipse(getDecayX() - 2.0, getSustainY() - 2.0, 4.0, 4.0);
@@ -139,7 +152,7 @@ void GraphicalEnvelope::mouseMove (const MouseEvent& e)
 
     bool a_hover = attack_delta < decay_delta && attack_delta < HOVER_DISTANCE;
     bool d_hover = !attack_hover_ && decay_delta < release_delta && decay_delta < HOVER_DISTANCE;
-    bool r_hover = !decay_hover_ && release_delta < decay_delta && release_delta < HOVER_DISTANCE;
+    bool r_hover = !decay_hover_ && release_delta < HOVER_DISTANCE;
     bool s_hover = !a_hover && !r_hover && x > getDecayX() - HOVER_DISTANCE &&
                    x < getDecayX() + HOVER_DISTANCE && sustain_delta < HOVER_DISTANCE;
 
@@ -165,6 +178,14 @@ void GraphicalEnvelope::mouseExit (const MouseEvent& e)
     //[/UserCode_mouseExit]
 }
 
+void GraphicalEnvelope::mouseDown (const MouseEvent& e)
+{
+    //[UserCode_mouseDown] -- Add your code here...
+    mouse_down_ = true;
+    repaint();
+    //[/UserCode_mouseDown]
+}
+
 void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
 {
     //[UserCode_mouseDrag] -- Add your code here...
@@ -183,6 +204,14 @@ void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
         repaint();
     }
     //[/UserCode_mouseDrag]
+}
+
+void GraphicalEnvelope::mouseUp (const MouseEvent& e)
+{
+    //[UserCode_mouseUp] -- Add your code here...
+    mouse_down_ = false;
+    repaint();
+    //[/UserCode_mouseUp]
 }
 
 
@@ -318,14 +347,15 @@ void GraphicalEnvelope::resetEnvelopeLine() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GraphicalEnvelope" componentName=""
-                 parentClasses="public Component, public SliderListener, public TooltipClient"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="200"
-                 initialHeight="100">
+                 parentClasses="public Component, public SliderListener" constructorParams=""
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="200" initialHeight="100">
   <METHODS>
     <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ff33064f"/>
 </JUCER_COMPONENT>

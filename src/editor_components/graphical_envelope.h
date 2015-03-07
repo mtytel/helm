@@ -70,7 +70,9 @@ public:
     void resized();
     void mouseMove (const MouseEvent& e);
     void mouseExit (const MouseEvent& e);
+    void mouseDown (const MouseEvent& e);
     void mouseDrag (const MouseEvent& e);
+    void mouseUp (const MouseEvent& e);
 
 
 
@@ -80,6 +82,7 @@ private:
     bool decay_hover_;
     bool sustain_hover_;
     bool release_hover_;
+    bool mouse_down_;
     Path envelope_line_;
 
     Slider* attack_slider_;
