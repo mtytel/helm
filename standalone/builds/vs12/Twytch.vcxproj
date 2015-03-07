@@ -172,13 +172,13 @@
     <ClCompile Include="..\..\..\src\editor_components\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_form_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
-    <ClCompile Include="..\..\..\src\main.cpp"/>
-    <ClCompile Include="..\..\..\src\modulation_look_and_feel.cpp"/>
-    <ClCompile Include="..\..\..\src\twytch_engine.cpp"/>
-    <ClCompile Include="..\..\..\src\twytch_look_and_feel.cpp"/>
-    <ClCompile Include="..\..\..\src\twytch_oscillators.cpp"/>
-    <ClCompile Include="..\..\..\src\twytch_standalone_editor.cpp"/>
-    <ClCompile Include="..\..\..\src\twytch_voice_handler.cpp"/>
+    <ClCompile Include="..\..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\..\src\look_and_feel\twytch_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\..\src\standalone\main.cpp"/>
+    <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\twytch_engine.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\twytch_oscillators.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\twytch_voice_handler.cpp"/>
     <ClCompile Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1331,6 +1331,9 @@
     <ClInclude Include="..\..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\..\mopo\src\wave.h"/>
+    <ClInclude Include="..\..\..\src\common\save_load_manager.h"/>
+    <ClInclude Include="..\..\..\src\common\synth_gui_interface.h"/>
+    <ClInclude Include="..\..\..\src\common\twytch_common.h"/>
     <ClInclude Include="..\..\..\src\editor_components\audio_viewer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\..\src\editor_components\full_interface.h"/>
@@ -1343,15 +1346,12 @@
     <ClInclude Include="..\..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_form_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
-    <ClInclude Include="..\..\..\src\modulation_look_and_feel.h"/>
-    <ClInclude Include="..\..\..\src\save_load_manager.h"/>
-    <ClInclude Include="..\..\..\src\synth_gui_interface.h"/>
-    <ClInclude Include="..\..\..\src\twytch_common.h"/>
-    <ClInclude Include="..\..\..\src\twytch_engine.h"/>
-    <ClInclude Include="..\..\..\src\twytch_look_and_feel.h"/>
-    <ClInclude Include="..\..\..\src\twytch_oscillators.h"/>
-    <ClInclude Include="..\..\..\src\twytch_standalone_editor.h"/>
-    <ClInclude Include="..\..\..\src\twytch_voice_handler.h"/>
+    <ClInclude Include="..\..\..\src\look_and_feel\modulation_look_and_feel.h"/>
+    <ClInclude Include="..\..\..\src\look_and_feel\twytch_look_and_feel.h"/>
+    <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\twytch_engine.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\twytch_oscillators.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\twytch_voice_handler.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE-OSX\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>

@@ -88,6 +88,13 @@
       </GROUP>
     </GROUP>
     <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
+      <GROUP id="{C469F3D8-F6EF-BDCC-7C07-4B716B9C6577}" name="common">
+        <FILE id="a35zR3" name="save_load_manager.h" compile="0" resource="0"
+              file="../src/common/save_load_manager.h"/>
+        <FILE id="cPdwSD" name="synth_gui_interface.h" compile="0" resource="0"
+              file="../src/common/synth_gui_interface.h"/>
+        <FILE id="f8Ivaj" name="twytch_common.h" compile="0" resource="0" file="../src/common/twytch_common.h"/>
+      </GROUP>
       <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
         <FILE id="QS9Chq" name="audio_viewer.cpp" compile="1" resource="0"
               file="../src/editor_components/audio_viewer.cpp"/>
@@ -134,35 +141,36 @@
         <FILE id="lfzZz8" name="xy_pad.cpp" compile="1" resource="0" file="../src/editor_components/xy_pad.cpp"/>
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
       </GROUP>
-      <FILE id="FG9703" name="main.cpp" compile="1" resource="0" file="../src/main.cpp"/>
-      <FILE id="HNE5l9" name="modulation_look_and_feel.cpp" compile="1" resource="0"
-            file="../src/modulation_look_and_feel.cpp"/>
-      <FILE id="Jp0SWN" name="modulation_look_and_feel.h" compile="0" resource="0"
-            file="../src/modulation_look_and_feel.h"/>
-      <FILE id="VpiFXo" name="save_load_manager.h" compile="0" resource="0"
-            file="../src/save_load_manager.h"/>
-      <FILE id="EAB16a" name="synth_gui_interface.h" compile="0" resource="0"
-            file="../src/synth_gui_interface.h"/>
-      <FILE id="kuzAfS" name="twytch_common.h" compile="0" resource="0" file="../src/twytch_common.h"/>
-      <FILE id="m81hYi" name="twytch_engine.cpp" compile="1" resource="0"
-            file="../src/twytch_engine.cpp"/>
-      <FILE id="UKVnRi" name="twytch_engine.h" compile="0" resource="0" file="../src/twytch_engine.h"/>
-      <FILE id="EpAnp8" name="twytch_look_and_feel.cpp" compile="1" resource="0"
-            file="../src/twytch_look_and_feel.cpp"/>
-      <FILE id="tAHzyu" name="twytch_look_and_feel.h" compile="0" resource="0"
-            file="../src/twytch_look_and_feel.h"/>
-      <FILE id="byjjmo" name="twytch_oscillators.cpp" compile="1" resource="0"
-            file="../src/twytch_oscillators.cpp"/>
-      <FILE id="XCSfNh" name="twytch_oscillators.h" compile="0" resource="0"
-            file="../src/twytch_oscillators.h"/>
-      <FILE id="ZSGOAp" name="twytch_standalone_editor.cpp" compile="1" resource="0"
-            file="../src/twytch_standalone_editor.cpp"/>
-      <FILE id="IEfpSq" name="twytch_standalone_editor.h" compile="0" resource="0"
-            file="../src/twytch_standalone_editor.h"/>
-      <FILE id="Zign6R" name="twytch_voice_handler.cpp" compile="1" resource="0"
-            file="../src/twytch_voice_handler.cpp"/>
-      <FILE id="DvhHbK" name="twytch_voice_handler.h" compile="0" resource="0"
-            file="../src/twytch_voice_handler.h"/>
+      <GROUP id="{39005C17-5A51-169B-7683-2989371066AF}" name="look_and_feel">
+        <FILE id="rJdVyP" name="modulation_look_and_feel.cpp" compile="1" resource="0"
+              file="../src/look_and_feel/modulation_look_and_feel.cpp"/>
+        <FILE id="qP2EgD" name="modulation_look_and_feel.h" compile="0" resource="0"
+              file="../src/look_and_feel/modulation_look_and_feel.h"/>
+        <FILE id="Cx2oD3" name="twytch_look_and_feel.cpp" compile="1" resource="0"
+              file="../src/look_and_feel/twytch_look_and_feel.cpp"/>
+        <FILE id="oUxyCe" name="twytch_look_and_feel.h" compile="0" resource="0"
+              file="../src/look_and_feel/twytch_look_and_feel.h"/>
+      </GROUP>
+      <GROUP id="{D4677D42-F890-3A26-1BC9-D1034FBAB3B6}" name="standalone">
+        <FILE id="hxYpJD" name="main.cpp" compile="1" resource="0" file="../src/standalone/main.cpp"/>
+        <FILE id="JL75Rm" name="twytch_standalone_editor.cpp" compile="1" resource="0"
+              file="../src/standalone/twytch_standalone_editor.cpp"/>
+        <FILE id="oQOEZ9" name="twytch_standalone_editor.h" compile="0" resource="0"
+              file="../src/standalone/twytch_standalone_editor.h"/>
+      </GROUP>
+      <GROUP id="{8CD89F15-3EE7-F179-F84F-049F31596941}" name="synthesis">
+        <FILE id="clGm4c" name="twytch_engine.cpp" compile="1" resource="0"
+              file="../src/synthesis/twytch_engine.cpp"/>
+        <FILE id="leswrT" name="twytch_engine.h" compile="0" resource="0" file="../src/synthesis/twytch_engine.h"/>
+        <FILE id="pqlncp" name="twytch_oscillators.cpp" compile="1" resource="0"
+              file="../src/synthesis/twytch_oscillators.cpp"/>
+        <FILE id="XPiCfn" name="twytch_oscillators.h" compile="0" resource="0"
+              file="../src/synthesis/twytch_oscillators.h"/>
+        <FILE id="icdXJi" name="twytch_voice_handler.cpp" compile="1" resource="0"
+              file="../src/synthesis/twytch_voice_handler.cpp"/>
+        <FILE id="plJRq3" name="twytch_voice_handler.h" compile="0" resource="0"
+              file="../src/synthesis/twytch_voice_handler.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

@@ -19,8 +19,11 @@
 #include "twytch_editor.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
+#define MAX_MEMORY_SAMPLES 1000000
 
-Twytch::Twytch() { }
+Twytch::Twytch() {
+  output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
+}
 
 Twytch::~Twytch() { }
 
@@ -161,7 +164,7 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
   }
 
   for (int i = 0; i < num_samples; ++i)
-    output_memory_.push(synth_output[i]);
+    output_memory_->push(synth_output[i]);
 }
 
 var Twytch::stateToVar() {

@@ -92,13 +92,13 @@ OBJECTS := \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/wave_form_selector_9d91edca.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
-  $(OBJDIR)/main_d7bc4a08.o \
-  $(OBJDIR)/modulation_look_and_feel_ec5f597a.o \
-  $(OBJDIR)/twytch_engine_92e4ab19.o \
-  $(OBJDIR)/twytch_look_and_feel_1a426301.o \
-  $(OBJDIR)/twytch_oscillators_8d8f9326.o \
-  $(OBJDIR)/twytch_standalone_editor_626e757a.o \
-  $(OBJDIR)/twytch_voice_handler_9728f010.o \
+  $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
+  $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o \
+  $(OBJDIR)/main_b7ad981e.o \
+  $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
+  $(OBJDIR)/twytch_engine_90779dde.o \
+  $(OBJDIR)/twytch_oscillators_802e9381.o \
+  $(OBJDIR)/twytch_voice_handler_5e0945ab.o \
   $(OBJDIR)/juce_audio_basics_196aec63.o \
   $(OBJDIR)/juce_audio_devices_f00cb461.o \
   $(OBJDIR)/juce_audio_formats_1e8dfe01.o \
@@ -336,37 +336,37 @@ $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
 	@echo "Compiling xy_pad.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/main_d7bc4a08.o: ../../../src/main.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling main.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/modulation_look_and_feel_ec5f597a.o: ../../../src/modulation_look_and_feel.cpp
+$(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_engine_92e4ab19.o: ../../../src/twytch_engine.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_engine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_look_and_feel_1a426301.o: ../../../src/twytch_look_and_feel.cpp
+$(OBJDIR)/twytch_look_and_feel_e9e52fc2.o: ../../../src/look_and_feel/twytch_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_oscillators_8d8f9326.o: ../../../src/twytch_oscillators.cpp
+$(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_oscillators.cpp"
+	@echo "Compiling main.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_standalone_editor_626e757a.o: ../../../src/twytch_standalone_editor.cpp
+$(OBJDIR)/twytch_standalone_editor_8fd1dc90.o: ../../../src/standalone/twytch_standalone_editor.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_standalone_editor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_voice_handler_9728f010.o: ../../../src/twytch_voice_handler.cpp
+$(OBJDIR)/twytch_engine_90779dde.o: ../../../src/synthesis/twytch_engine.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_engine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_oscillators_802e9381.o: ../../../src/synthesis/twytch_oscillators.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_oscillators.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_voice_handler_5e0945ab.o: ../../../src/synthesis/twytch_voice_handler.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_voice_handler.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"

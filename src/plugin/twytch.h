@@ -65,14 +65,14 @@ class Twytch : public AudioProcessor, public SaveLoadManager {
     void setStateInformation(const void* data, int size_in_bytes) override;
 
     mopo::TwytchEngine* getSynth() { return &synth_; }
-    const mopo::Memory* getOutputMemory() { return &output_memory_; }
+    const mopo::Memory* getOutputMemory() { return output_memory_; }
 
     var stateToVar() override;
     void varToState(var state) override;
 
   private:
     mopo::TwytchEngine synth_;
-    mopo::Memory output_memory_;
+    mopo::Memory* output_memory_;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Twytch)
 };
