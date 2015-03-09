@@ -130,6 +130,9 @@ namespace mopo {
       Output* velocity() { return &velocity_; }
       Output* aftertouch() { return &aftertouch_; }
 
+      ProcessorRouter* getGlobalRouter() { return &global_router_; }
+      ProcessorRouter* getVoiceRouter() { return &voice_router_; }
+
       void addProcessor(Processor* processor);
       void removeProcessor(Processor* processor);
       void addGlobalProcessor(Processor* processor);
