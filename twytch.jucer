@@ -511,6 +511,9 @@
         <FILE id="OFc1Ri" name="twytch_engine.cpp" compile="1" resource="0"
               file="src/synthesis/twytch_engine.cpp"/>
         <FILE id="tnzCLm" name="twytch_engine.h" compile="0" resource="0" file="src/synthesis/twytch_engine.h"/>
+        <FILE id="y2A6V6" name="twytch_module.cpp" compile="1" resource="0"
+              file="src/synthesis/twytch_module.cpp"/>
+        <FILE id="VGAUaJ" name="twytch_module.h" compile="0" resource="0" file="src/synthesis/twytch_module.h"/>
         <FILE id="aQdGfd" name="twytch_oscillators.cpp" compile="1" resource="0"
               file="src/synthesis/twytch_oscillators.cpp"/>
         <FILE id="fuGjfA" name="twytch_oscillators.h" compile="0" resource="0"

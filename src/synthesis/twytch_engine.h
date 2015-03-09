@@ -63,6 +63,9 @@ namespace mopo {
       bool was_playing_arp_;
 
       control_map controls_;
+      output_map mod_sources_;
+      input_map mod_destinations_;
+      std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo
 

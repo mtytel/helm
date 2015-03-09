@@ -162,6 +162,9 @@
         <FILE id="clGm4c" name="twytch_engine.cpp" compile="1" resource="0"
               file="../src/synthesis/twytch_engine.cpp"/>
         <FILE id="leswrT" name="twytch_engine.h" compile="0" resource="0" file="../src/synthesis/twytch_engine.h"/>
+        <FILE id="Q08JPV" name="twytch_module.cpp" compile="1" resource="0"
+              file="../src/synthesis/twytch_module.cpp"/>
+        <FILE id="pgNb5A" name="twytch_module.h" compile="0" resource="0" file="../src/synthesis/twytch_module.h"/>
         <FILE id="pqlncp" name="twytch_oscillators.cpp" compile="1" resource="0"
               file="../src/synthesis/twytch_oscillators.cpp"/>
         <FILE id="XPiCfn" name="twytch_oscillators.h" compile="0" resource="0"

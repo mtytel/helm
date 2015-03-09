@@ -775,6 +775,9 @@
     <ClCompile Include="..\..\src\synthesis\twytch_engine.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\twytch_module.cpp">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_oscillators.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
@@ -804,6 +807,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\midi\juce_MidiMessageSequence.cpp">
       <Filter>Juce Modules\juce_audio_basics\midi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\effects\juce_FFT.cpp">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
@@ -1276,10 +1282,16 @@
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_cryptography\hashing\juce_SHA256.cpp">
       <Filter>Juce Modules\juce_cryptography\hashing</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_cryptography\hashing\juce_Whirlpool.cpp">
+      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_data_structures\values\juce_Value.cpp">
       <Filter>Juce Modules\juce_data_structures\values</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_data_structures\values\juce_ValueTree.cpp">
+      <Filter>Juce Modules\juce_data_structures\values</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_data_structures\values\juce_ValueTreeSynchroniser.cpp">
       <Filter>Juce Modules\juce_data_structures\values</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\srcs\JUCE\modules\juce_data_structures\undomanager\juce_UndoManager.cpp">
@@ -2514,6 +2526,9 @@
     <ClInclude Include="..\..\src\synthesis\twytch_engine.h">
       <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\twytch_module.h">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_oscillators.h">
       <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
@@ -2545,6 +2560,9 @@
       <Filter>Juce Modules\juce_audio_basics\midi</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\effects\juce_FFT.h">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h">
@@ -3132,6 +3150,9 @@
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_cryptography\hashing\juce_SHA256.h">
       <Filter>Juce Modules\juce_cryptography\hashing</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_cryptography\hashing\juce_Whirlpool.h">
+      <Filter>Juce Modules\juce_cryptography\hashing</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_cryptography\juce_cryptography.h">
       <Filter>Juce Modules\juce_cryptography</Filter>
     </ClInclude>
@@ -3139,6 +3160,9 @@
       <Filter>Juce Modules\juce_data_structures\values</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_data_structures\values\juce_ValueTree.h">
+      <Filter>Juce Modules\juce_data_structures\values</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_data_structures\values\juce_ValueTreeSynchroniser.h">
       <Filter>Juce Modules\juce_data_structures\values</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\srcs\JUCE\modules\juce_data_structures\undomanager\juce_UndoableAction.h">

@@ -469,6 +469,9 @@
     <ClCompile Include="..\..\..\src\synthesis\twytch_engine.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\twytch_module.cpp">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\twytch_oscillators.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
@@ -1849,6 +1852,9 @@
       <Filter>Twytch\src\standalone</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\twytch_engine.h">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\twytch_module.h">
       <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\twytch_oscillators.h">

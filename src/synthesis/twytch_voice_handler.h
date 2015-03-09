@@ -20,6 +20,7 @@
 
 #include "operators.h"
 #include "twytch_common.h"
+#include "twytch_module.h"
 #include "voice_handler.h"
 
 #include <vector>
@@ -41,12 +42,11 @@ namespace mopo {
   // The voice handler duplicates processors to produce polyphony.
   // Everything in the synthesizer we want per-voice instances of must be
   // contained in here.
-  class TwytchVoiceHandler : public VoiceHandler {
+  class TwytchVoiceHandler : public VoiceHandler, public TwytchModule {
     public:
       TwytchVoiceHandler();
       virtual ~TwytchVoiceHandler() { } // Should probably delete things.
 
-      control_map getControls() { return controls_; }
       std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
 
       void setModWheel(mopo_float value);
@@ -56,9 +56,8 @@ namespace mopo {
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
 
-      output_map getModulationSources() { return mod_sources_; }
-      output_map getMonoModulations() { return mono_modulation_readout_; }
-      output_map getPolyModulations() { return poly_modulation_readout_; }
+      ProcessorRouter* getMonoRouter() override { return getGlobalRouter(); }
+      ProcessorRouter* getPolyRouter() override { return getVoiceRouter(); }
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
@@ -73,10 +72,6 @@ namespace mopo {
 
       // Create the filter and filter envelope.
       void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
-
-      Processor* createModControl(std::string name, mopo_float start_val,
-                                  bool control_rate, bool smooth_value = false,
-                                  bool poly = true);
 
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;
@@ -101,12 +96,6 @@ namespace mopo {
 
       Multiply* output_;
 
-      control_map controls_;
-      output_map mod_sources_;
-      input_map mono_mod_destinations_;
-      input_map poly_mod_destinations_;
-      output_map mono_modulation_readout_;
-      output_map poly_modulation_readout_;
       std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo

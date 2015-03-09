@@ -97,6 +97,7 @@ OBJECTS := \
   $(OBJDIR)/main_b7ad981e.o \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
   $(OBJDIR)/twytch_engine_90779dde.o \
+  $(OBJDIR)/twytch_module_6c52508.o \
   $(OBJDIR)/twytch_oscillators_802e9381.o \
   $(OBJDIR)/twytch_voice_handler_5e0945ab.o \
   $(OBJDIR)/juce_audio_basics_196aec63.o \
@@ -359,6 +360,11 @@ $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o: ../../../src/standalone/twytch_st
 $(OBJDIR)/twytch_engine_90779dde.o: ../../../src/synthesis/twytch_engine.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_engine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_module_6c52508.o: ../../../src/synthesis/twytch_module.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_module.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_oscillators_802e9381.o: ../../../src/synthesis/twytch_oscillators.cpp
