@@ -47,14 +47,8 @@ namespace mopo {
       TwytchVoiceHandler();
       virtual ~TwytchVoiceHandler() { } // Should probably delete things.
 
-      std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
-
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
-
-      void connectModulation(ModulationConnection* connection);
-      void disconnectModulation(ModulationConnection* connection);
-      void clearModulations();
 
       ProcessorRouter* getMonoRouter() override { return getGlobalRouter(); }
       ProcessorRouter* getPolyRouter() override { return getVoiceRouter(); }
@@ -95,8 +89,6 @@ namespace mopo {
       BypassRouter* formant_container_;
 
       Multiply* output_;
-
-      std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo
 

@@ -61,9 +61,9 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    SmoothValue* delay_time = new SmoothValue(0.06);
-    SmoothValue* delay_feedback = new SmoothValue(-0.3);
-    SmoothValue* delay_wet = new SmoothValue(0.3);
+    Processor* delay_time = createMonoModControl("delay time", 0.1, false, true);
+    Processor* delay_feedback = createMonoModControl("delay feedback", -0.3, false, true);
+    Processor* delay_wet = createMonoModControl("delay dry wet", 0.3, false, true);
 
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);
@@ -71,17 +71,10 @@ namespace mopo {
     delay->plug(delay_feedback, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 
-    addProcessor(delay_time);
-    addProcessor(delay_feedback);
-    addProcessor(delay_wet);
     addProcessor(delay);
 
-    controls_["delay time"] = delay_time;
-    controls_["delay feedback"] = delay_feedback;
-    controls_["delay dry wet"] = delay_wet;
-
     // Volume.
-    SmoothValue* volume = new SmoothValue(0.6);
+    Processor* volume = createMonoModControl("volume", 0.6, false, true);
     Multiply* scaled_audio = new Multiply();
     scaled_audio->plug(delay, 0);
     scaled_audio->plug(volume, 1);
@@ -92,24 +85,43 @@ namespace mopo {
     addProcessor(volume);
     addProcessor(scaled_audio);
     registerOutput(clamp->output());
-
-    controls_["volume"] = volume;
-  }
-
-  std::set<ModulationConnection*> TwytchEngine::getModulationConnections() {
-    return voice_handler_->getModulationConnections();
   }
 
   void TwytchEngine::connectModulation(ModulationConnection* connection) {
-    voice_handler_->connectModulation(connection);
+    Processor::Output* source = getModulationSource(connection->source);
+    Processor* destination = getModulationDestination(connection->destination,
+                                                      source->owner->isPolyphonic());
+    MOPO_ASSERT(source != nullptr);
+    MOPO_ASSERT(destination != nullptr);
+
+    connection->modulation_scale.plug(source, 0);
+    connection->modulation_scale.plug(&connection->amount, 1);
+    connection->modulation_scale.setControlRate(source->owner->isControlRate());
+    destination->plugNext(&connection->modulation_scale);
+
+    source->owner->router()->addProcessor(&connection->modulation_scale);
+    mod_connections_.insert(connection);
   }
 
   void TwytchEngine::disconnectModulation(ModulationConnection* connection) {
-    voice_handler_->disconnectModulation(connection);
+    Processor::Output* source = getModulationSource(connection->source);
+    Processor* destination = getModulationDestination(connection->destination,
+                                                      source->owner->isPolyphonic());
+    destination->unplug(&connection->modulation_scale);
+
+    source->owner->router()->removeProcessor(&connection->modulation_scale);
+    mod_connections_.erase(connection);
   }
 
   void TwytchEngine::clearModulations() {
-    voice_handler_->clearModulations();
+    for (auto connection : mod_connections_) {
+      Processor::Output* source = getModulationSource(connection->source);
+      Processor* destination = getModulationDestination(connection->destination,
+                                                        source->owner->isPolyphonic());
+      destination->unplug(&connection->modulation_scale);
+      source->owner->router()->removeProcessor(&connection->modulation_scale);
+    }
+    mod_connections_.clear();
   }
 
   int TwytchEngine::getNumActiveVoices() {
@@ -120,7 +132,7 @@ namespace mopo {
     bool playing_arp = arp_on_->value();
     if (was_playing_arp_ != playing_arp)
       arpeggiator_->allNotesOff();
-    
+
     was_playing_arp_ = playing_arp;
     ProcessorRouter::process();
   }

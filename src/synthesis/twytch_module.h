@@ -33,7 +33,8 @@ namespace mopo {
 
       control_map getControls();
 
-      const Processor::Output* getModulationSource(std::string name);
+      Processor::Output* getModulationSource(std::string name);
+      Processor* getModulationDestination(std::string name, bool poly);
       Processor* getMonoModulationDestination(std::string name);
       Processor* getPolyModulationDestination(std::string name);
       output_map getModulationSources();

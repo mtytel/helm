@@ -76,17 +76,23 @@ namespace mopo {
     return all_controls;
   }
 
-  const Processor::Output* TwytchModule::getModulationSource(std::string name) {
+  Processor::Output* TwytchModule::getModulationSource(std::string name) {
     if (mod_sources_.count(name))
       return mod_sources_[name];
 
     for (TwytchModule* sub_module : sub_modules_) {
-      const Processor::Output* source = sub_module->getModulationSource(name);
+      Processor::Output* source = sub_module->getModulationSource(name);
       if (source)
         return source;
     }
 
     return nullptr;
+  }
+
+  Processor* TwytchModule::getModulationDestination(std::string name, bool poly) {
+    if (poly)
+      return getPolyModulationDestination(name);
+    return getMonoModulationDestination(name);
   }
 
   Processor* TwytchModule::getMonoModulationDestination(std::string name) {

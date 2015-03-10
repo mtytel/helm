@@ -32,10 +32,9 @@ namespace mopo {
     public:
       TwytchEngine();
 
-      std::set<ModulationConnection*> getModulationConnections();
-
       void process() override;
 
+      std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
@@ -62,6 +61,8 @@ namespace mopo {
       Arpeggiator* arpeggiator_;
       Value* arp_on_;
       bool was_playing_arp_;
+
+      std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo
 
