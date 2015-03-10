@@ -36,15 +36,16 @@ namespace mopo {
     // Voice Handler.
     Value* polyphony = new Value(1);
     voice_handler_ = new TwytchVoiceHandler();
+    addSubmodule(voice_handler_);
     voice_handler_->setPolyphony(32);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
     controls_["polyphony"] = polyphony;
 
     // Arpeggiator.
-    Value* arp_frequency = new Value(5.0);
+    Processor* arp_frequency = createMonoModControl("arp frequency", 5.0, true);
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
-    Value* arp_gate = new Value(0.5);
+    Processor* arp_gate = createMonoModControl("arp gate", 0.5, true);
     arp_on_ = new Value(0);
     arpeggiator_ = new Arpeggiator(voice_handler_);
     arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
@@ -52,10 +53,8 @@ namespace mopo {
     arpeggiator_->plug(arp_pattern, Arpeggiator::kPattern);
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
 
-    controls_["arp frequency"] = arp_frequency;
     controls_["arp octaves"] = arp_octaves;
     controls_["arp pattern"] = arp_pattern;
-    controls_["arp gate"] = arp_gate;
     controls_["arp on"] = arp_on_;
 
     addProcessor(arpeggiator_);
@@ -97,12 +96,6 @@ namespace mopo {
     controls_["volume"] = volume;
   }
 
-  control_map TwytchEngine::getControls() {
-    control_map voice_controls = voice_handler_->getControls();
-    voice_controls.insert(controls_.begin(), controls_.end());
-    return voice_controls;
-  }
-
   std::set<ModulationConnection*> TwytchEngine::getModulationConnections() {
     return voice_handler_->getModulationConnections();
   }
@@ -117,18 +110,6 @@ namespace mopo {
 
   void TwytchEngine::clearModulations() {
     voice_handler_->clearModulations();
-  }
-
-  output_map TwytchEngine::getModulationSources() {
-    return voice_handler_->getModulationSources();
-  }
-
-  output_map TwytchEngine::getMonoModulations() {
-    return voice_handler_->getMonoModulations();
-  }
-
-  output_map TwytchEngine::getPolyModulations() {
-    return voice_handler_->getPolyModulations();
   }
 
   int TwytchEngine::getNumActiveVoices() {

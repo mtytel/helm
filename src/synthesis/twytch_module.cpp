@@ -65,4 +65,84 @@ namespace mopo {
     poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
     return modulation_total;
   }
+
+  control_map TwytchModule::getControls() {
+    control_map all_controls = controls_;
+    for (TwytchModule* sub_module : sub_modules_) {
+      control_map sub_controls = sub_module->getControls();
+      all_controls.insert(sub_controls.begin(), sub_controls.end());
+    }
+
+    return all_controls;
+  }
+
+  const Processor::Output* TwytchModule::getModulationSource(std::string name) {
+    if (mod_sources_.count(name))
+      return mod_sources_[name];
+
+    for (TwytchModule* sub_module : sub_modules_) {
+      const Processor::Output* source = sub_module->getModulationSource(name);
+      if (source)
+        return source;
+    }
+
+    return nullptr;
+  }
+
+  Processor* TwytchModule::getMonoModulationDestination(std::string name) {
+    if (mono_mod_destinations_.count(name))
+      return mono_mod_destinations_[name];
+
+    for (TwytchModule* sub_module : sub_modules_) {
+      Processor* destination = sub_module->getMonoModulationDestination(name);
+      if (destination)
+        return destination;
+    }
+
+    return nullptr;
+  }
+
+  Processor* TwytchModule::getPolyModulationDestination(std::string name) {
+    if (poly_mod_destinations_.count(name))
+      return poly_mod_destinations_[name];
+
+    for (TwytchModule* sub_module : sub_modules_) {
+      Processor* destination = sub_module->getPolyModulationDestination(name);
+      if (destination)
+        return destination;
+    }
+
+    return nullptr;
+  }
+
+  output_map TwytchModule::getModulationSources() {
+    output_map all_sources = mod_sources_;
+    for (TwytchModule* sub_module : sub_modules_) {
+      output_map sub_sources = sub_module->getModulationSources();
+      all_sources.insert(sub_sources.begin(), sub_sources.end());
+    }
+
+    return all_sources;
+  }
+
+  output_map TwytchModule::getMonoModulations() {
+    output_map all_readouts = mono_modulation_readout_;
+    for (TwytchModule* sub_module : sub_modules_) {
+      output_map sub_readouts = sub_module->getMonoModulations();
+      all_readouts.insert(sub_readouts.begin(), sub_readouts.end());
+    }
+
+    return all_readouts;
+  }
+
+  output_map TwytchModule::getPolyModulations() {
+    output_map all_readouts = poly_modulation_readout_;
+    for (TwytchModule* sub_module : sub_modules_) {
+      output_map sub_readouts = sub_module->getPolyModulations();
+      all_readouts.insert(sub_readouts.begin(), sub_readouts.end());
+    }
+
+    return all_readouts;
+  }
+
 } // namespace mopo

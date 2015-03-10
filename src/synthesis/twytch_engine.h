@@ -20,6 +20,7 @@
 
 #include "processor_router.h"
 #include "twytch_common.h"
+#include "twytch_module.h"
 
 namespace mopo {
   class Arpeggiator;
@@ -27,11 +28,10 @@ namespace mopo {
   class Value;
 
   // The overall twytch engine. All audio processing is contained in here.
-  class TwytchEngine : public ProcessorRouter {
+  class TwytchEngine : public ProcessorRouter, public TwytchModule {
     public:
       TwytchEngine();
 
-      control_map getControls();
       std::set<ModulationConnection*> getModulationConnections();
 
       void process() override;
@@ -39,9 +39,6 @@ namespace mopo {
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();
-      output_map getModulationSources();
-      output_map getMonoModulations();
-      output_map getPolyModulations();
       int getNumActiveVoices();
 
       // Keyboard events.
@@ -56,16 +53,15 @@ namespace mopo {
       void sustainOn();
       void sustainOff();
 
+      // Twytch Module.
+      ProcessorRouter* getMonoRouter() override { return this; }
+      ProcessorRouter* getPolyRouter() override { return nullptr; }
+
     private:
       TwytchVoiceHandler* voice_handler_;
       Arpeggiator* arpeggiator_;
       Value* arp_on_;
       bool was_playing_arp_;
-
-      control_map controls_;
-      output_map mod_sources_;
-      input_map mod_destinations_;
-      std::set<ModulationConnection*> mod_connections_;
   };
 } // namespace mopo
 

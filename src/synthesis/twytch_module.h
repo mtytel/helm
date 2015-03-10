@@ -31,25 +31,14 @@ namespace mopo {
       TwytchModule();
       virtual ~TwytchModule() { } // Should probably delete things.
 
-      control_map getControls() { return controls_; }
+      control_map getControls();
 
-      const Processor::Output* getModulationSource(std::string name) {
-        return mod_sources_[name];
-      }
-
-      Processor* getMonoModulationDestination(std::string name) {
-        return mono_mod_destinations_[name];
-      }
-
-      Processor* getPolyModulationDestination(std::string name) {
-        return poly_mod_destinations_[name];
-      }
-
-      output_map getModulationSources() { return mod_sources_; }
-
-      output_map getMonoModulations() { return mono_modulation_readout_; }
-
-      output_map getPolyModulations() { return poly_modulation_readout_; }
+      const Processor::Output* getModulationSource(std::string name);
+      Processor* getMonoModulationDestination(std::string name);
+      Processor* getPolyModulationDestination(std::string name);
+      output_map getModulationSources();
+      output_map getMonoModulations();
+      output_map getPolyModulations();
 
       virtual ProcessorRouter* getMonoRouter() = 0;
       virtual ProcessorRouter* getPolyRouter() = 0;
@@ -57,8 +46,13 @@ namespace mopo {
     protected:
       Processor* createMonoModControl(std::string name, mopo_float start_val,
                                       bool control_rate, bool smooth_value = false);
+
       Processor* createPolyModControl(std::string name, mopo_float start_val,
                                       bool control_rate, bool smooth_value = false);
+
+      void addSubmodule(TwytchModule* module) { sub_modules_.push_back(module); }
+
+      std::vector<TwytchModule*> sub_modules_;
 
       control_map controls_;
       output_map mod_sources_;
