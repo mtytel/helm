@@ -55,7 +55,7 @@ namespace mopo {
           memset(buffer, 0, MAX_BUFFER_SIZE * sizeof(mopo_float));
         }
 
-        const Processor* owner;
+        Processor* owner;
         mopo_float buffer[MAX_BUFFER_SIZE];
 
         bool triggered;
