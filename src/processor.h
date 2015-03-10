@@ -137,7 +137,7 @@ namespace mopo {
       void router(ProcessorRouter* router) { router_ = router; }
 
       // Returns the ProcessorRouter that owns this Processor.
-      const ProcessorRouter* router() const { return router_; }
+      ProcessorRouter* router() const { return router_; }
 
       virtual void registerInput(Input* input, int index);
       virtual void registerOutput(Output* output, int index);
