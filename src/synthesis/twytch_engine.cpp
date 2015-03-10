@@ -42,10 +42,10 @@ namespace mopo {
     controls_["polyphony"] = polyphony;
 
     // Arpeggiator.
-    Processor* arp_frequency = createMonoModControl("arp frequency", 5.0, true);
+    Processor* arp_frequency = createMonoModControl("arp_frequency", 5.0, true);
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
-    Processor* arp_gate = createMonoModControl("arp gate", 0.5, true);
+    Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
     arp_on_ = new Value(0);
     arpeggiator_ = new Arpeggiator(voice_handler_);
     arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
@@ -53,17 +53,17 @@ namespace mopo {
     arpeggiator_->plug(arp_pattern, Arpeggiator::kPattern);
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
 
-    controls_["arp octaves"] = arp_octaves;
-    controls_["arp pattern"] = arp_pattern;
-    controls_["arp on"] = arp_on_;
+    controls_["arp_octaves"] = arp_octaves;
+    controls_["arp_pattern"] = arp_pattern;
+    controls_["arp_on"] = arp_on_;
 
     addProcessor(arpeggiator_);
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_time = createMonoModControl("delay time", 0.1, false, true);
-    Processor* delay_feedback = createMonoModControl("delay feedback", -0.3, false, true);
-    Processor* delay_wet = createMonoModControl("delay dry wet", 0.3, false, true);
+    Processor* delay_time = createMonoModControl("delay_time", 0.1, false, true);
+    Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
+    Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);

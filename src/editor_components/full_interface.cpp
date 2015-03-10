@@ -34,7 +34,7 @@
 FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
-    addAndMakeVisible (arp_frequency_ = new Slider ("arp frequency"));
+    addAndMakeVisible (arp_frequency_ = new Slider ("arp_frequency"));
     arp_frequency_->setRange (1, 20, 0);
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -43,7 +43,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_frequency_->addListener (this);
     arp_frequency_->setSkewFactor (0.5);
 
-    addAndMakeVisible (arp_gate_ = new Slider ("arp gate"));
+    addAndMakeVisible (arp_gate_ = new Slider ("arp_gate"));
     arp_gate_->setRange (0, 1, 0);
     arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -51,7 +51,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_gate_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_gate_->addListener (this);
 
-    addAndMakeVisible (arp_octaves_ = new Slider ("arp octaves"));
+    addAndMakeVisible (arp_octaves_ = new Slider ("arp_octaves"));
     arp_octaves_->setRange (1, 4, 1);
     arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -59,7 +59,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_octaves_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_octaves_->addListener (this);
 
-    addAndMakeVisible (arp_pattern_ = new Slider ("arp pattern"));
+    addAndMakeVisible (arp_pattern_ = new Slider ("arp_pattern"));
     arp_pattern_->setRange (0, 4, 1);
     arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -73,7 +73,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     load_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
     load_button_->addListener (this);
 
-    addAndMakeVisible (arp_on_ = new ToggleButton ("arp on"));
+    addAndMakeVisible (arp_on_ = new ToggleButton ("arp_on"));
     arp_on_->setButtonText (TRANS("arp"));
     arp_on_->addListener (this);
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
@@ -348,22 +348,22 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 0 800 57M" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
-  <SLIDER name="arp frequency" id="90264eb571112e1b" memberName="arp_frequency_"
+  <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="" explicitFocusOrder="0" pos="880 112 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
-  <SLIDER name="arp gate" id="e8f61b752c6d561e" memberName="arp_gate_"
+  <SLIDER name="arp_gate" id="e8f61b752c6d561e" memberName="arp_gate_"
           virtualName="" explicitFocusOrder="0" pos="808 112 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="arp octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
+  <SLIDER name="arp_octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
           virtualName="" explicitFocusOrder="0" pos="808 200 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="1" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="arp pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
+  <SLIDER name="arp_pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
           virtualName="" explicitFocusOrder="0" pos="880 200 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="4" int="1" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
@@ -377,7 +377,7 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
               explicitFocusOrder="0" pos="800 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
-  <TOGGLEBUTTON name="arp on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
+  <TOGGLEBUTTON name="arp_on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
                 explicitFocusOrder="0" pos="808 80 48 24" txtcol="ffffffff" buttonText="arp"
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
