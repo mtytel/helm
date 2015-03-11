@@ -77,8 +77,6 @@ namespace mopo {
 
       TwytchOscillators* oscillators_;
       Delay* osc_feedback_;
-      Oscillator* lfo1_;
-      Oscillator* lfo2_;
       StepGenerator* step_sequencer_;
       Interpolate* oscillator_mix_;
 

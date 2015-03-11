@@ -225,7 +225,7 @@ namespace mopo {
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
-    // Polyphonic LFO.
+    // Poly LFO.
     Value* lfo_waveform = new Value(Wave::kSin);
     Processor* lfo_frequency = createPolyModControl("poly_lfo_frequency", 2.0, false);
     Oscillator* lfo = new Oscillator();
