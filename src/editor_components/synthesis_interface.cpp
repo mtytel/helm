@@ -69,7 +69,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     cross_modulation_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     cross_modulation_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     cross_modulation_->addListener (this);
-    cross_modulation_->setSkewFactor (0.5);
 
     addAndMakeVisible (filter_response_ = new FilterResponse (300));
     addAndMakeVisible (portamento_type_ = new Slider ("portamento_type"));
@@ -1535,7 +1534,7 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="192 64 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.5"/>
+          textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="filter_response" id="e5ebb41c4c259ce1" memberName="filter_response_"
              virtualName="FilterResponse" explicitFocusOrder="0" pos="16 360 300 100"
              sourceFile="filter_response.cpp" constructorParams="300"/>
