@@ -524,7 +524,7 @@ namespace mopo {
     addProcessor(amplitude_);
 
     // Portamento.
-    Value* portamento = new Value(0.01);
+    Processor* portamento = createPolyModControl("portamento", 0.01, false);
     Value* portamento_type = new Value(0);
     PortamentoFilter* portamento_filter = new PortamentoFilter();
     portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);
@@ -538,7 +538,6 @@ namespace mopo {
     current_frequency_->plug(portamento_filter, LinearSlope::kTriggerJump);
 
     addProcessor(current_frequency_);
-    controls_["portamento"] = portamento;
     controls_["portamento_type"] = portamento_type;
 
     mod_sources_["amplitude_env"] = amplitude_envelope_->output();
