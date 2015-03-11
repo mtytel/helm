@@ -122,6 +122,17 @@ namespace mopo {
     }
   }
 
+  ProcessorRouter* Processor::getTopLevelRouter() const {
+    ProcessorRouter* top_level = nullptr;
+    ProcessorRouter* current_level = router_;
+
+    while (current_level) {
+      top_level = current_level;
+      current_level = current_level->router();
+    }
+    return top_level;
+  }
+
   void Processor::registerInput(Input* input) {
     inputs_->push_back(input);
 
