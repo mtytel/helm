@@ -113,7 +113,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     volume_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     volume_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     volume_->addListener (this);
-    volume_->setSkewFactor (0.3);
+    volume_->setSkewFactor (0.5);
 
     addAndMakeVisible (delay_time_ = new Slider ("delay_time"));
     delay_time_->setRange (0.01, 1, 0);
@@ -122,7 +122,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_time_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     delay_time_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     delay_time_->addListener (this);
-    delay_time_->setSkewFactor (0.4);
+    delay_time_->setSkewFactor (0.5);
 
     addAndMakeVisible (delay_feedback_ = new Slider ("delay_feedback"));
     delay_feedback_->setRange (-1, 1, 0);
@@ -155,7 +155,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_attack_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     amp_attack_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_attack_->addListener (this);
-    amp_attack_->setSkewFactor (0.3);
+    amp_attack_->setSkewFactor (0.5);
 
     addAndMakeVisible (amp_decay_ = new Slider ("amp_decay"));
     amp_decay_->setRange (0, 10, 0);
@@ -164,7 +164,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_decay_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     amp_decay_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_decay_->addListener (this);
-    amp_decay_->setSkewFactor (0.3);
+    amp_decay_->setSkewFactor (0.5);
 
     addAndMakeVisible (amp_release_ = new Slider ("amp_release"));
     amp_release_->setRange (0, 10, 0);
@@ -173,7 +173,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_release_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     amp_release_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_release_->addListener (this);
-    amp_release_->setSkewFactor (0.3);
+    amp_release_->setSkewFactor (0.5);
 
     addAndMakeVisible (amp_sustain_ = new Slider ("amp_sustain"));
     amp_sustain_->setRange (0, 1, 0);
@@ -190,7 +190,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_attack_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     fil_attack_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_attack_->addListener (this);
-    fil_attack_->setSkewFactor (0.3);
+    fil_attack_->setSkewFactor (0.5);
 
     addAndMakeVisible (fil_decay_ = new Slider ("fil_decay"));
     fil_decay_->setRange (0, 10, 0);
@@ -199,7 +199,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_decay_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     fil_decay_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_decay_->addListener (this);
-    fil_decay_->setSkewFactor (0.3);
+    fil_decay_->setSkewFactor (0.5);
 
     addAndMakeVisible (fil_release_ = new Slider ("fil_release"));
     fil_release_->setRange (0, 10, 0);
@@ -208,7 +208,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_release_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     fil_release_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_release_->addListener (this);
-    fil_release_->setSkewFactor (0.3);
+    fil_release_->setSkewFactor (0.5);
 
     addAndMakeVisible (fil_sustain_ = new Slider ("fil_sustain"));
     fil_sustain_->setRange (0, 1, 0);
@@ -1562,12 +1562,12 @@ BEGIN_JUCER_METADATA
           explicitFocusOrder="0" pos="672 632 96 56" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="delay_time" id="1c4c7f1a27492c1d" memberName="delay_time_"
           virtualName="" explicitFocusOrder="0" pos="432 632 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0.010000000000000000208" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.4000000000000000222"/>
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="delay_feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
           virtualName="" explicitFocusOrder="0" pos="496 632 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
@@ -1587,17 +1587,17 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="464 300 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="amp_decay" id="6de7c8b3a5a4826d" memberName="amp_decay_"
           virtualName="" explicitFocusOrder="0" pos="504 300 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="amp_release" id="86b41ada65ec49c0" memberName="amp_release_"
           virtualName="" explicitFocusOrder="0" pos="584 300 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="amp_sustain" id="3853f65a726f763" memberName="amp_sustain_"
           virtualName="" explicitFocusOrder="0" pos="544 300 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
@@ -1607,17 +1607,17 @@ BEGIN_JUCER_METADATA
           virtualName="" explicitFocusOrder="0" pos="464 136 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="fil_decay" id="f5b3d1ec7fc18e1" memberName="fil_decay_"
           virtualName="" explicitFocusOrder="0" pos="504 136 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="fil_release" id="c878127a7ada93f0" memberName="fil_release_"
           virtualName="" explicitFocusOrder="0" pos="584 136 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="10" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.2999999999999999889"/>
+          textBoxHeight="20" skewFactor="0.5"/>
   <SLIDER name="fil_sustain" id="5b25f915f3694f34" memberName="fil_sustain_"
           virtualName="" explicitFocusOrder="0" pos="544 136 32 32" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
