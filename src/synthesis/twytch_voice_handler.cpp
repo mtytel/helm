@@ -225,26 +225,16 @@ namespace mopo {
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
-    // LFO 1.
-    Value* lfo1_waveform = new Value(Wave::kSin);
-    Processor* lfo1_frequency = createMonoModControl("lfo_1_frequency", 2.0, false);
-    lfo1_ = new Oscillator();
-    lfo1_->plug(lfo1_waveform, Oscillator::kWaveform);
-    lfo1_->plug(lfo1_frequency, Oscillator::kFrequency);
+    // Polyphonic LFO.
+    Value* lfo_waveform = new Value(Wave::kSin);
+    Processor* lfo_frequency = createPolyModControl("poly_lfo_frequency", 2.0, false);
+    Oscillator* lfo = new Oscillator();
+    lfo->plug(reset, Oscillator::kReset);
+    lfo->plug(lfo_waveform, Oscillator::kWaveform);
+    lfo->plug(lfo_frequency, Oscillator::kFrequency);
 
-    addGlobalProcessor(lfo1_);
-    controls_["lfo_1_waveform"] = lfo1_waveform;
-
-    // LFO 2.
-    Value* lfo2_waveform = new Value(Wave::kSin);
-    Processor* lfo2_frequency = createPolyModControl("lfo_2_frequency", 2.0, false);
-    lfo2_ = new Oscillator();
-    lfo2_->plug(reset, Oscillator::kReset);
-    lfo2_->plug(lfo2_waveform, Oscillator::kWaveform);
-    lfo2_->plug(lfo2_frequency, Oscillator::kFrequency);
-
-    addProcessor(lfo2_);
-    controls_["lfo_2_waveform"] = lfo2_waveform;
+    addProcessor(lfo);
+    controls_["poly_lfo_waveform"] = lfo_waveform;
 
     // Step Sequencer.
     Value* num_steps = new Value(16);
@@ -266,8 +256,7 @@ namespace mopo {
     }
 
     // Modulation sources/destinations.
-    mod_sources_["lfo_1"] = lfo1_->output();
-    mod_sources_["lfo_2"] = lfo2_->output();
+    mod_sources_["poly_lfo"] = lfo->output();
     mod_sources_["step_sequencer"] = step_sequencer_->output();
   }
 

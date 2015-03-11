@@ -19,6 +19,7 @@
 #include "arpeggiator.h"
 #include "delay.h"
 #include "operators.h"
+#include "oscillator.h"
 #include "smooth_value.h"
 #include "twytch_voice_handler.h"
 #include "utils.h"
@@ -40,6 +41,17 @@ namespace mopo {
     voice_handler_->setPolyphony(32);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
     controls_["polyphony"] = polyphony;
+
+    // Monophonic LFO.
+    Value* lfo_waveform = new Value(Wave::kSin);
+    Processor* lfo_frequency = createMonoModControl("mono_lfo_frequency", 2.0, false);
+    Oscillator* lfo = new Oscillator();
+    lfo->plug(lfo_waveform, Oscillator::kWaveform);
+    lfo->plug(lfo_frequency, Oscillator::kFrequency);
+
+    addProcessor(lfo);
+    controls_["mono_lfo_waveform"] = lfo_waveform;
+    mod_sources_["mono_lfo"] = lfo->output();
 
     // Arpeggiator.
     Processor* arp_frequency = createMonoModControl("arp_frequency", 5.0, true);

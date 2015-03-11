@@ -294,15 +294,15 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_feedback_tune_->addListener (this);
 
-    addAndMakeVisible (lfo_1_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (lfo_1_waveform_ = new Slider ("lfo_1_waveform"));
-    lfo_1_waveform_->setRange (0, 11, 1);
-    lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
-    lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
-    lfo_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
-    lfo_1_waveform_->addListener (this);
+    addAndMakeVisible (mono_lfo_wave_display_ = new WaveFormSelector (128));
+    addAndMakeVisible (mono_lfo_waveform_ = new Slider ("mono_lfo_waveform"));
+    mono_lfo_waveform_->setRange (0, 11, 1);
+    mono_lfo_waveform_->setSliderStyle (Slider::LinearBar);
+    mono_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    mono_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    mono_lfo_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    mono_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    mono_lfo_waveform_->addListener (this);
 
     addAndMakeVisible (num_steps_ = new Slider ("num_steps"));
     num_steps_->setRange (1, 32, 1);
@@ -321,23 +321,23 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_frequency_->addListener (this);
     step_frequency_->setSkewFactor (0.5);
 
-    addAndMakeVisible (lfo_1_frequency_ = new Slider ("lfo_1_frequency"));
-    lfo_1_frequency_->setRange (0, 20, 0);
-    lfo_1_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    lfo_1_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    lfo_1_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    lfo_1_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    lfo_1_frequency_->addListener (this);
-    lfo_1_frequency_->setSkewFactor (0.5);
+    addAndMakeVisible (mono_lfo_frequency_ = new Slider ("mono_lfo_frequency"));
+    mono_lfo_frequency_->setRange (0, 20, 0);
+    mono_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    mono_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    mono_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    mono_lfo_frequency_->addListener (this);
+    mono_lfo_frequency_->setSkewFactor (0.5);
 
-    addAndMakeVisible (lfo_2_frequency_ = new Slider ("lfo_2_frequency"));
-    lfo_2_frequency_->setRange (0, 20, 0);
-    lfo_2_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    lfo_2_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    lfo_2_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    lfo_2_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    lfo_2_frequency_->addListener (this);
-    lfo_2_frequency_->setSkewFactor (0.5);
+    addAndMakeVisible (poly_lfo_frequency_ = new Slider ("poly_lfo_frequency"));
+    poly_lfo_frequency_->setRange (0, 20, 0);
+    poly_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    poly_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    poly_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    poly_lfo_frequency_->addListener (this);
+    poly_lfo_frequency_->setSkewFactor (0.5);
 
     addAndMakeVisible (filter_saturation_ = new Slider ("filter_saturation"));
     filter_saturation_->setRange (0, 60, 0);
@@ -389,15 +389,15 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     filter_type_->addListener (this);
 
-    addAndMakeVisible (lfo_2_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (lfo_2_waveform_ = new Slider ("lfo_2_waveform"));
-    lfo_2_waveform_->setRange (0, 11, 1);
-    lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
-    lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
-    lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
-    lfo_2_waveform_->addListener (this);
+    addAndMakeVisible (poly_lfo_wave_display_ = new WaveFormSelector (128));
+    addAndMakeVisible (poly_lfo_waveform_ = new Slider ("poly_lfo_waveform"));
+    poly_lfo_waveform_->setRange (0, 11, 1);
+    poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
+    poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    poly_lfo_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    poly_lfo_waveform_->addListener (this);
 
     addAndMakeVisible (filter_envelope_mod_ = new TextButton ("filter_env"));
     filter_envelope_mod_->setButtonText (TRANS("M"));
@@ -411,13 +411,13 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_sequencer_mod_->setButtonText (TRANS("M"));
     step_sequencer_mod_->addListener (this);
 
-    addAndMakeVisible (lfo_1_mod_ = new TextButton ("lfo_1"));
-    lfo_1_mod_->setButtonText (TRANS("M"));
-    lfo_1_mod_->addListener (this);
+    addAndMakeVisible (mono_lfo_mod_ = new TextButton ("mono_lfo"));
+    mono_lfo_mod_->setButtonText (TRANS("M"));
+    mono_lfo_mod_->addListener (this);
 
-    addAndMakeVisible (lfo_2_mod_ = new TextButton ("lfo_2"));
-    lfo_2_mod_->setButtonText (TRANS("M"));
-    lfo_2_mod_->addListener (this);
+    addAndMakeVisible (poly_lfo_mod_ = new TextButton ("poly_lfo"));
+    poly_lfo_mod_->setButtonText (TRANS("M"));
+    poly_lfo_mod_->addListener (this);
 
     addAndMakeVisible (osc_1_mod_ = new TextButton ("osc_1"));
     osc_1_mod_->setButtonText (TRANS("M"));
@@ -480,8 +480,8 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
     osc_1_wave_display_->setWaveSlider(osc_1_waveform_);
     osc_2_wave_display_->setWaveSlider(osc_2_waveform_);
-    lfo_1_wave_display_->setWaveSlider(lfo_1_waveform_);
-    lfo_2_wave_display_->setWaveSlider(lfo_2_waveform_);
+    mono_lfo_wave_display_->setWaveSlider(mono_lfo_waveform_);
+    poly_lfo_wave_display_->setWaveSlider(poly_lfo_waveform_);
 
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
@@ -566,12 +566,12 @@ SynthesisInterface::~SynthesisInterface()
     osc_feedback_transpose_ = nullptr;
     osc_feedback_amount_ = nullptr;
     osc_feedback_tune_ = nullptr;
-    lfo_1_wave_display_ = nullptr;
-    lfo_1_waveform_ = nullptr;
+    mono_lfo_wave_display_ = nullptr;
+    mono_lfo_waveform_ = nullptr;
     num_steps_ = nullptr;
     step_frequency_ = nullptr;
-    lfo_1_frequency_ = nullptr;
-    lfo_2_frequency_ = nullptr;
+    mono_lfo_frequency_ = nullptr;
+    poly_lfo_frequency_ = nullptr;
     filter_saturation_ = nullptr;
     formant_bypass_ = nullptr;
     legato_ = nullptr;
@@ -579,13 +579,13 @@ SynthesisInterface::~SynthesisInterface()
     formant_x_ = nullptr;
     formant_y_ = nullptr;
     filter_type_ = nullptr;
-    lfo_2_wave_display_ = nullptr;
-    lfo_2_waveform_ = nullptr;
+    poly_lfo_wave_display_ = nullptr;
+    poly_lfo_waveform_ = nullptr;
     filter_envelope_mod_ = nullptr;
     amplitude_envelope_mod_ = nullptr;
     step_sequencer_mod_ = nullptr;
-    lfo_1_mod_ = nullptr;
-    lfo_2_mod_ = nullptr;
+    mono_lfo_mod_ = nullptr;
+    poly_lfo_mod_ = nullptr;
     osc_1_mod_ = nullptr;
     osc_2_mod_ = nullptr;
     pitch_wheel_mod_ = nullptr;
@@ -931,12 +931,12 @@ void SynthesisInterface::resized()
     osc_feedback_transpose_->setBounds (112, 248, 50, 50);
     osc_feedback_amount_->setBounds (280, 248, 50, 50);
     osc_feedback_tune_->setBounds (192, 248, 50, 50);
-    lfo_1_wave_display_->setBounds (480, 544, 120, 64);
-    lfo_1_waveform_->setBounds (480, 528, 120, 14);
+    mono_lfo_wave_display_->setBounds (480, 544, 120, 64);
+    mono_lfo_waveform_->setBounds (480, 528, 120, 14);
     num_steps_->setBounds (480, 464, 40, 40);
     step_frequency_->setBounds (616, 464, 40, 40);
-    lfo_1_frequency_->setBounds (432, 528, 40, 40);
-    lfo_2_frequency_->setBounds (616, 528, 40, 40);
+    mono_lfo_frequency_->setBounds (432, 528, 40, 40);
+    poly_lfo_frequency_->setBounds (616, 528, 40, 40);
     filter_saturation_->setBounds (360, 360, 50, 50);
     formant_bypass_->setBounds (8, 512, 120, 24);
     legato_->setBounds (224, 660, 64, 16);
@@ -944,13 +944,13 @@ void SynthesisInterface::resized()
     formant_x_->setBounds (144, 592, 256, 12);
     formant_y_->setBounds (400, 512, 12, 80);
     filter_type_->setBounds (16, 344, 300, 16);
-    lfo_2_wave_display_->setBounds (664, 544, 120, 64);
-    lfo_2_waveform_->setBounds (664, 528, 120, 14);
+    poly_lfo_wave_display_->setBounds (664, 544, 120, 64);
+    poly_lfo_waveform_->setBounds (664, 528, 120, 14);
     filter_envelope_mod_->setBounds (432, 80, 24, 24);
     amplitude_envelope_mod_->setBounds (432, 248, 24, 24);
     step_sequencer_mod_->setBounds (432, 408, 24, 24);
-    lfo_1_mod_->setBounds (440, 584, 24, 24);
-    lfo_2_mod_->setBounds (624, 584, 24, 24);
+    mono_lfo_mod_->setBounds (440, 584, 24, 24);
+    poly_lfo_mod_->setBounds (624, 584, 24, 24);
     osc_1_mod_->setBounds (16, 184, 24, 24);
     osc_2_mod_->setBounds (392, 184, 24, 24);
     pitch_wheel_mod_->setBounds (24, 704, 24, 24);
@@ -1122,10 +1122,10 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_osc_feedback_tune_] -- add your slider handling code here..
         //[/UserSliderCode_osc_feedback_tune_]
     }
-    else if (sliderThatWasMoved == lfo_1_waveform_)
+    else if (sliderThatWasMoved == mono_lfo_waveform_)
     {
-        //[UserSliderCode_lfo_1_waveform_] -- add your slider handling code here..
-        //[/UserSliderCode_lfo_1_waveform_]
+        //[UserSliderCode_mono_lfo_waveform_] -- add your slider handling code here..
+        //[/UserSliderCode_mono_lfo_waveform_]
     }
     else if (sliderThatWasMoved == num_steps_)
     {
@@ -1137,15 +1137,15 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_step_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_step_frequency_]
     }
-    else if (sliderThatWasMoved == lfo_1_frequency_)
+    else if (sliderThatWasMoved == mono_lfo_frequency_)
     {
-        //[UserSliderCode_lfo_1_frequency_] -- add your slider handling code here..
-        //[/UserSliderCode_lfo_1_frequency_]
+        //[UserSliderCode_mono_lfo_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_mono_lfo_frequency_]
     }
-    else if (sliderThatWasMoved == lfo_2_frequency_)
+    else if (sliderThatWasMoved == poly_lfo_frequency_)
     {
-        //[UserSliderCode_lfo_2_frequency_] -- add your slider handling code here..
-        //[/UserSliderCode_lfo_2_frequency_]
+        //[UserSliderCode_poly_lfo_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_frequency_]
     }
     else if (sliderThatWasMoved == filter_saturation_)
     {
@@ -1172,10 +1172,10 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_filter_type_] -- add your slider handling code here..
         //[/UserSliderCode_filter_type_]
     }
-    else if (sliderThatWasMoved == lfo_2_waveform_)
+    else if (sliderThatWasMoved == poly_lfo_waveform_)
     {
-        //[UserSliderCode_lfo_2_waveform_] -- add your slider handling code here..
-        //[/UserSliderCode_lfo_2_waveform_]
+        //[UserSliderCode_poly_lfo_waveform_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_waveform_]
     }
     else if (sliderThatWasMoved == osc_1_transpose_)
     {
@@ -1229,15 +1229,15 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_step_sequencer_mod_] -- add your button handler code here..
         //[/UserButtonCode_step_sequencer_mod_]
     }
-    else if (buttonThatWasClicked == lfo_1_mod_)
+    else if (buttonThatWasClicked == mono_lfo_mod_)
     {
-        //[UserButtonCode_lfo_1_mod_] -- add your button handler code here..
-        //[/UserButtonCode_lfo_1_mod_]
+        //[UserButtonCode_mono_lfo_mod_] -- add your button handler code here..
+        //[/UserButtonCode_mono_lfo_mod_]
     }
-    else if (buttonThatWasClicked == lfo_2_mod_)
+    else if (buttonThatWasClicked == poly_lfo_mod_)
     {
-        //[UserButtonCode_lfo_2_mod_] -- add your button handler code here..
-        //[/UserButtonCode_lfo_2_mod_]
+        //[UserButtonCode_poly_lfo_mod_] -- add your button handler code here..
+        //[/UserButtonCode_poly_lfo_mod_]
     }
     else if (buttonThatWasClicked == osc_1_mod_)
     {
@@ -1337,8 +1337,8 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
     num_steps_->setDoubleClickReturnValue(true, 16.0f);
     step_frequency_->setDoubleClickReturnValue(true, 4.0f);
 
-    lfo_1_frequency_->setDoubleClickReturnValue(true, 1.0f);
-    lfo_2_frequency_->setDoubleClickReturnValue(true, 1.0f);
+    mono_lfo_frequency_->setDoubleClickReturnValue(true, 1.0f);
+    poly_lfo_frequency_->setDoubleClickReturnValue(true, 1.0f);
 
     delay_dry_wet_->setDoubleClickReturnValue(true, 0.0f);
     delay_time_->setDoubleClickReturnValue(true, 0.25f);
@@ -1668,10 +1668,10 @@ BEGIN_JUCER_METADATA
           textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
-  <JUCERCOMP name="lfo_1_wave_display" id="24d32b65108fb2a5" memberName="lfo_1_wave_display_"
+  <JUCERCOMP name="mono_lfo_wave_display" id="24d32b65108fb2a5" memberName="mono_lfo_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="480 544 120 64"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
-  <SLIDER name="lfo_1_waveform" id="4ed06bb2c6901afe" memberName="lfo_1_waveform_"
+  <SLIDER name="mono_lfo_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_waveform_"
           virtualName="" explicitFocusOrder="0" pos="480 528 120 14" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
@@ -1686,12 +1686,12 @@ BEGIN_JUCER_METADATA
           textboxtext="ffdddddd" min="0" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
-  <SLIDER name="lfo_1_frequency" id="ebc4a57528113c39" memberName="lfo_1_frequency_"
+  <SLIDER name="mono_lfo_frequency" id="ebc4a57528113c39" memberName="mono_lfo_frequency_"
           virtualName="" explicitFocusOrder="0" pos="432 528 40 40" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="0.5"/>
-  <SLIDER name="lfo_2_frequency" id="41dc8f7fbc0e8586" memberName="lfo_2_frequency_"
+  <SLIDER name="poly_lfo_frequency" id="41dc8f7fbc0e8586" memberName="poly_lfo_frequency_"
           virtualName="" explicitFocusOrder="0" pos="616 528 40 40" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="20" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
@@ -1728,10 +1728,10 @@ BEGIN_JUCER_METADATA
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="6"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <JUCERCOMP name="lfo_1_wave_display" id="d0c6b9dad7409074" memberName="lfo_2_wave_display_"
+  <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="664 544 120 64"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
-  <SLIDER name="lfo_2_waveform" id="315f17d5a0e21167" memberName="lfo_2_waveform_"
+  <SLIDER name="poly_lfo_waveform" id="315f17d5a0e21167" memberName="poly_lfo_waveform_"
           virtualName="" explicitFocusOrder="0" pos="664 528 120 14" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
@@ -1745,12 +1745,12 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="step_sequencer" id="4fd19f52e690cd89" memberName="step_sequencer_mod_"
               virtualName="" explicitFocusOrder="0" pos="432 408 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="lfo_1" id="1ea938f771b995ba" memberName="lfo_1_mod_" virtualName=""
-              explicitFocusOrder="0" pos="440 584 24 24" buttonText="M" connectedEdges="0"
-              needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="lfo_2" id="db902bdbd3d218a6" memberName="lfo_2_mod_" virtualName=""
-              explicitFocusOrder="0" pos="624 584 24 24" buttonText="M" connectedEdges="0"
-              needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="mono_lfo" id="1ea938f771b995ba" memberName="mono_lfo_mod_"
+              virtualName="" explicitFocusOrder="0" pos="440 584 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="poly_lfo" id="db902bdbd3d218a6" memberName="poly_lfo_mod_"
+              virtualName="" explicitFocusOrder="0" pos="624 584 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="osc_1" id="4dcc36c544b0bbf7" memberName="osc_1_mod_" virtualName=""
               explicitFocusOrder="0" pos="16 184 24 24" buttonText="M" connectedEdges="0"
               needsCallback="1" radioGroupId="0"/>
