@@ -51,7 +51,7 @@ namespace mopo {
       void setPitchWheel(mopo_float value);
 
       ProcessorRouter* getMonoRouter() override { return getGlobalRouter(); }
-      ProcessorRouter* getPolyRouter() override { return getVoiceRouter(); }
+      ProcessorRouter* getPolyRouter() override { return this; }
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
