@@ -127,6 +127,39 @@ namespace mopo {
       mopo_float scale_;
   };
 
+  // A processor that will raise a signal to a given power.
+  class PolynomialScale : public Operator {
+    public:
+      PolynomialScale(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
+      virtual Processor* clone() const { return new PolynomialScale(*this); }
+
+      void process();
+
+      inline void tick(int i) {
+        output()->buffer[i] = std::pow(input()->at(i), scale_);
+      }
+
+    private:
+      mopo_float scale_;
+  };
+
+  // A processor that will raise a given number to the power of a signal.
+  class ExponentialScale : public Operator {
+    public:
+      ExponentialScale(mopo_float scale = 1) :
+          Operator(1, 1), scale_(scale) { }
+      virtual Processor* clone() const { return new ExponentialScale(*this); }
+
+      void process();
+
+      inline void tick(int i) {
+        output()->buffer[i] = std::pow(scale_, input()->at(i));
+      }
+
+    private:
+      mopo_float scale_;
+  };
+
   // A processor that will convert a stream of midi to a stream of frequencies.
   class MidiScale : public Operator {
     public:
