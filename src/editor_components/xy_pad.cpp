@@ -36,6 +36,7 @@ XYPad::XYPad ()
 {
 
     //[UserPreSize]
+    mouse_down_ = false;
     x_slider_ = nullptr;
     y_slider_ = nullptr;
     //[/UserPreSize]
@@ -76,8 +77,13 @@ void XYPad::paint (Graphics& g)
     g.setColour(Colours::white);
     float x = x_slider_->getValue() * getWidth();
     float y = (1.0f - y_slider_->getValue()) * getHeight();
-    g.fillEllipse(x - 2.0f, y - 2.0f, 4.0f, 4.0f);
-    g.drawEllipse(x - 5.0f, y - 5.0f, 10.0f, 10.0f, 2.0f);
+    g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
+    g.drawEllipse(x - 5.0f, y - 5.0f, 10.0f, 10.0f, 1.0f);
+
+    if (mouse_down_) {
+        g.setColour(Colour(0x11ffffff));
+        g.fillEllipse(x - 20.0, y - 20.0, 40.0, 40.0);
+    }
     //[/UserPaint]
 }
 
@@ -94,6 +100,8 @@ void XYPad::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     setSlidersFromPosition(e.getPosition());
+    mouse_down_ = true;
+    repaint();
     //[/UserCode_mouseDown]
 }
 
@@ -102,6 +110,14 @@ void XYPad::mouseDrag (const MouseEvent& e)
     //[UserCode_mouseDrag] -- Add your code here...
     setSlidersFromPosition(e.getPosition());
     //[/UserCode_mouseDrag]
+}
+
+void XYPad::mouseUp (const MouseEvent& e)
+{
+    //[UserCode_mouseUp] -- Add your code here...
+    mouse_down_ = false;
+    repaint();
+    //[/UserCode_mouseUp]
 }
 
 
@@ -159,6 +175,7 @@ BEGIN_JUCER_METADATA
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
+    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
   </METHODS>
   <BACKGROUND backgroundColour="ff33064f"/>
 </JUCER_COMPONENT>

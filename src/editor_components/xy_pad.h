@@ -55,6 +55,7 @@ public:
     void resized();
     void mouseDown (const MouseEvent& e);
     void mouseDrag (const MouseEvent& e);
+    void mouseUp (const MouseEvent& e);
 
 
 
@@ -62,6 +63,7 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Slider* x_slider_;
     Slider* y_slider_;
+    bool mouse_down_;
     //[/UserVariables]
 
     //==============================================================================
