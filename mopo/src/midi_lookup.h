@@ -18,7 +18,7 @@
 #ifndef MIDI_LOOKUP_H
 #define MIDI_LOOKUP_H
 
-#include "mopo.h"
+#include "common.h"
 #include "utils.h"
 
 #include <cmath>

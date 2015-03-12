@@ -18,7 +18,7 @@
 #ifndef MAGNITUDE_LOOKUP_H
 #define MAGNITUDE_LOOKUP_H
 
-#include "mopo.h"
+#include "common.h"
 #include "utils.h"
 
 #include <cmath>

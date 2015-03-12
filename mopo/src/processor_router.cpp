@@ -17,7 +17,6 @@
 #include "processor_router.h"
 
 #include "feedback.h"
-#include "mopo.h"
 
 #include <algorithm>
 #include <vector>

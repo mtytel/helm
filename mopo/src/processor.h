@@ -18,7 +18,7 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
-#include "mopo.h"
+#include "common.h"
 
 #include <cstring>
 #include <vector>
