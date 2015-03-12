@@ -42,6 +42,7 @@ FilterResponse::FilterResponse (int resolution)
     cutoff_slider_ = nullptr;
     resonance_slider_ = nullptr;
     filter_type_slider_ = nullptr;
+    setOpaque(true);
 
     filter_.setSampleRate(44100);
     resetResponsePath();

@@ -93,6 +93,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
         if (button)
             button_lookup_[button->getName().toStdString()] = button;
     }
+    setOpaque(true);
     setAllValues(controls);
     createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
     //[/UserPreSize]

@@ -35,6 +35,7 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
     sequence_ = nullptr;
     highlighted_step_ = -1;
     num_steps_ = 1;
+    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);

@@ -39,6 +39,7 @@ XYPad::XYPad ()
     mouse_down_ = false;
     x_slider_ = nullptr;
     y_slider_ = nullptr;
+    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);

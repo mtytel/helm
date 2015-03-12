@@ -35,6 +35,7 @@ AudioViewer::AudioViewer (int num_samples)
 
     //[UserPreSize]
     output_memory_ = nullptr;
+    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);

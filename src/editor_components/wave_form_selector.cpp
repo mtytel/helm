@@ -34,6 +34,7 @@ WaveFormSelector::WaveFormSelector (int resolution)
     //[UserPreSize]
     wave_slider_ = nullptr;
     resolution_ = resolution;
+    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);
