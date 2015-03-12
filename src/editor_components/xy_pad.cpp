@@ -25,6 +25,10 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+
+#define GRID_CELL_WIDTH 10
+#define GRID_CELL_HEIGHT 10
+
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -63,6 +67,12 @@ void XYPad::paint (Graphics& g)
     g.fillAll (Colour (0xff33064f));
 
     //[UserPaint] Add your own custom painting code here..
+    g.setColour(Colour(0xff43165f));
+    for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+        g.drawLine(x, 0, x, getHeight());
+    for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+        g.drawLine(0, y, getWidth(), y);
+
     g.setColour(Colours::white);
     float x = x_slider_->getValue() * getWidth();
     float y = (1.0f - y_slider_->getValue()) * getHeight();
