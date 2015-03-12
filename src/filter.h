@@ -72,7 +72,7 @@ namespace mopo {
                                mopo_float cutoff,
                                mopo_float resonance,
                                mopo_float gain) {
-        static const mopo_float shelf_slope = 1.2;
+        static const mopo_float shelf_slope = 1.0;
         MOPO_ASSERT(resonance > 0.0);
         MOPO_ASSERT(cutoff > 0.0);
         MOPO_ASSERT(gain >= 0.0);
