@@ -133,11 +133,11 @@ namespace mopo {
       PolynomialScale(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
       virtual Processor* clone() const { return new PolynomialScale(*this); }
 
-      void process();
-
       inline void tick(int i) {
         output()->buffer[i] = std::pow(input()->at(i), scale_);
       }
+
+      PROCESS_TICK_FUNCTION
 
     private:
       mopo_float scale_;
@@ -150,11 +150,11 @@ namespace mopo {
           Operator(1, 1), scale_(scale) { }
       virtual Processor* clone() const { return new ExponentialScale(*this); }
 
-      void process();
-
       inline void tick(int i) {
         output()->buffer[i] = std::pow(scale_, input()->at(i));
       }
+
+      PROCESS_TICK_FUNCTION
 
     private:
       mopo_float scale_;
