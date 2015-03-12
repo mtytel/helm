@@ -116,7 +116,7 @@ namespace mopo {
     controls_["pitch_bend_range"] = pitch_bend_range;
 
     // Oscillator 1.
-    oscillators_ = new TwytchOscillators();
+    TwytchOscillators* oscillators = new TwytchOscillators();
     Processor* oscillator1_waveform = createPolyModControl("osc_1_waveform", Wave::kDownSaw, true);
     Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", 0, false);
     Processor* oscillator1_tune = createPolyModControl("osc_1_tune", 0.0, false);
@@ -129,19 +129,19 @@ namespace mopo {
 
     MidiScale* oscillator1_frequency = new MidiScale();
     oscillator1_frequency->plug(oscillator1_midi);
-    oscillators_->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
-    oscillators_->plug(reset, TwytchOscillators::kOscillator1Reset);
-    oscillators_->plug(reset, TwytchOscillators::kOscillator2Reset);
-    oscillators_->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
+    oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
+    oscillators->plug(reset, TwytchOscillators::kOscillator1Reset);
+    oscillators->plug(reset, TwytchOscillators::kOscillator2Reset);
+    oscillators->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Processor* cross_mod = createPolyModControl("cross_modulation", 0.15, false);
-    oscillators_->plug(cross_mod, TwytchOscillators::kOscillator1FM);
-    oscillators_->plug(cross_mod, TwytchOscillators::kOscillator2FM);
+    oscillators->plug(cross_mod, TwytchOscillators::kOscillator1FM);
+    oscillators->plug(cross_mod, TwytchOscillators::kOscillator2FM);
 
     addProcessor(oscillator1_transposed);
     addProcessor(oscillator1_midi);
     addProcessor(oscillator1_frequency);
-    addProcessor(oscillators_);
+    addProcessor(oscillators);
 
     // Oscillator 2.
     Processor* oscillator2_waveform = createPolyModControl("osc_2_waveform", Wave::kDownSaw, true);
@@ -156,8 +156,8 @@ namespace mopo {
 
     MidiScale* oscillator2_frequency = new MidiScale();
     oscillator2_frequency->plug(oscillator2_midi);
-    oscillators_->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
-    oscillators_->plug(oscillator2_frequency, TwytchOscillators::kOscillator2BaseFrequency);
+    oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
+    oscillators->plug(oscillator2_frequency, TwytchOscillators::kOscillator2BaseFrequency);
 
     addProcessor(oscillator2_transposed);
     addProcessor(oscillator2_midi);
@@ -168,12 +168,12 @@ namespace mopo {
 
     Clamp* clamp_mix = new Clamp(0, 1);
     clamp_mix->plug(oscillator_mix_amount);
-    oscillator_mix_ = new Interpolate();
-    oscillator_mix_->plug(oscillators_->output(0), Interpolate::kFrom);
-    oscillator_mix_->plug(oscillators_->output(1), Interpolate::kTo);
-    oscillator_mix_->plug(clamp_mix, Interpolate::kFractional);
+    Interpolate* oscillator_mix = new Interpolate();
+    oscillator_mix->plug(oscillators->output(0), Interpolate::kFrom);
+    oscillator_mix->plug(oscillators->output(1), Interpolate::kTo);
+    oscillator_mix->plug(clamp_mix, Interpolate::kFractional);
 
-    addProcessor(oscillator_mix_);
+    addProcessor(oscillator_mix);
     addProcessor(clamp_mix);
 
     // Oscillator feedback.
@@ -198,14 +198,14 @@ namespace mopo {
     addProcessor(osc_feedback_period);
 
     osc_feedback_ = new Delay(MAX_FEEDBACK_SAMPLES);
-    osc_feedback_->plug(oscillator_mix_, Delay::kAudio);
+    osc_feedback_->plug(oscillator_mix, Delay::kAudio);
     osc_feedback_->plug(osc_feedback_period, Delay::kDelayTime);
     osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
     osc_feedback_->plug(&utils::value_half, Delay::kWet);
     addProcessor(osc_feedback_);
 
-    mod_sources_["osc_1"] = oscillators_->getOscillator1Output();
-    mod_sources_["osc_2"] = oscillators_->getOscillator2Output();
+    mod_sources_["osc_1"] = oscillators->getOscillator1Output();
+    mod_sources_["osc_2"] = oscillators->getOscillator2Output();
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
@@ -223,11 +223,11 @@ namespace mopo {
     // Step Sequencer.
     Value* num_steps = new Value(16);
     Processor* step_frequency = createPolyModControl("step_frequency", 5.0, false);
-    step_sequencer_ = new StepGenerator(MAX_STEPS);
-    step_sequencer_->plug(num_steps, StepGenerator::kNumSteps);
-    step_sequencer_->plug(step_frequency, StepGenerator::kFrequency);
+    StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
+    step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
+    step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
 
-    addProcessor(step_sequencer_);
+    addProcessor(step_sequencer);
     controls_["num_steps"] = num_steps;
 
     for (int i = 0; i < MAX_STEPS; ++i) {
@@ -236,12 +236,12 @@ namespace mopo {
         num = "0" + num;
       Value* step = new Value(0.0);
       controls_[std::string("step_seq_") + num] = step;
-      step_sequencer_->plug(step, StepGenerator::kSteps + i);
+      step_sequencer->plug(step, StepGenerator::kSteps + i);
     }
 
     // Modulation sources/destinations.
     mod_sources_["poly_lfo"] = lfo->output();
-    mod_sources_["step_sequencer"] = step_sequencer_->output();
+    mod_sources_["step_sequencer"] = step_sequencer->output();
   }
 
   void TwytchVoiceHandler::createFilter(
@@ -321,18 +321,18 @@ namespace mopo {
     saturated_audio->plug(audio, 0);
     saturated_audio->plug(saturation_magnitude, 1);
 
-    filter_ = new Filter();
-    filter_->plug(saturated_audio, Filter::kAudio);
-    filter_->plug(filter_type, Filter::kType);
-    filter_->plug(reset, Filter::kReset);
-    filter_->plug(frequency_cutoff, Filter::kCutoff);
-    filter_->plug(final_resonance, Filter::kResonance);
-    filter_->plug(final_gain, Filter::kGain);
+    Filter* filter = new Filter();
+    filter->plug(saturated_audio, Filter::kAudio);
+    filter->plug(filter_type, Filter::kType);
+    filter->plug(reset, Filter::kReset);
+    filter->plug(frequency_cutoff, Filter::kCutoff);
+    filter->plug(final_resonance, Filter::kResonance);
+    filter->plug(final_gain, Filter::kGain);
 
     distorted_filter_ = new Distortion();
     Value* distortion_type = new Value(Distortion::kTanh);
     Value* distortion_threshold = new Value(0.5);
-    distorted_filter_->plug(filter_, Distortion::kAudio);
+    distorted_filter_->plug(filter, Distortion::kAudio);
     distorted_filter_->plug(distortion_type, Distortion::kType);
     distorted_filter_->plug(distortion_threshold, Distortion::kThreshold);
 
@@ -344,7 +344,7 @@ namespace mopo {
     addProcessor(decibals);
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
-    addProcessor(filter_);
+    addProcessor(filter);
 
     addProcessor(saturation_magnitude);
     addProcessor(distorted_filter_);
@@ -443,14 +443,14 @@ namespace mopo {
     addProcessor(amplitude_envelope_);
 
     // Voice and frequency resetting logic.
-    note_change_trigger_ = new TriggerCombiner();
-    note_change_trigger_->plug(legato_filter->output(LegatoFilter::kRemain), 0);
-    note_change_trigger_->plug(amplitude_envelope_->output(Envelope::kFinished), 1);
+    TriggerCombiner* note_change_trigger = new TriggerCombiner();
+    note_change_trigger->plug(legato_filter->output(LegatoFilter::kRemain), 0);
+    note_change_trigger->plug(amplitude_envelope_->output(Envelope::kFinished), 1);
 
     TriggerWait* note_wait = new TriggerWait();
     Value* current_note = new Value();
     note_wait->plug(note, TriggerWait::kWait);
-    note_wait->plug(note_change_trigger_, TriggerWait::kTrigger);
+    note_wait->plug(note_change_trigger, TriggerWait::kTrigger);
     current_note->plug(note_wait);
 
     Value* max_midi_invert = new Value(1.0 / (MIDI_SIZE - 1));
@@ -458,7 +458,7 @@ namespace mopo {
     note_percentage->plug(max_midi_invert, 0);
     note_percentage->plug(current_note, 1);
 
-    addProcessor(note_change_trigger_);
+    addProcessor(note_change_trigger);
     addProcessor(note_wait);
     addProcessor(current_note);
 
@@ -476,7 +476,7 @@ namespace mopo {
     TriggerWait* velocity_wait = new TriggerWait();
     Value* current_velocity = new Value();
     velocity_wait->plug(velocity, TriggerWait::kWait);
-    velocity_wait->plug(note_change_trigger_, TriggerWait::kTrigger);
+    velocity_wait->plug(note_change_trigger, TriggerWait::kTrigger);
     current_velocity->plug(velocity_wait);
 
     addProcessor(velocity_wait);
@@ -501,7 +501,7 @@ namespace mopo {
     Value* portamento_type = new Value(0);
     PortamentoFilter* portamento_filter = new PortamentoFilter();
     portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);
-    portamento_filter->plug(note_change_trigger_, PortamentoFilter::kFrequencyTrigger);
+    portamento_filter->plug(note_change_trigger, PortamentoFilter::kFrequencyTrigger);
     portamento_filter->plug(trigger, PortamentoFilter::kVoiceTrigger);
     addProcessor(portamento_filter);
 

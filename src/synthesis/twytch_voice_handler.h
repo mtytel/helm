@@ -70,16 +70,10 @@ namespace mopo {
       SmoothValue* mod_wheel_amount_;
       SmoothValue* pitch_wheel_amount_;
       LinearSlope* current_frequency_;
-      TriggerCombiner* note_change_trigger_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
-
-      TwytchOscillators* oscillators_;
       Delay* osc_feedback_;
-      StepGenerator* step_sequencer_;
-      Interpolate* oscillator_mix_;
 
-      Filter* filter_;
       Distortion* distorted_filter_;
       FormantManager* formant_filter_;
       Envelope* filter_envelope_;
