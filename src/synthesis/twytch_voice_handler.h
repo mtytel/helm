@@ -18,10 +18,9 @@
 #ifndef TWYTCH_VOICE_HANDLER_H
 #define TWYTCH_VOICE_HANDLER_H
 
-#include "operators.h"
+#include "mopo.h"
 #include "twytch_common.h"
 #include "twytch_module.h"
-#include "voice_handler.h"
 
 #include <vector>
 

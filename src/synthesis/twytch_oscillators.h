@@ -18,9 +18,7 @@
 #ifndef TWYTCH_OSCILLATORS_H
 #define TWYTCH_OSCILLATORS_H
 
-#include "operators.h"
-#include "oscillator.h"
-#include "tick_router.h"
+#include "mopo.h"
 
 namespace mopo {
 

@@ -16,14 +16,7 @@
 
 #include "twytch_engine.h"
 
-#include "arpeggiator.h"
-#include "delay.h"
-#include "operators.h"
-#include "oscillator.h"
-#include "smooth_value.h"
 #include "twytch_voice_handler.h"
-#include "utils.h"
-#include "value.h"
 
 #include <fenv.h>
 

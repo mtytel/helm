@@ -16,26 +16,10 @@
 
 #include "twytch_voice_handler.h"
 
-#include "bypass_router.h"
-#include "delay.h"
-#include "distortion.h"
-#include "envelope.h"
-#include "filter.h"
-#include "formant.h"
-#include "formant_manager.h"
-#include "operators.h"
-#include "oscillator.h"
-#include "linear_slope.h"
-#include "smooth_value.h"
-#include "step_generator.h"
 #include "twytch_oscillators.h"
-#include "trigger_operators.h"
-#include "utils.h"
-#include "value.h"
 
 #include <fenv.h>
 #include <sstream>
-
 
 #define PITCH_MOD_RANGE 12
 #define MIN_GAIN_DB -24.0

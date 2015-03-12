@@ -18,7 +18,7 @@
 #ifndef TWYTCH_MODULE_H
 #define TWYTCH_MODULE_H
 
-#include "operators.h"
+#include "mopo.h"
 #include "twytch_common.h"
 
 #include <vector>

@@ -16,9 +16,6 @@
 
 #include "twytch_oscillators.h"
 
-#include "feedback.h"
-#include "value.h"
-
 namespace mopo {
 
   TwytchOscillators::TwytchOscillators() : TickRouter(0, 0) {

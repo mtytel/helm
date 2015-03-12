@@ -16,9 +16,6 @@
 
 #include "twytch_module.h"
 
-#include "processor_router.h"
-#include "smooth_value.h"
-
 namespace mopo {
 
   TwytchModule::TwytchModule() { }
