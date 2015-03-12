@@ -16,7 +16,6 @@
 
 #include "mono_panner.h"
 
-#include "mopo.h"
 #include "wave.h"
 
 #include <cmath>

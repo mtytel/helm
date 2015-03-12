@@ -18,7 +18,7 @@
 #ifndef WAVE_H
 #define WAVE_H
 
-#include "mopo.h"
+#include "common.h"
 #include <cmath>
 #include <cstdlib>
 

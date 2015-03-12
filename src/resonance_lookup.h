@@ -18,7 +18,7 @@
 #ifndef RESONANCE_LOOKUP_H
 #define RESONANCE_LOOKUP_H
 
-#include "mopo.h"
+#include "common.h"
 #include "utils.h"
 
 #include <cmath>

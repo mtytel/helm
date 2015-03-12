@@ -5,6 +5,7 @@ libmopo_a_SOURCES = alias.cpp \
 										arpeggiator.h \
 										bit_crush.cpp \
 										bit_crush.h \
+										common.h \
 										delay.cpp \
                     delay.h \
                     distortion.cpp \

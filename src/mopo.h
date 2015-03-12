@@ -18,37 +18,37 @@
 #ifndef MOPO_H
 #define MOPO_H
 
-// Utilities.
-#define UNUSED(x) (void)(x)
-#define CLAMP(v, s, b) ((v) < (s) ? (s) : ((v) > (b) ? (b) : (v)))
-#define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
-
-// Debugging.
-#if DEBUG
-#include <cassert>
-#define MOPO_ASSERT(x) assert(x)
-#else
-#define MOPO_ASSERT(x) ((void)0)
-#endif // DEBUG
-
-namespace mopo {
-
-  typedef double mopo_float;
-
-  const mopo_float PI = 3.1415926535897932384626433832795;
-  const int MAX_BUFFER_SIZE = 4096;
-  const int DEFAULT_BUFFER_SIZE = 64;
-  const int DEFAULT_SAMPLE_RATE = 44100;
-  const int MIDI_SIZE = 128;
-  const int PPQ = 15360; // Pulses per quarter note.
-  const mopo_float VOICE_KILL_TIME = 0.02;
-
-  // Common types of events across different Processors.
-  enum VoiceEvent {
-    kVoiceOff,     // Stop. (e.g. release in an envelope)
-    kVoiceOn,      // Start. (e.g. start attack in an envelope)
-    kVoiceReset,   // Reset. Immediately reset to initial state.
-  };
-} // namespace mopo
+#include "alias.h"
+#include "arpeggiator.h"
+#include "bit_crush.h"
+#include "bypass_router.h"
+#include "common.h"
+#include "delay.h"
+#include "distortion.h"
+#include "envelope.h"
+#include "feedback.h"
+#include "filter.h"
+#include "formant.h"
+#include "formant_manager.h"
+#include "linear_slope.h"
+#include "magnitude_lookup.h"
+#include "memory.h"
+#include "midi_lookup.h"
+#include "mono_panner.h"
+#include "operators.h"
+#include "oscillator.h"
+#include "phaser.h"
+#include "processor.h"
+#include "processor_router.h"
+#include "resonance_lookup.h"
+#include "smooth_filter.h"
+#include "smooth_value.h"
+#include "step_generator.h"
+#include "tick_router.h"
+#include "trigger_operators.h"
+#include "utils.h"
+#include "value.h"
+#include "voice_handler.h"
+#include "wave.h"
 
 #endif // MOPO_H
