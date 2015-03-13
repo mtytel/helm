@@ -87,7 +87,6 @@ private:
     ScopedPointer<Slider> osc_2_transpose_;
     ScopedPointer<Slider> osc_2_tune_;
     ScopedPointer<Slider> volume_;
-    ScopedPointer<Slider> delay_time_;
     ScopedPointer<Slider> delay_feedback_;
     ScopedPointer<Slider> delay_dry_wet_;
     ScopedPointer<Slider> velocity_track_;
@@ -137,6 +136,7 @@ private:
     ScopedPointer<TextButton> aftertouch_mod_;
     ScopedPointer<Slider> osc_1_transpose_;
     ScopedPointer<Slider> osc_1_tune_;
+    ScopedPointer<Slider> delay_time_;
 
 
     //==============================================================================

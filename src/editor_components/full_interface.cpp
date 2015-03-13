@@ -35,13 +35,12 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
 {
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (arp_frequency_ = new Slider ("arp_frequency"));
-    arp_frequency_->setRange (1, 20, 0);
+    arp_frequency_->setRange (-1, 4, 0);
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     arp_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     arp_frequency_->addListener (this);
-    arp_frequency_->setSkewFactor (0.5);
 
     addAndMakeVisible (arp_gate_ = new Slider ("arp_gate"));
     arp_gate_->setRange (0, 1, 0);
@@ -351,9 +350,9 @@ BEGIN_JUCER_METADATA
              constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="" explicitFocusOrder="0" pos="880 112 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="1" max="20" int="0" style="RotaryHorizontalVerticalDrag"
+          textboxtext="ffdddddd" min="-1" max="4" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="0.5"/>
+          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_gate" id="e8f61b752c6d561e" memberName="arp_gate_"
           virtualName="" explicitFocusOrder="0" pos="808 112 50 50" rotarysliderfill="7fffffff"
           textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"

@@ -21,7 +21,8 @@ namespace mopo {
   TwytchModule::TwytchModule() { }
 
   Processor* TwytchModule::createMonoModControl(std::string name, mopo_float start_val,
-                                                bool control_rate, bool smooth_value) {
+                                                bool control_rate, bool smooth_value,
+                                                bool exponential) {
     ProcessorRouter* mono_owner = getMonoRouter();
     Value* val = nullptr;
     if (smooth_value) {
@@ -39,12 +40,21 @@ namespace mopo {
     mono_owner->addProcessor(mono_total);
     mono_mod_destinations_[name] = mono_total;
     mono_modulation_readout_[name] = mono_total->output();
+
+    if (exponential) {
+      ExponentialScale* exponential_scale = new ExponentialScale(2.0);
+      exponential_scale->plug(mono_total);
+      mono_owner->addProcessor(exponential_scale);
+      return exponential_scale;
+    }
     return mono_total;
   }
 
   Processor* TwytchModule::createPolyModControl(std::string name, mopo_float start_val,
-                                                bool control_rate, bool smooth_value) {
-    Processor* mono_total = createMonoModControl(name, start_val, control_rate, smooth_value);
+                                                bool control_rate, bool smooth_value,
+                                                bool exponential) {
+    Processor* mono_total = createMonoModControl(name, start_val, control_rate,
+                                                 smooth_value, false);
     ProcessorRouter* poly_owner = getPolyRouter();
 
     VariableAdd* poly_total = new VariableAdd();
@@ -60,6 +70,13 @@ namespace mopo {
 
     poly_owner->registerOutput(poly_total->output());
     poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
+
+    if (exponential) {
+      ExponentialScale* exponential_scale = new ExponentialScale(2.0);
+      exponential_scale->plug(modulation_total);
+      poly_owner->addProcessor(exponential_scale);
+      return exponential_scale;
+    }
     return modulation_total;
   }
 

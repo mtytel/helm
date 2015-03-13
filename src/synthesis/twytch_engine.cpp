@@ -37,7 +37,7 @@ namespace mopo {
 
     // Monophonic LFO.
     Value* lfo_waveform = new Value(Wave::kSin);
-    Processor* lfo_frequency = createMonoModControl("mono_lfo_frequency", 2.0, false);
+    Processor* lfo_frequency = createMonoModControl("mono_lfo_frequency", 0.0, false, false, true);
     Oscillator* lfo = new Oscillator();
     lfo->plug(lfo_waveform, Oscillator::kWaveform);
     lfo->plug(lfo_frequency, Oscillator::kFrequency);
@@ -47,7 +47,7 @@ namespace mopo {
     mod_sources_["mono_lfo"] = lfo->output();
 
     // Arpeggiator.
-    Processor* arp_frequency = createMonoModControl("arp_frequency", 5.0, true);
+    Processor* arp_frequency = createMonoModControl("arp_frequency", 2.0, true, false, true);
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
     Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
@@ -66,7 +66,7 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_time = createMonoModControl("delay_time", 0.1, false, true);
+    Processor* delay_time = createMonoModControl("delay_time", -3.0, false, true, true);
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 

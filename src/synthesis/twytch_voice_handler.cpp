@@ -211,7 +211,7 @@ namespace mopo {
   void TwytchVoiceHandler::createModulators(Output* reset) {
     // Poly LFO.
     Value* lfo_waveform = new Value(Wave::kSin);
-    Processor* lfo_frequency = createPolyModControl("poly_lfo_frequency", 2.0, false);
+    Processor* lfo_frequency = createPolyModControl("poly_lfo_frequency", 0.0, false, false, true);
     Oscillator* lfo = new Oscillator();
     lfo->plug(reset, Oscillator::kReset);
     lfo->plug(lfo_waveform, Oscillator::kWaveform);
@@ -222,7 +222,7 @@ namespace mopo {
 
     // Step Sequencer.
     Value* num_steps = new Value(16);
-    Processor* step_frequency = createPolyModControl("step_frequency", 5.0, false);
+    Processor* step_frequency = createPolyModControl("step_frequency", 3.0, false, false, true);
     StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
     step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
@@ -497,7 +497,7 @@ namespace mopo {
     addProcessor(amplitude_);
 
     // Portamento.
-    Processor* portamento = createPolyModControl("portamento", 0.01, false);
+    Processor* portamento = createPolyModControl("portamento", -7.0, false, false, true);
     Value* portamento_type = new Value(0);
     PortamentoFilter* portamento_filter = new PortamentoFilter();
     portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);

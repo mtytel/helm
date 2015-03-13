@@ -46,10 +46,12 @@ namespace mopo {
 
     protected:
       Processor* createMonoModControl(std::string name, mopo_float start_val,
-                                      bool control_rate, bool smooth_value = false);
+                                      bool control_rate, bool smooth_value = false,
+                                      bool exponential = false);
 
       Processor* createPolyModControl(std::string name, mopo_float start_val,
-                                      bool control_rate, bool smooth_value = false);
+                                      bool control_rate, bool smooth_value = false,
+                                      bool exponential = false);
 
       void addSubmodule(TwytchModule* module) { sub_modules_.push_back(module); }
 

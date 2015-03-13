@@ -57,31 +57,33 @@ void ModulationMeter::paint(Graphics& g) {
 
 void ModulationMeter::drawSlider(Graphics& g) {
     g.setColour(Colour(0x66ffffff));
+    float skew = std::pow(current_percent_, destination_->getSkewFactor());
 
     if (destination_->getSliderStyle() == Slider::LinearBar) {
         float middle = getWidth() / 2.0f;
 
         if (destination_->getMaximum() == -destination_->getMinimum())
-            g.fillRect(middle, 1.0f, getWidth() * current_percent_ - middle, 1.0f * getHeight() - 2.0f);
+            g.fillRect(middle, 1.0f, getWidth() * skew - middle, 1.0f * getHeight() - 2.0f);
         else
-            g.fillRect(1.0f, 1.0f, getWidth() * current_percent_, 1.0f * getHeight() - 2.0f);
+            g.fillRect(1.0f, 1.0f, getWidth() * skew, 1.0f * getHeight() - 2.0f);
     }
     else {
         float middle = getHeight() / 2.0f;
 
         if (destination_->getMaximum() == -destination_->getMinimum())
-            g.fillRect(1.0f, middle, getWidth() - 2.0f, -getHeight() * current_percent_ - middle);
+            g.fillRect(1.0f, middle, getWidth() - 2.0f, -getHeight() * skew - middle);
         else
-            g.fillRect(1.0f, getHeight() - 1.0f, getWidth() - 2.0f, -getHeight() * current_percent_);
+            g.fillRect(1.0f, getHeight() - 1.0f, getWidth() - 2.0f, -getHeight() * skew);
     }
 }
 
 void ModulationMeter::drawKnob(Graphics& g) {
     static const float stroke_width = 4.0f;
     static const PathStrokeType stroke_type =
-    PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+        PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
 
-    float current_angle = INTERPOLATE(-ANGLE, ANGLE, current_percent_);
+    float skew = std::pow(current_percent_, destination_->getSkewFactor());
+    float current_angle = INTERPOLATE(-ANGLE, ANGLE, skew);
     float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
     float outer_radius = full_radius - stroke_width;
     Path rail;
