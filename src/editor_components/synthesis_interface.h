@@ -107,11 +107,11 @@ private:
     ScopedPointer<Slider> osc_feedback_transpose_;
     ScopedPointer<Slider> osc_feedback_amount_;
     ScopedPointer<Slider> osc_feedback_tune_;
-    ScopedPointer<WaveFormSelector> mono_lfo_wave_display_;
-    ScopedPointer<Slider> mono_lfo_waveform_;
+    ScopedPointer<WaveFormSelector> mono_lfo_1_wave_display_;
+    ScopedPointer<Slider> mono_lfo_1_waveform_;
     ScopedPointer<Slider> num_steps_;
     ScopedPointer<Slider> step_frequency_;
-    ScopedPointer<Slider> mono_lfo_frequency_;
+    ScopedPointer<Slider> mono_lfo_1_frequency_;
     ScopedPointer<Slider> poly_lfo_frequency_;
     ScopedPointer<Slider> filter_saturation_;
     ScopedPointer<ToggleButton> formant_bypass_;
@@ -125,7 +125,7 @@ private:
     ScopedPointer<TextButton> filter_envelope_mod_;
     ScopedPointer<TextButton> amplitude_envelope_mod_;
     ScopedPointer<TextButton> step_sequencer_mod_;
-    ScopedPointer<TextButton> mono_lfo_mod_;
+    ScopedPointer<TextButton> mono_lfo_1_mod_;
     ScopedPointer<TextButton> poly_lfo_mod_;
     ScopedPointer<TextButton> osc_1_mod_;
     ScopedPointer<TextButton> osc_2_mod_;
@@ -137,6 +137,10 @@ private:
     ScopedPointer<Slider> osc_1_transpose_;
     ScopedPointer<Slider> osc_1_tune_;
     ScopedPointer<Slider> delay_time_;
+    ScopedPointer<WaveFormSelector> mono_lfo_2_wave_display_;
+    ScopedPointer<Slider> mono_lfo_2_waveform_;
+    ScopedPointer<Slider> mono_lfo_2_frequency_;
+    ScopedPointer<TextButton> mono_lfo_2_mod_;
 
 
     //==============================================================================

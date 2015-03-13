@@ -35,16 +35,46 @@ namespace mopo {
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
     controls_["polyphony"] = polyphony;
 
-    // Monophonic LFO.
-    Value* lfo_waveform = new Value(Wave::kSin);
-    Processor* lfo_frequency = createMonoModControl("mono_lfo_frequency", 0.0, false, false, true);
-    Oscillator* lfo = new Oscillator();
-    lfo->plug(lfo_waveform, Oscillator::kWaveform);
-    lfo->plug(lfo_frequency, Oscillator::kFrequency);
+    // Monophonic LFO 1.
+    Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
+    Processor* lfo_1_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0, false, false, true);
+    Oscillator* lfo_1 = new Oscillator();
+    lfo_1->plug(lfo_1_waveform, Oscillator::kWaveform);
+    lfo_1->plug(lfo_1_frequency, Oscillator::kFrequency);
 
-    addProcessor(lfo);
-    controls_["mono_lfo_waveform"] = lfo_waveform;
-    mod_sources_["mono_lfo"] = lfo->output();
+    addProcessor(lfo_1);
+    mod_sources_["mono_lfo_1"] = lfo_1->output();
+
+    // Monophonic LFO 1.
+    Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
+    Processor* lfo_2_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0, false, false, true);
+    Oscillator* lfo_2 = new Oscillator();
+    lfo_2->plug(lfo_2_waveform, Oscillator::kWaveform);
+    lfo_2->plug(lfo_2_frequency, Oscillator::kFrequency);
+
+    addProcessor(lfo_2);
+    mod_sources_["mono_lfo_2"] = lfo_2->output();
+
+    // Step Sequencer.
+    Value* num_steps = new Value(16);
+    Processor* step_frequency = createMonoModControl("step_frequency", 3.0, false, false, true);
+    StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
+    step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
+    step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
+
+    addProcessor(step_sequencer);
+    controls_["num_steps"] = num_steps;
+
+    for (int i = 0; i < MAX_STEPS; ++i) {
+      std::string num = std::to_string(i);
+      if (num.length() == 1)
+        num = "0" + num;
+      Value* step = new Value(0.0);
+      controls_[std::string("step_seq_") + num] = step;
+      step_sequencer->plug(step, StepGenerator::kSteps + i);
+    }
+    
+    mod_sources_["step_sequencer"] = step_sequencer->output();
 
     // Arpeggiator.
     Processor* arp_frequency = createMonoModControl("arp_frequency", 2.0, true, false, true);

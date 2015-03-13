@@ -220,28 +220,8 @@ namespace mopo {
     addProcessor(lfo);
     controls_["poly_lfo_waveform"] = lfo_waveform;
 
-    // Step Sequencer.
-    Value* num_steps = new Value(16);
-    Processor* step_frequency = createPolyModControl("step_frequency", 3.0, false, false, true);
-    StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
-    step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
-    step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
-
-    addProcessor(step_sequencer);
-    controls_["num_steps"] = num_steps;
-
-    for (int i = 0; i < MAX_STEPS; ++i) {
-      std::string num = std::to_string(i);
-      if (num.length() == 1)
-        num = "0" + num;
-      Value* step = new Value(0.0);
-      controls_[std::string("step_seq_") + num] = step;
-      step_sequencer->plug(step, StepGenerator::kSteps + i);
-    }
-
     // Modulation sources/destinations.
     mod_sources_["poly_lfo"] = lfo->output();
-    mod_sources_["step_sequencer"] = step_sequencer->output();
   }
 
   void TwytchVoiceHandler::createFilter(
