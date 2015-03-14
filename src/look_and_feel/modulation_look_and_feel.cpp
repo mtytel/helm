@@ -82,9 +82,9 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
       PathStrokeType(knob_radius, PathStrokeType::beveled, PathStrokeType::butt);
 
   if (mod_diff == 0.0)
-    g.setColour(Colour(0x22ffaa00));
+    g.setColour(Colour(0x11ffaa44));
   else
-    g.setColour(Colour(0x55ffaa00));
+    g.setColour(Colour(0x77ffaa00));
   g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                 2.0 * knob_radius, 2.0 * knob_radius);
 
@@ -99,8 +99,12 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   g.setColour(Colour(0x88ffbb99));
   g.strokePath(active_section, stroke_type);
 
-  float end_x = draw_radius + knob_radius * sin(destination_angle + mod_diff);
-  float end_y = draw_radius - knob_radius * cos(destination_angle + mod_diff);
-  g.setColour(Colour(0xbbffddaa));
+  float end_x = draw_radius + 0.8f * knob_radius * sin(destination_angle + mod_diff);
+  float end_y = draw_radius - 0.8f * knob_radius * cos(destination_angle + mod_diff);
+  g.setColour(Colour(0xffffddaa));
   g.drawLine(draw_radius, draw_radius, end_x, end_y, 2.0f);
+
+  g.setColour(Colour(0xff000000));
+  g.fillEllipse(draw_radius - knob_radius * 0.15f, draw_radius - knob_radius * 0.15f,
+                2.0f * knob_radius * 0.15f, 2.0f * knob_radius * 0.15f);
 }

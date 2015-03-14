@@ -43,15 +43,23 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float knob_radius = 0.65f * full_radius;
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
-  float end_x = full_radius + knob_radius * sin(current_angle);
-  float end_y = full_radius - knob_radius * cos(current_angle);
+  float end_x = full_radius + 0.8f * knob_radius * sin(current_angle);
+  float end_y = full_radius - 0.8f * knob_radius * cos(current_angle);
 
   g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 
+  g.setColour(Colour(0xff000000));
+  g.drawEllipse(full_radius - knob_radius, full_radius - knob_radius,
+                2.0f * knob_radius, 2.0f * knob_radius, 1.0f);
+
   g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
   g.drawLine(full_radius, full_radius, end_x, end_y, 2.0f);
+
+  g.setColour(Colour(0xff000000));
+  g.fillEllipse(full_radius - knob_radius * 0.15f, full_radius - knob_radius * 0.15f,
+                2.0f * knob_radius * 0.15f, 2.0f * knob_radius * 0.15f);
   
   if (slider.getInterval() == 1) {
     g.setColour(slider.findColour(Slider::textBoxTextColourId));

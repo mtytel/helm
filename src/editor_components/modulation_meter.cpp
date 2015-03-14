@@ -78,18 +78,19 @@ void ModulationMeter::drawSlider(Graphics& g) {
 }
 
 void ModulationMeter::drawKnob(Graphics& g) {
-    static const float stroke_width = 4.0f;
-    static const PathStrokeType stroke_type =
-        PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+    static const float stroke_percent = 0.12f;
 
     float skew = std::pow(current_percent_, destination_->getSkewFactor());
     float current_angle = INTERPOLATE(-ANGLE, ANGLE, skew);
     float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
+    float stroke_width = 2.0f * full_radius * stroke_percent;
+    PathStrokeType stroke_type =
+        PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
     float outer_radius = full_radius - stroke_width;
     Path rail;
     rail.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                        0.0f, -ANGLE, ANGLE, true);
-    g.setColour(Colour(0xff000000));
+    g.setColour(Colour(0x33000000));
     g.strokePath(rail, stroke_type);
 
     Path active_section;
@@ -101,6 +102,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
         active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                                      0.0f, -ANGLE, current_angle, true);
     }
-    g.setColour(Colour(0xffffffff));
+    g.setColour(Colour(0xfff0a962));
+    // Colour(0x55cb587a)
     g.strokePath(active_section, stroke_type);
 }
