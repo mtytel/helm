@@ -303,7 +303,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     num_steps_->addListener (this);
 
     addAndMakeVisible (step_frequency_ = new Slider ("step_frequency"));
-    step_frequency_->setRange (-6, 6, 0);
+    step_frequency_->setRange (5, 6, 0);
     step_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     step_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     step_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -1743,7 +1743,7 @@ BEGIN_JUCER_METADATA
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="step_frequency" id="788574c1265fb47" memberName="step_frequency_"
           virtualName="" explicitFocusOrder="0" pos="616 464 40 40" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-6" max="6" int="0" style="RotaryHorizontalVerticalDrag"
+          textboxtext="ffdddddd" min="5" max="6" int="0" style="RotaryHorizontalVerticalDrag"
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_frequency" id="ebc4a57528113c39" memberName="mono_lfo_1_frequency_"
