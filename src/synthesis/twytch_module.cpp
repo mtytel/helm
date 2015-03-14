@@ -22,7 +22,7 @@ namespace mopo {
 
   Processor* TwytchModule::createMonoModControl(std::string name, mopo_float start_val,
                                                 bool control_rate, bool smooth_value,
-                                                bool exponential) {
+                                                ControlSkewType skew) {
     ProcessorRouter* mono_owner = getMonoRouter();
     Value* val = nullptr;
     if (smooth_value) {
@@ -41,7 +41,13 @@ namespace mopo {
     mono_mod_destinations_[name] = mono_total;
     mono_modulation_readout_[name] = mono_total->output();
 
-    if (exponential) {
+    if (skew == kQuadratic) {
+      PolynomialScale* polynomial_scale = new PolynomialScale(2.0);
+      polynomial_scale->plug(mono_total);
+      mono_owner->addProcessor(polynomial_scale);
+      return polynomial_scale;
+    }
+    if (skew == kExponential) {
       ExponentialScale* exponential_scale = new ExponentialScale(2.0);
       exponential_scale->plug(mono_total);
       mono_owner->addProcessor(exponential_scale);
@@ -52,9 +58,9 @@ namespace mopo {
 
   Processor* TwytchModule::createPolyModControl(std::string name, mopo_float start_val,
                                                 bool control_rate, bool smooth_value,
-                                                bool exponential) {
+                                                ControlSkewType skew) {
     Processor* mono_total = createMonoModControl(name, start_val, control_rate,
-                                                 smooth_value, false);
+                                                 smooth_value, kLinear);
     ProcessorRouter* poly_owner = getPolyRouter();
 
     VariableAdd* poly_total = new VariableAdd();
@@ -71,7 +77,13 @@ namespace mopo {
     poly_owner->registerOutput(poly_total->output());
     poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
 
-    if (exponential) {
+    if (skew == kQuadratic) {
+      PolynomialScale* polynomial_scale = new PolynomialScale(2.0);
+      polynomial_scale->plug(modulation_total);
+      poly_owner->addProcessor(polynomial_scale);
+      return polynomial_scale;
+    }
+    if (skew == kExponential) {
       ExponentialScale* exponential_scale = new ExponentialScale(2.0);
       exponential_scale->plug(modulation_total);
       poly_owner->addProcessor(exponential_scale);

@@ -37,7 +37,8 @@ namespace mopo {
 
     // Monophonic LFO 1.
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
-    Processor* lfo_1_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0, false, false, true);
+    Processor* lfo_1_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
+                                                      false, false, kExponential);
     Oscillator* lfo_1 = new Oscillator();
     lfo_1->plug(lfo_1_waveform, Oscillator::kWaveform);
     lfo_1->plug(lfo_1_frequency, Oscillator::kFrequency);
@@ -47,7 +48,8 @@ namespace mopo {
 
     // Monophonic LFO 1.
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
-    Processor* lfo_2_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0, false, false, true);
+    Processor* lfo_2_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
+                                                      false, false, kExponential);
     Oscillator* lfo_2 = new Oscillator();
     lfo_2->plug(lfo_2_waveform, Oscillator::kWaveform);
     lfo_2->plug(lfo_2_frequency, Oscillator::kFrequency);
@@ -57,7 +59,8 @@ namespace mopo {
 
     // Step Sequencer.
     Value* num_steps = new Value(16);
-    Processor* step_frequency = createMonoModControl("step_frequency", 3.0, false, false, true);
+    Processor* step_frequency = createMonoModControl("step_frequency", 3.0,
+                                                     false, false, kExponential);
     StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
     step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
@@ -77,7 +80,8 @@ namespace mopo {
     mod_sources_["step_sequencer"] = step_sequencer->output();
 
     // Arpeggiator.
-    Processor* arp_frequency = createMonoModControl("arp_frequency", 2.0, true, false, true);
+    Processor* arp_frequency = createMonoModControl("arp_frequency", 2.0,
+                                                    true, false, kExponential);
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
     Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
@@ -96,7 +100,7 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_time = createMonoModControl("delay_time", -3.0, false, true, true);
+    Processor* delay_time = createMonoModControl("delay_time", -3.0, false, true, kExponential);
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 
@@ -109,7 +113,7 @@ namespace mopo {
     addProcessor(delay);
 
     // Volume.
-    Processor* volume = createMonoModControl("volume", 0.6, false, true);
+    Processor* volume = createMonoModControl("volume", 0.6, false, true, kQuadratic);
     Multiply* scaled_audio = new Multiply();
     scaled_audio->plug(delay, 0);
     scaled_audio->plug(volume, 1);

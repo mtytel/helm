@@ -210,27 +210,25 @@ namespace mopo {
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
     // Poly LFO.
-    Value* lfo_waveform = new Value(Wave::kSin);
-    Processor* lfo_frequency = createPolyModControl("poly_lfo_frequency", 0.0, false, false, true);
+    Processor* lfo_waveform = createMonoModControl("poly_lfo_waveform", Wave::kSin, true);
+    Processor* lfo_frequency = createPolyModControl("poly_lfo_frequency", 0.0,
+                                                    false, false, kExponential);
     Oscillator* lfo = new Oscillator();
     lfo->plug(reset, Oscillator::kReset);
     lfo->plug(lfo_waveform, Oscillator::kWaveform);
     lfo->plug(lfo_frequency, Oscillator::kFrequency);
-
+    
     addProcessor(lfo);
-    controls_["poly_lfo_waveform"] = lfo_waveform;
-
-    // Modulation sources/destinations.
     mod_sources_["poly_lfo"] = lfo->output();
   }
 
   void TwytchVoiceHandler::createFilter(
       Output* audio, Output* keytrack, Output* reset, Output* note_event) {
     // Filter envelope.
-    Processor* filter_attack = createPolyModControl("fil_attack", 0.01, false);
-    Processor* filter_decay = createPolyModControl("fil_decay", 0.3, true);
+    Processor* filter_attack = createPolyModControl("fil_attack", 0.1, false, false, kQuadratic);
+    Processor* filter_decay = createPolyModControl("fil_decay", 0.9, true, false, kQuadratic);
     Processor* filter_sustain = createPolyModControl("fil_sustain", 0.3, false);
-    Processor* filter_release = createPolyModControl("fil_release", 0.3, true);
+    Processor* filter_release = createPolyModControl("fil_release", 0.9, true, false, kQuadratic);
 
     TriggerFilter* note_off = new TriggerFilter(VoiceEvent::kVoiceOff);
     note_off->plug(note_event);
@@ -371,7 +369,8 @@ namespace mopo {
       formant_frequency->plug(top_left_formants[i].frequency, BilinearInterpolate::kTopLeft);
       formant_frequency->plug(top_right_formants[i].frequency, BilinearInterpolate::kTopRight);
       formant_frequency->plug(bottom_left_formants[i].frequency, BilinearInterpolate::kBottomLeft);
-      formant_frequency->plug(bottom_right_formants[i].frequency, BilinearInterpolate::kBottomRight);
+      formant_frequency->plug(bottom_right_formants[i].frequency,
+                              BilinearInterpolate::kBottomRight);
 
       formant_gain->plug(formant_x, BilinearInterpolate::kXPosition);
       formant_q->plug(formant_x, BilinearInterpolate::kXPosition);
@@ -408,10 +407,13 @@ namespace mopo {
     addProcessor(legato_filter);
 
     // Amplitude envelope.
-    Processor* amplitude_attack = createPolyModControl("amp_attack", 0.01, false);
-    Processor* amplitude_decay = createPolyModControl("amp_decay", 0.7, true);
+    Processor* amplitude_attack = createPolyModControl("amp_attack", 0.1,
+                                                       false, false, kQuadratic);
+    Processor* amplitude_decay = createPolyModControl("amp_decay", 1.0,
+                                                      true, false, kQuadratic);
     Processor* amplitude_sustain = createPolyModControl("amp_sustain", 0.5, false);
-    Processor* amplitude_release = createPolyModControl("amp_release", 0.3, true);
+    Processor* amplitude_release = createPolyModControl("amp_release", 0.7,
+                                                        true, false, kQuadratic);
 
     amplitude_envelope_ = new Envelope();
     amplitude_envelope_->plug(legato_filter->output(LegatoFilter::kRetrigger),
@@ -477,7 +479,7 @@ namespace mopo {
     addProcessor(amplitude_);
 
     // Portamento.
-    Processor* portamento = createPolyModControl("portamento", -7.0, false, false, true);
+    Processor* portamento = createPolyModControl("portamento", -7.0, false, false, kExponential);
     Value* portamento_type = new Value(0);
     PortamentoFilter* portamento_filter = new PortamentoFilter();
     portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);

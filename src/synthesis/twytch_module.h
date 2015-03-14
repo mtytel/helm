@@ -28,6 +28,12 @@ namespace mopo {
 
   class TwytchModule {
     public:
+      enum ControlSkewType {
+        kLinear,
+        kQuadratic,
+        kExponential
+      };
+
       TwytchModule();
       virtual ~TwytchModule() { } // Should probably delete things.
 
@@ -47,11 +53,11 @@ namespace mopo {
     protected:
       Processor* createMonoModControl(std::string name, mopo_float start_val,
                                       bool control_rate, bool smooth_value = false,
-                                      bool exponential = false);
+                                      ControlSkewType skew = kLinear);
 
       Processor* createPolyModControl(std::string name, mopo_float start_val,
                                       bool control_rate, bool smooth_value = false,
-                                      bool exponential = false);
+                                      ControlSkewType skew = kLinear);
 
       void addSubmodule(TwytchModule* module) { sub_modules_.push_back(module); }
 
