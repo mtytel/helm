@@ -102,7 +102,7 @@ namespace mopo {
 
   void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
-    Value* pitch_bend_range = new Value(2);
+    Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", 2.0, false);
     Multiply* pitch_bend = new Multiply();
     pitch_bend->plug(pitch_wheel_amount_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
@@ -110,10 +110,8 @@ namespace mopo {
     bent_midi->plug(midi, 0);
     bent_midi->plug(pitch_bend, 1);
 
-    addGlobalProcessor(pitch_bend);
+    addProcessor(pitch_bend);
     addProcessor(bent_midi);
-
-    controls_["pitch_bend_range"] = pitch_bend_range;
 
     // Oscillator 1.
     TwytchOscillators* oscillators = new TwytchOscillators();
