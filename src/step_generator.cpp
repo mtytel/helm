@@ -21,10 +21,12 @@
 namespace mopo {
 
   StepGenerator::StepGenerator(int max_steps) :
-      Processor(kNumInputs + max_steps, 1), offset_(0.0), current_step_(0) { }
+      Processor(kNumInputs + max_steps, 1), max_steps_(max_steps),
+      offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
+    num_steps = CLAMP(num_steps, 1, max_steps_);
 
     int i = 0;
     if (input(kReset)->source->triggered &&
