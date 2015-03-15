@@ -99,10 +99,10 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   g.setColour(Colour(0x88ffbb99));
   g.strokePath(active_section, stroke_type);
 
-  float end_x = draw_radius + 0.8f * knob_radius * sin(destination_angle + mod_diff);
-  float end_y = draw_radius - 0.8f * knob_radius * cos(destination_angle + mod_diff);
+  float end_x = draw_radius + 0.9f * knob_radius * sin(destination_angle + mod_diff);
+  float end_y = draw_radius - 0.9f * knob_radius * cos(destination_angle + mod_diff);
   g.setColour(Colour(0xffffddaa));
-  g.drawLine(draw_radius, draw_radius, end_x, end_y, 2.0f);
+  g.drawLine(draw_radius, draw_radius, end_x, end_y, 1.0f);
 
   g.setColour(Colour(0xff000000));
   g.fillEllipse(draw_radius - knob_radius * 0.15f, draw_radius - knob_radius * 0.15f,
