@@ -131,7 +131,7 @@ void FullInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff271436));
+    g.fillAll (Colour (0xff392054));
 
     g.setColour (Colour (0xffbf9bc7));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
@@ -171,8 +171,8 @@ void FullInterface::resized()
     arp_gate_->setBounds (808, 112, 50, 50);
     arp_octaves_->setBounds (808, 200, 50, 50);
     arp_pattern_->setBounds (880, 200, 50, 50);
-    oscilloscope_->setBounds (808, 416, 144, getHeight() - 665);
-    recording_->setBounds (808, 280, 144, getHeight() - 673);
+    oscilloscope_->setBounds (808, 416, 144, 128);
+    recording_->setBounds (808, 280, 144, 128);
     load_button_->setBounds (800, 8, 150, 24);
     arp_on_->setBounds (808, 80, 48, 24);
     save_button_->setBounds (800, 40, 150, 24);
@@ -331,7 +331,7 @@ BEGIN_JUCER_METADATA
                  constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
-  <BACKGROUND backgroundColour="ff271436">
+  <BACKGROUND backgroundColour="ff392054">
     <TEXT pos="804 164 52 20" fill="solid: ffbf9bc7" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
@@ -369,11 +369,11 @@ BEGIN_JUCER_METADATA
           textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
           textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
-             virtualName="" explicitFocusOrder="0" pos="808 416 144 665M"
-             sourceFile="oscilloscope.cpp" constructorParams="512"/>
+             virtualName="" explicitFocusOrder="0" pos="808 416 144 128" sourceFile="oscilloscope.cpp"
+             constructorParams="512"/>
   <JUCERCOMP name="recording" id="e8f76c3c396fd34e" memberName="recording_"
-             virtualName="" explicitFocusOrder="0" pos="808 280 144 673M"
-             sourceFile="audio_viewer.cpp" constructorParams="441000"/>
+             virtualName="" explicitFocusOrder="0" pos="808 280 144 128" sourceFile="audio_viewer.cpp"
+             constructorParams="441000"/>
   <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
               explicitFocusOrder="0" pos="800 8 150 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>

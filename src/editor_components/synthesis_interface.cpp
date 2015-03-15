@@ -623,25 +623,37 @@ void SynthesisInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff3c2e50));
+    g.fillAll (Colour (0xff1d0e29));
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff562b75));
     g.fillRect (672, 508, 120, 132);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (672, 508, 120, 132, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (550, 508, 120, 132);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (550, 508, 120, 132, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (612, 644, 180, 84);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (612, 644, 180, 84, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (428, 644, 180, 84);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (428, 644, 180, 84, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (4, 4, 420, 236);
 
-    g.setColour (Colour (0xff6a4584));
-    g.fillRect (12, 24, 408, 152);
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (4, 4, 420, 236, 1);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -661,26 +673,47 @@ void SynthesisInterface::paint (Graphics& g)
                 172, 108, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff562b75));
     g.fillRect (4, 244, 420, 68);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (4, 244, 420, 68, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (4, 316, 420, 188);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (4, 316, 420, 188, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (428, 4, 364, 164);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (428, 4, 364, 164, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (428, 172, 364, 164);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (428, 172, 364, 164, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (428, 340, 364, 164);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (428, 340, 364, 164, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (4, 508, 420, 132);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (4, 508, 420, 132, 1);
+
+    g.setColour (Colour (0xff562b75));
     g.fillRect (428, 508, 120, 132);
+
+    g.setColour (Colour (0xff664e79));
+    g.drawRect (428, 508, 120, 132, 1);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
@@ -790,8 +823,11 @@ void SynthesisInterface::paint (Graphics& g)
                 620, 644, 60, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff562b75));
     g.fillRect (4, 644, 420, 84);
+
+    g.setColour (Colour (0xff664379));
+    g.drawRect (4, 644, 420, 84, 1);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
@@ -829,8 +865,11 @@ void SynthesisInterface::paint (Graphics& g)
                 308, 708, 92, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff563e70));
+    g.setColour (Colour (0xff562b75));
     g.fillRect (4, 732, 788, 36);
+
+    g.setColour (Colour (0xff664379));
+    g.drawRect (4, 732, 788, 36, 1);
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -970,9 +1009,9 @@ void SynthesisInterface::resized()
     filter_saturation_->setBounds (360, 360, 50, 50);
     formant_bypass_->setBounds (0, 512, 120, 24);
     legato_->setBounds (224, 692, 64, 16);
-    formant_xy_pad_->setBounds (120, 512, 280, 80);
-    formant_x_->setBounds (120, 592, 280, 12);
-    formant_y_->setBounds (400, 512, 12, 80);
+    formant_xy_pad_->setBounds (120, 512, 280, 104);
+    formant_x_->setBounds (120, 616, 280, 12);
+    formant_y_->setBounds (400, 512, 12, 104);
     filter_type_->setBounds (16, 344, 300, 16);
     poly_lfo_wave_display_->setBounds (680, 542, 96, 48);
     poly_lfo_waveform_->setBounds (680, 528, 96, 14);
@@ -1418,13 +1457,17 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff3c2e50">
-    <RECT pos="672 508 120 132" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="550 508 120 132" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="612 644 180 84" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="428 644 180 84" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="4 4 420 236" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="12 24 408 152" fill="solid: ff6a4584" hasStroke="0"/>
+  <BACKGROUND backgroundColour="ff1d0e29">
+    <RECT pos="672 508 120 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="550 508 120 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="612 644 180 84" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="428 644 180 84" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="4 4 420 236" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
     <TEXT pos="236 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -1434,13 +1477,20 @@ BEGIN_JUCER_METADATA
     <TEXT pos="172 108 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="X MOD"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 244 420 68" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="4 316 420 188" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="428 4 364 164" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="428 172 364 164" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="428 340 364 164" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="4 508 420 132" fill="solid: ff563e70" hasStroke="0"/>
-    <RECT pos="428 508 120 132" fill="solid: ff563e70" hasStroke="0"/>
+    <RECT pos="4 244 420 68" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="4 316 420 188" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="428 4 364 164" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="428 172 364 164" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="428 340 364 164" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="4 508 420 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
+    <RECT pos="428 508 120 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664e79"/>
     <TEXT pos="12 244 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
@@ -1495,7 +1545,8 @@ BEGIN_JUCER_METADATA
     <TEXT pos="620 644 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="VOLUME"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <RECT pos="4 644 420 84" fill="solid: ff563e70" hasStroke="0"/>
+    <RECT pos="4 644 420 84" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664379"/>
     <TEXT pos="12 644 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="ARTICULATION"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
@@ -1514,7 +1565,8 @@ BEGIN_JUCER_METADATA
     <TEXT pos="308 708 92 12" fill="solid: ffd4b0e0" hasStroke="0" text="PITCH BEND"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 732 788 36" fill="solid: ff563e70" hasStroke="0"/>
+    <RECT pos="4 732 788 36" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff664379"/>
     <TEXT pos="36 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="PITCH WHEEL"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -1764,15 +1816,15 @@ BEGIN_JUCER_METADATA
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="formant_xy_pad" id="202ea6e8e33b6ac7" memberName="formant_xy_pad_"
-             virtualName="XYPad" explicitFocusOrder="0" pos="120 512 280 80"
+             virtualName="XYPad" explicitFocusOrder="0" pos="120 512 280 104"
              sourceFile="xy_pad.cpp" constructorParams=""/>
   <SLIDER name="formant_x" id="d182d63c43cb241f" memberName="formant_x_"
-          virtualName="" explicitFocusOrder="0" pos="120 592 280 12" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="120 616 280 12" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant_y" id="f9e64695877940a6" memberName="formant_y_"
-          virtualName="" explicitFocusOrder="0" pos="400 512 12 80" bkgcol="ff190327"
+          virtualName="" explicitFocusOrder="0" pos="400 512 12 104" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
