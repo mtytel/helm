@@ -41,6 +41,7 @@ namespace mopo {
       void process();
 
     protected:
+      unsigned int max_steps_;
       mopo_float offset_;
       unsigned int current_step_;
   };

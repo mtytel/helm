@@ -58,7 +58,7 @@ namespace mopo {
     mod_sources_["mono_lfo_2"] = lfo_2->output();
 
     // Step Sequencer.
-    Value* num_steps = new Value(16);
+    Processor* num_steps = createMonoModControl("num_steps", 16, true);
     Processor* step_frequency = createMonoModControl("step_frequency", 3.0,
                                                      false, false, kExponential);
     StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
@@ -66,7 +66,6 @@ namespace mopo {
     step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
 
     addProcessor(step_sequencer);
-    controls_["num_steps"] = num_steps;
 
     for (int i = 0; i < MAX_STEPS; ++i) {
       std::string num = std::to_string(i);

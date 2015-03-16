@@ -14,34 +14,21 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MODULATION_METER_H
-#define MODULATION_METER_H
+#ifndef TWYTCH_SLIDER_H
+#define TWYTCH_SLIDER_H
 
 #include "JuceHeader.h"
-#include "processor.h"
 
-class ModulationMeter : public Component {
+class TwytchSlider : public Slider {
 public:
-    ModulationMeter(const mopo::Processor::Output* mono_total,
-                    const mopo::Processor::Output* poly_total,
-                    const Slider* slider);
-    ~ModulationMeter();
+    using Slider::Slider;
 
-    void paint(Graphics& g) override;
-
-    void update(int num_voices);
+    void mouseDown(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent& e) override;
 
 private:
-    void drawSlider(Graphics& g);
-    void drawKnob(Graphics& g);
 
-    const mopo::Processor::Output* mono_total_;
-    const mopo::Processor::Output* poly_total_;
-    const Slider* destination_;
-
-    float current_percent_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchSlider)
 };
 
-#endif // MODULATION_METER_H
+#endif // TWYTCH_SLIDER_H

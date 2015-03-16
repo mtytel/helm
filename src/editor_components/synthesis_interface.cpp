@@ -37,7 +37,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (osc_1_wave_display_ = new WaveFormSelector (256));
     addAndMakeVisible (osc_2_wave_display_ = new WaveFormSelector (256));
-    addAndMakeVisible (polyphony_ = new Slider ("polyphony"));
+    addAndMakeVisible (polyphony_ = new TwytchSlider ("polyphony"));
     polyphony_->setRange (1, 32, 1);
     polyphony_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     polyphony_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -45,7 +45,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     polyphony_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     polyphony_->addListener (this);
 
-    addAndMakeVisible (portamento_ = new Slider ("portamento"));
+    addAndMakeVisible (portamento_ = new TwytchSlider ("portamento"));
     portamento_->setRange (-9, -1, 0);
     portamento_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     portamento_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -53,7 +53,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     portamento_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     portamento_->addListener (this);
 
-    addAndMakeVisible (pitch_bend_range_ = new Slider ("pitch_bend_range"));
+    addAndMakeVisible (pitch_bend_range_ = new TwytchSlider ("pitch_bend_range"));
     pitch_bend_range_->setRange (0, 48, 1);
     pitch_bend_range_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     pitch_bend_range_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -61,7 +61,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     pitch_bend_range_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     pitch_bend_range_->addListener (this);
 
-    addAndMakeVisible (cross_modulation_ = new Slider ("cross_modulation"));
+    addAndMakeVisible (cross_modulation_ = new TwytchSlider ("cross_modulation"));
     cross_modulation_->setRange (0, 1, 0);
     cross_modulation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     cross_modulation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -70,7 +70,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     cross_modulation_->addListener (this);
 
     addAndMakeVisible (filter_response_ = new FilterResponse (300));
-    addAndMakeVisible (portamento_type_ = new Slider ("portamento_type"));
+    addAndMakeVisible (portamento_type_ = new TwytchSlider ("portamento_type"));
     portamento_type_->setRange (0, 2, 1);
     portamento_type_->setSliderStyle (Slider::LinearBar);
     portamento_type_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -79,7 +79,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     portamento_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     portamento_type_->addListener (this);
 
-    addAndMakeVisible (osc_mix_ = new Slider ("osc_mix"));
+    addAndMakeVisible (osc_mix_ = new TwytchSlider ("osc_mix"));
     osc_mix_->setRange (0, 1, 0);
     osc_mix_->setSliderStyle (Slider::LinearBar);
     osc_mix_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -88,7 +88,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_mix_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     osc_mix_->addListener (this);
 
-    addAndMakeVisible (osc_2_transpose_ = new Slider ("osc_2_transpose"));
+    addAndMakeVisible (osc_2_transpose_ = new TwytchSlider ("osc_2_transpose"));
     osc_2_transpose_->setRange (-48, 48, 1);
     osc_2_transpose_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     osc_2_transpose_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -96,7 +96,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_2_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_2_transpose_->addListener (this);
 
-    addAndMakeVisible (osc_2_tune_ = new Slider ("osc_2_tune"));
+    addAndMakeVisible (osc_2_tune_ = new TwytchSlider ("osc_2_tune"));
     osc_2_tune_->setRange (-1, 1, 0);
     osc_2_tune_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     osc_2_tune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -104,7 +104,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_2_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_2_tune_->addListener (this);
 
-    addAndMakeVisible (volume_ = new Slider ("volume"));
+    addAndMakeVisible (volume_ = new TwytchSlider ("volume"));
     volume_->setRange (0, 1, 0);
     volume_->setSliderStyle (Slider::LinearBar);
     volume_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -113,7 +113,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     volume_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     volume_->addListener (this);
 
-    addAndMakeVisible (delay_feedback_ = new Slider ("delay_feedback"));
+    addAndMakeVisible (delay_feedback_ = new TwytchSlider ("delay_feedback"));
     delay_feedback_->setRange (-1, 1, 0);
     delay_feedback_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     delay_feedback_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -121,7 +121,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_feedback_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     delay_feedback_->addListener (this);
 
-    addAndMakeVisible (delay_dry_wet_ = new Slider ("delay_dry_wet"));
+    addAndMakeVisible (delay_dry_wet_ = new TwytchSlider ("delay_dry_wet"));
     delay_dry_wet_->setRange (0, 1, 0);
     delay_dry_wet_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     delay_dry_wet_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -129,7 +129,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_dry_wet_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     delay_dry_wet_->addListener (this);
 
-    addAndMakeVisible (velocity_track_ = new Slider ("velocity_track"));
+    addAndMakeVisible (velocity_track_ = new TwytchSlider ("velocity_track"));
     velocity_track_->setRange (-1, 1, 0);
     velocity_track_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     velocity_track_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -137,7 +137,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     velocity_track_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     velocity_track_->addListener (this);
 
-    addAndMakeVisible (amp_attack_ = new Slider ("amp_attack"));
+    addAndMakeVisible (amp_attack_ = new TwytchSlider ("amp_attack"));
     amp_attack_->setRange (0, 4, 0);
     amp_attack_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     amp_attack_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -145,7 +145,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_attack_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_attack_->addListener (this);
 
-    addAndMakeVisible (amp_decay_ = new Slider ("amp_decay"));
+    addAndMakeVisible (amp_decay_ = new TwytchSlider ("amp_decay"));
     amp_decay_->setRange (0, 4, 0);
     amp_decay_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     amp_decay_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -153,7 +153,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_decay_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_decay_->addListener (this);
 
-    addAndMakeVisible (amp_release_ = new Slider ("amp_release"));
+    addAndMakeVisible (amp_release_ = new TwytchSlider ("amp_release"));
     amp_release_->setRange (0, 4, 0);
     amp_release_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     amp_release_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -161,7 +161,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_release_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_release_->addListener (this);
 
-    addAndMakeVisible (amp_sustain_ = new Slider ("amp_sustain"));
+    addAndMakeVisible (amp_sustain_ = new TwytchSlider ("amp_sustain"));
     amp_sustain_->setRange (0, 1, 0);
     amp_sustain_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     amp_sustain_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -169,7 +169,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     amp_sustain_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     amp_sustain_->addListener (this);
 
-    addAndMakeVisible (fil_attack_ = new Slider ("fil_attack"));
+    addAndMakeVisible (fil_attack_ = new TwytchSlider ("fil_attack"));
     fil_attack_->setRange (0, 4, 0);
     fil_attack_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     fil_attack_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -177,7 +177,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_attack_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_attack_->addListener (this);
 
-    addAndMakeVisible (fil_decay_ = new Slider ("fil_decay"));
+    addAndMakeVisible (fil_decay_ = new TwytchSlider ("fil_decay"));
     fil_decay_->setRange (0, 4, 0);
     fil_decay_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     fil_decay_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -185,7 +185,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_decay_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_decay_->addListener (this);
 
-    addAndMakeVisible (fil_release_ = new Slider ("fil_release"));
+    addAndMakeVisible (fil_release_ = new TwytchSlider ("fil_release"));
     fil_release_->setRange (0, 4, 0);
     fil_release_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     fil_release_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -193,7 +193,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_release_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_release_->addListener (this);
 
-    addAndMakeVisible (fil_sustain_ = new Slider ("fil_sustain"));
+    addAndMakeVisible (fil_sustain_ = new TwytchSlider ("fil_sustain"));
     fil_sustain_->setRange (0, 1, 0);
     fil_sustain_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     fil_sustain_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -201,7 +201,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_sustain_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_sustain_->addListener (this);
 
-    addAndMakeVisible (resonance_ = new Slider ("resonance"));
+    addAndMakeVisible (resonance_ = new TwytchSlider ("resonance"));
     resonance_->setRange (0, 1, 0);
     resonance_->setSliderStyle (Slider::LinearBar);
     resonance_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -210,7 +210,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     resonance_->addListener (this);
 
-    addAndMakeVisible (osc_1_waveform_ = new Slider ("osc_1_waveform"));
+    addAndMakeVisible (osc_1_waveform_ = new TwytchSlider ("osc_1_waveform"));
     osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearBar);
     osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -219,7 +219,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     osc_1_waveform_->addListener (this);
 
-    addAndMakeVisible (osc_2_waveform_ = new Slider ("osc_2_waveform"));
+    addAndMakeVisible (osc_2_waveform_ = new TwytchSlider ("osc_2_waveform"));
     osc_2_waveform_->setRange (0, 11, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearBar);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -228,7 +228,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     osc_2_waveform_->addListener (this);
 
-    addAndMakeVisible (cutoff_ = new Slider ("cutoff"));
+    addAndMakeVisible (cutoff_ = new TwytchSlider ("cutoff"));
     cutoff_->setRange (28, 127, 0);
     cutoff_->setSliderStyle (Slider::LinearBar);
     cutoff_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -237,7 +237,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     cutoff_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     cutoff_->addListener (this);
 
-    addAndMakeVisible (fil_env_depth_ = new Slider ("fil_env_depth"));
+    addAndMakeVisible (fil_env_depth_ = new TwytchSlider ("fil_env_depth"));
     fil_env_depth_->setRange (-128, 128, 0);
     fil_env_depth_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     fil_env_depth_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -245,7 +245,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     fil_env_depth_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     fil_env_depth_->addListener (this);
 
-    addAndMakeVisible (keytrack_ = new Slider ("keytrack"));
+    addAndMakeVisible (keytrack_ = new TwytchSlider ("keytrack"));
     keytrack_->setRange (-1, 1, 0);
     keytrack_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     keytrack_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -253,7 +253,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     keytrack_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     keytrack_->addListener (this);
 
-    addAndMakeVisible (osc_feedback_transpose_ = new Slider ("osc_feedback_transpose"));
+    addAndMakeVisible (osc_feedback_transpose_ = new TwytchSlider ("osc_feedback_transpose"));
     osc_feedback_transpose_->setRange (-24, 24, 1);
     osc_feedback_transpose_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     osc_feedback_transpose_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -261,7 +261,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_feedback_transpose_->addListener (this);
 
-    addAndMakeVisible (osc_feedback_amount_ = new Slider ("osc_feedback_amount"));
+    addAndMakeVisible (osc_feedback_amount_ = new TwytchSlider ("osc_feedback_amount"));
     osc_feedback_amount_->setRange (-1, 1, 0);
     osc_feedback_amount_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     osc_feedback_amount_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -269,7 +269,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_amount_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_feedback_amount_->addListener (this);
 
-    addAndMakeVisible (osc_feedback_tune_ = new Slider ("osc_feedback_tune"));
+    addAndMakeVisible (osc_feedback_tune_ = new TwytchSlider ("osc_feedback_tune"));
     osc_feedback_tune_->setRange (-1, 1, 0);
     osc_feedback_tune_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     osc_feedback_tune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -278,7 +278,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_tune_->addListener (this);
 
     addAndMakeVisible (mono_lfo_1_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (mono_lfo_1_waveform_ = new Slider ("mono_lfo_1_waveform"));
+    addAndMakeVisible (mono_lfo_1_waveform_ = new TwytchSlider ("mono_lfo_1_waveform"));
     mono_lfo_1_waveform_->setRange (0, 11, 1);
     mono_lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -287,7 +287,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     mono_lfo_1_waveform_->addListener (this);
 
-    addAndMakeVisible (num_steps_ = new Slider ("num_steps"));
+    addAndMakeVisible (num_steps_ = new TwytchSlider ("num_steps"));
     num_steps_->setRange (1, 32, 1);
     num_steps_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     num_steps_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -295,7 +295,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     num_steps_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     num_steps_->addListener (this);
 
-    addAndMakeVisible (step_frequency_ = new Slider ("step_frequency"));
+    addAndMakeVisible (step_frequency_ = new TwytchSlider ("step_frequency"));
     step_frequency_->setRange (-5, 6, 0);
     step_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     step_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -303,23 +303,23 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     step_frequency_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_1_frequency_ = new Slider ("mono_lfo_1_frequency"));
-    mono_lfo_1_frequency_->setRange (-5, 6, 0);
+    addAndMakeVisible (mono_lfo_1_frequency_ = new TwytchSlider ("mono_lfo_1_frequency"));
+    mono_lfo_1_frequency_->setRange (-7, 6, 0);
     mono_lfo_1_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     mono_lfo_1_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     mono_lfo_1_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     mono_lfo_1_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     mono_lfo_1_frequency_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_frequency_ = new Slider ("poly_lfo_frequency"));
-    poly_lfo_frequency_->setRange (-5, 6, 0);
+    addAndMakeVisible (poly_lfo_frequency_ = new TwytchSlider ("poly_lfo_frequency"));
+    poly_lfo_frequency_->setRange (-7, 6, 0);
     poly_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     poly_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     poly_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     poly_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     poly_lfo_frequency_->addListener (this);
 
-    addAndMakeVisible (filter_saturation_ = new Slider ("filter_saturation"));
+    addAndMakeVisible (filter_saturation_ = new TwytchSlider ("filter_saturation"));
     filter_saturation_->setRange (0, 60, 0);
     filter_saturation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     filter_saturation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -332,7 +332,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_bypass_->addListener (this);
     formant_bypass_->setColour (ToggleButton::textColourId, Colours::white);
 
-    addAndMakeVisible (legato_ = new Slider ("legato"));
+    addAndMakeVisible (legato_ = new TwytchSlider ("legato"));
     legato_->setRange (0, 1, 1);
     legato_->setSliderStyle (Slider::LinearBar);
     legato_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -342,7 +342,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     legato_->addListener (this);
 
     addAndMakeVisible (formant_xy_pad_ = new XYPad());
-    addAndMakeVisible (formant_x_ = new Slider ("formant_x"));
+    addAndMakeVisible (formant_x_ = new TwytchSlider ("formant_x"));
     formant_x_->setRange (0, 1, 0);
     formant_x_->setSliderStyle (Slider::LinearBar);
     formant_x_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -351,7 +351,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     formant_x_->addListener (this);
 
-    addAndMakeVisible (formant_y_ = new Slider ("formant_y"));
+    addAndMakeVisible (formant_y_ = new TwytchSlider ("formant_y"));
     formant_y_->setRange (0, 1, 0);
     formant_y_->setSliderStyle (Slider::LinearBar);
     formant_y_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -360,7 +360,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     formant_y_->addListener (this);
 
-    addAndMakeVisible (filter_type_ = new Slider ("filter_type"));
+    addAndMakeVisible (filter_type_ = new TwytchSlider ("filter_type"));
     filter_type_->setRange (0, 6, 1);
     filter_type_->setSliderStyle (Slider::LinearBar);
     filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -370,7 +370,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_type_->addListener (this);
 
     addAndMakeVisible (poly_lfo_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (poly_lfo_waveform_ = new Slider ("poly_lfo_waveform"));
+    addAndMakeVisible (poly_lfo_waveform_ = new TwytchSlider ("poly_lfo_waveform"));
     poly_lfo_waveform_->setRange (0, 11, 1);
     poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
     poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -427,15 +427,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     aftertouch_mod_->setButtonText (TRANS("M"));
     aftertouch_mod_->addListener (this);
 
-    addAndMakeVisible (osc_1_transpose_ = new Slider ("osc_1_transpose"));
-    osc_1_transpose_->setRange (-48, 48, 1);
-    osc_1_transpose_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    osc_1_transpose_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    osc_1_transpose_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    osc_1_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    osc_1_transpose_->addListener (this);
-
-    addAndMakeVisible (osc_1_tune_ = new Slider ("osc_1_tune"));
+    addAndMakeVisible (osc_1_tune_ = new TwytchSlider ("osc_1_tune"));
     osc_1_tune_->setRange (-1, 1, 0);
     osc_1_tune_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     osc_1_tune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -443,7 +435,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_1_tune_->addListener (this);
 
-    addAndMakeVisible (delay_time_ = new Slider ("delay_time"));
+    addAndMakeVisible (delay_time_ = new TwytchSlider ("delay_time"));
     delay_time_->setRange (-5, 1, 0);
     delay_time_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     delay_time_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -452,7 +444,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_time_->addListener (this);
 
     addAndMakeVisible (mono_lfo_2_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (mono_lfo_2_waveform_ = new Slider ("mono_lfo_2_waveform"));
+    addAndMakeVisible (mono_lfo_2_waveform_ = new TwytchSlider ("mono_lfo_2_waveform"));
     mono_lfo_2_waveform_->setRange (0, 11, 1);
     mono_lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -461,8 +453,8 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     mono_lfo_2_waveform_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_2_frequency_ = new Slider ("mono_lfo_2_frequency"));
-    mono_lfo_2_frequency_->setRange (-5, 6, 0);
+    addAndMakeVisible (mono_lfo_2_frequency_ = new TwytchSlider ("mono_lfo_2_frequency"));
+    mono_lfo_2_frequency_->setRange (-7, 6, 0);
     mono_lfo_2_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     mono_lfo_2_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     mono_lfo_2_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -472,6 +464,14 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (mono_lfo_2_mod_ = new TextButton ("mono_lfo_2"));
     mono_lfo_2_mod_->setButtonText (TRANS("M"));
     mono_lfo_2_mod_->addListener (this);
+
+    addAndMakeVisible (osc_1_transpose_ = new TwytchSlider ("osc_1_transpose"));
+    osc_1_transpose_->setRange (-48, 48, 1);
+    osc_1_transpose_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_1_transpose_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_1_transpose_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_1_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    osc_1_transpose_->addListener (this);
 
 
     //[UserPreSize]
@@ -604,13 +604,13 @@ SynthesisInterface::~SynthesisInterface()
     note_mod_ = nullptr;
     velocity_mod_ = nullptr;
     aftertouch_mod_ = nullptr;
-    osc_1_transpose_ = nullptr;
     osc_1_tune_ = nullptr;
     delay_time_ = nullptr;
     mono_lfo_2_wave_display_ = nullptr;
     mono_lfo_2_waveform_ = nullptr;
     mono_lfo_2_frequency_ = nullptr;
     mono_lfo_2_mod_ = nullptr;
+    osc_1_transpose_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -748,7 +748,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("SATURATION"),
-                340, 412, 92, 20,
+                332, 364, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffd4b0e0));
@@ -922,7 +922,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("KEY TRACK"),
-                340, 476, 92, 20,
+                332, 428, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffd4b0e0));
@@ -953,6 +953,12 @@ void SynthesisInterface::paint (Graphics& g)
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 748, 604, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("FILTER ENVELOPE DEPTH"),
+                304, 484, 128, 20,
                 Justification::centred, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -995,8 +1001,8 @@ void SynthesisInterface::resized()
     osc_1_waveform_->setBounds (16, 24, 176, 16);
     osc_2_waveform_->setBounds (240, 24, 176, 16);
     cutoff_->setBounds (16, 460, 300, 12);
-    fil_env_depth_->setBounds (680, 136, 32, 32);
-    keytrack_->setBounds (360, 432, 50, 50);
+    fil_env_depth_->setBounds (352, 448, 50, 50);
+    keytrack_->setBounds (352, 384, 50, 50);
     osc_feedback_transpose_->setBounds (112, 248, 50, 50);
     osc_feedback_amount_->setBounds (280, 248, 50, 50);
     osc_feedback_tune_->setBounds (192, 248, 50, 50);
@@ -1006,7 +1012,7 @@ void SynthesisInterface::resized()
     step_frequency_->setBounds (616, 464, 40, 40);
     mono_lfo_1_frequency_->setBounds (480, 600, 40, 40);
     poly_lfo_frequency_->setBounds (720, 600, 40, 40);
-    filter_saturation_->setBounds (360, 360, 50, 50);
+    filter_saturation_->setBounds (352, 320, 50, 50);
     formant_bypass_->setBounds (0, 512, 120, 24);
     legato_->setBounds (224, 692, 64, 16);
     formant_xy_pad_->setBounds (120, 512, 280, 104);
@@ -1027,13 +1033,13 @@ void SynthesisInterface::resized()
     note_mod_->setBounds (352, 736, 24, 24);
     velocity_mod_->setBounds (504, 736, 24, 24);
     aftertouch_mod_->setBounds (632, 736, 24, 24);
-    osc_1_transpose_->setBounds (48, 176, 50, 50);
     osc_1_tune_->setBounds (128, 176, 50, 50);
     delay_time_->setBounds (432, 664, 50, 50);
     mono_lfo_2_wave_display_->setBounds (560, 542, 96, 48);
     mono_lfo_2_waveform_->setBounds (560, 528, 96, 14);
     mono_lfo_2_frequency_->setBounds (600, 600, 40, 40);
     mono_lfo_2_mod_->setBounds (560, 608, 24, 24);
+    osc_1_transpose_->setBounds (48, 176, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -1246,11 +1252,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_poly_lfo_waveform_] -- add your slider handling code here..
         //[/UserSliderCode_poly_lfo_waveform_]
     }
-    else if (sliderThatWasMoved == osc_1_transpose_)
-    {
-        //[UserSliderCode_osc_1_transpose_] -- add your slider handling code here..
-        //[/UserSliderCode_osc_1_transpose_]
-    }
     else if (sliderThatWasMoved == osc_1_tune_)
     {
         //[UserSliderCode_osc_1_tune_] -- add your slider handling code here..
@@ -1270,6 +1271,11 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_mono_lfo_2_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_mono_lfo_2_frequency_]
+    }
+    else if (sliderThatWasMoved == osc_1_transpose_)
+    {
+        //[UserSliderCode_osc_1_transpose_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_transpose_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -1384,6 +1390,11 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
                                           NotificationType::sendNotification);
         }
     }
+}
+
+void SynthesisInterface::setValue(std::string name, mopo::mopo_float value) {
+    if (slider_lookup_.count(name))
+        slider_lookup_[name]->setValue(value);
 }
 
 void SynthesisInterface::setDefaultDoubleClickValues() {
@@ -1506,7 +1517,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="260 292 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMOUNT"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="340 412 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="SATURATION"
+    <TEXT pos="332 364 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="SATURATION"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="12 316 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER"
@@ -1591,7 +1602,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="708 308 60 12" fill="solid: ffd4b0e0" hasStroke="0" text="VEL TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="340 476 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="KEY TRACK"
+    <TEXT pos="332 428 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="KEY TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="28 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 1 TRANSPOSE"
@@ -1607,6 +1618,9 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="748 604 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="304 484 128 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER ENVELOPE DEPTH"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
@@ -1626,191 +1640,191 @@ BEGIN_JUCER_METADATA
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="240 40 176 112"
              sourceFile="wave_form_selector.cpp" constructorParams="256"/>
   <SLIDER name="polyphony" id="952bde38857bdba7" memberName="polyphony_"
-          virtualName="" explicitFocusOrder="0" pos="40 664 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="1" max="32" int="1" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="40 664 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="32"
+          int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento" id="9de85cc1c5f64eaa" memberName="portamento_"
-          virtualName="" explicitFocusOrder="0" pos="128 664 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-9" max="-1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="128 664 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-9" max="-1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="pitch_bend_range" id="e53afc6d1a04c708" memberName="pitch_bend_range_"
-          virtualName="" explicitFocusOrder="0" pos="328 656 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="48" int="1" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="328 656 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="48"
+          int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cross_modulation" id="1d3e4b59d6e470fb" memberName="cross_modulation_"
-          virtualName="" explicitFocusOrder="0" pos="192 64 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="192 64 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="filter_response" id="e5ebb41c4c259ce1" memberName="filter_response_"
              virtualName="FilterResponse" explicitFocusOrder="0" pos="16 360 300 100"
              sourceFile="filter_response.cpp" constructorParams="300"/>
   <SLIDER name="portamento_type" id="909956998c46045e" memberName="portamento_type_"
-          virtualName="" explicitFocusOrder="0" pos="224 656 64 16" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="2"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="osc_mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName=""
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="224 656 64 16"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="2" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="osc_mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName="TwytchSlider"
           explicitFocusOrder="0" pos="16 152 400 24" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
-          virtualName="" explicitFocusOrder="0" pos="256 176 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-48" max="48" int="1" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="256 176 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-48"
+          max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_tune" id="a8bc3bcffe7146f" memberName="osc_2_tune_"
-          virtualName="" explicitFocusOrder="0" pos="336 176 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName=""
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="336 176 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName="TwytchSlider"
           explicitFocusOrder="0" pos="672 664 96 56" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
-          virtualName="" explicitFocusOrder="0" pos="496 664 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="496 664 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_dry_wet" id="dbc9d35179b5bac7" memberName="delay_dry_wet_"
-          virtualName="" explicitFocusOrder="0" pos="560 664 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="560 664 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="velocity_track" id="113bdc65c4c0f18f" memberName="velocity_track_"
-          virtualName="" explicitFocusOrder="0" pos="680 301 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="680 301 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="amp_attack" id="f6cda312a5619a33" memberName="amp_attack_"
-          virtualName="" explicitFocusOrder="0" pos="464 300 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="4" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="464 300 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="amp_decay" id="6de7c8b3a5a4826d" memberName="amp_decay_"
-          virtualName="" explicitFocusOrder="0" pos="504 300 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="4" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="504 300 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="amp_release" id="86b41ada65ec49c0" memberName="amp_release_"
-          virtualName="" explicitFocusOrder="0" pos="584 300 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="4" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="584 300 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="amp_sustain" id="3853f65a726f763" memberName="amp_sustain_"
-          virtualName="" explicitFocusOrder="0" pos="544 300 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="544 300 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil_attack" id="bc169bc84bd26782" memberName="fil_attack_"
-          virtualName="" explicitFocusOrder="0" pos="464 136 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="4" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="464 136 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil_decay" id="f5b3d1ec7fc18e1" memberName="fil_decay_"
-          virtualName="" explicitFocusOrder="0" pos="504 136 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="4" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="504 136 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil_release" id="c878127a7ada93f0" memberName="fil_release_"
-          virtualName="" explicitFocusOrder="0" pos="584 136 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="4" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="584 136 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil_sustain" id="5b25f915f3694f34" memberName="fil_sustain_"
-          virtualName="" explicitFocusOrder="0" pos="544 136 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="544 136 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="resonance" id="6c1c82a2d59d4b6e" memberName="resonance_"
-          virtualName="" explicitFocusOrder="0" pos="316 360 12 100" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
-          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="316 360 12 100"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_1_waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="16 24 176 16" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 24 176 16"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_2_waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="240 24 176 16" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName=""
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="240 24 176 16"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName="TwytchSlider"
           explicitFocusOrder="0" pos="16 460 300 12" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="28" max="127"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil_env_depth" id="ac3a5967de6a1a92" memberName="fil_env_depth_"
-          virtualName="" explicitFocusOrder="0" pos="680 136 32 32" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-128" max="128" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="352 448 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-128"
+          max="128" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="keytrack" id="33bbd8b71aa721c1" memberName="keytrack_"
-          virtualName="" explicitFocusOrder="0" pos="360 432 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="352 384 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_feedback_transpose" id="e747becfc7a4f3f7" memberName="osc_feedback_transpose_"
-          virtualName="" explicitFocusOrder="0" pos="112 248 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-24" max="24" int="1" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="112 248 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-24"
+          max="24" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_feedback_amount" id="a94cee38c880759c" memberName="osc_feedback_amount_"
-          virtualName="" explicitFocusOrder="0" pos="280 248 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="280 248 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_feedback_tune" id="90dc1d31f03abf4e" memberName="osc_feedback_tune_"
-          virtualName="" explicitFocusOrder="0" pos="192 248 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="192 248 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_1_wave_display" id="24d32b65108fb2a5" memberName="mono_lfo_1_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="440 542 96 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="440 528 96 14" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="440 528 96 14"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="num_steps" id="8be29885961d7617" memberName="num_steps_"
-          virtualName="" explicitFocusOrder="0" pos="480 464 40 40" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="1" max="32" int="1" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="480 464 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="32"
+          int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="step_frequency" id="788574c1265fb47" memberName="step_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="616 464 40 40" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-5" max="6" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="616 464 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-5" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_frequency" id="ebc4a57528113c39" memberName="mono_lfo_1_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="480 600 40 40" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-5" max="6" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="480 600 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="poly_lfo_frequency" id="41dc8f7fbc0e8586" memberName="poly_lfo_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="720 600 40 40" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-5" max="6" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="720 600 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_saturation" id="b5014a266e860882" memberName="filter_saturation_"
-          virtualName="" explicitFocusOrder="0" pos="360 360 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="0" max="60" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="352 320 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="60"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="formant_bypass" id="a27029ddc5597777" memberName="formant_bypass_"
                 virtualName="" explicitFocusOrder="0" pos="0 512 120 24" txtcol="ffffffff"
                 buttonText="formant bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
-  <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName=""
+  <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
           explicitFocusOrder="0" pos="224 692 64 16" bkgcol="ff190327"
           trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
@@ -1819,28 +1833,28 @@ BEGIN_JUCER_METADATA
              virtualName="XYPad" explicitFocusOrder="0" pos="120 512 280 104"
              sourceFile="xy_pad.cpp" constructorParams=""/>
   <SLIDER name="formant_x" id="d182d63c43cb241f" memberName="formant_x_"
-          virtualName="" explicitFocusOrder="0" pos="120 616 280 12" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
-          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="120 616 280 12"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant_y" id="f9e64695877940a6" memberName="formant_y_"
-          virtualName="" explicitFocusOrder="0" pos="400 512 12 104" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
-          int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="400 512 12 104"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
-          virtualName="" explicitFocusOrder="0" pos="16 344 300 16" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="6"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 344 300 16"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="680 542 96 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="poly_lfo_waveform" id="315f17d5a0e21167" memberName="poly_lfo_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="680 528 96 14" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="680 528 96 14"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <TEXTBUTTON name="filter_env" id="b1c0e1b81ba12955" memberName="filter_envelope_mod_"
               virtualName="" explicitFocusOrder="0" pos="432 80 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
@@ -1877,37 +1891,37 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="aftertouch" id="5e4c99bb63fbb5c6" memberName="aftertouch_mod_"
               virtualName="" explicitFocusOrder="0" pos="632 736 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <SLIDER name="osc_1_transpose" id="15c1bacac4dfbb8b" memberName="osc_1_transpose_"
-          virtualName="" explicitFocusOrder="0" pos="48 176 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-48" max="48" int="1" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_1_tune" id="19b20e4d54ff8b49" memberName="osc_1_tune_"
-          virtualName="" explicitFocusOrder="0" pos="128 176 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-1" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="128 176 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_time" id="1119b78679f3c8ca" memberName="delay_time_"
-          virtualName="" explicitFocusOrder="0" pos="432 664 50 50" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-5" max="1" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="432 664 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-5" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_2_wave_display" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="560 542 96 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
-          virtualName="" explicitFocusOrder="0" pos="560 528 96 14" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="11"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
-          textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="560 528 96 14"
+          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="mono_lfo_2_frequency" id="2367ff3311d37806" memberName="mono_lfo_2_frequency_"
-          virtualName="" explicitFocusOrder="0" pos="600 600 40 40" rotarysliderfill="7fffffff"
-          textboxtext="ffdddddd" min="-5" max="6" int="0" style="RotaryHorizontalVerticalDrag"
-          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
-          textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="600 600 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TEXTBUTTON name="mono_lfo_2" id="f62fd0363da4f3a6" memberName="mono_lfo_2_mod_"
               virtualName="" explicitFocusOrder="0" pos="560 608 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="48 176 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-48"
+          max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -134,6 +134,9 @@
               file="../src/editor_components/synthesis_interface.cpp"/>
         <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
               file="../src/editor_components/synthesis_interface.h"/>
+        <FILE id="ozcC3C" name="twytch_slider.cpp" compile="1" resource="0"
+              file="../src/editor_components/twytch_slider.cpp"/>
+        <FILE id="nUFfr7" name="twytch_slider.h" compile="0" resource="0" file="../src/editor_components/twytch_slider.h"/>
         <FILE id="hOGFLv" name="wave_form_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/wave_form_selector.cpp"/>
         <FILE id="b7atE4" name="wave_form_selector.h" compile="0" resource="0"

@@ -174,6 +174,7 @@ OBJECTS := \
   $(OBJDIR)/modulation_slider_f0d81547.o \
   $(OBJDIR)/oscilloscope_75f26af6.o \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
+  $(OBJDIR)/twytch_slider_4fa599a0.o \
   $(OBJDIR)/wave_form_selector_998fd51b.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
@@ -831,6 +832,11 @@ $(OBJDIR)/oscilloscope_75f26af6.o: ../../src/editor_components/oscilloscope.cpp
 $(OBJDIR)/synthesis_interface_c1af8a11.o: ../../src/editor_components/synthesis_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_slider_4fa599a0.o: ../../src/editor_components/twytch_slider.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_slider.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/wave_form_selector_998fd51b.o: ../../src/editor_components/wave_form_selector.cpp

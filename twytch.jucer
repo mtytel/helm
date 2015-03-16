@@ -483,6 +483,9 @@
               file="src/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
               file="src/editor_components/synthesis_interface.h"/>
+        <FILE id="ygG0Ya" name="twytch_slider.cpp" compile="1" resource="0"
+              file="src/editor_components/twytch_slider.cpp"/>
+        <FILE id="zLSw31" name="twytch_slider.h" compile="0" resource="0" file="src/editor_components/twytch_slider.h"/>
         <FILE id="hTmsfB" name="wave_form_selector.cpp" compile="1" resource="0"
               file="src/editor_components/wave_form_selector.cpp"/>
         <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"

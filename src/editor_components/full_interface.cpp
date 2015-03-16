@@ -166,7 +166,7 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (0, 0, 800, 776);
+    synthesis_interface_->setBounds (0, 0, 796, 772);
     arp_frequency_->setBounds (880, 112, 50, 50);
     arp_gate_->setBounds (808, 112, 50, 50);
     arp_octaves_->setBounds (808, 200, 50, 50);
@@ -279,6 +279,13 @@ void FullInterface::setAllValues(mopo::control_map& controls) {
     synthesis_interface_->setAllValues(controls);
 }
 
+void FullInterface::setValue(std::string name, mopo::mopo_float value) {
+    if (slider_lookup_.count(name))
+        slider_lookup_[name]->setValue(value);
+    else
+        synthesis_interface_->setValue(name, value);
+}
+
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
     recording_->setOutputMemory(output_memory);
@@ -346,7 +353,7 @@ BEGIN_JUCER_METADATA
           italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="0 0 800 776" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="0 0 796 772" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="" explicitFocusOrder="0" pos="880 112 50 50" rotarysliderfill="7fffffff"

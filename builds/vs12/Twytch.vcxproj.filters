@@ -754,6 +754,9 @@
     <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\twytch_slider.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\wave_form_selector.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -2503,6 +2506,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\twytch_slider.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h">

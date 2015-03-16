@@ -51,6 +51,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
+    void setValue(std::string name, mopo::mopo_float value);
     void setOutputMemory(const mopo::Memory* output_memory);
 
     Slider* getSlider(std::string name);

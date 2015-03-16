@@ -177,11 +177,14 @@ void TwytchStandaloneEditor::handleIncomingMidiMessage(MidiInput *source,
     int tmp = midi_message.getNoteNumber();
     std::cout<< tmp << std::endl;
   }
+  else if (midi_message.isController()) {
+  }
 }
 
 void TwytchStandaloneEditor::valueChanged(std::string name, mopo::mopo_float value) {
   if (controls_.count(name))
     controls_[name]->set(value);
+  gui_->setValue(name, value);
 }
 
 void TwytchStandaloneEditor::connectModulation(mopo::ModulationConnection* connection) {
