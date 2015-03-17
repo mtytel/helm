@@ -54,7 +54,7 @@ namespace mopo {
 
       // Twytch Module.
       ProcessorRouter* getMonoRouter() override { return this; }
-      ProcessorRouter* getPolyRouter() override { return nullptr; }
+      ProcessorRouter* getPolyRouter() override { return 0; }
 
     private:
       TwytchVoiceHandler* voice_handler_;

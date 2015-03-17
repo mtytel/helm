@@ -24,7 +24,7 @@ namespace mopo {
                                                 bool control_rate, bool smooth_value,
                                                 ControlSkewType skew) {
     ProcessorRouter* mono_owner = getMonoRouter();
-    Value* val = nullptr;
+    Value* val = 0;
     if (smooth_value) {
       val = new SmoothValue(start_val);
       mono_owner->addProcessor(val);
@@ -112,7 +112,7 @@ namespace mopo {
         return source;
     }
 
-    return nullptr;
+    return 0;
   }
 
   Processor* TwytchModule::getModulationDestination(std::string name, bool poly) {
@@ -131,7 +131,7 @@ namespace mopo {
         return destination;
     }
 
-    return nullptr;
+    return 0;
   }
 
   Processor* TwytchModule::getPolyModulationDestination(std::string name) {
@@ -144,7 +144,7 @@ namespace mopo {
         return destination;
     }
 
-    return nullptr;
+    return 0;
   }
 
   output_map TwytchModule::getModulationSources() {
