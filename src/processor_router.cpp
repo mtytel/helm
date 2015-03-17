@@ -41,7 +41,7 @@ namespace mopo {
     size_t num_feedbacks = feedback_order_->size();
     for (size_t i = 0; i < num_feedbacks; ++i) {
       const Feedback* next = feedback_order_->at(i);
-      feedback_processors_[next].reset(new Feedback(*next));
+      feedback_processors_[next] = new Feedback(*next);
     }
   }
 
@@ -134,9 +134,9 @@ namespace mopo {
         const Processor* owner = destination->input(i)->source->owner;
 
         if (feedback_processors_.find(owner) != feedback_processors_.end()) {
-          Feedback* feedback = feedback_processors_[owner].get();
+          Feedback* feedback = feedback_processors_[owner];
           if (feedback->input()->source == source)
-            removeFeedback(feedback_processors_[owner].get());
+            removeFeedback(feedback_processors_[owner]);
           destination->input(i)->source = &Processor::null_source_;
         }
       }
@@ -215,7 +215,7 @@ namespace mopo {
   void ProcessorRouter::addFeedback(Feedback* feedback) {
     feedback->router(this);
     feedback_order_->push_back(feedback);
-    feedback_processors_[feedback].reset(feedback);
+    feedback_processors_[feedback] = feedback;
   }
 
   void ProcessorRouter::removeFeedback(Feedback* feedback) {
@@ -238,7 +238,7 @@ namespace mopo {
     for (int i = 0; i < num_feedbacks; ++i) {
       const Feedback* next = feedback_order_->at(i);
       if (feedback_processors_.find(next) == feedback_processors_.end())
-        feedback_processors_[next].reset(new Feedback(*next));
+        feedback_processors_[next] = new Feedback(*next);
     }
   }
 

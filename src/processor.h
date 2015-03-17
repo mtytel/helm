@@ -179,11 +179,11 @@ namespace mopo {
       int buffer_size_;
       bool control_rate_;
 
-      std::vector<std::shared_ptr<Input> > owned_inputs_;
-      std::vector<std::shared_ptr<Output> > owned_outputs_;
+      std::vector<Input*> owned_inputs_;
+      std::vector<Output*> owned_outputs_;
 
-      std::shared_ptr<std::vector<Input*> > inputs_;
-      std::shared_ptr<std::vector<Output*> > outputs_;
+      std::vector<Input*>* inputs_;
+      std::vector<Output*>* outputs_;
 
       ProcessorRouter* router_;
 
