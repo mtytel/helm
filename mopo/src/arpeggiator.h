@@ -50,7 +50,7 @@ namespace mopo {
 
       Arpeggiator(VoiceHandler* voice_handler);
 
-      virtual Processor* clone() const { MOPO_ASSERT(false); return nullptr; }
+      virtual Processor* clone() const { MOPO_ASSERT(false); return 0; }
       virtual void process();
 
       int getNumNotes() { return pressed_notes_.size(); }

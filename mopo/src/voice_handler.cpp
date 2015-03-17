@@ -125,7 +125,7 @@ namespace mopo {
   }
 
   Voice* VoiceHandler::grabVoice() {
-    Voice* voice = nullptr;
+    Voice* voice = 0;
 
     // First check free voices.
     if (free_voices_.size() && active_voices_.size() < polyphony_) {
@@ -238,7 +238,7 @@ namespace mopo {
 
   void VoiceHandler::registerOutput(Output* output, int index) {
     while (voice_outputs_.size() <= index)
-      registerOutput(nullptr);
+      registerOutput(0);
 
     voice_outputs_[index] = output;
   }

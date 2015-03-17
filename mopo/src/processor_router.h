@@ -63,17 +63,16 @@ namespace mopo {
       virtual void updateAllProcessors();
 
       // Returns the ancestor of _processor_ which is a child of _this_.
-      // Returns nullptr if _processor_ is not a descendant of _this_.
+      // Returns null if _processor_ is not a descendant of _this_.
       const Processor* getContext(const Processor* processor) const;
       std::set<const Processor*>
           getDependencies(const Processor* processor) const;
 
-      std::shared_ptr<std::vector<const Processor*> > order_;
+      std::vector<const Processor*>* order_;
       std::map<const Processor*, Processor*> processors_;
 
-      std::shared_ptr<std::vector<const Feedback*> > feedback_order_;
-      std::map<const Processor*, std::unique_ptr<Feedback> >
-          feedback_processors_;
+      std::vector<const Feedback*>* feedback_order_;
+      std::map<const Processor*, Feedback*> feedback_processors_;
   };
 } // namespace mopo
 

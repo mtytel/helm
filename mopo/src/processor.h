@@ -34,7 +34,7 @@ namespace mopo {
       // An output port from the Processor.
       struct Output {
         Output() {
-          owner = nullptr;
+          owner = 0;
           clearBuffer();
           clearTrigger();
         }
@@ -66,7 +66,7 @@ namespace mopo {
       // An input port to the Processor. You can plug an Output into one of
       // these inputs.
       struct Input {
-        Input() { source = nullptr; }
+        Input() { source = 0; }
 
         const Output* source;
 
@@ -179,11 +179,11 @@ namespace mopo {
       int buffer_size_;
       bool control_rate_;
 
-      std::vector<std::shared_ptr<Input> > owned_inputs_;
-      std::vector<std::shared_ptr<Output> > owned_outputs_;
+      std::vector<Input*> owned_inputs_;
+      std::vector<Output*> owned_outputs_;
 
-      std::shared_ptr<std::vector<Input*> > inputs_;
-      std::shared_ptr<std::vector<Output*> > outputs_;
+      std::vector<Input*>* inputs_;
+      std::vector<Output*>* outputs_;
 
       ProcessorRouter* router_;
 
