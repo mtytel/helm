@@ -56,7 +56,7 @@ class SynthGuiInterface {
       }
     }
 
-    virtual void midi_input(int control, mopo::mopo_float value) {
+    virtual void midiInput(int control, mopo::mopo_float value) {
       if (control_armed_ == "") {
         if (midi_learn_map_.count(control)) {
           std::pair<mopo::mopo_float, mopo::mopo_float> range = midi_learn_range_map_[control];
@@ -68,7 +68,10 @@ class SynthGuiInterface {
       else {
         midi_learn_map_[control] = control_armed_;
         midi_learn_range_map_[control] = armed_range_;
-        valueChanged(control_armed_, value);
+        mopo::mopo_float percent = value / mopo::MIDI_SIZE;
+        mopo::mopo_float translated = percent * (armed_range_.second - armed_range_.first) +
+                                      armed_range_.first;
+        valueChanged(control_armed_, translated);
         control_armed_ = "";
       }
     }

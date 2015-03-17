@@ -1392,9 +1392,10 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
     }
 }
 
-void SynthesisInterface::setValue(std::string name, mopo::mopo_float value) {
+void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
+                                  NotificationType notification) {
     if (slider_lookup_.count(name))
-        slider_lookup_[name]->setValue(value);
+        slider_lookup_[name]->setValue(value, notification);
 }
 
 void SynthesisInterface::setDefaultDoubleClickValues() {

@@ -279,11 +279,12 @@ void FullInterface::setAllValues(mopo::control_map& controls) {
     synthesis_interface_->setAllValues(controls);
 }
 
-void FullInterface::setValue(std::string name, mopo::mopo_float value) {
+void FullInterface::setValue(std::string name, mopo::mopo_float value,
+                             NotificationType notification) {
     if (slider_lookup_.count(name))
-        slider_lookup_[name]->setValue(value);
+        slider_lookup_[name]->setValue(value, notification);
     else
-        synthesis_interface_->setValue(name, value);
+        synthesis_interface_->setValue(name, value, notification);
 }
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {

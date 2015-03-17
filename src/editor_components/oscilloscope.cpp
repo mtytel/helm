@@ -110,6 +110,8 @@ void Oscilloscope::resetWavePath() {
     for (int i = samples_to_show_; i >= 0; i -= inc) {
         float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
         float val = output_memory_->get(i);
+        if (val != val)
+            val = 0.0f;
         wave_path_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
     }
 
