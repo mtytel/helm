@@ -39,7 +39,7 @@ private:
     const mopo::Processor::Output* poly_total_;
     const Slider* destination_;
 
-    float current_percent_;
+    double current_percent_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
 };

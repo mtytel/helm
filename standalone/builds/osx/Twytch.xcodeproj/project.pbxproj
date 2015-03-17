@@ -2676,10 +2676,8 @@
 				47056FCEEFC103ECD1C83C0E /* xy_pad.cpp */,
 				3B37CF7B53419AEA84D60C58 /* xy_pad.h */,
 			);
-			indentWidth = 4;
 			name = editor_components;
 			sourceTree = "<group>";
-			tabWidth = 4;
 		};
 		CAB3615425E728EAFAB20561 /* mopo */ = {
 			isa = PBXGroup;
@@ -3221,6 +3219,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				SDKROOT_ppc = macosx10.5;
 			};
@@ -3253,6 +3252,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				SDKROOT_ppc = macosx10.5;
 			};
