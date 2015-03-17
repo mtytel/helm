@@ -34,7 +34,7 @@ namespace mopo {
       // An output port from the Processor.
       struct Output {
         Output() {
-          owner = nullptr;
+          owner = 0;
           clearBuffer();
           clearTrigger();
         }
@@ -66,7 +66,7 @@ namespace mopo {
       // An input port to the Processor. You can plug an Output into one of
       // these inputs.
       struct Input {
-        Input() { source = nullptr; }
+        Input() { source = 0; }
 
         const Output* source;
 

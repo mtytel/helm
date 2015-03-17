@@ -27,7 +27,7 @@ namespace mopo {
       sample_rate_(DEFAULT_SAMPLE_RATE), buffer_size_(DEFAULT_BUFFER_SIZE),
       control_rate_(false),
       inputs_(new std::vector<Input*>()), outputs_(new std::vector<Output*>()),
-      router_(nullptr) {
+      router_(0) {
     for (int i = 0; i < num_inputs; ++i) {
       Input* input = new Input();
       owned_inputs_.push_back(input);
@@ -123,7 +123,7 @@ namespace mopo {
   }
 
   ProcessorRouter* Processor::getTopLevelRouter() const {
-    ProcessorRouter* top_level = nullptr;
+    ProcessorRouter* top_level = 0;
     ProcessorRouter* current_level = router_;
 
     while (current_level) {
@@ -146,7 +146,7 @@ namespace mopo {
 
   void Processor::registerInput(Input* input, int index) {
     while (inputs_->size() <= index)
-      inputs_->push_back(nullptr);
+      inputs_->push_back(0);
 
     inputs_->at(index) = input;
 
@@ -156,7 +156,7 @@ namespace mopo {
 
   void Processor::registerOutput(Output* output, int index) {
     while (outputs_->size() <= index)
-      outputs_->push_back(nullptr);
+      outputs_->push_back(0);
 
     outputs_->at(index) = output;
   }
