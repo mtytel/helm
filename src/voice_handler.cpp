@@ -199,7 +199,7 @@ namespace mopo {
   void VoiceHandler::setPolyphony(size_t polyphony) {
     while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
-      all_voices_.push_back(std::unique_ptr<Voice>(new_voice));
+      all_voices_.push_back(new_voice);
       free_voices_.push_back(new_voice);
     }
 
