@@ -1545,7 +1545,6 @@
     <ClInclude Include="..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\mopo\src\wave.h"/>
-    <ClInclude Include="..\..\src\common\save_load_manager.h"/>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h"/>
     <ClInclude Include="..\..\src\common\twytch_common.h"/>
     <ClInclude Include="..\..\src\editor_components\audio_viewer.h"/>
@@ -1557,6 +1556,7 @@
     <ClInclude Include="..\..\src\editor_components\modulation_meter.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
+    <ClInclude Include="..\..\src\editor_components\save_load_manager.h"/>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\twytch_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_form_selector.h"/>

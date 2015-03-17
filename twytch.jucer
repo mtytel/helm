@@ -438,8 +438,6 @@
     </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="src">
       <GROUP id="{DE787BB4-594A-AA21-F217-66E56838C81E}" name="common">
-        <FILE id="UnJf1R" name="save_load_manager.h" compile="0" resource="0"
-              file="src/common/save_load_manager.h"/>
         <FILE id="xWwUmM" name="synth_gui_interface.h" compile="0" resource="0"
               file="src/common/synth_gui_interface.h"/>
         <FILE id="GA3RDN" name="twytch_common.h" compile="0" resource="0" file="src/common/twytch_common.h"/>
@@ -479,6 +477,8 @@
         <FILE id="RExuEw" name="oscilloscope.cpp" compile="1" resource="0"
               file="src/editor_components/oscilloscope.cpp"/>
         <FILE id="amErBQ" name="oscilloscope.h" compile="0" resource="0" file="src/editor_components/oscilloscope.h"/>
+        <FILE id="jvQwGQ" name="save_load_manager.h" compile="0" resource="0"
+              file="src/editor_components/save_load_manager.h"/>
         <FILE id="JmaRDY" name="synthesis_interface.cpp" compile="1" resource="0"
               file="src/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"

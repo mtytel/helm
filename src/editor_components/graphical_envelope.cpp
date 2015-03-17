@@ -93,8 +93,8 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0x08ffffff));
     g.fillRect(getDecayX(), 0.0f, getReleaseX() - getDecayX(), 1.0f * getHeight());
 
-    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0f,
-                                     Colour(0x00000000), 0.0f, getHeight(), false));
+    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, getHeight() * 0.1f,
+                                     Colour(0x11cb587a), 0.0f, getHeight(), false));
     g.fillPath(envelope_line_);
 
     g.setColour(Colour(0xffcccccc));

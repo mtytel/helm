@@ -35,9 +35,7 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
         m.addItem(kArmMidiLearn, "Learn Controller Assignment");
         m.addItem(kClearMidiLearn, "Clear Controller Assignment");
 
-        bool double_click_enabled = false;
-        float default_value = getDoubleClickReturnValue(double_click_enabled);
-        if (double_click_enabled)
+        if (isDoubleClickReturnEnabled())
             m.addItem(kDefaultValue, "Set to Default Value");
 
         int result = m.show();
@@ -52,7 +50,7 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
                 parent->clearMidiLearn(getName().toStdString());
         }
         else if (result == kDefaultValue) {
-            setValue(default_value);
+            setValue(getDoubleClickReturnValue());
         }
     }
 }

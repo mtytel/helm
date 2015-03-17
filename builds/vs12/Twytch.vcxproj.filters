@@ -2469,9 +2469,6 @@
     <ClInclude Include="..\..\mopo\src\wave.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\common\save_load_manager.h">
-      <Filter>Twytch\src\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
@@ -2503,6 +2500,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\save_load_manager.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h">

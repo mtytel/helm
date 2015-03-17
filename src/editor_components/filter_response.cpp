@@ -83,8 +83,8 @@ void FilterResponse::paint (Graphics& g)
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0f,
-                                     Colour(0x00000000), 0.0f, getHeight(), false));
+    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, getHeight() * 0.1f,
+                                     Colour(0x11cb587a), 0.0f, getHeight(), false));
     g.fillPath(filter_response_path_);
 
     g.setColour(Colour(0xffaaaaaa));

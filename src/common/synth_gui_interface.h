@@ -34,7 +34,7 @@ class SynthGuiInterface {
     virtual int getNumActiveVoices() = 0;
     virtual void enterCriticalSection() = 0;
     virtual void exitCriticalSection() = 0;
-  
+
     virtual void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
       control_armed_ = name;
       armed_range_ = std::pair<mopo::mopo_float, mopo::mopo_float>(min, max);
