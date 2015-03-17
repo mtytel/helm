@@ -68,7 +68,9 @@ namespace mopo {
     addProcessor(step_sequencer);
 
     for (int i = 0; i < MAX_STEPS; ++i) {
-      std::string num = std::to_string(i);
+      std::stringstream stream;
+      stream << i;
+      std::string num = stream.str();
       if (num.length() == 1)
         num = "0" + num;
       Value* step = new Value(0.0);
@@ -129,8 +131,8 @@ namespace mopo {
     Processor::Output* source = getModulationSource(connection->source);
     Processor* destination = getModulationDestination(connection->destination,
                                                       source->owner->isPolyphonic());
-    MOPO_ASSERT(source != nullptr);
-    MOPO_ASSERT(destination != nullptr);
+    MOPO_ASSERT(source != 0);
+    MOPO_ASSERT(destination != 0);
 
     connection->modulation_scale.plug(source, 0);
     connection->modulation_scale.plug(&connection->amount, 1);

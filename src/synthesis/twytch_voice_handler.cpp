@@ -228,7 +228,7 @@ namespace mopo {
     Processor* filter_sustain = createPolyModControl("fil_sustain", 0.3, false);
     Processor* filter_release = createPolyModControl("fil_release", 0.9, true, false, kQuadratic);
 
-    TriggerFilter* note_off = new TriggerFilter(VoiceEvent::kVoiceOff);
+    TriggerFilter* note_off = new TriggerFilter(kVoiceOff);
     note_off->plug(note_event);
     TriggerCombiner* filter_env_trigger = new TriggerCombiner();
     filter_env_trigger->plug(note_off, 0);
