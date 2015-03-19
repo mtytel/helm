@@ -143,6 +143,10 @@ namespace mopo {
     mod_connections_.insert(connection);
   }
 
+  std::list<mopo_float> TwytchEngine::getPressedNotes() {
+    return voice_handler_->getPressedNotes();
+  }
+
   void TwytchEngine::disconnectModulation(ModulationConnection* connection) {
     Processor::Output* source = getModulationSource(connection->source);
     Processor* destination = getModulationDestination(connection->destination,

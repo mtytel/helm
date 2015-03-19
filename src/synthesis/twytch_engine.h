@@ -35,6 +35,7 @@ namespace mopo {
       void process() override;
 
       std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
+      std::list<mopo::mopo_float> getPressedNotes();
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       void clearModulations();

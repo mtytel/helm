@@ -116,6 +116,7 @@ namespace mopo {
       virtual void setSampleRate(int sample_rate);
       virtual void setBufferSize(int buffer_size);
       int getNumActiveVoices();
+      std::list<mopo_float> getPressedNotes() { return pressed_notes_; }
 
       void allNotesOff(int sample = 0);
       Voice* grabVoice();
