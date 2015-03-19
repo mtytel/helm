@@ -19,6 +19,7 @@
 #include "utils.h"
 #include "voice_handler.h"
 
+#include <algorithm>
 #include <cstdlib>
 
 namespace mopo {
