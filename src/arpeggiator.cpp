@@ -112,6 +112,13 @@ namespace mopo {
     return std::pair<mopo_float, mopo_float>(note, velocity);
   }
 
+  std::list<mopo_float> Arpeggiator::getPressedNotes() {
+    std::list<mopo_float> notes;
+    for (mopo_float note : pressed_notes_)
+      notes.push_back(note);
+    return notes;
+  }
+
   void Arpeggiator::addNoteToPatterns(mopo_float note) {
     as_played_.push_back(note);
     ascending_.push_back(note);
