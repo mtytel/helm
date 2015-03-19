@@ -21,6 +21,7 @@
 #include "processor.h"
 #include "value.h"
 
+#include <list>
 #include <map>
 #include <set>
 #include <vector>
@@ -54,6 +55,7 @@ namespace mopo {
       virtual void process();
 
       int getNumNotes() { return pressed_notes_.size(); }
+      std::list<mopo_float> getPressedNotes();
       std::pair<mopo_float, mopo_float> getNextNote();
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
