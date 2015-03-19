@@ -19,12 +19,13 @@
 
 #include "JuceHeader.h"
 #include "processor.h"
+#include "twytch_slider.h"
 
 class ModulationMeter : public Component {
 public:
     ModulationMeter(const mopo::Processor::Output* mono_total,
                     const mopo::Processor::Output* poly_total,
-                    const Slider* slider);
+                    const TwytchSlider* slider);
     ~ModulationMeter();
 
     void paint(Graphics& g) override;
@@ -37,7 +38,7 @@ private:
 
     const mopo::Processor::Output* mono_total_;
     const mopo::Processor::Output* poly_total_;
-    const Slider* destination_;
+    const TwytchSlider* destination_;
 
     double current_percent_;
 

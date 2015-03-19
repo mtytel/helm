@@ -55,7 +55,7 @@ public:
                   NotificationType notification = sendNotificationAsync);
     void setOutputMemory(const mopo::Memory* output_memory);
 
-    Slider* getSlider(std::string name);
+    TwytchSlider* getSlider(std::string name);
     void createModulationSliders(mopo::output_map modulation_sources,
                                  mopo::output_map mono_modulations,
                                  mopo::output_map poly_modulations);
@@ -72,18 +72,18 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    std::map<std::string, juce::Slider*> slider_lookup_;
-    std::map<std::string, juce::Button*> button_lookup_;
+    std::map<std::string, TwytchSlider*> slider_lookup_;
+    std::map<std::string, Button*> button_lookup_;
     ScopedPointer<ModulationManager> modulation_manager_;
     TooltipWindow tooltip_;
     //[/UserVariables]
 
     //==============================================================================
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<Slider> arp_frequency_;
-    ScopedPointer<Slider> arp_gate_;
-    ScopedPointer<Slider> arp_octaves_;
-    ScopedPointer<Slider> arp_pattern_;
+    ScopedPointer<TwytchSlider> arp_frequency_;
+    ScopedPointer<TwytchSlider> arp_gate_;
+    ScopedPointer<TwytchSlider> arp_octaves_;
+    ScopedPointer<TwytchSlider> arp_pattern_;
     ScopedPointer<Oscilloscope> oscilloscope_;
     ScopedPointer<AudioViewer> recording_;
     ScopedPointer<TextButton> load_button_;

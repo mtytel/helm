@@ -33,7 +33,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::map<std::string, Slider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
+ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::map<std::string, TwytchSlider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
 
     //[UserPreSize]
@@ -117,7 +117,7 @@ void ModulationManager::resized()
     polyphonic_destinations_->setBounds(getBounds());
     monophonic_destinations_->setBounds(getBounds());
     for (auto slider : slider_lookup_) {
-        Slider* model = slider_model_lookup_[slider.first];
+        TwytchSlider* model = slider_model_lookup_[slider.first];
         Point<int> global_top_left = model->localPointToGlobal(Point<int>(0, 0));
         slider.second->setBounds(global_top_left.x, global_top_left.y,
                                  model->getWidth(), model->getHeight());
@@ -223,7 +223,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationManager" componentName=""
                  parentClasses="public Component, public SliderListener, public Timer"
-                 constructorParams="mopo::output_map modulation_sources, std::map&lt;std::string, Slider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
+                 constructorParams="mopo::output_map modulation_sources, std::map&lt;std::string, TwytchSlider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>

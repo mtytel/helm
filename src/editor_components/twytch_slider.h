@@ -26,7 +26,12 @@ public:
     void mouseDown(const MouseEvent& e) override;
     void mouseUp(const MouseEvent& e) override;
 
+    void setBipolar(bool bipolar = true) { bipolar_ = bipolar; }
+    bool isBipolar() const { return bipolar_; }
+
 private:
+
+    bool bipolar_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchSlider)
 };

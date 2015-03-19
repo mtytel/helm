@@ -21,7 +21,7 @@
 
 ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
                                  const mopo::Processor::Output* poly_total,
-                                 const Slider* slider) :
+                                 const TwytchSlider* slider) :
         mono_total_(mono_total), poly_total_(poly_total),
         destination_(slider), current_percent_(0.0) {
     setInterceptsMouseClicks(false, false);
@@ -62,7 +62,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
     if (destination_->getSliderStyle() == Slider::LinearBar) {
         float middle = getWidth() / 2.0f;
 
-        if (destination_->getMaximum() == -destination_->getMinimum())
+        if (destination_->isBipolar())
             g.fillRect(middle, 1.0f, getWidth() * skew - middle, 1.0f * getHeight() - 2.0f);
         else
             g.fillRect(1.0f, 1.0f, getWidth() * skew, 1.0f * getHeight() - 2.0f);
@@ -70,7 +70,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
     else {
         float middle = getHeight() / 2.0f;
 
-        if (destination_->getMaximum() == -destination_->getMinimum())
+        if (destination_->isBipolar())
             g.fillRect(1.0f, middle, getWidth() - 2.0f, -getHeight() * skew - middle);
         else
             g.fillRect(1.0f, getHeight() - 1.0f, getWidth() - 2.0f, -getHeight() * skew);
@@ -94,7 +94,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
     g.strokePath(rail, stroke_type);
 
     Path active_section;
-    if (destination_->getMaximum() == -destination_->getMinimum()) {
+    if (destination_->isBipolar()) {
         active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                                      0.0f, 0.0f, current_angle, true);
     }

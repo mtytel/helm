@@ -475,6 +475,20 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
 
     //[UserPreSize]
+    osc_1_transpose_->setBipolar();
+    osc_1_tune_->setBipolar();
+    osc_2_transpose_->setBipolar();
+    osc_2_tune_->setBipolar();
+    osc_mix_->setBipolar();
+
+    osc_feedback_amount_->setBipolar();
+    osc_feedback_transpose_->setBipolar();
+    osc_feedback_tune_->setBipolar();
+
+    keytrack_->setBipolar();
+    fil_env_depth_->setBipolar();
+
+    delay_feedback_->setBipolar();
 
     resonance_->setSliderStyle(Slider::LinearBarVertical);
     formant_y_->setSliderStyle(Slider::LinearBarVertical);
@@ -507,7 +521,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
         if (num.length() == 1)
             num = String("0") + num;
 
-        Slider* step = new Slider(String("step_seq_") + num);
+        TwytchSlider* step = new TwytchSlider(String("step_seq_") + num);
         step->setRange(-1.0, 1.0);
         step->addListener(this);
         step_sequencer_sliders_.push_back(step);
@@ -517,7 +531,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_sequencer_->setNumStepsSlider(num_steps_);
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
-        Slider* slider = dynamic_cast<Slider*>(getChildComponent(i));
+        TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
         if (slider)
             slider_lookup_[slider->getName().toStdString()] = slider;
 
@@ -1447,7 +1461,7 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
     delay_feedback_->setDoubleClickReturnValue(true, 0.0f);
 }
 
-Slider* SynthesisInterface::getSlider(std::string name) {
+TwytchSlider* SynthesisInterface::getSlider(std::string name) {
     if (slider_lookup_.count(name))
         return slider_lookup_[name];
     return nullptr;
