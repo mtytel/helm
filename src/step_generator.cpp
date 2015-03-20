@@ -21,7 +21,7 @@
 namespace mopo {
 
   StepGenerator::StepGenerator(int max_steps) :
-      Processor(kNumInputs + max_steps, 1), max_steps_(max_steps),
+      Processor(kNumInputs + max_steps, kNumOutputs), max_steps_(max_steps),
       offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
@@ -45,6 +45,8 @@ namespace mopo {
     current_step_ = (current_step_ + num_steps) % num_steps;
 
     for (i = 0; i < buffer_size_; ++i)
-      output()->buffer[i] = input(kSteps + current_step_)->at(i);
+      output(kValue)->buffer[i] = input(kSteps + current_step_)->at(i);
+
+    output(kStep)->buffer[0] = current_step_;
   }
 } // namespace mopo

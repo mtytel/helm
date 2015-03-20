@@ -34,6 +34,12 @@ namespace mopo {
         kNumInputs
       };
 
+      enum Outputs {
+        kValue,
+        kStep,
+        kNumOutputs
+      };
+
       StepGenerator(int max_steps = DEFAULT_MAX_STEPS);
 
       virtual Processor* clone() const { return new StepGenerator(*this); }
