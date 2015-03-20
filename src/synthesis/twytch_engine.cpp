@@ -144,6 +144,8 @@ namespace mopo {
   }
 
   std::list<mopo_float> TwytchEngine::getPressedNotes() {
+    if (arp_on_->value())
+      return arpeggiator_->getPressedNotes();
     return voice_handler_->getPressedNotes();
   }
 
