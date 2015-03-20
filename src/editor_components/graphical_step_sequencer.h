@@ -22,6 +22,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
+#include "mopo.h"
 #include <vector>
 //[/Headers]
 
@@ -35,7 +36,7 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class GraphicalStepSequencer  : public Component,
+class GraphicalStepSequencer  : public AnimatedAppComponent,
                                 public SliderListener
 {
 public:
@@ -45,6 +46,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void update() override;
     void setNumStepsSlider(Slider* num_steps_slider);
     void setStepSliders(std::vector<ScopedPointer<Slider> >* sliders);
     void changeStep(const MouseEvent& e);
@@ -52,6 +54,8 @@ public:
     void updateHover(int step_index);
     void sliderValueChanged(Slider* moved_slider) override;
     void ensureMinSize();
+
+    void showRealtimeFeedback();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -66,6 +70,8 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     int num_steps_;
+    mopo::Processor::Output* step_generator_output_;
+    int last_step_;
     Slider* num_steps_slider_;
     int highlighted_step_;
     std::vector<ScopedPointer<Slider> >* sequence_;

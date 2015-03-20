@@ -81,6 +81,7 @@ namespace mopo {
     }
     
     mod_sources_["step_sequencer"] = step_sequencer->output();
+    mod_sources_["step_sequencer_step"] = step_sequencer->output(StepGenerator::kStep);
 
     // Arpeggiator.
     Processor* arp_frequency = createMonoModControl("arp_frequency", 2.0,

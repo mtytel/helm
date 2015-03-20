@@ -531,6 +531,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     }
     step_sequencer_->setStepSliders(&step_sequencer_sliders_);
     step_sequencer_->setNumStepsSlider(num_steps_);
+    step_sequencer_->setName("step_sequencer_step");
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
         TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
@@ -637,6 +638,7 @@ SynthesisInterface::~SynthesisInterface()
 void SynthesisInterface::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    step_sequencer_->showRealtimeFeedback();
     mono_lfo_1_wave_display_->showRealtimeFeedback();
     mono_lfo_2_wave_display_->showRealtimeFeedback();
     //[/UserPrePaint]
@@ -1643,9 +1645,9 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
-  <JUCERCOMP name="" id="83a23936a8f464b5" memberName="step_sequencer_" virtualName="GraphicalStepSequencer"
-             explicitFocusOrder="0" pos="464 360 300 100" sourceFile="graphical_step_sequencer.cpp"
-             constructorParams=""/>
+  <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
+             virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="464 360 300 100"
+             sourceFile="graphical_step_sequencer.cpp" constructorParams=""/>
   <JUCERCOMP name="" id="b4880edb8b39ec9d" memberName="amplitude_envelope_"
              virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="464 196 300 100"
              sourceFile="graphical_envelope.cpp" constructorParams=""/>

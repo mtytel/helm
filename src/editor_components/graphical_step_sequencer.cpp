@@ -18,12 +18,14 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "synth_gui_interface.h"
 //[/Headers]
 
 #include "graphical_step_sequencer.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+#define FRAME_RATE 30
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -32,10 +34,13 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
 
     //[UserPreSize]
     num_steps_slider_ = nullptr;
+    step_generator_output_ = nullptr;
+    last_step_ = -1;
     sequence_ = nullptr;
     highlighted_step_ = -1;
     num_steps_ = 1;
     setOpaque(true);
+    setFramesPerSecond(FRAME_RATE);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -96,6 +101,11 @@ void GraphicalStepSequencer::paint (Graphics& g)
             g.fillRect(x, 0.0f, x_inc, 1.0f * getHeight());
         }
 
+        if (last_step_ == i) {
+            g.setColour(Colour(0x22ffffff));
+            g.fillRect(x, 0.0f, x_inc, 1.0f * getHeight());
+        }
+
         x += x_inc;
     }
     //[/UserPaint]
@@ -146,6 +156,16 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+void GraphicalStepSequencer::update() {
+    if (step_generator_output_) {
+        int new_step = step_generator_output_->buffer[0];
+        if (new_step != last_step_) {
+            last_step_ = new_step;
+            repaint();
+        }
+    }
+}
 
 void GraphicalStepSequencer::setStepSliders(std::vector<ScopedPointer<Slider> >* sliders) {
     sequence_ = sliders;
@@ -218,6 +238,15 @@ void GraphicalStepSequencer::updateHover(int step_index) {
         return;
     highlighted_step_ = step_index;
     repaint();
+}
+
+
+void GraphicalStepSequencer::showRealtimeFeedback() {
+    if (step_generator_output_ == nullptr) {
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+        if (parent)
+            step_generator_output_ = parent->getModSource(getName().toStdString());
+    }
 }
 
 //[/MiscUserCode]
