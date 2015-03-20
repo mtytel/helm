@@ -45,6 +45,7 @@ namespace mopo {
 
     addProcessor(lfo_1);
     mod_sources_["mono_lfo_1"] = lfo_1->output();
+    mod_sources_["mono_lfo_1_phase"] = lfo_1->output(Oscillator::kPhase);
 
     // Monophonic LFO 1.
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
@@ -56,6 +57,7 @@ namespace mopo {
 
     addProcessor(lfo_2);
     mod_sources_["mono_lfo_2"] = lfo_2->output();
+    mod_sources_["mono_lfo_2_phase"] = lfo_2->output(Oscillator::kPhase);
 
     // Step Sequencer.
     Processor* num_steps = createMonoModControl("num_steps", 16, true);

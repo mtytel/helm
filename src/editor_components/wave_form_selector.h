@@ -36,7 +36,7 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class WaveFormSelector  : public Component,
+class WaveFormSelector  : public AnimatedAppComponent,
                           SliderListener
 {
 public:
@@ -46,9 +46,11 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void update() override;
     void setWaveSlider(Slider* slider);
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
+    void showRealtimeFeedback();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -60,6 +62,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Slider* wave_slider_;
+    mopo::Processor::Output* wave_state_;
     Path wave_path_;
     int resolution_;
     //[/UserVariables]

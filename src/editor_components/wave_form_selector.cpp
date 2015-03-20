@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "synth_gui_interface.h"
 //[/Headers]
 
 #include "wave_form_selector.h"
@@ -25,6 +26,8 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #define GRID_CELL_WIDTH 10
+#define FRAMES_PER_SECOND 30
+#define PADDING 5.0f
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -34,7 +37,9 @@ WaveFormSelector::WaveFormSelector (int resolution)
     //[UserPreSize]
     wave_slider_ = nullptr;
     resolution_ = resolution;
+    wave_state_ = nullptr;
     setOpaque(true);
+    setFramesPerSecond(FRAMES_PER_SECOND);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -74,6 +79,21 @@ void WaveFormSelector::paint (Graphics& g)
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
     g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+
+    if (wave_state_) {
+        float phase = wave_state_->buffer[0];
+        if (phase >= 0.0 && phase < 1.0) {
+            float x = PADDING + phase * (getWidth() - 2 * PADDING);
+            g.setColour(Colour(0x66ffffff));
+            g.fillRect(x, 0.0f, 1.0f, (float)getHeight());
+
+            mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
+            float value = mopo::Wave::wave(type, phase);
+            float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - value) / 2.0f;
+            g.setColour(Colour(0xffffffff));
+            g.fillEllipse(x - 2.0f, y - 2.0f, 4.0f, 4.0f);
+        }
+    }
     //[/UserPaint]
 }
 
@@ -108,6 +128,11 @@ void WaveFormSelector::mouseDown (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+void WaveFormSelector::update() {
+    if (wave_state_)
+        repaint();
+}
+
 void WaveFormSelector::setWaveSlider(Slider* slider) {
     if (wave_slider_)
         wave_slider_->removeListener(this);
@@ -118,29 +143,36 @@ void WaveFormSelector::setWaveSlider(Slider* slider) {
 }
 
 void WaveFormSelector::resetWavePath() {
-    static const float padding = 5.0f;
     wave_path_.clear();
 
     if (wave_slider_ == nullptr)
         return;
 
-    float draw_width = getWidth() - 2.0f * padding;
-    float draw_height = getHeight() - 2.0f * padding;
+    float draw_width = getWidth() - 2.0f * PADDING;
+    float draw_height = getHeight() - 2.0f * PADDING;
 
-    wave_path_.startNewSubPath(padding, getHeight() / 2.0f);
+    wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
     mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
     for (int i = 1; i < resolution_ - 1; ++i) {
         float t = (1.0f * i) / resolution_;
         float val = mopo::Wave::wave(type, t);
-        wave_path_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
+        wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
     }
 
-    wave_path_.lineTo(getWidth() - padding, getHeight() / 2.0f);
+    wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
 }
 
 void WaveFormSelector::sliderValueChanged(Slider* sliderThatWasMoved) {
     resetWavePath();
     repaint();
+}
+
+void WaveFormSelector::showRealtimeFeedback() {
+    if (wave_state_ == nullptr) {
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+        if (parent)
+            wave_state_ = parent->getModSource(getName().toStdString());
+    }
 }
 
 //[/MiscUserCode]

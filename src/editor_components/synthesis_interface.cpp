@@ -506,7 +506,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_wave_display_->setWaveSlider(osc_1_waveform_);
     osc_2_wave_display_->setWaveSlider(osc_2_waveform_);
     mono_lfo_1_wave_display_->setWaveSlider(mono_lfo_1_waveform_);
+    mono_lfo_1_wave_display_->setName("mono_lfo_1_phase");
     mono_lfo_2_wave_display_->setWaveSlider(mono_lfo_2_waveform_);
+    mono_lfo_2_wave_display_->setName("mono_lfo_2_phase");
     poly_lfo_wave_display_->setWaveSlider(poly_lfo_waveform_);
 
     filter_response_->setCutoffSlider(cutoff_);
@@ -635,6 +637,8 @@ SynthesisInterface::~SynthesisInterface()
 void SynthesisInterface::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    mono_lfo_1_wave_display_->showRealtimeFeedback();
+    mono_lfo_2_wave_display_->showRealtimeFeedback();
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff1d0e29));
@@ -1802,7 +1806,7 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <JUCERCOMP name="mono_lfo_1_wave_display" id="24d32b65108fb2a5" memberName="mono_lfo_1_wave_display_"
+  <JUCERCOMP name="mono_lfo_1" id="24d32b65108fb2a5" memberName="mono_lfo_1_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="440 542 96 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
@@ -1916,7 +1920,7 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-5" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <JUCERCOMP name="mono_lfo_2_wave_display" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
+  <JUCERCOMP name="mono_lfo_2" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="560 542 96 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"

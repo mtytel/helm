@@ -66,6 +66,8 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     int getNumActiveVoices() override;
     void enterCriticalSection() { critical_section_.enter(); }
     void exitCriticalSection() { critical_section_.exit(); }
+    mopo::Processor::Output* getModSource(std::string name);
+
 
   private:
     mopo::TwytchEngine synth_;

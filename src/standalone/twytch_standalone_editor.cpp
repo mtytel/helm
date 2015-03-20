@@ -256,6 +256,10 @@ void TwytchStandaloneEditor::varToState(var state) {
   gui_->setModulationConnections(synth_.getModulationConnections());
 }
 
+mopo::Processor::Output* TwytchStandaloneEditor::getModSource(std::string name) {
+  return synth_.getModulationSource(name);
+}
+
 void TwytchStandaloneEditor::handleMessage(const Message& message) {
 #ifdef JUCE_MAC
   Thread::sleep(100);
