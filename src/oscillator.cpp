@@ -20,7 +20,7 @@
 
 namespace mopo {
 
-  Oscillator::Oscillator() : Processor(kNumInputs, 1),
+  Oscillator::Oscillator() : Processor(kNumInputs, kNumOutputs),
                              offset_(0.0), waveform_(Wave::kSin) { }
 
   void Oscillator::preprocess() {
