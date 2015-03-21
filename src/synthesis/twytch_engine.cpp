@@ -89,13 +89,14 @@ namespace mopo {
       controls_[std::string("step_seq_") + num] = step;
       step_sequencer->plug(step, StepGenerator::kSteps + i);
     }
-    
+
     mod_sources_["step_sequencer"] = step_sequencer->output();
     mod_sources_["step_sequencer_step"] = step_sequencer->output(StepGenerator::kStep);
 
     // Arpeggiator.
-    Processor* arp_frequency = createMonoModControl("arp_frequency", 2.0,
-                                                    true, false, kExponential);
+    Processor* arp_free_frequency = createMonoModControl("arp_frequency", 2.0,
+                                                         true, false, kExponential);
+    Processor* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency, false);
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
     Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
@@ -114,13 +115,14 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_time = createMonoModControl("delay_time", -3.0, false, true, kExponential);
+    Processor* delay_free_frequency = createMonoModControl("delay_frequency", -3.0, false, true, kExponential);
+    Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency, false);
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);
-    delay->plug(delay_time, Delay::kDelayTime);
+    delay->plug(delay_frequency, Delay::kFrequency);
     delay->plug(delay_feedback, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 

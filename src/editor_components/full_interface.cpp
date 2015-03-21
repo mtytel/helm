@@ -81,8 +81,22 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
     save_button_->addListener (this);
 
+    addAndMakeVisible (arp_sync_ = new ToggleButton ("arp_sync"));
+    arp_sync_->setButtonText (String::empty);
+    arp_sync_->addListener (this);
+    arp_sync_->setColour (ToggleButton::textColourId, Colours::white);
+
 
     //[UserPreSize]
+    arp_tempo_ = new TwytchSlider("arp_tempo");
+    addAndMakeVisible(arp_tempo_);
+    arp_tempo_->setRange(0, sizeof(mopo::synced_freq_ratios) / sizeof(mopo::mopo_float) - 1, 1);
+    arp_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    arp_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    arp_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    arp_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    arp_tempo_->addListener(this);
+
     for (int i = 0; i < getNumChildComponents(); ++i) {
         TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
         if (slider)
@@ -101,6 +115,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
 
 
     //[Constructor] You can add your own custom stuff here..
+    buttonClicked(arp_sync_);
     //[/Constructor]
 }
 
@@ -119,6 +134,7 @@ FullInterface::~FullInterface()
     load_button_ = nullptr;
     arp_on_ = nullptr;
     save_button_ = nullptr;
+    arp_sync_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -176,8 +192,10 @@ void FullInterface::resized()
     load_button_->setBounds (800, 8, 150, 24);
     arp_on_->setBounds (808, 80, 48, 24);
     save_button_->setBounds (800, 40, 150, 24);
+    arp_sync_->setBounds (872, 160, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
+    arp_tempo_->setBounds(arp_frequency_->getBounds());
     //[/UserResized]
 }
 
@@ -241,7 +259,8 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_arp_on_] -- add your button handler code here..
         std::string name = buttonThatWasClicked->getName().toStdString();
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+        if (parent)
+            parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
         //[/UserButtonCode_arp_on_]
     }
     else if (buttonThatWasClicked == save_button_)
@@ -256,6 +275,18 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
             save_file.replaceWithText(JSON::toString(parent->stateToVar()));
         }
         //[/UserButtonCode_save_button_]
+    }
+    else if (buttonThatWasClicked == arp_sync_)
+    {
+        //[UserButtonCode_arp_sync_] -- add your button handler code here..
+        std::string name = buttonThatWasClicked->getName().toStdString();
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+        bool pressed = buttonThatWasClicked->getToggleState();
+        if (parent)
+            parent->valueChanged(name, pressed ? 1.0 : 0.0);
+        arp_tempo_->setVisible(pressed);
+        arp_frequency_->setVisible(!pressed);
+        //[/UserButtonCode_arp_sync_]
     }
 
     //[UserbuttonClicked_Post]
@@ -391,6 +422,10 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="800 40 150 24" buttonText="save"
               connectedEdges="3" needsCallback="1" radioGroupId="0"/>
+  <TOGGLEBUTTON name="arp_sync" id="ea9d746581453330" memberName="arp_sync_"
+                virtualName="" explicitFocusOrder="0" pos="872 160 24 24" txtcol="ffffffff"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

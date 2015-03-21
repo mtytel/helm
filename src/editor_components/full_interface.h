@@ -76,6 +76,7 @@ private:
     std::map<std::string, Button*> button_lookup_;
     ScopedPointer<ModulationManager> modulation_manager_;
     TooltipWindow tooltip_;
+    ScopedPointer<TwytchSlider> arp_tempo_;
     //[/UserVariables]
 
     //==============================================================================
@@ -89,6 +90,7 @@ private:
     ScopedPointer<TextButton> load_button_;
     ScopedPointer<ToggleButton> arp_on_;
     ScopedPointer<TextButton> save_button_;
+    ScopedPointer<ToggleButton> arp_sync_;
 
 
     //==============================================================================

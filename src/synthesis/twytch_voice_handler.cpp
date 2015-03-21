@@ -187,17 +187,14 @@ namespace mopo {
 
     MidiScale* osc_feedback_frequency = new MidiScale();
     osc_feedback_frequency->plug(osc_feedback_midi);
-    Inverse* osc_feedback_period = new Inverse();
-    osc_feedback_period->plug(osc_feedback_frequency);
 
     addProcessor(osc_feedback_transposed);
     addProcessor(osc_feedback_midi);
     addProcessor(osc_feedback_frequency);
-    addProcessor(osc_feedback_period);
 
     osc_feedback_ = new Delay(MAX_FEEDBACK_SAMPLES);
     osc_feedback_->plug(oscillator_mix, Delay::kAudio);
-    osc_feedback_->plug(osc_feedback_period, Delay::kDelayTime);
+    osc_feedback_->plug(osc_feedback_frequency, Delay::kFrequency);
     osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
     osc_feedback_->plug(&utils::value_half, Delay::kWet);
     addProcessor(osc_feedback_);
@@ -216,7 +213,7 @@ namespace mopo {
     lfo->plug(reset, Oscillator::kReset);
     lfo->plug(lfo_waveform, Oscillator::kWaveform);
     lfo->plug(lfo_frequency, Oscillator::kFrequency);
-    
+
     addProcessor(lfo);
     mod_sources_["poly_lfo"] = lfo->output();
   }

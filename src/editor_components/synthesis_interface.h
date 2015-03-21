@@ -76,6 +76,7 @@ private:
     ScopedPointer<TwytchSlider> mono_lfo_1_tempo_;
     ScopedPointer<TwytchSlider> mono_lfo_2_tempo_;
     ScopedPointer<TwytchSlider> poly_lfo_tempo_;
+    ScopedPointer<TwytchSlider> delay_tempo_;
     //[/UserVariables]
 
     //==============================================================================
@@ -142,7 +143,7 @@ private:
     ScopedPointer<TextButton> velocity_mod_;
     ScopedPointer<TextButton> aftertouch_mod_;
     ScopedPointer<TwytchSlider> osc_1_tune_;
-    ScopedPointer<TwytchSlider> delay_time_;
+    ScopedPointer<TwytchSlider> delay_frequency_;
     ScopedPointer<WaveFormSelector> mono_lfo_2_wave_display_;
     ScopedPointer<TwytchSlider> mono_lfo_2_waveform_;
     ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;
@@ -152,6 +153,7 @@ private:
     ScopedPointer<ToggleButton> mono_lfo_2_sync_;
     ScopedPointer<ToggleButton> poly_lfo_sync_;
     ScopedPointer<ToggleButton> step_sequencer_sync_;
+    ScopedPointer<ToggleButton> delay_sync_;
 
 
     //==============================================================================

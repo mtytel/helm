@@ -435,13 +435,13 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_1_tune_->addListener (this);
 
-    addAndMakeVisible (delay_time_ = new TwytchSlider ("delay_time"));
-    delay_time_->setRange (-5, 1, 0);
-    delay_time_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    delay_time_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    delay_time_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    delay_time_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    delay_time_->addListener (this);
+    addAndMakeVisible (delay_frequency_ = new TwytchSlider ("delay_frequency"));
+    delay_frequency_->setRange (-5, 1, 0);
+    delay_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    delay_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    delay_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    delay_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    delay_frequency_->addListener (this);
 
     addAndMakeVisible (mono_lfo_2_wave_display_ = new WaveFormSelector (128));
     addAndMakeVisible (mono_lfo_2_waveform_ = new TwytchSlider ("mono_lfo_2_waveform"));
@@ -488,6 +488,10 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (step_sequencer_sync_ = new ToggleButton ("step_sequencer_sync"));
     step_sequencer_sync_->setButtonText (String::empty);
     step_sequencer_sync_->addListener (this);
+
+    addAndMakeVisible (delay_sync_ = new ToggleButton ("delay_sync"));
+    delay_sync_->setButtonText (String::empty);
+    delay_sync_->addListener (this);
 
 
     //[UserPreSize]
@@ -564,6 +568,15 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
     poly_lfo_tempo_->addListener(this);
 
+    delay_tempo_ = new TwytchSlider("delay_tempo");
+    addAndMakeVisible(delay_tempo_);
+    delay_tempo_->setRange(0, num_tempos - 1, 1);
+    delay_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    delay_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    delay_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    delay_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    delay_tempo_->addListener(this);
+
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
@@ -602,6 +615,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     buttonClicked(mono_lfo_1_sync_);
     buttonClicked(mono_lfo_2_sync_);
     buttonClicked(poly_lfo_sync_);
+    buttonClicked(delay_sync_);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -679,7 +693,7 @@ SynthesisInterface::~SynthesisInterface()
     velocity_mod_ = nullptr;
     aftertouch_mod_ = nullptr;
     osc_1_tune_ = nullptr;
-    delay_time_ = nullptr;
+    delay_frequency_ = nullptr;
     mono_lfo_2_wave_display_ = nullptr;
     mono_lfo_2_waveform_ = nullptr;
     mono_lfo_2_frequency_ = nullptr;
@@ -689,6 +703,7 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_2_sync_ = nullptr;
     poly_lfo_sync_ = nullptr;
     step_sequencer_sync_ = nullptr;
+    delay_sync_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -888,7 +903,7 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("TIME"),
+    g.drawText (TRANS("FREQ"),
                 428, 708, 60, 20,
                 Justification::centred, true);
 
@@ -1115,7 +1130,7 @@ void SynthesisInterface::resized()
     velocity_mod_->setBounds (504, 736, 24, 24);
     aftertouch_mod_->setBounds (632, 736, 24, 24);
     osc_1_tune_->setBounds (128, 176, 50, 50);
-    delay_time_->setBounds (432, 664, 50, 50);
+    delay_frequency_->setBounds (432, 664, 50, 50);
     mono_lfo_2_wave_display_->setBounds (560, 542, 96, 48);
     mono_lfo_2_waveform_->setBounds (560, 528, 96, 14);
     mono_lfo_2_frequency_->setBounds (600, 600, 40, 40);
@@ -1125,11 +1140,13 @@ void SynthesisInterface::resized()
     mono_lfo_2_sync_->setBounds (640, 616, 24, 24);
     poly_lfo_sync_->setBounds (760, 616, 24, 24);
     step_sequencer_sync_->setBounds (664, 480, 24, 24);
+    delay_sync_->setBounds (424, 704, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     step_sequencer_tempo_->setBounds(step_frequency_->getBounds());
     mono_lfo_1_tempo_->setBounds(mono_lfo_1_frequency_->getBounds());
     mono_lfo_2_tempo_->setBounds(mono_lfo_2_frequency_->getBounds());
     poly_lfo_tempo_->setBounds(poly_lfo_frequency_->getBounds());
+    delay_tempo_->setBounds(delay_frequency_->getBounds());
     //[/UserResized]
 }
 
@@ -1346,10 +1363,10 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_osc_1_tune_] -- add your slider handling code here..
         //[/UserSliderCode_osc_1_tune_]
     }
-    else if (sliderThatWasMoved == delay_time_)
+    else if (sliderThatWasMoved == delay_frequency_)
     {
-        //[UserSliderCode_delay_time_] -- add your slider handling code here..
-        //[/UserSliderCode_delay_time_]
+        //[UserSliderCode_delay_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_delay_frequency_]
     }
     else if (sliderThatWasMoved == mono_lfo_2_waveform_)
     {
@@ -1408,6 +1425,13 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
             parent->valueChanged(name, pressed ? 1.0 : 0.0);
         poly_lfo_frequency_->setVisible(!pressed);
         poly_lfo_tempo_->setVisible(pressed);
+    }
+    else if (buttonThatWasClicked == delay_sync_) {
+        bool pressed = buttonThatWasClicked->getToggleState();
+        if (parent)
+            parent->valueChanged(name, pressed ? 1.0 : 0.0);
+        delay_frequency_->setVisible(!pressed);
+        delay_tempo_->setVisible(pressed);
     }
     else {
         std::string name = buttonThatWasClicked->getName().toStdString();
@@ -1507,6 +1531,11 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_step_sequencer_sync_] -- add your button handler code here..
         //[/UserButtonCode_step_sequencer_sync_]
     }
+    else if (buttonThatWasClicked == delay_sync_)
+    {
+        //[UserButtonCode_delay_sync_] -- add your button handler code here..
+        //[/UserButtonCode_delay_sync_]
+    }
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
@@ -1581,7 +1610,7 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
     poly_lfo_frequency_->setDoubleClickReturnValue(true, 0.0f);
 
     delay_dry_wet_->setDoubleClickReturnValue(true, 0.0f);
-    delay_time_->setDoubleClickReturnValue(true, -3.0f);
+    delay_frequency_->setDoubleClickReturnValue(true, -3.0f);
     delay_feedback_->setDoubleClickReturnValue(true, 0.0f);
 }
 
@@ -1686,7 +1715,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="492 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="428 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="TIME"
+    <TEXT pos="428 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="556 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="DRY/WET"
@@ -2035,7 +2064,7 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="delay_time" id="1119b78679f3c8ca" memberName="delay_time_"
+  <SLIDER name="delay_frequency" id="1119b78679f3c8ca" memberName="delay_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="432 664 50 50"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-5" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
@@ -2072,6 +2101,9 @@ BEGIN_JUCER_METADATA
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <TOGGLEBUTTON name="step_sequencer_sync" id="36872088faa7a11" memberName="step_sequencer_sync_"
                 virtualName="" explicitFocusOrder="0" pos="664 480 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <TOGGLEBUTTON name="delay_sync" id="5dec1a6032af38fd" memberName="delay_sync_"
+                virtualName="" explicitFocusOrder="0" pos="424 704 24 24" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
 </JUCER_COMPONENT>
 
