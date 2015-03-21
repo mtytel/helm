@@ -86,6 +86,14 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_sync_->addListener (this);
     arp_sync_->setColour (ToggleButton::textColourId, Colours::white);
 
+    addAndMakeVisible (beats_per_minute_ = new TwytchSlider ("beats_per_minute"));
+    beats_per_minute_->setRange (20, 800, 0);
+    beats_per_minute_->setSliderStyle (Slider::LinearBar);
+    beats_per_minute_->setTextBoxStyle (Slider::TextBoxAbove, false, 150, 20);
+    beats_per_minute_->setColour (Slider::backgroundColourId, Colours::black);
+    beats_per_minute_->setColour (Slider::textBoxTextColourId, Colours::white);
+    beats_per_minute_->addListener (this);
+
 
     //[UserPreSize]
     arp_tempo_ = new TwytchSlider("arp_tempo");
@@ -135,6 +143,7 @@ FullInterface::~FullInterface()
     arp_on_ = nullptr;
     save_button_ = nullptr;
     arp_sync_ = nullptr;
+    beats_per_minute_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -173,6 +182,12 @@ void FullInterface::paint (Graphics& g)
                 876, 252, 60, 20,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xffbf9bc7));
+    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.drawText (TRANS("BPM"),
+                796, 612, 36, 12,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
 }
@@ -193,6 +208,7 @@ void FullInterface::resized()
     arp_on_->setBounds (808, 80, 48, 24);
     save_button_->setBounds (800, 40, 150, 24);
     arp_sync_->setBounds (872, 160, 24, 24);
+    beats_per_minute_->setBounds (800, 624, 150, 32);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -226,6 +242,11 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_arp_pattern_] -- add your slider handling code here..
         //[/UserSliderCode_arp_pattern_]
+    }
+    else if (sliderThatWasMoved == beats_per_minute_)
+    {
+        //[UserSliderCode_beats_per_minute_] -- add your slider handling code here..
+        //[/UserSliderCode_beats_per_minute_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -383,6 +404,9 @@ BEGIN_JUCER_METADATA
     <TEXT pos="876 252 60 20" fill="solid: ffbf9bc7" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
+    <TEXT pos="796 612 36 12" fill="solid: ffbf9bc7" hasStroke="0" text="BPM"
+          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+          italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 0 796 772" sourceFile="synthesis_interface.cpp"
@@ -426,6 +450,11 @@ BEGIN_JUCER_METADATA
                 virtualName="" explicitFocusOrder="0" pos="872 160 24 24" txtcol="ffffffff"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
+  <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="800 624 150 32"
+          bkgcol="ff000000" textboxtext="ffffffff" min="20" max="800" int="0"
+          style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
+          textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

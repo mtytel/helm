@@ -26,13 +26,19 @@
 namespace mopo {
 
   TwytchEngine::TwytchEngine() : was_playing_arp_(false) {
+    static const Value* minutes_per_second = new Value(1.0 / 60.0);
+
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
 
-    beats_per_second_ = new Value(DEFAULT_BPS);
+    Processor* beats_per_minute = createMonoModControl("beats_per_minute", 120.0, false);
+    Multiply* beats_per_second = new Multiply();
+    beats_per_second->plug(beats_per_minute, 0);
+    beats_per_second->plug(minutes_per_second, 1);
+    addProcessor(beats_per_second);
 
     // Voice Handler.
     Value* polyphony = new Value(1);
-    voice_handler_ = new TwytchVoiceHandler();
+    voice_handler_ = new TwytchVoiceHandler(beats_per_second);
     addSubmodule(voice_handler_);
     voice_handler_->setPolyphony(32);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
@@ -41,8 +47,9 @@ namespace mopo {
     // Monophonic LFO 1.
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
     Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
-                                                      false, false, kExponential);
-    Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency, false);
+                                                           false, false, kExponential);
+    Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
+                                                       beats_per_second, false);
 
 
     Oscillator* lfo_1 = new Oscillator();
@@ -57,7 +64,8 @@ namespace mopo {
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
     Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
                                                       false, false, kExponential);
-    Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency, false);
+    Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
+                                                       beats_per_second, false);
 
     Oscillator* lfo_2 = new Oscillator();
     lfo_2->plug(lfo_2_waveform, Oscillator::kWaveform);
@@ -71,7 +79,8 @@ namespace mopo {
     Processor* num_steps = createMonoModControl("num_steps", 16, true);
     Processor* step_free_frequency = createMonoModControl("step_frequency", 3.0,
                                                           false, false, kExponential);
-    Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency, false);
+    Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency,
+                                                      beats_per_second, false);
 
     StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
     step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
@@ -96,7 +105,8 @@ namespace mopo {
     // Arpeggiator.
     Processor* arp_free_frequency = createMonoModControl("arp_frequency", 2.0,
                                                          true, false, kExponential);
-    Processor* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency, false);
+    Processor* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency,
+                                                     beats_per_second, false);
     Value* arp_octaves = new Value(1);
     Value* arp_pattern = new Value(0);
     Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
@@ -116,7 +126,8 @@ namespace mopo {
 
     // Delay effect.
     Processor* delay_free_frequency = createMonoModControl("delay_frequency", -3.0, false, true, kExponential);
-    Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency, false);
+    Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency,
+                                                       beats_per_second, false);
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 

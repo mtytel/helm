@@ -65,7 +65,8 @@ namespace mopo {
     };
   } // namespace
 
-  TwytchVoiceHandler::TwytchVoiceHandler() {
+  TwytchVoiceHandler::TwytchVoiceHandler(Processor* beats_per_second) {
+    beats_per_second_ = beats_per_second;
     output_ = new Multiply();
     registerOutput(output_->output());
 
@@ -208,7 +209,8 @@ namespace mopo {
     Processor* lfo_waveform = createMonoModControl("poly_lfo_waveform", Wave::kSin, true);
     Processor* lfo_free_frequency = createPolyModControl("poly_lfo_frequency", 0.0,
                                                          false, false, kExponential);
-    Processor* lfo_frequency = createTempoSyncSwitch("poly_lfo", lfo_free_frequency, true);
+    Processor* lfo_frequency = createTempoSyncSwitch("poly_lfo", lfo_free_frequency,
+                                                     beats_per_second_, true);
     Oscillator* lfo = new Oscillator();
     lfo->plug(reset, Oscillator::kReset);
     lfo->plug(lfo_waveform, Oscillator::kWaveform);

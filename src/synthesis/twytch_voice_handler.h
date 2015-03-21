@@ -43,7 +43,7 @@ namespace mopo {
   // contained in here.
   class TwytchVoiceHandler : public VoiceHandler, public TwytchModule {
     public:
-      TwytchVoiceHandler();
+      TwytchVoiceHandler(Processor* beats_per_second);
       virtual ~TwytchVoiceHandler() { } // Should probably delete things.
 
       void setModWheel(mopo_float value);
@@ -65,6 +65,8 @@ namespace mopo {
 
       // Create the filter and filter envelope.
       void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
+
+      Processor* beats_per_second_;
 
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;

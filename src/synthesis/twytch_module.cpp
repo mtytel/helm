@@ -95,8 +95,7 @@ namespace mopo {
   }
 
   Processor* TwytchModule::createTempoSyncSwitch(std::string name, Processor* frequency,
-                                                 bool poly) {
-    static const Value* bps = new Value(2.0);
+                                                 Processor* bps, bool poly) {
     ProcessorRouter* owner = poly ? getPolyRouter() : getMonoRouter();
     Processor* tempo = createMonoModControl(name + "_tempo", 0.0, false);
     Switch* choose_tempo = new Switch();

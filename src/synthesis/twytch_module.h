@@ -60,7 +60,7 @@ namespace mopo {
                                       ControlSkewType skew = kLinear);
 
       Processor* createTempoSyncSwitch(std::string name, Processor* frequency,
-                                       bool poly = false);
+                                       Processor* bps, bool poly = false);
 
       void addSubmodule(TwytchModule* module) { sub_modules_.push_back(module); }
 
