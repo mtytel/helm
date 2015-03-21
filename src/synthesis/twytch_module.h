@@ -59,6 +59,9 @@ namespace mopo {
                                       bool control_rate, bool smooth_value = false,
                                       ControlSkewType skew = kLinear);
 
+      Processor* createTempoSyncSwitch(std::string name, Processor* frequency,
+                                       bool poly = false);
+
       void addSubmodule(TwytchModule* module) { sub_modules_.push_back(module); }
 
       std::vector<TwytchModule*> sub_modules_;

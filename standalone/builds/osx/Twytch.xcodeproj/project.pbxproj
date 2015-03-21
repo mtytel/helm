@@ -39,6 +39,7 @@
 		4F9718CCD5D1FFFBD4A2ED39 /* juce_cryptography.mm in Sources */ = {isa = PBXBuildFile; fileRef = 871829457F5785065B2A2B29 /* juce_cryptography.mm */; };
 		51894D89062419B5916DC7A1 /* audio_viewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86525D60E8C5E96FDB2F6B56 /* audio_viewer.cpp */; };
 		54C12CAE34C2401F8D87138E /* juce_video.mm in Sources */ = {isa = PBXBuildFile; fileRef = 529ECE5B6964D58F16268E25 /* juce_video.mm */; };
+		554F5852423B67A618685526 /* switch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D65C59F62D83DB0E9A55086E /* switch.cpp */; };
 		5EB6E425724641E8E6165F24 /* bit_crush.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED3A6BF41179B3EA45B2DB05 /* bit_crush.cpp */; };
 		6493865A5AEF21FA63B433AA /* juce_audio_processors.mm in Sources */ = {isa = PBXBuildFile; fileRef = C92D9DBAC0BD978E47E6A1A5 /* juce_audio_processors.mm */; };
 		65F3455CC25AFA2440DC208B /* twytch_look_and_feel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14783E40B6D23BA90C0DEF61 /* twytch_look_and_feel.cpp */; };
@@ -795,6 +796,7 @@
 		B64DF82777C5838ABF5CF362 /* juce_QuickTimeAudioFormat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_QuickTimeAudioFormat.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_formats/codecs/juce_QuickTimeAudioFormat.cpp; sourceTree = SOURCE_ROOT; };
 		B67A86245A5BBD26B4049E95 /* juce_UnitTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_UnitTest.cpp; path = ../../../../srcs/JUCE/modules/juce_core/unit_tests/juce_UnitTest.cpp; sourceTree = SOURCE_ROOT; };
 		B6DED13C1D53C4FBD98E517F /* juce_BooleanPropertyComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_BooleanPropertyComponent.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/properties/juce_BooleanPropertyComponent.h; sourceTree = SOURCE_ROOT; };
+		B74D72FB0341DBFCA1FDFE27 /* switch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = switch.h; path = ../../../src/synthesis/switch.h; sourceTree = SOURCE_ROOT; };
 		B75BEFAB249BE17BEC61218E /* juce_ToolbarItemPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ToolbarItemPalette.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/widgets/juce_ToolbarItemPalette.h; sourceTree = SOURCE_ROOT; };
 		B7615CBA00EE37E76DA0BFA5 /* juce_ComponentBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ComponentBuilder.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/layout/juce_ComponentBuilder.h; sourceTree = SOURCE_ROOT; };
 		B789C407D84131B24F050536 /* juce_OpenGLTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OpenGLTexture.h; path = ../../../../srcs/JUCE/modules/juce_opengl/opengl/juce_OpenGLTexture.h; sourceTree = SOURCE_ROOT; };
@@ -933,6 +935,7 @@
 		D6420659A9C337330266407F /* smooth_value.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = smooth_value.h; path = ../../../mopo/src/smooth_value.h; sourceTree = SOURCE_ROOT; };
 		D658D980908AED0FF41C6651 /* juce_audio_utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_audio_utils.h; path = ../../../../srcs/JUCE/modules/juce_audio_utils/juce_audio_utils.h; sourceTree = SOURCE_ROOT; };
 		D65C2F7E84C85F93AE635436 /* juce_AiffAudioFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AiffAudioFormat.h; path = ../../../../srcs/JUCE/modules/juce_audio_formats/codecs/juce_AiffAudioFormat.h; sourceTree = SOURCE_ROOT; };
+		D65C59F62D83DB0E9A55086E /* switch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = switch.cpp; path = ../../../src/synthesis/switch.cpp; sourceTree = SOURCE_ROOT; };
 		D6D21B860D2480835F6236D4 /* juce_OpenGLShaderProgram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_OpenGLShaderProgram.cpp; path = ../../../../srcs/JUCE/modules/juce_opengl/opengl/juce_OpenGLShaderProgram.cpp; sourceTree = SOURCE_ROOT; };
 		D6DE8C5EB64C1DA9C17CFBDA /* juce_android_Misc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_Misc.cpp; path = ../../../../srcs/JUCE/modules/juce_core/native/juce_android_Misc.cpp; sourceTree = SOURCE_ROOT; };
 		D6F9A5EF3559CD2660D798E3 /* juce_Quaternion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Quaternion.h; path = ../../../../srcs/JUCE/modules/juce_opengl/geometry/juce_Quaternion.h; sourceTree = SOURCE_ROOT; };
@@ -2800,6 +2803,8 @@
 		DFC48CF508988AFFCB5165DE /* synthesis */ = {
 			isa = PBXGroup;
 			children = (
+				D65C59F62D83DB0E9A55086E /* switch.cpp */,
+				B74D72FB0341DBFCA1FDFE27 /* switch.h */,
 				530028592261F11270A2149E /* twytch_engine.cpp */,
 				5054CADEC9D7CDBA344AD1B6 /* twytch_engine.h */,
 				BEBC12211491258E3ED475F0 /* twytch_module.cpp */,
@@ -3128,6 +3133,7 @@
 				65F3455CC25AFA2440DC208B /* twytch_look_and_feel.cpp in Sources */,
 				9A5B4F6C9C6A78DA61C4714A /* main.cpp in Sources */,
 				FAEFC57E68CFABB2E8C0CAC0 /* twytch_standalone_editor.cpp in Sources */,
+				554F5852423B67A618685526 /* switch.cpp in Sources */,
 				81EF19A5039FCCA83688510A /* twytch_engine.cpp in Sources */,
 				D2190EC4CC20C80D1A70D09E /* twytch_module.cpp in Sources */,
 				1F4A879594F6E837C31A3C27 /* twytch_oscillators.cpp in Sources */,
@@ -3221,7 +3227,6 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				SDKROOT_ppc = macosx10.5;
 			};
@@ -3254,7 +3259,6 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				SDKROOT_ppc = macosx10.5;
 			};

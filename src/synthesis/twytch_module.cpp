@@ -16,6 +16,8 @@
 
 #include "twytch_module.h"
 
+#include "switch.h"
+
 namespace mopo {
 
   TwytchModule::TwytchModule() { }
@@ -90,6 +92,34 @@ namespace mopo {
       return exponential_scale;
     }
     return modulation_total;
+  }
+
+  Processor* TwytchModule::createTempoSyncSwitch(std::string name, Processor* frequency,
+                                                 bool poly) {
+    static const Value* bps = new Value(2.0);
+    ProcessorRouter* owner = poly ? getPolyRouter() : getMonoRouter();
+    Processor* tempo = createMonoModControl(name + "_tempo", 0.0, false);
+    Switch* choose_tempo = new Switch();
+    choose_tempo->plug(tempo, Switch::kSource);
+    for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(mopo_float); ++i) {
+      Value* tempo = new Value(synced_freq_ratios[i]);
+      choose_tempo->plugNext(tempo);
+    }
+
+    Multiply* tempo_frequency = new Multiply();
+    tempo_frequency->plug(choose_tempo, 0);
+    tempo_frequency->plug(bps, 1);
+    owner->addProcessor(choose_tempo);
+    owner->addProcessor(tempo_frequency);
+
+    Switch* choose_frequency = new Switch();
+    Value* sync = new Value(1);
+    choose_frequency->plug(sync, Switch::kSource);
+    choose_frequency->plugNext(frequency);
+    choose_frequency->plugNext(tempo_frequency);
+    owner->addProcessor(choose_frequency);
+    controls_[name + "_sync"] = sync;
+    return choose_frequency;
   }
 
   control_map TwytchModule::getControls() {

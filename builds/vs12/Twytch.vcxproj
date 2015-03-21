@@ -269,6 +269,7 @@
     <ClCompile Include="..\..\src\look_and_feel\twytch_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\plugin\twytch.cpp"/>
     <ClCompile Include="..\..\src\plugin\twytch_editor.cpp"/>
+    <ClCompile Include="..\..\src\synthesis\switch.cpp"/>
     <ClCompile Include="..\..\src\synthesis\twytch_engine.cpp"/>
     <ClCompile Include="..\..\src\synthesis\twytch_module.cpp"/>
     <ClCompile Include="..\..\src\synthesis\twytch_oscillators.cpp"/>
@@ -1565,6 +1566,7 @@
     <ClInclude Include="..\..\src\look_and_feel\twytch_look_and_feel.h"/>
     <ClInclude Include="..\..\src\plugin\twytch.h"/>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h"/>
+    <ClInclude Include="..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\src\synthesis\twytch_engine.h"/>
     <ClInclude Include="..\..\src\synthesis\twytch_module.h"/>
     <ClInclude Include="..\..\src\synthesis\twytch_oscillators.h"/>

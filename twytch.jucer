@@ -511,6 +511,8 @@
         <FILE id="klRf9C" name="twytch_editor.h" compile="0" resource="0" file="src/plugin/twytch_editor.h"/>
       </GROUP>
       <GROUP id="{A96D5AAE-0076-8457-E00A-AD803B7FD9A7}" name="synthesis">
+        <FILE id="kB2giJ" name="switch.cpp" compile="1" resource="0" file="src/synthesis/switch.cpp"/>
+        <FILE id="JoFJi2" name="switch.h" compile="0" resource="0" file="src/synthesis/switch.h"/>
         <FILE id="OFc1Ri" name="twytch_engine.cpp" compile="1" resource="0"
               file="src/synthesis/twytch_engine.cpp"/>
         <FILE id="tnzCLm" name="twytch_engine.h" compile="0" resource="0" file="src/synthesis/twytch_engine.h"/>

@@ -97,6 +97,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o \
   $(OBJDIR)/main_b7ad981e.o \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
+  $(OBJDIR)/switch_871b185e.o \
   $(OBJDIR)/twytch_engine_90779dde.o \
   $(OBJDIR)/twytch_module_6c52508.o \
   $(OBJDIR)/twytch_oscillators_802e9381.o \
@@ -361,6 +362,11 @@ $(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
 $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o: ../../../src/standalone/twytch_standalone_editor.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_standalone_editor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling switch.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_engine_90779dde.o: ../../../src/synthesis/twytch_engine.cpp

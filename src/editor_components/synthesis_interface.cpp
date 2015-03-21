@@ -473,6 +473,22 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_1_transpose_->addListener (this);
 
+    addAndMakeVisible (mono_lfo_1_sync_ = new ToggleButton ("mono_lfo_1_sync"));
+    mono_lfo_1_sync_->setButtonText (String::empty);
+    mono_lfo_1_sync_->addListener (this);
+
+    addAndMakeVisible (mono_lfo_2_sync_ = new ToggleButton ("mono_lfo_2_sync"));
+    mono_lfo_2_sync_->setButtonText (String::empty);
+    mono_lfo_2_sync_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_sync_ = new ToggleButton ("poly_lfo_sync"));
+    poly_lfo_sync_->setButtonText (String::empty);
+    poly_lfo_sync_->addListener (this);
+
+    addAndMakeVisible (step_sequencer_sync_ = new ToggleButton ("step_sequencer_sync"));
+    step_sequencer_sync_->setButtonText (String::empty);
+    step_sequencer_sync_->addListener (this);
+
 
     //[UserPreSize]
     osc_1_transpose_->setBipolar();
@@ -511,6 +527,43 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_wave_display_->setName("mono_lfo_2_phase");
     poly_lfo_wave_display_->setWaveSlider(poly_lfo_waveform_);
 
+    step_sequencer_tempo_ = new TwytchSlider("step_sequencer_tempo");
+    addAndMakeVisible(step_sequencer_tempo_);
+    int num_tempos = sizeof(mopo::synced_freq_ratios) / sizeof(mopo::mopo_float);
+    step_sequencer_tempo_->setRange(0, num_tempos - 1, 1);
+    step_sequencer_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    step_sequencer_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    step_sequencer_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    step_sequencer_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    step_sequencer_tempo_->addListener(this);
+
+    mono_lfo_1_tempo_ = new TwytchSlider("mono_lfo_1_tempo");
+    addAndMakeVisible(mono_lfo_1_tempo_);
+    mono_lfo_1_tempo_->setRange(0, num_tempos - 1, 1);
+    mono_lfo_1_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_1_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    mono_lfo_1_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    mono_lfo_1_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    mono_lfo_1_tempo_->addListener(this);
+
+    mono_lfo_2_tempo_ = new TwytchSlider("mono_lfo_2_tempo");
+    addAndMakeVisible(mono_lfo_2_tempo_);
+    mono_lfo_2_tempo_->setRange(0, num_tempos - 1, 1);
+    mono_lfo_2_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_2_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    mono_lfo_2_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    mono_lfo_2_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    mono_lfo_2_tempo_->addListener(this);
+
+    poly_lfo_tempo_ = new TwytchSlider("poly_lfo_tempo");
+    addAndMakeVisible(poly_lfo_tempo_);
+    poly_lfo_tempo_->setRange(0, num_tempos - 1, 1);
+    poly_lfo_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    poly_lfo_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    poly_lfo_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    poly_lfo_tempo_->addListener(this);
+
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
@@ -545,6 +598,10 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
     setAllValues(controls);
     setDefaultDoubleClickValues();
+    buttonClicked(step_sequencer_sync_);
+    buttonClicked(mono_lfo_1_sync_);
+    buttonClicked(mono_lfo_2_sync_);
+    buttonClicked(poly_lfo_sync_);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -628,6 +685,10 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_2_frequency_ = nullptr;
     mono_lfo_2_mod_ = nullptr;
     osc_1_transpose_ = nullptr;
+    mono_lfo_1_sync_ = nullptr;
+    mono_lfo_2_sync_ = nullptr;
+    poly_lfo_sync_ = nullptr;
+    step_sequencer_sync_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1060,7 +1121,15 @@ void SynthesisInterface::resized()
     mono_lfo_2_frequency_->setBounds (600, 600, 40, 40);
     mono_lfo_2_mod_->setBounds (560, 608, 24, 24);
     osc_1_transpose_->setBounds (48, 176, 50, 50);
+    mono_lfo_1_sync_->setBounds (520, 616, 24, 24);
+    mono_lfo_2_sync_->setBounds (640, 616, 24, 24);
+    poly_lfo_sync_->setBounds (760, 616, 24, 24);
+    step_sequencer_sync_->setBounds (664, 480, 24, 24);
     //[UserResized] Add your own custom resize handling here..
+    step_sequencer_tempo_->setBounds(step_frequency_->getBounds());
+    mono_lfo_1_tempo_->setBounds(mono_lfo_1_frequency_->getBounds());
+    mono_lfo_2_tempo_->setBounds(mono_lfo_2_frequency_->getBounds());
+    poly_lfo_tempo_->setBounds(poly_lfo_frequency_->getBounds());
     //[/UserResized]
 }
 
@@ -1305,11 +1374,40 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
 void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
+    std::string name = buttonThatWasClicked->getName().toStdString();
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+
     if (buttonThatWasClicked == formant_bypass_) {
-        std::string name = buttonThatWasClicked->getName().toStdString();
-        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         if (parent)
             parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    }
+    else if (buttonThatWasClicked == step_sequencer_sync_) {
+        bool pressed = buttonThatWasClicked->getToggleState();
+        if (parent)
+            parent->valueChanged(name, pressed ? 1.0 : 0.0);
+        step_frequency_->setVisible(!pressed);
+        step_sequencer_tempo_->setVisible(pressed);
+    }
+    else if (buttonThatWasClicked == mono_lfo_1_sync_) {
+        bool pressed = buttonThatWasClicked->getToggleState();
+        if (parent)
+            parent->valueChanged(name, pressed ? 1.0 : 0.0);
+        mono_lfo_1_frequency_->setVisible(!pressed);
+        mono_lfo_1_tempo_->setVisible(pressed);
+    }
+    else if (buttonThatWasClicked == mono_lfo_2_sync_) {
+        bool pressed = buttonThatWasClicked->getToggleState();
+        if (parent)
+            parent->valueChanged(name, pressed ? 1.0 : 0.0);
+        mono_lfo_2_frequency_->setVisible(!pressed);
+        mono_lfo_2_tempo_->setVisible(pressed);
+    }
+    else if (buttonThatWasClicked == poly_lfo_sync_) {
+        bool pressed = buttonThatWasClicked->getToggleState();
+        if (parent)
+            parent->valueChanged(name, pressed ? 1.0 : 0.0);
+        poly_lfo_frequency_->setVisible(!pressed);
+        poly_lfo_tempo_->setVisible(pressed);
     }
     else {
         std::string name = buttonThatWasClicked->getName().toStdString();
@@ -1388,6 +1486,26 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_mono_lfo_2_mod_] -- add your button handler code here..
         //[/UserButtonCode_mono_lfo_2_mod_]
+    }
+    else if (buttonThatWasClicked == mono_lfo_1_sync_)
+    {
+        //[UserButtonCode_mono_lfo_1_sync_] -- add your button handler code here..
+        //[/UserButtonCode_mono_lfo_1_sync_]
+    }
+    else if (buttonThatWasClicked == mono_lfo_2_sync_)
+    {
+        //[UserButtonCode_mono_lfo_2_sync_] -- add your button handler code here..
+        //[/UserButtonCode_mono_lfo_2_sync_]
+    }
+    else if (buttonThatWasClicked == poly_lfo_sync_)
+    {
+        //[UserButtonCode_poly_lfo_sync_] -- add your button handler code here..
+        //[/UserButtonCode_poly_lfo_sync_]
+    }
+    else if (buttonThatWasClicked == step_sequencer_sync_)
+    {
+        //[UserButtonCode_step_sequencer_sync_] -- add your button handler code here..
+        //[/UserButtonCode_step_sequencer_sync_]
     }
 
     //[UserbuttonClicked_Post]
@@ -1943,6 +2061,18 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TOGGLEBUTTON name="mono_lfo_1_sync" id="ab29827e97077bb3" memberName="mono_lfo_1_sync_"
+                virtualName="" explicitFocusOrder="0" pos="520 616 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <TOGGLEBUTTON name="mono_lfo_2_sync" id="8590601e4f38107a" memberName="mono_lfo_2_sync_"
+                virtualName="" explicitFocusOrder="0" pos="640 616 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <TOGGLEBUTTON name="poly_lfo_sync" id="eb06cf065ff5cbe4" memberName="poly_lfo_sync_"
+                virtualName="" explicitFocusOrder="0" pos="760 616 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <TOGGLEBUTTON name="step_sequencer_sync" id="36872088faa7a11" memberName="step_sequencer_sync_"
+                virtualName="" explicitFocusOrder="0" pos="664 480 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

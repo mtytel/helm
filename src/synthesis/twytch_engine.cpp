@@ -17,15 +17,18 @@
 #include "twytch_engine.h"
 
 #include "twytch_voice_handler.h"
-
+#include "switch.h"
 #include <fenv.h>
 
 #define MAX_DELAY_SAMPLES 1000000
+#define DEFAULT_BPS 2.0
 
 namespace mopo {
 
   TwytchEngine::TwytchEngine() : was_playing_arp_(false) {
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
+
+    beats_per_second_ = new Value(DEFAULT_BPS);
 
     // Voice Handler.
     Value* polyphony = new Value(1);
@@ -37,8 +40,11 @@ namespace mopo {
 
     // Monophonic LFO 1.
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
-    Processor* lfo_1_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
+    Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
                                                       false, false, kExponential);
+    Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency, false);
+
+
     Oscillator* lfo_1 = new Oscillator();
     lfo_1->plug(lfo_1_waveform, Oscillator::kWaveform);
     lfo_1->plug(lfo_1_frequency, Oscillator::kFrequency);
@@ -47,10 +53,12 @@ namespace mopo {
     mod_sources_["mono_lfo_1"] = lfo_1->output();
     mod_sources_["mono_lfo_1_phase"] = lfo_1->output(Oscillator::kPhase);
 
-    // Monophonic LFO 1.
+    // Monophonic LFO 2.
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
-    Processor* lfo_2_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
+    Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
                                                       false, false, kExponential);
+    Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency, false);
+
     Oscillator* lfo_2 = new Oscillator();
     lfo_2->plug(lfo_2_waveform, Oscillator::kWaveform);
     lfo_2->plug(lfo_2_frequency, Oscillator::kFrequency);
@@ -61,8 +69,10 @@ namespace mopo {
 
     // Step Sequencer.
     Processor* num_steps = createMonoModControl("num_steps", 16, true);
-    Processor* step_frequency = createMonoModControl("step_frequency", 3.0,
-                                                     false, false, kExponential);
+    Processor* step_free_frequency = createMonoModControl("step_frequency", 3.0,
+                                                          false, false, kExponential);
+    Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency, false);
+
     StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
     step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer->plug(step_frequency, StepGenerator::kFrequency);

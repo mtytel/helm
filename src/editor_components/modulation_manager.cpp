@@ -71,9 +71,11 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
 
         // Create modulation meter.
         if (mono_total) {
+            std::string name = slider.second->getName().toStdString();
             ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
-            meter->setName(slider.second->getName());
             addAndMakeVisible(meter);
+            meter_lookup_[name] = meter;
+            meter->setName(name);
             meter->setBounds(slider.second->getBounds());
             meters_.push_back(meter);
         }
@@ -123,8 +125,10 @@ void ModulationManager::resized()
                                  model->getWidth(), model->getHeight());
     }
 
-    for (ModulationMeter* meter : meters_)
+    for (ModulationMeter* meter : meters_) {
         meter->setBounds(slider_model_lookup_[meter->getName().toStdString()]->getBounds());
+        meter->setVisible(slider_model_lookup_[meter->getName().toStdString()]->isVisible());
+    }
     //[/UserResized]
 }
 
@@ -140,8 +144,10 @@ void ModulationManager::timerCallback() {
     parent->enterCriticalSection();
     int num_voices = parent->getNumActiveVoices();
 
-    for (ModulationMeter* meter : meters_)
+    for (ModulationMeter* meter : meters_) {
+        meter->setVisible(slider_model_lookup_[meter->getName().toStdString()]->isVisible());
         meter->update(num_voices);
+    }
 
     parent->exitCriticalSection();
 }
@@ -195,6 +201,10 @@ void ModulationManager::changeModulator(std::string new_modulator) {
         bool source_is_poly = modulation_sources_[current_modulator_]->owner->isPolyphonic();
         monophonic_destinations_->setVisible(!source_is_poly);
     }
+}
+
+void ModulationManager::showMeter(std::string name, bool show) {
+    meter_lookup_[name]->setVisible(show);
 }
 
 void ModulationManager::clearModulationConnections() {

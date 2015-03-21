@@ -53,6 +53,7 @@ public:
     void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
     void clearModulation(std::string source, std::string destination);
     void changeModulator(std::string new_modulator);
+    void showMeter(std::string name, bool show);
 
     void timerCallback() override;
 
@@ -79,6 +80,7 @@ private:
     std::vector<ScopedPointer<Slider>> owned_sliders_;
 
     std::vector<ScopedPointer<ModulationMeter>> meters_;
+    std::map<std::string, ModulationMeter*> meter_lookup_;
     mopo::output_map modulation_sources_;
     //[/UserVariables]
 

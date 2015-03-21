@@ -162,6 +162,8 @@
               file="../src/standalone/twytch_standalone_editor.h"/>
       </GROUP>
       <GROUP id="{8CD89F15-3EE7-F179-F84F-049F31596941}" name="synthesis">
+        <FILE id="z4hCnY" name="switch.cpp" compile="1" resource="0" file="../src/synthesis/switch.cpp"/>
+        <FILE id="QXiktv" name="switch.h" compile="0" resource="0" file="../src/synthesis/switch.h"/>
         <FILE id="clGm4c" name="twytch_engine.cpp" compile="1" resource="0"
               file="../src/synthesis/twytch_engine.cpp"/>
         <FILE id="leswrT" name="twytch_engine.h" compile="0" resource="0" file="../src/synthesis/twytch_engine.h"/>

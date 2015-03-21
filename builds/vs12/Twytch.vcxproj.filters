@@ -775,6 +775,9 @@
     <ClCompile Include="..\..\src\plugin\twytch_editor.cpp">
       <Filter>Twytch\src\plugin</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\switch.cpp">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_engine.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
@@ -2528,6 +2531,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h">
       <Filter>Twytch\src\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\switch.h">
+      <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_engine.h">
       <Filter>Twytch\src\synthesis</Filter>

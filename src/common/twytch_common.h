@@ -35,6 +35,33 @@ namespace mopo {
   typedef std::map<std::string, Processor*> input_map;
   typedef std::map<std::string, Processor::Output*> output_map;
 
+  const mopo::mopo_float synced_freq_ratios[] = {
+    1.0 / 32.0,
+    1.0 / 16.0,
+    1.0 / 12.0,
+    1.0 / 8.0,
+    1.0 / 7.0,
+    1.0 / 6.0,
+    3.0 / 16.0,
+    1.0 / 5.0,
+    1.0 / 4.0,
+    1.0 / 3.0,
+    3.0 / 8.0,
+    1.0 / 2.0,
+    2.0 / 3.0,
+    3.0 / 4.0,
+    1.0,
+    4.0 / 3.0,
+    3.0 / 2.0,
+    2.0,
+    3.0,
+    4.0,
+    6.0,
+    8.0,
+    12.0,
+    16.0
+  };
+
   struct ModulationConnection {
     ModulationConnection(std::string from, std::string to) :
         source(from), destination(to) { }

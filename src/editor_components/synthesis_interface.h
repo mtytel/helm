@@ -72,6 +72,10 @@ private:
     std::map<std::string, TwytchSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     std::vector<ScopedPointer<Slider>> step_sequencer_sliders_;
+    ScopedPointer<TwytchSlider> step_sequencer_tempo_;
+    ScopedPointer<TwytchSlider> mono_lfo_1_tempo_;
+    ScopedPointer<TwytchSlider> mono_lfo_2_tempo_;
+    ScopedPointer<TwytchSlider> poly_lfo_tempo_;
     //[/UserVariables]
 
     //==============================================================================
@@ -144,6 +148,10 @@ private:
     ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;
     ScopedPointer<TextButton> mono_lfo_2_mod_;
     ScopedPointer<TwytchSlider> osc_1_transpose_;
+    ScopedPointer<ToggleButton> mono_lfo_1_sync_;
+    ScopedPointer<ToggleButton> mono_lfo_2_sync_;
+    ScopedPointer<ToggleButton> poly_lfo_sync_;
+    ScopedPointer<ToggleButton> step_sequencer_sync_;
 
 
     //==============================================================================

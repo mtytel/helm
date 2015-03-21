@@ -61,6 +61,7 @@ namespace mopo {
       TwytchVoiceHandler* voice_handler_;
       Arpeggiator* arpeggiator_;
       Value* arp_on_;
+      Value* beats_per_second_;
       bool was_playing_arp_;
 
       std::set<ModulationConnection*> mod_connections_;
