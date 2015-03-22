@@ -69,6 +69,10 @@ int TwytchEditor::getNumActiveVoices() {
   return twytch_.getSynth()->getNumActiveVoices();
 }
 
+mopo::Processor::Output* TwytchEditor::getModSource(std::string name) {
+  return twytch_.getSynth()->getModulationSource(name);
+}
+
 var TwytchEditor::stateToVar() {
   return twytch_.stateToVar();
 }

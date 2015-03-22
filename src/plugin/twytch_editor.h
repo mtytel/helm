@@ -42,6 +42,7 @@ class TwytchEditor : public AudioProcessorEditor,
     int getNumActiveVoices() override;
     void enterCriticalSection() { twytch_.getCallbackLock().enter(); }
     void exitCriticalSection() { twytch_.getCallbackLock().exit(); }
+    mopo::Processor::Output* getModSource(std::string name);
 
     // SaveLoadManager
     var stateToVar() override;
