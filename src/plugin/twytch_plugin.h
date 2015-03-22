@@ -14,23 +14,22 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_H
-#define TWYTCH_H
+#ifndef TWYTCH_PLUGIN_H
+#define TWYTCH_PLUGIN_H
 
 #include "JuceHeader.h"
 #include "memory.h"
 #include "save_load_manager.h"
 #include "twytch_engine.h"
 
-class Twytch : public AudioProcessor, public SaveLoadManager {
+class TwytchPlugin : public AudioProcessor {
   public:
-    Twytch();
-    virtual ~Twytch();
+    TwytchPlugin();
+    virtual ~TwytchPlugin();
 
     void prepareToPlay(double sample_rate, int buffer_size) override;
     void releaseResources() override;
 
-    void processMidi(MidiBuffer&);
     void processBlock(AudioSampleBuffer&, MidiBuffer&) override;
 
     AudioProcessorEditor* createEditor() override;
@@ -64,17 +63,16 @@ class Twytch : public AudioProcessor, public SaveLoadManager {
     void getStateInformation(MemoryBlock& destData) override;
     void setStateInformation(const void* data, int size_in_bytes) override;
 
+
+    void processMidi(MidiBuffer&);
     mopo::TwytchEngine* getSynth() { return &synth_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }
-
-    var stateToVar() override;
-    void varToState(var state) override;
 
   private:
     mopo::TwytchEngine synth_;
     mopo::Memory* output_memory_;
-    
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Twytch)
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchPlugin)
 };
 
-#endif // TWYTCH_H
+#endif // TWYTCH_PLUGIN_H

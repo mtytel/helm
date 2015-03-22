@@ -80,6 +80,8 @@ OBJECTS := \
   $(OBJDIR)/value_76b325dc.o \
   $(OBJDIR)/voice_handler_49cbc5a8.o \
   $(OBJDIR)/wave_9cd47038.o \
+  $(OBJDIR)/synth_gui_interface_6337839d.o \
+  $(OBJDIR)/twytch_load_save_2bb30cb9.o \
   $(OBJDIR)/audio_viewer_5832a371.o \
   $(OBJDIR)/filter_response_7394009c.o \
   $(OBJDIR)/full_interface_bc4a451f.o \
@@ -277,6 +279,16 @@ $(OBJDIR)/voice_handler_49cbc5a8.o: ../../../mopo/src/voice_handler.cpp
 $(OBJDIR)/wave_9cd47038.o: ../../../mopo/src/wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synth_gui_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_load_save_2bb30cb9.o: ../../../src/common/twytch_load_save.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_load_save.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/audio_viewer_5832a371.o: ../../../src/editor_components/audio_viewer.cpp

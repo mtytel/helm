@@ -16,13 +16,13 @@
 
 #include "twytch_editor.h"
 
-#include "twytch.h"
 #include "twytch_common.h"
+#include "twytch_plugin.h"
 
 #define WIDTH 1000
 #define HEIGHT 800
 
-TwytchEditor::TwytchEditor(Twytch& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
+TwytchEditor::TwytchEditor(TwytchPlugin& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
   controls_ = twytch.getSynth()->getControls();
   setLookAndFeel(&look_and_feel_);
 
@@ -71,14 +71,4 @@ int TwytchEditor::getNumActiveVoices() {
 
 mopo::Processor::Output* TwytchEditor::getModSource(std::string name) {
   return twytch_.getSynth()->getModulationSource(name);
-}
-
-var TwytchEditor::stateToVar() {
-  return twytch_.stateToVar();
-}
-
-void TwytchEditor::varToState(var state) {
-  twytch_.varToState(state);
-  gui_->setAllValues(controls_);
-  gui_->setModulationConnections(twytch_.getSynth()->getModulationConnections());
 }

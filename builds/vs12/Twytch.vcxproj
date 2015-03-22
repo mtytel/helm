@@ -252,6 +252,8 @@
     <ClCompile Include="..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp"/>
     <ClCompile Include="..\..\mopo\src\wave.cpp"/>
+    <ClCompile Include="..\..\src\common\synth_gui_interface.cpp"/>
+    <ClCompile Include="..\..\src\common\twytch_load_save.cpp"/>
     <ClCompile Include="..\..\src\editor_components\audio_viewer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\src\editor_components\full_interface.cpp"/>
@@ -267,8 +269,8 @@
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\twytch_look_and_feel.cpp"/>
-    <ClCompile Include="..\..\src\plugin\twytch.cpp"/>
     <ClCompile Include="..\..\src\plugin\twytch_editor.cpp"/>
+    <ClCompile Include="..\..\src\plugin\twytch_plugin.cpp"/>
     <ClCompile Include="..\..\src\synthesis\switch.cpp"/>
     <ClCompile Include="..\..\src\synthesis\twytch_engine.cpp"/>
     <ClCompile Include="..\..\src\synthesis\twytch_module.cpp"/>
@@ -1548,6 +1550,7 @@
     <ClInclude Include="..\..\mopo\src\wave.h"/>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h"/>
     <ClInclude Include="..\..\src\common\twytch_common.h"/>
+    <ClInclude Include="..\..\src\common\twytch_load_save.h"/>
     <ClInclude Include="..\..\src\editor_components\audio_viewer.h"/>
     <ClInclude Include="..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\src\editor_components\full_interface.h"/>
@@ -1564,8 +1567,8 @@
     <ClInclude Include="..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\twytch_look_and_feel.h"/>
-    <ClInclude Include="..\..\src\plugin\twytch.h"/>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h"/>
+    <ClInclude Include="..\..\src\plugin\twytch_plugin.h"/>
     <ClInclude Include="..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\src\synthesis\twytch_engine.h"/>
     <ClInclude Include="..\..\src\synthesis\twytch_module.h"/>

@@ -724,6 +724,12 @@
     <ClCompile Include="..\..\mopo\src\wave.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\common\synth_gui_interface.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common\twytch_load_save.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\audio_viewer.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -769,10 +775,10 @@
     <ClCompile Include="..\..\src\look_and_feel\twytch_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\plugin\twytch.cpp">
+    <ClCompile Include="..\..\src\plugin\twytch_editor.cpp">
       <Filter>Twytch\src\plugin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\plugin\twytch_editor.cpp">
+    <ClCompile Include="..\..\src\plugin\twytch_plugin.cpp">
       <Filter>Twytch\src\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\switch.cpp">
@@ -2478,6 +2484,9 @@
     <ClInclude Include="..\..\src\common\twytch_common.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\common\twytch_load_save.h">
+      <Filter>Twytch\src\common</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\audio_viewer.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
@@ -2526,10 +2535,10 @@
     <ClInclude Include="..\..\src\look_and_feel\twytch_look_and_feel.h">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\plugin\twytch.h">
+    <ClInclude Include="..\..\src\plugin\twytch_editor.h">
       <Filter>Twytch\src\plugin</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\plugin\twytch_editor.h">
+    <ClInclude Include="..\..\src\plugin\twytch_plugin.h">
       <Filter>Twytch\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\switch.h">

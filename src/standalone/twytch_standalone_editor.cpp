@@ -174,8 +174,6 @@ void TwytchStandaloneEditor::handleIncomingMidiMessage(MidiInput *source,
     double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
     double value = 2 * percent - 1.0;
     synth_.setPitchWheel(value);
-    int tmp = midi_message.getNoteNumber();
-    std::cout<< tmp << std::endl;
   }
   else if (midi_message.isController()) {
     midiInput(midi_message.getControllerNumber(), midi_message.getControllerValue());

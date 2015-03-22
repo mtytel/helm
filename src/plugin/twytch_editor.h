@@ -18,17 +18,16 @@
 #define TWYTCH_EDITOR_H
 
 #include "JuceHeader.h"
-#include "twytch.h"
+#include "twytch_plugin.h"
 #include "twytch_look_and_feel.h"
 #include "full_interface.h"
 #include "save_load_manager.h"
 #include "synth_gui_interface.h"
 
 class TwytchEditor : public AudioProcessorEditor,
-                     public SynthGuiInterface,
-                     public SaveLoadManager {
+                     public SynthGuiInterface {
   public:
-    TwytchEditor(Twytch&);
+    TwytchEditor(TwytchPlugin&);
     ~TwytchEditor();
 
     // AudioProcessorEditor
@@ -44,12 +43,8 @@ class TwytchEditor : public AudioProcessorEditor,
     void exitCriticalSection() { twytch_.getCallbackLock().exit(); }
     mopo::Processor::Output* getModSource(std::string name);
 
-    // SaveLoadManager
-    var stateToVar() override;
-    void varToState(var state) override;
-
   private:
-    Twytch& twytch_;
+    TwytchPlugin& twytch_;
     TwytchLookAndFeel look_and_feel_;
     mopo::control_map controls_;
 

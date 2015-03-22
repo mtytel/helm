@@ -164,6 +164,8 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
+  $(OBJDIR)/synth_gui_interface_bde2c2e.o \
+  $(OBJDIR)/twytch_load_save_87fa95c8.o \
   $(OBJDIR)/audio_viewer_85409b82.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
   $(OBJDIR)/full_interface_ddba7cf0.o \
@@ -179,8 +181,8 @@ OBJECTS := \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
   $(OBJDIR)/twytch_look_and_feel_7026b753.o \
-  $(OBJDIR)/twytch_dfb43a49.o \
   $(OBJDIR)/twytch_editor_cb41a52d.o \
+  $(OBJDIR)/twytch_plugin_10f49ff3.o \
   $(OBJDIR)/switch_9aef122f.o \
   $(OBJDIR)/twytch_engine_ecbf26ed.o \
   $(OBJDIR)/twytch_module_630cae17.o \
@@ -785,6 +787,16 @@ $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	@echo "Compiling wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/synth_gui_interface_bde2c2e.o: ../../src/common/synth_gui_interface.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synth_gui_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_load_save_87fa95c8.o: ../../src/common/twytch_load_save.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_load_save.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/audio_viewer_85409b82.o: ../../src/editor_components/audio_viewer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling audio_viewer.cpp"
@@ -860,14 +872,14 @@ $(OBJDIR)/twytch_look_and_feel_7026b753.o: ../../src/look_and_feel/twytch_look_a
 	@echo "Compiling twytch_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_dfb43a49.o: ../../src/plugin/twytch.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/twytch_editor_cb41a52d.o: ../../src/plugin/twytch_editor.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_editor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_plugin_10f49ff3.o: ../../src/plugin/twytch_plugin.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_plugin.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp

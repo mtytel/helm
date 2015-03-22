@@ -418,6 +418,12 @@
     <ClCompile Include="..\..\..\mopo\src\wave.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\common\twytch_load_save.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\audio_viewer.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -1816,6 +1822,9 @@
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\twytch_common.h">
+      <Filter>Twytch\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\common\twytch_load_save.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\audio_viewer.h">

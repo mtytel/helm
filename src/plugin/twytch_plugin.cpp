@@ -14,59 +14,59 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch.h"
+#include "twytch_plugin.h"
 #include "twytch_common.h"
 #include "twytch_editor.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MAX_MEMORY_SAMPLES 1000000
 
-Twytch::Twytch() {
+TwytchPlugin::TwytchPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
 }
 
-Twytch::~Twytch() { }
+TwytchPlugin::~TwytchPlugin() { }
 
-const String Twytch::getName() const {
+const String TwytchPlugin::getName() const {
   return JucePlugin_Name;
 }
 
-int Twytch::getNumParameters() {
+int TwytchPlugin::getNumParameters() {
   return 0;
 }
 
-float Twytch::getParameter(int index) {
+float TwytchPlugin::getParameter(int index) {
   return 0.0f;
 }
 
-void Twytch::setParameter(int index, float new_value) {
+void TwytchPlugin::setParameter(int index, float new_value) {
 }
 
-const String Twytch::getParameterName(int index) {
+const String TwytchPlugin::getParameterName(int index) {
   return String();
 }
 
-const String Twytch::getParameterText(int index) {
+const String TwytchPlugin::getParameterText(int index) {
   return String();
 }
 
-const String Twytch::getInputChannelName(int channel_index) const {
+const String TwytchPlugin::getInputChannelName(int channel_index) const {
   return String (channel_index + 1);
 }
 
-const String Twytch::getOutputChannelName(int channel_index) const {
+const String TwytchPlugin::getOutputChannelName(int channel_index) const {
   return String (channel_index + 1);
 }
 
-bool Twytch::isInputChannelStereoPair(int index) const {
+bool TwytchPlugin::isInputChannelStereoPair(int index) const {
   return true;
 }
 
-bool Twytch::isOutputChannelStereoPair(int index) const {
+bool TwytchPlugin::isOutputChannelStereoPair(int index) const {
   return true;
 }
 
-bool Twytch::acceptsMidi() const {
+bool TwytchPlugin::acceptsMidi() const {
 #if JucePlugin_WantsMidiInput
   return true;
 #else
@@ -74,7 +74,7 @@ bool Twytch::acceptsMidi() const {
 #endif
 }
 
-bool Twytch::producesMidi() const {
+bool TwytchPlugin::producesMidi() const {
 #if JucePlugin_ProducesMidiOutput
   return true;
 #else
@@ -82,45 +82,45 @@ bool Twytch::producesMidi() const {
 #endif
 }
 
-bool Twytch::silenceInProducesSilenceOut() const {
+bool TwytchPlugin::silenceInProducesSilenceOut() const {
   return false;
 }
 
-double Twytch::getTailLengthSeconds() const {
+double TwytchPlugin::getTailLengthSeconds() const {
   return 0.0;
 }
 
-int Twytch::getNumPrograms() {
+int TwytchPlugin::getNumPrograms() {
   // Some hosts don't cope very well if you tell them there are 0 programs,
   // so this should be at least 1, even if you're not really implementing programs.
   return 1;
 }
 
-int Twytch::getCurrentProgram() {
+int TwytchPlugin::getCurrentProgram() {
   return 0;
 }
 
-void Twytch::setCurrentProgram(int index) {
+void TwytchPlugin::setCurrentProgram(int index) {
 }
 
-const String Twytch::getProgramName(int index) {
+const String TwytchPlugin::getProgramName(int index) {
   return String();
 }
 
-void Twytch::changeProgramName(int index, const String& new_name) {
+void TwytchPlugin::changeProgramName(int index, const String& new_name) {
 }
 
-void Twytch::prepareToPlay(double sample_rate, int buffer_size) {
+void TwytchPlugin::prepareToPlay(double sample_rate, int buffer_size) {
   synth_.setSampleRate(sample_rate);
   synth_.setBufferSize(buffer_size);
 }
 
-void Twytch::releaseResources() {
+void TwytchPlugin::releaseResources() {
   // When playback stops, you can use this as an opportunity to free up any
   // spare memory, etc.
 }
 
-void Twytch::processMidi(juce::MidiBuffer& midi_messages) {
+void TwytchPlugin::processMidi(juce::MidiBuffer& midi_messages) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
   int midi_sample_position = 0;
@@ -145,7 +145,7 @@ void Twytch::processMidi(juce::MidiBuffer& midi_messages) {
   }
 }
 
-void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
+void TwytchPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
   processMidi(midi_messages);
 
   int num_samples = buffer.getNumSamples();
@@ -167,79 +167,25 @@ void Twytch::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) 
     output_memory_->push(synth_output[i]);
 }
 
-var Twytch::stateToVar() {
-  mopo::control_map controls = synth_.getControls();
-  DynamicObject* state_object = new DynamicObject();
-
-  mopo::control_map::iterator iter = controls.begin();
-  for (; iter != controls.end(); ++iter)
-    state_object->setProperty(String(iter->first), iter->second->value());
-
-  std::set<mopo::ModulationConnection*> modulations = synth_.getModulationConnections();
-  std::set<mopo::ModulationConnection*>::iterator miter = modulations.begin();
-  Array<var> modulation_states;
-  for (; miter != modulations.end(); ++miter) {
-    mopo::ModulationConnection* connection = *miter;
-    DynamicObject* mod_object = new DynamicObject();
-    mod_object->setProperty("source", connection->source.c_str());
-    mod_object->setProperty("destination", connection->destination.c_str());
-    mod_object->setProperty("amount", connection->amount.value());
-    modulation_states.add(mod_object);
-  }
-
-  state_object->setProperty("modulations", modulation_states);
-  return state_object;
-}
-
-void Twytch::varToState(var state) {
-  mopo::control_map controls = synth_.getControls();
-  DynamicObject* object_state = state.getDynamicObject();
-
-  NamedValueSet properties = object_state->getProperties();
-  int size = properties.size();
-  for (int i = 0; i < size; ++i) {
-    Identifier id = properties.getName(i);
-    if (id.isValid()) {
-      std::string name = id.toString().toStdString();
-      if (controls.count(name)) {
-        mopo::mopo_float value = properties.getValueAt(i);
-        controls[name]->set(value);
-      }
-    }
-  }
-
-  synth_.clearModulations();
-  Array<var>* modulations = object_state->getProperty("modulations").getArray();
-  var* modulation = modulations->begin();
-  for (; modulation != modulations->end(); ++modulation) {
-    DynamicObject* mod = modulation->getDynamicObject();
-    std::string source = mod->getProperty("source").toString().toStdString();
-    std::string destination = mod->getProperty("destination").toString().toStdString();
-    mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
-    connection->amount.set(mod->getProperty("amount"));
-    synth_.connectModulation(connection);
-  }
-}
-
-bool Twytch::hasEditor() const {
+bool TwytchPlugin::hasEditor() const {
   return true;
 }
 
-AudioProcessorEditor* Twytch::createEditor() {
+AudioProcessorEditor* TwytchPlugin::createEditor() {
   return new TwytchEditor(*this);
 }
 
-void Twytch::getStateInformation(MemoryBlock& dest_data) {
+void TwytchPlugin::getStateInformation(MemoryBlock& dest_data) {
   // You should use this method to store your parameters in the memory block.
   // You could do that either as raw data, or use the XML or ValueTree classes
   // as intermediaries to make it easy to save and load complex data.
 }
 
-void Twytch::setStateInformation(const void* data, int size_in_bytes) {
+void TwytchPlugin::setStateInformation(const void* data, int size_in_bytes) {
   // You should use this method to restore your parameters from this memory block,
   // whose contents will have been created by the getStateInformation() call.
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
-  return new Twytch();
+  return new TwytchPlugin();
 }
