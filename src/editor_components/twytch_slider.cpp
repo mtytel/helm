@@ -58,7 +58,3 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
         }
     }
 }
-
-void TwytchSlider::mouseUp(const MouseEvent& e) {
-    Slider::mouseUp(e);
-}

@@ -49,26 +49,3 @@ void TwytchEditor::paint(Graphics& g) {
 void TwytchEditor::resized() {
   gui_->setBounds(0, 0, getWidth(), getHeight());
 }
-
-void TwytchEditor::valueChanged(std::string name, mopo::mopo_float value) {
-  MOPO_ASSERT(controls_.count(name));
-  controls_[name]->set(value);
-}
-
-void TwytchEditor::connectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock(twytch_.getCallbackLock());
-  twytch_.getSynth()->connectModulation(connection);
-}
-
-void TwytchEditor::disconnectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock(twytch_.getCallbackLock());
-  twytch_.getSynth()->disconnectModulation(connection);
-}
-
-int TwytchEditor::getNumActiveVoices() {
-  return twytch_.getSynth()->getNumActiveVoices();
-}
-
-mopo::Processor::Output* TwytchEditor::getModSource(std::string name) {
-  return twytch_.getSynth()->getModulationSource(name);
-}

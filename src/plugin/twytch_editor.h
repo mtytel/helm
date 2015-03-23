@@ -24,8 +24,7 @@
 #include "save_load_manager.h"
 #include "synth_gui_interface.h"
 
-class TwytchEditor : public AudioProcessorEditor,
-                     public SynthGuiInterface {
+class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
   public:
     TwytchEditor(TwytchPlugin&);
     ~TwytchEditor();
@@ -35,13 +34,8 @@ class TwytchEditor : public AudioProcessorEditor,
     void resized() override;
 
     // SynthGuiInterface
-    void valueChanged(std::string name, mopo::mopo_float value) override;
-    void connectModulation(mopo::ModulationConnection* connection) override;
-    void disconnectModulation(mopo::ModulationConnection* connection) override;
-    int getNumActiveVoices() override;
-    void enterCriticalSection() { twytch_.getCallbackLock().enter(); }
-    void exitCriticalSection() { twytch_.getCallbackLock().exit(); }
-    mopo::Processor::Output* getModSource(std::string name);
+    mopo::TwytchEngine* getSynth() override { return twytch_.getSynth(); }
+    const CriticalSection& getCriticalSection() override { return twytch_.getCallbackLock(); }
 
   private:
     TwytchPlugin& twytch_;
