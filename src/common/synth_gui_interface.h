@@ -17,24 +17,25 @@
 #ifndef SYNTH_GUI_INTERFACE_H
 #define SYNTH_GUI_INTERFACE_H
 
+#include "JuceHeader.h"
 #include "twytch_common.h"
-#include "utils.h"
-#include "value.h"
+#include "twytch_engine.h"
 #include <string>
-#include <map>
 
 class SynthGuiInterface {
   public:
     SynthGuiInterface() { }
     virtual ~SynthGuiInterface() { }
 
-    virtual void valueChanged(std::string name, mopo::mopo_float value) = 0;
-    virtual void connectModulation(mopo::ModulationConnection* connection) = 0;
-    virtual void disconnectModulation(mopo::ModulationConnection* connection) = 0;
-    virtual int getNumActiveVoices() = 0;
-    virtual void enterCriticalSection() = 0;
-    virtual void exitCriticalSection() = 0;
-    virtual mopo::Processor::Output* getModSource(std::string name) = 0;
+    void valueChanged(std::string name, mopo::mopo_float value);
+    void connectModulation(mopo::ModulationConnection* connection);
+    void disconnectModulation(mopo::ModulationConnection* connection);
+    int getNumActiveVoices();
+    mopo::Processor::Output* getModSource(std::string name);
+
+  protected:
+    virtual const CriticalSection& getCriticalSection() = 0;
+    virtual mopo::TwytchEngine* getSynth() = 0;
 };
 
 #endif // SYNTH_GUI_INTERFACE_H

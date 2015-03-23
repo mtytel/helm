@@ -253,6 +253,7 @@
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp"/>
     <ClCompile Include="..\..\mopo\src\wave.cpp"/>
     <ClCompile Include="..\..\src\common\midi_manager.cpp"/>
+    <ClCompile Include="..\..\src\common\synth_gui_interface.cpp"/>
     <ClCompile Include="..\..\src\common\twytch_load_save.cpp"/>
     <ClCompile Include="..\..\src\editor_components\audio_viewer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp"/>

@@ -421,6 +421,9 @@
     <ClCompile Include="..\..\..\src\common\midi_manager.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\common\twytch_load_save.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>

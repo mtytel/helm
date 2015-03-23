@@ -25,7 +25,7 @@ public:
                                              DocumentWindow::closeButton) {
       setUsingNativeTitleBar(true);
       setContentOwned(new TwytchStandaloneEditor(), true);
-      setResizable(false, false);
+      setResizable(true, true);
 
       centreWithSize(getWidth(), getHeight());
       setVisible(true);

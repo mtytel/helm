@@ -88,34 +88,10 @@ void TwytchStandaloneEditor::releaseResources() {
 }
 
 void TwytchStandaloneEditor::paint(Graphics& g) {
-  g.fillAll(Colours::black);
 }
 
 void TwytchStandaloneEditor::resized() {
   gui_->setBounds(0, 0, getWidth(), getHeight());
-}
-
-void TwytchStandaloneEditor::valueChanged(std::string name, mopo::mopo_float value) {
-  if (controls_.count(name))
-    controls_[name]->set(value);
-}
-
-void TwytchStandaloneEditor::connectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock lock(critical_section_);
-  synth_.connectModulation(connection);
-}
-
-void TwytchStandaloneEditor::disconnectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock lock(critical_section_);
-  synth_.disconnectModulation(connection);
-}
-
-int TwytchStandaloneEditor::getNumActiveVoices() {
-  return synth_.getNumActiveVoices();
-}
-
-mopo::Processor::Output* TwytchStandaloneEditor::getModSource(std::string name) {
-  return synth_.getModulationSource(name);
 }
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {

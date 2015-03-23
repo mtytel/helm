@@ -45,14 +45,8 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     void handleMessage(const Message& message) override;
 
     // SynthGuiInterface
-    void valueChanged(std::string name, mopo::mopo_float value) override;
-    void connectModulation(mopo::ModulationConnection* connection) override;
-    void disconnectModulation(mopo::ModulationConnection* connection) override;
-    int getNumActiveVoices() override;
-    void enterCriticalSection() { critical_section_.enter(); }
-    void exitCriticalSection() { critical_section_.exit(); }
-    mopo::Processor::Output* getModSource(std::string name);
-
+    mopo::TwytchEngine* getSynth() override { return &synth_; }
+    const CriticalSection& getCriticalSection() override { return critical_section_; }
 
   private:
     mopo::TwytchEngine synth_;

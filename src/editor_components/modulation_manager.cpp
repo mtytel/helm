@@ -141,15 +141,12 @@ void ModulationManager::timerCallback() {
     if (parent == nullptr)
         return;
 
-    parent->enterCriticalSection();
     int num_voices = parent->getNumActiveVoices();
 
     for (ModulationMeter* meter : meters_) {
         meter->setVisible(slider_model_lookup_[meter->getName().toStdString()]->isVisible());
         meter->update(num_voices);
     }
-
-    parent->exitCriticalSection();
 }
 
 void ModulationManager::sliderValueChanged(Slider *slider) {
