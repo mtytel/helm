@@ -22,13 +22,13 @@ public:
   class MainWindow : public DocumentWindow {
   public:
     MainWindow(String name) : DocumentWindow(name, Colours::lightgrey,
-                                             DocumentWindow::allButtons) {
+                                             DocumentWindow::closeButton) {
       setUsingNativeTitleBar(true);
       setContentOwned(new TwytchStandaloneEditor(), true);
-      setResizable (true, true);
+      setResizable(false, false);
 
-      centreWithSize (getWidth(), getHeight());
-      setVisible (true);
+      centreWithSize(getWidth(), getHeight());
+      setVisible(true);
     }
 
     void closeButtonPressed() override {
@@ -36,7 +36,7 @@ public:
     }
 
   private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
   };
 
   TwytchApplication() { }
@@ -45,7 +45,7 @@ public:
   const String getApplicationVersion() override { return ProjectInfo::versionString; }
   bool moreThanOneInstanceAllowed() override { return true; }
 
-  void initialise (const String& commandLine) override {
+  void initialise(const String& commandLine) override {
     mainWindow = new MainWindow (getApplicationName());
   }
 
@@ -57,7 +57,7 @@ public:
     quit();
   }
 
-  void anotherInstanceStarted (const String& commandLine) override {
+  void anotherInstanceStarted(const String& commandLine) override {
   }
 
 private:
