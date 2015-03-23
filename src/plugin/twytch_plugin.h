@@ -64,9 +64,11 @@ class TwytchPlugin : public AudioProcessor {
     void getStateInformation(MemoryBlock& destData) override;
     void setStateInformation(const void* data, int size_in_bytes) override;
 
+
     void processMidi(MidiBuffer&);
     mopo::TwytchEngine* getSynth() { return &synth_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }
+    MidiManager* getMidiManager() { return midi_manager_; }
 
   private:
     mopo::TwytchEngine synth_;

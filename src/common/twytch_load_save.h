@@ -23,16 +23,12 @@
 
 class TwytchLoadSave {
   public:
-    TwytchLoadSave(mopo::TwytchEngine* synth, CriticalSection* critical_section) :
-        synth_(synth), critical_section_(critical_section) { }
-    virtual ~TwytchLoadSave() { }
-
-    var stateToVar();
-    void varToState(var state);
-
-  private:
-    mopo::TwytchEngine* synth_;
-    CriticalSection* critical_section_;
+    static var stateToVar(mopo::TwytchEngine* synth,
+                          const CriticalSection& critical_section);
+  
+    static void varToState(mopo::TwytchEngine* synth,
+                           const CriticalSection& critical_section,
+                           var state);
 };
 
 #endif  // TWYTCH_LOAD_SAVE_H

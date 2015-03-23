@@ -47,18 +47,16 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     // SynthGuiInterface
     mopo::TwytchEngine* getSynth() override { return &synth_; }
     const CriticalSection& getCriticalSection() override { return critical_section_; }
+    MidiManager* getMidiManager() override { return midi_manager_; }
+    void updateFullGui() override;
 
   private:
     mopo::TwytchEngine synth_;
     CriticalSection critical_section_;
     TwytchLookAndFeel look_and_feel_;
-    mopo::control_map controls_;
+
     ScopedPointer<mopo::Memory> output_memory_;
-
     ScopedPointer<FullInterface> gui_;
-
-    std::set<char> keys_pressed_;
-    int computer_keyboard_offset_;
     ScopedPointer<MidiInput> midi_input_;
     ScopedPointer<MidiManager> midi_manager_;
     ScopedPointer<TwytchComputerKeyboard> computer_keyboard_;

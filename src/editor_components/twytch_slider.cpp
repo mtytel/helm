@@ -40,18 +40,14 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
 
         int result = m.show();
         if (result == kArmMidiLearn) {
-            /*
             SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
             if (parent)
                 parent->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
-             */
         }
         else if (result == kClearMidiLearn) {
-            /*
             SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
             if (parent)
                 parent->clearMidiLearn(getName().toStdString());
-             */
         }
         else if (result == kDefaultValue) {
             setValue(getDoubleClickReturnValue());

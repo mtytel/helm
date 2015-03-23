@@ -23,6 +23,7 @@
 #include <map>
 
 class MidiManager : public MidiInputCallback {
+  typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
   public:
     MidiManager(mopo::TwytchEngine* synth, const CriticalSection* critical_section) :
         synth_(synth), critical_section_(critical_section), armed_range_(0.0, 1.0) { }
@@ -43,8 +44,7 @@ class MidiManager : public MidiInputCallback {
   
     std::string control_armed_;
     std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;
-    std::map<int, std::string> midi_learn_map_;
-    std::map<int, std::pair<mopo::mopo_float, mopo::mopo_float>> midi_learn_range_map_;
+    std::map<int, std::map<std::string, midi_range>> midi_learn_map_;
 };
 
 #endif // MIDI_MANAGER_H

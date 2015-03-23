@@ -18,6 +18,7 @@
 #define SYNTH_GUI_INTERFACE_H
 
 #include "JuceHeader.h"
+#include "midi_manager.h"
 #include "twytch_common.h"
 #include "twytch_engine.h"
 #include <string>
@@ -30,12 +31,22 @@ class SynthGuiInterface {
     void valueChanged(std::string name, mopo::mopo_float value);
     void connectModulation(mopo::ModulationConnection* connection);
     void disconnectModulation(mopo::ModulationConnection* connection);
+  
     int getNumActiveVoices();
     mopo::Processor::Output* getModSource(std::string name);
 
+    var saveToVar();
+    void loadFromVar(var state);
+
+    void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
+    void cancelMidiLearn();
+    void clearMidiLearn(std::string name);
+
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
+    virtual MidiManager* getMidiManager() = 0;
     virtual mopo::TwytchEngine* getSynth() = 0;
+    virtual void updateFullGui() = 0;
 };
 
 #endif // SYNTH_GUI_INTERFACE_H

@@ -36,11 +36,12 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   if (midi_input_.get())
     midi_input_->start();
 
-  controls_ = synth_.getControls();
   setLookAndFeel(&look_and_feel_);
 
-  gui_ = new FullInterface(controls_, synth_.getModulationSources(),
-                           synth_.getMonoModulations(), synth_.getPolyModulations());
+  gui_ = new FullInterface(synth_.getControls(),
+                           synth_.getModulationSources(),
+                           synth_.getMonoModulations(),
+                           synth_.getPolyModulations());
   gui_->setOutputMemory(output_memory_);
   gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
@@ -92,6 +93,12 @@ void TwytchStandaloneEditor::paint(Graphics& g) {
 
 void TwytchStandaloneEditor::resized() {
   gui_->setBounds(0, 0, getWidth(), getHeight());
+}
+
+void TwytchStandaloneEditor::updateFullGui() {
+  mopo::control_map controls = getSynth()->getControls();
+  gui_->setAllValues(controls);
+  gui_->setModulationConnections(getSynth()->getModulationConnections());
 }
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {

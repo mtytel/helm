@@ -16,6 +16,7 @@
 
 #include "synth_gui_interface.h"
 
+#include "twytch_load_save.h"
 
 void SynthGuiInterface::valueChanged(std::string name, mopo::mopo_float value) {
   ScopedLock lock(getCriticalSection());
@@ -40,4 +41,25 @@ int SynthGuiInterface::getNumActiveVoices() {
 mopo::Processor::Output* SynthGuiInterface::getModSource(std::string name) {
   ScopedLock lock(getCriticalSection());
   return getSynth()->getModulationSource(name);
+}
+
+var SynthGuiInterface::saveToVar() {
+  return TwytchLoadSave::stateToVar(getSynth(), getCriticalSection());
+}
+
+void SynthGuiInterface::loadFromVar(juce::var state) {
+  TwytchLoadSave::varToState(getSynth(), getCriticalSection(), state);
+  updateFullGui();
+}
+
+void SynthGuiInterface::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
+  getMidiManager()->armMidiLearn(name, min, max);
+}
+
+void SynthGuiInterface::cancelMidiLearn() {
+  getMidiManager()->cancelMidiLearn();
+}
+
+void SynthGuiInterface::clearMidiLearn(std::string name) {
+  getMidiManager()->clearMidiLearn(name);
 }

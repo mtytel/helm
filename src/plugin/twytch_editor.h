@@ -27,7 +27,6 @@
 class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
   public:
     TwytchEditor(TwytchPlugin&);
-    ~TwytchEditor();
 
     // AudioProcessorEditor
     void paint(Graphics&) override;
@@ -36,13 +35,14 @@ class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
     // SynthGuiInterface
     mopo::TwytchEngine* getSynth() override { return twytch_.getSynth(); }
     const CriticalSection& getCriticalSection() override { return twytch_.getCallbackLock(); }
+    MidiManager* getMidiManager() override { return twytch_.getMidiManager(); }
+    void updateFullGui() override;
 
   private:
     TwytchPlugin& twytch_;
     TwytchLookAndFeel look_and_feel_;
-    mopo::control_map controls_;
 
-    FullInterface* gui_;
+    ScopedPointer<FullInterface> gui_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchEditor)
 };

@@ -16,14 +16,16 @@
 
 #include "twytch_load_save.h"
 
-var TwytchLoadSave::stateToVar() {
-  mopo::control_map controls = synth_->getControls();
+var TwytchLoadSave::stateToVar(mopo::TwytchEngine* synth,
+                               const CriticalSection& critical_section) {
+  mopo::control_map controls = synth->getControls();
   DynamicObject* state_object = new DynamicObject();
 
+  ScopedLock lock(critical_section);
   for (auto control : controls)
     state_object->setProperty(String(control.first), control.second->value());
 
-  std::set<mopo::ModulationConnection*> modulations = synth_->getModulationConnections();
+  std::set<mopo::ModulationConnection*> modulations = synth->getModulationConnections();
   Array<var> modulation_states;
   for (mopo::ModulationConnection* connection: modulations) {
     DynamicObject* mod_object = new DynamicObject();
@@ -37,11 +39,13 @@ var TwytchLoadSave::stateToVar() {
   return state_object;
 }
 
-void TwytchLoadSave::varToState(var state) {
-  mopo::control_map controls = synth_->getControls();
+void TwytchLoadSave::varToState(mopo::TwytchEngine* synth,
+                                const CriticalSection& critical_section,
+                                var state) {
+  mopo::control_map controls = synth->getControls();
   DynamicObject* object_state = state.getDynamicObject();
 
-  ScopedLock lock(*critical_section_);
+  ScopedLock lock(critical_section);
   NamedValueSet properties = object_state->getProperties();
   int size = properties.size();
   for (int i = 0; i < size; ++i) {
@@ -55,7 +59,7 @@ void TwytchLoadSave::varToState(var state) {
     }
   }
 
-  synth_->clearModulations();
+  synth->clearModulations();
   Array<var>* modulations = object_state->getProperty("modulations").getArray();
   var* modulation = modulations->begin();
   for (; modulation != modulations->end(); ++modulation) {
@@ -64,9 +68,6 @@ void TwytchLoadSave::varToState(var state) {
     std::string destination = mod->getProperty("destination").toString().toStdString();
     mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
     connection->amount.set(mod->getProperty("amount"));
-    synth_->connectModulation(connection);
+    synth->connectModulation(connection);
   }
-
-  // gui_->setAllValues(controls_);
-  // gui_->setModulationConnections(synth->getModulationConnections());
 }
