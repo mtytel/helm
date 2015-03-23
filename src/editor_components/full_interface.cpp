@@ -387,8 +387,7 @@ void FullInterface::changeModulator(std::string source) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
-                 parentClasses="public Component, public DragAndDropContainer"
-                 constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
+                 parentClasses="public Component" constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff392054">
