@@ -39,7 +39,6 @@ WaveFormSelector::WaveFormSelector (int resolution)
     resolution_ = resolution;
     wave_state_ = nullptr;
     setOpaque(true);
-    setFramesPerSecond(FRAMES_PER_SECOND);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -170,8 +169,10 @@ void WaveFormSelector::sliderValueChanged(Slider* sliderThatWasMoved) {
 void WaveFormSelector::showRealtimeFeedback() {
     if (wave_state_ == nullptr) {
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        if (parent)
+        if (parent) {
             wave_state_ = parent->getModSource(getName().toStdString());
+            setFramesPerSecond(FRAMES_PER_SECOND);
+        }
     }
 }
 
