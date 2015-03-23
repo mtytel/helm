@@ -724,7 +724,7 @@
     <ClCompile Include="..\..\mopo\src\wave.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\common\synth_gui_interface.cpp">
+    <ClCompile Include="..\..\src\common\midi_manager.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\twytch_load_save.cpp">
@@ -2477,6 +2477,9 @@
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
       <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common\midi_manager.h">
+      <Filter>Twytch\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h">
       <Filter>Twytch\src\common</Filter>

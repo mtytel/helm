@@ -21,22 +21,18 @@
 
 #include "full_interface.h"
 #include "memory.h"
-#include "save_load_manager.h"
+#include "midi_manager.h"
+#include "twytch_computer_keyboard.h"
 #include "twytch_engine.h"
 #include "twytch_look_and_feel.h"
 #include "synth_gui_interface.h"
 
 class TwytchStandaloneEditor : public AudioAppComponent,
-                               public KeyListener,
                                public MessageListener,
-                               public MidiInputCallback,
-                               public SaveLoadManager,
                                public SynthGuiInterface {
   public:
     TwytchStandaloneEditor();
     ~TwytchStandaloneEditor();
-
-    void changeKeyboardOffset(int new_offset);
 
     // AudioAppComponent
     void prepareToPlay(int buffer_size, double sample_rate) override;
@@ -45,19 +41,8 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     void paint(Graphics& g) override;
     void resized() override;
 
-    // KeyListener
-    bool keyPressed(const KeyPress &key, Component *origin) override;
-    bool keyStateChanged(bool isKeyDown, Component *originatingComponent) override;
-
     // MessageListener
     void handleMessage(const Message& message) override;
-
-    // MidiInputCallback
-    void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
-
-    // SaveLoadManager
-    var stateToVar() override;
-    void varToState(var state) override;
 
     // SynthGuiInterface
     void valueChanged(std::string name, mopo::mopo_float value) override;
@@ -74,13 +59,15 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     CriticalSection critical_section_;
     TwytchLookAndFeel look_and_feel_;
     mopo::control_map controls_;
-    mopo::Memory* output_memory_;
+    ScopedPointer<mopo::Memory> output_memory_;
 
     ScopedPointer<FullInterface> gui_;
 
     std::set<char> keys_pressed_;
     int computer_keyboard_offset_;
-    std::unique_ptr<MidiInput> midi_input_;
+    ScopedPointer<MidiInput> midi_input_;
+    ScopedPointer<MidiManager> midi_manager_;
+    ScopedPointer<TwytchComputerKeyboard> computer_keyboard_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchStandaloneEditor)
 };

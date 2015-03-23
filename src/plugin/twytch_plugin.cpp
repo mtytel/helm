@@ -23,6 +23,7 @@
 
 TwytchPlugin::TwytchPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
+  midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
 }
 
 TwytchPlugin::~TwytchPlugin() { }
@@ -124,25 +125,8 @@ void TwytchPlugin::processMidi(juce::MidiBuffer& midi_messages) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
   int midi_sample_position = 0;
-  while (midi_iter.getNextEvent(midi_message, midi_sample_position)) {
-    if (midi_message.isNoteOn()) {
-      float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
-      synth_.noteOn(midi_message.getNoteNumber(), velocity, midi_sample_position);
-    }
-    else if (midi_message.isNoteOff())
-      synth_.noteOff(midi_message.getNoteNumber(), midi_sample_position);
-    else if (midi_message.isSustainPedalOn())
-      synth_.sustainOn();
-    else if (midi_message.isSustainPedalOff())
-      synth_.sustainOff();
-    else if (midi_message.isPitchWheel()) {
-      double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
-      double value = 2 * percent - 1.0;
-      synth_.setPitchWheel(value);
-    }
-    else if (midi_message.isAllNotesOff())
-      synth_.allNotesOff();
-  }
+  while (midi_iter.getNextEvent(midi_message, midi_sample_position))
+    midi_manager_->processMidiMessage(midi_message, midi_sample_position);
 }
 
 void TwytchPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {

@@ -14,25 +14,31 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_LOAD_SAVE_H
-#define TWYTCH_LOAD_SAVE_H
+#ifndef TWYTCH_COMPUTER_KEYBOARD_H
+#define TWYTCH_COMPUTER_KEYBOARD_H
 
 #include "JuceHeader.h"
 
 #include "twytch_engine.h"
 
-class TwytchLoadSave {
+class TwytchComputerKeyboard : public KeyListener {
   public:
-    TwytchLoadSave(mopo::TwytchEngine* synth, CriticalSection* critical_section) :
-        synth_(synth), critical_section_(critical_section) { }
-    virtual ~TwytchLoadSave() { }
+    TwytchComputerKeyboard(mopo::TwytchEngine* synth, const CriticalSection* critical_section);
+    ~TwytchComputerKeyboard();
 
-    var stateToVar();
-    void varToState(var state);
+    void changeKeyboardOffset(int new_offset);
+
+    // KeyListener
+    bool keyPressed(const KeyPress &key, Component *origin) override;
+    bool keyStateChanged(bool isKeyDown, Component *originatingComponent) override;
 
   private:
     mopo::TwytchEngine* synth_;
-    CriticalSection* critical_section_;
+    const CriticalSection* critical_section_;
+    std::set<char> keys_pressed_;
+    int computer_keyboard_offset_;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchComputerKeyboard)
 };
 
-#endif  // TWYTCH_LOAD_SAVE_H
+#endif  // TWYTCH_COMPUTER_KEYBOARD_H

@@ -25,7 +25,7 @@
 
 class SynthGuiInterface {
   public:
-    SynthGuiInterface() : armed_range_(1.0, 1.0) { }
+    SynthGuiInterface() { }
     virtual ~SynthGuiInterface() { }
 
     virtual void valueChanged(std::string name, mopo::mopo_float value) = 0;
@@ -35,17 +35,6 @@ class SynthGuiInterface {
     virtual void enterCriticalSection() = 0;
     virtual void exitCriticalSection() = 0;
     virtual mopo::Processor::Output* getModSource(std::string name) = 0;
-
-    void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
-    void cancelMidiLearn();
-    void clearMidiLearn(std::string name);
-    void midiInput(int control, mopo::mopo_float value);
-
-  protected:
-    std::string control_armed_;
-    std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;
-    std::map<int, std::string> midi_learn_map_;
-    std::map<int, std::pair<mopo::mopo_float, mopo::mopo_float>> midi_learn_range_map_;
 };
 
 #endif // SYNTH_GUI_INTERFACE_H

@@ -80,7 +80,7 @@ OBJECTS := \
   $(OBJDIR)/value_76b325dc.o \
   $(OBJDIR)/voice_handler_49cbc5a8.o \
   $(OBJDIR)/wave_9cd47038.o \
-  $(OBJDIR)/synth_gui_interface_6337839d.o \
+  $(OBJDIR)/midi_manager_80d96a0e.o \
   $(OBJDIR)/twytch_load_save_2bb30cb9.o \
   $(OBJDIR)/audio_viewer_5832a371.o \
   $(OBJDIR)/filter_response_7394009c.o \
@@ -98,6 +98,7 @@ OBJECTS := \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
   $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o \
   $(OBJDIR)/main_b7ad981e.o \
+  $(OBJDIR)/twytch_computer_keyboard_dc84e874.o \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
   $(OBJDIR)/switch_871b185e.o \
   $(OBJDIR)/twytch_engine_90779dde.o \
@@ -281,9 +282,9 @@ $(OBJDIR)/wave_9cd47038.o: ../../../mopo/src/wave.cpp
 	@echo "Compiling wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
+$(OBJDIR)/midi_manager_80d96a0e.o: ../../../src/common/midi_manager.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling synth_gui_interface.cpp"
+	@echo "Compiling midi_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_load_save_2bb30cb9.o: ../../../src/common/twytch_load_save.cpp
@@ -369,6 +370,11 @@ $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o: ../../../src/look_and_feel/twytch_loo
 $(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling main.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_computer_keyboard_dc84e874.o: ../../../src/standalone/twytch_computer_keyboard.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_computer_keyboard.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o: ../../../src/standalone/twytch_standalone_editor.cpp

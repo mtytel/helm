@@ -19,24 +19,20 @@
 #include "mopo.h"
 #include "utils.h"
 
-#define PITCH_WHEEL_RESOLUTION 0x3fff
 #define NUM_CHANNELS 2
 
 #define WIDTH 1000
 #define HEIGHT 800
-#define DEFAULT_KEYBOARD_OFFSET 48
-#define KEYBOARD "awsedftgyhujkolp;'"
 #define MAX_OUTPUT_MEMORY 1048576
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {
+  midi_manager_ = new MidiManager(&synth_, &critical_section_);
+  computer_keyboard_ = new TwytchComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   setAudioChannels(0, NUM_CHANNELS);
-  postMessage(new Message());
-
-  computer_keyboard_offset_ = DEFAULT_KEYBOARD_OFFSET;
 
   int midi_index = MidiInput::getDefaultDeviceIndex();
-  midi_input_.reset(MidiInput::openDevice(midi_index, this));
+  midi_input_ = MidiInput::openDevice(midi_index, midi_manager_);
   if (midi_input_.get())
     midi_input_->start();
 
@@ -52,21 +48,12 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
 
   grabKeyboardFocus();
   setWantsKeyboardFocus(true);
-  addKeyListener(this);
+  addKeyListener(computer_keyboard_);
+  postMessage(new Message());
 }
 
 TwytchStandaloneEditor::~TwytchStandaloneEditor() {
   shutdownAudio();
-}
-
-void TwytchStandaloneEditor::changeKeyboardOffset(int new_offset) {
-  for (int i = 0; i < strlen(KEYBOARD); ++i) {
-    int note = computer_keyboard_offset_ + i;
-    synth_.noteOff(note);
-    keys_pressed_.erase(KEYBOARD[i]);
-  }
-
-  computer_keyboard_offset_ = CLAMP(new_offset, 0, mopo::MIDI_SIZE - mopo::NOTES_PER_OCTAVE);
 }
 
 void TwytchStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
@@ -108,78 +95,6 @@ void TwytchStandaloneEditor::resized() {
   gui_->setBounds(0, 0, getWidth(), getHeight());
 }
 
-bool TwytchStandaloneEditor::keyPressed(const KeyPress &key, Component *origin) {
-  return false;
-}
-
-bool TwytchStandaloneEditor::keyStateChanged(bool isKeyDown, Component *originatingComponent) {
-  bool consumed = false;
-  ScopedLock lock(critical_section_);
-  for (int i = 0; i < strlen(KEYBOARD); ++i) {
-    int note = computer_keyboard_offset_ + i;
-
-    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && !keys_pressed_.count(KEYBOARD[i])) {
-      keys_pressed_.insert(KEYBOARD[i]);
-      synth_.noteOn(note);
-    }
-    else if (!KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && keys_pressed_.count(KEYBOARD[i])) {
-      keys_pressed_.erase(KEYBOARD[i]);
-      synth_.noteOff(note);
-    }
-    consumed = true;
-  }
-
-  if (KeyPress::isKeyCurrentlyDown('z')) {
-    if (!keys_pressed_.count('z')) {
-      keys_pressed_.insert('z');
-      changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
-    }
-  }
-  else
-    keys_pressed_.erase('z');
-
-  if (KeyPress::isKeyCurrentlyDown('x')) {
-    if (!keys_pressed_.count('x')) {
-      keys_pressed_.insert('x');
-      changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
-    }
-  }
-  else
-    keys_pressed_.erase('x');
-
-  return consumed;
-}
-
-void TwytchStandaloneEditor::handleIncomingMidiMessage(MidiInput *source,
-                                                       const MidiMessage &midi_message) {
-  ScopedLock lock(critical_section_);
-  if (midi_message.isNoteOn()) {
-    float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
-    synth_.noteOn(midi_message.getNoteNumber(), velocity);
-  }
-  else if (midi_message.isNoteOff())
-    synth_.noteOff(midi_message.getNoteNumber());
-  else if (midi_message.isSustainPedalOn())
-    synth_.sustainOn();
-  else if (midi_message.isSustainPedalOff())
-    synth_.sustainOff();
-  else if (midi_message.isAllNotesOff())
-    synth_.allNotesOff();
-  else if (midi_message.isAftertouch()) {
-    mopo::mopo_float note = midi_message.getNoteNumber();
-    mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
-    synth_.setAftertouch(note, value);
-  }
-  else if (midi_message.isPitchWheel()) {
-    double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
-    double value = 2 * percent - 1.0;
-    synth_.setPitchWheel(value);
-  }
-  else if (midi_message.isController()) {
-    midiInput(midi_message.getControllerNumber(), midi_message.getControllerValue());
-  }
-}
-
 void TwytchStandaloneEditor::valueChanged(std::string name, mopo::mopo_float value) {
   if (controls_.count(name))
     controls_[name]->set(value);
@@ -197,61 +112,6 @@ void TwytchStandaloneEditor::disconnectModulation(mopo::ModulationConnection* co
 
 int TwytchStandaloneEditor::getNumActiveVoices() {
   return synth_.getNumActiveVoices();
-}
-
-var TwytchStandaloneEditor::stateToVar() {
-  mopo::control_map controls = synth_.getControls();
-  DynamicObject* state_object = new DynamicObject();
-
-  for (auto control : controls)
-    state_object->setProperty(String(control.first), control.second->value());
-
-  std::set<mopo::ModulationConnection*> modulations = synth_.getModulationConnections();
-  Array<var> modulation_states;
-  for (mopo::ModulationConnection* connection: modulations) {
-    DynamicObject* mod_object = new DynamicObject();
-    mod_object->setProperty("source", connection->source.c_str());
-    mod_object->setProperty("destination", connection->destination.c_str());
-    mod_object->setProperty("amount", connection->amount.value());
-    modulation_states.add(mod_object);
-  }
-
-  state_object->setProperty("modulations", modulation_states);
-  return state_object;
-}
-
-void TwytchStandaloneEditor::varToState(var state) {
-  mopo::control_map controls = synth_.getControls();
-  DynamicObject* object_state = state.getDynamicObject();
-
-  ScopedLock lock(critical_section_);
-  NamedValueSet properties = object_state->getProperties();
-  int size = properties.size();
-  for (int i = 0; i < size; ++i) {
-    Identifier id = properties.getName(i);
-    if (id.isValid()) {
-      std::string name = id.toString().toStdString();
-      if (controls.count(name)) {
-        mopo::mopo_float value = properties.getValueAt(i);
-        controls[name]->set(value);
-      }
-    }
-  }
-
-  synth_.clearModulations();
-  Array<var>* modulations = object_state->getProperty("modulations").getArray();
-  var* modulation = modulations->begin();
-  for (; modulation != modulations->end(); ++modulation) {
-    DynamicObject* mod = modulation->getDynamicObject();
-    std::string source = mod->getProperty("source").toString().toStdString();
-    std::string destination = mod->getProperty("destination").toString().toStdString();
-    mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
-    connection->amount.set(mod->getProperty("amount"));
-    synth_.connectModulation(connection);
-  }
-
-  gui_->setAllValues(controls_);
-  gui_->setModulationConnections(synth_.getModulationConnections());
 }
 
 mopo::Processor::Output* TwytchStandaloneEditor::getModSource(std::string name) {

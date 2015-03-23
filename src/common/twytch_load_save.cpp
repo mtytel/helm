@@ -16,14 +16,14 @@
 
 #include "twytch_load_save.h"
 
-var TwytchLoadSave::stateToVar(mopo::TwytchEngine* synth) {
-  mopo::control_map controls = synth->getControls();
+var TwytchLoadSave::stateToVar() {
+  mopo::control_map controls = synth_->getControls();
   DynamicObject* state_object = new DynamicObject();
 
   for (auto control : controls)
     state_object->setProperty(String(control.first), control.second->value());
 
-  std::set<mopo::ModulationConnection*> modulations = synth->getModulationConnections();
+  std::set<mopo::ModulationConnection*> modulations = synth_->getModulationConnections();
   Array<var> modulation_states;
   for (mopo::ModulationConnection* connection: modulations) {
     DynamicObject* mod_object = new DynamicObject();
@@ -37,11 +37,11 @@ var TwytchLoadSave::stateToVar(mopo::TwytchEngine* synth) {
   return state_object;
 }
 
-void TwytchLoadSave::varToState(mopo::TwytchEngine* synth, var state) {
-  mopo::control_map controls = synth->getControls();
+void TwytchLoadSave::varToState(var state) {
+  mopo::control_map controls = synth_->getControls();
   DynamicObject* object_state = state.getDynamicObject();
 
-  // ScopedLock lock(critical_section_);
+  ScopedLock lock(*critical_section_);
   NamedValueSet properties = object_state->getProperties();
   int size = properties.size();
   for (int i = 0; i < size; ++i) {
@@ -55,7 +55,7 @@ void TwytchLoadSave::varToState(mopo::TwytchEngine* synth, var state) {
     }
   }
 
-  synth->clearModulations();
+  synth_->clearModulations();
   Array<var>* modulations = object_state->getProperty("modulations").getArray();
   var* modulation = modulations->begin();
   for (; modulation != modulations->end(); ++modulation) {
@@ -64,7 +64,7 @@ void TwytchLoadSave::varToState(mopo::TwytchEngine* synth, var state) {
     std::string destination = mod->getProperty("destination").toString().toStdString();
     mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
     connection->amount.set(mod->getProperty("amount"));
-    synth->connectModulation(connection);
+    synth_->connectModulation(connection);
   }
 
   // gui_->setAllValues(controls_);

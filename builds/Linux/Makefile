@@ -164,7 +164,7 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
-  $(OBJDIR)/synth_gui_interface_bde2c2e.o \
+  $(OBJDIR)/midi_manager_e9b5d29d.o \
   $(OBJDIR)/twytch_load_save_87fa95c8.o \
   $(OBJDIR)/audio_viewer_85409b82.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
@@ -787,9 +787,9 @@ $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	@echo "Compiling wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synth_gui_interface_bde2c2e.o: ../../src/common/synth_gui_interface.cpp
+$(OBJDIR)/midi_manager_e9b5d29d.o: ../../src/common/midi_manager.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling synth_gui_interface.cpp"
+	@echo "Compiling midi_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_load_save_87fa95c8.o: ../../src/common/twytch_load_save.cpp

@@ -160,7 +160,7 @@
     <ClCompile Include="..\..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\wave.cpp"/>
-    <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp"/>
+    <ClCompile Include="..\..\..\src\common\midi_manager.cpp"/>
     <ClCompile Include="..\..\..\src\common\twytch_load_save.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\audio_viewer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\twytch_look_and_feel.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\main.cpp"/>
+    <ClCompile Include="..\..\..\src\standalone\twytch_computer_keyboard.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_engine.cpp"/>
@@ -1345,6 +1346,7 @@
     <ClInclude Include="..\..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\..\mopo\src\wave.h"/>
+    <ClInclude Include="..\..\..\src\common\midi_manager.h"/>
     <ClInclude Include="..\..\..\src\common\synth_gui_interface.h"/>
     <ClInclude Include="..\..\..\src\common\twytch_common.h"/>
     <ClInclude Include="..\..\..\src\common\twytch_load_save.h"/>
@@ -1364,6 +1366,7 @@
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\modulation_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\twytch_look_and_feel.h"/>
+    <ClInclude Include="..\..\..\src\standalone\twytch_computer_keyboard.h"/>
     <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h"/>
     <ClInclude Include="..\..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_engine.h"/>

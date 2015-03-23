@@ -418,7 +418,7 @@
     <ClCompile Include="..\..\..\mopo\src\wave.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp">
+    <ClCompile Include="..\..\..\src\common\midi_manager.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\common\twytch_load_save.cpp">
@@ -470,6 +470,9 @@
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\standalone\main.cpp">
+      <Filter>Twytch\src\standalone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\standalone\twytch_computer_keyboard.cpp">
       <Filter>Twytch\src\standalone</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp">
@@ -1818,6 +1821,9 @@
     <ClInclude Include="..\..\..\mopo\src\wave.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\common\midi_manager.h">
+      <Filter>Twytch\src\common</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\common\synth_gui_interface.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
@@ -1874,6 +1880,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\twytch_look_and_feel.h">
       <Filter>Twytch\src\look_and_feel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\standalone\twytch_computer_keyboard.h">
+      <Filter>Twytch\src\standalone</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h">
       <Filter>Twytch\src\standalone</Filter>
