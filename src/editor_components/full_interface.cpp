@@ -86,7 +86,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_sync_->setColour (ToggleButton::textColourId, Colours::white);
 
     addAndMakeVisible (beats_per_minute_ = new TwytchSlider ("beats_per_minute"));
-    beats_per_minute_->setRange (20, 800, 0);
+    beats_per_minute_->setRange (20, 300, 0);
     beats_per_minute_->setSliderStyle (Slider::LinearBar);
     beats_per_minute_->setTextBoxStyle (Slider::TextBoxAbove, false, 150, 20);
     beats_per_minute_->setColour (Slider::backgroundColourId, Colours::black);
@@ -450,7 +450,7 @@ BEGIN_JUCER_METADATA
                 state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="800 624 150 32"
-          bkgcol="ff000000" textboxtext="ffffffff" min="20" max="800" int="0"
+          bkgcol="ff000000" textboxtext="ffffffff" min="20" max="300" int="0"
           style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
           textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
