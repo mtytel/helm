@@ -2520,9 +2520,6 @@
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\editor_components\save_load_manager.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>

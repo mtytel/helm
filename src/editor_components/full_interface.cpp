@@ -18,7 +18,6 @@
 */
 
 //[Headers] You can add your own extra header files here...
-#include "save_load_manager.h"
 #include "twytch_engine.h"
 #include "twytch_common.h"
 #include "synth_gui_interface.h"
@@ -269,8 +268,8 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
 
             var parsed_json_state;
             if (JSON::parse(load_file.loadFileAsString(), parsed_json_state).wasOk()) {
-                SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
-                parent->varToState(parsed_json_state);
+                SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+                parent->loadFromVar(parsed_json_state);
             }
         }
         //[/UserButtonCode_load_button_]
@@ -291,9 +290,9 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
         FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
         FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
         if (save_dialog.show()) {
-            SaveLoadManager* parent = findParentComponentOfClass<SaveLoadManager>();
+            SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
             File save_file = browser.getSelectedFile(0);
-            save_file.replaceWithText(JSON::toString(parent->stateToVar()));
+            save_file.replaceWithText(JSON::toString(parent->saveToVar()));
         }
         //[/UserButtonCode_save_button_]
     }

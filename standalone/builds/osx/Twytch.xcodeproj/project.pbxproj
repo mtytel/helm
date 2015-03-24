@@ -519,7 +519,6 @@
 		69BBAA48768816AC5E44327A /* juce_BorderSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_BorderSize.h; path = ../../../../srcs/JUCE/modules/juce_graphics/geometry/juce_BorderSize.h; sourceTree = SOURCE_ROOT; };
 		69E0F2A33BA1EAADDEFDE6DD /* juce_ZipFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ZipFile.cpp; path = ../../../../srcs/JUCE/modules/juce_core/zip/juce_ZipFile.cpp; sourceTree = SOURCE_ROOT; };
 		69E458D0831EDCBD6A86F168 /* juce_WildcardFileFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_WildcardFileFilter.h; path = ../../../../srcs/JUCE/modules/juce_core/files/juce_WildcardFileFilter.h; sourceTree = SOURCE_ROOT; };
-		6A1E9E61593A768B73384258 /* save_load_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = save_load_manager.h; path = ../../../src/editor_components/save_load_manager.h; sourceTree = SOURCE_ROOT; };
 		6A30D47E6E3843A87BEC2DB6 /* twytch_oscillators.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = twytch_oscillators.cpp; path = ../../../src/synthesis/twytch_oscillators.cpp; sourceTree = SOURCE_ROOT; };
 		6A9B4556C6B6FDF91E9B99A4 /* juce_AnimatedPositionBehaviours.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AnimatedPositionBehaviours.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/layout/juce_AnimatedPositionBehaviours.h; sourceTree = SOURCE_ROOT; };
 		6AA57FA2C13E036A55FC905C /* wave.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wave.cpp; path = ../../../mopo/src/wave.cpp; sourceTree = SOURCE_ROOT; };
@@ -2687,7 +2686,6 @@
 				8FFD2D4637AAF2BE4D5FF7A8 /* modulation_slider.h */,
 				27FDAA766CFDD7306B3BE0ED /* oscilloscope.cpp */,
 				D0AB98316AA966E8AA33993A /* oscilloscope.h */,
-				6A1E9E61593A768B73384258 /* save_load_manager.h */,
 				1DADAC33C54918F031763AB5 /* synthesis_interface.cpp */,
 				1DC02F3BDC844ADCBC082FE8 /* synthesis_interface.h */,
 				3580BACF3DCF047BE51707F7 /* twytch_slider.cpp */,

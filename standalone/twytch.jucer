@@ -137,8 +137,6 @@
         <FILE id="GKIniw" name="oscilloscope.cpp" compile="1" resource="0"
               file="../src/editor_components/oscilloscope.cpp"/>
         <FILE id="AMolKW" name="oscilloscope.h" compile="0" resource="0" file="../src/editor_components/oscilloscope.h"/>
-        <FILE id="pkcLLQ" name="save_load_manager.h" compile="0" resource="0"
-              file="../src/editor_components/save_load_manager.h"/>
         <FILE id="mo2hyt" name="synthesis_interface.cpp" compile="1" resource="0"
               file="../src/editor_components/synthesis_interface.cpp"/>
         <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
