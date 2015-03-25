@@ -543,10 +543,10 @@
                vst3Folder="~/srcs/VST3 SDK" rtasFolder="~/SDKs/PT_80_SDK" aaxFolder="~/srcs/AAX"
                extraDefs="" customPList="">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="twytch" headerPath="../../src&#10;../../src/editor_components"
                        linkTimeOptimisation="0" fastMath="0"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="default"
                        isDebug="0" optimisation="2" targetName="twytch" headerPath="../../src&#10;../../src/editor_components"
                        fastMath="1" linkTimeOptimisation="0"/>
       </CONFIGURATIONS>
