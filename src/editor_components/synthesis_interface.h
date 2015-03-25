@@ -120,7 +120,6 @@ private:
     ScopedPointer<TwytchSlider> num_steps_;
     ScopedPointer<TwytchSlider> step_frequency_;
     ScopedPointer<TwytchSlider> mono_lfo_1_frequency_;
-    ScopedPointer<TwytchSlider> poly_lfo_frequency_;
     ScopedPointer<TwytchSlider> filter_saturation_;
     ScopedPointer<ToggleButton> formant_bypass_;
     ScopedPointer<TwytchSlider> legato_;
@@ -134,7 +133,6 @@ private:
     ScopedPointer<TextButton> amplitude_envelope_mod_;
     ScopedPointer<TextButton> step_sequencer_mod_;
     ScopedPointer<TextButton> mono_lfo_1_mod_;
-    ScopedPointer<TextButton> poly_lfo_mod_;
     ScopedPointer<TextButton> osc_1_mod_;
     ScopedPointer<TextButton> osc_2_mod_;
     ScopedPointer<TextButton> pitch_wheel_mod_;
@@ -146,14 +144,19 @@ private:
     ScopedPointer<TwytchSlider> delay_frequency_;
     ScopedPointer<WaveFormSelector> mono_lfo_2_wave_display_;
     ScopedPointer<TwytchSlider> mono_lfo_2_waveform_;
-    ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;
-    ScopedPointer<TextButton> mono_lfo_2_mod_;
     ScopedPointer<TwytchSlider> osc_1_transpose_;
     ScopedPointer<ToggleButton> mono_lfo_1_sync_;
-    ScopedPointer<ToggleButton> mono_lfo_2_sync_;
-    ScopedPointer<ToggleButton> poly_lfo_sync_;
     ScopedPointer<ToggleButton> step_sequencer_sync_;
     ScopedPointer<ToggleButton> delay_sync_;
+    ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
+    ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;
+    ScopedPointer<TextButton> mono_lfo_2_mod_;
+    ScopedPointer<ToggleButton> mono_lfo_2_sync_;
+    ScopedPointer<TwytchSlider> mono_lfo_2_amplitude_;
+    ScopedPointer<TwytchSlider> poly_lfo_frequency_;
+    ScopedPointer<TextButton> poly_lfo_mod_;
+    ScopedPointer<ToggleButton> poly_lfo_sync_;
+    ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
 
 
     //==============================================================================

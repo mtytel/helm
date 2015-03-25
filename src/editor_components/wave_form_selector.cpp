@@ -36,6 +36,7 @@ WaveFormSelector::WaveFormSelector (int resolution)
 
     //[UserPreSize]
     wave_slider_ = nullptr;
+    amplitude_slider_ = nullptr;
     resolution_ = resolution;
     wave_state_ = nullptr;
     setOpaque(true);
@@ -81,13 +82,15 @@ void WaveFormSelector::paint (Graphics& g)
 
     if (wave_state_) {
         float phase = wave_state_->buffer[0];
+        float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
+
         if (phase >= 0.0 && phase < 1.0) {
             float x = PADDING + phase * (getWidth() - 2 * PADDING);
             g.setColour(Colour(0x66ffffff));
             g.fillRect(x, 0.0f, 1.0f, (float)getHeight());
 
             mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
-            float value = mopo::Wave::wave(type, phase);
+            float value = amplitude * mopo::Wave::wave(type, phase);
             float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - value) / 2.0f;
             g.setColour(Colour(0xffffffff));
             g.fillEllipse(x - 2.0f, y - 2.0f, 4.0f, 4.0f);
@@ -141,12 +144,22 @@ void WaveFormSelector::setWaveSlider(Slider* slider) {
     repaint();
 }
 
+void WaveFormSelector::setAmplitudeSlider(Slider* slider) {
+    if (amplitude_slider_)
+        amplitude_slider_->removeListener(this);
+    amplitude_slider_ = slider;
+    amplitude_slider_->addListener(this);
+    resetWavePath();
+    repaint();
+}
+
 void WaveFormSelector::resetWavePath() {
     wave_path_.clear();
 
     if (wave_slider_ == nullptr)
         return;
 
+    float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
     float draw_width = getWidth() - 2.0f * PADDING;
     float draw_height = getHeight() - 2.0f * PADDING;
 
@@ -154,7 +167,7 @@ void WaveFormSelector::resetWavePath() {
     mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
     for (int i = 1; i < resolution_ - 1; ++i) {
         float t = (1.0f * i) / resolution_;
-        float val = mopo::Wave::wave(type, t);
+        float val = amplitude * mopo::Wave::wave(type, t);
         wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
     }
 

@@ -48,6 +48,7 @@ namespace mopo {
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
     Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
                                                            false, false, kExponential);
+    Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", 1.0, false);
     Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
                                                        beats_per_second, false);
 
@@ -56,14 +57,20 @@ namespace mopo {
     lfo_1->plug(lfo_1_waveform, Oscillator::kWaveform);
     lfo_1->plug(lfo_1_frequency, Oscillator::kFrequency);
 
+    Multiply* scaled_lfo_1 = new Multiply();
+    scaled_lfo_1->plug(lfo_1, 0);
+    scaled_lfo_1->plug(lfo_1_free_amplitude, 1);
+
     addProcessor(lfo_1);
-    mod_sources_["mono_lfo_1"] = lfo_1->output();
+    addProcessor(scaled_lfo_1);
+    mod_sources_["mono_lfo_1"] = scaled_lfo_1->output();
     mod_sources_["mono_lfo_1_phase"] = lfo_1->output(Oscillator::kPhase);
 
     // Monophonic LFO 2.
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
     Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
                                                       false, false, kExponential);
+    Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", 1.0, false);
     Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
                                                        beats_per_second, false);
 
@@ -71,8 +78,13 @@ namespace mopo {
     lfo_2->plug(lfo_2_waveform, Oscillator::kWaveform);
     lfo_2->plug(lfo_2_frequency, Oscillator::kFrequency);
 
+    Multiply* scaled_lfo_2 = new Multiply();
+    scaled_lfo_2->plug(lfo_2, 0);
+    scaled_lfo_2->plug(lfo_2_free_amplitude, 1);
+
     addProcessor(lfo_2);
-    mod_sources_["mono_lfo_2"] = lfo_2->output();
+    addProcessor(scaled_lfo_2);
+    mod_sources_["mono_lfo_2"] = scaled_lfo_2->output();
     mod_sources_["mono_lfo_2_phase"] = lfo_2->output(Oscillator::kPhase);
 
     // Step Sequencer.

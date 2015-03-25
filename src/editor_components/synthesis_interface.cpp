@@ -311,14 +311,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     mono_lfo_1_frequency_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_frequency_ = new TwytchSlider ("poly_lfo_frequency"));
-    poly_lfo_frequency_->setRange (-7, 6, 0);
-    poly_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    poly_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    poly_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    poly_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    poly_lfo_frequency_->addListener (this);
-
     addAndMakeVisible (filter_saturation_ = new TwytchSlider ("filter_saturation"));
     filter_saturation_->setRange (0, 60, 0);
     filter_saturation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
@@ -395,10 +387,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_mod_->setButtonText (TRANS("M"));
     mono_lfo_1_mod_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_mod_ = new TextButton ("poly_lfo"));
-    poly_lfo_mod_->setButtonText (TRANS("M"));
-    poly_lfo_mod_->addListener (this);
-
     addAndMakeVisible (osc_1_mod_ = new TextButton ("osc_1"));
     osc_1_mod_->setButtonText (TRANS("M"));
     osc_1_mod_->addListener (this);
@@ -453,18 +441,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
     mono_lfo_2_waveform_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_2_frequency_ = new TwytchSlider ("mono_lfo_2_frequency"));
-    mono_lfo_2_frequency_->setRange (-7, 6, 0);
-    mono_lfo_2_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    mono_lfo_2_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    mono_lfo_2_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    mono_lfo_2_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    mono_lfo_2_frequency_->addListener (this);
-
-    addAndMakeVisible (mono_lfo_2_mod_ = new TextButton ("mono_lfo_2"));
-    mono_lfo_2_mod_->setButtonText (TRANS("M"));
-    mono_lfo_2_mod_->addListener (this);
-
     addAndMakeVisible (osc_1_transpose_ = new TwytchSlider ("osc_1_transpose"));
     osc_1_transpose_->setRange (-48, 48, 1);
     osc_1_transpose_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
@@ -477,14 +453,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_sync_->setButtonText (String::empty);
     mono_lfo_1_sync_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_2_sync_ = new ToggleButton ("mono_lfo_2_sync"));
-    mono_lfo_2_sync_->setButtonText (String::empty);
-    mono_lfo_2_sync_->addListener (this);
-
-    addAndMakeVisible (poly_lfo_sync_ = new ToggleButton ("poly_lfo_sync"));
-    poly_lfo_sync_->setButtonText (String::empty);
-    poly_lfo_sync_->addListener (this);
-
     addAndMakeVisible (step_sequencer_sync_ = new ToggleButton ("step_sequencer_sync"));
     step_sequencer_sync_->setButtonText (String::empty);
     step_sequencer_sync_->addListener (this);
@@ -492,6 +460,62 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (delay_sync_ = new ToggleButton ("delay_sync"));
     delay_sync_->setButtonText (String::empty);
     delay_sync_->addListener (this);
+
+    addAndMakeVisible (mono_lfo_1_amplitude_ = new TwytchSlider ("mono_lfo_1_amplitude"));
+    mono_lfo_1_amplitude_->setRange (0, 1, 0);
+    mono_lfo_1_amplitude_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_1_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    mono_lfo_1_amplitude_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    mono_lfo_1_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    mono_lfo_1_amplitude_->addListener (this);
+
+    addAndMakeVisible (mono_lfo_2_frequency_ = new TwytchSlider ("mono_lfo_2_frequency"));
+    mono_lfo_2_frequency_->setRange (-7, 6, 0);
+    mono_lfo_2_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_2_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    mono_lfo_2_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    mono_lfo_2_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    mono_lfo_2_frequency_->addListener (this);
+
+    addAndMakeVisible (mono_lfo_2_mod_ = new TextButton ("mono_lfo_2"));
+    mono_lfo_2_mod_->setButtonText (TRANS("M"));
+    mono_lfo_2_mod_->addListener (this);
+
+    addAndMakeVisible (mono_lfo_2_sync_ = new ToggleButton ("mono_lfo_2_sync"));
+    mono_lfo_2_sync_->setButtonText (String::empty);
+    mono_lfo_2_sync_->addListener (this);
+
+    addAndMakeVisible (mono_lfo_2_amplitude_ = new TwytchSlider ("mono_lfo_2_amplitude"));
+    mono_lfo_2_amplitude_->setRange (0, 1, 0);
+    mono_lfo_2_amplitude_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_2_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    mono_lfo_2_amplitude_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    mono_lfo_2_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    mono_lfo_2_amplitude_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_frequency_ = new TwytchSlider ("poly_lfo_frequency"));
+    poly_lfo_frequency_->setRange (-7, 6, 0);
+    poly_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    poly_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    poly_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    poly_lfo_frequency_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_mod_ = new TextButton ("poly_lfo"));
+    poly_lfo_mod_->setButtonText (TRANS("M"));
+    poly_lfo_mod_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_sync_ = new ToggleButton ("poly_lfo_sync"));
+    poly_lfo_sync_->setButtonText (String::empty);
+    poly_lfo_sync_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_amplitude_ = new TwytchSlider ("poly_lfo_amplitude"));
+    poly_lfo_amplitude_->setRange (0, 1, 0);
+    poly_lfo_amplitude_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    poly_lfo_amplitude_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    poly_lfo_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    poly_lfo_amplitude_->addListener (this);
 
 
     //[UserPreSize]
@@ -526,8 +550,10 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_wave_display_->setWaveSlider(osc_1_waveform_);
     osc_2_wave_display_->setWaveSlider(osc_2_waveform_);
     mono_lfo_1_wave_display_->setWaveSlider(mono_lfo_1_waveform_);
+    mono_lfo_1_wave_display_->setAmplitudeSlider(mono_lfo_1_amplitude_);
     mono_lfo_1_wave_display_->setName("mono_lfo_1_phase");
     mono_lfo_2_wave_display_->setWaveSlider(mono_lfo_2_waveform_);
+    mono_lfo_2_wave_display_->setAmplitudeSlider(mono_lfo_2_amplitude_);
     mono_lfo_2_wave_display_->setName("mono_lfo_2_phase");
     poly_lfo_wave_display_->setWaveSlider(poly_lfo_waveform_);
 
@@ -670,7 +696,6 @@ SynthesisInterface::~SynthesisInterface()
     num_steps_ = nullptr;
     step_frequency_ = nullptr;
     mono_lfo_1_frequency_ = nullptr;
-    poly_lfo_frequency_ = nullptr;
     filter_saturation_ = nullptr;
     formant_bypass_ = nullptr;
     legato_ = nullptr;
@@ -684,7 +709,6 @@ SynthesisInterface::~SynthesisInterface()
     amplitude_envelope_mod_ = nullptr;
     step_sequencer_mod_ = nullptr;
     mono_lfo_1_mod_ = nullptr;
-    poly_lfo_mod_ = nullptr;
     osc_1_mod_ = nullptr;
     osc_2_mod_ = nullptr;
     pitch_wheel_mod_ = nullptr;
@@ -696,14 +720,19 @@ SynthesisInterface::~SynthesisInterface()
     delay_frequency_ = nullptr;
     mono_lfo_2_wave_display_ = nullptr;
     mono_lfo_2_waveform_ = nullptr;
-    mono_lfo_2_frequency_ = nullptr;
-    mono_lfo_2_mod_ = nullptr;
     osc_1_transpose_ = nullptr;
     mono_lfo_1_sync_ = nullptr;
-    mono_lfo_2_sync_ = nullptr;
-    poly_lfo_sync_ = nullptr;
     step_sequencer_sync_ = nullptr;
     delay_sync_ = nullptr;
+    mono_lfo_1_amplitude_ = nullptr;
+    mono_lfo_2_frequency_ = nullptr;
+    mono_lfo_2_mod_ = nullptr;
+    mono_lfo_2_sync_ = nullptr;
+    mono_lfo_2_amplitude_ = nullptr;
+    poly_lfo_frequency_ = nullptr;
+    poly_lfo_mod_ = nullptr;
+    poly_lfo_sync_ = nullptr;
+    poly_lfo_amplitude_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -868,7 +897,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                508, 604, 44, 20,
+                500, 622, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffd4b0e0));
@@ -1041,20 +1070,38 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xffd4b0e0));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("FREQ"),
-                628, 604, 44, 20,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xffd4b0e0));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("FREQ"),
-                748, 604, 44, 20,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xffd4b0e0));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FILTER ENVELOPE DEPTH"),
                 304, 484, 128, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("AMP"),
+                460, 622, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("FREQ"),
+                620, 622, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("AMP"),
+                580, 622, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("FREQ"),
+                740, 622, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("AMP"),
+                700, 622, 44, 20,
                 Justification::centred, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -1106,8 +1153,7 @@ void SynthesisInterface::resized()
     mono_lfo_1_waveform_->setBounds (440, 528, 96, 14);
     num_steps_->setBounds (480, 464, 40, 40);
     step_frequency_->setBounds (616, 464, 40, 40);
-    mono_lfo_1_frequency_->setBounds (480, 600, 40, 40);
-    poly_lfo_frequency_->setBounds (720, 600, 40, 40);
+    mono_lfo_1_frequency_->setBounds (504, 592, 40, 40);
     filter_saturation_->setBounds (352, 320, 50, 50);
     formant_bypass_->setBounds (0, 512, 120, 24);
     legato_->setBounds (224, 692, 64, 16);
@@ -1120,8 +1166,7 @@ void SynthesisInterface::resized()
     filter_envelope_mod_->setBounds (432, 80, 24, 24);
     amplitude_envelope_mod_->setBounds (432, 248, 24, 24);
     step_sequencer_mod_->setBounds (432, 408, 24, 24);
-    mono_lfo_1_mod_->setBounds (440, 608, 24, 24);
-    poly_lfo_mod_->setBounds (680, 608, 24, 24);
+    mono_lfo_1_mod_->setBounds (432, 600, 24, 24);
     osc_1_mod_->setBounds (16, 184, 24, 24);
     osc_2_mod_->setBounds (392, 184, 24, 24);
     pitch_wheel_mod_->setBounds (24, 736, 24, 24);
@@ -1133,14 +1178,19 @@ void SynthesisInterface::resized()
     delay_frequency_->setBounds (432, 664, 50, 50);
     mono_lfo_2_wave_display_->setBounds (560, 542, 96, 48);
     mono_lfo_2_waveform_->setBounds (560, 528, 96, 14);
-    mono_lfo_2_frequency_->setBounds (600, 600, 40, 40);
-    mono_lfo_2_mod_->setBounds (560, 608, 24, 24);
     osc_1_transpose_->setBounds (48, 176, 50, 50);
-    mono_lfo_1_sync_->setBounds (520, 616, 24, 24);
-    mono_lfo_2_sync_->setBounds (640, 616, 24, 24);
-    poly_lfo_sync_->setBounds (760, 616, 24, 24);
+    mono_lfo_1_sync_->setBounds (532, 620, 24, 24);
     step_sequencer_sync_->setBounds (664, 480, 24, 24);
     delay_sync_->setBounds (424, 704, 24, 24);
+    mono_lfo_1_amplitude_->setBounds (464, 592, 40, 40);
+    mono_lfo_2_frequency_->setBounds (624, 592, 40, 40);
+    mono_lfo_2_mod_->setBounds (552, 600, 24, 24);
+    mono_lfo_2_sync_->setBounds (652, 620, 24, 24);
+    mono_lfo_2_amplitude_->setBounds (584, 592, 40, 40);
+    poly_lfo_frequency_->setBounds (744, 592, 40, 40);
+    poly_lfo_mod_->setBounds (672, 600, 24, 24);
+    poly_lfo_sync_->setBounds (772, 620, 24, 24);
+    poly_lfo_amplitude_->setBounds (704, 592, 40, 40);
     //[UserResized] Add your own custom resize handling here..
     step_sequencer_tempo_->setBounds(step_frequency_->getBounds());
     mono_lfo_1_tempo_->setBounds(mono_lfo_1_frequency_->getBounds());
@@ -1323,11 +1373,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_mono_lfo_1_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_mono_lfo_1_frequency_]
     }
-    else if (sliderThatWasMoved == poly_lfo_frequency_)
-    {
-        //[UserSliderCode_poly_lfo_frequency_] -- add your slider handling code here..
-        //[/UserSliderCode_poly_lfo_frequency_]
-    }
     else if (sliderThatWasMoved == filter_saturation_)
     {
         //[UserSliderCode_filter_saturation_] -- add your slider handling code here..
@@ -1373,15 +1418,35 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_mono_lfo_2_waveform_] -- add your slider handling code here..
         //[/UserSliderCode_mono_lfo_2_waveform_]
     }
+    else if (sliderThatWasMoved == osc_1_transpose_)
+    {
+        //[UserSliderCode_osc_1_transpose_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_transpose_]
+    }
+    else if (sliderThatWasMoved == mono_lfo_1_amplitude_)
+    {
+        //[UserSliderCode_mono_lfo_1_amplitude_] -- add your slider handling code here..
+        //[/UserSliderCode_mono_lfo_1_amplitude_]
+    }
     else if (sliderThatWasMoved == mono_lfo_2_frequency_)
     {
         //[UserSliderCode_mono_lfo_2_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_mono_lfo_2_frequency_]
     }
-    else if (sliderThatWasMoved == osc_1_transpose_)
+    else if (sliderThatWasMoved == mono_lfo_2_amplitude_)
     {
-        //[UserSliderCode_osc_1_transpose_] -- add your slider handling code here..
-        //[/UserSliderCode_osc_1_transpose_]
+        //[UserSliderCode_mono_lfo_2_amplitude_] -- add your slider handling code here..
+        //[/UserSliderCode_mono_lfo_2_amplitude_]
+    }
+    else if (sliderThatWasMoved == poly_lfo_frequency_)
+    {
+        //[UserSliderCode_poly_lfo_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_frequency_]
+    }
+    else if (sliderThatWasMoved == poly_lfo_amplitude_)
+    {
+        //[UserSliderCode_poly_lfo_amplitude_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_amplitude_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -1466,11 +1531,6 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_mono_lfo_1_mod_] -- add your button handler code here..
         //[/UserButtonCode_mono_lfo_1_mod_]
     }
-    else if (buttonThatWasClicked == poly_lfo_mod_)
-    {
-        //[UserButtonCode_poly_lfo_mod_] -- add your button handler code here..
-        //[/UserButtonCode_poly_lfo_mod_]
-    }
     else if (buttonThatWasClicked == osc_1_mod_)
     {
         //[UserButtonCode_osc_1_mod_] -- add your button handler code here..
@@ -1506,25 +1566,10 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_aftertouch_mod_] -- add your button handler code here..
         //[/UserButtonCode_aftertouch_mod_]
     }
-    else if (buttonThatWasClicked == mono_lfo_2_mod_)
-    {
-        //[UserButtonCode_mono_lfo_2_mod_] -- add your button handler code here..
-        //[/UserButtonCode_mono_lfo_2_mod_]
-    }
     else if (buttonThatWasClicked == mono_lfo_1_sync_)
     {
         //[UserButtonCode_mono_lfo_1_sync_] -- add your button handler code here..
         //[/UserButtonCode_mono_lfo_1_sync_]
-    }
-    else if (buttonThatWasClicked == mono_lfo_2_sync_)
-    {
-        //[UserButtonCode_mono_lfo_2_sync_] -- add your button handler code here..
-        //[/UserButtonCode_mono_lfo_2_sync_]
-    }
-    else if (buttonThatWasClicked == poly_lfo_sync_)
-    {
-        //[UserButtonCode_poly_lfo_sync_] -- add your button handler code here..
-        //[/UserButtonCode_poly_lfo_sync_]
     }
     else if (buttonThatWasClicked == step_sequencer_sync_)
     {
@@ -1535,6 +1580,26 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_delay_sync_] -- add your button handler code here..
         //[/UserButtonCode_delay_sync_]
+    }
+    else if (buttonThatWasClicked == mono_lfo_2_mod_)
+    {
+        //[UserButtonCode_mono_lfo_2_mod_] -- add your button handler code here..
+        //[/UserButtonCode_mono_lfo_2_mod_]
+    }
+    else if (buttonThatWasClicked == mono_lfo_2_sync_)
+    {
+        //[UserButtonCode_mono_lfo_2_sync_] -- add your button handler code here..
+        //[/UserButtonCode_mono_lfo_2_sync_]
+    }
+    else if (buttonThatWasClicked == poly_lfo_mod_)
+    {
+        //[UserButtonCode_poly_lfo_mod_] -- add your button handler code here..
+        //[/UserButtonCode_poly_lfo_mod_]
+    }
+    else if (buttonThatWasClicked == poly_lfo_sync_)
+    {
+        //[UserButtonCode_poly_lfo_sync_] -- add your button handler code here..
+        //[/UserButtonCode_poly_lfo_sync_]
     }
 
     //[UserbuttonClicked_Post]
@@ -1697,7 +1762,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="676 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="POLY LFO"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="508 604 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+    <TEXT pos="500 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="436 4 140 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER ENVELOPE"
@@ -1782,13 +1847,22 @@ BEGIN_JUCER_METADATA
     <TEXT pos="556 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="MONO LFO 2"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="628 604 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="748 604 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
     <TEXT pos="304 484 128 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER ENVELOPE DEPTH"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="460 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="620 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="580 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="740 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="700 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
@@ -1974,12 +2048,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_frequency" id="ebc4a57528113c39" memberName="mono_lfo_1_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="480 600 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
-          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="poly_lfo_frequency" id="41dc8f7fbc0e8586" memberName="poly_lfo_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="720 600 40 40"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="504 592 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2033,10 +2102,7 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="432 408 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="mono_lfo_1" id="1ea938f771b995ba" memberName="mono_lfo_1_mod_"
-              virtualName="" explicitFocusOrder="0" pos="440 608 24 24" buttonText="M"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="poly_lfo" id="db902bdbd3d218a6" memberName="poly_lfo_mod_"
-              virtualName="" explicitFocusOrder="0" pos="680 608 24 24" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="432 600 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="osc_1" id="4dcc36c544b0bbf7" memberName="osc_1_mod_" virtualName=""
               explicitFocusOrder="0" pos="16 184 24 24" buttonText="M" connectedEdges="0"
@@ -2077,27 +2143,13 @@ BEGIN_JUCER_METADATA
           bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <SLIDER name="mono_lfo_2_frequency" id="2367ff3311d37806" memberName="mono_lfo_2_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="600 600 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
-          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <TEXTBUTTON name="mono_lfo_2" id="f62fd0363da4f3a6" memberName="mono_lfo_2_mod_"
-              virtualName="" explicitFocusOrder="0" pos="560 608 24 24" buttonText="M"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="48 176 50 50"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="mono_lfo_1_sync" id="ab29827e97077bb3" memberName="mono_lfo_1_sync_"
-                virtualName="" explicitFocusOrder="0" pos="520 616 24 24" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
-  <TOGGLEBUTTON name="mono_lfo_2_sync" id="8590601e4f38107a" memberName="mono_lfo_2_sync_"
-                virtualName="" explicitFocusOrder="0" pos="640 616 24 24" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
-  <TOGGLEBUTTON name="poly_lfo_sync" id="eb06cf065ff5cbe4" memberName="poly_lfo_sync_"
-                virtualName="" explicitFocusOrder="0" pos="760 616 24 24" buttonText=""
+                virtualName="" explicitFocusOrder="0" pos="532 620 24 24" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <TOGGLEBUTTON name="step_sequencer_sync" id="36872088faa7a11" memberName="step_sequencer_sync_"
                 virtualName="" explicitFocusOrder="0" pos="664 480 24 24" buttonText=""
@@ -2105,6 +2157,43 @@ BEGIN_JUCER_METADATA
   <TOGGLEBUTTON name="delay_sync" id="5dec1a6032af38fd" memberName="delay_sync_"
                 virtualName="" explicitFocusOrder="0" pos="424 704 24 24" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <SLIDER name="mono_lfo_1_amplitude" id="d7524692ca1d9110" memberName="mono_lfo_1_amplitude_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="464 592 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="mono_lfo_2_frequency" id="1b17dd2b0ad5e56" memberName="mono_lfo_2_frequency_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="624 592 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TEXTBUTTON name="mono_lfo_2" id="c487df9f9aa001d1" memberName="mono_lfo_2_mod_"
+              virtualName="" explicitFocusOrder="0" pos="552 600 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TOGGLEBUTTON name="mono_lfo_2_sync" id="62359a18e2083999" memberName="mono_lfo_2_sync_"
+                virtualName="" explicitFocusOrder="0" pos="652 620 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <SLIDER name="mono_lfo_2_amplitude" id="3488a618964f4aca" memberName="mono_lfo_2_amplitude_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="584 592 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="poly_lfo_frequency" id="43f630409a863915" memberName="poly_lfo_frequency_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="744 592 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TEXTBUTTON name="poly_lfo" id="31707de3e73853ab" memberName="poly_lfo_mod_"
+              virtualName="" explicitFocusOrder="0" pos="672 600 24 24" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TOGGLEBUTTON name="poly_lfo_sync" id="8246c09f7c504dd1" memberName="poly_lfo_sync_"
+                virtualName="" explicitFocusOrder="0" pos="772 620 24 24" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+  <SLIDER name="poly_lfo_amplitude" id="8eab6f740a7988c1" memberName="poly_lfo_amplitude_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="704 592 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

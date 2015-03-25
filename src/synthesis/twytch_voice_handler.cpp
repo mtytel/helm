@@ -209,6 +209,7 @@ namespace mopo {
     Processor* lfo_waveform = createMonoModControl("poly_lfo_waveform", Wave::kSin, true);
     Processor* lfo_free_frequency = createPolyModControl("poly_lfo_frequency", 0.0,
                                                          false, false, kExponential);
+    Processor* lfo_free_amplitude = createPolyModControl("poly_lfo_amplitude", 1.0, false);
     Processor* lfo_frequency = createTempoSyncSwitch("poly_lfo", lfo_free_frequency,
                                                      beats_per_second_, true);
     Oscillator* lfo = new Oscillator();
@@ -216,8 +217,13 @@ namespace mopo {
     lfo->plug(lfo_waveform, Oscillator::kWaveform);
     lfo->plug(lfo_frequency, Oscillator::kFrequency);
 
+    Multiply* scaled_lfo = new Multiply();
+    scaled_lfo->plug(lfo, 0);
+    scaled_lfo->plug(lfo_free_amplitude, 1);
+
     addProcessor(lfo);
-    mod_sources_["poly_lfo"] = lfo->output();
+    addProcessor(scaled_lfo);
+    mod_sources_["poly_lfo"] = scaled_lfo->output();
   }
 
   void TwytchVoiceHandler::createFilter(

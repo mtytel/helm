@@ -48,6 +48,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void update() override;
     void setWaveSlider(Slider* slider);
+    void setAmplitudeSlider(Slider* slider);
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
     void showRealtimeFeedback();
@@ -62,6 +63,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     Slider* wave_slider_;
+    Slider* amplitude_slider_;
     mopo::Processor::Output* wave_state_;
     Path wave_path_;
     int resolution_;
