@@ -262,9 +262,10 @@ void GraphicalStepSequencer::showRealtimeFeedback() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GraphicalStepSequencer" componentName=""
-                 parentClasses="public Component, public SliderListener" constructorParams=""
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
+                 parentClasses="public AnimatedAppComponent, public SliderListener"
+                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
+                 initialHeight="400">
   <METHODS>
     <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
