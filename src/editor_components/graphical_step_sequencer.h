@@ -48,7 +48,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void update() override;
     void setNumStepsSlider(Slider* num_steps_slider);
-    void setStepSliders(std::vector<ScopedPointer<Slider> >* sliders);
+    void setStepSliders(std::vector<Slider*> sliders);
     void changeStep(const MouseEvent& e);
     int getHoveredStep(Point<int> position);
     void updateHover(int step_index);
@@ -74,7 +74,7 @@ private:
     int last_step_;
     Slider* num_steps_slider_;
     int highlighted_step_;
-    std::vector<ScopedPointer<Slider> >* sequence_;
+    std::vector<Slider*> sequence_;
     Point<int> last_edit_position_;
     //[/UserVariables]
 

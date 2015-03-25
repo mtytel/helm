@@ -71,7 +71,7 @@ private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     std::map<std::string, TwytchSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
-    std::vector<ScopedPointer<Slider>> step_sequencer_sliders_;
+    std::vector<Slider*> step_sequencer_sliders_;
     ScopedPointer<TwytchSlider> step_sequencer_tempo_;
     ScopedPointer<TwytchSlider> mono_lfo_1_tempo_;
     ScopedPointer<TwytchSlider> mono_lfo_2_tempo_;

@@ -195,9 +195,9 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="builds/osx">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="default"
                        isDebug="1" optimisation="1" targetName="Twytch" headerPath="../../../src&#10;../../../src/editor_components"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="default"
                        isDebug="0" optimisation="2" targetName="Twytch" headerPath="../../../src&#10;../../../src/editor_components"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

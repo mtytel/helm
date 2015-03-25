@@ -621,7 +621,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
         step_sequencer_sliders_.push_back(step);
         slider_lookup_[step->getName().toStdString()] = step;
     }
-    step_sequencer_->setStepSliders(&step_sequencer_sliders_);
+    step_sequencer_->setStepSliders(step_sequencer_sliders_);
     step_sequencer_->setNumStepsSlider(num_steps_);
     step_sequencer_->setName("step_sequencer_step");
 
@@ -736,6 +736,8 @@ SynthesisInterface::~SynthesisInterface()
 
 
     //[Destructor]. You can add your own custom destruction code here..
+    for (Slider* slider : step_sequencer_sliders_)
+      delete slider;
     //[/Destructor]
 }
 

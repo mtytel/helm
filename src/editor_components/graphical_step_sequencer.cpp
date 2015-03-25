@@ -36,7 +36,6 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
     num_steps_slider_ = nullptr;
     step_generator_output_ = nullptr;
     last_step_ = -1;
-    sequence_ = nullptr;
     highlighted_step_ = -1;
     num_steps_ = 1;
     setOpaque(true);
@@ -65,7 +64,7 @@ GraphicalStepSequencer::~GraphicalStepSequencer()
 void GraphicalStepSequencer::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-    if (sequence_ == nullptr || num_steps_slider_ == nullptr)
+    if (sequence_.size() == 0 || num_steps_slider_ == nullptr)
         return;
     //[/UserPrePaint]
 
@@ -79,7 +78,7 @@ void GraphicalStepSequencer::paint (Graphics& g)
 
     float x = 0.0f;
     for (int i = 0; i < num_steps_; ++i) {
-        float val = sequence_->at(i)->getValue();
+        float val = sequence_[i]->getValue();
         float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
         if (val >= 0) {
             g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0,
@@ -167,10 +166,10 @@ void GraphicalStepSequencer::update() {
     }
 }
 
-void GraphicalStepSequencer::setStepSliders(std::vector<ScopedPointer<Slider> >* sliders) {
+void GraphicalStepSequencer::setStepSliders(std::vector<Slider*> sliders) {
     sequence_ = sliders;
-    for (int i = 0; i < sliders->size(); ++i)
-        sequence_->at(i)->addListener(this);
+    for (int i = 0; i < sliders.size(); ++i)
+        sequence_[i]->addListener(this);
     repaint();
 }
 
@@ -221,7 +220,7 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
     for (int step = selected_step; step != from_step + direction; step += direction) {
         if (step >= 0 && step < num_steps_) {
             float new_value = -2.0f * y / getHeight() + 1.0f;
-            sequence_->at(step)->setValue(std::max(std::min(new_value, 1.0f), -1.0f));
+            sequence_[step]->setValue(std::max(std::min(new_value, 1.0f), -1.0f));
         }
         y += inc_x * slope;
         inc_x = direction * getWidth() * 1.0f / num_steps_;

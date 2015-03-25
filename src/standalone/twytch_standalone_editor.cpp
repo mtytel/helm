@@ -42,7 +42,7 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
                            synth_.getModulationSources(),
                            synth_.getMonoModulations(),
                            synth_.getPolyModulations());
-  gui_->setOutputMemory(output_memory_);
+  gui_->setOutputMemory(output_memory_.get());
   gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);

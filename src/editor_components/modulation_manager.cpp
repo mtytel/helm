@@ -77,7 +77,6 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
             meter_lookup_[name] = meter;
             meter->setName(name);
             meter->setBounds(slider.second->getBounds());
-            meters_.push_back(meter);
         }
     }
     //[/UserPreSize]
@@ -97,6 +96,10 @@ ModulationManager::~ModulationManager()
 
 
     //[Destructor]. You can add your own custom destruction code here..
+    for (auto meter : meter_lookup_)
+        delete meter.second;
+    for (Slider* slider : owned_sliders_)
+        delete slider;
     //[/Destructor]
 }
 
@@ -125,9 +128,9 @@ void ModulationManager::resized()
                                  model->getWidth(), model->getHeight());
     }
 
-    for (ModulationMeter* meter : meters_) {
-        meter->setBounds(slider_model_lookup_[meter->getName().toStdString()]->getBounds());
-        meter->setVisible(slider_model_lookup_[meter->getName().toStdString()]->isVisible());
+    for (auto meter : meter_lookup_) {
+        meter.second->setBounds(slider_model_lookup_[meter.first]->getBounds());
+        meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
     }
     //[/UserResized]
 }
@@ -143,9 +146,9 @@ void ModulationManager::timerCallback() {
 
     int num_voices = parent->getNumActiveVoices();
 
-    for (ModulationMeter* meter : meters_) {
-        meter->setVisible(slider_model_lookup_[meter->getName().toStdString()]->isVisible());
-        meter->update(num_voices);
+    for (auto meter : meter_lookup_) {
+        meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
+        meter.second->update(num_voices);
     }
 }
 

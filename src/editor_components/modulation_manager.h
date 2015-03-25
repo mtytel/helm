@@ -77,9 +77,8 @@ private:
 
     std::map<std::string, Slider*> slider_lookup_;
     std::map<std::string, TwytchSlider*> slider_model_lookup_;
-    std::vector<ScopedPointer<Slider>> owned_sliders_;
+    std::vector<Slider*> owned_sliders_;
 
-    std::vector<ScopedPointer<ModulationMeter>> meters_;
     std::map<std::string, ModulationMeter*> meter_lookup_;
     mopo::output_map modulation_sources_;
     //[/UserVariables]
