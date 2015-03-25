@@ -239,6 +239,10 @@ namespace mopo {
     voice_handler_->setAftertouch(note, value, sample);
   }
 
+  void TwytchEngine::setBpm(mopo_float bpm) {
+    controls_["beats_per_minute"]->set(bpm);
+  }
+
   void TwytchEngine::sustainOn() {
     voice_handler_->sustainOn();
   }

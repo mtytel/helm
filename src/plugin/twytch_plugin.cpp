@@ -134,6 +134,9 @@ void TwytchPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_mess
 
   int num_samples = buffer.getNumSamples();
   int num_channels = getNumOutputChannels();
+  juce::AudioPlayHead::CurrentPositionInfo position_info;
+  getPlayHead()->getCurrentPosition(position_info);
+  synth_.setBpm(position_info.bpm);
 
   if (synth_.getBufferSize() != num_samples)
     synth_.setBufferSize(num_samples);

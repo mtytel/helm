@@ -47,6 +47,7 @@ namespace mopo {
       void noteOff(mopo_float note, int sample = 0);
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
+      void setBpm(mopo_float bpm);
       void setAftertouch(mopo_float note, mopo_float value, int sample = 0);
 
       // Sustain pedal events.
