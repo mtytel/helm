@@ -170,6 +170,7 @@ OBJECTS := \
   $(OBJDIR)/audio_viewer_85409b82.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
   $(OBJDIR)/full_interface_ddba7cf0.o \
+  $(OBJDIR)/global_tool_tip_6b9e5053.o \
   $(OBJDIR)/graphical_envelope_46db2063.o \
   $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
   $(OBJDIR)/modulation_manager_329c97d1.o \
@@ -816,6 +817,11 @@ $(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_respons
 $(OBJDIR)/full_interface_ddba7cf0.o: ../../src/editor_components/full_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling full_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/global_tool_tip_6b9e5053.o: ../../src/editor_components/global_tool_tip.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling global_tool_tip.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/graphical_envelope_46db2063.o: ../../src/editor_components/graphical_envelope.cpp

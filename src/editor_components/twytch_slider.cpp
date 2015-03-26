@@ -16,6 +16,7 @@
 
 #include "twytch_slider.h"
 #include "synth_gui_interface.h"
+#include "full_interface.h"
 
 namespace {
     enum MenuIds {
@@ -52,5 +53,22 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
         else if (result == kDefaultValue) {
             setValue(getDoubleClickReturnValue());
         }
+    }
+}
+
+void TwytchSlider::mouseEnter(const juce::MouseEvent &e) {
+    notifyTooltip();
+}
+
+void TwytchSlider::valueChanged() {
+    Slider::valueChanged();
+    notifyTooltip();
+}
+
+void TwytchSlider::notifyTooltip() {
+    if (!parent_)
+        parent_ = findParentComponentOfClass<FullInterface>();
+    if (parent_) {
+        parent_->setToolTipText(getName(), getTextFromValue(getValue()));
     }
 }

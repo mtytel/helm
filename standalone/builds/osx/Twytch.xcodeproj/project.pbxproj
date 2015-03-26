@@ -65,6 +65,7 @@
 		A6581B90D55BC2DFCD3EF708 /* full_interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4FF6642F75D8ED7D418E9A1 /* full_interface.cpp */; };
 		A8DDE74D74BCA4D7390DA1DD /* arpeggiator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C86484A81E0D6F2B735DFF7 /* arpeggiator.cpp */; };
 		AA326DFAC7E3A606439D0B5E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399573306D5863E703547480 /* Accelerate.framework */; };
+		B2AFABF78A86B9E736855665 /* global_tool_tip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42A5670D847045FAB2F2330C /* global_tool_tip.cpp */; };
 		B2B3D03E7B3A14BE350B23A3 /* filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C08FA72158D702D9541E8E10 /* filter.cpp */; };
 		B9AE06E63E2B41354C2D5ABB /* modulation_meter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6707B3252800086D1661DDB0 /* modulation_meter.cpp */; };
 		BF4D7969E2CD53ACEB198573 /* modulation_look_and_feel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80456C10D08ACA89192FBF88 /* modulation_look_and_feel.cpp */; };
@@ -347,6 +348,7 @@
 		414FAA3F790A31E63FD05AEA /* juce_NativeMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_NativeMessageBox.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/windows/juce_NativeMessageBox.h; sourceTree = SOURCE_ROOT; };
 		41E8AEB34BF6BC635640EBAE /* juce_win32_Network.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_win32_Network.cpp; path = ../../../../srcs/JUCE/modules/juce_core/native/juce_win32_Network.cpp; sourceTree = SOURCE_ROOT; };
 		42854F6EC5A41FC738C5CEA2 /* juce_win32_Windowing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_win32_Windowing.cpp; path = ../../../../srcs/JUCE/modules/juce_gui_basics/native/juce_win32_Windowing.cpp; sourceTree = SOURCE_ROOT; };
+		42A5670D847045FAB2F2330C /* global_tool_tip.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = global_tool_tip.cpp; path = ../../../src/editor_components/global_tool_tip.cpp; sourceTree = SOURCE_ROOT; };
 		42B97355A6FB17D517E4BEB8 /* juce_MidiKeyboardComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MidiKeyboardComponent.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_utils/gui/juce_MidiKeyboardComponent.cpp; sourceTree = SOURCE_ROOT; };
 		42C3AA9EE3FE66330C68FA16 /* juce_ColourSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ColourSelector.cpp; path = ../../../../srcs/JUCE/modules/juce_gui_extra/misc/juce_ColourSelector.cpp; sourceTree = SOURCE_ROOT; };
 		42FAE2D0F60856D693CA2CC4 /* juce_ReferenceCountedArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ReferenceCountedArray.h; path = ../../../../srcs/JUCE/modules/juce_core/containers/juce_ReferenceCountedArray.h; sourceTree = SOURCE_ROOT; };
@@ -1029,6 +1031,7 @@
 		ED3057860C89A96FE490C638 /* formant_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = formant_manager.h; path = ../../../mopo/src/formant_manager.h; sourceTree = SOURCE_ROOT; };
 		ED381CD1BB398292043529BC /* juce_FileSearchPathListComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_FileSearchPathListComponent.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/filebrowser/juce_FileSearchPathListComponent.h; sourceTree = SOURCE_ROOT; };
 		ED3A6BF41179B3EA45B2DB05 /* bit_crush.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = bit_crush.cpp; path = ../../../mopo/src/bit_crush.cpp; sourceTree = SOURCE_ROOT; };
+		ED7CEA9F9F1CFAC1F8F4701F /* global_tool_tip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = global_tool_tip.h; path = ../../../src/editor_components/global_tool_tip.h; sourceTree = SOURCE_ROOT; };
 		ED8972F7D69E2EF21341904B /* juce_DialogWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_DialogWindow.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/windows/juce_DialogWindow.h; sourceTree = SOURCE_ROOT; };
 		ED9586F5E55D773EAB7314F5 /* juce_OptionalScopedPointer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_OptionalScopedPointer.h; path = ../../../../srcs/JUCE/modules/juce_core/memory/juce_OptionalScopedPointer.h; sourceTree = SOURCE_ROOT; };
 		EDD6859B5031A399F92DD826 /* juce_BubbleMessageComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BubbleMessageComponent.cpp; path = ../../../../srcs/JUCE/modules/juce_gui_extra/misc/juce_BubbleMessageComponent.cpp; sourceTree = SOURCE_ROOT; };
@@ -2674,6 +2677,8 @@
 				75BAE02153D3AB612C1BDA00 /* filter_response.h */,
 				B4FF6642F75D8ED7D418E9A1 /* full_interface.cpp */,
 				82AC32E88EB01360A0DAC6A3 /* full_interface.h */,
+				42A5670D847045FAB2F2330C /* global_tool_tip.cpp */,
+				ED7CEA9F9F1CFAC1F8F4701F /* global_tool_tip.h */,
 				5F9899B64E3573BE7EC39C86 /* graphical_envelope.cpp */,
 				0D2583EB7D55B3BA6FB183A6 /* graphical_envelope.h */,
 				934CAD9B6E1DBD263C6BF9A1 /* graphical_step_sequencer.cpp */,
@@ -3138,6 +3143,7 @@
 				51894D89062419B5916DC7A1 /* audio_viewer.cpp in Sources */,
 				F899359DAB7673BD37CA8E79 /* filter_response.cpp in Sources */,
 				A6581B90D55BC2DFCD3EF708 /* full_interface.cpp in Sources */,
+				B2AFABF78A86B9E736855665 /* global_tool_tip.cpp in Sources */,
 				C6B114765F53838F9F412E9C /* graphical_envelope.cpp in Sources */,
 				DF0A787E57227B88E92ED2B5 /* graphical_step_sequencer.cpp in Sources */,
 				A45FBBC642FEA47781A70FFA /* modulation_manager.cpp in Sources */,

@@ -463,6 +463,10 @@
               file="src/editor_components/full_interface.cpp"/>
         <FILE id="wMecW2" name="full_interface.h" compile="0" resource="0"
               file="src/editor_components/full_interface.h"/>
+        <FILE id="Mr6qbN" name="global_tool_tip.cpp" compile="1" resource="0"
+              file="src/editor_components/global_tool_tip.cpp"/>
+        <FILE id="hourxm" name="global_tool_tip.h" compile="0" resource="0"
+              file="src/editor_components/global_tool_tip.h"/>
         <FILE id="tAT6Ed" name="graphical_envelope.cpp" compile="1" resource="0"
               file="src/editor_components/graphical_envelope.cpp"/>
         <FILE id="sENd7I" name="graphical_envelope.h" compile="0" resource="0"
@@ -567,7 +571,8 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2012 targetFolder="builds/vs12" vstFolder="c:\SDKs\vstsdk2.4" vst3Folder="c:\SDKs\VST3 SDK">
+    <VS2012 targetFolder="builds/vs12" vstFolder="c:\SDKs\vstsdk2.4" vst3Folder="c:\SDKs\VST3 SDK"
+            aaxFolder="c:\SDKs\AAX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="twytch"/>
@@ -591,7 +596,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
-    <LINUX_MAKE targetFolder="builds/linux">
+    <LINUX_MAKE targetFolder="builds/linux" vstFolder="~/SDKs/vstsdk2.4" vst3Folder="~/SDKs/VST3 SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="twytch"/>

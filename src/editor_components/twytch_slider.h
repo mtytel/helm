@@ -19,17 +19,23 @@
 
 #include "JuceHeader.h"
 
+class FullInterface;
+
 class TwytchSlider : public Slider {
 public:
-    TwytchSlider(String name) : Slider(name), bipolar_(false) { }
+    TwytchSlider(String name) : Slider(name), bipolar_(false), parent_(nullptr) { }
 
     void mouseDown(const MouseEvent& e) override;
+    void mouseEnter(const MouseEvent& e) override;
+    void valueChanged() override;
 
     void setBipolar(bool bipolar = true) { bipolar_ = bipolar; }
     bool isBipolar() const { return bipolar_; }
 
 private:
+    void notifyTooltip();
     bool bipolar_;
+    FullInterface* parent_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchSlider)
 };

@@ -93,6 +93,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     beats_per_minute_->setColour (Slider::textBoxTextColourId, Colours::white);
     beats_per_minute_->addListener (this);
 
+    addAndMakeVisible (global_tool_tip_ = new GlobalToolTip());
 
     //[UserPreSize]
     arp_tempo_ = new TwytchSlider("arp_tempo");
@@ -143,6 +144,7 @@ FullInterface::~FullInterface()
     save_button_ = nullptr;
     arp_sync_ = nullptr;
     beats_per_minute_ = nullptr;
+    global_tool_tip_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -184,7 +186,7 @@ void FullInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbf9bc7));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("BPM"),
-                796, 612, 36, 12,
+                796, 564, 36, 12,
                 Justification::centred, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -207,7 +209,8 @@ void FullInterface::resized()
     arp_on_->setBounds (808, 80, 48, 24);
     save_button_->setBounds (800, 40, 150, 24);
     arp_sync_->setBounds (872, 160, 24, 24);
-    beats_per_minute_->setBounds (800, 624, 150, 32);
+    beats_per_minute_->setBounds (800, 576, 150, 32);
+    global_tool_tip_->setBounds (800, 640, 144, 48);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -373,6 +376,11 @@ void FullInterface::changeModulator(std::string source) {
     modulation_manager_->changeModulator(source);
 }
 
+void FullInterface::setToolTipText(String parameter, String value) {
+    if (global_tool_tip_)
+        global_tool_tip_->setText(parameter, value);
+}
+
 //[/MiscUserCode]
 
 
@@ -402,7 +410,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="876 252 60 20" fill="solid: ffbf9bc7" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="796 612 36 12" fill="solid: ffbf9bc7" hasStroke="0" text="BPM"
+    <TEXT pos="796 564 36 12" fill="solid: ffbf9bc7" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
   </BACKGROUND>
@@ -449,10 +457,13 @@ BEGIN_JUCER_METADATA
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="800 624 150 32"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="800 576 150 32"
           bkgcol="ff000000" textboxtext="ffffffff" min="20" max="300" int="0"
           style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
           textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
+  <JUCERCOMP name="global_tool_tip" id="c501d8243c608e75" memberName="global_tool_tip_"
+             virtualName="" explicitFocusOrder="0" pos="800 640 144 48" sourceFile="global_tool_tip.cpp"
+             constructorParams=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

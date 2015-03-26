@@ -28,6 +28,7 @@
 #include "synthesis_interface.h"
 #include "oscilloscope.h"
 #include "audio_viewer.h"
+#include "global_tool_tip.h"
 
 
 //==============================================================================
@@ -60,6 +61,7 @@ public:
                                  mopo::output_map poly_modulations);
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     void changeModulator(std::string source);
+    void setToolTipText(String parameter, String value);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -91,6 +93,7 @@ private:
     ScopedPointer<TextButton> save_button_;
     ScopedPointer<ToggleButton> arp_sync_;
     ScopedPointer<TwytchSlider> beats_per_minute_;
+    ScopedPointer<GlobalToolTip> global_tool_tip_;
 
 
     //==============================================================================

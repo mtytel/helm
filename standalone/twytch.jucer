@@ -114,6 +114,10 @@
               file="../src/editor_components/full_interface.cpp"/>
         <FILE id="d7Az9b" name="full_interface.h" compile="0" resource="0"
               file="../src/editor_components/full_interface.h"/>
+        <FILE id="N9h6Xb" name="global_tool_tip.cpp" compile="1" resource="0"
+              file="../src/editor_components/global_tool_tip.cpp"/>
+        <FILE id="CtvkUD" name="global_tool_tip.h" compile="0" resource="0"
+              file="../src/editor_components/global_tool_tip.h"/>
         <FILE id="LenDmM" name="graphical_envelope.cpp" compile="1" resource="0"
               file="../src/editor_components/graphical_envelope.cpp"/>
         <FILE id="g8iXWR" name="graphical_envelope.h" compile="0" resource="0"
