@@ -52,10 +52,15 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void setSliderUnits();
+    void createTempoSliders();
+    void markBipolarSliders();
+    void setDefaultDoubleClickValues();
+    void createStepSequencerSliders();
+
     void setAllValues(mopo::control_map& controls);
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
-    void setDefaultDoubleClickValues();
 
     TwytchSlider* getSlider(std::string name);
     //[/UserMethods]

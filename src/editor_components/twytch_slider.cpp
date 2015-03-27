@@ -28,6 +28,11 @@ namespace {
 
 } // namespace
 
+TwytchSlider::TwytchSlider(String name) :
+    Slider(name), bipolar_(false), units_(""), scaling_type_(kLinear),
+    post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) { }
+
+
 void TwytchSlider::mouseDown(const MouseEvent& e) {
     Slider::mouseDown(e);
 
@@ -63,6 +68,26 @@ void TwytchSlider::mouseEnter(const juce::MouseEvent &e) {
 void TwytchSlider::valueChanged() {
     Slider::valueChanged();
     notifyTooltip();
+}
+
+String TwytchSlider::getTextFromValue(double value) {
+    if (scaling_type_ == kStringLookup)
+        return string_lookup_[(int)value];
+
+    float display_value = value;
+    switch (scaling_type_) {
+        case kPolynomial:
+            display_value = powf(display_value, 2.0f);
+            break;
+        case kExponential:
+            display_value = powf(2.0f, display_value);
+            break;
+        default:
+            break;
+    }
+    display_value *= post_multiply_;
+
+    return String(display_value) + " " + units_;
 }
 
 void TwytchSlider::notifyTooltip() {

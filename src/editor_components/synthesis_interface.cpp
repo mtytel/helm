@@ -519,20 +519,10 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
 
     //[UserPreSize]
-    osc_1_transpose_->setBipolar();
-    osc_1_tune_->setBipolar();
-    osc_2_transpose_->setBipolar();
-    osc_2_tune_->setBipolar();
-    osc_mix_->setBipolar();
-
-    osc_feedback_amount_->setBipolar();
-    osc_feedback_transpose_->setBipolar();
-    osc_feedback_tune_->setBipolar();
-
-    keytrack_->setBipolar();
-    fil_env_depth_->setBipolar();
-
-    delay_feedback_->setBipolar();
+    createTempoSliders();
+    setSliderUnits();
+    markBipolarSliders();
+    createStepSequencerSliders();
 
     resonance_->setSliderStyle(Slider::LinearBarVertical);
     formant_y_->setSliderStyle(Slider::LinearBarVertical);
@@ -556,74 +546,12 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_wave_display_->setAmplitudeSlider(mono_lfo_2_amplitude_);
     mono_lfo_2_wave_display_->setName("mono_lfo_2_phase");
     poly_lfo_wave_display_->setWaveSlider(poly_lfo_waveform_);
-
-    step_sequencer_tempo_ = new TwytchSlider("step_sequencer_tempo");
-    addAndMakeVisible(step_sequencer_tempo_);
-    int num_tempos = sizeof(mopo::synced_freq_ratios) / sizeof(mopo::mopo_float);
-    step_sequencer_tempo_->setRange(0, num_tempos - 1, 1);
-    step_sequencer_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-    step_sequencer_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-    step_sequencer_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-    step_sequencer_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
-    step_sequencer_tempo_->addListener(this);
-
-    mono_lfo_1_tempo_ = new TwytchSlider("mono_lfo_1_tempo");
-    addAndMakeVisible(mono_lfo_1_tempo_);
-    mono_lfo_1_tempo_->setRange(0, num_tempos - 1, 1);
-    mono_lfo_1_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-    mono_lfo_1_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-    mono_lfo_1_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-    mono_lfo_1_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
-    mono_lfo_1_tempo_->addListener(this);
-
-    mono_lfo_2_tempo_ = new TwytchSlider("mono_lfo_2_tempo");
-    addAndMakeVisible(mono_lfo_2_tempo_);
-    mono_lfo_2_tempo_->setRange(0, num_tempos - 1, 1);
-    mono_lfo_2_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-    mono_lfo_2_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-    mono_lfo_2_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-    mono_lfo_2_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
-    mono_lfo_2_tempo_->addListener(this);
-
-    poly_lfo_tempo_ = new TwytchSlider("poly_lfo_tempo");
-    addAndMakeVisible(poly_lfo_tempo_);
-    poly_lfo_tempo_->setRange(0, num_tempos - 1, 1);
-    poly_lfo_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-    poly_lfo_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-    poly_lfo_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-    poly_lfo_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
-    poly_lfo_tempo_->addListener(this);
-
-    delay_tempo_ = new TwytchSlider("delay_tempo");
-    addAndMakeVisible(delay_tempo_);
-    delay_tempo_->setRange(0, num_tempos - 1, 1);
-    delay_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-    delay_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-    delay_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-    delay_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
-    delay_tempo_->addListener(this);
-
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
 
     formant_xy_pad_->setXSlider(formant_x_);
     formant_xy_pad_->setYSlider(formant_y_);
-
-    for (int i = 0; i < num_steps_->getMaximum(); ++i) {
-        String num(i);
-        if (num.length() == 1)
-            num = String("0") + num;
-
-        TwytchSlider* step = new TwytchSlider(String("step_seq_") + num);
-        step->setRange(-1.0, 1.0);
-        step->addListener(this);
-        step_sequencer_sliders_.push_back(step);
-        slider_lookup_[step->getName().toStdString()] = step;
-    }
-    step_sequencer_->setStepSliders(step_sequencer_sliders_);
-    step_sequencer_->setNumStepsSlider(num_steps_);
-    step_sequencer_->setName("step_sequencer_step");
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
         TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
@@ -1612,24 +1540,128 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void SynthesisInterface::setAllValues(mopo::control_map& controls) {
-    for (auto slider : slider_lookup_) {
-        if (controls.count(slider.first))
-            slider.second->setValue(controls[slider.first]->value());
-    }
+void SynthesisInterface::createTempoSliders() {
+    step_sequencer_tempo_ = new TwytchSlider("step_sequencer_tempo");
+    addAndMakeVisible(step_sequencer_tempo_);
+    int num_tempos = sizeof(mopo::synced_freq_ratios) / sizeof(mopo::mopo_float);
+    step_sequencer_tempo_->setRange(0, num_tempos - 1, 1);
+    step_sequencer_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    step_sequencer_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    step_sequencer_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    step_sequencer_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    step_sequencer_tempo_->addListener(this);
 
-    for (auto button : button_lookup_) {
-        if (controls.count(button.first)) {
-            button.second->setToggleState((bool)controls[button.first]->value(),
-                                          NotificationType::sendNotification);
-        }
-    }
+    mono_lfo_1_tempo_ = new TwytchSlider("mono_lfo_1_tempo");
+    addAndMakeVisible(mono_lfo_1_tempo_);
+    mono_lfo_1_tempo_->setRange(0, num_tempos - 1, 1);
+    mono_lfo_1_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_1_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    mono_lfo_1_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    mono_lfo_1_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    mono_lfo_1_tempo_->addListener(this);
+
+    mono_lfo_2_tempo_ = new TwytchSlider("mono_lfo_2_tempo");
+    addAndMakeVisible(mono_lfo_2_tempo_);
+    mono_lfo_2_tempo_->setRange(0, num_tempos - 1, 1);
+    mono_lfo_2_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    mono_lfo_2_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    mono_lfo_2_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    mono_lfo_2_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    mono_lfo_2_tempo_->addListener(this);
+
+    poly_lfo_tempo_ = new TwytchSlider("poly_lfo_tempo");
+    addAndMakeVisible(poly_lfo_tempo_);
+    poly_lfo_tempo_->setRange(0, num_tempos - 1, 1);
+    poly_lfo_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    poly_lfo_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    poly_lfo_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    poly_lfo_tempo_->addListener(this);
+
+    delay_tempo_ = new TwytchSlider("delay_tempo");
+    addAndMakeVisible(delay_tempo_);
+    delay_tempo_->setRange(0, num_tempos - 1, 1);
+    delay_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+    delay_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    delay_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
+    delay_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    delay_tempo_->addListener(this);
 }
 
-void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
-                                  NotificationType notification) {
-    if (slider_lookup_.count(name))
-        slider_lookup_[name]->setValue(value, notification);
+void SynthesisInterface::setSliderUnits() {
+    osc_1_transpose_->setUnits("semitones");
+    osc_2_transpose_->setUnits("semitones");
+    osc_1_tune_->setPostMultiply(100.0);
+    osc_1_tune_->setUnits("cents");
+    osc_2_tune_->setPostMultiply(100.0);
+    osc_2_tune_->setUnits("cents");
+    osc_feedback_transpose_->setUnits("semitones");
+    osc_feedback_tune_->setUnits("cents");
+    osc_feedback_tune_->setPostMultiply(100.0);
+    filter_saturation_->setUnits("dB");
+    keytrack_->setUnits("%");
+    keytrack_->setPostMultiply(100.0);
+    fil_env_depth_->setUnits("semitones");
+    portamento_->setUnits("secs/semitone");
+    portamento_->setScalingType(TwytchSlider::kExponential);
+    pitch_bend_range_->setUnits("semitones");
+    polyphony_->setUnits("voices");
+
+    mono_lfo_1_frequency_->setUnits("Hz");
+    mono_lfo_2_frequency_->setUnits("Hz");
+    poly_lfo_frequency_->setUnits("Hz");
+    step_frequency_->setUnits("Hz");
+    delay_frequency_->setUnits("Hz");
+    mono_lfo_1_frequency_->setScalingType(TwytchSlider::kExponential);
+    mono_lfo_2_frequency_->setScalingType(TwytchSlider::kExponential);
+    poly_lfo_frequency_->setScalingType(TwytchSlider::kExponential);
+    step_frequency_->setScalingType(TwytchSlider::kExponential);
+    delay_frequency_->setScalingType(TwytchSlider::kExponential);
+
+    amp_attack_->setUnits("secs");
+    amp_decay_->setUnits("secs");
+    amp_release_->setUnits("secs");
+    fil_attack_->setUnits("secs");
+    fil_decay_->setUnits("secs");
+    fil_release_->setUnits("secs");
+    amp_attack_->setScalingType(TwytchSlider::kPolynomial);
+    amp_decay_->setScalingType(TwytchSlider::kPolynomial);
+    amp_release_->setScalingType(TwytchSlider::kPolynomial);
+    fil_attack_->setScalingType(TwytchSlider::kPolynomial);
+    fil_decay_->setScalingType(TwytchSlider::kPolynomial);
+    fil_release_->setScalingType(TwytchSlider::kPolynomial);
+
+    mono_lfo_1_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+    mono_lfo_2_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+    poly_lfo_frequency_->setStringLookup(mopo::strings::synced_frequencies);
+    step_sequencer_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+    delay_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+
+    legato_->setStringLookup(mopo::strings::off_on);
+    portamento_type_->setStringLookup(mopo::strings::off_auto_on);
+    
+    osc_1_waveform_->setStringLookup(mopo::strings::waveforms);
+    osc_2_waveform_->setStringLookup(mopo::strings::waveforms);
+    mono_lfo_1_waveform_->setStringLookup(mopo::strings::waveforms);
+    mono_lfo_2_waveform_->setStringLookup(mopo::strings::waveforms);
+    poly_lfo_waveform_->setStringLookup(mopo::strings::waveforms);
+}
+
+void SynthesisInterface::markBipolarSliders() {
+    osc_1_transpose_->setBipolar();
+    osc_1_tune_->setBipolar();
+    osc_2_transpose_->setBipolar();
+    osc_2_tune_->setBipolar();
+    osc_mix_->setBipolar();
+
+    osc_feedback_amount_->setBipolar();
+    osc_feedback_transpose_->setBipolar();
+    osc_feedback_tune_->setBipolar();
+
+    keytrack_->setBipolar();
+    fil_env_depth_->setBipolar();
+
+    delay_feedback_->setBipolar();
 }
 
 void SynthesisInterface::setDefaultDoubleClickValues() {
@@ -1679,6 +1711,43 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
     delay_dry_wet_->setDoubleClickReturnValue(true, 0.0f);
     delay_frequency_->setDoubleClickReturnValue(true, -3.0f);
     delay_feedback_->setDoubleClickReturnValue(true, 0.0f);
+}
+
+void SynthesisInterface::createStepSequencerSliders() {
+    for (int i = 0; i < num_steps_->getMaximum(); ++i) {
+        String num(i);
+        if (num.length() == 1)
+            num = String("0") + num;
+
+        TwytchSlider* step = new TwytchSlider(String("step_seq_") + num);
+        step->setRange(-1.0, 1.0);
+        step->addListener(this);
+        step_sequencer_sliders_.push_back(step);
+        slider_lookup_[step->getName().toStdString()] = step;
+    }
+    step_sequencer_->setStepSliders(step_sequencer_sliders_);
+    step_sequencer_->setNumStepsSlider(num_steps_);
+    step_sequencer_->setName("step_sequencer_step");
+}
+
+void SynthesisInterface::setAllValues(mopo::control_map& controls) {
+    for (auto slider : slider_lookup_) {
+        if (controls.count(slider.first))
+            slider.second->setValue(controls[slider.first]->value());
+    }
+
+    for (auto button : button_lookup_) {
+        if (controls.count(button.first)) {
+            button.second->setToggleState((bool)controls[button.first]->value(),
+                                          NotificationType::sendNotification);
+        }
+    }
+}
+
+void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
+                                  NotificationType notification) {
+    if (slider_lookup_.count(name))
+        slider_lookup_[name]->setValue(value, notification);
 }
 
 TwytchSlider* SynthesisInterface::getSlider(std::string name) {

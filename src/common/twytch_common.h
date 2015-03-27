@@ -27,6 +27,62 @@
 
 namespace mopo {
 
+  namespace strings {
+
+    const std::string off_on[] = {
+      "off",
+      "on"
+    };
+
+    const std::string off_auto_on[] = {
+      "off",
+      "auto",
+      "on"
+    };
+
+    const std::string waveforms[] = {
+      "sin",
+      "triangle",
+      "square",
+      "saw up",
+      "saw down",
+      "3 step",
+      "4 step",
+      "8 step",
+      "3 pyramid",
+      "5 pyramid",
+      "9 pyramid",
+      "white noise"
+    };
+
+    const std::string synced_frequencies[] = {
+      "1 / 32",
+      "1 / 16",
+      "1 / 12",
+      "1 / 8",
+      "1 / 7",
+      "1 / 6",
+      "3 / 16",
+      "1 / 5",
+      "1 / 4",
+      "1 / 3",
+      "3 / 8",
+      "1 / 2",
+      "2 / 3",
+      "3 / 4",
+      "4 / 4",
+      "4 / 3",
+      "3 / 2",
+      "2 / 1",
+      "3 / 1",
+      "4 / 1",
+      "6 / 1",
+      "8 / 1",
+      "12 / 1",
+      "16 / 1"
+    };
+  } // namespace strings
+
   const mopo_float MAX_STEPS = 32;
   const int NUM_FORMANTS = 4;
 
@@ -34,6 +90,7 @@ namespace mopo {
   typedef std::map<char, std::string> midi_learn_map;
   typedef std::map<std::string, Processor*> input_map;
   typedef std::map<std::string, Processor::Output*> output_map;
+
 
   const mopo::mopo_float synced_freq_ratios[] = {
     1.0 / 32.0,

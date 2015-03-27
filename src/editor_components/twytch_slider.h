@@ -23,18 +23,39 @@ class FullInterface;
 
 class TwytchSlider : public Slider {
 public:
-    TwytchSlider(String name) : Slider(name), bipolar_(false), parent_(nullptr) { }
+    enum ScalingType {
+        kLinear,
+        kPolynomial,
+        kExponential,
+        kStringLookup
+    };
+
+    TwytchSlider(String name);
 
     void mouseDown(const MouseEvent& e) override;
     void mouseEnter(const MouseEvent& e) override;
     void valueChanged() override;
+    String getTextFromValue(double value) override;
 
+    void setScalingType(ScalingType scaling_type) { scaling_type_ = scaling_type; }
+    void setStringLookup(const std::string* lookup) {
+        string_lookup_ = lookup;
+        scaling_type_ = kStringLookup;
+    }
+    void setPostMultiply(float post_multiply) { post_multiply_ = post_multiply; }
     void setBipolar(bool bipolar = true) { bipolar_ = bipolar; }
+    void setUnits(String units) { units_ = units; }
     bool isBipolar() const { return bipolar_; }
 
 private:
     void notifyTooltip();
+
     bool bipolar_;
+    String units_;
+    ScalingType scaling_type_;
+    float post_multiply_;
+    const std::string* string_lookup_;
+
     FullInterface* parent_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchSlider)
