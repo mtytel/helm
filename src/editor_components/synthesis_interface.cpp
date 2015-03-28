@@ -1599,13 +1599,18 @@ void SynthesisInterface::setSliderUnits() {
     osc_feedback_tune_->setUnits("cents");
     osc_feedback_tune_->setPostMultiply(100.0);
     filter_saturation_->setUnits("dB");
-    keytrack_->setUnits("%");
-    keytrack_->setPostMultiply(100.0);
+
     fil_env_depth_->setUnits("semitones");
     portamento_->setUnits("secs/semitone");
     portamento_->setScalingType(TwytchSlider::kExponential);
     pitch_bend_range_->setUnits("semitones");
+
     polyphony_->setUnits("voices");
+
+    keytrack_->setUnits("%");
+    keytrack_->setPostMultiply(100.0);
+    velocity_track_->setUnits("%");
+    velocity_track_->setPostMultiply(100.0);
 
     mono_lfo_1_frequency_->setUnits("Hz");
     mono_lfo_2_frequency_->setUnits("Hz");
