@@ -40,6 +40,14 @@ namespace mopo {
       "on"
     };
 
+    const std::string arp_patterns[] = {
+      "up",
+      "down",
+      "up-down",
+      "as played",
+      "random"
+    };
+
     const std::string waveforms[] = {
       "sin",
       "triangle",

@@ -105,6 +105,11 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
     arp_tempo_->addListener(this);
 
+    arp_frequency_->setUnits("Hz");
+    arp_frequency_->setScalingType(TwytchSlider::kExponential);
+    arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+    arp_pattern_->setStringLookup(mopo::strings::arp_patterns);
+
     for (int i = 0; i < getNumChildComponents(); ++i) {
         TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
         if (slider)
