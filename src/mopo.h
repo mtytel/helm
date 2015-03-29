@@ -44,6 +44,7 @@
 #include "smooth_filter.h"
 #include "smooth_value.h"
 #include "step_generator.h"
+#include "stutter.h"
 #include "tick_router.h"
 #include "trigger_operators.h"
 #include "utils.h"
