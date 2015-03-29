@@ -128,13 +128,13 @@ namespace mopo {
   };
 
   // A processor that will raise a signal to a given power.
-  class PolynomialScale : public Operator {
+  class Square : public Operator {
     public:
-      PolynomialScale(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
-      virtual Processor* clone() const { return new PolynomialScale(*this); }
+      Square(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
+      virtual Processor* clone() const { return new Square(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = std::pow(input()->at(i), scale_);
+        output()->buffer[i] = input()->at(i) * input()->at(i);
       }
 
       PROCESS_TICK_FUNCTION
