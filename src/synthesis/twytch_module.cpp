@@ -44,10 +44,10 @@ namespace mopo {
     mono_modulation_readout_[name] = mono_total->output();
 
     if (skew == kQuadratic) {
-      PolynomialScale* polynomial_scale = new PolynomialScale(2.0);
-      polynomial_scale->plug(mono_total);
-      mono_owner->addProcessor(polynomial_scale);
-      return polynomial_scale;
+      Square* square = new Square();
+      square->plug(mono_total);
+      mono_owner->addProcessor(square);
+      return square;
     }
     if (skew == kExponential) {
       ExponentialScale* exponential_scale = new ExponentialScale(2.0);
@@ -80,10 +80,10 @@ namespace mopo {
     poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
 
     if (skew == kQuadratic) {
-      PolynomialScale* polynomial_scale = new PolynomialScale(2.0);
-      polynomial_scale->plug(modulation_total);
-      poly_owner->addProcessor(polynomial_scale);
-      return polynomial_scale;
+      Square* square = new Square();
+      square->plug(modulation_total);
+      poly_owner->addProcessor(square);
+      return square;
     }
     if (skew == kExponential) {
       ExponentialScale* exponential_scale = new ExponentialScale(2.0);

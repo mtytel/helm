@@ -21,7 +21,6 @@
 #include <fenv.h>
 
 #define MAX_DELAY_SAMPLES 1000000
-#define DEFAULT_BPS 2.0
 
 namespace mopo {
 
