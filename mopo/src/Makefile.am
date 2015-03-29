@@ -1,12 +1,12 @@
 noinst_LIBRARIES = libmopo.a
 libmopo_a_SOURCES = alias.cpp \
-										alias.h \
-										arpeggiator.cpp \
-										arpeggiator.h \
-										bit_crush.cpp \
-										bit_crush.h \
-										common.h \
-										delay.cpp \
+                    alias.h \
+                    arpeggiator.cpp \
+                    arpeggiator.h \
+                    bit_crush.cpp \
+                    bit_crush.h \
+                    common.h \
+                    delay.cpp \
                     delay.h \
                     distortion.cpp \
                     distortion.h \
@@ -49,6 +49,8 @@ libmopo_a_SOURCES = alias.cpp \
                     smooth_value.h \
                     step_generator.cpp \
                     step_generator.h \
+                    stutter.cpp \
+                    stutter.h \
                     tick_router.h \
                     trigger_operators.cpp \
                     trigger_operators.h \
