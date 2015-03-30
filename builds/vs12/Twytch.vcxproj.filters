@@ -712,6 +712,9 @@
     <ClCompile Include="..\..\mopo\src\step_generator.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\stutter.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\trigger_operators.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
@@ -2464,6 +2467,9 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\step_generator.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\stutter.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\tick_router.h">

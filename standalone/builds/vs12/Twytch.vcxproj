@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\..\mopo\src\smooth_filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\smooth_value.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\step_generator.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\stutter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\trigger_operators.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp"/>
@@ -1342,6 +1343,7 @@
     <ClInclude Include="..\..\..\mopo\src\smooth_filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\smooth_value.h"/>
     <ClInclude Include="..\..\..\mopo\src\step_generator.h"/>
+    <ClInclude Include="..\..\..\mopo\src\stutter.h"/>
     <ClInclude Include="..\..\..\mopo\src\tick_router.h"/>
     <ClInclude Include="..\..\..\mopo\src\trigger_operators.h"/>
     <ClInclude Include="..\..\..\mopo\src\utils.h"/>

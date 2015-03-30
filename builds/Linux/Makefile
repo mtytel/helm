@@ -160,6 +160,7 @@ OBJECTS := \
   $(OBJDIR)/smooth_filter_7e275f25.o \
   $(OBJDIR)/smooth_value_e19bb7ae.o \
   $(OBJDIR)/step_generator_6ff0a2ee.o \
+  $(OBJDIR)/stutter_80df09d.o \
   $(OBJDIR)/trigger_operators_1e299f84.o \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
@@ -767,6 +768,11 @@ $(OBJDIR)/smooth_value_e19bb7ae.o: ../../mopo/src/smooth_value.cpp
 $(OBJDIR)/step_generator_6ff0a2ee.o: ../../mopo/src/step_generator.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling step_generator.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/stutter_80df09d.o: ../../mopo/src/stutter.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling stutter.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/trigger_operators_1e299f84.o: ../../mopo/src/trigger_operators.cpp

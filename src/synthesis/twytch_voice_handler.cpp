@@ -90,7 +90,7 @@ namespace mopo {
 
     addProcessor(aftertouch_value);
     mod_sources_["aftertouch"] = aftertouch_value->output();
-
+    
     output_->plug(formant_container_, 0);
     output_->plug(amplitude_, 1);
 
@@ -335,15 +335,35 @@ namespace mopo {
 
     mod_sources_["filter_env"] = filter_envelope_->output();
 
+    // Stutter.
+    BypassRouter* stutter_container = new BypassRouter();
+    Value* stutter_bypass = new Value(1);
+    stutter_container->plug(stutter_bypass, BypassRouter::kBypass);
+    stutter_container->plug(distorted_filter_, BypassRouter::kAudio);
+
+    Stutter* stutter = new Stutter(44100);
+    Processor* stutter_frequency = createPolyModControl("stutter_frequency", 8.0, false);
+    Processor* resample_frequency = createPolyModControl("stutter_resample_frequency", 2.0, false);
+    stutter_container->addProcessor(stutter);
+    stutter_container->registerOutput(stutter->output());
+
+    stutter->plug(distorted_filter_, Stutter::kAudio);
+    stutter->plug(stutter_frequency, Stutter::kStutterFrequency);
+    stutter->plug(resample_frequency, Stutter::kResampleFrequency);
+    stutter->plug(reset, Stutter::kReset);
+
+    controls_["stutter_bypass"] = stutter_bypass;
+    addProcessor(stutter_container);
+
     // Formant Filter.
     formant_container_ = new BypassRouter();
     Value* formant_bypass = new Value(1);
     formant_container_->plug(formant_bypass, BypassRouter::kBypass);
-    formant_container_->plug(distorted_filter_, BypassRouter::kAudio);
+    formant_container_->plug(stutter_container, BypassRouter::kAudio);
 
     formant_filter_ = new FormantManager(NUM_FORMANTS);
     Value* formant_passthrough = new Value(0.0);
-    formant_filter_->plug(distorted_filter_, FormantManager::kAudio);
+    formant_filter_->plug(stutter_container, FormantManager::kAudio);
     formant_filter_->plug(formant_passthrough, FormantManager::kPassthroughGain);
     formant_filter_->plug(reset, FormantManager::kReset);
 

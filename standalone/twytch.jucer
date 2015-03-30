@@ -72,6 +72,8 @@
               file="../mopo/src/step_generator.cpp"/>
         <FILE id="jpUYsG" name="step_generator.h" compile="0" resource="0"
               file="../mopo/src/step_generator.h"/>
+        <FILE id="uD797t" name="stutter.cpp" compile="1" resource="0" file="../mopo/src/stutter.cpp"/>
+        <FILE id="Zx4UfM" name="stutter.h" compile="0" resource="0" file="../mopo/src/stutter.h"/>
         <FILE id="k3oU8u" name="tick_router.h" compile="0" resource="0" file="../mopo/src/tick_router.h"/>
         <FILE id="y5FiJ9" name="trigger_operators.cpp" compile="1" resource="0"
               file="../mopo/src/trigger_operators.cpp"/>

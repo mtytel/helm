@@ -517,6 +517,27 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     poly_lfo_amplitude_->addListener (this);
 
+    addAndMakeVisible (stutter_frequency_ = new TwytchSlider ("stutter_frequency"));
+    stutter_frequency_->setRange (4, 100, 0);
+    stutter_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    stutter_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    stutter_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    stutter_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    stutter_frequency_->addListener (this);
+
+    addAndMakeVisible (stutter_bypass_ = new ToggleButton ("stutter_bypass"));
+    stutter_bypass_->setButtonText (TRANS("stutter bypass"));
+    stutter_bypass_->addListener (this);
+    stutter_bypass_->setColour (ToggleButton::textColourId, Colours::white);
+
+    addAndMakeVisible (stutter_resample_frequency_ = new TwytchSlider ("stutter_resample_frequency"));
+    stutter_resample_frequency_->setRange (0.5, 20, 0);
+    stutter_resample_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    stutter_resample_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    stutter_resample_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    stutter_resample_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    stutter_resample_frequency_->addListener (this);
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -661,6 +682,9 @@ SynthesisInterface::~SynthesisInterface()
     poly_lfo_mod_ = nullptr;
     poly_lfo_sync_ = nullptr;
     poly_lfo_amplitude_ = nullptr;
+    stutter_frequency_ = nullptr;
+    stutter_bypass_ = nullptr;
+    stutter_resample_frequency_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1034,6 +1058,18 @@ void SynthesisInterface::paint (Graphics& g)
                 700, 622, 44, 20,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("FREQ"),
+                -4, 604, 92, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffd4b0e0));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("RESAMPLE FREQ"),
+                76, 604, 92, 20,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     g.setColour(Colours::white);
     //[/UserPaint]
@@ -1085,11 +1121,11 @@ void SynthesisInterface::resized()
     step_frequency_->setBounds (616, 464, 40, 40);
     mono_lfo_1_frequency_->setBounds (504, 592, 40, 40);
     filter_saturation_->setBounds (352, 320, 50, 50);
-    formant_bypass_->setBounds (0, 512, 120, 24);
+    formant_bypass_->setBounds (184, 504, 120, 24);
     legato_->setBounds (224, 692, 64, 16);
-    formant_xy_pad_->setBounds (120, 512, 280, 104);
-    formant_x_->setBounds (120, 616, 280, 12);
-    formant_y_->setBounds (400, 512, 12, 104);
+    formant_xy_pad_->setBounds (184, 528, 216, 104);
+    formant_x_->setBounds (184, 632, 216, 12);
+    formant_y_->setBounds (400, 528, 12, 104);
     filter_type_->setBounds (16, 344, 300, 16);
     poly_lfo_wave_display_->setBounds (680, 542, 96, 48);
     poly_lfo_waveform_->setBounds (680, 528, 96, 14);
@@ -1121,6 +1157,9 @@ void SynthesisInterface::resized()
     poly_lfo_mod_->setBounds (672, 600, 24, 24);
     poly_lfo_sync_->setBounds (772, 620, 24, 24);
     poly_lfo_amplitude_->setBounds (704, 592, 40, 40);
+    stutter_frequency_->setBounds (16, 552, 50, 50);
+    stutter_bypass_->setBounds (8, 504, 120, 24);
+    stutter_resample_frequency_->setBounds (96, 552, 50, 50);
     //[UserResized] Add your own custom resize handling here..
     step_sequencer_tempo_->setBounds(step_frequency_->getBounds());
     mono_lfo_1_tempo_->setBounds(mono_lfo_1_frequency_->getBounds());
@@ -1378,6 +1417,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_poly_lfo_amplitude_] -- add your slider handling code here..
         //[/UserSliderCode_poly_lfo_amplitude_]
     }
+    else if (sliderThatWasMoved == stutter_frequency_)
+    {
+        //[UserSliderCode_stutter_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_stutter_frequency_]
+    }
+    else if (sliderThatWasMoved == stutter_resample_frequency_)
+    {
+        //[UserSliderCode_stutter_resample_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_stutter_resample_frequency_]
+    }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
@@ -1390,6 +1439,10 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
 
     if (buttonThatWasClicked == formant_bypass_) {
+        if (parent)
+            parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    }
+    else if (buttonThatWasClicked == stutter_bypass_) {
         if (parent)
             parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     }
@@ -1531,6 +1584,11 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_poly_lfo_sync_] -- add your button handler code here..
         //[/UserButtonCode_poly_lfo_sync_]
     }
+    else if (buttonThatWasClicked == stutter_bypass_)
+    {
+        //[UserButtonCode_stutter_bypass_] -- add your button handler code here..
+        //[/UserButtonCode_stutter_bypass_]
+    }
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
@@ -1644,7 +1702,7 @@ void SynthesisInterface::setSliderUnits() {
 
     legato_->setStringLookup(mopo::strings::off_on);
     portamento_type_->setStringLookup(mopo::strings::off_auto_on);
-    
+
     osc_1_waveform_->setStringLookup(mopo::strings::waveforms);
     osc_2_waveform_->setStringLookup(mopo::strings::waveforms);
     mono_lfo_1_waveform_->setStringLookup(mopo::strings::waveforms);
@@ -1941,6 +1999,12 @@ BEGIN_JUCER_METADATA
     <TEXT pos="700 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
+    <TEXT pos="-4 604 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="76 604 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="RESAMPLE FREQ"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
              virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="464 360 300 100"
@@ -2134,7 +2198,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="formant_bypass" id="a27029ddc5597777" memberName="formant_bypass_"
-                virtualName="" explicitFocusOrder="0" pos="0 512 120 24" txtcol="ffffffff"
+                virtualName="" explicitFocusOrder="0" pos="184 504 120 24" txtcol="ffffffff"
                 buttonText="formant bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
@@ -2143,15 +2207,15 @@ BEGIN_JUCER_METADATA
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="formant_xy_pad" id="202ea6e8e33b6ac7" memberName="formant_xy_pad_"
-             virtualName="XYPad" explicitFocusOrder="0" pos="120 512 280 104"
+             virtualName="XYPad" explicitFocusOrder="0" pos="184 528 216 104"
              sourceFile="xy_pad.cpp" constructorParams=""/>
   <SLIDER name="formant_x" id="d182d63c43cb241f" memberName="formant_x_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="120 616 280 12"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="184 632 216 12"
           bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant_y" id="f9e64695877940a6" memberName="formant_y_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="400 512 12 104"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="400 528 12 104"
           bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2269,6 +2333,20 @@ BEGIN_JUCER_METADATA
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="704 592 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="stutter_frequency" id="ca5e95b9738f9459" memberName="stutter_frequency_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 552 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="4" max="100"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TOGGLEBUTTON name="stutter_bypass" id="c0e460c164340d7e" memberName="stutter_bypass_"
+                virtualName="" explicitFocusOrder="0" pos="8 504 120 24" txtcol="ffffffff"
+                buttonText="stutter bypass" connectedEdges="0" needsCallback="1"
+                radioGroupId="0" state="0"/>
+  <SLIDER name="stutter_resample_frequency" id="31e8e484b922575e" memberName="stutter_resample_frequency_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="96 552 50 50"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0.5"
+          max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 

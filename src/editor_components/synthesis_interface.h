@@ -162,6 +162,9 @@ private:
     ScopedPointer<TextButton> poly_lfo_mod_;
     ScopedPointer<ToggleButton> poly_lfo_sync_;
     ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
+    ScopedPointer<TwytchSlider> stutter_frequency_;
+    ScopedPointer<ToggleButton> stutter_bypass_;
+    ScopedPointer<TwytchSlider> stutter_resample_frequency_;
 
 
     //==============================================================================
