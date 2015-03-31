@@ -215,7 +215,7 @@ void FullInterface::resized()
     save_button_->setBounds (800, 40, 150, 24);
     arp_sync_->setBounds (872, 160, 24, 24);
     beats_per_minute_->setBounds (800, 576, 150, 32);
-    global_tool_tip_->setBounds (800, 640, 144, 48);
+    global_tool_tip_->setBounds (800, 608, 152, 48);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -467,7 +467,7 @@ BEGIN_JUCER_METADATA
           style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
           textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="global_tool_tip" id="c501d8243c608e75" memberName="global_tool_tip_"
-             virtualName="" explicitFocusOrder="0" pos="800 640 144 48" sourceFile="global_tool_tip.cpp"
+             virtualName="" explicitFocusOrder="0" pos="800 608 152 48" sourceFile="global_tool_tip.cpp"
              constructorParams=""/>
 </JUCER_COMPONENT>
 
