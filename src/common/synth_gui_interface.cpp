@@ -20,35 +20,35 @@
 
 void SynthGuiInterface::valueChanged(std::string name, mopo::mopo_float value) {
   ScopedLock lock(getCriticalSection());
-  getSynth()->getControls()[name]->set(value);
+  controls_[name]->set(value);
 }
 
 void SynthGuiInterface::connectModulation(mopo::ModulationConnection* connection) {
   ScopedLock lock(getCriticalSection());
-  getSynth()->connectModulation(connection);
+  synth_->connectModulation(connection);
 }
 
 void SynthGuiInterface::disconnectModulation(mopo::ModulationConnection* connection) {
   ScopedLock lock(getCriticalSection());
-  getSynth()->disconnectModulation(connection);
+  synth_->disconnectModulation(connection);
 }
 
 int SynthGuiInterface::getNumActiveVoices() {
   ScopedLock lock(getCriticalSection());
-  return getSynth()->getNumActiveVoices();
+  return synth_->getNumActiveVoices();
 }
 
 mopo::Processor::Output* SynthGuiInterface::getModSource(std::string name) {
   ScopedLock lock(getCriticalSection());
-  return getSynth()->getModulationSource(name);
+  return synth_->getModulationSource(name);
 }
 
 var SynthGuiInterface::saveToVar() {
-  return TwytchLoadSave::stateToVar(getSynth(), getCriticalSection());
+  return TwytchLoadSave::stateToVar(synth_, getCriticalSection());
 }
 
 void SynthGuiInterface::loadFromVar(juce::var state) {
-  TwytchLoadSave::varToState(getSynth(), getCriticalSection(), state);
+  TwytchLoadSave::varToState(synth_, getCriticalSection(), state);
   updateFullGui();
 }
 

@@ -26,6 +26,7 @@
 #define MAX_OUTPUT_MEMORY 1048576
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {
+  setSynth(&synth_);
   midi_manager_ = new MidiManager(&synth_, &critical_section_);
   computer_keyboard_ = new TwytchComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
@@ -96,9 +97,8 @@ void TwytchStandaloneEditor::resized() {
 }
 
 void TwytchStandaloneEditor::updateFullGui() {
-  mopo::control_map controls = getSynth()->getControls();
-  gui_->setAllValues(controls);
-  gui_->setModulationConnections(getSynth()->getModulationConnections());
+  gui_->setAllValues(controls_);
+  gui_->setModulationConnections(synth_.getModulationConnections());
 }
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {

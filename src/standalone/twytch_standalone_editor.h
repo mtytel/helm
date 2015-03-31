@@ -45,7 +45,6 @@ class TwytchStandaloneEditor : public AudioAppComponent,
     void handleMessage(const Message& message) override;
 
     // SynthGuiInterface
-    mopo::TwytchEngine* getSynth() override { return &synth_; }
     const CriticalSection& getCriticalSection() override { return critical_section_; }
     MidiManager* getMidiManager() override { return midi_manager_.get(); }
     void updateFullGui() override;
