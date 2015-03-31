@@ -131,4 +131,20 @@ namespace mopo {
       }
     }
   }
+
+  void SampleAndHoldBuffer::process() {
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+  }
+
+  void LinearSmoothBuffer::process() {
+    mopo_float new_value = input()->source->buffer[0];
+    mopo_float inc = (new_value - last_value_) / buffer_size_;
+    mopo_float current_value = last_value_ + inc;
+
+    for (int i = 0; i < buffer_size_; ++i) {
+      output()->buffer[i] = current_value;
+      current_value += inc;
+    }
+  }
 } // namespace mopo

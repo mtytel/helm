@@ -317,6 +317,39 @@ namespace mopo {
                                           input(kYPosition)->at(i));
       }
   };
+
+  class SampleAndHoldBuffer : public Operator {
+    public:
+      SampleAndHoldBuffer() : Operator(1, 1) { }
+
+      virtual Processor* clone() const {
+        return new SampleAndHoldBuffer(*this);
+      }
+
+      void process();
+
+      inline void tick(int i) {
+        output()->buffer[i] = input()->at(0);
+      }
+  };
+
+  class LinearSmoothBuffer : public Operator {
+    public:
+      LinearSmoothBuffer() : Operator(1, 1), last_value_(0.0) { }
+
+      virtual Processor* clone() const {
+        return new LinearSmoothBuffer(*this);
+      }
+
+      void process();
+
+      inline void tick(int i) {
+        output()->buffer[i] = input()->at(0);
+      }
+
+    protected:
+      mopo_float last_value_;
+  };
 } // namespace mopo
 
 #endif // OPERATORS_H
