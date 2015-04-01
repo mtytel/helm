@@ -139,12 +139,14 @@ namespace mopo {
 
   void LinearSmoothBuffer::process() {
     mopo_float new_value = input()->source->buffer[0];
+    if (new_value == last_value_ && output()->buffer[0] == new_value)
+      return;
+
     mopo_float inc = (new_value - last_value_) / buffer_size_;
-    mopo_float current_value = last_value_ + inc;
 
     for (int i = 0; i < buffer_size_; ++i) {
-      output()->buffer[i] = current_value;
-      current_value += inc;
+      last_value_ += inc;
+      output()->buffer[i] = last_value_;
     }
   }
 } // namespace mopo
