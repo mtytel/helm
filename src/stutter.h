@@ -31,6 +31,7 @@ namespace mopo {
         kAudio,
         kStutterFrequency,
         kResampleFrequency,
+        kReset,
         kNumInputs
       };
 
@@ -46,18 +47,18 @@ namespace mopo {
         resample_offset_ -= 1.0;
         if (resample_offset_ <= 0.0) {
           resampling_ = true;
-          resample_offset_ += input(kResampleFrequency)->at(i) / sample_rate_;
+          resample_offset_ += sample_rate_ / input(kResampleFrequency)->at(i);
+          offset_ = sample_rate_ / input(kStutterFrequency)->at(i);
+        }
+        else if (offset_ <= 0.0) {
+          resampling_ = false;
+          offset_ += sample_rate_ / input(kStutterFrequency)->at(i);
         }
 
         if (resampling_) {
           mopo_float audio = input(kAudio)->at(i);
           memory_->push(audio);
           output(0)->buffer[i] = audio;
-
-          if (offset_ <= 0.0) {
-            offset_ += input(kStutterFrequency)->at(i) / sample_rate_;
-            resampling_ = false;
-          }
         }
         else {
           output(0)->buffer[i] = memory_->get(offset_);

@@ -35,7 +35,18 @@ namespace mopo {
   }
 
   void Stutter::process() {
-    for (int i = 0; i < buffer_size_; ++i)
+    int i = 0;
+    if (input(kReset)->source->triggered) {
+      int offset = input(kReset)->source->trigger_offset;
+      for (; i < offset; ++i)
+        tick(i);
+
+      resampling_ = true;
+      offset_ = 0.0;
+      resample_offset_ = 0.0;
+    }
+
+    for (; i < buffer_size_; ++i)
       tick(i);
   }
 } // namespace mopo
