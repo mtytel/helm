@@ -138,8 +138,6 @@ private:
     ScopedPointer<TextButton> amplitude_envelope_mod_;
     ScopedPointer<TextButton> step_sequencer_mod_;
     ScopedPointer<TextButton> mono_lfo_1_mod_;
-    ScopedPointer<TextButton> osc_1_mod_;
-    ScopedPointer<TextButton> osc_2_mod_;
     ScopedPointer<TextButton> pitch_wheel_mod_;
     ScopedPointer<TextButton> mod_wheel_mod_;
     ScopedPointer<TextButton> note_mod_;

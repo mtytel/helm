@@ -387,14 +387,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_mod_->setButtonText (TRANS("M"));
     mono_lfo_1_mod_->addListener (this);
 
-    addAndMakeVisible (osc_1_mod_ = new TextButton ("osc_1"));
-    osc_1_mod_->setButtonText (TRANS("M"));
-    osc_1_mod_->addListener (this);
-
-    addAndMakeVisible (osc_2_mod_ = new TextButton ("osc_2"));
-    osc_2_mod_->setButtonText (TRANS("M"));
-    osc_2_mod_->addListener (this);
-
     addAndMakeVisible (pitch_wheel_mod_ = new TextButton ("pitch_wheel"));
     pitch_wheel_mod_->setButtonText (TRANS("M"));
     pitch_wheel_mod_->addListener (this);
@@ -658,8 +650,6 @@ SynthesisInterface::~SynthesisInterface()
     amplitude_envelope_mod_ = nullptr;
     step_sequencer_mod_ = nullptr;
     mono_lfo_1_mod_ = nullptr;
-    osc_1_mod_ = nullptr;
-    osc_2_mod_ = nullptr;
     pitch_wheel_mod_ = nullptr;
     mod_wheel_mod_ = nullptr;
     note_mod_ = nullptr;
@@ -1133,8 +1123,6 @@ void SynthesisInterface::resized()
     amplitude_envelope_mod_->setBounds (432, 248, 24, 24);
     step_sequencer_mod_->setBounds (432, 408, 24, 24);
     mono_lfo_1_mod_->setBounds (432, 600, 24, 24);
-    osc_1_mod_->setBounds (16, 184, 24, 24);
-    osc_2_mod_->setBounds (392, 184, 24, 24);
     pitch_wheel_mod_->setBounds (24, 736, 24, 24);
     mod_wheel_mod_->setBounds (176, 736, 24, 24);
     note_mod_->setBounds (352, 736, 24, 24);
@@ -1513,16 +1501,6 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_mono_lfo_1_mod_] -- add your button handler code here..
         //[/UserButtonCode_mono_lfo_1_mod_]
-    }
-    else if (buttonThatWasClicked == osc_1_mod_)
-    {
-        //[UserButtonCode_osc_1_mod_] -- add your button handler code here..
-        //[/UserButtonCode_osc_1_mod_]
-    }
-    else if (buttonThatWasClicked == osc_2_mod_)
-    {
-        //[UserButtonCode_osc_2_mod_] -- add your button handler code here..
-        //[/UserButtonCode_osc_2_mod_]
     }
     else if (buttonThatWasClicked == pitch_wheel_mod_)
     {
@@ -2244,12 +2222,6 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="mono_lfo_1" id="1ea938f771b995ba" memberName="mono_lfo_1_mod_"
               virtualName="" explicitFocusOrder="0" pos="432 600 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="osc_1" id="4dcc36c544b0bbf7" memberName="osc_1_mod_" virtualName=""
-              explicitFocusOrder="0" pos="16 184 24 24" buttonText="M" connectedEdges="0"
-              needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="osc_2" id="19039c3681943288" memberName="osc_2_mod_" virtualName=""
-              explicitFocusOrder="0" pos="392 184 24 24" buttonText="M" connectedEdges="0"
-              needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="pitch_wheel" id="527add472856006" memberName="pitch_wheel_mod_"
               virtualName="" explicitFocusOrder="0" pos="24 736 24 24" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>

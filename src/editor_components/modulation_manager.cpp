@@ -28,7 +28,7 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
-#define FRAMES_PER_SECOND 60
+#define FRAMES_PER_SECOND 1
 
 //[/MiscUserDefs]
 

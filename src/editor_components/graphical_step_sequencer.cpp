@@ -25,7 +25,7 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define FRAME_RATE 30
+#define FRAMES_PER_SECOND 1
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -39,7 +39,7 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
     highlighted_step_ = -1;
     num_steps_ = 1;
     setOpaque(true);
-    setFramesPerSecond(FRAME_RATE);
+    setFramesPerSecond(FRAMES_PER_SECOND);
     //[/UserPreSize]
 
     setSize (600, 400);
