@@ -199,9 +199,6 @@ namespace mopo {
     osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
     osc_feedback_->plug(&utils::value_half, Delay::kWet);
     addProcessor(osc_feedback_);
-
-    mod_sources_["osc_1"] = oscillators->getOscillator1Output();
-    mod_sources_["osc_2"] = oscillators->getOscillator2Output();
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
