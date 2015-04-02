@@ -16,6 +16,7 @@
 
 #include "twytch_engine.h"
 
+#include "twytch_lfo.h"
 #include "twytch_voice_handler.h"
 #include "switch.h"
 #include <fenv.h>
@@ -48,15 +49,15 @@ namespace mopo {
     // Monophonic LFO 1.
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
     Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
-                                                           false, false, kExponential);
-    Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", 1.0, false);
+                                                           true, false, kExponential);
+    Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", 1.0, true);
     Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
                                                        beats_per_second, false);
 
 
-    Oscillator* lfo_1 = new Oscillator();
-    lfo_1->plug(lfo_1_waveform, Oscillator::kWaveform);
-    lfo_1->plug(lfo_1_frequency, Oscillator::kFrequency);
+    TwytchLfo* lfo_1 = new TwytchLfo();
+    lfo_1->plug(lfo_1_waveform, TwytchLfo::kWaveform);
+    lfo_1->plug(lfo_1_frequency, TwytchLfo::kFrequency);
 
     Multiply* scaled_lfo_1 = new Multiply();
     scaled_lfo_1->plug(lfo_1, 0);
@@ -70,14 +71,14 @@ namespace mopo {
     // Monophonic LFO 2.
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
     Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
-                                                      false, false, kExponential);
-    Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", 1.0, false);
+                                                           true, false, kExponential);
+    Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", 1.0, true);
     Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
                                                        beats_per_second, false);
 
-    Oscillator* lfo_2 = new Oscillator();
-    lfo_2->plug(lfo_2_waveform, Oscillator::kWaveform);
-    lfo_2->plug(lfo_2_frequency, Oscillator::kFrequency);
+    TwytchLfo* lfo_2 = new TwytchLfo();
+    lfo_2->plug(lfo_2_waveform, TwytchLfo::kWaveform);
+    lfo_2->plug(lfo_2_frequency, TwytchLfo::kFrequency);
 
     Multiply* scaled_lfo_2 = new Multiply();
     scaled_lfo_2->plug(lfo_2, 0);

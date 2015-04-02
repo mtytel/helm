@@ -16,6 +16,7 @@
 
 #include "twytch_voice_handler.h"
 
+#include "twytch_lfo.h"
 #include "twytch_oscillators.h"
 
 #include <fenv.h>
@@ -203,14 +204,14 @@ namespace mopo {
     // Poly LFO.
     Processor* lfo_waveform = createMonoModControl("poly_lfo_waveform", Wave::kSin, true);
     Processor* lfo_free_frequency = createPolyModControl("poly_lfo_frequency", 0.0,
-                                                         false, false, kExponential);
-    Processor* lfo_free_amplitude = createPolyModControl("poly_lfo_amplitude", 1.0, false);
+                                                         true, false, kExponential);
+    Processor* lfo_free_amplitude = createPolyModControl("poly_lfo_amplitude", 1.0, true);
     Processor* lfo_frequency = createTempoSyncSwitch("poly_lfo", lfo_free_frequency,
                                                      beats_per_second_, true);
-    Oscillator* lfo = new Oscillator();
-    lfo->plug(reset, Oscillator::kReset);
-    lfo->plug(lfo_waveform, Oscillator::kWaveform);
-    lfo->plug(lfo_frequency, Oscillator::kFrequency);
+    TwytchLfo* lfo = new TwytchLfo();
+    lfo->plug(reset, TwytchLfo::kReset);
+    lfo->plug(lfo_waveform, TwytchLfo::kWaveform);
+    lfo->plug(lfo_frequency, TwytchLfo::kFrequency);
 
     Multiply* scaled_lfo = new Multiply();
     scaled_lfo->plug(lfo, 0);

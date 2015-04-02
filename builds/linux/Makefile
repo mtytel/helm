@@ -18,11 +18,12 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/plugin -I ../../src/synthesis
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
-
+  LDDEPS :=
+  RESFLAGS :=  -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules
   TARGET := twytch.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -38,11 +39,12 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/plugin -I ../../src/synthesis
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -Os
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
-
+  LDDEPS :=
+  RESFLAGS :=  -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules
   TARGET := twytch.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -102,6 +104,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_plugin_10f49ff3.o \
   $(OBJDIR)/switch_9aef122f.o \
   $(OBJDIR)/twytch_engine_ecbf26ed.o \
+  $(OBJDIR)/twytch_lfo_95ce0b34.o \
   $(OBJDIR)/twytch_module_630cae17.o \
   $(OBJDIR)/twytch_oscillators_99cd5bd2.o \
   $(OBJDIR)/twytch_voice_handler_8b173dbc.o \
@@ -124,7 +127,7 @@ OBJECTS := \
 
 .PHONY: clean
 
-$(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
+$(OUTDIR)/$(TARGET): $(OBJECTS) $(LDDEPS) $(RESOURCES)
 	@echo Linking Twytch
 	-@mkdir -p $(BINDIR)
 	-@mkdir -p $(LIBDIR)
@@ -402,6 +405,11 @@ $(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp
 $(OBJDIR)/twytch_engine_ecbf26ed.o: ../../src/synthesis/twytch_engine.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_engine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_lfo_95ce0b34.o: ../../src/synthesis/twytch_lfo.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_lfo.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_module_630cae17.o: ../../src/synthesis/twytch_module.cpp

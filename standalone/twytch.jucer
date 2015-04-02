@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="GfsdNK" name="Twytch" projectType="guiapp" version="1.0.0"
               bundleIdentifier="co.littleio.twytch" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.1" companyName="Little O Studio" companyWebsite="littleio.co"
+              jucerVersion="3.1.0" companyName="Little O Studio" companyWebsite="littleio.co"
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Twytch">
     <GROUP id="{E650F2E1-07E8-77DB-1520-2000D9FBD2DB}" name="mopo">
@@ -184,6 +184,8 @@
         <FILE id="clGm4c" name="twytch_engine.cpp" compile="1" resource="0"
               file="../src/synthesis/twytch_engine.cpp"/>
         <FILE id="leswrT" name="twytch_engine.h" compile="0" resource="0" file="../src/synthesis/twytch_engine.h"/>
+        <FILE id="Eyp1ln" name="twytch_lfo.cpp" compile="1" resource="0" file="../src/synthesis/twytch_lfo.cpp"/>
+        <FILE id="A7TFH4" name="twytch_lfo.h" compile="0" resource="0" file="../src/synthesis/twytch_lfo.h"/>
         <FILE id="Q08JPV" name="twytch_module.cpp" compile="1" resource="0"
               file="../src/synthesis/twytch_module.cpp"/>
         <FILE id="pgNb5A" name="twytch_module.h" compile="0" resource="0" file="../src/synthesis/twytch_module.h"/>

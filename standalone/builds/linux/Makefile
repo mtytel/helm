@@ -22,7 +22,8 @@ ifeq ($(CONFIG),Debug)
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
-
+  LDDEPS :=
+  RESFLAGS :=  -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../../srcs/JUCE/modules -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
   TARGET := Twytch
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -42,7 +43,8 @@ ifeq ($(CONFIG),Release)
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -Os
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
-
+  LDDEPS :=
+  RESFLAGS :=  -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../../srcs/JUCE/modules -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
   TARGET := Twytch
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -103,6 +105,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
   $(OBJDIR)/switch_871b185e.o \
   $(OBJDIR)/twytch_engine_90779dde.o \
+  $(OBJDIR)/twytch_lfo_e31d61e3.o \
   $(OBJDIR)/twytch_module_6c52508.o \
   $(OBJDIR)/twytch_oscillators_802e9381.o \
   $(OBJDIR)/twytch_voice_handler_5e0945ab.o \
@@ -123,7 +126,7 @@ OBJECTS := \
 
 .PHONY: clean
 
-$(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
+$(OUTDIR)/$(TARGET): $(OBJECTS) $(LDDEPS) $(RESOURCES)
 	@echo Linking Twytch
 	-@mkdir -p $(BINDIR)
 	-@mkdir -p $(LIBDIR)
@@ -406,6 +409,11 @@ $(OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp
 $(OBJDIR)/twytch_engine_90779dde.o: ../../../src/synthesis/twytch_engine.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_engine.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_lfo_e31d61e3.o: ../../../src/synthesis/twytch_lfo.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_lfo.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_module_6c52508.o: ../../../src/synthesis/twytch_module.cpp
