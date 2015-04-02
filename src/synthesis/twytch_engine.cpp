@@ -27,7 +27,9 @@ namespace mopo {
   TwytchEngine::TwytchEngine() : was_playing_arp_(false) {
     static const Value* minutes_per_second = new Value(1.0 / 60.0);
 
+#ifdef FE_DFL_DISABLE_SSE_DENORMS_ENV
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
+#endif
 
     Processor* beats_per_minute = createMonoModControl("beats_per_minute", 120.0, false);
     Multiply* beats_per_second = new Multiply();
