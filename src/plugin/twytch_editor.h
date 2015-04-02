@@ -32,7 +32,6 @@ class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
     void resized() override;
 
     // SynthGuiInterface
-    mopo::TwytchEngine* getSynth() override { return twytch_.getSynth(); }
     const CriticalSection& getCriticalSection() override { return twytch_.getCallbackLock(); }
     MidiManager* getMidiManager() override { return twytch_.getMidiManager(); }
     void updateFullGui() override;

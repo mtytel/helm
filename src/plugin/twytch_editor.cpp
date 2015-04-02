@@ -23,6 +23,7 @@
 #define HEIGHT 800
 
 TwytchEditor::TwytchEditor(TwytchPlugin& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
+  setSynth(twytch_.getSynth());
   setLookAndFeel(&look_and_feel_);
 
   gui_ = new FullInterface(twytch.getSynth()->getControls(),
@@ -46,7 +47,6 @@ void TwytchEditor::resized() {
 }
 
 void TwytchEditor::updateFullGui() {
-  mopo::control_map controls = getSynth()->getControls();
-  gui_->setAllValues(controls);
-  gui_->setModulationConnections(getSynth()->getModulationConnections());
+  gui_->setAllValues(controls_);
+  gui_->setModulationConnections(synth_->getModulationConnections());
 }
