@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="twytch" pluginRTASCategory="" aaxIdentifier="co.littleio.twytch"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
               companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
               companyWebsite="littleio.co">
   <MAINGROUP id="OwcEM5" name="Twytch">
@@ -256,12 +256,12 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
-    <LINUX_MAKE targetFolder="builds/linux" vstFolder="~/SDKs/vstsdk2.4" vst3Folder="~/SDKs/VST3 SDK">
+    <LINUX_MAKE targetFolder="builds/linux" vstFolder="~/SDKs/vstsdk2.4" vst3Folder="~/srcs/VST3 SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="twytch"/>
+                       targetName="twytch" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/look_and_feel&#10;../../src/plugin&#10;../../src/synthesis"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="twytch"/>
+                       targetName="twytch" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/look_and_feel&#10;../../src/plugin&#10;../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../srcs/JUCE/modules"/>
