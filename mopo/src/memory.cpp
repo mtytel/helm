@@ -31,7 +31,7 @@ namespace mopo {
 
   Memory::Memory(const Memory& other) {
     this->memory_ = new mopo_float[other.size_];
-    // memcpy(this->memory_, other.memory_, size_ * sizeof(mopo_float));
+    memset(this->memory_, 0, size_ * sizeof(mopo_float));
     this->size_ = other.size_;
     this->bitmask_ = other.bitmask_;
     this->offset_ = other.offset_;
