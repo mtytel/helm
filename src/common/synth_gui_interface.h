@@ -45,8 +45,15 @@ class SynthGuiInterface {
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual MidiManager* getMidiManager() = 0;
-    virtual mopo::TwytchEngine* getSynth() = 0;
     virtual void updateFullGui() = 0;
+
+    void setSynth(mopo::TwytchEngine* synth) {
+      synth_ = synth;
+      controls_ = synth->getControls();
+    }
+
+    mopo::TwytchEngine* synth_;
+    mopo::control_map controls_;
 };
 
 #endif // SYNTH_GUI_INTERFACE_H

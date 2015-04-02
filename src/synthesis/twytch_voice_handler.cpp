@@ -129,13 +129,11 @@ namespace mopo {
     MidiScale* oscillator1_frequency = new MidiScale();
     oscillator1_frequency->plug(oscillator1_midi);
     oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
-    oscillators->plug(reset, TwytchOscillators::kOscillator1Reset);
-    oscillators->plug(reset, TwytchOscillators::kOscillator2Reset);
+    oscillators->plug(reset, TwytchOscillators::kReset);
     oscillators->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
 
     Processor* cross_mod = createPolyModControl("cross_modulation", 0.15, false);
-    oscillators->plug(cross_mod, TwytchOscillators::kOscillator1FM);
-    oscillators->plug(cross_mod, TwytchOscillators::kOscillator2FM);
+    oscillators->plug(cross_mod, TwytchOscillators::kCrossMod);
 
     addProcessor(oscillator1_transposed);
     addProcessor(oscillator1_midi);
@@ -199,9 +197,6 @@ namespace mopo {
     osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
     osc_feedback_->plug(&utils::value_half, Delay::kWet);
     addProcessor(osc_feedback_);
-
-    mod_sources_["osc_1"] = oscillators->getOscillator1Output();
-    mod_sources_["osc_2"] = oscillators->getOscillator2Output();
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {
@@ -370,11 +365,12 @@ namespace mopo {
     controls_["formant_bypass"] = formant_bypass;
     controls_["formant_passthrough"] = formant_passthrough;
 
-    Processor* formant_x = createPolyModControl("formant_x", 0.0, false, true);
-    Processor* formant_y = createPolyModControl("formant_y", 0.0, false, true);
+    Processor* formant_x = createPolyModControl("formant_x", 0.0, true);
+    Processor* formant_y = createPolyModControl("formant_y", 0.0, true);
 
     for (int i = 0; i < NUM_FORMANTS; ++i) {
       BilinearInterpolate* formant_gain = new BilinearInterpolate();
+      formant_gain->setControlRate();
       BilinearInterpolate* formant_q = new BilinearInterpolate();
       formant_q->setControlRate();
       BilinearInterpolate* formant_frequency = new BilinearInterpolate();
@@ -404,11 +400,15 @@ namespace mopo {
       formant_q->plug(formant_y, BilinearInterpolate::kYPosition);
       formant_frequency->plug(formant_y, BilinearInterpolate::kYPosition);
 
-      formant_filter_->getFormant(i)->plug(formant_gain, Formant::kGain);
+      LinearSmoothBuffer* smooth_gain = new LinearSmoothBuffer();
+      smooth_gain->plug(formant_gain);
+
+      formant_filter_->getFormant(i)->plug(smooth_gain, Formant::kGain);
       formant_filter_->getFormant(i)->plug(formant_q, Formant::kResonance);
       formant_filter_->getFormant(i)->plug(formant_frequency, Formant::kFrequency);
 
       addProcessor(formant_gain);
+      addProcessor(smooth_gain);
       addProcessor(formant_q);
       addProcessor(formant_frequency);
     }

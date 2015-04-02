@@ -24,61 +24,49 @@ namespace mopo {
 
   // The oscillators of the synthesizer. This section of the synth is processed
   // sample by sample to allow for cross modulation.
-  class TwytchOscillators : public TickRouter {
+  class TwytchOscillators : public Processor {
     public:
 
       enum Inputs {
         kOscillator1Waveform,
         kOscillator2Waveform,
-        kOscillator1Reset,
-        kOscillator2Reset,
         kOscillator1BaseFrequency,
         kOscillator2BaseFrequency,
-        kOscillator1FM,
-        kOscillator2FM,
+        kReset,
+        kCrossMod,
         kNumInputs
       };
 
       TwytchOscillators();
-      TwytchOscillators(const TwytchOscillators& original) : TickRouter(original) {
-        oscillator1_ = new Oscillator(*original.oscillator1_);
-        oscillator2_ = new Oscillator(*original.oscillator2_);
-        frequency1_ = new Multiply(*original.frequency1_);
-        frequency2_ = new Multiply(*original.frequency2_);
-        freq_mod1_ = new Multiply(*original.freq_mod1_);
-        freq_mod2_ = new Multiply(*original.freq_mod2_);
-        normalized_fm1_ = new Add(*original.normalized_fm1_);
-        normalized_fm2_ = new Add(*original.normalized_fm2_);
-      }
 
       virtual void process();
       virtual Processor* clone() const { return new TwytchOscillators(*this); }
 
-      Output* getOscillator1Output() { return oscillator1_->output(); }
-      Output* getOscillator2Output() { return oscillator2_->output(); }
+      Output* getOscillator1Output() { return output(0); }
+      Output* getOscillator2Output() { return output(1); }
 
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
-      void tick(int i) {
-        freq_mod1_->tick(i);
-        normalized_fm1_->tick(i);
-        frequency1_->tick(i);
-        oscillator1_->tick(i);
-        freq_mod2_->tick(i);
-        normalized_fm2_->tick(i);
-        frequency2_->tick(i);
-        oscillator2_->tick(i);
+      void tick(int i, Wave::Type waveform1, Wave::Type waveform2) {
+        static double integral;
+        mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
+        mopo_float base_freq1 = input(kOscillator1BaseFrequency)->source->buffer[i];
+        mopo_float base_freq2 = input(kOscillator2BaseFrequency)->source->buffer[i];
+        mopo_float frequency1 = base_freq1 * (cross_mod * oscillator2_value_ + 1.0);
+        mopo_float frequency2 = base_freq2 * (cross_mod * oscillator1_value_ + 1.0);
+        oscillator1_phase_ = modf(oscillator1_phase_ + frequency1 / sample_rate_, &integral);
+        oscillator2_phase_ = modf(oscillator2_phase_ + frequency2 / sample_rate_, &integral);
+        oscillator1_value_ = Wave::blwave(waveform1, oscillator1_phase_, frequency1);
+        oscillator2_value_ = Wave::blwave(waveform2, oscillator2_phase_, frequency2);
+        output(0)->buffer[i] = oscillator1_value_;
+        output(1)->buffer[i] = oscillator2_value_;
       }
 
     protected:
-      Oscillator* oscillator1_;
-      Oscillator* oscillator2_;
-      Multiply* frequency1_;
-      Multiply* frequency2_;
-      Multiply* freq_mod1_;
-      Multiply* freq_mod2_;
-      Add* normalized_fm1_;
-      Add* normalized_fm2_;
+      mopo_float oscillator1_phase_;
+      mopo_float oscillator1_value_;
+      mopo_float oscillator2_phase_;
+      mopo_float oscillator2_value_;
   };
 } // namespace mopo
 
