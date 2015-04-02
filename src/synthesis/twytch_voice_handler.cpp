@@ -106,9 +106,11 @@ namespace mopo {
     // Pitch bend.
     Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", 2.0, false);
     Multiply* pitch_bend = new Multiply();
+    pitch_bend->setControlRate();
     pitch_bend->plug(pitch_wheel_amount_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
     Add* bent_midi = new Add();
+    bent_midi->setControlRate();
     bent_midi->plug(midi, 0);
     bent_midi->plug(pitch_bend, 1);
 
@@ -118,20 +120,26 @@ namespace mopo {
     // Oscillator 1.
     TwytchOscillators* oscillators = new TwytchOscillators();
     Processor* oscillator1_waveform = createPolyModControl("osc_1_waveform", Wave::kDownSaw, true);
-    Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", 0, false);
-    Processor* oscillator1_tune = createPolyModControl("osc_1_tune", 0.0, false);
+    Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", 0, true);
+    Processor* oscillator1_tune = createPolyModControl("osc_1_tune", 0.0, true);
     Add* oscillator1_transposed = new Add();
+    oscillator1_transposed->setControlRate();
     oscillator1_transposed->plug(bent_midi, 0);
     oscillator1_transposed->plug(oscillator1_transpose, 1);
     Add* oscillator1_midi = new Add();
+    oscillator1_midi->setControlRate();
     oscillator1_midi->plug(oscillator1_transposed, 0);
     oscillator1_midi->plug(oscillator1_tune, 1);
 
     MidiScale* oscillator1_frequency = new MidiScale();
+    oscillator1_frequency->setControlRate();
     oscillator1_frequency->plug(oscillator1_midi);
+    SampleAndHoldBuffer* oscillator1_freq_audio = new SampleAndHoldBuffer();
+    oscillator1_freq_audio->plug(oscillator1_frequency);
+
     oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
     oscillators->plug(reset, TwytchOscillators::kReset);
-    oscillators->plug(oscillator1_frequency, TwytchOscillators::kOscillator1BaseFrequency);
+    oscillators->plug(oscillator1_freq_audio, TwytchOscillators::kOscillator1BaseFrequency);
 
     Processor* cross_mod = createPolyModControl("cross_modulation", 0.15, false);
     oscillators->plug(cross_mod, TwytchOscillators::kCrossMod);
@@ -139,25 +147,33 @@ namespace mopo {
     addProcessor(oscillator1_transposed);
     addProcessor(oscillator1_midi);
     addProcessor(oscillator1_frequency);
+    addProcessor(oscillator1_freq_audio);
     addProcessor(oscillators);
 
     // Oscillator 2.
     Processor* oscillator2_waveform = createPolyModControl("osc_2_waveform", Wave::kDownSaw, true);
-    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", -12, false);
-    Processor* oscillator2_tune = createPolyModControl("osc_2_tune", 0.08, false);
+    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", -12, true);
+    Processor* oscillator2_tune = createPolyModControl("osc_2_tune", 0.08, true);
     Add* oscillator2_transposed = new Add();
+    oscillator2_transposed->setControlRate();
     oscillator2_transposed->plug(bent_midi, 0);
     oscillator2_transposed->plug(oscillator2_transpose, 1);
     Add* oscillator2_midi = new Add();
+    oscillator2_midi->setControlRate();
     oscillator2_midi->plug(oscillator2_transposed, 0);
     oscillator2_midi->plug(oscillator2_tune, 1);
 
     MidiScale* oscillator2_frequency = new MidiScale();
+    oscillator2_frequency->setControlRate();
     oscillator2_frequency->plug(oscillator2_midi);
+    SampleAndHoldBuffer* oscillator2_freq_audio = new SampleAndHoldBuffer();
+    oscillator2_freq_audio->plug(oscillator2_frequency);
+
     oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
-    oscillators->plug(oscillator2_frequency, TwytchOscillators::kOscillator2BaseFrequency);
+    oscillators->plug(oscillator2_freq_audio, TwytchOscillators::kOscillator2BaseFrequency);
 
     addProcessor(oscillator2_transposed);
+    addProcessor(oscillator2_freq_audio);
     addProcessor(oscillator2_midi);
     addProcessor(oscillator2_frequency);
 
@@ -175,26 +191,32 @@ namespace mopo {
     addProcessor(clamp_mix);
 
     // Oscillator feedback.
-    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", -12, false);
+    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", -12, true);
     Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", 0.0, false);
-    Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", 0.0, false);
+    Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", 0.0, true);
     Add* osc_feedback_transposed = new Add();
+    osc_feedback_transposed->setControlRate();
     osc_feedback_transposed->plug(bent_midi, 0);
     osc_feedback_transposed->plug(osc_feedback_transpose, 1);
     Add* osc_feedback_midi = new Add();
+    osc_feedback_midi->setControlRate();
     osc_feedback_midi->plug(osc_feedback_transposed, 0);
     osc_feedback_midi->plug(osc_feedback_tune, 1);
 
     MidiScale* osc_feedback_frequency = new MidiScale();
+    osc_feedback_frequency->setControlRate();
     osc_feedback_frequency->plug(osc_feedback_midi);
+    SampleAndHoldBuffer* osc_feedback_freq_audio = new SampleAndHoldBuffer();
+    osc_feedback_freq_audio->plug(osc_feedback_frequency);
 
     addProcessor(osc_feedback_transposed);
     addProcessor(osc_feedback_midi);
     addProcessor(osc_feedback_frequency);
+    addProcessor(osc_feedback_freq_audio);
 
     osc_feedback_ = new Delay(MAX_FEEDBACK_SAMPLES);
     osc_feedback_->plug(oscillator_mix, Delay::kAudio);
-    osc_feedback_->plug(osc_feedback_frequency, Delay::kFrequency);
+    osc_feedback_->plug(osc_feedback_freq_audio, Delay::kFrequency);
     osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
     osc_feedback_->plug(&utils::value_half, Delay::kWet);
     addProcessor(osc_feedback_);
