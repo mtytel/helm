@@ -133,7 +133,7 @@ namespace mopo {
   }
 
   void SampleAndHoldBuffer::process() {
-    if (new_value == output()->buffer[0])
+    if (input()->source->buffer[0] == output()->buffer[0])
       return;
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
