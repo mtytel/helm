@@ -41,6 +41,7 @@
 #include "processor.h"
 #include "processor_router.h"
 #include "resonance_lookup.h"
+#include "simple_delay.h"
 #include "smooth_filter.h"
 #include "smooth_value.h"
 #include "step_generator.h"
