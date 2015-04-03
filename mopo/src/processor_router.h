@@ -68,11 +68,16 @@ namespace mopo {
       std::set<const Processor*>
           getDependencies(const Processor* processor) const;
 
-      std::vector<const Processor*>* order_;
+      std::vector<const Processor*>* global_order_;
+      std::vector<Processor*> local_order_;
       std::map<const Processor*, Processor*> processors_;
 
-      std::vector<const Feedback*>* feedback_order_;
+      std::vector<const Feedback*>* global_feedback_order_;
+      std::vector<Feedback*> local_feedback_order_;
       std::map<const Processor*, Feedback*> feedback_processors_;
+
+      int* global_changes_;
+      int local_changes_;
   };
 } // namespace mopo
 
