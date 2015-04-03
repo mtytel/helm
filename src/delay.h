@@ -30,7 +30,7 @@ namespace mopo {
       enum Inputs {
         kAudio,
         kWet,
-        kFrequency,
+        kSampleDelay,
         kFeedback,
         kNumInputs
       };
@@ -45,11 +45,11 @@ namespace mopo {
       void tick(int i) {
         mopo_float audio = input(kAudio)->at(i);
         mopo_float wet = input(kWet)->at(i);
-        mopo_float period = sample_rate_ / input(kFrequency)->at(i);
+        mopo_float period = input(kSampleDelay)->at(i);
         mopo_float feedback = input(kFeedback)->at(i);
 
         mopo_float read = memory_->get(period);
-        memory_->push((audio + read) * feedback);
+        memory_->push(audio + read * feedback);
         output(0)->buffer[i] = INTERPOLATE(audio, read, wet);
       }
 
