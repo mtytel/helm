@@ -15,8 +15,8 @@
  */
 
 #pragma once
-#ifndef DELAY_H
-#define DELAY_H
+#ifndef SIMPLE_DELAY_H
+#define SIMPLE_DELAY_H
 
 #include "memory.h"
 #include "processor.h"
@@ -25,32 +25,31 @@ namespace mopo {
 
   // A signal delay processor with wet/dry, delay time and feedback controls.
   // Handles fractional delay amounts through interpolation.
-  class Delay : public Processor {
+  class SimpleDelay : public Processor {
     public:
       enum Inputs {
         kAudio,
-        kWet,
         kSampleDelay,
         kFeedback,
         kNumInputs
       };
 
-      Delay(int size);
-      Delay(const Delay& other);
-      virtual ~Delay() { }
+      SimpleDelay(int size);
+      SimpleDelay(const SimpleDelay& other);
+      virtual ~SimpleDelay() { }
 
-      virtual Processor* clone() const { return new Delay(*this); }
+      virtual Processor* clone() const { return new SimpleDelay(*this); }
       virtual void process();
 
       void tick(int i) {
         mopo_float audio = input(kAudio)->at(i);
-        mopo_float wet = input(kWet)->at(i);
         mopo_float period = input(kSampleDelay)->at(i);
         mopo_float feedback = input(kFeedback)->at(i);
 
         mopo_float read = memory_->get(period);
-        memory_->push(audio + read * feedback);
-        output(0)->buffer[i] = INTERPOLATE(audio, read, wet);
+        mopo_float value = audio + read * feedback;
+        memory_->push(value);
+        output(0)->buffer[i] = value;
       }
 
     protected:
@@ -58,4 +57,4 @@ namespace mopo {
   };
 } // namespace mopo
 
-#endif // DELAY_H
+#endif // SIMPLE_DELAY_H
