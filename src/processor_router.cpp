@@ -230,14 +230,14 @@ namespace mopo {
     size_t num_processors = order_->size();
     for (int i = 0; i < num_processors; ++i) {
       const Processor* next = order_->at(i);
-      if (processors_.find(next) == processors_.end())
+      if (processors_.count(next) == 0)
         processors_[next] = next->clone();
     }
 
     size_t num_feedbacks = feedback_order_->size();
     for (int i = 0; i < num_feedbacks; ++i) {
       const Feedback* next = feedback_order_->at(i);
-      if (feedback_processors_.find(next) == feedback_processors_.end())
+      if (feedback_processors_.count(next) == 0)
         feedback_processors_[next] = new Feedback(*next);
     }
   }
