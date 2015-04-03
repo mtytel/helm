@@ -315,13 +315,17 @@ namespace mopo {
     final_gain->setControlRate();
     final_gain->plug(decibals);
 
-    Processor* filter_saturation = createPolyModControl("filter_saturation", 0.0, false);
+    Processor* filter_saturation = createPolyModControl("filter_saturation", 0.0, true);
     MagnitudeScale* saturation_magnitude = new MagnitudeScale();
+    saturation_magnitude->setControlRate();
     saturation_magnitude->plug(filter_saturation);
+
+    LinearSmoothBuffer* smooth_saturation_magnitude = new LinearSmoothBuffer();
+    smooth_saturation_magnitude->plug(saturation_magnitude);
 
     Multiply* saturated_audio = new Multiply();
     saturated_audio->plug(audio, 0);
-    saturated_audio->plug(saturation_magnitude, 1);
+    saturated_audio->plug(smooth_saturation_magnitude, 1);
 
     Filter* filter = new Filter();
     filter->plug(saturated_audio, Filter::kAudio);
@@ -349,6 +353,7 @@ namespace mopo {
     addProcessor(filter);
 
     addProcessor(saturation_magnitude);
+    addProcessor(smooth_saturation_magnitude);
     addProcessor(distorted_filter_);
 
     controls_["filter_type"] = filter_type;
