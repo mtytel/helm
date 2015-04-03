@@ -24,11 +24,14 @@ namespace mopo {
     Wave::Type waveform1 = static_cast<Wave::Type>(input(kOscillator1Waveform)->source->buffer[0]);
     Wave::Type waveform2 = static_cast<Wave::Type>(input(kOscillator2Waveform)->source->buffer[0]);
 
+    mopo_float base_phase1 = input(kOscillator1PhaseInc)->source->buffer[0];
+    mopo_float base_phase2 = input(kOscillator2PhaseInc)->source->buffer[0];
+
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, waveform1, waveform2);
+        tick(i, base_phase1, base_phase2, waveform1, waveform2);
 
       oscillator1_phase_ = 0.0;
       oscillator2_phase_ = 0.0;
@@ -36,6 +39,6 @@ namespace mopo {
       oscillator1_value_ = 0.0;
     }
     for (; i < buffer_size_; ++i)
-      tick(i, waveform1, waveform2);
+      tick(i, base_phase1, base_phase2, waveform1, waveform2);
   }
 } // namespace mopo

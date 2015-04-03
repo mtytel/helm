@@ -30,8 +30,8 @@ namespace mopo {
       enum Inputs {
         kOscillator1Waveform,
         kOscillator2Waveform,
-        kOscillator1BaseFrequency,
-        kOscillator2BaseFrequency,
+        kOscillator1PhaseInc,
+        kOscillator2PhaseInc,
         kReset,
         kCrossMod,
         kNumInputs
@@ -47,17 +47,16 @@ namespace mopo {
 
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
-      void tick(int i, Wave::Type waveform1, Wave::Type waveform2) {
+      void tick(int i, mopo_float base_phase1, mopo_float base_phase2,
+                Wave::Type waveform1, Wave::Type waveform2) {
         static double integral;
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
-        mopo_float base_freq1 = input(kOscillator1BaseFrequency)->source->buffer[i];
-        mopo_float base_freq2 = input(kOscillator2BaseFrequency)->source->buffer[i];
-        mopo_float frequency1 = base_freq1 * (cross_mod * oscillator2_value_ + 1.0);
-        mopo_float frequency2 = base_freq2 * (cross_mod * oscillator1_value_ + 1.0);
-        oscillator1_phase_ = modf(oscillator1_phase_ + frequency1 / sample_rate_, &integral);
-        oscillator2_phase_ = modf(oscillator2_phase_ + frequency2 / sample_rate_, &integral);
-        oscillator1_value_ = Wave::blwave(waveform1, oscillator1_phase_, frequency1);
-        oscillator2_value_ = Wave::blwave(waveform2, oscillator2_phase_, frequency2);
+        mopo_float phase_inc1 = base_phase1 * (cross_mod * oscillator2_value_ + 1.0);
+        mopo_float phase_inc2 = base_phase2 * (cross_mod * oscillator1_value_ + 1.0);
+        oscillator1_phase_ = modf(oscillator1_phase_ + phase_inc1, &integral);
+        oscillator2_phase_ = modf(oscillator2_phase_ + phase_inc2, &integral);
+        oscillator1_value_ = Wave::wave(waveform1, oscillator1_phase_);
+        oscillator2_value_ = Wave::wave(waveform2, oscillator2_phase_);
         output(0)->buffer[i] = oscillator1_value_;
         output(1)->buffer[i] = oscillator2_value_;
       }
