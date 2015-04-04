@@ -69,6 +69,9 @@
               file="mopo/src/resonance_lookup.cpp"/>
         <FILE id="pTH1Hf" name="resonance_lookup.h" compile="0" resource="0"
               file="mopo/src/resonance_lookup.h"/>
+        <FILE id="cgKBjF" name="simple_delay.cpp" compile="1" resource="0"
+              file="mopo/src/simple_delay.cpp"/>
+        <FILE id="lyFG3w" name="simple_delay.h" compile="0" resource="0" file="mopo/src/simple_delay.h"/>
         <FILE id="FNCsKO" name="smooth_filter.cpp" compile="1" resource="0"
               file="mopo/src/smooth_filter.cpp"/>
         <FILE id="RoiNhg" name="smooth_filter.h" compile="0" resource="0" file="mopo/src/smooth_filter.h"/>

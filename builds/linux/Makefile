@@ -73,6 +73,7 @@ OBJECTS := \
   $(OBJDIR)/processor_4dff978e.o \
   $(OBJDIR)/processor_router_23bde824.o \
   $(OBJDIR)/resonance_lookup_12e6d099.o \
+  $(OBJDIR)/simple_delay_ba680dc4.o \
   $(OBJDIR)/smooth_filter_7e275f25.o \
   $(OBJDIR)/smooth_value_e19bb7ae.o \
   $(OBJDIR)/step_generator_6ff0a2ee.o \
@@ -250,6 +251,11 @@ $(OBJDIR)/processor_router_23bde824.o: ../../mopo/src/processor_router.cpp
 $(OBJDIR)/resonance_lookup_12e6d099.o: ../../mopo/src/resonance_lookup.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling resonance_lookup.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/simple_delay_ba680dc4.o: ../../mopo/src/simple_delay.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling simple_delay.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/smooth_filter_7e275f25.o: ../../mopo/src/smooth_filter.cpp

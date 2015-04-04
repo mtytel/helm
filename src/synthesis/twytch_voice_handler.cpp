@@ -208,19 +208,23 @@ namespace mopo {
     MidiScale* osc_feedback_frequency = new MidiScale();
     osc_feedback_frequency->setControlRate();
     osc_feedback_frequency->plug(osc_feedback_midi);
-    SampleAndHoldBuffer* osc_feedback_freq_audio = new SampleAndHoldBuffer();
-    osc_feedback_freq_audio->plug(osc_feedback_frequency);
+
+    FrequencyToSamples* osc_feedback_samples = new FrequencyToSamples();
+    osc_feedback_samples->plug(osc_feedback_frequency);
+
+    SampleAndHoldBuffer* osc_feedback_samples_audio = new SampleAndHoldBuffer();
+    osc_feedback_samples_audio->plug(osc_feedback_samples);
 
     addProcessor(osc_feedback_transposed);
     addProcessor(osc_feedback_midi);
     addProcessor(osc_feedback_frequency);
-    addProcessor(osc_feedback_freq_audio);
+    addProcessor(osc_feedback_samples);
+    addProcessor(osc_feedback_samples_audio);
 
-    osc_feedback_ = new Delay(MAX_FEEDBACK_SAMPLES);
-    osc_feedback_->plug(oscillator_mix, Delay::kAudio);
-    osc_feedback_->plug(osc_feedback_freq_audio, Delay::kFrequency);
-    osc_feedback_->plug(osc_feedback_amount, Delay::kFeedback);
-    osc_feedback_->plug(&utils::value_half, Delay::kWet);
+    osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
+    osc_feedback_->plug(oscillator_mix, SimpleDelay::kAudio);
+    osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
+    osc_feedback_->plug(osc_feedback_amount, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);
   }
 

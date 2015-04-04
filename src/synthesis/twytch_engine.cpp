@@ -139,18 +139,23 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_free_frequency = createMonoModControl("delay_frequency", -3.0, false, true, kExponential);
+    Processor* delay_free_frequency = createMonoModControl("delay_frequency", -3.0, true,
+                                                           false, kExponential);
     Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency,
                                                        beats_per_second, false);
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 
+    FrequencyToSamples* delay_samples = new FrequencyToSamples();
+    delay_samples->plug(delay_frequency);
+
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);
-    delay->plug(delay_frequency, Delay::kFrequency);
+    delay->plug(delay_samples, Delay::kSampleDelay);
     delay->plug(delay_feedback, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 
+    addProcessor(delay_samples);
     addProcessor(delay);
 
     // Volume.

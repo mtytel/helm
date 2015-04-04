@@ -114,6 +114,7 @@ namespace mopo {
     Processor* tempo = createMonoModControl(name + "_tempo", 12, false);
     Switch* choose_tempo = new Switch();
     choose_tempo->plug(tempo, Switch::kSource);
+    choose_tempo->setControlRate(frequency->isControlRate());
     for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(mopo_float); ++i) {
       Value* tempo = new Value(synced_freq_ratios[i]);
       choose_tempo->plugNext(tempo);
@@ -126,6 +127,7 @@ namespace mopo {
     owner->addProcessor(tempo_frequency);
 
     Switch* choose_frequency = new Switch();
+    choose_frequency->setControlRate(frequency->isControlRate());
     Value* sync = new Value(1);
     choose_frequency->plug(sync, Switch::kSource);
     choose_frequency->plugNext(frequency);

@@ -74,7 +74,7 @@ namespace mopo {
       LinearSlope* current_frequency_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
-      Delay* osc_feedback_;
+      SimpleDelay* osc_feedback_;
 
       Distortion* distorted_filter_;
       FormantManager* formant_filter_;

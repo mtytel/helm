@@ -397,6 +397,9 @@
     <ClCompile Include="..\..\..\mopo\src\resonance_lookup.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mopo\src\simple_delay.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\smooth_filter.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
@@ -1804,6 +1807,9 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\resonance_lookup.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\simple_delay.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\smooth_filter.h">
