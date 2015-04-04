@@ -28,7 +28,6 @@ namespace mopo {
       tick(i);
   }
 
-
   void Clamp::process() {
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vclipD(input()->source->buffer, 1,
@@ -136,6 +135,17 @@ namespace mopo {
 #ifdef USE_APPLE_ACCELERATE
     mopo_float sample_rate = sample_rate_;
     vDSP_vsdivD(input()->source->buffer, 1, &sample_rate,
+                output()->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
+  void FrequencyToSamples::process() {
+#ifdef USE_APPLE_ACCELERATE
+    mopo_float sample_rate = sample_rate_;
+    vDSP_svdivD(&sample_rate, input()->source->buffer, 1,
                 output()->buffer, 1, buffer_size_);
 #else
     for (int i = 0; i < buffer_size_; ++i)

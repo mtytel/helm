@@ -331,6 +331,19 @@ namespace mopo {
       }
   };
 
+  class FrequencyToSamples : public Operator {
+    public:
+      FrequencyToSamples() : Operator(1, 1) { }
+
+      virtual Processor* clone() const { return new FrequencyToSamples(*this); }
+
+      void process();
+
+      inline void tick(int i) {
+        output()->buffer[i] = sample_rate_ / input()->at(0);
+      }
+  };
+
   class SampleAndHoldBuffer : public Operator {
     public:
       SampleAndHoldBuffer() : Operator(1, 1) { }
