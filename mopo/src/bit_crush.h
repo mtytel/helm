@@ -42,7 +42,7 @@ namespace mopo {
         mopo_float audio = input(kAudio)->at(i);
         mopo_float wet = input(kWet)->at(i);
 
-        mopo_float out = round(magnification_ * audio) / magnification_;
+        mopo_float out = floor(magnification_ * (1.0 + audio) + 0.5) / magnification_ - 1.0;
 
         output(0)->buffer[i] = INTERPOLATE(audio, out, wet);
       }

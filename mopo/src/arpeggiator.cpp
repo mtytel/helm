@@ -64,7 +64,7 @@ namespace mopo {
 
   std::pair<mopo_float, mopo_float> Arpeggiator::getNextNote() {
     int octaves = std::max<int>(1, input(kOctaves)->at(0));
-    Pattern type = static_cast<Pattern>(input(kPattern)->at(0));
+    Pattern type = static_cast<Pattern>(static_cast<int>(input(kPattern)->at(0)));
     std::vector<mopo_float>* pattern = &as_played_;
 
     note_index_++;
@@ -80,8 +80,8 @@ namespace mopo {
         break;
       case kRandom:
         pattern = &ascending_;
-        note_index_ = random() % ascending_.size();
-        current_octave_ = random() % octaves;
+        note_index_ = rand() % ascending_.size();
+        current_octave_ = rand() % octaves;
         break;
       case kUpDown:
         if (note_index_ >= ascending_.size() - 1) {
