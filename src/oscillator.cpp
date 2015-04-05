@@ -24,7 +24,7 @@ namespace mopo {
                              offset_(0.0), waveform_(Wave::kSin) { }
 
   void Oscillator::preprocess() {
-    waveform_ = static_cast<Wave::Type>(input(kWaveform)->at(0));
+    waveform_ = static_cast<Wave::Type>(static_cast<int>(input(kWaveform)->at(0)));
   }
 
   void Oscillator::process() {

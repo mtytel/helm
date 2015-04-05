@@ -64,7 +64,7 @@ namespace mopo {
   }
 
   void Distortion::process() {
-    current_type_ = static_cast<Type>(inputs_->at(kType)->at(0));
+    current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
 
     switch(current_type_) {
       case kTanh:

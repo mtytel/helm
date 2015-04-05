@@ -67,7 +67,7 @@ namespace mopo {
     }
 
     inline mopo_float frequencyToMidiNote(mopo_float frequency) {
-      return NOTES_PER_OCTAVE * log2(frequency / MIDI_0_FREQUENCY);
+      return NOTES_PER_OCTAVE * log(frequency / MIDI_0_FREQUENCY) / log(2.0);
     }
 
     inline mopo_float frequencyToMidiCents(mopo_float frequency) {

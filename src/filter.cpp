@@ -47,7 +47,7 @@ namespace mopo {
   }
 
   void Filter::process() {
-    current_type_ = static_cast<Type>(inputs_->at(kType)->at(0));
+    current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
     computeCoefficients(current_type_, inputs_->at(kCutoff)->at(0),
                         inputs_->at(kResonance)->at(0), inputs_->at(kGain)->at(0));
 
