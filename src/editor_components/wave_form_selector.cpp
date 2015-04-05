@@ -89,7 +89,7 @@ void WaveFormSelector::paint (Graphics& g)
             g.setColour(Colour(0x66ffffff));
             g.fillRect(x, 0.0f, 1.0f, (float)getHeight());
 
-            mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
+            mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
             float value = amplitude * mopo::Wave::wave(type, phase);
             float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - value) / 2.0f;
             g.setColour(Colour(0xffffffff));
@@ -164,7 +164,7 @@ void WaveFormSelector::resetWavePath() {
     float draw_height = getHeight() - 2.0f * PADDING;
 
     wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
-    mopo::Wave::Type type = static_cast<mopo::Wave::Type>(wave_slider_->getValue());
+    mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
     for (int i = 1; i < resolution_ - 1; ++i) {
         float t = (1.0f * i) / resolution_;
         float val = amplitude * mopo::Wave::wave(type, t);

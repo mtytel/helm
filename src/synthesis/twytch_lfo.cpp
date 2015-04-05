@@ -31,7 +31,7 @@ namespace mopo {
       num_samples = buffer_size_ - input(kReset)->source->trigger_offset;
     }
     
-    Wave::Type waveform = static_cast<Wave::Type>(input(kWaveform)->at(0));
+    Wave::Type waveform = static_cast<Wave::Type>(static_cast<int>(input(kWaveform)->at(0)));
     mopo_float frequency = input(kFrequency)->at(0);
     mopo_float phase = input(kPhase)->at(0);
 

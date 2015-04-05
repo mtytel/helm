@@ -162,7 +162,7 @@ void FilterResponse::computeFilterCoefficients() {
     if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr || filter_type_slider_ == nullptr)
         return;
 
-    mopo::Filter::Type type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
+    mopo::Filter::Type type = static_cast<mopo::Filter::Type>(static_cast<int>(filter_type_slider_->getValue()));
     double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
     double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
     double decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
@@ -174,7 +174,7 @@ void FilterResponse::computeFilterCoefficients() {
 void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
     mopo::Filter::Type type = mopo::Filter::kAllPass;
     if (filter_type_slider_)
-        type = static_cast<mopo::Filter::Type>(filter_type_slider_->getValue());
+        type = static_cast<mopo::Filter::Type>(static_cast<int>(filter_type_slider_->getValue()));
 
     if (cutoff_slider_) {
         double percent = CLAMP((1.0 * position.x) / getWidth(), 0.0, 1.0);

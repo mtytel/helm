@@ -19,7 +19,9 @@
 #include "twytch_lfo.h"
 #include "twytch_voice_handler.h"
 #include "switch.h"
+#ifdef __APPLE__
 #include <fenv.h>
+#endif
 
 #define MAX_DELAY_SAMPLES 1000000
 

@@ -19,7 +19,6 @@
 #include "twytch_lfo.h"
 #include "twytch_oscillators.h"
 
-#include <fenv.h>
 #include <sstream>
 
 #define PITCH_MOD_RANGE 12
