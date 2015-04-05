@@ -90,7 +90,7 @@ namespace mopo {
 
     addProcessor(aftertouch_value);
     mod_sources_["aftertouch"] = aftertouch_value->output();
-    
+
     output_->plug(formant_container_, 0);
     output_->plug(amplitude_, 1);
 
@@ -241,6 +241,7 @@ namespace mopo {
     lfo->plug(lfo_frequency, TwytchLfo::kFrequency);
 
     Multiply* scaled_lfo = new Multiply();
+    scaled_lfo->setControlRate();
     scaled_lfo->plug(lfo, 0);
     scaled_lfo->plug(lfo_free_amplitude, 1);
 
@@ -272,6 +273,7 @@ namespace mopo {
 
     Processor* filter_envelope_depth = createPolyModControl("fil_env_depth", 48, false);
     Multiply* scaled_envelope = new Multiply();
+    scaled_envelope->setControlRate();
     scaled_envelope->plug(filter_envelope_, 0);
     scaled_envelope->plug(filter_envelope_depth, 1);
 
@@ -284,6 +286,7 @@ namespace mopo {
     Value* filter_type = new Value(Filter::kLowPass);
     Processor* keytrack_amount = createPolyModControl("keytrack", 0.0, false);
     Multiply* current_keytrack = new Multiply();
+    current_keytrack->setControlRate();
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
 
@@ -494,6 +497,7 @@ namespace mopo {
 
     Value* max_midi_invert = new Value(1.0 / (MIDI_SIZE - 1));
     Multiply* note_percentage = new Multiply();
+    note_percentage->setControlRate();
     note_percentage->plug(max_midi_invert, 0);
     note_percentage->plug(current_note, 1);
 

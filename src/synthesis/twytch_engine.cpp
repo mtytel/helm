@@ -62,6 +62,7 @@ namespace mopo {
     lfo_1->plug(lfo_1_frequency, TwytchLfo::kFrequency);
 
     Multiply* scaled_lfo_1 = new Multiply();
+    scaled_lfo_1->setControlRate();
     scaled_lfo_1->plug(lfo_1, 0);
     scaled_lfo_1->plug(lfo_1_free_amplitude, 1);
 
@@ -83,6 +84,7 @@ namespace mopo {
     lfo_2->plug(lfo_2_frequency, TwytchLfo::kFrequency);
 
     Multiply* scaled_lfo_2 = new Multiply();
+    scaled_lfo_2->setControlRate();
     scaled_lfo_2->plug(lfo_2, 0);
     scaled_lfo_2->plug(lfo_2_free_amplitude, 1);
 
