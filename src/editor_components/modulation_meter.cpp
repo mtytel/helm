@@ -40,7 +40,7 @@ void ModulationMeter::update(int num_voices) {
 
         double range = destination_->getMaximum() - destination_->getMinimum();
         double percent = CLAMP((value - destination_->getMinimum()) / range, 0.0, 1.0);
-        
+
         if (percent != current_percent_) {
             current_percent_ = percent;
             repaint();
@@ -61,19 +61,28 @@ void ModulationMeter::drawSlider(Graphics& g) {
 
     if (destination_->getSliderStyle() == Slider::LinearBar) {
         float middle = getWidth() / 2.0f;
+        float position = getWidth() * skew;
 
-        if (destination_->isBipolar())
-            g.fillRect(middle, 1.0f, getWidth() * skew - middle, 1.0f * getHeight() - 2.0f);
+        if (destination_->isBipolar()) {
+            if (position >= middle)
+                g.fillRect(middle, 1.0f, position - middle, 1.0f * getHeight() - 2.0f);
+            else
+                g.fillRect(position, 1.0f, middle - position, 1.0f * getHeight() - 2.0f);
+        }
         else
             g.fillRect(1.0f, 1.0f, getWidth() * skew, 1.0f * getHeight() - 2.0f);
     }
     else {
         float middle = getHeight() / 2.0f;
+        float position = getHeight() * (1.0 - skew);
 
         if (destination_->isBipolar())
-            g.fillRect(1.0f, middle, getWidth() - 2.0f, -getHeight() * skew - middle);
+            if (position >= middle)
+                g.fillRect(1.0f, middle, getWidth() - 2.0f, position - middle);
+            else
+                g.fillRect(1.0f, position, getWidth() - 2.0f, middle - position);
         else
-            g.fillRect(1.0f, getHeight() - 1.0f, getWidth() - 2.0f, -getHeight() * skew);
+            g.fillRect(1.0f, position, getWidth() - 2.0f, getHeight() - 1.0f - position);
     }
 }
 
