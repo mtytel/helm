@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -32,6 +32,9 @@
 //==============================================================================
 SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer());
     addAndMakeVisible (amplitude_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
@@ -694,31 +697,31 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.fillAll (Colour (0xff1d0e29));
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (672, 508, 120, 132);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (672, 508, 120, 132, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (550, 508, 120, 132);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (550, 508, 120, 132, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (612, 644, 180, 84);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (612, 644, 180, 84, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (428, 644, 180, 84);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (428, 644, 180, 84, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (4, 4, 420, 236);
 
     g.setColour (Colour (0xff664e79));
@@ -742,43 +745,43 @@ void SynthesisInterface::paint (Graphics& g)
                 172, 108, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (4, 244, 420, 68);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (4, 244, 420, 68, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (4, 316, 420, 188);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (4, 316, 420, 188, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (428, 4, 364, 164);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (428, 4, 364, 164, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (428, 172, 364, 164);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (428, 172, 364, 164, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (428, 340, 364, 164);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (428, 340, 364, 164, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (4, 508, 420, 132);
 
     g.setColour (Colour (0xff664e79));
     g.drawRect (4, 508, 420, 132, 1);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (428, 508, 120, 132);
 
     g.setColour (Colour (0xff664e79));
@@ -892,7 +895,7 @@ void SynthesisInterface::paint (Graphics& g)
                 620, 644, 60, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (4, 644, 420, 84);
 
     g.setColour (Colour (0xff664379));
@@ -934,7 +937,7 @@ void SynthesisInterface::paint (Graphics& g)
                 308, 708, 92, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff562b75));
+    g.setColour (Colour (0xff100b14));
     g.fillRect (4, 732, 788, 36);
 
     g.setColour (Colour (0xff664379));
@@ -1814,15 +1817,15 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff1d0e29">
-    <RECT pos="672 508 120 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="672 508 120 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="550 508 120 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="550 508 120 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="612 644 180 84" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="612 644 180 84" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="428 644 180 84" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="428 644 180 84" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="4 4 420 236" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="4 4 420 236" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
     <TEXT pos="236 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
@@ -1833,19 +1836,19 @@ BEGIN_JUCER_METADATA
     <TEXT pos="172 108 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="X MOD"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 244 420 68" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="4 244 420 68" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="4 316 420 188" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="4 316 420 188" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="428 4 364 164" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="428 4 364 164" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="428 172 364 164" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="428 172 364 164" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="428 340 364 164" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="428 340 364 164" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="4 508 420 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="4 508 420 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
-    <RECT pos="428 508 120 132" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="428 508 120 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664e79"/>
     <TEXT pos="12 244 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
@@ -1901,7 +1904,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="620 644 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="VOLUME"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <RECT pos="4 644 420 84" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="4 644 420 84" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664379"/>
     <TEXT pos="12 644 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="ARTICULATION"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
@@ -1921,7 +1924,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="308 708 92 12" fill="solid: ffd4b0e0" hasStroke="0" text="PITCH BEND"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 732 788 36" fill="solid: ff562b75" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="4 732 788 36" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff664379"/>
     <TEXT pos="36 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="PITCH WHEEL"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"

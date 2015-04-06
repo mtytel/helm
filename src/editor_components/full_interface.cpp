@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -32,6 +32,9 @@
 //==============================================================================
 FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (arp_frequency_ = new TwytchSlider ("arp_frequency"));
     arp_frequency_->setRange (-1, 4, 0);
