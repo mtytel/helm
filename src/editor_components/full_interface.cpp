@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.1
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
@@ -32,9 +32,6 @@
 //==============================================================================
 FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (arp_frequency_ = new TwytchSlider ("arp_frequency"));
     arp_frequency_->setRange (-1, 4, 0);
@@ -92,7 +89,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     beats_per_minute_->setRange (20, 300, 0);
     beats_per_minute_->setSliderStyle (Slider::LinearBar);
     beats_per_minute_->setTextBoxStyle (Slider::TextBoxAbove, false, 150, 20);
-    beats_per_minute_->setColour (Slider::backgroundColourId, Colours::black);
+    beats_per_minute_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     beats_per_minute_->setColour (Slider::textBoxTextColourId, Colours::white);
     beats_per_minute_->addListener (this);
 
@@ -165,33 +162,33 @@ void FullInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff392054));
+    g.fillAll (Colour (0xff222222));
 
-    g.setColour (Colour (0xffbf9bc7));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("GATE"),
                 804, 164, 52, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffbf9bc7));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 876, 164, 52, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffbf9bc7));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("OCTAVES"),
                 804, 252, 60, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffbf9bc7));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("PATTERN"),
                 876, 252, 60, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffbf9bc7));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("BPM"),
                 796, 564, 36, 12,
@@ -405,20 +402,20 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
-  <BACKGROUND backgroundColour="ff392054">
-    <TEXT pos="804 164 52 20" fill="solid: ffbf9bc7" hasStroke="0" text="GATE"
+  <BACKGROUND backgroundColour="ff222222">
+    <TEXT pos="804 164 52 20" fill="solid: ff777777" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="876 164 52 20" fill="solid: ffbf9bc7" hasStroke="0" text="FREQ"
+    <TEXT pos="876 164 52 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="804 252 60 20" fill="solid: ffbf9bc7" hasStroke="0" text="OCTAVES"
+    <TEXT pos="804 252 60 20" fill="solid: ff777777" hasStroke="0" text="OCTAVES"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="876 252 60 20" fill="solid: ffbf9bc7" hasStroke="0" text="PATTERN"
+    <TEXT pos="876 252 60 20" fill="solid: ff777777" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="796 564 36 12" fill="solid: ffbf9bc7" hasStroke="0" text="BPM"
+    <TEXT pos="796 564 36 12" fill="solid: ff777777" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
   </BACKGROUND>
@@ -466,7 +463,7 @@ BEGIN_JUCER_METADATA
                 state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="800 576 150 32"
-          bkgcol="ff000000" textboxtext="ffffffff" min="20" max="300" int="0"
+          bkgcol="ff333333" textboxtext="ffffffff" min="20" max="300" int="0"
           style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
           textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="global_tool_tip" id="c501d8243c608e75" memberName="global_tool_tip_"

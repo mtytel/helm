@@ -66,10 +66,10 @@ void XYPad::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff33064f));
+    g.fillAll (Colour (0xff246370));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff43165f));
+    g.setColour(Colour(0xff347380));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
@@ -178,7 +178,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
     <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff33064f"/>
+  <BACKGROUND backgroundColour="ff246370"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

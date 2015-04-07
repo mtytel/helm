@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.1
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
@@ -32,9 +32,6 @@
 //==============================================================================
 SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 {
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
     addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer());
     addAndMakeVisible (amplitude_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
@@ -77,18 +74,18 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     portamento_type_->setRange (0, 2, 1);
     portamento_type_->setSliderStyle (Slider::LinearBar);
     portamento_type_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    portamento_type_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    portamento_type_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     portamento_type_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    portamento_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    portamento_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     portamento_type_->addListener (this);
 
     addAndMakeVisible (osc_mix_ = new TwytchSlider ("osc_mix"));
     osc_mix_->setRange (0, 1, 0);
     osc_mix_->setSliderStyle (Slider::LinearBar);
     osc_mix_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    osc_mix_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    osc_mix_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     osc_mix_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    osc_mix_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    osc_mix_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     osc_mix_->addListener (this);
 
     addAndMakeVisible (osc_2_transpose_ = new TwytchSlider ("osc_2_transpose"));
@@ -111,9 +108,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     volume_->setRange (0, 1, 0);
     volume_->setSliderStyle (Slider::LinearBar);
     volume_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    volume_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    volume_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     volume_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    volume_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    volume_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     volume_->addListener (this);
 
     addAndMakeVisible (delay_feedback_ = new TwytchSlider ("delay_feedback"));
@@ -208,36 +205,36 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     resonance_->setRange (0, 1, 0);
     resonance_->setSliderStyle (Slider::LinearBar);
     resonance_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    resonance_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    resonance_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     resonance_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     resonance_->addListener (this);
 
     addAndMakeVisible (osc_1_waveform_ = new TwytchSlider ("osc_1_waveform"));
     osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearBar);
     osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    osc_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    osc_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     osc_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     osc_1_waveform_->addListener (this);
 
     addAndMakeVisible (osc_2_waveform_ = new TwytchSlider ("osc_2_waveform"));
     osc_2_waveform_->setRange (0, 11, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearBar);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    osc_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    osc_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     osc_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     osc_2_waveform_->addListener (this);
 
     addAndMakeVisible (cutoff_ = new TwytchSlider ("cutoff"));
     cutoff_->setRange (28, 127, 0);
     cutoff_->setSliderStyle (Slider::LinearBar);
     cutoff_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    cutoff_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    cutoff_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     cutoff_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    cutoff_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    cutoff_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     cutoff_->addListener (this);
 
     addAndMakeVisible (fil_env_depth_ = new TwytchSlider ("fil_env_depth"));
@@ -285,9 +282,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_waveform_->setRange (0, 11, 1);
     mono_lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    mono_lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    mono_lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     mono_lfo_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     mono_lfo_1_waveform_->addListener (this);
 
     addAndMakeVisible (num_steps_ = new TwytchSlider ("num_steps"));
@@ -325,15 +322,15 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (formant_bypass_ = new ToggleButton ("formant_bypass"));
     formant_bypass_->setButtonText (TRANS("formant bypass"));
     formant_bypass_->addListener (this);
-    formant_bypass_->setColour (ToggleButton::textColourId, Colours::white);
+    formant_bypass_->setColour (ToggleButton::textColourId, Colour (0xff777777));
 
     addAndMakeVisible (legato_ = new TwytchSlider ("legato"));
     legato_->setRange (0, 1, 1);
     legato_->setSliderStyle (Slider::LinearBar);
     legato_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    legato_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    legato_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     legato_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    legato_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    legato_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     legato_->addListener (this);
 
     addAndMakeVisible (formant_xy_pad_ = new XYPad());
@@ -341,27 +338,27 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_x_->setRange (0, 1, 0);
     formant_x_->setSliderStyle (Slider::LinearBar);
     formant_x_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     formant_x_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     formant_x_->addListener (this);
 
     addAndMakeVisible (formant_y_ = new TwytchSlider ("formant_y"));
     formant_y_->setRange (0, 1, 0);
     formant_y_->setSliderStyle (Slider::LinearBar);
     formant_y_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     formant_y_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     formant_y_->addListener (this);
 
     addAndMakeVisible (filter_type_ = new TwytchSlider ("filter_type"));
     filter_type_->setRange (0, 6, 1);
     filter_type_->setSliderStyle (Slider::LinearBar);
     filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    filter_type_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    filter_type_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     filter_type_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    filter_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    filter_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     filter_type_->addListener (this);
 
     addAndMakeVisible (poly_lfo_wave_display_ = new WaveFormSelector (128));
@@ -369,9 +366,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_waveform_->setRange (0, 11, 1);
     poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
     poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     poly_lfo_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     poly_lfo_waveform_->addListener (this);
 
     addAndMakeVisible (filter_envelope_mod_ = new TextButton ("filter_env"));
@@ -431,9 +428,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_waveform_->setRange (0, 11, 1);
     mono_lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    mono_lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff190327));
+    mono_lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     mono_lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff452e60));
+    mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     mono_lfo_2_waveform_->addListener (this);
 
     addAndMakeVisible (osc_1_transpose_ = new TwytchSlider ("osc_1_transpose"));
@@ -523,7 +520,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (stutter_bypass_ = new ToggleButton ("stutter_bypass"));
     stutter_bypass_->setButtonText (TRANS("stutter bypass"));
     stutter_bypass_->addListener (this);
-    stutter_bypass_->setColour (ToggleButton::textColourId, Colours::white);
+    stutter_bypass_->setColour (ToggleButton::textColourId, Colour (0xff777777));
 
     addAndMakeVisible (stutter_resample_frequency_ = new TwytchSlider ("stutter_resample_frequency"));
     stutter_resample_frequency_->setRange (0.5, 20, 0);
@@ -695,369 +692,369 @@ void SynthesisInterface::paint (Graphics& g)
     mono_lfo_2_wave_display_->showRealtimeFeedback();
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff1d0e29));
+    g.fillAll (Colour (0xff222222));
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (672, 508, 120, 132);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (672, 508, 120, 132, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (550, 508, 120, 132);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (550, 508, 120, 132, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (612, 644, 180, 84);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (612, 644, 180, 84, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (428, 644, 180, 84);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (428, 644, 180, 84, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (4, 4, 420, 236);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (4, 4, 420, 236, 1);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OSC 2 TRANSPOSE"),
                 236, 220, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OSC 2 TUNE"),
                 316, 220, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("X MOD"),
                 172, 108, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (4, 244, 420, 68);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (4, 244, 420, 68, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (4, 316, 420, 188);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (4, 316, 420, 188, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (428, 4, 364, 164);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (428, 4, 364, 164, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (428, 172, 364, 164);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (428, 172, 364, 164, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (428, 340, 364, 164);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (428, 340, 364, 164, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (4, 508, 420, 132);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (4, 508, 420, 132, 1);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (428, 508, 120, 132);
 
-    g.setColour (Colour (0xff664e79));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (428, 508, 120, 132, 1);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
                 12, 244, 84, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("OSCILLATORS"),
                 12, 4, 116, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TRANSPOSE"),
                 92, 292, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TUNE"),
                 172, 292, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMOUNT"),
                 260, 292, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("SATURATION"),
                 332, 364, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("FILTER"),
                 12, 316, 84, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("MONO LFO 1"),
                 436, 508, 84, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("POLY LFO"),
                 676, 508, 84, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 500, 622, 44, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("FILTER ENVELOPE"),
                 436, 4, 140, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("AMPLITUDE ENVELOPE"),
                 436, 172, 140, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("STEP SEQUENCER"),
                 436, 340, 140, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("DELAY"),
                 436, 644, 44, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
                 492, 708, 60, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 428, 708, 60, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("DRY/WET"),
                 556, 708, 60, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("VOLUME"),
                 620, 644, 60, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (4, 644, 420, 84);
 
-    g.setColour (Colour (0xff664379));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (4, 644, 420, 84, 1);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("ARTICULATION"),
                 12, 644, 92, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("POLYPHONY"),
                 20, 708, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PORTAMENTO"),
                 108, 708, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("LEGATO"),
                 212, 708, 92, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PORTAMENTO TYPE"),
                 212, 676, 92, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PITCH BEND"),
                 308, 708, 92, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff100b14));
+    g.setColour (Colour (0xff222222));
     g.fillRect (4, 732, 788, 36);
 
-    g.setColour (Colour (0xff664379));
+    g.setColour (Colour (0xff2e6761));
     g.drawRect (4, 732, 788, 36, 1);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PITCH WHEEL"),
                 36, 740, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("MOD WHEEL"),
                 188, 740, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("NOTE"),
                 348, 740, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("VELOCITY"),
                 508, 740, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AFTERTOUCH"),
                 652, 740, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("STEPS"),
                 508, 476, 60, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQUENCY"),
                 660, 476, 60, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("VEL TRACK"),
                 708, 308, 60, 12,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("KEY TRACK"),
                 332, 428, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OSC 1 TRANSPOSE"),
                 28, 220, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OSC 1 TUNE"),
                 108, 220, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("MONO LFO 2"),
                 556, 508, 84, 20,
                 Justification::centredLeft, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("FILTER ENVELOPE DEPTH"),
-                304, 484, 128, 20,
+    g.drawText (TRANS("ENVELOPE DEPTH"),
+                308, 484, 128, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMP"),
                 460, 622, 44, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 620, 622, 44, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMP"),
                 580, 622, 44, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 740, 622, 44, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMP"),
                 700, 622, 44, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 -4, 604, 92, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffd4b0e0));
+    g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("RESAMPLE FREQ"),
                 76, 604, 92, 20,
@@ -1816,174 +1813,174 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff1d0e29">
-    <RECT pos="672 508 120 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="550 508 120 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="612 644 180 84" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="428 644 180 84" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="4 4 420 236" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <TEXT pos="236 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TRANSPOSE"
+  <BACKGROUND backgroundColour="ff222222">
+    <RECT pos="672 508 120 132" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="550 508 120 132" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="612 644 180 84" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="428 644 180 84" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="4 4 420 236" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <TEXT pos="236 220 92 20" fill="solid: ff777777" hasStroke="0" text="OSC 2 TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="316 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 2 TUNE"
+    <TEXT pos="316 220 92 20" fill="solid: ff777777" hasStroke="0" text="OSC 2 TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="172 108 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="X MOD"
+    <TEXT pos="172 108 92 20" fill="solid: ff777777" hasStroke="0" text="X MOD"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 244 420 68" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="4 316 420 188" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="428 4 364 164" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="428 172 364 164" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="428 340 364 164" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="4 508 420 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <RECT pos="428 508 120 132" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664e79"/>
-    <TEXT pos="12 244 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FEEDBACK"
+    <RECT pos="4 244 420 68" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="4 316 420 188" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="428 4 364 164" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="428 172 364 164" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="428 340 364 164" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="4 508 420 132" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="428 508 120 132" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <TEXT pos="12 244 84 20" fill="solid: ff777777" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="12 4 116 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSCILLATORS"
+    <TEXT pos="12 4 116 20" fill="solid: ff777777" hasStroke="0" text="OSCILLATORS"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="92 292 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="TRANSPOSE"
+    <TEXT pos="92 292 92 20" fill="solid: ff777777" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="172 292 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="TUNE"
+    <TEXT pos="172 292 92 20" fill="solid: ff777777" hasStroke="0" text="TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="260 292 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMOUNT"
+    <TEXT pos="260 292 92 20" fill="solid: ff777777" hasStroke="0" text="AMOUNT"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="332 364 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="SATURATION"
+    <TEXT pos="332 364 92 20" fill="solid: ff777777" hasStroke="0" text="SATURATION"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="12 316 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER"
+    <TEXT pos="12 316 84 20" fill="solid: ff777777" hasStroke="0" text="FILTER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="436 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="MONO LFO 1"
+    <TEXT pos="436 508 84 20" fill="solid: ff777777" hasStroke="0" text="MONO LFO 1"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="676 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="POLY LFO"
+    <TEXT pos="676 508 84 20" fill="solid: ff777777" hasStroke="0" text="POLY LFO"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="500 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+    <TEXT pos="500 622 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="436 4 140 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER ENVELOPE"
+    <TEXT pos="436 4 140 20" fill="solid: ff777777" hasStroke="0" text="FILTER ENVELOPE"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="436 172 140 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMPLITUDE ENVELOPE"
+    <TEXT pos="436 172 140 20" fill="solid: ff777777" hasStroke="0" text="AMPLITUDE ENVELOPE"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="436 340 140 20" fill="solid: ffd4b0e0" hasStroke="0" text="STEP SEQUENCER"
+    <TEXT pos="436 340 140 20" fill="solid: ff777777" hasStroke="0" text="STEP SEQUENCER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="436 644 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="DELAY"
+    <TEXT pos="436 644 44 20" fill="solid: ff777777" hasStroke="0" text="DELAY"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="492 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="FEEDBACK"
+    <TEXT pos="492 708 60 20" fill="solid: ff777777" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="428 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+    <TEXT pos="428 708 60 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="556 708 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="DRY/WET"
+    <TEXT pos="556 708 60 20" fill="solid: ff777777" hasStroke="0" text="DRY/WET"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="620 644 60 20" fill="solid: ffd4b0e0" hasStroke="0" text="VOLUME"
+    <TEXT pos="620 644 60 20" fill="solid: ff777777" hasStroke="0" text="VOLUME"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <RECT pos="4 644 420 84" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664379"/>
-    <TEXT pos="12 644 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="ARTICULATION"
+    <RECT pos="4 644 420 84" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <TEXT pos="12 644 92 20" fill="solid: ff777777" hasStroke="0" text="ARTICULATION"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="20 708 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="POLYPHONY"
+    <TEXT pos="20 708 92 20" fill="solid: ff777777" hasStroke="0" text="POLYPHONY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="108 708 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="PORTAMENTO"
+    <TEXT pos="108 708 92 20" fill="solid: ff777777" hasStroke="0" text="PORTAMENTO"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="212 708 92 12" fill="solid: ffd4b0e0" hasStroke="0" text="LEGATO"
+    <TEXT pos="212 708 92 12" fill="solid: ff777777" hasStroke="0" text="LEGATO"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="212 676 92 12" fill="solid: ffd4b0e0" hasStroke="0" text="PORTAMENTO TYPE"
+    <TEXT pos="212 676 92 12" fill="solid: ff777777" hasStroke="0" text="PORTAMENTO TYPE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="308 708 92 12" fill="solid: ffd4b0e0" hasStroke="0" text="PITCH BEND"
+    <TEXT pos="308 708 92 12" fill="solid: ff777777" hasStroke="0" text="PITCH BEND"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 732 788 36" fill="solid: ff100b14" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff664379"/>
-    <TEXT pos="36 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="PITCH WHEEL"
+    <RECT pos="4 732 788 36" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <TEXT pos="36 740 92 20" fill="solid: ff777777" hasStroke="0" text="PITCH WHEEL"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="188 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="MOD WHEEL"
+    <TEXT pos="188 740 92 20" fill="solid: ff777777" hasStroke="0" text="MOD WHEEL"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="348 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="NOTE"
+    <TEXT pos="348 740 92 20" fill="solid: ff777777" hasStroke="0" text="NOTE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="508 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="VELOCITY"
+    <TEXT pos="508 740 92 20" fill="solid: ff777777" hasStroke="0" text="VELOCITY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="652 740 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="AFTERTOUCH"
+    <TEXT pos="652 740 92 20" fill="solid: ff777777" hasStroke="0" text="AFTERTOUCH"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="508 476 60 12" fill="solid: ffd4b0e0" hasStroke="0" text="STEPS"
+    <TEXT pos="508 476 60 12" fill="solid: ff777777" hasStroke="0" text="STEPS"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="660 476 60 12" fill="solid: ffd4b0e0" hasStroke="0" text="FREQUENCY"
+    <TEXT pos="660 476 60 12" fill="solid: ff777777" hasStroke="0" text="FREQUENCY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="708 308 60 12" fill="solid: ffd4b0e0" hasStroke="0" text="VEL TRACK"
+    <TEXT pos="708 308 60 12" fill="solid: ff777777" hasStroke="0" text="VEL TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="332 428 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="KEY TRACK"
+    <TEXT pos="332 428 92 20" fill="solid: ff777777" hasStroke="0" text="KEY TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="28 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 1 TRANSPOSE"
+    <TEXT pos="28 220 92 20" fill="solid: ff777777" hasStroke="0" text="OSC 1 TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="108 220 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="OSC 1 TUNE"
+    <TEXT pos="108 220 92 20" fill="solid: ff777777" hasStroke="0" text="OSC 1 TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="556 508 84 20" fill="solid: ffd4b0e0" hasStroke="0" text="MONO LFO 2"
+    <TEXT pos="556 508 84 20" fill="solid: ff777777" hasStroke="0" text="MONO LFO 2"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="33"/>
-    <TEXT pos="304 484 128 20" fill="solid: ffd4b0e0" hasStroke="0" text="FILTER ENVELOPE DEPTH"
+    <TEXT pos="308 484 128 20" fill="solid: ff777777" hasStroke="0" text="ENVELOPE DEPTH"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="460 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
+    <TEXT pos="460 622 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="620 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+    <TEXT pos="620 622 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="580 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
+    <TEXT pos="580 622 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="740 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+    <TEXT pos="740 622 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="700 622 44 20" fill="solid: ffd4b0e0" hasStroke="0" text="AMP"
+    <TEXT pos="700 622 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="-4 604 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="FREQ"
+    <TEXT pos="-4 604 92 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="76 604 92 20" fill="solid: ffd4b0e0" hasStroke="0" text="RESAMPLE FREQ"
+    <TEXT pos="76 604 92 20" fill="solid: ff777777" hasStroke="0" text="RESAMPLE FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
@@ -2027,12 +2024,12 @@ BEGIN_JUCER_METADATA
              sourceFile="filter_response.cpp" constructorParams="300"/>
   <SLIDER name="portamento_type" id="909956998c46045e" memberName="portamento_type_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="224 656 64 16"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="2" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="16 152 400 24" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
+          explicitFocusOrder="0" pos="16 152 400 24" bkgcol="ff333333"
+          trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
@@ -2046,8 +2043,8 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="672 664 96 56" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
+          explicitFocusOrder="0" pos="672 664 96 56" bkgcol="ff333333"
+          trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
@@ -2107,22 +2104,22 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="resonance" id="6c1c82a2d59d4b6e" memberName="resonance_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="316 360 12 100"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_1_waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 24 176 16"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_2_waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="240 24 176 16"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="16 460 300 12" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="28" max="127"
+          explicitFocusOrder="0" pos="16 460 300 12" bkgcol="ff333333"
+          trackcol="ff9765bc" textboxoutline="ff777777" min="28" max="127"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="fil_env_depth" id="ac3a5967de6a1a92" memberName="fil_env_depth_"
@@ -2155,7 +2152,7 @@ BEGIN_JUCER_METADATA
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="440 528 96 14"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="num_steps" id="8be29885961d7617" memberName="num_steps_"
@@ -2179,12 +2176,12 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="formant_bypass" id="a27029ddc5597777" memberName="formant_bypass_"
-                virtualName="" explicitFocusOrder="0" pos="184 504 120 24" txtcol="ffffffff"
+                virtualName="" explicitFocusOrder="0" pos="184 504 120 24" txtcol="ff777777"
                 buttonText="formant bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="224 692 64 16" bkgcol="ff190327"
-          trackcol="ff9765bc" textboxoutline="ff452e60" min="0" max="1"
+          explicitFocusOrder="0" pos="224 692 64 16" bkgcol="ff333333"
+          trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="formant_xy_pad" id="202ea6e8e33b6ac7" memberName="formant_xy_pad_"
@@ -2192,17 +2189,17 @@ BEGIN_JUCER_METADATA
              sourceFile="xy_pad.cpp" constructorParams=""/>
   <SLIDER name="formant_x" id="d182d63c43cb241f" memberName="formant_x_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="184 632 216 12"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant_y" id="f9e64695877940a6" memberName="formant_y_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="400 528 12 104"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 344 300 16"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
@@ -2210,7 +2207,7 @@ BEGIN_JUCER_METADATA
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="poly_lfo_waveform" id="315f17d5a0e21167" memberName="poly_lfo_waveform_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="680 528 96 14"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <TEXTBUTTON name="filter_env" id="b1c0e1b81ba12955" memberName="filter_envelope_mod_"
@@ -2255,7 +2252,7 @@ BEGIN_JUCER_METADATA
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="560 528 96 14"
-          bkgcol="ff190327" trackcol="ff9765bc" textboxoutline="ff452e60"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
@@ -2315,7 +2312,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="stutter_bypass" id="c0e460c164340d7e" memberName="stutter_bypass_"
-                virtualName="" explicitFocusOrder="0" pos="8 504 120 24" txtcol="ffffffff"
+                virtualName="" explicitFocusOrder="0" pos="8 504 120 24" txtcol="ff777777"
                 buttonText="stutter bypass" connectedEdges="0" needsCallback="1"
                 radioGroupId="0" state="0"/>
   <SLIDER name="stutter_resample_frequency" id="31e8e484b922575e" memberName="stutter_resample_frequency_"

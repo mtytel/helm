@@ -77,10 +77,10 @@ void GraphicalEnvelope::paint (Graphics& g)
     static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff33064f));
+    g.fillAll (Colour (0xff246370));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff43165f));
+    g.setColour(Colour(0xff347380));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
@@ -93,8 +93,8 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0x08ffffff));
     g.fillRect(getDecayX(), 0.0f, getReleaseX() - getDecayX(), 1.0f * getHeight());
 
-    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, getHeight() * 0.1f,
-                                     Colour(0x11cb587a), 0.0f, getHeight(), false));
+    g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight() * 0.1f,
+                                     Colour(0x55347380), 0.0f, getHeight(), false));
     g.fillPath(envelope_line_);
 
     g.setColour(Colour(0xffcccccc));
@@ -109,10 +109,6 @@ void GraphicalEnvelope::paint (Graphics& g)
     else if (release_hover_)
         hover_line_x = getReleaseX();
 
-    if (mouse_down_) {
-        g.setColour(Colour(0x11ffffff));
-        g.fillRect(hover_line_x - 10.0f, 0.0f, 20.0f, 1.0f * getHeight());
-    }
 
     g.setColour(Colour(0x66ffffff));
     g.fillRect(hover_line_x - 0.5f, 0.0f, 1.0f, 1.0f * getHeight());
@@ -125,6 +121,10 @@ void GraphicalEnvelope::paint (Graphics& g)
 
         g.setColour(Colour(0x66ffffff));
         g.drawEllipse(getDecayX() - 4.0, getSustainY() - 4.0, 8.0, 8.0, 1.0);
+    }
+    else if (mouse_down_) {
+        g.setColour(Colour(0x11ffffff));
+        g.fillRect(hover_line_x - 10.0f, 0.0f, 20.0f, 1.0f * getHeight());
     }
 
     g.setColour(Colour(0xffcccccc));
@@ -358,7 +358,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff33064f"/>
+  <BACKGROUND backgroundColour="ff246370"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

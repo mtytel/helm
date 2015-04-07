@@ -25,7 +25,7 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define FRAMES_PER_SECOND 1
+#define FRAMES_PER_SECOND 30
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -68,11 +68,11 @@ void GraphicalStepSequencer::paint (Graphics& g)
         return;
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff33064f));
+    g.fillAll (Colour (0xff246370));
 
     //[UserPaint] Add your own custom painting code here..
     float x_inc = getWidth() / (1.0f * num_steps_);
-    g.setColour(Colour(0xff43165f));
+    g.setColour(Colour(0xff347380));
     for (int i = 1; i * x_inc < getWidth(); ++i)
         g.drawLine(i * x_inc, 0, i * x_inc, getHeight());
 
@@ -81,14 +81,14 @@ void GraphicalStepSequencer::paint (Graphics& g)
         float val = sequence_[i]->getValue();
         float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
         if (val >= 0) {
-            g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, 0.0,
-                                             Colour(0x55cb587a), 0.0f, getHeight() / 2.0f, false));
+            g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, 0.0,
+                                             Colour(0x55347380), 0.0f, getHeight() / 2.0f, false));
             g.fillRect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
         }
         else {
             float half_height = proportionOfHeight(0.5f);
-            g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, getHeight(),
-                                             Colour(0x55cb587a), 0.0f, half_height, false));
+            g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight(),
+                                             Colour(0xff347380), 0.0f, half_height, false));
             g.fillRect(x, half_height, x_inc, bar_position - half_height);
         }
 
@@ -271,7 +271,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff33064f"/>
+  <BACKGROUND backgroundColour="ff246370"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

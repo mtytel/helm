@@ -99,7 +99,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
     Path rail;
     rail.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                        0.0f, -ANGLE, ANGLE, true);
-    g.setColour(Colour(0x33000000));
+    g.setColour(Colour(0xff333333));
     g.strokePath(rail, stroke_type);
 
     Path active_section;
@@ -111,7 +111,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
         active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                                      0.0f, -ANGLE, current_angle, true);
     }
-    g.setColour(Colour(0xfff0a962));
+    g.setColour(Colour(0xffffae07));
     // Colour(0x55cb587a)
     g.strokePath(active_section, stroke_type);
 }

@@ -24,7 +24,7 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define FRAMES_PER_SECOND 1
+#define FRAMES_PER_SECOND 30
 #define MAX_RESOLUTION 128
 #define GRID_CELL_WIDTH 10
 //[/MiscUserDefs]
@@ -64,16 +64,16 @@ void Oscilloscope::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff33064f));
+    g.fillAll (Colour (0xff246370));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff43165f));
+    g.setColour(Colour(0xff347380));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setColour(Colour(0xff43165f));
+    g.setColour(Colour(0xff448390));
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
     g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
@@ -138,7 +138,7 @@ BEGIN_JUCER_METADATA
                  parentClasses="public AnimatedAppComponent" constructorParams="int num_samples"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff33064f"/>
+  <BACKGROUND backgroundColour="ff246370"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

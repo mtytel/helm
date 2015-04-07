@@ -50,16 +50,12 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 
-  g.setColour(Colour(0xff000000));
-  g.drawEllipse(full_radius - knob_radius, full_radius - knob_radius,
-                2.0f * knob_radius, 2.0f * knob_radius, 1.0f);
+  g.setColour(Colour(0xff666666));
+  g.drawEllipse(full_radius - knob_radius + 1.0f, full_radius - knob_radius + 1.0f,
+                2.0f * knob_radius - 2.0f, 2.0f * knob_radius - 2.0f, 2.0f);
 
   g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
   g.drawLine(full_radius, full_radius, end_x, end_y, 1.0f);
-
-  g.setColour(Colour(0xff000000));
-  g.fillEllipse(full_radius - knob_radius * 0.15f, full_radius - knob_radius * 0.15f,
-                2.0f * knob_radius * 0.15f, 2.0f * knob_radius * 0.15f);
   
   if (slider.getInterval() == 1) {
     g.setColour(slider.findColour(Slider::textBoxTextColourId));

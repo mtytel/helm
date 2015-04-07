@@ -73,18 +73,18 @@ void FilterResponse::paint (Graphics& g)
     static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff33064f));
+    g.fillAll (Colour (0xff246370));
 
     //[UserPaint] Add your own custom painting code here..
 
-    g.setColour(Colour(0xff43165f));
+    g.setColour(Colour(0xff347380));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setGradientFill(ColourGradient(Colour(0xffeca769), 0.0f, getHeight() * 0.1f,
-                                     Colour(0x11cb587a), 0.0f, getHeight(), false));
+    g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight() * 0.1f,
+                                     Colour(0x55347380), 0.0f, getHeight(), false));
     g.fillPath(filter_response_path_);
 
     g.setColour(Colour(0xffaaaaaa));
@@ -241,7 +241,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff33064f"/>
+  <BACKGROUND backgroundColour="ff246370"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
