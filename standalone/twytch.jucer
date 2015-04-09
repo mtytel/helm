@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="GfsdNK" name="Twytch" projectType="guiapp" version="1.0.0"
               bundleIdentifier="co.littleio.twytch" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.1" companyName="Little O Studio" companyWebsite="littleio.co"
+              jucerVersion="3.1.0" companyName="Little O Studio" companyWebsite="littleio.co"
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Twytch">
     <GROUP id="{E650F2E1-07E8-77DB-1520-2000D9FBD2DB}" name="mopo">
@@ -150,6 +150,10 @@
               file="../src/editor_components/synthesis_interface.cpp"/>
         <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
               file="../src/editor_components/synthesis_interface.h"/>
+        <FILE id="QeXzxc" name="twytch_filter_selector.cpp" compile="1" resource="0"
+              file="../src/editor_components/twytch_filter_selector.cpp"/>
+        <FILE id="LH8ShZ" name="twytch_filter_selector.h" compile="0" resource="0"
+              file="../src/editor_components/twytch_filter_selector.h"/>
         <FILE id="ozcC3C" name="twytch_slider.cpp" compile="1" resource="0"
               file="../src/editor_components/twytch_slider.cpp"/>
         <FILE id="nUFfr7" name="twytch_slider.h" compile="0" resource="0" file="../src/editor_components/twytch_slider.h"/>

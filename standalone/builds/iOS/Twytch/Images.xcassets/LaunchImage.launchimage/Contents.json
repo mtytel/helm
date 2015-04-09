@@ -8,7 +8,7 @@
       "scale": "2x"
     },
     {
-      "orientation": "landscape",
+      "orientation": "portrait",
       "idiom": "iphone",
       "extent": "full-screen",
       "minimum-system-version": "7.0",

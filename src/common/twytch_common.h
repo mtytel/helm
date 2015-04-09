@@ -48,6 +48,16 @@ namespace mopo {
       "random"
     };
 
+    const std::string filter_types[] = {
+      "low pass",
+      "high pass",
+      "band pass",
+      "notch",
+      "low shelf",
+      "high shelf",
+      "all pass"
+    };
+
     const std::string waveforms[] = {
       "sin",
       "triangle",

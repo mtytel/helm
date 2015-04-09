@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="twytch" pluginRTASCategory="" aaxIdentifier="co.littleio.twytch"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
               companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
               companyWebsite="littleio.co">
   <MAINGROUP id="OwcEM5" name="Twytch">
@@ -157,6 +157,10 @@
               file="src/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
               file="src/editor_components/synthesis_interface.h"/>
+        <FILE id="ddhHvN" name="twytch_filter_selector.cpp" compile="1" resource="0"
+              file="src/editor_components/twytch_filter_selector.cpp"/>
+        <FILE id="IT4JpY" name="twytch_filter_selector.h" compile="0" resource="0"
+              file="src/editor_components/twytch_filter_selector.h"/>
         <FILE id="ygG0Ya" name="twytch_slider.cpp" compile="1" resource="0"
               file="src/editor_components/twytch_slider.cpp"/>
         <FILE id="zLSw31" name="twytch_slider.h" compile="0" resource="0" file="src/editor_components/twytch_slider.h"/>

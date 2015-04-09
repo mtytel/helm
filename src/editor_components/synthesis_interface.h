@@ -23,6 +23,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_engine.h"
+#include "twytch_filter_selector.h"
 #include "twytch_slider.h"
 //[/Headers]
 
@@ -131,7 +132,7 @@ private:
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<TwytchSlider> formant_x_;
     ScopedPointer<TwytchSlider> formant_y_;
-    ScopedPointer<TwytchSlider> filter_type_;
+    ScopedPointer<TwytchFilterSelector> filter_type_;
     ScopedPointer<WaveFormSelector> poly_lfo_wave_display_;
     ScopedPointer<TwytchSlider> poly_lfo_waveform_;
     ScopedPointer<TextButton> filter_envelope_mod_;

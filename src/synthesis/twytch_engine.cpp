@@ -143,7 +143,7 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_free_frequency = createMonoModControl("delay_frequency", -3.0, true,
+    Processor* delay_free_frequency = createMonoModControl("delay_frequency", 1.0, false,
                                                            false, kExponential);
     Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency,
                                                        beats_per_second, false);

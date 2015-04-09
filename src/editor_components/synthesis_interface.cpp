@@ -352,9 +352,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     formant_y_->addListener (this);
 
-    addAndMakeVisible (filter_type_ = new TwytchSlider ("filter_type"));
+    addAndMakeVisible (filter_type_ = new TwytchFilterSelector ("filter_type"));
     filter_type_->setRange (0, 6, 1);
-    filter_type_->setSliderStyle (Slider::LinearBar);
+    filter_type_->setSliderStyle (Slider::LinearHorizontal);
     filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
     filter_type_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     filter_type_->setColour (Slider::trackColourId, Colour (0xff9765bc));
@@ -416,7 +416,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_tune_->addListener (this);
 
     addAndMakeVisible (delay_frequency_ = new TwytchSlider ("delay_frequency"));
-    delay_frequency_->setRange (-5, 1, 0);
+    delay_frequency_->setRange (-2, 5, 0);
     delay_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     delay_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     delay_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -1761,6 +1761,8 @@ void SynthesisInterface::setSliderUnits() {
     mono_lfo_1_waveform_->setStringLookup(mopo::strings::waveforms);
     mono_lfo_2_waveform_->setStringLookup(mopo::strings::waveforms);
     poly_lfo_waveform_->setStringLookup(mopo::strings::waveforms);
+
+    filter_type_->setStringLookup(mopo::strings::filter_types);
 }
 
 void SynthesisInterface::markBipolarSliders() {
@@ -2299,9 +2301,9 @@ BEGIN_JUCER_METADATA
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 352 240 16"
+          virtualName="TwytchFilterSelector" explicitFocusOrder="0" pos="16 352 240 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
-          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          min="0" max="6" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="732c 542 128 48"
@@ -2345,7 +2347,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_frequency" id="1119b78679f3c8ca" memberName="delay_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="732c 280 46 46"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-5" max="1"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-2" max="5"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_2" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
