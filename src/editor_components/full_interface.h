@@ -27,7 +27,6 @@
 
 #include "synthesis_interface.h"
 #include "oscilloscope.h"
-#include "audio_viewer.h"
 #include "global_tool_tip.h"
 
 
@@ -87,7 +86,6 @@ private:
     ScopedPointer<TwytchSlider> arp_octaves_;
     ScopedPointer<TwytchSlider> arp_pattern_;
     ScopedPointer<Oscilloscope> oscilloscope_;
-    ScopedPointer<AudioViewer> recording_;
     ScopedPointer<TextButton> load_button_;
     ScopedPointer<ToggleButton> arp_on_;
     ScopedPointer<TextButton> save_button_;

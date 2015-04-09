@@ -76,7 +76,8 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
             addAndMakeVisible(meter);
             meter_lookup_[name] = meter;
             meter->setName(name);
-            meter->setBounds(slider.second->getBounds());
+            Rectangle<int> local_bounds = slider.second->getBoundsInParent();
+            meter->setBounds(slider.second->getParentComponent()->localAreaToGlobal(local_bounds));
         }
     }
     //[/UserPreSize]
@@ -129,8 +130,9 @@ void ModulationManager::resized()
     }
 
     for (auto meter : meter_lookup_) {
-        meter.second->setBounds(slider_model_lookup_[meter.first]->getBounds());
-        meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
+        Slider* model = slider_model_lookup_[meter.first];
+        meter.second->setBounds(model->getParentComponent()->localAreaToGlobal(model->getBounds()));
+        meter.second->setVisible(model->isVisible());
     }
     //[/UserResized]
 }
