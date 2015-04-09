@@ -125,6 +125,7 @@ void ModulationManager::resized()
     for (auto slider : slider_lookup_) {
         TwytchSlider* model = slider_model_lookup_[slider.first];
         Point<int> global_top_left = model->localPointToGlobal(Point<int>(0, 0));
+        slider.second->setVisible(model->isVisible());
         slider.second->setBounds(global_top_left.x, global_top_left.y,
                                  model->getWidth(), model->getHeight());
     }
@@ -147,6 +148,11 @@ void ModulationManager::timerCallback() {
         return;
 
     int num_voices = parent->getNumActiveVoices();
+
+    for (auto slider : slider_lookup_) {
+        TwytchSlider* model = slider_model_lookup_[slider.first];
+        slider.second->setVisible(model->isVisible());
+    }
 
     for (auto meter : meter_lookup_) {
         meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
