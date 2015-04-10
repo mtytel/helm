@@ -33,6 +33,10 @@ class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
     void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                           float slider_t, float start_angle, float end_angle,
                           Slider& slider);
+
+    void drawToggleButton(Graphics& g, ToggleButton& button,
+                          bool isMouseOverButton, bool isButtonDown) override;
+
 };
 
 #endif // TWYTCH_LOOK_AND_FEEL_H

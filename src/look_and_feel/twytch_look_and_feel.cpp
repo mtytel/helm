@@ -15,6 +15,9 @@
  */
 
 #include "twytch_look_and_feel.h"
+#include "utils.h"
+
+#define POWER_ARC_ANGLE 2.5
 
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
@@ -62,4 +65,26 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
     g.drawText(String(slider.getValue()), slider.getLocalBounds(),
                Justification::horizontallyCentred | Justification::verticallyCentred);
   }
+}
+
+
+void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
+                                         bool isMouseOverButton, bool isButtonDown) {
+  static float stroke_percent = 0.1;
+
+  float full_radius = std::min(button.getWidth(), button.getHeight()) / 2.0;
+  float stroke_width = 2.0f * full_radius * stroke_percent;
+  PathStrokeType stroke_type =
+      PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::rounded);
+  float outer_radius = full_radius - stroke_width;
+  Path outer;
+  outer.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+                      mopo::PI, -POWER_ARC_ANGLE, POWER_ARC_ANGLE, true);
+  if (button.getToggleState())
+    g.setColour(Colours::white);
+  else
+    g.setColour(Colours::grey);
+  
+  g.strokePath(outer, stroke_type);
+  g.fillRoundedRectangle(full_radius - 1.0f, 0.0f, 2.0f, full_radius, 1.0f);
 }

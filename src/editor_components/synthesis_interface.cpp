@@ -319,10 +319,11 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_saturation_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     filter_saturation_->addListener (this);
 
-    addAndMakeVisible (formant_bypass_ = new ToggleButton ("formant_bypass"));
-    formant_bypass_->setButtonText (String::empty);
-    formant_bypass_->addListener (this);
-    formant_bypass_->setColour (ToggleButton::textColourId, Colour (0xff777777));
+    addAndMakeVisible (formant_on_ = new ToggleButton ("formant_on"));
+    formant_on_->setButtonText (String::empty);
+    formant_on_->addListener (this);
+    formant_on_->setToggleState (true, dontSendNotification);
+    formant_on_->setColour (ToggleButton::textColourId, Colour (0xff777777));
 
     addAndMakeVisible (legato_ = new TwytchSlider ("legato"));
     legato_->setRange (0, 1, 1);
@@ -517,10 +518,11 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     stutter_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     stutter_frequency_->addListener (this);
 
-    addAndMakeVisible (stutter_bypass_ = new ToggleButton ("stutter_bypass"));
-    stutter_bypass_->setButtonText (String::empty);
-    stutter_bypass_->addListener (this);
-    stutter_bypass_->setColour (ToggleButton::textColourId, Colour (0xff777777));
+    addAndMakeVisible (stutter_on_ = new ToggleButton ("stutter_on"));
+    stutter_on_->setButtonText (String::empty);
+    stutter_on_->addListener (this);
+    stutter_on_->setToggleState (true, dontSendNotification);
+    stutter_on_->setColour (ToggleButton::textColourId, Colour (0xff777777));
 
     addAndMakeVisible (stutter_resample_frequency_ = new TwytchSlider ("stutter_resample_frequency"));
     stutter_resample_frequency_->setRange (0.5, 20, 0);
@@ -638,7 +640,7 @@ SynthesisInterface::~SynthesisInterface()
     step_frequency_ = nullptr;
     mono_lfo_1_frequency_ = nullptr;
     filter_saturation_ = nullptr;
-    formant_bypass_ = nullptr;
+    formant_on_ = nullptr;
     legato_ = nullptr;
     formant_xy_pad_ = nullptr;
     formant_x_ = nullptr;
@@ -673,7 +675,7 @@ SynthesisInterface::~SynthesisInterface()
     poly_lfo_sync_ = nullptr;
     poly_lfo_amplitude_ = nullptr;
     stutter_frequency_ = nullptr;
-    stutter_bypass_ = nullptr;
+    stutter_on_ = nullptr;
     stutter_resample_frequency_ = nullptr;
 
 
@@ -1151,16 +1153,16 @@ void SynthesisInterface::paint (Graphics& g)
     g.strokePath (internalPath4, PathStrokeType (1.000f));
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (264 - (171 / 2), 500, 171, 148);
+    g.fillRect (178, 500, 171, 148);
 
     g.setColour (Colour (0xff2e6761));
-    g.drawRect (264 - (171 / 2), 500, 171, 148, 1);
+    g.drawRect (178, 500, 171, 148, 1);
 
     g.setColour (Colour (0xff383737));
-    g.fillRect (264 - (169 / 2), 501, 169, 20);
+    g.fillRect (179, 501, 169, 20);
 
     g.setColour (Colour (0xff383737));
-    g.fillRect (90 - (169 / 2), 501, 169, 20);
+    g.fillRect (5, 501, 169, 20);
 
     g.setColour (Colour (0xff999999));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
@@ -1225,7 +1227,7 @@ void SynthesisInterface::resized()
     step_frequency_->setBounds (532 - (40 / 2), 440, 40, 40);
     mono_lfo_1_frequency_->setBounds (460 - (40 / 2), 592, 40, 40);
     filter_saturation_->setBounds (296 - (46 / 2), 256, 46, 46);
-    formant_bypass_->setBounds (184, 504, 16, 16);
+    formant_on_->setBounds (184, 503, 16, 16);
     legato_->setBounds (767 - (64 / 2), 192, 64, 16);
     formant_xy_pad_->setBounds (184, 528, 144, 96);
     formant_x_->setBounds (184, 624, 144, 12);
@@ -1260,7 +1262,7 @@ void SynthesisInterface::resized()
     poly_lfo_sync_->setBounds (784, 600, 24, 24);
     poly_lfo_amplitude_->setBounds (704, 592, 40, 40);
     stutter_frequency_->setBounds (16, 552, 50, 50);
-    stutter_bypass_->setBounds (8, 504, 16, 16);
+    stutter_on_->setBounds (8, 503, 16, 16);
     stutter_resample_frequency_->setBounds (96, 552, 50, 50);
     internalPath1.clear();
     internalPath1.startNewSubPath (205.0f, 40.0f);
@@ -1560,11 +1562,11 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     std::string name = buttonThatWasClicked->getName().toStdString();
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
 
-    if (buttonThatWasClicked == formant_bypass_) {
+    if (buttonThatWasClicked == formant_on_) {
         if (parent)
             parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     }
-    else if (buttonThatWasClicked == stutter_bypass_) {
+    else if (buttonThatWasClicked == stutter_on_) {
         if (parent)
             parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     }
@@ -1611,10 +1613,10 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     }
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == formant_bypass_)
+    if (buttonThatWasClicked == formant_on_)
     {
-        //[UserButtonCode_formant_bypass_] -- add your button handler code here..
-        //[/UserButtonCode_formant_bypass_]
+        //[UserButtonCode_formant_on_] -- add your button handler code here..
+        //[/UserButtonCode_formant_on_]
     }
     else if (buttonThatWasClicked == filter_envelope_mod_)
     {
@@ -1696,10 +1698,10 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_poly_lfo_sync_] -- add your button handler code here..
         //[/UserButtonCode_poly_lfo_sync_]
     }
-    else if (buttonThatWasClicked == stutter_bypass_)
+    else if (buttonThatWasClicked == stutter_on_)
     {
-        //[UserButtonCode_stutter_bypass_] -- add your button handler code here..
-        //[/UserButtonCode_stutter_bypass_]
+        //[UserButtonCode_stutter_on_] -- add your button handler code here..
+        //[/UserButtonCode_stutter_on_]
     }
 
     //[UserbuttonClicked_Post]
@@ -2154,10 +2156,10 @@ BEGIN_JUCER_METADATA
           strokeColour="solid: ffb14a06" nonZeroWinding="1">s 207 119 l 199 119 l 191 103</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ffb14a06" nonZeroWinding="1">s 147 119 l 155 119 l 163 103</PATH>
-    <RECT pos="263.5c 500 171 148" fill="solid: ff222222" hasStroke="1"
-          stroke="1, mitered, butt" strokeColour="solid: ff2e6761"/>
-    <RECT pos="263.5c 501 169 20" fill="solid: ff383737" hasStroke="0"/>
-    <RECT pos="89.5c 501 169 20" fill="solid: ff383737" hasStroke="0"/>
+    <RECT pos="178 500 171 148" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+          strokeColour="solid: ff2e6761"/>
+    <RECT pos="179 501 169 20" fill="solid: ff383737" hasStroke="0"/>
+    <RECT pos="5 501 169 20" fill="solid: ff383737" hasStroke="0"/>
     <TEXT pos="89.5c 500 84 20" fill="solid: ff999999" hasStroke="0" text="STUTTER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2356,10 +2358,10 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="60"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <TOGGLEBUTTON name="formant_bypass" id="a27029ddc5597777" memberName="formant_bypass_"
-                virtualName="" explicitFocusOrder="0" pos="184 504 16 16" txtcol="ff777777"
+  <TOGGLEBUTTON name="formant_on" id="a27029ddc5597777" memberName="formant_on_"
+                virtualName="" explicitFocusOrder="0" pos="184 503 16 16" txtcol="ff777777"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
-                state="0"/>
+                state="1"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
           explicitFocusOrder="0" pos="767c 192 64 16" bkgcol="ff333333"
           trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
@@ -2492,10 +2494,10 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="4" max="100"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <TOGGLEBUTTON name="stutter_bypass" id="c0e460c164340d7e" memberName="stutter_bypass_"
-                virtualName="" explicitFocusOrder="0" pos="8 504 16 16" txtcol="ff777777"
+  <TOGGLEBUTTON name="stutter_on" id="c0e460c164340d7e" memberName="stutter_on_"
+                virtualName="" explicitFocusOrder="0" pos="8 503 16 16" txtcol="ff777777"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
-                state="0"/>
+                state="1"/>
   <SLIDER name="stutter_resample_frequency" id="31e8e484b922575e" memberName="stutter_resample_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="96 552 50 50"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0.5"

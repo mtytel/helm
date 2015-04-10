@@ -128,7 +128,7 @@ private:
     ScopedPointer<TwytchSlider> step_frequency_;
     ScopedPointer<TwytchSlider> mono_lfo_1_frequency_;
     ScopedPointer<TwytchSlider> filter_saturation_;
-    ScopedPointer<ToggleButton> formant_bypass_;
+    ScopedPointer<ToggleButton> formant_on_;
     ScopedPointer<TwytchSlider> legato_;
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<TwytchSlider> formant_x_;
@@ -163,7 +163,7 @@ private:
     ScopedPointer<ToggleButton> poly_lfo_sync_;
     ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
     ScopedPointer<TwytchSlider> stutter_frequency_;
-    ScopedPointer<ToggleButton> stutter_bypass_;
+    ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<TwytchSlider> stutter_resample_frequency_;
     Path internalPath1;
     Path internalPath2;

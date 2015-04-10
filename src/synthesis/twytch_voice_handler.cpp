@@ -368,8 +368,8 @@ namespace mopo {
 
     // Stutter.
     BypassRouter* stutter_container = new BypassRouter();
-    Value* stutter_bypass = new Value(1);
-    stutter_container->plug(stutter_bypass, BypassRouter::kBypass);
+    Value* stutter_on = new Value(0);
+    stutter_container->plug(stutter_on, BypassRouter::kOn);
     stutter_container->plug(distorted_filter_, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(44100);
@@ -383,13 +383,13 @@ namespace mopo {
     stutter->plug(resample_frequency, Stutter::kResampleFrequency);
     stutter->plug(reset, Stutter::kReset);
 
-    controls_["stutter_bypass"] = stutter_bypass;
+    controls_["stutter_on"] = stutter_on;
     addProcessor(stutter_container);
 
     // Formant Filter.
     formant_container_ = new BypassRouter();
-    Value* formant_bypass = new Value(1);
-    formant_container_->plug(formant_bypass, BypassRouter::kBypass);
+    Value* formant_on = new Value(0);
+    formant_container_->plug(formant_on, BypassRouter::kOn);
     formant_container_->plug(stutter_container, BypassRouter::kAudio);
 
     formant_filter_ = new FormantManager(NUM_FORMANTS);
@@ -398,7 +398,7 @@ namespace mopo {
     formant_filter_->plug(formant_passthrough, FormantManager::kPassthroughGain);
     formant_filter_->plug(reset, FormantManager::kReset);
 
-    controls_["formant_bypass"] = formant_bypass;
+    controls_["formant_on"] = formant_on;
     controls_["formant_passthrough"] = formant_passthrough;
 
     Processor* formant_x = createPolyModControl("formant_x", 0.0, true);

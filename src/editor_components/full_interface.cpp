@@ -71,7 +71,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     load_button_->addListener (this);
 
     addAndMakeVisible (arp_on_ = new ToggleButton ("arp_on"));
-    arp_on_->setButtonText (TRANS("arp"));
+    arp_on_->setButtonText (String::empty);
     arp_on_->addListener (this);
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
 
@@ -192,6 +192,12 @@ void FullInterface::paint (Graphics& g)
                 132, 20, 36, 20,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xff999999));
+    g.setFont (Font ("Myriad Pro", 14.40f, Font::plain));
+    g.drawText (TRANS("ARP"),
+                492, 20, 52, 12,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
 }
@@ -208,7 +214,7 @@ void FullInterface::resized()
     arp_pattern_->setBounds (752, 8, 46, 46);
     oscilloscope_->setBounds (416, 8, 64, 48);
     load_button_->setBounds (8, 8, 120, 24);
-    arp_on_->setBounds (488, 16, 48, 24);
+    arp_on_->setBounds (488, 16, 16, 16);
     save_button_->setBounds (8, 32, 120, 24);
     arp_sync_->setBounds (592, 16, 24, 24);
     beats_per_minute_->setBounds (168, 8, 112, 48);
@@ -415,6 +421,9 @@ BEGIN_JUCER_METADATA
     <TEXT pos="132 20 36 20" fill="solid: ff777777" hasStroke="0" text="BPM:"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
+    <TEXT pos="492 20 52 12" fill="solid: ff999999" hasStroke="0" text="ARP"
+          fontname="Myriad Pro" fontsize="14.400000000000000355" bold="0"
+          italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="0 64 810 700" sourceFile="synthesis_interface.cpp"
@@ -446,7 +455,7 @@ BEGIN_JUCER_METADATA
               explicitFocusOrder="0" pos="8 8 120 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <TOGGLEBUTTON name="arp_on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
-                explicitFocusOrder="0" pos="488 16 48 24" txtcol="ffffffff" buttonText="arp"
+                explicitFocusOrder="0" pos="488 16 16 16" txtcol="ffffffff" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="8 32 120 24" buttonText="save" connectedEdges="3"
