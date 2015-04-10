@@ -26,7 +26,7 @@ namespace mopo {
   void SmoothFilter::process() {
     mopo_float half_life = input(kHalfLife)->at(0);
     mopo_float decay = 0.0;
-    if (half_life)
+    if (half_life > 0.0)
       decay = std::pow(0.5, 1.0 / (half_life * sample_rate_));
 
     for (int i = 0; i < buffer_size_; ++i) {
