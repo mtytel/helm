@@ -256,7 +256,7 @@ namespace mopo {
 
       static inline mopo_float triangle(mopo_float t) {
         mopo_float integral;
-        return fabsf(2.0f - 4.0f * modf(t + 0.75f, &integral)) - 1;
+        return fabs(2.0 - 4.0 * modf(t + 0.75, &integral)) - 1;
       }
 
       static inline mopo_float downsaw(mopo_float t) {
@@ -268,7 +268,7 @@ namespace mopo {
       }
 
       static inline mopo_float hannwave(mopo_float t) {
-        return 0.5f * (1.0f - cosf(2.0f * PI * t));
+        return 0.5 * (1.0 - cosf(2.0 * PI * t));
       }
 
       template<size_t steps>
