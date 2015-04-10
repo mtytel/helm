@@ -26,7 +26,7 @@ namespace mopo {
     public:
       enum Inputs {
         kAudio,
-        kBypass,
+        kOn,
         kNumInputs
       };
 
