@@ -210,7 +210,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     resonance_->addListener (this);
 
-    addAndMakeVisible (osc_1_waveform_ = new TwytchSlider ("osc_1_waveform"));
+    addAndMakeVisible (osc_1_waveform_ = new TwytchWaveSelector ("osc_1_waveform"));
     osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearBar);
     osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -219,7 +219,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     osc_1_waveform_->addListener (this);
 
-    addAndMakeVisible (osc_2_waveform_ = new TwytchSlider ("osc_2_waveform"));
+    addAndMakeVisible (osc_2_waveform_ = new TwytchWaveSelector ("osc_2_waveform"));
     osc_2_waveform_->setRange (0, 11, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearBar);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
@@ -278,7 +278,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_tune_->addListener (this);
 
     addAndMakeVisible (mono_lfo_1_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (mono_lfo_1_waveform_ = new TwytchSlider ("mono_lfo_1_waveform"));
+    addAndMakeVisible (mono_lfo_1_waveform_ = new TwytchWaveSelector ("mono_lfo_1_waveform"));
     mono_lfo_1_waveform_->setRange (0, 11, 1);
     mono_lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -354,7 +354,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 
     addAndMakeVisible (filter_type_ = new TwytchFilterSelector ("filter_type"));
     filter_type_->setRange (0, 6, 1);
-    filter_type_->setSliderStyle (Slider::LinearHorizontal);
+    filter_type_->setSliderStyle (Slider::LinearBar);
     filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
     filter_type_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     filter_type_->setColour (Slider::trackColourId, Colour (0xff9765bc));
@@ -362,7 +362,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_type_->addListener (this);
 
     addAndMakeVisible (poly_lfo_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (poly_lfo_waveform_ = new TwytchSlider ("poly_lfo_waveform"));
+    addAndMakeVisible (poly_lfo_waveform_ = new TwytchWaveSelector ("poly_lfo_waveform"));
     poly_lfo_waveform_->setRange (0, 11, 1);
     poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
     poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -424,7 +424,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_frequency_->addListener (this);
 
     addAndMakeVisible (mono_lfo_2_wave_display_ = new WaveFormSelector (128));
-    addAndMakeVisible (mono_lfo_2_waveform_ = new TwytchSlider ("mono_lfo_2_waveform"));
+    addAndMakeVisible (mono_lfo_2_waveform_ = new TwytchWaveSelector ("mono_lfo_2_waveform"));
     mono_lfo_2_waveform_->setRange (0, 11, 1);
     mono_lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -1194,9 +1194,9 @@ void SynthesisInterface::resized()
     filter_type_->setBounds (16, 352, 240, 16);
     poly_lfo_wave_display_->setBounds (732 - (128 / 2), 542, 128, 48);
     poly_lfo_waveform_->setBounds (732 - (128 / 2), 528, 128, 14);
-    filter_envelope_mod_->setBounds (376, 124, 40, 32);
-    amplitude_envelope_mod_->setBounds (376, 284, 40, 32);
-    step_sequencer_mod_->setBounds (376, 448, 40, 32);
+    filter_envelope_mod_->setBounds (376, 124, 32, 32);
+    amplitude_envelope_mod_->setBounds (376, 284, 32, 32);
+    step_sequencer_mod_->setBounds (376, 448, 32, 32);
     mono_lfo_1_mod_->setBounds (360, 598, 32, 32);
     pitch_wheel_mod_->setBounds (24, 656, 32, 32);
     mod_wheel_mod_->setBounds (176, 656, 32, 32);
@@ -2211,12 +2211,12 @@ BEGIN_JUCER_METADATA
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_1_waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 32 128 16"
+          virtualName="TwytchWaveSelector" explicitFocusOrder="0" pos="16 32 128 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_2_waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="208 32 128 16"
+          virtualName="TwytchWaveSelector" explicitFocusOrder="0" pos="208 32 128 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2254,7 +2254,7 @@ BEGIN_JUCER_METADATA
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="428c 542 128 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="428c 528 128 14"
+          virtualName="TwytchWaveSelector" explicitFocusOrder="0" pos="428c 528 128 14"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
@@ -2303,24 +2303,24 @@ BEGIN_JUCER_METADATA
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
           virtualName="TwytchFilterSelector" explicitFocusOrder="0" pos="16 352 240 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
-          min="0" max="6" int="1" style="LinearHorizontal" textBoxPos="NoTextBox"
+          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="732c 542 128 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="poly_lfo_waveform" id="315f17d5a0e21167" memberName="poly_lfo_waveform_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="732c 528 128 14"
+          virtualName="TwytchWaveSelector" explicitFocusOrder="0" pos="732c 528 128 14"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <TEXTBUTTON name="filter_env" id="b1c0e1b81ba12955" memberName="filter_envelope_mod_"
-              virtualName="" explicitFocusOrder="0" pos="376 124 40 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="376 124 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="amplitude_env" id="f8f7a3ca2ba5265d" memberName="amplitude_envelope_mod_"
-              virtualName="" explicitFocusOrder="0" pos="376 284 40 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="376 284 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="step_sequencer" id="4fd19f52e690cd89" memberName="step_sequencer_mod_"
-              virtualName="" explicitFocusOrder="0" pos="376 448 40 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="376 448 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="mono_lfo_1" id="1ea938f771b995ba" memberName="mono_lfo_1_mod_"
               virtualName="" explicitFocusOrder="0" pos="360 598 32 32" buttonText="M"
@@ -2354,7 +2354,7 @@ BEGIN_JUCER_METADATA
              virtualName="WaveFormSelector" explicitFocusOrder="0" pos="580c 542 128 48"
              sourceFile="wave_form_selector.cpp" constructorParams="128"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="580c 528 128 14"
+          virtualName="TwytchWaveSelector" explicitFocusOrder="0" pos="580c 528 128 14"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>

@@ -14,6 +14,7 @@
 		0AC101072208CB17B8BF7846 /* value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DE3706367E3F615FAA72C80 /* value.cpp */; };
 		0BAC551B7F686E037E0C22A2 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80007F18ABD98ABBD848A1B0 /* WebKit.framework */; };
 		0C3BFC7DBEA7B14713E49772 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E03A78D80650173EA0CA1E /* IOKit.framework */; };
+		0CDE3CAFE9954658B06D9DEE /* twytch_wave_selector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D83B38553599FC58732EF0F /* twytch_wave_selector.cpp */; };
 		12382E4FA6525270E7F03854 /* juce_graphics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F998842C76DE4E90EB01475 /* juce_graphics.mm */; };
 		12E58D689559A1362FCAFD53 /* alias.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A52C7DECB2E40C62DB8D76BF /* alias.cpp */; };
 		12F788D844EFB9FD7AF524A5 /* voice_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F84B9AA90541807F01D3866 /* voice_handler.cpp */; };
@@ -297,6 +298,7 @@
 		33C0458E49B48DC136B21E9E /* juce_AudioSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AudioSource.h; path = ../../../../srcs/JUCE/modules/juce_audio_basics/sources/juce_AudioSource.h; sourceTree = SOURCE_ROOT; };
 		33D316B8F1EB1E818B2E2E0F /* juce_TextDiff.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_TextDiff.cpp; path = ../../../../srcs/JUCE/modules/juce_core/text/juce_TextDiff.cpp; sourceTree = SOURCE_ROOT; };
 		3410AC8A29DB6814F2D6469A /* juce_TableListBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_TableListBox.cpp; path = ../../../../srcs/JUCE/modules/juce_gui_basics/widgets/juce_TableListBox.cpp; sourceTree = SOURCE_ROOT; };
+		34ABC52F01B618E7B06E92B1 /* twytch_wave_selector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = twytch_wave_selector.h; path = ../../../src/editor_components/twytch_wave_selector.h; sourceTree = SOURCE_ROOT; };
 		353E850138A8CDA3D33F9836 /* juce_ActiveXControlComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ActiveXControlComponent.h; path = ../../../../srcs/JUCE/modules/juce_gui_extra/embedding/juce_ActiveXControlComponent.h; sourceTree = SOURCE_ROOT; };
 		3580BACF3DCF047BE51707F7 /* twytch_slider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = twytch_slider.cpp; path = ../../../src/editor_components/twytch_slider.cpp; sourceTree = SOURCE_ROOT; };
 		358FE242626D237BB974BDBF /* juce_android_OpenSL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_OpenSL.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_devices/native/juce_android_OpenSL.cpp; sourceTree = SOURCE_ROOT; };
@@ -476,6 +478,7 @@
 		5D030569101E76E061048EA2 /* juce_BlowFish.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_BlowFish.h; path = ../../../../srcs/JUCE/modules/juce_cryptography/encryption/juce_BlowFish.h; sourceTree = SOURCE_ROOT; };
 		5D23C6E205FA04EF79636B3D /* juce_ColourGradient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ColourGradient.h; path = ../../../../srcs/JUCE/modules/juce_graphics/colour/juce_ColourGradient.h; sourceTree = SOURCE_ROOT; };
 		5D780FDE6C453D5B9699CAD6 /* juce_Viewport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Viewport.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/layout/juce_Viewport.h; sourceTree = SOURCE_ROOT; };
+		5D83B38553599FC58732EF0F /* twytch_wave_selector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = twytch_wave_selector.cpp; path = ../../../src/editor_components/twytch_wave_selector.cpp; sourceTree = SOURCE_ROOT; };
 		5DE3706367E3F615FAA72C80 /* value.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = value.cpp; path = ../../../mopo/src/value.cpp; sourceTree = SOURCE_ROOT; };
 		5E5E1E1197724594EDE227CB /* modulation_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = modulation_manager.cpp; path = ../../../src/editor_components/modulation_manager.cpp; sourceTree = SOURCE_ROOT; };
 		5ED198D6E74857799F988D90 /* juce_linux_JackAudio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_linux_JackAudio.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_devices/native/juce_linux_JackAudio.cpp; sourceTree = SOURCE_ROOT; };
@@ -2713,6 +2716,8 @@
 				0958C46F44010AE89BD655D1 /* twytch_filter_selector.h */,
 				3580BACF3DCF047BE51707F7 /* twytch_slider.cpp */,
 				63843FFA4CC28A46B9F13C45 /* twytch_slider.h */,
+				5D83B38553599FC58732EF0F /* twytch_wave_selector.cpp */,
+				34ABC52F01B618E7B06E92B1 /* twytch_wave_selector.h */,
 				FAA2315F14EB8C6C01A73CAF /* wave_form_selector.cpp */,
 				66EC1D865BB475904AB9D226 /* wave_form_selector.h */,
 				47056FCEEFC103ECD1C83C0E /* xy_pad.cpp */,
@@ -3175,6 +3180,7 @@
 				DD955FC27D2FB51914C35382 /* synthesis_interface.cpp in Sources */,
 				7865D4647CE40CD3F65C1971 /* twytch_filter_selector.cpp in Sources */,
 				829888838EB444C509ADEF7E /* twytch_slider.cpp in Sources */,
+				0CDE3CAFE9954658B06D9DEE /* twytch_wave_selector.cpp in Sources */,
 				2C56B03C5EB937B977D33797 /* wave_form_selector.cpp in Sources */,
 				F2DDC1B93D6DB9ECFC8742F4 /* xy_pad.cpp in Sources */,
 				BF4D7969E2CD53ACEB198573 /* modulation_look_and_feel.cpp in Sources */,

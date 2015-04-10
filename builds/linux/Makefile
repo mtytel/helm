@@ -98,6 +98,7 @@ OBJECTS := \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
   $(OBJDIR)/twytch_filter_selector_aa9f0531.o \
   $(OBJDIR)/twytch_slider_4fa599a0.o \
+  $(OBJDIR)/twytch_wave_selector_5bbdecd0.o \
   $(OBJDIR)/wave_form_selector_998fd51b.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
@@ -377,6 +378,11 @@ $(OBJDIR)/twytch_filter_selector_aa9f0531.o: ../../src/editor_components/twytch_
 $(OBJDIR)/twytch_slider_4fa599a0.o: ../../src/editor_components/twytch_slider.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_slider.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_wave_selector_5bbdecd0.o: ../../src/editor_components/twytch_wave_selector.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_wave_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/wave_form_selector_998fd51b.o: ../../src/editor_components/wave_form_selector.cpp

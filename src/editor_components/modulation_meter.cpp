@@ -63,7 +63,13 @@ void ModulationMeter::drawSlider(Graphics& g) {
         float middle = getWidth() / 2.0f;
         float position = getWidth() * skew;
 
-        if (destination_->isBipolar()) {
+        if (destination_->getInterval() == 1.0 && destination_->getMinimum() == 0.0) {
+            g.setColour(Colour(0xaaffffff));
+            int index = current_percent_ * destination_->getMaximum() + 0.5;
+            float width = getWidth() / (destination_->getMaximum() + 1.0);
+            g.drawRect(index * width, 0.0f, width, float(getHeight()), 1.0f);
+        }
+        else if (destination_->isBipolar()) {
             if (position >= middle)
                 g.fillRect(middle, 1.0f, position - middle, 1.0f * getHeight() - 2.0f);
             else
@@ -112,6 +118,5 @@ void ModulationMeter::drawKnob(Graphics& g) {
                                      0.0f, -ANGLE, current_angle, true);
     }
     g.setColour(Colour(0xffffae07));
-    // Colour(0x55cb587a)
     g.strokePath(active_section, stroke_type);
 }

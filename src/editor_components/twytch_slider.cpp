@@ -34,8 +34,6 @@ TwytchSlider::TwytchSlider(String name) :
 
 
 void TwytchSlider::mouseDown(const MouseEvent& e) {
-    Slider::mouseDown(e);
-
     if (e.mods.isPopupMenu()) {
         PopupMenu m;
         m.addItem(kArmMidiLearn, "Learn Controller Assignment");
@@ -59,6 +57,8 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
             setValue(getDoubleClickReturnValue());
         }
     }
+    else
+        Slider::mouseDown(e);
 }
 
 void TwytchSlider::mouseEnter(const juce::MouseEvent &e) {

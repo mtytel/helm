@@ -25,6 +25,7 @@
 #include "twytch_engine.h"
 #include "twytch_filter_selector.h"
 #include "twytch_slider.h"
+#include "twytch_wave_selector.h"
 //[/Headers]
 
 #include "graphical_step_sequencer.h"
@@ -113,8 +114,8 @@ private:
     ScopedPointer<TwytchSlider> fil_release_;
     ScopedPointer<TwytchSlider> fil_sustain_;
     ScopedPointer<TwytchSlider> resonance_;
-    ScopedPointer<TwytchSlider> osc_1_waveform_;
-    ScopedPointer<TwytchSlider> osc_2_waveform_;
+    ScopedPointer<TwytchWaveSelector> osc_1_waveform_;
+    ScopedPointer<TwytchWaveSelector> osc_2_waveform_;
     ScopedPointer<TwytchSlider> cutoff_;
     ScopedPointer<TwytchSlider> fil_env_depth_;
     ScopedPointer<TwytchSlider> keytrack_;
@@ -122,7 +123,7 @@ private:
     ScopedPointer<TwytchSlider> osc_feedback_amount_;
     ScopedPointer<TwytchSlider> osc_feedback_tune_;
     ScopedPointer<WaveFormSelector> mono_lfo_1_wave_display_;
-    ScopedPointer<TwytchSlider> mono_lfo_1_waveform_;
+    ScopedPointer<TwytchWaveSelector> mono_lfo_1_waveform_;
     ScopedPointer<TwytchSlider> num_steps_;
     ScopedPointer<TwytchSlider> step_frequency_;
     ScopedPointer<TwytchSlider> mono_lfo_1_frequency_;
@@ -134,7 +135,7 @@ private:
     ScopedPointer<TwytchSlider> formant_y_;
     ScopedPointer<TwytchFilterSelector> filter_type_;
     ScopedPointer<WaveFormSelector> poly_lfo_wave_display_;
-    ScopedPointer<TwytchSlider> poly_lfo_waveform_;
+    ScopedPointer<TwytchWaveSelector> poly_lfo_waveform_;
     ScopedPointer<TextButton> filter_envelope_mod_;
     ScopedPointer<TextButton> amplitude_envelope_mod_;
     ScopedPointer<TextButton> step_sequencer_mod_;
@@ -147,7 +148,7 @@ private:
     ScopedPointer<TwytchSlider> osc_1_tune_;
     ScopedPointer<TwytchSlider> delay_frequency_;
     ScopedPointer<WaveFormSelector> mono_lfo_2_wave_display_;
-    ScopedPointer<TwytchSlider> mono_lfo_2_waveform_;
+    ScopedPointer<TwytchWaveSelector> mono_lfo_2_waveform_;
     ScopedPointer<TwytchSlider> osc_1_transpose_;
     ScopedPointer<ToggleButton> mono_lfo_1_sync_;
     ScopedPointer<ToggleButton> step_sequencer_sync_;

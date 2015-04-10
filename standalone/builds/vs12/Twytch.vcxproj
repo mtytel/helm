@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\..\src\editor_components\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\twytch_filter_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\twytch_slider.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\twytch_wave_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_form_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
@@ -1371,6 +1372,7 @@
     <ClInclude Include="..\..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_components\twytch_filter_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\twytch_slider.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\twytch_wave_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_form_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\modulation_look_and_feel.h"/>
