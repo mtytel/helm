@@ -25,11 +25,13 @@ namespace mopo {
 
   void SmoothFilter::process() {
     mopo_float half_life = input(kHalfLife)->at(0);
-    mopo_float decay = std::pow(0.5, -half_life * sample_rate_);
+    mopo_float decay = 0.0;
+    if (half_life)
+      decay = std::pow(0.5, 1.0 / (half_life * sample_rate_));
 
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float target = input(kTarget)->at(i);
-      last_value_ = INTERPOLATE(last_value_, target, decay);
+      last_value_ = INTERPOLATE(target, last_value_, decay);
       output(0)->buffer[i] = last_value_;
     }
   }
