@@ -37,12 +37,14 @@ namespace mopo {
       TwytchModule();
       virtual ~TwytchModule() { } // Should probably delete things.
 
+      // Returns a map of all controls of this module and all submodules.
       control_map getControls();
 
       Processor::Output* getModulationSource(std::string name);
       Processor* getModulationDestination(std::string name, bool poly);
       Processor* getMonoModulationDestination(std::string name);
       Processor* getPolyModulationDestination(std::string name);
+
       output_map getModulationSources();
       output_map getMonoModulations();
       output_map getPolyModulations();
@@ -51,14 +53,17 @@ namespace mopo {
       virtual ProcessorRouter* getPolyRouter() = 0;
 
     protected:
+      // Creates a synthesizer control that you can modulate monophonically.
       Processor* createMonoModControl(std::string name, mopo_float start_val,
                                       bool control_rate, bool smooth_value = false,
                                       ControlSkewType skew = kLinear);
 
+      // Creates a synthesizer control that you can modulate polyphonically and monophonically.
       Processor* createPolyModControl(std::string name, mopo_float start_val,
                                       bool control_rate, bool smooth_value = false,
                                       ControlSkewType skew = kLinear);
 
+      // Creates a switch from free running frequencies to tempo synced frequencies.
       Processor* createTempoSyncSwitch(std::string name, Processor* frequency,
                                        Processor* bps, bool poly = false);
 
