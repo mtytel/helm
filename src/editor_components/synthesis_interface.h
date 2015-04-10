@@ -165,6 +165,10 @@ private:
     ScopedPointer<TwytchSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_bypass_;
     ScopedPointer<TwytchSlider> stutter_resample_frequency_;
+    Path internalPath1;
+    Path internalPath2;
+    Path internalPath3;
+    Path internalPath4;
 
 
     //==============================================================================
