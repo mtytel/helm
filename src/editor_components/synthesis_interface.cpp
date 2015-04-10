@@ -532,6 +532,14 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     stutter_resample_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     stutter_resample_frequency_->addListener (this);
 
+    addAndMakeVisible (step_smoothing_ = new TwytchSlider ("step_smoothing"));
+    step_smoothing_->setRange (0, 0.5, 0);
+    step_smoothing_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    step_smoothing_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    step_smoothing_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    step_smoothing_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    step_smoothing_->addListener (this);
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -677,6 +685,7 @@ SynthesisInterface::~SynthesisInterface()
     stutter_frequency_ = nullptr;
     stutter_on_ = nullptr;
     stutter_resample_frequency_ = nullptr;
+    step_smoothing_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1176,6 +1185,12 @@ void SynthesisInterface::paint (Graphics& g)
                 264 - (84 / 2), 500, 84, 20,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xff777777));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("SMOOTHING"),
+                610 - (60 / 2), 476, 60, 12,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     g.setColour(Colours::white);
     //[/UserPaint]
@@ -1264,6 +1279,7 @@ void SynthesisInterface::resized()
     stutter_frequency_->setBounds (16, 552, 50, 50);
     stutter_on_->setBounds (8, 503, 16, 16);
     stutter_resample_frequency_->setBounds (96, 552, 50, 50);
+    step_smoothing_->setBounds (610 - (40 / 2), 440, 40, 40);
     internalPath1.clear();
     internalPath1.startNewSubPath (205.0f, 40.0f);
     internalPath1.lineTo (194.0f, 40.0f);
@@ -1550,6 +1566,11 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_stutter_resample_frequency_] -- add your slider handling code here..
         //[/UserSliderCode_stutter_resample_frequency_]
+    }
+    else if (sliderThatWasMoved == step_smoothing_)
+    {
+        //[UserSliderCode_step_smoothing_] -- add your slider handling code here..
+        //[/UserSliderCode_step_smoothing_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -2166,6 +2187,9 @@ BEGIN_JUCER_METADATA
     <TEXT pos="263.5c 500 84 20" fill="solid: ff999999" hasStroke="0" text="FORMANT"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
+    <TEXT pos="610c 476 60 12" fill="solid: ff777777" hasStroke="0" text="SMOOTHING"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
              virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="368 352 272 80"
@@ -2502,6 +2526,11 @@ BEGIN_JUCER_METADATA
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="96 552 50 50"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0.5"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="step_smoothing" id="d5721bf2c0177c0e" memberName="step_smoothing_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="610c 440 40 40"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="0.5"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 

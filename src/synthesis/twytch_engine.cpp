@@ -95,6 +95,7 @@ namespace mopo {
 
     // Step Sequencer.
     Processor* num_steps = createMonoModControl("num_steps", 16, true);
+    Processor* step_smoothing = createMonoModControl("step_smoothing", 0, true);
     Processor* step_free_frequency = createMonoModControl("step_frequency", 3.0,
                                                           false, false, kExponential);
     Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency,
@@ -103,8 +104,6 @@ namespace mopo {
     StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
     step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
-
-    addProcessor(step_sequencer);
 
     for (int i = 0; i < MAX_STEPS; ++i) {
       std::stringstream stream;
@@ -117,7 +116,14 @@ namespace mopo {
       step_sequencer->plug(step, StepGenerator::kSteps + i);
     }
 
-    mod_sources_["step_sequencer"] = step_sequencer->output();
+    SmoothFilter* smoothed_step_sequencer = new SmoothFilter();
+    smoothed_step_sequencer->plug(step_sequencer, SmoothFilter::kTarget);
+    smoothed_step_sequencer->plug(step_smoothing, SmoothFilter::kHalfLife);
+
+    addProcessor(step_sequencer);
+    addProcessor(smoothed_step_sequencer);
+
+    mod_sources_["step_sequencer"] = smoothed_step_sequencer->output();
     mod_sources_["step_sequencer_step"] = step_sequencer->output(StepGenerator::kStep);
 
     // Arpeggiator.
