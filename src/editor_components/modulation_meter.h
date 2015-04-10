@@ -40,7 +40,8 @@ private:
     const mopo::Processor::Output* poly_total_;
     const TwytchSlider* destination_;
 
-    double current_percent_;
+    double current_knob_percent_;
+    double current_mod_percent_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
 };

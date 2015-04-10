@@ -1212,7 +1212,7 @@ void SynthesisInterface::resized()
     cross_modulation_->setBounds (177 - (46 / 2), 56, 46, 46);
     filter_response_->setBounds (16, 368, 240, 112);
     portamento_type_->setBounds (698 - (64 / 2), 192, 64, 16);
-    osc_mix_->setBounds (16, 128, 320, 24);
+    osc_mix_->setBounds (16, 128, 320, 20);
     osc_2_transpose_->setBounds (233 - (46 / 2), 156, 46, 46);
     osc_2_tune_->setBounds (313 - (46 / 2), 156, 46, 46);
     volume_->setBounds (664, 440, 136, 40);
@@ -2235,7 +2235,7 @@ BEGIN_JUCER_METADATA
           min="0" max="2" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_mix" id="211f463b59b2454f" memberName="osc_mix_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="16 128 320 24" bkgcol="ff333333"
+          explicitFocusOrder="0" pos="16 128 320 20" bkgcol="ff333333"
           trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
