@@ -15,6 +15,7 @@
  */
 
 #include "smooth_filter.h"
+#include <cmath>
 
 namespace mopo {
 
@@ -23,11 +24,12 @@ namespace mopo {
   }
 
   void SmoothFilter::process() {
-    mopo_float smoothing = input(kSmoothing)->at(0);
+    mopo_float half_life = input(kHalfLife)->at(0);
+    mopo_float decay = std::pow(0.5, -half_life * sample_rate_);
 
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float target = input(kTarget)->at(i);
-      last_value_ = INTERPOLATE(target, last_value_, smoothing);
+      last_value_ = INTERPOLATE(last_value_, target, decay);
       output(0)->buffer[i] = last_value_;
     }
   }
