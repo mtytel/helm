@@ -23,11 +23,11 @@ namespace mopo {
   }
 
   void SmoothFilter::process() {
-    mopo_float decay = input(kDecay)->at(0);
+    mopo_float smoothing = input(kSmoothing)->at(0);
 
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float target = input(kTarget)->at(i);
-      last_value_ = INTERPOLATE(last_value_, target, decay);
+      last_value_ = INTERPOLATE(target, last_value_, smoothing);
       output(0)->buffer[i] = last_value_;
     }
   }

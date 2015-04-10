@@ -26,7 +26,7 @@ namespace mopo {
     public:
       enum Inputs {
         kTarget,
-        kDecay,
+        kSmoothing,
         kTriggerJump,
         kNumInputs
       };
