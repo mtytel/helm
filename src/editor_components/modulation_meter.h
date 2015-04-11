@@ -29,12 +29,16 @@ public:
     ~ModulationMeter();
 
     void paint(Graphics& g) override;
+    void resized() override;
 
     void update(int num_voices);
 
 private:
     void drawSlider(Graphics& g);
+
     void drawKnob(Graphics& g);
+    void fillHorizontalRect(Graphics& g, float x1, float x2);
+    void fillVerticalRect(Graphics& g, float y1, float y2);
 
     const mopo::Processor::Output* mono_total_;
     const mopo::Processor::Output* poly_total_;
@@ -42,6 +46,15 @@ private:
 
     double current_knob_percent_;
     double current_mod_percent_;
+
+    PathStrokeType knob_stroke_;
+    float full_radius_;
+    float outer_radius_;
+    float slider_width_;
+    float slider_height_;
+
+    float knob_percent_;
+    float mod_percent_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
 };
