@@ -28,22 +28,27 @@ namespace {
 
 } // namespace
 
-TwytchTempoSelector::TwytchTempoSelector(String name) : Component(name) { }
+TwytchTempoSelector::TwytchTempoSelector(String name) : TwytchSlider(name),
+                                                        free_slider_(0), tempo_slider_(0) { }
 
 void TwytchTempoSelector::mouseDown(const MouseEvent& e) {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent == 0)
-        return;
-
     PopupMenu m;
     m.addItem(kHertz, "Hertz");
     m.addItem(kTempo, "Tempo");
     m.addItem(kTempoDotted, "Tempo Dotted");
     m.addItem(kTempoTriplet, "Tempo Triplet");
 
-    int value = m.show() - 1;
-    if (value >= 0)
-        parent->valueChanged(getName().toStdString(), value);
+    int result = m.show();
+    setValue(result - 1);
+}
+
+void TwytchTempoSelector::valueChanged() {
+    bool free_slider = getValue() == (kHertz - 1);
+    
+    if (free_slider_)
+        free_slider_->setVisible(free_slider);
+    if (tempo_slider_)
+        tempo_slider_->setVisible(!free_slider);
 }
 
 void TwytchTempoSelector::paint(Graphics& g) {

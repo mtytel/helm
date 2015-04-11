@@ -74,30 +74,18 @@ namespace mopo {
     };
 
     const std::string synced_frequencies[] = {
-      "1 / 32",
-      "1 / 16",
-      "1 / 12",
-      "1 / 8",
-      "1 / 7",
-      "1 / 6",
-      "3 / 16",
-      "1 / 5",
-      "1 / 4",
-      "1 / 3",
-      "3 / 8",
-      "1 / 2",
-      "2 / 3",
-      "3 / 4",
-      "4 / 4",
-      "4 / 3",
-      "3 / 2",
-      "2 / 1",
-      "3 / 1",
-      "4 / 1",
-      "6 / 1",
+      "32 / 1",
+      "16 / 1",
       "8 / 1",
-      "12 / 1",
-      "16 / 1"
+      "4 / 1",
+      "2 / 1",
+      "1 / 1",
+      "1 / 2",
+      "1 / 4",
+      "1 / 8",
+      "1 / 16",
+      "1 / 32",
+      "1 / 64",
     };
   } // namespace strings
 
@@ -110,6 +98,7 @@ namespace mopo {
   typedef std::map<std::string, Processor::Output*> output_map;
 
   const mopo::Value synced_freq_ratios[] = {
+    Value(1.0 / 128.0),
     Value(1.0 / 64.0),
     Value(1.0 / 32.0),
     Value(1.0 / 16.0),
@@ -121,8 +110,6 @@ namespace mopo {
     Value(4.0),
     Value(8.0),
     Value(16.0),
-    Value(32.0),
-    Value(64.0)
   };
 
   struct ModulationConnection {

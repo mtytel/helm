@@ -25,6 +25,7 @@
 #include "twytch_engine.h"
 #include "twytch_filter_selector.h"
 #include "twytch_slider.h"
+#include "twytch_tempo_selector.h"
 #include "twytch_wave_selector.h"
 //[/Headers]
 
@@ -33,7 +34,6 @@
 #include "wave_form_selector.h"
 #include "filter_response.h"
 #include "xy_pad.h"
-#include "twytch_tempo_selector.h"
 
 
 //==============================================================================

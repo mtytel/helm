@@ -537,6 +537,14 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_smoothing_->addListener (this);
 
     addAndMakeVisible (mono_lfo_1_sync_ = new TwytchTempoSelector ("mono_lfo_1_sync"));
+    mono_lfo_1_sync_->setRange (0, 6, 1);
+    mono_lfo_1_sync_->setSliderStyle (Slider::LinearBar);
+    mono_lfo_1_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    mono_lfo_1_sync_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    mono_lfo_1_sync_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    mono_lfo_1_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    mono_lfo_1_sync_->addListener (this);
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -573,6 +581,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_xy_pad_->setXSlider(formant_x_);
     formant_xy_pad_->setYSlider(formant_y_);
 
+    mono_lfo_1_sync_->setTempoSlider(mono_lfo_1_tempo_);
+    mono_lfo_1_sync_->setFreeSlider(mono_lfo_1_frequency_);
+
     for (int i = 0; i < getNumChildComponents(); ++i) {
         TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
         if (slider)
@@ -583,12 +594,12 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
             button_lookup_[button->getName().toStdString()] = button;
     }
 
-    setAllValues(controls);
     setDefaultDoubleClickValues();
     buttonClicked(step_sequencer_sync_);
     buttonClicked(mono_lfo_2_sync_);
     buttonClicked(poly_lfo_sync_);
     buttonClicked(delay_sync_);
+    setAllValues(controls);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -1275,7 +1286,7 @@ void SynthesisInterface::resized()
     stutter_on_->setBounds (8, 503, 16, 16);
     stutter_resample_frequency_->setBounds (96, 552, 50, 50);
     step_smoothing_->setBounds (610 - (40 / 2), 440, 40, 40);
-    mono_lfo_1_sync_->setBounds (480, 600, 24, 24);
+    mono_lfo_1_sync_->setBounds (480, 600, 16, 16);
     internalPath1.clear();
     internalPath1.startNewSubPath (205.0f, 40.0f);
     internalPath1.lineTo (194.0f, 40.0f);
@@ -1567,6 +1578,11 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_step_smoothing_] -- add your slider handling code here..
         //[/UserSliderCode_step_smoothing_]
+    }
+    else if (sliderThatWasMoved == mono_lfo_1_sync_)
+    {
+        //[UserSliderCode_mono_lfo_1_sync_] -- add your slider handling code here..
+        //[/UserSliderCode_mono_lfo_1_sync_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -2513,9 +2529,11 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="0.5"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <JUCERCOMP name="mono_lfo_1_sync" id="d55695b7fa61710c" memberName="mono_lfo_1_sync_"
-             virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="480 600 24 24"
-             sourceFile="twytch_tempo_selector.cpp" constructorParams="&quot;mono_lfo_1_sync&quot;"/>
+  <SLIDER name="mono_lfo_1_sync" id="7e78ba17de9b444b" memberName="mono_lfo_1_sync_"
+          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="480 600 16 16"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

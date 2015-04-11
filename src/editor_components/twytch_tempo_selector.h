@@ -18,17 +18,24 @@
 #define TWYTCH_TEMPO_SELECTOR_H
 
 #include "JuceHeader.h"
+#include "twytch_slider.h"
 
 class FullInterface;
 
-class TwytchTempoSelector : public Component {
+class TwytchTempoSelector : public TwytchSlider {
 public:
     TwytchTempoSelector(String name);
 
     void mouseDown(const MouseEvent& e) override;
     void paint(Graphics& g) override;
+    void valueChanged() override;
+
+    void setFreeSlider(Slider* slider) { free_slider_ = slider; }
+    void setTempoSlider(Slider* slider) { tempo_slider_ = slider; }
 
 private:
+    Slider* free_slider_;
+    Slider* tempo_slider_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchTempoSelector)
 };
