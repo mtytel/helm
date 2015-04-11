@@ -33,6 +33,7 @@
 #include "wave_form_selector.h"
 #include "filter_response.h"
 #include "xy_pad.h"
+#include "twytch_tempo_selector.h"
 
 
 //==============================================================================
@@ -150,7 +151,6 @@ private:
     ScopedPointer<WaveFormSelector> mono_lfo_2_wave_display_;
     ScopedPointer<TwytchWaveSelector> mono_lfo_2_waveform_;
     ScopedPointer<TwytchSlider> osc_1_transpose_;
-    ScopedPointer<ToggleButton> mono_lfo_1_sync_;
     ScopedPointer<ToggleButton> step_sequencer_sync_;
     ScopedPointer<ToggleButton> delay_sync_;
     ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
@@ -166,6 +166,7 @@ private:
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<TwytchSlider> stutter_resample_frequency_;
     ScopedPointer<TwytchSlider> step_smoothing_;
+    ScopedPointer<TwytchTempoSelector> mono_lfo_1_sync_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

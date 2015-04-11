@@ -442,10 +442,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_transpose_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_1_transpose_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_1_sync_ = new ToggleButton ("mono_lfo_1_sync"));
-    mono_lfo_1_sync_->setButtonText (String::empty);
-    mono_lfo_1_sync_->addListener (this);
-
     addAndMakeVisible (step_sequencer_sync_ = new ToggleButton ("step_sequencer_sync"));
     step_sequencer_sync_->setButtonText (String::empty);
     step_sequencer_sync_->addListener (this);
@@ -540,6 +536,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_smoothing_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     step_smoothing_->addListener (this);
 
+    addAndMakeVisible (mono_lfo_1_sync_ = new TwytchTempoSelector ("mono_lfo_1_sync"));
 
     //[UserPreSize]
     createTempoSliders();
@@ -589,7 +586,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     setAllValues(controls);
     setDefaultDoubleClickValues();
     buttonClicked(step_sequencer_sync_);
-    buttonClicked(mono_lfo_1_sync_);
     buttonClicked(mono_lfo_2_sync_);
     buttonClicked(poly_lfo_sync_);
     buttonClicked(delay_sync_);
@@ -670,7 +666,6 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_2_wave_display_ = nullptr;
     mono_lfo_2_waveform_ = nullptr;
     osc_1_transpose_ = nullptr;
-    mono_lfo_1_sync_ = nullptr;
     step_sequencer_sync_ = nullptr;
     delay_sync_ = nullptr;
     mono_lfo_1_amplitude_ = nullptr;
@@ -686,6 +681,7 @@ SynthesisInterface::~SynthesisInterface()
     stutter_on_ = nullptr;
     stutter_resample_frequency_ = nullptr;
     step_smoothing_ = nullptr;
+    mono_lfo_1_sync_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1264,7 +1260,6 @@ void SynthesisInterface::resized()
     mono_lfo_2_wave_display_->setBounds (580 - (128 / 2), 542, 128, 48);
     mono_lfo_2_waveform_->setBounds (580 - (128 / 2), 528, 128, 14);
     osc_1_transpose_->setBounds (41 - (46 / 2), 156, 46, 46);
-    mono_lfo_1_sync_->setBounds (480, 600, 24, 24);
     step_sequencer_sync_->setBounds (552, 448, 24, 24);
     delay_sync_->setBounds (760, 288, 24, 24);
     mono_lfo_1_amplitude_->setBounds (420 - (40 / 2), 592, 40, 40);
@@ -1280,6 +1275,7 @@ void SynthesisInterface::resized()
     stutter_on_->setBounds (8, 503, 16, 16);
     stutter_resample_frequency_->setBounds (96, 552, 50, 50);
     step_smoothing_->setBounds (610 - (40 / 2), 440, 40, 40);
+    mono_lfo_1_sync_->setBounds (480, 600, 24, 24);
     internalPath1.clear();
     internalPath1.startNewSubPath (205.0f, 40.0f);
     internalPath1.lineTo (194.0f, 40.0f);
@@ -1598,13 +1594,6 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         step_frequency_->setVisible(!pressed);
         step_sequencer_tempo_->setVisible(pressed);
     }
-    else if (buttonThatWasClicked == mono_lfo_1_sync_) {
-        bool pressed = buttonThatWasClicked->getToggleState();
-        if (parent)
-            parent->valueChanged(name, pressed ? 1.0 : 0.0);
-        mono_lfo_1_frequency_->setVisible(!pressed);
-        mono_lfo_1_tempo_->setVisible(pressed);
-    }
     else if (buttonThatWasClicked == mono_lfo_2_sync_) {
         bool pressed = buttonThatWasClicked->getToggleState();
         if (parent)
@@ -1684,11 +1673,6 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_aftertouch_mod_] -- add your button handler code here..
         //[/UserButtonCode_aftertouch_mod_]
     }
-    else if (buttonThatWasClicked == mono_lfo_1_sync_)
-    {
-        //[UserButtonCode_mono_lfo_1_sync_] -- add your button handler code here..
-        //[/UserButtonCode_mono_lfo_1_sync_]
-    }
     else if (buttonThatWasClicked == step_sequencer_sync_)
     {
         //[UserButtonCode_step_sequencer_sync_] -- add your button handler code here..
@@ -1736,7 +1720,7 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
 void SynthesisInterface::createTempoSliders() {
     step_sequencer_tempo_ = new TwytchSlider("step_sequencer_tempo");
     addAndMakeVisible(step_sequencer_tempo_);
-    int num_tempos = sizeof(mopo::synced_freq_ratios) / sizeof(mopo::mopo_float);
+    int num_tempos = sizeof(mopo::synced_freq_ratios) / sizeof(mopo::Value);
     step_sequencer_tempo_->setRange(0, num_tempos - 1, 1);
     step_sequencer_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
     step_sequencer_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -2467,9 +2451,6 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <TOGGLEBUTTON name="mono_lfo_1_sync" id="ab29827e97077bb3" memberName="mono_lfo_1_sync_"
-                virtualName="" explicitFocusOrder="0" pos="480 600 24 24" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <TOGGLEBUTTON name="step_sequencer_sync" id="36872088faa7a11" memberName="step_sequencer_sync_"
                 virtualName="" explicitFocusOrder="0" pos="552 448 24 24" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
@@ -2532,6 +2513,9 @@ BEGIN_JUCER_METADATA
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="0.5"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <JUCERCOMP name="mono_lfo_1_sync" id="d55695b7fa61710c" memberName="mono_lfo_1_sync_"
+             virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="480 600 24 24"
+             sourceFile="twytch_tempo_selector.cpp" constructorParams="&quot;mono_lfo_1_sync&quot;"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

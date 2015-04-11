@@ -110,28 +110,50 @@ namespace mopo {
 
   Processor* TwytchModule::createTempoSyncSwitch(std::string name, Processor* frequency,
                                                  Processor* bps, bool poly) {
+    static const Value dotted_ratio(2.0 / 3.0);
+    static const Value triplet_ratio(3.0 / 2.0);
+
     ProcessorRouter* owner = poly ? getPolyRouter() : getMonoRouter();
-    Processor* tempo = createMonoModControl(name + "_tempo", 12, false);
+    Processor* tempo = createMonoModControl(name + "_tempo", 6, false);
     Switch* choose_tempo = new Switch();
+
     choose_tempo->plug(tempo, Switch::kSource);
     choose_tempo->setControlRate(frequency->isControlRate());
-    for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(mopo_float); ++i) {
-      Value* tempo = new Value(synced_freq_ratios[i]);
-      choose_tempo->plugNext(tempo);
-    }
+
+    for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(Value); ++i)
+      choose_tempo->plugNext(&synced_freq_ratios[i]);
+
+    Switch* choose_modifier = new Switch();
+    Value* sync = new Value(1);
+    choose_modifier->plug(sync, Switch::kSource);
+    choose_modifier->plugNext(&utils::value_one);
+    choose_modifier->plugNext(&utils::value_one);
+    choose_modifier->plugNext(&dotted_ratio);
+    choose_modifier->plugNext(&triplet_ratio);
+
+    Multiply* modified_tempo = new Multiply();
+    modified_tempo->setControlRate(frequency->isControlRate());
+    modified_tempo->plug(choose_tempo, 0);
+    modified_tempo->plug(choose_modifier, 1);
 
     Multiply* tempo_frequency = new Multiply();
-    tempo_frequency->plug(choose_tempo, 0);
+    tempo_frequency->setControlRate(frequency->isControlRate());
+    tempo_frequency->plug(modified_tempo, 0);
     tempo_frequency->plug(bps, 1);
+
+    owner->addProcessor(choose_modifier);
     owner->addProcessor(choose_tempo);
+    owner->addProcessor(modified_tempo);
     owner->addProcessor(tempo_frequency);
 
     Switch* choose_frequency = new Switch();
     choose_frequency->setControlRate(frequency->isControlRate());
-    Value* sync = new Value(1);
     choose_frequency->plug(sync, Switch::kSource);
     choose_frequency->plugNext(frequency);
     choose_frequency->plugNext(tempo_frequency);
+    choose_frequency->plugNext(tempo_frequency);
+    choose_frequency->plugNext(tempo_frequency);
+
     owner->addProcessor(choose_frequency);
     controls_[name + "_sync"] = sync;
     return choose_frequency;

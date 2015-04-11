@@ -97,7 +97,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     //[UserPreSize]
     arp_tempo_ = new TwytchSlider("arp_tempo");
     addAndMakeVisible(arp_tempo_);
-    arp_tempo_->setRange(0, sizeof(mopo::synced_freq_ratios) / sizeof(mopo::mopo_float) - 1, 1);
+    arp_tempo_->setRange(0, sizeof(mopo::synced_freq_ratios) / sizeof(mopo::Value) - 1, 1);
     arp_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
     arp_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     arp_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
