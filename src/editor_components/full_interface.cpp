@@ -79,11 +79,6 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
     save_button_->addListener (this);
 
-    addAndMakeVisible (arp_sync_ = new ToggleButton ("arp_sync"));
-    arp_sync_->setButtonText (String::empty);
-    arp_sync_->addListener (this);
-    arp_sync_->setColour (ToggleButton::textColourId, Colours::white);
-
     addAndMakeVisible (beats_per_minute_ = new TwytchSlider ("beats_per_minute"));
     beats_per_minute_->setRange (20, 300, 0);
     beats_per_minute_->setSliderStyle (Slider::LinearBar);
@@ -93,6 +88,15 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     beats_per_minute_->addListener (this);
 
     addAndMakeVisible (global_tool_tip_ = new GlobalToolTip());
+    addAndMakeVisible (arp_sync_ = new TwytchTempoSelector ("arp_sync"));
+    arp_sync_->setRange (0, 6, 1);
+    arp_sync_->setSliderStyle (Slider::LinearBar);
+    arp_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    arp_sync_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    arp_sync_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    arp_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    arp_sync_->addListener (this);
+
 
     //[UserPreSize]
     arp_tempo_ = new TwytchSlider("arp_tempo");
@@ -108,6 +112,9 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_frequency_->setScalingType(TwytchSlider::kExponential);
     arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     arp_pattern_->setStringLookup(mopo::strings::arp_patterns);
+
+    arp_sync_->setTempoSlider(arp_tempo_);
+    arp_sync_->setFreeSlider(arp_frequency_);
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
         TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
@@ -127,7 +134,6 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
 
 
     //[Constructor] You can add your own custom stuff here..
-    buttonClicked(arp_sync_);
     //[/Constructor]
 }
 
@@ -145,9 +151,9 @@ FullInterface::~FullInterface()
     load_button_ = nullptr;
     arp_on_ = nullptr;
     save_button_ = nullptr;
-    arp_sync_ = nullptr;
     beats_per_minute_ = nullptr;
     global_tool_tip_ = nullptr;
+    arp_sync_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -216,9 +222,9 @@ void FullInterface::resized()
     load_button_->setBounds (8, 8, 120, 24);
     arp_on_->setBounds (488, 16, 16, 16);
     save_button_->setBounds (8, 32, 120, 24);
-    arp_sync_->setBounds (592, 16, 24, 24);
     beats_per_minute_->setBounds (168, 8, 112, 48);
     global_tool_tip_->setBounds (288, 8, 120, 48);
+    arp_sync_->setBounds (592, 24, 16, 16);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -257,6 +263,11 @@ void FullInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_beats_per_minute_] -- add your slider handling code here..
         //[/UserSliderCode_beats_per_minute_]
+    }
+    else if (sliderThatWasMoved == arp_sync_)
+    {
+        //[UserSliderCode_arp_sync_] -- add your slider handling code here..
+        //[/UserSliderCode_arp_sync_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -306,18 +317,6 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
             save_file.replaceWithText(JSON::toString(parent->saveToVar()));
         }
         //[/UserButtonCode_save_button_]
-    }
-    else if (buttonThatWasClicked == arp_sync_)
-    {
-        //[UserButtonCode_arp_sync_] -- add your button handler code here..
-        std::string name = buttonThatWasClicked->getName().toStdString();
-        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        bool pressed = buttonThatWasClicked->getToggleState();
-        if (parent)
-            parent->valueChanged(name, pressed ? 1.0 : 0.0);
-        arp_tempo_->setVisible(pressed);
-        arp_frequency_->setVisible(!pressed);
-        //[/UserButtonCode_arp_sync_]
     }
 
     //[UserbuttonClicked_Post]
@@ -460,10 +459,6 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
               explicitFocusOrder="0" pos="8 32 120 24" buttonText="save" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
-  <TOGGLEBUTTON name="arp_sync" id="ea9d746581453330" memberName="arp_sync_"
-                virtualName="" explicitFocusOrder="0" pos="592 16 24 24" txtcol="ffffffff"
-                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
-                state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="168 8 112 48"
           bkgcol="ff333333" textboxtext="ffffffff" min="20" max="300" int="0"
@@ -472,6 +467,11 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="global_tool_tip" id="c501d8243c608e75" memberName="global_tool_tip_"
              virtualName="" explicitFocusOrder="0" pos="288 8 120 48" sourceFile="global_tool_tip.cpp"
              constructorParams=""/>
+  <SLIDER name="arp_sync" id="7f286b1ad8378afd" memberName="arp_sync_"
+          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="592 24 16 16"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

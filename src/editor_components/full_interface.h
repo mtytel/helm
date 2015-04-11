@@ -89,9 +89,9 @@ private:
     ScopedPointer<TextButton> load_button_;
     ScopedPointer<ToggleButton> arp_on_;
     ScopedPointer<TextButton> save_button_;
-    ScopedPointer<ToggleButton> arp_sync_;
     ScopedPointer<TwytchSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
+    ScopedPointer<TwytchTempoSelector> arp_sync_;
 
 
     //==============================================================================

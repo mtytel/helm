@@ -29,6 +29,7 @@ public:
     void mouseDown(const MouseEvent& e) override;
     void paint(Graphics& g) override;
     void valueChanged() override;
+    void resized() override;
 
     void setFreeSlider(Slider* slider) { free_slider_ = slider; }
     void setTempoSlider(Slider* slider) { tempo_slider_ = slider; }
@@ -36,6 +37,9 @@ public:
 private:
     Slider* free_slider_;
     Slider* tempo_slider_;
+
+    Path arrow_;
+    Path clock_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchTempoSelector)
 };

@@ -32,14 +32,19 @@ TwytchTempoSelector::TwytchTempoSelector(String name) : TwytchSlider(name),
                                                         free_slider_(0), tempo_slider_(0) { }
 
 void TwytchTempoSelector::mouseDown(const MouseEvent& e) {
+    if (e.mods.isPopupMenu()) {
+        TwytchSlider::mouseDown(e);
+        return;
+    }
     PopupMenu m;
     m.addItem(kHertz, "Hertz");
     m.addItem(kTempo, "Tempo");
     m.addItem(kTempoDotted, "Tempo Dotted");
     m.addItem(kTempoTriplet, "Tempo Triplet");
 
-    int result = m.show();
-    setValue(result - 1);
+    int result = m.showAt(this);
+    if (result > 0)
+        setValue(result - 1);
 }
 
 void TwytchTempoSelector::valueChanged() {
@@ -52,6 +57,56 @@ void TwytchTempoSelector::valueChanged() {
 }
 
 void TwytchTempoSelector::paint(Graphics& g) {
-    g.setColour(Colours::black);
+    g.setColour(Colour(0xff777777));
     g.fillAll();
+
+    g.setColour(Colour(0xff222222));
+    g.fillPath(arrow_);
+
+    int value = getValue() + 1;
+    if (value == kHertz)
+        g.fillPath(clock_);
+    else if (value == kTempo || value == kTempoDotted) {
+        g.fillEllipse(getWidth() / 3.0f, getHeight() / 2.0f,
+                      getWidth() / 3.0f, getHeight() / 4.0f);
+        g.fillRect(2.0f * getWidth() / 3.0f - 1.0f, getHeight() / 6.0f,
+                   1.0f, 11.0f * getHeight() / 24.0f);
+    }
+    else if (value == kTempoTriplet) {
+        float width = getWidth() / 4.0f;
+        float height = getHeight() / 6.0f;
+        float x = getWidth() / 4.0f - getWidth() / 16.0f;
+        float y = getHeight() / 2.0f + getHeight() / 16.0f;
+
+        g.fillRect(x + width - 1.0f, y + height / 2.0f - getHeight() / 3.0f,
+                   getWidth() / 2.0f, 1.0f);
+
+        g.fillEllipse(x, y, width, height);
+        g.fillRect(x + width - 1.0f, y + height / 2.0f - getHeight() / 3.0f,
+                   1.0f, getHeight() / 3.0f);
+        g.fillEllipse(x + getWidth() / 4.0f, y, width, height);
+        g.fillRect(x + width - 1.0f + getWidth() / 4.0f, y + height / 2.0f - getHeight() / 3.0f,
+                   1.0f, getHeight() / 3.0f);
+        g.fillEllipse(x + getWidth() / 2.0f, y, width, height);
+        g.fillRect(x + width - 1.0f + getWidth() / 2.0f, y + height / 2.0f - getHeight() / 3.0f,
+                   1.0f, getHeight() / 3.0f);
+    }
+    if (value == kTempoDotted) {
+        g.fillEllipse(3.0f * getWidth() / 4.0f, getHeight() / 2.0f,
+                      getWidth() / 6.0f, getHeight() / 6.0f);
+    }
+}
+
+void TwytchTempoSelector::resized() {
+    static const float clock_angle = 1.0f;
+
+    arrow_.clear();
+    arrow_.startNewSubPath(getWidth() / 8.0f, getHeight() / 8.0f);
+    arrow_.lineTo(3.0f * getWidth() / 8.0f, getHeight() / 8.0f);
+    arrow_.lineTo(2.0f * getWidth() / 8.0f, 2.0f * getHeight() / 8.0f);
+
+    clock_.clear();
+    clock_.addPieSegment(7.0f * getWidth() / 24.0f, getHeight() / 4.0f,
+                         getWidth() / 2.0f, getHeight() / 2.0f,
+                         0.0f, clock_angle - 2.0f * mopo::PI, 0.0f);
 }
