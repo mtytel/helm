@@ -114,7 +114,12 @@ namespace mopo {
     static const Value triplet_ratio(3.0 / 2.0);
 
     ProcessorRouter* owner = poly ? getPolyRouter() : getMonoRouter();
-    Processor* tempo = createMonoModControl(name + "_tempo", 6, false);
+    Processor* tempo = nullptr;
+    if (poly)
+      tempo = createPolyModControl(name + "_tempo", 6, false);
+    else
+      tempo = createMonoModControl(name + "_tempo", 6, false);
+
     Switch* choose_tempo = new Switch();
 
     choose_tempo->plug(tempo, Switch::kSource);
