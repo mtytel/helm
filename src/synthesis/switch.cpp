@@ -23,7 +23,7 @@ namespace mopo {
   Switch::Switch() : Processor(kNumInputs, 1) { }
 
   void Switch::process() {
-    unsigned int source = static_cast<int>(input(kSource)->at(0));
+    int source = static_cast<int>(input(kSource)->at(0));
     source = CLAMP(source, 0, numInputs() - kNumInputs - 1);
 
     memcpy(output()->buffer, input(kNumInputs + source)->source->buffer,
