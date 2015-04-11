@@ -139,7 +139,6 @@ void ModulationMeter::drawKnob(Graphics& g) {
                               0.0f, current_mod_angle, current_knob_angle, true);
     g.setColour(Colour(0xfff16504));
     g.strokePath(mod_section, knob_stroke_);
-
 }
 
 void ModulationMeter::fillHorizontalRect(Graphics& g, float x1, float x2) {
