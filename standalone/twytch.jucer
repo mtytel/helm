@@ -115,6 +115,10 @@
               file="../src/editor_components/filter_response.cpp"/>
         <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"
               file="../src/editor_components/filter_response.h"/>
+        <FILE id="QeXzxc" name="filter_selector.cpp" compile="1" resource="0"
+              file="../src/editor_components/filter_selector.cpp"/>
+        <FILE id="LH8ShZ" name="filter_selector.h" compile="0" resource="0"
+              file="../src/editor_components/filter_selector.h"/>
         <FILE id="jfNGho" name="full_interface.cpp" compile="1" resource="0"
               file="../src/editor_components/full_interface.cpp"/>
         <FILE id="d7Az9b" name="full_interface.h" compile="0" resource="0"
@@ -150,17 +154,13 @@
               file="../src/editor_components/synthesis_interface.cpp"/>
         <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
               file="../src/editor_components/synthesis_interface.h"/>
-        <FILE id="QeXzxc" name="twytch_filter_selector.cpp" compile="1" resource="0"
-              file="../src/editor_components/twytch_filter_selector.cpp"/>
-        <FILE id="LH8ShZ" name="twytch_filter_selector.h" compile="0" resource="0"
-              file="../src/editor_components/twytch_filter_selector.h"/>
+        <FILE id="paqmM2" name="tempo_selector.cpp" compile="1" resource="0"
+              file="../src/editor_components/tempo_selector.cpp"/>
+        <FILE id="gRo5XB" name="tempo_selector.h" compile="0" resource="0"
+              file="../src/editor_components/tempo_selector.h"/>
         <FILE id="ozcC3C" name="twytch_slider.cpp" compile="1" resource="0"
               file="../src/editor_components/twytch_slider.cpp"/>
         <FILE id="nUFfr7" name="twytch_slider.h" compile="0" resource="0" file="../src/editor_components/twytch_slider.h"/>
-        <FILE id="paqmM2" name="twytch_tempo_selector.cpp" compile="1" resource="0"
-              file="../src/editor_components/twytch_tempo_selector.cpp"/>
-        <FILE id="gRo5XB" name="twytch_tempo_selector.h" compile="0" resource="0"
-              file="../src/editor_components/twytch_tempo_selector.h"/>
         <FILE id="VXbiff" name="twytch_wave_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/twytch_wave_selector.cpp"/>
         <FILE id="oXlMYR" name="twytch_wave_selector.h" compile="0" resource="0"

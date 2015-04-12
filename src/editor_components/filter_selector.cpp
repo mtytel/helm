@@ -14,14 +14,14 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch_filter_selector.h"
+#include "filter_selector.h"
 
 #define TYPE_PADDING_X 7.0f
 #define TYPE_PADDING_Y 3.0f
 
-TwytchFilterSelector::TwytchFilterSelector(String name) : TwytchSlider(name) { }
+FilterSelector::FilterSelector(String name) : TwytchSlider(name) { }
 
-void TwytchFilterSelector::paint(Graphics& g) {
+void FilterSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
     g.setColour(Colour(0xff333333));
@@ -55,7 +55,7 @@ void TwytchFilterSelector::paint(Graphics& g) {
     g.strokePath(all_pass_, stroke);
 }
 
-void TwytchFilterSelector::resized() {
+void FilterSelector::resized() {
     TwytchSlider::resized();
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;
@@ -71,7 +71,7 @@ void TwytchFilterSelector::resized() {
     resizeAllPass(6.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
 }
 
-void TwytchFilterSelector::resizeLowPass(float x, float y, float width, float height) {
+void FilterSelector::resizeLowPass(float x, float y, float width, float height) {
     low_pass_.clear();
     low_pass_.startNewSubPath(x, y + height / 2.0f);
     low_pass_.lineTo(x + width / 2.0f, y + height / 2.0f);
@@ -79,7 +79,7 @@ void TwytchFilterSelector::resizeLowPass(float x, float y, float width, float he
     low_pass_.lineTo(x + width, y + height);
 }
 
-void TwytchFilterSelector::resizeHighPass(float x, float y, float width, float height) {
+void FilterSelector::resizeHighPass(float x, float y, float width, float height) {
     high_pass_.clear();
     high_pass_.startNewSubPath(x + width, y + height / 2.0f);
     high_pass_.lineTo(x + width / 2.0f, y + height / 2.0f);
@@ -87,7 +87,7 @@ void TwytchFilterSelector::resizeHighPass(float x, float y, float width, float h
     high_pass_.lineTo(x, y + height);
 }
 
-void TwytchFilterSelector::resizeBandPass(float x, float y, float width, float height) {
+void FilterSelector::resizeBandPass(float x, float y, float width, float height) {
     band_pass_.clear();
     band_pass_.startNewSubPath(x, y + height);
     band_pass_.lineTo(x + width / 4.0f, y + 3.0f * height / 5.0f);
@@ -96,7 +96,7 @@ void TwytchFilterSelector::resizeBandPass(float x, float y, float width, float h
     band_pass_.lineTo(x + width, y + height);
 }
 
-void TwytchFilterSelector::resizeNotch(float x, float y, float width, float height) {
+void FilterSelector::resizeNotch(float x, float y, float width, float height) {
     notch_.clear();
     notch_.startNewSubPath(x, y + height / 4.0f);
     notch_.lineTo(x + width / 4.0f, y + height / 4.0f);
@@ -105,7 +105,7 @@ void TwytchFilterSelector::resizeNotch(float x, float y, float width, float heig
     notch_.lineTo(x + width, y + height / 4.0f);
 }
 
-void TwytchFilterSelector::resizeLowShelf(float x, float y, float width, float height) {
+void FilterSelector::resizeLowShelf(float x, float y, float width, float height) {
     low_shelf_.clear();
     low_shelf_.startNewSubPath(x, y + height / 4.0f);
     low_shelf_.lineTo(x + width / 3.0f, y + height / 4.0f);
@@ -113,7 +113,7 @@ void TwytchFilterSelector::resizeLowShelf(float x, float y, float width, float h
     low_shelf_.lineTo(x + width, y + 3.0f * height / 4.0f);
 }
 
-void TwytchFilterSelector::resizeHighShelf(float x, float y, float width, float height) {
+void FilterSelector::resizeHighShelf(float x, float y, float width, float height) {
     high_shelf_.clear();
     high_shelf_.startNewSubPath(x, y + 3.0f * height / 4.0f);
     high_shelf_.lineTo(x + width / 3.0f, y + 3.0f * height / 4.0f);
@@ -121,7 +121,7 @@ void TwytchFilterSelector::resizeHighShelf(float x, float y, float width, float 
     high_shelf_.lineTo(x + width, y + height / 4.0f);
 }
 
-void TwytchFilterSelector::resizeAllPass(float x, float y, float width, float height) {
+void FilterSelector::resizeAllPass(float x, float y, float width, float height) {
     all_pass_.clear();
     all_pass_.startNewSubPath(x, y + height / 2.0f);
     all_pass_.lineTo(x + width, y + height / 2.0f);

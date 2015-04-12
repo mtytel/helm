@@ -14,7 +14,7 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch_tempo_selector.h"
+#include "tempo_selector.h"
 #include "synth_gui_interface.h"
 
 namespace {
@@ -28,10 +28,10 @@ namespace {
 
 } // namespace
 
-TwytchTempoSelector::TwytchTempoSelector(String name) : TwytchSlider(name),
-                                                        free_slider_(0), tempo_slider_(0) { }
+TempoSelector::TempoSelector(String name) : TwytchSlider(name),
+                                            free_slider_(0), tempo_slider_(0) { }
 
-void TwytchTempoSelector::mouseDown(const MouseEvent& e) {
+void TempoSelector::mouseDown(const MouseEvent& e) {
     if (e.mods.isPopupMenu()) {
         TwytchSlider::mouseDown(e);
         return;
@@ -47,7 +47,7 @@ void TwytchTempoSelector::mouseDown(const MouseEvent& e) {
         setValue(result - 1);
 }
 
-void TwytchTempoSelector::valueChanged() {
+void TempoSelector::valueChanged() {
     bool free_slider = getValue() == (kHertz - 1);
     
     if (free_slider_)
@@ -56,7 +56,7 @@ void TwytchTempoSelector::valueChanged() {
         tempo_slider_->setVisible(!free_slider);
 }
 
-void TwytchTempoSelector::paint(Graphics& g) {
+void TempoSelector::paint(Graphics& g) {
     g.setColour(Colour(0xff777777));
     g.fillAll();
 
@@ -97,7 +97,7 @@ void TwytchTempoSelector::paint(Graphics& g) {
     }
 }
 
-void TwytchTempoSelector::resized() {
+void TempoSelector::resized() {
     static const float clock_angle = 1.0f;
 
     arrow_.clear();

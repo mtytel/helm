@@ -22,9 +22,9 @@
 
 class FullInterface;
 
-class TwytchTempoSelector : public TwytchSlider {
+class TempoSelector : public TwytchSlider {
 public:
-    TwytchTempoSelector(String name);
+    TempoSelector(String name);
 
     void mouseDown(const MouseEvent& e) override;
     void paint(Graphics& g) override;
@@ -41,7 +41,7 @@ private:
     Path arrow_;
     Path clock_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchTempoSelector)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TempoSelector)
 };
 
 #endif // TWYTCH_TEMPO_SELECTOR_H

@@ -167,6 +167,7 @@
     <ClCompile Include="..\..\..\src\common\twytch_load_save.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\audio_viewer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\filter_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\full_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\global_tool_tip.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\graphical_envelope.cpp"/>
@@ -176,9 +177,8 @@
     <ClCompile Include="..\..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\synthesis_interface.cpp"/>
-    <ClCompile Include="..\..\..\src\editor_components\twytch_filter_selector.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\tempo_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\twytch_slider.cpp"/>
-    <ClCompile Include="..\..\..\src\editor_components\twytch_tempo_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\twytch_wave_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_form_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
@@ -1362,6 +1362,7 @@
     <ClInclude Include="..\..\..\src\common\twytch_load_save.h"/>
     <ClInclude Include="..\..\..\src\editor_components\audio_viewer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\filter_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\full_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_components\global_tool_tip.h"/>
     <ClInclude Include="..\..\..\src\editor_components\graphical_envelope.h"/>
@@ -1371,9 +1372,8 @@
     <ClInclude Include="..\..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\..\src\editor_components\synthesis_interface.h"/>
-    <ClInclude Include="..\..\..\src\editor_components\twytch_filter_selector.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\tempo_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\twytch_slider.h"/>
-    <ClInclude Include="..\..\..\src\editor_components\twytch_tempo_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\twytch_wave_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_form_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>

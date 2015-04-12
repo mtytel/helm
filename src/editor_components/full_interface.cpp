@@ -88,7 +88,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     beats_per_minute_->addListener (this);
 
     addAndMakeVisible (global_tool_tip_ = new GlobalToolTip());
-    addAndMakeVisible (arp_sync_ = new TwytchTempoSelector ("arp_sync"));
+    addAndMakeVisible (arp_sync_ = new TempoSelector ("arp_sync"));
     arp_sync_->setRange (0, 6, 1);
     arp_sync_->setSliderStyle (Slider::LinearBar);
     arp_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -468,7 +468,7 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="288 8 120 48" sourceFile="global_tool_tip.cpp"
              constructorParams=""/>
   <SLIDER name="arp_sync" id="7f286b1ad8378afd" memberName="arp_sync_"
-          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="592 24 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="592 24 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>

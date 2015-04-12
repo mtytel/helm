@@ -87,6 +87,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_load_save_2bb30cb9.o \
   $(OBJDIR)/audio_viewer_5832a371.o \
   $(OBJDIR)/filter_response_7394009c.o \
+  $(OBJDIR)/filter_selector_c70de13a.o \
   $(OBJDIR)/full_interface_bc4a451f.o \
   $(OBJDIR)/global_tool_tip_5f078e04.o \
   $(OBJDIR)/graphical_envelope_4add3912.o \
@@ -96,9 +97,8 @@ OBJECTS := \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/synthesis_interface_3df08742.o \
-  $(OBJDIR)/twytch_filter_selector_39772e60.o \
+  $(OBJDIR)/tempo_selector_e5a31119.o \
   $(OBJDIR)/twytch_slider_daf48f91.o \
-  $(OBJDIR)/twytch_tempo_selector_3be88733.o \
   $(OBJDIR)/twytch_wave_selector_679c95bf.o \
   $(OBJDIR)/wave_form_selector_9d91edca.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
@@ -325,6 +325,11 @@ $(OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_resp
 	@echo "Compiling filter_response.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/filter_selector_c70de13a.o: ../../../src/editor_components/filter_selector.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling filter_selector.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/full_interface_bc4a451f.o: ../../../src/editor_components/full_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling full_interface.cpp"
@@ -370,19 +375,14 @@ $(OBJDIR)/synthesis_interface_3df08742.o: ../../../src/editor_components/synthes
 	@echo "Compiling synthesis_interface.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_filter_selector_39772e60.o: ../../../src/editor_components/twytch_filter_selector.cpp
+$(OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_filter_selector.cpp"
+	@echo "Compiling tempo_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_slider_daf48f91.o: ../../../src/editor_components/twytch_slider.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_slider.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_tempo_selector_3be88733.o: ../../../src/editor_components/twytch_tempo_selector.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_tempo_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_wave_selector_679c95bf.o: ../../../src/editor_components/twytch_wave_selector.cpp

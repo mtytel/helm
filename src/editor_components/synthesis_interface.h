@@ -23,9 +23,9 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_engine.h"
-#include "twytch_filter_selector.h"
+#include "filter_selector.h"
 #include "twytch_slider.h"
-#include "twytch_tempo_selector.h"
+#include "tempo_selector.h"
 #include "twytch_wave_selector.h"
 //[/Headers]
 
@@ -134,7 +134,7 @@ private:
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<TwytchSlider> formant_x_;
     ScopedPointer<TwytchSlider> formant_y_;
-    ScopedPointer<TwytchFilterSelector> filter_type_;
+    ScopedPointer<FilterSelector> filter_type_;
     ScopedPointer<WaveFormSelector> poly_lfo_wave_display_;
     ScopedPointer<TwytchWaveSelector> poly_lfo_waveform_;
     ScopedPointer<TextButton> filter_envelope_mod_;
@@ -162,11 +162,11 @@ private:
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<TwytchSlider> stutter_resample_frequency_;
     ScopedPointer<TwytchSlider> step_smoothing_;
-    ScopedPointer<TwytchTempoSelector> mono_lfo_1_sync_;
-    ScopedPointer<TwytchTempoSelector> mono_lfo_2_sync_;
-    ScopedPointer<TwytchTempoSelector> poly_lfo_sync_;
-    ScopedPointer<TwytchTempoSelector> delay_sync_;
-    ScopedPointer<TwytchTempoSelector> step_sequencer_sync_;
+    ScopedPointer<TempoSelector> mono_lfo_1_sync_;
+    ScopedPointer<TempoSelector> mono_lfo_2_sync_;
+    ScopedPointer<TempoSelector> poly_lfo_sync_;
+    ScopedPointer<TempoSelector> delay_sync_;
+    ScopedPointer<TempoSelector> step_sequencer_sync_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

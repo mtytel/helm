@@ -20,9 +20,9 @@
 #include "JuceHeader.h"
 #include "twytch_slider.h"
 
-class TwytchFilterSelector : public TwytchSlider {
+class FilterSelector : public TwytchSlider {
 public:
-    TwytchFilterSelector(String name);
+    FilterSelector(String name);
 
     void paint(Graphics& g) override;
     void resized() override;
@@ -44,7 +44,7 @@ private:
     Path high_shelf_;
     Path all_pass_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchFilterSelector)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterSelector)
 };
 
 #endif // TWYTCH_FILTER_SELECTOR_H

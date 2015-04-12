@@ -353,7 +353,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     formant_y_->addListener (this);
 
-    addAndMakeVisible (filter_type_ = new TwytchFilterSelector ("filter_type"));
+    addAndMakeVisible (filter_type_ = new FilterSelector ("filter_type"));
     filter_type_->setRange (0, 6, 1);
     filter_type_->setSliderStyle (Slider::LinearBar);
     filter_type_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -520,7 +520,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_smoothing_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     step_smoothing_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_1_sync_ = new TwytchTempoSelector ("mono_lfo_1_sync"));
+    addAndMakeVisible (mono_lfo_1_sync_ = new TempoSelector ("mono_lfo_1_sync"));
     mono_lfo_1_sync_->setRange (0, 6, 1);
     mono_lfo_1_sync_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -529,7 +529,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     mono_lfo_1_sync_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_2_sync_ = new TwytchTempoSelector ("mono_lfo_2_sync"));
+    addAndMakeVisible (mono_lfo_2_sync_ = new TempoSelector ("mono_lfo_2_sync"));
     mono_lfo_2_sync_->setRange (0, 6, 1);
     mono_lfo_2_sync_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -538,7 +538,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     mono_lfo_2_sync_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_sync_ = new TwytchTempoSelector ("poly_lfo_sync"));
+    addAndMakeVisible (poly_lfo_sync_ = new TempoSelector ("poly_lfo_sync"));
     poly_lfo_sync_->setRange (0, 6, 1);
     poly_lfo_sync_->setSliderStyle (Slider::LinearBar);
     poly_lfo_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -547,7 +547,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     poly_lfo_sync_->addListener (this);
 
-    addAndMakeVisible (delay_sync_ = new TwytchTempoSelector ("delay_sync"));
+    addAndMakeVisible (delay_sync_ = new TempoSelector ("delay_sync"));
     delay_sync_->setRange (0, 6, 1);
     delay_sync_->setSliderStyle (Slider::LinearBar);
     delay_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -556,7 +556,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     delay_sync_->addListener (this);
 
-    addAndMakeVisible (step_sequencer_sync_ = new TwytchTempoSelector ("step_sequencer_sync"));
+    addAndMakeVisible (step_sequencer_sync_ = new TempoSelector ("step_sequencer_sync"));
     step_sequencer_sync_->setRange (0, 6, 1);
     step_sequencer_sync_->setSliderStyle (Slider::LinearBar);
     step_sequencer_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
@@ -2401,7 +2401,7 @@ BEGIN_JUCER_METADATA
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
-          virtualName="TwytchFilterSelector" explicitFocusOrder="0" pos="16 352 240 16"
+          virtualName="FilterSelector" explicitFocusOrder="0" pos="16 352 240 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
@@ -2514,27 +2514,27 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_sync" id="7e78ba17de9b444b" memberName="mono_lfo_1_sync_"
-          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="480 600 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="480 600 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="mono_lfo_2_sync" id="238e79c809ab43c" memberName="mono_lfo_2_sync_"
-          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="632 600 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="632 600 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="poly_lfo_sync" id="76d907133498521" memberName="poly_lfo_sync_"
-          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="784 600 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="784 600 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="delay_sync" id="7f286b1ad8378afd" memberName="delay_sync_"
-          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="760 280 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="760 280 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="step_sequencer_sync" id="98c6cd34a7ea0a45" memberName="step_sequencer_sync_"
-          virtualName="TwytchTempoSelector" explicitFocusOrder="0" pos="552 448 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="552 448 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
