@@ -24,9 +24,10 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define FRAMES_PER_SECOND 30
-#define MAX_RESOLUTION 128
+#define FRAMES_PER_SECOND 20
+#define MAX_RESOLUTION 54
 #define GRID_CELL_WIDTH 10
+#define PADDING 5
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -95,27 +96,25 @@ void Oscilloscope::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void Oscilloscope::resetWavePath() {
-    static const float padding = 5.0f;
-
     if (output_memory_ == nullptr)
         return;
 
     wave_path_.clear();
 
-    float draw_width = getWidth() - 2.0f * padding;
-    float draw_height = getHeight() - 2.0f * padding;
+    float draw_width = getWidth() - 2.0f * PADDING;
+    float draw_height = getHeight() - 2.0f * PADDING;
 
-    wave_path_.startNewSubPath(padding, getHeight() / 2.0f);
+    wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
     int inc = samples_to_show_ / MAX_RESOLUTION;
     for (int i = samples_to_show_; i >= 0; i -= inc) {
         float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
         float val = output_memory_->get(i);
         if (val != val)
             val = 0.0f;
-        wave_path_.lineTo(padding + t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
+        wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
     }
 
-    wave_path_.lineTo(getWidth() - padding, getHeight() / 2.0f);
+    wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
 }
 
 void Oscilloscope::update() {

@@ -277,7 +277,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_feedback_tune_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     osc_feedback_tune_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_1_wave_display_ = new WaveViewer (128));
+    addAndMakeVisible (mono_lfo_1_wave_display_ = new WaveViewer (32));
     addAndMakeVisible (mono_lfo_1_waveform_ = new WaveSelector ("mono_lfo_1_waveform"));
     mono_lfo_1_waveform_->setRange (0, 11, 1);
     mono_lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
@@ -362,7 +362,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     filter_type_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_wave_display_ = new WaveViewer (128));
+    addAndMakeVisible (poly_lfo_wave_display_ = new WaveViewer (32));
     addAndMakeVisible (poly_lfo_waveform_ = new WaveSelector ("poly_lfo_waveform"));
     poly_lfo_waveform_->setRange (0, 11, 1);
     poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
@@ -424,7 +424,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     delay_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     delay_frequency_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_2_wave_display_ = new WaveViewer (128));
+    addAndMakeVisible (mono_lfo_2_wave_display_ = new WaveViewer (32));
     addAndMakeVisible (mono_lfo_2_waveform_ = new WaveSelector ("mono_lfo_2_waveform"));
     mono_lfo_2_waveform_->setRange (0, 11, 1);
     mono_lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
@@ -2352,7 +2352,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_1" id="24d32b65108fb2a5" memberName="mono_lfo_1_wave_display_"
              virtualName="WaveViewer" explicitFocusOrder="0" pos="428c 542 128 48"
-             sourceFile="wave_viewer.cpp" constructorParams="128"/>
+             sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="428c 528 128 14"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
@@ -2407,7 +2407,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
              virtualName="WaveViewer" explicitFocusOrder="0" pos="732c 542 128 48"
-             sourceFile="wave_viewer.cpp" constructorParams="128"/>
+             sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="poly_lfo_waveform" id="315f17d5a0e21167" memberName="poly_lfo_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="732c 528 128 14"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
@@ -2452,7 +2452,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_2" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
              virtualName="WaveViewer" explicitFocusOrder="0" pos="580c 542 128 48"
-             sourceFile="wave_viewer.cpp" constructorParams="128"/>
+             sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="580c 528 128 14"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
