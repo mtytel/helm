@@ -29,6 +29,7 @@ namespace mopo {
     if (input(kReset)->source->triggered &&
         input(kReset)->source->trigger_value == kVoiceReset) {
       num_samples = buffer_size_ - input(kReset)->source->trigger_offset;
+      offset_ = 0.0;
     }
     
     Wave::Type waveform = static_cast<Wave::Type>(static_cast<int>(input(kWaveform)->at(0)));
