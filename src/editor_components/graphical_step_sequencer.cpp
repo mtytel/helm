@@ -39,7 +39,7 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
     highlighted_step_ = -1;
     num_steps_ = 1;
     setOpaque(true);
-    setFramesPerSecond(FRAMES_PER_SECOND);
+    startTimerHz(FRAMES_PER_SECOND);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -156,7 +156,7 @@ void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void GraphicalStepSequencer::update() {
+void GraphicalStepSequencer::timerCallback() {
     if (step_generator_output_) {
         int new_step = step_generator_output_->buffer[0];
         if (new_step != last_step_) {
@@ -261,7 +261,7 @@ void GraphicalStepSequencer::showRealtimeFeedback() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GraphicalStepSequencer" componentName=""
-                 parentClasses="public AnimatedAppComponent, public SliderListener"
+                 parentClasses="public Component, public Timer, public SliderListener"
                  constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
                  initialHeight="400">

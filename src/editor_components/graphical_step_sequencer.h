@@ -36,7 +36,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class GraphicalStepSequencer  : public AnimatedAppComponent,
+class GraphicalStepSequencer  : public Component,
+                                public Timer,
                                 public SliderListener
 {
 public:
@@ -46,7 +47,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void update() override;
+    void timerCallback() override;
     void setNumStepsSlider(Slider* num_steps_slider);
     void setStepSliders(std::vector<Slider*> sliders);
     void changeStep(const MouseEvent& e);
