@@ -82,11 +82,14 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
       PathStrokeType(knob_radius, PathStrokeType::beveled, PathStrokeType::butt);
 
   if (mod_diff == 0.0)
-    g.setColour(Colour(0x11ffaa44));
+    g.setColour(Colour(0x33ffaa44));
   else
-    g.setColour(Colour(0x77ffaa00));
+    g.setColour(Colour(0xaaffaa00));
   g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                 2.0 * knob_radius, 2.0 * knob_radius);
+  g.setColour(Colour(0xffffaa00));
+  g.drawEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
+                2.0 * knob_radius, 2.0 * knob_radius, 2.0f);
 
   Path active_section;
   float center_x = x + draw_radius;
