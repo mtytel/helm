@@ -88,8 +88,8 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                 2.0 * knob_radius, 2.0 * knob_radius);
   g.setColour(Colour(0xffffaa00));
-  g.drawEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
-                2.0 * knob_radius, 2.0 * knob_radius, 2.0f);
+  g.drawEllipse(width / 2.0f - knob_radius + 1.0f, height / 2.0f - knob_radius + 1.0f,
+                2.0f * knob_radius - 2.0f, 2.0f * knob_radius - 2.0f, 2.0f);
 
   Path active_section;
   float center_x = x + draw_radius;
