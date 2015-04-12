@@ -137,9 +137,12 @@ namespace mopo {
     oscillator1_phase_inc->setControlRate();
     oscillator1_phase_inc->plug(oscillator1_frequency);
 
+    LinearSmoothBuffer* oscillator1_phase_inc_audio = new LinearSmoothBuffer();
+    oscillator1_phase_inc_audio->plug(oscillator1_phase_inc);
+
     oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
     oscillators->plug(reset, TwytchOscillators::kReset);
-    oscillators->plug(oscillator1_phase_inc, TwytchOscillators::kOscillator1PhaseInc);
+    oscillators->plug(oscillator1_phase_inc_audio, TwytchOscillators::kOscillator1PhaseInc);
 
     Processor* cross_mod = createPolyModControl("cross_modulation", 0.15, false);
     oscillators->plug(cross_mod, TwytchOscillators::kCrossMod);
@@ -148,6 +151,7 @@ namespace mopo {
     addProcessor(oscillator1_midi);
     addProcessor(oscillator1_frequency);
     addProcessor(oscillator1_phase_inc);
+    addProcessor(oscillator1_phase_inc_audio);
     addProcessor(oscillators);
 
     // Oscillator 2.
@@ -170,13 +174,17 @@ namespace mopo {
     oscillator2_phase_inc->setControlRate();
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
+    LinearSmoothBuffer* oscillator2_phase_inc_audio = new LinearSmoothBuffer();
+    oscillator2_phase_inc_audio->plug(oscillator2_phase_inc);
+
     oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
-    oscillators->plug(oscillator2_phase_inc, TwytchOscillators::kOscillator2PhaseInc);
+    oscillators->plug(oscillator2_phase_inc_audio, TwytchOscillators::kOscillator2PhaseInc);
 
     addProcessor(oscillator2_transposed);
     addProcessor(oscillator2_midi);
     addProcessor(oscillator2_frequency);
     addProcessor(oscillator2_phase_inc);
+    addProcessor(oscillator2_phase_inc_audio);
 
     // Oscillator mix.
     Processor* oscillator_mix_amount = createPolyModControl("osc_mix", 0.5, false, true);

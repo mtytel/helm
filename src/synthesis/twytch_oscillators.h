@@ -47,10 +47,11 @@ namespace mopo {
 
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
-      void tick(int i, mopo_float base_phase1, mopo_float base_phase2,
-                Wave::Type waveform1, Wave::Type waveform2) {
+      void tick(int i, Wave::Type waveform1, Wave::Type waveform2) {
         static double integral;
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
+        mopo_float base_phase1 = input(kOscillator1PhaseInc)->source->buffer[i];
+        mopo_float base_phase2 = input(kOscillator2PhaseInc)->source->buffer[i];
         mopo_float phase_inc1 = base_phase1 * (cross_mod * oscillator2_value_ + 1.0);
         mopo_float phase_inc2 = base_phase2 * (cross_mod * oscillator1_value_ + 1.0);
         oscillator1_phase_ = modf(oscillator1_phase_ + phase_inc1, &integral);
