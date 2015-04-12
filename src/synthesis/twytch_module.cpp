@@ -85,7 +85,7 @@ namespace mopo {
     poly_owner->registerOutput(poly_total->output());
     poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
 
-    Processor* control_rate_total = mono_total;
+    Processor* control_rate_total = modulation_total;
     if (skew == kQuadratic) {
       control_rate_total = new Square();
       control_rate_total->setControlRate(true);
