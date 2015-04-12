@@ -14,8 +14,8 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_TEMPO_SELECTOR_H
-#define TWYTCH_TEMPO_SELECTOR_H
+#ifndef TEMPO_SELECTOR_H
+#define TEMPO_SELECTOR_H
 
 #include "JuceHeader.h"
 #include "twytch_slider.h"
@@ -44,4 +44,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TempoSelector)
 };
 
-#endif // TWYTCH_TEMPO_SELECTOR_H
+#endif // TEMPO_SELECTOR_H

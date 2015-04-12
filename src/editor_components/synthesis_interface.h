@@ -26,12 +26,12 @@
 #include "filter_selector.h"
 #include "twytch_slider.h"
 #include "tempo_selector.h"
-#include "twytch_wave_selector.h"
+#include "wave_selector.h"
 //[/Headers]
 
 #include "graphical_step_sequencer.h"
 #include "graphical_envelope.h"
-#include "wave_form_selector.h"
+#include "wave_viewer.h"
 #include "filter_response.h"
 #include "xy_pad.h"
 
@@ -91,8 +91,8 @@ private:
     ScopedPointer<GraphicalStepSequencer> step_sequencer_;
     ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
-    ScopedPointer<WaveFormSelector> osc_1_wave_display_;
-    ScopedPointer<WaveFormSelector> osc_2_wave_display_;
+    ScopedPointer<WaveViewer> osc_1_wave_display_;
+    ScopedPointer<WaveViewer> osc_2_wave_display_;
     ScopedPointer<TwytchSlider> polyphony_;
     ScopedPointer<TwytchSlider> portamento_;
     ScopedPointer<TwytchSlider> pitch_bend_range_;
@@ -115,16 +115,16 @@ private:
     ScopedPointer<TwytchSlider> fil_release_;
     ScopedPointer<TwytchSlider> fil_sustain_;
     ScopedPointer<TwytchSlider> resonance_;
-    ScopedPointer<TwytchWaveSelector> osc_1_waveform_;
-    ScopedPointer<TwytchWaveSelector> osc_2_waveform_;
+    ScopedPointer<WaveSelector> osc_1_waveform_;
+    ScopedPointer<WaveSelector> osc_2_waveform_;
     ScopedPointer<TwytchSlider> cutoff_;
     ScopedPointer<TwytchSlider> fil_env_depth_;
     ScopedPointer<TwytchSlider> keytrack_;
     ScopedPointer<TwytchSlider> osc_feedback_transpose_;
     ScopedPointer<TwytchSlider> osc_feedback_amount_;
     ScopedPointer<TwytchSlider> osc_feedback_tune_;
-    ScopedPointer<WaveFormSelector> mono_lfo_1_wave_display_;
-    ScopedPointer<TwytchWaveSelector> mono_lfo_1_waveform_;
+    ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;
+    ScopedPointer<WaveSelector> mono_lfo_1_waveform_;
     ScopedPointer<TwytchSlider> num_steps_;
     ScopedPointer<TwytchSlider> step_frequency_;
     ScopedPointer<TwytchSlider> mono_lfo_1_frequency_;
@@ -135,8 +135,8 @@ private:
     ScopedPointer<TwytchSlider> formant_x_;
     ScopedPointer<TwytchSlider> formant_y_;
     ScopedPointer<FilterSelector> filter_type_;
-    ScopedPointer<WaveFormSelector> poly_lfo_wave_display_;
-    ScopedPointer<TwytchWaveSelector> poly_lfo_waveform_;
+    ScopedPointer<WaveViewer> poly_lfo_wave_display_;
+    ScopedPointer<WaveSelector> poly_lfo_waveform_;
     ScopedPointer<TextButton> filter_envelope_mod_;
     ScopedPointer<TextButton> amplitude_envelope_mod_;
     ScopedPointer<TextButton> step_sequencer_mod_;
@@ -148,8 +148,8 @@ private:
     ScopedPointer<TextButton> aftertouch_mod_;
     ScopedPointer<TwytchSlider> osc_1_tune_;
     ScopedPointer<TwytchSlider> delay_frequency_;
-    ScopedPointer<WaveFormSelector> mono_lfo_2_wave_display_;
-    ScopedPointer<TwytchWaveSelector> mono_lfo_2_waveform_;
+    ScopedPointer<WaveViewer> mono_lfo_2_wave_display_;
+    ScopedPointer<WaveSelector> mono_lfo_2_waveform_;
     ScopedPointer<TwytchSlider> osc_1_transpose_;
     ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
     ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;

@@ -21,7 +21,7 @@
 #include "synth_gui_interface.h"
 //[/Headers]
 
-#include "wave_form_selector.h"
+#include "wave_viewer.h"
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
@@ -31,7 +31,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-WaveFormSelector::WaveFormSelector (int resolution)
+WaveViewer::WaveViewer (int resolution)
 {
 
     //[UserPreSize]
@@ -49,7 +49,7 @@ WaveFormSelector::WaveFormSelector (int resolution)
     //[/Constructor]
 }
 
-WaveFormSelector::~WaveFormSelector()
+WaveViewer::~WaveViewer()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
@@ -61,7 +61,7 @@ WaveFormSelector::~WaveFormSelector()
 }
 
 //==============================================================================
-void WaveFormSelector::paint (Graphics& g)
+void WaveViewer::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -99,7 +99,7 @@ void WaveFormSelector::paint (Graphics& g)
     //[/UserPaint]
 }
 
-void WaveFormSelector::resized()
+void WaveViewer::resized()
 {
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
@@ -109,7 +109,7 @@ void WaveFormSelector::resized()
     //[/UserResized]
 }
 
-void WaveFormSelector::mouseDown (const MouseEvent& e)
+void WaveViewer::mouseDown (const MouseEvent& e)
 {
     //[UserCode_mouseDown] -- Add your code here...
     if (wave_slider_) {
@@ -130,12 +130,12 @@ void WaveFormSelector::mouseDown (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void WaveFormSelector::update() {
+void WaveViewer::update() {
     if (wave_state_)
         repaint();
 }
 
-void WaveFormSelector::setWaveSlider(Slider* slider) {
+void WaveViewer::setWaveSlider(Slider* slider) {
     if (wave_slider_)
         wave_slider_->removeListener(this);
     wave_slider_ = slider;
@@ -144,7 +144,7 @@ void WaveFormSelector::setWaveSlider(Slider* slider) {
     repaint();
 }
 
-void WaveFormSelector::setAmplitudeSlider(Slider* slider) {
+void WaveViewer::setAmplitudeSlider(Slider* slider) {
     if (amplitude_slider_)
         amplitude_slider_->removeListener(this);
     amplitude_slider_ = slider;
@@ -153,7 +153,7 @@ void WaveFormSelector::setAmplitudeSlider(Slider* slider) {
     repaint();
 }
 
-void WaveFormSelector::resetWavePath() {
+void WaveViewer::resetWavePath() {
     wave_path_.clear();
 
     if (wave_slider_ == nullptr)
@@ -174,12 +174,12 @@ void WaveFormSelector::resetWavePath() {
     wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
 }
 
-void WaveFormSelector::sliderValueChanged(Slider* sliderThatWasMoved) {
+void WaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
     resetWavePath();
     repaint();
 }
 
-void WaveFormSelector::showRealtimeFeedback() {
+void WaveViewer::showRealtimeFeedback() {
     if (wave_state_ == nullptr) {
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         if (parent) {
@@ -201,7 +201,7 @@ void WaveFormSelector::showRealtimeFeedback() {
 
 BEGIN_JUCER_METADATA
 
-<JUCER_COMPONENT documentType="Component" className="WaveFormSelector" componentName=""
+<JUCER_COMPONENT documentType="Component" className="WaveViewer" componentName=""
                  parentClasses="public AnimatedAppComponent, SliderListener" constructorParams="int resolution"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">

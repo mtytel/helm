@@ -14,15 +14,15 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_WAVE_SELECTOR_H
-#define TWYTCH_WAVE_SELECTOR_H
+#ifndef WAVE_SELECTOR_H
+#define WAVE_SELECTOR_H
 
 #include "JuceHeader.h"
 #include "twytch_slider.h"
 
-class TwytchWaveSelector : public TwytchSlider {
+class WaveSelector : public TwytchSlider {
 public:
-    TwytchWaveSelector(String name);
+    WaveSelector(String name);
 
     void paint(Graphics& g) override;
     void resized() override;
@@ -48,7 +48,7 @@ private:
     Path nine_pyramid_;
     Path noise_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchWaveSelector)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveSelector)
 };
 
-#endif // TWYTCH_WAVE_SELECTOR_H
+#endif // WAVE_SELECTOR_H

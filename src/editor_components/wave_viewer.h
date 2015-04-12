@@ -17,8 +17,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_E4E0EA192D66F72__
-#define __JUCE_HEADER_E4E0EA192D66F72__
+#ifndef __JUCE_HEADER_90EF70451B8A1879__
+#define __JUCE_HEADER_90EF70451B8A1879__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
@@ -36,13 +36,13 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class WaveFormSelector  : public AnimatedAppComponent,
-                          SliderListener
+class WaveViewer  : public AnimatedAppComponent,
+                    SliderListener
 {
 public:
     //==============================================================================
-    WaveFormSelector (int resolution);
-    ~WaveFormSelector();
+    WaveViewer (int resolution);
+    ~WaveViewer();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -73,10 +73,10 @@ private:
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveFormSelector)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveViewer)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_E4E0EA192D66F72__
+#endif   // __JUCE_HEADER_90EF70451B8A1879__

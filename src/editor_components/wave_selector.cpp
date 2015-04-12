@@ -14,7 +14,7 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch_wave_selector.h"
+#include "wave_selector.h"
 
 #define TYPE_PADDING_X 1.0f
 #define TYPE_PADDING_Y 4.0f
@@ -68,9 +68,9 @@ namespace {
     }
 } // namespace
 
-TwytchWaveSelector::TwytchWaveSelector(String name) : TwytchSlider(name) { }
+WaveSelector::WaveSelector(String name) : TwytchSlider(name) { }
 
-void TwytchWaveSelector::paint(Graphics& g) {
+void WaveSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
     g.setColour(Colour(0xff333333));
@@ -119,7 +119,7 @@ void TwytchWaveSelector::paint(Graphics& g) {
     g.strokePath(noise_, stroke);
 }
 
-void TwytchWaveSelector::resized() {
+void WaveSelector::resized() {
     TwytchSlider::resized();
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;
@@ -146,7 +146,7 @@ void TwytchWaveSelector::resized() {
     resizeNoise(11.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
 }
 
-void TwytchWaveSelector::resizeSin(float x, float y, float width, float height) {
+void WaveSelector::resizeSin(float x, float y, float width, float height) {
     sine_.clear();
     sine_.startNewSubPath(x, y + height / 2.0f);
     sine_.lineTo(x + width / 8.0f, y + height / 6.0f);
@@ -158,7 +158,7 @@ void TwytchWaveSelector::resizeSin(float x, float y, float width, float height) 
     sine_.lineTo(x + 8.0f * width / 8.0f, y + height / 2.0f);
 }
 
-void TwytchWaveSelector::resizeTriangle(float x, float y, float width, float height) {
+void WaveSelector::resizeTriangle(float x, float y, float width, float height) {
     triangle_.clear();
     triangle_.startNewSubPath(x, y + height / 2.0f);
     triangle_.lineTo(x + 1.0f * width / 4.0f, y);
@@ -166,7 +166,7 @@ void TwytchWaveSelector::resizeTriangle(float x, float y, float width, float hei
     triangle_.lineTo(x + width, y + height / 2.0f);
 }
 
-void TwytchWaveSelector::resizeSquare(float x, float y, float width, float height) {
+void WaveSelector::resizeSquare(float x, float y, float width, float height) {
     square_.clear();
     square_.startNewSubPath(x, y + height / 2.0f);
     square_.lineTo(x, y);
@@ -176,7 +176,7 @@ void TwytchWaveSelector::resizeSquare(float x, float y, float width, float heigh
     square_.lineTo(x + width, y + height / 2.0f);
 }
 
-void TwytchWaveSelector::resizeDownSaw(float x, float y, float width, float height) {
+void WaveSelector::resizeDownSaw(float x, float y, float width, float height) {
     down_saw_.clear();
     down_saw_.startNewSubPath(x, y + height / 2.0f);
     down_saw_.lineTo(x, y);
@@ -184,7 +184,7 @@ void TwytchWaveSelector::resizeDownSaw(float x, float y, float width, float heig
     down_saw_.lineTo(x + width, y + height / 2.0f);
 }
 
-void TwytchWaveSelector::resizeUpSaw(float x, float y, float width, float height) {
+void WaveSelector::resizeUpSaw(float x, float y, float width, float height) {
     up_saw_.clear();
     up_saw_.startNewSubPath(x, y + height / 2.0f);
     up_saw_.lineTo(x, y + height);
@@ -192,7 +192,7 @@ void TwytchWaveSelector::resizeUpSaw(float x, float y, float width, float height
     up_saw_.lineTo(x + width, y + height / 2.0f);
 }
 
-void TwytchWaveSelector::resizeNoise(float x, float y, float width, float height) {
+void WaveSelector::resizeNoise(float x, float y, float width, float height) {
     static const int noise_icon_resolution = 14;
     srand(0);
     noise_.clear();

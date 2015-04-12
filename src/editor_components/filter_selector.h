@@ -14,8 +14,8 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_FILTER_SELECTOR_H
-#define TWYTCH_FILTER_SELECTOR_H
+#ifndef FILTER_SELECTOR_H
+#define FILTER_SELECTOR_H
 
 #include "JuceHeader.h"
 #include "twytch_slider.h"
@@ -47,4 +47,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterSelector)
 };
 
-#endif // TWYTCH_FILTER_SELECTOR_H
+#endif // FILTER_SELECTOR_H

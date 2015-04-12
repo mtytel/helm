@@ -87,6 +87,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_load_save_87fa95c8.o \
   $(OBJDIR)/audio_viewer_85409b82.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
+  $(OBJDIR)/filter_selector_d3a4a389.o \
   $(OBJDIR)/full_interface_ddba7cf0.o \
   $(OBJDIR)/global_tool_tip_6b9e5053.o \
   $(OBJDIR)/graphical_envelope_46db2063.o \
@@ -96,10 +97,10 @@ OBJECTS := \
   $(OBJDIR)/modulation_slider_f0d81547.o \
   $(OBJDIR)/oscilloscope_75f26af6.o \
   $(OBJDIR)/synthesis_interface_c1af8a11.o \
-  $(OBJDIR)/twytch_filter_selector_aa9f0531.o \
+  $(OBJDIR)/tempo_selector_71348ea.o \
   $(OBJDIR)/twytch_slider_4fa599a0.o \
-  $(OBJDIR)/twytch_wave_selector_5bbdecd0.o \
-  $(OBJDIR)/wave_form_selector_998fd51b.o \
+  $(OBJDIR)/wave_selector_e1c74128.o \
+  $(OBJDIR)/wave_viewer_feefa2db.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
   $(OBJDIR)/twytch_look_and_feel_7026b753.o \
@@ -325,6 +326,11 @@ $(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_respons
 	@echo "Compiling filter_response.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/filter_selector_d3a4a389.o: ../../src/editor_components/filter_selector.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling filter_selector.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/full_interface_ddba7cf0.o: ../../src/editor_components/full_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling full_interface.cpp"
@@ -370,9 +376,9 @@ $(OBJDIR)/synthesis_interface_c1af8a11.o: ../../src/editor_components/synthesis_
 	@echo "Compiling synthesis_interface.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_filter_selector_aa9f0531.o: ../../src/editor_components/twytch_filter_selector.cpp
+$(OBJDIR)/tempo_selector_71348ea.o: ../../src/editor_components/tempo_selector.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_filter_selector.cpp"
+	@echo "Compiling tempo_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_slider_4fa599a0.o: ../../src/editor_components/twytch_slider.cpp
@@ -380,14 +386,14 @@ $(OBJDIR)/twytch_slider_4fa599a0.o: ../../src/editor_components/twytch_slider.cp
 	@echo "Compiling twytch_slider.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_wave_selector_5bbdecd0.o: ../../src/editor_components/twytch_wave_selector.cpp
+$(OBJDIR)/wave_selector_e1c74128.o: ../../src/editor_components/wave_selector.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_wave_selector.cpp"
+	@echo "Compiling wave_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wave_form_selector_998fd51b.o: ../../src/editor_components/wave_form_selector.cpp
+$(OBJDIR)/wave_viewer_feefa2db.o: ../../src/editor_components/wave_viewer.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling wave_form_selector.cpp"
+	@echo "Compiling wave_viewer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/xy_pad_a46b2bbc.o: ../../src/editor_components/xy_pad.cpp

@@ -122,6 +122,10 @@
               file="src/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"
               file="src/editor_components/filter_response.h"/>
+        <FILE id="BebwSg" name="filter_selector.cpp" compile="1" resource="0"
+              file="src/editor_components/filter_selector.cpp"/>
+        <FILE id="InTtOS" name="filter_selector.h" compile="0" resource="0"
+              file="src/editor_components/filter_selector.h"/>
         <FILE id="fSCHrW" name="full_interface.cpp" compile="1" resource="0"
               file="src/editor_components/full_interface.cpp"/>
         <FILE id="wMecW2" name="full_interface.h" compile="0" resource="0"
@@ -157,21 +161,18 @@
               file="src/editor_components/synthesis_interface.cpp"/>
         <FILE id="PoLLPR" name="synthesis_interface.h" compile="0" resource="0"
               file="src/editor_components/synthesis_interface.h"/>
-        <FILE id="ddhHvN" name="twytch_filter_selector.cpp" compile="1" resource="0"
-              file="src/editor_components/twytch_filter_selector.cpp"/>
-        <FILE id="IT4JpY" name="twytch_filter_selector.h" compile="0" resource="0"
-              file="src/editor_components/twytch_filter_selector.h"/>
+        <FILE id="xFq8Ie" name="tempo_selector.cpp" compile="1" resource="0"
+              file="src/editor_components/tempo_selector.cpp"/>
+        <FILE id="lTM41d" name="tempo_selector.h" compile="0" resource="0"
+              file="src/editor_components/tempo_selector.h"/>
         <FILE id="ygG0Ya" name="twytch_slider.cpp" compile="1" resource="0"
               file="src/editor_components/twytch_slider.cpp"/>
         <FILE id="zLSw31" name="twytch_slider.h" compile="0" resource="0" file="src/editor_components/twytch_slider.h"/>
-        <FILE id="n2yWPq" name="twytch_wave_selector.cpp" compile="1" resource="0"
-              file="src/editor_components/twytch_wave_selector.cpp"/>
-        <FILE id="FK6F4Y" name="twytch_wave_selector.h" compile="0" resource="0"
-              file="src/editor_components/twytch_wave_selector.h"/>
-        <FILE id="hTmsfB" name="wave_form_selector.cpp" compile="1" resource="0"
-              file="src/editor_components/wave_form_selector.cpp"/>
-        <FILE id="HGxPyH" name="wave_form_selector.h" compile="0" resource="0"
-              file="src/editor_components/wave_form_selector.h"/>
+        <FILE id="lHZD8v" name="wave_selector.cpp" compile="1" resource="0"
+              file="src/editor_components/wave_selector.cpp"/>
+        <FILE id="VjMzxx" name="wave_selector.h" compile="0" resource="0" file="src/editor_components/wave_selector.h"/>
+        <FILE id="FOf0C5" name="wave_viewer.cpp" compile="1" resource="0" file="src/editor_components/wave_viewer.cpp"/>
+        <FILE id="wOUBW4" name="wave_viewer.h" compile="0" resource="0" file="src/editor_components/wave_viewer.h"/>
         <FILE id="Zo8EBy" name="xy_pad.cpp" compile="1" resource="0" file="src/editor_components/xy_pad.cpp"/>
         <FILE id="d6J1TW" name="xy_pad.h" compile="0" resource="0" file="src/editor_components/xy_pad.h"/>
       </GROUP>

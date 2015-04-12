@@ -475,10 +475,10 @@
     <ClCompile Include="..\..\..\src\editor_components\twytch_slider.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\twytch_wave_selector.cpp">
+    <ClCompile Include="..\..\..\src\editor_components\wave_selector.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\wave_form_selector.cpp">
+    <ClCompile Include="..\..\..\src\editor_components\wave_viewer.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp">
@@ -1905,10 +1905,10 @@
     <ClInclude Include="..\..\..\src\editor_components\twytch_slider.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\twytch_wave_selector.h">
+    <ClInclude Include="..\..\..\src\editor_components\wave_selector.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\wave_form_selector.h">
+    <ClInclude Include="..\..\..\src\editor_components\wave_viewer.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h">

@@ -99,8 +99,8 @@ OBJECTS := \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/tempo_selector_e5a31119.o \
   $(OBJDIR)/twytch_slider_daf48f91.o \
-  $(OBJDIR)/twytch_wave_selector_679c95bf.o \
-  $(OBJDIR)/wave_form_selector_9d91edca.o \
+  $(OBJDIR)/wave_selector_6d163719.o \
+  $(OBJDIR)/wave_viewer_e4b5610c.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
   $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o \
@@ -385,14 +385,14 @@ $(OBJDIR)/twytch_slider_daf48f91.o: ../../../src/editor_components/twytch_slider
 	@echo "Compiling twytch_slider.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_wave_selector_679c95bf.o: ../../../src/editor_components/twytch_wave_selector.cpp
+$(OBJDIR)/wave_selector_6d163719.o: ../../../src/editor_components/wave_selector.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_wave_selector.cpp"
+	@echo "Compiling wave_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wave_form_selector_9d91edca.o: ../../../src/editor_components/wave_form_selector.cpp
+$(OBJDIR)/wave_viewer_e4b5610c.o: ../../../src/editor_components/wave_viewer.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling wave_form_selector.cpp"
+	@echo "Compiling wave_viewer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
