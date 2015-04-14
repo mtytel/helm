@@ -22,7 +22,6 @@
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
-  g.fillAll(slider.findColour(Slider::textBoxOutlineColourId));
   g.setColour(slider.findColour(Slider::backgroundColourId));
   g.fillRect(x, y, width, height);
   g.setColour(slider.findColour(Slider::thumbColourId));

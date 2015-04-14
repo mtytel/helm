@@ -30,9 +30,10 @@ void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int widt
   float mod_percentage = slider.getValue() / destination_range;
 
   if (mod_percentage == 0.0)
-    g.fillAll(Colour(0x22ffaa00));
+    g.setColour(Colour(0x33ffaa44));
   else
-    g.fillAll(Colour(0x55ffaa00));
+    g.setColour(Colour(0xaaff9534));
+  g.fillRect(x, y, width, height);
 
   g.setColour(Colour(0x88ffbb99));
 
@@ -81,15 +82,23 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   PathStrokeType stroke_type =
       PathStrokeType(knob_radius, PathStrokeType::beveled, PathStrokeType::butt);
 
-  if (mod_diff == 0.0)
+  if (mod_diff == 0.0) {
     g.setColour(Colour(0x33ffaa44));
-  else
-    g.setColour(Colour(0xaaffaa00));
-  g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
-                2.0 * knob_radius, 2.0 * knob_radius);
-  g.setColour(Colour(0xffffaa00));
-  g.drawEllipse(width / 2.0f - knob_radius + 1.0f, height / 2.0f - knob_radius + 1.0f,
-                2.0f * knob_radius - 2.0f, 2.0f * knob_radius - 2.0f, 2.0f);
+    g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
+                  2.0 * knob_radius, 2.0 * knob_radius);
+    g.setColour(Colour(0xffffaa00));
+    g.drawEllipse(width / 2.0f - knob_radius + 0.5f, height / 2.0f - knob_radius + 0.5f,
+                  2.0f * knob_radius - 1.0f, 2.0f * knob_radius - 1.0f, 1.0f);
+  }
+  else {
+    g.setColour(Colour(0xaaff9534));
+    g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
+                  2.0 * knob_radius, 2.0 * knob_radius);
+    g.setColour(Colour(0xffffaa00));
+    g.drawEllipse(width / 2.0f - knob_radius + 1.5f, height / 2.0f - knob_radius + 1.5f,
+                  2.0f * knob_radius - 3.0f, 2.0f * knob_radius - 3.0f, 3.0f);
+  }
+
 
   Path active_section;
   float center_x = x + draw_radius;

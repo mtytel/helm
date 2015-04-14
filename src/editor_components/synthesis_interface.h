@@ -32,8 +32,8 @@
 #include "graphical_step_sequencer.h"
 #include "graphical_envelope.h"
 #include "wave_viewer.h"
-#include "filter_response.h"
 #include "xy_pad.h"
+#include "filter_response.h"
 
 
 //==============================================================================
@@ -97,7 +97,6 @@ private:
     ScopedPointer<TwytchSlider> portamento_;
     ScopedPointer<TwytchSlider> pitch_bend_range_;
     ScopedPointer<TwytchSlider> cross_modulation_;
-    ScopedPointer<FilterResponse> filter_response_;
     ScopedPointer<TwytchSlider> portamento_type_;
     ScopedPointer<TwytchSlider> osc_mix_;
     ScopedPointer<TwytchSlider> osc_2_transpose_;
@@ -167,6 +166,7 @@ private:
     ScopedPointer<TempoSelector> poly_lfo_sync_;
     ScopedPointer<TempoSelector> delay_sync_;
     ScopedPointer<TempoSelector> step_sequencer_sync_;
+    ScopedPointer<FilterResponse> filter_response_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;
