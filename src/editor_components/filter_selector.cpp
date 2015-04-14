@@ -25,7 +25,7 @@ void FilterSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
     g.setColour(Colour(0xff333333));
-    g.fillAll();
+    g.fillRect(0, 0, getWidth(), getHeight());
 
     int selected = getValue();
     int num_types = getMaximum() - getMinimum() + 1;
@@ -69,6 +69,20 @@ void FilterSelector::resized() {
     resizeLowShelf(4.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
     resizeHighShelf(5.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
     resizeAllPass(6.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
+}
+
+void FilterSelector::mouseEvent(const juce::MouseEvent &e) {
+    float x = e.getPosition().getX();
+    int index = x * (getMaximum() + 1) / getWidth();
+    setValue(index);
+}
+
+void FilterSelector::mouseDown(const juce::MouseEvent &e) {
+    mouseEvent(e);
+}
+
+void FilterSelector::mouseDrag(const juce::MouseEvent &e) {
+    mouseEvent(e);
 }
 
 void FilterSelector::resizeLowPass(float x, float y, float width, float height) {

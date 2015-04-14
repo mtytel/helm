@@ -73,8 +73,8 @@ WaveSelector::WaveSelector(String name) : TwytchSlider(name) { }
 void WaveSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
-    g.setColour(Colour(0xff333333));
-    g.fillAll();
+    g.setColour(Colour(0xff222222));
+    g.fillRect(0, 0, getWidth(), getHeight());
 
     int selected = getValue();
     int num_types = getMaximum() - getMinimum() + 1;
@@ -82,6 +82,7 @@ void WaveSelector::paint(Graphics& g) {
     g.setColour(Colour(0xff246370));
     g.fillRect(selected * cell_width, 0.0f, cell_width, float(getHeight()));
 
+    /*
     g.setColour(selected == 0 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
     g.strokePath(sine_, stroke);
 
@@ -117,10 +118,12 @@ void WaveSelector::paint(Graphics& g) {
 
     g.setColour(selected == 11 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
     g.strokePath(noise_, stroke);
+     */
 }
 
 void WaveSelector::resized() {
     TwytchSlider::resized();
+    /*
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;
     float type_width = cell_width - 2 * TYPE_PADDING_X;
@@ -144,6 +147,21 @@ void WaveSelector::resized() {
     resizePyramid<9>(nine_pyramid_, 10.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y,
                      type_width, type_height);
     resizeNoise(11.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
+    */
+}
+
+void WaveSelector::mouseEvent(const juce::MouseEvent &e) {
+    float x = e.getPosition().getX();
+    int index = x * (getMaximum() + 1) / getWidth();
+    setValue(index);
+}
+
+void WaveSelector::mouseDown(const juce::MouseEvent &e) {
+    mouseEvent(e);
+}
+
+void WaveSelector::mouseDrag(const juce::MouseEvent &e) {
+    mouseEvent(e);
 }
 
 void WaveSelector::resizeSin(float x, float y, float width, float height) {
