@@ -107,9 +107,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     volume_->setRange (0, 1, 0);
     volume_->setSliderStyle (Slider::LinearBar);
     volume_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    volume_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    volume_->setColour (Slider::backgroundColourId, Colour (0xff222222));
     volume_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    volume_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    volume_->setColour (Slider::textBoxOutlineColourId, Colour (0xff222222));
     volume_->addListener (this);
 
     addAndMakeVisible (delay_feedback_ = new TwytchSlider ("delay_feedback"));
@@ -281,9 +281,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_waveform_->setRange (0, 11, 1);
     mono_lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    mono_lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    mono_lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff222222));
     mono_lfo_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff222222));
     mono_lfo_1_waveform_->addListener (this);
 
     addAndMakeVisible (num_steps_ = new TwytchSlider ("num_steps"));
@@ -339,18 +339,18 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_x_->setRange (0, 1, 0);
     formant_x_->setSliderStyle (Slider::LinearBar);
     formant_x_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff222222));
     formant_x_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     formant_x_->addListener (this);
 
     addAndMakeVisible (formant_y_ = new TwytchSlider ("formant_y"));
     formant_y_->setRange (0, 1, 0);
     formant_y_->setSliderStyle (Slider::LinearBar);
     formant_y_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff222222));
     formant_y_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     formant_y_->addListener (this);
 
     addAndMakeVisible (filter_type_ = new FilterSelector ("filter_type"));
@@ -361,16 +361,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     filter_type_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     filter_type_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     filter_type_->addListener (this);
-
-    addAndMakeVisible (poly_lfo_wave_display_ = new WaveViewer (32));
-    addAndMakeVisible (poly_lfo_waveform_ = new WaveSelector ("poly_lfo_waveform"));
-    poly_lfo_waveform_->setRange (0, 11, 1);
-    poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
-    poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
-    poly_lfo_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
-    poly_lfo_waveform_->addListener (this);
 
     addAndMakeVisible (filter_envelope_mod_ = new TextButton ("filter_env"));
     filter_envelope_mod_->setButtonText (TRANS("M"));
@@ -429,9 +419,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_waveform_->setRange (0, 11, 1);
     mono_lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    mono_lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    mono_lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff222222));
     mono_lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff222222));
     mono_lfo_2_waveform_->addListener (this);
 
     addAndMakeVisible (osc_1_transpose_ = new TwytchSlider ("osc_1_transpose"));
@@ -469,26 +459,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_amplitude_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     mono_lfo_2_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     mono_lfo_2_amplitude_->addListener (this);
-
-    addAndMakeVisible (poly_lfo_frequency_ = new TwytchSlider ("poly_lfo_frequency"));
-    poly_lfo_frequency_->setRange (-7, 6, 0);
-    poly_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    poly_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    poly_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    poly_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    poly_lfo_frequency_->addListener (this);
-
-    addAndMakeVisible (poly_lfo_mod_ = new TextButton ("poly_lfo"));
-    poly_lfo_mod_->setButtonText (TRANS("M"));
-    poly_lfo_mod_->addListener (this);
-
-    addAndMakeVisible (poly_lfo_amplitude_ = new TwytchSlider ("poly_lfo_amplitude"));
-    poly_lfo_amplitude_->setRange (0, 1, 0);
-    poly_lfo_amplitude_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    poly_lfo_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    poly_lfo_amplitude_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    poly_lfo_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
-    poly_lfo_amplitude_->addListener (this);
 
     addAndMakeVisible (stutter_frequency_ = new TwytchSlider ("stutter_frequency"));
     stutter_frequency_->setRange (4, 100, 0);
@@ -538,15 +508,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     mono_lfo_2_sync_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_sync_ = new TempoSelector ("poly_lfo_sync"));
-    poly_lfo_sync_->setRange (0, 6, 1);
-    poly_lfo_sync_->setSliderStyle (Slider::LinearBar);
-    poly_lfo_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    poly_lfo_sync_->setColour (Slider::backgroundColourId, Colour (0xff333333));
-    poly_lfo_sync_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    poly_lfo_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
-    poly_lfo_sync_->addListener (this);
-
     addAndMakeVisible (delay_sync_ = new TempoSelector ("delay_sync"));
     delay_sync_->setRange (0, 6, 1);
     delay_sync_->setSliderStyle (Slider::LinearBar);
@@ -566,6 +527,45 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     step_sequencer_sync_->addListener (this);
 
     addAndMakeVisible (filter_response_ = new FilterResponse (300));
+    addAndMakeVisible (poly_lfo_wave_display_ = new WaveViewer (32));
+    addAndMakeVisible (poly_lfo_waveform_ = new WaveSelector ("poly_lfo_waveform"));
+    poly_lfo_waveform_->setRange (0, 11, 1);
+    poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
+    poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff222222));
+    poly_lfo_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff222222));
+    poly_lfo_waveform_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_frequency_ = new TwytchSlider ("poly_lfo_frequency"));
+    poly_lfo_frequency_->setRange (-7, 6, 0);
+    poly_lfo_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    poly_lfo_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    poly_lfo_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    poly_lfo_frequency_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_mod_ = new TextButton ("poly_lfo"));
+    poly_lfo_mod_->setButtonText (TRANS("M"));
+    poly_lfo_mod_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_amplitude_ = new TwytchSlider ("poly_lfo_amplitude"));
+    poly_lfo_amplitude_->setRange (0, 1, 0);
+    poly_lfo_amplitude_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    poly_lfo_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    poly_lfo_amplitude_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    poly_lfo_amplitude_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    poly_lfo_amplitude_->addListener (this);
+
+    addAndMakeVisible (poly_lfo_sync_ = new TempoSelector ("poly_lfo_sync"));
+    poly_lfo_sync_->setRange (0, 6, 1);
+    poly_lfo_sync_->setSliderStyle (Slider::LinearBar);
+    poly_lfo_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
+    poly_lfo_sync_->setColour (Slider::backgroundColourId, Colour (0xff333333));
+    poly_lfo_sync_->setColour (Slider::trackColourId, Colour (0xff9765bc));
+    poly_lfo_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    poly_lfo_sync_->addListener (this);
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -685,8 +685,6 @@ SynthesisInterface::~SynthesisInterface()
     formant_x_ = nullptr;
     formant_y_ = nullptr;
     filter_type_ = nullptr;
-    poly_lfo_wave_display_ = nullptr;
-    poly_lfo_waveform_ = nullptr;
     filter_envelope_mod_ = nullptr;
     amplitude_envelope_mod_ = nullptr;
     step_sequencer_mod_ = nullptr;
@@ -705,19 +703,21 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_2_frequency_ = nullptr;
     mono_lfo_2_mod_ = nullptr;
     mono_lfo_2_amplitude_ = nullptr;
-    poly_lfo_frequency_ = nullptr;
-    poly_lfo_mod_ = nullptr;
-    poly_lfo_amplitude_ = nullptr;
     stutter_frequency_ = nullptr;
     stutter_on_ = nullptr;
     stutter_resample_frequency_ = nullptr;
     step_smoothing_ = nullptr;
     mono_lfo_1_sync_ = nullptr;
     mono_lfo_2_sync_ = nullptr;
-    poly_lfo_sync_ = nullptr;
     delay_sync_ = nullptr;
     step_sequencer_sync_ = nullptr;
     filter_response_ = nullptr;
+    poly_lfo_wave_display_ = nullptr;
+    poly_lfo_waveform_ = nullptr;
+    poly_lfo_frequency_ = nullptr;
+    poly_lfo_mod_ = nullptr;
+    poly_lfo_amplitude_ = nullptr;
+    poly_lfo_sync_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -738,22 +738,25 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillAll (Colour (0xff111111));
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (692 - (148 / 2), 412, 148, 84);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (692 - (148 / 2), 412, 148, 84, 1);
-
-    g.setColour (Colour (0xff526b70));
-    g.fillRect (692 - (146 / 2), 413, 146, 20);
+    g.fillRect (266 - (116 / 2), 470, 116, 126);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (692 - (148 / 2), 244, 148, 164);
+    g.fillRect (4, 470, 200, 126);
 
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (692 - (148 / 2), 244, 148, 164, 1);
+    g.setColour (Colour (0xff222222));
+    g.fillRect (651 - (126 / 2), 408, 126, 58);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (692 - (146 / 2), 245, 146, 20);
+    g.fillRect (651 - (126 / 2), 408, 126, 20);
+
+    g.setColour (Colour (0xff222222));
+    g.fillRect (860 - (148 / 2), 196, 148, 164);
+
+    g.setColour (Colour (0xff2e6761));
+    g.drawRect (860 - (148 / 2), 196, 148, 164, 1);
+
+    g.setColour (Colour (0xff526b70));
+    g.fillRect (860 - (146 / 2), 197, 146, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (692 - (148 / 2), 4, 148, 236);
@@ -765,13 +768,10 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (692 - (146 / 2), 5, 146, 20);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (428 - (148 / 2), 500, 148, 148);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (428 - (148 / 2), 500, 148, 148, 1);
+    g.fillRect (328, 470, 126, 126);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (428 - (146 / 2), 501, 146, 20);
+    g.fillRect (454 - 126, 470, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (456 - (256 / 2), 156, 256, 148);
@@ -792,16 +792,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (164 - (320 / 2), 4, 320, 20);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (732 - (148 / 2), 500, 148, 148);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (732 - (148 / 2), 500, 148, 148, 1);
-
-    g.setColour (Colour (0xff222222));
-    g.fillRect (580 - (148 / 2), 500, 148, 148);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (580 - (148 / 2), 500, 148, 148, 1);
+    g.fillRect (521 - (126 / 2), 470, 126, 126);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -826,12 +817,6 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xff222222));
     g.fillRect (456 - (256 / 2), 308, 256, 158);
-
-    g.setColour (Colour (0xff222222));
-    g.fillRect (4, 500, 171, 148);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (4, 500, 171, 148, 1);
 
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
@@ -866,13 +851,13 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("MONO LFO 1"),
-                428 - (84 / 2), 500, 84, 20,
+                391 - (84 / 2), 470, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                460 - (44 / 2), 626, 44, 20,
+                418 - (44 / 2), 578, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
@@ -890,31 +875,31 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("DELAY"),
-                692 - (44 / 2), 244, 44, 20,
+                860 - (44 / 2), 196, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
-                658 - (60 / 2), 380, 60, 20,
+                834 - (60 / 2), 332, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                692 - (60 / 2), 316, 60, 20,
+                860 - (60 / 2), 268, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("DRY/WET"),
-                727 - (60 / 2), 380, 60, 20,
+                898 - (60 / 2), 332, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("VOLUME"),
-                692 - (60 / 2), 412, 60, 20,
+                651 - (60 / 2), 408, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffdddddd));
@@ -1034,43 +1019,31 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMP"),
-                420 - (44 / 2), 626, 44, 20,
+                384 - (44 / 2), 578, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                590, 626, 44, 20,
+                546 - (44 / 2), 578, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMP"),
-                550, 626, 44, 20,
+                512 - (44 / 2), 578, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                742, 626, 44, 20,
+                188, 556, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("AMP"),
-                702, 626, 44, 20,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xff777777));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("FREQ"),
-                -4, 604, 92, 20,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xff777777));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("RESAMPLE FREQ"),
-                76, 604, 92, 20,
+    g.drawText (TRANS("RESAMPLE "),
+                252, 556, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff526b70));
@@ -1101,21 +1074,12 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (580 - (146 / 2), 501, 146, 20);
+    g.fillRect (521 - (126 / 2), 470, 126, 20);
 
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("MONO LFO 2"),
-                580 - (84 / 2), 500, 84, 20,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xff526b70));
-    g.fillRect (732 - (146 / 2), 501, 146, 20);
-
-    g.setColour (Colour (0xffdddddd));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
-    g.drawText (TRANS("POLY LFO"),
-                732 - (84 / 2), 500, 84, 20,
+                521 - (84 / 2), 470, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffb14a06));
@@ -1130,28 +1094,22 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffb14a06));
     g.strokePath (internalPath4, PathStrokeType (1.000f));
 
-    g.setColour (Colour (0xff222222));
-    g.fillRect (178, 500, 171, 148);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (178, 500, 171, 148, 1);
+    g.setColour (Colour (0xff526b70));
+    g.fillRect (104 - (200 / 2), 470, 200, 20);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (179, 501, 169, 20);
-
-    g.setColour (Colour (0xff526b70));
-    g.fillRect (5, 501, 169, 20);
+    g.fillRect (266 - (116 / 2), 470, 116, 20);
 
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("STUTTER"),
-                90 - (84 / 2), 500, 84, 20,
+                266 - (84 / 2), 470, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("FORMANT"),
-                264 - (84 / 2), 500, 84, 20,
+                104 - (84 / 2), 470, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
@@ -1161,46 +1119,13 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colour (0xffcccccc));
-    g.fillRect (32, 511 - (1 / 2), 24, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (124, 511 - (1 / 2), 38, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (208, 511 - (1 / 2), 18, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (302, 511 - (1 / 2), 36, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (364, 511 - (1 / 2), 18, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (476, 511 - (1 / 2), 18, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (516, 511 - (1 / 2), 18, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (628, 511 - (1 / 2), 18, 1);
-
-    g.setColour (Colour (0xffcccccc));
     g.fillRect (668, 511 - (1 / 2), 24, 1);
 
     g.setColour (Colour (0xffcccccc));
-    g.fillRect (772, 511 - (1 / 2), 24, 1);
+    g.fillRect (796, 206 - (1 / 2), 30, 1);
 
     g.setColour (Colour (0xffcccccc));
-    g.fillRect (628, 422 - (1 / 2), 24, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (732, 422 - (1 / 2), 24, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (628, 254 - (1 / 2), 30, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (726, 254 - (1 / 2), 30, 1);
+    g.fillRect (894, 206 - (1 / 2), 30, 1);
 
     g.setColour (Colour (0xffcccccc));
     g.fillRect (628, 14 - (1 / 2), 12, 1);
@@ -1221,6 +1146,30 @@ void SynthesisInterface::paint (Graphics& g)
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("FILTER"),
                 164 - (84 / 2), 308, 84, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xff222222));
+    g.fillRect (649 - (126 / 2), 470, 126, 126);
+
+    g.setColour (Colour (0xff777777));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("FREQ"),
+                676 - (44 / 2), 578, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xff777777));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("AMP"),
+                642 - (44 / 2), 578, 44, 20,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xff526b70));
+    g.fillRect (651 - (126 / 2), 470, 126, 20);
+
+    g.setColour (Colour (0xffdddddd));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
+    g.drawText (TRANS("POLY LFO"),
+                651 - (84 / 2), 470, 84, 20,
                 Justification::centred, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -1246,7 +1195,7 @@ void SynthesisInterface::resized()
     osc_mix_->setBounds (164 - (320 / 2), 120, 320, 20);
     osc_2_transpose_->setBounds (227 - (46 / 2), 144, 46, 46);
     osc_2_tune_->setBounds (289 - (46 / 2), 144, 46, 46);
-    volume_->setBounds (624, 440, 136, 40);
+    volume_->setBounds (588, 428, 126, 38);
     delay_feedback_->setBounds (658 - (46 / 2), 336, 46, 46);
     delay_dry_wet_->setBounds (727 - (46 / 2), 336, 46, 46);
     velocity_track_->setBounds (727 - (46 / 2), 112, 46, 46);
@@ -1267,24 +1216,22 @@ void SynthesisInterface::resized()
     osc_feedback_transpose_->setBounds (62 - (46 / 2), 240, 46, 46);
     osc_feedback_amount_->setBounds (198 - (46 / 2), 240, 46, 46);
     osc_feedback_tune_->setBounds (130 - (46 / 2), 240, 46, 46);
-    mono_lfo_1_wave_display_->setBounds (428 - (128 / 2), 542, 128, 48);
-    mono_lfo_1_waveform_->setBounds (428 - (128 / 2), 528, 128, 14);
+    mono_lfo_1_wave_display_->setBounds (328, 504, 126, 48);
+    mono_lfo_1_waveform_->setBounds (391 - (126 / 2), 490, 126, 14);
     num_steps_->setBounds (420 - (40 / 2), 410, 40, 40);
     step_frequency_->setBounds (476 - (40 / 2), 410, 40, 40);
-    mono_lfo_1_frequency_->setBounds (460 - (40 / 2), 592, 40, 40);
+    mono_lfo_1_frequency_->setBounds (418 - (32 / 2), 552, 32, 32);
     filter_saturation_->setBounds (266 - (46 / 2), 240, 46, 46);
-    formant_on_->setBounds (184, 503, 16, 16);
+    formant_on_->setBounds (8, 472, 16, 16);
     legato_->setBounds (727 - (64 / 2), 192, 64, 16);
-    formant_xy_pad_->setBounds (184, 528, 144, 96);
-    formant_x_->setBounds (184, 624, 144, 12);
-    formant_y_->setBounds (328, 528, 12, 96);
+    formant_xy_pad_->setBounds (4, 490, 190, 96);
+    formant_x_->setBounds (3, 585, 192, 12);
+    formant_y_->setBounds (193, 489, 12, 98);
     filter_type_->setBounds (4, 328, 250, 16);
-    poly_lfo_wave_display_->setBounds (732 - (128 / 2), 542, 128, 48);
-    poly_lfo_waveform_->setBounds (732 - (128 / 2), 528, 128, 14);
     filter_envelope_mod_->setBounds (344, 118, 32, 32);
     amplitude_envelope_mod_->setBounds (344, 270, 32, 32);
     step_sequencer_mod_->setBounds (344, 416, 32, 32);
-    mono_lfo_1_mod_->setBounds (360, 598, 32, 32);
+    mono_lfo_1_mod_->setBounds (330, 556, 32, 32);
     pitch_wheel_mod_->setBounds (24, 656, 32, 32);
     mod_wheel_mod_->setBounds (176, 656, 32, 32);
     note_mod_->setBounds (352, 656, 32, 32);
@@ -1292,26 +1239,28 @@ void SynthesisInterface::resized()
     aftertouch_mod_->setBounds (656, 656, 32, 32);
     osc_1_tune_->setBounds (101 - (46 / 2), 144, 46, 46);
     delay_frequency_->setBounds (692 - (46 / 2), 272, 46, 46);
-    mono_lfo_2_wave_display_->setBounds (580 - (128 / 2), 542, 128, 48);
-    mono_lfo_2_waveform_->setBounds (580 - (128 / 2), 528, 128, 14);
+    mono_lfo_2_wave_display_->setBounds (458, 504, 126, 48);
+    mono_lfo_2_waveform_->setBounds (521 - (126 / 2), 490, 126, 14);
     osc_1_transpose_->setBounds (39 - (46 / 2), 144, 46, 46);
-    mono_lfo_1_amplitude_->setBounds (420 - (40 / 2), 592, 40, 40);
-    mono_lfo_2_frequency_->setBounds (592, 592, 40, 40);
-    mono_lfo_2_mod_->setBounds (512, 598, 32, 32);
-    mono_lfo_2_amplitude_->setBounds (552, 592, 40, 40);
-    poly_lfo_frequency_->setBounds (744, 592, 40, 40);
-    poly_lfo_mod_->setBounds (664, 598, 32, 32);
-    poly_lfo_amplitude_->setBounds (704, 592, 40, 40);
-    stutter_frequency_->setBounds (16, 552, 50, 50);
-    stutter_on_->setBounds (8, 503, 16, 16);
-    stutter_resample_frequency_->setBounds (96, 552, 50, 50);
+    mono_lfo_1_amplitude_->setBounds (384 - (32 / 2), 552, 32, 32);
+    mono_lfo_2_frequency_->setBounds (546 - (32 / 2), 552, 32, 32);
+    mono_lfo_2_mod_->setBounds (460, 556, 32, 32);
+    mono_lfo_2_amplitude_->setBounds (512 - (32 / 2), 552, 32, 32);
+    stutter_frequency_->setBounds (208, 512, 50, 50);
+    stutter_on_->setBounds (212, 472, 16, 16);
+    stutter_resample_frequency_->setBounds (272, 512, 50, 50);
     step_smoothing_->setBounds (548 - (40 / 2), 410, 40, 40);
-    mono_lfo_1_sync_->setBounds (480, 600, 16, 16);
-    mono_lfo_2_sync_->setBounds (632, 600, 16, 16);
-    poly_lfo_sync_->setBounds (784, 600, 16, 16);
+    mono_lfo_1_sync_->setBounds (438, 552, 16, 16);
+    mono_lfo_2_sync_->setBounds (568, 552, 16, 16);
     delay_sync_->setBounds (720, 280, 16, 16);
     step_sequencer_sync_->setBounds (496, 424, 16, 16);
     filter_response_->setBounds (4, 344, 240, 112);
+    poly_lfo_wave_display_->setBounds (588, 504, 126, 48);
+    poly_lfo_waveform_->setBounds (651 - (126 / 2), 490, 126, 14);
+    poly_lfo_frequency_->setBounds (676 - (32 / 2), 552, 32, 32);
+    poly_lfo_mod_->setBounds (590, 556, 32, 32);
+    poly_lfo_amplitude_->setBounds (642 - (32 / 2), 552, 32, 32);
+    poly_lfo_sync_->setBounds (698, 552, 16, 16);
     internalPath1.clear();
     internalPath1.startNewSubPath (194.0f, 44.0f);
     internalPath1.lineTo (186.0f, 44.0f);
@@ -1539,11 +1488,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_filter_type_] -- add your slider handling code here..
         //[/UserSliderCode_filter_type_]
     }
-    else if (sliderThatWasMoved == poly_lfo_waveform_)
-    {
-        //[UserSliderCode_poly_lfo_waveform_] -- add your slider handling code here..
-        //[/UserSliderCode_poly_lfo_waveform_]
-    }
     else if (sliderThatWasMoved == osc_1_tune_)
     {
         //[UserSliderCode_osc_1_tune_] -- add your slider handling code here..
@@ -1579,16 +1523,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_mono_lfo_2_amplitude_] -- add your slider handling code here..
         //[/UserSliderCode_mono_lfo_2_amplitude_]
     }
-    else if (sliderThatWasMoved == poly_lfo_frequency_)
-    {
-        //[UserSliderCode_poly_lfo_frequency_] -- add your slider handling code here..
-        //[/UserSliderCode_poly_lfo_frequency_]
-    }
-    else if (sliderThatWasMoved == poly_lfo_amplitude_)
-    {
-        //[UserSliderCode_poly_lfo_amplitude_] -- add your slider handling code here..
-        //[/UserSliderCode_poly_lfo_amplitude_]
-    }
     else if (sliderThatWasMoved == stutter_frequency_)
     {
         //[UserSliderCode_stutter_frequency_] -- add your slider handling code here..
@@ -1614,11 +1548,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_mono_lfo_2_sync_] -- add your slider handling code here..
         //[/UserSliderCode_mono_lfo_2_sync_]
     }
-    else if (sliderThatWasMoved == poly_lfo_sync_)
-    {
-        //[UserSliderCode_poly_lfo_sync_] -- add your slider handling code here..
-        //[/UserSliderCode_poly_lfo_sync_]
-    }
     else if (sliderThatWasMoved == delay_sync_)
     {
         //[UserSliderCode_delay_sync_] -- add your slider handling code here..
@@ -1628,6 +1557,26 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_step_sequencer_sync_] -- add your slider handling code here..
         //[/UserSliderCode_step_sequencer_sync_]
+    }
+    else if (sliderThatWasMoved == poly_lfo_waveform_)
+    {
+        //[UserSliderCode_poly_lfo_waveform_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_waveform_]
+    }
+    else if (sliderThatWasMoved == poly_lfo_frequency_)
+    {
+        //[UserSliderCode_poly_lfo_frequency_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_frequency_]
+    }
+    else if (sliderThatWasMoved == poly_lfo_amplitude_)
+    {
+        //[UserSliderCode_poly_lfo_amplitude_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_amplitude_]
+    }
+    else if (sliderThatWasMoved == poly_lfo_sync_)
+    {
+        //[UserSliderCode_poly_lfo_sync_] -- add your slider handling code here..
+        //[/UserSliderCode_poly_lfo_sync_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -1711,15 +1660,15 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         //[UserButtonCode_mono_lfo_2_mod_] -- add your button handler code here..
         //[/UserButtonCode_mono_lfo_2_mod_]
     }
-    else if (buttonThatWasClicked == poly_lfo_mod_)
-    {
-        //[UserButtonCode_poly_lfo_mod_] -- add your button handler code here..
-        //[/UserButtonCode_poly_lfo_mod_]
-    }
     else if (buttonThatWasClicked == stutter_on_)
     {
         //[UserButtonCode_stutter_on_] -- add your button handler code here..
         //[/UserButtonCode_stutter_on_]
+    }
+    else if (buttonThatWasClicked == poly_lfo_mod_)
+    {
+        //[UserButtonCode_poly_lfo_mod_] -- add your button handler code here..
+        //[/UserButtonCode_poly_lfo_mod_]
     }
 
     //[UserbuttonClicked_Post]
@@ -1970,28 +1919,25 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff111111">
-    <RECT pos="692c 412 148 84" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
+    <RECT pos="266c 470 116 126" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="4 470 200 126" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="651c 408 126 58" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="651c 408 126 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="860c 196 148 164" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff2e6761"/>
-    <RECT pos="692c 413 146 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="692c 244 148 164" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <RECT pos="692c 245 146 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="860c 197 146 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="692c 4 148 236" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff2e6761"/>
     <RECT pos="692c 5 146 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="428c 500 148 148" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <RECT pos="428c 501 146 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="328 470 126 126" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="454r 470 126 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="456c 156 256 148" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="456c 156 256 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="456c 4 256 148" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="164c 308 320 158" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="164c 4 320 204" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="164c 4 320 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="732c 500 148 148" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <RECT pos="580c 500 148 148" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
+    <RECT pos="521c 470 126 126" fill="solid: ff222222" hasStroke="0"/>
     <TEXT pos="227c 188 70 10" fill="solid: ff777777" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2003,8 +1949,6 @@ BEGIN_JUCER_METADATA
           bold="0" italic="0" justification="36"/>
     <RECT pos="164c 212 320 92" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="456c 308 256 158" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="4 500 171 148" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
     <TEXT pos="164c 14c 100 20" fill="solid: ffdddddd" hasStroke="0" text="OSCILLATORS"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2020,10 +1964,10 @@ BEGIN_JUCER_METADATA
     <TEXT pos="266c 284 92 10" fill="solid: ff777777" hasStroke="0" text="SATURATION"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="428c 500 84 20" fill="solid: ffdddddd" hasStroke="0" text="MONO LFO 1"
+    <TEXT pos="391c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="MONO LFO 1"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="460c 626 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="418c 578 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="412 4 140 20" fill="solid: ff777777" hasStroke="0" text="FILTER ENVELOPE"
@@ -2032,19 +1976,19 @@ BEGIN_JUCER_METADATA
     <TEXT pos="456c 156 150 20" fill="solid: ffdddddd" hasStroke="0" text="AMPLITUDE ENVELOPE"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="692c 244 44 20" fill="solid: ffdddddd" hasStroke="0" text="DELAY"
+    <TEXT pos="860c 196 44 20" fill="solid: ffdddddd" hasStroke="0" text="DELAY"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="658c 380 60 20" fill="solid: ff777777" hasStroke="0" text="FEEDBACK"
+    <TEXT pos="834c 332 60 20" fill="solid: ff777777" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="692c 316 60 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="860c 268 60 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="727c 380 60 20" fill="solid: ff777777" hasStroke="0" text="DRY/WET"
+    <TEXT pos="898c 332 60 20" fill="solid: ff777777" hasStroke="0" text="DRY/WET"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="692c 412 60 20" fill="solid: ffdddddd" hasStroke="0" text="VOLUME"
+    <TEXT pos="651c 408 60 20" fill="solid: ffdddddd" hasStroke="0" text="VOLUME"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="692c 4 92 20" fill="solid: ffdddddd" hasStroke="0" text="ARTICULATION"
@@ -2103,25 +2047,19 @@ BEGIN_JUCER_METADATA
     <TEXT pos="287c 380 56 10" fill="solid: ff777777" hasStroke="0" text="ENV DEPTH"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="420c 626 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
+    <TEXT pos="384c 578 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="590 626 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="546c 578 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="550 626 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
+    <TEXT pos="512c 578 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="742 626 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="188 556 92 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="702 626 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="-4 604 92 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="76 604 92 20" fill="solid: ff777777" hasStroke="0" text="RESAMPLE FREQ"
+    <TEXT pos="252 556 92 20" fill="solid: ff777777" hasStroke="0" text="RESAMPLE "
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <RECT pos="164c 212 320 20" fill="solid: ff526b70" hasStroke="0"/>
@@ -2136,12 +2074,8 @@ BEGIN_JUCER_METADATA
     <TEXT pos="456c 307 110 20" fill="solid: ffdddddd" hasStroke="0" text="STEP SEQUENCER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="580c 501 146 20" fill="solid: ff526b70" hasStroke="0"/>
-    <TEXT pos="580c 500 84 20" fill="solid: ffdddddd" hasStroke="0" text="MONO LFO 2"
-          fontname="Default sans-serif font" fontsize="14.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <RECT pos="732c 501 146 20" fill="solid: ff526b70" hasStroke="0"/>
-    <TEXT pos="732c 500 84 20" fill="solid: ffdddddd" hasStroke="0" text="POLY LFO"
+    <RECT pos="521c 470 126 20" fill="solid: ff526b70" hasStroke="0"/>
+    <TEXT pos="521c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="MONO LFO 2"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
@@ -2152,33 +2086,20 @@ BEGIN_JUCER_METADATA
           strokeColour="solid: ffb14a06" nonZeroWinding="1">s 194 116 l 186 116 l 178 100</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ffb14a06" nonZeroWinding="1">s 134 116 l 142 116 l 150 100</PATH>
-    <RECT pos="178 500 171 148" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <RECT pos="179 501 169 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="5 501 169 20" fill="solid: ff526b70" hasStroke="0"/>
-    <TEXT pos="89.5c 500 84 20" fill="solid: ffdddddd" hasStroke="0" text="STUTTER"
+    <RECT pos="104c 470 200 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="266c 470 116 20" fill="solid: ff526b70" hasStroke="0"/>
+    <TEXT pos="266c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="STUTTER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="263.5c 500 84 20" fill="solid: ffdddddd" hasStroke="0" text="FORMANT"
+    <TEXT pos="104c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="FORMANT"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="548c 448 60 12" fill="solid: ff777777" hasStroke="0" text="SMOOTHING"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="32 511c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="124 511c 38 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="208 511c 18 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="302 511c 36 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="364 511c 18 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="476 511c 18 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="516 511c 18 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="628 511c 18 1" fill="solid: ffcccccc" hasStroke="0"/>
     <RECT pos="668 511c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="772 511c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="628 422.5c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="732 422.5c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="628 254.5c 30 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="726 254.5c 30 1" fill="solid: ffcccccc" hasStroke="0"/>
+    <RECT pos="796 206.5c 30 1" fill="solid: ffcccccc" hasStroke="0"/>
+    <RECT pos="894 206.5c 30 1" fill="solid: ffcccccc" hasStroke="0"/>
     <RECT pos="628 14.5c 12 1" fill="solid: ffcccccc" hasStroke="0"/>
     <RECT pos="746 14.5c 12 1" fill="solid: ffcccccc" hasStroke="0"/>
     <TEXT pos="164c 142 50 10" fill="solid: ff777777" hasStroke="0" text="MIX"
@@ -2186,6 +2107,17 @@ BEGIN_JUCER_METADATA
           bold="0" italic="0" justification="36"/>
     <RECT pos="164c 308 320 20" fill="solid: ff526b70" hasStroke="0"/>
     <TEXT pos="164c 308 84 20" fill="solid: ffdddddd" hasStroke="0" text="FILTER"
+          fontname="Default sans-serif font" fontsize="14.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <RECT pos="649c 470 126 126" fill="solid: ff222222" hasStroke="0"/>
+    <TEXT pos="676c 578 44 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="642c 578 44 20" fill="solid: ff777777" hasStroke="0" text="AMP"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <RECT pos="651c 470 126 20" fill="solid: ff526b70" hasStroke="0"/>
+    <TEXT pos="651c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="POLY LFO"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
   </BACKGROUND>
@@ -2245,8 +2177,8 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="624 440 136 40" bkgcol="ff333333"
-          trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
+          explicitFocusOrder="0" pos="588 428 126 38" bkgcol="ff222222"
+          trackcol="ff9765bc" textboxoutline="ff222222" min="0" max="1"
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
@@ -2350,11 +2282,11 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_1" id="24d32b65108fb2a5" memberName="mono_lfo_1_wave_display_"
-             virtualName="WaveViewer" explicitFocusOrder="0" pos="428c 542 128 48"
+             virtualName="WaveViewer" explicitFocusOrder="0" pos="328 504 126 48"
              sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
-          virtualName="WaveSelector" explicitFocusOrder="0" pos="428c 528 128 14"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          virtualName="WaveSelector" explicitFocusOrder="0" pos="391c 490 126 14"
+          bkgcol="ff222222" trackcol="ff9765bc" textboxoutline="ff222222"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="num_steps" id="8be29885961d7617" memberName="num_steps_"
@@ -2369,7 +2301,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_frequency" id="ebc4a57528113c39" memberName="mono_lfo_1_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="460c 592 40 40"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="418c 552 32 32"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2379,7 +2311,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="formant_on" id="a27029ddc5597777" memberName="formant_on_"
-                virtualName="" explicitFocusOrder="0" pos="184 503 16 16" txtcol="ff777777"
+                virtualName="" explicitFocusOrder="0" pos="8 472 16 16" txtcol="ff777777"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="1"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
@@ -2388,30 +2320,22 @@ BEGIN_JUCER_METADATA
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="formant_xy_pad" id="202ea6e8e33b6ac7" memberName="formant_xy_pad_"
-             virtualName="XYPad" explicitFocusOrder="0" pos="184 528 144 96"
+             virtualName="XYPad" explicitFocusOrder="0" pos="4 490 190 96"
              sourceFile="xy_pad.cpp" constructorParams=""/>
   <SLIDER name="formant_x" id="d182d63c43cb241f" memberName="formant_x_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="184 624 144 12"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="3 585 192 12"
+          bkgcol="ff222222" trackcol="ff9765bc" textboxoutline="777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant_y" id="f9e64695877940a6" memberName="formant_y_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="328 528 12 96"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="193 489 12 98"
+          bkgcol="ff222222" trackcol="ff9765bc" textboxoutline="777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
           virtualName="FilterSelector" explicitFocusOrder="0" pos="4 328 250 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <JUCERCOMP name="poly_lfo_wave_display" id="d0c6b9dad7409074" memberName="poly_lfo_wave_display_"
-             virtualName="WaveViewer" explicitFocusOrder="0" pos="732c 542 128 48"
-             sourceFile="wave_viewer.cpp" constructorParams="32"/>
-  <SLIDER name="poly_lfo_waveform" id="315f17d5a0e21167" memberName="poly_lfo_waveform_"
-          virtualName="WaveSelector" explicitFocusOrder="0" pos="732c 528 128 14"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
-          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <TEXTBUTTON name="filter_env" id="b1c0e1b81ba12955" memberName="filter_envelope_mod_"
               virtualName="" explicitFocusOrder="0" pos="344 118 32 32" buttonText="M"
@@ -2423,7 +2347,7 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="344 416 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="mono_lfo_1" id="1ea938f771b995ba" memberName="mono_lfo_1_mod_"
-              virtualName="" explicitFocusOrder="0" pos="360 598 32 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="330 556 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="pitch_wheel" id="527add472856006" memberName="pitch_wheel_mod_"
               virtualName="" explicitFocusOrder="0" pos="24 656 32 32" buttonText="M"
@@ -2451,11 +2375,11 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_2" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
-             virtualName="WaveViewer" explicitFocusOrder="0" pos="580c 542 128 48"
+             virtualName="WaveViewer" explicitFocusOrder="0" pos="458 504 126 48"
              sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
-          virtualName="WaveSelector" explicitFocusOrder="0" pos="580c 528 128 14"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          virtualName="WaveSelector" explicitFocusOrder="0" pos="521c 490 126 14"
+          bkgcol="ff222222" trackcol="ff9765bc" textboxoutline="ff222222"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
@@ -2464,47 +2388,34 @@ BEGIN_JUCER_METADATA
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_amplitude" id="d7524692ca1d9110" memberName="mono_lfo_1_amplitude_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="420c 592 40 40"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="384c 552 32 32"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_2_frequency" id="1b17dd2b0ad5e56" memberName="mono_lfo_2_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="592 592 40 40"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="546c 552 32 32"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TEXTBUTTON name="mono_lfo_2" id="c487df9f9aa001d1" memberName="mono_lfo_2_mod_"
-              virtualName="" explicitFocusOrder="0" pos="512 598 32 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="460 556 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <SLIDER name="mono_lfo_2_amplitude" id="3488a618964f4aca" memberName="mono_lfo_2_amplitude_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="552 592 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
-          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="poly_lfo_frequency" id="43f630409a863915" memberName="poly_lfo_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="744 592 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
-          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <TEXTBUTTON name="poly_lfo" id="31707de3e73853ab" memberName="poly_lfo_mod_"
-              virtualName="" explicitFocusOrder="0" pos="664 598 32 32" buttonText="M"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <SLIDER name="poly_lfo_amplitude" id="8eab6f740a7988c1" memberName="poly_lfo_amplitude_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="704 592 40 40"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="512c 552 32 32"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="stutter_frequency" id="ca5e95b9738f9459" memberName="stutter_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="16 552 50 50"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="208 512 50 50"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="4" max="100"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="stutter_on" id="c0e460c164340d7e" memberName="stutter_on_"
-                virtualName="" explicitFocusOrder="0" pos="8 503 16 16" txtcol="ff777777"
+                virtualName="" explicitFocusOrder="0" pos="212 472 16 16" txtcol="ff777777"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="1"/>
   <SLIDER name="stutter_resample_frequency" id="31e8e484b922575e" memberName="stutter_resample_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="96 552 50 50"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="272 512 50 50"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0.5"
           max="20" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2514,17 +2425,12 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_sync" id="7e78ba17de9b444b" memberName="mono_lfo_1_sync_"
-          virtualName="TempoSelector" explicitFocusOrder="0" pos="480 600 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="438 552 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="mono_lfo_2_sync" id="238e79c809ab43c" memberName="mono_lfo_2_sync_"
-          virtualName="TempoSelector" explicitFocusOrder="0" pos="632 600 16 16"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
-          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <SLIDER name="poly_lfo_sync" id="76d907133498521" memberName="poly_lfo_sync_"
-          virtualName="TempoSelector" explicitFocusOrder="0" pos="784 600 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="568 552 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
@@ -2541,6 +2447,32 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="filter_response" id="e5ebb41c4c259ce1" memberName="filter_response_"
              virtualName="FilterResponse" explicitFocusOrder="0" pos="4 344 240 112"
              sourceFile="filter_response.cpp" constructorParams="300"/>
+  <JUCERCOMP name="poly_lfo" id="461d37c0e9597851" memberName="poly_lfo_wave_display_"
+             virtualName="WaveViewer" explicitFocusOrder="0" pos="588 504 126 48"
+             sourceFile="wave_viewer.cpp" constructorParams="32"/>
+  <SLIDER name="poly_lfo_waveform" id="572ca2d8fd3f790f" memberName="poly_lfo_waveform_"
+          virtualName="WaveSelector" explicitFocusOrder="0" pos="651c 490 126 14"
+          bkgcol="ff222222" trackcol="ff9765bc" textboxoutline="ff222222"
+          min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+  <SLIDER name="poly_lfo_frequency" id="4f2b1269ff66a38c" memberName="poly_lfo_frequency_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="676c 552 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-7" max="6"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <TEXTBUTTON name="poly_lfo" id="fdc09e5d1dd367d0" memberName="poly_lfo_mod_"
+              virtualName="" explicitFocusOrder="0" pos="590 556 32 32" buttonText="M"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <SLIDER name="poly_lfo_amplitude" id="96a895c48059bf2c" memberName="poly_lfo_amplitude_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="642c 552 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="poly_lfo_sync" id="eac50d626ad94f4e" memberName="poly_lfo_sync_"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="698 552 16 16"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

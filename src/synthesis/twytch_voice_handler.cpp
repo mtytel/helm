@@ -409,8 +409,8 @@ namespace mopo {
     controls_["formant_on"] = formant_on;
     controls_["formant_passthrough"] = formant_passthrough;
 
-    Processor* formant_x = createPolyModControl("formant_x", 0.0, true);
-    Processor* formant_y = createPolyModControl("formant_y", 0.0, true);
+    Processor* formant_x = createPolyModControl("formant_x", 0.5, true);
+    Processor* formant_y = createPolyModControl("formant_y", 0.5, true);
 
     for (int i = 0; i < NUM_FORMANTS; ++i) {
       BilinearInterpolate* formant_gain = new BilinearInterpolate();

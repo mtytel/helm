@@ -24,7 +24,7 @@ FilterSelector::FilterSelector(String name) : TwytchSlider(name) { }
 void FilterSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
-    g.setColour(Colour(0xff333333));
+    g.setColour(Colour(0xff222222));
     g.fillRect(0, 0, getWidth(), getHeight());
 
     int selected = getValue();
