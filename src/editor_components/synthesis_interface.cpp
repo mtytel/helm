@@ -290,6 +290,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     num_steps_->setRange (1, 32, 1);
     num_steps_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     num_steps_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    num_steps_->setColour (Slider::backgroundColourId, Colour (0x00000000));
     num_steps_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
     num_steps_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
     num_steps_->addListener (this);
@@ -2358,9 +2359,10 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="num_steps" id="8be29885961d7617" memberName="num_steps_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="420c 410 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="32"
-          int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
-          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+          bkgcol="0" rotarysliderfill="7fffffff" textboxtext="ffdddddd"
+          min="1" max="32" int="1" style="RotaryHorizontalVerticalDrag"
+          textBoxPos="NoTextBox" textBoxEditable="0" textBoxWidth="80"
+          textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="step_frequency" id="788574c1265fb47" memberName="step_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="476c 410 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-5" max="6"
