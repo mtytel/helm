@@ -750,22 +750,16 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (651 - (126 / 2), 408, 126, 20);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (860 - (148 / 2), 196, 148, 164);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (860 - (148 / 2), 196, 148, 164, 1);
+    g.fillRect (651 - (126 / 2), 236, 126, 164);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (860 - (146 / 2), 197, 146, 20);
+    g.fillRect (651 - (126 / 2), 237, 126, 20);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (692 - (148 / 2), 4, 148, 236);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (692 - (148 / 2), 4, 148, 236, 1);
+    g.fillRect (651 - (126 / 2), 4, 126, 229);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (692 - (146 / 2), 5, 146, 20);
+    g.fillRect (651 - (126 / 2), 4, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (328, 470, 126, 126);
@@ -875,25 +869,25 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("DELAY"),
-                860 - (44 / 2), 196, 44, 20,
+                651 - (44 / 2), 236, 44, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
-                834 - (60 / 2), 332, 60, 20,
+                618 - (60 / 2), 372, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                860 - (60 / 2), 268, 60, 20,
+                651 - (60 / 2), 308, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("DRY/WET"),
-                898 - (60 / 2), 332, 60, 20,
+                687 - (60 / 2), 372, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffdddddd));
@@ -905,74 +899,71 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffdddddd));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText (TRANS("ARTICULATION"),
-                692 - (92 / 2), 4, 92, 20,
+                651 - (92 / 2), 4, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("POLYPHONY"),
-                658 - (92 / 2), 84, 92, 20,
+                618 - (92 / 2), 84, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("PORTAMENTO"),
-                658 - (92 / 2), 156, 92, 20,
+    g.drawText (TRANS("PORTA"),
+                618 - (92 / 2), 156, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("LEGATO"),
-                727 - (92 / 2), 212, 92, 12,
+                684 - (92 / 2), 212, 92, 12,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PORT TYPE"),
-                658 - (80 / 2), 212, 80, 12,
+                618 - (80 / 2), 212, 80, 12,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PITCH BEND"),
-                727 - (92 / 2), 84, 92, 20,
+                684 - (92 / 2), 84, 92, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (4, 652, 802, 44);
-
-    g.setColour (Colour (0xff2e6761));
-    g.drawRect (4, 652, 802, 44, 1);
+    g.fillRect (4, 622 - (44 / 2), 708, 44);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PITCH WHEEL"),
-                52, 668, 92, 12,
-                Justification::centred, true);
+                50, 622 - (12 / 2), 92, 12,
+                Justification::centredLeft, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("MOD WHEEL"),
-                204, 668, 92, 12,
-                Justification::centred, true);
+                192, 622 - (12 / 2), 92, 12,
+                Justification::centredLeft, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("NOTE"),
-                364, 668, 92, 12,
-                Justification::centred, true);
+                334, 622 - (12 / 2), 92, 12,
+                Justification::centredLeft, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("VELOCITY"),
-                524, 668, 92, 12,
-                Justification::centred, true);
+                476, 622 - (12 / 2), 92, 12,
+                Justification::centredLeft, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AFTERTOUCH"),
-                684, 668, 92, 12,
-                Justification::centred, true);
+                618, 622 - (12 / 2), 92, 12,
+                Justification::centredLeft, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -989,7 +980,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("VEL TRACK"),
-                727 - (60 / 2), 156, 60, 20,
+                684 - (60 / 2), 156, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
@@ -1121,18 +1112,6 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffcccccc));
     g.fillRect (668, 511 - (1 / 2), 24, 1);
 
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (796, 206 - (1 / 2), 30, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (894, 206 - (1 / 2), 30, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (628, 14 - (1 / 2), 12, 1);
-
-    g.setColour (Colour (0xffcccccc));
-    g.fillRect (746, 14 - (1 / 2), 12, 1);
-
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("MIX"),
@@ -1187,18 +1166,18 @@ void SynthesisInterface::resized()
     filter_envelope_->setBounds (456 - (256 / 2), 24, 256, 88);
     osc_1_wave_display_->setBounds (4, 40, 128, 80);
     osc_2_wave_display_->setBounds (196, 40, 128, 80);
-    polyphony_->setBounds (658 - (46 / 2), 40, 46, 46);
-    portamento_->setBounds (658 - (46 / 2), 112, 46, 46);
-    pitch_bend_range_->setBounds (727 - (46 / 2), 40, 46, 46);
+    polyphony_->setBounds (618 - (46 / 2), 40, 46, 46);
+    portamento_->setBounds (618 - (46 / 2), 112, 46, 46);
+    pitch_bend_range_->setBounds (684 - (46 / 2), 40, 46, 46);
     cross_modulation_->setBounds (164 - (46 / 2), 56, 46, 46);
-    portamento_type_->setBounds (658 - (64 / 2), 192, 64, 16);
+    portamento_type_->setBounds (618 - (40 / 2), 192, 40, 16);
     osc_mix_->setBounds (164 - (320 / 2), 120, 320, 20);
     osc_2_transpose_->setBounds (227 - (46 / 2), 144, 46, 46);
     osc_2_tune_->setBounds (289 - (46 / 2), 144, 46, 46);
     volume_->setBounds (588, 428, 126, 38);
-    delay_feedback_->setBounds (658 - (46 / 2), 336, 46, 46);
-    delay_dry_wet_->setBounds (727 - (46 / 2), 336, 46, 46);
-    velocity_track_->setBounds (727 - (46 / 2), 112, 46, 46);
+    delay_feedback_->setBounds (618 - (46 / 2), 328, 46, 46);
+    delay_dry_wet_->setBounds (687 - (46 / 2), 328, 46, 46);
+    velocity_track_->setBounds (684 - (46 / 2), 112, 46, 46);
     amp_attack_->setBounds (392, 270, 32, 32);
     amp_decay_->setBounds (440, 270, 32, 32);
     amp_release_->setBounds (536, 270, 32, 32);
@@ -1223,7 +1202,7 @@ void SynthesisInterface::resized()
     mono_lfo_1_frequency_->setBounds (418 - (32 / 2), 552, 32, 32);
     filter_saturation_->setBounds (266 - (46 / 2), 240, 46, 46);
     formant_on_->setBounds (8, 472, 16, 16);
-    legato_->setBounds (727 - (64 / 2), 192, 64, 16);
+    legato_->setBounds (684 - (40 / 2), 192, 40, 16);
     formant_xy_pad_->setBounds (4, 490, 190, 96);
     formant_x_->setBounds (3, 585, 192, 12);
     formant_y_->setBounds (193, 489, 12, 98);
@@ -1232,13 +1211,13 @@ void SynthesisInterface::resized()
     amplitude_envelope_mod_->setBounds (344, 270, 32, 32);
     step_sequencer_mod_->setBounds (344, 416, 32, 32);
     mono_lfo_1_mod_->setBounds (330, 556, 32, 32);
-    pitch_wheel_mod_->setBounds (24, 656, 32, 32);
-    mod_wheel_mod_->setBounds (176, 656, 32, 32);
-    note_mod_->setBounds (352, 656, 32, 32);
-    velocity_mod_->setBounds (504, 656, 32, 32);
-    aftertouch_mod_->setBounds (656, 656, 32, 32);
+    pitch_wheel_mod_->setBounds (8, 606, 32, 32);
+    mod_wheel_mod_->setBounds (150, 606, 32, 32);
+    note_mod_->setBounds (292, 608, 32, 32);
+    velocity_mod_->setBounds (434, 608, 32, 32);
+    aftertouch_mod_->setBounds (576, 608, 32, 32);
     osc_1_tune_->setBounds (101 - (46 / 2), 144, 46, 46);
-    delay_frequency_->setBounds (692 - (46 / 2), 272, 46, 46);
+    delay_frequency_->setBounds (652 - (46 / 2), 264, 46, 46);
     mono_lfo_2_wave_display_->setBounds (458, 504, 126, 48);
     mono_lfo_2_waveform_->setBounds (521 - (126 / 2), 490, 126, 14);
     osc_1_transpose_->setBounds (39 - (46 / 2), 144, 46, 46);
@@ -1252,7 +1231,7 @@ void SynthesisInterface::resized()
     step_smoothing_->setBounds (548 - (40 / 2), 410, 40, 40);
     mono_lfo_1_sync_->setBounds (438, 552, 16, 16);
     mono_lfo_2_sync_->setBounds (568, 552, 16, 16);
-    delay_sync_->setBounds (720, 280, 16, 16);
+    delay_sync_->setBounds (680, 280, 16, 16);
     step_sequencer_sync_->setBounds (496, 424, 16, 16);
     filter_response_->setBounds (4, 344, 240, 112);
     poly_lfo_wave_display_->setBounds (588, 504, 126, 48);
@@ -1923,12 +1902,10 @@ BEGIN_JUCER_METADATA
     <RECT pos="4 470 200 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 408 126 58" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 408 126 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="860c 196 148 164" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <RECT pos="860c 197 146 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="692c 4 148 236" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <RECT pos="692c 5 146 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="651c 236 126 164" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="651c 237 126 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="651c 4 126 229" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="651c 4 126 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="328 470 126 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="454r 470 126 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="456c 156 256 148" fill="solid: ff222222" hasStroke="0"/>
@@ -1976,63 +1953,62 @@ BEGIN_JUCER_METADATA
     <TEXT pos="456c 156 150 20" fill="solid: ffdddddd" hasStroke="0" text="AMPLITUDE ENVELOPE"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="860c 196 44 20" fill="solid: ffdddddd" hasStroke="0" text="DELAY"
+    <TEXT pos="651c 236 44 20" fill="solid: ffdddddd" hasStroke="0" text="DELAY"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="834c 332 60 20" fill="solid: ff777777" hasStroke="0" text="FEEDBACK"
+    <TEXT pos="618c 372 60 20" fill="solid: ff777777" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="860c 268 60 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="651c 308 60 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="898c 332 60 20" fill="solid: ff777777" hasStroke="0" text="DRY/WET"
+    <TEXT pos="687c 372 60 20" fill="solid: ff777777" hasStroke="0" text="DRY/WET"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="651c 408 60 20" fill="solid: ffdddddd" hasStroke="0" text="VOLUME"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="692c 4 92 20" fill="solid: ffdddddd" hasStroke="0" text="ARTICULATION"
+    <TEXT pos="651c 4 92 20" fill="solid: ffdddddd" hasStroke="0" text="ARTICULATION"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="658c 84 92 20" fill="solid: ff777777" hasStroke="0" text="POLYPHONY"
+    <TEXT pos="618c 84 92 20" fill="solid: ff777777" hasStroke="0" text="POLYPHONY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="658c 156 92 20" fill="solid: ff777777" hasStroke="0" text="PORTAMENTO"
+    <TEXT pos="618c 156 92 20" fill="solid: ff777777" hasStroke="0" text="PORTA"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="727c 212 92 12" fill="solid: ff777777" hasStroke="0" text="LEGATO"
+    <TEXT pos="684c 212 92 12" fill="solid: ff777777" hasStroke="0" text="LEGATO"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="658c 212 80 12" fill="solid: ff777777" hasStroke="0" text="PORT TYPE"
+    <TEXT pos="618c 212 80 12" fill="solid: ff777777" hasStroke="0" text="PORT TYPE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="727c 84 92 20" fill="solid: ff777777" hasStroke="0" text="PITCH BEND"
+    <TEXT pos="684c 84 92 20" fill="solid: ff777777" hasStroke="0" text="PITCH BEND"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="4 652 802 44" fill="solid: ff222222" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ff2e6761"/>
-    <TEXT pos="52 668 92 12" fill="solid: ff777777" hasStroke="0" text="PITCH WHEEL"
+    <RECT pos="4 622c 708 44" fill="solid: ff222222" hasStroke="0"/>
+    <TEXT pos="50 622c 92 12" fill="solid: ff777777" hasStroke="0" text="PITCH WHEEL"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="204 668 92 12" fill="solid: ff777777" hasStroke="0" text="MOD WHEEL"
+          bold="0" italic="0" justification="33"/>
+    <TEXT pos="192 622c 92 12" fill="solid: ff777777" hasStroke="0" text="MOD WHEEL"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="364 668 92 12" fill="solid: ff777777" hasStroke="0" text="NOTE"
+          bold="0" italic="0" justification="33"/>
+    <TEXT pos="334 622c 92 12" fill="solid: ff777777" hasStroke="0" text="NOTE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="524 668 92 12" fill="solid: ff777777" hasStroke="0" text="VELOCITY"
+          bold="0" italic="0" justification="33"/>
+    <TEXT pos="476 622c 92 12" fill="solid: ff777777" hasStroke="0" text="VELOCITY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="684 668 92 12" fill="solid: ff777777" hasStroke="0" text="AFTERTOUCH"
+          bold="0" italic="0" justification="33"/>
+    <TEXT pos="618 622c 92 12" fill="solid: ff777777" hasStroke="0" text="AFTERTOUCH"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
+          bold="0" italic="0" justification="33"/>
     <TEXT pos="420c 448 60 10" fill="solid: ff777777" hasStroke="0" text="STEPS"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="476c 448 60 12" fill="solid: ff777777" hasStroke="0" text="FREQUENCY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="727c 156 60 20" fill="solid: ff777777" hasStroke="0" text="VEL TRACK"
+    <TEXT pos="684c 156 60 20" fill="solid: ff777777" hasStroke="0" text="VEL TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="287c 444 60 10" fill="solid: ff777777" hasStroke="0" text="KEY TRACK"
@@ -2098,10 +2074,6 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <RECT pos="668 511c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="796 206.5c 30 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="894 206.5c 30 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="628 14.5c 12 1" fill="solid: ffcccccc" hasStroke="0"/>
-    <RECT pos="746 14.5c 12 1" fill="solid: ffcccccc" hasStroke="0"/>
     <TEXT pos="164c 142 50 10" fill="solid: ff777777" hasStroke="0" text="MIX"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2137,17 +2109,17 @@ BEGIN_JUCER_METADATA
              virtualName="WaveViewer" explicitFocusOrder="0" pos="196 40 128 80"
              sourceFile="wave_viewer.cpp" constructorParams="256"/>
   <SLIDER name="polyphony" id="952bde38857bdba7" memberName="polyphony_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="658c 40 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="618c 40 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="32"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento" id="9de85cc1c5f64eaa" memberName="portamento_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="658c 112 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="618c 112 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-9" max="-1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="pitch_bend_range" id="e53afc6d1a04c708" memberName="pitch_bend_range_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="727c 40 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="684c 40 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="48"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2157,7 +2129,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento_type" id="909956998c46045e" memberName="portamento_type_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="658c 192 64 16"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="618c 192 40 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="2" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2182,17 +2154,17 @@ BEGIN_JUCER_METADATA
           int="0" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_feedback" id="c89eb62eea2ab491" memberName="delay_feedback_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="658c 336 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="618c 328 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_dry_wet" id="dbc9d35179b5bac7" memberName="delay_dry_wet_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="727c 336 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="687c 328 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="velocity_track" id="113bdc65c4c0f18f" memberName="velocity_track_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="727c 112 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="684c 112 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2315,7 +2287,7 @@ BEGIN_JUCER_METADATA
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="1"/>
   <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="727c 192 64 16" bkgcol="ff333333"
+          explicitFocusOrder="0" pos="684c 192 40 16" bkgcol="ff333333"
           trackcol="ff9765bc" textboxoutline="ff777777" min="0" max="1"
           int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2350,19 +2322,19 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="330 556 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="pitch_wheel" id="527add472856006" memberName="pitch_wheel_mod_"
-              virtualName="" explicitFocusOrder="0" pos="24 656 32 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="8 606 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="mod_wheel" id="38b300e016b7fbb" memberName="mod_wheel_mod_"
-              virtualName="" explicitFocusOrder="0" pos="176 656 32 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="150 606 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="note" id="f119ef83db8634e0" memberName="note_mod_" virtualName=""
-              explicitFocusOrder="0" pos="352 656 32 32" buttonText="M" connectedEdges="0"
+              explicitFocusOrder="0" pos="292 608 32 32" buttonText="M" connectedEdges="0"
               needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="velocity" id="fc46bb54c2093224" memberName="velocity_mod_"
-              virtualName="" explicitFocusOrder="0" pos="504 656 32 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="434 608 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="aftertouch" id="5e4c99bb63fbb5c6" memberName="aftertouch_mod_"
-              virtualName="" explicitFocusOrder="0" pos="656 656 32 32" buttonText="M"
+              virtualName="" explicitFocusOrder="0" pos="576 608 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <SLIDER name="osc_1_tune" id="19b20e4d54ff8b49" memberName="osc_1_tune_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="101c 144 46 46"
@@ -2370,7 +2342,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="delay_frequency" id="1119b78679f3c8ca" memberName="delay_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="692c 272 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="652c 264 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-2" max="5"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2435,7 +2407,7 @@ BEGIN_JUCER_METADATA
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="delay_sync" id="7f286b1ad8378afd" memberName="delay_sync_"
-          virtualName="TempoSelector" explicitFocusOrder="0" pos="720 280 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="680 280 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
