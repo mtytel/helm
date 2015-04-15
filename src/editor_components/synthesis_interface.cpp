@@ -312,7 +312,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_frequency_->addListener (this);
 
     addAndMakeVisible (filter_saturation_ = new TwytchSlider ("filter_saturation"));
-    filter_saturation_->setRange (0, 60, 0);
+    filter_saturation_->setRange (-20, 60, 0);
     filter_saturation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     filter_saturation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     filter_saturation_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -2285,8 +2285,8 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_saturation" id="b5014a266e860882" memberName="filter_saturation_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="266c 240 46 46"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="60"
-          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-20"
+          max="60" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="formant_on" id="a27029ddc5597777" memberName="formant_on_"
                 virtualName="" explicitFocusOrder="0" pos="8 472 16 16" txtcol="ff777777"
