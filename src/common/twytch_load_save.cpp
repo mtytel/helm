@@ -42,6 +42,9 @@ var TwytchLoadSave::stateToVar(mopo::TwytchEngine* synth,
 void TwytchLoadSave::varToState(mopo::TwytchEngine* synth,
                                 const CriticalSection& critical_section,
                                 var state) {
+  if (!state.isObject())
+    return;
+
   mopo::control_map controls = synth->getControls();
   DynamicObject* object_state = state.getDynamicObject();
 
