@@ -361,7 +361,7 @@ namespace mopo {
 
   class LinearSmoothBuffer : public Operator {
     public:
-      LinearSmoothBuffer() : Operator(1, 1), last_start_value_(0.0), last_value_(0.0) { }
+      LinearSmoothBuffer() : Operator(1, 1), last_value_(0.0) { }
 
       virtual Processor* clone() const {
         return new LinearSmoothBuffer(*this);
@@ -374,7 +374,6 @@ namespace mopo {
       }
 
     protected:
-      mopo_float last_start_value_;
       mopo_float last_value_;
   };
 } // namespace mopo

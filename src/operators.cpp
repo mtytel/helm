@@ -162,11 +162,10 @@ namespace mopo {
 
   void LinearSmoothBuffer::process() {
     mopo_float new_value = input()->source->buffer[0];
-    if (new_value == last_value_ && last_start_value_ == new_value)
+    if (new_value == output()->buffer[0] && new_value == output()->buffer[buffer_size_ - 1])
       return;
 
     mopo_float inc = (new_value - last_value_) / buffer_size_;
-    last_start_value_ = last_value_;
 
     for (int i = 0; i < buffer_size_; ++i) {
       last_value_ += inc;
