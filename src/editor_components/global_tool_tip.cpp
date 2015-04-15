@@ -61,6 +61,9 @@ void GlobalToolTip::paint (Graphics& g)
     g.fillAll (Colour (0xff246370));
 
     //[UserPaint] Add your own custom painting code here..
+    g.setColour(Colour(0xff526b70));
+    g.fillRect(0, 0, getWidth(), getHeight() / 2);
+
     g.setColour(Colour(0xffffffff));
     g.drawText(parameter_text_, 0.0, 0.0,
                getWidth(), proportionOfHeight(0.5), Justification::centred);

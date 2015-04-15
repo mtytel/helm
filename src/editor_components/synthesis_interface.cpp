@@ -1756,9 +1756,15 @@ void SynthesisInterface::setSliderUnits() {
 
     mono_lfo_1_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     mono_lfo_2_tempo_->setStringLookup(mopo::strings::synced_frequencies);
-    poly_lfo_frequency_->setStringLookup(mopo::strings::synced_frequencies);
+    poly_lfo_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     step_sequencer_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     delay_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+
+    mono_lfo_1_sync_->setStringLookup(mopo::strings::freq_sync_styles);
+    mono_lfo_2_sync_->setStringLookup(mopo::strings::freq_sync_styles);
+    poly_lfo_sync_->setStringLookup(mopo::strings::freq_sync_styles);
+    step_sequencer_sync_->setStringLookup(mopo::strings::freq_sync_styles);
+    delay_sync_->setStringLookup(mopo::strings::freq_sync_styles);
 
     legato_->setStringLookup(mopo::strings::off_on);
     portamento_type_->setStringLookup(mopo::strings::off_auto_on);

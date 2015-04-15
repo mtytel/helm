@@ -113,6 +113,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     arp_pattern_->setStringLookup(mopo::strings::arp_patterns);
 
+    arp_sync_->setStringLookup(mopo::strings::freq_sync_styles);
     arp_sync_->setTempoSlider(arp_tempo_);
     arp_sync_->setFreeSlider(arp_frequency_);
 

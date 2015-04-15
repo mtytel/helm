@@ -48,6 +48,13 @@ namespace mopo {
       "random"
     };
 
+    const std::string freq_sync_styles[] = {
+      "Hertz",
+      "Tempo",
+      "Tempo Dotted",
+      "Tempo Triplets"
+    };
+
     const std::string filter_types[] = {
       "low pass",
       "high pass",
