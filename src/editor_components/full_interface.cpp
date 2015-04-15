@@ -170,42 +170,42 @@ void FullInterface::paint (Graphics& g)
     g.fillAll (Colour (0xff111111));
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (4, 4, 710, 60);
+    g.fillRect (12, 4, 710, 60);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("GATE"),
-                575 - (52 / 2), 48, 52, 20,
+                583 - (52 / 2), 48, 52, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                503 - (52 / 2), 48, 52, 20,
+                511 - (52 / 2), 48, 52, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("OCTAVES"),
-                623 - (60 / 2), 48, 60, 20,
+                631 - (60 / 2), 48, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("PATTERN"),
-                679 - (60 / 2), 48, 60, 20,
+                687 - (60 / 2), 48, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
     g.drawText (TRANS("BPM:"),
-                132, 20, 36, 20,
+                140, 20, 36, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff999999));
     g.setFont (Font ("Myriad Pro", 14.40f, Font::plain));
     g.drawText (TRANS("ARP"),
-                462 - (52 / 2), 12, 52, 12,
+                470 - (52 / 2), 12, 52, 12,
                 Justification::centred, true);
 
     //[UserPaint] Add your own custom painting code here..
@@ -217,18 +217,18 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (0, 64, 718, 650);
-    arp_frequency_->setBounds (503 - (46 / 2), 8, 46, 46);
-    arp_gate_->setBounds (575 - (46 / 2), 8, 46, 46);
-    arp_octaves_->setBounds (623 - (46 / 2), 8, 46, 46);
-    arp_pattern_->setBounds (679 - (46 / 2), 8, 46, 46);
-    oscilloscope_->setBounds (376, 8, 64, 48);
-    load_button_->setBounds (8, 8, 120, 24);
-    arp_on_->setBounds (462 - (16 / 2), 32, 16, 16);
-    save_button_->setBounds (8, 32, 120, 24);
-    beats_per_minute_->setBounds (168, 16, 88, 32);
-    global_tool_tip_->setBounds (264, 8, 104, 48);
-    arp_sync_->setBounds (528, 24, 16, 16);
+    synthesis_interface_->setBounds (8, 64, 718, 650);
+    arp_frequency_->setBounds (511 - (46 / 2), 8, 46, 46);
+    arp_gate_->setBounds (583 - (46 / 2), 8, 46, 46);
+    arp_octaves_->setBounds (631 - (46 / 2), 8, 46, 46);
+    arp_pattern_->setBounds (687 - (46 / 2), 8, 46, 46);
+    oscilloscope_->setBounds (384, 8, 64, 48);
+    load_button_->setBounds (16, 8, 120, 24);
+    arp_on_->setBounds (470 - (16 / 2), 32, 16, 16);
+    save_button_->setBounds (16, 32, 120, 24);
+    beats_per_minute_->setBounds (176, 16, 88, 32);
+    global_tool_tip_->setBounds (272, 8, 104, 48);
+    arp_sync_->setBounds (536, 24, 16, 16);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -409,72 +409,72 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff111111">
-    <RECT pos="4 4 710 60" fill="solid: ff222222" hasStroke="0"/>
-    <TEXT pos="575c 48 52 20" fill="solid: ff777777" hasStroke="0" text="GATE"
+    <RECT pos="12 4 710 60" fill="solid: ff222222" hasStroke="0"/>
+    <TEXT pos="583c 48 52 20" fill="solid: ff777777" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="503c 48 52 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="511c 48 52 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="623c 48 60 20" fill="solid: ff777777" hasStroke="0" text="OCTAVES"
+    <TEXT pos="631c 48 60 20" fill="solid: ff777777" hasStroke="0" text="OCTAVES"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="679c 48 60 20" fill="solid: ff777777" hasStroke="0" text="PATTERN"
+    <TEXT pos="687c 48 60 20" fill="solid: ff777777" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="132 20 36 20" fill="solid: ff777777" hasStroke="0" text="BPM:"
+    <TEXT pos="140 20 36 20" fill="solid: ff777777" hasStroke="0" text="BPM:"
           fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="462c 12 52 12" fill="solid: ff999999" hasStroke="0" text="ARP"
+    <TEXT pos="470c 12 52 12" fill="solid: ff999999" hasStroke="0" text="ARP"
           fontname="Myriad Pro" fontsize="14.400000000000000355" bold="0"
           italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="0 64 718 650" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="8 64 718 650" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="503c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="511c 8 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="4"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="575c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="583c 8 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="623c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="631c 8 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="679c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="687c 8 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
-             virtualName="" explicitFocusOrder="0" pos="376 8 64 48" sourceFile="oscilloscope.cpp"
+             virtualName="" explicitFocusOrder="0" pos="384 8 64 48" sourceFile="oscilloscope.cpp"
              constructorParams="512"/>
   <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
-              explicitFocusOrder="0" pos="8 8 120 24" buttonText="load" connectedEdges="3"
+              explicitFocusOrder="0" pos="16 8 120 24" buttonText="load" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <TOGGLEBUTTON name="arp_on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
-                explicitFocusOrder="0" pos="462c 32 16 16" txtcol="ffffffff"
+                explicitFocusOrder="0" pos="470c 32 16 16" txtcol="ffffffff"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
   <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
-              explicitFocusOrder="0" pos="8 32 120 24" buttonText="save" connectedEdges="3"
+              explicitFocusOrder="0" pos="16 32 120 24" buttonText="save" connectedEdges="3"
               needsCallback="1" radioGroupId="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="168 16 88 32"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="176 16 88 32"
           bkgcol="ff333333" textboxtext="ffffffff" min="20" max="300" int="0"
           style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
           textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="global_tool_tip" id="c501d8243c608e75" memberName="global_tool_tip_"
-             virtualName="" explicitFocusOrder="0" pos="264 8 104 48" sourceFile="global_tool_tip.cpp"
+             virtualName="" explicitFocusOrder="0" pos="272 8 104 48" sourceFile="global_tool_tip.cpp"
              constructorParams=""/>
   <SLIDER name="arp_sync" id="7f286b1ad8378afd" memberName="arp_sync_"
-          virtualName="TempoSelector" explicitFocusOrder="0" pos="528 24 16 16"
+          virtualName="TempoSelector" explicitFocusOrder="0" pos="536 24 16 16"
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
