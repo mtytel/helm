@@ -750,7 +750,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (651 - (126 / 2), 408, 126, 20);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (651 - (126 / 2), 236, 126, 164);
+    g.fillRect (651 - (126 / 2), 236, 126, 168);
 
     g.setColour (Colour (0xff526b70));
     g.fillRect (651 - (126 / 2), 237, 126, 20);
@@ -759,7 +759,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (651 - (126 / 2), 4, 126, 229);
 
     g.setColour (Colour (0xff526b70));
-    g.fillRect (651 - (126 / 2), 4, 126, 20);
+    g.fillRect (714 - 126, 4, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (328, 470, 126, 126);
@@ -1902,10 +1902,10 @@ BEGIN_JUCER_METADATA
     <RECT pos="4 470 200 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 408 126 58" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 408 126 20" fill="solid: ff526b70" hasStroke="0"/>
-    <RECT pos="651c 236 126 164" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="651c 236 126 168" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 237 126 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="651c 4 126 229" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="651c 4 126 20" fill="solid: ff526b70" hasStroke="0"/>
+    <RECT pos="714r 4 126 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="328 470 126 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="454r 470 126 20" fill="solid: ff526b70" hasStroke="0"/>
     <RECT pos="456c 156 256 148" fill="solid: ff222222" hasStroke="0"/>
