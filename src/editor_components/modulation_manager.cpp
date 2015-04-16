@@ -28,7 +28,7 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
-#define FRAMES_PER_SECOND 20
+#define FRAMES_PER_SECOND 30
 
 //[/MiscUserDefs]
 
@@ -44,11 +44,9 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
     current_modulator_ = "";
 
     polyphonic_destinations_ = new Component();
-    addAndMakeVisible(polyphonic_destinations_);
     polyphonic_destinations_->setInterceptsMouseClicks(false, true);
 
     monophonic_destinations_ = new Component();
-    addAndMakeVisible(monophonic_destinations_);
     monophonic_destinations_->setInterceptsMouseClicks(false, true);
 
     slider_model_lookup_ = sliders;
@@ -56,6 +54,17 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
         std::string name = slider.first;
         const mopo::Processor::Output* mono_total = mono_modulations[name];
         const mopo::Processor::Output* poly_total = poly_modulations[name];
+
+        // Create modulation meter.
+        if (mono_total) {
+            std::string name = slider.second->getName().toStdString();
+            ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
+            addAndMakeVisible(meter);
+            meter_lookup_[name] = meter;
+            meter->setName(name);
+            Rectangle<int> local_bounds = slider.second->getBoundsInParent();
+            meter->setBounds(slider.second->getParentComponent()->localAreaToGlobal(local_bounds));
+        }
 
         // Create modulation slider.
         ModulationSlider* mod_slider = new ModulationSlider(slider.second);
@@ -68,18 +77,10 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
 
         slider_lookup_[name] = mod_slider;
         owned_sliders_.push_back(mod_slider);
-
-        // Create modulation meter.
-        if (mono_total) {
-            std::string name = slider.second->getName().toStdString();
-            ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
-            addAndMakeVisible(meter);
-            meter_lookup_[name] = meter;
-            meter->setName(name);
-            Rectangle<int> local_bounds = slider.second->getBoundsInParent();
-            meter->setBounds(slider.second->getParentComponent()->localAreaToGlobal(local_bounds));
-        }
     }
+
+    addAndMakeVisible(polyphonic_destinations_);
+    addAndMakeVisible(monophonic_destinations_);
     //[/UserPreSize]
 
     setSize (600, 400);

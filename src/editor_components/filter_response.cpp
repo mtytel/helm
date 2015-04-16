@@ -30,7 +30,7 @@
 #define MAX_GAIN_DB 24.0f
 #define MIN_RESONANCE 0.5
 #define MAX_RESONANCE 16.0
-#define GRID_CELL_WIDTH 10
+#define GRID_CELL_WIDTH 8
 //[/MiscUserDefs]
 
 //==============================================================================

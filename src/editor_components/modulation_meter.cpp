@@ -18,7 +18,6 @@
 #include "mopo.h"
 
 #define ANGLE 2.51327412f
-#define PADDING 1.0f
 
 ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
                                  const mopo::Processor::Output* poly_total,
@@ -26,9 +25,9 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
         mono_total_(mono_total), poly_total_(poly_total),
         destination_(slider), current_knob_percent_(0.0), current_mod_percent_(0.0),
         knob_stroke_(0.0f, PathStrokeType::beveled, PathStrokeType::butt),
-        full_radius_(0.0), outer_radius_(0.0), slider_width_(0.0), slider_height_(0.0),
-        knob_percent_(0.0), mod_percent_(0.0) {
+        full_radius_(0.0), outer_radius_(0.0), knob_percent_(0.0), mod_percent_(0.0) {
     setInterceptsMouseClicks(false, false);
+    setPaintingIsUnclipped(true);
     setOpaque(false);
     update(0);
 }
@@ -50,8 +49,6 @@ void ModulationMeter::resized() {
     float stroke_width = 2.0f * full_radius_ * stroke_percent;
     knob_stroke_ = PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
     outer_radius_ = full_radius_ - stroke_width;
-    slider_height_ = getHeight() - 2.0f * PADDING;
-    slider_width_ = getWidth() - 2.0f * PADDING;
 }
 
 void ModulationMeter::update(int num_voices) {
@@ -67,11 +64,10 @@ void ModulationMeter::update(int num_voices) {
         if (mod_percent != current_mod_percent_ || knob_percent != current_knob_percent_) {
             current_mod_percent_ = mod_percent;
             current_knob_percent_ = knob_percent;
+            knob_percent_ = std::pow(current_knob_percent_, destination_->getSkewFactor());
+            mod_percent_ = std::pow(current_mod_percent_, destination_->getSkewFactor());
             repaint();
         }
-
-        knob_percent_ = std::pow(current_knob_percent_, destination_->getSkewFactor());
-        mod_percent_ = std::pow(current_mod_percent_, destination_->getSkewFactor());
     }
 }
 
@@ -91,11 +87,12 @@ void ModulationMeter::drawSlider(Graphics& g) {
         }
         else {
             if (destination_->isBipolar())
-                fillHorizontalRect(g, getWidth() / 2.0f, knob_position);
+                fillHorizontalRect(g, getWidth() / 2.0f, knob_position, getHeight());
             else
-                fillHorizontalRect(g, PADDING, knob_position);
+                fillHorizontalRect(g, 0, knob_position, getHeight());
 
-            fillHorizontalRect(g, knob_position, mod_position);
+            g.setColour(Colour(0xffffce87));
+            fillHorizontalRect(g, knob_position, mod_position, getHeight() / 2.0f);
         }
     }
     else {
@@ -103,11 +100,12 @@ void ModulationMeter::drawSlider(Graphics& g) {
         float knob_position = getHeight() * (1.0f - knob_percent_);
 
         if (destination_->isBipolar())
-            fillVerticalRect(g, getHeight() / 2.0f, knob_position);
+            fillVerticalRect(g, getHeight() / 2.0f, knob_position, getWidth());
         else
-            fillVerticalRect(g, PADDING, knob_position);
+            fillVerticalRect(g, 0, knob_position, getWidth());
 
-        fillVerticalRect(g, mod_position, knob_position);
+        g.setColour(Colour(0xffffce87));
+        fillVerticalRect(g, mod_position, knob_position, getWidth() / 2.0f);
     }
 }
 
@@ -143,14 +141,16 @@ void ModulationMeter::drawKnob(Graphics& g) {
     }
 }
 
-void ModulationMeter::fillHorizontalRect(Graphics& g, float x1, float x2) {
+void ModulationMeter::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
     float x = std::min(x1, x2);
     float width = fabsf(x1 - x2);
-    g.fillRect(x, PADDING, width, slider_height_);
+    float padding = (getHeight() - height) / 2.0f;
+    g.fillRect(x, padding, width, height);
 }
 
-void ModulationMeter::fillVerticalRect(Graphics& g, float y1, float y2) {
+void ModulationMeter::fillVerticalRect(Graphics& g, float y1, float y2, float width) {
     float y = std::min(y1, y2);
     float height = fabsf(y1 - y2);
-    g.fillRect(PADDING, y, slider_width_, height);
+    float padding = (getWidth() - width) / 2.0f;
+    g.fillRect(padding, y, width, height);
 }

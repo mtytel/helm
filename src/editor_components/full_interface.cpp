@@ -173,31 +173,31 @@ void FullInterface::paint (Graphics& g)
     g.fillRect (12, 4, 710, 60);
 
     g.setColour (Colour (0xff777777));
-    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("GATE"),
-                583 - (52 / 2), 48, 52, 20,
+                583 - (52 / 2), 48, 52, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
-    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                511 - (52 / 2), 48, 52, 20,
+                511 - (52 / 2), 48, 52, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
-    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("OCTAVES"),
-                631 - (60 / 2), 48, 60, 20,
+                631 - (60 / 2), 48, 60, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
-    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("PATTERN"),
-                687 - (60 / 2), 48, 60, 20,
+                687 - (60 / 2), 48, 60, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff777777));
-    g.setFont (Font ("Myriad Pro", 11.80f, Font::plain));
+    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("BPM:"),
                 140, 20, 36, 20,
                 Justification::centred, true);
@@ -218,10 +218,10 @@ void FullInterface::resized()
     //[/UserPreResize]
 
     synthesis_interface_->setBounds (8, 64, 718, 650);
-    arp_frequency_->setBounds (511 - (46 / 2), 8, 46, 46);
-    arp_gate_->setBounds (583 - (46 / 2), 8, 46, 46);
-    arp_octaves_->setBounds (631 - (46 / 2), 8, 46, 46);
-    arp_pattern_->setBounds (687 - (46 / 2), 8, 46, 46);
+    arp_frequency_->setBounds (511 - (40 / 2), 8, 40, 40);
+    arp_gate_->setBounds (583 - (40 / 2), 8, 40, 40);
+    arp_octaves_->setBounds (631 - (40 / 2), 8, 40, 40);
+    arp_pattern_->setBounds (687 - (40 / 2), 8, 40, 40);
     oscilloscope_->setBounds (384, 8, 64, 48);
     load_button_->setBounds (16, 8, 120, 24);
     arp_on_->setBounds (470 - (16 / 2), 32, 16, 16);
@@ -410,20 +410,20 @@ BEGIN_JUCER_METADATA
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff111111">
     <RECT pos="12 4 710 60" fill="solid: ff222222" hasStroke="0"/>
-    <TEXT pos="583c 48 52 20" fill="solid: ff777777" hasStroke="0" text="GATE"
-          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+    <TEXT pos="583c 48 52 10" fill="solid: ff777777" hasStroke="0" text="GATE"
+          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="511c 48 52 20" fill="solid: ff777777" hasStroke="0" text="FREQ"
-          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+    <TEXT pos="511c 48 52 10" fill="solid: ff777777" hasStroke="0" text="FREQ"
+          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="631c 48 60 20" fill="solid: ff777777" hasStroke="0" text="OCTAVES"
-          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+    <TEXT pos="631c 48 60 10" fill="solid: ff777777" hasStroke="0" text="OCTAVES"
+          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="687c 48 60 20" fill="solid: ff777777" hasStroke="0" text="PATTERN"
-          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+    <TEXT pos="687c 48 60 10" fill="solid: ff777777" hasStroke="0" text="PATTERN"
+          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="140 20 36 20" fill="solid: ff777777" hasStroke="0" text="BPM:"
-          fontname="Myriad Pro" fontsize="11.800000000000000711" bold="0"
+          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="470c 12 52 12" fill="solid: ff999999" hasStroke="0" text="ARP"
           fontname="Myriad Pro" fontsize="14.400000000000000355" bold="0"
@@ -433,22 +433,22 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="8 64 718 650" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="511c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="511c 8 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="4"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="583c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="583c 8 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="631c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="631c 8 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="687c 8 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="687c 8 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>

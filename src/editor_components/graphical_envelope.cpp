@@ -29,7 +29,7 @@ namespace {
     const float ATTACK_RANGE_PERCENT = 0.33f;
     const float DECAY_RANGE_PERCENT = 0.33f;
     const float HOVER_DISTANCE = 20.0f;
-    const int GRID_CELL_WIDTH = 10;
+    const int GRID_CELL_WIDTH = 8;
 } // namespace
 
 //[/MiscUserDefs]

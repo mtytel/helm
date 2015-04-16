@@ -32,6 +32,7 @@ GlobalToolTip::GlobalToolTip ()
 
     //[UserPreSize]
     setOpaque(true);
+    setPaintingIsUnclipped(true);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -58,11 +59,12 @@ void GlobalToolTip::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff246370));
-
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff526b70));
+    g.setColour(Colour(0xff444444));
     g.fillRect(0, 0, getWidth(), getHeight() / 2);
+    
+    g.setColour(Colour(0xff246370));
+    g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
     g.setColour(Colour(0xffffffff));
     g.drawText(parameter_text_, 0.0, 0.0,
@@ -107,7 +109,7 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff246370"/>
+  <BACKGROUND backgroundColour="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

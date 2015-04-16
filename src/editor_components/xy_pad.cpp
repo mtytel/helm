@@ -26,8 +26,8 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
-#define GRID_CELL_WIDTH 10
-#define GRID_CELL_HEIGHT 10
+#define GRID_CELL_WIDTH 8
+#define GRID_CELL_HEIGHT 16
 
 //[/MiscUserDefs]
 

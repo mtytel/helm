@@ -30,7 +30,11 @@ namespace {
 
 TwytchSlider::TwytchSlider(String name) :
         Slider(name), bipolar_(false), units_(""), scaling_type_(kLinear),
-        post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) { }
+        post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) {
+    setOpaque(true);
+    setBufferedToImage(true);
+    setPaintingIsUnclipped(true);
+}
 
 
 void TwytchSlider::mouseDown(const MouseEvent& e) {

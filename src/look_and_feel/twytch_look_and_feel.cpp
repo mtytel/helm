@@ -23,13 +23,13 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
   g.setColour(slider.findColour(Slider::backgroundColourId));
-  g.fillRect(x, y, width, height);
+  g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
   g.setColour(slider.findColour(Slider::thumbColourId));
 
   if (style == Slider::SliderStyle::LinearBar)
-    g.fillRect(slider_pos - x, 1.0f * y, 2.0f, 1.0f * height);
+    g.fillRect(slider_pos - 1.0f, 0.0f, 2.0f, float(slider.getHeight()));
   else if (style == Slider::SliderStyle::LinearBarVertical)
-    g.fillRect(1.0f * x, slider_pos - y, 1.0f * width, 2.0f);
+    g.fillRect(0.0f, slider_pos - 1.0f, float(slider.getWidth()), 2.0f);
 }
 
 void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int width, int height,
@@ -47,6 +47,9 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
   float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
   float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
+
+  g.setColour(Colour(0xff222222));
+  g.fillRect(0, 0, width, height);
 
   g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,

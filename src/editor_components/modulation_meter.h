@@ -37,8 +37,8 @@ private:
     void drawSlider(Graphics& g);
 
     void drawKnob(Graphics& g);
-    void fillHorizontalRect(Graphics& g, float x1, float x2);
-    void fillVerticalRect(Graphics& g, float y1, float y2);
+    void fillHorizontalRect(Graphics& g, float x1, float x2, float height);
+    void fillVerticalRect(Graphics& g, float y1, float y2, float width);
 
     const mopo::Processor::Output* mono_total_;
     const mopo::Processor::Output* poly_total_;
@@ -50,8 +50,6 @@ private:
     PathStrokeType knob_stroke_;
     float full_radius_;
     float outer_radius_;
-    float slider_width_;
-    float slider_height_;
 
     float knob_percent_;
     float mod_percent_;
