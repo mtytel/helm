@@ -61,6 +61,8 @@ public:
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     void changeModulator(std::string source);
     void setToolTipText(String parameter, String value);
+
+    File getPatchDirectory();
     //[/UserMethods]
 
     void paint (Graphics& g);

@@ -287,7 +287,7 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_load_button_] -- add your button handler code here..
         int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode;
-        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
+        FileBrowserComponent browser(flags, getPatchDirectory(), nullptr, nullptr);
         FileChooserDialogBox load_dialog("load patch", "load", browser, true, Colours::white);
         if (load_dialog.show()) {
             File load_file = browser.getSelectedFile(0);
@@ -313,7 +313,7 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_save_button_] -- add your button handler code here..
         int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-        FileBrowserComponent browser(flags, File::nonexistent, nullptr, nullptr);
+        FileBrowserComponent browser(flags, getPatchDirectory(), nullptr, nullptr);
         FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
         if (save_dialog.show()) {
             SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
@@ -390,6 +390,14 @@ void FullInterface::changeModulator(std::string source) {
 void FullInterface::setToolTipText(String parameter, String value) {
     if (global_tool_tip_)
         global_tool_tip_->setText(parameter, value);
+}
+
+File FullInterface::getPatchDirectory() {
+    File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
+    File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
+    if (!patch_dir.exists())
+        patch_dir.createDirectory();
+    return patch_dir;
 }
 
 //[/MiscUserCode]
