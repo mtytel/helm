@@ -28,6 +28,7 @@
 #include "synthesis_interface.h"
 #include "oscilloscope.h"
 #include "global_tool_tip.h"
+#include "patch_browser.h"
 
 
 //==============================================================================
@@ -61,8 +62,6 @@ public:
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     void changeModulator(std::string source);
     void setToolTipText(String parameter, String value);
-
-    File getPatchDirectory();
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -88,12 +87,11 @@ private:
     ScopedPointer<TwytchSlider> arp_octaves_;
     ScopedPointer<TwytchSlider> arp_pattern_;
     ScopedPointer<Oscilloscope> oscilloscope_;
-    ScopedPointer<TextButton> load_button_;
     ScopedPointer<ToggleButton> arp_on_;
-    ScopedPointer<TextButton> save_button_;
     ScopedPointer<TwytchSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<TempoSelector> arp_sync_;
+    ScopedPointer<PatchBrowser> global_tool_tip_2;
 
 
     //==============================================================================

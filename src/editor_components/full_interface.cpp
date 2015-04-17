@@ -66,18 +66,10 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_pattern_->addListener (this);
 
     addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
-    addAndMakeVisible (load_button_ = new TextButton ("load"));
-    load_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
-    load_button_->addListener (this);
-
     addAndMakeVisible (arp_on_ = new ToggleButton ("arp_on"));
     arp_on_->setButtonText (String::empty);
     arp_on_->addListener (this);
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
-
-    addAndMakeVisible (save_button_ = new TextButton ("save"));
-    save_button_->setConnectedEdges (Button::ConnectedOnLeft | Button::ConnectedOnRight);
-    save_button_->addListener (this);
 
     addAndMakeVisible (beats_per_minute_ = new TwytchSlider ("beats_per_minute"));
     beats_per_minute_->setRange (20, 300, 0);
@@ -97,6 +89,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
     arp_sync_->addListener (this);
 
+    addAndMakeVisible (global_tool_tip_2 = new PatchBrowser());
 
     //[UserPreSize]
     arp_tempo_ = new TwytchSlider("arp_tempo");
@@ -149,12 +142,11 @@ FullInterface::~FullInterface()
     arp_octaves_ = nullptr;
     arp_pattern_ = nullptr;
     oscilloscope_ = nullptr;
-    load_button_ = nullptr;
     arp_on_ = nullptr;
-    save_button_ = nullptr;
     beats_per_minute_ = nullptr;
     global_tool_tip_ = nullptr;
     arp_sync_ = nullptr;
+    global_tool_tip_2 = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -198,8 +190,8 @@ void FullInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
-    g.drawText (TRANS("BPM:"),
-                140, 20, 36, 20,
+    g.drawText (TRANS("BPM"),
+                208 - (36 / 2), 12, 36, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff999999));
@@ -223,12 +215,11 @@ void FullInterface::resized()
     arp_octaves_->setBounds (631 - (40 / 2), 8, 40, 40);
     arp_pattern_->setBounds (687 - (40 / 2), 8, 40, 40);
     oscilloscope_->setBounds (384, 8, 64, 48);
-    load_button_->setBounds (16, 8, 120, 24);
     arp_on_->setBounds (470 - (16 / 2), 32, 16, 16);
-    save_button_->setBounds (16, 32, 120, 24);
-    beats_per_minute_->setBounds (176, 16, 88, 32);
+    beats_per_minute_->setBounds (208 - (112 / 2), 24, 112, 32);
     global_tool_tip_->setBounds (272, 8, 104, 48);
     arp_sync_->setBounds (536, 24, 16, 16);
+    global_tool_tip_2->setBounds (16, 8, 128, 56);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -283,24 +274,7 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
     //[UserbuttonClicked_Pre]
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == load_button_)
-    {
-        //[UserButtonCode_load_button_] -- add your button handler code here..
-        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::openMode;
-        FileBrowserComponent browser(flags, getPatchDirectory(), nullptr, nullptr);
-        FileChooserDialogBox load_dialog("load patch", "load", browser, true, Colours::white);
-        if (load_dialog.show()) {
-            File load_file = browser.getSelectedFile(0);
-
-            var parsed_json_state;
-            if (JSON::parse(load_file.loadFileAsString(), parsed_json_state).wasOk()) {
-                SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-                parent->loadFromVar(parsed_json_state);
-            }
-        }
-        //[/UserButtonCode_load_button_]
-    }
-    else if (buttonThatWasClicked == arp_on_)
+    if (buttonThatWasClicked == arp_on_)
     {
         //[UserButtonCode_arp_on_] -- add your button handler code here..
         std::string name = buttonThatWasClicked->getName().toStdString();
@@ -308,19 +282,6 @@ void FullInterface::buttonClicked (Button* buttonThatWasClicked)
         if (parent)
             parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
         //[/UserButtonCode_arp_on_]
-    }
-    else if (buttonThatWasClicked == save_button_)
-    {
-        //[UserButtonCode_save_button_] -- add your button handler code here..
-        int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-        FileBrowserComponent browser(flags, getPatchDirectory(), nullptr, nullptr);
-        FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
-        if (save_dialog.show()) {
-            SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-            File save_file = browser.getSelectedFile(0);
-            save_file.replaceWithText(JSON::toString(parent->saveToVar()));
-        }
-        //[/UserButtonCode_save_button_]
     }
 
     //[UserbuttonClicked_Post]
@@ -392,14 +353,6 @@ void FullInterface::setToolTipText(String parameter, String value) {
         global_tool_tip_->setText(parameter, value);
 }
 
-File FullInterface::getPatchDirectory() {
-    File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
-    File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
-    if (!patch_dir.exists())
-        patch_dir.createDirectory();
-    return patch_dir;
-}
-
 //[/MiscUserCode]
 
 
@@ -430,7 +383,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="687c 48 60 10" fill="solid: ff777777" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="140 20 36 20" fill="solid: ff777777" hasStroke="0" text="BPM:"
+    <TEXT pos="208c 12 36 10" fill="solid: ff777777" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="470c 12 52 12" fill="solid: ff999999" hasStroke="0" text="ARP"
@@ -463,18 +416,12 @@ BEGIN_JUCER_METADATA
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
              virtualName="" explicitFocusOrder="0" pos="384 8 64 48" sourceFile="oscilloscope.cpp"
              constructorParams="512"/>
-  <TEXTBUTTON name="load" id="41af69dad8b4335d" memberName="load_button_" virtualName=""
-              explicitFocusOrder="0" pos="16 8 120 24" buttonText="load" connectedEdges="3"
-              needsCallback="1" radioGroupId="0"/>
   <TOGGLEBUTTON name="arp_on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
                 explicitFocusOrder="0" pos="470c 32 16 16" txtcol="ffffffff"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
-  <TEXTBUTTON name="save" id="80d4648667c9cf51" memberName="save_button_" virtualName=""
-              explicitFocusOrder="0" pos="16 32 120 24" buttonText="save" connectedEdges="3"
-              needsCallback="1" radioGroupId="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="176 16 88 32"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="208c 24 112 32"
           bkgcol="ff333333" textboxtext="ffffffff" min="20" max="300" int="0"
           style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
           textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
@@ -486,6 +433,9 @@ BEGIN_JUCER_METADATA
           bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
+  <JUCERCOMP name="global_tool_tip" id="dbae22170345d3ef" memberName="global_tool_tip_2"
+             virtualName="" explicitFocusOrder="0" pos="16 8 128 56" sourceFile="patch_browser.cpp"
+             constructorParams=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

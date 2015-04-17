@@ -150,6 +150,9 @@
         <FILE id="GKIniw" name="oscilloscope.cpp" compile="1" resource="0"
               file="../src/editor_components/oscilloscope.cpp"/>
         <FILE id="AMolKW" name="oscilloscope.h" compile="0" resource="0" file="../src/editor_components/oscilloscope.h"/>
+        <FILE id="MZrbcn" name="patch_browser.cpp" compile="1" resource="0"
+              file="../src/editor_components/patch_browser.cpp"/>
+        <FILE id="R33s2T" name="patch_browser.h" compile="0" resource="0" file="../src/editor_components/patch_browser.h"/>
         <FILE id="mo2hyt" name="synthesis_interface.cpp" compile="1" resource="0"
               file="../src/editor_components/synthesis_interface.cpp"/>
         <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"

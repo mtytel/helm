@@ -96,6 +96,7 @@ OBJECTS := \
   $(OBJDIR)/modulation_meter_3f248ddc.o \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
+  $(OBJDIR)/patch_browser_2710c0e5.o \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/tempo_selector_e5a31119.o \
   $(OBJDIR)/twytch_slider_daf48f91.o \
@@ -368,6 +369,11 @@ $(OBJDIR)/modulation_slider_aee8aab8.o: ../../../src/editor_components/modulatio
 $(OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscilloscope.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/patch_browser_2710c0e5.o: ../../../src/editor_components/patch_browser.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling patch_browser.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synthesis_interface_3df08742.o: ../../../src/editor_components/synthesis_interface.cpp
