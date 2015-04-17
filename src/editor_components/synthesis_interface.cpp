@@ -748,31 +748,31 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xff222222));
     g.fillRect (651 - (126 / 2), 408, 126, 58);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (651 - (126 / 2), 428 - 20, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (651 - (126 / 2), 236, 126, 168);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (651 - (126 / 2), 257 - 20, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (651 - (126 / 2), 4, 126, 229);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (714 - 126, 24 - 20, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (328, 470, 126, 126);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (454 - 126, 490 - 20, 126, 20);
 
     g.setColour (Colour (0xff222222));
     g.fillRect (456 - (256 / 2), 156, 256, 148);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (456 - (256 / 2), 176 - 20, 256, 20);
 
     g.setColour (Colour (0xff222222));
@@ -784,7 +784,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xff222222));
     g.fillRect (164 - (320 / 2), 4, 320, 204);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (164 - (320 / 2), 24 - 20, 320, 20);
 
     g.setColour (Colour (0xff222222));
@@ -1033,7 +1033,7 @@ void SynthesisInterface::paint (Graphics& g)
                 298 - (50 / 2), 558, 50, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (164 - (320 / 2), 232 - 20, 320, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1042,7 +1042,7 @@ void SynthesisInterface::paint (Graphics& g)
                 164 - (84 / 2), 212, 84, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (456 - (256 / 2), 24 - 20, 256, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1051,7 +1051,7 @@ void SynthesisInterface::paint (Graphics& g)
                 456 - (140 / 2), 14 - (20 / 2), 140, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (456 - (256 / 2), 328 - 20, 256, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1060,7 +1060,7 @@ void SynthesisInterface::paint (Graphics& g)
                 456 - (110 / 2), 307, 110, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (521 - (126 / 2), 490 - 20, 126, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1081,10 +1081,10 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffb14a06));
     g.strokePath (internalPath4, PathStrokeType (1.000f));
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (104 - (200 / 2), 490 - 20, 200, 20);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (266 - (116 / 2), 490 - 20, 116, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1114,7 +1114,7 @@ void SynthesisInterface::paint (Graphics& g)
                 164 - (50 / 2), 142, 50, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (164 - (320 / 2), 328 - 20, 320, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1138,7 +1138,7 @@ void SynthesisInterface::paint (Graphics& g)
                 642 - (30 / 2), 584, 30, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff333333));
+    g.setColour (Colour (0xff44595b));
     g.fillRect (651 - (126 / 2), 490 - 20, 126, 20);
 
     g.setColour (Colour (0xffdddddd));
@@ -1903,19 +1903,19 @@ BEGIN_JUCER_METADATA
     <RECT pos="266c 470 116 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="4 470 200 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 408 126 58" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="651c 428r 126 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="651c 428r 126 20" fill="solid: ff44595b" hasStroke="0"/>
     <RECT pos="651c 236 126 168" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="651c 257r 126 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="651c 257r 126 20" fill="solid: ff44595b" hasStroke="0"/>
     <RECT pos="651c 4 126 229" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="714r 24r 126 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="714r 24r 126 20" fill="solid: ff44595b" hasStroke="0"/>
     <RECT pos="328 470 126 126" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="454r 490r 126 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="454r 490r 126 20" fill="solid: ff44595b" hasStroke="0"/>
     <RECT pos="456c 156 256 148" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="456c 176r 256 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="456c 176r 256 20" fill="solid: ff44595b" hasStroke="0"/>
     <RECT pos="456c 4 256 148" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="164c 308 320 158" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="164c 4 320 204" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="164c 24r 320 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="164c 24r 320 20" fill="solid: ff44595b" hasStroke="0"/>
     <RECT pos="521c 470 126 126" fill="solid: ff222222" hasStroke="0"/>
     <TEXT pos="227c 190 70 10" fill="solid: ff777777" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
@@ -2037,19 +2037,19 @@ BEGIN_JUCER_METADATA
     <TEXT pos="298c 558 50 10" fill="solid: ff777777" hasStroke="0" text="RESAMPLE "
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="164c 232r 320 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="164c 232r 320 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="164c 212 84 20" fill="solid: ffdddddd" hasStroke="0" text="FEEDBACK"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="456c 24r 256 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="456c 24r 256 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="456c 14c 140 20" fill="solid: ffdddddd" hasStroke="0" text="FILTER ENVELOPE"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="456c 328r 256 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="456c 328r 256 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="456c 307 110 20" fill="solid: ffdddddd" hasStroke="0" text="STEP SEQUENCER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="521c 490r 126 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="521c 490r 126 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="521c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="MONO LFO 2"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2061,8 +2061,8 @@ BEGIN_JUCER_METADATA
           strokeColour="solid: ffb14a06" nonZeroWinding="1">s 194 116 l 186 116 l 178 100</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ffb14a06" nonZeroWinding="1">s 134 116 l 142 116 l 150 100</PATH>
-    <RECT pos="104c 490r 200 20" fill="solid: ff333333" hasStroke="0"/>
-    <RECT pos="266c 490r 116 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="104c 490r 200 20" fill="solid: ff44595b" hasStroke="0"/>
+    <RECT pos="266c 490r 116 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="266c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="STUTTER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2076,7 +2076,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="164c 142 50 10" fill="solid: ff777777" hasStroke="0" text="MIX"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="164c 328r 320 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="164c 328r 320 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="164c 308 84 20" fill="solid: ffdddddd" hasStroke="0" text="FILTER"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2087,7 +2087,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="642c 584 30 10" fill="solid: ff777777" hasStroke="0" text="AMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="651c 490r 126 20" fill="solid: ff333333" hasStroke="0"/>
+    <RECT pos="651c 490r 126 20" fill="solid: ff44595b" hasStroke="0"/>
     <TEXT pos="651c 470 84 20" fill="solid: ffdddddd" hasStroke="0" text="POLY LFO"
           fontname="Default sans-serif font" fontsize="14.400000000000000355"
           bold="0" italic="0" justification="36"/>
