@@ -148,10 +148,8 @@ private:
     ScopedPointer<WaveViewer> mono_lfo_2_wave_display_;
     ScopedPointer<WaveSelector> mono_lfo_2_waveform_;
     ScopedPointer<TwytchSlider> osc_1_transpose_;
-    ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
     ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;
     ScopedPointer<TextButton> mono_lfo_2_mod_;
-    ScopedPointer<TwytchSlider> mono_lfo_2_amplitude_;
     ScopedPointer<TwytchSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<TwytchSlider> stutter_resample_frequency_;
@@ -165,8 +163,10 @@ private:
     ScopedPointer<WaveSelector> poly_lfo_waveform_;
     ScopedPointer<TwytchSlider> poly_lfo_frequency_;
     ScopedPointer<TextButton> poly_lfo_mod_;
-    ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
     ScopedPointer<TempoSelector> poly_lfo_sync_;
+    ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
+    ScopedPointer<TwytchSlider> mono_lfo_2_amplitude_;
+    ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;
