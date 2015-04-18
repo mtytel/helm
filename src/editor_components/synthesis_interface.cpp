@@ -603,6 +603,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_wave_display_->setAmplitudeSlider(mono_lfo_2_amplitude_);
     mono_lfo_2_wave_display_->setName("mono_lfo_2_phase");
     poly_lfo_wave_display_->setWaveSlider(poly_lfo_waveform_);
+    poly_lfo_wave_display_->setAmplitudeSlider(poly_lfo_amplitude_);
     filter_response_->setCutoffSlider(cutoff_);
     filter_response_->setResonanceSlider(resonance_);
     filter_response_->setFilterTypeSlider(filter_type_);
