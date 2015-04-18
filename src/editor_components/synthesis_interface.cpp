@@ -976,7 +976,7 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("FREQUENCY"),
+    g.drawText (TRANS("FREQ"),
                 468 - (60 / 2), 450, 60, 12,
                 Justification::centred, true);
 
@@ -1997,7 +1997,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="404c 450 60 10" fill="solid: ff777777" hasStroke="0" text="STEPS"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="468c 450 60 12" fill="solid: ff777777" hasStroke="0" text="FREQUENCY"
+    <TEXT pos="468c 450 60 12" fill="solid: ff777777" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="684c 158 60 10" fill="solid: ff777777" hasStroke="0" text="VEL TRACK"

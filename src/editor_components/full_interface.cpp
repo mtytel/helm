@@ -162,7 +162,10 @@ void FullInterface::paint (Graphics& g)
     g.fillAll (Colour (0xff111111));
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (12, 4, 710, 60);
+    g.fillRect (456, 4, 266, 60);
+
+    g.setColour (Colour (0xff222222));
+    g.fillRect (12, 4, 440, 60);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
@@ -194,13 +197,18 @@ void FullInterface::paint (Graphics& g)
                 208 - (36 / 2), 12, 36, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff999999));
-    g.setFont (Font ("Myriad Pro", 14.40f, Font::plain));
-    g.drawText (TRANS("ARP"),
-                470 - (52 / 2), 12, 52, 12,
-                Justification::centred, true);
+    g.setColour (Colour (0xff44595b));
+    g.fillRect (456, 4, 20, 60);
 
     //[UserPaint] Add your own custom painting code here..
+
+    g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 460, 20));
+    g.setColour(Colour (0xffDDDDDD));
+    g.setFont(Font("Myriad Pro", 14.40f, Font::plain));
+    g.drawText(TRANS("ARP"),
+               412, 21, 52, 12,
+               Justification::centred, true);
+
     //[/UserPaint]
 }
 
@@ -209,13 +217,13 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (8, 64, 718, 650);
+    synthesis_interface_->setBounds (726 - 718, 64, 718, 650);
     arp_frequency_->setBounds (511 - (40 / 2), 8, 40, 40);
     arp_gate_->setBounds (583 - (40 / 2), 8, 40, 40);
     arp_octaves_->setBounds (631 - (40 / 2), 8, 40, 40);
     arp_pattern_->setBounds (687 - (40 / 2), 8, 40, 40);
     oscilloscope_->setBounds (384, 8, 64, 48);
-    arp_on_->setBounds (470 - (16 / 2), 32, 16, 16);
+    arp_on_->setBounds (458, 8, 16, 16);
     beats_per_minute_->setBounds (208 - (112 / 2), 24, 112, 32);
     global_tool_tip_->setBounds (272, 8, 104, 48);
     arp_sync_->setBounds (536, 24, 16, 16);
@@ -367,10 +375,11 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
                  parentClasses="public Component" constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff111111">
-    <RECT pos="12 4 710 60" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="456 4 266 60" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="12 4 440 60" fill="solid: ff222222" hasStroke="0"/>
     <TEXT pos="583c 48 52 10" fill="solid: ff777777" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
@@ -386,12 +395,10 @@ BEGIN_JUCER_METADATA
     <TEXT pos="208c 12 36 10" fill="solid: ff777777" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="470c 12 52 12" fill="solid: ff999999" hasStroke="0" text="ARP"
-          fontname="Myriad Pro" fontsize="14.400000000000000355" bold="0"
-          italic="0" justification="36"/>
+    <RECT pos="456 4 20 60" fill="solid: ff44595b" hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="8 64 718 650" sourceFile="synthesis_interface.cpp"
+             virtualName="" explicitFocusOrder="0" pos="726r 64 718 650" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="511c 8 40 40"
@@ -417,9 +424,8 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="384 8 64 48" sourceFile="oscilloscope.cpp"
              constructorParams="512"/>
   <TOGGLEBUTTON name="arp_on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
-                explicitFocusOrder="0" pos="470c 32 16 16" txtcol="ffffffff"
-                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
-                state="0"/>
+                explicitFocusOrder="0" pos="458 8 16 16" txtcol="ffffffff" buttonText=""
+                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="208c 24 112 32"
           bkgcol="ff333333" textboxtext="ffffffff" min="20" max="300" int="0"
