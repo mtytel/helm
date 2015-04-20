@@ -19,6 +19,7 @@
 #define TWYTCH_OSCILLATORS_H
 
 #include "mopo.h"
+#include "fixed_point_wave.h"
 
 namespace mopo {
 
@@ -34,6 +35,7 @@ namespace mopo {
         kOscillator2PhaseInc,
         kReset,
         kCrossMod,
+        kMix,
         kNumInputs
       };
 
@@ -47,26 +49,27 @@ namespace mopo {
 
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
-      void tick(int i, Wave::Type waveform1, Wave::Type waveform2) {
-        static double integral;
+      void tick(int i, int waveform1, int waveform2) {
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
-        mopo_float base_phase1 = input(kOscillator1PhaseInc)->source->buffer[i];
-        mopo_float base_phase2 = input(kOscillator2PhaseInc)->source->buffer[i];
-        mopo_float phase_inc1 = base_phase1 * (cross_mod * oscillator2_value_ + 1.0);
-        mopo_float phase_inc2 = base_phase2 * (cross_mod * oscillator1_value_ + 1.0);
-        oscillator1_phase_ = modf(oscillator1_phase_ + phase_inc1, &integral);
-        oscillator2_phase_ = modf(oscillator2_phase_ + phase_inc2, &integral);
-        oscillator1_value_ = Wave::wave(waveform1, oscillator1_phase_);
-        oscillator2_value_ = Wave::wave(waveform2, oscillator2_phase_);
-        output(0)->buffer[i] = oscillator1_value_;
-        output(1)->buffer[i] = oscillator2_value_;
+        mopo_float mix = input(kMix)->source->buffer[i];
+        int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
+        int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[i];
+        int phase_diff1 = cross_mod * oscillator2_value_;
+        int phase_diff2 = cross_mod * oscillator1_value_;
+        oscillator1_phase_ += base_phase1;
+        oscillator2_phase_ += base_phase2;
+        oscillator1_value_ = FixedPointWave::wave(waveform1, oscillator1_phase_ + phase_diff1, base_phase1);
+        oscillator2_value_ = FixedPointWave::wave(waveform2, oscillator2_phase_ + phase_diff2, base_phase2);
+
+        mopo_float mixed = (1.0 - mix) * oscillator1_value_ + mix * oscillator2_value_;
+        output(0)->buffer[i] = mixed / INT_MAX;
       }
 
     protected:
-      mopo_float oscillator1_phase_;
-      mopo_float oscillator1_value_;
-      mopo_float oscillator2_phase_;
-      mopo_float oscillator2_value_;
+      unsigned int oscillator1_phase_;
+      int oscillator1_value_;
+      unsigned int oscillator2_phase_;
+      int oscillator2_value_;
   };
 } // namespace mopo
 

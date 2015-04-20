@@ -108,6 +108,7 @@ OBJECTS := \
   $(OBJDIR)/main_b7ad981e.o \
   $(OBJDIR)/twytch_computer_keyboard_dc84e874.o \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
+  $(OBJDIR)/fixed_point_wave_2344895d.o \
   $(OBJDIR)/switch_871b185e.o \
   $(OBJDIR)/twytch_engine_90779dde.o \
   $(OBJDIR)/twytch_lfo_e31d61e3.o \
@@ -429,6 +430,11 @@ $(OBJDIR)/twytch_computer_keyboard_dc84e874.o: ../../../src/standalone/twytch_co
 $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o: ../../../src/standalone/twytch_standalone_editor.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_standalone_editor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_wave.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling fixed_point_wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp

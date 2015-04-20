@@ -23,6 +23,7 @@
         <FILE id="zTMr2Y" name="bypass_router.cpp" compile="1" resource="0"
               file="mopo/src/bypass_router.cpp"/>
         <FILE id="ZxAaZe" name="bypass_router.h" compile="0" resource="0" file="mopo/src/bypass_router.h"/>
+        <FILE id="b5t0U2" name="common.h" compile="0" resource="0" file="mopo/src/common.h"/>
         <FILE id="h3RnhW" name="delay.cpp" compile="1" resource="0" file="mopo/src/delay.cpp"/>
         <FILE id="vmg9rF" name="delay.h" compile="0" resource="0" file="mopo/src/delay.h"/>
         <FILE id="gdJXLr" name="distortion.cpp" compile="1" resource="0" file="mopo/src/distortion.cpp"/>
@@ -198,6 +199,10 @@
         <FILE id="SLXpsp" name="twytch_plugin.h" compile="0" resource="0" file="src/plugin/twytch_plugin.h"/>
       </GROUP>
       <GROUP id="{A96D5AAE-0076-8457-E00A-AD803B7FD9A7}" name="synthesis">
+        <FILE id="egF8Vt" name="fixed_point_wave.cpp" compile="1" resource="0"
+              file="src/synthesis/fixed_point_wave.cpp"/>
+        <FILE id="kyVcS6" name="fixed_point_wave.h" compile="0" resource="0"
+              file="src/synthesis/fixed_point_wave.h"/>
         <FILE id="kB2giJ" name="switch.cpp" compile="1" resource="0" file="src/synthesis/switch.cpp"/>
         <FILE id="JoFJi2" name="switch.h" compile="0" resource="0" file="src/synthesis/switch.h"/>
         <FILE id="OFc1Ri" name="twytch_engine.cpp" compile="1" resource="0"

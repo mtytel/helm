@@ -17,8 +17,8 @@
 #include "modulation_slider.h"
 #include "mopo.h"
 
-ModulationSlider::ModulationSlider(Slider* destination) {
-    // MOPO_ASSERT(destination->getSkewFactor() == 1.0);
+ModulationSlider::ModulationSlider(TwytchSlider* destination) :
+        TwytchSlider(destination->getName()) {
     destination_slider_ = destination;
 
     float destination_range = destination->getMaximum() - destination->getMinimum();
@@ -28,6 +28,11 @@ ModulationSlider::ModulationSlider(Slider* destination) {
     setSliderStyle(destination->getSliderStyle());
     setVelocityBasedMode(true);
     setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+    setStringLookup(destination->getStringLookup());
+    setPostMultiply(destination->getPostMultiply());
+    setUnits(destination->getUnits());
+    setScalingType(destination->getScalingType());
+    setOpaque(false);
 }
 
 ModulationSlider::~ModulationSlider() {

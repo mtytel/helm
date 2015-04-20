@@ -172,10 +172,6 @@ void FilterResponse::computeFilterCoefficients() {
 }
 
 void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
-    mopo::Filter::Type type = mopo::Filter::kAllPass;
-    if (filter_type_slider_)
-        type = static_cast<mopo::Filter::Type>(static_cast<int>(filter_type_slider_->getValue()));
-
     if (cutoff_slider_) {
         double percent = CLAMP((1.0 * position.x) / getWidth(), 0.0, 1.0);
         double frequency = cutoff_slider_->proportionOfLengthToValue(percent);

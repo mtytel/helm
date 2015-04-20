@@ -107,6 +107,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_look_and_feel_7026b753.o \
   $(OBJDIR)/twytch_editor_cb41a52d.o \
   $(OBJDIR)/twytch_plugin_10f49ff3.o \
+  $(OBJDIR)/fixed_point_wave_cbeb31ee.o \
   $(OBJDIR)/switch_9aef122f.o \
   $(OBJDIR)/twytch_engine_ecbf26ed.o \
   $(OBJDIR)/twytch_lfo_95ce0b34.o \
@@ -425,6 +426,11 @@ $(OBJDIR)/twytch_editor_cb41a52d.o: ../../src/plugin/twytch_editor.cpp
 $(OBJDIR)/twytch_plugin_10f49ff3.o: ../../src/plugin/twytch_plugin.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_plugin.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/fixed_point_wave_cbeb31ee.o: ../../src/synthesis/fixed_point_wave.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling fixed_point_wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp

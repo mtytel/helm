@@ -188,15 +188,9 @@ namespace mopo {
 
     // Oscillator mix.
     Processor* oscillator_mix_amount = createPolyModControl("osc_mix", 0.5, false, true);
-
     Clamp* clamp_mix = new Clamp(0, 1);
     clamp_mix->plug(oscillator_mix_amount);
-    Interpolate* oscillator_mix = new Interpolate();
-    oscillator_mix->plug(oscillators->output(0), Interpolate::kFrom);
-    oscillator_mix->plug(oscillators->output(1), Interpolate::kTo);
-    oscillator_mix->plug(clamp_mix, Interpolate::kFractional);
-
-    addProcessor(oscillator_mix);
+    oscillators->plug(clamp_mix, TwytchOscillators::kMix);
     addProcessor(clamp_mix);
 
     // Oscillator feedback.
@@ -229,7 +223,7 @@ namespace mopo {
     addProcessor(osc_feedback_samples_audio);
 
     osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
-    osc_feedback_->plug(oscillator_mix, SimpleDelay::kAudio);
+    osc_feedback_->plug(oscillators, SimpleDelay::kAudio);
     osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
     osc_feedback_->plug(osc_feedback_amount, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);

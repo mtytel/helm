@@ -38,14 +38,24 @@ public:
     String getTextFromValue(double value) override;
 
     void setScalingType(ScalingType scaling_type) { scaling_type_ = scaling_type; }
+    ScalingType getScalingType() const { return scaling_type_; }
+
     void setStringLookup(const std::string* lookup) {
         string_lookup_ = lookup;
         scaling_type_ = kStringLookup;
     }
+    const std::string* getStringLookup() const { return string_lookup_; }
+
     void setPostMultiply(float post_multiply) { post_multiply_ = post_multiply; }
+    float getPostMultiply() const { return post_multiply_; }
+
     void setBipolar(bool bipolar = true) { bipolar_ = bipolar; }
+
     void setUnits(String units) { units_ = units; }
+    String getUnits() const { return units_; }
+
     bool isBipolar() const { return bipolar_; }
+
 
 private:
     void notifyTooltip();

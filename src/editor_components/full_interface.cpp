@@ -77,6 +77,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     beats_per_minute_->setTextBoxStyle (Slider::TextBoxAbove, false, 150, 20);
     beats_per_minute_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     beats_per_minute_->setColour (Slider::textBoxTextColourId, Colours::white);
+    beats_per_minute_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
     beats_per_minute_->addListener (this);
 
     addAndMakeVisible (global_tool_tip_ = new GlobalToolTip());
@@ -165,7 +166,7 @@ void FullInterface::paint (Graphics& g)
     g.fillRect (456, 4, 266, 60);
 
     g.setColour (Colour (0xff222222));
-    g.fillRect (12, 4, 440, 60);
+    g.fillRect (12, 4, 220, 60);
 
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
@@ -194,7 +195,7 @@ void FullInterface::paint (Graphics& g)
     g.setColour (Colour (0xff777777));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("BPM"),
-                208 - (36 / 2), 12, 36, 10,
+                34 - (44 / 2), 52, 44, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff44595b));
@@ -222,12 +223,12 @@ void FullInterface::resized()
     arp_gate_->setBounds (583 - (40 / 2), 8, 40, 40);
     arp_octaves_->setBounds (631 - (40 / 2), 8, 40, 40);
     arp_pattern_->setBounds (687 - (40 / 2), 8, 40, 40);
-    oscilloscope_->setBounds (384, 8, 64, 48);
+    oscilloscope_->setBounds (364, 4, 88, 60);
     arp_on_->setBounds (458, 8, 16, 16);
-    beats_per_minute_->setBounds (208 - (112 / 2), 24, 112, 32);
-    global_tool_tip_->setBounds (272, 8, 104, 48);
+    beats_per_minute_->setBounds (144 - (176 / 2), 44, 176, 20);
+    global_tool_tip_->setBounds (360 - 124, 4, 124, 60);
     arp_sync_->setBounds (536, 24, 16, 16);
-    global_tool_tip_2->setBounds (16, 8, 128, 56);
+    global_tool_tip_2->setBounds (12, 4, 220, 40);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -379,7 +380,7 @@ BEGIN_JUCER_METADATA
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="ff111111">
     <RECT pos="456 4 266 60" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="12 4 440 60" fill="solid: ff222222" hasStroke="0"/>
+    <RECT pos="12 4 220 60" fill="solid: ff222222" hasStroke="0"/>
     <TEXT pos="583c 48 52 10" fill="solid: ff777777" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
@@ -392,7 +393,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="687c 48 60 10" fill="solid: ff777777" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="208c 12 36 10" fill="solid: ff777777" hasStroke="0" text="BPM"
+    <TEXT pos="34c 52 44 10" fill="solid: ff777777" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <RECT pos="456 4 20 60" fill="solid: ff44595b" hasStroke="0"/>
@@ -421,18 +422,18 @@ BEGIN_JUCER_METADATA
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"
-             virtualName="" explicitFocusOrder="0" pos="384 8 64 48" sourceFile="oscilloscope.cpp"
+             virtualName="" explicitFocusOrder="0" pos="364 4 88 60" sourceFile="oscilloscope.cpp"
              constructorParams="512"/>
   <TOGGLEBUTTON name="arp_on" id="5425f3b11382569d" memberName="arp_on_" virtualName=""
                 explicitFocusOrder="0" pos="458 8 16 16" txtcol="ffffffff" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="208c 24 112 32"
-          bkgcol="ff333333" textboxtext="ffffffff" min="20" max="300" int="0"
-          style="LinearBar" textBoxPos="TextBoxAbove" textBoxEditable="1"
-          textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="144c 44 176 20"
+          bkgcol="ff333333" textboxtext="ffffffff" textboxoutline="808080"
+          min="20" max="300" int="0" style="LinearBar" textBoxPos="TextBoxAbove"
+          textBoxEditable="1" textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="global_tool_tip" id="c501d8243c608e75" memberName="global_tool_tip_"
-             virtualName="" explicitFocusOrder="0" pos="272 8 104 48" sourceFile="global_tool_tip.cpp"
+             virtualName="" explicitFocusOrder="0" pos="360r 4 124 60" sourceFile="global_tool_tip.cpp"
              constructorParams=""/>
   <SLIDER name="arp_sync" id="7f286b1ad8378afd" memberName="arp_sync_"
           virtualName="TempoSelector" explicitFocusOrder="0" pos="536 24 16 16"
@@ -440,7 +441,7 @@ BEGIN_JUCER_METADATA
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <JUCERCOMP name="global_tool_tip" id="dbae22170345d3ef" memberName="global_tool_tip_2"
-             virtualName="" explicitFocusOrder="0" pos="16 8 128 56" sourceFile="patch_browser.cpp"
+             virtualName="" explicitFocusOrder="0" pos="12 4 220 40" sourceFile="patch_browser.cpp"
              constructorParams=""/>
 </JUCER_COMPONENT>
 

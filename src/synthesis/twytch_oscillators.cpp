@@ -18,26 +18,29 @@
 
 namespace mopo {
 
-  TwytchOscillators::TwytchOscillators() : Processor(kNumInputs, 2) { }
+  TwytchOscillators::TwytchOscillators() : Processor(kNumInputs, 1) {
+    oscillator1_phase_ = 0;
+    oscillator2_phase_ = 0;
+    oscillator1_value_ = 0.0;
+    oscillator1_value_ = 0.0;
+  }
 
   void TwytchOscillators::process() {
-    int int_wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
-    int int_wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
-    Wave::Type waveform1 = static_cast<Wave::Type>(int_wave1);
-    Wave::Type waveform2 = static_cast<Wave::Type>(int_wave2);
+    int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
+    int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
 
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, waveform1, waveform2);
+        tick(i, wave1, wave2);
 
-      oscillator1_phase_ = 0.0;
-      oscillator2_phase_ = 0.0;
+      oscillator1_phase_ = 0;
+      oscillator2_phase_ = 0;
       oscillator1_value_ = 0.0;
       oscillator1_value_ = 0.0;
     }
     for (; i < buffer_size_; ++i)
-      tick(i, waveform1, waveform2);
+      tick(i, wave1, wave2);
   }
 } // namespace mopo

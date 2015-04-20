@@ -18,10 +18,11 @@
 #define MODULATIONS_SLIDER_H
 
 #include "JuceHeader.h"
+#include "twytch_slider.h"
 
-class ModulationSlider : public Slider {
+class ModulationSlider : public TwytchSlider {
 public:
-    ModulationSlider(Slider* source);
+    ModulationSlider(TwytchSlider* source);
     ~ModulationSlider();
 
     Slider* getDestinationSlider() { return destination_slider_; }

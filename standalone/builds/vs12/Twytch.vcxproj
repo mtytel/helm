@@ -188,6 +188,7 @@
     <ClCompile Include="..\..\..\src\standalone\main.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\twytch_computer_keyboard.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_engine.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_lfo.cpp"/>
@@ -1327,6 +1328,7 @@
     <ClInclude Include="..\..\..\mopo\src\arpeggiator.h"/>
     <ClInclude Include="..\..\..\mopo\src\bit_crush.h"/>
     <ClInclude Include="..\..\..\mopo\src\bypass_router.h"/>
+    <ClInclude Include="..\..\..\mopo\src\common.h"/>
     <ClInclude Include="..\..\..\mopo\src\delay.h"/>
     <ClInclude Include="..\..\..\mopo\src\distortion.h"/>
     <ClInclude Include="..\..\..\mopo\src\envelope.h"/>
@@ -1383,6 +1385,7 @@
     <ClInclude Include="..\..\..\src\look_and_feel\twytch_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\standalone\twytch_computer_keyboard.h"/>
     <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h"/>
     <ClInclude Include="..\..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_engine.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_lfo.h"/>

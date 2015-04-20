@@ -502,6 +502,9 @@
     <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp">
       <Filter>Twytch\src\standalone</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
@@ -1764,6 +1767,9 @@
     <ClInclude Include="..\..\..\mopo\src\bypass_router.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\common.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\delay.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
@@ -1931,6 +1937,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h">
       <Filter>Twytch\src\standalone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h">
+      <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\switch.h">
       <Filter>Twytch\src\synthesis</Filter>
