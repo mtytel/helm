@@ -23,73 +23,56 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-
-#define FIXED_LOOKUP_BITS 12
-#define FIXED_LOOKUP_SIZE 4096
-
-#define FRACTIONAL_BITS 20
-#define FRACTIONAL_SIZE 1048576
-
-#define HARMONIC_BITS 7
-#define HARMONICS 128
-#define HARMONIC_MASK 127
+#include <cstring>
 
 namespace mopo {
 
   class FixedPointWaveLookup {
     public:
+      enum Type {
+        kSin,
+        kTriangle,
+        kSquare,
+        kDownSaw,
+        kUpSaw,
+        kThreeStep,
+        kFourStep,
+        kEightStep,
+        kThreePyramid,
+        kFivePyramid,
+        kNinePyramid,
+        kWhiteNoise,
+        kNumFixedPointWaveforms
+      };
+
+      static const int FIXED_LOOKUP_BITS = 12;
+      static const int FIXED_LOOKUP_SIZE = 4096;
+
+      static const int FRACTIONAL_BITS = 20;
+      static const int FRACTIONAL_SIZE = 1048576;
+
+      static const int HARMONIC_BITS = 7;
+      static const int HARMONICS = 128;
+      static const int HARMONIC_MASK = 127;
+
+      constexpr static const mopo_float SCALE = 0.6;
+
       FixedPointWaveLookup() {
         // Straight lookup table.
         for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-          square_[0][i] = INT_MAX * Wave::square((1.0 * i) / FIXED_LOOKUP_SIZE) / 1.5;
-          saw_[0][i] = INT_MAX * Wave::upsaw((1.0 * i) / FIXED_LOOKUP_SIZE) / 1.5;
-          triangle_[0][i] = INT_MAX * Wave::triangle((1.0 * i) / FIXED_LOOKUP_SIZE) / 1.5;
+          square_[0][i] = INT_MAX * SCALE * Wave::square((1.0 * i) / FIXED_LOOKUP_SIZE);
+          up_saw_[0][i] = INT_MAX * SCALE * Wave::upsaw((1.0 * i) / FIXED_LOOKUP_SIZE);
+          triangle_[0][i] = INT_MAX * SCALE * Wave::triangle((1.0 * i) / FIXED_LOOKUP_SIZE);
         }
-        square_[0][FIXED_LOOKUP_SIZE] = square_[0][0];
-        saw_[0][FIXED_LOOKUP_SIZE] = saw_[0][0];
-        triangle_[0][FIXED_LOOKUP_SIZE] = triangle_[0][0];
 
         // Sin lookup table.
-        for (int i = 0; i < FIXED_LOOKUP_SIZE + 1; ++i) {
-          for (int h = 0; h < HARMONICS + 1; ++h)
-            sin_[h][i] = INT_MAX * sin((2 * PI * i) / FIXED_LOOKUP_SIZE) / 1.5;
-        }
-
-        // Square harmonic lookup table.
-        for (int i = 0; i < FIXED_LOOKUP_SIZE + 1; ++i) {
-          int p = i;
-          mopo_float scale = 4.0 / PI;
-          square_[HARMONICS][i] = scale * sin_[0][p];
-
-          for (int h = 1; h < HARMONICS; ++h) {
-            p = (p + i) % FIXED_LOOKUP_SIZE;
-            square_[HARMONICS - h][i] = square_[HARMONICS - h + 1][i];
-
-            if (h % 2 == 0)
-              square_[HARMONICS - h][i] += scale * sin_[0][p] / (h + 1);
-          }
-        }
-
-        // Saw harmonic lookup table.
-        for (int i = 0; i < FIXED_LOOKUP_SIZE + 1; ++i) {
-          int index = (i + (FIXED_LOOKUP_SIZE / 2)) % FIXED_LOOKUP_SIZE;
-          int p = i;
-          mopo_float scale = 2.0 / PI;
-          saw_[HARMONICS][index] = scale * sin_[0][p];
-
-          for (int h = 1; h < HARMONICS; ++h) {
-            p = (p + i) % FIXED_LOOKUP_SIZE;
-            int harmonic = scale * sin_[0][p] / (h + 1);
-
-            if (h % 2 == 0)
-              saw_[HARMONICS - h][index] = saw_[HARMONICS - h + 1][index] + harmonic;
-            else
-              saw_[HARMONICS - h][index] = saw_[HARMONICS - h + 1][index] - harmonic;
-          }
+        for (int h = 0; h < HARMONICS + 1; ++h) {
+          for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i)
+            sin_[h][i] = INT_MAX * SCALE * sin((2 * PI * i) / FIXED_LOOKUP_SIZE);
         }
 
         // Triangle harmonic lookup table.
-        for (int i = 0; i < FIXED_LOOKUP_SIZE + 1; ++i) {
+        for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
           int p = i;
           mopo_float scale = 8.0 / (PI * PI);
           triangle_[HARMONICS][i] = scale * sin_[0][p];
@@ -106,37 +89,104 @@ namespace mopo {
           }
         }
 
-        waves_[0] = sin_;
-        waves_[1] = triangle_;
-        waves_[2] = square_;
-        waves_[3] = saw_;
+        // Square harmonic lookup table.
+        for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
+          int p = i;
+          mopo_float scale = 4.0 / PI;
+          square_[HARMONICS][i] = scale * sin_[0][p];
+
+          for (int h = 1; h < HARMONICS; ++h) {
+            p = (p + i) % FIXED_LOOKUP_SIZE;
+            square_[HARMONICS - h][i] = square_[HARMONICS - h + 1][i];
+
+            if (h % 2 == 0)
+              square_[HARMONICS - h][i] += scale * sin_[0][p] / (h + 1);
+          }
+        }
+
+        // Saw harmonic lookup table.
+        for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
+          int index = (i + (FIXED_LOOKUP_SIZE / 2)) % FIXED_LOOKUP_SIZE;
+          int p = i;
+          mopo_float scale = 2.0 / PI;
+          up_saw_[HARMONICS][index] = scale * sin_[0][p];
+
+          for (int h = 1; h < HARMONICS; ++h) {
+            p = (p + i) % FIXED_LOOKUP_SIZE;
+            int harmonic = scale * sin_[0][p] / (h + 1);
+
+            if (h % 2 == 0)
+              up_saw_[HARMONICS - h][index] = up_saw_[HARMONICS - h + 1][index] + harmonic;
+            else
+              up_saw_[HARMONICS - h][index] = up_saw_[HARMONICS - h + 1][index] - harmonic;
+          }
+        }
+
+        for (int h = 0; h < HARMONICS + 1; ++h) {
+          for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
+            down_saw_[h][i] = -up_saw_[h][i];
+          }
+        }
+
+        for (int h = 0; h < HARMONICS + 1; ++h) {
+          for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
+              static const size_t squares = steps - 1;
+        static const mopo_float phase_increment = 1.0 / (2.0 * squares);
+
+        mopo_float phase = 0.75 + t;
+        mopo_float out = 0.0;
+
+        mopo_float integral;
+        for (size_t i = 0; i < squares; ++i) {
+          out += square(modf(phase, &integral));
+          phase += phase_increment;
+        }
+        out /= squares;
+        return out;
+
+        wave_type waves[kNumFixedPointWaveforms] =
+            { sin_, triangle_, square_, down_saw_, up_saw_,
+              three_step_, four_step_, eight_step_,
+              three_pyramid_, five_pyramid_, nine_pyramid_ };
+        memcpy(waves_, waves, kNumFixedPointWaveforms * sizeof(wave_type));
       }
 
-      typedef int (*wave_type)[FIXED_LOOKUP_SIZE + 1];
+      typedef int (*wave_type)[FIXED_LOOKUP_SIZE];
 
-      int sin_[HARMONICS + 1][FIXED_LOOKUP_SIZE + 1];
-      int square_[HARMONICS + 1][FIXED_LOOKUP_SIZE + 1];
-      int saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE + 1];
-      int triangle_[HARMONICS + 1][FIXED_LOOKUP_SIZE + 1];
-      wave_type waves_[4];
+      int sin_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int triangle_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int square_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int down_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int up_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int three_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int four_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int eight_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int three_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int five_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      int nine_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+
+      wave_type waves_[kNumFixedPointWaveforms];
   };
 
   class FixedPointWave {
     public:
-      enum Type {
-        kSin,
-        kTriangle,
-        kSquare,
-        kDownSaw,
-        kWhiteNoise,
-        kNumFixedPointWaveforms
-      };
-
       static inline int wave(int waveform, unsigned int t, int phase_inc) {
         int ratio = INT_MAX / phase_inc;
-        int less_harmonics2 = CLAMP(HARMONICS + 1 - ratio, 0, HARMONICS - 1);
-        int index = t >> FRACTIONAL_BITS;
+        int less_harmonics2 = CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
+                                    0, FixedPointWaveLookup::HARMONICS - 1);
+        unsigned int index = t >> FixedPointWaveLookup::FRACTIONAL_BITS;
         return lookup_.waves_[waveform][less_harmonics2][index];
+      }
+
+      static inline int* getBuffer(int waveform, int phase_inc) {
+        int ratio = INT_MAX / phase_inc;
+        int less_harmonics2 = CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
+                                    0, FixedPointWaveLookup::HARMONICS - 1);
+        return lookup_.waves_[waveform][less_harmonics2];
+      }
+
+      static inline unsigned int getIndex(unsigned int t) {
+        return t >> FixedPointWaveLookup::FRACTIONAL_BITS;
       }
 
     protected:

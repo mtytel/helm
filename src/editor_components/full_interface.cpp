@@ -160,12 +160,12 @@ void FullInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff111111));
+    g.fillAll (Colour (0xff212121));
 
-    g.setColour (Colour (0xff222222));
+    g.setColour (Colour (0xff424242));
     g.fillRect (456, 4, 266, 60);
 
-    g.setColour (Colour (0xff222222));
+    g.setColour (Colour (0xff424242));
     g.fillRect (12, 4, 220, 60);
 
     g.setColour (Colour (0xff777777));
@@ -378,9 +378,9 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
-  <BACKGROUND backgroundColour="ff111111">
-    <RECT pos="456 4 266 60" fill="solid: ff222222" hasStroke="0"/>
-    <RECT pos="12 4 220 60" fill="solid: ff222222" hasStroke="0"/>
+  <BACKGROUND backgroundColour="ff212121">
+    <RECT pos="456 4 266 60" fill="solid: ff424242" hasStroke="0"/>
+    <RECT pos="12 4 220 60" fill="solid: ff424242" hasStroke="0"/>
     <TEXT pos="583c 48 52 10" fill="solid: ff777777" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>

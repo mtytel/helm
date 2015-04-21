@@ -62,7 +62,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     pitch_bend_range_->addListener (this);
 
     addAndMakeVisible (cross_modulation_ = new TwytchSlider ("cross_modulation"));
-    cross_modulation_->setRange (0, 5, 0);
+    cross_modulation_->setRange (0, 1, 0);
     cross_modulation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     cross_modulation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     cross_modulation_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -744,7 +744,7 @@ void SynthesisInterface::paint (Graphics& g)
     mono_lfo_2_wave_display_->showRealtimeFeedback();
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff111111));
+    g.fillAll (Colour (0xff303030));
 
     g.setColour (Colour (0xff222222));
     g.fillRect (266 - (116 / 2), 470, 116, 126);
@@ -1892,7 +1892,7 @@ BEGIN_JUCER_METADATA
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff111111">
+  <BACKGROUND backgroundColour="ff303030">
     <RECT pos="266c 470 116 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="4 470 200 126" fill="solid: ff222222" hasStroke="0"/>
     <RECT pos="651c 408 126 58" fill="solid: ff222222" hasStroke="0"/>
@@ -2108,7 +2108,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cross_modulation" id="1d3e4b59d6e470fb" memberName="cross_modulation_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="164c 56 46 46"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="5"
+          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento_type" id="909956998c46045e" memberName="portamento_type_"

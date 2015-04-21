@@ -62,7 +62,7 @@ namespace mopo {
         oscillator2_value_ = FixedPointWave::wave(waveform2, oscillator2_phase_ + phase_diff2, base_phase2);
 
         mopo_float mixed = (1.0 - mix) * oscillator1_value_ + mix * oscillator2_value_;
-        output(0)->buffer[i] = mixed / INT_MAX;
+        output(0)->buffer[i] = (mixed / FixedPointWaveLookup::SCALE) / INT_MAX;
       }
 
     protected:
