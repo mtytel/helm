@@ -128,22 +128,6 @@ namespace mopo {
           }
         }
 
-        for (int h = 0; h < HARMONICS + 1; ++h) {
-          for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-              static const size_t squares = steps - 1;
-        static const mopo_float phase_increment = 1.0 / (2.0 * squares);
-
-        mopo_float phase = 0.75 + t;
-        mopo_float out = 0.0;
-
-        mopo_float integral;
-        for (size_t i = 0; i < squares; ++i) {
-          out += square(modf(phase, &integral));
-          phase += phase_increment;
-        }
-        out /= squares;
-        return out;
-
         wave_type waves[kNumFixedPointWaveforms] =
             { sin_, triangle_, square_, down_saw_, up_saw_,
               three_step_, four_step_, eight_step_,
