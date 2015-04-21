@@ -63,7 +63,7 @@ namespace mopo {
   void VoiceHandler::process() {
     global_router_.process();
 
-    size_t polyphony = static_cast<size_t>(input(kPolyphony)->at(0));
+    int polyphony = static_cast<int>(input(kPolyphony)->at(0));
     setPolyphony(CLAMP(polyphony, 1, polyphony));
     for (int out = 0; out < numOutputs(); ++out)
       memset(output(out)->buffer, 0, buffer_size_ * sizeof(mopo_float));
