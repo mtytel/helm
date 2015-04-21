@@ -26,7 +26,7 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 #define GRID_CELL_WIDTH 8
-#define FRAMES_PER_SECOND 1
+#define FRAMES_PER_SECOND 24
 #define PADDING 5.0f
 //[/MiscUserDefs]
 
@@ -66,10 +66,10 @@ void WaveViewer::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff246370));
+    g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff347380));
+    g.setColour(Colour(0xff545454));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
@@ -208,7 +208,7 @@ BEGIN_JUCER_METADATA
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff246370"/>
+  <BACKGROUND backgroundColour="ff424242"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -25,7 +25,7 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define FRAMES_PER_SECOND 1
+#define FRAMES_PER_SECOND 30
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -68,11 +68,11 @@ void GraphicalStepSequencer::paint (Graphics& g)
         return;
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff246370));
+    g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
     float x_inc = getWidth() / (1.0f * num_steps_);
-    g.setColour(Colour(0xff347380));
+    g.setColour(Colour(0xff545454));
     for (int i = 1; i * x_inc < getWidth(); ++i)
         g.drawLine(i * x_inc, 0, i * x_inc, getHeight());
 
@@ -88,7 +88,7 @@ void GraphicalStepSequencer::paint (Graphics& g)
         else {
             float half_height = proportionOfHeight(0.5f);
             g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight(),
-                                             Colour(0xff347380), 0.0f, half_height, false));
+                                             Colour(0xff545454), 0.0f, half_height, false));
             g.fillRect(x, half_height, x_inc, bar_position - half_height);
         }
 
@@ -271,7 +271,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff246370"/>
+  <BACKGROUND backgroundColour="ff424242"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

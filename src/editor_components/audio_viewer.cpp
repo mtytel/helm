@@ -67,10 +67,10 @@ void AudioViewer::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff246370));
+    g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff347380));
+    g.setColour(Colour(0xff545454));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
@@ -164,7 +164,7 @@ BEGIN_JUCER_METADATA
                  parentClasses="public AnimatedAppComponent" constructorParams="int num_samples"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff246370"/>
+  <BACKGROUND backgroundColour="ff424242"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

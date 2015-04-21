@@ -30,7 +30,7 @@ void FilterSelector::paint(Graphics& g) {
     int selected = getValue();
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;
-    g.setColour(Colour(0xff246370));
+    g.setColour(Colour(0xff424242));
     g.fillRect(selected * cell_width, 0.0f, cell_width, float(getHeight()));
 
     g.setColour(selected == 0 ? Colour(0xffffffff) : Colour(0xffaaaaaa));

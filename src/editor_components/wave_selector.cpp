@@ -73,13 +73,13 @@ WaveSelector::WaveSelector(String name) : TwytchSlider(name) { }
 void WaveSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
-    g.setColour(Colour(0xff222222));
+    g.setColour(Colour(0xff424242));
     g.fillRect(0, 0, getWidth(), getHeight());
 
     int selected = getValue();
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;
-    g.setColour(Colour(0xff246370));
+    g.setColour(Colour(0xff424242));
     g.fillRect(selected * cell_width, 0.0f, cell_width, float(getHeight()));
 
     /*

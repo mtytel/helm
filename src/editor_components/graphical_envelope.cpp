@@ -77,10 +77,10 @@ void GraphicalEnvelope::paint (Graphics& g)
     static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff246370));
+    g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff347380));
+    g.setColour(Colour(0xff545454));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
@@ -358,7 +358,7 @@ BEGIN_JUCER_METADATA
     <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ff246370"/>
+  <BACKGROUND backgroundColour="ff424242"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

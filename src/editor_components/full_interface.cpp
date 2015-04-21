@@ -38,7 +38,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    arp_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    arp_frequency_->setColour (Slider::textBoxTextColourId, Colour (0xffffffff));
     arp_frequency_->addListener (this);
 
     addAndMakeVisible (arp_gate_ = new TwytchSlider ("arp_gate"));
@@ -46,7 +46,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_gate_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    arp_gate_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    arp_gate_->setColour (Slider::textBoxTextColourId, Colour (0xffffffff));
     arp_gate_->addListener (this);
 
     addAndMakeVisible (arp_octaves_ = new TwytchSlider ("arp_octaves"));
@@ -54,7 +54,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_octaves_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    arp_octaves_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    arp_octaves_->setColour (Slider::textBoxTextColourId, Colour (0xffffffff));
     arp_octaves_->addListener (this);
 
     addAndMakeVisible (arp_pattern_ = new TwytchSlider ("arp_pattern"));
@@ -62,7 +62,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     arp_pattern_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    arp_pattern_->setColour (Slider::textBoxTextColourId, Colour (0xffdddddd));
+    arp_pattern_->setColour (Slider::textBoxTextColourId, Colour (0xffffffff));
     arp_pattern_->addListener (this);
 
     addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
@@ -99,7 +99,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
     arp_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     arp_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-    arp_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffdddddd));
+    arp_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffffffff));
     arp_tempo_->addListener(this);
 
     arp_frequency_->setUnits("Hz");
@@ -129,6 +129,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
 
 
     //[Constructor] You can add your own custom stuff here..
+    setOpaque(true);
     //[/Constructor]
 }
 
@@ -198,7 +199,7 @@ void FullInterface::paint (Graphics& g)
                 34 - (44 / 2), 52, 44, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff44595b));
+    g.setColour (Colour (0xff009688));
     g.fillRect (456, 4, 20, 60);
 
     //[UserPaint] Add your own custom painting code here..
@@ -396,29 +397,29 @@ BEGIN_JUCER_METADATA
     <TEXT pos="34c 52 44 10" fill="solid: ff777777" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <RECT pos="456 4 20 60" fill="solid: ff44595b" hasStroke="0"/>
+    <RECT pos="456 4 20 60" fill="solid: ff009688" hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="726r 64 718 650" sourceFile="synthesis_interface.cpp"
              constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="511c 8 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="-1" max="4"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="4"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_gate" id="e8f61b752c6d561e" memberName="arp_gate_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="583c 8 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="1"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="631c 8 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="1" max="4"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="1" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="687c 8 40 40"
-          rotarysliderfill="7fffffff" textboxtext="ffdddddd" min="0" max="4"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="oscilloscope" id="341088b80b59e875" memberName="oscilloscope_"

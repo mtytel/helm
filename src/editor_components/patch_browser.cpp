@@ -89,7 +89,7 @@ void PatchBrowser::paint (Graphics& g)
     g.setColour(Colour(0xff444444));
     g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
 
-    g.setColour(Colour(0xff246370));
+    g.setColour(Colour(0xff424242));
     g.fillRect(0, proportionOfHeight(0.5), getWidth(), proportionOfHeight(0.5));
 
     g.setColour(Colour(0xffffffff));

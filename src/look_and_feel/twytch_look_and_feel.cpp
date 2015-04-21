@@ -42,20 +42,28 @@ void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wid
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_t, float start_angle, float end_angle,
                                          Slider& slider) {
+  static const DropShadow shadow = DropShadow(Colour(0x88000000), 5, Point<int>(0, 0));
+
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float knob_radius = 0.65f * full_radius;
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
   float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
   float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
 
-  g.setColour(Colour(0xff222222));
+  g.setColour(Colour(0xff424242));
   g.fillRect(0, 0, width, height);
+
+  Path shadow_path;
+  shadow_path.addCentredArc(full_radius, full_radius, 0.85f * full_radius, 0.85f * full_radius,
+                            0, start_angle, end_angle, true);
+  shadow.drawForPath(g, shadow_path);
 
   g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 
   g.setColour(Colour(0xff666666));
+
   g.drawEllipse(full_radius - knob_radius + 1.0f, full_radius - knob_radius + 1.0f,
                 2.0f * knob_radius - 2.0f, 2.0f * knob_radius - 2.0f, 2.0f);
 

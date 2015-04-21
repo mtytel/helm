@@ -116,6 +116,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
     Path rail;
     rail.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
                        0.0f, -ANGLE, ANGLE, true);
+
     g.setColour(Colour(0xff444444));
     g.strokePath(rail, knob_stroke_);
 
@@ -129,7 +130,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
                                      0.0f, -ANGLE, current_knob_angle, true);
     }
 
-    g.setColour(Colour(0xffffae07));
+    g.setColour(Colour(0xffffab00));
     g.strokePath(active_section, knob_stroke_);
 
     if (current_mod_angle != current_knob_angle) {
