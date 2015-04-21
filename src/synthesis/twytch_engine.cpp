@@ -42,12 +42,12 @@ namespace mopo {
     addProcessor(beats_per_second);
 
     // Voice Handler.
-    Value* polyphony = new Value(1);
+    Processor* polyphony = createMonoModControl("polyphony", 1, true);
+
     voice_handler_ = new TwytchVoiceHandler(beats_per_second);
     addSubmodule(voice_handler_);
     voice_handler_->setPolyphony(32);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
-    controls_["polyphony"] = polyphony;
 
     // Monophonic LFO 1.
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
@@ -132,8 +132,8 @@ namespace mopo {
                                                          true, false, kExponential);
     Processor* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency,
                                                      beats_per_second, false);
-    Value* arp_octaves = new Value(1);
-    Value* arp_pattern = new Value(0);
+    Processor* arp_octaves = createMonoModControl("arp_octaves", 2, true);
+    Processor* arp_pattern = createMonoModControl("arp_pattern", 3, true);
     Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
     arp_on_ = new Value(0);
     arpeggiator_ = new Arpeggiator(voice_handler_);
@@ -142,8 +142,6 @@ namespace mopo {
     arpeggiator_->plug(arp_pattern, Arpeggiator::kPattern);
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
 
-    controls_["arp_octaves"] = arp_octaves;
-    controls_["arp_pattern"] = arp_pattern;
     controls_["arp_on"] = arp_on_;
 
     addProcessor(arpeggiator_);
