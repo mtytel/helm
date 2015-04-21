@@ -199,7 +199,7 @@ void FullInterface::paint (Graphics& g)
                 34 - (44 / 2), 52, 44, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff009688));
+    g.setColour (Colour (0xff607d8b));
     g.fillRect (456, 4, 20, 60);
 
     //[UserPaint] Add your own custom painting code here..
@@ -397,7 +397,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="34c 52 44 10" fill="solid: ff777777" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <RECT pos="456 4 20 60" fill="solid: ff009688" hasStroke="0"/>
+    <RECT pos="456 4 20 60" fill="solid: ff607d8b" hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="726r 64 718 650" sourceFile="synthesis_interface.cpp"

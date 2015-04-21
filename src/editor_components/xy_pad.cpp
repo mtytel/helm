@@ -69,17 +69,22 @@ void XYPad::paint (Graphics& g)
     g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff545454));
+    g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setColour(Colours::white);
     float x = x_slider_->getValue() * getWidth();
     float y = (1.0f - y_slider_->getValue()) * getHeight();
-    g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
+
+    g.setColour(Colour(0xff565656));
+    g.fillEllipse(x - 5.0f, y - 5.0f, 10.0f, 10.0f);
+
+    g.setColour(Colours::white);
     g.drawEllipse(x - 5.0f, y - 5.0f, 10.0f, 10.0f, 1.0f);
+    g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
+
 
     if (mouse_down_) {
         g.setColour(Colour(0x11ffffff));

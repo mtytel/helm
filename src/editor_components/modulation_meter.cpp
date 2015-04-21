@@ -91,7 +91,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
             else
                 fillHorizontalRect(g, 0, knob_position, getHeight());
 
-            g.setColour(Colour(0xffffce87));
+            g.setColour(Colour(0xffffe57f));
             fillHorizontalRect(g, knob_position, mod_position, getHeight() / 2.0f);
         }
     }
@@ -104,7 +104,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
         else
             fillVerticalRect(g, 0, knob_position, getWidth());
 
-        g.setColour(Colour(0xffffce87));
+        g.setColour(Colour(0xffffe57f));
         fillVerticalRect(g, mod_position, knob_position, getWidth() / 2.0f);
     }
 }
@@ -117,7 +117,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
     rail.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
                        0.0f, -ANGLE, ANGLE, true);
 
-    g.setColour(Colour(0xff444444));
+    g.setColour(Colour(0xff4a4a4a));
     g.strokePath(rail, knob_stroke_);
 
     Path active_section;

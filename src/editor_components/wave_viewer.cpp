@@ -64,18 +64,21 @@ WaveViewer::~WaveViewer()
 void WaveViewer::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff545454));
+    g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setColour(Colour(0xff448390));
+    shadow.drawForPath(g, wave_path_);
+
+    g.setColour(Colour(0xff565656));
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
     g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));

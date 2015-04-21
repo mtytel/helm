@@ -91,7 +91,7 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0xff565656));
     g.fillPath(envelope_line_);
 
-    g.setColour(Colour(0xffcccccc));
+    g.setColour(Colour(0xffaaaaaa));
     g.strokePath(envelope_line_, stroke);
 
 
