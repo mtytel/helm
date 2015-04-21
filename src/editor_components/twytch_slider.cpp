@@ -64,12 +64,12 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
 }
 
 void TwytchSlider::mouseEnter(const juce::MouseEvent &e) {
-    notifyTooltip();
+    // notifyTooltip();
 }
 
 void TwytchSlider::valueChanged() {
     Slider::valueChanged();
-    notifyTooltip();
+    // notifyTooltip();
 }
 
 String TwytchSlider::getTextFromValue(double value) {

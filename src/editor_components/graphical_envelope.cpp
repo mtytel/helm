@@ -75,26 +75,20 @@ void GraphicalEnvelope::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
+    static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff545454));
+    g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setColour(Colour(0x18ffffff));
-    g.fillRect(0.0f, 0.0f, getAttackX(), 1.0f * getHeight());
-    g.setColour(Colour(0x10ffffff));
-    g.fillRect(getAttackX(), 0.0f, getDecayX() - getAttackX(), 1.0f * getHeight());
-    g.setColour(Colour(0x08ffffff));
-    g.fillRect(getDecayX(), 0.0f, getReleaseX() - getDecayX(), 1.0f * getHeight());
-
-    g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight() * 0.1f,
-                                     Colour(0x55347380), 0.0f, getHeight(), false));
+    shadow.drawForPath(g, envelope_line_);
+    g.setColour(Colour(0xff565656));
     g.fillPath(envelope_line_);
 
     g.setColour(Colour(0xffcccccc));

@@ -46,6 +46,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    float getPercentForMidiNote(float midi_note);
     void resetResponsePath();
     void computeFilterCoefficients();
     void setFilterSettingsFromPosition(Point<int> position);

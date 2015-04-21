@@ -42,7 +42,7 @@ void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wid
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_t, float start_angle, float end_angle,
                                          Slider& slider) {
-  static const DropShadow shadow = DropShadow(Colour(0x88000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0x88000000), 5, Point<int>(0, 0));
 
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float knob_radius = 0.65f * full_radius;
@@ -84,8 +84,7 @@ void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
 
   float full_radius = std::min(button.getWidth(), button.getHeight()) / 2.0;
   float stroke_width = 2.0f * full_radius * stroke_percent;
-  PathStrokeType stroke_type =
-      PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::rounded);
+  PathStrokeType stroke_type(stroke_width, PathStrokeType::beveled, PathStrokeType::rounded);
   float outer_radius = full_radius - stroke_width;
   Path outer;
   outer.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,

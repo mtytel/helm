@@ -32,7 +32,6 @@ GlobalToolTip::GlobalToolTip ()
 
     //[UserPreSize]
     setOpaque(true);
-    setPaintingIsUnclipped(true);
     //[/UserPreSize]
 
     setSize (600, 400);

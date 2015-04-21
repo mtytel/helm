@@ -71,20 +71,22 @@ void FilterResponse::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
+    static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff424242));
 
     //[UserPaint] Add your own custom painting code here..
 
-    g.setColour(Colour(0xff545454));
+    g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
     for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
         g.drawLine(0, y, getWidth(), y);
 
-    g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight() * 0.1f,
-                                     Colour(0x55347380), 0.0f, getHeight(), false));
+    shadow.drawForPath(g, filter_response_path_);
+
+    g.setColour(Colour(0xff565656));
     g.fillPath(filter_response_path_);
 
     g.setColour(Colour(0xffaaaaaa));
@@ -133,6 +135,13 @@ void FilterResponse::mouseDrag (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
+float FilterResponse::getPercentForMidiNote(float midi_note) {
+    float frequency = mopo::utils::midiNoteToFrequency(midi_note);
+    float response = fabs(filter_.getAmplitudeResponse(frequency));
+    float gain_db = MAG_TO_DB_CONSTANT * log10(response);
+    return (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
+}
+
 void FilterResponse::resetResponsePath() {
     static const int wrap_size = 10;
 
@@ -141,20 +150,20 @@ void FilterResponse::resetResponsePath() {
 
     filter_response_path_.clear();
     filter_response_path_.startNewSubPath(-wrap_size, getHeight() + wrap_size);
-    filter_response_path_.lineTo(-wrap_size, getHeight() / 2.0f);
+    float start_percent = getPercentForMidiNote(0.0);
+    filter_response_path_.lineTo(-wrap_size, getHeight() * (1.0f - start_percent));
 
     for (int i = 0; i < resolution_; ++i) {
         float t = (1.0f * i) / (resolution_ - 1);
         float midi_note = cutoff_slider_->proportionOfLengthToValue(t);
-        float frequency = mopo::utils::midiNoteToFrequency(midi_note);
-        float response = fabs(filter_.getAmplitudeResponse(frequency));
-        float gain_db = MAG_TO_DB_CONSTANT * log10(response);
-        float percent = (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
+        float percent = getPercentForMidiNote(midi_note);
 
         filter_response_path_.lineTo(getWidth() * t, getHeight() * (1.0f - percent));
     }
 
-    filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() / 2.0f);
+    float end_percent = getPercentForMidiNote(cutoff_slider_->getMaximum());
+
+    filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() * (1.0f - end_percent));
     filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() + wrap_size);
 }
 
