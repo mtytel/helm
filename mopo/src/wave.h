@@ -124,7 +124,8 @@ namespace mopo {
 
       template<size_t steps>
       inline mopo_float step(mopo_float t, int harmonics) const {
-        return (1.0 * steps) / (steps - 1) * (upsaw(t, harmonics) +
+        static const mopo_float step_size = (1.0 * steps) / (steps - 1);
+        return step_size * (upsaw(t, harmonics) +
                downsaw(steps * t, harmonics / steps) / steps);
       }
 
