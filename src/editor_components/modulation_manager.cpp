@@ -220,6 +220,7 @@ void ModulationManager::clearModulationConnections() {
     changeModulator("");
     for (auto source : connections_)
         source.second.clear();
+    connections_.clear();
 }
 
 void ModulationManager::setModulationConnections(std::set<mopo::ModulationConnection*> connections) {
