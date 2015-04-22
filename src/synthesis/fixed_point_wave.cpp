@@ -35,6 +35,7 @@ namespace mopo {
         { sin_, triangle_, square_, down_saw_, up_saw_,
           three_step_, four_step_, eight_step_,
           three_pyramid_, five_pyramid_, nine_pyramid_ };
+
     memcpy(waves_, waves, kNumFixedPointWaveforms * sizeof(wave_type));
   }
 
@@ -134,7 +135,20 @@ namespace mopo {
 
   template<size_t steps>
   void FixedPointWaveLookup::preprocessPyramid(wave_type buffer) {
+    static const size_t squares = steps - 1;
+    static const int offset = 3 * FIXED_LOOKUP_SIZE / 4;
 
+    for (int h = 0; h < HARMONICS + 1; ++h) {
+      for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
+        buffer[h][i] = 0.0;
+
+        for (size_t s = 0; s < squares; ++s) {
+          int square_offset = (s * FIXED_LOOKUP_SIZE) / (2 * squares);
+          int phase = (i + offset + square_offset) % FIXED_LOOKUP_SIZE;
+          buffer[h][i] += square_[h][phase] / squares;
+        }
+      }
+    }
   }
 
   const FixedPointWaveLookup FixedPointWave::lookup_;
