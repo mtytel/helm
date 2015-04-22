@@ -51,9 +51,7 @@ namespace mopo {
       static const int FRACTIONAL_BITS = 20;
       static const int FRACTIONAL_SIZE = 1048576;
 
-      static const int HARMONIC_BITS = 7;
-      static const int HARMONICS = 128;
-      static const int HARMONIC_MASK = 127;
+      static const int HARMONICS = 127;
 
       constexpr static const mopo_float SCALE = 0.6;
 
