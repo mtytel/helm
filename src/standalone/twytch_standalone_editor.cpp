@@ -22,7 +22,7 @@
 #define NUM_CHANNELS 2
 
 #define WIDTH 754
-#define HEIGHT 736
+#define HEIGHT 740
 #define MAX_OUTPUT_MEMORY 1048576
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {

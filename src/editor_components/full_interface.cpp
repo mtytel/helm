@@ -87,10 +87,10 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
     arp_sync_->setColour (Slider::backgroundColourId, Colour (0xff333333));
     arp_sync_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    arp_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xff777777));
+    arp_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xffbbbbbb));
     arp_sync_->addListener (this);
 
-    addAndMakeVisible (global_tool_tip_2 = new PatchBrowser());
+    addAndMakeVisible (patch_browser_ = new PatchBrowser());
 
     //[UserPreSize]
     arp_tempo_ = new TwytchSlider("arp_tempo");
@@ -148,7 +148,7 @@ FullInterface::~FullInterface()
     beats_per_minute_ = nullptr;
     global_tool_tip_ = nullptr;
     arp_sync_ = nullptr;
-    global_tool_tip_2 = nullptr;
+    patch_browser_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -159,9 +159,17 @@ FullInterface::~FullInterface()
 void FullInterface::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-    //[/UserPrePaint]
+    static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
 
-    g.fillAll (Colour (0xff303030));
+    g.setColour(Colour(0xff303030));
+    g.fillRect(getLocalBounds());
+
+    shadow.drawForRectangle(g, Rectangle<int>(472, 8, 266, 60));
+    shadow.drawForRectangle(g, Rectangle<int>(16, 8, 220, 60));
+
+    shadow.drawForRectangle(g, Rectangle<int>(376, 8, 88, 60));
+    shadow.drawForRectangle(g, Rectangle<int>(368 - 124, 8, 124, 60));
+    //[/UserPrePaint]
 
     g.setColour (Colour (0xff424242));
     g.fillRect (472, 8, 266, 60);
@@ -169,31 +177,31 @@ void FullInterface::paint (Graphics& g)
     g.setColour (Colour (0xff424242));
     g.fillRect (16, 8, 220, 60);
 
-    g.setColour (Colour (0xff777777));
+    g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("GATE"),
-                599 - (52 / 2), 52, 52, 10,
+                599 - (52 / 2), 54, 52, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff777777));
+    g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                527 - (52 / 2), 52, 52, 10,
+                527 - (52 / 2), 54, 52, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff777777));
+    g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("OCTAVES"),
-                647 - (60 / 2), 52, 60, 10,
+                647 - (60 / 2), 54, 60, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff777777));
+    g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("PATTERN"),
-                703 - (60 / 2), 52, 60, 10,
+                703 - (60 / 2), 54, 60, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff777777));
+    g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
     g.drawText (TRANS("BPM"),
                 38 - (44 / 2), 56, 44, 10,
@@ -219,7 +227,7 @@ void FullInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    synthesis_interface_->setBounds (746 - 738, 740 - 672, 738, 672);
+    synthesis_interface_->setBounds (746 - 738, 744 - 672, 738, 672);
     arp_frequency_->setBounds (527 - (40 / 2), 12, 40, 40);
     arp_gate_->setBounds (599 - (40 / 2), 12, 40, 40);
     arp_octaves_->setBounds (647 - (40 / 2), 12, 40, 40);
@@ -229,7 +237,7 @@ void FullInterface::resized()
     beats_per_minute_->setBounds (148 - (176 / 2), 48, 176, 20);
     global_tool_tip_->setBounds (368 - 124, 8, 124, 60);
     arp_sync_->setBounds (552, 28, 16, 16);
-    global_tool_tip_2->setBounds (16, 8, 220, 40);
+    patch_browser_->setBounds (16, 8, 220, 40);
     //[UserResized] Add your own custom resize handling here..
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
@@ -377,30 +385,30 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="FullInterface" componentName=""
                  parentClasses="public Component" constructorParams="mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
-                 variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
+                 variableInitialisers="" snapPixels="2" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
-  <BACKGROUND backgroundColour="ff303030">
+  <BACKGROUND backgroundColour="303030">
     <RECT pos="472 8 266 60" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="16 8 220 60" fill="solid: ff424242" hasStroke="0"/>
-    <TEXT pos="599c 52 52 10" fill="solid: ff777777" hasStroke="0" text="GATE"
+    <TEXT pos="599c 54 52 10" fill="solid: ffbbbbbb" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="527c 52 52 10" fill="solid: ff777777" hasStroke="0" text="FREQ"
+    <TEXT pos="527c 54 52 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="647c 52 60 10" fill="solid: ff777777" hasStroke="0" text="OCTAVES"
+    <TEXT pos="647c 54 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="OCTAVES"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="703c 52 60 10" fill="solid: ff777777" hasStroke="0" text="PATTERN"
+    <TEXT pos="703c 54 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="PATTERN"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <TEXT pos="38c 56 44 10" fill="solid: ff777777" hasStroke="0" text="BPM"
+    <TEXT pos="38c 56 44 10" fill="solid: ffbbbbbb" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <RECT pos="472 8 20 60" fill="solid: ff607d8b" hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
-             virtualName="" explicitFocusOrder="0" pos="746r 740r 738 672"
+             virtualName="" explicitFocusOrder="0" pos="746r 744r 738 672"
              sourceFile="synthesis_interface.cpp" constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="527c 12 40 40"
@@ -438,10 +446,10 @@ BEGIN_JUCER_METADATA
              constructorParams=""/>
   <SLIDER name="arp_sync" id="7f286b1ad8378afd" memberName="arp_sync_"
           virtualName="TempoSelector" explicitFocusOrder="0" pos="552 28 16 16"
-          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ff777777"
+          bkgcol="ff333333" trackcol="ff9765bc" textboxoutline="ffbbbbbb"
           min="0" max="6" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
-  <JUCERCOMP name="global_tool_tip" id="dbae22170345d3ef" memberName="global_tool_tip_2"
+  <JUCERCOMP name="patch_browser" id="dbae22170345d3ef" memberName="patch_browser_"
              virtualName="" explicitFocusOrder="0" pos="16 8 220 40" sourceFile="patch_browser.cpp"
              constructorParams=""/>
 </JUCER_COMPONENT>

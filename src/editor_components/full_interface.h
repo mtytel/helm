@@ -91,7 +91,7 @@ private:
     ScopedPointer<TwytchSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<TempoSelector> arp_sync_;
-    ScopedPointer<PatchBrowser> global_tool_tip_2;
+    ScopedPointer<PatchBrowser> patch_browser_;
 
 
     //==============================================================================
