@@ -19,8 +19,8 @@
 #include "twytch_common.h"
 #include "twytch_plugin.h"
 
-#define WIDTH 734
-#define HEIGHT 714
+#define WIDTH 754
+#define HEIGHT 740
 
 TwytchEditor::TwytchEditor(TwytchPlugin& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
   setSynth(twytch_.getSynth());

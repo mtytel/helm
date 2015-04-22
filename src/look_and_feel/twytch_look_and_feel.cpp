@@ -22,8 +22,6 @@
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
-  g.setColour(slider.findColour(Slider::backgroundColourId));
-  g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
   g.setColour(slider.findColour(Slider::thumbColourId));
 
   if (style == Slider::SliderStyle::LinearBar)
@@ -50,15 +48,12 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
   float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
 
-  g.setColour(Colour(0xff424242));
-  g.fillRect(0, 0, width, height);
-
   Path shadow_path;
   shadow_path.addCentredArc(full_radius, full_radius, 0.87f * full_radius, 0.85f * full_radius,
                             0, start_angle, end_angle, true);
   shadow.drawForPath(g, shadow_path);
 
-  g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
+  g.setColour(Colour(0xff263238));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 

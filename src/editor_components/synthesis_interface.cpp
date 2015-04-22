@@ -740,7 +740,8 @@ SynthesisInterface::~SynthesisInterface()
 void SynthesisInterface::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-    static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
+    static const DropShadow section_shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
+    static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
 
     step_sequencer_->showRealtimeFeedback();
     mono_lfo_1_wave_display_->showRealtimeFeedback();
@@ -749,21 +750,21 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour(Colour(0xff303030));
     g.fillRect(0, 0, getWidth(), getHeight());
 
-    shadow.drawForRectangle(g, Rectangle<int>(8, 638 - (44 / 2), 722, 44));
-    shadow.drawForRectangle(g, Rectangle<int>(8, 482, 196, 126));
-    shadow.drawForRectangle(g, Rectangle<int>(270 - (116 / 2), 482, 116, 126));
-    shadow.drawForRectangle(g, Rectangle<int>(336, 482, 126, 126));
-    shadow.drawForRectangle(g, Rectangle<int>(533 - (126 / 2), 482, 126, 126));
-    shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 482, 126, 126));
-    shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 416, 126, 58));
-    shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 4, 126, 229));
-    shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 240, 126, 168));
-    shadow.drawForRectangle(g, Rectangle<int>(336, 316, 260, 158));
-    shadow.drawForRectangle(g, Rectangle<int>(328 - 320, 316, 320, 158));
-    shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 216, 320, 92));
-    shadow.drawForRectangle(g, Rectangle<int>(336, 160, 260, 148));
-    shadow.drawForRectangle(g, Rectangle<int>(336, 4, 260, 148));
-    shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 200));
+    section_shadow.drawForRectangle(g, Rectangle<int>(8, 638 - (44 / 2), 722, 44));
+    section_shadow.drawForRectangle(g, Rectangle<int>(8, 482, 196, 126));
+    section_shadow.drawForRectangle(g, Rectangle<int>(270 - (116 / 2), 482, 116, 126));
+    section_shadow.drawForRectangle(g, Rectangle<int>(336, 482, 126, 126));
+    section_shadow.drawForRectangle(g, Rectangle<int>(533 - (126 / 2), 482, 126, 126));
+    section_shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 482, 126, 126));
+    section_shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 416, 126, 58));
+    section_shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 4, 126, 229));
+    section_shadow.drawForRectangle(g, Rectangle<int>(667 - (126 / 2), 240, 126, 168));
+    section_shadow.drawForRectangle(g, Rectangle<int>(336, 316, 260, 158));
+    section_shadow.drawForRectangle(g, Rectangle<int>(328 - 320, 316, 320, 158));
+    section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 216, 320, 92));
+    section_shadow.drawForRectangle(g, Rectangle<int>(336, 160, 260, 148));
+    section_shadow.drawForRectangle(g, Rectangle<int>(336, 4, 260, 148));
+    section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 200));
 
     //[/UserPrePaint]
 
@@ -1158,7 +1159,16 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colours::white);
+    component_shadow.drawForRectangle(g, filter_response_->getBounds());
+    component_shadow.drawForRectangle(g, filter_envelope_->getBounds());
+    component_shadow.drawForRectangle(g, amplitude_envelope_->getBounds());
+    component_shadow.drawForRectangle(g, step_sequencer_->getBounds());
+    component_shadow.drawForRectangle(g, formant_xy_pad_->getBounds());
+    component_shadow.drawForRectangle(g, mono_lfo_1_wave_display_->getBounds());
+    component_shadow.drawForRectangle(g, mono_lfo_2_wave_display_->getBounds());
+    component_shadow.drawForRectangle(g, poly_lfo_wave_display_->getBounds());
+    component_shadow.drawForRectangle(g, osc_1_wave_display_->getBounds());
+    component_shadow.drawForRectangle(g, osc_2_wave_display_->getBounds());
     //[/UserPaint]
 }
 
@@ -1168,8 +1178,8 @@ void SynthesisInterface::resized()
     //[/UserPreResize]
 
     step_sequencer_->setBounds (336, 336, 260, 80);
-    amplitude_envelope_->setBounds (464 - (256 / 2), 180, 256, 88);
-    filter_envelope_->setBounds (464 - (256 / 2), 24, 256, 88);
+    amplitude_envelope_->setBounds (336, 180, 260, 88);
+    filter_envelope_->setBounds (336, 24, 260, 88);
     osc_1_wave_display_->setBounds (8, 40, 128, 80);
     osc_2_wave_display_->setBounds (200, 40, 128, 80);
     polyphony_->setBounds (634 - (46 / 2), 42, 46, 46);
@@ -2087,10 +2097,10 @@ BEGIN_JUCER_METADATA
              virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="336 336 260 80"
              sourceFile="graphical_step_sequencer.cpp" constructorParams=""/>
   <JUCERCOMP name="" id="b4880edb8b39ec9d" memberName="amplitude_envelope_"
-             virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="464c 180 256 88"
+             virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="336 180 260 88"
              sourceFile="graphical_envelope.cpp" constructorParams=""/>
   <JUCERCOMP name="" id="87feb60c88df4fcc" memberName="filter_envelope_" virtualName="GraphicalEnvelope"
-             explicitFocusOrder="0" pos="464c 24 256 88" sourceFile="graphical_envelope.cpp"
+             explicitFocusOrder="0" pos="336 24 260 88" sourceFile="graphical_envelope.cpp"
              constructorParams=""/>
   <JUCERCOMP name="osc_1_wave_display" id="55100715382ea344" memberName="osc_1_wave_display_"
              virtualName="WaveViewer" explicitFocusOrder="0" pos="8 40 128 80"
