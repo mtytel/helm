@@ -24,7 +24,7 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-#define FRAMES_PER_SECOND 15
+#define FRAMES_PER_SECOND 1
 #define MAX_RESOLUTION 54
 #define GRID_CELL_WIDTH 8
 #define PADDING 5

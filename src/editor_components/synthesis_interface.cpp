@@ -784,10 +784,10 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (336, 482, 126, 126);
 
     g.setColour (Colour (0xff424242));
-    g.fillRect (533 - (126 / 2), 482, 126, 126);
+    g.fillRect (470, 482, 126, 126);
 
     g.setColour (Colour (0xff424242));
-    g.fillRect (667 - (126 / 2), 482, 126, 126);
+    g.fillRect (604, 482, 126, 126);
 
     g.setColour (Colour (0xff424242));
     g.fillRect (667 - (126 / 2), 416, 126, 58);
@@ -1118,6 +1118,104 @@ void SynthesisInterface::paint (Graphics& g)
     g.drawText (TRANS("POLY LFO"),
                 667 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 22.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 26.0f,
+                                       false));
+    g.fillRect (168 - (320 / 2), 4, 320, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 22.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 26.0f,
+                                       false));
+    g.fillRect (336, 4, 260, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 22.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 26.0f,
+                                       false));
+    g.fillRect (604, 4, 126, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 178.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 182.0f,
+                                       false));
+    g.fillRect (336, 160, 260, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 230.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 234.0f,
+                                       false));
+    g.fillRect (168 - (320 / 2), 212, 320, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 334.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 338.0f,
+                                       false));
+    g.fillRect (168 - (320 / 2), 316, 320, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 334.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 338.0f,
+                                       false));
+    g.fillRect (466 - (260 / 2), 316, 260, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 500.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 504.0f,
+                                       false));
+    g.fillRect (212, 482, 116, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 500.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 504.0f,
+                                       false));
+    g.fillRect (106 - (196 / 2), 482, 196, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 500.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 504.0f,
+                                       false));
+    g.fillRect (336, 482, 126, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 500.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 504.0f,
+                                       false));
+    g.fillRect (470, 482, 126, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 500.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 504.0f,
+                                       false));
+    g.fillRect (604, 482, 126, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 258.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 262.0f,
+                                       false));
+    g.fillRect (604, 240, 126, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 434.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 438.0f,
+                                       false));
+    g.fillRect (604, 416, 126, 20);
 
     //[UserPaint] Add your own custom painting code here..
     component_shadow.drawForRectangle(g, filter_response_->getBounds());
@@ -1892,8 +1990,8 @@ BEGIN_JUCER_METADATA
     <RECT pos="8 482 196 126" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="270c 482 116 126" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 482 126 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="533c 482 126 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="667c 482 126 126" fill="solid: ff424242" hasStroke="0"/>
+    <RECT pos="470 482 126 126" fill="solid: ff424242" hasStroke="0"/>
+    <RECT pos="604 482 126 126" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="667c 416 126 58" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="667c 4 126 229" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="667c 240 126 168" fill="solid: ff424242" hasStroke="0"/>
@@ -2042,6 +2140,34 @@ BEGIN_JUCER_METADATA
           bold="0" italic="0" justification="36"/>
     <TEXT pos="667c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="POLY LFO"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+    <RECT pos="168c 4 320 20" fill="linear: 0% 22, 0% 26, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="336 4 260 20" fill="linear: 0% 22, 0% 26, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="604 4 126 20" fill="linear: 0% 22, 0% 26, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="336 160 260 20" fill="linear: 0% 178, 0% 182, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="168c 212 320 20" fill="linear: 0% 230, 0% 234, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="168c 316 320 20" fill="linear: 0% 334, 0% 338, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="466c 316 260 20" fill="linear: 0% 334, 0% 338, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="212 482 116 20" fill="linear: 0% 500, 0% 504, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="106c 482 196 20" fill="linear: 0% 500, 0% 504, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="336 482 126 20" fill="linear: 0% 500, 0% 504, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="470 482 126 20" fill="linear: 0% 500, 0% 504, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="604 482 126 20" fill="linear: 0% 500, 0% 504, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="604 240 126 20" fill="linear: 0% 258, 0% 262, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="604 416 126 20" fill="linear: 0% 434, 0% 438, 0=0, 1=77000000"
+          hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
              virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="336 336 260 80"
