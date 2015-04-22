@@ -80,8 +80,8 @@ void WaveViewer::paint (Graphics& g)
 
     g.setColour(Colour(0xff565656));
     g.fillPath(wave_path_);
-    g.setColour(Colour(0xffaaaaaa));
-    g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+    g.setColour(Colour(0xff03a9f4));
+    g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
 
     if (wave_state_) {
         float phase = wave_state_->buffer[0];

@@ -74,7 +74,7 @@ GraphicalEnvelope::~GraphicalEnvelope()
 void GraphicalEnvelope::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-    static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
+    static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
     static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
     //[/UserPrePaint]
 
@@ -91,9 +91,8 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0xff565656));
     g.fillPath(envelope_line_);
 
-    g.setColour(Colour(0xffaaaaaa));
+    g.setColour(Colour(0xff03a9f4));
     g.strokePath(envelope_line_, stroke);
-
 
     float hover_line_x = -20;
     if (attack_hover_)
@@ -104,7 +103,7 @@ void GraphicalEnvelope::paint (Graphics& g)
         hover_line_x = getReleaseX();
 
 
-    g.setColour(Colour(0x66ffffff));
+    g.setColour(Colour(0xbbffffff));
     g.fillRect(hover_line_x - 0.5f, 0.0f, 1.0f, 1.0f * getHeight());
 
     if (sustain_hover_) {
@@ -113,16 +112,16 @@ void GraphicalEnvelope::paint (Graphics& g)
             g.fillEllipse(getDecayX() - 20.0, getSustainY() - 20.0, 40.0, 40.0);
         }
 
-        g.setColour(Colour(0x66ffffff));
-        g.drawEllipse(getDecayX() - 4.0, getSustainY() - 4.0, 8.0, 8.0, 1.0);
+        g.setColour(Colour(0xbbffffff));
+        g.drawEllipse(getDecayX() - 5.0, getSustainY() - 5.0, 10.0, 10.0, 1.0);
     }
     else if (mouse_down_) {
         g.setColour(Colour(0x11ffffff));
         g.fillRect(hover_line_x - 10.0f, 0.0f, 20.0f, 1.0f * getHeight());
     }
 
-    g.setColour(Colour(0xffcccccc));
-    g.fillEllipse(getDecayX() - 2.0, getSustainY() - 2.0, 4.0, 4.0);
+    g.setColour(Colour(0xffffffff));
+    g.fillEllipse(getDecayX() - 2.5, getSustainY() - 2.5, 5.0, 5.0);
     //[/UserPaint]
 }
 

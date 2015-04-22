@@ -79,10 +79,10 @@ void XYPad::paint (Graphics& g)
     float y = (1.0f - y_slider_->getValue()) * getHeight();
 
     g.setColour(Colour(0xff565656));
-    g.fillEllipse(x - 5.0f, y - 5.0f, 10.0f, 10.0f);
+    g.fillEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f);
 
-    g.setColour(Colours::white);
-    g.drawEllipse(x - 5.0f, y - 5.0f, 10.0f, 10.0f, 1.0f);
+    g.setColour(Colour(0xff03a9f4));
+    g.drawEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f, 1.5f);
     g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
 
 

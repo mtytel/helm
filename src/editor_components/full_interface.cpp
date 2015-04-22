@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -32,6 +32,9 @@
 //==============================================================================
 FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
     addAndMakeVisible (arp_frequency_ = new TwytchSlider ("arp_frequency"));
     arp_frequency_->setRange (-1, 4, 0);
@@ -206,9 +209,6 @@ void FullInterface::paint (Graphics& g)
     g.drawText (TRANS("BPM"),
                 38 - (44 / 2), 56, 44, 10,
                 Justification::centred, true);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (472, 8, 20, 60);
 
     //[UserPaint] Add your own custom painting code here..
 
@@ -405,7 +405,6 @@ BEGIN_JUCER_METADATA
     <TEXT pos="38c 56 44 10" fill="solid: ffbbbbbb" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
-    <RECT pos="472 8 20 60" fill="solid: ff607d8b" hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="746r 744r 738 672"

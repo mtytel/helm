@@ -82,7 +82,7 @@ void GraphicalStepSequencer::paint (Graphics& g)
     for (int i = 0; i < num_steps_; ++i) {
         float val = sequence_[i]->getValue();
         float bar_position = (getHeight() - 1.0f) * ((1.0f - val) / 2.0f);
-        Rectangle<int> rect(x, bar_position, x_inc, 1.0f);
+        Rectangle<int> rect(x, bar_position, x_inc, 1.5f);
         shadow.drawForRectangle(g, rect);
         x += x_inc;
     }
@@ -102,8 +102,8 @@ void GraphicalStepSequencer::paint (Graphics& g)
             g.fillRect(x, half_height, x_inc, bar_position - half_height);
         }
 
-        g.setColour(Colour(0xffcccccc));
-        g.fillRect(x, bar_position, x_inc, 1.0f);
+        g.setColour(Colour(0xff03a9f4));
+        g.fillRect(x, bar_position, x_inc, 1.5f);
 
         if (highlighted_step_ == i) {
             g.setColour(Colour(0x22ffffff));

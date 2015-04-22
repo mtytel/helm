@@ -70,7 +70,7 @@ FilterResponse::~FilterResponse()
 void FilterResponse::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
-    static const PathStrokeType stroke(1.0f, PathStrokeType::beveled, PathStrokeType::rounded);
+    static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
     static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
     //[/UserPrePaint]
 
@@ -89,7 +89,7 @@ void FilterResponse::paint (Graphics& g)
     g.setColour(Colour(0xff565656));
     g.fillPath(filter_response_path_);
 
-    g.setColour(Colour(0xffaaaaaa));
+    g.setColour(Colour(0xff03a9f4));
     g.strokePath(filter_response_path_, stroke);
     //[/UserPaint]
 }

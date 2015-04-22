@@ -22,12 +22,21 @@
 void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_pos, float min, float max,
                                          const Slider::SliderStyle style, Slider& slider) {
-  g.setColour(slider.findColour(Slider::thumbColourId));
+  static const DropShadow thumb_shadow(Colour(0x88000000), 3, Point<int>(-1, 0));
 
-  if (style == Slider::SliderStyle::LinearBar)
-    g.fillRect(slider_pos - 1.0f, 0.0f, 2.0f, float(slider.getHeight()));
-  else if (style == Slider::SliderStyle::LinearBarVertical)
-    g.fillRect(0.0f, slider_pos - 1.0f, float(slider.getWidth()), 2.0f);
+  float pos = slider_pos - 1.0f;
+  if (style == Slider::SliderStyle::LinearBar) {
+    float h = slider.getHeight();
+    thumb_shadow.drawForRectangle(g, Rectangle<int>(pos + 0.5f, 0, 2, h));
+    g.setColour(slider.findColour(Slider::thumbColourId));
+    g.fillRect(pos, 0.0f, 2.0f, h);
+  }
+  else if (style == Slider::SliderStyle::LinearBarVertical) {
+    float w = slider.getWidth();
+    thumb_shadow.drawForRectangle(g, Rectangle<int>(0, pos + 0.5f, w, 2));
+    g.setColour(slider.findColour(Slider::thumbColourId));
+    g.fillRect(0.0f, pos, w, 2.0f);
+  }
 }
 
 void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int width, int height,
@@ -40,20 +49,13 @@ void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wid
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_t, float start_angle, float end_angle,
                                          Slider& slider) {
-  static const DropShadow shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
-
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float knob_radius = 0.65f * full_radius;
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
   float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
   float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
 
-  Path shadow_path;
-  shadow_path.addCentredArc(full_radius, full_radius, 0.87f * full_radius, 0.85f * full_radius,
-                            0, start_angle, end_angle, true);
-  shadow.drawForPath(g, shadow_path);
-
-  g.setColour(Colour(0xff263238));
+  g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 

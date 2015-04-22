@@ -37,6 +37,8 @@ public:
     void valueChanged() override;
     String getTextFromValue(double value) override;
 
+    void drawShadow(Graphics& g);
+
     void setScalingType(ScalingType scaling_type) { scaling_type_ = scaling_type; }
     ScalingType getScalingType() const { return scaling_type_; }
 

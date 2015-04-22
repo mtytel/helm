@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -32,6 +32,9 @@
 //==============================================================================
 SynthesisInterface::SynthesisInterface (mopo::control_map controls)
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (step_sequencer_ = new GraphicalStepSequencer());
     addAndMakeVisible (amplitude_envelope_ = new GraphicalEnvelope());
     addAndMakeVisible (filter_envelope_ = new GraphicalEnvelope());
@@ -802,7 +805,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (328 - 320, 316, 320, 158);
 
     g.setColour (Colour (0xff424242));
-    g.fillRect (168 - (320 / 2), 216, 320, 92);
+    g.fillRect (168 - (320 / 2), 212, 320, 96);
 
     g.setColour (Colour (0xff424242));
     g.fillRect (336, 160, 260, 148);
@@ -812,24 +815,6 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xff424242));
     g.fillRect (168 - (320 / 2), 4, 320, 200);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (667 - (126 / 2), 436 - 20, 126, 20);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (667 - (126 / 2), 260 - 20, 126, 20);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (730 - 126, 24 - 20, 126, 20);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (462 - 126, 502 - 20, 126, 20);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (336, 180 - 20, 260, 20);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (168 - (320 / 2), 4, 320, 20);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -1053,17 +1038,11 @@ void SynthesisInterface::paint (Graphics& g)
                 302 - (50 / 2), 574, 50, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (168 - (320 / 2), 232 - 20, 320, 20);
-
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
                 168 - (84 / 2), 212, 84, 20,
                 Justification::centred, true);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (466 - (260 / 2), 24 - 20, 260, 20);
 
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
@@ -1071,17 +1050,11 @@ void SynthesisInterface::paint (Graphics& g)
                 466 - (140 / 2), 14 - (20 / 2), 140, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (336, 336 - 20, 260, 20);
-
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
     g.drawText (TRANS("STEP SEQUENCER"),
                 466 - (110 / 2), 315, 110, 20,
                 Justification::centred, true);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (533 - (126 / 2), 502 - 20, 126, 20);
 
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
@@ -1089,23 +1062,17 @@ void SynthesisInterface::paint (Graphics& g)
                 533 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xffb14a06));
+    g.setColour (Colour (0xff4fc3f7));
     g.strokePath (internalPath1, PathStrokeType (1.000f));
 
-    g.setColour (Colour (0xffb14a06));
+    g.setColour (Colour (0xff4fc3f7));
     g.strokePath (internalPath2, PathStrokeType (1.000f));
 
-    g.setColour (Colour (0xffb14a06));
+    g.setColour (Colour (0xff4fc3f7));
     g.strokePath (internalPath3, PathStrokeType (1.000f));
 
-    g.setColour (Colour (0xffb14a06));
+    g.setColour (Colour (0xff4fc3f7));
     g.strokePath (internalPath4, PathStrokeType (1.000f));
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (8, 502 - 20, 196, 20);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (270 - (116 / 2), 502 - 20, 116, 20);
 
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
@@ -1134,9 +1101,6 @@ void SynthesisInterface::paint (Graphics& g)
                 168 - (50 / 2), 140, 50, 10,
                 Justification::centred, true);
 
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (168 - (320 / 2), 336 - 20, 320, 20);
-
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
     g.drawText (TRANS("FILTER"),
@@ -1148,9 +1112,6 @@ void SynthesisInterface::paint (Graphics& g)
     g.drawText (TRANS("FREQ"),
                 684 - (30 / 2), 594, 30, 10,
                 Justification::centred, true);
-
-    g.setColour (Colour (0xff607d8b));
-    g.fillRect (667 - (126 / 2), 502 - 20, 126, 20);
 
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
@@ -1169,6 +1130,9 @@ void SynthesisInterface::paint (Graphics& g)
     component_shadow.drawForRectangle(g, poly_lfo_wave_display_->getBounds());
     component_shadow.drawForRectangle(g, osc_1_wave_display_->getBounds());
     component_shadow.drawForRectangle(g, osc_2_wave_display_->getBounds());
+
+    for (auto slider : slider_lookup_)
+        slider.second->drawShadow(g);
     //[/UserPaint]
 }
 
@@ -1234,7 +1198,7 @@ void SynthesisInterface::resized()
     aftertouch_mod_->setBounds (614, 622, 32, 32);
     osc_1_tune_->setBounds (105 - (46 / 2), 140, 46, 46);
     delay_frequency_->setBounds (668 - (46 / 2), 270, 46, 46);
-    mono_lfo_2_wave_display_->setBounds (478, 512, 116, 48);
+    mono_lfo_2_wave_display_->setBounds (480, 512, 116, 48);
     mono_lfo_2_waveform_->setBounds (478, 502, 116, 10);
     osc_1_transpose_->setBounds (43 - (46 / 2), 140, 46, 46);
     mono_lfo_2_frequency_->setBounds (550 - (32 / 2), 560, 32, 32);
@@ -1935,16 +1899,10 @@ BEGIN_JUCER_METADATA
     <RECT pos="667c 240 126 168" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 316 260 158" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="328r 316 320 158" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="168c 216 320 92" fill="solid: ff424242" hasStroke="0"/>
+    <RECT pos="168c 212 320 96" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 160 260 148" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 4 260 148" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="168c 4 320 200" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="667c 436r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <RECT pos="667c 260r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <RECT pos="730r 24r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <RECT pos="462r 502r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <RECT pos="336 180r 260 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <RECT pos="168c 4 320 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="231c 190 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2050,28 +2008,22 @@ BEGIN_JUCER_METADATA
     <TEXT pos="302c 574 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="RESAMPLE "
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="168c 232r 320 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="168c 212 84 20" fill="solid: ffffffff" hasStroke="0" text="FEEDBACK"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
-    <RECT pos="466c 24r 260 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="466c 14c 140 20" fill="solid: ffffffff" hasStroke="0" text="FILTER ENVELOPE"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
-    <RECT pos="336 336r 260 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="466c 315 110 20" fill="solid: ffffffff" hasStroke="0" text="STEP SEQUENCER"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
-    <RECT pos="533c 502r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="533c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="MONO LFO 2"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ffb14a06" nonZeroWinding="1">s 198 44 l 190 44 l 182 60</PATH>
+          strokeColour="solid: ff4fc3f7" nonZeroWinding="1">s 198 44 l 190 44 l 182 60</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ffb14a06" nonZeroWinding="1">s 138 44 l 146 44 l 154 60</PATH>
+          strokeColour="solid: ff4fc3f7" nonZeroWinding="1">s 138 44 l 146 44 l 154 60</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ffb14a06" nonZeroWinding="1">s 198 116 l 190 116 l 182 100</PATH>
+          strokeColour="solid: ff4fc3f7" nonZeroWinding="1">s 198 116 l 190 116 l 182 100</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
-          strokeColour="solid: ffb14a06" nonZeroWinding="1">s 138 116 l 146 116 l 154 100</PATH>
-    <RECT pos="8 502r 196 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <RECT pos="270c 502r 116 20" fill="solid: ff607d8b" hasStroke="0"/>
+          strokeColour="solid: ff4fc3f7" nonZeroWinding="1">s 138 116 l 146 116 l 154 100</PATH>
     <TEXT pos="270c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="STUTTER"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="106c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="FORMANT"
@@ -2083,13 +2035,11 @@ BEGIN_JUCER_METADATA
     <TEXT pos="168c 140 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="MIX"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="168c 336r 320 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="168c 316 84 20" fill="solid: ffffffff" hasStroke="0" text="FILTER"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="684c 594 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="667c 502r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="667c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="POLY LFO"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
   </BACKGROUND>
@@ -2347,7 +2297,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="mono_lfo_2" id="e0735b9f144e0bed" memberName="mono_lfo_2_wave_display_"
-             virtualName="WaveViewer" explicitFocusOrder="0" pos="478 512 116 48"
+             virtualName="WaveViewer" explicitFocusOrder="0" pos="480 512 116 48"
              sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="478 502 116 10"
