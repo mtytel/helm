@@ -1167,7 +1167,7 @@ void SynthesisInterface::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    step_sequencer_->setBounds (464 - (256 / 2), 336, 256, 80);
+    step_sequencer_->setBounds (336, 336, 260, 80);
     amplitude_envelope_->setBounds (464 - (256 / 2), 180, 256, 88);
     filter_envelope_->setBounds (464 - (256 / 2), 24, 256, 88);
     osc_1_wave_display_->setBounds (8, 40, 128, 80);
@@ -1911,7 +1911,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SynthesisInterface" componentName=""
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
-                 variableInitialisers="" snapPixels="2" snapActive="1" snapShown="1"
+                 variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
     <RECT pos="8 638c 722 44" fill="solid: ff424242" hasStroke="0"/>
@@ -2084,7 +2084,7 @@ BEGIN_JUCER_METADATA
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
-             virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="464c 336 256 80"
+             virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="336 336 260 80"
              sourceFile="graphical_step_sequencer.cpp" constructorParams=""/>
   <JUCERCOMP name="" id="b4880edb8b39ec9d" memberName="amplitude_envelope_"
              virtualName="GraphicalEnvelope" explicitFocusOrder="0" pos="464c 180 256 88"
