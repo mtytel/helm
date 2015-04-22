@@ -64,6 +64,7 @@ GraphicalStepSequencer::~GraphicalStepSequencer()
 void GraphicalStepSequencer::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    static const DropShadow shadow(Colour(0xbb000000), 2, Point<int>(0, 0));
     if (sequence_.size() == 0 || num_steps_slider_ == nullptr)
         return;
     //[/UserPrePaint]
@@ -81,19 +82,35 @@ void GraphicalStepSequencer::paint (Graphics& g)
         float val = sequence_[i]->getValue();
         float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
         if (val >= 0) {
-            g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, 0.0,
-                                             Colour(0x55347380), 0.0f, getHeight() / 2.0f, false));
-            g.fillRect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
+            Rectangle<int> rect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
+            shadow.drawForRectangle(g, rect);
         }
         else {
             float half_height = proportionOfHeight(0.5f);
-            g.setGradientFill(ColourGradient(Colour(0xffffffff), 0.0f, getHeight(),
-                                             Colour(0xff545454), 0.0f, half_height, false));
-            g.fillRect(x, half_height, x_inc, bar_position - half_height);
+            Rectangle<int> rect(x, half_height, x_inc, bar_position - half_height);
+            shadow.drawForRectangle(g, rect);
+        }
+        x += x_inc;
+    }
+
+    x = 0.0f;
+    for (int i = 0; i < num_steps_; ++i) {
+        float val = sequence_[i]->getValue();
+        float bar_position = proportionOfHeight((1.0f - val) / 2.0f);
+        if (val >= 0) {
+            Rectangle<int> rect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
+            g.setColour(Colour(0xff565656));
+            g.fillRect(rect);
+        }
+        else {
+            float half_height = proportionOfHeight(0.5f);
+            Rectangle<int> rect(x, half_height, x_inc, bar_position - half_height);
+            g.setColour(Colour(0xff565656));
+            g.fillRect(rect);
         }
 
         g.setColour(Colour(0xffcccccc));
-        g.fillRect(x, bar_position - 1.0f, x_inc, 2.0f);
+        g.fillRect(x, bar_position, x_inc, 1.0f);
 
         if (highlighted_step_ == i) {
             g.setColour(Colour(0x22ffffff));

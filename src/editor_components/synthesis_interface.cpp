@@ -763,7 +763,7 @@ void SynthesisInterface::paint (Graphics& g)
     shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 216, 320, 92));
     shadow.drawForRectangle(g, Rectangle<int>(336, 160, 260, 148));
     shadow.drawForRectangle(g, Rectangle<int>(336, 4, 260, 148));
-    shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 204));
+    shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 200));
 
     //[/UserPrePaint]
 
@@ -801,7 +801,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (328 - 320, 316, 320, 158);
 
     g.setColour (Colour (0xff424242));
-    g.fillRect (168 - (320 / 2), 220, 320, 92);
+    g.fillRect (168 - (320 / 2), 216, 320, 92);
 
     g.setColour (Colour (0xff424242));
     g.fillRect (336, 160, 260, 148);
@@ -810,7 +810,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRect (336, 4, 260, 148);
 
     g.setColour (Colour (0xff424242));
-    g.fillRect (168 - (320 / 2), 4, 320, 204);
+    g.fillRect (168 - (320 / 2), 4, 320, 200);
 
     g.setColour (Colour (0xff607d8b));
     g.fillRect (667 - (126 / 2), 436 - 20, 126, 20);
@@ -833,13 +833,13 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TRANSPOSE"),
-                231 - (70 / 2), 194, 70, 10,
+                231 - (70 / 2), 190, 70, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TUNE"),
-                293 - (40 / 2), 194, 40, 10,
+                293 - (40 / 2), 190, 40, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
@@ -857,25 +857,25 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TRANSPOSE"),
-                66 - (80 / 2), 294, 80, 10,
+                66 - (80 / 2), 290, 80, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TUNE"),
-                134 - (50 / 2), 294, 50, 10,
+                134 - (50 / 2), 290, 50, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("AMOUNT"),
-                202 - (60 / 2), 294, 60, 10,
+                202 - (60 / 2), 290, 60, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("SATURATION"),
-                270 - (92 / 2), 294, 92, 10,
+                270 - (92 / 2), 290, 92, 10,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
@@ -887,7 +887,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                418 - (30 / 2), 596, 30, 10,
+                418 - (30 / 2), 594, 30, 10,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
@@ -1019,13 +1019,13 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TRANSPOSE"),
-                43 - (70 / 2), 194, 70, 10,
+                43 - (70 / 2), 190, 70, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("TUNE"),
-                105 - (40 / 2), 194, 40, 10,
+                105 - (40 / 2), 190, 40, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
@@ -1037,7 +1037,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                550 - (30 / 2), 596, 30, 10,
+                550 - (30 / 2), 594, 30, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
@@ -1053,12 +1053,12 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colour (0xff607d8b));
-    g.fillRect (168 - (320 / 2), 236 - 20, 320, 20);
+    g.fillRect (168 - (320 / 2), 232 - 20, 320, 20);
 
     g.setColour (Colours::white);
     g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
-                168 - (84 / 2), 216, 84, 20,
+                168 - (84 / 2), 212, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff607d8b));
@@ -1145,7 +1145,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
-                684 - (30 / 2), 596, 30, 10,
+                684 - (30 / 2), 594, 30, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xff607d8b));
@@ -1178,8 +1178,8 @@ void SynthesisInterface::resized()
     cross_modulation_->setBounds (168 - (46 / 2), 56, 46, 46);
     portamento_type_->setBounds (634 - (40 / 2), 194, 40, 16);
     osc_mix_->setBounds (168 - (320 / 2), 120, 320, 16);
-    osc_2_transpose_->setBounds (231 - (46 / 2), 144, 46, 46);
-    osc_2_tune_->setBounds (293 - (46 / 2), 144, 46, 46);
+    osc_2_transpose_->setBounds (231 - (46 / 2), 140, 46, 46);
+    osc_2_tune_->setBounds (293 - (46 / 2), 140, 46, 46);
     volume_->setBounds (604, 436, 126, 38);
     delay_feedback_->setBounds (634 - (46 / 2), 334, 46, 46);
     delay_dry_wet_->setBounds (703 - (46 / 2), 334, 46, 46);
@@ -1198,15 +1198,15 @@ void SynthesisInterface::resized()
     cutoff_->setBounds (8, 464, 240, 10);
     fil_env_depth_->setBounds (293 - (46 / 2), 344, 46, 46);
     keytrack_->setBounds (293 - (46 / 2), 454 - 46, 46, 46);
-    osc_feedback_transpose_->setBounds (66 - (46 / 2), 244, 46, 46);
-    osc_feedback_amount_->setBounds (202 - (46 / 2), 244, 46, 46);
-    osc_feedback_tune_->setBounds (134 - (46 / 2), 244, 46, 46);
+    osc_feedback_transpose_->setBounds (66 - (46 / 2), 240, 46, 46);
+    osc_feedback_amount_->setBounds (202 - (46 / 2), 240, 46, 46);
+    osc_feedback_tune_->setBounds (134 - (46 / 2), 240, 46, 46);
     mono_lfo_1_wave_display_->setBounds (346, 512, 116, 48);
     mono_lfo_1_waveform_->setBounds (346, 502, 116, 10);
     num_steps_->setBounds (412 - (40 / 2), 418, 40, 40);
     step_frequency_->setBounds (476 - (40 / 2), 418, 40, 40);
     mono_lfo_1_frequency_->setBounds (418 - (32 / 2), 560, 32, 32);
-    filter_saturation_->setBounds (270 - (46 / 2), 244, 46, 46);
+    filter_saturation_->setBounds (270 - (46 / 2), 240, 46, 46);
     formant_on_->setBounds (12, 484, 16, 16);
     legato_->setBounds (700 - (40 / 2), 194, 40, 16);
     formant_xy_pad_->setBounds (8, 502, 186, 96);
@@ -1222,11 +1222,11 @@ void SynthesisInterface::resized()
     note_mod_->setBounds (346, 622, 32, 32);
     velocity_mod_->setBounds (480, 622, 32, 32);
     aftertouch_mod_->setBounds (614, 622, 32, 32);
-    osc_1_tune_->setBounds (105 - (46 / 2), 144, 46, 46);
+    osc_1_tune_->setBounds (105 - (46 / 2), 140, 46, 46);
     delay_frequency_->setBounds (668 - (46 / 2), 270, 46, 46);
     mono_lfo_2_wave_display_->setBounds (478, 512, 116, 48);
     mono_lfo_2_waveform_->setBounds (478, 502, 116, 10);
-    osc_1_transpose_->setBounds (43 - (46 / 2), 144, 46, 46);
+    osc_1_transpose_->setBounds (43 - (46 / 2), 140, 46, 46);
     mono_lfo_2_frequency_->setBounds (550 - (32 / 2), 560, 32, 32);
     mono_lfo_2_mod_->setBounds (480, 568, 32, 32);
     stutter_frequency_->setBounds (237 - (46 / 2), 524, 46, 46);
@@ -1911,7 +1911,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SynthesisInterface" componentName=""
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
-                 variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
+                 variableInitialisers="" snapPixels="2" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
     <RECT pos="8 638c 722 44" fill="solid: ff424242" hasStroke="0"/>
@@ -1925,20 +1925,20 @@ BEGIN_JUCER_METADATA
     <RECT pos="667c 240 126 168" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 316 260 158" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="328r 316 320 158" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="168c 220 320 92" fill="solid: ff424242" hasStroke="0"/>
+    <RECT pos="168c 216 320 92" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 160 260 148" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="336 4 260 148" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="168c 4 320 204" fill="solid: ff424242" hasStroke="0"/>
+    <RECT pos="168c 4 320 200" fill="solid: ff424242" hasStroke="0"/>
     <RECT pos="667c 436r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
     <RECT pos="667c 260r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
     <RECT pos="730r 24r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
     <RECT pos="462r 502r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
     <RECT pos="336 180r 260 20" fill="solid: ff607d8b" hasStroke="0"/>
     <RECT pos="168c 4 320 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <TEXT pos="231c 194 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
+    <TEXT pos="231c 190 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="293c 194 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
+    <TEXT pos="293c 190 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="168c 106 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="MOD"
@@ -1946,21 +1946,21 @@ BEGIN_JUCER_METADATA
           bold="0" italic="0" justification="36"/>
     <TEXT pos="168c 14c 100 20" fill="solid: ffffffff" hasStroke="0" text="OSCILLATORS"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
-    <TEXT pos="66c 294 80 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
+    <TEXT pos="66c 290 80 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="134c 294 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
+    <TEXT pos="134c 290 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="202c 294 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="AMOUNT"
+    <TEXT pos="202c 290 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="AMOUNT"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="270c 294 92 10" fill="solid: ffbbbbbb" hasStroke="0" text="SATURATION"
+    <TEXT pos="270c 290 92 10" fill="solid: ffbbbbbb" hasStroke="0" text="SATURATION"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="399c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="MONO LFO 1"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
-    <TEXT pos="418c 596 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
+    <TEXT pos="418c 594 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="466c 160 150 20" fill="solid: ffffffff" hasStroke="0" text="AMPLITUDE ENVELOPE"
@@ -2022,16 +2022,16 @@ BEGIN_JUCER_METADATA
     <TEXT pos="293c 458 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="KEY TRACK"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="43c 194 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
+    <TEXT pos="43c 190 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="105c 194 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
+    <TEXT pos="105c 190 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="293c 394 56 10" fill="solid: ffbbbbbb" hasStroke="0" text="ENV DEPTH"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="550c 596 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
+    <TEXT pos="550c 594 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="238c 574 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
@@ -2040,8 +2040,8 @@ BEGIN_JUCER_METADATA
     <TEXT pos="302c 574 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="RESAMPLE "
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <RECT pos="168c 236r 320 20" fill="solid: ff607d8b" hasStroke="0"/>
-    <TEXT pos="168c 216 84 20" fill="solid: ffffffff" hasStroke="0" text="FEEDBACK"
+    <RECT pos="168c 232r 320 20" fill="solid: ff607d8b" hasStroke="0"/>
+    <TEXT pos="168c 212 84 20" fill="solid: ffffffff" hasStroke="0" text="FEEDBACK"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
     <RECT pos="466c 24r 260 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="466c 14c 140 20" fill="solid: ffffffff" hasStroke="0" text="FILTER ENVELOPE"
@@ -2076,7 +2076,7 @@ BEGIN_JUCER_METADATA
     <RECT pos="168c 336r 320 20" fill="solid: ff607d8b" hasStroke="0"/>
     <TEXT pos="168c 316 84 20" fill="solid: ffffffff" hasStroke="0" text="FILTER"
           fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
-    <TEXT pos="684c 596 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
+    <TEXT pos="684c 594 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <RECT pos="667c 502r 126 20" fill="solid: ff607d8b" hasStroke="0"/>
@@ -2129,12 +2129,12 @@ BEGIN_JUCER_METADATA
           style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="231c 144 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="231c 140 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_tune" id="a8bc3bcffe7146f" memberName="osc_2_tune_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="293c 144 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="293c 140 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2229,17 +2229,17 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_feedback_transpose" id="e747becfc7a4f3f7" memberName="osc_feedback_transpose_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="66c 244 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="66c 240 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-24"
           max="24" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_feedback_amount" id="a94cee38c880759c" memberName="osc_feedback_amount_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="202c 244 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="202c 240 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_feedback_tune" id="90dc1d31f03abf4e" memberName="osc_feedback_tune_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="134c 244 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="134c 240 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2268,7 +2268,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_saturation" id="b5014a266e860882" memberName="filter_saturation_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="270c 244 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="270c 240 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-20"
           max="60" int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2327,7 +2327,7 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="614 622 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <SLIDER name="osc_1_tune" id="19b20e4d54ff8b49" memberName="osc_1_tune_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="105c 144 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="105c 140 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2345,7 +2345,7 @@ BEGIN_JUCER_METADATA
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="43c 144 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="43c 140 46 46"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
