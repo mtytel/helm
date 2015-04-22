@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="GfsdNK" name="Twytch" projectType="guiapp" version="1.0.0"
               bundleIdentifier="co.littleio.twytch" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.0" companyName="Little O Studio" companyWebsite="littleio.co"
+              jucerVersion="3.1.1" companyName="Little O Studio" companyWebsite="littleio.co"
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Twytch">
     <GROUP id="{E650F2E1-07E8-77DB-1520-2000D9FBD2DB}" name="mopo">

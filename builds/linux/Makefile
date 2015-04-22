@@ -18,12 +18,11 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/SDKs/VST3\ SDK -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
-  LDDEPS :=
-  RESFLAGS :=  -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
+
   TARGET := twytch.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -39,12 +38,11 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/SDKs/VST3\ SDK -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -Os
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
-  LDDEPS :=
-  RESFLAGS :=  -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I "~/SDKs/VST3 SDK" -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../../srcs/JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
+
   TARGET := twytch.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
@@ -85,7 +83,6 @@ OBJECTS := \
   $(OBJDIR)/midi_manager_e9b5d29d.o \
   $(OBJDIR)/synth_gui_interface_bde2c2e.o \
   $(OBJDIR)/twytch_load_save_87fa95c8.o \
-  $(OBJDIR)/audio_viewer_85409b82.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
   $(OBJDIR)/filter_selector_d3a4a389.o \
   $(OBJDIR)/full_interface_ddba7cf0.o \
@@ -133,7 +130,7 @@ OBJECTS := \
 
 .PHONY: clean
 
-$(OUTDIR)/$(TARGET): $(OBJECTS) $(LDDEPS) $(RESOURCES)
+$(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
 	@echo Linking Twytch
 	-@mkdir -p $(BINDIR)
 	-@mkdir -p $(LIBDIR)
@@ -316,11 +313,6 @@ $(OBJDIR)/synth_gui_interface_bde2c2e.o: ../../src/common/synth_gui_interface.cp
 $(OBJDIR)/twytch_load_save_87fa95c8.o: ../../src/common/twytch_load_save.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_load_save.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/audio_viewer_85409b82.o: ../../src/editor_components/audio_viewer.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling audio_viewer.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_response.cpp

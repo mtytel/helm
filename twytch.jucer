@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="twytch" pluginRTASCategory="" aaxIdentifier="co.littleio.twytch"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.0"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
               companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
               companyWebsite="littleio.co">
   <MAINGROUP id="OwcEM5" name="Twytch">
@@ -116,9 +116,6 @@
               file="src/common/twytch_load_save.h"/>
       </GROUP>
       <GROUP id="{658B3880-1AFF-B981-7DDC-F64ACA1093F7}" name="editor_components">
-        <FILE id="dybaea" name="audio_viewer.cpp" compile="1" resource="0"
-              file="src/editor_components/audio_viewer.cpp"/>
-        <FILE id="OamFZZ" name="audio_viewer.h" compile="0" resource="0" file="src/editor_components/audio_viewer.h"/>
         <FILE id="YxeKKD" name="filter_response.cpp" compile="1" resource="0"
               file="src/editor_components/filter_response.cpp"/>
         <FILE id="hg26kj" name="filter_response.h" compile="0" resource="0"
