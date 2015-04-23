@@ -110,7 +110,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     volume_->setRange (0, 1, 0);
     volume_->setSliderStyle (Slider::LinearBar);
     volume_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    volume_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    volume_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     volume_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     volume_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
     volume_->addListener (this);
@@ -207,7 +207,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     resonance_->setRange (0, 1, 0);
     resonance_->setSliderStyle (Slider::LinearBar);
     resonance_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    resonance_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    resonance_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     resonance_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     resonance_->setColour (Slider::textBoxBackgroundColourId, Colour (0x00000000));
     resonance_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
@@ -217,25 +217,25 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_1_waveform_->setRange (0, 11, 1);
     osc_1_waveform_->setSliderStyle (Slider::LinearBar);
     osc_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    osc_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    osc_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     osc_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff424242));
+    osc_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff303030));
     osc_1_waveform_->addListener (this);
 
     addAndMakeVisible (osc_2_waveform_ = new WaveSelector ("osc_2_waveform"));
     osc_2_waveform_->setRange (0, 11, 1);
     osc_2_waveform_->setSliderStyle (Slider::LinearBar);
     osc_2_waveform_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    osc_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    osc_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     osc_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff424242));
+    osc_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff303030));
     osc_2_waveform_->addListener (this);
 
     addAndMakeVisible (cutoff_ = new TwytchSlider ("cutoff"));
     cutoff_->setRange (28, 127, 0);
     cutoff_->setSliderStyle (Slider::LinearBar);
     cutoff_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    cutoff_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    cutoff_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     cutoff_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     cutoff_->setColour (Slider::textBoxBackgroundColourId, Colour (0x00000000));
     cutoff_->setColour (Slider::textBoxOutlineColourId, Colour (0x00000000));
@@ -286,9 +286,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_waveform_->setRange (0, 11, 1);
     mono_lfo_1_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    mono_lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    mono_lfo_1_waveform_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     mono_lfo_1_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff424242));
+    mono_lfo_1_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff303030));
     mono_lfo_1_waveform_->addListener (this);
 
     addAndMakeVisible (num_steps_ = new TwytchSlider ("num_steps"));
@@ -344,7 +344,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_x_->setRange (0, 1, 0);
     formant_x_->setSliderStyle (Slider::LinearBar);
     formant_x_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    formant_x_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     formant_x_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     formant_x_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     formant_x_->addListener (this);
@@ -353,7 +353,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_y_->setRange (0, 1, 0);
     formant_y_->setSliderStyle (Slider::LinearBar);
     formant_y_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    formant_y_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     formant_y_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     formant_y_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     formant_y_->addListener (this);
@@ -424,9 +424,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_waveform_->setRange (0, 11, 1);
     mono_lfo_2_waveform_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    mono_lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    mono_lfo_2_waveform_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     mono_lfo_2_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff424242));
+    mono_lfo_2_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff303030));
     mono_lfo_2_waveform_->addListener (this);
 
     addAndMakeVisible (osc_1_transpose_ = new TwytchSlider ("osc_1_transpose"));
@@ -521,9 +521,9 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_waveform_->setRange (0, 11, 1);
     poly_lfo_waveform_->setSliderStyle (Slider::LinearBar);
     poly_lfo_waveform_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    poly_lfo_waveform_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     poly_lfo_waveform_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff424242));
+    poly_lfo_waveform_->setColour (Slider::textBoxOutlineColourId, Colour (0xff303030));
     poly_lfo_waveform_->addListener (this);
 
     addAndMakeVisible (poly_lfo_frequency_ = new TwytchSlider ("poly_lfo_frequency"));
@@ -551,7 +551,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_1_amplitude_->setRange (-1, 1, 0);
     mono_lfo_1_amplitude_->setSliderStyle (Slider::LinearBar);
     mono_lfo_1_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    mono_lfo_1_amplitude_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    mono_lfo_1_amplitude_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     mono_lfo_1_amplitude_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     mono_lfo_1_amplitude_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     mono_lfo_1_amplitude_->addListener (this);
@@ -560,7 +560,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     mono_lfo_2_amplitude_->setRange (-1, 1, 0);
     mono_lfo_2_amplitude_->setSliderStyle (Slider::LinearBar);
     mono_lfo_2_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    mono_lfo_2_amplitude_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    mono_lfo_2_amplitude_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     mono_lfo_2_amplitude_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     mono_lfo_2_amplitude_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     mono_lfo_2_amplitude_->addListener (this);
@@ -569,7 +569,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_amplitude_->setRange (-1, 1, 0);
     poly_lfo_amplitude_->setSliderStyle (Slider::LinearBar);
     poly_lfo_amplitude_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    poly_lfo_amplitude_->setColour (Slider::backgroundColourId, Colour (0xff424242));
+    poly_lfo_amplitude_->setColour (Slider::backgroundColourId, Colour (0xff303030));
     poly_lfo_amplitude_->setColour (Slider::trackColourId, Colour (0xff9765bc));
     poly_lfo_amplitude_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     poly_lfo_amplitude_->addListener (this);
@@ -750,8 +750,8 @@ void SynthesisInterface::paint (Graphics& g)
     mono_lfo_1_wave_display_->showRealtimeFeedback();
     mono_lfo_2_wave_display_->showRealtimeFeedback();
 
-    g.setColour(Colour(0xff303030));
-    g.fillRect(0, 0, getWidth(), getHeight());
+    g.setColour(Colour(0xff212121));
+    g.fillRect(getLocalBounds());
 
     section_shadow.drawForRectangle(g, Rectangle<int>(8, 638 - (44 / 2), 722, 44));
     section_shadow.drawForRectangle(g, Rectangle<int>(8, 482, 196, 126));
@@ -771,50 +771,50 @@ void SynthesisInterface::paint (Graphics& g)
 
     //[/UserPrePaint]
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (8, 638 - (44 / 2), 722, 44);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (8.0f, static_cast<float> (638 - (44 / 2)), 722.0f, 44.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (8, 482, 196, 126);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (604.0f, 416.0f, 126.0f, 58.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (270 - (116 / 2), 482, 116, 126);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (604.0f, 240.0f, 126.0f, 168.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (336, 482, 126, 126);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (604.0f, 4.0f, 126.0f, 229.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (470, 482, 126, 126);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (336.0f, 316.0f, 260.0f, 158.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (604, 482, 126, 126);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (336.0f, 160.0f, 260.0f, 148.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (667 - (126 / 2), 416, 126, 58);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (336.0f, 4.0f, 260.0f, 148.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (667 - (126 / 2), 4, 126, 229);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (604.0f, 482.0f, 126.0f, 126.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (667 - (126 / 2), 240, 126, 168);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (470.0f, 482.0f, 126.0f, 126.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (336, 316, 260, 158);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (336.0f, 482.0f, 126.0f, 126.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (328 - 320, 316, 320, 158);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (static_cast<float> (270 - (116 / 2)), 482.0f, 116.0f, 126.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (168 - (320 / 2), 212, 320, 96);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (8.0f, 482.0f, 196.0f, 126.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (336, 160, 260, 148);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 316.0f, 320.0f, 158.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (336, 4, 260, 148);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 212.0f, 320.0f, 96.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (168 - (320 / 2), 4, 320, 200);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 4.0f, 320.0f, 200.0f, 3.000f);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -1216,6 +1216,20 @@ void SynthesisInterface::paint (Graphics& g)
                                        static_cast<float> (proportionOfWidth (0.0000f)), 438.0f,
                                        false));
     g.fillRect (604, 416, 126, 20);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 134.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 138.0f,
+                                       false));
+    g.fillRect (168 - (320 / 2), 120, 320, 16);
+
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 122.0f,
+                                       Colour (0x77000000),
+                                       static_cast<float> (proportionOfWidth (0.0000f)), 118.0f,
+                                       false));
+    g.fillRect (168 - (320 / 2), 120, 320, 16);
 
     //[UserPaint] Add your own custom painting code here..
     component_shadow.drawForRectangle(g, filter_response_->getBounds());
@@ -1986,21 +2000,23 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
-    <RECT pos="8 638c 722 44" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="8 482 196 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="270c 482 116 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="336 482 126 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="470 482 126 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="604 482 126 126" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="667c 416 126 58" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="667c 4 126 229" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="667c 240 126 168" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="336 316 260 158" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="328r 316 320 158" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="168c 212 320 96" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="336 160 260 148" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="336 4 260 148" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="168c 4 320 200" fill="solid: ff424242" hasStroke="0"/>
+    <ROUNDRECT pos="8 638c 722 44" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="604 416 126 58" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="604 240 126 168" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="604 4 126 229" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="336 316 260 158" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="336 160 260 148" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="336 4 260 148" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="604 482 126 126" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="470 482 126 126" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="336 482 126 126" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="270c 482 116 126" cornerSize="3" fill="solid: ff303030"
+               hasStroke="0"/>
+    <ROUNDRECT pos="8 482 196 126" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="168c 316 320 158" cornerSize="3" fill="solid: ff303030"
+               hasStroke="0"/>
+    <ROUNDRECT pos="168c 212 320 96" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ROUNDRECT pos="168c 4 320 200" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <TEXT pos="231c 190 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2168,6 +2184,10 @@ BEGIN_JUCER_METADATA
           hasStroke="0"/>
     <RECT pos="604 416 126 20" fill="linear: 0% 434, 0% 438, 0=0, 1=77000000"
           hasStroke="0"/>
+    <RECT pos="168c 120 320 16" fill="linear: 0% 134, 0% 138, 0=0, 1=77000000"
+          hasStroke="0"/>
+    <RECT pos="168c 120 320 16" fill="linear: 0% 122, 0% 118, 0=0, 1=77000000"
+          hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
              virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="336 336 260 80"
@@ -2225,7 +2245,7 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="volume" id="7cc7edfbfc537ee7" memberName="volume_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="604 436 126 38" bkgcol="ff424242"
+          explicitFocusOrder="0" pos="604 436 126 38" bkgcol="ff303030"
           trackcol="ff9765bc" textboxoutline="0" min="0" max="1" int="0"
           style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2286,21 +2306,21 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="resonance" id="6c1c82a2d59d4b6e" memberName="resonance_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="258r 352 10 112"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxbkgd="0" textboxoutline="0"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxbkgd="0" textboxoutline="0"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_1_waveform" id="ea97519d003b4224" memberName="osc_1_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="8 24 128 16"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="ff424242"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="ff303030"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_2_waveform" id="a38d2af584df969a" memberName="osc_2_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="200 24 128 16"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="ff424242"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="ff303030"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cutoff" id="4ccde767164ea675" memberName="cutoff_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="8 464 240 10" bkgcol="ff424242" trackcol="ff9765bc"
+          explicitFocusOrder="0" pos="8 464 240 10" bkgcol="ff303030" trackcol="ff9765bc"
           textboxbkgd="0" textboxoutline="0" min="28" max="127" int="0"
           style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2334,7 +2354,7 @@ BEGIN_JUCER_METADATA
              sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_1_waveform" id="4ed06bb2c6901afe" memberName="mono_lfo_1_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="346 502 116 10"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="ff424242"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="ff303030"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="num_steps" id="8be29885961d7617" memberName="num_steps_"
@@ -2372,12 +2392,12 @@ BEGIN_JUCER_METADATA
              sourceFile="xy_pad.cpp" constructorParams=""/>
   <SLIDER name="formant_x" id="d182d63c43cb241f" memberName="formant_x_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="8 598 186 10"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="777777"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="formant_y" id="f9e64695877940a6" memberName="formant_y_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="194 502 10 96"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="777777"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="0" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="filter_type" id="8d1283d4f2ace0ec" memberName="filter_type_"
@@ -2427,7 +2447,7 @@ BEGIN_JUCER_METADATA
              sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="mono_lfo_2_waveform" id="ffccb388bb3729c" memberName="mono_lfo_2_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="478 502 116 10"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="ff424242"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="ff303030"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
@@ -2490,7 +2510,7 @@ BEGIN_JUCER_METADATA
              sourceFile="wave_viewer.cpp" constructorParams="32"/>
   <SLIDER name="poly_lfo_waveform" id="572ca2d8fd3f790f" memberName="poly_lfo_waveform_"
           virtualName="WaveSelector" explicitFocusOrder="0" pos="614 504 116 10"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="ff424242"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="ff303030"
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="poly_lfo_frequency" id="4f2b1269ff66a38c" memberName="poly_lfo_frequency_"
@@ -2508,17 +2528,17 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="mono_lfo_1_amplitude" id="2a0a50f49c1b39f7" memberName="mono_lfo_1_amplitude_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="336 512 10 48"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="777777"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="-1" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="mono_lfo_2_amplitude" id="c2ddbdac098db676" memberName="mono_lfo_2_amplitude_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="470 512 10 48"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="777777"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="-1" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="poly_lfo_amplitude" id="aef398613be0d620" memberName="poly_lfo_amplitude_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="604 514 10 48"
-          bkgcol="ff424242" trackcol="ff9765bc" textboxoutline="777777"
+          bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="-1" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>

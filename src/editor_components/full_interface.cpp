@@ -163,7 +163,7 @@ void FullInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
 
-    g.setColour(Colour(0xff303030));
+    g.setColour(Colour(0xff212121));
     g.fillRect(getLocalBounds());
 
     shadow.drawForRectangle(g, Rectangle<int>(472, 8, 266, 60));
@@ -173,10 +173,10 @@ void FullInterface::paint (Graphics& g)
     shadow.drawForRectangle(g, Rectangle<int>(368 - 124, 8, 124, 60));
     //[/UserPrePaint]
 
-    g.setColour (Colour (0xff424242));
-    g.fillRect (472, 8, 266, 60);
+    g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (472.0f, 8.0f, 266.0f, 60.0f, 3.000f);
 
-    g.setColour (Colour (0xff424242));
+    g.setColour (Colour (0xff303030));
     g.fillRect (16, 8, 220, 60);
 
     g.setColour (Colour (0xffbbbbbb));
@@ -396,8 +396,8 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="" snapPixels="2" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="800" initialHeight="400">
   <BACKGROUND backgroundColour="303030">
-    <RECT pos="472 8 266 60" fill="solid: ff424242" hasStroke="0"/>
-    <RECT pos="16 8 220 60" fill="solid: ff424242" hasStroke="0"/>
+    <ROUNDRECT pos="472 8 266 60" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <RECT pos="16 8 220 60" fill="solid: ff303030" hasStroke="0"/>
     <TEXT pos="599c 54 52 10" fill="solid: ffbbbbbb" hasStroke="0" text="GATE"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
