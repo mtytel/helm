@@ -33,6 +33,10 @@ namespace mopo {
         kOscillator2Waveform,
         kOscillator1PhaseInc,
         kOscillator2PhaseInc,
+        kUnisonVoices1,
+        kUnisonVoices2,
+        kUnisonDetune1,
+        kUnisonDetune2,
         kReset,
         kCrossMod,
         kMix,
@@ -49,7 +53,8 @@ namespace mopo {
 
       // Process one sample of the oscillators. Must be done in the correct
       // order currently.
-      void tick(int i, int waveform1, int waveform2) {
+      void tick(int i, int waveform1, int waveform2,
+                int unison1, int unison_phase_detune1, int unison2, int unison_phase_detune2) {
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float mix = input(kMix)->source->buffer[i];
         int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
@@ -58,10 +63,28 @@ namespace mopo {
         int phase_diff2 = cross_mod * oscillator1_value_;
         oscillator1_phase_ += base_phase1;
         oscillator2_phase_ += base_phase2;
-        oscillator1_value_ = FixedPointWave::wave(waveform1, oscillator1_phase_ + phase_diff1, base_phase1);
-        oscillator2_value_ = FixedPointWave::wave(waveform2, oscillator2_phase_ + phase_diff2, base_phase2);
+        int phase1_total = oscillator1_phase_ + phase_diff1;
+        int phase2_total = oscillator2_phase_ + phase_diff2;
+        oscillator1_value_ = FixedPointWave::wave(waveform1, phase1_total, base_phase1);
+        oscillator2_value_ = FixedPointWave::wave(waveform2, phase2_total, base_phase2);
 
-        mopo_float mixed = (1.0 - mix) * oscillator1_value_ + mix * oscillator2_value_;
+        int oscillator1_total = oscillator1_value_ / unison1;
+        int oscillator2_total = oscillator2_value_ / unison2;
+
+        // Unison.
+        for (int i = 1; i < unison1; ++i) {
+          oscillator1_detune_offsets_[i] += i * unison_phase_detune1;
+          float phase1 = phase1_total + oscillator1_detune_offsets_[i];
+          oscillator1_total += FixedPointWave::wave(waveform1, phase1, base_phase1) / unison1;
+        }
+
+        for (int i = 1; i < unison2; ++i) {
+          oscillator2_detune_offsets_[i] += i * unison_phase_detune2;
+          float phase2 = phase2_total + oscillator2_detune_offsets_[i];
+          oscillator2_total += FixedPointWave::wave(waveform2, phase2, base_phase2) / unison2;
+        }
+
+        mopo_float mixed = (1.0 - mix) * oscillator1_total + mix * oscillator2_total;
         output(0)->buffer[i] = (mixed / FixedPointWaveLookup::SCALE) / INT_MAX;
       }
 
@@ -70,6 +93,9 @@ namespace mopo {
       int oscillator1_value_;
       unsigned int oscillator2_phase_;
       int oscillator2_value_;
+
+      unsigned int oscillator1_detune_offsets_[16];
+      unsigned int oscillator2_detune_offsets_[16];
   };
 } // namespace mopo
 

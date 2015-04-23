@@ -33,14 +33,19 @@ namespace mopo {
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, wave1, wave2);
+        tick(i, wave1, wave2, 8, 10000, 8, 10000);
 
       oscillator1_phase_ = 0;
       oscillator2_phase_ = 0;
       oscillator1_value_ = 0.0;
       oscillator1_value_ = 0.0;
+
+      for (int i = 0; i < 16; ++i) {
+        oscillator1_detune_offsets_[i] = i * (INT_MAX >> 4);
+        oscillator2_detune_offsets_[i] = i * (INT_MAX >> 4);
+      }
     }
     for (; i < buffer_size_; ++i)
-      tick(i, wave1, wave2);
+      tick(i, wave1, wave2, 8, 10000, 8, 10000);
   }
 } // namespace mopo
