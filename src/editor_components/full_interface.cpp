@@ -123,7 +123,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
         if (button)
             button_lookup_[button->getName().toStdString()] = button;
     }
-    setOpaque(true);
+
     setAllValues(controls);
     createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
     //[/UserPreSize]
@@ -132,7 +132,6 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
 
 
     //[Constructor] You can add your own custom stuff here..
-    setOpaque(true);
     //[/Constructor]
 }
 
@@ -210,7 +209,17 @@ void FullInterface::paint (Graphics& g)
                 38 - (44 / 2), 56, 44, 10,
                 Justification::centred, true);
 
+    g.setGradientFill (ColourGradient (Colour (0x00000000),
+                                       490.0f, 0.0f,
+                                       Colours::black,
+                                       494.0f, 0.0f,
+                                       false));
+    g.fillRect (472, 8, 20, 60);
+
     //[UserPaint] Add your own custom painting code here..
+
+    for (auto slider : slider_lookup_)
+        slider.second->drawShadow(g);
 
     g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 460, 20));
     g.setColour(Colour (0xffDDDDDD));
@@ -333,7 +342,6 @@ void FullInterface::setValue(std::string name, mopo::mopo_float value,
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
-    // recording_->setOutputMemory(output_memory);
 }
 
 TwytchSlider* FullInterface::getSlider(std::string name) {
@@ -405,6 +413,8 @@ BEGIN_JUCER_METADATA
     <TEXT pos="38c 56 44 10" fill="solid: ffbbbbbb" hasStroke="0" text="BPM"
           fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
+    <RECT pos="472 8 20 60" fill="linear: 490 0, 494 0, 0=0, 1=ff000000"
+          hasStroke="0"/>
   </BACKGROUND>
   <JUCERCOMP name="" id="2ef5006082722165" memberName="synthesis_interface_"
              virtualName="" explicitFocusOrder="0" pos="746r 744r 738 672"

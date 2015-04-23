@@ -100,7 +100,8 @@ void TwytchSlider::drawShadow(Graphics &g) {
     if (isRotary()) {
         float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
         Path shadow_path;
-        shadow_path.addCentredArc(full_radius, full_radius, 0.87f * full_radius, 0.85f * full_radius,
+        shadow_path.addCentredArc(full_radius, full_radius,
+                                  0.87f * full_radius, 0.85f * full_radius,
                                   0, -shadow_angle, shadow_angle, true);
         shadow.drawForPath(g, shadow_path);
     }
