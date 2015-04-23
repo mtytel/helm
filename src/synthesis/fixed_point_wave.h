@@ -90,7 +90,7 @@ namespace mopo {
         int ratio = INT_MAX / phase_inc;
         int less_harmonics2 = CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
                                     0, FixedPointWaveLookup::HARMONICS - 1);
-        unsigned int index = t >> FixedPointWaveLookup::FRACTIONAL_BITS;
+        unsigned int index = getIndex(t);
         return lookup_.waves_[waveform][less_harmonics2][index];
       }
 
