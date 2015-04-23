@@ -772,6 +772,12 @@ void SynthesisInterface::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.setColour (Colour (0xff303030));
+    g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 4.0f, 320.0f, 200.0f, 3.000f);
+
+    g.setColour (Colour (0xff424242));
+    g.fillRect (8, 120, 320, 16);
+
+    g.setColour (Colour (0xff303030));
     g.fillRoundedRectangle (8.0f, static_cast<float> (638 - (44 / 2)), 722.0f, 44.0f, 3.000f);
 
     g.setColour (Colour (0xff303030));
@@ -812,9 +818,6 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xff303030));
     g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 212.0f, 320.0f, 96.0f, 3.000f);
-
-    g.setColour (Colour (0xff303030));
-    g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 4.0f, 320.0f, 200.0f, 3.000f);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -2000,6 +2003,8 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
+    <ROUNDRECT pos="168c 4 320 200" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <RECT pos="8 120 320 16" fill="solid: ff424242" hasStroke="0"/>
     <ROUNDRECT pos="8 638c 722 44" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <ROUNDRECT pos="604 416 126 58" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <ROUNDRECT pos="604 240 126 168" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
@@ -2016,7 +2021,6 @@ BEGIN_JUCER_METADATA
     <ROUNDRECT pos="168c 316 320 158" cornerSize="3" fill="solid: ff303030"
                hasStroke="0"/>
     <ROUNDRECT pos="168c 212 320 96" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
-    <ROUNDRECT pos="168c 4 320 200" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <TEXT pos="231c 190 70 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
