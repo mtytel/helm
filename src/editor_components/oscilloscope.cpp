@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -33,10 +33,12 @@
 //==============================================================================
 Oscilloscope::Oscilloscope (int num_samples)
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
 
     //[UserPreSize]
     output_memory_ = nullptr;
-    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -44,7 +46,7 @@ Oscilloscope::Oscilloscope (int num_samples)
 
     //[Constructor] You can add your own custom stuff here..
     samples_to_show_ = num_samples;
-    setFramesPerSecond(FRAMES_PER_SECOND);
+    // setFramesPerSecond(FRAMES_PER_SECOND);
     //[/Constructor]
 }
 
@@ -122,7 +124,6 @@ void Oscilloscope::resetWavePath() {
 
 void Oscilloscope::update() {
     resetWavePath();
-    repaint();
 }
 //[/MiscUserCode]
 
@@ -137,7 +138,7 @@ void Oscilloscope::update() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="Oscilloscope" componentName=""
-                 parentClasses="public AnimatedAppComponent" constructorParams="int num_samples"
+                 parentClasses="public Component" constructorParams="int num_samples"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="ff424242"/>

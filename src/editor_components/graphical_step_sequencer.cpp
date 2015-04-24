@@ -38,7 +38,6 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
     last_step_ = -1;
     highlighted_step_ = -1;
     num_steps_ = 1;
-    setOpaque(true);
     startTimerHz(FRAMES_PER_SECOND);
     //[/UserPreSize]
 

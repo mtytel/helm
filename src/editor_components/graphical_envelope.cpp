@@ -49,7 +49,6 @@ GraphicalEnvelope::GraphicalEnvelope ()
     decay_slider_ = nullptr;
     sustain_slider_ = nullptr;
     release_slider_ = nullptr;
-    setOpaque(true);
     //[/UserPreSize]
 
     setSize (200, 100);

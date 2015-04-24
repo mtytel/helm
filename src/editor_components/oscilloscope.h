@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class Oscilloscope  : public AnimatedAppComponent
+class Oscilloscope  : public Component
 {
 public:
     //==============================================================================
@@ -44,7 +44,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void update() override;
+    void update(); // override;
     void resetWavePath();
     void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
     //[/UserMethods]

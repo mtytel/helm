@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -33,13 +33,15 @@
 //==============================================================================
 WaveViewer::WaveViewer (int resolution)
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
 
     //[UserPreSize]
     wave_slider_ = nullptr;
     amplitude_slider_ = nullptr;
     resolution_ = resolution;
     wave_state_ = nullptr;
-    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -134,8 +136,6 @@ void WaveViewer::mouseDown (const MouseEvent& e)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void WaveViewer::update() {
-    if (wave_state_)
-        repaint();
 }
 
 void WaveViewer::setWaveSlider(Slider* slider) {
@@ -153,7 +153,6 @@ void WaveViewer::setAmplitudeSlider(Slider* slider) {
     amplitude_slider_ = slider;
     amplitude_slider_->addListener(this);
     resetWavePath();
-    repaint();
 }
 
 void WaveViewer::resetWavePath() {
@@ -179,7 +178,6 @@ void WaveViewer::resetWavePath() {
 
 void WaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
     resetWavePath();
-    repaint();
 }
 
 void WaveViewer::showRealtimeFeedback() {

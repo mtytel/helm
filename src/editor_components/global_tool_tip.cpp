@@ -31,7 +31,6 @@ GlobalToolTip::GlobalToolTip ()
 {
 
     //[UserPreSize]
-    setOpaque(true);
     //[/UserPreSize]
 
     setSize (600, 400);

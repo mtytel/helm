@@ -27,8 +27,6 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
         knob_stroke_(0.0f, PathStrokeType::beveled, PathStrokeType::butt),
         full_radius_(0.0), outer_radius_(0.0), knob_percent_(0.0), mod_percent_(0.0) {
     setInterceptsMouseClicks(false, false);
-    setPaintingIsUnclipped(true);
-    setOpaque(false);
     update(0);
 }
 
