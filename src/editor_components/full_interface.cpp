@@ -132,6 +132,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
 
 
     //[Constructor] You can add your own custom stuff here..
+    setOpaque(true);
     //[/Constructor]
 }
 

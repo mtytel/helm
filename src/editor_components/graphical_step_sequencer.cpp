@@ -45,6 +45,7 @@ GraphicalStepSequencer::GraphicalStepSequencer ()
 
 
     //[Constructor] You can add your own custom stuff here..
+    setOpaque(true);
     //[/Constructor]
 }
 

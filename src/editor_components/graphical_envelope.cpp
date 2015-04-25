@@ -90,6 +90,10 @@ void GraphicalEnvelope::paint (Graphics& g)
     g.setColour(Colour(0xff565656));
     g.fillPath(envelope_line_);
 
+    g.setColour(Colour(0xff505050));
+    g.drawLine(getAttackX(), 0.0f, getAttackX(), getHeight());
+    g.drawLine(getDecayX(), getSustainY(), getDecayX(), getHeight());
+
     g.setColour(Colour(0xff03a9f4));
     g.strokePath(envelope_line_, stroke);
 
@@ -100,7 +104,6 @@ void GraphicalEnvelope::paint (Graphics& g)
         hover_line_x = getDecayX();
     else if (release_hover_)
         hover_line_x = getReleaseX();
-
 
     g.setColour(Colour(0xbbffffff));
     g.fillRect(hover_line_x - 0.5f, 0.0f, 1.0f, 1.0f * getHeight());

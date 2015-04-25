@@ -2001,7 +2001,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="SynthesisInterface" componentName=""
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
                  variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
+                 overlayOpacity="0.330" fixedSize="1" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
     <ROUNDRECT pos="168c 4 320 200" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <RECT pos="8 120 320 16" fill="solid: ff424242" hasStroke="0"/>

@@ -52,6 +52,7 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   setWantsKeyboardFocus(true);
   addKeyListener(computer_keyboard_);
   postMessage(new Message());
+  setOpaque(true);
 }
 
 TwytchStandaloneEditor::~TwytchStandaloneEditor() {
