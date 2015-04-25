@@ -51,6 +51,8 @@ FilterResponse::FilterResponse (int resolution)
 
 
     //[Constructor] You can add your own custom stuff here..
+    setOpaque(true);
+    setBufferedToImage(true);
     //[/Constructor]
 }
 

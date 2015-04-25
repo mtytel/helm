@@ -15,6 +15,7 @@
  */
 
 #include "twytch_look_and_feel.h"
+#include "twytch_slider.h"
 #include "utils.h"
 
 #define POWER_ARC_ANGLE 2.5
@@ -49,11 +50,43 @@ void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int wid
 void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                          float slider_t, float start_angle, float end_angle,
                                          Slider& slider) {
+  static const float stroke_percent = 0.12f;
+
   float full_radius = std::min(width / 2.0f, height / 2.0f);
+  float stroke_width = 2.0f * full_radius * stroke_percent;
+  float outer_radius = full_radius - stroke_width;
+  PathStrokeType outer_stroke =
+      PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+
   float knob_radius = 0.65f * full_radius;
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
   float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
   float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
+
+  Path rail;
+  rail.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+                     0.0f, start_angle, end_angle, true);
+
+  g.setColour(Colour(0xff4a4a4a));
+  g.strokePath(rail, outer_stroke);
+
+  Path active_section;
+  bool bipolar = false;
+  TwytchSlider* t_slider = dynamic_cast<TwytchSlider*>(&slider);
+  if (t_slider)
+    bipolar = t_slider->isBipolar();
+
+  if (bipolar) {
+    active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+                                 0.0f, 0.0f, current_angle - 2.0f * mopo::PI, true);
+  }
+  else {
+    active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+                                 0.0f, start_angle, current_angle, true);
+  }
+
+  g.setColour(Colour(0xffffab00));
+  g.strokePath(active_section, outer_stroke);
 
   g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,

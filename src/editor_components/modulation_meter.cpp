@@ -110,26 +110,6 @@ void ModulationMeter::drawSlider(Graphics& g) {
 void ModulationMeter::drawKnob(Graphics& g) {
     float current_mod_angle = INTERPOLATE(-ANGLE, ANGLE, mod_percent_);
     float current_knob_angle = INTERPOLATE(-ANGLE, ANGLE, knob_percent_);
-    
-    Path rail;
-    rail.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
-                       0.0f, -ANGLE, ANGLE, true);
-
-    g.setColour(Colour(0xff4a4a4a));
-    g.strokePath(rail, knob_stroke_);
-
-    Path active_section;
-    if (destination_->isBipolar()) {
-        active_section.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
-                                     0.0f, 0.0f, current_knob_angle, true);
-    }
-    else {
-        active_section.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
-                                     0.0f, -ANGLE, current_knob_angle, true);
-    }
-
-    g.setColour(Colour(0xffffab00));
-    g.strokePath(active_section, knob_stroke_);
 
     if (current_mod_angle != current_knob_angle) {
         Path mod_section;
