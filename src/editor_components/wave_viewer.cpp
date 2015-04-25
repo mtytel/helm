@@ -28,6 +28,7 @@
 #define GRID_CELL_WIDTH 8
 #define FRAMES_PER_SECOND 24
 #define PADDING 5.0f
+#define MARKER_WIDTH 4.0f
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -42,12 +43,14 @@ WaveViewer::WaveViewer (int resolution)
     amplitude_slider_ = nullptr;
     resolution_ = resolution;
     wave_state_ = nullptr;
+    phase_ = -1.0f;
     //[/UserPreSize]
 
     setSize (600, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
+    setOpaque(true);
     //[/Constructor]
 }
 
@@ -86,19 +89,19 @@ void WaveViewer::paint (Graphics& g)
     g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
 
     if (wave_state_) {
-        float phase = wave_state_->buffer[0];
         float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
 
-        if (phase >= 0.0 && phase < 1.0) {
-            float x = PADDING + phase * (getWidth() - 2 * PADDING);
+        if (phase_ >= 0.0 && phase_ < 1.0) {
+            float x = phaseToX(phase_);
             g.setColour(Colour(0x66ffffff));
             g.fillRect(x, 0.0f, 1.0f, (float)getHeight());
 
             mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
-            float value = amplitude * mopo::Wave::wave(type, phase);
+            float value = amplitude * mopo::Wave::wave(type, phase_);
             float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - value) / 2.0f;
             g.setColour(Colour(0xffffffff));
-            g.fillEllipse(x - 2.0f, y - 2.0f, 4.0f, 4.0f);
+            g.fillEllipse(x - MARKER_WIDTH / 2.0f, y - MARKER_WIDTH / 2.0f,
+                          MARKER_WIDTH, MARKER_WIDTH);
         }
     }
     //[/UserPaint]
@@ -126,7 +129,6 @@ void WaveViewer::mouseDown (const MouseEvent& e)
         wave_slider_->setValue(current_value % static_cast<int>(wave_slider_->getMaximum() + 1));
 
         resetWavePath();
-        repaint();
     }
     //[/UserCode_mouseDown]
 }
@@ -135,7 +137,17 @@ void WaveViewer::mouseDown (const MouseEvent& e)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-void WaveViewer::update() {
+void WaveViewer::timerCallback() {
+    if (wave_state_) {
+        float phase = wave_state_->buffer[0];
+        if (phase != phase_) {
+            float last_x = phaseToX(phase_);
+            float new_x = phaseToX(phase);
+            phase_ = phase;
+            repaint(last_x - MARKER_WIDTH / 2.0f, 0.0, MARKER_WIDTH, getHeight());
+            repaint(new_x - MARKER_WIDTH / 2.0f, 0.0, MARKER_WIDTH, getHeight());
+        }
+    }
 }
 
 void WaveViewer::setWaveSlider(Slider* slider) {
@@ -144,7 +156,6 @@ void WaveViewer::setWaveSlider(Slider* slider) {
     wave_slider_ = slider;
     wave_slider_->addListener(this);
     resetWavePath();
-    repaint();
 }
 
 void WaveViewer::setAmplitudeSlider(Slider* slider) {
@@ -174,6 +185,7 @@ void WaveViewer::resetWavePath() {
     }
 
     wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
+    repaint();
 }
 
 void WaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
@@ -185,9 +197,13 @@ void WaveViewer::showRealtimeFeedback() {
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         if (parent) {
             wave_state_ = parent->getModSource(getName().toStdString());
-            setFramesPerSecond(FRAMES_PER_SECOND);
+            startTimerHz(FRAMES_PER_SECOND);
         }
     }
+}
+
+float WaveViewer::phaseToX(float phase) {
+    return PADDING + phase * (getWidth() - 2 * PADDING);
 }
 
 //[/MiscUserCode]
@@ -203,7 +219,7 @@ void WaveViewer::showRealtimeFeedback() {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="WaveViewer" componentName=""
-                 parentClasses="public AnimatedAppComponent, SliderListener" constructorParams="int resolution"
+                 parentClasses="public Component, Timer, SliderListener" constructorParams="int resolution"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <METHODS>

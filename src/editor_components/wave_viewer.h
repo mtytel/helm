@@ -36,7 +36,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class WaveViewer  : public AnimatedAppComponent,
+class WaveViewer  : public Component,
+                    Timer,
                     SliderListener
 {
 public:
@@ -46,12 +47,14 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void update() override;
+    void timerCallback() override;
     void setWaveSlider(Slider* slider);
     void setAmplitudeSlider(Slider* slider);
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
     void showRealtimeFeedback();
+
+    float phaseToX(float phase);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -67,6 +70,7 @@ private:
     mopo::Processor::Output* wave_state_;
     Path wave_path_;
     int resolution_;
+    float phase_;
     //[/UserVariables]
 
     //==============================================================================
