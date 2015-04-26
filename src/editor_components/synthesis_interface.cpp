@@ -574,6 +574,22 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_amplitude_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     poly_lfo_amplitude_->addListener (this);
 
+    addAndMakeVisible (osc_1_unison_ = new TwytchSlider ("osc_1_unison"));
+    osc_1_unison_->setRange (0, 5, 0);
+    osc_1_unison_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_1_unison_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_1_unison_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_1_unison_->setColour (Slider::textBoxTextColourId, Colours::white);
+    osc_1_unison_->addListener (this);
+
+    addAndMakeVisible (osc_2_unison_ = new TwytchSlider ("osc_2_unison"));
+    osc_2_unison_->setRange (0, 5, 0);
+    osc_2_unison_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_2_unison_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_2_unison_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_2_unison_->setColour (Slider::textBoxTextColourId, Colours::white);
+    osc_2_unison_->addListener (this);
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -731,6 +747,8 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_1_amplitude_ = nullptr;
     mono_lfo_2_amplitude_ = nullptr;
     poly_lfo_amplitude_ = nullptr;
+    osc_1_unison_ = nullptr;
+    osc_2_unison_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1267,8 +1285,8 @@ void SynthesisInterface::resized()
     cross_modulation_->setBounds (168 - (46 / 2), 56, 46, 46);
     portamento_type_->setBounds (634 - (40 / 2), 194, 40, 16);
     osc_mix_->setBounds (168 - (320 / 2), 120, 320, 16);
-    osc_2_transpose_->setBounds (231 - (46 / 2), 140, 46, 46);
-    osc_2_tune_->setBounds (293 - (46 / 2), 140, 46, 46);
+    osc_2_transpose_->setBounds (231 - (36 / 2), 152, 36, 36);
+    osc_2_tune_->setBounds (293 - (36 / 2), 152, 36, 36);
     volume_->setBounds (604, 436, 126, 38);
     delay_feedback_->setBounds (634 - (46 / 2), 334, 46, 46);
     delay_dry_wet_->setBounds (703 - (46 / 2), 334, 46, 46);
@@ -1311,11 +1329,11 @@ void SynthesisInterface::resized()
     note_mod_->setBounds (346, 622, 32, 32);
     velocity_mod_->setBounds (480, 622, 32, 32);
     aftertouch_mod_->setBounds (614, 622, 32, 32);
-    osc_1_tune_->setBounds (105 - (46 / 2), 140, 46, 46);
+    osc_1_tune_->setBounds (105 - (36 / 2), 152, 36, 36);
     delay_frequency_->setBounds (668 - (46 / 2), 270, 46, 46);
     mono_lfo_2_wave_display_->setBounds (480, 512, 116, 48);
     mono_lfo_2_waveform_->setBounds (478, 502, 116, 10);
-    osc_1_transpose_->setBounds (43 - (46 / 2), 140, 46, 46);
+    osc_1_transpose_->setBounds (43 - (36 / 2), 152, 36, 36);
     mono_lfo_2_frequency_->setBounds (550 - (32 / 2), 560, 32, 32);
     mono_lfo_2_mod_->setBounds (480, 568, 32, 32);
     stutter_frequency_->setBounds (237 - (46 / 2), 524, 46, 46);
@@ -1335,6 +1353,8 @@ void SynthesisInterface::resized()
     mono_lfo_1_amplitude_->setBounds (336, 512, 10, 48);
     mono_lfo_2_amplitude_->setBounds (470, 512, 10, 48);
     poly_lfo_amplitude_->setBounds (604, 514, 10, 48);
+    osc_1_unison_->setBounds (146 - (36 / 2), 152, 36, 36);
+    osc_2_unison_->setBounds (186 - (36 / 2), 152, 36, 36);
     internalPath1.clear();
     internalPath1.startNewSubPath (198.0f, 44.0f);
     internalPath1.lineTo (190.0f, 44.0f);
@@ -1651,6 +1671,16 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_poly_lfo_amplitude_] -- add your slider handling code here..
         //[/UserSliderCode_poly_lfo_amplitude_]
+    }
+    else if (sliderThatWasMoved == osc_1_unison_)
+    {
+        //[UserSliderCode_osc_1_unison_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_unison_]
+    }
+    else if (sliderThatWasMoved == osc_2_unison_)
+    {
+        //[UserSliderCode_osc_2_unison_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_2_unison_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -2001,7 +2031,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="SynthesisInterface" componentName=""
                  parentClasses="public Component" constructorParams="mopo::control_map controls"
                  variableInitialisers="" snapPixels="4" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="1" initialWidth="600" initialHeight="400">
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
     <ROUNDRECT pos="168c 4 320 200" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <RECT pos="8 120 320 16" fill="solid: ff424242" hasStroke="0"/>
@@ -2239,12 +2269,12 @@ BEGIN_JUCER_METADATA
           style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="231c 140 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="231c 152 36 36"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_tune" id="a8bc3bcffe7146f" memberName="osc_2_tune_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="293c 140 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="293c 152 36 36"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2437,7 +2467,7 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="614 622 32 32" buttonText="M"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <SLIDER name="osc_1_tune" id="19b20e4d54ff8b49" memberName="osc_1_tune_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="105c 140 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="105c 152 36 36"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2455,7 +2485,7 @@ BEGIN_JUCER_METADATA
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="43c 140 46 46"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="43c 152 36 36"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2544,6 +2574,16 @@ BEGIN_JUCER_METADATA
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="604 514 10 48"
           bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="-1" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="osc_1_unison" id="592c93e7f4ae1095" memberName="osc_1_unison_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="146c 152 36 36"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="5"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="osc_2_unison" id="840f2c453b57d36d" memberName="osc_2_unison_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="186c 152 36 36"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="5"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
