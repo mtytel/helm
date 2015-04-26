@@ -53,7 +53,7 @@ namespace mopo {
 
       static const int HARMONICS = 127;
 
-      constexpr static const mopo_float SCALE = 0.6;
+      constexpr static const mopo_float SCALE = 0.01;
 
       typedef int (*wave_type)[FIXED_LOOKUP_SIZE];
 

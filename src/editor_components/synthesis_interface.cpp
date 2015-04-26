@@ -574,21 +574,37 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     poly_lfo_amplitude_->setColour (Slider::textBoxOutlineColourId, Colour (0x00777777));
     poly_lfo_amplitude_->addListener (this);
 
-    addAndMakeVisible (osc_1_unison_ = new TwytchSlider ("osc_1_unison"));
-    osc_1_unison_->setRange (0, 5, 0);
-    osc_1_unison_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    osc_1_unison_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    osc_1_unison_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    osc_1_unison_->setColour (Slider::textBoxTextColourId, Colours::white);
-    osc_1_unison_->addListener (this);
+    addAndMakeVisible (osc_1_unison_detune_ = new TwytchSlider ("osc_1_unison_detune"));
+    osc_1_unison_detune_->setRange (0, 200, 0);
+    osc_1_unison_detune_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_1_unison_detune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_1_unison_detune_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_1_unison_detune_->setColour (Slider::textBoxTextColourId, Colours::white);
+    osc_1_unison_detune_->addListener (this);
 
-    addAndMakeVisible (osc_2_unison_ = new TwytchSlider ("osc_2_unison"));
-    osc_2_unison_->setRange (0, 5, 0);
-    osc_2_unison_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-    osc_2_unison_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-    osc_2_unison_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-    osc_2_unison_->setColour (Slider::textBoxTextColourId, Colours::white);
-    osc_2_unison_->addListener (this);
+    addAndMakeVisible (osc_2_unison_detune_ = new TwytchSlider ("osc_2_unison_detune"));
+    osc_2_unison_detune_->setRange (0, 200, 0);
+    osc_2_unison_detune_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_2_unison_detune_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_2_unison_detune_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_2_unison_detune_->setColour (Slider::textBoxTextColourId, Colours::white);
+    osc_2_unison_detune_->addListener (this);
+
+    addAndMakeVisible (osc_1_unison_voices_ = new TwytchSlider ("osc_1_unison_voices"));
+    osc_1_unison_voices_->setRange (1, 15, 2);
+    osc_1_unison_voices_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_1_unison_voices_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_1_unison_voices_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_1_unison_voices_->setColour (Slider::textBoxTextColourId, Colours::white);
+    osc_1_unison_voices_->addListener (this);
+
+    addAndMakeVisible (osc_2_unison_voices_ = new TwytchSlider ("osc_2_unison_voices"));
+    osc_2_unison_voices_->setRange (1, 15, 2);
+    osc_2_unison_voices_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    osc_2_unison_voices_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    osc_2_unison_voices_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    osc_2_unison_voices_->setColour (Slider::textBoxTextColourId, Colours::white);
+    osc_2_unison_voices_->addListener (this);
 
 
     //[UserPreSize]
@@ -747,8 +763,10 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_1_amplitude_ = nullptr;
     mono_lfo_2_amplitude_ = nullptr;
     poly_lfo_amplitude_ = nullptr;
-    osc_1_unison_ = nullptr;
-    osc_2_unison_ = nullptr;
+    osc_1_unison_detune_ = nullptr;
+    osc_2_unison_detune_ = nullptr;
+    osc_1_unison_voices_ = nullptr;
+    osc_2_unison_voices_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1353,8 +1371,10 @@ void SynthesisInterface::resized()
     mono_lfo_1_amplitude_->setBounds (336, 512, 10, 48);
     mono_lfo_2_amplitude_->setBounds (470, 512, 10, 48);
     poly_lfo_amplitude_->setBounds (604, 514, 10, 48);
-    osc_1_unison_->setBounds (146 - (36 / 2), 152, 36, 36);
-    osc_2_unison_->setBounds (186 - (36 / 2), 152, 36, 36);
+    osc_1_unison_detune_->setBounds (146 - (36 / 2), 144, 36, 36);
+    osc_2_unison_detune_->setBounds (186 - (36 / 2), 144, 36, 36);
+    osc_1_unison_voices_->setBounds (146 - (36 / 2), 180, 36, 36);
+    osc_2_unison_voices_->setBounds (186 - (36 / 2), 180, 36, 36);
     internalPath1.clear();
     internalPath1.startNewSubPath (198.0f, 44.0f);
     internalPath1.lineTo (190.0f, 44.0f);
@@ -1672,15 +1692,25 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_poly_lfo_amplitude_] -- add your slider handling code here..
         //[/UserSliderCode_poly_lfo_amplitude_]
     }
-    else if (sliderThatWasMoved == osc_1_unison_)
+    else if (sliderThatWasMoved == osc_1_unison_detune_)
     {
-        //[UserSliderCode_osc_1_unison_] -- add your slider handling code here..
-        //[/UserSliderCode_osc_1_unison_]
+        //[UserSliderCode_osc_1_unison_detune_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_unison_detune_]
     }
-    else if (sliderThatWasMoved == osc_2_unison_)
+    else if (sliderThatWasMoved == osc_2_unison_detune_)
     {
-        //[UserSliderCode_osc_2_unison_] -- add your slider handling code here..
-        //[/UserSliderCode_osc_2_unison_]
+        //[UserSliderCode_osc_2_unison_detune_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_2_unison_detune_]
+    }
+    else if (sliderThatWasMoved == osc_1_unison_voices_)
+    {
+        //[UserSliderCode_osc_1_unison_voices_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_1_unison_voices_]
+    }
+    else if (sliderThatWasMoved == osc_2_unison_voices_)
+    {
+        //[UserSliderCode_osc_2_unison_voices_] -- add your slider handling code here..
+        //[/UserSliderCode_osc_2_unison_voices_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -2575,15 +2605,25 @@ BEGIN_JUCER_METADATA
           bkgcol="ff303030" trackcol="ff9765bc" textboxoutline="777777"
           min="-1" max="1" int="0" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="osc_1_unison" id="592c93e7f4ae1095" memberName="osc_1_unison_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="146c 152 36 36"
-          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="5"
+  <SLIDER name="osc_1_unison_detune" id="592c93e7f4ae1095" memberName="osc_1_unison_detune_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="146c 144 36 36"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="200"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
-  <SLIDER name="osc_2_unison" id="840f2c453b57d36d" memberName="osc_2_unison_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="186c 152 36 36"
-          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="5"
+  <SLIDER name="osc_2_unison_detune" id="840f2c453b57d36d" memberName="osc_2_unison_detune_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="186c 144 36 36"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="200"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="osc_1_unison_voices" id="13831e93e267cf40" memberName="osc_1_unison_voices_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="146c 180 36 36"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="1" max="15"
+          int="2" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="osc_2_unison_voices" id="3aa556f9cb32d9c1" memberName="osc_2_unison_voices_"
+          virtualName="TwytchSlider" explicitFocusOrder="0" pos="186c 180 36 36"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="1" max="15"
+          int="2" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 

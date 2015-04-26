@@ -23,10 +23,9 @@
 
 namespace mopo {
 
-  // The oscillators of the synthesizer. This section of the synth is processed
-  // sample by sample to allow for cross modulation.
   class TwytchOscillators : public Processor {
     public:
+      static const int MAX_UNISON = 15;
 
       enum Inputs {
         kOscillator1Waveform,
@@ -51,51 +50,58 @@ namespace mopo {
       Output* getOscillator1Output() { return output(0); }
       Output* getOscillator2Output() { return output(1); }
 
-      // Process one sample of the oscillators. Must be done in the correct
-      // order currently.
-      void tick(int i, int waveform1, int waveform2,
-                int unison1, int unison_phase_detune1, int unison2, int unison_phase_detune2) {
+      void tickCrossMod(int base_phase1, int base_phase2, int phase_diff1, int phase_diff2) {
+        int master_phase1 = phase_diff1 + oscillator1_phases_[0];
+        int master_phase2 = phase_diff2 + oscillator2_phases_[0];
+        int sin1 = FixedPointWave::wave(FixedPointWaveLookup::kSin, master_phase1, base_phase1);
+        int sin2 = FixedPointWave::wave(FixedPointWaveLookup::kSin, master_phase2, base_phase2);
+        oscillator1_cross_mod_ = sin1 / FixedPointWaveLookup::SCALE;
+        oscillator2_cross_mod_ = sin2 / FixedPointWaveLookup::SCALE;
+      }
+
+      void tick(int i, int waveform1, int waveform2, int unison1, int unison2) {
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float mix = input(kMix)->source->buffer[i];
         int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
         int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[i];
-        int phase_diff1 = cross_mod * oscillator2_value_;
-        int phase_diff2 = cross_mod * oscillator1_value_;
-        oscillator1_phase_ += base_phase1;
-        oscillator2_phase_ += base_phase2;
-        int phase1_total = oscillator1_phase_ + phase_diff1;
-        int phase2_total = oscillator2_phase_ + phase_diff2;
-        oscillator1_value_ = FixedPointWave::wave(waveform1, phase1_total, base_phase1);
-        oscillator2_value_ = FixedPointWave::wave(waveform2, phase2_total, base_phase2);
 
-        int oscillator1_total = oscillator1_value_ / unison1;
-        int oscillator2_total = oscillator2_value_ / unison2;
+        int phase_diff1 = cross_mod * oscillator2_cross_mod_;
+        int phase_diff2 = cross_mod * oscillator1_cross_mod_;
+
+        int oscillator1_total = 0;
+        int oscillator2_total = 0;
 
         // Unison.
-        for (int i = 1; i < unison1; ++i) {
-          oscillator1_detune_offsets_[i] += i * unison_phase_detune1;
-          float phase1 = phase1_total + oscillator1_detune_offsets_[i];
-          oscillator1_total += FixedPointWave::wave(waveform1, phase1, base_phase1) / unison1;
+        for (int u = 0; u < unison1; ++u) {
+          int osc_phase_diff = detune1_amounts_[u] * base_phase1;
+          oscillator1_phases_[u] += osc_phase_diff;
+          int phase = phase_diff1 + oscillator1_phases_[u];
+          oscillator1_total += FixedPointWave::wave(waveform1, phase, osc_phase_diff);
         }
 
-        for (int i = 1; i < unison2; ++i) {
-          oscillator2_detune_offsets_[i] += i * unison_phase_detune2;
-          float phase2 = phase2_total + oscillator2_detune_offsets_[i];
-          oscillator2_total += FixedPointWave::wave(waveform2, phase2, base_phase2) / unison2;
+        for (int u = 0; u < unison2; ++u) {
+          int osc_phase_diff = detune2_amounts_[u] * base_phase2;
+          oscillator2_phases_[u] += osc_phase_diff;
+          int phase = phase_diff2 + oscillator2_phases_[u];
+          oscillator2_total += FixedPointWave::wave(waveform2, phase, osc_phase_diff);
         }
+
+        tickCrossMod(base_phase1, base_phase2, phase_diff1, phase_diff2);
 
         mopo_float mixed = (1.0 - mix) * oscillator1_total + mix * oscillator2_total;
         output(0)->buffer[i] = (mixed / FixedPointWaveLookup::SCALE) / INT_MAX;
       }
 
     protected:
-      unsigned int oscillator1_phase_;
-      int oscillator1_value_;
-      unsigned int oscillator2_phase_;
-      int oscillator2_value_;
+      int oscillator1_cross_mod_;
+      int oscillator2_cross_mod_;
 
-      unsigned int oscillator1_detune_offsets_[16];
-      unsigned int oscillator2_detune_offsets_[16];
+      unsigned int oscillator1_phases_[MAX_UNISON];
+      unsigned int oscillator2_phases_[MAX_UNISON];
+      mopo_float detune1_amounts_[MAX_UNISON];
+      mopo_float detune2_amounts_[MAX_UNISON];
+      mopo_float oscillator1_rand_offset_[MAX_UNISON];
+      mopo_float oscillator2_rand_offset_[MAX_UNISON];
   };
 } // namespace mopo
 

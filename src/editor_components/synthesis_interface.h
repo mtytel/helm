@@ -167,8 +167,10 @@ private:
     ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
     ScopedPointer<TwytchSlider> mono_lfo_2_amplitude_;
     ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
-    ScopedPointer<TwytchSlider> osc_1_unison_;
-    ScopedPointer<TwytchSlider> osc_2_unison_;
+    ScopedPointer<TwytchSlider> osc_1_unison_detune_;
+    ScopedPointer<TwytchSlider> osc_2_unison_detune_;
+    ScopedPointer<TwytchSlider> osc_1_unison_voices_;
+    ScopedPointer<TwytchSlider> osc_2_unison_voices_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

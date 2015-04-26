@@ -121,6 +121,8 @@ namespace mopo {
     Processor* oscillator1_waveform = createPolyModControl("osc_1_waveform", Wave::kDownSaw, true);
     Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", 0, true);
     Processor* oscillator1_tune = createPolyModControl("osc_1_tune", 0.0, true);
+    Processor* oscillator1_unison_voices = createPolyModControl("osc_1_unison_voices", 8, true);
+    Processor* oscillator1_unison_detune = createPolyModControl("osc_1_unison_detune", 5.0, true);
     Add* oscillator1_transposed = new Add();
     oscillator1_transposed->setControlRate();
     oscillator1_transposed->plug(bent_midi, 0);
@@ -143,6 +145,8 @@ namespace mopo {
     oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
     oscillators->plug(reset, TwytchOscillators::kReset);
     oscillators->plug(oscillator1_phase_inc_audio, TwytchOscillators::kOscillator1PhaseInc);
+    oscillators->plug(oscillator1_unison_detune, TwytchOscillators::kUnisonDetune1);
+    oscillators->plug(oscillator1_unison_voices, TwytchOscillators::kUnisonVoices1);
 
     Processor* cross_mod = createPolyModControl("cross_modulation", 0.15, false);
     oscillators->plug(cross_mod, TwytchOscillators::kCrossMod);
@@ -158,6 +162,8 @@ namespace mopo {
     Processor* oscillator2_waveform = createPolyModControl("osc_2_waveform", Wave::kDownSaw, true);
     Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", -12, true);
     Processor* oscillator2_tune = createPolyModControl("osc_2_tune", 0.08, true);
+    Processor* oscillator2_unison_voices = createPolyModControl("osc_2_unison_voices", 8, true);
+    Processor* oscillator2_unison_detune = createPolyModControl("osc_2_unison_detune", 5.0, true);
     Add* oscillator2_transposed = new Add();
     oscillator2_transposed->setControlRate();
     oscillator2_transposed->plug(bent_midi, 0);
@@ -179,6 +185,8 @@ namespace mopo {
 
     oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
     oscillators->plug(oscillator2_phase_inc_audio, TwytchOscillators::kOscillator2PhaseInc);
+    oscillators->plug(oscillator2_unison_detune, TwytchOscillators::kUnisonDetune2);
+    oscillators->plug(oscillator2_unison_voices, TwytchOscillators::kUnisonVoices2);
 
     addProcessor(oscillator2_transposed);
     addProcessor(oscillator2_midi);
