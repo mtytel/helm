@@ -35,7 +35,7 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class Oscilloscope  : public Component
+class Oscilloscope  : public AnimatedAppComponent
 {
 public:
     //==============================================================================
@@ -44,7 +44,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void update(); // override;
+    void update() override;
     void resetWavePath();
     void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
     //[/UserMethods]
