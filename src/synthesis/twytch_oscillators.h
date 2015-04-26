@@ -36,6 +36,8 @@ namespace mopo {
         kUnisonVoices2,
         kUnisonDetune1,
         kUnisonDetune2,
+        kHarmonize1,
+        kHarmonize2,
         kReset,
         kCrossMod,
         kMix,

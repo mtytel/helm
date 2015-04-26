@@ -50,6 +50,8 @@ namespace mopo {
     int unison2 = CLAMP(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
     mopo_float detune1 = input(kUnisonDetune1)->source->buffer[0];
     mopo_float detune2 = input(kUnisonDetune2)->source->buffer[0];
+    mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0] + 1;
+    mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0] + 1;
 
     for (int i = 0; i < MAX_UNISON; ++i) {
       oscillator1_rand_offset_[i] += getRandomPitchChange();
@@ -61,19 +63,41 @@ namespace mopo {
     detune1_amounts_[0] = 1.0 + oscillator1_rand_offset_[0];
     for (int i = 0; i < unison1 / 2; ++i) {
       mopo_float amount = detune1 * (i + 1.0) / (unison1 / 2);
-      detune1_amounts_[2 * i + 1] = 1.0 + std::pow(2.0, amount / mopo::CENTS_PER_OCTAVE) +
-                                    oscillator1_rand_offset_[i];
-      detune1_amounts_[2 * i + 2] = 1.0 + std::pow(2.0, -amount / mopo::CENTS_PER_OCTAVE) +
-                                    oscillator1_rand_offset_[i];
+      mopo_float exponent = amount / mopo::CENTS_PER_OCTAVE;
+
+      int index_up = 2 * i + 1;
+      int index_down = 2 * i + 2;
+      int base_up = 1.0;
+      int base_down = 1.0;
+      if (harmonize1) {
+        base_up = index_up;
+        base_down = index_down;
+      }
+
+      mopo_float rand_offset_up = oscillator1_rand_offset_[index_up];
+      detune1_amounts_[index_up] = base_up + std::pow(2.0, exponent + rand_offset_up);
+      mopo_float rand_offset_down = oscillator1_rand_offset_[index_down];
+      detune1_amounts_[index_down] = base_down + std::pow(2.0, -exponent + rand_offset_down);
     }
 
     detune2_amounts_[0] = 1.0 + oscillator2_rand_offset_[0];
     for (int i = 0; i < unison2 / 2; ++i) {
       mopo_float amount = detune2 * (i + 1.0) / (unison2 / 2);
-      detune2_amounts_[2 * i + 1] = 1.0 + std::pow(2.0, amount / mopo::CENTS_PER_OCTAVE) +
-                                    oscillator2_rand_offset_[i];
-      detune2_amounts_[2 * i + 2] = 1.0 + std::pow(2.0, -amount / mopo::CENTS_PER_OCTAVE) +
-                                    oscillator2_rand_offset_[i];
+      mopo_float exponent = amount / mopo::CENTS_PER_OCTAVE;
+
+      int index_up = 2 * i + 1;
+      int index_down = 2 * i + 2;
+      int base_up = 1.0;
+      int base_down = 1.0;
+      if (harmonize2) {
+        base_up = index_up;
+        base_down = index_down;
+      }
+
+      mopo_float rand_offset_up = oscillator2_rand_offset_[index_up];
+      detune2_amounts_[index_up] = base_up + std::pow(2.0, exponent + rand_offset_up);
+      mopo_float rand_offset_down = oscillator2_rand_offset_[index_down];
+      detune2_amounts_[index_down] = base_down + std::pow(2.0, -exponent + rand_offset_down);
     }
 
     int i = 0;
