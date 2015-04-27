@@ -46,7 +46,7 @@ Oscilloscope::Oscilloscope (int num_samples)
 
     //[Constructor] You can add your own custom stuff here..
     samples_to_show_ = num_samples;
-    // setFramesPerSecond(FRAMES_PER_SECOND);
+    setFramesPerSecond(FRAMES_PER_SECOND);
     //[/Constructor]
 }
 

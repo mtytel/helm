@@ -52,6 +52,12 @@ namespace mopo {
       Output* getOscillator1Output() { return output(0); }
       Output* getOscillator2Output() { return output(1); }
 
+    protected:
+      void addRandomPhaseToVoices();
+      void reset();
+      void computeDetuneRatios(mopo_float* detune_amounts, mopo_float* random_offsets,
+                               bool harmonize, mopo_float detune, int voices);
+
       void tickCrossMod(int base_phase1, int base_phase2, int phase_diff1, int phase_diff2) {
         int master_phase1 = phase_diff1 + oscillator1_phases_[0];
         int master_phase2 = phase_diff2 + oscillator2_phases_[0];
@@ -61,7 +67,7 @@ namespace mopo {
         oscillator2_cross_mod_ = sin2 / FixedPointWaveLookup::SCALE;
       }
 
-      void tick(int i, int waveform1, int waveform2, int unison1, int unison2) {
+      void tick(int i, int waveform1, int waveform2, int voices1, int voices2) {
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float mix = input(kMix)->source->buffer[i];
         int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
@@ -73,18 +79,18 @@ namespace mopo {
         int oscillator1_total = 0;
         int oscillator2_total = 0;
 
-        // Unison.
-        for (int u = 0; u < unison1; ++u) {
-          int osc_phase_diff = detune1_amounts_[u] * base_phase1;
-          oscillator1_phases_[u] += osc_phase_diff;
-          int phase = phase_diff1 + oscillator1_phases_[u];
+        // Run Voices.
+        for (int v = 0; v < voices1; ++v) {
+          int osc_phase_diff = detune1_amounts_[v] * base_phase1;
+          oscillator1_phases_[v] += osc_phase_diff;
+          int phase = phase_diff1 + oscillator1_phases_[v];
           oscillator1_total += FixedPointWave::wave(waveform1, phase, osc_phase_diff);
         }
 
-        for (int u = 0; u < unison2; ++u) {
-          int osc_phase_diff = detune2_amounts_[u] * base_phase2;
-          oscillator2_phases_[u] += osc_phase_diff;
-          int phase = phase_diff2 + oscillator2_phases_[u];
+        for (int v = 0; v < voices2; ++v) {
+          int osc_phase_diff = detune2_amounts_[v] * base_phase2;
+          oscillator2_phases_[v] += osc_phase_diff;
+          int phase = phase_diff2 + oscillator2_phases_[v];
           oscillator2_total += FixedPointWave::wave(waveform2, phase, osc_phase_diff);
         }
 
@@ -94,7 +100,6 @@ namespace mopo {
         output(0)->buffer[i] = (mixed / FixedPointWaveLookup::SCALE) / INT_MAX;
       }
 
-    protected:
       int oscillator1_cross_mod_;
       int oscillator2_cross_mod_;
 

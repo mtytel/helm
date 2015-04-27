@@ -16,7 +16,7 @@
 
 #include "twytch_oscillators.h"
 
-#define RAND_DECAY 0.8
+#define RAND_DECAY 0.9
 
 namespace mopo {
 
@@ -43,80 +43,69 @@ namespace mopo {
     }
   }
 
-  void TwytchOscillators::process() {
-    int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
-    int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
-    int unison1 = CLAMP(input(kUnisonVoices1)->source->buffer[0], 1, MAX_UNISON);
-    int unison2 = CLAMP(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
-    mopo_float detune1 = input(kUnisonDetune1)->source->buffer[0];
-    mopo_float detune2 = input(kUnisonDetune2)->source->buffer[0];
-    mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0] + 1;
-    mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0] + 1;
-
+  void TwytchOscillators::addRandomPhaseToVoices() {
     for (int i = 0; i < MAX_UNISON; ++i) {
       oscillator1_rand_offset_[i] += getRandomPitchChange();
       oscillator2_rand_offset_[i] += getRandomPitchChange();
       oscillator1_rand_offset_[i] *= RAND_DECAY;
       oscillator2_rand_offset_[i] *= RAND_DECAY;
     }
+  }
 
-    detune1_amounts_[0] = 1.0 + oscillator1_rand_offset_[0];
-    for (int i = 0; i < unison1 / 2; ++i) {
-      mopo_float amount = detune1 * (i + 1.0) / (unison1 / 2);
-      mopo_float exponent = amount / mopo::CENTS_PER_OCTAVE;
+  void TwytchOscillators::reset() {
+    oscillator1_cross_mod_ = 0.0;
+    oscillator2_cross_mod_ = 0.0;
 
-      int index_up = 2 * i + 1;
-      int index_down = 2 * i + 2;
-      int base_up = 1.0;
-      int base_down = 1.0;
-      if (harmonize1) {
-        base_up = index_up;
-        base_down = index_down;
-      }
-
-      mopo_float rand_offset_up = oscillator1_rand_offset_[index_up];
-      detune1_amounts_[index_up] = base_up + std::pow(2.0, exponent + rand_offset_up);
-      mopo_float rand_offset_down = oscillator1_rand_offset_[index_down];
-      detune1_amounts_[index_down] = base_down + std::pow(2.0, -exponent + rand_offset_down);
+    for (int i = 0; i < MAX_UNISON; ++i) {
+      oscillator1_phases_[i] = 0;
+      oscillator2_phases_[i] = 0;
+      oscillator1_rand_offset_[i] = 0.0;
+      oscillator2_rand_offset_[i] = 0.0;
     }
+  }
 
-    detune2_amounts_[0] = 1.0 + oscillator2_rand_offset_[0];
-    for (int i = 0; i < unison2 / 2; ++i) {
-      mopo_float amount = detune2 * (i + 1.0) / (unison2 / 2);
+  void TwytchOscillators::computeDetuneRatios(mopo_float* detune_amounts,
+                                              mopo_float* random_offsets,
+                                              bool harmonize, mopo_float detune, int voices) {
+    for (int i = 0; i < voices; ++i) {
+      mopo_float amount = (detune * ((i + 1) / 2)) / ((voices + 1) / 2);
+
       mopo_float exponent = amount / mopo::CENTS_PER_OCTAVE;
+      if (i % 2)
+        exponent = -exponent;
 
-      int index_up = 2 * i + 1;
-      int index_down = 2 * i + 2;
-      int base_up = 1.0;
-      int base_down = 1.0;
-      if (harmonize2) {
-        base_up = index_up;
-        base_down = index_down;
-      }
+      mopo_float harmonic = 1.0;
+      if (harmonize)
+        harmonic = i + 1;
 
-      mopo_float rand_offset_up = oscillator2_rand_offset_[index_up];
-      detune2_amounts_[index_up] = base_up + std::pow(2.0, exponent + rand_offset_up);
-      mopo_float rand_offset_down = oscillator2_rand_offset_[index_down];
-      detune2_amounts_[index_down] = base_down + std::pow(2.0, -exponent + rand_offset_down);
+      detune_amounts[i] = harmonic + std::pow(2.0, exponent + random_offsets[i]);
     }
+  }
+
+  void TwytchOscillators::process() {
+    int voices1 = CLAMP(input(kUnisonVoices1)->source->buffer[0], 1, MAX_UNISON);
+    int voices2 = CLAMP(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
+    mopo_float detune1 = input(kUnisonDetune1)->source->buffer[0];
+    mopo_float detune2 = input(kUnisonDetune2)->source->buffer[0];
+    mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0] + 1;
+    mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0] + 1;
+
+    addRandomPhaseToVoices();
+    computeDetuneRatios(detune1_amounts_, oscillator1_rand_offset_, harmonize1, detune1, voices1);
+    computeDetuneRatios(detune2_amounts_, oscillator2_rand_offset_, harmonize2, detune2, voices2);
+
+    int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
+    int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
 
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, wave1, wave2, unison1, unison2);
+        tick(i, wave1, wave2, voices1, voices2);
 
-      oscillator1_cross_mod_ = 0.0;
-      oscillator2_cross_mod_ = 0.0;
-
-      for (int i = 0; i < MAX_UNISON; ++i) {
-        oscillator1_phases_[i] = 0;
-        oscillator2_phases_[i] = 0;
-        oscillator1_rand_offset_[i] = 0.0;
-        oscillator2_rand_offset_[i] = 0.0;
-      }
+      reset();
     }
     for (; i < buffer_size_; ++i)
-      tick(i, wave1, wave2, unison1, unison2);
+      tick(i, wave1, wave2, voices1, voices2);
   }
 } // namespace mopo
