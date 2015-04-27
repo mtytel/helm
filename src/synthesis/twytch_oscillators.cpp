@@ -23,7 +23,7 @@ namespace mopo {
   namespace {
     inline mopo_float getRandomPitchChange() {
       static const int RESOLUTION = 10000;
-      static const mopo_float RAND_RATIO = 0.001;
+      static const mopo_float RAND_RATIO = 0.00001;
 
       return (RAND_RATIO * (rand() % RESOLUTION)) / RESOLUTION - RAND_RATIO / 2.0;
     }
@@ -57,8 +57,8 @@ namespace mopo {
     oscillator2_cross_mod_ = 0.0;
 
     for (int i = 0; i < MAX_UNISON; ++i) {
-      oscillator1_phases_[i] = 0;
-      oscillator2_phases_[i] = 0;
+      oscillator1_phases_[i] = i * (INT_MAX / MAX_UNISON);
+      oscillator2_phases_[i] = i * (INT_MAX / MAX_UNISON);
       oscillator1_rand_offset_[i] = 0.0;
       oscillator2_rand_offset_[i] = 0.0;
     }
@@ -78,7 +78,7 @@ namespace mopo {
       if (harmonize)
         harmonic = i + 1;
 
-      detune_amounts[i] = harmonic + std::pow(2.0, exponent + random_offsets[i]);
+      detune_amounts[i] = harmonic + std::pow(2.0, exponent) + amount * random_offsets[i];
     }
   }
 

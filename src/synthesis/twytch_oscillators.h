@@ -94,6 +94,9 @@ namespace mopo {
           oscillator2_total += FixedPointWave::wave(waveform2, phase, osc_phase_diff);
         }
 
+        oscillator1_total /= ((voices1 >> 2) + 1);
+        oscillator1_total /= ((voices2 >> 2) + 1);
+
         tickCrossMod(base_phase1, base_phase2, phase_diff1, phase_diff2);
 
         mopo_float mixed = (1.0 - mix) * oscillator1_total + mix * oscillator2_total;

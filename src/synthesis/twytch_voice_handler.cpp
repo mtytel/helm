@@ -148,7 +148,7 @@ namespace mopo {
     oscillators->plug(oscillator1_unison_detune, TwytchOscillators::kUnisonDetune1);
     oscillators->plug(oscillator1_unison_voices, TwytchOscillators::kUnisonVoices1);
 
-    Processor* cross_mod = createPolyModControl("cross_modulation", 0.15, false);
+    Processor* cross_mod = createPolyModControl("cross_modulation", 0.0, false);
     oscillators->plug(cross_mod, TwytchOscillators::kCrossMod);
 
     addProcessor(oscillator1_transposed);
