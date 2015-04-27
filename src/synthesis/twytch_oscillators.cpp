@@ -16,14 +16,14 @@
 
 #include "twytch_oscillators.h"
 
-#define RAND_DECAY 0.9
+#define RAND_DECAY 0.999
 
 namespace mopo {
 
   namespace {
     inline mopo_float getRandomPitchChange() {
       static const int RESOLUTION = 10000;
-      static const mopo_float RAND_RATIO = 0.01;
+      static const mopo_float RAND_RATIO = 0.001;
 
       return (RAND_RATIO * (rand() % RESOLUTION)) / RESOLUTION - RAND_RATIO / 2.0;
     }
@@ -87,8 +87,8 @@ namespace mopo {
     int voices2 = CLAMP(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
     mopo_float detune1 = input(kUnisonDetune1)->source->buffer[0];
     mopo_float detune2 = input(kUnisonDetune2)->source->buffer[0];
-    mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0] + 1;
-    mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0] + 1;
+    mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0];
+    mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0];
 
     addRandomPhaseToVoices();
     computeDetuneRatios(detune1_amounts_, oscillator1_rand_offset_, harmonize1, detune1, voices1);
