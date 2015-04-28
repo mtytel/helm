@@ -18,6 +18,8 @@
 #include "mopo.h"
 
 #define ANGLE 2.51327412f
+#define ROTARY_MOD_COLOR 0xff00c853
+#define SLIDER_MOD_COLOR 0xff69f0ae
 
 ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
                                  const mopo::Processor::Output* poly_total,
@@ -89,7 +91,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
             else
                 fillHorizontalRect(g, 0, knob_position, getHeight());
 
-            g.setColour(Colour(0xffffe57f));
+            g.setColour(Colour(SLIDER_MOD_COLOR));
             fillHorizontalRect(g, knob_position, mod_position, getHeight() / 2.0f);
         }
     }
@@ -102,7 +104,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
         else
             fillVerticalRect(g, 0, knob_position, getWidth());
 
-        g.setColour(Colour(0xffffe57f));
+        g.setColour(Colour(SLIDER_MOD_COLOR));
         fillVerticalRect(g, mod_position, knob_position, getWidth() / 2.0f);
     }
 }
@@ -115,7 +117,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
         Path mod_section;
         mod_section.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
                                   0.0f, current_mod_angle, current_knob_angle, true);
-        g.setColour(Colour(0xfff16504));
+        g.setColour(Colour(ROTARY_MOD_COLOR));
         g.strokePath(mod_section, knob_stroke_);
     }
 }

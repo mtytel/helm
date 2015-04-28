@@ -30,19 +30,19 @@ void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int widt
   float mod_percentage = slider.getValue() / destination_range;
 
   if (mod_percentage == 0.0) {
-    g.setColour(Colour(0x11ffaa44));
+    g.setColour(Colour(0x11b9f6ca));
     g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
-    g.setColour(Colour(0xffffaa00));
+    g.setColour(Colour(0xffb9f6ca));
     g.drawRect(0, 0, slider.getWidth(), slider.getHeight(), 1);
   }
   else {
-    g.setColour(Colour(0x11ff9534));
+    g.setColour(Colour(0x1100e676));
     g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
-    g.setColour(Colour(0xffffaa00));
+    g.setColour(Colour(0xff00e676));
     g.drawRect(0.0f, 0.0f, float(slider.getWidth()), float(slider.getHeight()), 2.5f);
   }
 
-  g.setColour(Colour(0x55ffaa00));
+  g.setColour(Colour(0x5500e676));
 
   if (style == Slider::SliderStyle::LinearBar) {
     float destination_position = width * destination_percentage;
@@ -90,18 +90,18 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
       PathStrokeType(knob_radius, PathStrokeType::beveled, PathStrokeType::butt);
 
   if (mod_diff == 0.0) {
-    g.setColour(Colour(0x33ffaa44));
+    g.setColour(Colour(0x33b9f6ca));
     g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                   2.0 * knob_radius, 2.0 * knob_radius);
-    g.setColour(Colour(0xffffaa00));
+    g.setColour(Colour(0xff00c853));
     g.drawEllipse(width / 2.0f - knob_radius + 0.5f, height / 2.0f - knob_radius + 0.5f,
                   2.0f * knob_radius - 1.0f, 2.0f * knob_radius - 1.0f, 1.0f);
   }
   else {
-    g.setColour(Colour(0xaaff9534));
+    g.setColour(Colour(0xaa00e676));
     g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                   2.0 * knob_radius, 2.0 * knob_radius);
-    g.setColour(Colour(0xffffaa00));
+    g.setColour(Colour(0xff00c853));
     g.drawEllipse(width / 2.0f - knob_radius + 1.5f, height / 2.0f - knob_radius + 1.5f,
                   2.0f * knob_radius - 3.0f, 2.0f * knob_radius - 3.0f, 3.0f);
   }
