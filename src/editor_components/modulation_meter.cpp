@@ -72,7 +72,7 @@ void ModulationMeter::update(int num_voices) {
 }
 
 void ModulationMeter::drawSlider(Graphics& g) {
-    g.setColour(Colour(0x88ffffff));
+    g.setColour(Colour(SLIDER_MOD_COLOR));
 
     if (destination_->getSliderStyle() == Slider::LinearBar) {
         float knob_position = getWidth() * knob_percent_;
@@ -85,26 +85,13 @@ void ModulationMeter::drawSlider(Graphics& g) {
             g.setColour(Colour(0xaaffffff));
             g.drawRect(index * width, 0.0f, width, float(getHeight()), 1.0f);
         }
-        else {
-            if (destination_->isBipolar())
-                fillHorizontalRect(g, getWidth() / 2.0f, knob_position, getHeight());
-            else
-                fillHorizontalRect(g, 0, knob_position, getHeight());
-
-            g.setColour(Colour(SLIDER_MOD_COLOR));
+        else
             fillHorizontalRect(g, knob_position, mod_position, getHeight() / 2.0f);
-        }
     }
     else {
         float mod_position = getHeight() * (1.0f - mod_percent_);
         float knob_position = getHeight() * (1.0f - knob_percent_);
 
-        if (destination_->isBipolar())
-            fillVerticalRect(g, getHeight() / 2.0f, knob_position, getWidth());
-        else
-            fillVerticalRect(g, 0, knob_position, getWidth());
-
-        g.setColour(Colour(SLIDER_MOD_COLOR));
         fillVerticalRect(g, mod_position, knob_position, getWidth() / 2.0f);
     }
 }

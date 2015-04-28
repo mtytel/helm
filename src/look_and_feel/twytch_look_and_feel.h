@@ -37,6 +37,10 @@ class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
     void drawToggleButton(Graphics& g, ToggleButton& button,
                           bool isMouseOverButton, bool isButtonDown) override;
 
+    void fillHorizontalRect(Graphics& g, float x1, float x2, float height);
+
+    void fillVerticalRect(Graphics& g, float y1, float y2, float width);
+
 };
 
 #endif // TWYTCH_LOOK_AND_FEEL_H

@@ -25,15 +25,34 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
                                          const Slider::SliderStyle style, Slider& slider) {
   static const DropShadow thumb_shadow(Colour(0x88000000), 3, Point<int>(-1, 0));
 
+  bool bipolar = false;
+  TwytchSlider* t_slider = dynamic_cast<TwytchSlider*>(&slider);
+  if (t_slider)
+    bipolar = t_slider->isBipolar();
+
   float pos = slider_pos - 1.0f;
   if (style == Slider::SliderStyle::LinearBar) {
     float h = slider.getHeight();
+
+    g.setColour(Colour(0xff888888));
+    if (bipolar)
+      fillHorizontalRect(g, width / 2.0f, pos, h);
+    else
+      fillHorizontalRect(g, 0.0f, pos, h);
+
     thumb_shadow.drawForRectangle(g, Rectangle<int>(pos + 0.5f, 0, 2, h));
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(pos, 0.0f, 2.0f, h);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
     float w = slider.getWidth();
+
+    g.setColour(Colour(0xff888888));
+    if (bipolar)
+      fillVerticalRect(g, height / 2.0f, pos, w);
+    else
+      fillVerticalRect(g, 0, pos, w);
+
     thumb_shadow.drawForRectangle(g, Rectangle<int>(0, pos + 0.5f, w, 2));
     g.setColour(slider.findColour(Slider::thumbColourId));
     g.fillRect(0.0f, pos, w, 2.0f);
@@ -107,7 +126,6 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   }
 }
 
-
 void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                          bool isMouseOverButton, bool isButtonDown) {
   static float stroke_percent = 0.1;
@@ -126,4 +144,16 @@ void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   
   g.strokePath(outer, stroke_type);
   g.fillRoundedRectangle(full_radius - 1.0f, 0.0f, 2.0f, full_radius, 1.0f);
+}
+
+void TwytchLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
+  float x = std::min(x1, x2);
+  float width = fabsf(x1 - x2);
+  g.fillRect(x, 0.0f, width, height);
+}
+
+void TwytchLookAndFeel::fillVerticalRect(Graphics& g, float y1, float y2, float width) {
+  float y = std::min(y1, y2);
+  float height = fabsf(y1 - y2);
+  g.fillRect(0.0f, y, width, height);
 }
