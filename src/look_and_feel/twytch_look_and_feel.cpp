@@ -82,6 +82,20 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
   float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
 
+  if (slider.getInterval() == 1) {
+    static const float TEXT_W_PERCENT = 0.35f;
+    Rectangle<int> text_bounds(1.0f + width * (1.0f - TEXT_W_PERCENT) / 2.0f,
+                               0.5f * height, width * TEXT_W_PERCENT, 0.5f * height);
+
+    g.setColour(Colour(0xff464646));
+    g.fillRect(text_bounds);
+
+    g.setColour(slider.findColour(Slider::textBoxTextColourId));
+    g.setFont(Font("Noto Sans", 0.24f * height, Font::plain));
+    g.drawText(String(slider.getValue()), text_bounds,
+               Justification::horizontallyCentred | Justification::bottom);
+  }
+
   Path rail;
   rail.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                      0.0f, start_angle, end_angle, true);
@@ -107,7 +121,7 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   g.setColour(Colour(0xffffab00));
   g.strokePath(active_section, outer_stroke);
 
-  g.setColour(slider.findColour(Slider::rotarySliderOutlineColourId));
+  g.setColour(Colour(0xff000000));
   g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
                 2.0f * knob_radius, 2.0f * knob_radius);
 
@@ -118,12 +132,6 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
 
   g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
   g.drawLine(full_radius, full_radius, end_x, end_y, 1.0f);
-  
-  if (slider.getInterval() == 1) {
-    g.setColour(slider.findColour(Slider::textBoxTextColourId));
-    g.drawText(String(slider.getValue()), slider.getLocalBounds(),
-               Justification::horizontallyCentred | Justification::verticallyCentred);
-  }
 }
 
 void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
