@@ -95,7 +95,7 @@ namespace mopo {
         }
 
         oscillator1_total /= ((voices1 >> 2) + 1);
-        oscillator1_total /= ((voices2 >> 2) + 1);
+        oscillator2_total /= ((voices2 >> 2) + 1);
 
         tickCrossMod(base_phase1, base_phase2, phase_diff1, phase_diff2);
 
