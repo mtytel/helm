@@ -63,6 +63,8 @@ XYPad::~XYPad()
 void XYPad::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
+    static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
     //[/UserPrePaint]
 
     g.fillAll (Colour (0xff424242));
@@ -77,13 +79,16 @@ void XYPad::paint (Graphics& g)
     float x = x_slider_->getValue() * getWidth();
     float y = (1.0f - y_slider_->getValue()) * getHeight();
 
+    Path target;
+    target.addEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f);
+    shadow.drawForPath(g, target);
+
     g.setColour(Colour(0xff565656));
-    g.fillEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f);
+    g.fillPath(target);
 
     g.setColour(Colour(0xff03a9f4));
-    g.drawEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f, 1.5f);
+    g.strokePath(target, stroke);
     g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
-
 
     if (mouse_down_) {
         g.setColour(Colour(0x11ffffff));
