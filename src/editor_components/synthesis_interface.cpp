@@ -65,7 +65,7 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     pitch_bend_range_->addListener (this);
 
     addAndMakeVisible (cross_modulation_ = new TwytchSlider ("cross_modulation"));
-    cross_modulation_->setRange (0, 1, 0);
+    cross_modulation_->setRange (0, 0.4, 0);
     cross_modulation_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     cross_modulation_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     cross_modulation_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
@@ -2285,7 +2285,7 @@ BEGIN_JUCER_METADATA
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="cross_modulation" id="1d3e4b59d6e470fb" memberName="cross_modulation_"
           virtualName="TwytchSlider" explicitFocusOrder="0" pos="168c 56 46 46"
-          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="1"
+          rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="0.4000000000000000222"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="portamento_type" id="909956998c46045e" memberName="portamento_type_"
