@@ -33,6 +33,14 @@ class ModulationLookAndFeel : public LookAndFeel_V3 {
     void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                           float slider_t, float start_angle, float end_angle,
                           Slider& slider);
+
+    void drawDrawableButton(Graphics&, DrawableButton&,
+                            bool isMouseOverButton, bool isButtonDown) override;
+
+    static ModulationLookAndFeel* instance() {
+      static ModulationLookAndFeel instance;
+      return &instance;
+    }
 };
 
 #endif // MODULATION_LOOK_AND_FEEL_H

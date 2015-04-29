@@ -53,6 +53,8 @@ public:
     void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
     void clearModulation(std::string source, std::string destination);
     void changeModulator(std::string new_modulator);
+    void forgetModulator();
+    std::string getCurrentModulator() { return current_modulator_; }
     void showMeter(std::string name, bool show);
 
     void timerCallback() override;
