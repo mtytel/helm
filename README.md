@@ -1,7 +1,5 @@
-Twytch is free software.
-
-Twytch is a cross-platform polyphonic synthesizer that runs standalone or as a
-VST/AU/AAX plugin.
+## Twytch
+Twytch is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a VST/AU/AAX plugin. Release is in beta so there are outstanding bugs. Please send any bugs found to matthewtytel@gmail.com
 
 ### Features:
  - 32 voice polyphony
