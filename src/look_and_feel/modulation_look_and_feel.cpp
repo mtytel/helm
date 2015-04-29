@@ -126,14 +126,29 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
 
 void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                              bool isMouseOverButton, bool isButtonDown) {
+  static const PathStrokeType stroke(3.0f, PathStrokeType::beveled, PathStrokeType::rounded);
+  Colour background = Colour(0xff212121);
   if (button.getToggleState())
-    g.setColour(Colours::grey);
-  else
-    g.setColour(Colours::black);
+    background = Colour(0xff424242);
+  g.setColour(background);
   g.fillAll();
 
+  float width = button.getWidth();
+  float height = button.getHeight();
+  Path modulation_source;
+  modulation_source.addEllipse(width * 0.55f, height * 0.3f, width * 0.4f, height * 0.4f);
+  modulation_source.addEllipse(width * 0.05f, height * 0.3f, width * 0.4f, height * 0.4f);
+  g.setColour(Colour(0xff00C853));
+  g.fillPath(modulation_source);
+  g.setColour(background);
+  g.fillEllipse(width * 0.15f, height * 0.4f, width * 0.2f, height * 0.2f);
+  g.fillRect(width * 0.25f, height * 0.4f, width * 0.25f, height * 0.2f);
+  g.setColour(Colour(0xff00C853));
+  g.fillRoundedRectangle(width * 0.18f, height * 0.43f,
+                         width * 0.5f, height * 0.14f, 3.0f);
+
   if (isMouseOverButton) {
-    g.setColour(Colour(0xff0000ff));
+    g.setColour(Colour(0xff1976d2));
     g.drawRect(0, 0, button.getWidth(), button.getHeight());
   }
 }
