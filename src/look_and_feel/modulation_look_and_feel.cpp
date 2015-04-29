@@ -124,9 +124,12 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   g.drawLine(draw_radius, draw_radius, end_x, end_y, 1.0f);
 }
 
-void ModulationLookAndFeel::drawDrawableButton(Graphics& g, DrawableButton& button,
-                                               bool isMouseOverButton, bool isButtonDown) {
-  g.setColour(Colours::black);
+void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
+                                             bool isMouseOverButton, bool isButtonDown) {
+  if (button.getToggleState())
+    g.setColour(Colours::grey);
+  else
+    g.setColour(Colours::black);
   g.fillAll();
 
   if (isMouseOverButton) {

@@ -34,8 +34,8 @@ class ModulationLookAndFeel : public LookAndFeel_V3 {
                           float slider_t, float start_angle, float end_angle,
                           Slider& slider);
 
-    void drawDrawableButton(Graphics&, DrawableButton&,
-                            bool isMouseOverButton, bool isButtonDown) override;
+    void drawToggleButton(Graphics& g, ToggleButton& button,
+                          bool isMouseOverButton, bool isButtonDown) override;
 
     static ModulationLookAndFeel* instance() {
       static ModulationLookAndFeel instance;

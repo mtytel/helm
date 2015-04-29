@@ -613,6 +613,18 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     markBipolarSliders();
     createStepSequencerSliders();
 
+    filter_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    amplitude_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    step_sequencer_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    mono_lfo_1_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    mono_lfo_2_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    poly_lfo_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    aftertouch_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    note_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    velocity_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    mod_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+    pitch_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+
     resonance_->setSliderStyle(Slider::LinearBarVertical);
     formant_y_->setSliderStyle(Slider::LinearBarVertical);
     mono_lfo_1_amplitude_->setSliderStyle(Slider::LinearBarVertical);
@@ -663,11 +675,8 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
             slider_lookup_[slider->getName().toStdString()] = slider;
 
         Button* button = dynamic_cast<Button*>(getChildComponent(i));
-        if (button) {
+        if (button)
             button_lookup_[button->getName().toStdString()] = button;
-            if (button->getName().endsWith(" mod"))
-                button->setLookAndFeel(ModulationLookAndFeel::instance());
-        }
     }
 
     setDefaultDoubleClickValues();
