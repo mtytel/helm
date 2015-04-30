@@ -136,22 +136,31 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
 
 void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                          bool isMouseOverButton, bool isButtonDown) {
+  static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
   static float stroke_percent = 0.1;
+  static float padding = 1.0f;
 
   float full_radius = std::min(button.getWidth(), button.getHeight()) / 2.0;
   float stroke_width = 2.0f * full_radius * stroke_percent;
   PathStrokeType stroke_type(stroke_width, PathStrokeType::beveled, PathStrokeType::rounded);
-  float outer_radius = full_radius - stroke_width;
+  float outer_radius = full_radius - stroke_width - padding;
   Path outer;
   outer.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                       mopo::PI, -POWER_ARC_ANGLE, POWER_ARC_ANGLE, true);
+
+  Path shadow_path;
+  stroke_type.createStrokedPath(shadow_path, outer);
+  shadow.drawForPath(g, shadow_path);
+  Rectangle<int> bar_shadow_rect(full_radius - 1.0f, padding, 2.0f, full_radius);
+  shadow.drawForRectangle(g, bar_shadow_rect);
+
   if (button.getToggleState())
     g.setColour(Colours::white);
   else
     g.setColour(Colours::grey);
-  
+
   g.strokePath(outer, stroke_type);
-  g.fillRoundedRectangle(full_radius - 1.0f, 0.0f, 2.0f, full_radius, 1.0f);
+  g.fillRoundedRectangle(full_radius - 1.0f, padding, 2.0f, full_radius, 1.0f);
 }
 
 void TwytchLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
