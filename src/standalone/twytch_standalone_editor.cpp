@@ -37,7 +37,7 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   if (midi_input_.get())
     midi_input_->start();
 
-  setLookAndFeel(&look_and_feel_);
+  setLookAndFeel(TwytchLookAndFeel::instance());
 
   gui_ = new FullInterface(synth_.getControls(),
                            synth_.getModulationSources(),

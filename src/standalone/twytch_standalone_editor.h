@@ -52,7 +52,6 @@ class TwytchStandaloneEditor : public AudioAppComponent,
   private:
     mopo::TwytchEngine synth_;
     CriticalSection critical_section_;
-    TwytchLookAndFeel look_and_feel_;
 
     ScopedPointer<mopo::Memory> output_memory_;
     ScopedPointer<FullInterface> gui_;

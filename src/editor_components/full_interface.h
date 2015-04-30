@@ -61,6 +61,8 @@ public:
                                  mopo::output_map poly_modulations);
     void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     void changeModulator(std::string source);
+    void forgetModulator();
+    std::string getCurrentModulator();
     void setToolTipText(String parameter, String value);
     //[/UserMethods]
 

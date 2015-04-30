@@ -190,26 +190,25 @@ void ModulationManager::clearModulation(std::string source, std::string destinat
     }
 }
 
-void ModulationManager::changeModulator(std::string new_modulator) {
-    if (new_modulator == current_modulator_ || new_modulator == "") {
-        polyphonic_destinations_->setVisible(false);
-        monophonic_destinations_->setVisible(false);
-        current_modulator_ = "";
-    }
-    else {
-        current_modulator_ = new_modulator;
-        for (auto slider : slider_lookup_) {
-            std::string destination_name = slider.second->getName().toStdString();
-            float value = 0.0f;
-            if (connections_[current_modulator_].count(destination_name))
-                value = connections_[current_modulator_][destination_name]->amount.value();
-            slider.second->setValue(value);
-        }
+void ModulationManager::forgetModulator() {
+    polyphonic_destinations_->setVisible(false);
+    monophonic_destinations_->setVisible(false);
+    current_modulator_ = "";
+}
 
-        polyphonic_destinations_->setVisible(true);
-        bool source_is_poly = modulation_sources_[current_modulator_]->owner->isPolyphonic();
-        monophonic_destinations_->setVisible(!source_is_poly);
+void ModulationManager::changeModulator(std::string new_modulator) {
+    current_modulator_ = new_modulator;
+    for (auto slider : slider_lookup_) {
+        std::string destination_name = slider.second->getName().toStdString();
+        float value = 0.0f;
+        if (connections_[current_modulator_].count(destination_name))
+            value = connections_[current_modulator_][destination_name]->amount.value();
+        slider.second->setValue(value);
     }
+
+    polyphonic_destinations_->setVisible(true);
+    bool source_is_poly = modulation_sources_[current_modulator_]->owner->isPolyphonic();
+    monophonic_destinations_->setVisible(!source_is_poly);
 }
 
 void ModulationManager::showMeter(std::string name, bool show) {
@@ -217,7 +216,7 @@ void ModulationManager::showMeter(std::string name, bool show) {
 }
 
 void ModulationManager::clearModulationConnections() {
-    changeModulator("");
+    forgetModulator();
     for (auto source : connections_)
         source.second.clear();
     connections_.clear();

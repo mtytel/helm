@@ -41,6 +41,10 @@ class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
 
     void fillVerticalRect(Graphics& g, float y1, float y2, float width);
 
+    static TwytchLookAndFeel* instance() {
+      static TwytchLookAndFeel instance;
+      return &instance;
+    }
 };
 
 #endif // TWYTCH_LOOK_AND_FEEL_H

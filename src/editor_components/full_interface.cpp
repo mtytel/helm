@@ -375,6 +375,14 @@ void FullInterface::changeModulator(std::string source) {
     modulation_manager_->changeModulator(source);
 }
 
+void FullInterface::forgetModulator() {
+    modulation_manager_->forgetModulator();
+}
+
+std::string FullInterface::getCurrentModulator() {
+    return modulation_manager_->getCurrentModulator();
+}
+
 void FullInterface::setToolTipText(String parameter, String value) {
     if (global_tool_tip_)
         global_tool_tip_->setText(parameter, value);
