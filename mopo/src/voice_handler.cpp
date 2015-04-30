@@ -205,6 +205,7 @@ namespace mopo {
 
     while (active_voices_.size() > polyphony) {
       active_voices_.front()->deactivate();
+      free_voices_.push_back(active_voices_.front());
       active_voices_.pop_front();
     }
 
