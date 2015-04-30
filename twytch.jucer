@@ -275,7 +275,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
-    <LINUX_MAKE targetFolder="builds/linux" vstFolder="~/SDKs/vstsdk2.4" vst3Folder="~/SDKs/VST3 SDK">
+    <LINUX_MAKE targetFolder="builds/linux" vstFolder="~/srcs/vstsdk2.4" vst3Folder="~/srcs/VST3 SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="twytch" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
