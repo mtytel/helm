@@ -2095,6 +2095,10 @@ void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
         slider_lookup_[name]->setValue(value, notification);
 }
 
+void SynthesisInterface::modulationChanged(std::string source) {
+    button_lookup_[source]->repaint();
+}
+
 TwytchSlider* SynthesisInterface::getSlider(std::string name) {
     if (slider_lookup_.count(name))
         return slider_lookup_[name];

@@ -379,6 +379,10 @@ void FullInterface::forgetModulator() {
     modulation_manager_->forgetModulator();
 }
 
+void FullInterface::modulationChanged(std::string source) {
+    synthesis_interface_->modulationChanged(source);
+}
+
 std::string FullInterface::getCurrentModulator() {
     return modulation_manager_->getCurrentModulator();
 }

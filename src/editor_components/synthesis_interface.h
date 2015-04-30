@@ -64,6 +64,7 @@ public:
     void setAllValues(mopo::control_map& controls);
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
+    void modulationChanged(std::string source);
 
     TwytchSlider* getSlider(std::string name);
     //[/UserMethods]

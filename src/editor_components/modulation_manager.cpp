@@ -19,6 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "modulation_slider.h"
+#include "full_interface.h"
 #include "synth_gui_interface.h"
 #include "twytch_common.h"
 //[/Headers]
@@ -163,6 +164,9 @@ void ModulationManager::timerCallback() {
 
 void ModulationManager::sliderValueChanged(Slider *slider) {
     std::string destination_name = slider->getName().toStdString();
+    FullInterface* parent = findParentComponentOfClass<FullInterface>();
+    if (parent)
+        parent->modulationChanged(current_modulator_);
 
     if (slider->getValue() == 0.0f)
         clearModulation(current_modulator_, destination_name);

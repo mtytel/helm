@@ -116,12 +116,12 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   active_section.addCentredArc(center_x, center_y, knob_radius / 2.0, knob_radius / 2.0,
                                destination_angle, mod_diff, 0, true);
 
-  g.setColour(Colour(0x88ffbb99));
+  g.setColour(Colour(0xff69f0ae));
   g.strokePath(active_section, stroke_type);
 
   float end_x = draw_radius + 0.9f * knob_radius * sin(destination_angle + mod_diff);
   float end_y = draw_radius - 0.9f * knob_radius * cos(destination_angle + mod_diff);
-  g.setColour(Colour(0xffffddaa));
+  g.setColour(Colour(0xffffffff));
   g.drawLine(draw_radius, draw_radius, end_x, end_y, 1.0f);
 }
 
@@ -134,7 +134,7 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   Colour icon_source_color = Colour(0xff424242);
   Colour icon_dest_color = Colour(0xff424242);
   if (button.getToggleState())
-    icon_source_color = Colour(0xff00c853);
+    icon_source_color = Colour(0xff4fc3f7);
 
   SynthGuiInterface* parent = button.findParentComponentOfClass<SynthGuiInterface>();
   if (parent && parent->getSourceConnections(button.getName().toStdString()).size())
