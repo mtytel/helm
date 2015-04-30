@@ -33,6 +33,18 @@ void SynthGuiInterface::disconnectModulation(mopo::ModulationConnection* connect
   synth_->disconnectModulation(connection);
 }
 
+std::vector<mopo::ModulationConnection*>
+SynthGuiInterface::getSourceConnections(std::string source) {
+  ScopedLock lock(getCriticalSection());
+  return synth_->getSourceConnections(source);
+}
+
+std::vector<mopo::ModulationConnection*>
+SynthGuiInterface::getDestinationConnections(std::string destination) {
+  ScopedLock lock(getCriticalSection());
+  return synth_->getDestinationConnections(destination);
+}
+
 int SynthGuiInterface::getNumActiveVoices() {
   ScopedLock lock(getCriticalSection());
   return synth_->getNumActiveVoices();

@@ -224,6 +224,25 @@ namespace mopo {
     mod_connections_.clear();
   }
 
+  std::vector<ModulationConnection*> TwytchEngine::getSourceConnections(std::string source) {
+    std::vector<ModulationConnection*> connections;
+    for (ModulationConnection* connection : mod_connections_) {
+      if (connection->source == source)
+        connections.push_back(connection);
+    }
+    return connections;
+  }
+
+  std::vector<ModulationConnection*>
+  TwytchEngine::getDestinationConnections(std::string destination) {
+    std::vector<ModulationConnection*> connections;
+    for (ModulationConnection* connection : mod_connections_) {
+      if (connection->destination == destination)
+        connections.push_back(connection);
+    }
+    return connections;
+  }
+
   int TwytchEngine::getNumActiveVoices() {
     return voice_handler_->getNumActiveVoices();
   }

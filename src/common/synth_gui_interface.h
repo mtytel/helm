@@ -31,7 +31,9 @@ class SynthGuiInterface {
     void valueChanged(std::string name, mopo::mopo_float value);
     void connectModulation(mopo::ModulationConnection* connection);
     void disconnectModulation(mopo::ModulationConnection* connection);
-  
+    std::vector<mopo::ModulationConnection*> getSourceConnections(std::string source);
+    std::vector<mopo::ModulationConnection*> getDestinationConnections(std::string destination);
+
     int getNumActiveVoices();
     mopo::Processor::Output* getModSource(std::string name);
 

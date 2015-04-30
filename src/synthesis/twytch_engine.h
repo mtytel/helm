@@ -38,6 +38,8 @@ namespace mopo {
       std::list<mopo::mopo_float> getPressedNotes();
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
+      std::vector<ModulationConnection*> getSourceConnections(std::string source);
+      std::vector<ModulationConnection*> getDestinationConnections(std::string destination);
       void clearModulations();
       int getNumActiveVoices();
 

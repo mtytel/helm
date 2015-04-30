@@ -17,6 +17,7 @@
 #include "modulation_look_and_feel.h"
 #include "modulation_slider.h"
 #include "mopo.h"
+#include "synth_gui_interface.h"
 
 void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_pos, float min, float max,
@@ -127,28 +128,50 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
 void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                              bool isMouseOverButton, bool isButtonDown) {
   static const PathStrokeType stroke(3.0f, PathStrokeType::beveled, PathStrokeType::rounded);
-  Colour background = Colour(0xff212121);
+  static const DropShadow shadow(Colour(0xff000000), 1, Point<int>(0, 0));
+
+  Colour background = Colour(0xff303030);
+  Colour icon_source_color = Colour(0xff424242);
+  Colour icon_dest_color = Colour(0xff424242);
   if (button.getToggleState())
-    background = Colour(0xff424242);
+    icon_source_color = Colour(0xff00c853);
+
+  SynthGuiInterface* parent = button.findParentComponentOfClass<SynthGuiInterface>();
+  if (parent && parent->getSourceConnections(button.getName().toStdString()).size())
+    icon_dest_color = Colour(0xff00c853);
+
   g.setColour(background);
   g.fillAll();
 
   float width = button.getWidth();
   float height = button.getHeight();
+
   Path modulation_source;
   modulation_source.addEllipse(width * 0.55f, height * 0.3f, width * 0.4f, height * 0.4f);
-  modulation_source.addEllipse(width * 0.05f, height * 0.3f, width * 0.4f, height * 0.4f);
-  g.setColour(Colour(0xff00C853));
+  Path modulation_dest;
+  modulation_dest.addEllipse(width * 0.05f, height * 0.3f, width * 0.4f, height * 0.4f);
+
+  // Shadows.
+  shadow.drawForPath(g, modulation_source);
+  shadow.drawForPath(g, modulation_dest);
+
+  // Modulation destination port.
+  g.setColour(icon_dest_color);
+  g.fillPath(modulation_dest);
+
+  // Hole in modulation destination
+  g.setColour(Colour(0xff111111));
+  g.fillEllipse(width * 0.13f, height * 0.38f, width * 0.24f, height * 0.24f);
+  g.fillRect(width * 0.25f, height * 0.4f, width * 0.19f, height * 0.2f);
+
+  // Ball and wire for modulation source.
+  g.setColour(icon_source_color);
   g.fillPath(modulation_source);
-  g.setColour(background);
-  g.fillEllipse(width * 0.15f, height * 0.4f, width * 0.2f, height * 0.2f);
-  g.fillRect(width * 0.25f, height * 0.4f, width * 0.25f, height * 0.2f);
-  g.setColour(Colour(0xff00C853));
-  g.fillRoundedRectangle(width * 0.18f, height * 0.43f,
-                         width * 0.5f, height * 0.14f, 3.0f);
+  g.fillRoundedRectangle(width * 0.17f, height * 0.43f,
+                         width * 0.5f, height * 0.14f, 2.0f);
 
   if (isMouseOverButton) {
-    g.setColour(Colour(0xff1976d2));
+    g.setColour(Colour(0xff464646));
     g.drawRect(0, 0, button.getWidth(), button.getHeight());
   }
 }
