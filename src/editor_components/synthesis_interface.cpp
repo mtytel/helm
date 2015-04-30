@@ -2087,6 +2087,7 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
                                           NotificationType::sendNotification);
         }
     }
+    repaint();
 }
 
 void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,

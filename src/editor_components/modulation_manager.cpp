@@ -230,6 +230,7 @@ void ModulationManager::setModulationConnections(std::set<mopo::ModulationConnec
     clearModulationConnections();
     for (mopo::ModulationConnection* connection : connections)
         connections_[connection->source][connection->destination] = connection;
+    repaint();
 }
 
 //[/MiscUserCode]
