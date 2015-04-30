@@ -562,47 +562,47 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     osc_2_unison_voices_->setColour (Slider::textBoxTextColourId, Colours::white);
     osc_2_unison_voices_->addListener (this);
 
-    addAndMakeVisible (filter_envelope_mod_ = new ToggleButton ("filter_env"));
+    addAndMakeVisible (filter_envelope_mod_ = new ModulationButton ("filter_env"));
     filter_envelope_mod_->setButtonText (String::empty);
     filter_envelope_mod_->addListener (this);
 
-    addAndMakeVisible (amplitude_envelope_mod_ = new ToggleButton ("amplitude_env"));
+    addAndMakeVisible (amplitude_envelope_mod_ = new ModulationButton ("amplitude_env"));
     amplitude_envelope_mod_->setButtonText (String::empty);
     amplitude_envelope_mod_->addListener (this);
 
-    addAndMakeVisible (step_sequencer_mod_ = new ToggleButton ("step_sequencer"));
+    addAndMakeVisible (step_sequencer_mod_ = new ModulationButton ("step_sequencer"));
     step_sequencer_mod_->setButtonText (String::empty);
     step_sequencer_mod_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_1_mod_ = new ToggleButton ("mono_lfo_1"));
+    addAndMakeVisible (mono_lfo_1_mod_ = new ModulationButton ("mono_lfo_1"));
     mono_lfo_1_mod_->setButtonText (String::empty);
     mono_lfo_1_mod_->addListener (this);
 
-    addAndMakeVisible (mono_lfo_2_mod_ = new ToggleButton ("mono_lfo_2"));
+    addAndMakeVisible (mono_lfo_2_mod_ = new ModulationButton ("mono_lfo_2"));
     mono_lfo_2_mod_->setButtonText (String::empty);
     mono_lfo_2_mod_->addListener (this);
 
-    addAndMakeVisible (poly_lfo_mod_ = new ToggleButton ("poly_lfo"));
+    addAndMakeVisible (poly_lfo_mod_ = new ModulationButton ("poly_lfo"));
     poly_lfo_mod_->setButtonText (String::empty);
     poly_lfo_mod_->addListener (this);
 
-    addAndMakeVisible (aftertouch_mod_ = new ToggleButton ("aftertouch"));
+    addAndMakeVisible (aftertouch_mod_ = new ModulationButton ("aftertouch"));
     aftertouch_mod_->setButtonText (String::empty);
     aftertouch_mod_->addListener (this);
 
-    addAndMakeVisible (note_mod_ = new ToggleButton ("note"));
+    addAndMakeVisible (note_mod_ = new ModulationButton ("note"));
     note_mod_->setButtonText (String::empty);
     note_mod_->addListener (this);
 
-    addAndMakeVisible (velocity_mod_ = new ToggleButton ("velocity"));
+    addAndMakeVisible (velocity_mod_ = new ModulationButton ("velocity"));
     velocity_mod_->setButtonText (String::empty);
     velocity_mod_->addListener (this);
 
-    addAndMakeVisible (mod_wheel_mod_ = new ToggleButton ("mod_wheel"));
+    addAndMakeVisible (mod_wheel_mod_ = new ModulationButton ("mod_wheel"));
     mod_wheel_mod_->setButtonText (String::empty);
     mod_wheel_mod_->addListener (this);
 
-    addAndMakeVisible (pitch_wheel_mod_ = new ToggleButton ("pitch_wheel"));
+    addAndMakeVisible (pitch_wheel_mod_ = new ModulationButton ("pitch_wheel"));
     pitch_wheel_mod_->setButtonText (String::empty);
     pitch_wheel_mod_->addListener (this);
 
@@ -2667,38 +2667,48 @@ BEGIN_JUCER_METADATA
           int="2" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <TOGGLEBUTTON name="filter_env" id="b8482961c6e99772" memberName="filter_envelope_mod_"
-                virtualName="" explicitFocusOrder="0" pos="346 116 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="346 116 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="amplitude_env" id="c3366f3b651275bd" memberName="amplitude_envelope_mod_"
-                virtualName="" explicitFocusOrder="0" pos="346 272 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="346 272 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="step_sequencer" id="a929ed52e1dd39b0" memberName="step_sequencer_mod_"
-                virtualName="" explicitFocusOrder="0" pos="346 424 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="346 424 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="mono_lfo_1" id="28dfb0ea1b81c30" memberName="mono_lfo_1_mod_"
-                virtualName="" explicitFocusOrder="0" pos="346 568 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="346 568 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="mono_lfo_2" id="1032eecc6c64c59" memberName="mono_lfo_2_mod_"
-                virtualName="" explicitFocusOrder="0" pos="480 568 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="480 568 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="poly_lfo" id="f8deb109859e4c43" memberName="poly_lfo_mod_"
-                virtualName="" explicitFocusOrder="0" pos="614 568 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="614 568 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="aftertouch" id="47791bb485326a37" memberName="aftertouch_mod_"
-                virtualName="" explicitFocusOrder="0" pos="614 622 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
-  <TOGGLEBUTTON name="note" id="111489f8e8cd5427" memberName="note_mod_" virtualName=""
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="614 622 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
+  <TOGGLEBUTTON name="note" id="111489f8e8cd5427" memberName="note_mod_" virtualName="ModulationButton"
                 explicitFocusOrder="0" pos="346 622 32 32" buttonText="" connectedEdges="0"
                 needsCallback="1" radioGroupId="0" state="0"/>
   <TOGGLEBUTTON name="velocity" id="7d076c26f256f371" memberName="velocity_mod_"
-                virtualName="" explicitFocusOrder="0" pos="480 622 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="480 622 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="mod_wheel" id="3cfcd753e75ecf53" memberName="mod_wheel_mod_"
-                virtualName="" explicitFocusOrder="0" pos="173 622 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="173 622 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
   <TOGGLEBUTTON name="pitch_wheel" id="c5fdfe4648d47758" memberName="pitch_wheel_mod_"
-                virtualName="" explicitFocusOrder="0" pos="20 622 32 32" buttonText=""
-                connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
+                virtualName="ModulationButton" explicitFocusOrder="0" pos="20 622 32 32"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -61,6 +61,7 @@
 		B32E16CEA70D6793BB435539 = {isa = PBXBuildFile; fileRef = 090C74C800F6447AF1E2B4A2; };
 		AAF7651FB5B1E3B0ABC071D6 = {isa = PBXBuildFile; fileRef = 0D47799E9A74FFE002CDCFE6; };
 		D729FF1AD40B2832DCC4739A = {isa = PBXBuildFile; fileRef = 752C27E1521C799680001405; };
+		DDF1894FF1D6F8C4303ED041 = {isa = PBXBuildFile; fileRef = BEEC4986925F49DC03A2FBA8; };
 		3A96DAB40F01E76F784A8230 = {isa = PBXBuildFile; fileRef = 230E87DAC93E189CBB64C31B; };
 		AC2151E726347A403456D9D4 = {isa = PBXBuildFile; fileRef = 35F18C04B373ED48C36D8DE3; };
 		19E1A06C94166FB62C0CABFE = {isa = PBXBuildFile; fileRef = 8E13D065FDA866ECC87C5F73; };
@@ -605,6 +606,7 @@
 		6DF9D85C031690F2D70B91B5 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_AffineTransform.cpp"; path = "../../../srcs/JUCE/modules/juce_graphics/geometry/juce_AffineTransform.cpp"; sourceTree = "SOURCE_ROOT"; };
 		6E76CBA0241836C9794E9177 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_AudioSource.h"; path = "../../../srcs/JUCE/modules/juce_audio_basics/sources/juce_AudioSource.h"; sourceTree = "SOURCE_ROOT"; };
 		6E7EC0C57FC2C285AEB5A9AE = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_Synthesiser.h"; path = "../../../srcs/JUCE/modules/juce_audio_basics/synthesisers/juce_Synthesiser.h"; sourceTree = "SOURCE_ROOT"; };
+		6EDEFE2531845D422B015F26 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "modulation_button.h"; path = "../../src/editor_components/modulation_button.h"; sourceTree = "SOURCE_ROOT"; };
 		6EF82209D7E8CB728130ED5C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_BooleanPropertyComponent.cpp"; path = "../../../srcs/JUCE/modules/juce_gui_basics/properties/juce_BooleanPropertyComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
 		6F34AF4A9A6E5C065D0B8000 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_NamedPipe.cpp"; path = "../../../srcs/JUCE/modules/juce_core/network/juce_NamedPipe.cpp"; sourceTree = "SOURCE_ROOT"; };
 		6F5BF5AF2E5B051895358836 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_AffineTransform.h"; path = "../../../srcs/JUCE/modules/juce_graphics/geometry/juce_AffineTransform.h"; sourceTree = "SOURCE_ROOT"; };
@@ -930,6 +932,7 @@
 		BEB91086EB2C8873F075A127 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_VST3Headers.h"; path = "../../../srcs/JUCE/modules/juce_audio_processors/format_types/juce_VST3Headers.h"; sourceTree = "SOURCE_ROOT"; };
 		BED68C3DE86207873FF1F93D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "fixed_point_wave.h"; path = "../../src/synthesis/fixed_point_wave.h"; sourceTree = "SOURCE_ROOT"; };
 		BEDC60BC2CE6D7780F7364E0 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LookAndFeel_V3.cpp"; path = "../../../srcs/JUCE/modules/juce_gui_basics/lookandfeel/juce_LookAndFeel_V3.cpp"; sourceTree = "SOURCE_ROOT"; };
+		BEEC4986925F49DC03A2FBA8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "modulation_button.cpp"; path = "../../src/editor_components/modulation_button.cpp"; sourceTree = "SOURCE_ROOT"; };
 		BF576A92972F9FCED1B85A04 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_CustomTypeface.h"; path = "../../../srcs/JUCE/modules/juce_graphics/fonts/juce_CustomTypeface.h"; sourceTree = "SOURCE_ROOT"; };
 		BFBF8E1E83E57EC2F7D75969 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AUInputElement.cpp; path = Extras/CoreAudio/AudioUnits/AUPublic/AUBase/AUInputElement.cpp; sourceTree = "DEVELOPER_DIR"; };
 		BFC7C787CE8B011696E3EDBF = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_linux_WebBrowserComponent.cpp"; path = "../../../srcs/JUCE/modules/juce_gui_extra/native/juce_linux_WebBrowserComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -1304,6 +1307,8 @@
 					D8F8A6EFE2DE2F083FA26868,
 					752C27E1521C799680001405,
 					F1FC70A8EA7E219AEFB8996C,
+					BEEC4986925F49DC03A2FBA8,
+					6EDEFE2531845D422B015F26,
 					230E87DAC93E189CBB64C31B,
 					82277FEB62C5F79CF1A94B29,
 					35F18C04B373ED48C36D8DE3,
@@ -2687,6 +2692,7 @@
 					B32E16CEA70D6793BB435539,
 					AAF7651FB5B1E3B0ABC071D6,
 					D729FF1AD40B2832DCC4739A,
+					DDF1894FF1D6F8C4303ED041,
 					3A96DAB40F01E76F784A8230,
 					AC2151E726347A403456D9D4,
 					19E1A06C94166FB62C0CABFE,

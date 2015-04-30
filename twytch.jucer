@@ -140,6 +140,10 @@
               file="src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="q0fgMb" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="src/editor_components/graphical_step_sequencer.h"/>
+        <FILE id="gziS6a" name="modulation_button.cpp" compile="1" resource="0"
+              file="src/editor_components/modulation_button.cpp"/>
+        <FILE id="PplwYH" name="modulation_button.h" compile="0" resource="0"
+              file="src/editor_components/modulation_button.h"/>
         <FILE id="t46jDo" name="modulation_manager.cpp" compile="1" resource="0"
               file="src/editor_components/modulation_manager.cpp"/>
         <FILE id="v5mbLo" name="modulation_manager.h" compile="0" resource="0"

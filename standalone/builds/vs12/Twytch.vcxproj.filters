@@ -451,6 +451,9 @@
     <ClCompile Include="..\..\..\src\editor_components\graphical_step_sequencer.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\modulation_button.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\modulation_manager.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -1885,6 +1888,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\graphical_step_sequencer.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\modulation_button.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\modulation_manager.h">

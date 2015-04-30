@@ -27,6 +27,7 @@
 #include "twytch_slider.h"
 #include "tempo_selector.h"
 #include "wave_selector.h"
+#include "modulation_button.h"
 //[/Headers]
 
 #include "graphical_step_sequencer.h"
@@ -161,17 +162,17 @@ private:
     ScopedPointer<TwytchSlider> osc_2_unison_detune_;
     ScopedPointer<TwytchSlider> osc_1_unison_voices_;
     ScopedPointer<TwytchSlider> osc_2_unison_voices_;
-    ScopedPointer<ToggleButton> filter_envelope_mod_;
-    ScopedPointer<ToggleButton> amplitude_envelope_mod_;
-    ScopedPointer<ToggleButton> step_sequencer_mod_;
-    ScopedPointer<ToggleButton> mono_lfo_1_mod_;
-    ScopedPointer<ToggleButton> mono_lfo_2_mod_;
-    ScopedPointer<ToggleButton> poly_lfo_mod_;
-    ScopedPointer<ToggleButton> aftertouch_mod_;
-    ScopedPointer<ToggleButton> note_mod_;
-    ScopedPointer<ToggleButton> velocity_mod_;
-    ScopedPointer<ToggleButton> mod_wheel_mod_;
-    ScopedPointer<ToggleButton> pitch_wheel_mod_;
+    ScopedPointer<ModulationButton> filter_envelope_mod_;
+    ScopedPointer<ModulationButton> amplitude_envelope_mod_;
+    ScopedPointer<ModulationButton> step_sequencer_mod_;
+    ScopedPointer<ModulationButton> mono_lfo_1_mod_;
+    ScopedPointer<ModulationButton> mono_lfo_2_mod_;
+    ScopedPointer<ModulationButton> poly_lfo_mod_;
+    ScopedPointer<ModulationButton> aftertouch_mod_;
+    ScopedPointer<ModulationButton> note_mod_;
+    ScopedPointer<ModulationButton> velocity_mod_;
+    ScopedPointer<ModulationButton> mod_wheel_mod_;
+    ScopedPointer<ModulationButton> pitch_wheel_mod_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\..\src\editor_components\global_tool_tip.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\graphical_envelope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\graphical_step_sequencer.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\modulation_button.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\modulation_manager.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\modulation_meter.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\modulation_slider.cpp"/>
@@ -1366,6 +1367,7 @@
     <ClInclude Include="..\..\..\src\editor_components\global_tool_tip.h"/>
     <ClInclude Include="..\..\..\src\editor_components\graphical_envelope.h"/>
     <ClInclude Include="..\..\..\src\editor_components\graphical_step_sequencer.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\modulation_button.h"/>
     <ClInclude Include="..\..\..\src\editor_components\modulation_manager.h"/>
     <ClInclude Include="..\..\..\src\editor_components\modulation_meter.h"/>
     <ClInclude Include="..\..\..\src\editor_components\modulation_slider.h"/>

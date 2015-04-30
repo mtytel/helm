@@ -133,6 +133,10 @@
               file="../src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="I0Msfq" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="../src/editor_components/graphical_step_sequencer.h"/>
+        <FILE id="qWOUvi" name="modulation_button.cpp" compile="1" resource="0"
+              file="../src/editor_components/modulation_button.cpp"/>
+        <FILE id="hc4YWp" name="modulation_button.h" compile="0" resource="0"
+              file="../src/editor_components/modulation_button.h"/>
         <FILE id="sqnr1l" name="modulation_manager.cpp" compile="1" resource="0"
               file="../src/editor_components/modulation_manager.cpp"/>
         <FILE id="RPNVCt" name="modulation_manager.h" compile="0" resource="0"

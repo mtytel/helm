@@ -89,6 +89,7 @@ OBJECTS := \
   $(OBJDIR)/global_tool_tip_6b9e5053.o \
   $(OBJDIR)/graphical_envelope_46db2063.o \
   $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
+  $(OBJDIR)/modulation_button_c4483318.o \
   $(OBJDIR)/modulation_manager_329c97d1.o \
   $(OBJDIR)/modulation_meter_c566156d.o \
   $(OBJDIR)/modulation_slider_f0d81547.o \
@@ -343,6 +344,11 @@ $(OBJDIR)/graphical_envelope_46db2063.o: ../../src/editor_components/graphical_e
 $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o: ../../src/editor_components/graphical_step_sequencer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_button_c4483318.o: ../../src/editor_components/modulation_button.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_button.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_manager_329c97d1.o: ../../src/editor_components/modulation_manager.cpp
