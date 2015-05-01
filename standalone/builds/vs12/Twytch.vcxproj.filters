@@ -490,6 +490,9 @@
     <ClCompile Include="..\..\..\src\look_and_feel\modulation_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\look_and_feel\text_look_and_feel.cpp">
+      <Filter>Twytch\src\look_and_feel</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\look_and_feel\twytch_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
@@ -1927,6 +1930,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\modulation_look_and_feel.h">
+      <Filter>Twytch\src\look_and_feel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\look_and_feel\text_look_and_feel.h">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\twytch_look_and_feel.h">

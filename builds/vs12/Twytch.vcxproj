@@ -190,6 +190,7 @@
     <ClCompile Include="..\..\src\editor_components\wave_viewer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\src\look_and_feel\text_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\twytch_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\plugin\twytch_editor.cpp"/>
     <ClCompile Include="..\..\src\plugin\twytch_plugin.cpp"/>
@@ -1387,6 +1388,7 @@
     <ClInclude Include="..\..\src\editor_components\wave_viewer.h"/>
     <ClInclude Include="..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h"/>
+    <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\twytch_look_and_feel.h"/>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h"/>
     <ClInclude Include="..\..\src\plugin\twytch_plugin.h"/>

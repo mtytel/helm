@@ -60,6 +60,7 @@ public:
     void createTempoSliders();
     void markBipolarSliders();
     void setDefaultDoubleClickValues();
+    void setStyles();
     void createStepSequencerSliders();
 
     void setAllValues(mopo::control_map& controls);

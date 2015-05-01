@@ -102,6 +102,7 @@ OBJECTS := \
   $(OBJDIR)/wave_viewer_e4b5610c.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
+  $(OBJDIR)/text_look_and_feel_4af8536c.o \
   $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o \
   $(OBJDIR)/main_b7ad981e.o \
   $(OBJDIR)/twytch_computer_keyboard_dc84e874.o \
@@ -408,6 +409,11 @@ $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
 $(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling text_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o: ../../../src/look_and_feel/twytch_look_and_feel.cpp

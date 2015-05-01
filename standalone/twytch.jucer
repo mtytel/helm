@@ -179,6 +179,10 @@
               file="../src/look_and_feel/modulation_look_and_feel.cpp"/>
         <FILE id="qP2EgD" name="modulation_look_and_feel.h" compile="0" resource="0"
               file="../src/look_and_feel/modulation_look_and_feel.h"/>
+        <FILE id="aJXsnG" name="text_look_and_feel.cpp" compile="1" resource="0"
+              file="../src/look_and_feel/text_look_and_feel.cpp"/>
+        <FILE id="f5ab7N" name="text_look_and_feel.h" compile="0" resource="0"
+              file="../src/look_and_feel/text_look_and_feel.h"/>
         <FILE id="Cx2oD3" name="twytch_look_and_feel.cpp" compile="1" resource="0"
               file="../src/look_and_feel/twytch_look_and_feel.cpp"/>
         <FILE id="oUxyCe" name="twytch_look_and_feel.h" compile="0" resource="0"

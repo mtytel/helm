@@ -102,6 +102,7 @@ OBJECTS := \
   $(OBJDIR)/wave_viewer_feefa2db.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
+  $(OBJDIR)/text_look_and_feel_6c688b3d.o \
   $(OBJDIR)/twytch_look_and_feel_7026b753.o \
   $(OBJDIR)/twytch_editor_cb41a52d.o \
   $(OBJDIR)/twytch_plugin_10f49ff3.o \
@@ -409,6 +410,11 @@ $(OBJDIR)/xy_pad_a46b2bbc.o: ../../src/editor_components/xy_pad.cpp
 $(OBJDIR)/modulation_look_and_feel_547d34cc.o: ../../src/look_and_feel/modulation_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/text_look_and_feel_6c688b3d.o: ../../src/look_and_feel/text_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling text_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/twytch_look_and_feel_7026b753.o: ../../src/look_and_feel/twytch_look_and_feel.cpp

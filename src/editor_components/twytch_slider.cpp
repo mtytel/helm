@@ -17,6 +17,7 @@
 #include "twytch_slider.h"
 #include "synth_gui_interface.h"
 #include "full_interface.h"
+#include "text_look_and_feel.h"
 
 namespace {
     enum MenuIds {
@@ -93,20 +94,35 @@ String TwytchSlider::getTextFromValue(double value) {
 }
 
 void TwytchSlider::drawShadow(Graphics &g) {
+    if (&getLookAndFeel() == TextLookAndFeel::instance())
+        drawRectangularShadow(g);
+    else if (isRotary())
+        drawRotaryShadow(g);
+}
+
+void TwytchSlider::drawRotaryShadow(Graphics &g) {
     static const DropShadow shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
     static const float shadow_angle = mopo::PI / 1.3f;
 
     g.saveState();
     g.setOrigin(getX(), getY());
 
-    if (isRotary()) {
-        float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
-        Path shadow_path;
-        shadow_path.addCentredArc(full_radius, full_radius,
-                                  0.87f * full_radius, 0.85f * full_radius,
-                                  0, -shadow_angle, shadow_angle, true);
-        shadow.drawForPath(g, shadow_path);
-    }
+    float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
+    Path shadow_path;
+    shadow_path.addCentredArc(full_radius, full_radius,
+                              0.87f * full_radius, 0.85f * full_radius,
+                              0, -shadow_angle, shadow_angle, true);
+    shadow.drawForPath(g, shadow_path);
+    g.restoreState();
+}
+
+void TwytchSlider::drawRectangularShadow(Graphics &g) {
+    static const DropShadow shadow(Colour(0xbb000000), 2, Point<int>(0, 0));
+
+    g.saveState();
+    g.setOrigin(getX(), getY());
+    shadow.drawForRectangle(g, getLocalBounds());
+
     g.restoreState();
 }
 
