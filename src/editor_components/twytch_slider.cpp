@@ -61,16 +61,20 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
         }
     }
     else {
-        click_position_ = e.getScreenPosition().toFloat();
         Slider::mouseDown(e);
-        setMouseCursor(MouseCursor::NoCursor);
+        if (isRotary()) {
+            click_position_ = e.getScreenPosition().toFloat();
+            setMouseCursor(MouseCursor::NoCursor);
+        }
     }
 }
 
 void TwytchSlider::mouseUp(const MouseEvent& e) {
     Slider::mouseUp(e);
-    setMouseCursor(MouseCursor::ParentCursor);
-    Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
+    if (isRotary()) {
+        setMouseCursor(MouseCursor::ParentCursor);
+        Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
+    }
 }
 
 void TwytchSlider::mouseEnter(const MouseEvent &e) {
