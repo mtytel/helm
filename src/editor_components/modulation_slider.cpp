@@ -26,12 +26,16 @@ ModulationSlider::ModulationSlider(TwytchSlider* destination) :
     setRange(-destination_range, destination_range);
     setDoubleClickReturnValue(true, 0.0f);
     setSliderStyle(destination->getSliderStyle());
-    setMouseDragSensitivity(2.0f * getMouseDragSensitivity());
     setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     setStringLookup(destination->getStringLookup());
     setPostMultiply(destination->getPostMultiply());
     setUnits(destination->getUnits());
     setScalingType(destination->getScalingType());
+
+    if (destination->isRotary())
+        setMouseDragSensitivity(2.0f * getMouseDragSensitivity());
+    else
+        setVelocityBasedMode(true);
     setOpaque(false);
 }
 
