@@ -167,18 +167,23 @@ namespace mopo {
     addProcessor(delay_samples);
     addProcessor(delay);
 
+    Distortion* distorted_clamp = new Distortion();
+    Value* distortion_type = new Value(Distortion::kTanh);
+    Value* distortion_threshold = new Value(0.7);
+    distorted_clamp->plug(delay, Distortion::kAudio);
+    distorted_clamp->plug(distortion_type, Distortion::kType);
+    distorted_clamp->plug(distortion_threshold, Distortion::kThreshold);
+
     // Volume.
     Processor* volume = createMonoModControl("volume", 0.6, false, true, kQuadratic);
     Multiply* scaled_audio = new Multiply();
-    scaled_audio->plug(delay, 0);
+    scaled_audio->plug(distorted_clamp, 0);
     scaled_audio->plug(volume, 1);
-    Clamp* clamp = new Clamp();
-    clamp->plug(scaled_audio);
 
-    addProcessor(clamp);
     addProcessor(volume);
+    addProcessor(distorted_clamp);
     addProcessor(scaled_audio);
-    registerOutput(clamp->output());
+    registerOutput(scaled_audio->output());
   }
 
   void TwytchEngine::connectModulation(ModulationConnection* connection) {
