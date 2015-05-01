@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -30,6 +30,9 @@
 //==============================================================================
 PatchBrowser::PatchBrowser ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (prev_folder_ = new TextButton ("prev_folder"));
     prev_folder_->setButtonText (TRANS("<"));
     prev_folder_->addListener (this);
@@ -105,10 +108,10 @@ void PatchBrowser::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    prev_folder_->setBounds (proportionOfWidth (0.2000f), 0, proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
-    prev_patch_->setBounds (proportionOfWidth (0.2000f), proportionOfHeight (0.5006f), proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
-    next_folder_->setBounds (getWidth() - proportionOfWidth (0.1500f), 0, proportionOfWidth (0.1500f), proportionOfHeight (0.5006f));
-    next_patch_->setBounds (getWidth() - proportionOfWidth (0.1500f), proportionOfHeight (0.5006f), proportionOfWidth (0.1500f), proportionOfHeight (0.5006f));
+    prev_folder_->setBounds (proportionOfWidth (0.1998f), 0, proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
+    prev_patch_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.5006f), proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
+    next_folder_->setBounds (getWidth() - proportionOfWidth (0.1496f), 0, proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
+    next_patch_->setBounds (getWidth() - proportionOfWidth (0.1496f), proportionOfHeight (0.5006f), proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
     save_->setBounds (proportionOfWidth (0.0000f), proportionOfHeight (0.0000f), proportionOfWidth (0.1998f), proportionOfHeight (1.0000f));
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
@@ -244,19 +247,19 @@ BEGIN_JUCER_METADATA
                  fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>
   <TEXTBUTTON name="prev_folder" id="7c73e1569d0f159e" memberName="prev_folder_"
-              virtualName="" explicitFocusOrder="0" pos="19.979% 0 14.958% 50.061%"
+              virtualName="" explicitFocusOrder="0" pos="19.978% 0 14.956% 50.062%"
               buttonText="&lt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="prev_patch" id="4bd9ba5a5597cba4" memberName="prev_patch_"
-              virtualName="" explicitFocusOrder="0" pos="19.979% 50.061% 14.958% 50.061%"
+              virtualName="" explicitFocusOrder="0" pos="19.978% 50.062% 14.956% 50.062%"
               buttonText="&lt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="next_folder" id="fc5a3ac5b9f154fe" memberName="next_folder_"
-              virtualName="" explicitFocusOrder="0" pos="0Rr 0 14.958% 50.061%"
+              virtualName="" explicitFocusOrder="0" pos="0Rr 0 14.956% 50.062%"
               buttonText="&gt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="next_patch" id="4a7cf0e77ebc8208" memberName="next_patch_"
-              virtualName="" explicitFocusOrder="0" pos="0Rr 50.061% 14.958% 50.061%"
+              virtualName="" explicitFocusOrder="0" pos="0Rr 50.062% 14.956% 50.062%"
               buttonText="&gt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="save" id="eee3d6aa88811178" memberName="save_" virtualName=""
-              explicitFocusOrder="0" pos="0% 0% 19.979% 100%" buttonText="SAVE"
+              explicitFocusOrder="0" pos="0% 0% 19.978% 100%" buttonText="SAVE"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 

@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -37,6 +37,9 @@ namespace {
 //==============================================================================
 GraphicalEnvelope::GraphicalEnvelope ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
 
     //[UserPreSize]
     attack_hover_ = false;
