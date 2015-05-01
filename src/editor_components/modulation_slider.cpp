@@ -26,7 +26,7 @@ ModulationSlider::ModulationSlider(TwytchSlider* destination) :
     setRange(-destination_range, destination_range);
     setDoubleClickReturnValue(true, 0.0f);
     setSliderStyle(destination->getSliderStyle());
-    setVelocityBasedMode(true);
+    // setVelocityBasedMode(true);
     setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     setStringLookup(destination->getStringLookup());
     setPostMultiply(destination->getPostMultiply());

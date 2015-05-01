@@ -84,11 +84,11 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
 
   if (slider.getInterval() == 1) {
     static const float TEXT_W_PERCENT = 0.35f;
-    Rectangle<int> text_bounds(1.0f + width * (1.0f - TEXT_W_PERCENT) / 2.0f,
-                               0.5f * height, width * TEXT_W_PERCENT, 0.5f * height);
+    Rectangle<float> text_bounds(1.0f + width * (1.0f - TEXT_W_PERCENT) / 2.0f,
+                                 0.5f * height, width * TEXT_W_PERCENT, 0.5f * height);
 
     g.setColour(Colour(0xff464646));
-    g.fillRect(text_bounds);
+    g.fillRoundedRectangle(text_bounds, 2.0f);
 
     g.setColour(slider.findColour(Slider::textBoxTextColourId));
     g.setFont(Font("Noto Sans", 0.24f * height, Font::plain));

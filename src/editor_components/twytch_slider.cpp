@@ -60,11 +60,21 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
             setValue(getDoubleClickReturnValue());
         }
     }
-    else
+    else {
+        click_position_ = e.getScreenPosition().toFloat();
         Slider::mouseDown(e);
+        setMouseCursor(MouseCursor::NoCursor);
+    }
 }
 
-void TwytchSlider::mouseEnter(const juce::MouseEvent &e) {
+void TwytchSlider::mouseUp(const MouseEvent& e) {
+    Slider::mouseUp(e);
+    setMouseCursor(MouseCursor::ParentCursor);
+    Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
+}
+
+void TwytchSlider::mouseEnter(const MouseEvent &e) {
+    Slider::mouseEnter(e);
     // notifyTooltip();
 }
 
