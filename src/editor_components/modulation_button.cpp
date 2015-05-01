@@ -15,11 +15,13 @@
  */
 
 #include "modulation_button.h"
+#include "synth_gui_interface.h"
 
 namespace {
     enum MenuIds {
         kCancel = 0,
         kDisconnect,
+        kModulationList
     };
 
 } // namespace
@@ -32,12 +34,28 @@ ModulationButton::ModulationButton(String name) :
 void ModulationButton::mouseDown(const MouseEvent& e) {
     if (e.mods.isPopupMenu()) {
         PopupMenu m;
-        m.addItem(kDisconnect, "Disconnect");
-        // m.addItem(kClearMidiLearn, "Clear Controller Assignment");
+        m.addItem(kDisconnect, "Clear All");
+
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+        std::vector<mopo::ModulationConnection*> connections;
+        if (parent) {
+            connections = parent->getSourceConnections(getName().toStdString());
+
+            String disconnect("Disconnect From Destination: ");
+            for (int i = 0; i < connections.size(); ++i)
+                m.addItem(kModulationList + i, disconnect + connections[i]->destination);
+        }
 
         int result = m.show();
         if (result == kDisconnect) {
-
+            for (mopo::ModulationConnection* connection : connections)
+                parent->disconnectModulation(connection);
+            repaint();
+        }
+        else if (result != kCancel) {
+            int connection_index = result - kModulationList;
+            parent->disconnectModulation(connections[connection_index]);
+            repaint();
         }
     }
     else

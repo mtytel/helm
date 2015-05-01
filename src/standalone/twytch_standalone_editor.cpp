@@ -44,7 +44,6 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
                            synth_.getMonoModulations(),
                            synth_.getPolyModulations());
   gui_->setOutputMemory(output_memory_.get());
-  gui_->setModulationConnections(synth_.getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
 
@@ -99,7 +98,6 @@ void TwytchStandaloneEditor::resized() {
 
 void TwytchStandaloneEditor::updateFullGui() {
   gui_->setAllValues(controls_);
-  gui_->setModulationConnections(synth_.getModulationConnections());
 }
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {

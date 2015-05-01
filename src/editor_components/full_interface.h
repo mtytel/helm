@@ -59,7 +59,6 @@ public:
     void createModulationSliders(mopo::output_map modulation_sources,
                                  mopo::output_map mono_modulations,
                                  mopo::output_map poly_modulations);
-    void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     void changeModulator(std::string source);
     void forgetModulator();
     void modulationChanged(std::string source);

@@ -88,6 +88,7 @@ ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::
 
 
     //[Constructor] You can add your own custom stuff here..
+    forgetModulator();
     //[/Constructor]
 }
 
@@ -168,30 +169,13 @@ void ModulationManager::sliderValueChanged(Slider *slider) {
     if (parent)
         parent->modulationChanged(current_modulator_);
 
-    if (slider->getValue() == 0.0f)
-        clearModulation(current_modulator_, destination_name);
-    else
-        setModulationAmount(current_modulator_, destination_name, slider->getValue());
+    setModulationAmount(current_modulator_, destination_name, slider->getValue());
 }
 
-void ModulationManager::setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount) {
-    if (connections_[source].count(destination) == 0) {
-        mopo::ModulationConnection* connection = new mopo::ModulationConnection(current_modulator_, destination);
-        connections_[source][destination] = connection;
-
-        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        parent->connectModulation(connection);
-    }
-
-    connections_[source][destination]->amount.set(amount);
-}
-
-void ModulationManager::clearModulation(std::string source, std::string destination) {
-    if (connections_[source].count(destination)) {
-        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        parent->disconnectModulation(connections_[source][destination]);
-        connections_[source].erase(destination);
-    }
+void ModulationManager::setModulationAmount(std::string source, std::string destination,
+                                            mopo::mopo_float amount) {
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    parent->changeModulationAmount(source, destination, amount);
 }
 
 void ModulationManager::forgetModulator() {
@@ -202,11 +186,19 @@ void ModulationManager::forgetModulator() {
 
 void ModulationManager::changeModulator(std::string new_modulator) {
     current_modulator_ = new_modulator;
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    std::vector<mopo::ModulationConnection*> connections =
+        parent->getSourceConnections(new_modulator);
     for (auto slider : slider_lookup_) {
         std::string destination_name = slider.second->getName().toStdString();
         float value = 0.0f;
-        if (connections_[current_modulator_].count(destination_name))
-            value = connections_[current_modulator_][destination_name]->amount.value();
+
+        for (mopo::ModulationConnection* connection : connections) {
+            if (connection->destination == destination_name) {
+                value = connection->amount.value();
+                break;
+            }
+        }
         slider.second->setValue(value);
     }
 
@@ -217,20 +209,6 @@ void ModulationManager::changeModulator(std::string new_modulator) {
 
 void ModulationManager::showMeter(std::string name, bool show) {
     meter_lookup_[name]->setVisible(show);
-}
-
-void ModulationManager::clearModulationConnections() {
-    forgetModulator();
-    for (auto source : connections_)
-        source.second.clear();
-    connections_.clear();
-}
-
-void ModulationManager::setModulationConnections(std::set<mopo::ModulationConnection*> connections) {
-    clearModulationConnections();
-    for (mopo::ModulationConnection* connection : connections)
-        connections_[connection->source][connection->destination] = connection;
-    repaint();
 }
 
 //[/MiscUserCode]

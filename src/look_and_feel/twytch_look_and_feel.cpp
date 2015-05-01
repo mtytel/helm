@@ -79,8 +79,8 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
 
   float knob_radius = 0.65f * full_radius;
   float current_angle = start_angle + slider_t * (end_angle - start_angle);
-  float end_x = full_radius + 0.9f * knob_radius * sin(current_angle);
-  float end_y = full_radius - 0.9f * knob_radius * cos(current_angle);
+  float end_x = full_radius + 0.8f * knob_radius * sin(current_angle);
+  float end_y = full_radius - 0.8f * knob_radius * cos(current_angle);
 
   if (slider.getInterval() == 1) {
     static const float TEXT_W_PERCENT = 0.35f;
@@ -122,15 +122,17 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   g.strokePath(active_section, outer_stroke);
 
   g.setColour(Colour(0xff000000));
-  g.fillEllipse(full_radius - knob_radius, full_radius - knob_radius,
-                2.0f * knob_radius, 2.0f * knob_radius);
+  g.fillEllipse(full_radius - knob_radius + stroke_width / 2.0f,
+                full_radius - knob_radius + stroke_width / 2.0f,
+                2.0f * knob_radius - stroke_width,
+                2.0f * knob_radius - stroke_width);
 
   g.setColour(Colour(0xff666666));
 
   g.drawEllipse(full_radius - knob_radius + 1.0f, full_radius - knob_radius + 1.0f,
                 2.0f * knob_radius - 2.0f, 2.0f * knob_radius - 2.0f, 2.0f);
 
-  g.setColour(slider.findColour(Slider::rotarySliderFillColourId));
+  g.setColour(Colour(0xff999999));
   g.drawLine(full_radius, full_radius, end_x, end_y, 1.0f);
 }
 

@@ -224,6 +224,14 @@ namespace mopo {
     mod_connections_.clear();
   }
 
+  ModulationConnection* TwytchEngine::getConnection(std::string source, std::string destination) {
+    for (ModulationConnection* connection : mod_connections_) {
+      if (connection->source == source && connection->destination == destination)
+        return connection;
+    }
+    return nullptr;
+  }
+
   std::vector<ModulationConnection*> TwytchEngine::getSourceConnections(std::string source) {
     std::vector<ModulationConnection*> connections;
     for (ModulationConnection* connection : mod_connections_) {

@@ -367,10 +367,6 @@ void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
     addAndMakeVisible(modulation_manager_);
 }
 
-void FullInterface::setModulationConnections(std::set<mopo::ModulationConnection*> connections) {
-    modulation_manager_->setModulationConnections(connections);
-}
-
 void FullInterface::changeModulator(std::string source) {
     modulation_manager_->changeModulator(source);
 }

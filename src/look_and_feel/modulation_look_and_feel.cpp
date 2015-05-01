@@ -131,8 +131,8 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   static const DropShadow shadow(Colour(0xff000000), 1, Point<int>(0, 0));
 
   Colour background = Colour(0xff303030);
-  Colour icon_source_color = Colour(0xff424242);
-  Colour icon_dest_color = Colour(0xff424242);
+  Colour icon_source_color = Colour(0xff565656);
+  Colour icon_dest_color = Colour(0xff565656);
   if (button.getToggleState())
     icon_source_color = Colour(0xff4fc3f7);
 

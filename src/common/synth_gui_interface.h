@@ -29,6 +29,8 @@ class SynthGuiInterface {
     virtual ~SynthGuiInterface() { }
 
     void valueChanged(std::string name, mopo::mopo_float value);
+    void changeModulationAmount(std::string source, std::string destination,
+                                mopo::mopo_float amount);
     void connectModulation(mopo::ModulationConnection* connection);
     void disconnectModulation(mopo::ModulationConnection* connection);
     std::vector<mopo::ModulationConnection*> getSourceConnections(std::string source);
@@ -48,6 +50,7 @@ class SynthGuiInterface {
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual MidiManager* getMidiManager() = 0;
     virtual void updateFullGui() = 0;
+    mopo::ModulationConnection* getConnection(std::string source, std::string destination);
 
     void setSynth(mopo::TwytchEngine* synth) {
       synth_ = synth;

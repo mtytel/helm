@@ -51,16 +51,12 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void sliderValueChanged(Slider *slider);
     void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
-    void clearModulation(std::string source, std::string destination);
     void changeModulator(std::string new_modulator);
     void forgetModulator();
     std::string getCurrentModulator() { return current_modulator_; }
     void showMeter(std::string name, bool show);
 
     void timerCallback() override;
-
-    void clearModulationConnections();
-    void setModulationConnections(std::set<mopo::ModulationConnection*> connections);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -74,7 +70,6 @@ private:
     ScopedPointer<Component> polyphonic_destinations_;
     ScopedPointer<Component> monophonic_destinations_;
 
-    std::map<std::string, std::map<std::string, mopo::ModulationConnection*>> connections_;
     std::string current_modulator_;
 
     std::map<std::string, Slider*> slider_lookup_;

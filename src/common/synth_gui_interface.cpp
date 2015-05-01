@@ -23,6 +23,27 @@ void SynthGuiInterface::valueChanged(std::string name, mopo::mopo_float value) {
   controls_[name]->set(value);
 }
 
+void SynthGuiInterface::changeModulationAmount(std::string source, std::string destination,
+                                               mopo::mopo_float amount) {
+  mopo::ModulationConnection* connection = synth_->getConnection(source, destination);
+  if (connection == nullptr && amount != 0.0) {
+    connection = new mopo::ModulationConnection(source, destination);
+    connectModulation(connection);
+  }
+
+  ScopedLock lock(getCriticalSection());
+  if (amount != 0.0)
+    connection->amount.set(amount);
+  else if (connection)
+    disconnectModulation(connection);
+}
+
+mopo::ModulationConnection* SynthGuiInterface::getConnection(std::string source,
+                                                             std::string destination) {
+  ScopedLock lock(getCriticalSection());
+  return synth_->getConnection(source, destination);
+}
+
 void SynthGuiInterface::connectModulation(mopo::ModulationConnection* connection) {
   ScopedLock lock(getCriticalSection());
   synth_->connectModulation(connection);
@@ -31,6 +52,7 @@ void SynthGuiInterface::connectModulation(mopo::ModulationConnection* connection
 void SynthGuiInterface::disconnectModulation(mopo::ModulationConnection* connection) {
   ScopedLock lock(getCriticalSection());
   synth_->disconnectModulation(connection);
+  delete connection;
 }
 
 std::vector<mopo::ModulationConnection*>
