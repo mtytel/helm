@@ -97,6 +97,9 @@ namespace mopo {
     int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
     int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
 
+    wave1 = CLAMP(wave1, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+    wave2 = CLAMP(wave2, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
