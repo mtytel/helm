@@ -180,7 +180,6 @@ namespace mopo {
     scaled_audio->plug(distorted_clamp, 0);
     scaled_audio->plug(volume, 1);
 
-    addProcessor(volume);
     addProcessor(distorted_clamp);
     addProcessor(scaled_audio);
     registerOutput(scaled_audio->output());
