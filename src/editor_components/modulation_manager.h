@@ -66,6 +66,8 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    void setSliderValues();
+    
     ModulationLookAndFeel look_and_feel_;
     ScopedPointer<Component> polyphonic_destinations_;
     ScopedPointer<Component> monophonic_destinations_;

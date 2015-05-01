@@ -24,7 +24,9 @@ namespace {
         kCancel = 0,
         kArmMidiLearn,
         kClearMidiLearn,
-        kDefaultValue
+        kDefaultValue,
+        kClearModulations,
+        kModulationList
     };
 
 } // namespace
@@ -45,6 +47,20 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
         if (isDoubleClickReturnEnabled())
             m.addItem(kDefaultValue, "Set to Default Value");
 
+        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+        std::vector<mopo::ModulationConnection*> connections;
+        if (parent) {
+            connections = parent->getDestinationConnections(getName().toStdString());
+
+            if (connections.size() > 1) {
+                m.addItem(kClearModulations, "Clear All Modulations");
+            }
+
+            String disconnect("Disconnect From Source: ");
+            for (int i = 0; i < connections.size(); ++i)
+                m.addItem(kModulationList + i, disconnect + connections[i]->source);
+        }
+
         int result = m.show();
         if (result == kArmMidiLearn) {
             SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
@@ -59,6 +75,25 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
         else if (result == kDefaultValue) {
             setValue(getDoubleClickReturnValue());
         }
+        else if (result == kClearModulations) {
+            for (mopo::ModulationConnection* connection : connections) {
+                std::string source = connection->source;
+                parent->disconnectModulation(connection);
+
+                FullInterface* parent = findParentComponentOfClass<FullInterface>();
+                if (parent)
+                    parent->modulationChanged(source);
+            }
+        }
+        else if (result >= kModulationList) {
+            int connection_index = result - kModulationList;
+            std::string source = connections[connection_index]->source;
+            parent->disconnectModulation(connections[connection_index]);
+
+            FullInterface* parent = findParentComponentOfClass<FullInterface>();
+            if (parent)
+                parent->modulationChanged(source);
+        }
     }
     else {
         Slider::mouseDown(e);
@@ -71,7 +106,7 @@ void TwytchSlider::mouseDown(const MouseEvent& e) {
 
 void TwytchSlider::mouseUp(const MouseEvent& e) {
     Slider::mouseUp(e);
-    if (isRotary()) {
+    if (isRotary() && !e.mods.isPopupMenu()) {
         setMouseCursor(MouseCursor::ParentCursor);
         Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
     }

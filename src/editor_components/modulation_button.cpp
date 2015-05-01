@@ -52,7 +52,7 @@ void ModulationButton::mouseDown(const MouseEvent& e) {
                 parent->disconnectModulation(connection);
             repaint();
         }
-        else if (result != kCancel) {
+        else if (result >= kModulationList) {
             int connection_index = result - kModulationList;
             parent->disconnectModulation(connections[connection_index]);
             repaint();

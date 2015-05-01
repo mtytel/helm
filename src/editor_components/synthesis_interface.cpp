@@ -2037,16 +2037,28 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
 }
 
 void SynthesisInterface::setStyles() {
+    static const int UNISON_DRAG_SENSITIVITY = 100;
+    static const int TEMPO_DRAG_SENSITIVITY = 150;
+
     osc_1_unison_voices_->setLookAndFeel(TextLookAndFeel::instance());
+    osc_1_unison_voices_->setMouseDragSensitivity(UNISON_DRAG_SENSITIVITY);
     osc_2_unison_voices_->setLookAndFeel(TextLookAndFeel::instance());
+    osc_1_unison_voices_->setMouseDragSensitivity(UNISON_DRAG_SENSITIVITY);
+
     mono_lfo_1_frequency_->setLookAndFeel(TextLookAndFeel::instance());
     mono_lfo_2_frequency_->setLookAndFeel(TextLookAndFeel::instance());
     poly_lfo_frequency_->setLookAndFeel(TextLookAndFeel::instance());
-    mono_lfo_1_tempo_->setLookAndFeel(TextLookAndFeel::instance());
-    mono_lfo_2_tempo_->setLookAndFeel(TextLookAndFeel::instance());
-    poly_lfo_tempo_->setLookAndFeel(TextLookAndFeel::instance());
     step_frequency_->setLookAndFeel(TextLookAndFeel::instance());
+
+    mono_lfo_1_tempo_->setLookAndFeel(TextLookAndFeel::instance());
+    mono_lfo_1_tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
+    mono_lfo_2_tempo_->setLookAndFeel(TextLookAndFeel::instance());
+    mono_lfo_2_tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
+    poly_lfo_tempo_->setLookAndFeel(TextLookAndFeel::instance());
+    poly_lfo_tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
     step_sequencer_tempo_->setLookAndFeel(TextLookAndFeel::instance());
+    step_sequencer_tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
+
     num_steps_->setLookAndFeel(TextLookAndFeel::instance());
 
     filter_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());

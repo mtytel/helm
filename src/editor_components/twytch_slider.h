@@ -32,9 +32,9 @@ public:
 
     TwytchSlider(String name);
 
-    void mouseDown(const MouseEvent& e) override;
-    void mouseEnter(const MouseEvent& e) override;
-    void mouseUp(const MouseEvent& e) override;
+    virtual void mouseDown(const MouseEvent& e) override;
+    virtual void mouseEnter(const MouseEvent& e) override;
+    virtual void mouseUp(const MouseEvent& e) override;
     void valueChanged() override;
     String getTextFromValue(double value) override;
 

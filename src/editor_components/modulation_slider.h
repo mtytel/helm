@@ -25,6 +25,8 @@ public:
     ModulationSlider(TwytchSlider* source);
     ~ModulationSlider();
 
+    virtual void mouseDown(const MouseEvent& e) override;
+
     Slider* getDestinationSlider() { return destination_slider_; }
 
 private:

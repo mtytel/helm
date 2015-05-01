@@ -184,11 +184,10 @@ void ModulationManager::forgetModulator() {
     current_modulator_ = "";
 }
 
-void ModulationManager::changeModulator(std::string new_modulator) {
-    current_modulator_ = new_modulator;
+void ModulationManager::setSliderValues() {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     std::vector<mopo::ModulationConnection*> connections =
-        parent->getSourceConnections(new_modulator);
+    parent->getSourceConnections(current_modulator_);
     for (auto slider : slider_lookup_) {
         std::string destination_name = slider.second->getName().toStdString();
         float value = 0.0f;
@@ -202,6 +201,11 @@ void ModulationManager::changeModulator(std::string new_modulator) {
         slider.second->setValue(value);
         slider.second->repaint();
     }
+}
+
+void ModulationManager::changeModulator(std::string new_modulator) {
+    current_modulator_ = new_modulator;
+    setSliderValues();
 
     polyphonic_destinations_->setVisible(true);
     polyphonic_destinations_->repaint();

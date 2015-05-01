@@ -41,3 +41,9 @@ ModulationSlider::ModulationSlider(TwytchSlider* destination) :
 
 ModulationSlider::~ModulationSlider() {
 }
+
+void ModulationSlider::mouseDown(const juce::MouseEvent &e) {
+    // We'll ignore right clicks.
+    if (!e.mods.isPopupMenu())
+        TwytchSlider::mouseDown(e);
+}
