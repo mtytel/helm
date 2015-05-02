@@ -44,7 +44,8 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    File getPatchDirectory();
+    File getSystemPatchDirectory();
+    File getUserPatchDirectory();
 
     void refreshPatches();
 

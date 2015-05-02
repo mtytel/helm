@@ -25,6 +25,8 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+
+#define PATCH_EXTENSION "twytch"
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -122,11 +124,13 @@ void PatchBrowser::buttonClicked (Button* buttonThatWasClicked)
     //[UserbuttonClicked_Pre]
     if (buttonThatWasClicked == save_) {
         int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-        FileBrowserComponent browser(flags, getPatchDirectory(), nullptr, nullptr);
+        FileBrowserComponent browser(flags, getUserPatchDirectory(), nullptr, nullptr);
         FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
         if (save_dialog.show()) {
             SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
             File save_file = browser.getSelectedFile(0);
+            if (save_file.getFileExtension() != PATCH_EXTENSION)
+                save_file = save_file.withFileExtension(PATCH_EXTENSION);
             save_file.replaceWithText(JSON::toString(parent->saveToVar()));
         }
     }
@@ -187,7 +191,15 @@ void PatchBrowser::buttonClicked (Button* buttonThatWasClicked)
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
-File PatchBrowser::getPatchDirectory() {
+File PatchBrowser::getSystemPatchDirectory() {
+    File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
+    File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
+    if (!patch_dir.exists())
+        patch_dir.createDirectory();
+    return patch_dir;
+}
+
+File PatchBrowser::getUserPatchDirectory() {
     File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
     File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
     if (!patch_dir.exists())
@@ -199,7 +211,7 @@ File PatchBrowser::getCurrentPatch() {
     Array<File> patches;
     File patch_folder = getCurrentFolder();
 
-    patch_folder.findChildFiles(patches, File::findFiles, false, "*.twytch");
+    patch_folder.findChildFiles(patches, File::findFiles, false, String("*.") + PATCH_EXTENSION);
     if (patch_index_ >= patches.size())
         patch_index_ = 0;
     else if (patch_index_ < 0)
@@ -210,9 +222,10 @@ File PatchBrowser::getCurrentPatch() {
 
 File PatchBrowser::getCurrentFolder() {
     Array<File> folders;
-    File patch_dir = getPatchDirectory();
+    File patch_dir = getSystemPatchDirectory();
 
     patch_dir.findChildFiles(folders, File::findDirectories, false);
+    folders.add(getUserPatchDirectory());
     if (folder_index_ >= folders.size())
         folder_index_ = 0;
     else if (folder_index_ < 0)
