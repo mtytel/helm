@@ -83,6 +83,7 @@
 		CA2A59BD407224E7508E8D32 /* operators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAD4F59630FDB1AD478F03F6 /* operators.cpp */; };
 		CBDEF0B7ACD825C1ACFC3687 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA170B8B6946E4F4B51585CC /* QuartzCore.framework */; };
 		CE2907C8E920B17AB0D25FF8 /* patch_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC3363AE2A23A6A3472CCF1A /* patch_browser.cpp */; };
+		D10CE9A41AF45CCF001859B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D10CE9A31AF45CCF001859B3 /* Images.xcassets */; };
 		D2190EC4CC20C80D1A70D09E /* twytch_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEBC12211491258E3ED475F0 /* twytch_module.cpp */; };
 		D33B878F0A7EBAE0E7BB2E30 /* phaser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431F67091922F7BD0109A828 /* phaser.cpp */; };
 		D835DE73BA6FB36584AE5D48 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F09D97A42C38A359EC516 /* memory.cpp */; };
@@ -947,6 +948,7 @@
 		D0DBB02424860AADB139D318 /* juce_RelativeParallelogram.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_RelativeParallelogram.cpp; path = ../../../../srcs/JUCE/modules/juce_gui_basics/positioning/juce_RelativeParallelogram.cpp; sourceTree = SOURCE_ROOT; };
 		D0EA41314322FE2FA36CC0F8 /* juce_LuaCodeTokeniser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LuaCodeTokeniser.h; path = ../../../../srcs/JUCE/modules/juce_gui_extra/code_editor/juce_LuaCodeTokeniser.h; sourceTree = SOURCE_ROOT; };
 		D0FBF05B8328C3A352955B5E /* resonance_lookup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = resonance_lookup.cpp; path = ../../../mopo/src/resonance_lookup.cpp; sourceTree = SOURCE_ROOT; };
+		D10CE9A31AF45CCF001859B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Twytch/Images.xcassets; sourceTree = "<group>"; };
 		D128CBF23DE3310E16C82FC5 /* juce_android_Audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_android_Audio.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_devices/native/juce_android_Audio.cpp; sourceTree = SOURCE_ROOT; };
 		D13216FDCEA22F655E5A990D /* juce_ResamplingAudioSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ResamplingAudioSource.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_basics/sources/juce_ResamplingAudioSource.cpp; sourceTree = SOURCE_ROOT; };
 		D1635782D8905480B7E9A3CB /* juce_Time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Time.cpp; path = ../../../../srcs/JUCE/modules/juce_core/time/juce_Time.cpp; sourceTree = SOURCE_ROOT; };
@@ -2927,6 +2929,7 @@
 			children = (
 				CAB3615425E728EAFAB20561 /* mopo */,
 				22FE8F4953DBB1955B71409A /* src */,
+				D10CE9A31AF45CCF001859B3 /* Images.xcassets */,
 			);
 			name = Twytch;
 			sourceTree = "<group>";
@@ -3145,6 +3148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D38713E044E4966AD971F06 /* RecentFilesMenuTemplate.nib in Resources */,
+				D10CE9A41AF45CCF001859B3 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3284,6 +3288,7 @@
 		AF3F1B351FA1612727EAAC60 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3318,6 +3323,7 @@
 		B9D8F94AC5FBB50DC226F771 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;

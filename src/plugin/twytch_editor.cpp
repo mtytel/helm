@@ -31,7 +31,6 @@ TwytchEditor::TwytchEditor(TwytchPlugin& twytch) : AudioProcessorEditor(&twytch)
                            twytch.getSynth()->getMonoModulations(),
                            twytch.getSynth()->getPolyModulations());
   gui_->setOutputMemory(twytch.getOutputMemory());
-  gui_->setModulationConnections(twytch_.getSynth()->getModulationConnections());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
   repaint();
@@ -48,5 +47,4 @@ void TwytchEditor::resized() {
 
 void TwytchEditor::updateFullGui() {
   gui_->setAllValues(controls_);
-  gui_->setModulationConnections(synth_->getModulationConnections());
 }
