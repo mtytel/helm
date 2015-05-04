@@ -16,7 +16,7 @@
 
 #include "synth_gui_interface.h"
 
-#include "twytch_load_save.h"
+#include "load_save.h"
 
 void SynthGuiInterface::valueChanged(std::string name, mopo::mopo_float value) {
   ScopedLock lock(getCriticalSection());
@@ -78,11 +78,11 @@ mopo::Processor::Output* SynthGuiInterface::getModSource(std::string name) {
 }
 
 var SynthGuiInterface::saveToVar() {
-  return TwytchLoadSave::stateToVar(synth_, getCriticalSection());
+  return LoadSave::stateToVar(synth_, getCriticalSection());
 }
 
 void SynthGuiInterface::loadFromVar(juce::var state) {
-  TwytchLoadSave::varToState(synth_, getCriticalSection(), state);
+  LoadSave::varToState(synth_, getCriticalSection(), state);
   updateFullGui();
 }
 

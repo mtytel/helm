@@ -14,10 +14,10 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch_load_save.h"
+#include "load_save.h"
 
-var TwytchLoadSave::stateToVar(mopo::TwytchEngine* synth,
-                               const CriticalSection& critical_section) {
+var LoadSave::stateToVar(mopo::TwytchEngine* synth,
+                         const CriticalSection& critical_section) {
   mopo::control_map controls = synth->getControls();
   DynamicObject* state_object = new DynamicObject();
 
@@ -39,9 +39,9 @@ var TwytchLoadSave::stateToVar(mopo::TwytchEngine* synth,
   return state_object;
 }
 
-void TwytchLoadSave::varToState(mopo::TwytchEngine* synth,
-                                const CriticalSection& critical_section,
-                                var state) {
+void LoadSave::varToState(mopo::TwytchEngine* synth,
+                          const CriticalSection& critical_section,
+                          var state) {
   if (!state.isObject())
     return;
 

@@ -95,6 +95,8 @@
     </GROUP>
     <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
       <GROUP id="{C469F3D8-F6EF-BDCC-7C07-4B716B9C6577}" name="common">
+        <FILE id="qa4qG1" name="load_save.cpp" compile="1" resource="0" file="../src/common/load_save.cpp"/>
+        <FILE id="AqsLqU" name="load_save.h" compile="0" resource="0" file="../src/common/load_save.h"/>
         <FILE id="uwvpGq" name="midi_manager.cpp" compile="1" resource="0"
               file="../src/common/midi_manager.cpp"/>
         <FILE id="oEAVBn" name="midi_manager.h" compile="0" resource="0" file="../src/common/midi_manager.h"/>
@@ -103,10 +105,6 @@
         <FILE id="cPdwSD" name="synth_gui_interface.h" compile="0" resource="0"
               file="../src/common/synth_gui_interface.h"/>
         <FILE id="f8Ivaj" name="twytch_common.h" compile="0" resource="0" file="../src/common/twytch_common.h"/>
-        <FILE id="ST7tJ7" name="twytch_load_save.cpp" compile="1" resource="0"
-              file="../src/common/twytch_load_save.cpp"/>
-        <FILE id="pC5ouD" name="twytch_load_save.h" compile="0" resource="0"
-              file="../src/common/twytch_load_save.h"/>
       </GROUP>
       <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
         <FILE id="yQH4BO" name="filter_response.cpp" compile="1" resource="0"

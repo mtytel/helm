@@ -436,13 +436,13 @@
     <ClCompile Include="..\..\mopo\src\wave.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\common\load_save.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\common\midi_manager.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\synth_gui_interface.cpp">
-      <Filter>Twytch\src\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\common\twytch_load_save.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp">
@@ -1893,6 +1893,9 @@
     <ClInclude Include="..\..\mopo\src\wave.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\common\load_save.h">
+      <Filter>Twytch\src\common</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\common\midi_manager.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
@@ -1900,9 +1903,6 @@
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\twytch_common.h">
-      <Filter>Twytch\src\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\common\twytch_load_save.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_response.h">

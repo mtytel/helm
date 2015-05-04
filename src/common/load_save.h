@@ -14,21 +14,21 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_LOAD_SAVE_H
-#define TWYTCH_LOAD_SAVE_H
+#ifndef LOAD_SAVE_H
+#define LOAD_SAVE_H
 
 #include "JuceHeader.h"
 
 #include "twytch_engine.h"
 
-class TwytchLoadSave {
+class LoadSave {
   public:
     static var stateToVar(mopo::TwytchEngine* synth,
                           const CriticalSection& critical_section);
-  
+
     static void varToState(mopo::TwytchEngine* synth,
                            const CriticalSection& critical_section,
                            var state);
 };
 
-#endif  // TWYTCH_LOAD_SAVE_H
+#endif  // LOAD_SAVE_H

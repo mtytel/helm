@@ -80,9 +80,9 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
+  $(OBJDIR)/load_save_4069acb2.o \
   $(OBJDIR)/midi_manager_e9b5d29d.o \
   $(OBJDIR)/synth_gui_interface_bde2c2e.o \
-  $(OBJDIR)/twytch_load_save_87fa95c8.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
   $(OBJDIR)/filter_selector_d3a4a389.o \
   $(OBJDIR)/full_interface_ddba7cf0.o \
@@ -302,6 +302,11 @@ $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	@echo "Compiling wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/load_save_4069acb2.o: ../../src/common/load_save.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling load_save.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/midi_manager_e9b5d29d.o: ../../src/common/midi_manager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling midi_manager.cpp"
@@ -310,11 +315,6 @@ $(OBJDIR)/midi_manager_e9b5d29d.o: ../../src/common/midi_manager.cpp
 $(OBJDIR)/synth_gui_interface_bde2c2e.o: ../../src/common/synth_gui_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_gui_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_load_save_87fa95c8.o: ../../src/common/twytch_load_save.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_load_save.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_response.cpp
