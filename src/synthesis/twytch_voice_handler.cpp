@@ -121,8 +121,8 @@ namespace mopo {
     Processor* oscillator1_waveform = createPolyModControl("osc_1_waveform", Wave::kDownSaw, true);
     Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", 0, true);
     Processor* oscillator1_tune = createPolyModControl("osc_1_tune", 0.0, true);
-    Processor* oscillator1_unison_voices = createPolyModControl("osc_1_unison_voices", 8, true);
-    Processor* oscillator1_unison_detune = createPolyModControl("osc_1_unison_detune", 5.0, true);
+    Processor* oscillator1_unison_voices = createPolyModControl("osc_1_unison_voices", 9, true);
+    Processor* oscillator1_unison_detune = createPolyModControl("osc_1_unison_detune", 35.0, true);
     Add* oscillator1_transposed = new Add();
     oscillator1_transposed->setControlRate();
     oscillator1_transposed->plug(bent_midi, 0);
@@ -160,10 +160,10 @@ namespace mopo {
 
     // Oscillator 2.
     Processor* oscillator2_waveform = createPolyModControl("osc_2_waveform", Wave::kDownSaw, true);
-    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", -12, true);
+    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", -19, true);
     Processor* oscillator2_tune = createPolyModControl("osc_2_tune", 0.08, true);
-    Processor* oscillator2_unison_voices = createPolyModControl("osc_2_unison_voices", 8, true);
-    Processor* oscillator2_unison_detune = createPolyModControl("osc_2_unison_detune", 5.0, true);
+    Processor* oscillator2_unison_voices = createPolyModControl("osc_2_unison_voices", 9, true);
+    Processor* oscillator2_unison_detune = createPolyModControl("osc_2_unison_detune", 35.0, true);
     Add* oscillator2_transposed = new Add();
     oscillator2_transposed->setControlRate();
     oscillator2_transposed->plug(bent_midi, 0);
@@ -264,7 +264,7 @@ namespace mopo {
       Output* audio, Output* keytrack, Output* reset, Output* note_event) {
     // Filter envelope.
     Processor* filter_attack = createPolyModControl("fil_attack", 0.1, false, false, kQuadratic);
-    Processor* filter_decay = createPolyModControl("fil_decay", 0.9, true, false, kQuadratic);
+    Processor* filter_decay = createPolyModControl("fil_decay", 3.0, true, false, kQuadratic);
     Processor* filter_sustain = createPolyModControl("fil_sustain", 0.3, false);
     Processor* filter_release = createPolyModControl("fil_release", 0.9, true, false, kQuadratic);
 
@@ -294,13 +294,13 @@ namespace mopo {
 
     // Filter.
     Value* filter_type = new Value(Filter::kLowPass);
-    Processor* keytrack_amount = createPolyModControl("keytrack", 0.0, false);
+    Processor* keytrack_amount = createPolyModControl("keytrack", 1.0, false);
     Multiply* current_keytrack = new Multiply();
     current_keytrack->setControlRate();
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
 
-    Processor* base_cutoff = createPolyModControl("cutoff", 80, true, true);
+    Processor* base_cutoff = createPolyModControl("cutoff", 65, true, true);
     Add* keytracked_cutoff = new Add();
     keytracked_cutoff->setControlRate();
     keytracked_cutoff->plug(base_cutoff, 0);
