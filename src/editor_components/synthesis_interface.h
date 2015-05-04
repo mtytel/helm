@@ -132,7 +132,6 @@ private:
     ScopedPointer<TwytchSlider> mono_lfo_1_frequency_;
     ScopedPointer<TwytchSlider> filter_saturation_;
     ScopedPointer<ToggleButton> formant_on_;
-    ScopedPointer<TwytchSlider> legato_;
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<TwytchSlider> formant_x_;
     ScopedPointer<TwytchSlider> formant_y_;
@@ -174,6 +173,7 @@ private:
     ScopedPointer<ModulationButton> velocity_mod_;
     ScopedPointer<ModulationButton> mod_wheel_mod_;
     ScopedPointer<ModulationButton> pitch_wheel_mod_;
+    ScopedPointer<ToggleButton> legato_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

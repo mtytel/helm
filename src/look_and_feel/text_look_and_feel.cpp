@@ -31,5 +31,21 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
 
 void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                        bool isMouseOverButton, bool isButtonDown) {
-  g.fillAll(Colours::black);
+  if (button.getToggleState())
+    g.setColour(Colour(0xffffc400));
+  else
+    g.setColour(Colour(0xff313131));
+  g.fillRect(button.getLocalBounds());
+
+  g.setColour(Colour(0xff565656));
+  g.drawRect(button.getLocalBounds());
+
+  if (isButtonDown) {
+    g.setColour(Colour(0x11000000));
+    g.fillRect(button.getLocalBounds());
+  }
+  else if (isMouseOverButton) {
+    g.setColour(Colour(0x11ffffff));
+    g.fillRect(button.getLocalBounds());
+  }
 }

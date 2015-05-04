@@ -331,15 +331,6 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     formant_on_->setToggleState (true, dontSendNotification);
     formant_on_->setColour (ToggleButton::textColourId, Colour (0xffbbbbbb));
 
-    addAndMakeVisible (legato_ = new TwytchSlider ("legato"));
-    legato_->setRange (0, 1, 1);
-    legato_->setSliderStyle (Slider::LinearBar);
-    legato_->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    legato_->setColour (Slider::backgroundColourId, Colour (0xff333333));
-    legato_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-    legato_->setColour (Slider::textBoxOutlineColourId, Colour (0xffbbbbbb));
-    legato_->addListener (this);
-
     addAndMakeVisible (formant_xy_pad_ = new XYPad());
     addAndMakeVisible (formant_x_ = new TwytchSlider ("formant_x"));
     formant_x_->setRange (0, 1, 0);
@@ -607,6 +598,12 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     pitch_wheel_mod_->setButtonText (String::empty);
     pitch_wheel_mod_->addListener (this);
 
+    addAndMakeVisible (legato_ = new ToggleButton ("legato"));
+    legato_->setButtonText (String::empty);
+    legato_->addListener (this);
+    legato_->setToggleState (true, dontSendNotification);
+    legato_->setColour (ToggleButton::textColourId, Colour (0xffbbbbbb));
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -721,7 +718,6 @@ SynthesisInterface::~SynthesisInterface()
     mono_lfo_1_frequency_ = nullptr;
     filter_saturation_ = nullptr;
     formant_on_ = nullptr;
-    legato_ = nullptr;
     formant_xy_pad_ = nullptr;
     formant_x_ = nullptr;
     formant_y_ = nullptr;
@@ -763,6 +759,7 @@ SynthesisInterface::~SynthesisInterface()
     velocity_mod_ = nullptr;
     mod_wheel_mod_ = nullptr;
     pitch_wheel_mod_ = nullptr;
+    legato_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1358,7 +1355,6 @@ void SynthesisInterface::resized()
     mono_lfo_1_frequency_->setBounds (394, 564, 42, 16);
     filter_saturation_->setBounds (270 - (40 / 2), 244, 40, 40);
     formant_on_->setBounds (12, 484, 16, 16);
-    legato_->setBounds (700 - (40 / 2), 182, 40, 16);
     formant_xy_pad_->setBounds (8, 502, 186, 88);
     formant_x_->setBounds (8, 590, 186, 10);
     formant_y_->setBounds (194, 502, 10, 88);
@@ -1400,6 +1396,7 @@ void SynthesisInterface::resized()
     velocity_mod_->setBounds (480, 614, 32, 32);
     mod_wheel_mod_->setBounds (173, 614, 32, 32);
     pitch_wheel_mod_->setBounds (20, 614, 32, 32);
+    legato_->setBounds (684, 182, 32, 16);
     internalPath1.clear();
     internalPath1.startNewSubPath (198.0f, 44.0f);
     internalPath1.lineTo (190.0f, 44.0f);
@@ -1607,11 +1604,6 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
         //[UserSliderCode_filter_saturation_] -- add your slider handling code here..
         //[/UserSliderCode_filter_saturation_]
     }
-    else if (sliderThatWasMoved == legato_)
-    {
-        //[UserSliderCode_legato_] -- add your slider handling code here..
-        //[/UserSliderCode_legato_]
-    }
     else if (sliderThatWasMoved == formant_x_)
     {
         //[UserSliderCode_formant_x_] -- add your slider handling code here..
@@ -1747,27 +1739,29 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     //[UserbuttonClicked_Pre]
     std::string name = buttonThatWasClicked->getName().toStdString();
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    if (parent == nullptr)
+        return;
 
-    if (buttonThatWasClicked == formant_on_) {
-        if (parent)
-            parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-    }
-    else if (buttonThatWasClicked == stutter_on_) {
-        if (parent)
-            parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-    }
+    if (buttonThatWasClicked == formant_on_)
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    else if (buttonThatWasClicked == stutter_on_)
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    else if (buttonThatWasClicked == legato_)
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     else {
         std::string name = buttonThatWasClicked->getName().toStdString();
-        FullInterface* parent = findParentComponentOfClass<FullInterface>();
-        if (parent) {
+        FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
+        if (full_parent) {
             if (buttonThatWasClicked->getToggleState()) {
-                std::string current_modulator = parent->getCurrentModulator();
-                if (current_modulator != "")
-                    button_lookup_[current_modulator]->setToggleState(false, NotificationType::dontSendNotification);
-                parent->changeModulator(name);
+                std::string current_modulator = full_parent->getCurrentModulator();
+                if (current_modulator != "") {
+                    Button* modulator = button_lookup_[current_modulator];
+                    modulator->setToggleState(false, NotificationType::dontSendNotification);
+                }
+                full_parent->changeModulator(name);
             }
             else
-                parent->forgetModulator();
+                full_parent->forgetModulator();
         }
     }
     //[/UserbuttonClicked_Pre]
@@ -1836,6 +1830,11 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_pitch_wheel_mod_] -- add your button handler code here..
         //[/UserButtonCode_pitch_wheel_mod_]
+    }
+    else if (buttonThatWasClicked == legato_)
+    {
+        //[UserButtonCode_legato_] -- add your button handler code here..
+        //[/UserButtonCode_legato_]
     }
 
     //[UserbuttonClicked_Post]
@@ -1954,7 +1953,6 @@ void SynthesisInterface::setSliderUnits() {
     step_sequencer_sync_->setStringLookup(mopo::strings::freq_sync_styles);
     delay_sync_->setStringLookup(mopo::strings::freq_sync_styles);
 
-    legato_->setStringLookup(mopo::strings::off_on);
     portamento_type_->setStringLookup(mopo::strings::off_auto_on);
 
     osc_1_waveform_->setStringLookup(mopo::strings::waveforms);
@@ -2060,6 +2058,7 @@ void SynthesisInterface::setStyles() {
     step_sequencer_tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
 
     num_steps_->setLookAndFeel(TextLookAndFeel::instance());
+    legato_->setLookAndFeel(TextLookAndFeel::instance());
 
     filter_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
     amplitude_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
@@ -2539,11 +2538,6 @@ BEGIN_JUCER_METADATA
                 virtualName="" explicitFocusOrder="0" pos="12 484 16 16" txtcol="ffbbbbbb"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="1"/>
-  <SLIDER name="legato" id="5974d3f0077190f" memberName="legato_" virtualName="TwytchSlider"
-          explicitFocusOrder="0" pos="700c 182 40 16" bkgcol="ff333333"
-          trackcol="ff9765bc" textboxoutline="ffbbbbbb" min="0" max="1"
-          int="1" style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="1"
-          textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <JUCERCOMP name="formant_xy_pad" id="202ea6e8e33b6ac7" memberName="formant_xy_pad_"
              virtualName="XYPad" explicitFocusOrder="0" pos="8 502 186 88"
              sourceFile="xy_pad.cpp" constructorParams=""/>
@@ -2728,6 +2722,10 @@ BEGIN_JUCER_METADATA
                 virtualName="ModulationButton" explicitFocusOrder="0" pos="20 614 32 32"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
+  <TOGGLEBUTTON name="legato" id="f832090c308961f4" memberName="legato_" virtualName=""
+                explicitFocusOrder="0" pos="684 182 32 16" txtcol="ffbbbbbb"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
