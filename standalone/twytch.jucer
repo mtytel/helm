@@ -296,30 +296,6 @@
         <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
-    <XCODE_IPHONE targetFolder="builds/iOS">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" iosCompatibility="default" isDebug="1" optimisation="1"
-                       targetName="Twytch"/>
-        <CONFIGURATION name="Release" iosCompatibility="default" isDebug="0" optimisation="2"
-                       targetName="Twytch"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_video" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE/modules"/>
-      </MODULEPATHS>
-    </XCODE_IPHONE>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
