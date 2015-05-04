@@ -14,25 +14,6 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MODULATIONS_SLIDER_H
-#define MODULATIONS_SLIDER_H
+#include "browser_look_and_feel.h"
 
-#include "JuceHeader.h"
-#include "synth_slider.h"
 
-class ModulationSlider : public SynthSlider {
-public:
-    ModulationSlider(SynthSlider* source);
-    ~ModulationSlider();
-
-    virtual void mouseDown(const MouseEvent& e) override;
-
-    Slider* getDestinationSlider() { return destination_slider_; }
-
-private:
-    Slider* destination_slider_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationSlider)
-};
-
-#endif // MODULATIONS_SLIDER_H

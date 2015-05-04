@@ -68,7 +68,7 @@ namespace {
     }
 } // namespace
 
-WaveSelector::WaveSelector(String name) : TwytchSlider(name) { }
+WaveSelector::WaveSelector(String name) : SynthSlider(name) { }
 
 void WaveSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
@@ -119,7 +119,7 @@ void WaveSelector::paint(Graphics& g) {
 }
 
 void WaveSelector::resized() {
-    TwytchSlider::resized();
+    SynthSlider::resized();
     /*
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;

@@ -28,12 +28,12 @@ namespace {
 
 } // namespace
 
-TempoSelector::TempoSelector(String name) : TwytchSlider(name),
+TempoSelector::TempoSelector(String name) : SynthSlider(name),
                                             free_slider_(0), tempo_slider_(0) { }
 
 void TempoSelector::mouseDown(const MouseEvent& e) {
     if (e.mods.isPopupMenu()) {
-        TwytchSlider::mouseDown(e);
+        SynthSlider::mouseDown(e);
         return;
     }
     PopupMenu m;
@@ -49,7 +49,7 @@ void TempoSelector::mouseDown(const MouseEvent& e) {
 
 void TempoSelector::valueChanged() {
     bool free_slider = getValue() == (kHertz - 1);
-    
+
     if (free_slider_)
         free_slider_->setVisible(free_slider);
     if (tempo_slider_)

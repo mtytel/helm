@@ -18,15 +18,15 @@
 #define FILTER_SELECTOR_H
 
 #include "JuceHeader.h"
-#include "twytch_slider.h"
+#include "synth_slider.h"
 
-class FilterSelector : public TwytchSlider {
+class FilterSelector : public SynthSlider {
 public:
     FilterSelector(String name);
 
     void paint(Graphics& g) override;
     void resized() override;
-    
+
     void mouseEvent(const MouseEvent& e);
     void mouseDown(const MouseEvent& e) override;
     void mouseDrag(const MouseEvent& e) override;

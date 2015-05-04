@@ -36,7 +36,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     //[/Constructor_pre]
 
     addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
-    addAndMakeVisible (arp_frequency_ = new TwytchSlider ("arp_frequency"));
+    addAndMakeVisible (arp_frequency_ = new SynthSlider ("arp_frequency"));
     arp_frequency_->setRange (-1, 4, 0);
     arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -44,7 +44,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_frequency_->setColour (Slider::textBoxTextColourId, Colours::white);
     arp_frequency_->addListener (this);
 
-    addAndMakeVisible (arp_gate_ = new TwytchSlider ("arp_gate"));
+    addAndMakeVisible (arp_gate_ = new SynthSlider ("arp_gate"));
     arp_gate_->setRange (0, 1, 0);
     arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -52,7 +52,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_gate_->setColour (Slider::textBoxTextColourId, Colours::white);
     arp_gate_->addListener (this);
 
-    addAndMakeVisible (arp_octaves_ = new TwytchSlider ("arp_octaves"));
+    addAndMakeVisible (arp_octaves_ = new SynthSlider ("arp_octaves"));
     arp_octaves_->setRange (1, 4, 1);
     arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -60,7 +60,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_octaves_->setColour (Slider::textBoxTextColourId, Colours::white);
     arp_octaves_->addListener (this);
 
-    addAndMakeVisible (arp_pattern_ = new TwytchSlider ("arp_pattern"));
+    addAndMakeVisible (arp_pattern_ = new SynthSlider ("arp_pattern"));
     arp_pattern_->setRange (0, 4, 1);
     arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
     arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -74,7 +74,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_on_->addListener (this);
     arp_on_->setColour (ToggleButton::textColourId, Colours::white);
 
-    addAndMakeVisible (beats_per_minute_ = new TwytchSlider ("beats_per_minute"));
+    addAndMakeVisible (beats_per_minute_ = new SynthSlider ("beats_per_minute"));
     beats_per_minute_->setRange (20, 300, 0);
     beats_per_minute_->setSliderStyle (Slider::LinearBar);
     beats_per_minute_->setTextBoxStyle (Slider::TextBoxAbove, false, 150, 20);
@@ -96,7 +96,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     addAndMakeVisible (patch_browser_ = new PatchBrowser());
 
     //[UserPreSize]
-    arp_tempo_ = new TwytchSlider("arp_tempo");
+    arp_tempo_ = new SynthSlider("arp_tempo");
     addAndMakeVisible(arp_tempo_);
     arp_tempo_->setRange(0, sizeof(mopo::synced_freq_ratios) / sizeof(mopo::Value) - 1, 1);
     arp_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -106,7 +106,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_tempo_->addListener(this);
 
     arp_frequency_->setUnits("Hz");
-    arp_frequency_->setScalingType(TwytchSlider::kExponential);
+    arp_frequency_->setScalingType(SynthSlider::kExponential);
     arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     arp_pattern_->setStringLookup(mopo::strings::arp_patterns);
 
@@ -115,7 +115,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_sync_->setFreeSlider(arp_frequency_);
 
     for (int i = 0; i < getNumChildComponents(); ++i) {
-        TwytchSlider* slider = dynamic_cast<TwytchSlider*>(getChildComponent(i));
+        SynthSlider* slider = dynamic_cast<SynthSlider*>(getChildComponent(i));
         if (slider)
             slider_lookup_[slider->getName().toStdString()] = slider;
 
@@ -345,7 +345,7 @@ void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
     oscilloscope_->setOutputMemory(output_memory);
 }
 
-TwytchSlider* FullInterface::getSlider(std::string name) {
+SynthSlider* FullInterface::getSlider(std::string name) {
     if (slider_lookup_.count(name))
         return slider_lookup_[name];
     return synthesis_interface_->getSlider(name);
@@ -354,10 +354,10 @@ TwytchSlider* FullInterface::getSlider(std::string name) {
 void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
                                             mopo::output_map mono_modulations,
                                             mopo::output_map poly_modulations) {
-    std::map<std::string, TwytchSlider*> modulatable_sliders;
+    std::map<std::string, SynthSlider*> modulatable_sliders;
 
     for (auto destination : mono_modulations) {
-        TwytchSlider* slider = getSlider(destination.first);
+        SynthSlider* slider = getSlider(destination.first);
         modulatable_sliders[destination.first] = slider;
     }
     modulation_manager_ = new ModulationManager(modulation_sources,
@@ -429,22 +429,22 @@ BEGIN_JUCER_METADATA
              virtualName="" explicitFocusOrder="0" pos="746r 744r 738 672"
              sourceFile="synthesis_interface.cpp" constructorParams="controls"/>
   <SLIDER name="arp_frequency" id="90264eb571112e1b" memberName="arp_frequency_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="527c 12 40 40"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="527c 12 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-1" max="4"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_gate" id="e8f61b752c6d561e" memberName="arp_gate_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="599c 12 40 40"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="599c 12 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="1"
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_octaves" id="858d1f30bb7ddacd" memberName="arp_octaves_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="647c 12 40 40"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="647c 12 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="1" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="arp_pattern" id="92ea11d0205b2100" memberName="arp_pattern_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="703c 12 40 40"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="703c 12 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="0" max="4"
           int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -455,7 +455,7 @@ BEGIN_JUCER_METADATA
                 explicitFocusOrder="0" pos="474 12 16 16" txtcol="ffffffff" buttonText=""
                 connectedEdges="0" needsCallback="1" radioGroupId="0" state="0"/>
   <SLIDER name="beats_per_minute" id="ff281098ba229964" memberName="beats_per_minute_"
-          virtualName="TwytchSlider" explicitFocusOrder="0" pos="148c 48 176 20"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="148c 48 176 20"
           bkgcol="ff333333" textboxtext="ffffffff" textboxoutline="808080"
           min="20" max="300" int="0" style="LinearBar" textBoxPos="TextBoxAbove"
           textBoxEditable="1" textBoxWidth="150" textBoxHeight="20" skewFactor="1"/>

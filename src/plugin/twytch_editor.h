@@ -19,7 +19,6 @@
 
 #include "JuceHeader.h"
 #include "twytch_plugin.h"
-#include "twytch_look_and_feel.h"
 #include "full_interface.h"
 #include "synth_gui_interface.h"
 
@@ -38,7 +37,6 @@ class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
 
   private:
     TwytchPlugin& twytch_;
-    TwytchLookAndFeel look_and_feel_;
 
     ScopedPointer<FullInterface> gui_;
 

@@ -44,7 +44,7 @@ class ModulationManager  : public Component,
 {
 public:
     //==============================================================================
-    ModulationManager (mopo::output_map modulation_sources, std::map<std::string, TwytchSlider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
+    ModulationManager (mopo::output_map modulation_sources, std::map<std::string, SynthSlider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~ModulationManager();
 
     //==============================================================================
@@ -67,7 +67,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     void setSliderValues();
-    
+
     ModulationLookAndFeel look_and_feel_;
     ScopedPointer<Component> polyphonic_destinations_;
     ScopedPointer<Component> monophonic_destinations_;
@@ -75,7 +75,7 @@ private:
     std::string current_modulator_;
 
     std::map<std::string, Slider*> slider_lookup_;
-    std::map<std::string, TwytchSlider*> slider_model_lookup_;
+    std::map<std::string, SynthSlider*> slider_model_lookup_;
     std::vector<Slider*> owned_sliders_;
 
     std::map<std::string, ModulationMeter*> meter_lookup_;

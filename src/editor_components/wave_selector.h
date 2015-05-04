@@ -18,9 +18,9 @@
 #define WAVE_SELECTOR_H
 
 #include "JuceHeader.h"
-#include "twytch_slider.h"
+#include "synth_slider.h"
 
-class WaveSelector : public TwytchSlider {
+class WaveSelector : public SynthSlider {
 public:
     WaveSelector(String name);
 

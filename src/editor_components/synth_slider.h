@@ -14,14 +14,14 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_SLIDER_H
-#define TWYTCH_SLIDER_H
+#ifndef SYNTH_SLIDER_H
+#define SYNTH_SLIDER_H
 
 #include "JuceHeader.h"
 
 class FullInterface;
 
-class TwytchSlider : public Slider {
+class SynthSlider : public Slider {
 public:
     enum ScalingType {
         kLinear,
@@ -30,7 +30,7 @@ public:
         kStringLookup
     };
 
-    TwytchSlider(String name);
+    SynthSlider(String name);
 
     virtual void mouseDown(const MouseEvent& e) override;
     virtual void mouseEnter(const MouseEvent& e) override;
@@ -74,7 +74,7 @@ private:
 
     FullInterface* parent_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchSlider)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSlider)
 };
 
-#endif // TWYTCH_SLIDER_H
+#endif // SYNTH_SLIDER_H

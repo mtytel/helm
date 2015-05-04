@@ -16,6 +16,7 @@
 
 #include "twytch_standalone_editor.h"
 
+#include "default_look_and_feel.h"
 #include "mopo.h"
 #include "utils.h"
 
@@ -37,7 +38,7 @@ TwytchStandaloneEditor::TwytchStandaloneEditor() {
   if (midi_input_.get())
     midi_input_->start();
 
-  setLookAndFeel(TwytchLookAndFeel::instance());
+  setLookAndFeel(DefaultLookAndFeel::instance());
 
   gui_ = new FullInterface(synth_.getControls(),
                            synth_.getModulationSources(),

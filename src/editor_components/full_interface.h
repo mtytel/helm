@@ -55,7 +55,7 @@ public:
                   NotificationType notification = sendNotificationAsync);
     void setOutputMemory(const mopo::Memory* output_memory);
 
-    TwytchSlider* getSlider(std::string name);
+    SynthSlider* getSlider(std::string name);
     void createModulationSliders(mopo::output_map modulation_sources,
                                  mopo::output_map mono_modulations,
                                  mopo::output_map poly_modulations);
@@ -75,22 +75,22 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    std::map<std::string, TwytchSlider*> slider_lookup_;
+    std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     ScopedPointer<ModulationManager> modulation_manager_;
     TooltipWindow tooltip_;
-    ScopedPointer<TwytchSlider> arp_tempo_;
+    ScopedPointer<SynthSlider> arp_tempo_;
     //[/UserVariables]
 
     //==============================================================================
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<TwytchSlider> arp_frequency_;
-    ScopedPointer<TwytchSlider> arp_gate_;
-    ScopedPointer<TwytchSlider> arp_octaves_;
-    ScopedPointer<TwytchSlider> arp_pattern_;
+    ScopedPointer<SynthSlider> arp_frequency_;
+    ScopedPointer<SynthSlider> arp_gate_;
+    ScopedPointer<SynthSlider> arp_octaves_;
+    ScopedPointer<SynthSlider> arp_pattern_;
     ScopedPointer<Oscilloscope> oscilloscope_;
     ScopedPointer<ToggleButton> arp_on_;
-    ScopedPointer<TwytchSlider> beats_per_minute_;
+    ScopedPointer<SynthSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<TempoSelector> arp_sync_;
     ScopedPointer<PatchBrowser> patch_browser_;

@@ -17,8 +17,8 @@
 #include "modulation_slider.h"
 #include "mopo.h"
 
-ModulationSlider::ModulationSlider(TwytchSlider* destination) :
-        TwytchSlider(destination->getName()) {
+ModulationSlider::ModulationSlider(SynthSlider* destination) :
+        SynthSlider(destination->getName()) {
     destination_slider_ = destination;
 
     float destination_range = destination->getMaximum() - destination->getMinimum();
@@ -45,5 +45,5 @@ ModulationSlider::~ModulationSlider() {
 void ModulationSlider::mouseDown(const juce::MouseEvent &e) {
     // We'll ignore right clicks.
     if (!e.mods.isPopupMenu())
-        TwytchSlider::mouseDown(e);
+        SynthSlider::mouseDown(e);
 }

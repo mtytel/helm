@@ -19,7 +19,7 @@
 #define TYPE_PADDING_X 7.0f
 #define TYPE_PADDING_Y 3.0f
 
-FilterSelector::FilterSelector(String name) : TwytchSlider(name) { }
+FilterSelector::FilterSelector(String name) : SynthSlider(name) { }
 
 void FilterSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
@@ -56,7 +56,7 @@ void FilterSelector::paint(Graphics& g) {
 }
 
 void FilterSelector::resized() {
-    TwytchSlider::resized();
+    SynthSlider::resized();
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;
     float type_width = cell_width - 2 * TYPE_PADDING_X;

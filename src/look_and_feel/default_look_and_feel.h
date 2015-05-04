@@ -14,12 +14,12 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TWYTCH_LOOK_AND_FEEL_H
-#define TWYTCH_LOOK_AND_FEEL_H
+#ifndef DEFAULT_LOOK_AND_FEEL_H
+#define DEFAULT_LOOK_AND_FEEL_H
 
 #include "JuceHeader.h"
 
-class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
+class DefaultLookAndFeel : public juce::LookAndFeel_V3 {
   public:
 
     void drawLinearSlider(Graphics& g, int x, int y, int width, int height,
@@ -41,10 +41,10 @@ class TwytchLookAndFeel : public juce::LookAndFeel_V3 {
 
     void fillVerticalRect(Graphics& g, float y1, float y2, float width);
 
-    static TwytchLookAndFeel* instance() {
-      static TwytchLookAndFeel instance;
+    static DefaultLookAndFeel* instance() {
+      static DefaultLookAndFeel instance;
       return &instance;
     }
 };
 
-#endif // TWYTCH_LOOK_AND_FEEL_H
+#endif // DEFAULT_LOOK_AND_FEEL_H

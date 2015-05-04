@@ -24,7 +24,7 @@
 #include "JuceHeader.h"
 #include "twytch_engine.h"
 #include "filter_selector.h"
-#include "twytch_slider.h"
+#include "synth_slider.h"
 #include "tempo_selector.h"
 #include "wave_selector.h"
 #include "modulation_button.h"
@@ -68,7 +68,7 @@ public:
                   NotificationType notification = sendNotificationAsync);
     void modulationChanged(std::string source);
 
-    TwytchSlider* getSlider(std::string name);
+    SynthSlider* getSlider(std::string name);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -80,14 +80,14 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    std::map<std::string, TwytchSlider*> slider_lookup_;
+    std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     std::vector<Slider*> step_sequencer_sliders_;
-    ScopedPointer<TwytchSlider> step_sequencer_tempo_;
-    ScopedPointer<TwytchSlider> mono_lfo_1_tempo_;
-    ScopedPointer<TwytchSlider> mono_lfo_2_tempo_;
-    ScopedPointer<TwytchSlider> poly_lfo_tempo_;
-    ScopedPointer<TwytchSlider> delay_tempo_;
+    ScopedPointer<SynthSlider> step_sequencer_tempo_;
+    ScopedPointer<SynthSlider> mono_lfo_1_tempo_;
+    ScopedPointer<SynthSlider> mono_lfo_2_tempo_;
+    ScopedPointer<SynthSlider> poly_lfo_tempo_;
+    ScopedPointer<SynthSlider> delay_tempo_;
     //[/UserVariables]
 
     //==============================================================================
@@ -96,56 +96,56 @@ private:
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
     ScopedPointer<WaveViewer> osc_1_wave_display_;
     ScopedPointer<WaveViewer> osc_2_wave_display_;
-    ScopedPointer<TwytchSlider> polyphony_;
-    ScopedPointer<TwytchSlider> portamento_;
-    ScopedPointer<TwytchSlider> pitch_bend_range_;
-    ScopedPointer<TwytchSlider> cross_modulation_;
-    ScopedPointer<TwytchSlider> portamento_type_;
-    ScopedPointer<TwytchSlider> osc_mix_;
-    ScopedPointer<TwytchSlider> osc_2_transpose_;
-    ScopedPointer<TwytchSlider> osc_2_tune_;
-    ScopedPointer<TwytchSlider> volume_;
-    ScopedPointer<TwytchSlider> delay_feedback_;
-    ScopedPointer<TwytchSlider> delay_dry_wet_;
-    ScopedPointer<TwytchSlider> velocity_track_;
-    ScopedPointer<TwytchSlider> amp_attack_;
-    ScopedPointer<TwytchSlider> amp_decay_;
-    ScopedPointer<TwytchSlider> amp_release_;
-    ScopedPointer<TwytchSlider> amp_sustain_;
-    ScopedPointer<TwytchSlider> fil_attack_;
-    ScopedPointer<TwytchSlider> fil_decay_;
-    ScopedPointer<TwytchSlider> fil_release_;
-    ScopedPointer<TwytchSlider> fil_sustain_;
-    ScopedPointer<TwytchSlider> resonance_;
+    ScopedPointer<SynthSlider> polyphony_;
+    ScopedPointer<SynthSlider> portamento_;
+    ScopedPointer<SynthSlider> pitch_bend_range_;
+    ScopedPointer<SynthSlider> cross_modulation_;
+    ScopedPointer<SynthSlider> portamento_type_;
+    ScopedPointer<SynthSlider> osc_mix_;
+    ScopedPointer<SynthSlider> osc_2_transpose_;
+    ScopedPointer<SynthSlider> osc_2_tune_;
+    ScopedPointer<SynthSlider> volume_;
+    ScopedPointer<SynthSlider> delay_feedback_;
+    ScopedPointer<SynthSlider> delay_dry_wet_;
+    ScopedPointer<SynthSlider> velocity_track_;
+    ScopedPointer<SynthSlider> amp_attack_;
+    ScopedPointer<SynthSlider> amp_decay_;
+    ScopedPointer<SynthSlider> amp_release_;
+    ScopedPointer<SynthSlider> amp_sustain_;
+    ScopedPointer<SynthSlider> fil_attack_;
+    ScopedPointer<SynthSlider> fil_decay_;
+    ScopedPointer<SynthSlider> fil_release_;
+    ScopedPointer<SynthSlider> fil_sustain_;
+    ScopedPointer<SynthSlider> resonance_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
-    ScopedPointer<TwytchSlider> cutoff_;
-    ScopedPointer<TwytchSlider> fil_env_depth_;
-    ScopedPointer<TwytchSlider> keytrack_;
-    ScopedPointer<TwytchSlider> osc_feedback_transpose_;
-    ScopedPointer<TwytchSlider> osc_feedback_amount_;
-    ScopedPointer<TwytchSlider> osc_feedback_tune_;
+    ScopedPointer<SynthSlider> cutoff_;
+    ScopedPointer<SynthSlider> fil_env_depth_;
+    ScopedPointer<SynthSlider> keytrack_;
+    ScopedPointer<SynthSlider> osc_feedback_transpose_;
+    ScopedPointer<SynthSlider> osc_feedback_amount_;
+    ScopedPointer<SynthSlider> osc_feedback_tune_;
     ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;
     ScopedPointer<WaveSelector> mono_lfo_1_waveform_;
-    ScopedPointer<TwytchSlider> num_steps_;
-    ScopedPointer<TwytchSlider> step_frequency_;
-    ScopedPointer<TwytchSlider> mono_lfo_1_frequency_;
-    ScopedPointer<TwytchSlider> filter_saturation_;
+    ScopedPointer<SynthSlider> num_steps_;
+    ScopedPointer<SynthSlider> step_frequency_;
+    ScopedPointer<SynthSlider> mono_lfo_1_frequency_;
+    ScopedPointer<SynthSlider> filter_saturation_;
     ScopedPointer<ToggleButton> formant_on_;
     ScopedPointer<XYPad> formant_xy_pad_;
-    ScopedPointer<TwytchSlider> formant_x_;
-    ScopedPointer<TwytchSlider> formant_y_;
+    ScopedPointer<SynthSlider> formant_x_;
+    ScopedPointer<SynthSlider> formant_y_;
     ScopedPointer<FilterSelector> filter_type_;
-    ScopedPointer<TwytchSlider> osc_1_tune_;
-    ScopedPointer<TwytchSlider> delay_frequency_;
+    ScopedPointer<SynthSlider> osc_1_tune_;
+    ScopedPointer<SynthSlider> delay_frequency_;
     ScopedPointer<WaveViewer> mono_lfo_2_wave_display_;
     ScopedPointer<WaveSelector> mono_lfo_2_waveform_;
-    ScopedPointer<TwytchSlider> osc_1_transpose_;
-    ScopedPointer<TwytchSlider> mono_lfo_2_frequency_;
-    ScopedPointer<TwytchSlider> stutter_frequency_;
+    ScopedPointer<SynthSlider> osc_1_transpose_;
+    ScopedPointer<SynthSlider> mono_lfo_2_frequency_;
+    ScopedPointer<SynthSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
-    ScopedPointer<TwytchSlider> stutter_resample_frequency_;
-    ScopedPointer<TwytchSlider> step_smoothing_;
+    ScopedPointer<SynthSlider> stutter_resample_frequency_;
+    ScopedPointer<SynthSlider> step_smoothing_;
     ScopedPointer<TempoSelector> mono_lfo_1_sync_;
     ScopedPointer<TempoSelector> mono_lfo_2_sync_;
     ScopedPointer<TempoSelector> delay_sync_;
@@ -153,15 +153,15 @@ private:
     ScopedPointer<FilterResponse> filter_response_;
     ScopedPointer<WaveViewer> poly_lfo_wave_display_;
     ScopedPointer<WaveSelector> poly_lfo_waveform_;
-    ScopedPointer<TwytchSlider> poly_lfo_frequency_;
+    ScopedPointer<SynthSlider> poly_lfo_frequency_;
     ScopedPointer<TempoSelector> poly_lfo_sync_;
-    ScopedPointer<TwytchSlider> mono_lfo_1_amplitude_;
-    ScopedPointer<TwytchSlider> mono_lfo_2_amplitude_;
-    ScopedPointer<TwytchSlider> poly_lfo_amplitude_;
-    ScopedPointer<TwytchSlider> osc_1_unison_detune_;
-    ScopedPointer<TwytchSlider> osc_2_unison_detune_;
-    ScopedPointer<TwytchSlider> osc_1_unison_voices_;
-    ScopedPointer<TwytchSlider> osc_2_unison_voices_;
+    ScopedPointer<SynthSlider> mono_lfo_1_amplitude_;
+    ScopedPointer<SynthSlider> mono_lfo_2_amplitude_;
+    ScopedPointer<SynthSlider> poly_lfo_amplitude_;
+    ScopedPointer<SynthSlider> osc_1_unison_detune_;
+    ScopedPointer<SynthSlider> osc_2_unison_detune_;
+    ScopedPointer<SynthSlider> osc_1_unison_voices_;
+    ScopedPointer<SynthSlider> osc_2_unison_voices_;
     ScopedPointer<ModulationButton> filter_envelope_mod_;
     ScopedPointer<ModulationButton> amplitude_envelope_mod_;
     ScopedPointer<ModulationButton> step_sequencer_mod_;

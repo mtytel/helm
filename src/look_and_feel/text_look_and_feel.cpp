@@ -15,7 +15,6 @@
  */
 
 #include "text_look_and_feel.h"
-#include "twytch_slider.h"
 
 void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                        float slider_t, float start_angle, float end_angle,

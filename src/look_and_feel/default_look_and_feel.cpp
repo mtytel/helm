@@ -14,19 +14,19 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "twytch_look_and_feel.h"
-#include "twytch_slider.h"
+#include "default_look_and_feel.h"
+#include "synth_slider.h"
 #include "utils.h"
 
 #define POWER_ARC_ANGLE 2.5
 
-void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
-                                         float slider_pos, float min, float max,
-                                         const Slider::SliderStyle style, Slider& slider) {
+void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
+                                          float slider_pos, float min, float max,
+                                          const Slider::SliderStyle style, Slider& slider) {
   static const DropShadow thumb_shadow(Colour(0x88000000), 3, Point<int>(-1, 0));
 
   bool bipolar = false;
-  TwytchSlider* t_slider = dynamic_cast<TwytchSlider*>(&slider);
+  SynthSlider* t_slider = dynamic_cast<SynthSlider*>(&slider);
   if (t_slider)
     bipolar = t_slider->isBipolar();
 
@@ -59,16 +59,16 @@ void TwytchLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, i
   }
 }
 
-void TwytchLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int width, int height,
-                                              float slider_pos, float min, float max,
-                                              const Slider::SliderStyle style, Slider& slider) {
+void DefaultLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int width, int height,
+                                               float slider_pos, float min, float max,
+                                               const Slider::SliderStyle style, Slider& slider) {
   LookAndFeel_V3::drawLinearSliderThumb(g, x, y, width, height,
                                         slider_pos, min, max, style, slider);
 }
 
-void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
-                                         float slider_t, float start_angle, float end_angle,
-                                         Slider& slider) {
+void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
+                                          float slider_t, float start_angle, float end_angle,
+                                          Slider& slider) {
   static const float stroke_percent = 0.12f;
 
   float full_radius = std::min(width / 2.0f, height / 2.0f);
@@ -105,7 +105,7 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
 
   Path active_section;
   bool bipolar = false;
-  TwytchSlider* t_slider = dynamic_cast<TwytchSlider*>(&slider);
+  SynthSlider* t_slider = dynamic_cast<SynthSlider*>(&slider);
   if (t_slider)
     bipolar = t_slider->isBipolar();
 
@@ -136,8 +136,8 @@ void TwytchLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, i
   g.drawLine(full_radius, full_radius, end_x, end_y, 1.0f);
 }
 
-void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
-                                         bool isMouseOverButton, bool isButtonDown) {
+void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
+                                          bool isMouseOverButton, bool isButtonDown) {
   static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
   static float stroke_percent = 0.1;
   static float padding = 1.0f;
@@ -165,13 +165,13 @@ void TwytchLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.fillRoundedRectangle(full_radius - 1.0f, padding, 2.0f, full_radius, 1.0f);
 }
 
-void TwytchLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
+void DefaultLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
   float x = std::min(x1, x2);
   float width = fabsf(x1 - x2);
   g.fillRect(x, 0.0f, width, height);
 }
 
-void TwytchLookAndFeel::fillVerticalRect(Graphics& g, float y1, float y2, float width) {
+void DefaultLookAndFeel::fillVerticalRect(Graphics& g, float y1, float y2, float width) {
   float y = std::min(y1, y2);
   float height = fabsf(y1 - y2);
   g.fillRect(0.0f, y, width, height);

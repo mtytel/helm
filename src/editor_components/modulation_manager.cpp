@@ -34,7 +34,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::map<std::string, TwytchSlider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
+ModulationManager::ModulationManager (mopo::output_map modulation_sources, std::map<std::string, SynthSlider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations)
 {
 
     //[UserPreSize]
@@ -126,7 +126,7 @@ void ModulationManager::resized()
     polyphonic_destinations_->setBounds(getBounds());
     monophonic_destinations_->setBounds(getBounds());
     for (auto slider : slider_lookup_) {
-        TwytchSlider* model = slider_model_lookup_[slider.first];
+        SynthSlider* model = slider_model_lookup_[slider.first];
         Point<int> global_top_left = model->localPointToGlobal(Point<int>(0, 0));
         slider.second->setVisible(model->isVisible());
         slider.second->setBounds(global_top_left.x, global_top_left.y,
@@ -153,7 +153,7 @@ void ModulationManager::timerCallback() {
     int num_voices = parent->getNumActiveVoices();
 
     for (auto slider : slider_lookup_) {
-        TwytchSlider* model = slider_model_lookup_[slider.first];
+        SynthSlider* model = slider_model_lookup_[slider.first];
         slider.second->setVisible(model->isVisible());
     }
 
@@ -232,7 +232,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="ModulationManager" componentName=""
                  parentClasses="public Component, public SliderListener, public Timer"
-                 constructorParams="mopo::output_map modulation_sources, std::map&lt;std::string, TwytchSlider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
+                 constructorParams="mopo::output_map modulation_sources, std::map&lt;std::string, SynthSlider*&gt; sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>

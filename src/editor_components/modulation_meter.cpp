@@ -23,7 +23,7 @@
 
 ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
                                  const mopo::Processor::Output* poly_total,
-                                 const TwytchSlider* slider) :
+                                 const SynthSlider* slider) :
         mono_total_(mono_total), poly_total_(poly_total),
         destination_(slider), current_knob_percent_(0.0), current_mod_percent_(0.0),
         knob_stroke_(0.0f, PathStrokeType::beveled, PathStrokeType::butt),

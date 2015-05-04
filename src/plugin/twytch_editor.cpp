@@ -16,6 +16,7 @@
 
 #include "twytch_editor.h"
 
+#include "default_look_and_feel.h"
 #include "twytch_common.h"
 #include "twytch_plugin.h"
 
@@ -24,7 +25,7 @@
 
 TwytchEditor::TwytchEditor(TwytchPlugin& twytch) : AudioProcessorEditor(&twytch), twytch_(twytch) {
   setSynth(twytch_.getSynth());
-  setLookAndFeel(&look_and_feel_);
+  setLookAndFeel(DefaultLookAndFeel::instance());
 
   gui_ = new FullInterface(twytch.getSynth()->getControls(),
                            twytch.getSynth()->getModulationSources(),

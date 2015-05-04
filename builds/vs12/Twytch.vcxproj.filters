@@ -481,13 +481,13 @@
     <ClCompile Include="..\..\src\editor_components\patch_browser.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\synth_slider.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\editor_components\twytch_slider.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp">
@@ -499,13 +499,13 @@
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp">
+      <Filter>Twytch\src\look_and_feel</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\text_look_and_feel.cpp">
-      <Filter>Twytch\src\look_and_feel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\look_and_feel\twytch_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\plugin\twytch_editor.cpp">
@@ -1941,13 +1941,13 @@
     <ClInclude Include="..\..\src\editor_components\patch_browser.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\synth_slider.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\editor_components\twytch_slider.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h">
@@ -1959,13 +1959,13 @@
     <ClInclude Include="..\..\src\editor_components\xy_pad.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h">
+      <Filter>Twytch\src\look_and_feel</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h">
-      <Filter>Twytch\src\look_and_feel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\look_and_feel\twytch_look_and_feel.h">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h">

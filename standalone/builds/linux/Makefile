@@ -95,15 +95,15 @@ OBJECTS := \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/patch_browser_2710c0e5.o \
+  $(OBJDIR)/synth_slider_ab0cf9a.o \
   $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/tempo_selector_e5a31119.o \
-  $(OBJDIR)/twytch_slider_daf48f91.o \
   $(OBJDIR)/wave_selector_6d163719.o \
   $(OBJDIR)/wave_viewer_e4b5610c.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
+  $(OBJDIR)/default_look_and_feel_f168ba6a.o \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
   $(OBJDIR)/text_look_and_feel_4af8536c.o \
-  $(OBJDIR)/twytch_look_and_feel_e9e52fc2.o \
   $(OBJDIR)/main_b7ad981e.o \
   $(OBJDIR)/twytch_computer_keyboard_dc84e874.o \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
@@ -376,6 +376,11 @@ $(OBJDIR)/patch_browser_2710c0e5.o: ../../../src/editor_components/patch_browser
 	@echo "Compiling patch_browser.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synth_slider.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/synthesis_interface_3df08742.o: ../../../src/editor_components/synthesis_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
@@ -384,11 +389,6 @@ $(OBJDIR)/synthesis_interface_3df08742.o: ../../../src/editor_components/synthes
 $(OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling tempo_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_slider_daf48f91.o: ../../../src/editor_components/twytch_slider.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_slider.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/wave_selector_6d163719.o: ../../../src/editor_components/wave_selector.cpp
@@ -406,6 +406,11 @@ $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
 	@echo "Compiling xy_pad.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/default_look_and_feel_f168ba6a.o: ../../../src/look_and_feel/default_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling default_look_and_feel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
@@ -414,11 +419,6 @@ $(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modula
 $(OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_look_and_feel.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling text_look_and_feel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_look_and_feel_e9e52fc2.o: ../../../src/look_and_feel/twytch_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp

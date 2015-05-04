@@ -14,34 +14,20 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TEMPO_SELECTOR_H
-#define TEMPO_SELECTOR_H
+#ifndef BROWSER_LOOK_AND_FEEL_H
+#define BROWSER_LOOK_AND_FEEL_H
 
 #include "JuceHeader.h"
-#include "synth_slider.h"
 
-class FullInterface;
+class BrowswerLookAndFeel : public juce::LookAndFeel_V3 {
+  public:
+    void drawToggleButton(Graphics& g, ToggleButton& button,
+                          bool isMouseOverButton, bool isButtonDown) override;
 
-class TempoSelector : public SynthSlider {
-public:
-    TempoSelector(String name);
-
-    void mouseDown(const MouseEvent& e) override;
-    void paint(Graphics& g) override;
-    void valueChanged() override;
-    void resized() override;
-
-    void setFreeSlider(Slider* slider) { free_slider_ = slider; }
-    void setTempoSlider(Slider* slider) { tempo_slider_ = slider; }
-
-private:
-    Slider* free_slider_;
-    Slider* tempo_slider_;
-
-    Path arrow_;
-    Path clock_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TempoSelector)
+    static BrowswerLookAndFeel* instance() {
+      static BrowswerLookAndFeel instance;
+      return &instance;
+    }
 };
 
-#endif // TEMPO_SELECTOR_H
+#endif // BROWSER_LOOK_AND_FEEL_H

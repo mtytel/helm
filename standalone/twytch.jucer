@@ -155,6 +155,9 @@
         <FILE id="MZrbcn" name="patch_browser.cpp" compile="1" resource="0"
               file="../src/editor_components/patch_browser.cpp"/>
         <FILE id="R33s2T" name="patch_browser.h" compile="0" resource="0" file="../src/editor_components/patch_browser.h"/>
+        <FILE id="k0I8xO" name="synth_slider.cpp" compile="1" resource="0"
+              file="../src/editor_components/synth_slider.cpp"/>
+        <FILE id="R8YCWa" name="synth_slider.h" compile="0" resource="0" file="../src/editor_components/synth_slider.h"/>
         <FILE id="mo2hyt" name="synthesis_interface.cpp" compile="1" resource="0"
               file="../src/editor_components/synthesis_interface.cpp"/>
         <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
@@ -163,9 +166,6 @@
               file="../src/editor_components/tempo_selector.cpp"/>
         <FILE id="gRo5XB" name="tempo_selector.h" compile="0" resource="0"
               file="../src/editor_components/tempo_selector.h"/>
-        <FILE id="ozcC3C" name="twytch_slider.cpp" compile="1" resource="0"
-              file="../src/editor_components/twytch_slider.cpp"/>
-        <FILE id="nUFfr7" name="twytch_slider.h" compile="0" resource="0" file="../src/editor_components/twytch_slider.h"/>
         <FILE id="VXbiff" name="wave_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/wave_selector.cpp"/>
         <FILE id="oXlMYR" name="wave_selector.h" compile="0" resource="0" file="../src/editor_components/wave_selector.h"/>
@@ -175,6 +175,10 @@
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
       </GROUP>
       <GROUP id="{39005C17-5A51-169B-7683-2989371066AF}" name="look_and_feel">
+        <FILE id="gVke8I" name="default_look_and_feel.cpp" compile="1" resource="0"
+              file="../src/look_and_feel/default_look_and_feel.cpp"/>
+        <FILE id="pLkKCS" name="default_look_and_feel.h" compile="0" resource="0"
+              file="../src/look_and_feel/default_look_and_feel.h"/>
         <FILE id="rJdVyP" name="modulation_look_and_feel.cpp" compile="1" resource="0"
               file="../src/look_and_feel/modulation_look_and_feel.cpp"/>
         <FILE id="qP2EgD" name="modulation_look_and_feel.h" compile="0" resource="0"
@@ -183,10 +187,6 @@
               file="../src/look_and_feel/text_look_and_feel.cpp"/>
         <FILE id="f5ab7N" name="text_look_and_feel.h" compile="0" resource="0"
               file="../src/look_and_feel/text_look_and_feel.h"/>
-        <FILE id="Cx2oD3" name="twytch_look_and_feel.cpp" compile="1" resource="0"
-              file="../src/look_and_feel/twytch_look_and_feel.cpp"/>
-        <FILE id="oUxyCe" name="twytch_look_and_feel.h" compile="0" resource="0"
-              file="../src/look_and_feel/twytch_look_and_feel.h"/>
       </GROUP>
       <GROUP id="{D4677D42-F890-3A26-1BC9-D1034FBAB3B6}" name="standalone">
         <FILE id="hxYpJD" name="main.cpp" compile="1" resource="0" file="../src/standalone/main.cpp"/>

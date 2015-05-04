@@ -24,7 +24,6 @@
 #include "midi_manager.h"
 #include "twytch_computer_keyboard.h"
 #include "twytch_engine.h"
-#include "twytch_look_and_feel.h"
 #include "synth_gui_interface.h"
 
 class TwytchStandaloneEditor : public AudioAppComponent,
