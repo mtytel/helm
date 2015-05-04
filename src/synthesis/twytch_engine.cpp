@@ -42,7 +42,7 @@ namespace mopo {
     addProcessor(beats_per_second);
 
     // Voice Handler.
-    Processor* polyphony = createMonoModControl("polyphony", 1, true);
+    Processor* polyphony = createMonoModControl("polyphony", 4, true);
 
     voice_handler_ = new TwytchVoiceHandler(beats_per_second);
     addSubmodule(voice_handler_);
