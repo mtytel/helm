@@ -161,16 +161,32 @@ namespace mopo {
   }
 
   void LinearSmoothBuffer::process() {
-    mopo_float new_value = input()->source->buffer[0];
-    if (new_value == output()->buffer[0] && new_value == output()->buffer[buffer_size_ - 1])
-      return;
+    mopo_float new_value = input(kValue)->source->buffer[0];
 
-    mopo_float inc = (new_value - last_value_) / buffer_size_;
+    if (input(kTrigger)->source->triggered) {
+      int trigger_samples = input(kTrigger)->source->trigger_offset;
 
-    for (int i = 0; i < buffer_size_; ++i) {
-      last_value_ += inc;
-      output()->buffer[i] = last_value_;
+      int i = 0;
+      for (; i < trigger_samples; ++i)
+        output()->buffer[i] = last_value_;
+
+      last_value_ = new_value;
+
+      for (; i < buffer_size_; ++i)
+        output()->buffer[i] = last_value_;
     }
-    last_value_ = new_value;
+    else if (new_value == output()->buffer[0] && new_value == output()->buffer[buffer_size_ - 1])
+      return;
+    else {
+      mopo_float inc = (new_value - last_value_) / buffer_size_;
+
+      int i = 0;
+      for (; i < buffer_size_; ++i) {
+        last_value_ += inc;
+        output()->buffer[i] = last_value_;
+      }
+
+      last_value_ = new_value;
+    }
   }
 } // namespace mopo

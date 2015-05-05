@@ -30,17 +30,10 @@ namespace mopo {
       return;
     }
 
-    int i = 0;
-    if (input(kSet)->source->triggered) {
-      int trigger_offset = input(kSet)->source->trigger_offset;
-
-      for (; i < trigger_offset; ++i)
-        output()->buffer[i] = value_;
-
+    if (input(kSet)->source->triggered)
       value_ = input(kSet)->source->trigger_value;
-    }
 
-    for (; i < buffer_size_; ++i)
+    for (int i = 0; i < buffer_size_; ++i)
       output()->buffer[i] = value_;
   }
 

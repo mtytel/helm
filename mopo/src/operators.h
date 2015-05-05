@@ -361,7 +361,13 @@ namespace mopo {
 
   class LinearSmoothBuffer : public Operator {
     public:
-      LinearSmoothBuffer() : Operator(1, 1), last_value_(0.0) { }
+      enum Inputs {
+        kValue,
+        kTrigger,
+        kNumInputs
+      };
+
+      LinearSmoothBuffer() : Operator(kNumInputs, 1), last_value_(1.0) { }
 
       virtual Processor* clone() const {
         return new LinearSmoothBuffer(*this);
