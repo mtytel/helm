@@ -151,6 +151,8 @@ void ModulationManager::timerCallback() {
         return;
 
     int num_voices = parent->getNumActiveVoices();
+    if (num_voices < 0)
+        return;
 
     for (auto slider : slider_lookup_) {
         SynthSlider* model = slider_model_lookup_[slider.first];

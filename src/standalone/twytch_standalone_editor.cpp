@@ -28,7 +28,7 @@
 
 TwytchStandaloneEditor::TwytchStandaloneEditor() {
   setSynth(&synth_);
-  midi_manager_ = new MidiManager(&synth_, &critical_section_);
+  midi_manager_ = new MidiManager(&synth_, &critical_section_, this);
   computer_keyboard_ = new TwytchComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   setAudioChannels(0, NUM_CHANNELS);
@@ -99,6 +99,10 @@ void TwytchStandaloneEditor::resized() {
 
 void TwytchStandaloneEditor::updateFullGui() {
   gui_->setAllValues(controls_);
+}
+
+void TwytchStandaloneEditor::updateGuiControl(std::string name, mopo::mopo_float value) {
+  gui_->setValue(name, value, NotificationType::dontSendNotification);
 }
 
 void TwytchStandaloneEditor::handleMessage(const Message& message) {

@@ -23,6 +23,13 @@ void SynthGuiInterface::valueChanged(std::string name, mopo::mopo_float value) {
   controls_[name]->set(value);
 }
 
+void SynthGuiInterface::valueChangedThroughMidi(std::string name, mopo::mopo_float value) {
+  valueChanged(name, value);
+  MessageManagerLock mml (Thread::getCurrentThread());
+  if (mml.lockWasGained())
+    updateGuiControl(name, value);
+}
+
 void SynthGuiInterface::changeModulationAmount(std::string source, std::string destination,
                                                mopo::mopo_float amount) {
   mopo::ModulationConnection* connection = synth_->getConnection(source, destination);
@@ -68,8 +75,10 @@ SynthGuiInterface::getDestinationConnections(std::string destination) {
 }
 
 int SynthGuiInterface::getNumActiveVoices() {
-  ScopedLock lock(getCriticalSection());
-  return synth_->getNumActiveVoices();
+  ScopedTryLock lock(getCriticalSection());
+  if (lock.isLocked())
+    return synth_->getNumActiveVoices();
+  return -1;
 }
 
 mopo::Processor::Output* SynthGuiInterface::getModSource(std::string name) {

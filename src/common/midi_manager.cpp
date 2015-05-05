@@ -30,32 +30,24 @@ void MidiManager::cancelMidiLearn() {
 void MidiManager::clearMidiLearn(std::string name) {
   for (auto controls : midi_learn_map_) {
     if (controls.second.count(name))
-      controls.second.erase(name);
+      midi_learn_map_[controls.first].erase(name);
   }
 }
 
 void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
-  ScopedLock lock(*critical_section_);
-  if (control_armed_ == "") {
-    if (midi_learn_map_.count(midi_id)) {
-      mopo::control_map controls = synth_->getControls();
-
-      for (auto control : midi_learn_map_[midi_id]) {
-        midi_range range = control.second;
-        mopo::mopo_float percent = value / mopo::MIDI_SIZE;
-        mopo::mopo_float translated = percent * (range.second - range.first) + range.first;
-        controls[control.first]->set(translated);
-      }
-
-    }
-  }
-  else {
+  if (control_armed_ != "") {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
-    mopo::mopo_float percent = value / mopo::MIDI_SIZE;
-    mopo::mopo_float translated = percent * (armed_range_.second - armed_range_.first) +
-    armed_range_.first;
-    synth_->getControls()[control_armed_]->set(translated);
     control_armed_ = "";
+  }
+  
+  if (midi_learn_map_.count(midi_id)) {
+    for (auto control : midi_learn_map_[midi_id]) {
+      midi_range range = control.second;
+      mopo::mopo_float percent = value / mopo::MIDI_SIZE;
+      mopo::mopo_float translated = percent * (range.second - range.first) + range.first;
+      if (listener_)
+        listener_->valueChangedThroughMidi(control.first, translated);
+    }
   }
 }
 

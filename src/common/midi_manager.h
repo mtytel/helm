@@ -25,8 +25,16 @@
 class MidiManager : public MidiInputCallback {
   typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
   public:
-    MidiManager(mopo::TwytchEngine* synth, const CriticalSection* critical_section) :
-        synth_(synth), critical_section_(critical_section), armed_range_(0.0, 1.0) { }
+    class MidiManagerListener {
+      public:
+        virtual ~MidiManagerListener() { }
+        virtual void valueChangedThroughMidi(std::string name, mopo::mopo_float value) = 0;
+    };
+
+    MidiManager(mopo::TwytchEngine* synth, const CriticalSection* critical_section,
+                MidiManagerListener* listener = nullptr) :
+        synth_(synth), critical_section_(critical_section), listener_(listener),
+        armed_range_(0.0, 1.0) { }
     virtual ~MidiManager() { }
 
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
@@ -41,6 +49,7 @@ class MidiManager : public MidiInputCallback {
   protected:
     mopo::TwytchEngine* synth_;
     const CriticalSection* critical_section_;
+    MidiManagerListener* listener_;
   
     std::string control_armed_;
     std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;

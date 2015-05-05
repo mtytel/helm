@@ -23,11 +23,12 @@
 #include "twytch_engine.h"
 #include <string>
 
-class SynthGuiInterface {
+class SynthGuiInterface : public MidiManager::MidiManagerListener {
   public:
     SynthGuiInterface() { }
     virtual ~SynthGuiInterface() { }
 
+    void valueChangedThroughMidi(std::string name, mopo::mopo_float value) override;
     void valueChanged(std::string name, mopo::mopo_float value);
     void changeModulationAmount(std::string source, std::string destination,
                                 mopo::mopo_float amount);
@@ -50,6 +51,7 @@ class SynthGuiInterface {
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual MidiManager* getMidiManager() = 0;
     virtual void updateFullGui() = 0;
+    virtual void updateGuiControl(std::string name, mopo::mopo_float value) = 0;
     mopo::ModulationConnection* getConnection(std::string source, std::string destination);
 
     void setSynth(mopo::TwytchEngine* synth) {
