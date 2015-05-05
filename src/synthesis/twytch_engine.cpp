@@ -155,8 +155,11 @@ namespace mopo {
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 
+    SmoothFilter* delay_frequency_smoothed = new SmoothFilter();
+    delay_frequency_smoothed->plug(delay_frequency, SmoothFilter::kTarget);
+    delay_frequency_smoothed->plug(&utils::value_half, SmoothFilter::kHalfLife);
     FrequencyToSamples* delay_samples = new FrequencyToSamples();
-    delay_samples->plug(delay_frequency);
+    delay_samples->plug(delay_frequency_smoothed);
 
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);
@@ -164,6 +167,7 @@ namespace mopo {
     delay->plug(delay_feedback, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 
+    addProcessor(delay_frequency_smoothed);
     addProcessor(delay_samples);
     addProcessor(delay);
 
