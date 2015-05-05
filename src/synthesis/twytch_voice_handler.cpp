@@ -140,7 +140,8 @@ namespace mopo {
     oscillator1_phase_inc->plug(oscillator1_frequency);
 
     LinearSmoothBuffer* oscillator1_phase_inc_audio = new LinearSmoothBuffer();
-    oscillator1_phase_inc_audio->plug(oscillator1_phase_inc);
+    oscillator1_phase_inc_audio->plug(oscillator1_phase_inc, LinearSmoothBuffer::kValue);
+    oscillator1_phase_inc_audio->plug(reset, LinearSmoothBuffer::kTrigger);
 
     oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
     oscillators->plug(reset, TwytchOscillators::kReset);
@@ -181,7 +182,8 @@ namespace mopo {
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
     LinearSmoothBuffer* oscillator2_phase_inc_audio = new LinearSmoothBuffer();
-    oscillator2_phase_inc_audio->plug(oscillator2_phase_inc);
+    oscillator2_phase_inc_audio->plug(oscillator2_phase_inc, LinearSmoothBuffer::kValue);
+    oscillator2_phase_inc_audio->plug(reset, LinearSmoothBuffer::kTrigger);
 
     oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
     oscillators->plug(oscillator2_phase_inc_audio, TwytchOscillators::kOscillator2PhaseInc);
