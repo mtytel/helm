@@ -134,7 +134,7 @@ namespace mopo {
       virtual Processor* clone() const { return new Square(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = input()->at(i) * input()->at(i);
+        output()->buffer[i] = input()->at(i) * std::fabs(input()->at(i));
       }
 
       PROCESS_TICK_FUNCTION
