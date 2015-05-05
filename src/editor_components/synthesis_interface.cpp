@@ -2122,6 +2122,7 @@ void SynthesisInterface::setAllValues(mopo::control_map& controls) {
             button.second->setToggleState((bool)controls[button.first]->value(),
                                           NotificationType::sendNotification);
         }
+        button.second->repaint();
     }
     repaint();
 }
