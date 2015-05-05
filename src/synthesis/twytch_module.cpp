@@ -89,13 +89,13 @@ namespace mopo {
     if (skew == kQuadratic) {
       control_rate_total = new Square();
       control_rate_total->setControlRate(true);
-      control_rate_total->plug(mono_total);
+      control_rate_total->plug(modulation_total);
       poly_owner->addProcessor(control_rate_total);
     }
     else if (skew == kExponential) {
       control_rate_total = new ExponentialScale(2.0);
       control_rate_total->setControlRate(true);
-      control_rate_total->plug(mono_total);
+      control_rate_total->plug(modulation_total);
       poly_owner->addProcessor(control_rate_total);
     }
 
