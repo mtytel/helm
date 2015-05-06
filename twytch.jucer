@@ -180,6 +180,10 @@
         <FILE id="d6J1TW" name="xy_pad.h" compile="0" resource="0" file="src/editor_components/xy_pad.h"/>
       </GROUP>
       <GROUP id="{1C886BE1-7606-B3EB-7155-032D99999146}" name="look_and_feel">
+        <FILE id="aBeCyV" name="browser_look_and_feel.cpp" compile="1" resource="0"
+              file="src/look_and_feel/browser_look_and_feel.cpp"/>
+        <FILE id="dwnNIn" name="browser_look_and_feel.h" compile="0" resource="0"
+              file="src/look_and_feel/browser_look_and_feel.h"/>
         <FILE id="xhRPjc" name="default_look_and_feel.cpp" compile="1" resource="0"
               file="src/look_and_feel/default_look_and_feel.cpp"/>
         <FILE id="v8k9Zi" name="default_look_and_feel.h" compile="0" resource="0"

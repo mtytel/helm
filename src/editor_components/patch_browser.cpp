@@ -19,6 +19,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "synth_gui_interface.h"
+#include "browser_look_and_feel.h"
 //[/Headers]
 
 #include "patch_browser.h"
@@ -27,33 +28,50 @@
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
 #define PATCH_EXTENSION "twytch"
+#define TEXT_PADDING 4.0f
 //[/MiscUserDefs]
 
 //==============================================================================
 PatchBrowser::PatchBrowser ()
 {
     //[Constructor_pre] You can add your own custom stuff here..
+    setLookAndFeel(BrowserLookAndFeel::instance());
     //[/Constructor_pre]
 
     addAndMakeVisible (prev_folder_ = new TextButton ("prev_folder"));
     prev_folder_->setButtonText (TRANS("<"));
     prev_folder_->addListener (this);
+    prev_folder_->setColour (TextButton::buttonColourId, Colour (0xff303030));
+    prev_folder_->setColour (TextButton::buttonOnColourId, Colours::black);
+    prev_folder_->setColour (TextButton::textColourOffId, Colours::white);
 
     addAndMakeVisible (prev_patch_ = new TextButton ("prev_patch"));
     prev_patch_->setButtonText (TRANS("<"));
     prev_patch_->addListener (this);
+    prev_patch_->setColour (TextButton::buttonColourId, Colour (0xff464646));
+    prev_patch_->setColour (TextButton::buttonOnColourId, Colours::black);
+    prev_patch_->setColour (TextButton::textColourOffId, Colours::white);
 
     addAndMakeVisible (next_folder_ = new TextButton ("next_folder"));
     next_folder_->setButtonText (TRANS(">"));
     next_folder_->addListener (this);
+    next_folder_->setColour (TextButton::buttonColourId, Colour (0xff303030));
+    next_folder_->setColour (TextButton::buttonOnColourId, Colours::black);
+    next_folder_->setColour (TextButton::textColourOffId, Colours::white);
 
     addAndMakeVisible (next_patch_ = new TextButton ("next_patch"));
     next_patch_->setButtonText (TRANS(">"));
     next_patch_->addListener (this);
+    next_patch_->setColour (TextButton::buttonColourId, Colour (0xff464646));
+    next_patch_->setColour (TextButton::buttonOnColourId, Colour (0xff212121));
+    next_patch_->setColour (TextButton::textColourOffId, Colours::white);
 
     addAndMakeVisible (save_ = new TextButton ("save"));
     save_->setButtonText (TRANS("SAVE"));
     save_->addListener (this);
+    save_->setColour (TextButton::buttonColourId, Colour (0xff464646));
+    save_->setColour (TextButton::buttonOnColourId, Colours::black);
+    save_->setColour (TextButton::textColourOffId, Colours::white);
 
 
     //[UserPreSize]
@@ -88,20 +106,32 @@ PatchBrowser::~PatchBrowser()
 void PatchBrowser::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
+    static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
     //[/UserPrePaint]
 
     //[UserPaint] Add your own custom painting code here..
-    g.setColour(Colour(0xff444444));
+    g.setColour(Colour(0xff303030));
     g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
 
-    g.setColour(Colour(0xff424242));
+    g.setColour(Colour(0xff464646));
     g.fillRect(0, proportionOfHeight(0.5), getWidth(), proportionOfHeight(0.5));
 
+    Rectangle<int> left(proportionOfWidth(0.2), 0,
+                        proportionOfWidth(0.1), proportionOfHeight(1.0));
+    Rectangle<int> right(proportionOfWidth(0.9), 0,
+                         proportionOfWidth(0.1), proportionOfHeight(1.0));
+    shadow.drawForRectangle(g, left);
+    shadow.drawForRectangle(g, right);
+
+    g.setFont (Font (Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
+    g.setColour(Colour(0xffbbbbbb));
+    g.drawText(folder_text_, proportionOfWidth(0.3) + TEXT_PADDING, 0.0,
+               proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5),
+               Justification::centredLeft);
     g.setColour(Colour(0xffffffff));
-    g.drawText(folder_text_, proportionOfWidth(0.2), 0.0,
-               proportionOfWidth(0.8), proportionOfHeight(0.5), Justification::centred);
-    g.drawText(patch_text_, proportionOfWidth(0.2), proportionOfHeight(0.5),
-               proportionOfWidth(0.8), proportionOfHeight(0.5), Justification::centred);
+    g.drawText(patch_text_, proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
+               proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5),
+               Justification::centredLeft);
     //[/UserPaint]
 }
 
@@ -110,11 +140,11 @@ void PatchBrowser::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    prev_folder_->setBounds (proportionOfWidth (0.1998f), 0, proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
-    prev_patch_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.5006f), proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
-    next_folder_->setBounds (getWidth() - proportionOfWidth (0.1496f), 0, proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
-    next_patch_->setBounds (getWidth() - proportionOfWidth (0.1496f), proportionOfHeight (0.5006f), proportionOfWidth (0.1496f), proportionOfHeight (0.5006f));
-    save_->setBounds (proportionOfWidth (0.0000f), proportionOfHeight (0.0000f), proportionOfWidth (0.1998f), proportionOfHeight (1.0000f));
+    prev_folder_->setBounds (proportionOfWidth (0.1998f), 0, proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
+    prev_patch_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.5006f), proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
+    next_folder_->setBounds (getWidth() - proportionOfWidth (0.1004f), 0, proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
+    next_patch_->setBounds (getWidth() - proportionOfWidth (0.1004f), proportionOfHeight (0.5006f), proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
+    save_->setBounds (proportionOfWidth (0.0000f), proportionOfHeight (0.0000f), proportionOfWidth (0.1950f), proportionOfHeight (1.0000f));
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -260,20 +290,25 @@ BEGIN_JUCER_METADATA
                  fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>
   <TEXTBUTTON name="prev_folder" id="7c73e1569d0f159e" memberName="prev_folder_"
-              virtualName="" explicitFocusOrder="0" pos="19.978% 0 14.956% 50.062%"
-              buttonText="&lt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="prev_patch" id="4bd9ba5a5597cba4" memberName="prev_patch_"
-              virtualName="" explicitFocusOrder="0" pos="19.978% 50.062% 14.956% 50.062%"
-              buttonText="&lt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="next_folder" id="fc5a3ac5b9f154fe" memberName="next_folder_"
-              virtualName="" explicitFocusOrder="0" pos="0Rr 0 14.956% 50.062%"
-              buttonText="&gt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="next_patch" id="4a7cf0e77ebc8208" memberName="next_patch_"
-              virtualName="" explicitFocusOrder="0" pos="0Rr 50.062% 14.956% 50.062%"
-              buttonText="&gt;" connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="save" id="eee3d6aa88811178" memberName="save_" virtualName=""
-              explicitFocusOrder="0" pos="0% 0% 19.978% 100%" buttonText="SAVE"
+              virtualName="" explicitFocusOrder="0" pos="19.979% 0 10.042% 50.061%"
+              bgColOff="ff303030" bgColOn="ff000000" textColOn="ffffffff" buttonText="&lt;"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="prev_patch" id="4bd9ba5a5597cba4" memberName="prev_patch_"
+              virtualName="" explicitFocusOrder="0" pos="19.979% 50.061% 10.042% 50.061%"
+              bgColOff="ff464646" bgColOn="ff000000" textColOn="ffffffff" buttonText="&lt;"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="next_folder" id="fc5a3ac5b9f154fe" memberName="next_folder_"
+              virtualName="" explicitFocusOrder="0" pos="0Rr 0 10.042% 50.061%"
+              bgColOff="ff303030" bgColOn="ff000000" textColOn="ffffffff" buttonText="&gt;"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="next_patch" id="4a7cf0e77ebc8208" memberName="next_patch_"
+              virtualName="" explicitFocusOrder="0" pos="0Rr 50.061% 10.042% 50.061%"
+              bgColOff="ff464646" bgColOn="ff212121" textColOn="ffffffff" buttonText="&gt;"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <TEXTBUTTON name="save" id="eee3d6aa88811178" memberName="save_" virtualName=""
+              explicitFocusOrder="0" pos="0% 0% 19.456% 100%" bgColOff="ff464646"
+              bgColOn="ff000000" textColOn="ffffffff" buttonText="SAVE" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -101,6 +101,7 @@ OBJECTS := \
   $(OBJDIR)/wave_selector_e1c74128.o \
   $(OBJDIR)/wave_viewer_feefa2db.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
+  $(OBJDIR)/browser_look_and_feel_1854ae20.o \
   $(OBJDIR)/default_look_and_feel_335824f9.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
   $(OBJDIR)/text_look_and_feel_6c688b3d.o \
@@ -405,6 +406,11 @@ $(OBJDIR)/wave_viewer_feefa2db.o: ../../src/editor_components/wave_viewer.cpp
 $(OBJDIR)/xy_pad_a46b2bbc.o: ../../src/editor_components/xy_pad.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling xy_pad.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/browser_look_and_feel_1854ae20.o: ../../src/look_and_feel/browser_look_and_feel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling browser_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/default_look_and_feel_335824f9.o: ../../src/look_and_feel/default_look_and_feel.cpp

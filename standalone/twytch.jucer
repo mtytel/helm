@@ -173,6 +173,10 @@
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
       </GROUP>
       <GROUP id="{39005C17-5A51-169B-7683-2989371066AF}" name="look_and_feel">
+        <FILE id="aNViaQ" name="browser_look_and_feel.cpp" compile="1" resource="0"
+              file="../src/look_and_feel/browser_look_and_feel.cpp"/>
+        <FILE id="sLe3t0" name="browser_look_and_feel.h" compile="0" resource="0"
+              file="../src/look_and_feel/browser_look_and_feel.h"/>
         <FILE id="gVke8I" name="default_look_and_feel.cpp" compile="1" resource="0"
               file="../src/look_and_feel/default_look_and_feel.cpp"/>
         <FILE id="pLkKCS" name="default_look_and_feel.h" compile="0" resource="0"

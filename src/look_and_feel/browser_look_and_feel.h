@@ -19,13 +19,13 @@
 
 #include "JuceHeader.h"
 
-class BrowswerLookAndFeel : public juce::LookAndFeel_V3 {
+class BrowserLookAndFeel : public juce::LookAndFeel_V3 {
   public:
-    void drawToggleButton(Graphics& g, ToggleButton& button,
-                          bool isMouseOverButton, bool isButtonDown) override;
+    void drawButtonBackground(Graphics& g, Button& button, const Colour &backgroundColour,
+                              bool isMouseOverButton, bool isButtonDown) override;
 
-    static BrowswerLookAndFeel* instance() {
-      static BrowswerLookAndFeel instance;
+    static BrowserLookAndFeel* instance() {
+      static BrowserLookAndFeel instance;
       return &instance;
     }
 };

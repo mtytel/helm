@@ -17,3 +17,14 @@
 #include "browser_look_and_feel.h"
 
 
+void BrowserLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
+                                              const Colour &backgroundColour,
+                                              bool isMouseOverButton, bool isButtonDown) {
+  g.setColour(button.findColour(TextButton::buttonColourId));
+  g.fillAll();
+
+  if (isButtonDown)
+    g.fillAll(Colour(0x11000000));
+  else if (isMouseOverButton)
+    g.fillAll(Colour(0x11ffffff));
+}
