@@ -22,7 +22,7 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
   static const float text_percentage = 0.8f;
   g.fillAll(Colour(0xff424242));
 
-  g.setFont(Font(Font::getDefaultSansSerifFontName(), height * text_percentage, Font::plain));
+  g.setFont(Font(Font::getDefaultMonospacedFontName(), height * text_percentage, Font::plain));
   g.setColour(Colours::white);
   g.drawText(slider.getTextFromValue(slider.getValue()),
              x, y, width, height, Justification::centred);

@@ -114,12 +114,12 @@ void SynthSlider::mouseUp(const MouseEvent& e) {
 
 void SynthSlider::mouseEnter(const MouseEvent &e) {
     Slider::mouseEnter(e);
-    // notifyTooltip();
+    notifyTooltip();
 }
 
 void SynthSlider::valueChanged() {
     Slider::valueChanged();
-    // notifyTooltip();
+    notifyTooltip();
 }
 
 String SynthSlider::getTextFromValue(double value) {

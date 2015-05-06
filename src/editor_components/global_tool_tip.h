@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -34,7 +34,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class GlobalToolTip  : public Component
+class GlobalToolTip  : public Component,
+                       public Timer
 {
 public:
     //==============================================================================
@@ -44,6 +45,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setText(String parameter, String value);
+    void timerCallback() override;
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -53,6 +55,8 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    String shown_parameter_text_;
+    String shown_value_text_;
     String parameter_text_;
     String value_text_;
     //[/UserVariables]

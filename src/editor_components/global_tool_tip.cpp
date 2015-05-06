@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -24,11 +24,15 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+#define FRAMES_PER_SECOND 20
 //[/MiscUserDefs]
 
 //==============================================================================
 GlobalToolTip::GlobalToolTip ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -37,6 +41,7 @@ GlobalToolTip::GlobalToolTip ()
 
 
     //[Constructor] You can add your own custom stuff here..
+    startTimerHz(FRAMES_PER_SECOND);
     //[/Constructor]
 }
 
@@ -60,7 +65,7 @@ void GlobalToolTip::paint (Graphics& g)
     //[UserPaint] Add your own custom painting code here..
     g.setColour(Colour(0xff444444));
     g.fillRect(0, 0, getWidth(), getHeight() / 2);
-    
+
     g.setColour(Colour(0xff424242));
     g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
@@ -88,7 +93,14 @@ void GlobalToolTip::resized()
 void GlobalToolTip::setText(String parameter, String value) {
     parameter_text_ = parameter;
     value_text_ = value;
-    repaint();
+}
+
+void GlobalToolTip::timerCallback() {
+    if (shown_parameter_text_ != parameter_text_ || shown_value_text_ != value_text_) {
+        shown_value_text_ = value_text_;
+        shown_parameter_text_ = parameter_text_;
+        repaint();
+    }
 }
 
 //[/MiscUserCode]
@@ -104,9 +116,9 @@ void GlobalToolTip::setText(String parameter, String value) {
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="GlobalToolTip" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
+                 parentClasses="public Component, public Timer" constructorParams=""
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0"/>
 </JUCER_COMPONENT>
 

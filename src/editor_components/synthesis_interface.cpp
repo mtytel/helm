@@ -804,6 +804,9 @@ void SynthesisInterface::paint (Graphics& g)
     g.setColour (Colour (0xff303030));
     g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 4.0f, 320.0f, 204.0f, 3.000f);
 
+    g.setColour (Colour (0xff363636));
+    g.fillEllipse (static_cast<float> (36 - (40 / 2)), static_cast<float> (172 - (40 / 2)), 40.0f, 40.0f);
+
     g.setColour (Colour (0xff424242));
     g.fillRect (8, 120, 320, 16);
 
@@ -848,18 +851,6 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xff303030));
     g.fillRoundedRectangle (static_cast<float> (168 - (320 / 2)), 216.0f, 320.0f, 92.0f, 3.000f);
-
-    g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("TRANS"),
-                256 - (40 / 2), 188, 40, 10,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("TUNE"),
-                300 - (40 / 2), 188, 40, 10,
-                Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
@@ -1033,18 +1024,6 @@ void SynthesisInterface::paint (Graphics& g)
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("KEY TRACK"),
                 293 - (60 / 2), 458, 60, 10,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("TRANS"),
-                80 - (40 / 2), 188, 40, 10,
-                Justification::centred, true);
-
-    g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("TUNE"),
-                36 - (40 / 2), 188, 40, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
@@ -1322,6 +1301,45 @@ void SynthesisInterface::paint (Graphics& g)
                 654 - (28 / 2), 172, 28, 12,
                 Justification::centred, true);
 
+    g.setColour (Colour (0xff363636));
+    g.fillEllipse (static_cast<float> (260 - (50 / 2)), static_cast<float> (168 - (50 / 2)), 50.0f, 50.0f);
+
+    g.setColour (Colour (0xff363636));
+    g.fillEllipse (static_cast<float> (300 - (40 / 2)), static_cast<float> (172 - (40 / 2)), 40.0f, 40.0f);
+
+    g.setColour (Colour (0xff303030));
+    g.fillRect (224, 188, 100, 16);
+
+    g.setColour (Colour (0xffbbbbbb));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("TRANS"),
+                260 - (40 / 2), 192, 40, 10,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffbbbbbb));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("TUNE"),
+                300 - (40 / 2), 192, 40, 10,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xff363636));
+    g.fillEllipse (static_cast<float> (76 - (50 / 2)), static_cast<float> (168 - (50 / 2)), 50.0f, 50.0f);
+
+    g.setColour (Colour (0xff303030));
+    g.fillRect (16, 188, 100, 16);
+
+    g.setColour (Colour (0xffbbbbbb));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("TUNE"),
+                36 - (40 / 2), 192, 40, 10,
+                Justification::centred, true);
+
+    g.setColour (Colour (0xffbbbbbb));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
+    g.drawText (TRANS("TRANS"),
+                76 - (40 / 2), 192, 40, 10,
+                Justification::centred, true);
+
     //[UserPaint] Add your own custom painting code here..
     component_shadow.drawForRectangle(g, filter_response_->getBounds());
     component_shadow.drawForRectangle(g, filter_envelope_->getBounds());
@@ -1355,7 +1373,7 @@ void SynthesisInterface::resized()
     cross_modulation_->setBounds (168 - (40 / 2), 60, 40, 40);
     portamento_type_->setBounds (634 - (45 / 2), 186, 45, 16);
     osc_mix_->setBounds (168 - (320 / 2), 120, 320, 16);
-    osc_2_transpose_->setBounds (256 - (40 / 2), 148, 40, 40);
+    osc_2_transpose_->setBounds (260 - (40 / 2), 148, 40, 40);
     osc_2_tune_->setBounds (300 - (32 / 2), 156, 32, 32);
     volume_->setBounds (604, 436, 126, 38);
     delay_feedback_->setBounds (626 - (32 / 2), 270, 32, 32);
@@ -1393,7 +1411,7 @@ void SynthesisInterface::resized()
     delay_frequency_->setBounds (659 - (42 / 2), 256, 42, 16);
     mono_lfo_2_wave_display_->setBounds (480, 512, 116, 48);
     mono_lfo_2_waveform_->setBounds (478, 502, 116, 10);
-    osc_1_transpose_->setBounds (80 - (40 / 2), 148, 40, 40);
+    osc_1_transpose_->setBounds (76 - (40 / 2), 148, 40, 40);
     mono_lfo_2_frequency_->setBounds (527, 564, 42, 16);
     stutter_frequency_->setBounds (241 - (40 / 2), 524, 40, 40);
     stutter_on_->setBounds (216, 484, 16, 16);
@@ -2181,6 +2199,7 @@ BEGIN_JUCER_METADATA
                  overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
   <BACKGROUND backgroundColour="0">
     <ROUNDRECT pos="168c 4 320 204" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
+    <ELLIPSE pos="36c 172c 40 40" fill="solid: ff363636" hasStroke="0"/>
     <RECT pos="8 120 320 16" fill="solid: ff424242" hasStroke="0"/>
     <ROUNDRECT pos="8 630c 722 44" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <ROUNDRECT pos="604 416 126 58" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
@@ -2198,12 +2217,6 @@ BEGIN_JUCER_METADATA
     <ROUNDRECT pos="168c 316 320 158" cornerSize="3" fill="solid: ff303030"
                hasStroke="0"/>
     <ROUNDRECT pos="168c 216 320 92" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
-    <TEXT pos="256c 188 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANS"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="300c 188 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
     <TEXT pos="168c 106 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="MOD"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2283,12 +2296,6 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="293c 458 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="KEY TRACK"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="80c 188 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANS"
-          fontname="Default sans-serif font" fontsize="11.400000000000000355"
-          bold="0" italic="0" justification="36"/>
-    <TEXT pos="36c 188 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="293c 394 56 10" fill="solid: ffbbbbbb" hasStroke="0" text="ENV DEPTH"
@@ -2395,6 +2402,23 @@ BEGIN_JUCER_METADATA
     <TEXT pos="654c 172 28 12" fill="solid: ffbbbbbb" hasStroke="0" text="ON"
           fontname="Default sans-serif font" fontsize="9" bold="0" italic="0"
           justification="36"/>
+    <ELLIPSE pos="260c 168c 50 50" fill="solid: ff363636" hasStroke="0"/>
+    <ELLIPSE pos="300c 172c 40 40" fill="solid: ff363636" hasStroke="0"/>
+    <RECT pos="224 188 100 16" fill="solid: ff303030" hasStroke="0"/>
+    <TEXT pos="260c 192 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANS"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="300c 192 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <ELLIPSE pos="76c 168c 50 50" fill="solid: ff363636" hasStroke="0"/>
+    <RECT pos="16 188 100 16" fill="solid: ff303030" hasStroke="0"/>
+    <TEXT pos="36c 192 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TUNE"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
+    <TEXT pos="76c 192 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANS"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355"
+          bold="0" italic="0" justification="36"/>
   </BACKGROUND>
   <JUCERCOMP name="step_sequencer" id="83a23936a8f464b5" memberName="step_sequencer_"
              virtualName="GraphicalStepSequencer" explicitFocusOrder="0" pos="336 336 260 96"
@@ -2442,7 +2466,7 @@ BEGIN_JUCER_METADATA
           style="LinearBar" textBoxPos="NoTextBox" textBoxEditable="0"
           textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_transpose" id="555c8ee21acbf804" memberName="osc_2_transpose_"
-          virtualName="SynthSlider" explicitFocusOrder="0" pos="256c 148 40 40"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="260c 148 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2626,7 +2650,7 @@ BEGIN_JUCER_METADATA
           min="0" max="11" int="1" style="LinearBar" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="0" textBoxHeight="0" skewFactor="1"/>
   <SLIDER name="osc_1_transpose" id="48a41a977b14ab08" memberName="osc_1_transpose_"
-          virtualName="SynthSlider" explicitFocusOrder="0" pos="80c 148 40 40"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="76c 148 40 40"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="-48"
           max="48" int="1" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
