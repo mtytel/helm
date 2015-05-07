@@ -83,6 +83,7 @@
 		CA2A59BD407224E7508E8D32 /* operators.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAD4F59630FDB1AD478F03F6 /* operators.cpp */; };
 		CBDEF0B7ACD825C1ACFC3687 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA170B8B6946E4F4B51585CC /* QuartzCore.framework */; };
 		CE2907C8E920B17AB0D25FF8 /* patch_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC3363AE2A23A6A3472CCF1A /* patch_browser.cpp */; };
+		D18E77091AFC0DA700F8D8B0 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D18E77081AFC0DA700F8D8B0 /* Images-2.xcassets */; };
 		D2190EC4CC20C80D1A70D09E /* twytch_module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEBC12211491258E3ED475F0 /* twytch_module.cpp */; };
 		D33B878F0A7EBAE0E7BB2E30 /* phaser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431F67091922F7BD0109A828 /* phaser.cpp */; };
 		D835DE73BA6FB36584AE5D48 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F09D97A42C38A359EC516 /* memory.cpp */; };
@@ -954,6 +955,7 @@
 		D13216FDCEA22F655E5A990D /* juce_ResamplingAudioSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ResamplingAudioSource.cpp; path = ../../../../srcs/JUCE/modules/juce_audio_basics/sources/juce_ResamplingAudioSource.cpp; sourceTree = SOURCE_ROOT; };
 		D1635782D8905480B7E9A3CB /* juce_Time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Time.cpp; path = ../../../../srcs/JUCE/modules/juce_core/time/juce_Time.cpp; sourceTree = SOURCE_ROOT; };
 		D16579C462E46DF31F2A6BE7 /* juce_Primes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_Primes.cpp; path = ../../../../srcs/JUCE/modules/juce_cryptography/encryption/juce_Primes.cpp; sourceTree = SOURCE_ROOT; };
+		D18E77081AFC0DA700F8D8B0 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Images-2.xcassets"; path = "Twytch/Images-2.xcassets"; sourceTree = "<group>"; };
 		D1D55CEBD1F3C1BE67587068 /* juce_Message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Message.h; path = ../../../../srcs/JUCE/modules/juce_events/messages/juce_Message.h; sourceTree = SOURCE_ROOT; };
 		D1FB684A83152087AD4A4050 /* juce_ConcertinaPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ConcertinaPanel.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/layout/juce_ConcertinaPanel.h; sourceTree = SOURCE_ROOT; };
 		D26C24B8FC594CB6BBCE6BFA /* juce_AnimatedPosition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AnimatedPosition.h; path = ../../../../srcs/JUCE/modules/juce_gui_basics/layout/juce_AnimatedPosition.h; sourceTree = SOURCE_ROOT; };
@@ -2930,6 +2932,7 @@
 			children = (
 				CAB3615425E728EAFAB20561 /* mopo */,
 				22FE8F4953DBB1955B71409A /* src */,
+				D18E77081AFC0DA700F8D8B0 /* Images-2.xcassets */,
 			);
 			name = Twytch;
 			sourceTree = "<group>";
@@ -3149,6 +3152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18E77091AFC0DA700F8D8B0 /* Images-2.xcassets in Resources */,
 				1D38713E044E4966AD971F06 /* RecentFilesMenuTemplate.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3290,6 +3294,7 @@
 		AF3F1B351FA1612727EAAC60 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3324,6 +3329,7 @@
 		B9D8F94AC5FBB50DC226F771 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
