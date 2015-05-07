@@ -1951,6 +1951,8 @@ void SynthesisInterface::setSliderUnits() {
 
     osc_1_unison_voices_->setUnits("v");
     osc_2_unison_voices_->setUnits("v");
+    osc_1_unison_detune_->setUnits("cents");
+    osc_2_unison_detune_->setUnits("cents");
     osc_feedback_transpose_->setUnits("semitones");
     osc_feedback_tune_->setUnits("cents");
     osc_feedback_tune_->setPostMultiply(100.0);

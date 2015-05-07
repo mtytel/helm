@@ -33,18 +33,22 @@ ModulationButton::ModulationButton(String name) :
 
 void ModulationButton::mouseDown(const MouseEvent& e) {
     if (e.mods.isPopupMenu()) {
-        PopupMenu m;
-        m.addItem(kDisconnect, "Clear All");
-
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         std::vector<mopo::ModulationConnection*> connections;
-        if (parent) {
-            connections = parent->getSourceConnections(getName().toStdString());
+        if (parent == nullptr)
+            return;
 
-            String disconnect("Disconnect From Destination: ");
-            for (int i = 0; i < connections.size(); ++i)
-                m.addItem(kModulationList + i, disconnect + connections[i]->destination);
-        }
+        connections = parent->getSourceConnections(getName().toStdString());
+        if (connections.size() == 0)
+            return;
+
+        PopupMenu m;
+        String disconnect("Disconnect From Destination: ");
+        for (int i = 0; i < connections.size(); ++i)
+            m.addItem(kModulationList + i, disconnect + connections[i]->destination);
+
+        if (connections.size() > 1)
+            m.addItem(kDisconnect, "Disconnect All");
 
         int result = m.show();
         if (result == kDisconnect) {

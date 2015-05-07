@@ -123,7 +123,7 @@ void PatchBrowser::paint (Graphics& g)
     shadow.drawForRectangle(g, left);
     shadow.drawForRectangle(g, right);
 
-    g.setFont (Font (Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
+    g.setFont(Font(Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
     g.setColour(Colour(0xffbbbbbb));
     g.drawText(folder_text_, proportionOfWidth(0.3) + TEXT_PADDING, 0.0,
                proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5),

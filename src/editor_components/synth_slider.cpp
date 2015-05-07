@@ -29,6 +29,11 @@ namespace {
         kModulationList
     };
 
+    mopo::mopo_float synthRound(mopo::mopo_float value) {
+        static const mopo::mopo_float round_scale = 1000.0;
+        int scaled_rounded = round_scale * value + 0.5;
+        return scaled_rounded / round_scale;
+    }
 } // namespace
 
 SynthSlider::SynthSlider(String name) :
@@ -139,7 +144,7 @@ String SynthSlider::getTextFromValue(double value) {
     }
     display_value *= post_multiply_;
 
-    return String(display_value) + " " + units_;
+    return String(synthRound(display_value)) + " " + units_;
 }
 
 void SynthSlider::drawShadow(Graphics &g) {
