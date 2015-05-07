@@ -51,6 +51,14 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
   }
 }
 
+bool MidiManager::isMidiMapped(std::string name) {
+  for (auto controls : midi_learn_map_) {
+    if (controls.second.count(name))
+      return true;
+  }
+  return false;
+}
+
 void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int sample_position) {
   ScopedLock lock(*critical_section_);
   if (midi_message.isNoteOn()) {

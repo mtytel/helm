@@ -106,3 +106,7 @@ void SynthGuiInterface::cancelMidiLearn() {
 void SynthGuiInterface::clearMidiLearn(std::string name) {
   getMidiManager()->clearMidiLearn(name);
 }
+
+bool SynthGuiInterface::isMidiMapped(std::string name) {
+  return getMidiManager()->isMidiMapped(name);
+}

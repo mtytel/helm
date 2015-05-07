@@ -46,8 +46,6 @@ SynthSlider::SynthSlider(String name) :
 void SynthSlider::mouseDown(const MouseEvent& e) {
     if (e.mods.isPopupMenu()) {
         PopupMenu m;
-        m.addItem(kArmMidiLearn, "Learn Controller Assignment");
-        m.addItem(kClearMidiLearn, "Clear Controller Assignment");
 
         if (isDoubleClickReturnEnabled())
             m.addItem(kDefaultValue, "Set to Default Value");
@@ -55,27 +53,26 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         std::vector<mopo::ModulationConnection*> connections;
         if (parent) {
+            m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
+            if (parent->isMidiMapped(getName().toStdString()))
+                m.addItem(kClearMidiLearn, "Clear MIDI Assignment");
+
             connections = parent->getDestinationConnections(getName().toStdString());
 
-            if (connections.size() > 1) {
-                m.addItem(kClearModulations, "Clear All Modulations");
-            }
-
-            String disconnect("Disconnect From Source: ");
+            String disconnect("Disconnect from ");
             for (int i = 0; i < connections.size(); ++i)
                 m.addItem(kModulationList + i, disconnect + connections[i]->source);
+
+            if (connections.size() > 1)
+                m.addItem(kClearModulations, "Disconnect all modulations");
         }
 
         int result = m.show();
         if (result == kArmMidiLearn) {
-            SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-            if (parent)
-                parent->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
+            parent->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
         }
         else if (result == kClearMidiLearn) {
-            SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-            if (parent)
-                parent->clearMidiLearn(getName().toStdString());
+            parent->clearMidiLearn(getName().toStdString());
         }
         else if (result == kDefaultValue) {
             setValue(getDoubleClickReturnValue());
@@ -85,9 +82,9 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
                 std::string source = connection->source;
                 parent->disconnectModulation(connection);
 
-                FullInterface* parent = findParentComponentOfClass<FullInterface>();
-                if (parent)
-                    parent->modulationChanged(source);
+                FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
+                if (full_parent)
+                    full_parent->modulationChanged(source);
             }
         }
         else if (result >= kModulationList) {

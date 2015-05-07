@@ -43,12 +43,12 @@ void ModulationButton::mouseDown(const MouseEvent& e) {
             return;
 
         PopupMenu m;
-        String disconnect("Disconnect From Destination: ");
+        String disconnect("Disconnect from ");
         for (int i = 0; i < connections.size(); ++i)
             m.addItem(kModulationList + i, disconnect + connections[i]->destination);
 
         if (connections.size() > 1)
-            m.addItem(kDisconnect, "Disconnect All");
+            m.addItem(kDisconnect, "Disconnect all");
 
         int result = m.show();
         if (result == kDisconnect) {

@@ -42,6 +42,7 @@ class MidiManager : public MidiInputCallback {
     void clearMidiLearn(std::string name);
     void midiInput(int control, mopo::mopo_float value);
     void processMidiMessage(const MidiMessage &midi_message, int sample_position = 0);
+    bool isMidiMapped(std::string name);
 
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;

@@ -197,7 +197,7 @@ void WaveViewer::showRealtimeFeedback() {
         SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
         if (parent) {
             wave_state_ = parent->getModSource(getName().toStdString());
-            startTimerHz(FRAMES_PER_SECOND);
+            // startTimerHz(FRAMES_PER_SECOND);
         }
     }
 }

@@ -34,6 +34,7 @@ class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
     const CriticalSection& getCriticalSection() override { return twytch_.getCallbackLock(); }
     MidiManager* getMidiManager() override { return twytch_.getMidiManager(); }
     void updateFullGui() override;
+    void updateGuiControl(std::string name, mopo::mopo_float value);
 
   private:
     TwytchPlugin& twytch_;

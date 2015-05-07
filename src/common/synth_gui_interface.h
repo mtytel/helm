@@ -46,6 +46,7 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
     void clearMidiLearn(std::string name);
+    bool isMidiMapped(std::string name);
 
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
