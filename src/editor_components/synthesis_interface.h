@@ -174,6 +174,8 @@ private:
     ScopedPointer<ModulationButton> mod_wheel_mod_;
     ScopedPointer<ModulationButton> pitch_wheel_mod_;
     ScopedPointer<ToggleButton> legato_;
+    ScopedPointer<ToggleButton> unison_1_harmonize_;
+    ScopedPointer<ToggleButton> unison_2_harmonize_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

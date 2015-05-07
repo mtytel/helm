@@ -31,7 +31,7 @@ namespace {
 
     mopo::mopo_float synthRound(mopo::mopo_float value) {
         static const mopo::mopo_float round_scale = 1000.0;
-        int scaled_rounded = round_scale * value + 0.5;
+        int scaled_rounded = round_scale * value;
         return scaled_rounded / round_scale;
     }
 } // namespace

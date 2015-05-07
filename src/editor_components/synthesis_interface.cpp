@@ -601,8 +601,17 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     addAndMakeVisible (legato_ = new ToggleButton ("legato"));
     legato_->setButtonText (String::empty);
     legato_->addListener (this);
-    legato_->setToggleState (true, dontSendNotification);
     legato_->setColour (ToggleButton::textColourId, Colour (0xffbbbbbb));
+
+    addAndMakeVisible (unison_1_harmonize_ = new ToggleButton ("unison_1_harmonize"));
+    unison_1_harmonize_->setButtonText (String::empty);
+    unison_1_harmonize_->addListener (this);
+    unison_1_harmonize_->setColour (ToggleButton::textColourId, Colour (0xffbbbbbb));
+
+    addAndMakeVisible (unison_2_harmonize_ = new ToggleButton ("unison_2_harmonize"));
+    unison_2_harmonize_->setButtonText (String::empty);
+    unison_2_harmonize_->addListener (this);
+    unison_2_harmonize_->setColour (ToggleButton::textColourId, Colour (0xffbbbbbb));
 
 
     //[UserPreSize]
@@ -760,6 +769,8 @@ SynthesisInterface::~SynthesisInterface()
     mod_wheel_mod_ = nullptr;
     pitch_wheel_mod_ = nullptr;
     legato_ = nullptr;
+    unison_1_harmonize_ = nullptr;
+    unison_2_harmonize_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1431,8 +1442,8 @@ void SynthesisInterface::resized()
     poly_lfo_amplitude_->setBounds (604, 514, 10, 48);
     osc_1_unison_detune_->setBounds (130 - (36 / 2), 144, 36, 36);
     osc_2_unison_detune_->setBounds (206 - (36 / 2), 144, 36, 36);
-    osc_1_unison_voices_->setBounds (130 - (36 / 2), 188, 36, 16);
-    osc_2_unison_voices_->setBounds (206 - (36 / 2), 188, 36, 16);
+    osc_1_unison_voices_->setBounds (122 - (36 / 2), 188, 36, 16);
+    osc_2_unison_voices_->setBounds (214 - (36 / 2), 188, 36, 16);
     filter_envelope_mod_->setBounds (346, 116, 32, 32);
     amplitude_envelope_mod_->setBounds (346, 272, 32, 32);
     step_sequencer_mod_->setBounds (346, 438, 32, 32);
@@ -1445,6 +1456,8 @@ void SynthesisInterface::resized()
     mod_wheel_mod_->setBounds (173, 614, 32, 32);
     pitch_wheel_mod_->setBounds (20, 614, 32, 32);
     legato_->setBounds (684, 186, 32, 16);
+    unison_1_harmonize_->setBounds (140, 188, 16, 16);
+    unison_2_harmonize_->setBounds (180, 188, 16, 16);
     internalPath1.clear();
     internalPath1.startNewSubPath (198.0f, 44.0f);
     internalPath1.lineTo (190.0f, 44.0f);
@@ -1796,6 +1809,10 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
         parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     else if (buttonThatWasClicked == legato_)
         parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    else if (buttonThatWasClicked == unison_1_harmonize_)
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
+    else if (buttonThatWasClicked == unison_2_harmonize_)
+        parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
     else {
         std::string name = buttonThatWasClicked->getName().toStdString();
         FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
@@ -1883,6 +1900,16 @@ void SynthesisInterface::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_legato_] -- add your button handler code here..
         //[/UserButtonCode_legato_]
+    }
+    else if (buttonThatWasClicked == unison_1_harmonize_)
+    {
+        //[UserButtonCode_unison_1_harmonize_] -- add your button handler code here..
+        //[/UserButtonCode_unison_1_harmonize_]
+    }
+    else if (buttonThatWasClicked == unison_2_harmonize_)
+    {
+        //[UserButtonCode_unison_2_harmonize_] -- add your button handler code here..
+        //[/UserButtonCode_unison_2_harmonize_]
     }
 
     //[UserbuttonClicked_Post]
@@ -2112,6 +2139,8 @@ void SynthesisInterface::setStyles() {
 
     num_steps_->setLookAndFeel(TextLookAndFeel::instance());
     legato_->setLookAndFeel(TextLookAndFeel::instance());
+    unison_1_harmonize_->setLookAndFeel(TextLookAndFeel::instance());
+    unison_2_harmonize_->setLookAndFeel(TextLookAndFeel::instance());
     delay_frequency_->setLookAndFeel(TextLookAndFeel::instance());
     delay_tempo_->setLookAndFeel(TextLookAndFeel::instance());
 
@@ -2747,12 +2776,12 @@ BEGIN_JUCER_METADATA
           int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_1_unison_voices" id="13831e93e267cf40" memberName="osc_1_unison_voices_"
-          virtualName="SynthSlider" explicitFocusOrder="0" pos="130c 188 36 16"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="122c 188 36 16"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="1" max="15"
           int="2" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
   <SLIDER name="osc_2_unison_voices" id="3aa556f9cb32d9c1" memberName="osc_2_unison_voices_"
-          virtualName="SynthSlider" explicitFocusOrder="0" pos="206c 188 36 16"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="214c 188 36 16"
           rotarysliderfill="7fffffff" textboxtext="ffffffff" min="1" max="15"
           int="2" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
           textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
@@ -2802,7 +2831,15 @@ BEGIN_JUCER_METADATA
   <TOGGLEBUTTON name="legato" id="f832090c308961f4" memberName="legato_" virtualName=""
                 explicitFocusOrder="0" pos="684 186 32 16" txtcol="ffbbbbbb"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
-                state="1"/>
+                state="0"/>
+  <TOGGLEBUTTON name="unison_1_harmonize" id="e2c72514d23129b8" memberName="unison_1_harmonize_"
+                virtualName="" explicitFocusOrder="0" pos="140 188 16 16" txtcol="ffbbbbbb"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
+  <TOGGLEBUTTON name="unison_2_harmonize" id="cb85981b5fc924ca" memberName="unison_2_harmonize_"
+                virtualName="" explicitFocusOrder="0" pos="180 188 16 16" txtcol="ffbbbbbb"
+                buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
+                state="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
