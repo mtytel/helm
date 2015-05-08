@@ -3,61 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "twytch16.png",
+      "filename" : "twytch_logo_16_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "twytch16-1.png",
+      "filename" : "twytch_logo_16_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "twytch32-1.png",
+      "filename" : "twytch_logo_32_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "twytch32.png",
+      "filename" : "twytch_logo_32_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "twytch128-1.png",
+      "filename" : "twytch_logo_128_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "twytch128.png",
+      "filename" : "twytch_logo_128_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "twytch256-1.png",
+      "filename" : "twytch_logo_256_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "twytch256.png",
+      "filename" : "twytch_logo_256_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "twytch512-1.png",
+      "filename" : "twytch_logo_512_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "twytch512.png",
+      "filename" : "twytch_logo_512_2x.png",
       "scale" : "2x"
     }
   ],
