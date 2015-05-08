@@ -298,7 +298,7 @@
         <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
-    <LINUX_MAKE targetFolder="builds/linux" bigIcon="d9VcJb" smallIcon="SYF4xO">
+    <LINUX_MAKE targetFolder="builds/linux" bigIcon="" smallIcon="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
