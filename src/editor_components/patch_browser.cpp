@@ -245,7 +245,7 @@ File PatchBrowser::getUserPatchDirectory() {
     patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
     File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
-    File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
+    patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
 #elif defined(_WIN32)
     patch_dir = File("C:");
 #endif

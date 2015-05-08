@@ -29,6 +29,10 @@
 namespace mopo {
 
   TwytchEngine::TwytchEngine() : was_playing_arp_(false) {
+    init();
+  }
+
+  void TwytchEngine::init() {
     static const Value* minutes_per_second = new Value(1.0 / 60.0);
 
 #ifdef FE_DFL_DISABLE_SSE_DENORMS_ENV
@@ -187,6 +191,8 @@ namespace mopo {
     addProcessor(distorted_clamp);
     addProcessor(scaled_audio);
     registerOutput(scaled_audio->output());
+
+    TwytchModule::init();
   }
 
   void TwytchEngine::connectModulation(ModulationConnection* connection) {

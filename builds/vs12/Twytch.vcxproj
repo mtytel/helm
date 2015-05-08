@@ -1394,6 +1394,7 @@
     <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h"/>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h"/>
     <ClInclude Include="..\..\src\plugin\twytch_plugin.h"/>
+    <ClInclude Include="..\..\src\plugin\value_bridge.h"/>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h"/>
     <ClInclude Include="..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\src\synthesis\twytch_engine.h"/>

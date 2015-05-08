@@ -164,6 +164,11 @@ namespace mopo {
     return choose_frequency;
   }
 
+  void TwytchModule::init() {
+    for (TwytchModule* sub_module : sub_modules_)
+      sub_module->init();
+  }
+
   control_map TwytchModule::getControls() {
     control_map all_controls = controls_;
     for (TwytchModule* sub_module : sub_modules_) {

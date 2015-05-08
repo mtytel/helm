@@ -1980,6 +1980,9 @@
     <ClInclude Include="..\..\src\plugin\twytch_plugin.h">
       <Filter>Twytch\src\plugin</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\plugin\value_bridge.h">
+      <Filter>Twytch\src\plugin</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h">
       <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>

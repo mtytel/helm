@@ -28,9 +28,11 @@ namespace mopo {
   class Value;
 
   // The overall twytch engine. All audio processing is contained in here.
-  class TwytchEngine : public ProcessorRouter, public TwytchModule {
+  class TwytchEngine : public TwytchModule {
     public:
       TwytchEngine();
+
+      void init() override;
 
       void process() override;
 
@@ -56,10 +58,6 @@ namespace mopo {
       // Sustain pedal events.
       void sustainOn();
       void sustainOff();
-
-      // Twytch Module.
-      ProcessorRouter* getMonoRouter() override { return this; }
-      ProcessorRouter* getPolyRouter() override { return 0; }
 
     private:
       TwytchVoiceHandler* voice_handler_;

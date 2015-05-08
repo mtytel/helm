@@ -41,16 +41,15 @@ namespace mopo {
   // The voice handler duplicates processors to produce polyphony.
   // Everything in the synthesizer we want per-voice instances of must be
   // contained in here.
-  class TwytchVoiceHandler : public VoiceHandler, public TwytchModule {
+  class TwytchVoiceHandler : public virtual VoiceHandler, public virtual TwytchModule {
     public:
       TwytchVoiceHandler(Processor* beats_per_second);
       virtual ~TwytchVoiceHandler() { } // Should probably delete things.
 
+      void init() override;
+
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
-
-      ProcessorRouter* getMonoRouter() override { return getGlobalRouter(); }
-      ProcessorRouter* getPolyRouter() override { return this; }
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
