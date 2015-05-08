@@ -29,6 +29,8 @@
 
 #define PATCH_EXTENSION "twytch"
 #define TEXT_PADDING 4.0f
+#define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/twytch/patches"
+#define LINUX_USER_PATCH_DIRECTORY "/usr/local/share/twytch/patches"
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -222,16 +224,32 @@ void PatchBrowser::buttonClicked (Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 File PatchBrowser::getSystemPatchDirectory() {
+    File patch_dir = File("");
+#ifdef LINUX
+    patch_dir = File(LINUX_SYSTEM_PATCH_DIRECTORY);
+#elif defined(__APPLE__)
     File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
-    File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
+    patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
+#elif defined(_WIN32)
+    patch_dir = File("C:");
+#endif
+
     if (!patch_dir.exists())
         patch_dir.createDirectory();
     return patch_dir;
 }
 
 File PatchBrowser::getUserPatchDirectory() {
+    File patch_dir = File("");
+#ifdef LINUX
+    patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
+#elif defined(__APPLE__)
     File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
     File patch_dir = data_dir.getChildFile(String("Audio/Presets/") + ProjectInfo::projectName);
+#elif defined(_WIN32)
+    patch_dir = File("C:");
+#endif
+
     if (!patch_dir.exists())
         patch_dir.createDirectory();
     return patch_dir;
