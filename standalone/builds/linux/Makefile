@@ -23,7 +23,7 @@ ifeq ($(CONFIG),Debug)
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
-  TARGET := Twytch
+  TARGET := twytch
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
 endif
@@ -43,7 +43,7 @@ ifeq ($(CONFIG),Release)
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
-  TARGET := Twytch
+  TARGET := twytch
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
 endif
@@ -115,6 +115,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_module_6c52508.o \
   $(OBJDIR)/twytch_oscillators_802e9381.o \
   $(OBJDIR)/twytch_voice_handler_5e0945ab.o \
+  $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_badfed3c.o \
   $(OBJDIR)/juce_audio_devices_844e2fa.o \
   $(OBJDIR)/juce_audio_formats_36c62c9a.o \
@@ -475,6 +476,11 @@ $(OBJDIR)/twytch_oscillators_802e9381.o: ../../../src/synthesis/twytch_oscillato
 $(OBJDIR)/twytch_voice_handler_5e0945ab.o: ../../../src/synthesis/twytch_voice_handler.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_voice_handler.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling BinaryData.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_badfed3c.o: ../../../../srcs/JUCE/modules/juce_audio_basics/juce_audio_basics.cpp
