@@ -102,7 +102,7 @@ namespace mopo {
       Processor* processor_;
   };
 
-  class VoiceHandler : public ProcessorRouter {
+  class VoiceHandler : public virtual ProcessorRouter {
     public:
       enum Inputs {
         kPolyphony,
@@ -131,8 +131,8 @@ namespace mopo {
       Output* velocity() { return &velocity_; }
       Output* aftertouch() { return &aftertouch_; }
 
-      ProcessorRouter* getGlobalRouter() { return &global_router_; }
-      ProcessorRouter* getVoiceRouter() { return &voice_router_; }
+      virtual ProcessorRouter* getMonoRouter() override { return &global_router_; }
+      virtual ProcessorRouter* getPolyRouter() override { return &voice_router_; }
 
       void addProcessor(Processor* processor);
       void removeProcessor(Processor* processor);
@@ -154,6 +154,8 @@ namespace mopo {
       bool isPolyphonic(const Processor* processor) const;
 
     private:
+      VoiceHandler() { }
+
       Voice* createVoice();
       void prepareVoiceTriggers(Voice* voice);
       void processVoice(Voice* voice);

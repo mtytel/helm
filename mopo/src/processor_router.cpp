@@ -237,6 +237,16 @@ namespace mopo {
     return false;
   }
 
+  ProcessorRouter* ProcessorRouter::getMonoRouter() {
+    if (isPolyphonic(this))
+      return router_->getMonoRouter();
+    return this;
+  }
+
+  ProcessorRouter* ProcessorRouter::getPolyRouter() {
+    return this;
+  }
+
   void ProcessorRouter::addFeedback(Feedback* feedback) {
     feedback->router(this);
     global_feedback_order_->push_back(feedback);
