@@ -258,20 +258,20 @@
                        isDebug="0" optimisation="2" targetName="Twytch" headerPath="../../../src&#10;../../../src/editor_components"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_video" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2012 targetFolder="builds/vs12">
@@ -282,20 +282,20 @@
                        isDebug="0" optimisation="2" targetName="Twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_video" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux" bigIcon="" smallIcon="">
@@ -306,20 +306,20 @@
                        targetName="twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_video" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_basics" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../srcs/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
