@@ -127,9 +127,9 @@ void ModulationManager::resized()
     monophonic_destinations_->setBounds(getBounds());
     for (auto slider : slider_lookup_) {
         SynthSlider* model = slider_model_lookup_[slider.first];
-        Point<int> global_top_left = model->localPointToGlobal(Point<int>(0, 0));
+        Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
         slider.second->setVisible(model->isVisible());
-        slider.second->setBounds(global_top_left.x, global_top_left.y,
+        slider.second->setBounds(local_top_left.x, local_top_left.y,
                                  model->getWidth(), model->getHeight());
     }
 
