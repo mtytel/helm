@@ -33,7 +33,6 @@ namespace mopo {
   class FormantManager;
   class LinearSlope;
   class Oscillator;
-  class OscillatorFeedback;
   class SmoothValue;
   class StepGenerator;
   class TriggerCombiner;
@@ -74,12 +73,12 @@ namespace mopo {
       LinearSlope* current_frequency_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
+      SimpleDelay* osc_feedback_;
 
       Distortion* distorted_filter_;
       FormantManager* formant_filter_;
       Envelope* filter_envelope_;
       BypassRouter* formant_container_;
-      OscillatorFeedback* osc_feedback_;
 
       Multiply* output_;
   };
