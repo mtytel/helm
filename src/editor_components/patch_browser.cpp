@@ -125,15 +125,16 @@ void PatchBrowser::paint (Graphics& g)
     shadow.drawForRectangle(g, left);
     shadow.drawForRectangle(g, right);
 
+    Rectangle<int> top(proportionOfWidth(0.3) + TEXT_PADDING, 0,
+                       proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
+    Rectangle<int> bottom(proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
+                       proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
+
     g.setFont(Font(Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
     g.setColour(Colour(0xffbbbbbb));
-    g.drawText(folder_text_, proportionOfWidth(0.3) + TEXT_PADDING, 0.0,
-               proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5),
-               Justification::centredLeft);
+    g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
     g.setColour(Colour(0xffffffff));
-    g.drawText(patch_text_, proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
-               proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5),
-               Justification::centredLeft);
+    g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);
     //[/UserPaint]
 }
 

@@ -92,8 +92,8 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
 
     g.setColour(slider.findColour(Slider::textBoxTextColourId));
     g.setFont(Font("Noto Sans", 0.24f * height, Font::plain));
-    g.drawText(String(slider.getValue()), text_bounds,
-               Justification::horizontallyCentred | Justification::bottom);
+    g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
+                     Justification::horizontallyCentred | Justification::bottom, 1);
   }
 
   Path rail;
