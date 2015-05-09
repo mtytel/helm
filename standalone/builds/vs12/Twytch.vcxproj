@@ -189,6 +189,7 @@
     <ClCompile Include="..\..\..\src\standalone\twytch_computer_keyboard.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\oscillator_feedback.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_engine.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_lfo.cpp"/>
@@ -1308,7 +1309,6 @@
     <ClCompile Include="..\..\..\..\srcs\JUCE\modules\juce_video\native\juce_win32_QuickTimeMovieComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp"/>
     <ClCompile Include="..\..\..\..\srcs\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\..\..\srcs\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp"/>
     <ClCompile Include="..\..\..\..\srcs\JUCE\modules\juce_audio_formats\juce_audio_formats.cpp"/>
@@ -1389,6 +1389,7 @@
     <ClInclude Include="..\..\..\src\standalone\twytch_computer_keyboard.h"/>
     <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h"/>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\oscillator_feedback.h"/>
     <ClInclude Include="..\..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_engine.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_lfo.h"/>
@@ -1850,20 +1851,9 @@
     <ClInclude Include="..\..\..\..\srcs\JUCE\modules\juce_video\capture\juce_CameraDevice.h"/>
     <ClInclude Include="..\..\..\..\srcs\JUCE\modules\juce_video\juce_video.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h"/>
-    <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\images\twytch_logo_16_1x.png"/>
-    <None Include="..\..\..\images\twytch_logo_16_2x.png"/>
-    <None Include="..\..\..\images\twytch_logo_32_1x.png"/>
-    <None Include="..\..\..\images\twytch_logo_32_2x.png"/>
-    <None Include="..\..\..\images\twytch_logo_128_1x.png"/>
-    <None Include="..\..\..\images\twytch_logo_128_2x.png"/>
-    <None Include="..\..\..\images\twytch_logo_256_1x.png"/>
-    <None Include="..\..\..\images\twytch_logo_256_2x.png"/>
-    <None Include="..\..\..\images\twytch_logo_512_1x.png"/>
-    <None Include="..\..\..\images\twytch_logo_512_2x.png"/>
     <None Include="..\..\..\..\srcs\JUCE\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\..\..\srcs\JUCE\modules\juce_audio_devices\juce_module_info"/>
     <None Include="..\..\..\..\srcs\JUCE\modules\juce_audio_formats\juce_module_info"/>

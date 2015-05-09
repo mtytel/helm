@@ -20,10 +20,11 @@
 
 #include "mopo.h"
 #include "fixed_point_wave.h"
+#include "twytch_module.h"
 
 namespace mopo {
 
-  class TwytchOscillators : public Processor {
+  class TwytchOscillators : public TwytchModule {
     public:
       static const int MAX_UNISON = 15;
 
@@ -45,6 +46,8 @@ namespace mopo {
       };
 
       TwytchOscillators();
+
+      void init() override;
 
       virtual void process();
       virtual Processor* clone() const { return new TwytchOscillators(*this); }

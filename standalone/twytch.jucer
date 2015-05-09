@@ -5,28 +5,6 @@
               jucerVersion="3.1.1" companyName="Little O Studio" companyWebsite="littleio.co"
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Twytch">
-    <GROUP id="{00EAB5C7-A9DE-3DA8-B748-7B7B7D80681B}" name="images">
-      <FILE id="RRoxfd" name="twytch_logo_16_1x.png" compile="0" resource="1"
-            file="../images/twytch_logo_16_1x.png"/>
-      <FILE id="tmVtNb" name="twytch_logo_16_2x.png" compile="0" resource="1"
-            file="../images/twytch_logo_16_2x.png"/>
-      <FILE id="mGecH4" name="twytch_logo_32_1x.png" compile="0" resource="1"
-            file="../images/twytch_logo_32_1x.png"/>
-      <FILE id="VpI2Zd" name="twytch_logo_32_2x.png" compile="0" resource="1"
-            file="../images/twytch_logo_32_2x.png"/>
-      <FILE id="N8fXWn" name="twytch_logo_128_1x.png" compile="0" resource="1"
-            file="../images/twytch_logo_128_1x.png"/>
-      <FILE id="SYF4xO" name="twytch_logo_128_2x.png" compile="0" resource="1"
-            file="../images/twytch_logo_128_2x.png"/>
-      <FILE id="yOwJaP" name="twytch_logo_256_1x.png" compile="0" resource="1"
-            file="../images/twytch_logo_256_1x.png"/>
-      <FILE id="vPlnQX" name="twytch_logo_256_2x.png" compile="0" resource="1"
-            file="../images/twytch_logo_256_2x.png"/>
-      <FILE id="n5uekN" name="twytch_logo_512_1x.png" compile="0" resource="1"
-            file="../images/twytch_logo_512_1x.png"/>
-      <FILE id="d9VcJb" name="twytch_logo_512_2x.png" compile="0" resource="1"
-            file="../images/twytch_logo_512_2x.png"/>
-    </GROUP>
     <GROUP id="{E650F2E1-07E8-77DB-1520-2000D9FBD2DB}" name="mopo">
       <GROUP id="{FAEF11EB-46DB-8DAD-D372-EC764D4E6B43}" name="src">
         <FILE id="lPFaPu" name="alias.cpp" compile="1" resource="0" file="../mopo/src/alias.cpp"/>
@@ -228,6 +206,10 @@
               file="../src/synthesis/fixed_point_wave.cpp"/>
         <FILE id="BXZTzs" name="fixed_point_wave.h" compile="0" resource="0"
               file="../src/synthesis/fixed_point_wave.h"/>
+        <FILE id="bhTg1e" name="oscillator_feedback.cpp" compile="1" resource="0"
+              file="../src/synthesis/oscillator_feedback.cpp"/>
+        <FILE id="NtOq7q" name="oscillator_feedback.h" compile="0" resource="0"
+              file="../src/synthesis/oscillator_feedback.h"/>
         <FILE id="z4hCnY" name="switch.cpp" compile="1" resource="0" file="../src/synthesis/switch.cpp"/>
         <FILE id="QXiktv" name="switch.h" compile="0" resource="0" file="../src/synthesis/switch.h"/>
         <FILE id="clGm4c" name="twytch_engine.cpp" compile="1" resource="0"
@@ -298,12 +280,12 @@
         <MODULEPATH id="juce_audio_utils" path="../../srcs/JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
-    <LINUX_MAKE targetFolder="builds/linux" bigIcon="" smallIcon="">
+    <LINUX_MAKE targetFolder="builds/linux">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       targetName="Twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       targetName="Twytch" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../../srcs/JUCE/modules"/>

@@ -29,7 +29,9 @@ namespace mopo {
     }
   } // namespace
 
-  TwytchOscillators::TwytchOscillators() : Processor(kNumInputs, 1) {
+  TwytchOscillators::TwytchOscillators() : ProcessorRouter(kNumInputs, 1) { }
+
+  void TwytchOscillators::init() {
     oscillator1_cross_mod_ = 0.0;
     oscillator2_cross_mod_ = 0.0;
 

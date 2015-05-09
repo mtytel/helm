@@ -18,6 +18,7 @@
 
 #include "twytch_lfo.h"
 #include "twytch_oscillators.h"
+#include "oscillator_feedback.h"
 
 #include <sstream>
 
@@ -25,7 +26,6 @@
 #define MIN_GAIN_DB -24.0
 #define MAX_GAIN_DB 24.0
 
-#define MAX_FEEDBACK_SAMPLES 20000
 #define MAX_POLYPHONY 32
 
 namespace mopo {
@@ -210,6 +210,8 @@ namespace mopo {
     addProcessor(oscillator2_phase_inc);
     addProcessor(oscillator2_phase_inc_audio);
 
+    addSubmodule(oscillators);
+
     // Oscillator mix.
     Processor* oscillator_mix_amount = createPolyModControl("osc_mix", 0.5, false, true);
     Clamp* clamp_mix = new Clamp(0, 1);
@@ -218,39 +220,9 @@ namespace mopo {
     addProcessor(clamp_mix);
 
     // Oscillator feedback.
-    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", -12, true);
-    Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", 0.0, false);
-    Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", 0.0, true);
-    Add* osc_feedback_transposed = new Add();
-    osc_feedback_transposed->setControlRate();
-    osc_feedback_transposed->plug(bent_midi, 0);
-    osc_feedback_transposed->plug(osc_feedback_transpose, 1);
-    Add* osc_feedback_midi = new Add();
-    osc_feedback_midi->setControlRate();
-    osc_feedback_midi->plug(osc_feedback_transposed, 0);
-    osc_feedback_midi->plug(osc_feedback_tune, 1);
-
-    MidiScale* osc_feedback_frequency = new MidiScale();
-    osc_feedback_frequency->setControlRate();
-    osc_feedback_frequency->plug(osc_feedback_midi);
-
-    FrequencyToSamples* osc_feedback_samples = new FrequencyToSamples();
-    osc_feedback_samples->plug(osc_feedback_frequency);
-
-    SampleAndHoldBuffer* osc_feedback_samples_audio = new SampleAndHoldBuffer();
-    osc_feedback_samples_audio->plug(osc_feedback_samples);
-
-    addProcessor(osc_feedback_transposed);
-    addProcessor(osc_feedback_midi);
-    addProcessor(osc_feedback_frequency);
-    addProcessor(osc_feedback_samples);
-    addProcessor(osc_feedback_samples_audio);
-
-    osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
-    osc_feedback_->plug(oscillators, SimpleDelay::kAudio);
-    osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
-    osc_feedback_->plug(osc_feedback_amount, SimpleDelay::kFeedback);
+    osc_feedback_ = new OscillatorFeedback(oscillators->output(), bent_midi->output());
     addProcessor(osc_feedback_);
+    addSubmodule(osc_feedback_);
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {

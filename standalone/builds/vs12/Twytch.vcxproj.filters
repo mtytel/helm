@@ -5,9 +5,6 @@
     <Filter Include="Twytch">
       <UniqueIdentifier>{2BDA1589-AF74-EE13-E153-0DA5697B4EC7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\images">
-      <UniqueIdentifier>{EA2E0462-5627-110B-2490-19E87E90CDF5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Twytch\mopo">
       <UniqueIdentifier>{4F10C5C1-4A9C-8D00-32F4-37F1CB7BF121}</UniqueIdentifier>
     </Filter>
@@ -512,6 +509,9 @@
       <Filter>Twytch\src\standalone</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\oscillator_feedback.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp">
@@ -1720,9 +1720,6 @@
     <ClCompile Include="..\..\..\..\srcs\JUCE\modules\juce_video\native\juce_win32_QuickTimeMovieComponent.cpp">
       <Filter>Juce Modules\juce_video\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp">
-      <Filter>Juce Library Code</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\srcs\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
@@ -1957,6 +1954,9 @@
       <Filter>Twytch\src\standalone</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\oscillator_feedback.h">
       <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\switch.h">
@@ -3342,44 +3342,11 @@
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h">
       <Filter>Juce Library Code</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h">
-      <Filter>Juce Library Code</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h">
       <Filter>Juce Library Code</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\images\twytch_logo_16_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_16_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_32_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_32_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_128_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_128_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_256_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_256_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_512_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\twytch_logo_512_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
     <None Include="..\..\..\..\srcs\JUCE\modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>
     </None>
