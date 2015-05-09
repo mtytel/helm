@@ -870,7 +870,7 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("OSCILLATORS"),
                 168 - (100 / 2), 14 - (20 / 2), 100, 20,
                 Justification::centred, true);
@@ -900,7 +900,7 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("MONO LFO 1"),
                 399 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
@@ -912,13 +912,13 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("AMPLITUDE ENVELOPE"),
                 466 - (150 / 2), 160, 150, 20,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("DELAY"),
                 667 - (44 / 2), 232, 44, 20,
                 Justification::centred, true);
@@ -942,13 +942,13 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("VOLUME"),
                 667 - (60 / 2), 416, 60, 20,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("ARTICULATION"),
                 667 - (100 / 2), 4, 100, 20,
                 Justification::centred, true);
@@ -1062,25 +1062,25 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("FEEDBACK"),
                 168 - (84 / 2), 216, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("FILTER ENVELOPE"),
                 466 - (140 / 2), 14 - (20 / 2), 140, 20,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("STEP SEQUENCER"),
                 466 - (110 / 2), 315, 110, 20,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("MONO LFO 2"),
                 533 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
@@ -1098,13 +1098,13 @@ void SynthesisInterface::paint (Graphics& g)
     g.strokePath (internalPath4, PathStrokeType (1.000f));
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("STUTTER"),
                 270 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("FORMANT"),
                 106 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
@@ -1119,7 +1119,7 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("FILTER"),
                 168 - (84 / 2), 316, 84, 20,
                 Justification::centred, true);
@@ -1131,7 +1131,7 @@ void SynthesisInterface::paint (Graphics& g)
                 Justification::centred, true);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("POLY LFO"),
                 667 - (84 / 2), 482, 84, 20,
                 Justification::centred, true);
@@ -1252,7 +1252,7 @@ void SynthesisInterface::paint (Graphics& g)
     g.fillRoundedRectangle (604.0f, 324.0f, 126.0f, 84.0f, 3.000f);
 
     g.setColour (Colours::white);
-    g.setFont (Font ("Noto Sans", 16.00f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 16.00f, Font::plain));
     g.drawText (TRANS("REVERB"),
                 667 - (44 / 2), 324, 44, 20,
                 Justification::centred, true);
@@ -2252,7 +2252,7 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="168c 14c 100 20" fill="solid: ffffffff" hasStroke="0" text="OSCILLATORS"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="66c 290 80 10" fill="solid: ffbbbbbb" hasStroke="0" text="TRANSPOSE"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2266,14 +2266,14 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="399c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="MONO LFO 1"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="423c 584 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQUENCY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="466c 160 150 20" fill="solid: ffffffff" hasStroke="0" text="AMPLITUDE ENVELOPE"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="667c 232 44 20" fill="solid: ffffffff" hasStroke="0" text="DELAY"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="626c 300 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="FEEDB"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2284,9 +2284,9 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="667c 416 60 20" fill="solid: ffffffff" hasStroke="0" text="VOLUME"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="667c 4 100 20" fill="solid: ffffffff" hasStroke="0" text="ARTICULATION"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="634c 86 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="POLYPHONY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
@@ -2342,13 +2342,13 @@ BEGIN_JUCER_METADATA
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="168c 216 84 20" fill="solid: ffffffff" hasStroke="0" text="FEEDBACK"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="466c 14c 140 20" fill="solid: ffffffff" hasStroke="0" text="FILTER ENVELOPE"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="466c 315 110 20" fill="solid: ffffffff" hasStroke="0" text="STEP SEQUENCER"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="533c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="MONO LFO 2"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff4fc3f7" nonZeroWinding="1">s 198 44 l 190 44 l 182 60</PATH>
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
@@ -2358,20 +2358,20 @@ BEGIN_JUCER_METADATA
     <PATH pos="0 0 100 100" fill="solid: 0" hasStroke="1" stroke="1, mitered, butt"
           strokeColour="solid: ff4fc3f7" nonZeroWinding="1">s 138 116 l 146 116 l 154 100</PATH>
     <TEXT pos="270c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="STUTTER"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="106c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="FORMANT"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <RECT pos="684 522.5c 24 1" fill="solid: ffcccccc" hasStroke="0"/>
     <TEXT pos="168c 140 50 10" fill="solid: ffbbbbbb" hasStroke="0" text="MIX"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="168c 316 84 20" fill="solid: ffffffff" hasStroke="0" text="FILTER"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="690c 584 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQUENCY"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="667c 482 84 20" fill="solid: ffffffff" hasStroke="0" text="POLY LFO"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <RECT pos="168c 4 320 20" fill="linear: 0% 22, 0% 26, 0=0, 1=77000000"
           hasStroke="0"/>
     <RECT pos="336 4 260 20" fill="linear: 0% 22, 0% 26, 0=0, 1=77000000"
@@ -2406,7 +2406,7 @@ BEGIN_JUCER_METADATA
           hasStroke="0"/>
     <ROUNDRECT pos="604 324 126 84" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <TEXT pos="667c 324 44 20" fill="solid: ffffffff" hasStroke="0" text="REVERB"
-          fontname="Noto Sans" fontsize="16" bold="0" italic="0" justification="36"/>
+          fontname="Default sans-serif font" fontsize="16" bold="0" italic="0" justification="36"/>
     <TEXT pos="626c 392 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="FEEDB"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>

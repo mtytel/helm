@@ -182,31 +182,31 @@ void FullInterface::paint (Graphics& g)
     g.fillRect (16, 8, 220, 60);
 
     g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("GATE"),
                 599 - (52 / 2), 54, 52, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("FREQ"),
                 527 - (52 / 2), 54, 52, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("OCTAVES"),
                 647 - (60 / 2), 54, 60, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("PATTERN"),
                 703 - (60 / 2), 54, 60, 10,
                 Justification::centred, true);
 
     g.setColour (Colour (0xffbbbbbb));
-    g.setFont (Font ("Myriad Pro", 11.40f, Font::plain));
+    g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
     g.drawText (TRANS("BPM"),
                 38 - (44 / 2), 56, 44, 10,
                 Justification::centred, true);
@@ -227,7 +227,7 @@ void FullInterface::paint (Graphics& g)
 
     g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 460, 20));
     g.setColour(Colour (0xffDDDDDD));
-    g.setFont(Font("Myriad Pro", 14.40f, Font::plain));
+    g.setFont(Font(Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText(TRANS("ARP"),
                408, 37, 52, 12,
                Justification::centred, true);
@@ -411,19 +411,19 @@ BEGIN_JUCER_METADATA
     <ROUNDRECT pos="472 8 266 60" cornerSize="3" fill="solid: ff303030" hasStroke="0"/>
     <RECT pos="16 8 220 60" fill="solid: ff303030" hasStroke="0"/>
     <TEXT pos="599c 54 52 10" fill="solid: ffbbbbbb" hasStroke="0" text="GATE"
-          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="527c 54 52 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
-          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="647c 54 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="OCTAVES"
-          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="703c 54 60 10" fill="solid: ffbbbbbb" hasStroke="0" text="PATTERN"
-          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <TEXT pos="38c 56 44 10" fill="solid: ffbbbbbb" hasStroke="0" text="BPM"
-          fontname="Myriad Pro" fontsize="11.400000000000000355" bold="0"
+          fontname="Default sans-serif font" fontsize="11.400000000000000355" bold="0"
           italic="0" justification="36"/>
     <RECT pos="472 8 20 60" fill="linear: 490 0, 494 0, 0=0, 1=ff000000"
           hasStroke="0"/>
