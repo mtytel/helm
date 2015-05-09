@@ -204,6 +204,7 @@
         <FILE id="kVoLLU" name="twytch_plugin.cpp" compile="1" resource="0"
               file="src/plugin/twytch_plugin.cpp"/>
         <FILE id="SLXpsp" name="twytch_plugin.h" compile="0" resource="0" file="src/plugin/twytch_plugin.h"/>
+        <FILE id="yYGbwS" name="value_bridge.h" compile="0" resource="0" file="src/plugin/value_bridge.h"/>
       </GROUP>
       <GROUP id="{A96D5AAE-0076-8457-E00A-AD803B7FD9A7}" name="synthesis">
         <FILE id="egF8Vt" name="fixed_point_wave.cpp" compile="1" resource="0"

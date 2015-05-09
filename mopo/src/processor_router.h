@@ -49,6 +49,9 @@ namespace mopo {
 
       virtual bool isPolyphonic(const Processor* processor) const;
 
+      virtual ProcessorRouter* getMonoRouter();
+      virtual ProcessorRouter* getPolyRouter();
+
     protected:
       // When we create a cycle into the ProcessorRouter graph, we must insert
       // a Feedback node and add it here.

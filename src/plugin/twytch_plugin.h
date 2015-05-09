@@ -22,6 +22,8 @@
 #include "midi_manager.h"
 #include "twytch_engine.h"
 
+class ValueBridge;
+
 class TwytchPlugin : public AudioProcessor {
   public:
     TwytchPlugin();
@@ -36,13 +38,6 @@ class TwytchPlugin : public AudioProcessor {
     bool hasEditor() const override;
 
     const String getName() const override;
-
-    int getNumParameters() override;
-    float getParameter(int index) override;
-    void setParameter(int index, float new_value) override;
-
-    const String getParameterName(int index) override;
-    const String getParameterText(int index) override;
 
     const String getInputChannelName(int channel_index) const override;
     const String getOutputChannelName(int channel_index) const override;
@@ -71,8 +66,11 @@ class TwytchPlugin : public AudioProcessor {
 
   private:
     mopo::TwytchEngine synth_;
+    mopo::control_map controls_;
     mopo::Memory* output_memory_;
     ScopedPointer<MidiManager> midi_manager_;
+
+    std::map<std::string, ValueBridge*> bridge_lookup_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TwytchPlugin)
 };

@@ -26,6 +26,7 @@
 #define MAX_GAIN_DB 24.0
 
 #define MAX_FEEDBACK_SAMPLES 20000
+#define MAX_POLYPHONY 32
 
 namespace mopo {
 
@@ -65,11 +66,14 @@ namespace mopo {
     };
   } // namespace
 
-  TwytchVoiceHandler::TwytchVoiceHandler(Processor* beats_per_second) {
-    beats_per_second_ = beats_per_second;
+  TwytchVoiceHandler::TwytchVoiceHandler(Processor* beats_per_second) :
+      ProcessorRouter(VoiceHandler::kNumInputs, 0), VoiceHandler(MAX_POLYPHONY),
+      beats_per_second_(beats_per_second) {
     output_ = new Multiply();
     registerOutput(output_->output());
+  }
 
+  void TwytchVoiceHandler::init() {
     // Create modulation and pitch wheels.
     mod_wheel_amount_ = new SmoothValue(0);
     pitch_wheel_amount_ = new SmoothValue(0);
@@ -99,6 +103,8 @@ namespace mopo {
     addGlobalProcessor(mod_wheel_amount_);
 
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
+    
+    TwytchModule::init();
   }
 
   void TwytchVoiceHandler::createOscillators(Output* midi, Output* reset) {

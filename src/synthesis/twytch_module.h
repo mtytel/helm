@@ -24,9 +24,7 @@
 #include <vector>
 
 namespace mopo {
-  class ProcessorRouter;
-
-  class TwytchModule {
+  class TwytchModule : public virtual ProcessorRouter {
     public:
       enum ControlSkewType {
         kLinear,
@@ -36,6 +34,9 @@ namespace mopo {
 
       TwytchModule();
       virtual ~TwytchModule() { } // Should probably delete things.
+
+      // For initializing things that require parents that aren't set in constructor.
+      virtual void init();
 
       // Returns a map of all controls of this module and all submodules.
       control_map getControls();
@@ -48,9 +49,6 @@ namespace mopo {
       output_map getModulationSources();
       output_map getMonoModulations();
       output_map getPolyModulations();
-
-      virtual ProcessorRouter* getMonoRouter() = 0;
-      virtual ProcessorRouter* getPolyRouter() = 0;
 
     protected:
       // Creates a synthesizer control that you can modulate monophonically.

@@ -17,11 +17,19 @@
 #include "twytch_plugin.h"
 #include "twytch_common.h"
 #include "twytch_editor.h"
+#include "value_bridge.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MAX_MEMORY_SAMPLES 1000000
 
 TwytchPlugin::TwytchPlugin() {
+  controls_ = synth_.getControls();
+  for (auto control : controls_) {
+    ValueBridge* bridge = new ValueBridge(control.first, control.second);
+    bridge_lookup_[control.first] = bridge;
+    addParameter(bridge);
+  }
+  
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
   midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
 }
@@ -32,31 +40,12 @@ const String TwytchPlugin::getName() const {
   return JucePlugin_Name;
 }
 
-int TwytchPlugin::getNumParameters() {
-  return 0;
-}
-
-float TwytchPlugin::getParameter(int index) {
-  return 0.0f;
-}
-
-void TwytchPlugin::setParameter(int index, float new_value) {
-}
-
-const String TwytchPlugin::getParameterName(int index) {
-  return String();
-}
-
-const String TwytchPlugin::getParameterText(int index) {
-  return String();
-}
-
 const String TwytchPlugin::getInputChannelName(int channel_index) const {
-  return String (channel_index + 1);
+  return String(channel_index + 1);
 }
 
 const String TwytchPlugin::getOutputChannelName(int channel_index) const {
-  return String (channel_index + 1);
+  return String(channel_index + 1);
 }
 
 bool TwytchPlugin::isInputChannelStereoPair(int index) const {
