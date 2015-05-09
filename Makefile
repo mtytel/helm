@@ -4,7 +4,7 @@ ICONS   = $(DESTDIR)/usr/share/$(PROGRAM)/icons
 PATCHES = $(DESTDIR)/usr/share/$(PROGRAM)/patches
 
 all:
-	cd standalone/builds/linux && $(MAKE) CONFIG=$(CONFIG)
+	cd standalone/builds/linux && $(MAKE) CONFIG=Release
 
 install: all
 	install -d $(PATCHES) $(BIN) $(ICONS)
