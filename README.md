@@ -2,7 +2,7 @@
 Twytch is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a VST/AU/AAX plugin. Release is in beta so there are outstanding bugs. Please send any bugs found to matthewtytel@gmail.com
 
 ### Installing:
-Go to tytel.org/twytch for builds. If you're on Ubuntu you can download it through the command line:
+Go to [tytel.org/twytch](http://tytel.org/twytch) for builds. If you're on Ubuntu you can download it through the command line:
 ```bash
 sudo add-apt-repository ppa:tytel/twytch
 sudo apt-get update
