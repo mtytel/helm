@@ -10,6 +10,8 @@ build
 *.perspectivev3
 *.sdf
 *.suo
+*.psess
+*.vsp
 *.tlog
 *.user
 *.app

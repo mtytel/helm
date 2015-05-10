@@ -18,6 +18,8 @@
 
 namespace mopo {
 
+  const mopo_float FixedPointWaveLookup::SCALE = 0.1;
+
   FixedPointWaveLookup::FixedPointWaveLookup() {
     preprocessSin();
     preprocessTriangle();
