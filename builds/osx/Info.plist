@@ -10,7 +10,7 @@
     <key>CFBundleIdentifier</key>
     <string>co.littleio.twytch</string>
     <key>CFBundleName</key>
-    <string>Twytch</string>
+    <string>TwytchPlugin</string>
     <key>CFBundlePackageType</key>
     <string>TDMw</string>
     <key>CFBundleSignature</key>

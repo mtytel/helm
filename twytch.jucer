@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="C9WuMW" name="Twytch" projectType="audioplug" version="1.0.0"
+<JUCERPROJECT id="C9WuMW" name="TwytchPlugin" projectType="audioplug" version="1.0.0"
               bundleIdentifier="co.littleio.twytch" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="1"
               pluginName="Twytch" pluginDesc="" pluginManufacturer="Little O Studio"
@@ -11,7 +11,7 @@
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
               companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
               companyWebsite="littleio.co">
-  <MAINGROUP id="OwcEM5" name="Twytch">
+  <MAINGROUP id="OwcEM5" name="TwytchPlugin">
     <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
       <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
         <FILE id="TM8eSm" name="alias.cpp" compile="1" resource="0" file="mopo/src/alias.cpp"/>

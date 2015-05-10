@@ -134,18 +134,18 @@ OBJECTS := \
 .PHONY: clean
 
 $(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
-	@echo Linking Twytch
+	@echo Linking TwytchPlugin
 	-@mkdir -p $(BINDIR)
 	-@mkdir -p $(LIBDIR)
 	-@mkdir -p $(OUTDIR)
 	@$(BLDCMD)
 
 clean:
-	@echo Cleaning Twytch
+	@echo Cleaning TwytchPlugin
 	@$(CLEANCMD)
 
 strip:
-	@echo Stripping Twytch
+	@echo Stripping TwytchPlugin
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
 $(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp

@@ -2,32 +2,32 @@
 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Twytch">
-      <UniqueIdentifier>{2BDA1589-AF74-EE13-E153-0DA5697B4EC7}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin">
+      <UniqueIdentifier>{52CF11D8-C21B-B6E7-6EE4-2400EA3BA11F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\mopo">
-      <UniqueIdentifier>{4F10C5C1-4A9C-8D00-32F4-37F1CB7BF121}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\mopo">
+      <UniqueIdentifier>{EA16CF55-841F-9720-C30A-B41D9CFC1488}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\mopo\src">
-      <UniqueIdentifier>{5F7FAB43-0B04-C295-D75B-8AB915A924CE}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\mopo\src">
+      <UniqueIdentifier>{3E43DED9-64B0-692F-E324-78C67AFE834A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\src">
-      <UniqueIdentifier>{A0AE34E0-5524-40A8-66DF-7F60D772DA99}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\src">
+      <UniqueIdentifier>{FA070FB4-86EB-BD21-A00E-69118291E316}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\src\common">
-      <UniqueIdentifier>{504F816C-8EBC-BE97-2275-43781A23C5C1}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\src\common">
+      <UniqueIdentifier>{7E9618A9-DCB4-D1AC-7742-F3CBB8FCD609}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\src\editor_components">
-      <UniqueIdentifier>{1C284710-ADB5-E9A5-837B-F43264B05F57}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\src\editor_components">
+      <UniqueIdentifier>{77150EC0-C8AC-0F01-8A62-C2AFF1F7AE4D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\src\look_and_feel">
-      <UniqueIdentifier>{4B937A5C-A615-21AC-C669-DDC77779F604}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\src\look_and_feel">
+      <UniqueIdentifier>{75F57896-E90C-EBD8-FFE7-BBD1D703F73D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\src\plugin">
-      <UniqueIdentifier>{78F2E703-790B-04DC-3C31-D9625D26578D}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\src\plugin">
+      <UniqueIdentifier>{07282421-1CFC-C0F8-069E-8493C0EC3EB1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\src\synthesis">
-      <UniqueIdentifier>{21402B51-AD2C-EC30-E8FF-6E49E72660C4}</UniqueIdentifier>
+    <Filter Include="TwytchPlugin\src\synthesis">
+      <UniqueIdentifier>{2DACE142-A4FA-CAC3-0BC6-806891C4679D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
@@ -344,199 +344,199 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\mopo\src\alias.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\bypass_router.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\delay.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\distortion.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\envelope.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\feedback.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\filter.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\formant.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\formant_manager.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\linear_slope.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\magnitude_lookup.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\memory.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\midi_lookup.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\mono_panner.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\operators.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\oscillator.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\phaser.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor_router.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\resonance_lookup.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\simple_delay.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_filter.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_value.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\step_generator.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\stutter.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\trigger_operators.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\value.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\wave.cpp">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\load_save.cpp">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\midi_manager.cpp">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\synth_gui_interface.cpp">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_selector.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\full_interface.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\global_tool_tip.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\graphical_envelope.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_button.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_manager.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_meter.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\patch_browser.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\wave_viewer.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\browser_look_and_feel.cpp">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\text_look_and_feel.cpp">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\plugin\twytch_editor.cpp">
-      <Filter>Twytch\src\plugin</Filter>
+      <Filter>TwytchPlugin\src\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\plugin\twytch_plugin.cpp">
-      <Filter>Twytch\src\plugin</Filter>
+      <Filter>TwytchPlugin\src\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\fixed_point_wave.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\switch.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_engine.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_lfo.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_module.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_oscillators.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\twytch_voice_handler.cpp">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -1792,217 +1792,217 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\mopo\src\alias.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\arpeggiator.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\bit_crush.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\bypass_router.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\common.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\delay.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\distortion.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\envelope.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\feedback.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\filter.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\formant.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\formant_manager.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\linear_slope.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\magnitude_lookup.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\memory.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\midi_lookup.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\mono_panner.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\mopo.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\operators.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\oscillator.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\phaser.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor_router.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\resonance_lookup.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\simple_delay.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_filter.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_value.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\step_generator.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\stutter.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\tick_router.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\trigger_operators.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\utils.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\value.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\voice_handler.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
-      <Filter>Twytch\mopo\src</Filter>
+      <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\load_save.h">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\midi_manager.h">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\twytch_common.h">
-      <Filter>Twytch\src\common</Filter>
+      <Filter>TwytchPlugin\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_response.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_selector.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\full_interface.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\global_tool_tip.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\graphical_envelope.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_button.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_manager.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_meter.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\patch_browser.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synthesis_interface.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_viewer.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\xy_pad.h">
-      <Filter>Twytch\src\editor_components</Filter>
+      <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\browser_look_and_feel.h">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h">
-      <Filter>Twytch\src\look_and_feel</Filter>
+      <Filter>TwytchPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\twytch_editor.h">
-      <Filter>Twytch\src\plugin</Filter>
+      <Filter>TwytchPlugin\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\twytch_plugin.h">
-      <Filter>Twytch\src\plugin</Filter>
+      <Filter>TwytchPlugin\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\value_bridge.h">
-      <Filter>Twytch\src\plugin</Filter>
+      <Filter>TwytchPlugin\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\switch.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_engine.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_lfo.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_module.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_oscillators.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\twytch_voice_handler.h">
-      <Filter>Twytch\src\synthesis</Filter>
+      <Filter>TwytchPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>

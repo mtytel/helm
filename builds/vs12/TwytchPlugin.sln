@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2012
-Project("{F40E15ED-7148-EA87-BFB9-4455F1A76FF4}") = "Twytch", "Twytch.vcxproj", "{00C3A069-8037-F29E-C14A-8326BBF5BED2}"
+Project("{75810806-2BB2-271F-C8CD-93EF2F8D19BD}") = "TwytchPlugin", "TwytchPlugin.vcxproj", "{00C3A069-8037-F29E-C14A-8326BBF5BED2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
