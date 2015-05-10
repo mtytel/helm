@@ -1,17 +1,24 @@
 ## Twytch
 Twytch is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a VST/AU/AAX plugin. Release is in beta so there are outstanding bugs. Please send any bugs found to matthewtytel@gmail.com
 
+### Installing:
+Go to tytel.org/twytch for builds. If you're on Ubuntu you can download it through the command line:
+```bash
+sudo add-apt-repository ppa:tytel/twytch
+sudo apt-get update
+sudo apt-get install twytch
+```
+
 ### Building:
-You'll need a copy of JUCE in ~/srcs/JUCE found at https://github.com/julianstorer/JUCE  
-If you want to build VST/AAX plugins You'll need their SDKs in ~/srcs  
+If you want to build VST/AAX plugins You'll need their SDKs located in ~/srcs  
 For AU on the Mac you'll want to put the CoreAudio SDK in /Applications/Xcode.app/Contents/Developer/Extras/CoreAudio
 
 #### Linux
-Currently only standalone is supported. LV2 plugin coming soon
+Currently only standalone is supported. LV2 plugin coming soon. 
 ```bash
-cd standalone/builds/linux
 make
 ```
+The executable is located in standalone/builds/linux/build
 
 #### OSX
 Open /standalone/builds/osx/Twytch.xcodeproj for standalone version  
