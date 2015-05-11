@@ -29,7 +29,7 @@ TwytchPlugin::TwytchPlugin() {
     bridge_lookup_[control.first] = bridge;
     addParameter(bridge);
   }
-  
+
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
   midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
 }
