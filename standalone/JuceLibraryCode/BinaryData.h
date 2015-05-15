@@ -10,34 +10,34 @@
 namespace BinaryData
 {
     extern const char*   twytch_logo_16_1x_png;
-    const int            twytch_logo_16_1x_pngSize = 1258;
+    const int            twytch_logo_16_1x_pngSize = 1180;
 
     extern const char*   twytch_logo_16_2x_png;
-    const int            twytch_logo_16_2x_pngSize = 2512;
+    const int            twytch_logo_16_2x_pngSize = 2522;
 
     extern const char*   twytch_logo_32_1x_png;
-    const int            twytch_logo_32_1x_pngSize = 2512;
+    const int            twytch_logo_32_1x_pngSize = 2522;
 
     extern const char*   twytch_logo_32_2x_png;
-    const int            twytch_logo_32_2x_pngSize = 5595;
+    const int            twytch_logo_32_2x_pngSize = 5399;
 
     extern const char*   twytch_logo_128_1x_png;
-    const int            twytch_logo_128_1x_pngSize = 11982;
+    const int            twytch_logo_128_1x_pngSize = 11315;
 
     extern const char*   twytch_logo_128_2x_png;
-    const int            twytch_logo_128_2x_pngSize = 27160;
+    const int            twytch_logo_128_2x_pngSize = 24335;
 
     extern const char*   twytch_logo_256_1x_png;
-    const int            twytch_logo_256_1x_pngSize = 27160;
+    const int            twytch_logo_256_1x_pngSize = 24335;
 
     extern const char*   twytch_logo_256_2x_png;
-    const int            twytch_logo_256_2x_pngSize = 66399;
+    const int            twytch_logo_256_2x_pngSize = 51514;
 
     extern const char*   twytch_logo_512_1x_png;
-    const int            twytch_logo_512_1x_pngSize = 66352;
+    const int            twytch_logo_512_1x_pngSize = 51514;
 
     extern const char*   twytch_logo_512_2x_png;
-    const int            twytch_logo_512_2x_pngSize = 140557;
+    const int            twytch_logo_512_2x_pngSize = 116642;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
