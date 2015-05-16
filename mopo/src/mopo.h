@@ -28,7 +28,6 @@
 #include "envelope.h"
 #include "feedback.h"
 #include "filter.h"
-#include "formant.h"
 #include "formant_manager.h"
 #include "linear_slope.h"
 #include "magnitude_lookup.h"
