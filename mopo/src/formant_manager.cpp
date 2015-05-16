@@ -16,7 +16,7 @@
 
 #include "formant_manager.h"
 
-#include "formant.h"
+#include "filter.h"
 #include "operators.h"
 
 namespace mopo {
@@ -33,8 +33,8 @@ namespace mopo {
 
     Processor* audio_flow = audio_input;
     for (int i = 0; i < num_formants; ++i) {
-      Formant* formant = new Formant();
-      formant->plug(audio_flow, Formant::kAudio);
+      Filter* formant = new Filter();
+      formant->plug(audio_flow, Filter::kAudio);
       formants_.push_back(formant);
       addProcessor(formant);
       audio_flow = formant;
