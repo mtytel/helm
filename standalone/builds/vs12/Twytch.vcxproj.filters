@@ -361,9 +361,6 @@
     <ClCompile Include="..\..\..\mopo\src\filter.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mopo\src\formant.cpp">
-      <Filter>Twytch\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\formant_manager.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
@@ -1795,9 +1792,6 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\filter.h">
-      <Filter>Twytch\mopo\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\mopo\src\formant.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\formant_manager.h">

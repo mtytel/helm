@@ -58,7 +58,6 @@ OBJECTS := \
   $(OBJDIR)/envelope_e820148f.o \
   $(OBJDIR)/feedback_dd650dc4.o \
   $(OBJDIR)/filter_8bfdb6b7.o \
-  $(OBJDIR)/formant_7939fc8e.o \
   $(OBJDIR)/formant_manager_f436e2fc.o \
   $(OBJDIR)/linear_slope_44537f50.o \
   $(OBJDIR)/magnitude_lookup_8a3238c8.o \
@@ -191,11 +190,6 @@ $(OBJDIR)/feedback_dd650dc4.o: ../../../mopo/src/feedback.cpp
 $(OBJDIR)/filter_8bfdb6b7.o: ../../../mopo/src/filter.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/formant_7939fc8e.o: ../../../mopo/src/formant.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling formant.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/formant_manager_f436e2fc.o: ../../../mopo/src/formant_manager.cpp

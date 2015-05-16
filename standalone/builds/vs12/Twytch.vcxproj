@@ -138,7 +138,6 @@
     <ClCompile Include="..\..\..\mopo\src\envelope.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\feedback.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\filter.cpp"/>
-    <ClCompile Include="..\..\..\mopo\src\formant.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\formant_manager.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\linear_slope.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\magnitude_lookup.cpp"/>
@@ -1335,7 +1334,6 @@
     <ClInclude Include="..\..\..\mopo\src\envelope.h"/>
     <ClInclude Include="..\..\..\mopo\src\feedback.h"/>
     <ClInclude Include="..\..\..\mopo\src\filter.h"/>
-    <ClInclude Include="..\..\..\mopo\src\formant.h"/>
     <ClInclude Include="..\..\..\mopo\src\formant_manager.h"/>
     <ClInclude Include="..\..\..\mopo\src\linear_slope.h"/>
     <ClInclude Include="..\..\..\mopo\src\magnitude_lookup.h"/>

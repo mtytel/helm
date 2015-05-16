@@ -49,8 +49,6 @@
         <FILE id="PAi1Fd" name="feedback.h" compile="0" resource="0" file="../mopo/src/feedback.h"/>
         <FILE id="NkSEh2" name="filter.cpp" compile="1" resource="0" file="../mopo/src/filter.cpp"/>
         <FILE id="DEyNse" name="filter.h" compile="0" resource="0" file="../mopo/src/filter.h"/>
-        <FILE id="fpgfI2" name="formant.cpp" compile="1" resource="0" file="../mopo/src/formant.cpp"/>
-        <FILE id="mL6OKG" name="formant.h" compile="0" resource="0" file="../mopo/src/formant.h"/>
         <FILE id="azvuRt" name="formant_manager.cpp" compile="1" resource="0"
               file="../mopo/src/formant_manager.cpp"/>
         <FILE id="dSnIdf" name="formant_manager.h" compile="0" resource="0"

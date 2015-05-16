@@ -37,33 +37,41 @@ namespace mopo {
       Value* frequency;
     };
 
+    static const Value formant_filter_types[NUM_FORMANTS] = {
+      Value(Filter::kHighPass),
+      Value(Filter::kBandShelf),
+      Value(Filter::kBandShelf),
+      Value(Filter::kLowPass)
+    };
+
     static const FormantValues top_left_formants[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(6.0), new Value(270.0)},
-      {new Value(1.0), new Value(10.0), new Value(2300.0)},
-      {new Value(1.0), new Value(8.0), new Value(3000.0)},
-      {new Value(0.2), new Value(15.0), new Value(500.0)},
+      {new Value(0.0), new Value(4.75), new Value(738.0)},
+      {new Value(9.68), new Value(12.0), new Value(1100.0)},
+      {new Value(-13.1), new Value(2.04), new Value(1460.0)},
+      {new Value(0.0), new Value(4.75), new Value(2510.0)},
     };
 
     static const FormantValues top_right_formants[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(6.0), new Value(270.0)},
-      {new Value(1.0), new Value(12.0), new Value(500.0)},
-      {new Value(1.0), new Value(8.0), new Value(2000.0)},
-      {new Value(1.0), new Value(9.0), new Value(1500.0)},
+      {new Value(0.0), new Value(4.86), new Value(390.0)},
+      {new Value(15.0), new Value(12.0), new Value(1990.0)},
+      {new Value(-15.0), new Value(2.04), new Value(688.0)},
+      {new Value(0.0), new Value(5.04), new Value(2550.0)},
     };
 
     static const FormantValues bottom_left_formants[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(6.0), new Value(270.0)},
-      {new Value(1.0), new Value(4.0), new Value(2300.0)},
-      {new Value(1.0), new Value(8.0), new Value(3000.0)},
-      {new Value(0.2), new Value(0.5), new Value(500.0)},
+      {new Value(0.0), new Value(4.86), new Value(270.0)},
+      {new Value(15.0), new Value(12.0), new Value(2290.0)},
+      {new Value(-15.0), new Value(0.63), new Value(830.0)},
+      {new Value(0.0), new Value(5.04), new Value(3100.0)},
     };
 
     static const FormantValues bottom_right_formants[NUM_FORMANTS] = {
-      {new Value(0.0), new Value(6.0), new Value(270.0)},
-      {new Value(0.0), new Value(12.0), new Value(500.0)},
-      {new Value(0.0), new Value(8.0), new Value(3000.0)},
-      {new Value(0.0), new Value(9.0), new Value(3500.0)},
+      {new Value(0.0), new Value(4.86), new Value(530.0)},
+      {new Value(15.0), new Value(12.0), new Value(1840.0)},
+      {new Value(-15.0), new Value(2.04), new Value(1530.0)},
+      {new Value(0.0), new Value(5.04), new Value(2480.0)},
     };
+
   } // namespace
 
   TwytchVoiceHandler::TwytchVoiceHandler(Processor* beats_per_second) :
@@ -419,13 +427,10 @@ namespace mopo {
     formant_container_->plug(stutter_container, BypassRouter::kAudio);
 
     formant_filter_ = new FormantManager(NUM_FORMANTS);
-    Value* formant_passthrough = new Value(0.0);
     formant_filter_->plug(stutter_container, FormantManager::kAudio);
-    formant_filter_->plug(formant_passthrough, FormantManager::kPassthroughGain);
     formant_filter_->plug(reset, FormantManager::kReset);
 
     controls_["formant_on"] = formant_on;
-    controls_["formant_passthrough"] = formant_passthrough;
 
     Processor* formant_x = createPolyModControl("formant_x", 0.5, true);
     Processor* formant_y = createPolyModControl("formant_y", 0.5, true);
@@ -462,15 +467,17 @@ namespace mopo {
       formant_q->plug(formant_y, BilinearInterpolate::kYPosition);
       formant_frequency->plug(formant_y, BilinearInterpolate::kYPosition);
 
-      LinearSmoothBuffer* smooth_gain = new LinearSmoothBuffer();
-      smooth_gain->plug(formant_gain);
+      MagnitudeScale* formant_magnitude = new MagnitudeScale();
+      formant_magnitude->plug(formant_gain);
+      formant_magnitude->setControlRate();
 
-      formant_filter_->getFormant(i)->plug(smooth_gain, Formant::kGain);
-      formant_filter_->getFormant(i)->plug(formant_q, Formant::kResonance);
-      formant_filter_->getFormant(i)->plug(formant_frequency, Formant::kFrequency);
+      formant_filter_->getFormant(i)->plug(formant_magnitude, Filter::kGain);
+      formant_filter_->getFormant(i)->plug(formant_q, Filter::kResonance);
+      formant_filter_->getFormant(i)->plug(formant_frequency, Filter::kCutoff);
+      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], Filter::kType);
 
       addProcessor(formant_gain);
-      addProcessor(smooth_gain);
+      addProcessor(formant_magnitude);
       addProcessor(formant_q);
       addProcessor(formant_frequency);
     }
