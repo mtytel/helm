@@ -226,10 +226,10 @@ void FullInterface::paint (Graphics& g)
         slider.second->drawShadow(g);
 
     g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 460, 20));
-    g.setColour(Colour (0xffDDDDDD));
+    g.setColour(Colour (0xff999999));
     g.setFont(Font(Font::getDefaultSansSerifFontName(), 14.40f, Font::plain));
     g.drawText(TRANS("ARP"),
-               408, 37, 52, 12,
+               408, 35, 52, 12,
                Justification::centred, true);
 
     //[/UserPaint]

@@ -170,8 +170,12 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.fillRoundedRectangle(width * 0.17f, height * 0.43f,
                          width * 0.5f, height * 0.14f, 2.0f);
 
-  if (isMouseOverButton) {
-    g.setColour(Colour(0xff464646));
-    g.drawRect(0, 0, button.getWidth(), button.getHeight());
+  if (isButtonDown) {
+    g.setColour(Colour(0x11000000));
+    g.fillAll();
+  }
+  else if (isMouseOverButton) {
+    g.setColour(Colour(0x11ffffff));
+    g.fillAll();
   }
 }

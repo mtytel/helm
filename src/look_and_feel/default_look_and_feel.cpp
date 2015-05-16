@@ -163,6 +163,15 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
 
   g.strokePath(outer, stroke_type);
   g.fillRoundedRectangle(full_radius - 1.0f, padding, 2.0f, full_radius, 1.0f);
+
+  if (isButtonDown) {
+    g.setColour(Colour(0x11000000));
+    g.fillAll();
+  }
+  else if (isMouseOverButton) {
+    g.setColour(Colour(0x11ffffff));
+    g.fillAll();
+  }
 }
 
 void DefaultLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
