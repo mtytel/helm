@@ -16,8 +16,6 @@ libmopo_a_SOURCES = alias.cpp \
                     feedback.h \
                     filter.cpp \
                     filter.h \
-                    formant.cpp \
-                    formant.h \
                     formant_manager.cpp \
                     formant_manager.h \
                     linear_slope.cpp \

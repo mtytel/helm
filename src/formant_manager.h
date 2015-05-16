@@ -22,7 +22,7 @@
 
 namespace mopo {
 
-  class Formant;
+  class Filter;
 
   class FormantManager : public ProcessorRouter {
     public:
@@ -36,11 +36,11 @@ namespace mopo {
 
       virtual Processor* clone() const { return new FormantManager(*this); }
 
-      Formant* getFormant(int index = 0) { return formants_[index]; }
+      Filter* getFormant(int index = 0) { return formants_[index]; }
       int num_formants() { return formants_.size(); }
 
     protected:
-      std::vector<Formant*> formants_;
+      std::vector<Filter*> formants_;
   };
 } // namespace mopo
 

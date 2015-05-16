@@ -73,7 +73,6 @@ namespace mopo {
                                mopo_float cutoff,
                                mopo_float resonance,
                                mopo_float gain) {
-        static const mopo_float shelf_slope = 1.0;
         MOPO_ASSERT(resonance > 0.0);
         MOPO_ASSERT(cutoff > 0.0);
         MOPO_ASSERT(gain >= 0.0);
@@ -116,7 +115,7 @@ namespace mopo {
           case kLowShelf: {
             mopo_float alpha = (imag_delta / 2.0) *
                                std::sqrt((gain + 1.0 / gain) *
-                                         (1.0 / shelf_slope - 1) + 2.0);
+                                         (1.0 / resonance - 1) + 2.0);
             mopo_float sq = 2 * std::sqrt(gain) * alpha;
             mopo_float norm = (gain + 1) + (gain - 1) * real_delta + sq;
 
@@ -133,7 +132,7 @@ namespace mopo {
           case kHighShelf: {
             mopo_float alpha = (imag_delta / 2.0) *
                                std::sqrt((gain + 1.0 / gain) *
-                                         (1.0 / shelf_slope - 1) + 2.0);
+                                         (1.0 / resonance - 1) + 2.0);
             mopo_float sq = 2 * std::sqrt(gain) * alpha;
             mopo_float norm = (gain + 1) - (gain - 1) * real_delta + sq;
 
@@ -149,7 +148,7 @@ namespace mopo {
           }
           case kBandShelf: {
             mopo_float alpha = imag_delta *
-                               sinh(log(2.0) * shelf_slope * phase_delta /
+                               sinh(log(2.0) * resonance * phase_delta /
                                     (2.0 * imag_delta));
             mopo_float norm = 1.0 + alpha / gain;
 
