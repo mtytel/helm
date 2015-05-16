@@ -48,6 +48,7 @@ namespace mopo {
         kNotch,
         kLowShelf,
         kHighShelf,
+        kBandShelf,
         kAllPass,
         kNumTypes,
       };
@@ -154,6 +155,19 @@ namespace mopo {
                            (gain / norm);
             target_out_1_ = 2 * ((gain - 1) - (gain + 1) * real_delta) / norm;
             target_out_2_ = ((gain + 1) - (gain - 1) * real_delta - sq) / norm;
+            break;
+          }
+          case kBandShelf: {
+            mopo_float alpha = imag_delta *
+                               sinh(log(2.0) * shelf_slope * phase_delta /
+                                    (2.0 * imag_delta));
+            mopo_float norm = 1.0 + alpha / gain;
+
+            target_in_0_ = (1.0 + alpha * gain) / norm;
+            target_in_1_ = -2.0 * real_delta / norm;
+            target_in_2_ = (1.0 - alpha * gain) / norm;
+            target_out_1_ = -2.0 * real_delta / norm;
+            target_out_2_ = (1.0 - alpha / gain) / norm;
             break;
           }
           case kAllPass: {
