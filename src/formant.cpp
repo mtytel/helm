@@ -22,14 +22,12 @@
 namespace mopo {
 
   Formant::Formant() : ProcessorRouter(0, 0) {
-    static const Value filter_type(Filter::kBandPass);
-
     Filter* filter = new Filter();
     registerInput(filter->input(Filter::kAudio), kAudio);
     registerInput(filter->input(Filter::kResonance), kResonance);
     registerInput(filter->input(Filter::kCutoff), kFrequency);
     registerInput(filter->input(Filter::kReset), kReset);
-    filter->plug(&filter_type, Filter::kType);
+    registerInput(filter->input(Filter::kType), kType);
 
     Multiply* total = new Multiply();
     registerInput(total->input(0), kGain);
