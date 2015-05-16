@@ -43,13 +43,13 @@ void FilterSelector::paint(Graphics& g) {
     g.strokePath(band_pass_, stroke);
 
     g.setColour(selected == 3 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
-    g.strokePath(notch_, stroke);
-
-    g.setColour(selected == 4 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
     g.strokePath(low_shelf_, stroke);
 
-    g.setColour(selected == 5 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
+    g.setColour(selected == 4 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
     g.strokePath(high_shelf_, stroke);
+
+    g.setColour(selected == 5 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
+    g.strokePath(band_shelf_, stroke);
 
     g.setColour(selected == 6 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
     g.strokePath(all_pass_, stroke);
@@ -65,9 +65,9 @@ void FilterSelector::resized() {
     resizeLowPass(0.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
     resizeHighPass(1.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
     resizeBandPass(2.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-    resizeNotch(3.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-    resizeLowShelf(4.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-    resizeHighShelf(5.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
+    resizeLowShelf(3.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
+    resizeHighShelf(4.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
+    resizeBandShelf(5.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
     resizeAllPass(6.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
 }
 
@@ -110,15 +110,6 @@ void FilterSelector::resizeBandPass(float x, float y, float width, float height)
     band_pass_.lineTo(x + width, y + height);
 }
 
-void FilterSelector::resizeNotch(float x, float y, float width, float height) {
-    notch_.clear();
-    notch_.startNewSubPath(x, y + height / 4.0f);
-    notch_.lineTo(x + width / 4.0f, y + height / 4.0f);
-    notch_.lineTo(x + width / 2.0f, y + 3.0f * height / 4.0f);
-    notch_.lineTo(x + 3.0f * width / 4.0f, y + height / 4.0f);
-    notch_.lineTo(x + width, y + height / 4.0f);
-}
-
 void FilterSelector::resizeLowShelf(float x, float y, float width, float height) {
     low_shelf_.clear();
     low_shelf_.startNewSubPath(x, y + height / 4.0f);
@@ -133,6 +124,15 @@ void FilterSelector::resizeHighShelf(float x, float y, float width, float height
     high_shelf_.lineTo(x + width / 3.0f, y + 3.0f * height / 4.0f);
     high_shelf_.lineTo(x + 2.0f * width / 3.0f, y + height / 4.0f);
     high_shelf_.lineTo(x + width, y + height / 4.0f);
+}
+
+void FilterSelector::resizeBandShelf(float x, float y, float width, float height) {
+    band_shelf_.clear();
+    band_shelf_.startNewSubPath(x, y + 3.0f * height / 4.0f);
+    band_shelf_.lineTo(x + width / 4.0f, y + 3.0f * height / 4.0f);
+    band_shelf_.lineTo(x + width / 2.0f, y + height / 4.0f);
+    band_shelf_.lineTo(x + 3.0f * width / 4.0f, y + 3.0f * height / 4.0f);
+    band_shelf_.lineTo(x + width, y + 3.0f * height / 4.0f);
 }
 
 void FilterSelector::resizeAllPass(float x, float y, float width, float height) {

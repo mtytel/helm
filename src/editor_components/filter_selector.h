@@ -35,17 +35,17 @@ private:
     void resizeLowPass(float x, float y, float width, float height);
     void resizeHighPass(float x, float y, float width, float height);
     void resizeBandPass(float x, float y, float width, float height);
-    void resizeNotch(float x, float y, float width, float height);
     void resizeLowShelf(float x, float y, float width, float height);
     void resizeHighShelf(float x, float y, float width, float height);
+    void resizeBandShelf(float x, float y, float width, float height);
     void resizeAllPass(float x, float y, float width, float height);
 
     Path low_pass_;
     Path high_pass_;
     Path band_pass_;
-    Path notch_;
     Path low_shelf_;
     Path high_shelf_;
+    Path band_shelf_;
     Path all_pass_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterSelector)
