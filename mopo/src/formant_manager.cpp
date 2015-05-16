@@ -25,28 +25,21 @@ namespace mopo {
     Bypass* audio_input = new Bypass();
     Bypass* reset_input = new Bypass();
 
-    Multiply* passthrough = new Multiply();
-    passthrough->plug(audio_input, 0);
     registerInput(audio_input->input(), kAudio);
     registerInput(reset_input->input(), kReset);
-    registerInput(passthrough->input(1), kPassthroughGain);
-
-    VariableAdd* total = new VariableAdd();
-    total->plugNext(passthrough);
 
     addProcessor(audio_input);
     addProcessor(reset_input);
-    addProcessor(passthrough);
 
+    Processor* audio_flow = audio_input;
     for (int i = 0; i < num_formants; ++i) {
       Formant* formant = new Formant();
-      formant->plug(audio_input, Formant::kAudio);
+      formant->plug(audio_flow, Formant::kAudio);
       formants_.push_back(formant);
       addProcessor(formant);
-      total->plugNext(formant);
+      audio_flow = formant;
     }
 
-    addProcessor(total);
-    registerOutput(total->output());
+    registerOutput(audio_flow->output());
   }
 } // namespace mopo

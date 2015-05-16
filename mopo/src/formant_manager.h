@@ -23,13 +23,11 @@
 namespace mopo {
 
   class Formant;
-  class SmoothValue;
 
   class FormantManager : public ProcessorRouter {
     public:
       enum Inputs {
         kAudio,
-        kPassthroughGain,
         kReset,
         kNumInputs
       };
