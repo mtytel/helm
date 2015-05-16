@@ -45,11 +45,11 @@ namespace mopo {
         kLowPass,
         kHighPass,
         kBandPass,
-        kNotch,
         kLowShelf,
         kHighShelf,
         kBandShelf,
         kAllPass,
+        kNotch,
         kNumTypes,
       };
 
@@ -113,16 +113,6 @@ namespace mopo {
             target_out_2_ = (1.0 - alpha) / norm;
             break;
           }
-          case kNotch: {
-            mopo_float alpha = imag_delta / (2.0 * resonance);
-            mopo_float norm = 1.0 + alpha;
-            target_in_0_ = 1.0 / norm;
-            target_in_1_ = -2.0 * real_delta / norm;
-            target_in_2_ = target_in_0_;
-            target_out_1_ = target_in_1_;
-            target_out_2_ = (1.0 - alpha) / norm;
-            break;
-          }
           case kLowShelf: {
             mopo_float alpha = (imag_delta / 2.0) *
                                std::sqrt((gain + 1.0 / gain) *
@@ -177,6 +167,16 @@ namespace mopo {
             target_in_1_ = -2.0 * real_delta / norm;
             target_in_2_ = 1.0;
             target_out_1_ = -2.0 * real_delta / norm;
+            target_out_2_ = (1.0 - alpha) / norm;
+            break;
+          }
+          case kNotch: {
+            mopo_float alpha = imag_delta / (2.0 * resonance);
+            mopo_float norm = 1.0 + alpha;
+            target_in_0_ = 1.0 / norm;
+            target_in_1_ = -2.0 * real_delta / norm;
+            target_in_2_ = target_in_0_;
+            target_out_1_ = target_in_1_;
             target_out_2_ = (1.0 - alpha) / norm;
             break;
           }
