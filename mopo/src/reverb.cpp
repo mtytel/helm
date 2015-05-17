@@ -25,17 +25,21 @@ namespace mopo {
 
   Reverb::Reverb() : ProcessorRouter(kNumInputs, 0) {
     static const Value* gain = new Value(FIXED_GAIN);
-    Multiply* gained_input = new Multiply();
+    Bypass* audio_input = new Bypass();
     Bypass* feedback_input = new Bypass();
     Bypass* damping_input = new Bypass();
+    Bypass* wet_input = new Bypass();
 
-    registerInput(gained_input->input(0), kAudio);
+    registerInput(audio_input->input(), kAudio);
     registerInput(feedback_input->input(), kFeedback);
     registerInput(damping_input->input(), kDamping);
+    registerInput(wet_input->input(), kWet);
 
+    Multiply* gained_input = new Multiply();
+    gained_input->plug(audio_input, 0);
     gained_input->plug(gain, 1);
-    VariableAdd* comb_total = new VariableAdd();
 
+    VariableAdd* left_comb_total = new VariableAdd();
     for (int i = 0; i < NUM_COMB; ++i) {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
       Value* time = new Value(COMB_TUNINGS[i]);
@@ -48,30 +52,79 @@ namespace mopo {
       comb->plug(samples, ReverbComb::kSampleDelay);
       addProcessor(samples);
       addProcessor(comb);
-      comb_total->plugNext(comb);
+      left_comb_total->plugNext(comb);
     }
 
+    VariableAdd* right_comb_total = new VariableAdd();
+    for (int i = 0; i < NUM_COMB; ++i) {
+      ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
+      Value* time = new Value(COMB_TUNINGS[i] + STEREO_SPREAD);
+      TimeToSamples* samples = new TimeToSamples();
+      samples->plug(time);
+
+      comb->plug(damping_input, ReverbComb::kDamping);
+      comb->plug(feedback_input, ReverbComb::kFeedback);
+      comb->plug(gained_input, ReverbComb::kAudio);
+      comb->plug(samples, ReverbComb::kSampleDelay);
+      addProcessor(samples);
+      addProcessor(comb);
+      right_comb_total->plugNext(comb);
+    }
+
+    addProcessor(audio_input);
     addProcessor(gained_input);
     addProcessor(feedback_input);
+    addProcessor(wet_input);
     addProcessor(damping_input);
-    addProcessor(comb_total);
+    addProcessor(left_comb_total);
+    addProcessor(right_comb_total);
 
-    Processor* audio = comb_total;
+    Processor* left_audio = left_comb_total;
     for (int i = 0; i < NUM_ALL_PASS; ++i) {
       ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
       Value* time = new Value(ALL_PASS_TUNINGS[i]);
       TimeToSamples* samples = new TimeToSamples();
       samples->plug(time);
 
-      all_pass->plug(audio, ReverbAllPass::kAudio);
+      all_pass->plug(left_audio, ReverbAllPass::kAudio);
       all_pass->plug(samples, ReverbAllPass::kSampleDelay);
       all_pass->plug(&utils::value_half, ReverbAllPass::kFeedback);
 
       addProcessor(all_pass);
       addProcessor(samples);
-      audio = all_pass;
+      left_audio = all_pass;
     }
 
-    registerOutput(audio->output());
+    Processor* right_audio = right_comb_total;
+    for (int i = 0; i < NUM_ALL_PASS; ++i) {
+      ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
+      Value* time = new Value(ALL_PASS_TUNINGS[i] + STEREO_SPREAD);
+      TimeToSamples* samples = new TimeToSamples();
+      samples->plug(time);
+
+      all_pass->plug(right_audio, ReverbAllPass::kAudio);
+      all_pass->plug(samples, ReverbAllPass::kSampleDelay);
+      all_pass->plug(&utils::value_half, ReverbAllPass::kFeedback);
+
+      addProcessor(all_pass);
+      addProcessor(samples);
+      right_audio = all_pass;
+    }
+
+    Interpolate* left_output = new Interpolate();
+    left_output->plug(audio_input, Interpolate::kFrom);
+    left_output->plug(left_audio, Interpolate::kTo);
+    left_output->plug(wet_input, Interpolate::kFractional);
+
+    Interpolate* right_output = new Interpolate();
+    right_output->plug(audio_input, Interpolate::kFrom);
+    right_output->plug(right_audio, Interpolate::kTo);
+    right_output->plug(wet_input, Interpolate::kFractional);
+
+    addProcessor(left_output);
+    addProcessor(right_output);
+
+    registerOutput(left_output->output());
+    registerOutput(right_output->output());
   }
 } // namespace mopo
