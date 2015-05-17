@@ -370,9 +370,6 @@
     <ClCompile Include="..\..\mopo\src\filter.cpp">
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mopo\src\formant.cpp">
-      <Filter>TwytchPlugin\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mopo\src\formant_manager.cpp">
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
@@ -407,6 +404,15 @@
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\resonance_lookup.cpp">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\reverb.cpp">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\reverb_all_pass.cpp">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\reverb_comb.cpp">
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\simple_delay.cpp">
@@ -1821,9 +1827,6 @@
     <ClInclude Include="..\..\mopo\src\filter.h">
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\mopo\src\formant.h">
-      <Filter>TwytchPlugin\mopo\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\mopo\src\formant_manager.h">
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
@@ -1861,6 +1864,18 @@
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\resonance_lookup.h">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\reverb.h">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\reverb_all_pass.h">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\reverb_comb.h">
+      <Filter>TwytchPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\reverb_tuning.h">
       <Filter>TwytchPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\simple_delay.h">

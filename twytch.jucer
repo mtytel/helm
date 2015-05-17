@@ -34,8 +34,6 @@
         <FILE id="ZAlv8o" name="feedback.h" compile="0" resource="0" file="mopo/src/feedback.h"/>
         <FILE id="nLnW5X" name="filter.cpp" compile="1" resource="0" file="mopo/src/filter.cpp"/>
         <FILE id="dO8njp" name="filter.h" compile="0" resource="0" file="mopo/src/filter.h"/>
-        <FILE id="EgGctJ" name="formant.cpp" compile="1" resource="0" file="mopo/src/formant.cpp"/>
-        <FILE id="E0MyM6" name="formant.h" compile="0" resource="0" file="mopo/src/formant.h"/>
         <FILE id="viIvnV" name="formant_manager.cpp" compile="1" resource="0"
               file="mopo/src/formant_manager.cpp"/>
         <FILE id="ctYFj3" name="formant_manager.h" compile="0" resource="0"
@@ -70,6 +68,15 @@
               file="mopo/src/resonance_lookup.cpp"/>
         <FILE id="pTH1Hf" name="resonance_lookup.h" compile="0" resource="0"
               file="mopo/src/resonance_lookup.h"/>
+        <FILE id="fxA9dX" name="reverb.cpp" compile="1" resource="0" file="mopo/src/reverb.cpp"/>
+        <FILE id="EBv6kt" name="reverb.h" compile="0" resource="0" file="mopo/src/reverb.h"/>
+        <FILE id="JdpACS" name="reverb_all_pass.cpp" compile="1" resource="0"
+              file="mopo/src/reverb_all_pass.cpp"/>
+        <FILE id="WkPwK2" name="reverb_all_pass.h" compile="0" resource="0"
+              file="mopo/src/reverb_all_pass.h"/>
+        <FILE id="V7wp7b" name="reverb_comb.cpp" compile="1" resource="0" file="mopo/src/reverb_comb.cpp"/>
+        <FILE id="Y3bw4x" name="reverb_comb.h" compile="0" resource="0" file="mopo/src/reverb_comb.h"/>
+        <FILE id="hDwnKu" name="reverb_tuning.h" compile="0" resource="0" file="mopo/src/reverb_tuning.h"/>
         <FILE id="cgKBjF" name="simple_delay.cpp" compile="1" resource="0"
               file="mopo/src/simple_delay.cpp"/>
         <FILE id="lyFG3w" name="simple_delay.h" compile="0" resource="0" file="mopo/src/simple_delay.h"/>

@@ -58,7 +58,6 @@ OBJECTS := \
   $(OBJDIR)/envelope_265dd45e.o \
   $(OBJDIR)/feedback_1ba2cd93.o \
   $(OBJDIR)/filter_a2f71e46.o \
-  $(OBJDIR)/formant_416d86df.o \
   $(OBJDIR)/formant_manager_a6e78c4d.o \
   $(OBJDIR)/linear_slope_aafebf9f.o \
   $(OBJDIR)/magnitude_lookup_2d96b997.o \
@@ -71,6 +70,9 @@ OBJECTS := \
   $(OBJDIR)/processor_4dff978e.o \
   $(OBJDIR)/processor_router_23bde824.o \
   $(OBJDIR)/resonance_lookup_12e6d099.o \
+  $(OBJDIR)/reverb_cff27fa0.o \
+  $(OBJDIR)/reverb_all_pass_de190878.o \
+  $(OBJDIR)/reverb_comb_4c5c288a.o \
   $(OBJDIR)/simple_delay_ba680dc4.o \
   $(OBJDIR)/smooth_filter_7e275f25.o \
   $(OBJDIR)/smooth_value_e19bb7ae.o \
@@ -193,11 +195,6 @@ $(OBJDIR)/filter_a2f71e46.o: ../../mopo/src/filter.cpp
 	@echo "Compiling filter.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/formant_416d86df.o: ../../mopo/src/formant.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling formant.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/formant_manager_a6e78c4d.o: ../../mopo/src/formant_manager.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling formant_manager.cpp"
@@ -256,6 +253,21 @@ $(OBJDIR)/processor_router_23bde824.o: ../../mopo/src/processor_router.cpp
 $(OBJDIR)/resonance_lookup_12e6d099.o: ../../mopo/src/resonance_lookup.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling resonance_lookup.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/reverb_cff27fa0.o: ../../mopo/src/reverb.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling reverb.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/reverb_all_pass_de190878.o: ../../mopo/src/reverb_all_pass.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling reverb_all_pass.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/reverb_comb_4c5c288a.o: ../../mopo/src/reverb_comb.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling reverb_comb.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/simple_delay_ba680dc4.o: ../../mopo/src/simple_delay.cpp

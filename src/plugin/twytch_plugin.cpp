@@ -131,16 +131,18 @@ void TwytchPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_mess
     synth_.setBufferSize(num_samples);
   synth_.process();
 
-  const mopo::mopo_float* synth_output = synth_.output()->buffer;
+  const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
+  const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
   for (int channel = 0; channel < num_channels; ++channel) {
     float* channelData = buffer.getWritePointer(channel);
+    const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
 
     for (int i = 0; i < num_samples; ++i)
       channelData[i] = synth_output[i];
   }
 
   for (int i = 0; i < num_samples; ++i)
-    output_memory_->push(synth_output[i]);
+    output_memory_->push(synth_output_left[i] + synth_output_right[i]);
 }
 
 bool TwytchPlugin::hasEditor() const {
