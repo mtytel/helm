@@ -153,6 +153,17 @@ namespace mopo {
 #endif
   }
 
+  void TimeToSamples::process() {
+#ifdef USE_APPLE_ACCELERATE
+    mopo_float sample_rate = sample_rate_;
+    vDSP_vsmulD(input()->source->buffer, 1, &sample_rate,
+                output()->buffer, 1, buffer_size_);
+#else
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
+#endif
+  }
+
   void SampleAndHoldBuffer::process() {
     if (input()->source->buffer[0] == output()->buffer[0])
       return;
