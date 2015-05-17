@@ -3365,34 +3365,34 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\images\twytch_logo_16_1x.png">
+    <None Include="..\..\..\images\helm_icon_16_1x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_16_2x.png">
+    <None Include="..\..\..\images\helm_icon_16_2x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_32_1x.png">
+    <None Include="..\..\..\images\helm_icon_32_1x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_32_2x.png">
+    <None Include="..\..\..\images\helm_icon_32_2x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_128_1x.png">
+    <None Include="..\..\..\images\helm_icon_128_1x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_128_2x.png">
+    <None Include="..\..\..\images\helm_icon_128_2x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_256_1x.png">
+    <None Include="..\..\..\images\helm_icon_256_1x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_256_2x.png">
+    <None Include="..\..\..\images\helm_icon_256_2x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_512_1x.png">
+    <None Include="..\..\..\images\helm_icon_512_1x.png">
       <Filter>Twytch\images</Filter>
     </None>
-    <None Include="..\..\..\images\twytch_logo_512_2x.png">
+    <None Include="..\..\..\images\helm_icon_512_2x.png">
       <Filter>Twytch\images</Filter>
     </None>
     <None Include="..\..\..\JUCE\modules\juce_audio_basics\juce_module_info">

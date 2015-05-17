@@ -9,35 +9,35 @@
 
 namespace BinaryData
 {
-    extern const char*   twytch_logo_16_1x_png;
-    const int            twytch_logo_16_1x_pngSize = 1180;
+    extern const char*   helm_icon_16_1x_png;
+    const int            helm_icon_16_1x_pngSize = 1230;
 
-    extern const char*   twytch_logo_16_2x_png;
-    const int            twytch_logo_16_2x_pngSize = 2522;
+    extern const char*   helm_icon_16_2x_png;
+    const int            helm_icon_16_2x_pngSize = 2718;
 
-    extern const char*   twytch_logo_32_1x_png;
-    const int            twytch_logo_32_1x_pngSize = 2522;
+    extern const char*   helm_icon_32_1x_png;
+    const int            helm_icon_32_1x_pngSize = 2718;
 
-    extern const char*   twytch_logo_32_2x_png;
-    const int            twytch_logo_32_2x_pngSize = 5399;
+    extern const char*   helm_icon_32_2x_png;
+    const int            helm_icon_32_2x_pngSize = 6352;
 
-    extern const char*   twytch_logo_128_1x_png;
-    const int            twytch_logo_128_1x_pngSize = 11315;
+    extern const char*   helm_icon_128_1x_png;
+    const int            helm_icon_128_1x_pngSize = 15174;
 
-    extern const char*   twytch_logo_128_2x_png;
-    const int            twytch_logo_128_2x_pngSize = 24335;
+    extern const char*   helm_icon_128_2x_png;
+    const int            helm_icon_128_2x_pngSize = 39046;
 
-    extern const char*   twytch_logo_256_1x_png;
-    const int            twytch_logo_256_1x_pngSize = 24335;
+    extern const char*   helm_icon_256_1x_png;
+    const int            helm_icon_256_1x_pngSize = 39046;
 
-    extern const char*   twytch_logo_256_2x_png;
-    const int            twytch_logo_256_2x_pngSize = 51514;
+    extern const char*   helm_icon_256_2x_png;
+    const int            helm_icon_256_2x_pngSize = 70722;
 
-    extern const char*   twytch_logo_512_1x_png;
-    const int            twytch_logo_512_1x_pngSize = 51514;
+    extern const char*   helm_icon_512_1x_png;
+    const int            helm_icon_512_1x_pngSize = 70722;
 
-    extern const char*   twytch_logo_512_2x_png;
-    const int            twytch_logo_512_2x_pngSize = 116642;
+    extern const char*   helm_icon_512_2x_png;
+    const int            helm_icon_512_2x_pngSize = 137623;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
