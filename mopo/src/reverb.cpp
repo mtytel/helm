@@ -65,12 +65,13 @@ namespace mopo {
 
       all_pass->plug(audio, ReverbAllPass::kAudio);
       all_pass->plug(samples, ReverbAllPass::kSampleDelay);
+      all_pass->plug(&utils::value_half, ReverbAllPass::kFeedback);
 
       addProcessor(all_pass);
       addProcessor(samples);
       audio = all_pass;
     }
 
-    registerOutput(comb_total->output());
+    registerOutput(audio->output());
   }
 } // namespace mopo
