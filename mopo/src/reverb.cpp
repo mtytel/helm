@@ -46,11 +46,14 @@ namespace mopo {
       comb->plug(feedback_input, ReverbComb::kFeedback);
       comb->plug(gained_input, ReverbComb::kAudio);
       comb->plug(samples, ReverbComb::kSampleDelay);
-      addProcessor(comb);
       addProcessor(samples);
+      addProcessor(comb);
       comb_total->plugNext(comb);
     }
 
+    addProcessor(gained_input);
+    addProcessor(feedback_input);
+    addProcessor(damping_input);
     addProcessor(comb_total);
 
     Processor* audio = comb_total;

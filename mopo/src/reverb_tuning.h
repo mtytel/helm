@@ -23,7 +23,7 @@ namespace mopo {
   const int REVERB_MAX_MEMORY = 7192;
   const int NUM_COMB = 8;
   const int NUM_ALL_PASS = 4;
-  const float FIXED_GAIN = 0.015f;
+  const float FIXED_GAIN = 0.125f;
   const float scalewet = 3;
   const float scaledry    = 2;
   const float scaledamp    = 0.4f;
