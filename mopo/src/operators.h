@@ -327,7 +327,7 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = input()->at(0) / sample_rate_;
+        output()->buffer[i] = input()->at(i) / sample_rate_;
       }
   };
 
@@ -340,7 +340,20 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = sample_rate_ / input()->at(0);
+        output()->buffer[i] = sample_rate_ / input()->at(i);
+      }
+  };
+
+  class TimeToSamples : public Operator {
+    public:
+      TimeToSamples() : Operator(1, 1) { }
+
+      virtual Processor* clone() const { return new TimeToSamples(*this); }
+
+      void process();
+
+      inline void tick(int i) {
+        output()->buffer[i] = sample_rate_ * input()->at(i);
       }
   };
 

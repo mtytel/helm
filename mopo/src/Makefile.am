@@ -41,6 +41,12 @@ libmopo_a_SOURCES = alias.cpp \
                     processor_router.h \
                     resonance_lookup.cpp \
                     resonance_lookup.h \
+										reverb.cpp \
+										reverb.h \
+										reverb_all_pass.cpp \
+										reverb_all_pass.h \
+										reverb_comb.cpp \
+										reverb_comb.h \
                     simple_delay.cpp \
                     simple_delay.h \
                     smooth_filter.cpp \
