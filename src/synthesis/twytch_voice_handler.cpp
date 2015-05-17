@@ -45,31 +45,31 @@ namespace mopo {
     };
 
     static const FormantValues top_left_formants[NUM_FORMANTS] = {
-      {new Value(0.0), new Value(4.75), new Value(738.0)},
-      {new Value(9.68), new Value(12.0), new Value(1100.0)},
-      {new Value(-13.1), new Value(2.04), new Value(1460.0)},
-      {new Value(0.0), new Value(4.75), new Value(2510.0)},
+      {new Value(0.0), new Value(4.75), new Value(77.9534075105)},
+      {new Value(9.68), new Value(12.0), new Value(84.8631371387)},
+      {new Value(-13.1), new Value(2.04), new Value(89.764715283)},
+      {new Value(0.0), new Value(4.75), new Value(99.1453432239)},
     };
 
     static const FormantValues top_right_formants[NUM_FORMANTS] = {
-      {new Value(0.0), new Value(4.86), new Value(390.0)},
-      {new Value(15.0), new Value(12.0), new Value(1990.0)},
-      {new Value(-15.0), new Value(2.04), new Value(688.0)},
-      {new Value(0.0), new Value(5.04), new Value(2550.0)},
+      {new Value(0.0), new Value(4.86), new Value(66.9116472028)},
+      {new Value(15.0), new Value(12.0), new Value(95.126316023)},
+      {new Value(-15.0), new Value(2.04), new Value(76.7388604942)},
+      {new Value(0.0), new Value(5.04), new Value(99.4190618188)},
     };
 
     static const FormantValues bottom_left_formants[NUM_FORMANTS] = {
-      {new Value(0.0), new Value(4.86), new Value(270.0)},
-      {new Value(15.0), new Value(12.0), new Value(2290.0)},
-      {new Value(-15.0), new Value(0.63), new Value(830.0)},
-      {new Value(0.0), new Value(5.04), new Value(3100.0)},
+      {new Value(0.0), new Value(4.86), new Value(60.5454706024)},
+      {new Value(15.0), new Value(12.0), new Value(97.5572660336)},
+      {new Value(-15.0), new Value(0.63), new Value(79.9872937526)},
+      {new Value(0.0), new Value(5.04), new Value(102.80031344)},
     };
 
     static const FormantValues bottom_right_formants[NUM_FORMANTS] = {
-      {new Value(0.0), new Value(4.86), new Value(530.0)},
-      {new Value(15.0), new Value(12.0), new Value(1840.0)},
-      {new Value(-15.0), new Value(2.04), new Value(1530.0)},
-      {new Value(0.0), new Value(5.04), new Value(2480.0)},
+      {new Value(0.0), new Value(4.86), new Value(72.2218660312)},
+      {new Value(15.0), new Value(12.0), new Value(93.7695640491)},
+      {new Value(-15.0), new Value(2.04), new Value(90.5754746888)},
+      {new Value(0.0), new Value(5.04), new Value(98.9371763011)},
     };
 
   } // namespace
@@ -440,8 +440,8 @@ namespace mopo {
       formant_gain->setControlRate();
       BilinearInterpolate* formant_q = new BilinearInterpolate();
       formant_q->setControlRate();
-      BilinearInterpolate* formant_frequency = new BilinearInterpolate();
-      formant_frequency->setControlRate();
+      BilinearInterpolate* formant_midi = new BilinearInterpolate();
+      formant_midi->setControlRate();
 
       formant_gain->plug(top_left_formants[i].gain, BilinearInterpolate::kTopLeft);
       formant_gain->plug(top_right_formants[i].gain, BilinearInterpolate::kTopRight);
@@ -453,23 +453,27 @@ namespace mopo {
       formant_q->plug(bottom_left_formants[i].resonance, BilinearInterpolate::kBottomLeft);
       formant_q->plug(bottom_right_formants[i].resonance, BilinearInterpolate::kBottomRight);
 
-      formant_frequency->plug(top_left_formants[i].frequency, BilinearInterpolate::kTopLeft);
-      formant_frequency->plug(top_right_formants[i].frequency, BilinearInterpolate::kTopRight);
-      formant_frequency->plug(bottom_left_formants[i].frequency, BilinearInterpolate::kBottomLeft);
-      formant_frequency->plug(bottom_right_formants[i].frequency,
+      formant_midi->plug(top_left_formants[i].frequency, BilinearInterpolate::kTopLeft);
+      formant_midi->plug(top_right_formants[i].frequency, BilinearInterpolate::kTopRight);
+      formant_midi->plug(bottom_left_formants[i].frequency, BilinearInterpolate::kBottomLeft);
+      formant_midi->plug(bottom_right_formants[i].frequency,
                               BilinearInterpolate::kBottomRight);
 
       formant_gain->plug(formant_x, BilinearInterpolate::kXPosition);
       formant_q->plug(formant_x, BilinearInterpolate::kXPosition);
-      formant_frequency->plug(formant_x, BilinearInterpolate::kXPosition);
+      formant_midi->plug(formant_x, BilinearInterpolate::kXPosition);
 
       formant_gain->plug(formant_y, BilinearInterpolate::kYPosition);
       formant_q->plug(formant_y, BilinearInterpolate::kYPosition);
-      formant_frequency->plug(formant_y, BilinearInterpolate::kYPosition);
+      formant_midi->plug(formant_y, BilinearInterpolate::kYPosition);
 
       MagnitudeScale* formant_magnitude = new MagnitudeScale();
       formant_magnitude->plug(formant_gain);
       formant_magnitude->setControlRate();
+
+      MidiScale* formant_frequency = new MidiScale();
+      formant_frequency->plug(formant_midi);
+      formant_frequency->setControlRate();
 
       formant_filter_->getFormant(i)->plug(formant_magnitude, Filter::kGain);
       formant_filter_->getFormant(i)->plug(formant_q, Filter::kResonance);
@@ -479,6 +483,7 @@ namespace mopo {
       addProcessor(formant_gain);
       addProcessor(formant_magnitude);
       addProcessor(formant_q);
+      addProcessor(formant_midi);
       addProcessor(formant_frequency);
     }
 
