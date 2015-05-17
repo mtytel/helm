@@ -814,8 +814,8 @@ public:
         tree.removeListener (this);
     }
 
-    var getValue() const                 { return tree [property]; }
-    void setValue (const var& newValue)  { tree.setProperty (property, newValue, undoManager); }
+    var getValue() const override                 { return tree [property]; }
+    void setValue (const var& newValue) override  { tree.setProperty (property, newValue, undoManager); }
 
 private:
     ValueTree tree;
@@ -1021,6 +1021,9 @@ ValueTree ValueTree::readFromStream (InputStream& input)
     for (int i = 0; i < numChildren; ++i)
     {
         ValueTree child (readFromStream (input));
+
+        if (! child.isValid())
+            return v;
 
         v.object->children.add (child.object);
         child.object->parent = v.object;
