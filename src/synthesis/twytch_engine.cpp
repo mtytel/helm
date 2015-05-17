@@ -182,10 +182,21 @@ namespace mopo {
     distorted_clamp->plug(distortion_type, Distortion::kType);
     distorted_clamp->plug(distortion_threshold, Distortion::kThreshold);
 
+    // Reverb Effect.
+    Processor* reverb_feedback = createMonoModControl("reverb_feedback", 0.8, false, true);
+    Processor* reverb_damping = createMonoModControl("reverb_damping", 0.5, false, true);
+
+    Reverb* reverb = new Reverb();
+    reverb->plug(distorted_clamp, Reverb::kAudio);
+    reverb->plug(reverb_feedback, Reverb::kFeedback);
+    reverb->plug(reverb_damping, Reverb::kDamping);
+
+    addProcessor(reverb);
+
     // Volume.
     Processor* volume = createMonoModControl("volume", 0.6, false, true, kQuadratic);
     Multiply* scaled_audio = new Multiply();
-    scaled_audio->plug(distorted_clamp, 0);
+    scaled_audio->plug(reverb, 0);
     scaled_audio->plug(volume, 1);
 
     addProcessor(distorted_clamp);

@@ -397,6 +397,15 @@
     <ClCompile Include="..\..\..\mopo\src\resonance_lookup.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mopo\src\reverb.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mopo\src\reverb_all_pass.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mopo\src\reverb_comb.cpp">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\simple_delay.cpp">
       <Filter>Twytch\mopo\src</Filter>
     </ClCompile>
@@ -1831,6 +1840,18 @@
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\resonance_lookup.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\reverb.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\reverb_all_pass.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\reverb_comb.h">
+      <Filter>Twytch\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\reverb_tuning.h">
       <Filter>Twytch\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\simple_delay.h">

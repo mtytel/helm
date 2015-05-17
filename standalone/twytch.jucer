@@ -83,6 +83,15 @@
               file="../mopo/src/resonance_lookup.cpp"/>
         <FILE id="TCFC0r" name="resonance_lookup.h" compile="0" resource="0"
               file="../mopo/src/resonance_lookup.h"/>
+        <FILE id="Mp8akC" name="reverb.cpp" compile="1" resource="0" file="../mopo/src/reverb.cpp"/>
+        <FILE id="ILrLU4" name="reverb.h" compile="0" resource="0" file="../mopo/src/reverb.h"/>
+        <FILE id="CG9eWV" name="reverb_all_pass.cpp" compile="1" resource="0"
+              file="../mopo/src/reverb_all_pass.cpp"/>
+        <FILE id="Rbpxd7" name="reverb_all_pass.h" compile="0" resource="0"
+              file="../mopo/src/reverb_all_pass.h"/>
+        <FILE id="U25tYo" name="reverb_comb.cpp" compile="1" resource="0" file="../mopo/src/reverb_comb.cpp"/>
+        <FILE id="vPrx5B" name="reverb_comb.h" compile="0" resource="0" file="../mopo/src/reverb_comb.h"/>
+        <FILE id="sUivj6" name="reverb_tuning.h" compile="0" resource="0" file="../mopo/src/reverb_tuning.h"/>
         <FILE id="eiHFd4" name="simple_delay.cpp" compile="1" resource="0"
               file="../mopo/src/simple_delay.cpp"/>
         <FILE id="jpI1KG" name="simple_delay.h" compile="0" resource="0" file="../mopo/src/simple_delay.h"/>

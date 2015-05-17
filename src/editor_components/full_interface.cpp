@@ -361,7 +361,8 @@ void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
 
     for (auto destination : mono_modulations) {
         SynthSlider* slider = getSlider(destination.first);
-        modulatable_sliders[destination.first] = slider;
+        if (slider)
+            modulatable_sliders[destination.first] = slider;
     }
     modulation_manager_ = new ModulationManager(modulation_sources,
                                                 modulatable_sliders,
