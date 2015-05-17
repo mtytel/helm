@@ -176,6 +176,9 @@ private:
     ScopedPointer<ToggleButton> legato_;
     ScopedPointer<ToggleButton> unison_1_harmonize_;
     ScopedPointer<ToggleButton> unison_2_harmonize_;
+    ScopedPointer<SynthSlider> reverb_feedback_;
+    ScopedPointer<SynthSlider> reverb_dry_wet_;
+    ScopedPointer<SynthSlider> reverb_damping_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

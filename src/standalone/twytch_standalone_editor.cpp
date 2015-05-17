@@ -74,16 +74,18 @@ void TwytchStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buf
   for (int b = 0; b < num_samples; b += synth_samples) {
     synth_.process();
 
-    const mopo::mopo_float* synth_output = synth_.output()->buffer;
+    const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
+    const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
     for (int channel = 0; channel < NUM_CHANNELS; ++channel) {
       float* channelData = buffer.buffer->getWritePointer(channel);
+      const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
 
       for (int i = 0; i < synth_samples; ++i)
         channelData[b + i] = synth_output[i];
     }
 
     for (int i = 0; i < synth_samples; ++i)
-      output_memory_->push(synth_output[i]);
+      output_memory_->push(synth_output_left[i] + synth_output_right[i]);
   }
 }
 

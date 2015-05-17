@@ -175,33 +175,48 @@ namespace mopo {
     addProcessor(delay_samples);
     addProcessor(delay);
 
-    Distortion* distorted_clamp = new Distortion();
-    Value* distortion_type = new Value(Distortion::kTanh);
-    Value* distortion_threshold = new Value(0.7);
-    distorted_clamp->plug(delay, Distortion::kAudio);
-    distorted_clamp->plug(distortion_type, Distortion::kType);
-    distorted_clamp->plug(distortion_threshold, Distortion::kThreshold);
-
     // Reverb Effect.
-    Processor* reverb_feedback = createMonoModControl("reverb_feedback", 0.8, false, true);
+    Processor* reverb_feedback = createMonoModControl("reverb_feedback", 0.9, false, true);
     Processor* reverb_damping = createMonoModControl("reverb_damping", 0.5, false, true);
+    Processor* reverb_wet = createMonoModControl("reverb_dry_wet", 0.5, false, true);
 
     Reverb* reverb = new Reverb();
-    reverb->plug(distorted_clamp, Reverb::kAudio);
+    reverb->plug(delay, Reverb::kAudio);
     reverb->plug(reverb_feedback, Reverb::kFeedback);
     reverb->plug(reverb_damping, Reverb::kDamping);
+    reverb->plug(reverb_wet, Reverb::kWet);
 
     addProcessor(reverb);
 
+    // Soft Clipping.
+    Distortion* distorted_clamp_left = new Distortion();
+    Value* distortion_type = new Value(Distortion::kTanh);
+    Value* distortion_threshold = new Value(0.7);
+    distorted_clamp_left->plug(reverb->output(0), Distortion::kAudio);
+    distorted_clamp_left->plug(distortion_type, Distortion::kType);
+    distorted_clamp_left->plug(distortion_threshold, Distortion::kThreshold);
+
+    Distortion* distorted_clamp_right = new Distortion();
+    distorted_clamp_right->plug(reverb->output(1), Distortion::kAudio);
+    distorted_clamp_right->plug(distortion_type, Distortion::kType);
+    distorted_clamp_right->plug(distortion_threshold, Distortion::kThreshold);
+
     // Volume.
     Processor* volume = createMonoModControl("volume", 0.6, false, true, kQuadratic);
-    Multiply* scaled_audio = new Multiply();
-    scaled_audio->plug(reverb, 0);
-    scaled_audio->plug(volume, 1);
+    Multiply* scaled_audio_left = new Multiply();
+    scaled_audio_left->plug(distorted_clamp_left, 0);
+    scaled_audio_left->plug(volume, 1);
 
-    addProcessor(distorted_clamp);
-    addProcessor(scaled_audio);
-    registerOutput(scaled_audio->output());
+    Multiply* scaled_audio_right = new Multiply();
+    scaled_audio_right->plug(distorted_clamp_right, 0);
+    scaled_audio_right->plug(volume, 1);
+
+    addProcessor(distorted_clamp_left);
+    addProcessor(distorted_clamp_right);
+    addProcessor(scaled_audio_left);
+    addProcessor(scaled_audio_right);
+    registerOutput(scaled_audio_left->output());
+    registerOutput(scaled_audio_right->output());
 
     TwytchModule::init();
   }

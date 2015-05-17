@@ -613,6 +613,30 @@ SynthesisInterface::SynthesisInterface (mopo::control_map controls)
     unison_2_harmonize_->addListener (this);
     unison_2_harmonize_->setColour (ToggleButton::textColourId, Colour (0xffbbbbbb));
 
+    addAndMakeVisible (reverb_feedback_ = new SynthSlider ("reverb_feedback"));
+    reverb_feedback_->setRange (-1, 1, 0);
+    reverb_feedback_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    reverb_feedback_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    reverb_feedback_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    reverb_feedback_->setColour (Slider::textBoxTextColourId, Colour (0xff999999));
+    reverb_feedback_->addListener (this);
+
+    addAndMakeVisible (reverb_dry_wet_ = new SynthSlider ("reverb_dry_wet"));
+    reverb_dry_wet_->setRange (0, 1, 0);
+    reverb_dry_wet_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    reverb_dry_wet_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    reverb_dry_wet_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    reverb_dry_wet_->setColour (Slider::textBoxTextColourId, Colour (0xff999999));
+    reverb_dry_wet_->addListener (this);
+
+    addAndMakeVisible (reverb_damping_ = new SynthSlider ("reverb_damping"));
+    reverb_damping_->setRange (0, 1, 0);
+    reverb_damping_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+    reverb_damping_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
+    reverb_damping_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
+    reverb_damping_->setColour (Slider::textBoxTextColourId, Colour (0xff999999));
+    reverb_damping_->addListener (this);
+
 
     //[UserPreSize]
     createTempoSliders();
@@ -771,6 +795,9 @@ SynthesisInterface::~SynthesisInterface()
     legato_ = nullptr;
     unison_1_harmonize_ = nullptr;
     unison_2_harmonize_ = nullptr;
+    reverb_feedback_ = nullptr;
+    reverb_dry_wet_ = nullptr;
+    reverb_damping_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -1269,7 +1296,7 @@ void SynthesisInterface::paint (Graphics& g)
 
     g.setColour (Colour (0xffbbbbbb));
     g.setFont (Font (Font::getDefaultSansSerifFontName(), 11.40f, Font::plain));
-    g.drawText (TRANS("FREQ"),
+    g.drawText (TRANS("DAMP"),
                 667 - (40 / 2), 392, 40, 10,
                 Justification::centred, true);
 
@@ -1455,6 +1482,9 @@ void SynthesisInterface::resized()
     legato_->setBounds (684, 186, 32, 16);
     unison_1_harmonize_->setBounds (140, 188, 16, 16);
     unison_2_harmonize_->setBounds (180, 188, 16, 16);
+    reverb_feedback_->setBounds (626 - (32 / 2), 358, 32, 32);
+    reverb_dry_wet_->setBounds (708 - (32 / 2), 358, 32, 32);
+    reverb_damping_->setBounds (667 - (32 / 2), 356, 32, 32);
     internalPath1.clear();
     internalPath1.startNewSubPath (198.0f, 44.0f);
     internalPath1.lineTo (190.0f, 44.0f);
@@ -1786,6 +1816,21 @@ void SynthesisInterface::sliderValueChanged (Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_osc_2_unison_voices_] -- add your slider handling code here..
         //[/UserSliderCode_osc_2_unison_voices_]
+    }
+    else if (sliderThatWasMoved == reverb_feedback_)
+    {
+        //[UserSliderCode_reverb_feedback_] -- add your slider handling code here..
+        //[/UserSliderCode_reverb_feedback_]
+    }
+    else if (sliderThatWasMoved == reverb_dry_wet_)
+    {
+        //[UserSliderCode_reverb_dry_wet_] -- add your slider handling code here..
+        //[/UserSliderCode_reverb_dry_wet_]
+    }
+    else if (sliderThatWasMoved == reverb_damping_)
+    {
+        //[UserSliderCode_reverb_damping_] -- add your slider handling code here..
+        //[/UserSliderCode_reverb_damping_]
     }
 
     //[UsersliderValueChanged_Post]
@@ -2423,7 +2468,7 @@ BEGIN_JUCER_METADATA
     <TEXT pos="626c 392 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="FEEDB"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
-    <TEXT pos="667c 392 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="FREQ"
+    <TEXT pos="667c 392 40 10" fill="solid: ffbbbbbb" hasStroke="0" text="DAMP"
           fontname="Default sans-serif font" fontsize="11.400000000000000355"
           bold="0" italic="0" justification="36"/>
     <TEXT pos="708c 392 30 10" fill="solid: ffbbbbbb" hasStroke="0" text="WET"
@@ -2851,6 +2896,21 @@ BEGIN_JUCER_METADATA
                 virtualName="" explicitFocusOrder="0" pos="180 188 16 16" txtcol="ffbbbbbb"
                 buttonText="" connectedEdges="0" needsCallback="1" radioGroupId="0"
                 state="0"/>
+  <SLIDER name="reverb_feedback" id="c623a122ec1aac0a" memberName="reverb_feedback_"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="626c 358 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ff999999" min="-1" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="reverb_dry_wet" id="b958b389af68b3c8" memberName="reverb_dry_wet_"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="708c 358 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ff999999" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
+  <SLIDER name="reverb_damping" id="8d9af1a209679124" memberName="reverb_damping_"
+          virtualName="SynthSlider" explicitFocusOrder="0" pos="667c 356 32 32"
+          rotarysliderfill="7fffffff" textboxtext="ff999999" min="0" max="1"
+          int="0" style="RotaryHorizontalVerticalDrag" textBoxPos="NoTextBox"
+          textBoxEditable="0" textBoxWidth="80" textBoxHeight="20" skewFactor="1"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
