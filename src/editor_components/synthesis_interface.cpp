@@ -600,7 +600,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) {
     unison_2_harmonize_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
 
     addAndMakeVisible(reverb_feedback_ = new SynthSlider("reverb_feedback"));
-    reverb_feedback_->setRange(-1, 1, 0);
+    reverb_feedback_->setRange(0.8, 1, 0);
     reverb_feedback_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
     reverb_feedback_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
     reverb_feedback_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));

@@ -268,11 +268,15 @@ namespace mopo {
     addProcessor(osc_feedback_samples);
     addProcessor(osc_feedback_samples_audio);
 
+    Clamp* osc_feedback_amount_clamped = new Clamp();
+    osc_feedback_amount_clamped->plug(osc_feedback_amount);
+
     osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
     osc_feedback_->plug(oscillators, SimpleDelay::kAudio);
     osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
-    osc_feedback_->plug(osc_feedback_amount, SimpleDelay::kFeedback);
+    osc_feedback_->plug(osc_feedback_amount_clamped, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);
+    addProcessor(osc_feedback_amount_clamped);
   }
 
   void TwytchVoiceHandler::createModulators(Output* reset) {

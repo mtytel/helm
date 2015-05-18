@@ -159,6 +159,9 @@ namespace mopo {
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
 
+    Clamp* delay_feedback_clamped = new Clamp(-1, 1);
+    delay_feedback_clamped->plug(delay_feedback);
+
     SmoothFilter* delay_frequency_smoothed = new SmoothFilter();
     delay_frequency_smoothed->plug(delay_frequency, SmoothFilter::kTarget);
     delay_frequency_smoothed->plug(&utils::value_half, SmoothFilter::kHalfLife);
@@ -168,9 +171,10 @@ namespace mopo {
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
     delay->plug(voice_handler_, Delay::kAudio);
     delay->plug(delay_samples, Delay::kSampleDelay);
-    delay->plug(delay_feedback, Delay::kFeedback);
+    delay->plug(delay_feedback_clamped, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 
+    addProcessor(delay_feedback_clamped);
     addProcessor(delay_frequency_smoothed);
     addProcessor(delay_samples);
     addProcessor(delay);
@@ -180,13 +184,17 @@ namespace mopo {
     Processor* reverb_damping = createMonoModControl("reverb_damping", 0.5, false, true);
     Processor* reverb_wet = createMonoModControl("reverb_dry_wet", 0.5, false, true);
 
+    Clamp* reverb_feedback_clamped = new Clamp(-1, 1);
+    reverb_feedback_clamped->plug(reverb_feedback);
+
     Reverb* reverb = new Reverb();
     reverb->plug(delay, Reverb::kAudio);
-    reverb->plug(reverb_feedback, Reverb::kFeedback);
+    reverb->plug(reverb_feedback_clamped, Reverb::kFeedback);
     reverb->plug(reverb_damping, Reverb::kDamping);
     reverb->plug(reverb_wet, Reverb::kWet);
 
     addProcessor(reverb);
+    addProcessor(reverb_feedback_clamped);
 
     // Soft Clipping.
     Distortion* distorted_clamp_left = new Distortion();

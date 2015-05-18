@@ -16,6 +16,7 @@
 
 #include "full_interface.h"
 
+#include "text_look_and_feel.h"
 #include "twytch_engine.h"
 #include "twytch_common.h"
 #include "synth_gui_interface.h"
@@ -90,10 +91,12 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
     arp_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     arp_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
     arp_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffffffff));
+    arp_tempo_->setLookAndFeel(TextLookAndFeel::instance());
     arp_tempo_->addListener(this);
 
     arp_frequency_->setUnits("Hz");
     arp_frequency_->setScalingType(SynthSlider::kExponential);
+    arp_frequency_->setLookAndFeel(TextLookAndFeel::instance());
     arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
     arp_pattern_->setStringLookup(mopo::strings::arp_patterns);
 
@@ -161,8 +164,8 @@ void FullInterface::paint(Graphics& g) {
 
     g.setColour(Colour(0xffbbbbbb));
     g.setFont(roboto_reg.withPointHeight(10.0f));
-    g.drawText(TRANS("FREQ"),
-               527 -(52 / 2), 54, 52, 10,
+    g.drawText(TRANS("FREQUENCY"),
+               510, 54, 58, 10,
                Justification::centred, true);
 
     g.setColour(Colour(0xffbbbbbb));
@@ -202,7 +205,9 @@ void FullInterface::paint(Graphics& g) {
 
 void FullInterface::resized() {
     synthesis_interface_->setBounds(746 - 738, 744 - 672, 738, 672);
-    arp_frequency_->setBounds(527 - (40 / 2), 12, 40, 40);
+    arp_frequency_->setBounds(510, 28, 42, 16);
+    arp_sync_->setBounds(552, 28, 16, 16);
+
     arp_gate_->setBounds(599 - (40 / 2), 12, 40, 40);
     arp_octaves_->setBounds(647 - (40 / 2), 12, 40, 40);
     arp_pattern_->setBounds(703 - (40 / 2), 12, 40, 40);
@@ -210,7 +215,6 @@ void FullInterface::resized() {
     arp_on_->setBounds(474, 12, 16, 16);
     beats_per_minute_->setBounds(148 - (176 / 2), 48, 176, 20);
     global_tool_tip_->setBounds(368 - 124, 8, 124, 60);
-    arp_sync_->setBounds(552, 28, 16, 16);
     patch_browser_->setBounds(16, 8, 220, 40);
     modulation_manager_->setBounds(getBounds());
     arp_tempo_->setBounds(arp_frequency_->getBounds());
