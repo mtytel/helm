@@ -488,10 +488,10 @@ namespace mopo {
       formant_frequency->plug(formant_midi);
       formant_frequency->setControlRate();
 
+      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], Filter::kType);
       formant_filter_->getFormant(i)->plug(formant_magnitude, Filter::kGain);
       formant_filter_->getFormant(i)->plug(formant_q, Filter::kResonance);
       formant_filter_->getFormant(i)->plug(formant_frequency, Filter::kCutoff);
-      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], Filter::kType);
 
       addProcessor(formant_gain);
       addProcessor(formant_magnitude);
