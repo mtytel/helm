@@ -35,6 +35,7 @@ namespace mopo {
     for (int i = 0; i < num_formants; ++i) {
       Filter* formant = new Filter();
       formant->plug(audio_flow, Filter::kAudio);
+      formant->plug(reset_input, Filter::kReset);
       formants_.push_back(formant);
       addProcessor(formant);
       audio_flow = formant;
