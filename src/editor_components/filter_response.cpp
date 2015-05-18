@@ -1,46 +1,30 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
-#include "midi_lookup.h"
-//[/Headers]
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "filter_response.h"
+#include "midi_lookup.h"
 
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
 #define MAG_TO_DB_CONSTANT 20.0f
 #define MIN_GAIN_DB -30.0f
 #define MAX_GAIN_DB 24.0f
 #define MIN_RESONANCE 0.5
 #define MAX_RESONANCE 16.0
 #define GRID_CELL_WIDTH 8
-//[/MiscUserDefs]
 
-//==============================================================================
-FilterResponse::FilterResponse (int resolution)
-{
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
+FilterResponse::FilterResponse(int resolution) {
     resolution_ = resolution;
     cutoff_slider_ = nullptr;
     resonance_slider_ = nullptr;
@@ -48,40 +32,17 @@ FilterResponse::FilterResponse (int resolution)
 
     filter_.setSampleRate(44100);
     resetResponsePath();
-    //[/UserPreSize]
 
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
     setOpaque(true);
     setBufferedToImage(true);
-    //[/Constructor]
 }
 
-FilterResponse::~FilterResponse()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+FilterResponse::~FilterResponse() { }
 
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
-}
-
-//==============================================================================
-void FilterResponse::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
+void FilterResponse::paint(Graphics& g) {
     static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
     static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-    //[/UserPrePaint]
-
     g.fillAll (Colour (0xff424242));
-
-    //[UserPaint] Add your own custom painting code here..
-
     g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
@@ -95,23 +56,14 @@ void FilterResponse::paint (Graphics& g)
 
     g.setColour(Colour(0xff03a9f4));
     g.strokePath(filter_response_path_, stroke);
-    //[/UserPaint]
 }
 
-void FilterResponse::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    //[UserResized] Add your own custom resize handling here..
+void FilterResponse::resized() {
     computeFilterCoefficients();
     resetResponsePath();
-    //[/UserResized]
 }
 
-void FilterResponse::mouseDown (const MouseEvent& e)
-{
-    //[UserCode_mouseDown] -- Add your code here...
+void FilterResponse::mouseDown(const MouseEvent& e) {
     if (e.mods.isRightButtonDown() && filter_type_slider_) {
         int max = filter_type_slider_->getMaximum();
         int current_value = filter_type_slider_->getValue();
@@ -122,22 +74,14 @@ void FilterResponse::mouseDown (const MouseEvent& e)
     else
         setFilterSettingsFromPosition(e.getPosition());
     repaint();
-    //[/UserCode_mouseDown]
 }
 
-void FilterResponse::mouseDrag (const MouseEvent& e)
-{
-    //[UserCode_mouseDrag] -- Add your code here...
+void FilterResponse::mouseDrag(const MouseEvent& e) {
     if (!e.mods.isRightButtonDown()) {
         setFilterSettingsFromPosition(e.getPosition());
         repaint();
     }
-    //[/UserCode_mouseDrag]
 }
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 float FilterResponse::getPercentForMidiNote(float midi_note) {
     float frequency = mopo::utils::midiNoteToFrequency(midi_note);
@@ -229,34 +173,3 @@ void FilterResponse::setFilterTypeSlider(Slider* slider) {
     computeFilterCoefficients();
     repaint();
 }
-
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="FilterResponse" componentName=""
-                 parentClasses="public Component, SliderListener" constructorParams="int resolution"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <METHODS>
-    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
-  </METHODS>
-  <BACKGROUND backgroundColour="ff424242"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

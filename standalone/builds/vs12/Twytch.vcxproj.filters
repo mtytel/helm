@@ -3365,6 +3365,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\fonts\Roboto-Light.ttf">
+      <Filter>Twytch\fonts</Filter>
+    </None>
     <None Include="..\..\..\fonts\Roboto-Regular.ttf">
       <Filter>Twytch\fonts</Filter>
     </None>

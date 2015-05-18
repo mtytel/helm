@@ -1,26 +1,23 @@
-/*
-  ==============================================================================
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  This is an automatically generated GUI class created by the Introjucer!
+#pragma once
+#ifndef SYNTHESIS_INTERFACE_H
+#define SYNTHESIS_INTERFACE_H
 
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-#ifndef __JUCE_HEADER_BFBAB84DA31A01CD__
-#define __JUCE_HEADER_BFBAB84DA31A01CD__
-
-//[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_engine.h"
 #include "filter_selector.h"
@@ -28,7 +25,6 @@
 #include "tempo_selector.h"
 #include "wave_selector.h"
 #include "modulation_button.h"
-//[/Headers]
 
 #include "graphical_step_sequencer.h"
 #include "graphical_envelope.h"
@@ -36,26 +32,11 @@
 #include "xy_pad.h"
 #include "filter_response.h"
 
-
-//==============================================================================
-/**
-                                                                    //[Comments]
-    An auto-generated component, created by the Introjucer.
-
-    Describe your class and how it works here!
-                                                                    //[/Comments]
-*/
-class SynthesisInterface  : public Component,
-                            public SliderListener,
-                            public ButtonListener
-{
+class SynthesisInterface  : public Component, public SliderListener, public ButtonListener {
 public:
-    //==============================================================================
-    SynthesisInterface (mopo::control_map controls);
+    SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
     void setSliderUnits();
     void createTempoSliders();
     void markBipolarSliders();
@@ -69,17 +50,13 @@ public:
     void modulationChanged(std::string source);
 
     SynthSlider* getSlider(std::string name);
-    //[/UserMethods]
 
-    void paint (Graphics& g);
+    void paint(Graphics& g);
     void resized();
-    void sliderValueChanged (Slider* sliderThatWasMoved);
-    void buttonClicked (Button* buttonThatWasClicked);
-
-
+    void sliderValueChanged(Slider* sliderThatWasMoved);
+    void buttonClicked(Button* buttonThatWasClicked);
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     std::vector<Slider*> step_sequencer_sliders_;
@@ -88,9 +65,7 @@ private:
     ScopedPointer<SynthSlider> mono_lfo_2_tempo_;
     ScopedPointer<SynthSlider> poly_lfo_tempo_;
     ScopedPointer<SynthSlider> delay_tempo_;
-    //[/UserVariables]
 
-    //==============================================================================
     ScopedPointer<GraphicalStepSequencer> step_sequencer_;
     ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
@@ -184,12 +159,7 @@ private:
     Path internalPath3;
     Path internalPath4;
 
-
-    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisInterface)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
-
-#endif   // __JUCE_HEADER_BFBAB84DA31A01CD__
+#endif // SYNTHESIS_INTERFACE_H

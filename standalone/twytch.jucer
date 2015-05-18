@@ -6,6 +6,8 @@
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Twytch">
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
+      <FILE id="ZQ0pdZ" name="Roboto-Light.ttf" compile="0" resource="1"
+            file="../fonts/Roboto-Light.ttf"/>
       <FILE id="XdvVa2" name="Roboto-Regular.ttf" compile="0" resource="1"
             file="../fonts/Roboto-Regular.ttf"/>
       <FILE id="Q1ABLI" name="Roboto-Thin.ttf" compile="0" resource="1" file="../fonts/Roboto-Thin.ttf"/>

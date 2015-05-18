@@ -1859,6 +1859,7 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\fonts\Roboto-Light.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Regular.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Thin.ttf"/>
     <None Include="..\..\..\JUCE\modules\juce_audio_basics\juce_module_info"/>

@@ -1,55 +1,37 @@
-/*
-  ==============================================================================
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  This is an automatically generated GUI class created by the Introjucer!
+#pragma once
+#ifndef FULL_INTERFACE_H
+#define FULL_INTERFACE_H
 
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-#ifndef __JUCE_HEADER_B574069E15301B7__
-#define __JUCE_HEADER_B574069E15301B7__
-
-//[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
-#include "modulation_manager.h"
-//[/Headers]
 
+#include "modulation_manager.h"
 #include "synthesis_interface.h"
 #include "oscilloscope.h"
 #include "global_tool_tip.h"
 #include "patch_browser.h"
 
-
-//==============================================================================
-/**
-                                                                    //[Comments]
-    An auto-generated component, created by the Introjucer.
-
-    Describe your class and how it works here!
-                                                                    //[/Comments]
-*/
-class FullInterface  : public Component,
-                       public SliderListener,
-                       public ButtonListener
-{
+class FullInterface : public Component, public SliderListener, public ButtonListener {
 public:
-    //==============================================================================
-    FullInterface (mopo::control_map controls, mopo::output_map modulation_sources, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
+    FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
+                  mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~FullInterface();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
     void setAllValues(mopo::control_map& controls);
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
@@ -64,25 +46,19 @@ public:
     void modulationChanged(std::string source);
     std::string getCurrentModulator();
     void setToolTipText(String parameter, String value);
-    //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
     void sliderValueChanged (Slider* sliderThatWasMoved);
     void buttonClicked (Button* buttonThatWasClicked);
 
-
-
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     ScopedPointer<ModulationManager> modulation_manager_;
     TooltipWindow tooltip_;
     ScopedPointer<SynthSlider> arp_tempo_;
-    //[/UserVariables]
 
-    //==============================================================================
     ScopedPointer<SynthesisInterface> synthesis_interface_;
     ScopedPointer<SynthSlider> arp_frequency_;
     ScopedPointer<SynthSlider> arp_gate_;
@@ -95,12 +71,7 @@ private:
     ScopedPointer<TempoSelector> arp_sync_;
     ScopedPointer<PatchBrowser> patch_browser_;
 
-
-    //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FullInterface)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
-
-#endif   // __JUCE_HEADER_B574069E15301B7__
+#endif // FULL_INTERFACE_H
