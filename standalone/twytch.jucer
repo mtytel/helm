@@ -5,27 +5,10 @@
               jucerVersion="3.1.1" companyName="Little O Studio" companyWebsite="littleio.co"
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Twytch">
-    <GROUP id="{00EAB5C7-A9DE-3DA8-B748-7B7B7D80681B}" name="images">
-      <FILE id="GgFSgo" name="helm_icon_16_1x.png" compile="0" resource="1"
-            file="../images/helm_icon_16_1x.png"/>
-      <FILE id="WGnzJC" name="helm_icon_16_2x.png" compile="0" resource="1"
-            file="../images/helm_icon_16_2x.png"/>
-      <FILE id="Y9whvU" name="helm_icon_32_1x.png" compile="0" resource="1"
-            file="../images/helm_icon_32_1x.png"/>
-      <FILE id="u83Rbf" name="helm_icon_32_2x.png" compile="0" resource="1"
-            file="../images/helm_icon_32_2x.png"/>
-      <FILE id="iQLxv8" name="helm_icon_128_1x.png" compile="0" resource="1"
-            file="../images/helm_icon_128_1x.png"/>
-      <FILE id="cCzALn" name="helm_icon_128_2x.png" compile="0" resource="1"
-            file="../images/helm_icon_128_2x.png"/>
-      <FILE id="dRpkLa" name="helm_icon_256_1x.png" compile="0" resource="1"
-            file="../images/helm_icon_256_1x.png"/>
-      <FILE id="lbL3Cx" name="helm_icon_256_2x.png" compile="0" resource="1"
-            file="../images/helm_icon_256_2x.png"/>
-      <FILE id="eYcxfp" name="helm_icon_512_1x.png" compile="0" resource="1"
-            file="../images/helm_icon_512_1x.png"/>
-      <FILE id="FntLHg" name="helm_icon_512_2x.png" compile="0" resource="1"
-            file="../images/helm_icon_512_2x.png"/>
+    <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
+      <FILE id="XdvVa2" name="Roboto-Regular.ttf" compile="0" resource="1"
+            file="../fonts/Roboto-Regular.ttf"/>
+      <FILE id="Q1ABLI" name="Roboto-Thin.ttf" compile="0" resource="1" file="../fonts/Roboto-Thin.ttf"/>
     </GROUP>
     <GROUP id="{E650F2E1-07E8-77DB-1520-2000D9FBD2DB}" name="mopo">
       <GROUP id="{FAEF11EB-46DB-8DAD-D372-EC764D4E6B43}" name="src">

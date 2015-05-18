@@ -164,6 +164,8 @@ void FullInterface::paint (Graphics& g)
     //[UserPrePaint] Add your own custom painting code here..
     static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
     static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
+    static Font roboto_thin(Typeface::createSystemTypefaceFor(BinaryData::RobotoThin_ttf,
+                                                              BinaryData::RobotoThin_ttfSize));
 
     g.setColour(Colour(0xff212121));
     g.fillRect(getLocalBounds());

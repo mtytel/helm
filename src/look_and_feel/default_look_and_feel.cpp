@@ -70,6 +70,8 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
                                           float slider_t, float start_angle, float end_angle,
                                           Slider& slider) {
   static const float stroke_percent = 0.12f;
+  static Font roboto_regular(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
+                                                               BinaryData::RobotoRegular_ttfSize));
 
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float stroke_width = 2.0f * full_radius * stroke_percent;
@@ -91,7 +93,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
     g.fillRoundedRectangle(text_bounds, 2.0f);
 
     g.setColour(slider.findColour(Slider::textBoxTextColourId));
-    g.setFont(Font("Noto Sans", 0.24f * height, Font::plain));
+    g.setFont(roboto_regular.withPointHeight(0.2f * height));
     g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
                      Justification::horizontallyCentred | Justification::bottom, 1);
   }

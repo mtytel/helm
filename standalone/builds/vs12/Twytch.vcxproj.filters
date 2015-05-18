@@ -5,8 +5,8 @@
     <Filter Include="Twytch">
       <UniqueIdentifier>{2BDA1589-AF74-EE13-E153-0DA5697B4EC7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Twytch\images">
-      <UniqueIdentifier>{EA2E0462-5627-110B-2490-19E87E90CDF5}</UniqueIdentifier>
+    <Filter Include="Twytch\fonts">
+      <UniqueIdentifier>{1FDC0790-3C40-21A2-144F-EE2D3C44222F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Twytch\mopo">
       <UniqueIdentifier>{4F10C5C1-4A9C-8D00-32F4-37F1CB7BF121}</UniqueIdentifier>
@@ -3365,35 +3365,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\images\helm_icon_16_1x.png">
-      <Filter>Twytch\images</Filter>
+    <None Include="..\..\..\fonts\Roboto-Regular.ttf">
+      <Filter>Twytch\fonts</Filter>
     </None>
-    <None Include="..\..\..\images\helm_icon_16_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_32_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_32_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_128_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_128_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_256_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_256_2x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_512_1x.png">
-      <Filter>Twytch\images</Filter>
-    </None>
-    <None Include="..\..\..\images\helm_icon_512_2x.png">
-      <Filter>Twytch\images</Filter>
+    <None Include="..\..\..\fonts\Roboto-Thin.ttf">
+      <Filter>Twytch\fonts</Filter>
     </None>
     <None Include="..\..\..\JUCE\modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>
