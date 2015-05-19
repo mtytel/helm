@@ -1,74 +1,50 @@
-/*
-  ==============================================================================
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  This is an automatically generated GUI class created by the Introjucer!
+#pragma once
+#ifndef MODULATION_MANAGER_H
+#define MODULATION_MANAGER_H
 
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.0
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-#ifndef __JUCE_HEADER_4114FD08478B2179__
-#define __JUCE_HEADER_4114FD08478B2179__
-
-//[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
 #include "twytch_common.h"
-#include "modulation_look_and_feel.h"
 #include "modulation_meter.h"
 #include <set>
-//[/Headers]
 
-
-
-//==============================================================================
-/**
-                                                                    //[Comments]
-    An auto-generated component, created by the Introjucer.
-
-    Describe your class and how it works here!
-                                                                    //[/Comments]
-*/
-class ModulationManager  : public Component,
-                           public SliderListener,
-                           public Timer
-{
+class ModulationManager  : public Component, public SliderListener, public Timer {
 public:
-    //==============================================================================
-    ModulationManager (mopo::output_map modulation_sources, std::map<std::string, SynthSlider*> sliders, mopo::output_map mono_modulations, mopo::output_map poly_modulations);
+    ModulationManager (mopo::output_map modulation_sources,
+                       std::map<std::string, SynthSlider*> sliders,
+                       mopo::output_map mono_modulations,
+                       mopo::output_map poly_modulations);
     ~ModulationManager();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
     void sliderValueChanged(Slider *slider);
     void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
     void changeModulator(std::string new_modulator);
     void forgetModulator();
     std::string getCurrentModulator() { return current_modulator_; }
-    void showMeter(std::string name, bool show);
 
     void timerCallback() override;
-    //[/UserMethods]
-
-    void paint (Graphics& g);
-    void resized();
-
-
+    void paint(Graphics& g) override;
+    void resized() override;
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
     void setSliderValues();
+    void showMeter(std::string name, bool show);
 
-    ModulationLookAndFeel look_and_feel_;
     ScopedPointer<Component> polyphonic_destinations_;
     ScopedPointer<Component> monophonic_destinations_;
 
@@ -80,16 +56,8 @@ private:
 
     std::map<std::string, ModulationMeter*> meter_lookup_;
     mopo::output_map modulation_sources_;
-    //[/UserVariables]
 
-    //==============================================================================
-
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModulationManager)
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModulationManager)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
-
-#endif   // __JUCE_HEADER_4114FD08478B2179__
+#endif // MODULATION_MANAGER_H

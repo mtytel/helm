@@ -14,6 +14,7 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 #ifndef WAVE_SELECTOR_H
 #define WAVE_SELECTOR_H
 

@@ -1,76 +1,38 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
-//[/Headers]
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "oscilloscope.h"
 
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
 #define FRAMES_PER_SECOND 15
 #define MAX_RESOLUTION 54
 #define GRID_CELL_WIDTH 8
 #define PADDING 5
-//[/MiscUserDefs]
 
-//==============================================================================
-Oscilloscope::Oscilloscope (int num_samples)
-{
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
+Oscilloscope::Oscilloscope(int num_samples) {
     output_memory_ = nullptr;
-    //[/UserPreSize]
-
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
     samples_to_show_ = num_samples;
     // setFramesPerSecond(FRAMES_PER_SECOND);
-    //[/Constructor]
 }
 
-Oscilloscope::~Oscilloscope()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+Oscilloscope::~Oscilloscope() { }
 
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
-}
-
-//==============================================================================
-void Oscilloscope::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
+void Oscilloscope::paint(Graphics& g) {
     static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-    //[/UserPrePaint]
+    g.fillAll(Colour(0xff424242));
 
-    g.fillAll (Colour (0xff424242));
-
-    //[UserPaint] Add your own custom painting code here..
     g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
@@ -83,22 +45,11 @@ void Oscilloscope::paint (Graphics& g)
     g.fillPath(wave_path_);
     g.setColour(Colour(0xffaaaaaa));
     g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
-    //[/UserPaint]
 }
 
-void Oscilloscope::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    //[UserResized] Add your own custom resize handling here..
+void Oscilloscope::resized() {
     resetWavePath();
-    //[/UserResized]
 }
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void Oscilloscope::resetWavePath() {
     if (output_memory_ == nullptr)
@@ -125,29 +76,3 @@ void Oscilloscope::resetWavePath() {
 void Oscilloscope::update() {
     resetWavePath();
 }
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="Oscilloscope" componentName=""
-                 parentClasses="public AnimatedAppComponent" constructorParams="int num_samples"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="ff424242"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

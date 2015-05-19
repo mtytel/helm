@@ -15,30 +15,19 @@
  */
 
 #pragma once
-#ifndef OSCILLOSCOPE_H
-#define OSCILLOSCOPE_H
+#ifndef SYNTH_SECTION_H
+#define SYNTH_SECTION_H
 
 #include "JuceHeader.h"
-#include "memory.h"
 
-class Oscilloscope : public AnimatedAppComponent {
+class SynthSection : public Component, public SliderListener {
 public:
-    Oscilloscope(int num_samples);
-    ~Oscilloscope();
-
+    SynthSection(String name) : Component(name) { }
     void paint(Graphics& g) override;
-    void resized() override;
-    void update() override;
-
-    void resetWavePath();
-    void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
+    void sliderValueChanged(Slider* moved_slider) override;
 
 private:
-    const mopo::Memory* output_memory_;
-    int samples_to_show_;
-    Path wave_path_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Oscilloscope)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSection)
 };
 
-#endif // OSCILLOSCOPE_H
+#endif // SYNTH_SECTION_H

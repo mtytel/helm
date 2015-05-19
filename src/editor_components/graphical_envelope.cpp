@@ -1,29 +1,20 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
-//[/Headers]
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "graphical_envelope.h"
-
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
 
 namespace {
     const float ATTACK_RANGE_PERCENT = 0.33f;
@@ -32,16 +23,8 @@ namespace {
     const int GRID_CELL_WIDTH = 8;
 } // namespace
 
-//[/MiscUserDefs]
 
-//==============================================================================
-GraphicalEnvelope::GraphicalEnvelope ()
-{
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
+GraphicalEnvelope::GraphicalEnvelope() {
     attack_hover_ = false;
     decay_hover_ = false;
     sustain_hover_ = false;
@@ -52,37 +35,16 @@ GraphicalEnvelope::GraphicalEnvelope ()
     decay_slider_ = nullptr;
     sustain_slider_ = nullptr;
     release_slider_ = nullptr;
-    //[/UserPreSize]
-
-    setSize (200, 100);
-
-
-    //[Constructor] You can add your own custom stuff here..
-    //[/Constructor]
 }
 
-GraphicalEnvelope::~GraphicalEnvelope()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+GraphicalEnvelope::~GraphicalEnvelope() { }
 
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
-}
-
-//==============================================================================
-void GraphicalEnvelope::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
+void GraphicalEnvelope::paint(Graphics& g) {
     static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
     static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-    //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff424242));
+    g.fillAll(Colour(0xff424242));
 
-    //[UserPaint] Add your own custom painting code here..
     g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
@@ -127,22 +89,13 @@ void GraphicalEnvelope::paint (Graphics& g)
 
     g.setColour(Colour(0xffffffff));
     g.fillEllipse(getDecayX() - 2.5, getSustainY() - 2.5, 5.0, 5.0);
-    //[/UserPaint]
 }
 
-void GraphicalEnvelope::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    //[UserResized] Add your own custom resize handling here..
+void GraphicalEnvelope::resized() {
     resetEnvelopeLine();
-    //[/UserResized]
 }
 
-void GraphicalEnvelope::mouseMove (const MouseEvent& e)
-{
-    //[UserCode_mouseMove] -- Add your code here...
+void GraphicalEnvelope::mouseMove(const MouseEvent& e) {
     float x = e.getPosition().x;
     float attack_delta = fabs(x - getAttackX());
     float decay_delta = fabs(x - getDecayX());
@@ -163,31 +116,22 @@ void GraphicalEnvelope::mouseMove (const MouseEvent& e)
         release_hover_ = r_hover;
         repaint();
     }
-    //[/UserCode_mouseMove]
 }
 
-void GraphicalEnvelope::mouseExit (const MouseEvent& e)
-{
-    //[UserCode_mouseExit] -- Add your code here...
+void GraphicalEnvelope::mouseExit(const MouseEvent& e) {
     attack_hover_ = false;
     decay_hover_ = false;
     sustain_hover_ = false;
     release_hover_ = false;
     repaint();
-    //[/UserCode_mouseExit]
 }
 
-void GraphicalEnvelope::mouseDown (const MouseEvent& e)
-{
-    //[UserCode_mouseDown] -- Add your code here...
+void GraphicalEnvelope::mouseDown(const MouseEvent& e) {
     mouse_down_ = true;
     repaint();
-    //[/UserCode_mouseDown]
 }
 
-void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
-{
-    //[UserCode_mouseDrag] -- Add your code here...
+void GraphicalEnvelope::mouseDrag(const MouseEvent& e) {
     if (attack_hover_)
         setAttackX(e.getPosition().x);
     else if (decay_hover_)
@@ -202,20 +146,12 @@ void GraphicalEnvelope::mouseDrag (const MouseEvent& e)
         resetEnvelopeLine();
         repaint();
     }
-    //[/UserCode_mouseDrag]
 }
 
-void GraphicalEnvelope::mouseUp (const MouseEvent& e)
-{
-    //[UserCode_mouseUp] -- Add your code here...
+void GraphicalEnvelope::mouseUp(const MouseEvent& e) {
     mouse_down_ = false;
     repaint();
-    //[/UserCode_mouseUp]
 }
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void GraphicalEnvelope::sliderValueChanged(Slider* sliderThatWasMoved) {
     resetEnvelopeLine();
@@ -332,37 +268,3 @@ void GraphicalEnvelope::resetEnvelopeLine() {
     envelope_line_.quadraticTo(0.5f * (getReleaseX() + getDecayX()), getHeight(),
                                getReleaseX(), getHeight());
 }
-
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="GraphicalEnvelope" componentName=""
-                 parentClasses="public Component, public SliderListener" constructorParams=""
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="200" initialHeight="100">
-  <METHODS>
-    <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
-  </METHODS>
-  <BACKGROUND backgroundColour="ff424242"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

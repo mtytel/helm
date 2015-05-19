@@ -20,6 +20,7 @@
 
 #include "JuceHeader.h"
 
+#include "synth_section.h"
 #include "modulation_manager.h"
 #include "synthesis_interface.h"
 #include "oscilloscope.h"

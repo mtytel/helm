@@ -1,80 +1,44 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
-#include "synth_gui_interface.h"
-//[/Headers]
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "graphical_step_sequencer.h"
+#include "synth_gui_interface.h"
 
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
 #define FRAMES_PER_SECOND 30
-//[/MiscUserDefs]
 
-//==============================================================================
-GraphicalStepSequencer::GraphicalStepSequencer ()
-{
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
+GraphicalStepSequencer::GraphicalStepSequencer() {
     num_steps_slider_ = nullptr;
     step_generator_output_ = nullptr;
     last_step_ = -1;
     highlighted_step_ = -1;
     num_steps_ = 1;
     startTimerHz(FRAMES_PER_SECOND);
-    //[/UserPreSize]
 
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
     setOpaque(true);
-    //[/Constructor]
 }
 
-GraphicalStepSequencer::~GraphicalStepSequencer()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+GraphicalStepSequencer::~GraphicalStepSequencer() { }
 
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
-}
-
-//==============================================================================
-void GraphicalStepSequencer::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
+void GraphicalStepSequencer::paint(Graphics& g) {
     static const DropShadow shadow(Colour(0xbb000000), 1, Point<int>(0, 0));
     if (sequence_.size() == 0 || num_steps_slider_ == nullptr)
         return;
-    //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff424242));
+    g.fillAll(Colour(0xff424242));
 
-    //[UserPaint] Add your own custom painting code here..
     float x_inc = getWidth() / (1.0f * num_steps_);
     g.setColour(Colour(0xff545454));
     for (int i = 1; i * x_inc < getWidth(); ++i)
@@ -120,54 +84,31 @@ void GraphicalStepSequencer::paint (Graphics& g)
 
         x += x_inc;
     }
-    //[/UserPaint]
 }
 
-void GraphicalStepSequencer::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    //[UserResized] Add your own custom resize handling here..
+void GraphicalStepSequencer::resized() {
     ensureMinSize();
-    //[/UserResized]
 }
 
-void GraphicalStepSequencer::mouseMove (const MouseEvent& e)
-{
-    //[UserCode_mouseMove] -- Add your code here...
+void GraphicalStepSequencer::mouseMove(const MouseEvent& e) {
     updateHover(getHoveredStep(e.getPosition()));
-    //[/UserCode_mouseMove]
 }
 
-void GraphicalStepSequencer::mouseExit (const MouseEvent& e)
-{
-    //[UserCode_mouseExit] -- Add your code here...
+void GraphicalStepSequencer::mouseExit(const MouseEvent& e) {
     updateHover(-1);
-    //[/UserCode_mouseExit]
 }
 
-void GraphicalStepSequencer::mouseDown (const MouseEvent& e)
-{
-    //[UserCode_mouseDown] -- Add your code here...
+void GraphicalStepSequencer::mouseDown(const MouseEvent& e) {
     last_edit_position_ = e.getPosition();
     updateHover(getHoveredStep(e.getPosition()));
     changeStep(e);
-    //[/UserCode_mouseDown]
 }
 
-void GraphicalStepSequencer::mouseDrag (const MouseEvent& e)
-{
-    //[UserCode_mouseDrag] -- Add your code here...
+void GraphicalStepSequencer::mouseDrag(const MouseEvent& e) {
     updateHover(getHoveredStep(e.getPosition()));
     changeStep(e);
     last_edit_position_ = e.getPosition();
-    //[/UserCode_mouseDrag]
 }
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void GraphicalStepSequencer::timerCallback() {
     if (step_generator_output_) {
@@ -260,37 +201,3 @@ void GraphicalStepSequencer::showRealtimeFeedback() {
             step_generator_output_ = parent->getModSource(getName().toStdString());
     }
 }
-
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="GraphicalStepSequencer" componentName=""
-                 parentClasses="public Component, public Timer, public SliderListener"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
-                 initialHeight="400">
-  <METHODS>
-    <METHOD name="mouseMove (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseExit (const MouseEvent&amp; e)"/>
-  </METHODS>
-  <BACKGROUND backgroundColour="ff424242"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

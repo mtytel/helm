@@ -1,68 +1,30 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
-//[/Headers]
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "global_tool_tip.h"
 
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
 #define FRAMES_PER_SECOND 20
-//[/MiscUserDefs]
 
-//==============================================================================
-GlobalToolTip::GlobalToolTip ()
-{
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
-    //[/UserPreSize]
-
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
+GlobalToolTip::GlobalToolTip() {
     startTimerHz(FRAMES_PER_SECOND);
-    //[/Constructor]
 }
 
-GlobalToolTip::~GlobalToolTip()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+GlobalToolTip::~GlobalToolTip() { }
 
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
-}
-
-//==============================================================================
-void GlobalToolTip::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
-    //[/UserPrePaint]
-
-    //[UserPaint] Add your own custom painting code here..
+void GlobalToolTip::paint(Graphics& g) {
     g.setColour(Colour(0xff444444));
     g.fillRect(0, 0, getWidth(), getHeight() / 2);
 
@@ -76,21 +38,7 @@ void GlobalToolTip::paint (Graphics& g)
     g.setFont(Font(Font::getDefaultMonospacedFontName(), 14.0f, Font::plain));
     g.drawText(value_text_, 0.0, proportionOfHeight(0.5),
                getWidth(), proportionOfHeight(0.5), Justification::centred);
-    //[/UserPaint]
 }
-
-void GlobalToolTip::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    //[UserResized] Add your own custom resize handling here..
-    //[/UserResized]
-}
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void GlobalToolTip::setText(String parameter, String value) {
     parameter_text_ = parameter;
@@ -104,30 +52,3 @@ void GlobalToolTip::timerCallback() {
         repaint();
     }
 }
-
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="GlobalToolTip" componentName=""
-                 parentClasses="public Component, public Timer" constructorParams=""
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="0"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

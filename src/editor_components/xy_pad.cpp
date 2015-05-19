@@ -1,78 +1,39 @@
-/*
-  ==============================================================================
-
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
-#include "utils.h"
-//[/Headers]
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "xy_pad.h"
-
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
+#include "utils.h"
 
 #define GRID_CELL_WIDTH 8
 #define GRID_CELL_HEIGHT 16
 
-//[/MiscUserDefs]
-
-//==============================================================================
-XYPad::XYPad ()
-{
-    //[Constructor_pre] You can add your own custom stuff here..
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
+XYPad::XYPad() {
     mouse_down_ = false;
     x_slider_ = nullptr;
     y_slider_ = nullptr;
-    //[/UserPreSize]
-
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
-    //[/Constructor]
 }
 
-XYPad::~XYPad()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+XYPad::~XYPad() { }
 
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
-}
-
-//==============================================================================
-void XYPad::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
+void XYPad::paint(Graphics& g) {
     static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
     static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-    //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff424242));
+    g.fillAll(Colour(0xff424242));
 
-    //[UserPaint] Add your own custom painting code here..
     g.setColour(Colour(0xff4a4a4a));
     for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
         g.drawLine(x, 0, x, getHeight());
@@ -97,45 +58,24 @@ void XYPad::paint (Graphics& g)
         g.setColour(Colour(0x11ffffff));
         g.fillEllipse(x - 20.0, y - 20.0, 40.0, 40.0);
     }
-    //[/UserPaint]
 }
 
-void XYPad::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
+void XYPad::resized() { }
 
-    //[UserResized] Add your own custom resize handling here..
-    //[/UserResized]
-}
-
-void XYPad::mouseDown (const MouseEvent& e)
-{
-    //[UserCode_mouseDown] -- Add your code here...
+void XYPad::mouseDown(const MouseEvent& e) {
     setSlidersFromPosition(e.getPosition());
     mouse_down_ = true;
     repaint();
-    //[/UserCode_mouseDown]
 }
 
-void XYPad::mouseDrag (const MouseEvent& e)
-{
-    //[UserCode_mouseDrag] -- Add your code here...
+void XYPad::mouseDrag(const MouseEvent& e) {
     setSlidersFromPosition(e.getPosition());
-    //[/UserCode_mouseDrag]
 }
 
-void XYPad::mouseUp (const MouseEvent& e)
-{
-    //[UserCode_mouseUp] -- Add your code here...
+void XYPad::mouseUp(const MouseEvent& e) {
     mouse_down_ = false;
     repaint();
-    //[/UserCode_mouseUp]
 }
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 void XYPad::setSlidersFromPosition(Point<int> position) {
     if (x_slider_) {
@@ -168,35 +108,3 @@ void XYPad::setYSlider(Slider* slider) {
   y_slider_->addListener(this);
   repaint();
 }
-
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="XYPad" componentName="" parentClasses="public Component, SliderListener"
-                 constructorParams="" variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330" fixedSize="0" initialWidth="600"
-                 initialHeight="400">
-  <METHODS>
-    <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
-    <METHOD name="mouseUp (const MouseEvent&amp; e)"/>
-  </METHODS>
-  <BACKGROUND backgroundColour="ff424242"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

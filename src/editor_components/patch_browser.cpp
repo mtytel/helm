@@ -1,44 +1,31 @@
-/*
-  ==============================================================================
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  This is an automatically generated GUI class created by the Introjucer!
-
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-//[Headers] You can add your own extra header files here...
 #include "synth_gui_interface.h"
 #include "browser_look_and_feel.h"
-//[/Headers]
 
 #include "patch_browser.h"
-
-
-//[MiscUserDefs] You can add your own user definitions and misc code here...
 
 #define PATCH_EXTENSION "twytch"
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/twytch/patches"
 #define LINUX_USER_PATCH_DIRECTORY "/usr/local/share/twytch/patches"
-//[/MiscUserDefs]
 
-//==============================================================================
-PatchBrowser::PatchBrowser ()
-{
-    //[Constructor_pre] You can add your own custom stuff here..
+PatchBrowser::PatchBrowser() {
     setLookAndFeel(BrowserLookAndFeel::instance());
-    //[/Constructor_pre]
 
     addAndMakeVisible (prev_folder_ = new TextButton ("prev_folder"));
     prev_folder_->setButtonText (TRANS("<"));
@@ -75,43 +62,21 @@ PatchBrowser::PatchBrowser ()
     save_->setColour (TextButton::buttonOnColourId, Colours::black);
     save_->setColour (TextButton::textColourOffId, Colours::white);
 
-
-    //[UserPreSize]
     folder_index_ = 0;
     patch_index_ = 0;
-    //[/UserPreSize]
-
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
-    //[/Constructor]
 }
 
-PatchBrowser::~PatchBrowser()
-{
-    //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
-
+PatchBrowser::~PatchBrowser() {
     prev_folder_ = nullptr;
     prev_patch_ = nullptr;
     next_folder_ = nullptr;
     next_patch_ = nullptr;
     save_ = nullptr;
-
-
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
 }
 
-//==============================================================================
-void PatchBrowser::paint (Graphics& g)
-{
-    //[UserPrePaint] Add your own custom painting code here..
+void PatchBrowser::paint(Graphics& g) {
     static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
-    //[/UserPrePaint]
 
-    //[UserPaint] Add your own custom painting code here..
     g.setColour(Colour(0xff303030));
     g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
 
@@ -135,26 +100,22 @@ void PatchBrowser::paint (Graphics& g)
     g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
     g.setColour(Colour(0xffffffff));
     g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);
-    //[/UserPaint]
 }
 
-void PatchBrowser::resized()
-{
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    prev_folder_->setBounds (proportionOfWidth (0.1998f), 0, proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
-    prev_patch_->setBounds (proportionOfWidth (0.1998f), proportionOfHeight (0.5006f), proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
-    next_folder_->setBounds (getWidth() - proportionOfWidth (0.1004f), 0, proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
-    next_patch_->setBounds (getWidth() - proportionOfWidth (0.1004f), proportionOfHeight (0.5006f), proportionOfWidth (0.1004f), proportionOfHeight (0.5006f));
-    save_->setBounds (proportionOfWidth (0.0000f), proportionOfHeight (0.0000f), proportionOfWidth (0.1950f), proportionOfHeight (1.0000f));
-    //[UserResized] Add your own custom resize handling here..
-    //[/UserResized]
+void PatchBrowser::resized() {
+    prev_folder_->setBounds(proportionOfWidth(0.2f), 0,
+                            proportionOfWidth(0.1f), proportionOfHeight(0.5f));
+    prev_patch_->setBounds(proportionOfWidth(0.2f), proportionOfHeight(0.5f),
+                           proportionOfWidth(0.1f), proportionOfHeight (0.5f));
+    next_folder_->setBounds(getWidth() - proportionOfWidth(0.1f), 0,
+                            proportionOfWidth(0.1f), proportionOfHeight(0.5f));
+    next_patch_->setBounds(getWidth() - proportionOfWidth(0.1f), proportionOfHeight(0.5f),
+                           proportionOfWidth(0.1f), proportionOfHeight(0.5f));
+    save_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.0f),
+                     proportionOfWidth(0.2f), proportionOfHeight (1.0f));
 }
 
-void PatchBrowser::buttonClicked (Button* buttonThatWasClicked)
-{
-    //[UserbuttonClicked_Pre]
+void PatchBrowser::buttonClicked(Button* buttonThatWasClicked) {
     if (buttonThatWasClicked == save_) {
         int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
         FileBrowserComponent browser(flags, getUserPatchDirectory(), nullptr, nullptr);
@@ -188,41 +149,7 @@ void PatchBrowser::buttonClicked (Button* buttonThatWasClicked)
         loadFromFile(patch);
         repaint();
     }
-    //[/UserbuttonClicked_Pre]
-
-    if (buttonThatWasClicked == prev_folder_)
-    {
-        //[UserButtonCode_prev_folder_] -- add your button handler code here..
-        //[/UserButtonCode_prev_folder_]
-    }
-    else if (buttonThatWasClicked == prev_patch_)
-    {
-        //[UserButtonCode_prev_patch_] -- add your button handler code here..
-        //[/UserButtonCode_prev_patch_]
-    }
-    else if (buttonThatWasClicked == next_folder_)
-    {
-        //[UserButtonCode_next_folder_] -- add your button handler code here..
-        //[/UserButtonCode_next_folder_]
-    }
-    else if (buttonThatWasClicked == next_patch_)
-    {
-        //[UserButtonCode_next_patch_] -- add your button handler code here..
-        //[/UserButtonCode_next_patch_]
-    }
-    else if (buttonThatWasClicked == save_)
-    {
-        //[UserButtonCode_save_] -- add your button handler code here..
-        //[/UserButtonCode_save_]
-    }
-
-    //[UserbuttonClicked_Post]
-    //[/UserbuttonClicked_Post]
 }
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 
 File PatchBrowser::getSystemPatchDirectory() {
     File patch_dir = File("");
@@ -290,50 +217,3 @@ void PatchBrowser::loadFromFile(File &patch) {
         parent->loadFromVar(parsed_json_state);
     }
 }
-
-//[/MiscUserCode]
-
-
-//==============================================================================
-#if 0
-/*  -- Introjucer information section --
-
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
-    make changes in here at your peril!
-
-BEGIN_JUCER_METADATA
-
-<JUCER_COMPONENT documentType="Component" className="PatchBrowser" componentName=""
-                 parentClasses="public Component" constructorParams="" variableInitialisers=""
-                 snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="600" initialHeight="400">
-  <BACKGROUND backgroundColour="0"/>
-  <TEXTBUTTON name="prev_folder" id="7c73e1569d0f159e" memberName="prev_folder_"
-              virtualName="" explicitFocusOrder="0" pos="19.979% 0 10.042% 50.061%"
-              bgColOff="ff303030" bgColOn="ff000000" textColOn="ffffffff" buttonText="&lt;"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="prev_patch" id="4bd9ba5a5597cba4" memberName="prev_patch_"
-              virtualName="" explicitFocusOrder="0" pos="19.979% 50.061% 10.042% 50.061%"
-              bgColOff="ff464646" bgColOn="ff000000" textColOn="ffffffff" buttonText="&lt;"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="next_folder" id="fc5a3ac5b9f154fe" memberName="next_folder_"
-              virtualName="" explicitFocusOrder="0" pos="0Rr 0 10.042% 50.061%"
-              bgColOff="ff303030" bgColOn="ff000000" textColOn="ffffffff" buttonText="&gt;"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="next_patch" id="4a7cf0e77ebc8208" memberName="next_patch_"
-              virtualName="" explicitFocusOrder="0" pos="0Rr 50.061% 10.042% 50.061%"
-              bgColOff="ff464646" bgColOn="ff212121" textColOn="ffffffff" buttonText="&gt;"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="save" id="eee3d6aa88811178" memberName="save_" virtualName=""
-              explicitFocusOrder="0" pos="0% 0% 19.456% 100%" bgColOff="ff464646"
-              bgColOn="ff000000" textColOn="ffffffff" buttonText="SAVE" connectedEdges="0"
-              needsCallback="1" radioGroupId="0"/>
-</JUCER_COMPONENT>
-
-END_JUCER_METADATA
-*/
-#endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

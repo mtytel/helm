@@ -1,88 +1,55 @@
-/*
-  ==============================================================================
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  This is an automatically generated GUI class created by the Introjucer!
+#pragma once
+#ifndef PATCH_BROWSER_H
+#define PATCH_BROWSER_H
 
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
-
-  Created with Introjucer version: 3.1.1
-
-  ------------------------------------------------------------------------------
-
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
-
-  ==============================================================================
-*/
-
-#ifndef __JUCE_HEADER_36E92220428C85BB__
-#define __JUCE_HEADER_36E92220428C85BB__
-
-//[Headers]     -- You can add your own extra header files here --
 #include "JuceHeader.h"
-//[/Headers]
 
-
-
-//==============================================================================
-/**
-                                                                    //[Comments]
-    An auto-generated component, created by the Introjucer.
-
-    Describe your class and how it works here!
-                                                                    //[/Comments]
-*/
-class PatchBrowser  : public Component,
-                      public ButtonListener
-{
+class PatchBrowser : public Component, public ButtonListener {
 public:
-    //==============================================================================
-    PatchBrowser ();
+    PatchBrowser();
     ~PatchBrowser();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
-    File getSystemPatchDirectory();
-    File getUserPatchDirectory();
-
-    void refreshPatches();
-
-    File getCurrentPatch();
-    File getCurrentFolder();
-
-    void loadFromFile(File& patch);
-    //[/UserMethods]
-
-    void paint (Graphics& g);
-    void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
-
-
+    void paint(Graphics& g) override;
+    void resized() override;
+    void buttonClicked(Button* buttonThatWasClicked) override;
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
+    void refreshPatches();
+    File getSystemPatchDirectory();
+    File getUserPatchDirectory();
+    File getCurrentPatch();
+    File getCurrentFolder();
+    void loadFromFile(File& patch);
+
     int folder_index_;
     int patch_index_;
 
     String folder_text_;
     String patch_text_;
-    //[/UserVariables]
 
-    //==============================================================================
     ScopedPointer<TextButton> prev_folder_;
     ScopedPointer<TextButton> prev_patch_;
     ScopedPointer<TextButton> next_folder_;
     ScopedPointer<TextButton> next_patch_;
     ScopedPointer<TextButton> save_;
 
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatchBrowser)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
-
-#endif   // __JUCE_HEADER_36E92220428C85BB__
+#endif // PATCH_BROWSER_H

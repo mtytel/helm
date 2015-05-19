@@ -18,6 +18,7 @@
 
 #include <iomanip>
 #include "full_interface.h"
+#include "modulation_look_and_feel.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 

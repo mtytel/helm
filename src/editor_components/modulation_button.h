@@ -14,6 +14,7 @@
  * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 #ifndef MODULATION_BUTTON_H
 #define MODULATION_BUTTON_H
 
