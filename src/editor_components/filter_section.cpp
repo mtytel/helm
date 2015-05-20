@@ -20,6 +20,11 @@
 #include "filter_selector.h"
 #include "synth_slider.h"
 
+#define KNOB_SECTION_WIDTH 70
+#define KNOB_WIDTH 40
+#define SLIDER_WIDTH 10
+#define FILTER_TYPE_WIDTH 16
+
 FilterSection::FilterSection(String name) : SynthSection(name) {
   addSlider(filter_type_ = new FilterSelector("filter_type"));
   filter_type_->setSliderStyle(Slider::LinearBar);
@@ -68,19 +73,23 @@ void FilterSection::paint(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
 
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("ENV DEPTH"), 257, 78, 56, 10, Justification::centred, true);
-
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("KEY TRACK"), 255, 142, 60, 10, Justification::centred, true);
+  drawTextForSlider(g, TRANS("ENV DEPTH"), fil_env_depth_);
+  drawTextForSlider(g, TRANS("KEY TRACK"), keytrack_);
 
   component_shadow.drawForRectangle(g, filter_response_->getBounds());
 }
 
 void FilterSection::resized() {
-  filter_type_->setBounds(0, 20, 250, 16);
-  cutoff_->setBounds(0, 148, 240, 10);
-  resonance_->setBounds(240, 36, 10, 112);
-  filter_response_->setBounds(0, 36, 240, 112);
-  fil_env_depth_->setBounds(265, 32, 40, 40);
-  keytrack_->setBounds(265, 96, 40, 40);
+  int response_width = getWidth() - KNOB_SECTION_WIDTH - SLIDER_WIDTH;
+  int response_height = getHeight() - SLIDER_WIDTH - FILTER_TYPE_WIDTH - 20;
+  int knob_center_x = getWidth() - KNOB_SECTION_WIDTH / 2;
+
+  filter_type_->setBounds(0, 20, getWidth() - KNOB_SECTION_WIDTH, FILTER_TYPE_WIDTH);
+  cutoff_->setBounds(0, getHeight() - SLIDER_WIDTH, response_width, SLIDER_WIDTH);
+  resonance_->setBounds(response_width, 20 + FILTER_TYPE_WIDTH, SLIDER_WIDTH, response_height);
+  filter_response_->setBounds(0, 20 + FILTER_TYPE_WIDTH, response_width, response_height);
+  fil_env_depth_->setBounds(knob_center_x - KNOB_WIDTH / 2, getHeight() / 5,
+                            KNOB_WIDTH, KNOB_WIDTH);
+  keytrack_->setBounds(knob_center_x - KNOB_WIDTH / 2, 3 * getHeight() / 5,
+                       KNOB_WIDTH, KNOB_WIDTH);
 }
