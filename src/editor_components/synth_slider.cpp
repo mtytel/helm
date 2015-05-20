@@ -47,6 +47,8 @@ SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false),
   post_multiply_ = details.display_multiply;
   scaling_type_ = details.display_skew;
   units_ = details.display_units;
+  setDoubleClickReturnValue(true, details.default_value);
+  setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 
   setBufferedToImage(true);
   setColour(Slider::backgroundColourId, Colour(0xff303030));

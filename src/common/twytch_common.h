@@ -70,7 +70,7 @@ namespace mopo {
     { "fil_env_depth", -128.0, 128.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "fil_release", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },
     { "fil_sustain", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
-    { "filter_saturation", -20.0, 60.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
+    { "filter_saturation", -20.0, 60.0, 0, 0.0, 1.0, ValueDetails::kLinear, "dB" },
     { "filter_type", 0.0, 6.0, 7, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "formant_on", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "formant_x", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },

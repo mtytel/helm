@@ -445,6 +445,9 @@
     <ClCompile Include="..\..\..\src\common\twytch_common.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\feedback_section.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -1907,6 +1910,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\twytch_common.h">
       <Filter>Twytch\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\feedback_section.h">
+      <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h">
       <Filter>Twytch\src\editor_components</Filter>

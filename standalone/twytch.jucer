@@ -123,6 +123,10 @@
         <FILE id="f8Ivaj" name="twytch_common.h" compile="0" resource="0" file="../src/common/twytch_common.h"/>
       </GROUP>
       <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
+        <FILE id="imBJEZ" name="feedback_section.cpp" compile="1" resource="0"
+              file="../src/editor_components/feedback_section.cpp"/>
+        <FILE id="qcBP8a" name="feedback_section.h" compile="0" resource="0"
+              file="../src/editor_components/feedback_section.h"/>
         <FILE id="yQH4BO" name="filter_response.cpp" compile="1" resource="0"
               file="../src/editor_components/filter_response.cpp"/>
         <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"

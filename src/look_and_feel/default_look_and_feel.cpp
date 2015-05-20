@@ -92,7 +92,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
     g.setColour(Colour(0xff464646));
     g.fillRoundedRectangle(text_bounds, 2.0f);
 
-    g.setColour(slider.findColour(Slider::textBoxTextColourId));
+    g.setColour(Colour(0xff999999));
     g.setFont(roboto_regular.withPointHeight(0.2f * height));
     g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
                      Justification::horizontallyCentred | Justification::bottom, 1);

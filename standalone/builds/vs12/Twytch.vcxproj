@@ -166,6 +166,7 @@
     <ClCompile Include="..\..\..\src\common\midi_manager.cpp"/>
     <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp"/>
     <ClCompile Include="..\..\..\src\common\twytch_common.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\feedback_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_selector.cpp"/>
@@ -1372,6 +1373,7 @@
     <ClInclude Include="..\..\..\src\common\midi_manager.h"/>
     <ClInclude Include="..\..\..\src\common\synth_gui_interface.h"/>
     <ClInclude Include="..\..\..\src\common\twytch_common.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\feedback_section.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_section.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_selector.h"/>

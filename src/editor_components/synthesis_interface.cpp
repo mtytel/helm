@@ -26,6 +26,9 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   filter_section_ = new FilterSection("FILTER");
   addSubSection(filter_section_);
 
+  feedback_section_ = new FeedbackSection("FILTER");
+  addSubSection(feedback_section_);
+
   addAndMakeVisible(step_sequencer_ = new GraphicalStepSequencer());
   addAndMakeVisible(amplitude_envelope_ = new GraphicalEnvelope());
   addAndMakeVisible(filter_envelope_ = new GraphicalEnvelope());
@@ -212,30 +215,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   osc_2_waveform_->setColour(Slider::textBoxOutlineColourId, Colour(0xff303030));
   osc_2_waveform_->addListener(this);
 
-  addSlider(osc_feedback_transpose_ = new SynthSlider("osc_feedback_transpose"));
-  osc_feedback_transpose_->setRange(-24, 24, 1);
-  osc_feedback_transpose_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  osc_feedback_transpose_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  osc_feedback_transpose_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  osc_feedback_transpose_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  osc_feedback_transpose_->addListener(this);
-
-  addSlider(osc_feedback_amount_ = new SynthSlider("osc_feedback_amount"));
-  osc_feedback_amount_->setRange(-1, 1, 0);
-  osc_feedback_amount_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  osc_feedback_amount_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  osc_feedback_amount_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  osc_feedback_amount_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  osc_feedback_amount_->addListener(this);
-
-  addSlider(osc_feedback_tune_ = new SynthSlider("osc_feedback_tune"));
-  osc_feedback_tune_->setRange(-1, 1, 0);
-  osc_feedback_tune_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  osc_feedback_tune_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  osc_feedback_tune_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  osc_feedback_tune_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  osc_feedback_tune_->addListener(this);
-
   addAndMakeVisible(mono_lfo_1_wave_display_ = new WaveViewer(32));
   addAndMakeVisible(mono_lfo_1_waveform_ = new WaveSelector("mono_lfo_1_waveform"));
   mono_lfo_1_waveform_->setRange(0, 11, 1);
@@ -270,14 +249,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   mono_lfo_1_frequency_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
   mono_lfo_1_frequency_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
   mono_lfo_1_frequency_->addListener(this);
-
-  addSlider(filter_saturation_ = new SynthSlider("filter_saturation"));
-  filter_saturation_->setRange(-20, 60, 0);
-  filter_saturation_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  filter_saturation_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  filter_saturation_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  filter_saturation_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  filter_saturation_->addListener(this);
 
   addButton(formant_on_ = new ToggleButton("formant_on"));
   formant_on_->setButtonText(String::empty);
@@ -655,15 +626,11 @@ SynthesisInterface::~SynthesisInterface() {
   fil_sustain_ = nullptr;
   osc_1_waveform_ = nullptr;
   osc_2_waveform_ = nullptr;
-  osc_feedback_transpose_ = nullptr;
-  osc_feedback_amount_ = nullptr;
-  osc_feedback_tune_ = nullptr;
   mono_lfo_1_wave_display_ = nullptr;
   mono_lfo_1_waveform_ = nullptr;
   num_steps_ = nullptr;
   step_frequency_ = nullptr;
   mono_lfo_1_frequency_ = nullptr;
-  filter_saturation_ = nullptr;
   formant_on_ = nullptr;
   formant_xy_pad_ = nullptr;
   formant_x_ = nullptr;
@@ -731,6 +698,7 @@ void SynthesisInterface::paint(Graphics& g) {
   g.fillRect(getLocalBounds());
 
   section_shadow.drawForRectangle(g, filter_section_->getBounds());
+  section_shadow.drawForRectangle(g, feedback_section_->getBounds());
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 482, 196, 118));
@@ -743,7 +711,6 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 482, 126, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 324, 126, 20));
   section_shadow.drawForRectangle(g, Rectangle<int>(336, 316, 260, 158));
-  section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 216, 320, 92));
   section_shadow.drawForRectangle(g, Rectangle<int>(336, 160, 260, 148));
   section_shadow.drawForRectangle(g, Rectangle<int>(336, 4, 260, 148));
   section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 200));
@@ -872,9 +839,6 @@ void SynthesisInterface::paint(Graphics& g) {
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(8.0f, 482.0f, 196.0f, 118.0f, 3.000f);
 
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(static_cast<float>(168 - (320 / 2)), 216.0f, 320.0f, 92.0f, 3.000f);
-
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
   g.drawText(TRANS("MOD"),
@@ -903,12 +867,6 @@ void SynthesisInterface::paint(Graphics& g) {
   g.setFont(roboto_reg.withPointHeight(10.0f));
   g.drawText(TRANS("AMOUNT"),
              202 - (60 / 2), 290, 60, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("SATURATION"),
-             270 - (92 / 2), 290, 92, 10,
              Justification::centred, true);
 
   g.setColour(Colour(0xff999999));
@@ -1063,12 +1021,6 @@ void SynthesisInterface::paint(Graphics& g) {
 
   g.setColour(Colour(0xff999999));
   g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("FEEDBACK"),
-             168 - (84 / 2), 216, 84, 20,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
   g.drawText(TRANS("FILTER ENVELOPE"),
              466 - (260 / 2), 14 - (20 / 2), 260, 20,
              Justification::centred, true);
@@ -1120,13 +1072,6 @@ void SynthesisInterface::paint(Graphics& g) {
   g.drawText(TRANS("POLY LFO"),
              667 - (126 / 2), 482, 126, 20,
              Justification::centred, true);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 234.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 238.0f,
-                                   false));
-  g.fillRect(168 - (320 / 2), 216, 320, 20);
 
   g.setGradientFill(ColourGradient(Colour(0x00000000),
                                    static_cast<float>(proportionOfWidth(0.0000f)), 500.0f,
@@ -1271,7 +1216,9 @@ void SynthesisInterface::paint(Graphics& g) {
 }
 
 void SynthesisInterface::resized() {
+  feedback_section_->setBounds(8.0f, 216.0f, 320.0f, 92.0f);
   filter_section_->setBounds(8.0f, 316.0f, 320.0f, 158.0f);
+
   step_sequencer_->setBounds(336, 336, 260, 96);
   amplitude_envelope_->setBounds(336, 180, 260, 88);
   filter_envelope_->setBounds(336, 24, 260, 88);
@@ -1299,15 +1246,11 @@ void SynthesisInterface::resized() {
   fil_sustain_->setBounds(488, 116, 32, 32);
   osc_1_waveform_->setBounds(8, 24, 128, 16);
   osc_2_waveform_->setBounds(200, 24, 128, 16);
-  osc_feedback_transpose_->setBounds(66 - (40 / 2), 244, 40, 40);
-  osc_feedback_amount_->setBounds(202 - (40 / 2), 244, 40, 40);
-  osc_feedback_tune_->setBounds(134 - (40 / 2), 244, 40, 40);
   mono_lfo_1_wave_display_->setBounds(346, 512, 116, 48);
   mono_lfo_1_waveform_->setBounds(346, 502, 116, 10);
   num_steps_->setBounds(424 - (42 / 2), 440, 42, 16);
   step_frequency_->setBounds(463, 440, 42, 16);
   mono_lfo_1_frequency_->setBounds(394, 564, 42, 16);
-  filter_saturation_->setBounds(270 - (40 / 2), 244, 40, 40);
   formant_on_->setBounds(12, 484, 16, 16);
   formant_xy_pad_->setBounds(8, 502, 186, 88);
   formant_x_->setBounds(8, 590, 186, 10);
@@ -1481,10 +1424,6 @@ void SynthesisInterface::setSliderUnits() {
   osc_2_unison_voices_->setUnits("v");
   osc_1_unison_detune_->setUnits("cents");
   osc_2_unison_detune_->setUnits("cents");
-  osc_feedback_transpose_->setUnits("semitones");
-  osc_feedback_tune_->setUnits("cents");
-  osc_feedback_tune_->setPostMultiply(100.0);
-  filter_saturation_->setUnits("dB");
 
   portamento_->setUnits("secs/semitone");
   portamento_->setScalingType(mopo::ValueDetails::kExponential);
@@ -1551,10 +1490,6 @@ void SynthesisInterface::markBipolarSliders() {
   mono_lfo_2_amplitude_->setBipolar();
   poly_lfo_amplitude_->setBipolar();
 
-  osc_feedback_amount_->setBipolar();
-  osc_feedback_transpose_->setBipolar();
-  osc_feedback_tune_->setBipolar();
-
   delay_feedback_->setBipolar();
 }
 
@@ -1567,12 +1502,6 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
   osc_2_transpose_->setDoubleClickReturnValue(true, 0.0f);
   osc_2_tune_->setDoubleClickReturnValue(true, 0.0f);
   osc_2_waveform_->setDoubleClickReturnValue(true, 0.0f);
-
-  osc_feedback_amount_->setDoubleClickReturnValue(true, 0.0f);
-  osc_feedback_transpose_->setDoubleClickReturnValue(true, 0.0f);
-  osc_feedback_tune_->setDoubleClickReturnValue(true, 0.0f);
-
-  filter_saturation_->setDoubleClickReturnValue(true, 0.0f);
 
   formant_x_->setDoubleClickReturnValue(true, 0.5f);
   formant_y_->setDoubleClickReturnValue(true, 0.5f);

@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "twytch_engine.h"
 #include "synth_slider.h"
+#include "feedback_section.h"
 #include "filter_section.h"
 #include "tempo_selector.h"
 #include "wave_selector.h"
@@ -55,6 +56,9 @@ class SynthesisInterface  : public SynthSection {
     void buttonClicked(Button* buttonThatWasClicked);
 
   private:
+    ScopedPointer<FilterSection> filter_section_;
+    ScopedPointer<FeedbackSection> feedback_section_;
+
     std::vector<Slider*> step_sequencer_sliders_;
     ScopedPointer<SynthSlider> step_sequencer_tempo_;
     ScopedPointer<SynthSlider> mono_lfo_1_tempo_;
@@ -89,16 +93,11 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> fil_sustain_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
-    ScopedPointer<SynthSlider> osc_feedback_transpose_;
-    ScopedPointer<SynthSlider> osc_feedback_amount_;
-    ScopedPointer<SynthSlider> osc_feedback_tune_;
-    ScopedPointer<FilterSection> filter_section_;
     ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;
     ScopedPointer<WaveSelector> mono_lfo_1_waveform_;
     ScopedPointer<SynthSlider> num_steps_;
     ScopedPointer<SynthSlider> step_frequency_;
     ScopedPointer<SynthSlider> mono_lfo_1_frequency_;
-    ScopedPointer<SynthSlider> filter_saturation_;
     ScopedPointer<ToggleButton> formant_on_;
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<SynthSlider> formant_x_;

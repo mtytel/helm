@@ -28,16 +28,13 @@
 FilterSection::FilterSection(String name) : SynthSection(name) {
   addSlider(filter_type_ = new FilterSelector("filter_type"));
   filter_type_->setSliderStyle(Slider::LinearBar);
-  filter_type_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
   filter_type_->setStringLookup(mopo::strings::filter_types);
 
   addSlider(cutoff_ = new SynthSlider("cutoff"));
   cutoff_->setSliderStyle(Slider::LinearBar);
-  cutoff_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 
   addSlider(resonance_ = new SynthSlider("resonance"));
   resonance_->setSliderStyle(Slider::LinearBarVertical);
-  resonance_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 
   addAndMakeVisible(filter_response_ = new FilterResponse(300));
   filter_response_->setCutoffSlider(cutoff_);
@@ -46,12 +43,10 @@ FilterSection::FilterSection(String name) : SynthSection(name) {
 
   addSlider(fil_env_depth_ = new SynthSlider("fil_env_depth"));
   fil_env_depth_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  fil_env_depth_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
   fil_env_depth_->setBipolar();
 
   addSlider(keytrack_ = new SynthSlider("keytrack"));
   keytrack_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  keytrack_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
   keytrack_->setBipolar();
 }
 
