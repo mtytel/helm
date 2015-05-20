@@ -18,6 +18,7 @@
 #include "synth_gui_interface.h"
 #include "full_interface.h"
 #include "text_look_and_feel.h"
+#include "twytch_common.h"
 
 namespace {
   enum MenuIds {
@@ -36,9 +37,18 @@ namespace {
   }
 } // namespace
 
-SynthSlider::SynthSlider(String name) :
-Slider(name), bipolar_(false), units_(""), scaling_type_(kLinear),
-post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) {
+SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false),
+                                        string_lookup_(nullptr), parent_(nullptr) {
+  mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
+  if (details.steps)
+    setRange(details.min, details.max, (details.max - details.min) / (details.steps - 1));
+  else
+    setRange(details.min, details.max);
+
+  post_multiply_ = details.display_multiply;
+  scaling_type_ = details.display_skew;
+  units_ = details.display_units;
+
   setBufferedToImage(true);
   setColour(Slider::backgroundColourId, Colour(0xff303030));
   setColour(Slider::textBoxOutlineColourId, Colour(0x00000000));
@@ -126,15 +136,15 @@ void SynthSlider::valueChanged() {
 }
 
 String SynthSlider::getTextFromValue(double value) {
-  if (scaling_type_ == kStringLookup)
+  if (string_lookup_)
     return string_lookup_[(int)value];
 
   float display_value = value;
   switch (scaling_type_) {
-    case kPolynomial:
+    case mopo::ValueDetails::kQuadratic:
       display_value = powf(display_value, 2.0f);
       break;
-    case kExponential:
+    case mopo::ValueDetails::kExponential:
       display_value = powf(2.0f, display_value);
       break;
     default:

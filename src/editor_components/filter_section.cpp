@@ -22,25 +22,17 @@
 
 FilterSection::FilterSection(String name) : SynthSection(name) {
   addSlider(filter_type_ = new FilterSelector("filter_type"));
-  filter_type_->setRange(0, 6, 1);
   filter_type_->setSliderStyle(Slider::LinearBar);
   filter_type_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  filter_type_->addListener(this);
   filter_type_->setStringLookup(mopo::strings::filter_types);
 
   addSlider(cutoff_ = new SynthSlider("cutoff"));
-  cutoff_->setRange(28, 127, 0);
   cutoff_->setSliderStyle(Slider::LinearBar);
   cutoff_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  cutoff_->addListener(this);
-  cutoff_->setDoubleClickReturnValue(true, 80);
 
   addSlider(resonance_ = new SynthSlider("resonance"));
-  resonance_->setRange(0, 1, 0);
   resonance_->setSliderStyle(Slider::LinearBarVertical);
   resonance_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  resonance_->addListener(this);
-  resonance_->setDoubleClickReturnValue(true, 0.5f);
 
   addAndMakeVisible(filter_response_ = new FilterResponse(300));
   filter_response_->setCutoffSlider(cutoff_);
@@ -48,23 +40,14 @@ FilterSection::FilterSection(String name) : SynthSection(name) {
   filter_response_->setFilterTypeSlider(filter_type_);
 
   addSlider(fil_env_depth_ = new SynthSlider("fil_env_depth"));
-  fil_env_depth_->setRange(-128, 128, 0);
   fil_env_depth_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   fil_env_depth_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  fil_env_depth_->addListener(this);
-  fil_env_depth_->setUnits("semitones");
   fil_env_depth_->setBipolar();
-  fil_env_depth_->setDoubleClickReturnValue(true, 0.0f);
 
   addSlider(keytrack_ = new SynthSlider("keytrack"));
-  keytrack_->setRange(-1, 1, 0);
   keytrack_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   keytrack_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  keytrack_->addListener(this);
-  keytrack_->setUnits("%");
-  keytrack_->setPostMultiply(100.0);
   keytrack_->setBipolar();
-  keytrack_->setDoubleClickReturnValue(true, 0.0f);
 }
 
 FilterSection::~FilterSection() {

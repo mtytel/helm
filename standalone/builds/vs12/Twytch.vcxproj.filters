@@ -442,6 +442,9 @@
     <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\common\twytch_common.cpp">
+      <Filter>Twytch\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>

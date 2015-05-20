@@ -18,18 +18,12 @@
 #define SYNTH_SLIDER_H
 
 #include "JuceHeader.h"
+#include "twytch_common.h"
 
 class FullInterface;
 
 class SynthSlider : public Slider {
   public:
-    enum ScalingType {
-        kLinear,
-        kPolynomial,
-        kExponential,
-        kStringLookup
-    };
-
     SynthSlider(String name);
 
     virtual void mouseDown(const MouseEvent& e) override;
@@ -42,12 +36,13 @@ class SynthSlider : public Slider {
     void drawRotaryShadow(Graphics& g);
     void drawRectangularShadow(Graphics& g);
 
-    void setScalingType(ScalingType scaling_type) { scaling_type_ = scaling_type; }
-    ScalingType getScalingType() const { return scaling_type_; }
+    void setScalingType(mopo::ValueDetails::DisplaySkew scaling_type) {
+      scaling_type_ = scaling_type;
+    }
+    mopo::ValueDetails::DisplaySkew getScalingType() const { return scaling_type_; }
 
     void setStringLookup(const std::string* lookup) {
       string_lookup_ = lookup;
-      scaling_type_ = kStringLookup;
     }
     const std::string* getStringLookup() const { return string_lookup_; }
 
@@ -66,7 +61,7 @@ class SynthSlider : public Slider {
 
     bool bipolar_;
     String units_;
-    ScalingType scaling_type_;
+    mopo::ValueDetails::DisplaySkew scaling_type_;
     float post_multiply_;
     const std::string* string_lookup_;
     Point<float> click_position_;

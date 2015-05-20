@@ -1493,7 +1493,7 @@ void SynthesisInterface::setSliderUnits() {
   filter_saturation_->setUnits("dB");
 
   portamento_->setUnits("secs/semitone");
-  portamento_->setScalingType(SynthSlider::kExponential);
+  portamento_->setScalingType(mopo::ValueDetails::kExponential);
   pitch_bend_range_->setUnits("semitones");
 
   polyphony_->setUnits("voices");
@@ -1506,11 +1506,11 @@ void SynthesisInterface::setSliderUnits() {
   poly_lfo_frequency_->setUnits("Hz");
   step_frequency_->setUnits("Hz");
   delay_frequency_->setUnits("Hz");
-  mono_lfo_1_frequency_->setScalingType(SynthSlider::kExponential);
-  mono_lfo_2_frequency_->setScalingType(SynthSlider::kExponential);
-  poly_lfo_frequency_->setScalingType(SynthSlider::kExponential);
-  step_frequency_->setScalingType(SynthSlider::kExponential);
-  delay_frequency_->setScalingType(SynthSlider::kExponential);
+  mono_lfo_1_frequency_->setScalingType(mopo::ValueDetails::kExponential);
+  mono_lfo_2_frequency_->setScalingType(mopo::ValueDetails::kExponential);
+  poly_lfo_frequency_->setScalingType(mopo::ValueDetails::kExponential);
+  step_frequency_->setScalingType(mopo::ValueDetails::kExponential);
+  delay_frequency_->setScalingType(mopo::ValueDetails::kExponential);
 
   amp_attack_->setUnits("secs");
   amp_decay_->setUnits("secs");
@@ -1518,12 +1518,12 @@ void SynthesisInterface::setSliderUnits() {
   fil_attack_->setUnits("secs");
   fil_decay_->setUnits("secs");
   fil_release_->setUnits("secs");
-  amp_attack_->setScalingType(SynthSlider::kPolynomial);
-  amp_decay_->setScalingType(SynthSlider::kPolynomial);
-  amp_release_->setScalingType(SynthSlider::kPolynomial);
-  fil_attack_->setScalingType(SynthSlider::kPolynomial);
-  fil_decay_->setScalingType(SynthSlider::kPolynomial);
-  fil_release_->setScalingType(SynthSlider::kPolynomial);
+  amp_attack_->setScalingType(mopo::ValueDetails::kQuadratic);
+  amp_decay_->setScalingType(mopo::ValueDetails::kQuadratic);
+  amp_release_->setScalingType(mopo::ValueDetails::kQuadratic);
+  fil_attack_->setScalingType(mopo::ValueDetails::kQuadratic);
+  fil_decay_->setScalingType(mopo::ValueDetails::kQuadratic);
+  fil_release_->setScalingType(mopo::ValueDetails::kQuadratic);
 
   mono_lfo_1_tempo_->setStringLookup(mopo::strings::synced_frequencies);
   mono_lfo_2_tempo_->setStringLookup(mopo::strings::synced_frequencies);

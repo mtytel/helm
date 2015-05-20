@@ -95,7 +95,7 @@ FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modul
   arp_tempo_->addListener(this);
 
   arp_frequency_->setUnits("Hz");
-  arp_frequency_->setScalingType(SynthSlider::kExponential);
+  arp_frequency_->setScalingType(mopo::ValueDetails::kExponential);
   arp_frequency_->setLookAndFeel(TextLookAndFeel::instance());
   arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
   arp_pattern_->setStringLookup(mopo::strings::arp_patterns);

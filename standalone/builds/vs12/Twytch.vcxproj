@@ -165,6 +165,7 @@
     <ClCompile Include="..\..\..\src\common\load_save.cpp"/>
     <ClCompile Include="..\..\..\src\common\midi_manager.cpp"/>
     <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp"/>
+    <ClCompile Include="..\..\..\src\common\twytch_common.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_selector.cpp"/>

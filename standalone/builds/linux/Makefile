@@ -85,6 +85,7 @@ OBJECTS := \
   $(OBJDIR)/load_save_2c95b2e1.o \
   $(OBJDIR)/midi_manager_80d96a0e.o \
   $(OBJDIR)/synth_gui_interface_6337839d.o \
+  $(OBJDIR)/twytch_common_53a31212.o \
   $(OBJDIR)/filter_response_7394009c.o \
   $(OBJDIR)/filter_section_23288834.o \
   $(OBJDIR)/filter_selector_c70de13a.o \
@@ -330,6 +331,11 @@ $(OBJDIR)/midi_manager_80d96a0e.o: ../../../src/common/midi_manager.cpp
 $(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_gui_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/twytch_common_53a31212.o: ../../../src/common/twytch_common.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling twytch_common.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp
