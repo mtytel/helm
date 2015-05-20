@@ -20,168 +20,168 @@
 #include "text_look_and_feel.h"
 
 namespace {
-    enum MenuIds {
-        kCancel = 0,
-        kArmMidiLearn,
-        kClearMidiLearn,
-        kDefaultValue,
-        kClearModulations,
-        kModulationList
-    };
+  enum MenuIds {
+    kCancel = 0,
+    kArmMidiLearn,
+    kClearMidiLearn,
+    kDefaultValue,
+    kClearModulations,
+    kModulationList
+  };
 
-    mopo::mopo_float synthRound(mopo::mopo_float value) {
-        static const mopo::mopo_float round_scale = 1000.0;
-        int scaled_rounded = round_scale * value;
-        return scaled_rounded / round_scale;
-    }
+  mopo::mopo_float synthRound(mopo::mopo_float value) {
+    static const mopo::mopo_float round_scale = 1000.0;
+    int scaled_rounded = round_scale * value;
+    return scaled_rounded / round_scale;
+  }
 } // namespace
 
 SynthSlider::SynthSlider(String name) :
-        Slider(name), bipolar_(false), units_(""), scaling_type_(kLinear),
-        post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) {
-    setBufferedToImage(true);
-    setColour(Slider::backgroundColourId, Colour(0xff303030));
-    setColour(Slider::textBoxOutlineColourId, Colour(0x00000000));
+Slider(name), bipolar_(false), units_(""), scaling_type_(kLinear),
+post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) {
+  setBufferedToImage(true);
+  setColour(Slider::backgroundColourId, Colour(0xff303030));
+  setColour(Slider::textBoxOutlineColourId, Colour(0x00000000));
 }
 
 void SynthSlider::mouseDown(const MouseEvent& e) {
-    if (e.mods.isPopupMenu()) {
-        PopupMenu m;
+  if (e.mods.isPopupMenu()) {
+    PopupMenu m;
 
-        if (isDoubleClickReturnEnabled())
-            m.addItem(kDefaultValue, "Set to Default Value");
+    if (isDoubleClickReturnEnabled())
+      m.addItem(kDefaultValue, "Set to Default Value");
 
-        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        std::vector<mopo::ModulationConnection*> connections;
-        if (parent) {
-            m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
-            if (parent->isMidiMapped(getName().toStdString()))
-                m.addItem(kClearMidiLearn, "Clear MIDI Assignment");
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    std::vector<mopo::ModulationConnection*> connections;
+    if (parent) {
+      m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
+      if (parent->isMidiMapped(getName().toStdString()))
+        m.addItem(kClearMidiLearn, "Clear MIDI Assignment");
 
-            connections = parent->getDestinationConnections(getName().toStdString());
+      connections = parent->getDestinationConnections(getName().toStdString());
 
-            String disconnect("Disconnect from ");
-            for (int i = 0; i < connections.size(); ++i)
-                m.addItem(kModulationList + i, disconnect + connections[i]->source);
+      String disconnect("Disconnect from ");
+      for (int i = 0; i < connections.size(); ++i)
+        m.addItem(kModulationList + i, disconnect + connections[i]->source);
 
-            if (connections.size() > 1)
-                m.addItem(kClearModulations, "Disconnect all modulations");
-        }
-
-        int result = m.show();
-        if (result == kArmMidiLearn) {
-            parent->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
-        }
-        else if (result == kClearMidiLearn) {
-            parent->clearMidiLearn(getName().toStdString());
-        }
-        else if (result == kDefaultValue) {
-            setValue(getDoubleClickReturnValue());
-        }
-        else if (result == kClearModulations) {
-            for (mopo::ModulationConnection* connection : connections) {
-                std::string source = connection->source;
-                parent->disconnectModulation(connection);
-
-                FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
-                if (full_parent)
-                    full_parent->modulationChanged(source);
-            }
-        }
-        else if (result >= kModulationList) {
-            int connection_index = result - kModulationList;
-            std::string source = connections[connection_index]->source;
-            parent->disconnectModulation(connections[connection_index]);
-
-            FullInterface* parent = findParentComponentOfClass<FullInterface>();
-            if (parent)
-                parent->modulationChanged(source);
-        }
+      if (connections.size() > 1)
+        m.addItem(kClearModulations, "Disconnect all modulations");
     }
-    else {
-        Slider::mouseDown(e);
-        if (isRotary()) {
-            click_position_ = e.getScreenPosition().toFloat();
-            setMouseCursor(MouseCursor::NoCursor);
-        }
+
+    int result = m.show();
+    if (result == kArmMidiLearn) {
+      parent->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
     }
+    else if (result == kClearMidiLearn) {
+      parent->clearMidiLearn(getName().toStdString());
+    }
+    else if (result == kDefaultValue) {
+      setValue(getDoubleClickReturnValue());
+    }
+    else if (result == kClearModulations) {
+      for (mopo::ModulationConnection* connection : connections) {
+        std::string source = connection->source;
+        parent->disconnectModulation(connection);
+
+        FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
+        if (full_parent)
+          full_parent->modulationChanged(source);
+      }
+    }
+    else if (result >= kModulationList) {
+      int connection_index = result - kModulationList;
+      std::string source = connections[connection_index]->source;
+      parent->disconnectModulation(connections[connection_index]);
+
+      FullInterface* parent = findParentComponentOfClass<FullInterface>();
+      if (parent)
+        parent->modulationChanged(source);
+    }
+  }
+  else {
+    Slider::mouseDown(e);
+    if (isRotary()) {
+      click_position_ = e.getScreenPosition().toFloat();
+      setMouseCursor(MouseCursor::NoCursor);
+    }
+  }
 }
 
 void SynthSlider::mouseUp(const MouseEvent& e) {
-    Slider::mouseUp(e);
-    if (isRotary() && !e.mods.isPopupMenu()) {
-        setMouseCursor(MouseCursor::ParentCursor);
-        Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
-    }
+  Slider::mouseUp(e);
+  if (isRotary() && !e.mods.isPopupMenu()) {
+    setMouseCursor(MouseCursor::ParentCursor);
+    Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
+  }
 }
 
 void SynthSlider::mouseEnter(const MouseEvent &e) {
-    Slider::mouseEnter(e);
-    notifyTooltip();
+  Slider::mouseEnter(e);
+  notifyTooltip();
 }
 
 void SynthSlider::valueChanged() {
-    Slider::valueChanged();
-    notifyTooltip();
+  Slider::valueChanged();
+  notifyTooltip();
 }
 
 String SynthSlider::getTextFromValue(double value) {
-    if (scaling_type_ == kStringLookup)
-        return string_lookup_[(int)value];
+  if (scaling_type_ == kStringLookup)
+    return string_lookup_[(int)value];
 
-    float display_value = value;
-    switch (scaling_type_) {
-        case kPolynomial:
-            display_value = powf(display_value, 2.0f);
-            break;
-        case kExponential:
-            display_value = powf(2.0f, display_value);
-            break;
-        default:
-            break;
-    }
-    display_value *= post_multiply_;
+  float display_value = value;
+  switch (scaling_type_) {
+    case kPolynomial:
+      display_value = powf(display_value, 2.0f);
+      break;
+    case kExponential:
+      display_value = powf(2.0f, display_value);
+      break;
+    default:
+      break;
+  }
+  display_value *= post_multiply_;
 
-    return String(synthRound(display_value)) + " " + units_;
+  return String(synthRound(display_value)) + " " + units_;
 }
 
 void SynthSlider::drawShadow(Graphics &g) {
-    if (&getLookAndFeel() == TextLookAndFeel::instance())
-        drawRectangularShadow(g);
-    else if (isRotary())
-        drawRotaryShadow(g);
+  if (&getLookAndFeel() == TextLookAndFeel::instance())
+    drawRectangularShadow(g);
+  else if (isRotary())
+    drawRotaryShadow(g);
 }
 
 void SynthSlider::drawRotaryShadow(Graphics &g) {
-    static const DropShadow shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
-    static const float shadow_angle = mopo::PI / 1.3f;
+  static const DropShadow shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
+  static const float shadow_angle = mopo::PI / 1.3f;
 
-    g.saveState();
-    g.setOrigin(getX(), getY());
+  g.saveState();
+  g.setOrigin(getX(), getY());
 
-    float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
-    Path shadow_path;
-    shadow_path.addCentredArc(full_radius, full_radius,
-                              0.87f * full_radius, 0.85f * full_radius,
-                              0, -shadow_angle, shadow_angle, true);
-    shadow.drawForPath(g, shadow_path);
-    g.restoreState();
+  float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
+  Path shadow_path;
+  shadow_path.addCentredArc(full_radius, full_radius,
+                            0.87f * full_radius, 0.85f * full_radius,
+                            0, -shadow_angle, shadow_angle, true);
+  shadow.drawForPath(g, shadow_path);
+  g.restoreState();
 }
 
 void SynthSlider::drawRectangularShadow(Graphics &g) {
-    static const DropShadow shadow(Colour(0xbb000000), 2, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 2, Point<int>(0, 0));
 
-    g.saveState();
-    g.setOrigin(getX(), getY());
-    shadow.drawForRectangle(g, getLocalBounds());
+  g.saveState();
+  g.setOrigin(getX(), getY());
+  shadow.drawForRectangle(g, getLocalBounds());
 
-    g.restoreState();
+  g.restoreState();
 }
 
 void SynthSlider::notifyTooltip() {
-    if (!parent_)
-        parent_ = findParentComponentOfClass<FullInterface>();
-    if (parent_) {
-        parent_->setToolTipText(getName(), getTextFromValue(getValue()));
-    }
+  if (!parent_)
+    parent_ = findParentComponentOfClass<FullInterface>();
+  if (parent_) {
+    parent_->setToolTipText(getName(), getTextFromValue(getValue()));
+  }
 }

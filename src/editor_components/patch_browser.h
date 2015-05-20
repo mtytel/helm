@@ -21,7 +21,7 @@
 #include "JuceHeader.h"
 
 class PatchBrowser : public Component, public ButtonListener {
-public:
+  public:
     PatchBrowser();
     ~PatchBrowser();
 
@@ -29,7 +29,7 @@ public:
     void resized() override;
     void buttonClicked(Button* buttonThatWasClicked) override;
 
-private:
+  private:
     void refreshPatches();
     File getSystemPatchDirectory();
     File getUserPatchDirectory();

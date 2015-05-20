@@ -22,7 +22,7 @@
 #include "memory.h"
 
 class Oscilloscope : public AnimatedAppComponent {
-public:
+  public:
     Oscilloscope(int num_samples);
     ~Oscilloscope();
 
@@ -33,7 +33,7 @@ public:
     void resetWavePath();
     void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
 
-private:
+  private:
     const mopo::Memory* output_memory_;
     int samples_to_show_;
     Path wave_path_;

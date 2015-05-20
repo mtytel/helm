@@ -17,33 +17,32 @@
 #include "modulation_slider.h"
 #include "mopo.h"
 
-ModulationSlider::ModulationSlider(SynthSlider* destination) :
-        SynthSlider(destination->getName()) {
-    destination_slider_ = destination;
+ModulationSlider::ModulationSlider(SynthSlider* destination) : SynthSlider(destination->getName()) {
+  destination_slider_ = destination;
 
-    float destination_range = destination->getMaximum() - destination->getMinimum();
-    setName(destination->getName());
-    setRange(-destination_range, destination_range);
-    setDoubleClickReturnValue(true, 0.0f);
-    setSliderStyle(destination->getSliderStyle());
-    setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-    setStringLookup(destination->getStringLookup());
-    setPostMultiply(destination->getPostMultiply());
-    setUnits(destination->getUnits());
-    setScalingType(destination->getScalingType());
+  float destination_range = destination->getMaximum() - destination->getMinimum();
+  setName(destination->getName());
+  setRange(-destination_range, destination_range);
+  setDoubleClickReturnValue(true, 0.0f);
+  setSliderStyle(destination->getSliderStyle());
+  setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+  setStringLookup(destination->getStringLookup());
+  setPostMultiply(destination->getPostMultiply());
+  setUnits(destination->getUnits());
+  setScalingType(destination->getScalingType());
 
-    if (destination->isRotary())
-        setMouseDragSensitivity(2.0f * getMouseDragSensitivity());
-    else
-        setVelocityBasedMode(true);
-    setOpaque(false);
+  if (destination->isRotary())
+    setMouseDragSensitivity(2.0f * getMouseDragSensitivity());
+  else
+    setVelocityBasedMode(true);
+  setOpaque(false);
 }
 
 ModulationSlider::~ModulationSlider() {
 }
 
 void ModulationSlider::mouseDown(const juce::MouseEvent &e) {
-    // We'll ignore right clicks.
-    if (!e.mods.isPopupMenu())
-        SynthSlider::mouseDown(e);
+  // We'll ignore right clicks.
+  if (!e.mods.isPopupMenu())
+    SynthSlider::mouseDown(e);
 }

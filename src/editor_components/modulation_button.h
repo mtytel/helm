@@ -23,13 +23,13 @@
 class FullInterface;
 
 class ModulationButton : public ToggleButton {
-public:
+  public:
     ModulationButton(String name);
 
     void mouseDown(const MouseEvent& e) override;
     void mouseUp(const MouseEvent& e) override;
 
-private:
+  private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationButton)
 };
 

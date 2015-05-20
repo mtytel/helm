@@ -21,7 +21,7 @@
 #include "synth_slider.h"
 
 class ModulationSlider : public SynthSlider {
-public:
+  public:
     ModulationSlider(SynthSlider* source);
     ~ModulationSlider();
 
@@ -29,7 +29,7 @@ public:
 
     Slider* getDestinationSlider() { return destination_slider_; }
 
-private:
+  private:
     Slider* destination_slider_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationSlider)

@@ -21,7 +21,7 @@
 #include "JuceHeader.h"
 
 class GlobalToolTip  : public Component, public Timer {
-public:
+  public:
     GlobalToolTip();
     ~GlobalToolTip();
 
@@ -29,7 +29,7 @@ public:
     void timerCallback() override;
     void paint(Graphics& g) override;
 
-private:
+  private:
     String shown_parameter_text_;
     String shown_value_text_;
     String parameter_text_;

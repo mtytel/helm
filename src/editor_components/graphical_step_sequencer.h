@@ -23,7 +23,7 @@
 #include <vector>
 
 class GraphicalStepSequencer : public Component, public Timer, public SliderListener {
-public:
+  public:
     GraphicalStepSequencer();
     ~GraphicalStepSequencer();
 
@@ -41,7 +41,7 @@ public:
     void mouseDown(const MouseEvent& e);
     void mouseDrag(const MouseEvent& e);
 
-private:
+  private:
     int getHoveredStep(Point<int> position);
     void updateHover(int step_index);
     void changeStep(const MouseEvent& e);

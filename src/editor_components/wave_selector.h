@@ -22,7 +22,7 @@
 #include "synth_slider.h"
 
 class WaveSelector : public SynthSlider {
-public:
+  public:
     WaveSelector(String name);
 
     void paint(Graphics& g) override;
@@ -32,7 +32,7 @@ public:
     void mouseDown(const MouseEvent& e) override;
     void mouseDrag(const MouseEvent& e) override;
 
-private:
+  private:
     void resizeSin(float x, float y, float width, float height);
     void resizeTriangle(float x, float y, float width, float height);
     void resizeSquare(float x, float y, float width, float height);

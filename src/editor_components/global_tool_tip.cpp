@@ -19,36 +19,36 @@
 #define FRAMES_PER_SECOND 20
 
 GlobalToolTip::GlobalToolTip() {
-    startTimerHz(FRAMES_PER_SECOND);
+  startTimerHz(FRAMES_PER_SECOND);
 }
 
 GlobalToolTip::~GlobalToolTip() { }
 
 void GlobalToolTip::paint(Graphics& g) {
-    g.setColour(Colour(0xff444444));
-    g.fillRect(0, 0, getWidth(), getHeight() / 2);
+  g.setColour(Colour(0xff444444));
+  g.fillRect(0, 0, getWidth(), getHeight() / 2);
 
-    g.setColour(Colour(0xff424242));
-    g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
+  g.setColour(Colour(0xff424242));
+  g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
-    g.setFont(Font(Font::getDefaultMonospacedFontName(), 13.0f, Font::plain));
-    g.setColour(Colour(0xffffffff));
-    g.drawText(parameter_text_, 0.0, 0.0,
-               getWidth(), proportionOfHeight(0.5), Justification::centred);
-    g.setFont(Font(Font::getDefaultMonospacedFontName(), 14.0f, Font::plain));
-    g.drawText(value_text_, 0.0, proportionOfHeight(0.5),
-               getWidth(), proportionOfHeight(0.5), Justification::centred);
+  g.setFont(Font(Font::getDefaultMonospacedFontName(), 13.0f, Font::plain));
+  g.setColour(Colour(0xffffffff));
+  g.drawText(parameter_text_, 0.0, 0.0,
+             getWidth(), proportionOfHeight(0.5), Justification::centred);
+  g.setFont(Font(Font::getDefaultMonospacedFontName(), 14.0f, Font::plain));
+  g.drawText(value_text_, 0.0, proportionOfHeight(0.5),
+             getWidth(), proportionOfHeight(0.5), Justification::centred);
 }
 
 void GlobalToolTip::setText(String parameter, String value) {
-    parameter_text_ = parameter;
-    value_text_ = value;
+  parameter_text_ = parameter;
+  value_text_ = value;
 }
 
 void GlobalToolTip::timerCallback() {
-    if (shown_parameter_text_ != parameter_text_ || shown_value_text_ != value_text_) {
-        shown_value_text_ = value_text_;
-        shown_parameter_text_ = parameter_text_;
-        repaint();
-    }
+  if (shown_parameter_text_ != parameter_text_ || shown_value_text_ != value_text_) {
+    shown_value_text_ = value_text_;
+    shown_parameter_text_ = parameter_text_;
+    repaint();
+  }
 }

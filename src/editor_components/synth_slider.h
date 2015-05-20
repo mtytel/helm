@@ -22,7 +22,7 @@
 class FullInterface;
 
 class SynthSlider : public Slider {
-public:
+  public:
     enum ScalingType {
         kLinear,
         kPolynomial,
@@ -46,8 +46,8 @@ public:
     ScalingType getScalingType() const { return scaling_type_; }
 
     void setStringLookup(const std::string* lookup) {
-        string_lookup_ = lookup;
-        scaling_type_ = kStringLookup;
+      string_lookup_ = lookup;
+      scaling_type_ = kStringLookup;
     }
     const std::string* getStringLookup() const { return string_lookup_; }
 
@@ -61,8 +61,7 @@ public:
 
     bool isBipolar() const { return bipolar_; }
 
-
-private:
+  private:
     void notifyTooltip();
 
     bool bipolar_;

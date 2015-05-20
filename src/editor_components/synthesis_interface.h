@@ -32,7 +32,7 @@
 #include "xy_pad.h"
 
 class SynthesisInterface  : public SynthSection {
-public:
+  public:
     SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
 
@@ -54,7 +54,7 @@ public:
     void sliderValueChanged(Slider* sliderThatWasMoved);
     void buttonClicked(Button* buttonThatWasClicked);
 
-private:
+  private:
     std::vector<Slider*> step_sequencer_sliders_;
     ScopedPointer<SynthSlider> step_sequencer_tempo_;
     ScopedPointer<SynthSlider> mono_lfo_1_tempo_;

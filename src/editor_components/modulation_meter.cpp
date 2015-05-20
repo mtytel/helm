@@ -28,97 +28,97 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
         destination_(slider), current_knob_percent_(0.0), current_mod_percent_(0.0),
         knob_stroke_(0.0f, PathStrokeType::beveled, PathStrokeType::butt),
         full_radius_(0.0), outer_radius_(0.0), knob_percent_(0.0), mod_percent_(0.0) {
-    setInterceptsMouseClicks(false, false);
-    update(0);
+  setInterceptsMouseClicks(false, false);
+  update(0);
 }
 
 ModulationMeter::~ModulationMeter() {
 }
 
 void ModulationMeter::paint(Graphics& g) {
-    if (destination_->getSliderStyle() == Slider::RotaryHorizontalVerticalDrag)
-        drawKnob(g);
-    else
-        drawSlider(g);
+  if (destination_->getSliderStyle() == Slider::RotaryHorizontalVerticalDrag)
+    drawKnob(g);
+  else
+    drawSlider(g);
 }
 
 void ModulationMeter::resized() {
-    static const float stroke_percent = 0.12f;
+  static const float stroke_percent = 0.12f;
 
-    full_radius_ = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
-    float stroke_width = 2.0f * full_radius_ * stroke_percent;
-    knob_stroke_ = PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
-    outer_radius_ = full_radius_ - stroke_width;
+  full_radius_ = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
+  float stroke_width = 2.0f * full_radius_ * stroke_percent;
+  knob_stroke_ = PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+  outer_radius_ = full_radius_ - stroke_width;
 }
 
 void ModulationMeter::update(int num_voices) {
-    if (mono_total_) {
-        float value = mono_total_->buffer[0];
-        if (poly_total_ && num_voices)
-            value += poly_total_->buffer[0] / num_voices;
+  if (mono_total_) {
+    float value = mono_total_->buffer[0];
+    if (poly_total_ && num_voices)
+      value += poly_total_->buffer[0] / num_voices;
 
-        double range = destination_->getMaximum() - destination_->getMinimum();
-        double mod_percent = CLAMP((value - destination_->getMinimum()) / range, 0.0, 1.0);
-        double knob_percent = (destination_->getValue() - destination_->getMinimum()) / range;
+    double range = destination_->getMaximum() - destination_->getMinimum();
+    double mod_percent = CLAMP((value - destination_->getMinimum()) / range, 0.0, 1.0);
+    double knob_percent = (destination_->getValue() - destination_->getMinimum()) / range;
 
-        if (mod_percent != current_mod_percent_ || knob_percent != current_knob_percent_) {
-            current_mod_percent_ = mod_percent;
-            current_knob_percent_ = knob_percent;
-            knob_percent_ = std::pow(current_knob_percent_, destination_->getSkewFactor());
-            mod_percent_ = std::pow(current_mod_percent_, destination_->getSkewFactor());
-            repaint();
-        }
+    if (mod_percent != current_mod_percent_ || knob_percent != current_knob_percent_) {
+      current_mod_percent_ = mod_percent;
+      current_knob_percent_ = knob_percent;
+      knob_percent_ = std::pow(current_knob_percent_, destination_->getSkewFactor());
+      mod_percent_ = std::pow(current_mod_percent_, destination_->getSkewFactor());
+      repaint();
     }
+  }
 }
 
 void ModulationMeter::drawSlider(Graphics& g) {
-    g.setColour(Colour(SLIDER_MOD_COLOR));
+  g.setColour(Colour(SLIDER_MOD_COLOR));
 
-    if (destination_->getSliderStyle() == Slider::LinearBar) {
-        float knob_position = getWidth() * knob_percent_;
-        float mod_position = getWidth() * mod_percent_;
+  if (destination_->getSliderStyle() == Slider::LinearBar) {
+    float knob_position = getWidth() * knob_percent_;
+    float mod_position = getWidth() * mod_percent_;
 
-        if (destination_->getInterval() == 1.0 && destination_->getMinimum() == 0.0) {
-            int index = current_mod_percent_ * destination_->getMaximum() + 0.5;
-            float width = getWidth() / (destination_->getMaximum() + 1.0);
+    if (destination_->getInterval() == 1.0 && destination_->getMinimum() == 0.0) {
+      int index = current_mod_percent_ * destination_->getMaximum() + 0.5;
+      float width = getWidth() / (destination_->getMaximum() + 1.0);
 
-            g.setColour(Colour(0xaaffffff));
-            g.drawRect(index * width, 0.0f, width, float(getHeight()), 1.0f);
-        }
-        else
-            fillHorizontalRect(g, knob_position, mod_position, getHeight() / 2.0f);
+      g.setColour(Colour(0xaaffffff));
+      g.drawRect(index * width, 0.0f, width, float(getHeight()), 1.0f);
     }
-    else {
-        float mod_position = getHeight() * (1.0f - mod_percent_);
-        float knob_position = getHeight() * (1.0f - knob_percent_);
+    else
+      fillHorizontalRect(g, knob_position, mod_position, getHeight() / 2.0f);
+  }
+  else {
+    float mod_position = getHeight() * (1.0f - mod_percent_);
+    float knob_position = getHeight() * (1.0f - knob_percent_);
 
-        fillVerticalRect(g, mod_position, knob_position, getWidth() / 2.0f);
-    }
+    fillVerticalRect(g, mod_position, knob_position, getWidth() / 2.0f);
+  }
 }
 
 void ModulationMeter::drawKnob(Graphics& g) {
-    float current_mod_angle = INTERPOLATE(-ANGLE, ANGLE, mod_percent_);
-    float current_knob_angle = INTERPOLATE(-ANGLE, ANGLE, knob_percent_);
+  float current_mod_angle = INTERPOLATE(-ANGLE, ANGLE, mod_percent_);
+  float current_knob_angle = INTERPOLATE(-ANGLE, ANGLE, knob_percent_);
 
-    if (current_mod_angle != current_knob_angle) {
-        Path mod_section;
-        mod_section.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
-                                  0.0f, current_mod_angle, current_knob_angle, true);
-        g.setColour(Colour(ROTARY_MOD_COLOR));
-        g.strokePath(mod_section, knob_stroke_);
-    }
+  if (current_mod_angle != current_knob_angle) {
+    Path mod_section;
+    mod_section.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
+                              0.0f, current_mod_angle, current_knob_angle, true);
+    g.setColour(Colour(ROTARY_MOD_COLOR));
+    g.strokePath(mod_section, knob_stroke_);
+  }
 }
 
 void ModulationMeter::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
-    float x = std::min(x1, x2);
-    float width = fabsf(x1 - x2);
-    float padding = (getHeight() - height) / 2.0f;
-    g.fillRect(x, padding, width, height);
+  float x = std::min(x1, x2);
+  float width = fabsf(x1 - x2);
+  float padding = (getHeight() - height) / 2.0f;
+  g.fillRect(x, padding, width, height);
 }
 
 void ModulationMeter::fillVerticalRect(Graphics& g, float y1, float y2, float width) {
-    float y = std::min(y1, y2);
-    float height = fabsf(y1 - y2);
-    float padding = (getWidth() - width) / 2.0f;
-    g.fillRect(padding, y, width, height);
+  float y = std::min(y1, y2);
+  float height = fabsf(y1 - y2);
+  float padding = (getWidth() - width) / 2.0f;
+  g.fillRect(padding, y, width, height);
 }

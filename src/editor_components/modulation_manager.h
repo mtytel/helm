@@ -23,8 +23,8 @@
 #include "modulation_meter.h"
 #include <set>
 
-class ModulationManager  : public Component, public SliderListener, public Timer {
-public:
+class ModulationManager : public Component, public SliderListener, public Timer {
+  public:
     ModulationManager (mopo::output_map modulation_sources,
                        std::map<std::string, SynthSlider*> sliders,
                        mopo::output_map mono_modulations,
@@ -41,7 +41,7 @@ public:
     void paint(Graphics& g) override;
     void resized() override;
 
-private:
+  private:
     void setSliderValues();
     void showMeter(std::string name, bool show);
 

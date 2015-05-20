@@ -22,7 +22,7 @@
 #include "synth_slider.h"
 
 class ModulationMeter : public Component {
-public:
+  public:
     ModulationMeter(const mopo::Processor::Output* mono_total,
                     const mopo::Processor::Output* poly_total,
                     const SynthSlider* slider);
@@ -33,7 +33,7 @@ public:
 
     void update(int num_voices);
 
-private:
+  private:
     void drawSlider(Graphics& g);
 
     void drawKnob(Graphics& g);

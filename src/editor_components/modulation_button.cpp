@@ -18,54 +18,54 @@
 #include "synth_gui_interface.h"
 
 namespace {
-    enum MenuIds {
-        kCancel = 0,
-        kDisconnect,
-        kModulationList
-    };
+  enum MenuIds {
+    kCancel = 0,
+    kDisconnect,
+    kModulationList
+  };
 
 } // namespace
 
 ModulationButton::ModulationButton(String name) : ToggleButton(name) {
-    setBufferedToImage(true);
+  setBufferedToImage(true);
 }
 
 void ModulationButton::mouseDown(const MouseEvent& e) {
-    if (e.mods.isPopupMenu()) {
-        SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-        std::vector<mopo::ModulationConnection*> connections;
-        if (parent == nullptr)
-            return;
+  if (e.mods.isPopupMenu()) {
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    std::vector<mopo::ModulationConnection*> connections;
+    if (parent == nullptr)
+      return;
 
-        connections = parent->getSourceConnections(getName().toStdString());
-        if (connections.size() == 0)
-            return;
+    connections = parent->getSourceConnections(getName().toStdString());
+    if (connections.size() == 0)
+      return;
 
-        PopupMenu m;
-        String disconnect("Disconnect from ");
-        for (int i = 0; i < connections.size(); ++i)
-            m.addItem(kModulationList + i, disconnect + connections[i]->destination);
+    PopupMenu m;
+    String disconnect("Disconnect from ");
+    for (int i = 0; i < connections.size(); ++i)
+      m.addItem(kModulationList + i, disconnect + connections[i]->destination);
 
-        if (connections.size() > 1)
-            m.addItem(kDisconnect, "Disconnect all");
+    if (connections.size() > 1)
+      m.addItem(kDisconnect, "Disconnect all");
 
-        int result = m.show();
-        if (result == kDisconnect) {
-            for (mopo::ModulationConnection* connection : connections)
-                parent->disconnectModulation(connection);
-            repaint();
-        }
-        else if (result >= kModulationList) {
-            int connection_index = result - kModulationList;
-            parent->disconnectModulation(connections[connection_index]);
-            repaint();
-        }
+    int result = m.show();
+    if (result == kDisconnect) {
+      for (mopo::ModulationConnection* connection : connections)
+        parent->disconnectModulation(connection);
+      repaint();
     }
-    else
-        ToggleButton::mouseDown(e);
+    else if (result >= kModulationList) {
+      int connection_index = result - kModulationList;
+      parent->disconnectModulation(connections[connection_index]);
+      repaint();
+    }
+  }
+  else
+    ToggleButton::mouseDown(e);
 }
 
 void ModulationButton::mouseUp(const MouseEvent& e) {
-    if (!e.mods.isPopupMenu())
-        ToggleButton::mouseUp(e);
+  if (!e.mods.isPopupMenu())
+    ToggleButton::mouseUp(e);
 }

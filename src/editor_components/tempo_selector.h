@@ -23,7 +23,7 @@
 class FullInterface;
 
 class TempoSelector : public SynthSlider {
-public:
+  public:
     TempoSelector(String name);
 
     void mouseDown(const MouseEvent& e) override;
@@ -34,7 +34,7 @@ public:
     void setFreeSlider(Slider* slider) { free_slider_ = slider; }
     void setTempoSlider(Slider* slider) { tempo_slider_ = slider; }
 
-private:
+  private:
     Slider* free_slider_;
     Slider* tempo_slider_;
 

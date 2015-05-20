@@ -22,57 +22,57 @@
 #define PADDING 5
 
 Oscilloscope::Oscilloscope(int num_samples) {
-    output_memory_ = nullptr;
-    samples_to_show_ = num_samples;
-    // setFramesPerSecond(FRAMES_PER_SECOND);
+  output_memory_ = nullptr;
+  samples_to_show_ = num_samples;
+  // setFramesPerSecond(FRAMES_PER_SECOND);
 }
 
 Oscilloscope::~Oscilloscope() { }
 
 void Oscilloscope::paint(Graphics& g) {
-    static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-    g.fillAll(Colour(0xff424242));
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  g.fillAll(Colour(0xff424242));
 
-    g.setColour(Colour(0xff4a4a4a));
-    for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
-        g.drawLine(x, 0, x, getHeight());
-    for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
-        g.drawLine(0, y, getWidth(), y);
+  g.setColour(Colour(0xff4a4a4a));
+  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+    g.drawLine(x, 0, x, getHeight());
+  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+    g.drawLine(0, y, getWidth(), y);
 
-    shadow.drawForPath(g, wave_path_);
+  shadow.drawForPath(g, wave_path_);
 
-    g.setColour(Colour(0xff565656));
-    g.fillPath(wave_path_);
-    g.setColour(Colour(0xffaaaaaa));
-    g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
+  g.setColour(Colour(0xff565656));
+  g.fillPath(wave_path_);
+  g.setColour(Colour(0xffaaaaaa));
+  g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
 }
 
 void Oscilloscope::resized() {
-    resetWavePath();
+  resetWavePath();
 }
 
 void Oscilloscope::resetWavePath() {
-    if (output_memory_ == nullptr)
-        return;
+  if (output_memory_ == nullptr)
+    return;
 
-    wave_path_.clear();
+  wave_path_.clear();
 
-    float draw_width = getWidth() - 2.0f * PADDING;
-    float draw_height = getHeight() - 2.0f * PADDING;
+  float draw_width = getWidth() - 2.0f * PADDING;
+  float draw_height = getHeight() - 2.0f * PADDING;
 
-    wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
-    int inc = samples_to_show_ / MAX_RESOLUTION;
-    for (int i = samples_to_show_; i >= 0; i -= inc) {
-        float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
-        float val = output_memory_->get(i);
-        if (val != val)
-            val = 0.0f;
-        wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
-    }
+  wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
+  int inc = samples_to_show_ / MAX_RESOLUTION;
+  for (int i = samples_to_show_; i >= 0; i -= inc) {
+    float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
+    float val = output_memory_->get(i);
+    if (val != val)
+      val = 0.0f;
+    wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+  }
 
-    wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
+  wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
 }
 
 void Oscilloscope::update() {
-    resetWavePath();
+  resetWavePath();
 }

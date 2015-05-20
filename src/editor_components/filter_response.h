@@ -23,7 +23,7 @@
 #include "filter.h"
 
 class FilterResponse : public Component, SliderListener {
-public:
+  public:
     FilterResponse (int resolution);
     ~FilterResponse();
 
@@ -42,7 +42,7 @@ public:
     void mouseDown (const MouseEvent& e);
     void mouseDrag (const MouseEvent& e);
 
-private:
+  private:
     Path filter_response_path_;
     int resolution_;
 

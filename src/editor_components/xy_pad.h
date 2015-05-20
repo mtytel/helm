@@ -21,7 +21,7 @@
 #include "JuceHeader.h"
 
 class XYPad : public Component, public SliderListener {
-public:
+  public:
     XYPad();
     ~XYPad();
 
@@ -37,7 +37,7 @@ public:
     void mouseDrag(const MouseEvent& e);
     void mouseUp(const MouseEvent& e);
 
-private:
+  private:
     Slider* x_slider_;
     Slider* y_slider_;
     bool mouse_down_;

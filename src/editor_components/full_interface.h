@@ -28,7 +28,7 @@
 #include "patch_browser.h"
 
 class FullInterface : public Component, public SliderListener, public ButtonListener {
-public:
+  public:
     FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
                   mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~FullInterface();
@@ -53,7 +53,7 @@ public:
     void sliderValueChanged (Slider* sliderThatWasMoved);
     void buttonClicked (Button* buttonThatWasClicked);
 
-private:
+  private:
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     ScopedPointer<ModulationManager> modulation_manager_;

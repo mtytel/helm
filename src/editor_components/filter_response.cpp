@@ -25,151 +25,153 @@
 #define GRID_CELL_WIDTH 8
 
 FilterResponse::FilterResponse(int resolution) {
-    resolution_ = resolution;
-    cutoff_slider_ = nullptr;
-    resonance_slider_ = nullptr;
-    filter_type_slider_ = nullptr;
+  resolution_ = resolution;
+  cutoff_slider_ = nullptr;
+  resonance_slider_ = nullptr;
+  filter_type_slider_ = nullptr;
 
-    filter_.setSampleRate(44100);
-    resetResponsePath();
+  filter_.setSampleRate(44100);
+  resetResponsePath();
 
-    setOpaque(true);
-    setBufferedToImage(true);
+  setOpaque(true);
+  setBufferedToImage(true);
 }
 
 FilterResponse::~FilterResponse() { }
 
 void FilterResponse::paint(Graphics& g) {
-    static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
-    static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-    g.fillAll (Colour (0xff424242));
-    g.setColour(Colour(0xff4a4a4a));
-    for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
-        g.drawLine(x, 0, x, getHeight());
-    for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
-        g.drawLine(0, y, getWidth(), y);
+  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  
+  g.fillAll (Colour (0xff424242));
+  g.setColour(Colour(0xff4a4a4a));
+  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+    g.drawLine(x, 0, x, getHeight());
+  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+    g.drawLine(0, y, getWidth(), y);
 
-    shadow.drawForPath(g, filter_response_path_);
+  shadow.drawForPath(g, filter_response_path_);
 
-    g.setColour(Colour(0xff565656));
-    g.fillPath(filter_response_path_);
+  g.setColour(Colour(0xff565656));
+  g.fillPath(filter_response_path_);
 
-    g.setColour(Colour(0xff03a9f4));
-    g.strokePath(filter_response_path_, stroke);
+  g.setColour(Colour(0xff03a9f4));
+  g.strokePath(filter_response_path_, stroke);
 }
 
 void FilterResponse::resized() {
-    computeFilterCoefficients();
-    resetResponsePath();
+  computeFilterCoefficients();
+  resetResponsePath();
 }
 
 void FilterResponse::mouseDown(const MouseEvent& e) {
-    if (e.mods.isRightButtonDown() && filter_type_slider_) {
-        int max = filter_type_slider_->getMaximum();
-        int current_value = filter_type_slider_->getValue();
-        filter_type_slider_->setValue((current_value + 1) % (max + 1));
+  if (e.mods.isRightButtonDown() && filter_type_slider_) {
+    int max = filter_type_slider_->getMaximum();
+    int current_value = filter_type_slider_->getValue();
+    filter_type_slider_->setValue((current_value + 1) % (max + 1));
 
-        computeFilterCoefficients();
-    }
-    else
-        setFilterSettingsFromPosition(e.getPosition());
-    repaint();
+    computeFilterCoefficients();
+  }
+  else
+    setFilterSettingsFromPosition(e.getPosition());
+  repaint();
 }
 
 void FilterResponse::mouseDrag(const MouseEvent& e) {
-    if (!e.mods.isRightButtonDown()) {
-        setFilterSettingsFromPosition(e.getPosition());
-        repaint();
-    }
+  if (!e.mods.isRightButtonDown()) {
+    setFilterSettingsFromPosition(e.getPosition());
+    repaint();
+  }
 }
 
 float FilterResponse::getPercentForMidiNote(float midi_note) {
-    float frequency = mopo::utils::midiNoteToFrequency(midi_note);
-    float response = fabs(filter_.getAmplitudeResponse(frequency));
-    float gain_db = MAG_TO_DB_CONSTANT * log10(response);
-    return (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
+  float frequency = mopo::utils::midiNoteToFrequency(midi_note);
+  float response = fabs(filter_.getAmplitudeResponse(frequency));
+  float gain_db = MAG_TO_DB_CONSTANT * log10(response);
+  return (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
 }
 
 void FilterResponse::resetResponsePath() {
-    static const int wrap_size = 10;
+  static const int wrap_size = 10;
 
-    if (cutoff_slider_ == nullptr)
-        return;
+  if (cutoff_slider_ == nullptr)
+    return;
 
-    filter_response_path_.clear();
-    filter_response_path_.startNewSubPath(-wrap_size, getHeight() + wrap_size);
-    float start_percent = getPercentForMidiNote(0.0);
-    filter_response_path_.lineTo(-wrap_size, getHeight() * (1.0f - start_percent));
+  filter_response_path_.clear();
+  filter_response_path_.startNewSubPath(-wrap_size, getHeight() + wrap_size);
+  float start_percent = getPercentForMidiNote(0.0);
+  filter_response_path_.lineTo(-wrap_size, getHeight() * (1.0f - start_percent));
 
-    for (int i = 0; i < resolution_; ++i) {
-        float t = (1.0f * i) / (resolution_ - 1);
-        float midi_note = cutoff_slider_->proportionOfLengthToValue(t);
-        float percent = getPercentForMidiNote(midi_note);
+  for (int i = 0; i < resolution_; ++i) {
+    float t = (1.0f * i) / (resolution_ - 1);
+    float midi_note = cutoff_slider_->proportionOfLengthToValue(t);
+    float percent = getPercentForMidiNote(midi_note);
 
-        filter_response_path_.lineTo(getWidth() * t, getHeight() * (1.0f - percent));
-    }
+    filter_response_path_.lineTo(getWidth() * t, getHeight() * (1.0f - percent));
+  }
 
-    float end_percent = getPercentForMidiNote(cutoff_slider_->getMaximum());
+  float end_percent = getPercentForMidiNote(cutoff_slider_->getMaximum());
 
-    filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() * (1.0f - end_percent));
-    filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() + wrap_size);
+  filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() * (1.0f - end_percent));
+  filter_response_path_.lineTo(getWidth() + wrap_size, getHeight() + wrap_size);
 }
 
 void FilterResponse::computeFilterCoefficients() {
-    if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr || filter_type_slider_ == nullptr)
-        return;
+  if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr || filter_type_slider_ == nullptr)
+    return;
 
-    mopo::Filter::Type type = static_cast<mopo::Filter::Type>(static_cast<int>(filter_type_slider_->getValue()));
-    double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
-    double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
-    double decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
-    double gain = mopo::utils::dbToGain(decibals);
-    filter_.computeCoefficients(type, frequency, resonance, gain);
-    resetResponsePath();
+  mopo::Filter::Type type = static_cast<mopo::Filter::Type>(
+                            static_cast<int>(filter_type_slider_->getValue()));
+  double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
+  double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
+  double decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
+  double gain = mopo::utils::dbToGain(decibals);
+  filter_.computeCoefficients(type, frequency, resonance, gain);
+  resetResponsePath();
 }
 
 void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
-    if (cutoff_slider_) {
-        double percent = CLAMP((1.0 * position.x) / getWidth(), 0.0, 1.0);
-        double frequency = cutoff_slider_->proportionOfLengthToValue(percent);
-        cutoff_slider_->setValue(frequency);
-    }
-    if (resonance_slider_) {
-        double percent = CLAMP(1.0 - (1.0 * position.y) / getHeight(), 0.0, 1.0);
-        resonance_slider_->setValue(resonance_slider_->proportionOfLengthToValue(percent));
-    }
+  if (cutoff_slider_) {
+    double percent = CLAMP((1.0 * position.x) / getWidth(), 0.0, 1.0);
+    double frequency = cutoff_slider_->proportionOfLengthToValue(percent);
+    cutoff_slider_->setValue(frequency);
+  }
+  if (resonance_slider_) {
+    double percent = CLAMP(1.0 - (1.0 * position.y) / getHeight(), 0.0, 1.0);
+    resonance_slider_->setValue(resonance_slider_->proportionOfLengthToValue(percent));
+  }
 
-    computeFilterCoefficients();
+  computeFilterCoefficients();
 }
 
 void FilterResponse::sliderValueChanged(Slider* moved_slider) {
-    computeFilterCoefficients();
-    repaint();
+  computeFilterCoefficients();
+  repaint();
 }
 
 void FilterResponse::setResonanceSlider(Slider* slider) {
-    if (resonance_slider_)
-        resonance_slider_->removeListener(this);
-    resonance_slider_ = slider;
-    resonance_slider_->addListener(this);
-    computeFilterCoefficients();
-    repaint();
+  if (resonance_slider_)
+    resonance_slider_->removeListener(this);
+  resonance_slider_ = slider;
+  resonance_slider_->addListener(this);
+  computeFilterCoefficients();
+  repaint();
 }
 
 void FilterResponse::setCutoffSlider(Slider* slider) {
-    if (cutoff_slider_)
-        cutoff_slider_->removeListener(this);
-    cutoff_slider_ = slider;
-    cutoff_slider_->addListener(this);
-    computeFilterCoefficients();
-    repaint();
+  if (cutoff_slider_)
+    cutoff_slider_->removeListener(this);
+  cutoff_slider_ = slider;
+  cutoff_slider_->addListener(this);
+  computeFilterCoefficients();
+  repaint();
 }
 
 void FilterResponse::setFilterTypeSlider(Slider* slider) {
-    if (filter_type_slider_)
-        filter_type_slider_->removeListener(this);
-    filter_type_slider_ = slider;
-    filter_type_slider_->addListener(this);
-    computeFilterCoefficients();
-    repaint();
+  if (filter_type_slider_)
+    filter_type_slider_->removeListener(this);
+  filter_type_slider_ = slider;
+  filter_type_slider_->addListener(this);
+  computeFilterCoefficients();
+  repaint();
 }

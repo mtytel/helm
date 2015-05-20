@@ -22,7 +22,7 @@
 #include "twytch_common.h"
 
 class GraphicalEnvelope  : public Component, public SliderListener {
-public:
+  public:
     GraphicalEnvelope();
     ~GraphicalEnvelope();
 
@@ -42,7 +42,7 @@ public:
     void mouseDrag (const MouseEvent& e);
     void mouseUp (const MouseEvent& e);
 
-private:
+  private:
     float getAttackX();
     float getDecayX();
     float getSustainY();
@@ -68,7 +68,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GraphicalEnvelope)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
-
-#endif   // __JUCE_HEADER_37075276847E8E25__
+#endif // GRAPHICAL_ENVELOPE_H

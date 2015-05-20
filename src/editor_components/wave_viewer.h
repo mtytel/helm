@@ -23,7 +23,7 @@
 #include "twytch_common.h"
 
 class WaveViewer  : public Component, public Timer, public SliderListener {
-public:
+  public:
     WaveViewer(int resolution);
     ~WaveViewer();
 
@@ -38,7 +38,7 @@ public:
     void resized();
     void mouseDown(const MouseEvent& e);
 
-private:
+  private:
     float phaseToX(float phase);
 
     Slider* wave_slider_;
