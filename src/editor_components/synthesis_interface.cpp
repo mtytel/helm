@@ -23,11 +23,11 @@
 #include "text_look_and_feel.h"
 
 SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSection("synthesis") {
+  feedback_section_ = new FeedbackSection("FEEDBACK");
+  addSubSection(feedback_section_);
+
   filter_section_ = new FilterSection("FILTER");
   addSubSection(filter_section_);
-
-  feedback_section_ = new FeedbackSection("FILTER");
-  addSubSection(feedback_section_);
 
   addAndMakeVisible(step_sequencer_ = new GraphicalStepSequencer());
   addAndMakeVisible(amplitude_envelope_ = new GraphicalEnvelope());
