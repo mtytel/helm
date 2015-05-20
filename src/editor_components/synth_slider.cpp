@@ -40,8 +40,9 @@ SynthSlider::SynthSlider(String name) :
         Slider(name), bipolar_(false), units_(""), scaling_type_(kLinear),
         post_multiply_(1.0), string_lookup_(nullptr), parent_(nullptr) {
     setBufferedToImage(true);
+    setColour(Slider::backgroundColourId, Colour(0xff303030));
+    setColour(Slider::textBoxOutlineColourId, Colour(0x00000000));
 }
-
 
 void SynthSlider::mouseDown(const MouseEvent& e) {
     if (e.mods.isPopupMenu()) {

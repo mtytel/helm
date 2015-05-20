@@ -21,7 +21,7 @@
 #include "synth_slider.h"
 
 class FilterSelector : public SynthSlider {
-public:
+  public:
     FilterSelector(String name);
 
     void paint(Graphics& g) override;
@@ -31,7 +31,7 @@ public:
     void mouseDown(const MouseEvent& e) override;
     void mouseDrag(const MouseEvent& e) override;
 
-private:
+  private:
     void resizeLowPass(float x, float y, float width, float height);
     void resizeHighPass(float x, float y, float width, float height);
     void resizeBandPass(float x, float y, float width, float height);

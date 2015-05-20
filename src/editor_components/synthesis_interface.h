@@ -20,8 +20,8 @@
 
 #include "JuceHeader.h"
 #include "twytch_engine.h"
-#include "filter_selector.h"
 #include "synth_slider.h"
+#include "filter_section.h"
 #include "tempo_selector.h"
 #include "wave_selector.h"
 #include "modulation_button.h"
@@ -30,9 +30,8 @@
 #include "graphical_envelope.h"
 #include "wave_viewer.h"
 #include "xy_pad.h"
-#include "filter_response.h"
 
-class SynthesisInterface  : public Component, public SliderListener, public ButtonListener {
+class SynthesisInterface  : public SynthSection {
 public:
     SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
@@ -44,7 +43,6 @@ public:
     void setStyles();
     void createStepSequencerSliders();
 
-    void setAllValues(mopo::control_map& controls);
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
     void modulationChanged(std::string source);
@@ -57,8 +55,6 @@ public:
     void buttonClicked(Button* buttonThatWasClicked);
 
 private:
-    std::map<std::string, SynthSlider*> slider_lookup_;
-    std::map<std::string, Button*> button_lookup_;
     std::vector<Slider*> step_sequencer_sliders_;
     ScopedPointer<SynthSlider> step_sequencer_tempo_;
     ScopedPointer<SynthSlider> mono_lfo_1_tempo_;
@@ -91,15 +87,12 @@ private:
     ScopedPointer<SynthSlider> fil_decay_;
     ScopedPointer<SynthSlider> fil_release_;
     ScopedPointer<SynthSlider> fil_sustain_;
-    ScopedPointer<SynthSlider> resonance_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
-    ScopedPointer<SynthSlider> cutoff_;
-    ScopedPointer<SynthSlider> fil_env_depth_;
-    ScopedPointer<SynthSlider> keytrack_;
     ScopedPointer<SynthSlider> osc_feedback_transpose_;
     ScopedPointer<SynthSlider> osc_feedback_amount_;
     ScopedPointer<SynthSlider> osc_feedback_tune_;
+    ScopedPointer<FilterSection> filter_section_;
     ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;
     ScopedPointer<WaveSelector> mono_lfo_1_waveform_;
     ScopedPointer<SynthSlider> num_steps_;
@@ -110,7 +103,6 @@ private:
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<SynthSlider> formant_x_;
     ScopedPointer<SynthSlider> formant_y_;
-    ScopedPointer<FilterSelector> filter_type_;
     ScopedPointer<SynthSlider> osc_1_tune_;
     ScopedPointer<SynthSlider> delay_frequency_;
     ScopedPointer<WaveViewer> mono_lfo_2_wave_display_;
@@ -125,7 +117,6 @@ private:
     ScopedPointer<TempoSelector> mono_lfo_2_sync_;
     ScopedPointer<TempoSelector> delay_sync_;
     ScopedPointer<TempoSelector> step_sequencer_sync_;
-    ScopedPointer<FilterResponse> filter_response_;
     ScopedPointer<WaveViewer> poly_lfo_wave_display_;
     ScopedPointer<WaveSelector> poly_lfo_waveform_;
     ScopedPointer<SynthSlider> poly_lfo_frequency_;

@@ -19,14 +19,28 @@
 #define SYNTH_SECTION_H
 
 #include "JuceHeader.h"
+#include "twytch_common.h"
+#include <map>
 
-class SynthSection : public Component, public SliderListener {
-public:
+class SynthSlider;
+
+class SynthSection : public Component, public SliderListener, public ButtonListener {
+  public:
     SynthSection(String name) : Component(name) { }
-    void paint(Graphics& g) override;
-    void sliderValueChanged(Slider* moved_slider) override;
+    virtual void paint(Graphics& g) override;
+    virtual void sliderValueChanged(Slider* moved_slider) override;
+    virtual void buttonClicked(Button* clicked_button) override { }
+    void setAllValues(mopo::control_map& controls);
 
-private:
+  protected:
+    void addButton(Button* button, bool show = true);
+    void addSlider(SynthSlider* slider, bool show = true);
+    void addSubSection(SynthSection* section, bool show = true);
+
+    std::map<std::string, SynthSlider*> slider_lookup_;
+    std::map<std::string, Button*> button_lookup_;
+    std::map<std::string, SynthSection*> sub_sections_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSection)
 };
 

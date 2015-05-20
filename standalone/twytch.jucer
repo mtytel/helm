@@ -125,6 +125,10 @@
               file="../src/editor_components/filter_response.cpp"/>
         <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"
               file="../src/editor_components/filter_response.h"/>
+        <FILE id="Glo2ZO" name="filter_section.cpp" compile="1" resource="0"
+              file="../src/editor_components/filter_section.cpp"/>
+        <FILE id="hh3gBQ" name="filter_section.h" compile="0" resource="0"
+              file="../src/editor_components/filter_section.h"/>
         <FILE id="QeXzxc" name="filter_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/filter_selector.cpp"/>
         <FILE id="LH8ShZ" name="filter_selector.h" compile="0" resource="0"

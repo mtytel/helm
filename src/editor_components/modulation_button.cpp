@@ -26,8 +26,7 @@ namespace {
 
 } // namespace
 
-ModulationButton::ModulationButton(String name) :
-        ToggleButton(name) {
+ModulationButton::ModulationButton(String name) : ToggleButton(name) {
     setBufferedToImage(true);
 }
 

@@ -24,9 +24,6 @@ FilterSelector::FilterSelector(String name) : SynthSlider(name) { }
 void FilterSelector::paint(Graphics& g) {
     static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
 
-    g.setColour(Colour(0xff303030));
-    g.fillRect(getLocalBounds());
-
     int selected = getValue();
     int num_types = getMaximum() - getMinimum() + 1;
     float cell_width = float(getWidth()) / num_types;

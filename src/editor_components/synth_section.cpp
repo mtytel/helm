@@ -17,34 +17,82 @@
 #include "synth_section.h"
 
 #include "synth_gui_interface.h"
+#include "synth_slider.h"
 
 #define TITLE_WIDTH 20
 #define SHADOW_WIDTH 3
 
 void SynthSection::paint(Graphics& g) {
-    static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                             BinaryData::RobotoRegular_ttfSize));
-    // Draw border.
-    g.setColour(Colour(0xff303030));
-    g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 3.000f);
+  static const DropShadow button_shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
+  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
+                                                           BinaryData::RobotoRegular_ttfSize));
+  // Draw border.
+  g.setColour(Colour(0xff303030));
+  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 3.000f);
 
-    // Draw shadow divider.
-    float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
-    float shadow_bottom = TITLE_WIDTH;
-    g.setGradientFill(ColourGradient(Colour(0x00000000), 0.0f, shadow_top,
-                                     Colour(0x77000000), 0.0f, shadow_bottom,
-                                     false));
-    g.fillRect(0, 0, getWidth(), TITLE_WIDTH);
+  // Draw shadow divider.
+  float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
+  float shadow_bottom = TITLE_WIDTH;
+  g.setGradientFill(ColourGradient(Colour(0x00000000), 0.0f, shadow_top,
+                                   Colour(0x55000000), 0.0f, shadow_bottom,
+                                   false));
+  g.fillRect(0, 0, getWidth(), TITLE_WIDTH);
 
-    // Draw text title.
-    g.setColour(Colour(0xff999999));
-    g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-    g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
-               Justification::centred, true);
+  // Draw text title.
+  g.setColour(Colour(0xff999999));
+  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
+  g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
+             Justification::centred, true);
+
+  for (auto slider : slider_lookup_)
+    slider.second->drawShadow(g);
+
+  for (auto button : button_lookup_)
+    button_shadow.drawForRectangle(g, button.second->getBounds());
 }
 
 void SynthSection::sliderValueChanged(Slider* sliderThatWasMoved) {
-    std::string name = sliderThatWasMoved->getName().toStdString();
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    parent->valueChanged(name, sliderThatWasMoved->getValue());
+  std::string name = sliderThatWasMoved->getName().toStdString();
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  parent->valueChanged(name, sliderThatWasMoved->getValue());
+}
+
+void SynthSection::setAllValues(mopo::control_map& controls) {
+  for (auto slider : slider_lookup_) {
+    if (controls.count(slider.first))
+      slider.second->setValue(controls[slider.first]->value());
+  }
+
+  for (auto button : button_lookup_) {
+    if (controls.count(button.first)) {
+      bool toggle = controls[button.first]->value();
+      button.second->setToggleState(toggle, NotificationType::sendNotification);
+      button.second->repaint();
+    }
+  }
+
+  for (auto sub_section : sub_sections_)
+    sub_section.second->setAllValues(controls);
+  
+  repaint();
+}
+
+void SynthSection::addButton(Button* button, bool show) {
+  button_lookup_[button->getName().toStdString()] = button;
+  button->addListener(this);
+  if (show)
+    addAndMakeVisible(button);
+}
+
+void SynthSection::addSlider(SynthSlider* slider, bool show) {
+  slider_lookup_[slider->getName().toStdString()] = slider;
+  slider->addListener(this);
+  if (show)
+    addAndMakeVisible(slider);
+}
+
+void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
+  sub_sections_[sub_section->getName().toStdString()] = sub_section;
+  if (show)
+    addAndMakeVisible(sub_section);
 }

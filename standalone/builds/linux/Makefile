@@ -86,6 +86,7 @@ OBJECTS := \
   $(OBJDIR)/midi_manager_80d96a0e.o \
   $(OBJDIR)/synth_gui_interface_6337839d.o \
   $(OBJDIR)/filter_response_7394009c.o \
+  $(OBJDIR)/filter_section_23288834.o \
   $(OBJDIR)/filter_selector_c70de13a.o \
   $(OBJDIR)/full_interface_bc4a451f.o \
   $(OBJDIR)/global_tool_tip_5f078e04.o \
@@ -334,6 +335,11 @@ $(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interfac
 $(OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_response.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/filter_section_23288834.o: ../../../src/editor_components/filter_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling filter_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_selector_c70de13a.o: ../../../src/editor_components/filter_selector.cpp
