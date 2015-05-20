@@ -730,6 +730,8 @@ void SynthesisInterface::paint(Graphics& g) {
   g.setColour(Colour(0xff212121));
   g.fillRect(getLocalBounds());
 
+  section_shadow.drawForRectangle(g, filter_section_->getBounds());
+
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 482, 196, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(270 - (116 / 2), 482, 116, 118));
@@ -741,7 +743,6 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 482, 126, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 324, 126, 20));
   section_shadow.drawForRectangle(g, Rectangle<int>(336, 316, 260, 158));
-  section_shadow.drawForRectangle(g, Rectangle<int>(328 - 320, 316, 320, 158));
   section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 216, 320, 92));
   section_shadow.drawForRectangle(g, Rectangle<int>(336, 160, 260, 148));
   section_shadow.drawForRectangle(g, Rectangle<int>(336, 4, 260, 148));
@@ -1126,13 +1127,6 @@ void SynthesisInterface::paint(Graphics& g) {
                                    static_cast<float>(proportionOfWidth(0.0000f)), 238.0f,
                                    false));
   g.fillRect(168 - (320 / 2), 216, 320, 20);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 334.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 338.0f,
-                                   false));
-  g.fillRect(168 - (320 / 2), 316, 320, 20);
 
   g.setGradientFill(ColourGradient(Colour(0x00000000),
                                    static_cast<float>(proportionOfWidth(0.0000f)), 500.0f,

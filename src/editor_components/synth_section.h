@@ -31,6 +31,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void sliderValueChanged(Slider* moved_slider) override;
     virtual void buttonClicked(Button* clicked_button) override { }
     void setAllValues(mopo::control_map& controls);
+    void drawTextForSlider(Graphics& g, String text, SynthSlider* slider);
 
   protected:
     void addButton(Button* button, bool show = true);

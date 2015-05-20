@@ -18,7 +18,6 @@
 #include "synth_gui_interface.h"
 #include "full_interface.h"
 #include "text_look_and_feel.h"
-#include "twytch_common.h"
 
 namespace {
   enum MenuIds {
