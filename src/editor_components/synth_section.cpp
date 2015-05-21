@@ -23,7 +23,7 @@
 #define SHADOW_WIDTH 3
 
 void SynthSection::paint(Graphics& g) {
-  static const DropShadow button_shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
+  static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
   // Draw border.

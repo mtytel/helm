@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "twytch_engine.h"
 #include "synth_slider.h"
+#include "envelope_section.h"
 #include "feedback_section.h"
 #include "filter_section.h"
 #include "step_sequencer_section.h"
@@ -56,8 +57,10 @@ class SynthesisInterface  : public SynthSection {
     void buttonClicked(Button* buttonThatWasClicked);
 
   private:
-    ScopedPointer<FilterSection> filter_section_;
+    ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
     ScopedPointer<FeedbackSection> feedback_section_;
+    ScopedPointer<EnvelopeSection> filter_envelope_section_;
+    ScopedPointer<FilterSection> filter_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
 
     ScopedPointer<SynthSlider> mono_lfo_1_tempo_;
@@ -65,8 +68,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> poly_lfo_tempo_;
     ScopedPointer<SynthSlider> delay_tempo_;
 
-    ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
-    ScopedPointer<GraphicalEnvelope> filter_envelope_;
     ScopedPointer<WaveViewer> osc_1_wave_display_;
     ScopedPointer<WaveViewer> osc_2_wave_display_;
     ScopedPointer<SynthSlider> polyphony_;
@@ -81,14 +82,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> delay_feedback_;
     ScopedPointer<SynthSlider> delay_dry_wet_;
     ScopedPointer<SynthSlider> velocity_track_;
-    ScopedPointer<SynthSlider> amp_attack_;
-    ScopedPointer<SynthSlider> amp_decay_;
-    ScopedPointer<SynthSlider> amp_release_;
-    ScopedPointer<SynthSlider> amp_sustain_;
-    ScopedPointer<SynthSlider> fil_attack_;
-    ScopedPointer<SynthSlider> fil_decay_;
-    ScopedPointer<SynthSlider> fil_release_;
-    ScopedPointer<SynthSlider> fil_sustain_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
     ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;

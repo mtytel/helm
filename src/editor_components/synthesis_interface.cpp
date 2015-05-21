@@ -23,12 +23,12 @@
 #include "text_look_and_feel.h"
 
 SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSection("synthesis") {
+  addSubSection(amplitude_envelope_section_ = new EnvelopeSection("AMPLITUDE ENVELOPE", "amp"));
   addSubSection(feedback_section_ = new FeedbackSection("FEEDBACK"));
+  addSubSection(filter_envelope_section_ = new EnvelopeSection("FILTER ENVELOPE", "fil"));
   addSubSection(filter_section_ = new FilterSection("FILTER"));
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
 
-  addAndMakeVisible(amplitude_envelope_ = new GraphicalEnvelope());
-  addAndMakeVisible(filter_envelope_ = new GraphicalEnvelope());
   addAndMakeVisible(osc_1_wave_display_ = new WaveViewer(256));
   addAndMakeVisible(osc_2_wave_display_ = new WaveViewer(256));
   addSlider(polyphony_ = new SynthSlider("polyphony"));
@@ -129,70 +129,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   velocity_track_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
   velocity_track_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
   velocity_track_->addListener(this);
-
-  addSlider(amp_attack_ = new SynthSlider("amp_attack"));
-  amp_attack_->setRange(0, 4, 0);
-  amp_attack_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  amp_attack_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  amp_attack_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  amp_attack_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  amp_attack_->addListener(this);
-
-  addSlider(amp_decay_ = new SynthSlider("amp_decay"));
-  amp_decay_->setRange(0, 4, 0);
-  amp_decay_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  amp_decay_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  amp_decay_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  amp_decay_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  amp_decay_->addListener(this);
-
-  addSlider(amp_release_ = new SynthSlider("amp_release"));
-  amp_release_->setRange(0, 4, 0);
-  amp_release_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  amp_release_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  amp_release_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  amp_release_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  amp_release_->addListener(this);
-
-  addSlider(amp_sustain_ = new SynthSlider("amp_sustain"));
-  amp_sustain_->setRange(0, 1, 0);
-  amp_sustain_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  amp_sustain_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  amp_sustain_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  amp_sustain_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  amp_sustain_->addListener(this);
-
-  addSlider(fil_attack_ = new SynthSlider("fil_attack"));
-  fil_attack_->setRange(0, 4, 0);
-  fil_attack_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  fil_attack_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  fil_attack_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  fil_attack_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  fil_attack_->addListener(this);
-
-  addSlider(fil_decay_ = new SynthSlider("fil_decay"));
-  fil_decay_->setRange(0, 4, 0);
-  fil_decay_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  fil_decay_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  fil_decay_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  fil_decay_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  fil_decay_->addListener(this);
-
-  addSlider(fil_release_ = new SynthSlider("fil_release"));
-  fil_release_->setRange(0, 4, 0);
-  fil_release_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  fil_release_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  fil_release_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  fil_release_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  fil_release_->addListener(this);
-
-  addSlider(fil_sustain_ = new SynthSlider("fil_sustain"));
-  fil_sustain_->setRange(0, 1, 0);
-  fil_sustain_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  fil_sustain_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  fil_sustain_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  fil_sustain_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  fil_sustain_->addListener(this);
 
   addAndMakeVisible(osc_1_waveform_ = new WaveSelector("osc_1_waveform"));
   osc_1_waveform_->setRange(0, 11, 1);
@@ -520,16 +456,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   markBipolarSliders();
   setStyles();
 
-  amplitude_envelope_->setAttackSlider(amp_attack_);
-  amplitude_envelope_->setDecaySlider(amp_decay_);
-  amplitude_envelope_->setSustainSlider(amp_sustain_);
-  amplitude_envelope_->setReleaseSlider(amp_release_);
-
-  filter_envelope_->setAttackSlider(fil_attack_);
-  filter_envelope_->setDecaySlider(fil_decay_);
-  filter_envelope_->setSustainSlider(fil_sustain_);
-  filter_envelope_->setReleaseSlider(fil_release_);
-
   osc_1_wave_display_->setWaveSlider(osc_1_waveform_);
   osc_2_wave_display_->setWaveSlider(osc_2_waveform_);
   mono_lfo_1_wave_display_->setWaveSlider(mono_lfo_1_waveform_);
@@ -559,12 +485,12 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
 }
 
 SynthesisInterface::~SynthesisInterface() {
+  amplitude_envelope_section_ = nullptr;
   feedback_section_ = nullptr;
+  filter_envelope_section_ = nullptr;
   filter_section_ = nullptr;
   step_sequencer_section_ = nullptr;
 
-  amplitude_envelope_ = nullptr;
-  filter_envelope_ = nullptr;
   osc_1_wave_display_ = nullptr;
   osc_2_wave_display_ = nullptr;
   polyphony_ = nullptr;
@@ -579,14 +505,6 @@ SynthesisInterface::~SynthesisInterface() {
   delay_feedback_ = nullptr;
   delay_dry_wet_ = nullptr;
   velocity_track_ = nullptr;
-  amp_attack_ = nullptr;
-  amp_decay_ = nullptr;
-  amp_release_ = nullptr;
-  amp_sustain_ = nullptr;
-  fil_attack_ = nullptr;
-  fil_decay_ = nullptr;
-  fil_release_ = nullptr;
-  fil_sustain_ = nullptr;
   osc_1_waveform_ = nullptr;
   osc_2_waveform_ = nullptr;
   mono_lfo_1_wave_display_ = nullptr;
@@ -652,8 +570,10 @@ void SynthesisInterface::paint(Graphics& g) {
   g.setColour(Colour(0xff212121));
   g.fillRect(getLocalBounds());
 
-  section_shadow.drawForRectangle(g, filter_section_->getBounds());
+  section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, feedback_section_->getBounds());
+  section_shadow.drawForRectangle(g, filter_envelope_section_->getBounds());
+  section_shadow.drawForRectangle(g, filter_section_->getBounds());
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
@@ -666,8 +586,6 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 4, 126, 220));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 482, 126, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 324, 126, 20));
-  section_shadow.drawForRectangle(g, Rectangle<int>(336, 160, 260, 148));
-  section_shadow.drawForRectangle(g, Rectangle<int>(336, 4, 260, 148));
   section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 200));
 
   g.setColour(Colour(0xff303030));
@@ -679,26 +597,6 @@ void SynthesisInterface::paint(Graphics& g) {
                                    static_cast<float>(proportionOfWidth(0.0000f)), 26.0f,
                                    false));
   g.fillRect(168 - (320 / 2), 4, 320, 20);
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(336.0f, 160.0f, 260.0f, 148.0f, 3.000f);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 178.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 182.0f,
-                                   false));
-  g.fillRect(336, 160, 260, 20);
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(336.0f, 4.0f, 260.0f, 148.0f, 3.000f);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 22.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 26.0f,
-                                   false));
-  g.fillRect(336, 4, 260, 20);
 
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(604.0f, 4.0f, 126.0f, 220.0f, 3.000f);
@@ -822,12 +720,6 @@ void SynthesisInterface::paint(Graphics& g) {
 
   g.setColour(Colour(0xff999999));
   g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("AMPLITUDE ENVELOPE"),
-             466 - (260 / 2), 160, 260, 20,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
   g.drawText(TRANS("DELAY"),
              667 - (126 / 2), 232, 126, 20,
              Justification::centred, true);
@@ -944,12 +836,6 @@ void SynthesisInterface::paint(Graphics& g) {
   g.setFont(roboto_reg.withPointHeight(10.0f));
   g.drawText(TRANS("RESAMPLE "),
              297 - (50 / 2), 570, 50, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("FILTER ENVELOPE"),
-             466 - (260 / 2), 14 - (20 / 2), 260, 20,
              Justification::centred, true);
 
   g.setColour(Colour(0xff999999));
@@ -1128,8 +1014,6 @@ void SynthesisInterface::paint(Graphics& g) {
              76 - (40 / 2), 192, 40, 10,
              Justification::centred, true);
 
-  component_shadow.drawForRectangle(g, filter_envelope_->getBounds());
-  component_shadow.drawForRectangle(g, amplitude_envelope_->getBounds());
   component_shadow.drawForRectangle(g, formant_xy_pad_->getBounds());
   component_shadow.drawForRectangle(g, mono_lfo_1_wave_display_->getBounds());
   component_shadow.drawForRectangle(g, mono_lfo_2_wave_display_->getBounds());
@@ -1142,12 +1026,12 @@ void SynthesisInterface::paint(Graphics& g) {
 }
 
 void SynthesisInterface::resized() {
+  amplitude_envelope_section_->setBounds(336.0f, 160.0f, 260.0f, 148.0f);
   feedback_section_->setBounds(8.0f, 216.0f, 320.0f, 92.0f);
+  filter_envelope_section_->setBounds(336.0f, 4.0f, 260.0f, 148.0f);
   filter_section_->setBounds(8.0f, 316.0f, 320.0f, 158.0f);
   step_sequencer_section_->setBounds(336.0f, 316.0f, 260.0f, 158.0f);
 
-  amplitude_envelope_->setBounds(336, 180, 260, 88);
-  filter_envelope_->setBounds(336, 24, 260, 88);
   osc_1_wave_display_->setBounds(8, 40, 128, 80);
   osc_2_wave_display_->setBounds(200, 40, 128, 80);
   polyphony_->setBounds(634 - (40 / 2), 42, 40, 40);
@@ -1162,14 +1046,6 @@ void SynthesisInterface::resized() {
   delay_feedback_->setBounds(626 - (32 / 2), 270, 32, 32);
   delay_dry_wet_->setBounds(708 - (32 / 2), 270, 32, 32);
   velocity_track_->setBounds(700 - (40 / 2), 110, 40, 40);
-  amp_attack_->setBounds(392, 272, 32, 32);
-  amp_decay_->setBounds(440, 272, 32, 32);
-  amp_release_->setBounds(536, 272, 32, 32);
-  amp_sustain_->setBounds(488, 272, 32, 32);
-  fil_attack_->setBounds(392, 116, 32, 32);
-  fil_decay_->setBounds(440, 116, 32, 32);
-  fil_release_->setBounds(536, 116, 32, 32);
-  fil_sustain_->setBounds(488, 116, 32, 32);
   osc_1_waveform_->setBounds(8, 24, 128, 16);
   osc_2_waveform_->setBounds(200, 24, 128, 16);
   mono_lfo_1_wave_display_->setBounds(346, 512, 116, 48);
@@ -1356,19 +1232,6 @@ void SynthesisInterface::setSliderUnits() {
   poly_lfo_frequency_->setScalingType(mopo::ValueDetails::kExponential);
   delay_frequency_->setScalingType(mopo::ValueDetails::kExponential);
 
-  amp_attack_->setUnits("secs");
-  amp_decay_->setUnits("secs");
-  amp_release_->setUnits("secs");
-  fil_attack_->setUnits("secs");
-  fil_decay_->setUnits("secs");
-  fil_release_->setUnits("secs");
-  amp_attack_->setScalingType(mopo::ValueDetails::kQuadratic);
-  amp_decay_->setScalingType(mopo::ValueDetails::kQuadratic);
-  amp_release_->setScalingType(mopo::ValueDetails::kQuadratic);
-  fil_attack_->setScalingType(mopo::ValueDetails::kQuadratic);
-  fil_decay_->setScalingType(mopo::ValueDetails::kQuadratic);
-  fil_release_->setScalingType(mopo::ValueDetails::kQuadratic);
-
   mono_lfo_1_tempo_->setStringLookup(mopo::strings::synced_frequencies);
   mono_lfo_2_tempo_->setStringLookup(mopo::strings::synced_frequencies);
   poly_lfo_tempo_->setStringLookup(mopo::strings::synced_frequencies);
@@ -1418,15 +1281,6 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
   portamento_->setDoubleClickReturnValue(true, -7.0f);
   pitch_bend_range_->setDoubleClickReturnValue(true, 2.0f);
 
-  fil_attack_->setDoubleClickReturnValue(true, 0.01f);
-  fil_decay_->setDoubleClickReturnValue(true, 0.5f);
-  fil_sustain_->setDoubleClickReturnValue(true, 1.0f);
-  fil_release_->setDoubleClickReturnValue(true, 0.01f);
-
-  amp_attack_->setDoubleClickReturnValue(true, 0.01f);
-  amp_decay_->setDoubleClickReturnValue(true, 0.5f);
-  amp_sustain_->setDoubleClickReturnValue(true, 1.0f);
-  amp_release_->setDoubleClickReturnValue(true, 0.01f);
   velocity_track_->setDoubleClickReturnValue(true, 0.0f);
 
   mono_lfo_1_frequency_->setDoubleClickReturnValue(true, 0.0f);

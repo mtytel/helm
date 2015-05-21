@@ -86,6 +86,7 @@ OBJECTS := \
   $(OBJDIR)/midi_manager_80d96a0e.o \
   $(OBJDIR)/synth_gui_interface_6337839d.o \
   $(OBJDIR)/twytch_common_53a31212.o \
+  $(OBJDIR)/envelope_section_e21ab44c.o \
   $(OBJDIR)/feedback_section_9581a881.o \
   $(OBJDIR)/filter_response_7394009c.o \
   $(OBJDIR)/filter_section_23288834.o \
@@ -338,6 +339,11 @@ $(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interfac
 $(OBJDIR)/twytch_common_53a31212.o: ../../../src/common/twytch_common.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling twytch_common.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/envelope_section_e21ab44c.o: ../../../src/editor_components/envelope_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling envelope_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/feedback_section_9581a881.o: ../../../src/editor_components/feedback_section.cpp

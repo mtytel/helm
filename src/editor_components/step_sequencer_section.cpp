@@ -20,7 +20,7 @@
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
-#define KNOB_SECTION_WIDTH 50
+#define KNOB_SECTION_WIDTH 40
 #define KNOB_WIDTH 32
 #define TEXT_HEIGHT 16
 #define TEXT_WIDTH 42
@@ -60,13 +60,15 @@ StepSequencerSection::~StepSequencerSection() {
   step_sequencer_ = nullptr;
   num_steps_ = nullptr;
   frequency_ = nullptr;
+  tempo_ = nullptr;
+  sync_ = nullptr;
 
   for (Slider* slider : sequencer_sliders_)
     delete slider;
 }
 
 void StepSequencerSection::paint(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
+  static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
   SynthSection::paint(g);
@@ -84,15 +86,14 @@ void StepSequencerSection::paint(Graphics& g) {
 
 void StepSequencerSection::resized() {
   step_sequencer_->setBounds(0, 20, getWidth(), getHeight() - 20 - KNOB_SECTION_WIDTH);
-  int text_y = getHeight() - 3 * KNOB_SECTION_WIDTH / 4;
-  int knob_y = getHeight() - 4 * KNOB_SECTION_WIDTH / 5;
+  int y = getHeight() - 5 * KNOB_SECTION_WIDTH / 6;
 
-  num_steps_->setBounds(proportionOfWidth(0.25f), text_y, TEXT_WIDTH, TEXT_HEIGHT);
-  frequency_->setBounds(proportionOfWidth(0.51f), text_y, TEXT_WIDTH, TEXT_HEIGHT);
+  num_steps_->setBounds(proportionOfWidth(0.25f), y, TEXT_WIDTH, TEXT_HEIGHT);
+  frequency_->setBounds(proportionOfWidth(0.51f), y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),
                    TEXT_HEIGHT, TEXT_HEIGHT);
 
-  smoothing_->setBounds(proportionOfWidth(0.8f), knob_y, KNOB_WIDTH, KNOB_WIDTH);
+  smoothing_->setBounds(proportionOfWidth(0.8f), y, KNOB_WIDTH, KNOB_WIDTH);
   tempo_->setBounds(frequency_->getBounds());
 }
 
