@@ -29,7 +29,7 @@ namespace {
 } // namespace
 
 TempoSelector::TempoSelector(String name) : SynthSlider(name),
-free_slider_(0), tempo_slider_(0) { }
+                                            free_slider_(0), tempo_slider_(0) { }
 
 void TempoSelector::mouseDown(const MouseEvent& e) {
   if (e.mods.isPopupMenu()) {

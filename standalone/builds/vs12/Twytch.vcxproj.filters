@@ -487,6 +487,9 @@
     <ClCompile Include="..\..\..\src\editor_components\patch_browser.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\step_sequencer_section.cpp">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\synth_section.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -1951,6 +1954,9 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\patch_browser.h">
+      <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\step_sequencer_section.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\synth_section.h">

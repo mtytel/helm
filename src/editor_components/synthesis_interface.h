@@ -23,11 +23,11 @@
 #include "synth_slider.h"
 #include "feedback_section.h"
 #include "filter_section.h"
+#include "step_sequencer_section.h"
 #include "tempo_selector.h"
 #include "wave_selector.h"
 #include "modulation_button.h"
 
-#include "graphical_step_sequencer.h"
 #include "graphical_envelope.h"
 #include "wave_viewer.h"
 #include "xy_pad.h"
@@ -58,15 +58,13 @@ class SynthesisInterface  : public SynthSection {
   private:
     ScopedPointer<FilterSection> filter_section_;
     ScopedPointer<FeedbackSection> feedback_section_;
+    ScopedPointer<StepSequencerSection> step_sequencer_section_;
 
-    std::vector<Slider*> step_sequencer_sliders_;
-    ScopedPointer<SynthSlider> step_sequencer_tempo_;
     ScopedPointer<SynthSlider> mono_lfo_1_tempo_;
     ScopedPointer<SynthSlider> mono_lfo_2_tempo_;
     ScopedPointer<SynthSlider> poly_lfo_tempo_;
     ScopedPointer<SynthSlider> delay_tempo_;
 
-    ScopedPointer<GraphicalStepSequencer> step_sequencer_;
     ScopedPointer<GraphicalEnvelope> amplitude_envelope_;
     ScopedPointer<GraphicalEnvelope> filter_envelope_;
     ScopedPointer<WaveViewer> osc_1_wave_display_;
@@ -95,8 +93,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<WaveSelector> osc_2_waveform_;
     ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;
     ScopedPointer<WaveSelector> mono_lfo_1_waveform_;
-    ScopedPointer<SynthSlider> num_steps_;
-    ScopedPointer<SynthSlider> step_frequency_;
     ScopedPointer<SynthSlider> mono_lfo_1_frequency_;
     ScopedPointer<ToggleButton> formant_on_;
     ScopedPointer<XYPad> formant_xy_pad_;
@@ -111,11 +107,9 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<SynthSlider> stutter_resample_frequency_;
-    ScopedPointer<SynthSlider> step_smoothing_;
     ScopedPointer<TempoSelector> mono_lfo_1_sync_;
     ScopedPointer<TempoSelector> mono_lfo_2_sync_;
     ScopedPointer<TempoSelector> delay_sync_;
-    ScopedPointer<TempoSelector> step_sequencer_sync_;
     ScopedPointer<WaveViewer> poly_lfo_wave_display_;
     ScopedPointer<WaveSelector> poly_lfo_waveform_;
     ScopedPointer<SynthSlider> poly_lfo_frequency_;

@@ -87,7 +87,7 @@ namespace mopo {
     { "mono_lfo_2_sync", 0.0, 3.0, 4, 1.0, 1.0, ValueDetails::kLinear, "" },
     { "mono_lfo_2_tempo", 0.0, 11.0, 12, 9.0, 1.0, ValueDetails::kLinear, "" },
     { "mono_lfo_2_waveform", 0.0, 11.0, 12, 0.0, 1.0, ValueDetails::kLinear, "" },
-    { "num_steps", 1.0, 32.0, 32, 8.0, 1.0, ValueDetails::kLinear, "steps" },
+    { "num_steps", 1.0, 32.0, 32, 8.0, 1.0, ValueDetails::kLinear, "" },
     { "osc_1_transpose", -48.0, 48.0, 97, 0.0, 1.0, ValueDetails::kLinear, "semitones" },
     { "osc_1_tune", -1.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "cents" },
     { "osc_1_unison_detune", 0.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "cents" },
@@ -112,7 +112,10 @@ namespace mopo {
     { "portamento", -9.0, -1.0, 0, -9.0, 1.0, ValueDetails::kExponential, "s/oct" },
     { "portamento_type", 0.0, 2.0, 3, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "resonance", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
-    { "step_frequency", -7.0, 6.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
+    { "step_frequency", -5.0, 6.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
+    { "reverb_damping", 0.1, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
+    { "reverb_dry_wet", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
+    { "reverb_feedback", 0.8, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "%" },
     { "step_seq_00", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_seq_01", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_seq_02", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
@@ -145,7 +148,7 @@ namespace mopo {
     { "step_seq_29", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_seq_30", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_seq_31", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
-    { "step_sequencyer_sync", 0.0, 3.0, 4, 1.0, 1.0, ValueDetails::kLinear, "" },
+    { "step_sequencer_sync", 0.0, 3.0, 4, 1.0, 1.0, ValueDetails::kLinear, "" },
     { "step_sequencer_tempo", 0.0, 11.0, 12, 9.0, 1.0, ValueDetails::kLinear, "" },
     { "step_smoothing", 0.0, 0.5, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "stutter_frequency", -7.0, 6.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
@@ -262,7 +265,10 @@ namespace mopo {
   class ValueDetailsLookup {
     public:
       ValueDetailsLookup();
-      const ValueDetails& getDetails(std::string name) { return details_lookup_[name]; }
+      const ValueDetails& getDetails(std::string name) {
+        MOPO_ASSERT(details_lookup_.count(name));
+        return details_lookup_[name];
+      }
 
     private:
       std::map<std::string, ValueDetails> details_lookup_;

@@ -98,6 +98,6 @@ void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
 }
 
 void SynthSection::drawTextForSlider(Graphics &g, String text, SynthSlider *slider) {
-  g.drawText(text, slider->getX() - 20, slider->getY() + 46,
-             slider->getWidth() + 40, 10, Justification::centred, true);
+  g.drawText(text, slider->getX() - 20, slider->getY() + slider->getHeight() + 6,
+             slider->getWidth() + 40, 10, Justification::centred, false);
 }

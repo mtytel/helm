@@ -180,6 +180,7 @@
     <ClCompile Include="..\..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\patch_browser.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\step_sequencer_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\synth_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\synthesis_interface.cpp"/>
@@ -1387,6 +1388,7 @@
     <ClInclude Include="..\..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\..\src\editor_components\patch_browser.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\step_sequencer_section.h"/>
     <ClInclude Include="..\..\..\src\editor_components\synth_section.h"/>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\synthesis_interface.h"/>

@@ -100,6 +100,7 @@ OBJECTS := \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/patch_browser_2710c0e5.o \
+  $(OBJDIR)/step_sequencer_section_1b32f5da.o \
   $(OBJDIR)/synth_section_73c73b16.o \
   $(OBJDIR)/synth_slider_ab0cf9a.o \
   $(OBJDIR)/synthesis_interface_3df08742.o \
@@ -407,6 +408,11 @@ $(OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.c
 $(OBJDIR)/patch_browser_2710c0e5.o: ../../../src/editor_components/patch_browser.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling patch_browser.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/step_sequencer_section_1b32f5da.o: ../../../src/editor_components/step_sequencer_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling step_sequencer_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_section_73c73b16.o: ../../../src/editor_components/synth_section.cpp

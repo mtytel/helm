@@ -177,6 +177,10 @@
         <FILE id="MZrbcn" name="patch_browser.cpp" compile="1" resource="0"
               file="../src/editor_components/patch_browser.cpp"/>
         <FILE id="R33s2T" name="patch_browser.h" compile="0" resource="0" file="../src/editor_components/patch_browser.h"/>
+        <FILE id="cDliR9" name="step_sequencer_section.cpp" compile="1" resource="0"
+              file="../src/editor_components/step_sequencer_section.cpp"/>
+        <FILE id="hFoTpq" name="step_sequencer_section.h" compile="0" resource="0"
+              file="../src/editor_components/step_sequencer_section.h"/>
         <FILE id="vp8WbN" name="synth_section.cpp" compile="1" resource="0"
               file="../src/editor_components/synth_section.cpp"/>
         <FILE id="AZ3ilg" name="synth_section.h" compile="0" resource="0" file="../src/editor_components/synth_section.h"/>
