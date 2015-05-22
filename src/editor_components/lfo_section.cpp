@@ -1,0 +1,98 @@
+/* Copyright 2013-2015 Matt Tytel
+ *
+ * twytch is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * twytch is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "lfo_section.h"
+
+#include "synth_slider.h"
+#include "text_look_and_feel.h"
+
+#define WAVE_VIEWER_RESOLUTION 32
+#define KNOB_SECTION_WIDTH 40
+#define KNOB_WIDTH 32
+#define SLIDER_WIDTH 10
+#define TEXT_HEIGHT 16
+#define TEXT_WIDTH 42
+
+LfoSection::LfoSection(String name, std::string value_prepend) : SynthSection(name) {
+  static const int TEMPO_DRAG_SENSITIVITY = 150;
+
+  addSlider(amplitude_ = new SynthSlider(value_prepend + "_amplitude"));
+  amplitude_->setSliderStyle(Slider::LinearBarVertical);
+  amplitude_->setBipolar();
+
+  addSlider(frequency_ = new SynthSlider(value_prepend + "_frequency"));
+  frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  frequency_->setLookAndFeel(TextLookAndFeel::instance());
+
+  addSlider(tempo_ = new SynthSlider(value_prepend + "_tempo"));
+  tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  tempo_->setStringLookup(mopo::strings::synced_frequencies);
+  tempo_->setLookAndFeel(TextLookAndFeel::instance());
+  tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
+
+  addSlider(sync_ = new TempoSelector(value_prepend + "_sync"));
+  sync_->setSliderStyle(Slider::LinearBar);
+  sync_->setTempoSlider(tempo_);
+  sync_->setFreeSlider(frequency_);
+  sync_->setStringLookup(mopo::strings::freq_sync_styles);
+
+  addSlider(wave_selector_ = new WaveSelector(value_prepend + "_waveform"));
+  wave_selector_->setSliderStyle(Slider::LinearBar);
+  wave_selector_->setStringLookup(mopo::strings::waveforms);
+
+  addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
+  wave_viewer_->setAmplitudeSlider(amplitude_);
+  wave_viewer_->setWaveSlider(wave_selector_);
+}
+
+LfoSection::~LfoSection() {
+  wave_viewer_ = nullptr;
+  wave_selector_ = nullptr;
+  frequency_ = nullptr;
+  tempo_ = nullptr;
+  sync_ = nullptr;
+}
+
+void LfoSection::paint(Graphics& g) {
+  static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
+                                                           BinaryData::RobotoRegular_ttfSize));
+
+  SynthSection::paint(g);
+  wave_viewer_->showRealtimeFeedback();
+
+  g.setColour(Colour(0xffbbbbbb));
+  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.drawText(TRANS("FREQUENCY"),
+             frequency_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
+             frequency_->getBounds().getWidth() + TEXT_HEIGHT, 10, Justification::centred, false);
+  
+  component_shadow.drawForRectangle(g, wave_viewer_->getBounds());
+}
+
+void LfoSection::resized() {
+  int wave_height = getHeight() - 20 - KNOB_SECTION_WIDTH - SLIDER_WIDTH;
+  wave_selector_->setBounds(SLIDER_WIDTH, 20, getWidth() - SLIDER_WIDTH, SLIDER_WIDTH);
+  wave_viewer_->setBounds(SLIDER_WIDTH, 20 + SLIDER_WIDTH, getWidth() - SLIDER_WIDTH, wave_height);
+  amplitude_->setBounds(0, 20 + SLIDER_WIDTH, SLIDER_WIDTH, wave_height);
+
+  int y = getHeight() - 5 * KNOB_SECTION_WIDTH / 6;
+  frequency_->setBounds(proportionOfWidth(0.45f), y, TEXT_WIDTH, TEXT_HEIGHT);
+  sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),
+                   TEXT_HEIGHT, TEXT_HEIGHT);
+
+  tempo_->setBounds(frequency_->getBounds());
+}

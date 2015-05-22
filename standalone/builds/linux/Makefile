@@ -95,6 +95,7 @@ OBJECTS := \
   $(OBJDIR)/global_tool_tip_5f078e04.o \
   $(OBJDIR)/graphical_envelope_4add3912.o \
   $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
+  $(OBJDIR)/lfo_section_efb3084f.o \
   $(OBJDIR)/modulation_button_8258c889.o \
   $(OBJDIR)/modulation_manager_369eb080.o \
   $(OBJDIR)/modulation_meter_3f248ddc.o \
@@ -384,6 +385,11 @@ $(OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphica
 $(OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/lfo_section_efb3084f.o: ../../../src/editor_components/lfo_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling lfo_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp

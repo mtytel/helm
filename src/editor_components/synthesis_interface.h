@@ -20,17 +20,14 @@
 
 #include "JuceHeader.h"
 #include "twytch_engine.h"
-#include "synth_slider.h"
+
 #include "envelope_section.h"
 #include "feedback_section.h"
 #include "filter_section.h"
+#include "lfo_section.h"
 #include "step_sequencer_section.h"
-#include "tempo_selector.h"
-#include "wave_selector.h"
-#include "modulation_button.h"
 
-#include "graphical_envelope.h"
-#include "wave_viewer.h"
+#include "modulation_button.h"
 #include "xy_pad.h"
 
 class SynthesisInterface  : public SynthSection {
@@ -61,13 +58,12 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FeedbackSection> feedback_section_;
     ScopedPointer<EnvelopeSection> filter_envelope_section_;
     ScopedPointer<FilterSection> filter_section_;
+    ScopedPointer<LfoSection> mono_lfo_1_section_;
+    ScopedPointer<LfoSection> mono_lfo_2_section_;
+    ScopedPointer<LfoSection> poly_lfo_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
 
-    ScopedPointer<SynthSlider> mono_lfo_1_tempo_;
-    ScopedPointer<SynthSlider> mono_lfo_2_tempo_;
-    ScopedPointer<SynthSlider> poly_lfo_tempo_;
     ScopedPointer<SynthSlider> delay_tempo_;
-
     ScopedPointer<WaveViewer> osc_1_wave_display_;
     ScopedPointer<WaveViewer> osc_2_wave_display_;
     ScopedPointer<SynthSlider> polyphony_;
@@ -84,32 +80,17 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> velocity_track_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
-    ScopedPointer<WaveViewer> mono_lfo_1_wave_display_;
-    ScopedPointer<WaveSelector> mono_lfo_1_waveform_;
-    ScopedPointer<SynthSlider> mono_lfo_1_frequency_;
     ScopedPointer<ToggleButton> formant_on_;
     ScopedPointer<XYPad> formant_xy_pad_;
     ScopedPointer<SynthSlider> formant_x_;
     ScopedPointer<SynthSlider> formant_y_;
     ScopedPointer<SynthSlider> osc_1_tune_;
     ScopedPointer<SynthSlider> delay_frequency_;
-    ScopedPointer<WaveViewer> mono_lfo_2_wave_display_;
-    ScopedPointer<WaveSelector> mono_lfo_2_waveform_;
     ScopedPointer<SynthSlider> osc_1_transpose_;
-    ScopedPointer<SynthSlider> mono_lfo_2_frequency_;
     ScopedPointer<SynthSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<SynthSlider> stutter_resample_frequency_;
-    ScopedPointer<TempoSelector> mono_lfo_1_sync_;
-    ScopedPointer<TempoSelector> mono_lfo_2_sync_;
     ScopedPointer<TempoSelector> delay_sync_;
-    ScopedPointer<WaveViewer> poly_lfo_wave_display_;
-    ScopedPointer<WaveSelector> poly_lfo_waveform_;
-    ScopedPointer<SynthSlider> poly_lfo_frequency_;
-    ScopedPointer<TempoSelector> poly_lfo_sync_;
-    ScopedPointer<SynthSlider> mono_lfo_1_amplitude_;
-    ScopedPointer<SynthSlider> mono_lfo_2_amplitude_;
-    ScopedPointer<SynthSlider> poly_lfo_amplitude_;
     ScopedPointer<SynthSlider> osc_1_unison_detune_;
     ScopedPointer<SynthSlider> osc_2_unison_detune_;
     ScopedPointer<SynthSlider> osc_1_unison_voices_;
