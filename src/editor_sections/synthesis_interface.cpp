@@ -30,6 +30,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1"));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2"));
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo"));
+  addSubSection(reverb_section_ = new ReverbSection("REVERB"));
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
 
   addAndMakeVisible(osc_1_wave_display_ = new WaveViewer(256));
@@ -133,7 +134,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   velocity_track_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
   velocity_track_->addListener(this);
 
-  addAndMakeVisible(osc_1_waveform_ = new WaveSelector("osc_1_waveform"));
+  addSlider(osc_1_waveform_ = new WaveSelector("osc_1_waveform"));
   osc_1_waveform_->setRange(0, 11, 1);
   osc_1_waveform_->setSliderStyle(Slider::LinearBar);
   osc_1_waveform_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
@@ -142,7 +143,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   osc_1_waveform_->setColour(Slider::textBoxOutlineColourId, Colour(0xff303030));
   osc_1_waveform_->addListener(this);
 
-  addAndMakeVisible(osc_2_waveform_ = new WaveSelector("osc_2_waveform"));
+  addSlider(osc_2_waveform_ = new WaveSelector("osc_2_waveform"));
   osc_2_waveform_->setRange(0, 11, 1);
   osc_2_waveform_->setSliderStyle(Slider::LinearBar);
   osc_2_waveform_->setTextBoxStyle(Slider::NoTextBox, false, 80, 20);
@@ -322,30 +323,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   unison_2_harmonize_->addListener(this);
   unison_2_harmonize_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
 
-  addSlider(reverb_feedback_ = new SynthSlider("reverb_feedback"));
-  reverb_feedback_->setRange(0.8, 1, 0);
-  reverb_feedback_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  reverb_feedback_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  reverb_feedback_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  reverb_feedback_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  reverb_feedback_->addListener(this);
-
-  addSlider(reverb_dry_wet_ = new SynthSlider("reverb_dry_wet"));
-  reverb_dry_wet_->setRange(0, 1, 0);
-  reverb_dry_wet_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  reverb_dry_wet_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  reverb_dry_wet_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  reverb_dry_wet_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  reverb_dry_wet_->addListener(this);
-
-  addSlider(reverb_damping_ = new SynthSlider("reverb_damping"));
-  reverb_damping_->setRange(0, 1, 0);
-  reverb_damping_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  reverb_damping_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  reverb_damping_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  reverb_damping_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  reverb_damping_->addListener(this);
-
   createTempoSliders();
   setSliderUnits();
   markBipolarSliders();
@@ -371,6 +348,7 @@ SynthesisInterface::~SynthesisInterface() {
   mono_lfo_1_section_ = nullptr;
   mono_lfo_2_section_ = nullptr;
   poly_lfo_section_ = nullptr;
+  reverb_section_ = nullptr;
   step_sequencer_section_ = nullptr;
 
   osc_1_wave_display_ = nullptr;
@@ -418,9 +396,6 @@ SynthesisInterface::~SynthesisInterface() {
   legato_ = nullptr;
   unison_1_harmonize_ = nullptr;
   unison_2_harmonize_ = nullptr;
-  reverb_feedback_ = nullptr;
-  reverb_dry_wet_ = nullptr;
-  reverb_damping_ = nullptr;
 }
 
 void SynthesisInterface::paint(Graphics& g) {
@@ -441,6 +416,7 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, mono_lfo_1_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_2_section_->getBounds());
   section_shadow.drawForRectangle(g, poly_lfo_section_->getBounds());
+  section_shadow.drawForRectangle(g, reverb_section_->getBounds());
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
@@ -449,8 +425,6 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 416, 126, 58));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 232, 126, 84));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 4, 126, 220));
-  section_shadow.drawForRectangle(g, Rectangle<int>(604, 482, 126, 118));
-  section_shadow.drawForRectangle(g, Rectangle<int>(604, 324, 126, 20));
   section_shadow.drawForRectangle(g, Rectangle<int>(168 - (320 / 2), 4, 320, 200));
 
   g.setColour(Colour(0xff303030));
@@ -482,16 +456,6 @@ void SynthesisInterface::paint(Graphics& g) {
                                    static_cast<float>(proportionOfWidth(0.0000f)), 254.0f,
                                    false));
   g.fillRect(604, 232, 126, 20);
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(604.0f, 324.0f, 126.0f, 84.0f, 3.000f);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 342.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 346.0f,
-                                   false));
-  g.fillRect(604, 324, 126, 20);
 
   g.setColour(Colour(0xff363636));
   g.fillEllipse(static_cast<float>(36 - (40 / 2)), static_cast<float>(172 - (40 / 2)), 40.0f, 40.0f);
@@ -723,30 +687,6 @@ void SynthesisInterface::paint(Graphics& g) {
                                    false));
   g.fillRect(168 - (320 / 2), 120, 320, 16);
 
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("REVERB"),
-             667 - (126 / 2), 324, 126, 20,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("FEEDB"),
-             626 - (40 / 2), 392, 40, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("DAMP"),
-             667 - (40 / 2), 392, 40, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("WET"),
-             708 - (30 / 2), 392, 30, 10,
-             Justification::centred, true);
-
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
   g.drawText(TRANS("UNISON"),
@@ -832,6 +772,7 @@ void SynthesisInterface::resized() {
   mono_lfo_1_section_->setBounds(336.0f, 482.0f, 126.0f, 118.0f);
   mono_lfo_2_section_->setBounds(470.0f, 482.0f, 126.0f, 118.0f);
   poly_lfo_section_->setBounds(604.0f, 482.0f, 126.0f, 118.0f);
+  reverb_section_->setBounds(604.0f, 324.0f, 126.0f, 84.0f);
   step_sequencer_section_->setBounds(336.0f, 316.0f, 260.0f, 158.0f);
 
   osc_1_wave_display_->setBounds(8, 40, 128, 80);
@@ -850,7 +791,7 @@ void SynthesisInterface::resized() {
   velocity_track_->setBounds(700 - (40 / 2), 110, 40, 40);
   osc_1_waveform_->setBounds(8, 24, 128, 16);
   osc_2_waveform_->setBounds(200, 24, 128, 16);
-  formant_on_->setBounds(12, 484, 16, 16);
+  formant_on_->setBounds(10, 482, 20, 20);
   formant_xy_pad_->setBounds(8, 502, 186, 88);
   formant_x_->setBounds(8, 590, 186, 10);
   formant_y_->setBounds(194, 502, 10, 88);
@@ -858,7 +799,7 @@ void SynthesisInterface::resized() {
   delay_frequency_->setBounds(659 - (42 / 2), 256, 42, 16);
   osc_1_transpose_->setBounds(76 - (40 / 2), 148, 40, 40);
   stutter_frequency_->setBounds(241 - (40 / 2), 524, 40, 40);
-  stutter_on_->setBounds(216, 484, 16, 16);
+  stutter_on_->setBounds(214, 482, 20, 20);
   stutter_resample_frequency_->setBounds(297 - (40 / 2), 524, 40, 40);
   delay_sync_->setBounds(680, 256, 16, 16);
   osc_1_unison_detune_->setBounds(130 - (36 / 2), 144, 36, 36);
@@ -879,9 +820,6 @@ void SynthesisInterface::resized() {
   legato_->setBounds(684, 186, 32, 16);
   unison_1_harmonize_->setBounds(140, 188, 16, 16);
   unison_2_harmonize_->setBounds(180, 188, 16, 16);
-  reverb_feedback_->setBounds(626 - (32 / 2), 358, 32, 32);
-  reverb_dry_wet_->setBounds(708 - (32 / 2), 358, 32, 32);
-  reverb_damping_->setBounds(667 - (32 / 2), 356, 32, 32);
   internalPath1.clear();
   internalPath1.startNewSubPath(198.0f, 44.0f);
   internalPath1.lineTo(190.0f, 44.0f);
@@ -948,7 +886,7 @@ void SynthesisInterface::buttonClicked(Button* buttonThatWasClicked) {
 void SynthesisInterface::createTempoSliders() {
   int num_tempos = sizeof(mopo::synced_freq_ratios) / sizeof(mopo::Value);
   delay_tempo_ = new SynthSlider("delay_tempo");
-  addAndMakeVisible(delay_tempo_);
+  addSlider(delay_tempo_);
   delay_tempo_->setRange(0, num_tempos - 1, 1);
   delay_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   delay_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);

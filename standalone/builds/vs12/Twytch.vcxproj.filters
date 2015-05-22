@@ -23,6 +23,9 @@
     <Filter Include="Twytch\src\editor_components">
       <UniqueIdentifier>{1C284710-ADB5-E9A5-837B-F43264B05F57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Twytch\src\editor_sections">
+      <UniqueIdentifier>{96BFBC01-0973-A96D-60F8-79108300C9ED}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Twytch\src\look_and_feel">
       <UniqueIdentifier>{4B937A5C-A615-21AC-C669-DDC77779F604}</UniqueIdentifier>
     </Filter>
@@ -445,22 +448,10 @@
     <ClCompile Include="..\..\..\src\common\twytch_common.cpp">
       <Filter>Twytch\src\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\envelope_section.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\feedback_section.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\filter_section.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\filter_selector.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\full_interface.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\global_tool_tip.cpp">
@@ -470,9 +461,6 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\graphical_step_sequencer.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\lfo_section.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\modulation_button.cpp">
@@ -493,16 +481,7 @@
     <ClCompile Include="..\..\..\src\editor_components\patch_browser.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\step_sequencer_section.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\synth_section.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\synthesis_interface.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\tempo_selector.cpp">
@@ -516,6 +495,33 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp">
       <Filter>Twytch\src\editor_components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\envelope_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\feedback_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\filter_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\full_interface.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\lfo_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\reverb_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\step_sequencer_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\synth_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\synthesis_interface.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\look_and_feel\browser_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
@@ -1920,22 +1926,10 @@
     <ClInclude Include="..\..\..\src\common\twytch_common.h">
       <Filter>Twytch\src\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\envelope_section.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\feedback_section.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\filter_section.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\filter_selector.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\full_interface.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\global_tool_tip.h">
@@ -1945,9 +1939,6 @@
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\graphical_step_sequencer.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\lfo_section.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\modulation_button.h">
@@ -1968,16 +1959,7 @@
     <ClInclude Include="..\..\..\src\editor_components\patch_browser.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\step_sequencer_section.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\synth_section.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\synthesis_interface.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\tempo_selector.h">
@@ -1991,6 +1973,33 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h">
       <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\envelope_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\feedback_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\filter_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\full_interface.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\lfo_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\reverb_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\step_sequencer_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\synth_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\synthesis_interface.h">
+      <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\browser_look_and_feel.h">
       <Filter>Twytch\src\look_and_feel</Filter>

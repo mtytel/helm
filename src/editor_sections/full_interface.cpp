@@ -212,7 +212,7 @@ void FullInterface::resized() {
   arp_octaves_->setBounds(647 - (40 / 2), 12, 40, 40);
   arp_pattern_->setBounds(703 - (40 / 2), 12, 40, 40);
   oscilloscope_->setBounds(376, 8, 88, 60);
-  arp_on_->setBounds(474, 12, 16, 16);
+  arp_on_->setBounds(472, 10, 20, 20);
   beats_per_minute_->setBounds(148 - (176 / 2), 48, 176, 20);
   global_tool_tip_->setBounds(368 - 124, 8, 124, 60);
   patch_browser_->setBounds(16, 8, 220, 40);

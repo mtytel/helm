@@ -25,6 +25,7 @@
 #include "feedback_section.h"
 #include "filter_section.h"
 #include "lfo_section.h"
+#include "reverb_section.h"
 #include "step_sequencer_section.h"
 
 #include "modulation_button.h"
@@ -61,6 +62,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
+    ScopedPointer<ReverbSection> reverb_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
 
     ScopedPointer<SynthSlider> delay_tempo_;
@@ -109,9 +111,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<ToggleButton> legato_;
     ScopedPointer<ToggleButton> unison_1_harmonize_;
     ScopedPointer<ToggleButton> unison_2_harmonize_;
-    ScopedPointer<SynthSlider> reverb_feedback_;
-    ScopedPointer<SynthSlider> reverb_dry_wet_;
-    ScopedPointer<SynthSlider> reverb_damping_;
     Path internalPath1;
     Path internalPath2;
     Path internalPath3;

@@ -86,30 +86,31 @@ OBJECTS := \
   $(OBJDIR)/midi_manager_80d96a0e.o \
   $(OBJDIR)/synth_gui_interface_6337839d.o \
   $(OBJDIR)/twytch_common_53a31212.o \
-  $(OBJDIR)/envelope_section_e21ab44c.o \
-  $(OBJDIR)/feedback_section_9581a881.o \
   $(OBJDIR)/filter_response_7394009c.o \
-  $(OBJDIR)/filter_section_23288834.o \
   $(OBJDIR)/filter_selector_c70de13a.o \
-  $(OBJDIR)/full_interface_bc4a451f.o \
   $(OBJDIR)/global_tool_tip_5f078e04.o \
   $(OBJDIR)/graphical_envelope_4add3912.o \
   $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
-  $(OBJDIR)/lfo_section_efb3084f.o \
   $(OBJDIR)/modulation_button_8258c889.o \
   $(OBJDIR)/modulation_manager_369eb080.o \
   $(OBJDIR)/modulation_meter_3f248ddc.o \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/patch_browser_2710c0e5.o \
-  $(OBJDIR)/step_sequencer_section_1b32f5da.o \
-  $(OBJDIR)/synth_section_73c73b16.o \
   $(OBJDIR)/synth_slider_ab0cf9a.o \
-  $(OBJDIR)/synthesis_interface_3df08742.o \
   $(OBJDIR)/tempo_selector_e5a31119.o \
   $(OBJDIR)/wave_selector_6d163719.o \
   $(OBJDIR)/wave_viewer_e4b5610c.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
+  $(OBJDIR)/envelope_section_a35a0a34.o \
+  $(OBJDIR)/feedback_section_56c0fe69.o \
+  $(OBJDIR)/filter_section_9094381c.o \
+  $(OBJDIR)/full_interface_29b5f507.o \
+  $(OBJDIR)/lfo_section_f85fa167.o \
+  $(OBJDIR)/reverb_section_a0ad9f76.o \
+  $(OBJDIR)/step_sequencer_section_13843dc2.o \
+  $(OBJDIR)/synth_section_3b1ee2e.o \
+  $(OBJDIR)/synthesis_interface_a75e885a.o \
   $(OBJDIR)/browser_look_and_feel_d6654391.o \
   $(OBJDIR)/default_look_and_feel_f168ba6a.o \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
@@ -342,34 +343,14 @@ $(OBJDIR)/twytch_common_53a31212.o: ../../../src/common/twytch_common.cpp
 	@echo "Compiling twytch_common.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/envelope_section_e21ab44c.o: ../../../src/editor_components/envelope_section.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling envelope_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/feedback_section_9581a881.o: ../../../src/editor_components/feedback_section.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling feedback_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_response.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/filter_section_23288834.o: ../../../src/editor_components/filter_section.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling filter_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/filter_selector_c70de13a.o: ../../../src/editor_components/filter_selector.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/full_interface_bc4a451f.o: ../../../src/editor_components/full_interface.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling full_interface.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/global_tool_tip_5f078e04.o: ../../../src/editor_components/global_tool_tip.cpp
@@ -385,11 +366,6 @@ $(OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphica
 $(OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/lfo_section_efb3084f.o: ../../../src/editor_components/lfo_section.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling lfo_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp
@@ -422,24 +398,9 @@ $(OBJDIR)/patch_browser_2710c0e5.o: ../../../src/editor_components/patch_browser
 	@echo "Compiling patch_browser.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/step_sequencer_section_1b32f5da.o: ../../../src/editor_components/step_sequencer_section.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling step_sequencer_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/synth_section_73c73b16.o: ../../../src/editor_components/synth_section.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling synth_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_slider.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/synthesis_interface_3df08742.o: ../../../src/editor_components/synthesis_interface.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling synthesis_interface.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
@@ -460,6 +421,51 @@ $(OBJDIR)/wave_viewer_e4b5610c.o: ../../../src/editor_components/wave_viewer.cpp
 $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling xy_pad.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/envelope_section_a35a0a34.o: ../../../src/editor_sections/envelope_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling envelope_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/feedback_section_56c0fe69.o: ../../../src/editor_sections/feedback_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling feedback_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/filter_section_9094381c.o: ../../../src/editor_sections/filter_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling filter_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling full_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling lfo_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/reverb_section_a0ad9f76.o: ../../../src/editor_sections/reverb_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling reverb_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/step_sequencer_section_13843dc2.o: ../../../src/editor_sections/step_sequencer_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling step_sequencer_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synth_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/synthesis_interface_a75e885a.o: ../../../src/editor_sections/synthesis_interface.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synthesis_interface.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_look_and_feel.cpp

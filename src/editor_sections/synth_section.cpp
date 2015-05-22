@@ -46,15 +46,18 @@ void SynthSection::paint(Graphics& g) {
 
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
-
-  for (auto button : button_lookup_)
-    button_shadow.drawForRectangle(g, button.second->getBounds());
 }
 
-void SynthSection::sliderValueChanged(Slider* sliderThatWasMoved) {
-  std::string name = sliderThatWasMoved->getName().toStdString();
+void SynthSection::sliderValueChanged(Slider* moved_slider) {
+  std::string name = moved_slider->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChanged(name, sliderThatWasMoved->getValue());
+  parent->valueChanged(name, moved_slider->getValue());
+}
+
+void SynthSection::buttonClicked(juce::Button *clicked_button) {
+  std::string name = clicked_button->getName().toStdString();
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  parent->valueChanged(name, clicked_button->getToggleState() ? 1.0 : 0.0);
 }
 
 void SynthSection::setAllValues(mopo::control_map& controls) {

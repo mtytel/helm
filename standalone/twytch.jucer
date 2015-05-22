@@ -123,30 +123,14 @@
         <FILE id="f8Ivaj" name="twytch_common.h" compile="0" resource="0" file="../src/common/twytch_common.h"/>
       </GROUP>
       <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
-        <FILE id="nDLHAf" name="envelope_section.cpp" compile="1" resource="0"
-              file="../src/editor_components/envelope_section.cpp"/>
-        <FILE id="GYn5CE" name="envelope_section.h" compile="0" resource="0"
-              file="../src/editor_components/envelope_section.h"/>
-        <FILE id="imBJEZ" name="feedback_section.cpp" compile="1" resource="0"
-              file="../src/editor_components/feedback_section.cpp"/>
-        <FILE id="qcBP8a" name="feedback_section.h" compile="0" resource="0"
-              file="../src/editor_components/feedback_section.h"/>
         <FILE id="yQH4BO" name="filter_response.cpp" compile="1" resource="0"
               file="../src/editor_components/filter_response.cpp"/>
         <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"
               file="../src/editor_components/filter_response.h"/>
-        <FILE id="Glo2ZO" name="filter_section.cpp" compile="1" resource="0"
-              file="../src/editor_components/filter_section.cpp"/>
-        <FILE id="hh3gBQ" name="filter_section.h" compile="0" resource="0"
-              file="../src/editor_components/filter_section.h"/>
         <FILE id="QeXzxc" name="filter_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/filter_selector.cpp"/>
         <FILE id="LH8ShZ" name="filter_selector.h" compile="0" resource="0"
               file="../src/editor_components/filter_selector.h"/>
-        <FILE id="jfNGho" name="full_interface.cpp" compile="1" resource="0"
-              file="../src/editor_components/full_interface.cpp"/>
-        <FILE id="d7Az9b" name="full_interface.h" compile="0" resource="0"
-              file="../src/editor_components/full_interface.h"/>
         <FILE id="N9h6Xb" name="global_tool_tip.cpp" compile="1" resource="0"
               file="../src/editor_components/global_tool_tip.cpp"/>
         <FILE id="CtvkUD" name="global_tool_tip.h" compile="0" resource="0"
@@ -159,8 +143,6 @@
               file="../src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="I0Msfq" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="../src/editor_components/graphical_step_sequencer.h"/>
-        <FILE id="yWGcqz" name="lfo_section.cpp" compile="1" resource="0" file="../src/editor_components/lfo_section.cpp"/>
-        <FILE id="dGoaR8" name="lfo_section.h" compile="0" resource="0" file="../src/editor_components/lfo_section.h"/>
         <FILE id="qWOUvi" name="modulation_button.cpp" compile="1" resource="0"
               file="../src/editor_components/modulation_button.cpp"/>
         <FILE id="hc4YWp" name="modulation_button.h" compile="0" resource="0"
@@ -183,20 +165,9 @@
         <FILE id="MZrbcn" name="patch_browser.cpp" compile="1" resource="0"
               file="../src/editor_components/patch_browser.cpp"/>
         <FILE id="R33s2T" name="patch_browser.h" compile="0" resource="0" file="../src/editor_components/patch_browser.h"/>
-        <FILE id="cDliR9" name="step_sequencer_section.cpp" compile="1" resource="0"
-              file="../src/editor_components/step_sequencer_section.cpp"/>
-        <FILE id="hFoTpq" name="step_sequencer_section.h" compile="0" resource="0"
-              file="../src/editor_components/step_sequencer_section.h"/>
-        <FILE id="vp8WbN" name="synth_section.cpp" compile="1" resource="0"
-              file="../src/editor_components/synth_section.cpp"/>
-        <FILE id="AZ3ilg" name="synth_section.h" compile="0" resource="0" file="../src/editor_components/synth_section.h"/>
         <FILE id="k0I8xO" name="synth_slider.cpp" compile="1" resource="0"
               file="../src/editor_components/synth_slider.cpp"/>
         <FILE id="R8YCWa" name="synth_slider.h" compile="0" resource="0" file="../src/editor_components/synth_slider.h"/>
-        <FILE id="mo2hyt" name="synthesis_interface.cpp" compile="1" resource="0"
-              file="../src/editor_components/synthesis_interface.cpp"/>
-        <FILE id="LVN6FS" name="synthesis_interface.h" compile="0" resource="0"
-              file="../src/editor_components/synthesis_interface.h"/>
         <FILE id="paqmM2" name="tempo_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/tempo_selector.cpp"/>
         <FILE id="gRo5XB" name="tempo_selector.h" compile="0" resource="0"
@@ -208,6 +179,41 @@
         <FILE id="b7atE4" name="wave_viewer.h" compile="0" resource="0" file="../src/editor_components/wave_viewer.h"/>
         <FILE id="lfzZz8" name="xy_pad.cpp" compile="1" resource="0" file="../src/editor_components/xy_pad.cpp"/>
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
+      </GROUP>
+      <GROUP id="{5EBDE717-DCC0-2586-CDAD-0EF41A56EA02}" name="editor_sections">
+        <FILE id="DXLQ2N" name="envelope_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/envelope_section.cpp"/>
+        <FILE id="lmL3UB" name="envelope_section.h" compile="0" resource="0"
+              file="../src/editor_sections/envelope_section.h"/>
+        <FILE id="vh3Rp9" name="feedback_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/feedback_section.cpp"/>
+        <FILE id="NXwwYj" name="feedback_section.h" compile="0" resource="0"
+              file="../src/editor_sections/feedback_section.h"/>
+        <FILE id="OpFF37" name="filter_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/filter_section.cpp"/>
+        <FILE id="Lh7OQk" name="filter_section.h" compile="0" resource="0"
+              file="../src/editor_sections/filter_section.h"/>
+        <FILE id="TzDPbL" name="full_interface.cpp" compile="1" resource="0"
+              file="../src/editor_sections/full_interface.cpp"/>
+        <FILE id="WzK0M1" name="full_interface.h" compile="0" resource="0"
+              file="../src/editor_sections/full_interface.h"/>
+        <FILE id="zd1Pw6" name="lfo_section.cpp" compile="1" resource="0" file="../src/editor_sections/lfo_section.cpp"/>
+        <FILE id="P0c3Zy" name="lfo_section.h" compile="0" resource="0" file="../src/editor_sections/lfo_section.h"/>
+        <FILE id="Qkv0qc" name="reverb_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/reverb_section.cpp"/>
+        <FILE id="Ppfp0O" name="reverb_section.h" compile="0" resource="0"
+              file="../src/editor_sections/reverb_section.h"/>
+        <FILE id="O64bNX" name="step_sequencer_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/step_sequencer_section.cpp"/>
+        <FILE id="atB9T3" name="step_sequencer_section.h" compile="0" resource="0"
+              file="../src/editor_sections/step_sequencer_section.h"/>
+        <FILE id="IRUU00" name="synth_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/synth_section.cpp"/>
+        <FILE id="ARxMw3" name="synth_section.h" compile="0" resource="0" file="../src/editor_sections/synth_section.h"/>
+        <FILE id="XRYLEW" name="synthesis_interface.cpp" compile="1" resource="0"
+              file="../src/editor_sections/synthesis_interface.cpp"/>
+        <FILE id="H44Jxk" name="synthesis_interface.h" compile="0" resource="0"
+              file="../src/editor_sections/synthesis_interface.h"/>
       </GROUP>
       <GROUP id="{39005C17-5A51-169B-7683-2989371066AF}" name="look_and_feel">
         <FILE id="aNViaQ" name="browser_look_and_feel.cpp" compile="1" resource="0"

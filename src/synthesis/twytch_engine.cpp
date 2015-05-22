@@ -158,6 +158,7 @@ namespace mopo {
                                                        beats_per_second, false);
     Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
     Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
+    Value* delay_on = new Value(0);
 
     Clamp* delay_feedback_clamped = new Clamp(-1, 1);
     delay_feedback_clamped->plug(delay_feedback);
@@ -174,15 +175,23 @@ namespace mopo {
     delay->plug(delay_feedback_clamped, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 
-    addProcessor(delay_feedback_clamped);
-    addProcessor(delay_frequency_smoothed);
-    addProcessor(delay_samples);
-    addProcessor(delay);
+    BypassRouter* delay_container = new BypassRouter();
+    delay_container->plug(delay_on, BypassRouter::kOn);
+    delay_container->plug(voice_handler_, BypassRouter::kAudio);
+    delay_container->addProcessor(delay_feedback_clamped);
+    delay_container->addProcessor(delay_frequency_smoothed);
+    delay_container->addProcessor(delay_samples);
+    delay_container->addProcessor(delay);
+    delay_container->registerOutput(delay->output());
+
+    addProcessor(delay_container);
+    controls_["delay_on"] = delay_on;
 
     // Reverb Effect.
     Processor* reverb_feedback = createMonoModControl("reverb_feedback", 0.9, false, true);
     Processor* reverb_damping = createMonoModControl("reverb_damping", 0.5, false, true);
     Processor* reverb_wet = createMonoModControl("reverb_dry_wet", 0.5, false, true);
+    Value* reverb_on = new Value(0);
 
     Clamp* reverb_feedback_clamped = new Clamp(-1, 1);
     reverb_feedback_clamped->plug(reverb_feedback);
@@ -193,19 +202,27 @@ namespace mopo {
     reverb->plug(reverb_damping, Reverb::kDamping);
     reverb->plug(reverb_wet, Reverb::kWet);
 
-    addProcessor(reverb);
-    addProcessor(reverb_feedback_clamped);
+    BypassRouter* reverb_container = new BypassRouter();
+    reverb_container->plug(reverb_on, BypassRouter::kOn);
+    reverb_container->plug(delay, BypassRouter::kAudio);
+    reverb_container->addProcessor(reverb);
+    reverb_container->addProcessor(reverb_feedback_clamped);
+    reverb_container->registerOutput(reverb->output(0));
+    reverb_container->registerOutput(reverb->output(1));
+
+    addProcessor(reverb_container);
+    controls_["reverb_on"] = reverb_on;
 
     // Soft Clipping.
     Distortion* distorted_clamp_left = new Distortion();
     Value* distortion_type = new Value(Distortion::kTanh);
     Value* distortion_threshold = new Value(0.7);
-    distorted_clamp_left->plug(reverb->output(0), Distortion::kAudio);
+    distorted_clamp_left->plug(reverb_container->output(0), Distortion::kAudio);
     distorted_clamp_left->plug(distortion_type, Distortion::kType);
     distorted_clamp_left->plug(distortion_threshold, Distortion::kThreshold);
 
     Distortion* distorted_clamp_right = new Distortion();
-    distorted_clamp_right->plug(reverb->output(1), Distortion::kAudio);
+    distorted_clamp_right->plug(reverb_container->output(1), Distortion::kAudio);
     distorted_clamp_right->plug(distortion_type, Distortion::kType);
     distorted_clamp_right->plug(distortion_threshold, Distortion::kThreshold);
 

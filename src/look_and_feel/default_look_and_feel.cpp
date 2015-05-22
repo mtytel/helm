@@ -142,7 +142,7 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                           bool isMouseOverButton, bool isButtonDown) {
   static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
   static float stroke_percent = 0.1;
-  static float padding = 1.0f;
+  static float padding = 3.0f;
 
   float full_radius = std::min(button.getWidth(), button.getHeight()) / 2.0;
   float stroke_width = 2.0f * full_radius * stroke_percent;
@@ -155,7 +155,7 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   Path shadow_path;
   stroke_type.createStrokedPath(shadow_path, outer);
   shadow.drawForPath(g, shadow_path);
-  Rectangle<int> bar_shadow_rect(full_radius - 1.0f, padding, 2.0f, full_radius);
+  Rectangle<int> bar_shadow_rect(full_radius - 1.0f, padding, 2.0f, full_radius - padding);
   shadow.drawForRectangle(g, bar_shadow_rect);
 
   if (button.getToggleState())
@@ -164,7 +164,7 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
     g.setColour(Colours::grey);
 
   g.strokePath(outer, stroke_type);
-  g.fillRoundedRectangle(full_radius - 1.0f, padding, 2.0f, full_radius, 1.0f);
+  g.fillRoundedRectangle(full_radius - 1.0f, padding, 2.0f, full_radius - padding, 1.0f);
 
   if (isButtonDown) {
     g.setColour(Colour(0x11000000));

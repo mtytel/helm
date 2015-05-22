@@ -33,7 +33,6 @@ FeedbackSection::FeedbackSection(String name) : SynthSection(name) {
 
   addSlider(saturation_ = new SynthSlider("filter_saturation"));
   saturation_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  saturation_->addListener(this);
 }
 
 FeedbackSection::~FeedbackSection() {
@@ -44,7 +43,6 @@ FeedbackSection::~FeedbackSection() {
 }
 
 void FeedbackSection::paint(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
   SynthSection::paint(g);
