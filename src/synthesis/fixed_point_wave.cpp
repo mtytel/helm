@@ -18,7 +18,7 @@
 
 namespace mopo {
 
-  const mopo_float FixedPointWaveLookup::SCALE = 0.1;
+  const mopo_float FixedPointWaveLookup::SCALE = 0.05;
 
   FixedPointWaveLookup::FixedPointWaveLookup() {
     preprocessSin();
