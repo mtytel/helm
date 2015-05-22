@@ -44,14 +44,14 @@ StepSequencerSection::StepSequencerSection(String name) : SynthSection(name) {
   tempo_->setLookAndFeel(TextLookAndFeel::instance());
   tempo_->setMouseDragSensitivity(TEMPO_DRAG_SENSITIVITY);
 
-  addSlider(smoothing_ = new SynthSlider("step_smoothing"));
-  smoothing_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
   addSlider(sync_ = new TempoSelector("step_sequencer_sync"));
   sync_->setSliderStyle(Slider::LinearBar);
   sync_->setTempoSlider(tempo_);
   sync_->setFreeSlider(frequency_);
   sync_->setStringLookup(mopo::strings::freq_sync_styles);
+
+  addSlider(smoothing_ = new SynthSlider("step_smoothing"));
+  smoothing_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
   createStepSequencerSliders();
 }

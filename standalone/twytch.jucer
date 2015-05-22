@@ -181,6 +181,9 @@
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
       </GROUP>
       <GROUP id="{5EBDE717-DCC0-2586-CDAD-0EF41A56EA02}" name="editor_sections">
+        <FILE id="ljoec8" name="delay_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/delay_section.cpp"/>
+        <FILE id="A1R5tt" name="delay_section.h" compile="0" resource="0" file="../src/editor_sections/delay_section.h"/>
         <FILE id="DXLQ2N" name="envelope_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/envelope_section.cpp"/>
         <FILE id="lmL3UB" name="envelope_section.h" compile="0" resource="0"

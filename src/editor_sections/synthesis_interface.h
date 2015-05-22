@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "twytch_engine.h"
 
+#include "delay_section.h"
 #include "envelope_section.h"
 #include "feedback_section.h"
 #include "filter_section.h"
@@ -37,7 +38,6 @@ class SynthesisInterface  : public SynthSection {
     ~SynthesisInterface();
 
     void setSliderUnits();
-    void createTempoSliders();
     void markBipolarSliders();
     void setDefaultDoubleClickValues();
     void setStyles();
@@ -56,6 +56,7 @@ class SynthesisInterface  : public SynthSection {
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
+    ScopedPointer<DelaySection> delay_section_;
     ScopedPointer<FeedbackSection> feedback_section_;
     ScopedPointer<EnvelopeSection> filter_envelope_section_;
     ScopedPointer<FilterSection> filter_section_;
@@ -65,7 +66,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<ReverbSection> reverb_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
 
-    ScopedPointer<SynthSlider> delay_tempo_;
     ScopedPointer<WaveViewer> osc_1_wave_display_;
     ScopedPointer<WaveViewer> osc_2_wave_display_;
     ScopedPointer<SynthSlider> polyphony_;
@@ -77,8 +77,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> osc_2_transpose_;
     ScopedPointer<SynthSlider> osc_2_tune_;
     ScopedPointer<SynthSlider> volume_;
-    ScopedPointer<SynthSlider> delay_feedback_;
-    ScopedPointer<SynthSlider> delay_dry_wet_;
     ScopedPointer<SynthSlider> velocity_track_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
@@ -87,12 +85,10 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> formant_x_;
     ScopedPointer<SynthSlider> formant_y_;
     ScopedPointer<SynthSlider> osc_1_tune_;
-    ScopedPointer<SynthSlider> delay_frequency_;
     ScopedPointer<SynthSlider> osc_1_transpose_;
     ScopedPointer<SynthSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<SynthSlider> stutter_resample_frequency_;
-    ScopedPointer<TempoSelector> delay_sync_;
     ScopedPointer<SynthSlider> osc_1_unison_detune_;
     ScopedPointer<SynthSlider> osc_2_unison_detune_;
     ScopedPointer<SynthSlider> osc_1_unison_voices_;
