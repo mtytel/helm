@@ -39,14 +39,14 @@ namespace mopo {
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
 #endif
 
-    Processor* beats_per_minute = createMonoModControl("beats_per_minute", 120.0, false);
+    Processor* beats_per_minute = createMonoModControl("beats_per_minute", false);
     Multiply* beats_per_second = new Multiply();
     beats_per_second->plug(beats_per_minute, 0);
     beats_per_second->plug(minutes_per_second, 1);
     addProcessor(beats_per_second);
 
     // Voice Handler.
-    Processor* polyphony = createMonoModControl("polyphony", 4, true);
+    Processor* polyphony = createMonoModControl("polyphony", true);
 
     voice_handler_ = new TwytchVoiceHandler(beats_per_second);
     addSubmodule(voice_handler_);
@@ -54,10 +54,9 @@ namespace mopo {
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
 
     // Monophonic LFO 1.
-    Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", Wave::kSin, true);
-    Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", 0.0,
-                                                           true, false, kExponential);
-    Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", 1.0, true);
+    Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", true);
+    Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true, false);
+    Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
     Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
                                                        beats_per_second, false);
 
@@ -77,10 +76,9 @@ namespace mopo {
     mod_sources_["mono_lfo_1_phase"] = lfo_1->output(Oscillator::kPhase);
 
     // Monophonic LFO 2.
-    Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", Wave::kSin, true);
-    Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", 0.0,
-                                                           true, false, kExponential);
-    Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", 1.0, true);
+    Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", true);
+    Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true, false);
+    Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
     Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
                                                        beats_per_second, false);
 
@@ -99,10 +97,9 @@ namespace mopo {
     mod_sources_["mono_lfo_2_phase"] = lfo_2->output(Oscillator::kPhase);
 
     // Step Sequencer.
-    Processor* num_steps = createMonoModControl("num_steps", 16, true);
-    Processor* step_smoothing = createMonoModControl("step_smoothing", 0, true);
-    Processor* step_free_frequency = createMonoModControl("step_frequency", 3.0,
-                                                          false, false, kExponential);
+    Processor* num_steps = createMonoModControl("num_steps", true);
+    Processor* step_smoothing = createMonoModControl("step_smoothing", true);
+    Processor* step_free_frequency = createMonoModControl("step_frequency", false, false);
     Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency,
                                                       beats_per_second, false);
 
@@ -116,8 +113,7 @@ namespace mopo {
       std::string num = stream.str();
       if (num.length() == 1)
         num = "0" + num;
-      Value* step = new Value(0.0);
-      controls_[std::string("step_seq_") + num] = step;
+      Processor* step = createBaseControl(std::string("step_seq_") + num);
       step_sequencer->plug(step, StepGenerator::kSteps + i);
     }
 
@@ -132,33 +128,29 @@ namespace mopo {
     mod_sources_["step_sequencer_step"] = step_sequencer->output(StepGenerator::kStep);
 
     // Arpeggiator.
-    Processor* arp_free_frequency = createMonoModControl("arp_frequency", 2.0,
-                                                         true, false, kExponential);
+    Processor* arp_free_frequency = createMonoModControl("arp_frequency", true, false);
     Processor* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency,
                                                      beats_per_second, false);
-    Processor* arp_octaves = createMonoModControl("arp_octaves", 2, true);
-    Processor* arp_pattern = createMonoModControl("arp_pattern", 3, true);
-    Processor* arp_gate = createMonoModControl("arp_gate", 0.5, true);
-    arp_on_ = new Value(0);
+    Processor* arp_octaves = createMonoModControl("arp_octaves", true);
+    Processor* arp_pattern = createMonoModControl("arp_pattern", true);
+    Processor* arp_gate = createMonoModControl("arp_gate", true);
+    arp_on_ = createBaseControl("arp_on");
     arpeggiator_ = new Arpeggiator(voice_handler_);
     arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
     arpeggiator_->plug(arp_octaves, Arpeggiator::kOctaves);
     arpeggiator_->plug(arp_pattern, Arpeggiator::kPattern);
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
 
-    controls_["arp_on"] = arp_on_;
-
     addProcessor(arpeggiator_);
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_free_frequency = createMonoModControl("delay_frequency", 1.0, false,
-                                                           false, kExponential);
+    Processor* delay_free_frequency = createMonoModControl("delay_frequency", false, false);
     Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency,
                                                        beats_per_second, false);
-    Processor* delay_feedback = createMonoModControl("delay_feedback", -0.3, false, true);
-    Processor* delay_wet = createMonoModControl("delay_dry_wet", 0.3, false, true);
-    Value* delay_on = new Value(0);
+    Processor* delay_feedback = createMonoModControl("delay_feedback", false, true);
+    Processor* delay_wet = createMonoModControl("delay_dry_wet", false, true);
+    Value* delay_on = createBaseControl("delay_on");
 
     Clamp* delay_feedback_clamped = new Clamp(-1, 1);
     delay_feedback_clamped->plug(delay_feedback);
@@ -185,13 +177,12 @@ namespace mopo {
     delay_container->registerOutput(delay->output());
 
     addProcessor(delay_container);
-    controls_["delay_on"] = delay_on;
 
     // Reverb Effect.
-    Processor* reverb_feedback = createMonoModControl("reverb_feedback", 0.9, false, true);
-    Processor* reverb_damping = createMonoModControl("reverb_damping", 0.5, false, true);
-    Processor* reverb_wet = createMonoModControl("reverb_dry_wet", 0.5, false, true);
-    Value* reverb_on = new Value(0);
+    Processor* reverb_feedback = createMonoModControl("reverb_feedback", false, true);
+    Processor* reverb_damping = createMonoModControl("reverb_damping", false, true);
+    Processor* reverb_wet = createMonoModControl("reverb_dry_wet", false, true);
+    Value* reverb_on = createBaseControl("reverb_on");
 
     Clamp* reverb_feedback_clamped = new Clamp(-1, 1);
     reverb_feedback_clamped->plug(reverb_feedback);
@@ -211,7 +202,6 @@ namespace mopo {
     reverb_container->registerOutput(reverb->output(1));
 
     addProcessor(reverb_container);
-    controls_["reverb_on"] = reverb_on;
 
     // Soft Clipping.
     Distortion* distorted_clamp_left = new Distortion();
@@ -227,7 +217,7 @@ namespace mopo {
     distorted_clamp_right->plug(distortion_threshold, Distortion::kThreshold);
 
     // Volume.
-    Processor* volume = createMonoModControl("volume", 0.6, false, true, kQuadratic);
+    Processor* volume = createMonoModControl("volume", false, true);
     Multiply* scaled_audio_left = new Multiply();
     scaled_audio_left->plug(distorted_clamp_left, 0);
     scaled_audio_left->plug(volume, 1);

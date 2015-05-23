@@ -17,41 +17,55 @@
 #include "twytch_module.h"
 
 #include "switch.h"
+#include "twytch_common.h"
 
 namespace mopo {
 
   TwytchModule::TwytchModule() { }
 
-  Processor* TwytchModule::createMonoModControl(std::string name, mopo_float start_val,
-                                                bool control_rate, bool smooth_value,
-                                                ControlSkewType skew) {
-    ProcessorRouter* mono_owner = getMonoRouter();
+  Value* TwytchModule::createBaseControl(std::string name, bool smooth_value) {
+    
+    mopo_float default_value = Parameters::getDetails(name).default_value;
     Value* val = 0;
     if (smooth_value) {
-      val = new SmoothValue(start_val);
-      mono_owner->addProcessor(val);
+      val = new SmoothValue(default_value);
+      getMonoRouter()->addProcessor(val);
     }
     else
-      val = new Value(start_val);
+      val = new Value(default_value);
 
     controls_[name] = val;
+    return val;
+  }
+
+  Processor* TwytchModule::createBaseModControl(std::string name, bool smooth_value) {
+    Processor* base_val = createBaseControl(name, smooth_value);
 
     VariableAdd* mono_total = new VariableAdd();
     mono_total->setControlRate(true);
-    mono_total->plugNext(val);
-    mono_owner->addProcessor(mono_total);
+    mono_total->plugNext(base_val);
+    getMonoRouter()->addProcessor(mono_total);
     mono_mod_destinations_[name] = mono_total;
     mono_modulation_readout_[name] = mono_total->output();
+    return mono_total;
+  }
 
-    Processor* control_rate_total = mono_total;
-    if (skew == kQuadratic) {
+  Processor* TwytchModule::createMonoModControl(std::string name, bool control_rate,
+                                                bool smooth_value) {
+    ProcessorRouter* mono_owner = getMonoRouter();
+    ValueDetails details = Parameters::getDetails(name);
+
+    Processor* base_control = createBaseModControl(name, smooth_value);
+    Processor* control_rate_total = base_control;
+
+    if (details.display_skew == ValueDetails::kQuadratic) {
       control_rate_total = new Square();
-      control_rate_total->plug(mono_total);
+      control_rate_total->plug(base_control);
       mono_owner->addProcessor(control_rate_total);
     }
-    else if (skew == kExponential) {
+    else if (details.display_skew == ValueDetails::kExponential) {
       control_rate_total = new ExponentialScale(2.0);
-      control_rate_total->plug(mono_total);
+      control_rate_total->plug(base_control);
       mono_owner->addProcessor(control_rate_total);
     }
 
@@ -64,11 +78,10 @@ namespace mopo {
     return audio_rate;
   }
 
-  Processor* TwytchModule::createPolyModControl(std::string name, mopo_float start_val,
-                                                bool control_rate, bool smooth_value,
-                                                ControlSkewType skew) {
-    Processor* mono_total = createMonoModControl(name, start_val, true,
-                                                 smooth_value, kLinear);
+  Processor* TwytchModule::createPolyModControl(std::string name, bool control_rate,
+                                                bool smooth_value) {
+    ValueDetails details = Parameters::getDetails(name);
+    Processor* base_control = createBaseModControl(name, smooth_value);
     ProcessorRouter* poly_owner = getPolyRouter();
 
     VariableAdd* poly_total = new VariableAdd();
@@ -78,7 +91,7 @@ namespace mopo {
 
     Add* modulation_total = new Add();
     modulation_total->setControlRate(true);
-    modulation_total->plug(mono_total, 0);
+    modulation_total->plug(base_control, 0);
     modulation_total->plug(poly_total, 1);
     poly_owner->addProcessor(modulation_total);
 
@@ -86,13 +99,13 @@ namespace mopo {
     poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
 
     Processor* control_rate_total = modulation_total;
-    if (skew == kQuadratic) {
+    if (details.display_skew == ValueDetails::kQuadratic) {
       control_rate_total = new Square();
       control_rate_total->setControlRate(true);
       control_rate_total->plug(modulation_total);
       poly_owner->addProcessor(control_rate_total);
     }
-    else if (skew == kExponential) {
+    else if (details.display_skew == ValueDetails::kExponential) {
       control_rate_total = new ExponentialScale(2.0);
       control_rate_total->setControlRate(true);
       control_rate_total->plug(modulation_total);

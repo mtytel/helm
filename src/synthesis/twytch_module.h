@@ -26,12 +26,6 @@
 namespace mopo {
   class TwytchModule : public virtual ProcessorRouter {
     public:
-      enum ControlSkewType {
-        kLinear,
-        kQuadratic,
-        kExponential
-      };
-
       TwytchModule();
       virtual ~TwytchModule() { } // Should probably delete things.
 
@@ -51,15 +45,19 @@ namespace mopo {
       output_map getPolyModulations();
 
     protected:
-      // Creates a synthesizer control that you can modulate monophonically.
-      Processor* createMonoModControl(std::string name, mopo_float start_val,
-                                      bool control_rate, bool smooth_value = false,
-                                      ControlSkewType skew = kLinear);
+      // Creates a basic linear non-scaled control.
+      Value* createBaseControl(std::string name, bool smooth_value = false);
 
-      // Creates a synthesizer control that you can modulate polyphonically and monophonically.
-      Processor* createPolyModControl(std::string name, mopo_float start_val,
-                                      bool control_rate, bool smooth_value = false,
-                                      ControlSkewType skew = kLinear);
+      // Creates a basic non-scaled linear control that you can modulate monophonically
+      Processor* createBaseModControl(std::string name, bool smooth_value = false);
+
+      // Creates any control that you can modulate monophonically.
+      Processor* createMonoModControl(std::string name, bool control_rate,
+                                      bool smooth_value = false);
+
+      // Creates any control that you can modulate polyphonically and monophonically.
+      Processor* createPolyModControl(std::string name, bool control_rate,
+                                      bool smooth_value = false);
 
       // Creates a switch from free running frequencies to tempo synced frequencies.
       Processor* createTempoSyncSwitch(std::string name, Processor* frequency,

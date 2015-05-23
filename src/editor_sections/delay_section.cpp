@@ -88,5 +88,5 @@ void DelaySection::resized() {
   tempo_->setBounds(frequency_->getBounds());
   feedback_->setBounds(TEXT_WIDTH + TEXT_HEIGHT + 2 * space, knob_y, KNOB_WIDTH, KNOB_WIDTH);
   dry_wet_->setBounds(TEXT_WIDTH + TEXT_HEIGHT + KNOB_WIDTH + 3 * space, knob_y,
-                      KNOB_WIDTH, KNOB_WIDTH);
+                        KNOB_WIDTH, KNOB_WIDTH);
 }
