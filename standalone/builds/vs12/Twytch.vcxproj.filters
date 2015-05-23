@@ -508,6 +508,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\filter_section.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\formant_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\full_interface.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
@@ -1987,6 +1990,9 @@
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\filter_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\formant_section.h">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\full_interface.h">

@@ -196,6 +196,10 @@
               file="../src/editor_sections/filter_section.cpp"/>
         <FILE id="Lh7OQk" name="filter_section.h" compile="0" resource="0"
               file="../src/editor_sections/filter_section.h"/>
+        <FILE id="XWWidV" name="formant_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/formant_section.cpp"/>
+        <FILE id="VLKWpY" name="formant_section.h" compile="0" resource="0"
+              file="../src/editor_sections/formant_section.h"/>
         <FILE id="TzDPbL" name="full_interface.cpp" compile="1" resource="0"
               file="../src/editor_sections/full_interface.cpp"/>
         <FILE id="WzK0M1" name="full_interface.h" compile="0" resource="0"

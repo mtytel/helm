@@ -25,12 +25,12 @@
 #include "envelope_section.h"
 #include "feedback_section.h"
 #include "filter_section.h"
+#include "formant_section.h"
 #include "lfo_section.h"
 #include "reverb_section.h"
 #include "step_sequencer_section.h"
 
 #include "modulation_button.h"
-#include "xy_pad.h"
 
 class SynthesisInterface  : public SynthSection {
   public:
@@ -60,6 +60,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FeedbackSection> feedback_section_;
     ScopedPointer<EnvelopeSection> filter_envelope_section_;
     ScopedPointer<FilterSection> filter_section_;
+    ScopedPointer<FormantSection> formant_section_;
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
@@ -80,10 +81,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> velocity_track_;
     ScopedPointer<WaveSelector> osc_1_waveform_;
     ScopedPointer<WaveSelector> osc_2_waveform_;
-    ScopedPointer<ToggleButton> formant_on_;
-    ScopedPointer<XYPad> formant_xy_pad_;
-    ScopedPointer<SynthSlider> formant_x_;
-    ScopedPointer<SynthSlider> formant_y_;
     ScopedPointer<SynthSlider> osc_1_tune_;
     ScopedPointer<SynthSlider> osc_1_transpose_;
     ScopedPointer<SynthSlider> stutter_frequency_;

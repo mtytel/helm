@@ -28,6 +28,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(feedback_section_ = new FeedbackSection("FEEDBACK"));
   addSubSection(filter_envelope_section_ = new EnvelopeSection("FILTER ENVELOPE", "fil"));
   addSubSection(filter_section_ = new FilterSection("FILTER"));
+  addSubSection(formant_section_ = new FormantSection("FORMANT"));
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1"));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2"));
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo"));
@@ -136,31 +137,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   osc_2_waveform_->setColour(Slider::trackColourId, Colour(0xff9765bc));
   osc_2_waveform_->setColour(Slider::textBoxOutlineColourId, Colour(0xff303030));
   osc_2_waveform_->addListener(this);
-
-  addButton(formant_on_ = new ToggleButton("formant_on"));
-  formant_on_->setButtonText(String::empty);
-  formant_on_->addListener(this);
-  formant_on_->setToggleState(true, dontSendNotification);
-  formant_on_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
-
-  addAndMakeVisible(formant_xy_pad_ = new XYPad());
-  addSlider(formant_x_ = new SynthSlider("formant_x"));
-  formant_x_->setRange(0, 1, 0);
-  formant_x_->setSliderStyle(Slider::LinearBar);
-  formant_x_->setTextBoxStyle(Slider::NoTextBox, false, 80, 20);
-  formant_x_->setColour(Slider::backgroundColourId, Colour(0xff303030));
-  formant_x_->setColour(Slider::trackColourId, Colour(0xff9765bc));
-  formant_x_->setColour(Slider::textBoxOutlineColourId, Colour(0x00777777));
-  formant_x_->addListener(this);
-
-  addSlider(formant_y_ = new SynthSlider("formant_y"));
-  formant_y_->setRange(0, 1, 0);
-  formant_y_->setSliderStyle(Slider::LinearBar);
-  formant_y_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  formant_y_->setColour(Slider::backgroundColourId, Colour(0xff303030));
-  formant_y_->setColour(Slider::trackColourId, Colour(0xff9765bc));
-  formant_y_->setColour(Slider::textBoxOutlineColourId, Colour(0x00777777));
-  formant_y_->addListener(this);
 
   addSlider(osc_1_tune_ = new SynthSlider("osc_1_tune"));
   osc_1_tune_->setRange(-1, 1, 0);
@@ -297,8 +273,6 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
 
   osc_1_wave_display_->setWaveSlider(osc_1_waveform_);
   osc_2_wave_display_->setWaveSlider(osc_2_waveform_);
-  formant_xy_pad_->setXSlider(formant_x_);
-  formant_xy_pad_->setYSlider(formant_y_);
 
   setDefaultDoubleClickValues();
   setAllValues(controls);
@@ -311,6 +285,7 @@ SynthesisInterface::~SynthesisInterface() {
   feedback_section_ = nullptr;
   filter_envelope_section_ = nullptr;
   filter_section_ = nullptr;
+  formant_section_ = nullptr;
   mono_lfo_1_section_ = nullptr;
   mono_lfo_2_section_ = nullptr;
   poly_lfo_section_ = nullptr;
@@ -331,10 +306,6 @@ SynthesisInterface::~SynthesisInterface() {
   velocity_track_ = nullptr;
   osc_1_waveform_ = nullptr;
   osc_2_waveform_ = nullptr;
-  formant_on_ = nullptr;
-  formant_xy_pad_ = nullptr;
-  formant_x_ = nullptr;
-  formant_y_ = nullptr;
   osc_1_tune_ = nullptr;
   osc_1_transpose_ = nullptr;
   stutter_frequency_ = nullptr;
@@ -376,6 +347,7 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, feedback_section_->getBounds());
   section_shadow.drawForRectangle(g, filter_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, filter_section_->getBounds());
+  section_shadow.drawForRectangle(g, formant_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_1_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_2_section_->getBounds());
   section_shadow.drawForRectangle(g, poly_lfo_section_->getBounds());
@@ -383,7 +355,6 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
-  section_shadow.drawForRectangle(g, Rectangle<int>(8, 482, 196, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(270 - (116 / 2), 482, 116, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 416, 126, 58));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 4, 126, 220));
@@ -423,9 +394,6 @@ void SynthesisInterface::paint(Graphics& g) {
 
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(static_cast<float>(270 - (116 / 2)), 482.0f, 116.0f, 118.0f, 3.000f);
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(8.0f, 482.0f, 196.0f, 118.0f, 3.000f);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
@@ -565,12 +533,6 @@ void SynthesisInterface::paint(Graphics& g) {
              270 - (84 / 2), 482, 84, 20,
              Justification::centred, true);
 
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("FORMANT"),
-             106 - (84 / 2), 482, 84, 20,
-             Justification::centred, true);
-
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
   g.drawText(TRANS("MIX"),
@@ -583,13 +545,6 @@ void SynthesisInterface::paint(Graphics& g) {
                                    static_cast<float>(proportionOfWidth(0.0000f)), 504.0f,
                                    false));
   g.fillRect(212, 482, 116, 20);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 500.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 504.0f,
-                                   false));
-  g.fillRect(106 - (196 / 2), 482, 196, 20);
 
   g.setGradientFill(ColourGradient(Colour(0x00000000),
                                    static_cast<float>(proportionOfWidth(0.0000f)), 434.0f,
@@ -681,7 +636,6 @@ void SynthesisInterface::paint(Graphics& g) {
              76 - (40 / 2), 192, 40, 10,
              Justification::centred, true);
 
-  component_shadow.drawForRectangle(g, formant_xy_pad_->getBounds());
   component_shadow.drawForRectangle(g, osc_1_wave_display_->getBounds());
   component_shadow.drawForRectangle(g, osc_2_wave_display_->getBounds());
 
@@ -695,6 +649,7 @@ void SynthesisInterface::resized() {
   feedback_section_->setBounds(8.0f, 216.0f, 320.0f, 92.0f);
   filter_envelope_section_->setBounds(336.0f, 4.0f, 260.0f, 148.0f);
   filter_section_->setBounds(8.0f, 316.0f, 320.0f, 158.0f);
+  formant_section_->setBounds(8.0f, 482.0f, 196.0f, 118.0f);
   mono_lfo_1_section_->setBounds(336.0f, 482.0f, 126.0f, 118.0f);
   mono_lfo_2_section_->setBounds(470.0f, 482.0f, 126.0f, 118.0f);
   poly_lfo_section_->setBounds(604.0f, 482.0f, 126.0f, 118.0f);
@@ -715,10 +670,6 @@ void SynthesisInterface::resized() {
   velocity_track_->setBounds(700 - (40 / 2), 110, 40, 40);
   osc_1_waveform_->setBounds(8, 24, 128, 16);
   osc_2_waveform_->setBounds(200, 24, 128, 16);
-  formant_on_->setBounds(10, 482, 20, 20);
-  formant_xy_pad_->setBounds(8, 502, 186, 88);
-  formant_x_->setBounds(8, 590, 186, 10);
-  formant_y_->setBounds(194, 502, 10, 88);
   osc_1_tune_->setBounds(36 - (32 / 2), 156, 32, 32);
   osc_1_transpose_->setBounds(76 - (40 / 2), 148, 40, 40);
   stutter_frequency_->setBounds(241 - (40 / 2), 524, 40, 40);
@@ -775,9 +726,7 @@ void SynthesisInterface::buttonClicked(Button* buttonThatWasClicked) {
   if (parent == nullptr)
     return;
 
-  if (buttonThatWasClicked == formant_on_)
-    parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-  else if (buttonThatWasClicked == stutter_on_)
+  if (buttonThatWasClicked == stutter_on_)
     parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
   else if (buttonThatWasClicked == legato_)
     parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
@@ -848,9 +797,6 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
   osc_2_tune_->setDoubleClickReturnValue(true, 0.0f);
   osc_2_waveform_->setDoubleClickReturnValue(true, 0.0f);
 
-  formant_x_->setDoubleClickReturnValue(true, 0.5f);
-  formant_y_->setDoubleClickReturnValue(true, 0.5f);
-
   portamento_->setDoubleClickReturnValue(true, -7.0f);
   pitch_bend_range_->setDoubleClickReturnValue(true, 2.0f);
 
@@ -880,8 +826,6 @@ void SynthesisInterface::setStyles() {
   velocity_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
   mod_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
   pitch_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-
-  formant_y_->setSliderStyle(Slider::LinearBarVertical);
 }
 
 void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,

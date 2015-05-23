@@ -106,6 +106,7 @@ OBJECTS := \
   $(OBJDIR)/envelope_section_a35a0a34.o \
   $(OBJDIR)/feedback_section_56c0fe69.o \
   $(OBJDIR)/filter_section_9094381c.o \
+  $(OBJDIR)/formant_section_51494d55.o \
   $(OBJDIR)/full_interface_29b5f507.o \
   $(OBJDIR)/lfo_section_f85fa167.o \
   $(OBJDIR)/reverb_section_a0ad9f76.o \
@@ -442,6 +443,11 @@ $(OBJDIR)/feedback_section_56c0fe69.o: ../../../src/editor_sections/feedback_sec
 $(OBJDIR)/filter_section_9094381c.o: ../../../src/editor_sections/filter_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/formant_section_51494d55.o: ../../../src/editor_sections/formant_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling formant_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface.cpp
