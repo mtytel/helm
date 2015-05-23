@@ -19,33 +19,73 @@
 
 #include "JuceHeader.h"
 #include "mopo.h"
+#include "twytch_common.h"
 
 class ValueBridge : public AudioProcessorParameter {
   public:
     ValueBridge(std::string name, mopo::Value* value) :
-        AudioProcessorParameter(), name_(name), value_(value) { }
+        AudioProcessorParameter(), name_(name), value_(value) {
+      details_ = mopo::Parameters::getDetails(name);
+      span_ = details_.max - details_.min;
+    }
 
-    float getValue() const override { return value_->value(); }
-    void setValue(float value) override { return value_->set(value); }
+    float getValue() const override {
+      return convertToPluginValue(value_->value());
+    }
 
-    float getDefaultValue() const override { return 0.0; }
+    void setValue(float value) override {
+      return value_->set(convertToSynthValue(value));
+    }
+
+    float getDefaultValue() const override {
+      return convertToPluginValue(details_.default_value);
+    }
 
     String getName(int maximumStringLength) const override {
-      return name_;
+      return name_.substring(0, maximumStringLength);
     }
 
     String getLabel() const override {
       return "";
     }
 
+    String getText(float value, int maximumStringLength) const override {
+      return String(getSkewedValue()).substring(0, maximumStringLength);
+    }
+
     float getValueForText(const String &text) const override {
-      return 0.0f;
+      return text.getFloatValue();
     }
   
-    bool isAutomatable() const override { return true; }
+    bool isAutomatable() const override {
+      return true;
+    }
 
   private:
+    float getSkewedValue() const {
+      switch (details_.display_skew) {
+        case mopo::ValueDetails::kQuadratic:
+          return powf(value_->value(), 2.0f);
+        case mopo::ValueDetails::kExponential:
+          return powf(2.0f, value_->value());
+        default:
+          return value_->value();
+      }
+    }
+
+    // Converts internal value to value from 0.0 to 1.0.
+    float convertToPluginValue(mopo::mopo_float synth_value) const {
+      return (synth_value - details_.min) / span_;
+    }
+
+    // Converts from value from 0.0 to 1.0 to internal synth value.
+    float convertToSynthValue(mopo::mopo_float plugin_value) const {
+      return span_ * plugin_value + details_.min;
+    }
+
     String name_;
+    mopo::ValueDetails details_;
+    mopo::mopo_float span_;
     mopo::Value* value_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ValueBridge)

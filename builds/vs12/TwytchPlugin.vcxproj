@@ -173,9 +173,9 @@
     <ClCompile Include="..\..\src\common\load_save.cpp"/>
     <ClCompile Include="..\..\src\common\midi_manager.cpp"/>
     <ClCompile Include="..\..\src\common\synth_gui_interface.cpp"/>
+    <ClCompile Include="..\..\src\common\twytch_common.cpp"/>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\src\editor_components\filter_selector.cpp"/>
-    <ClCompile Include="..\..\src\editor_components\full_interface.cpp"/>
     <ClCompile Include="..\..\src\editor_components\global_tool_tip.cpp"/>
     <ClCompile Include="..\..\src\editor_components\graphical_envelope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp"/>
@@ -186,11 +186,20 @@
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\patch_browser.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp"/>
-    <ClCompile Include="..\..\src\editor_components\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_viewer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\delay_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\envelope_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\feedback_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\filter_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\full_interface.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\lfo_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\reverb_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\step_sequencer_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\synth_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\browser_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
@@ -1299,6 +1308,7 @@
     <ClCompile Include="..\..\JUCE\modules\juce_video\native\juce_win32_QuickTimeMovieComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Wrapper.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_devices\juce_audio_devices.cpp"/>
@@ -1377,7 +1387,6 @@
     <ClInclude Include="..\..\src\common\twytch_common.h"/>
     <ClInclude Include="..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\src\editor_components\filter_selector.h"/>
-    <ClInclude Include="..\..\src\editor_components\full_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\global_tool_tip.h"/>
     <ClInclude Include="..\..\src\editor_components\graphical_envelope.h"/>
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h"/>
@@ -1388,11 +1397,20 @@
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\patch_browser.h"/>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h"/>
-    <ClInclude Include="..\..\src\editor_components\synthesis_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_viewer.h"/>
     <ClInclude Include="..\..\src\editor_components\xy_pad.h"/>
+    <ClInclude Include="..\..\src\editor_sections\delay_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\envelope_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\feedback_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\filter_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\full_interface.h"/>
+    <ClInclude Include="..\..\src\editor_sections\lfo_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\reverb_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\step_sequencer_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\synth_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\synthesis_interface.h"/>
     <ClInclude Include="..\..\src\look_and_feel\browser_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h"/>
@@ -1863,9 +1881,13 @@
     <ClInclude Include="..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_video\juce_video.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h"/>
+    <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\fonts\Roboto-Light.ttf"/>
+    <None Include="..\..\fonts\Roboto-Regular.ttf"/>
+    <None Include="..\..\fonts\Roboto-Thin.ttf"/>
     <None Include="..\..\JUCE\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_audio_devices\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_audio_formats\juce_module_info"/>

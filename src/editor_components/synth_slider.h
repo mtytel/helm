@@ -39,6 +39,7 @@ class SynthSlider : public Slider {
     void setScalingType(mopo::ValueDetails::DisplaySkew scaling_type) {
       scaling_type_ = scaling_type;
     }
+
     mopo::ValueDetails::DisplaySkew getScalingType() const { return scaling_type_; }
 
     void setStringLookup(const std::string* lookup) {
