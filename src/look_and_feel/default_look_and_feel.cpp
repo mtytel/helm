@@ -143,6 +143,7 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
   static float stroke_percent = 0.1;
   static float padding = 3.0f;
+  static float hover_padding = 1.0f;
 
   float full_radius = std::min(button.getWidth(), button.getHeight()) / 2.0;
   float stroke_width = 2.0f * full_radius * stroke_percent;
@@ -168,12 +169,13 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
 
   if (isButtonDown) {
     g.setColour(Colour(0x11000000));
-    g.fillAll();
+    g.fillEllipse(hover_padding, hover_padding,
+                  button.getWidth() - 2 * hover_padding, button.getHeight() - 2 * hover_padding);
   }
   else if (isMouseOverButton) {
     g.setColour(Colour(0x11ffffff));
-    g.fillAll();
-  }
+    g.fillEllipse(hover_padding, hover_padding,
+                  button.getWidth() - 2 * hover_padding, button.getHeight() - 2 * hover_padding);  }
 }
 
 void DefaultLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
