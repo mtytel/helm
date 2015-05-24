@@ -580,19 +580,19 @@ void SynthesisInterface::paint(Graphics& g) {
              Justification::centred, true);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Font(Font::getDefaultSansSerifFontName(), 9.00f, Font::plain));
+  g.setFont(roboto_reg.withPointHeight(8.0f));
   g.drawText(TRANS("OFF"),
              614 - (28 / 2), 172, 28, 12,
              Justification::centred, true);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Font(Font::getDefaultSansSerifFontName(), 9.00f, Font::plain));
+  g.setFont(roboto_reg.withPointHeight(8.0f));
   g.drawText(TRANS("AUTO"),
              634 - (28 / 2), 172, 28, 12,
              Justification::centred, true);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Font(Font::getDefaultSansSerifFontName(), 9.00f, Font::plain));
+  g.setFont(roboto_reg.withPointHeight(8.0f));
   g.drawText(TRANS("ON"),
              654 - (28 / 2), 172, 28, 12,
              Justification::centred, true);
