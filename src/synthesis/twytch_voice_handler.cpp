@@ -137,7 +137,6 @@ namespace mopo {
     pitch_bend->plug(pitch_wheel_amount_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
     Add* bent_midi = new Add();
-    bent_midi->setControlRate();
     bent_midi->plug(midi, 0);
     bent_midi->plug(pitch_bend, 1);
 
@@ -154,28 +153,20 @@ namespace mopo {
     Processor* oscillator1_unison_harmonize = createBaseControl("unison_1_harmonize");
 
     Add* oscillator1_transposed = new Add();
-    oscillator1_transposed->setControlRate();
     oscillator1_transposed->plug(bent_midi, 0);
     oscillator1_transposed->plug(oscillator1_transpose, 1);
     Add* oscillator1_midi = new Add();
-    oscillator1_midi->setControlRate();
     oscillator1_midi->plug(oscillator1_transposed, 0);
     oscillator1_midi->plug(oscillator1_tune, 1);
 
     MidiScale* oscillator1_frequency = new MidiScale();
-    oscillator1_frequency->setControlRate();
     oscillator1_frequency->plug(oscillator1_midi);
     FrequencyToPhase* oscillator1_phase_inc = new FrequencyToPhase();
-    oscillator1_phase_inc->setControlRate();
     oscillator1_phase_inc->plug(oscillator1_frequency);
-
-    LinearSmoothBuffer* oscillator1_phase_inc_audio = new LinearSmoothBuffer();
-    oscillator1_phase_inc_audio->plug(oscillator1_phase_inc, LinearSmoothBuffer::kValue);
-    oscillator1_phase_inc_audio->plug(reset, LinearSmoothBuffer::kTrigger);
 
     oscillators->plug(oscillator1_waveform, TwytchOscillators::kOscillator1Waveform);
     oscillators->plug(reset, TwytchOscillators::kReset);
-    oscillators->plug(oscillator1_phase_inc_audio, TwytchOscillators::kOscillator1PhaseInc);
+    oscillators->plug(oscillator1_phase_inc, TwytchOscillators::kOscillator1PhaseInc);
     oscillators->plug(oscillator1_unison_detune, TwytchOscillators::kUnisonDetune1);
     oscillators->plug(oscillator1_unison_voices, TwytchOscillators::kUnisonVoices1);
     oscillators->plug(oscillator1_unison_harmonize, TwytchOscillators::kHarmonize1);
@@ -187,7 +178,6 @@ namespace mopo {
     addProcessor(oscillator1_midi);
     addProcessor(oscillator1_frequency);
     addProcessor(oscillator1_phase_inc);
-    addProcessor(oscillator1_phase_inc_audio);
     addProcessor(oscillators);
 
     // Oscillator 2.
@@ -199,27 +189,23 @@ namespace mopo {
     Processor* oscillator2_unison_harmonize = createBaseControl("unison_2_harmonize");
 
     Add* oscillator2_transposed = new Add();
-    oscillator2_transposed->setControlRate();
+    // oscillator2_transposed->setControlRate();
     oscillator2_transposed->plug(bent_midi, 0);
     oscillator2_transposed->plug(oscillator2_transpose, 1);
     Add* oscillator2_midi = new Add();
-    oscillator2_midi->setControlRate();
+    // oscillator2_midi->setControlRate();
     oscillator2_midi->plug(oscillator2_transposed, 0);
     oscillator2_midi->plug(oscillator2_tune, 1);
 
     MidiScale* oscillator2_frequency = new MidiScale();
-    oscillator2_frequency->setControlRate();
+    // oscillator2_frequency->setControlRate();
     oscillator2_frequency->plug(oscillator2_midi);
     FrequencyToPhase* oscillator2_phase_inc = new FrequencyToPhase();
-    oscillator2_phase_inc->setControlRate();
+    // oscillator2_phase_inc->setControlRate();
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
-    LinearSmoothBuffer* oscillator2_phase_inc_audio = new LinearSmoothBuffer();
-    oscillator2_phase_inc_audio->plug(oscillator2_phase_inc, LinearSmoothBuffer::kValue);
-    oscillator2_phase_inc_audio->plug(reset, LinearSmoothBuffer::kTrigger);
-
     oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
-    oscillators->plug(oscillator2_phase_inc_audio, TwytchOscillators::kOscillator2PhaseInc);
+    oscillators->plug(oscillator2_phase_inc, TwytchOscillators::kOscillator2PhaseInc);
     oscillators->plug(oscillator2_unison_detune, TwytchOscillators::kUnisonDetune2);
     oscillators->plug(oscillator2_unison_voices, TwytchOscillators::kUnisonVoices2);
     oscillators->plug(oscillator2_unison_harmonize, TwytchOscillators::kHarmonize2);
@@ -228,7 +214,6 @@ namespace mopo {
     addProcessor(oscillator2_midi);
     addProcessor(oscillator2_frequency);
     addProcessor(oscillator2_phase_inc);
-    addProcessor(oscillator2_phase_inc_audio);
 
     // Oscillator mix.
     Processor* oscillator_mix_amount = createPolyModControl("osc_mix", false, true);
