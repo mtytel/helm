@@ -146,8 +146,8 @@ namespace mopo {
     // Oscillator 1.
     TwytchOscillators* oscillators = new TwytchOscillators();
     Processor* oscillator1_waveform = createPolyModControl("osc_1_waveform", true);
-    Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", true);
-    Processor* oscillator1_tune = createPolyModControl("osc_1_tune", true);
+    Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", false);
+    Processor* oscillator1_tune = createPolyModControl("osc_1_tune", false);
     Processor* oscillator1_unison_voices = createPolyModControl("osc_1_unison_voices", true);
     Processor* oscillator1_unison_detune = createPolyModControl("osc_1_unison_detune", true);
     Processor* oscillator1_unison_harmonize = createBaseControl("unison_1_harmonize");
@@ -182,26 +182,22 @@ namespace mopo {
 
     // Oscillator 2.
     Processor* oscillator2_waveform = createPolyModControl("osc_2_waveform", true);
-    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", true);
-    Processor* oscillator2_tune = createPolyModControl("osc_2_tune", true);
+    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", false);
+    Processor* oscillator2_tune = createPolyModControl("osc_2_tune", false);
     Processor* oscillator2_unison_voices = createPolyModControl("osc_2_unison_voices", true);
     Processor* oscillator2_unison_detune = createPolyModControl("osc_2_unison_detune", true);
     Processor* oscillator2_unison_harmonize = createBaseControl("unison_2_harmonize");
 
     Add* oscillator2_transposed = new Add();
-    // oscillator2_transposed->setControlRate();
     oscillator2_transposed->plug(bent_midi, 0);
     oscillator2_transposed->plug(oscillator2_transpose, 1);
     Add* oscillator2_midi = new Add();
-    // oscillator2_midi->setControlRate();
     oscillator2_midi->plug(oscillator2_transposed, 0);
     oscillator2_midi->plug(oscillator2_tune, 1);
 
     MidiScale* oscillator2_frequency = new MidiScale();
-    // oscillator2_frequency->setControlRate();
     oscillator2_frequency->plug(oscillator2_midi);
     FrequencyToPhase* oscillator2_phase_inc = new FrequencyToPhase();
-    // oscillator2_phase_inc->setControlRate();
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
     oscillators->plug(oscillator2_waveform, TwytchOscillators::kOscillator2Waveform);
