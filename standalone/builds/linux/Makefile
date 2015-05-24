@@ -121,6 +121,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_computer_keyboard_dc84e874.o \
   $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o \
   $(OBJDIR)/fixed_point_wave_2344895d.o \
+  $(OBJDIR)/resonance_cancel_67415ef5.o \
   $(OBJDIR)/switch_871b185e.o \
   $(OBJDIR)/twytch_engine_90779dde.o \
   $(OBJDIR)/twytch_lfo_e31d61e3.o \
@@ -518,6 +519,11 @@ $(OBJDIR)/twytch_standalone_editor_8fd1dc90.o: ../../../src/standalone/twytch_st
 $(OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fixed_point_wave.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling resonance_cancel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp

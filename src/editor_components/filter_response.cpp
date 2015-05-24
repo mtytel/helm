@@ -126,7 +126,14 @@ void FilterResponse::computeFilterCoefficients() {
   double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
   double decibals = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
   double gain = mopo::utils::dbToGain(decibals);
-  filter_.computeCoefficients(type, frequency, resonance, gain);
+  if (type == mopo::Filter::kLowShelf ||
+      type == mopo::Filter::kHighShelf ||
+      type == mopo::Filter::kBandShelf) {
+    filter_.computeCoefficients(type, frequency, 1.0, gain);
+  }
+  else {
+    filter_.computeCoefficients(type, frequency, resonance, 1.0);
+  }
   resetResponsePath();
 }
 

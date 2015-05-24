@@ -553,6 +553,9 @@
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\resonance_cancel.cpp">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp">
       <Filter>Twytch\src\synthesis</Filter>
     </ClCompile>
@@ -2032,6 +2035,9 @@
       <Filter>Twytch\src\standalone</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h">
+      <Filter>Twytch\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\resonance_cancel.h">
       <Filter>Twytch\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\switch.h">

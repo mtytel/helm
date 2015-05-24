@@ -201,6 +201,7 @@
     <ClCompile Include="..\..\..\src\standalone\twytch_computer_keyboard.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\twytch_standalone_editor.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\resonance_cancel.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\switch.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_engine.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\twytch_lfo.cpp"/>
@@ -1413,6 +1414,7 @@
     <ClInclude Include="..\..\..\src\standalone\twytch_computer_keyboard.h"/>
     <ClInclude Include="..\..\..\src\standalone\twytch_standalone_editor.h"/>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\resonance_cancel.h"/>
     <ClInclude Include="..\..\..\src\synthesis\switch.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_engine.h"/>
     <ClInclude Include="..\..\..\src\synthesis\twytch_lfo.h"/>

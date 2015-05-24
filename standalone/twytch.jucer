@@ -256,6 +256,10 @@
               file="../src/synthesis/fixed_point_wave.cpp"/>
         <FILE id="BXZTzs" name="fixed_point_wave.h" compile="0" resource="0"
               file="../src/synthesis/fixed_point_wave.h"/>
+        <FILE id="rWOeWW" name="resonance_cancel.cpp" compile="1" resource="0"
+              file="../src/synthesis/resonance_cancel.cpp"/>
+        <FILE id="yuS1i4" name="resonance_cancel.h" compile="0" resource="0"
+              file="../src/synthesis/resonance_cancel.h"/>
         <FILE id="z4hCnY" name="switch.cpp" compile="1" resource="0" file="../src/synthesis/switch.cpp"/>
         <FILE id="QXiktv" name="switch.h" compile="0" resource="0" file="../src/synthesis/switch.h"/>
         <FILE id="clGm4c" name="twytch_engine.cpp" compile="1" resource="0"

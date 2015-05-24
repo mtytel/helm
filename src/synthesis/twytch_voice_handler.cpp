@@ -16,6 +16,7 @@
 
 #include "twytch_voice_handler.h"
 
+#include "resonance_cancel.h"
 #include "twytch_lfo.h"
 #include "twytch_oscillators.h"
 
@@ -336,9 +337,14 @@ namespace mopo {
     frequency_cutoff->plug(midi_cutoff);
 
     Processor* resonance = createPolyModControl("resonance", true);
-    ResonanceScale* final_resonance = new ResonanceScale();
+    ResonanceScale* scaled_resonance = new ResonanceScale();
+    scaled_resonance->setControlRate();
+    scaled_resonance->plug(resonance);
+
+    ResonanceCancel* final_resonance = new ResonanceCancel();
     final_resonance->setControlRate();
-    final_resonance->plug(resonance);
+    final_resonance->plug(scaled_resonance, ResonanceCancel::kResonance);
+    final_resonance->plug(filter_type, ResonanceCancel::kFilterType);
 
     Value* min_db = new Value(MIN_GAIN_DB);
     Value* max_db = new Value(MAX_GAIN_DB);
@@ -382,6 +388,7 @@ namespace mopo {
     addProcessor(saturated_audio);
     addProcessor(keytracked_cutoff);
     addProcessor(midi_cutoff);
+    addProcessor(scaled_resonance);
     addProcessor(final_resonance);
     addProcessor(decibals);
     addProcessor(final_gain);
