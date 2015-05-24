@@ -26,9 +26,12 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
   static const DropShadow thumb_shadow(Colour(0x88000000), 3, Point<int>(-1, 0));
 
   bool bipolar = false;
-  SynthSlider* t_slider = dynamic_cast<SynthSlider*>(&slider);
-  if (t_slider)
-    bipolar = t_slider->isBipolar();
+  bool active = true;
+  SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
+  if (s_slider) {
+    bipolar = s_slider->isBipolar();
+    active = s_slider->isActive();
+  }
 
   float pos = slider_pos - 1.0f;
   if (style == Slider::SliderStyle::LinearBar) {
@@ -98,18 +101,25 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
                      Justification::horizontallyCentred | Justification::bottom, 1);
   }
 
+  Path active_section;
+  bool bipolar = false;
+  bool active = true;
+  SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
+  if (s_slider) {
+    bipolar = s_slider->isBipolar();
+    active = s_slider->isActive();
+  }
+
   Path rail;
   rail.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
                      0.0f, start_angle, end_angle, true);
 
-  g.setColour(Colour(0xff4a4a4a));
-  g.strokePath(rail, outer_stroke);
+  if (active)
+    g.setColour(Colour(0xff4a4a4a));
+  else
+    g.setColour(Colour(0xff333333));
 
-  Path active_section;
-  bool bipolar = false;
-  SynthSlider* t_slider = dynamic_cast<SynthSlider*>(&slider);
-  if (t_slider)
-    bipolar = t_slider->isBipolar();
+  g.strokePath(rail, outer_stroke);
 
   if (bipolar) {
     active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
@@ -120,16 +130,27 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
                                  0.0f, start_angle, current_angle, true);
   }
 
-  g.setColour(Colour(0xffffab00));
+  if (active)
+    g.setColour(Colour(0xffffab00));
+  else
+    g.setColour(Colour(0xff555555));
+
   g.strokePath(active_section, outer_stroke);
 
-  g.setColour(Colour(0xff000000));
+  if (active)
+    g.setColour(Colour(0xff000000));
+  else
+    g.setColour(Colour(0xff444444));
+
   g.fillEllipse(full_radius - knob_radius + stroke_width / 2.0f,
                 full_radius - knob_radius + stroke_width / 2.0f,
                 2.0f * knob_radius - stroke_width,
                 2.0f * knob_radius - stroke_width);
 
-  g.setColour(Colour(0xff666666));
+  if (active)
+    g.setColour(Colour(0xff666666));
+  else
+    g.setColour(Colour(0xff555555));
 
   g.drawEllipse(full_radius - knob_radius + 1.0f, full_radius - knob_radius + 1.0f,
                 2.0f * knob_radius - 2.0f, 2.0f * knob_radius - 2.0f, 2.0f);

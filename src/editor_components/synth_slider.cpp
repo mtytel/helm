@@ -36,7 +36,7 @@ namespace {
   }
 } // namespace
 
-SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false),
+SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), active_(true),
                                         string_lookup_(nullptr), parent_(nullptr) {
   mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
   if (details.steps)

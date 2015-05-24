@@ -90,3 +90,12 @@ void DelaySection::resized() {
   dry_wet_->setBounds(TEXT_WIDTH + TEXT_HEIGHT + KNOB_WIDTH + 3 * space, knob_y,
                         KNOB_WIDTH, KNOB_WIDTH);
 }
+
+void DelaySection::buttonClicked(Button* clicked_button) {
+  SynthSection::buttonClicked(clicked_button);
+  if (clicked_button == on_) {
+    bool active = clicked_button->getToggleStateValue().getValue();
+    for (auto slider : slider_lookup_)
+      slider.second->setActive(active);
+  }
+}

@@ -29,6 +29,7 @@ class ReverbSection : public SynthSection {
 
     void paint(Graphics& g) override;
     void resized() override;
+    virtual void buttonClicked(Button* clicked_button) override;
 
   private:
     ScopedPointer<ToggleButton> on_;

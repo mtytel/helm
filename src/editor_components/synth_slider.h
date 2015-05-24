@@ -50,17 +50,27 @@ class SynthSlider : public Slider {
     void setPostMultiply(float post_multiply) { post_multiply_ = post_multiply; }
     float getPostMultiply() const { return post_multiply_; }
 
-    void setBipolar(bool bipolar = true) { bipolar_ = bipolar; }
-
     void setUnits(String units) { units_ = units; }
     String getUnits() const { return units_; }
 
+    void setBipolar(bool bipolar = true) {
+      bipolar_ = bipolar;
+      repaint();
+    }
+  
+    void setActive(bool active = true) {
+      active_ = active;
+      repaint();
+    }
+
     bool isBipolar() const { return bipolar_; }
+    bool isActive() const { return active_; }
 
   private:
     void notifyTooltip();
 
     bool bipolar_;
+    bool active_;
     String units_;
     mopo::ValueDetails::DisplaySkew scaling_type_;
     float post_multiply_;

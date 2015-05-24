@@ -61,3 +61,12 @@ void ReverbSection::resized() {
   damping_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   dry_wet_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
 }
+
+void ReverbSection::buttonClicked(Button* clicked_button) {
+  SynthSection::buttonClicked(clicked_button);
+  if (clicked_button == on_) {
+    bool active = clicked_button->getToggleStateValue().getValue();
+    for (auto slider : slider_lookup_)
+      slider.second->setActive(active);
+  }
+}

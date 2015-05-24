@@ -53,3 +53,13 @@ void FormantSection::resized() {
   y_->setBounds(getWidth() - SLIDER_WIDTH, 20, SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
   xy_pad_->setBounds(0, 20, getWidth() - SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
 }
+
+
+void FormantSection::buttonClicked(Button* clicked_button) {
+  SynthSection::buttonClicked(clicked_button);
+  if (clicked_button == on_) {
+    bool active = clicked_button->getToggleStateValue().getValue();
+    for (auto slider : slider_lookup_)
+      slider.second->setActive(active);
+  }
+}
