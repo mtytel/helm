@@ -837,9 +837,3 @@ void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
 void SynthesisInterface::modulationChanged(std::string source) {
   button_lookup_[source]->repaint();
 }
-
-SynthSlider* SynthesisInterface::getSlider(std::string name) {
-  if (slider_lookup_.count(name))
-    return slider_lookup_[name];
-  return nullptr;
-}

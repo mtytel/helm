@@ -47,8 +47,6 @@ class SynthesisInterface  : public SynthSection {
                   NotificationType notification = sendNotificationAsync);
     void modulationChanged(std::string source);
 
-    SynthSlider* getSlider(std::string name);
-
     void paint(Graphics& g);
     void resized();
     void sliderValueChanged(Slider* sliderThatWasMoved);

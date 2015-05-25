@@ -21,98 +21,49 @@
 #include "twytch_common.h"
 #include "synth_gui_interface.h"
 
-FullInterface::FullInterface (mopo::control_map controls, mopo::output_map modulation_sources,
-                              mopo::output_map mono_modulations,
-                              mopo::output_map poly_modulations) {
-  addAndMakeVisible (synthesis_interface_ = new SynthesisInterface (controls));
-  addAndMakeVisible (arp_frequency_ = new SynthSlider ("arp_frequency"));
-  arp_frequency_->setRange (-1, 4, 0);
-  arp_frequency_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-  arp_frequency_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-  arp_frequency_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-  arp_frequency_->setColour (Slider::textBoxTextColourId, Colours::white);
-  arp_frequency_->addListener (this);
+FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
+                             mopo::output_map mono_modulations,
+                             mopo::output_map poly_modulations) : SynthSection("full_interface") {
+  addSubSection(synthesis_interface_ = new SynthesisInterface (controls));
 
-  addAndMakeVisible (arp_gate_ = new SynthSlider ("arp_gate"));
-  arp_gate_->setRange (0, 1, 0);
-  arp_gate_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-  arp_gate_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-  arp_gate_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-  arp_gate_->setColour (Slider::textBoxTextColourId, Colours::white);
-  arp_gate_->addListener (this);
-
-  addAndMakeVisible (arp_octaves_ = new SynthSlider ("arp_octaves"));
-  arp_octaves_->setRange (1, 4, 1);
-  arp_octaves_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-  arp_octaves_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-  arp_octaves_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-  arp_octaves_->setColour (Slider::textBoxTextColourId, Colours::white);
-  arp_octaves_->addListener (this);
-
-  addAndMakeVisible (arp_pattern_ = new SynthSlider ("arp_pattern"));
-  arp_pattern_->setRange (0, 4, 1);
-  arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
-  arp_pattern_->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
-  arp_pattern_->setColour (Slider::rotarySliderFillColourId, Colour (0x7fffffff));
-  arp_pattern_->setColour (Slider::textBoxTextColourId, Colours::white);
-  arp_pattern_->addListener (this);
-
-  addAndMakeVisible (oscilloscope_ = new Oscilloscope (512));
-  addAndMakeVisible (arp_on_ = new ToggleButton ("arp_on"));
-  arp_on_->setButtonText (String::empty);
-  arp_on_->addListener (this);
-  arp_on_->setColour (ToggleButton::textColourId, Colours::white);
-
-  addAndMakeVisible (beats_per_minute_ = new SynthSlider ("beats_per_minute"));
-  beats_per_minute_->setRange (20, 300, 0);
-  beats_per_minute_->setSliderStyle (Slider::LinearBar);
-  beats_per_minute_->setTextBoxStyle (Slider::TextBoxAbove, false, 150, 20);
-  beats_per_minute_->setColour (Slider::backgroundColourId, Colour (0xff333333));
-  beats_per_minute_->setColour (Slider::textBoxTextColourId, Colours::white);
-  beats_per_minute_->setColour (Slider::textBoxOutlineColourId, Colour (0x00808080));
-  beats_per_minute_->addListener (this);
-
-  addAndMakeVisible (global_tool_tip_ = new GlobalToolTip());
-  addAndMakeVisible (arp_sync_ = new TempoSelector ("arp_sync"));
-  arp_sync_->setRange (0, 6, 1);
-  arp_sync_->setSliderStyle (Slider::LinearBar);
-  arp_sync_->setTextBoxStyle (Slider::NoTextBox, true, 0, 0);
-  arp_sync_->setColour (Slider::backgroundColourId, Colour (0xff333333));
-  arp_sync_->setColour (Slider::trackColourId, Colour (0xff9765bc));
-  arp_sync_->setColour (Slider::textBoxOutlineColourId, Colour (0xffbbbbbb));
-  arp_sync_->addListener (this);
-
-  addAndMakeVisible (patch_browser_ = new PatchBrowser());
-
-  arp_tempo_ = new SynthSlider("arp_tempo");
-  addAndMakeVisible(arp_tempo_);
-  arp_tempo_->setRange(0, sizeof(mopo::synced_freq_ratios) / sizeof(mopo::Value) - 1, 1);
-  arp_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  arp_tempo_->setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  arp_tempo_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  arp_tempo_->setColour(Slider::textBoxTextColourId, Colour(0xffffffff));
-  arp_tempo_->setLookAndFeel(TextLookAndFeel::instance());
-  arp_tempo_->addListener(this);
-
-  arp_frequency_->setUnits("Hz");
-  arp_frequency_->setScalingType(mopo::ValueDetails::kExponential);
+  addSlider(arp_frequency_ = new SynthSlider ("arp_frequency"));
+  arp_frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   arp_frequency_->setLookAndFeel(TextLookAndFeel::instance());
-  arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+
+  addSlider(arp_gate_ = new SynthSlider("arp_gate"));
+  arp_gate_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
+  addSlider(arp_octaves_ = new SynthSlider("arp_octaves"));
+  arp_octaves_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
+  addSlider(arp_pattern_ = new SynthSlider("arp_pattern"));
+  arp_pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
   arp_pattern_->setStringLookup(mopo::strings::arp_patterns);
 
+  addAndMakeVisible(oscilloscope_ = new Oscilloscope (512));
+  addButton(arp_on_ = new ToggleButton("arp_on"));
+  arp_on_->setButtonText(String::empty);
+  arp_on_->setColour(ToggleButton::textColourId, Colours::white);
+
+  addSlider(beats_per_minute_ = new SynthSlider("beats_per_minute"));
+  beats_per_minute_->setRange(20, 300, 0);
+  beats_per_minute_->setSliderStyle(Slider::LinearBar);
+  beats_per_minute_->setTextBoxStyle(Slider::TextBoxAbove, false, 150, 20);
+
+  addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
+
+  addSlider(arp_tempo_ = new SynthSlider("arp_tempo"));
+  arp_tempo_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  arp_tempo_->setLookAndFeel(TextLookAndFeel::instance());
+  arp_tempo_->setStringLookup(mopo::strings::synced_frequencies);
+
+  addSlider(arp_sync_ = new TempoSelector("arp_sync"));
+  arp_sync_->setSliderStyle (Slider::LinearBar);
   arp_sync_->setStringLookup(mopo::strings::freq_sync_styles);
   arp_sync_->setTempoSlider(arp_tempo_);
   arp_sync_->setFreeSlider(arp_frequency_);
 
-  for (int i = 0; i < getNumChildComponents(); ++i) {
-    SynthSlider* slider = dynamic_cast<SynthSlider*>(getChildComponent(i));
-    if (slider)
-      slider_lookup_[slider->getName().toStdString()] = slider;
-
-    Button* button = dynamic_cast<Button*>(getChildComponent(i));
-    if (button)
-      button_lookup_[button->getName().toStdString()] = button;
-  }
+  addAndMakeVisible(patch_browser_ = new PatchBrowser());
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
@@ -235,19 +186,6 @@ void FullInterface::buttonClicked(Button* buttonThatWasClicked) {
   }
 }
 
-void FullInterface::setAllValues(mopo::control_map& controls) {
-  for (auto slider : slider_lookup_)
-    slider.second->setValue(controls[slider.first]->value());
-
-  for (auto button : button_lookup_) {
-    if (controls.count(button.first)) {
-      button.second->setToggleState((bool)controls[button.first]->value(),
-                                    NotificationType::sendNotification);
-    }
-  }
-  synthesis_interface_->setAllValues(controls);
-}
-
 void FullInterface::setValue(std::string name, mopo::mopo_float value,
                              NotificationType notification) {
   if (slider_lookup_.count(name))
@@ -260,22 +198,17 @@ void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
   oscilloscope_->setOutputMemory(output_memory);
 }
 
-SynthSlider* FullInterface::getSlider(std::string name) {
-  if (slider_lookup_.count(name))
-    return slider_lookup_[name];
-  return synthesis_interface_->getSlider(name);
-}
-
 void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
                                             mopo::output_map mono_modulations,
                                             mopo::output_map poly_modulations) {
+  std::map<std::string, SynthSlider*> all_sliders = getAllSliders();
   std::map<std::string, SynthSlider*> modulatable_sliders;
 
   for (auto destination : mono_modulations) {
-    SynthSlider* slider = getSlider(destination.first);
-    if (slider)
-      modulatable_sliders[destination.first] = slider;
+    if (all_sliders.count(destination.first))
+      modulatable_sliders[destination.first] = all_sliders[destination.first];
   }
+
   modulation_manager_ = new ModulationManager(modulation_sources,
                                               modulatable_sliders,
                                               mono_modulations, poly_modulations);

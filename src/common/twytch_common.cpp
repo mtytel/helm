@@ -25,7 +25,7 @@ namespace mopo {
     { "amp_release", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },
     { "amp_sustain", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
     { "arp_frequency", -1.0, 4.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
-    { "arp_gate", 0.0, 1.0, 2, 0.5, 1.0, ValueDetails::kLinear, "" },
+    { "arp_gate", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
     { "arp_octaves", 1.0, 4.0, 4, 1.0, 1.0, ValueDetails::kLinear, "octaves" },
     { "arp_on", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "arp_pattern", 0.0, 4.0, 5, 0.0, 1.0, ValueDetails::kLinear, "" },
@@ -90,7 +90,7 @@ namespace mopo {
     { "step_frequency", -5.0, 6.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
     { "reverb_damping", 0.1, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
     { "reverb_dry_wet", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
-    { "reverb_feedback", 0.8, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "%" },
+    { "reverb_feedback", 0.8, 1.0, 0, 0.8, 100.0, ValueDetails::kLinear, "%" },
     { "reverb_on", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_seq_00", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_seq_01", -1.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
@@ -138,8 +138,12 @@ namespace mopo {
 
   ValueDetailsLookup::ValueDetailsLookup() {
     int num_parameters = sizeof(parameter_list) / sizeof(ValueDetails);
-    for (int i = 0; i < num_parameters; ++i)
+    for (int i = 0; i < num_parameters; ++i) {
       details_lookup_[parameter_list[i].name] = parameter_list[i];
+
+      MOPO_ASSERT(parameter_list[i].default_value <= parameter_list[i].max);
+      MOPO_ASSERT(parameter_list[i].default_value >= parameter_list[i].min);
+    }
   }
 
   ValueDetailsLookup Parameters::lookup_;

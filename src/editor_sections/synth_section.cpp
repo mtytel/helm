@@ -76,7 +76,7 @@ void SynthSection::setAllValues(mopo::control_map& controls) {
 
   for (auto sub_section : sub_sections_)
     sub_section.second->setAllValues(controls);
-  
+
   repaint();
 }
 
@@ -103,4 +103,15 @@ void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
 void SynthSection::drawTextForSlider(Graphics &g, String text, SynthSlider *slider) {
   g.drawText(text, slider->getX() - 20, slider->getY() + slider->getHeight() + 6,
              slider->getWidth() + 40, 10, Justification::centred, false);
+}
+
+std::map<std::string, SynthSlider*> SynthSection::getAllSliders() {
+  std::map<std::string, SynthSlider*> sliders = slider_lookup_;
+
+  for (auto sub_section : sub_sections_) {
+    std::map<std::string, SynthSlider*> sub_sliders = sub_section.second->getAllSliders();
+    sliders.insert(sub_sliders.begin(), sub_sliders.end());
+  }
+
+  return sliders;
 }

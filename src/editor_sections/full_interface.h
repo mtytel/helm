@@ -27,18 +27,16 @@
 #include "global_tool_tip.h"
 #include "patch_browser.h"
 
-class FullInterface : public Component, public SliderListener, public ButtonListener {
+class FullInterface : public SynthSection {
   public:
     FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
                   mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~FullInterface();
 
-    void setAllValues(mopo::control_map& controls);
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
     void setOutputMemory(const mopo::Memory* output_memory);
 
-    SynthSlider* getSlider(std::string name);
     void createModulationSliders(mopo::output_map modulation_sources,
                                  mopo::output_map mono_modulations,
                                  mopo::output_map poly_modulations);
