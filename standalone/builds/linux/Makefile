@@ -109,6 +109,7 @@ OBJECTS := \
   $(OBJDIR)/formant_section_51494d55.o \
   $(OBJDIR)/full_interface_29b5f507.o \
   $(OBJDIR)/lfo_section_f85fa167.o \
+  $(OBJDIR)/oscillator_section_c90fdcc4.o \
   $(OBJDIR)/reverb_section_a0ad9f76.o \
   $(OBJDIR)/step_sequencer_section_13843dc2.o \
   $(OBJDIR)/synth_section_3b1ee2e.o \
@@ -459,6 +460,11 @@ $(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface
 $(OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lfo_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling oscillator_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/reverb_section_a0ad9f76.o: ../../../src/editor_sections/reverb_section.cpp

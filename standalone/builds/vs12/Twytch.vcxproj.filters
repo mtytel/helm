@@ -517,6 +517,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\lfo_section.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\reverb_section.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
@@ -2002,6 +2005,9 @@
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\lfo_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\reverb_section.h">

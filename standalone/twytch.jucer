@@ -206,6 +206,10 @@
               file="../src/editor_sections/full_interface.h"/>
         <FILE id="zd1Pw6" name="lfo_section.cpp" compile="1" resource="0" file="../src/editor_sections/lfo_section.cpp"/>
         <FILE id="P0c3Zy" name="lfo_section.h" compile="0" resource="0" file="../src/editor_sections/lfo_section.h"/>
+        <FILE id="dUS4i9" name="oscillator_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/oscillator_section.cpp"/>
+        <FILE id="DtjxUU" name="oscillator_section.h" compile="0" resource="0"
+              file="../src/editor_sections/oscillator_section.h"/>
         <FILE id="Qkv0qc" name="reverb_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/reverb_section.cpp"/>
         <FILE id="Ppfp0O" name="reverb_section.h" compile="0" resource="0"

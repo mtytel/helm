@@ -27,6 +27,7 @@
 #include "filter_section.h"
 #include "formant_section.h"
 #include "lfo_section.h"
+#include "oscillator_section.h"
 #include "reverb_section.h"
 #include "step_sequencer_section.h"
 
@@ -38,7 +39,6 @@ class SynthesisInterface  : public SynthSection {
     ~SynthesisInterface();
 
     void setSliderUnits();
-    void markBipolarSliders();
     void setDefaultDoubleClickValues();
     void setStyles();
     void createStepSequencerSliders();
@@ -61,33 +61,20 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FormantSection> formant_section_;
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
+    ScopedPointer<OscillatorSection> oscillator_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
     ScopedPointer<ReverbSection> reverb_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
 
-    ScopedPointer<WaveViewer> osc_1_wave_display_;
-    ScopedPointer<WaveViewer> osc_2_wave_display_;
     ScopedPointer<SynthSlider> polyphony_;
     ScopedPointer<SynthSlider> portamento_;
     ScopedPointer<SynthSlider> pitch_bend_range_;
-    ScopedPointer<SynthSlider> cross_modulation_;
     ScopedPointer<SynthSlider> portamento_type_;
-    ScopedPointer<SynthSlider> osc_mix_;
-    ScopedPointer<SynthSlider> osc_2_transpose_;
-    ScopedPointer<SynthSlider> osc_2_tune_;
     ScopedPointer<SynthSlider> volume_;
     ScopedPointer<SynthSlider> velocity_track_;
-    ScopedPointer<WaveSelector> osc_1_waveform_;
-    ScopedPointer<WaveSelector> osc_2_waveform_;
-    ScopedPointer<SynthSlider> osc_1_tune_;
-    ScopedPointer<SynthSlider> osc_1_transpose_;
     ScopedPointer<SynthSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<SynthSlider> stutter_resample_frequency_;
-    ScopedPointer<SynthSlider> osc_1_unison_detune_;
-    ScopedPointer<SynthSlider> osc_2_unison_detune_;
-    ScopedPointer<SynthSlider> osc_1_unison_voices_;
-    ScopedPointer<SynthSlider> osc_2_unison_voices_;
     ScopedPointer<ModulationButton> filter_envelope_mod_;
     ScopedPointer<ModulationButton> amplitude_envelope_mod_;
     ScopedPointer<ModulationButton> step_sequencer_mod_;
@@ -100,12 +87,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<ModulationButton> mod_wheel_mod_;
     ScopedPointer<ModulationButton> pitch_wheel_mod_;
     ScopedPointer<ToggleButton> legato_;
-    ScopedPointer<ToggleButton> unison_1_harmonize_;
-    ScopedPointer<ToggleButton> unison_2_harmonize_;
-    Path internalPath1;
-    Path internalPath2;
-    Path internalPath3;
-    Path internalPath4;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisInterface)
 };

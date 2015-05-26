@@ -23,6 +23,11 @@
 #define SHADOW_WIDTH 3
 
 void SynthSection::paint(Graphics& g) {
+  paintBackground(g);
+  paintKnobShadows(g);
+}
+
+void SynthSection::paintBackground(Graphics& g) {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
@@ -43,7 +48,9 @@ void SynthSection::paint(Graphics& g) {
   g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);
+}
 
+void SynthSection::paintKnobShadows(Graphics& g) {
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
 }

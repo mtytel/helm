@@ -28,6 +28,8 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
   public:
     SynthSection(String name) : Component(name) { }
     virtual void paint(Graphics& g) override;
+    virtual void paintBackground(Graphics& g);
+    void paintKnobShadows(Graphics& g);
     virtual void sliderValueChanged(Slider* moved_slider) override;
     virtual void buttonClicked(Button* clicked_button) override;
     void setAllValues(mopo::control_map& controls);
