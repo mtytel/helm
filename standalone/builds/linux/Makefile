@@ -116,6 +116,7 @@ OBJECTS := \
   $(OBJDIR)/stutter_section_943b1913.o \
   $(OBJDIR)/synth_section_3b1ee2e.o \
   $(OBJDIR)/synthesis_interface_a75e885a.o \
+  $(OBJDIR)/volume_section_9cff0be.o \
   $(OBJDIR)/browser_look_and_feel_d6654391.o \
   $(OBJDIR)/default_look_and_feel_f168ba6a.o \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
@@ -497,6 +498,11 @@ $(OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cp
 $(OBJDIR)/synthesis_interface_a75e885a.o: ../../../src/editor_sections/synthesis_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/volume_section_9cff0be.o: ../../../src/editor_sections/volume_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling volume_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_look_and_feel.cpp

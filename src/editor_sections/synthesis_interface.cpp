@@ -36,9 +36,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(reverb_section_ = new ReverbSection("REVERB"));
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
   addSubSection(stutter_section_ = new StutterSection("STUTTER"));
-
-  addSlider(volume_ = new SynthSlider("volume"));
-  volume_->setSliderStyle(Slider::LinearBar);
+  addSubSection(volume_section_ = new VolumeSection("VOLUME"));
 
   addModulationButton(aftertouch_mod_ = new ModulationButton("aftertouch"));
   aftertouch_mod_->setButtonText(String::empty);
@@ -84,8 +82,8 @@ SynthesisInterface::~SynthesisInterface() {
   reverb_section_ = nullptr;
   step_sequencer_section_ = nullptr;
   stutter_section_ = nullptr;
+  volume_section_ = nullptr;
 
-  volume_ = nullptr;
   aftertouch_mod_ = nullptr;
   note_mod_ = nullptr;
   velocity_mod_ = nullptr;
@@ -118,21 +116,12 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, reverb_section_->getBounds());
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
   section_shadow.drawForRectangle(g, stutter_section_->getBounds());
+  section_shadow.drawForRectangle(g, volume_section_->getBounds());
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
-  section_shadow.drawForRectangle(g, Rectangle<int>(604, 416, 126, 58));
 
   g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(8.0f, static_cast<float>(630 - (44 / 2)), 722.0f, 44.0f, 3.000f);
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(604.0f, 416.0f, 126.0f, 58.0f, 3.000f);
-
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("VOLUME"),
-             667 - (60 / 2), 416, 60, 20,
-             Justification::centred, true);
+  g.fillRoundedRectangle(8.0f, static_cast<float>(630 - (44 / 2)), 722.0f, 44.0f, 3.0f);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
@@ -164,13 +153,6 @@ void SynthesisInterface::paint(Graphics& g) {
              656, 630 - (12 / 2), 70, 12,
              Justification::centredLeft, true);
 
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 434.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 438.0f,
-                                   false));
-  g.fillRect(604, 416, 126, 20);
-
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
 }
@@ -190,8 +172,8 @@ void SynthesisInterface::resized() {
   reverb_section_->setBounds(604.0f, 324.0f, 126.0f, 84.0f);
   step_sequencer_section_->setBounds(336.0f, 316.0f, 260.0f, 158.0f);
   stutter_section_->setBounds(212.0f, 482.0f, 116.0f, 118.0f);
+  volume_section_->setBounds(604.0f, 416.0f, 126.0f, 58.0f);
 
-  volume_->setBounds(604, 436, 126, 38);
   aftertouch_mod_->setBounds(614, 614, 32, 32);
   note_mod_->setBounds(346, 614, 32, 32);
   velocity_mod_->setBounds(480, 614, 32, 32);

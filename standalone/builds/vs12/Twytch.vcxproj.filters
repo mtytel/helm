@@ -538,6 +538,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\synthesis_interface.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\volume_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\look_and_feel\browser_look_and_feel.cpp">
       <Filter>Twytch\src\look_and_feel</Filter>
     </ClCompile>
@@ -2032,6 +2035,9 @@
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\synthesis_interface.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\volume_section.h">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\browser_look_and_feel.h">

@@ -32,6 +32,7 @@
 #include "reverb_section.h"
 #include "step_sequencer_section.h"
 #include "stutter_section.h"
+#include "volume_section.h"
 
 #include "modulation_button.h"
 
@@ -61,8 +62,8 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<ReverbSection> reverb_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
     ScopedPointer<StutterSection> stutter_section_;
+    ScopedPointer<VolumeSection> volume_section_;
 
-    ScopedPointer<SynthSlider> volume_;
     ScopedPointer<ModulationButton> aftertouch_mod_;
     ScopedPointer<ModulationButton> note_mod_;
     ScopedPointer<ModulationButton> velocity_mod_;
