@@ -50,10 +50,10 @@ void FeedbackSection::paint(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
 
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("TRANSPOSE"), transpose_);
-  drawTextForSlider(g, TRANS("TUNE"), tune_);
-  drawTextForSlider(g, TRANS("AMOUNT"), amount_);
-  drawTextForSlider(g, TRANS("SATURATION"), saturation_);
+  drawTextForComponent(g, TRANS("TRANSPOSE"), transpose_);
+  drawTextForComponent(g, TRANS("TUNE"), tune_);
+  drawTextForComponent(g, TRANS("AMOUNT"), amount_);
+  drawTextForComponent(g, TRANS("SATURATION"), saturation_);
 }
 
 void FeedbackSection::resized() {

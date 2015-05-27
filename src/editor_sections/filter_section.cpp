@@ -68,8 +68,8 @@ void FilterSection::paint(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
 
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("ENV DEPTH"), fil_env_depth_);
-  drawTextForSlider(g, TRANS("KEY TRACK"), keytrack_);
+  drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);
+  drawTextForComponent(g, TRANS("KEY TRACK"), keytrack_);
 
   component_shadow.drawForRectangle(g, filter_response_->getBounds());
 }

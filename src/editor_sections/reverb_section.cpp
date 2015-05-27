@@ -46,9 +46,9 @@ void ReverbSection::paint(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
 
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("FEEDB"), feedback_);
-  drawTextForSlider(g, TRANS("DAMP"), damping_);
-  drawTextForSlider(g, TRANS("WET"), dry_wet_);
+  drawTextForComponent(g, TRANS("FEEDB"), feedback_);
+  drawTextForComponent(g, TRANS("DAMP"), damping_);
+  drawTextForComponent(g, TRANS("WET"), dry_wet_);
 }
 
 void ReverbSection::resized() {

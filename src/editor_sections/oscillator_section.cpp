@@ -120,14 +120,14 @@ void OscillatorSection::paint(Graphics& g) {
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("MOD"), cross_modulation_);
-  drawTextForSlider(g, TRANS("MIX"), osc_mix_);
-  drawTextForSlider(g, TRANS("TRANS"), transpose_1_);
-  drawTextForSlider(g, TRANS("TRANS"), transpose_2_);
-  drawTextForSlider(g, TRANS("TUNE"), tune_1_);
-  drawTextForSlider(g, TRANS("TUNE"), tune_2_);
-  drawTextForSlider(g, TRANS("UNISON"), unison_detune_1_);
-  drawTextForSlider(g, TRANS("UNISON"), unison_detune_2_);
+  drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
+  drawTextForComponent(g, TRANS("MIX"), osc_mix_);
+  drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
+  drawTextForComponent(g, TRANS("TRANS"), transpose_2_);
+  drawTextForComponent(g, TRANS("TUNE"), tune_1_);
+  drawTextForComponent(g, TRANS("TUNE"), tune_2_);
+  drawTextForComponent(g, TRANS("UNISON"), unison_detune_1_);
+  drawTextForComponent(g, TRANS("UNISON"), unison_detune_2_);
 
   component_shadow.drawForRectangle(g, wave_viewer_1_->getBounds());
   component_shadow.drawForRectangle(g, wave_viewer_2_->getBounds());

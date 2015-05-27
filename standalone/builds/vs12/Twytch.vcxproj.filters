@@ -493,6 +493,9 @@
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\articulation_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\delay_section.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
@@ -1985,6 +1988,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h">
       <Filter>Twytch\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\articulation_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\delay_section.h">
       <Filter>Twytch\src\editor_sections</Filter>

@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "twytch_engine.h"
 
+#include "articulation_section.h"
 #include "delay_section.h"
 #include "envelope_section.h"
 #include "feedback_section.h"
@@ -47,6 +48,7 @@ class SynthesisInterface  : public SynthSection {
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
+    ScopedPointer<ArticulationSection> articulation_section_;
     ScopedPointer<DelaySection> delay_section_;
     ScopedPointer<FeedbackSection> feedback_section_;
     ScopedPointer<EnvelopeSection> filter_envelope_section_;
@@ -60,18 +62,12 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
     ScopedPointer<StutterSection> stutter_section_;
 
-    ScopedPointer<SynthSlider> polyphony_;
-    ScopedPointer<SynthSlider> portamento_;
-    ScopedPointer<SynthSlider> pitch_bend_range_;
-    ScopedPointer<SynthSlider> portamento_type_;
     ScopedPointer<SynthSlider> volume_;
-    ScopedPointer<SynthSlider> velocity_track_;
     ScopedPointer<ModulationButton> aftertouch_mod_;
     ScopedPointer<ModulationButton> note_mod_;
     ScopedPointer<ModulationButton> velocity_mod_;
     ScopedPointer<ModulationButton> mod_wheel_mod_;
     ScopedPointer<ModulationButton> pitch_wheel_mod_;
-    ScopedPointer<ToggleButton> legato_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesisInterface)
 };

@@ -114,9 +114,9 @@ void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
     addAndMakeVisible(sub_section);
 }
 
-void SynthSection::drawTextForSlider(Graphics &g, String text, SynthSlider *slider) {
-  g.drawText(text, slider->getX() - 20, slider->getY() + slider->getHeight() + 6,
-             slider->getWidth() + 40, 10, Justification::centred, false);
+void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component) {
+  g.drawText(text, component->getX() - 20, component->getY() + component->getHeight() + 6,
+             component->getWidth() + 40, 10, Justification::centred, false);
 }
 
 std::map<std::string, SynthSlider*> SynthSection::getAllSliders() {

@@ -23,6 +23,7 @@
 
 SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSection("synthesis") {
   addSubSection(amplitude_envelope_section_ = new EnvelopeSection("AMPLITUDE ENVELOPE", "amp"));
+  addSubSection(articulation_section_ = new ArticulationSection("ARTICULATION"));
   addSubSection(delay_section_ = new DelaySection("DELAY"));
   addSubSection(feedback_section_ = new FeedbackSection("FEEDBACK"));
   addSubSection(filter_envelope_section_ = new EnvelopeSection("FILTER ENVELOPE", "fil"));
@@ -36,23 +37,8 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
   addSubSection(stutter_section_ = new StutterSection("STUTTER"));
 
-  addSlider(polyphony_ = new SynthSlider("polyphony"));
-  polyphony_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
-  addSlider(portamento_ = new SynthSlider("portamento"));
-  portamento_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
-  addSlider(pitch_bend_range_ = new SynthSlider("pitch_bend_range"));
-  pitch_bend_range_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
-  addSlider(portamento_type_ = new SynthSlider("portamento_type"));
-  portamento_type_->setSliderStyle(Slider::LinearBar);
-
   addSlider(volume_ = new SynthSlider("volume"));
   volume_->setSliderStyle(Slider::LinearBar);
-
-  addSlider(velocity_track_ = new SynthSlider("velocity_track"));
-  velocity_track_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
   addModulationButton(aftertouch_mod_ = new ModulationButton("aftertouch"));
   aftertouch_mod_->setButtonText(String::empty);
@@ -79,18 +65,13 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   pitch_wheel_mod_->addListener(this);
   pitch_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 
-  addButton(legato_ = new ToggleButton("legato"));
-  legato_->setButtonText(String::empty);
-  legato_->addListener(this);
-  legato_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
-  legato_->setLookAndFeel(TextLookAndFeel::instance());
-
   setAllValues(controls);
   setOpaque(true);
 }
 
 SynthesisInterface::~SynthesisInterface() {
   amplitude_envelope_section_ = nullptr;
+  articulation_section_ = nullptr;
   delay_section_ = nullptr;
   feedback_section_ = nullptr;
   filter_envelope_section_ = nullptr;
@@ -104,18 +85,12 @@ SynthesisInterface::~SynthesisInterface() {
   step_sequencer_section_ = nullptr;
   stutter_section_ = nullptr;
 
-  polyphony_ = nullptr;
-  portamento_ = nullptr;
-  pitch_bend_range_ = nullptr;
-  portamento_type_ = nullptr;
   volume_ = nullptr;
-  velocity_track_ = nullptr;
   aftertouch_mod_ = nullptr;
   note_mod_ = nullptr;
   velocity_mod_ = nullptr;
   mod_wheel_mod_ = nullptr;
   pitch_wheel_mod_ = nullptr;
-  legato_ = nullptr;
 }
 
 void SynthesisInterface::paint(Graphics& g) {
@@ -130,6 +105,7 @@ void SynthesisInterface::paint(Graphics& g) {
   g.fillRect(getLocalBounds());
 
   section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());
+  section_shadow.drawForRectangle(g, articulation_section_->getBounds());
   section_shadow.drawForRectangle(g, delay_section_->getBounds());
   section_shadow.drawForRectangle(g, feedback_section_->getBounds());
   section_shadow.drawForRectangle(g, filter_envelope_section_->getBounds());
@@ -145,17 +121,6 @@ void SynthesisInterface::paint(Graphics& g) {
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 416, 126, 58));
-  section_shadow.drawForRectangle(g, Rectangle<int>(604, 4, 126, 220));
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(604.0f, 4.0f, 126.0f, 220.0f, 3.000f);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 22.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 26.0f,
-                                   false));
-  g.fillRect(604, 4, 126, 20);
 
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(8.0f, static_cast<float>(630 - (44 / 2)), 722.0f, 44.0f, 3.000f);
@@ -167,42 +132,6 @@ void SynthesisInterface::paint(Graphics& g) {
   g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
   g.drawText(TRANS("VOLUME"),
              667 - (60 / 2), 416, 60, 20,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("ARTICULATION"),
-             667 - (126 / 2), 4, 126, 20,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("POLYPHONY"),
-             634 - (60 / 2), 86, 60, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("PORTA"),
-             634 - (46 / 2), 154, 46, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("LEGATO"),
-             700 - (60 / 2), 204, 60, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("PORT TYPE"),
-             634 - (60 / 2), 204, 60, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("PITCH BEND"),
-             700 - (60 / 2), 86, 60, 10,
              Justification::centred, true);
 
   g.setColour(Colour(0xffbbbbbb));
@@ -235,12 +164,6 @@ void SynthesisInterface::paint(Graphics& g) {
              656, 630 - (12 / 2), 70, 12,
              Justification::centredLeft, true);
 
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("VEL TRACK"),
-             700 - (60 / 2), 154, 60, 10,
-             Justification::centred, true);
-
   g.setGradientFill(ColourGradient(Colour(0x00000000),
                                    static_cast<float>(proportionOfWidth(0.0000f)), 434.0f,
                                    Colour(0x77000000),
@@ -248,30 +171,13 @@ void SynthesisInterface::paint(Graphics& g) {
                                    false));
   g.fillRect(604, 416, 126, 20);
 
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(8.0f));
-  g.drawText(TRANS("OFF"),
-             614 - (28 / 2), 172, 28, 12,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(8.0f));
-  g.drawText(TRANS("AUTO"),
-             634 - (28 / 2), 172, 28, 12,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(8.0f));
-  g.drawText(TRANS("ON"),
-             654 - (28 / 2), 172, 28, 12,
-             Justification::centred, true);
-
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
 }
 
 void SynthesisInterface::resized() {
   amplitude_envelope_section_->setBounds(336.0f, 160.0f, 260.0f, 148.0f);
+  articulation_section_->setBounds(604.0f, 4.0f, 126.0f, 220.0f);
   delay_section_->setBounds(604.0f, 232.0f, 126.0f, 84.0f);
   feedback_section_->setBounds(8.0f, 216.0f, 320.0f, 92.0f);
   filter_envelope_section_->setBounds(336.0f, 4.0f, 260.0f, 148.0f);
@@ -285,18 +191,12 @@ void SynthesisInterface::resized() {
   step_sequencer_section_->setBounds(336.0f, 316.0f, 260.0f, 158.0f);
   stutter_section_->setBounds(212.0f, 482.0f, 116.0f, 118.0f);
 
-  polyphony_->setBounds(634 - (40 / 2), 42, 40, 40);
-  portamento_->setBounds(634 - (40 / 2), 110, 40, 40);
-  pitch_bend_range_->setBounds(700 - (40 / 2), 42, 40, 40);
-  portamento_type_->setBounds(634 - (45 / 2), 186, 45, 16);
   volume_->setBounds(604, 436, 126, 38);
-  velocity_track_->setBounds(700 - (40 / 2), 110, 40, 40);
   aftertouch_mod_->setBounds(614, 614, 32, 32);
   note_mod_->setBounds(346, 614, 32, 32);
   velocity_mod_->setBounds(480, 614, 32, 32);
   mod_wheel_mod_->setBounds(173, 614, 32, 32);
   pitch_wheel_mod_->setBounds(20, 614, 32, 32);
-  legato_->setBounds(684, 186, 32, 16);
 }
 
 void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,

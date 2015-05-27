@@ -79,7 +79,7 @@ void StepSequencerSection::paint(Graphics& g) {
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("STEPS"), num_steps_);
+  drawTextForComponent(g, TRANS("STEPS"), num_steps_);
   g.drawText(TRANS("FREQUENCY"),
              frequency_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
              frequency_->getBounds().getWidth() + TEXT_HEIGHT, 10, Justification::centred, false);

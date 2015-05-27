@@ -68,8 +68,8 @@ void DelaySection::paint(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
 
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("FEEDB"), feedback_);
-  drawTextForSlider(g, TRANS("WET"), dry_wet_);
+  drawTextForComponent(g, TRANS("FEEDB"), feedback_);
+  drawTextForComponent(g, TRANS("WET"), dry_wet_);
 
   g.drawText(TRANS("FREQUENCY"),
              frequency_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,

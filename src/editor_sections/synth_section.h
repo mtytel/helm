@@ -36,7 +36,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void sliderValueChanged(Slider* moved_slider) override;
     virtual void buttonClicked(Button* clicked_button) override;
     void setAllValues(mopo::control_map& controls);
-    void drawTextForSlider(Graphics& g, String text, SynthSlider* slider);
+    void drawTextForComponent(Graphics& g, String text, Component* component);
     std::map<std::string, SynthSlider*> getAllSliders();
     virtual std::map<std::string, ModulationButton*> getAllModulationButtons();
 

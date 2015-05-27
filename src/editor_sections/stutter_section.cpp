@@ -41,8 +41,8 @@ void StutterSection::paint(Graphics& g) {
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForSlider(g, TRANS("FREQ"), stutter_rate_);
-  drawTextForSlider(g, TRANS("RESAMPLE"), resample_rate_);
+  drawTextForComponent(g, TRANS("FREQ"), stutter_rate_);
+  drawTextForComponent(g, TRANS("RESAMPLE"), resample_rate_);
 }
 
 void StutterSection::resized() {
