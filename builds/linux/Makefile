@@ -92,7 +92,6 @@ OBJECTS := \
   $(OBJDIR)/graphical_envelope_46db2063.o \
   $(OBJDIR)/graphical_step_sequencer_3cc8ce31.o \
   $(OBJDIR)/modulation_button_c4483318.o \
-  $(OBJDIR)/modulation_manager_329c97d1.o \
   $(OBJDIR)/modulation_meter_c566156d.o \
   $(OBJDIR)/modulation_slider_f0d81547.o \
   $(OBJDIR)/oscilloscope_75f26af6.o \
@@ -102,16 +101,22 @@ OBJECTS := \
   $(OBJDIR)/wave_selector_e1c74128.o \
   $(OBJDIR)/wave_viewer_feefa2db.o \
   $(OBJDIR)/xy_pad_a46b2bbc.o \
+  $(OBJDIR)/articulation_section_a2117d16.o \
   $(OBJDIR)/delay_section_24197bc4.o \
   $(OBJDIR)/envelope_section_c4ca4205.o \
   $(OBJDIR)/feedback_section_7831363a.o \
   $(OBJDIR)/filter_section_bda2302d.o \
+  $(OBJDIR)/formant_section_c5fa5764.o \
   $(OBJDIR)/full_interface_56c3ed18.o \
   $(OBJDIR)/lfo_section_648e0af6.o \
+  $(OBJDIR)/modulation_manager_2ba1b3f9.o \
+  $(OBJDIR)/oscillator_section_4f516455.o \
   $(OBJDIR)/reverb_section_cdbb9787.o \
   $(OBJDIR)/step_sequencer_section_7a594d3.o \
+  $(OBJDIR)/stutter_section_8ec2322.o \
   $(OBJDIR)/synth_section_1dec2ffd.o \
   $(OBJDIR)/synthesis_interface_e94df2e9.o \
+  $(OBJDIR)/volume_section_36dde8cf.o \
   $(OBJDIR)/browser_look_and_feel_1854ae20.o \
   $(OBJDIR)/default_look_and_feel_335824f9.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
@@ -119,6 +124,7 @@ OBJECTS := \
   $(OBJDIR)/twytch_editor_cb41a52d.o \
   $(OBJDIR)/twytch_plugin_10f49ff3.o \
   $(OBJDIR)/fixed_point_wave_cbeb31ee.o \
+  $(OBJDIR)/resonance_cancel_fe80786.o \
   $(OBJDIR)/switch_9aef122f.o \
   $(OBJDIR)/twytch_engine_ecbf26ed.o \
   $(OBJDIR)/twytch_lfo_95ce0b34.o \
@@ -375,11 +381,6 @@ $(OBJDIR)/modulation_button_c4483318.o: ../../src/editor_components/modulation_b
 	@echo "Compiling modulation_button.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_manager_329c97d1.o: ../../src/editor_components/modulation_manager.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_manager.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/modulation_meter_c566156d.o: ../../src/editor_components/modulation_meter.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_meter.cpp"
@@ -425,6 +426,11 @@ $(OBJDIR)/xy_pad_a46b2bbc.o: ../../src/editor_components/xy_pad.cpp
 	@echo "Compiling xy_pad.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/articulation_section_a2117d16.o: ../../src/editor_sections/articulation_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling articulation_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/delay_section_24197bc4.o: ../../src/editor_sections/delay_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delay_section.cpp"
@@ -445,6 +451,11 @@ $(OBJDIR)/filter_section_bda2302d.o: ../../src/editor_sections/filter_section.cp
 	@echo "Compiling filter_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/formant_section_c5fa5764.o: ../../src/editor_sections/formant_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling formant_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/full_interface_56c3ed18.o: ../../src/editor_sections/full_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling full_interface.cpp"
@@ -453,6 +464,16 @@ $(OBJDIR)/full_interface_56c3ed18.o: ../../src/editor_sections/full_interface.cp
 $(OBJDIR)/lfo_section_648e0af6.o: ../../src/editor_sections/lfo_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lfo_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_manager_2ba1b3f9.o: ../../src/editor_sections/modulation_manager.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_manager.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/oscillator_section_4f516455.o: ../../src/editor_sections/oscillator_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling oscillator_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/reverb_section_cdbb9787.o: ../../src/editor_sections/reverb_section.cpp
@@ -465,6 +486,11 @@ $(OBJDIR)/step_sequencer_section_7a594d3.o: ../../src/editor_sections/step_seque
 	@echo "Compiling step_sequencer_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/stutter_section_8ec2322.o: ../../src/editor_sections/stutter_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling stutter_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/synth_section_1dec2ffd.o: ../../src/editor_sections/synth_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_section.cpp"
@@ -473,6 +499,11 @@ $(OBJDIR)/synth_section_1dec2ffd.o: ../../src/editor_sections/synth_section.cpp
 $(OBJDIR)/synthesis_interface_e94df2e9.o: ../../src/editor_sections/synthesis_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/volume_section_36dde8cf.o: ../../src/editor_sections/volume_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling volume_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/browser_look_and_feel_1854ae20.o: ../../src/look_and_feel/browser_look_and_feel.cpp
@@ -508,6 +539,11 @@ $(OBJDIR)/twytch_plugin_10f49ff3.o: ../../src/plugin/twytch_plugin.cpp
 $(OBJDIR)/fixed_point_wave_cbeb31ee.o: ../../src/synthesis/fixed_point_wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fixed_point_wave.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/resonance_cancel_fe80786.o: ../../src/synthesis/resonance_cancel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling resonance_cancel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp
