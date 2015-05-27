@@ -18,6 +18,10 @@
 
 #include <cmath>
 
+#define MIN_RESONANCE 0.1
+#define MAX_RESONANCE 0.1
+#define MIN_CUTTOFF 1.0
+
 namespace mopo {
 
   Filter::Filter() : Processor(Filter::kNumInputs, 1) {
@@ -48,8 +52,9 @@ namespace mopo {
 
   void Filter::process() {
     current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
-    computeCoefficients(current_type_, inputs_->at(kCutoff)->at(0),
-                        inputs_->at(kResonance)->at(0), inputs_->at(kGain)->at(0));
+    mopo_float cutoff = CLAMP(inputs_->at(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
+    mopo_float resonance = CLAMP(inputs_->at(kCutoff)->at(0), MIN_RESONANCE, MAX_RESONANCE);
+    computeCoefficients(current_type_, cutoff, resonance, inputs_->at(kGain)->at(0));
 
     int i = 0;
     if (inputs_->at(kReset)->source->triggered &&
