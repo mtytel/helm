@@ -210,26 +210,11 @@ void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
   }
 
   modulation_manager_ = new ModulationManager(modulation_sources,
+                                              getAllModulationButtons(),
                                               modulatable_sliders,
                                               mono_modulations, poly_modulations);
   modulation_manager_->setOpaque(false);
   addAndMakeVisible(modulation_manager_);
-}
-
-void FullInterface::changeModulator(std::string source) {
-  modulation_manager_->changeModulator(source);
-}
-
-void FullInterface::forgetModulator() {
-  modulation_manager_->forgetModulator();
-}
-
-void FullInterface::modulationChanged(std::string source) {
-  synthesis_interface_->modulationChanged(source);
-}
-
-std::string FullInterface::getCurrentModulator() {
-  return modulation_manager_->getCurrentModulator();
 }
 
 void FullInterface::setToolTipText(String parameter, String value) {

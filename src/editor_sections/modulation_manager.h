@@ -19,19 +19,21 @@
 #define MODULATION_MANAGER_H
 
 #include "JuceHeader.h"
-#include "twytch_common.h"
+#include "modulation_button.h"
 #include "modulation_meter.h"
+#include "synth_section.h"
+#include "twytch_common.h"
 #include <set>
 
-class ModulationManager : public Component, public SliderListener, public Timer {
+class ModulationManager : public SynthSection, public Timer {
   public:
     ModulationManager (mopo::output_map modulation_sources,
+                       std::map<std::string, ModulationButton*> modulation_buttons,
                        std::map<std::string, SynthSlider*> sliders,
                        mopo::output_map mono_modulations,
                        mopo::output_map poly_modulations);
     ~ModulationManager();
 
-    void sliderValueChanged(Slider *slider);
     void setModulationAmount(std::string source, std::string destination, mopo::mopo_float amount);
     void changeModulator(std::string new_modulator);
     void forgetModulator();
@@ -40,6 +42,8 @@ class ModulationManager : public Component, public SliderListener, public Timer 
     void timerCallback() override;
     void paint(Graphics& g) override;
     void resized() override;
+    void buttonClicked(Button* clicked_button) override;
+    void sliderValueChanged(Slider* moved_slider) override;
 
   private:
     void setSliderValues();
@@ -49,6 +53,8 @@ class ModulationManager : public Component, public SliderListener, public Timer 
     ScopedPointer<Component> monophonic_destinations_;
 
     std::string current_modulator_;
+    double last_value_;
+    std::map<std::string, ModulationButton*> modulation_buttons_;
 
     std::map<std::string, Slider*> slider_lookup_;
     std::map<std::string, SynthSlider*> slider_model_lookup_;
@@ -57,7 +63,7 @@ class ModulationManager : public Component, public SliderListener, public Timer 
     std::map<std::string, ModulationMeter*> meter_lookup_;
     mopo::output_map modulation_sources_;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ModulationManager)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationManager)
 };
 
 #endif // MODULATION_MANAGER_H

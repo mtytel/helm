@@ -19,8 +19,11 @@
 #define SYNTH_SECTION_H
 
 #include "JuceHeader.h"
+#include "modulation_button.h"
 #include "twytch_common.h"
 #include <map>
+
+#define MODULATION_BUTTON_WIDTH 32
 
 class SynthSlider;
 
@@ -35,15 +38,18 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void setAllValues(mopo::control_map& controls);
     void drawTextForSlider(Graphics& g, String text, SynthSlider* slider);
     std::map<std::string, SynthSlider*> getAllSliders();
+    virtual std::map<std::string, ModulationButton*> getAllModulationButtons();
 
   protected:
     void addButton(Button* button, bool show = true);
+    void addModulationButton(ModulationButton* button, bool show = true);
     void addSlider(SynthSlider* slider, bool show = true);
     void addSubSection(SynthSection* section, bool show = true);
 
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     std::map<std::string, SynthSection*> sub_sections_;
+    std::map<std::string, ModulationButton*> modulation_buttons_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSection)
 };

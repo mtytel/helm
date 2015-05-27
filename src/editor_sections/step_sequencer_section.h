@@ -41,6 +41,7 @@ class StepSequencerSection : public SynthSection {
     ScopedPointer<SynthSlider> tempo_;
     ScopedPointer<TempoSelector> sync_;
     ScopedPointer<SynthSlider> smoothing_;
+    ScopedPointer<ModulationButton> modulation_button_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StepSequencerSection)
 };

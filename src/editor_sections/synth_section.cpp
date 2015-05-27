@@ -94,6 +94,13 @@ void SynthSection::addButton(Button* button, bool show) {
     addAndMakeVisible(button);
 }
 
+void SynthSection::addModulationButton(ModulationButton* button, bool show) {
+  button_lookup_[button->getName().toStdString()] = button;
+  modulation_buttons_[button->getName().toStdString()] = button;
+  if (show)
+    addAndMakeVisible(button);
+}
+
 void SynthSection::addSlider(SynthSlider* slider, bool show) {
   slider_lookup_[slider->getName().toStdString()] = slider;
   slider->addListener(this);
@@ -121,4 +128,16 @@ std::map<std::string, SynthSlider*> SynthSection::getAllSliders() {
   }
 
   return sliders;
+}
+
+std::map<std::string, ModulationButton*> SynthSection::getAllModulationButtons() {
+  std::map<std::string, ModulationButton*> mod_buttons = modulation_buttons_;
+
+  for (auto sub_section : sub_sections_) {
+    std::map<std::string, ModulationButton*> sub_buttons =
+        sub_section.second->getAllModulationButtons();
+    mod_buttons.insert(sub_buttons.begin(), sub_buttons.end());
+  }
+
+  return mod_buttons;
 }

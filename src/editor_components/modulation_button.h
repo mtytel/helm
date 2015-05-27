@@ -20,8 +20,6 @@
 
 #include "JuceHeader.h"
 
-class FullInterface;
-
 class ModulationButton : public ToggleButton {
   public:
     ModulationButton(String name);

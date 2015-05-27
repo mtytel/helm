@@ -45,7 +45,6 @@ class SynthesisInterface  : public SynthSection {
 
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
-    void modulationChanged(std::string source);
 
     void paint(Graphics& g);
     void resized();
@@ -75,12 +74,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> stutter_frequency_;
     ScopedPointer<ToggleButton> stutter_on_;
     ScopedPointer<SynthSlider> stutter_resample_frequency_;
-    ScopedPointer<ModulationButton> filter_envelope_mod_;
-    ScopedPointer<ModulationButton> amplitude_envelope_mod_;
-    ScopedPointer<ModulationButton> step_sequencer_mod_;
-    ScopedPointer<ModulationButton> mono_lfo_1_mod_;
-    ScopedPointer<ModulationButton> mono_lfo_2_mod_;
-    ScopedPointer<ModulationButton> poly_lfo_mod_;
     ScopedPointer<ModulationButton> aftertouch_mod_;
     ScopedPointer<ModulationButton> note_mod_;
     ScopedPointer<ModulationButton> velocity_mod_;
@@ -88,7 +81,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<ModulationButton> pitch_wheel_mod_;
     ScopedPointer<ToggleButton> legato_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthesisInterface)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesisInterface)
 };
 
 #endif // SYNTHESIS_INTERFACE_H

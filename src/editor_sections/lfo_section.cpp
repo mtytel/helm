@@ -16,7 +16,7 @@
 
 #include "lfo_section.h"
 
-#include "synth_slider.h"
+#include "modulation_look_and_feel.h"
 #include "text_look_and_feel.h"
 
 #define WAVE_VIEWER_RESOLUTION 32
@@ -56,6 +56,9 @@ LfoSection::LfoSection(String name, std::string value_prepend) : SynthSection(na
   addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
   wave_viewer_->setAmplitudeSlider(amplitude_);
   wave_viewer_->setWaveSlider(wave_selector_);
+
+  addModulationButton(modulation_button_ = new ModulationButton(value_prepend));
+  modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());
 }
 
 LfoSection::~LfoSection() {
@@ -89,7 +92,8 @@ void LfoSection::resized() {
   wave_viewer_->setBounds(SLIDER_WIDTH, 20 + SLIDER_WIDTH, getWidth() - SLIDER_WIDTH, wave_height);
   amplitude_->setBounds(0, 20 + SLIDER_WIDTH, SLIDER_WIDTH, wave_height);
 
-  int y = getHeight() - 5 * KNOB_SECTION_WIDTH / 6;
+  int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
+  modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
   frequency_->setBounds(proportionOfWidth(0.45f), y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),
                    TEXT_HEIGHT, TEXT_HEIGHT);

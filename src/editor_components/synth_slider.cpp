@@ -93,20 +93,12 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
       for (mopo::ModulationConnection* connection : connections) {
         std::string source = connection->source;
         parent->disconnectModulation(connection);
-
-        FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
-        if (full_parent)
-          full_parent->modulationChanged(source);
       }
     }
     else if (result >= kModulationList) {
       int connection_index = result - kModulationList;
       std::string source = connections[connection_index]->source;
       parent->disconnectModulation(connections[connection_index]);
-
-      FullInterface* parent = findParentComponentOfClass<FullInterface>();
-      if (parent)
-        parent->modulationChanged(source);
     }
   }
   else {

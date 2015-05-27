@@ -17,7 +17,6 @@
 #include "synthesis_interface.h"
 
 #include <iomanip>
-#include "full_interface.h"
 #include "modulation_look_and_feel.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
@@ -37,62 +36,25 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
 
   addSlider(polyphony_ = new SynthSlider("polyphony"));
-  polyphony_->setRange(1, 32, 1);
   polyphony_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  polyphony_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  polyphony_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  polyphony_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  polyphony_->addListener(this);
 
   addSlider(portamento_ = new SynthSlider("portamento"));
-  portamento_->setRange(-9, -1, 0);
   portamento_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  portamento_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  portamento_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  portamento_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  portamento_->addListener(this);
 
   addSlider(pitch_bend_range_ = new SynthSlider("pitch_bend_range"));
-  pitch_bend_range_->setRange(0, 48, 1);
   pitch_bend_range_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  pitch_bend_range_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  pitch_bend_range_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  pitch_bend_range_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  pitch_bend_range_->addListener(this);
 
   addSlider(portamento_type_ = new SynthSlider("portamento_type"));
-  portamento_type_->setRange(0, 2, 1);
   portamento_type_->setSliderStyle(Slider::LinearBar);
-  portamento_type_->setTextBoxStyle(Slider::NoTextBox, false, 80, 20);
-  portamento_type_->setColour(Slider::backgroundColourId, Colour(0xff333333));
-  portamento_type_->setColour(Slider::trackColourId, Colour(0xff9765bc));
-  portamento_type_->setColour(Slider::textBoxOutlineColourId, Colour(0x00bbbbbb));
-  portamento_type_->addListener(this);
 
   addSlider(volume_ = new SynthSlider("volume"));
-  volume_->setRange(0, 1, 0);
   volume_->setSliderStyle(Slider::LinearBar);
-  volume_->setTextBoxStyle(Slider::NoTextBox, false, 80, 20);
-  volume_->setColour(Slider::backgroundColourId, Colour(0xff303030));
-  volume_->setColour(Slider::trackColourId, Colour(0xff9765bc));
-  volume_->setColour(Slider::textBoxOutlineColourId, Colour(0x00000000));
-  volume_->addListener(this);
 
   addSlider(velocity_track_ = new SynthSlider("velocity_track"));
-  velocity_track_->setRange(-1, 1, 0);
   velocity_track_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  velocity_track_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  velocity_track_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  velocity_track_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  velocity_track_->addListener(this);
 
   addSlider(stutter_frequency_ = new SynthSlider("stutter_frequency"));
-  stutter_frequency_->setRange(4, 100, 0);
   stutter_frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  stutter_frequency_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  stutter_frequency_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  stutter_frequency_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  stutter_frequency_->addListener(this);
 
   addButton(stutter_on_ = new ToggleButton("stutter_on"));
   stutter_on_->setButtonText(String::empty);
@@ -101,54 +63,25 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   stutter_on_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
 
   addSlider(stutter_resample_frequency_ = new SynthSlider("stutter_resample_frequency"));
-  stutter_resample_frequency_->setRange(0.5, 20, 0);
   stutter_resample_frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  stutter_resample_frequency_->setTextBoxStyle(Slider::NoTextBox, true, 80, 20);
-  stutter_resample_frequency_->setColour(Slider::rotarySliderFillColourId, Colour(0x7fffffff));
-  stutter_resample_frequency_->setColour(Slider::textBoxTextColourId, Colour(0xff999999));
-  stutter_resample_frequency_->addListener(this);
 
-  addButton(filter_envelope_mod_ = new ModulationButton("filter_env"));
-  filter_envelope_mod_->setButtonText(String::empty);
-  filter_envelope_mod_->addListener(this);
-
-  addButton(amplitude_envelope_mod_ = new ModulationButton("amplitude_env"));
-  amplitude_envelope_mod_->setButtonText(String::empty);
-  amplitude_envelope_mod_->addListener(this);
-
-  addButton(step_sequencer_mod_ = new ModulationButton("step_sequencer"));
-  step_sequencer_mod_->setButtonText(String::empty);
-  step_sequencer_mod_->addListener(this);
-
-  addButton(mono_lfo_1_mod_ = new ModulationButton("mono_lfo_1"));
-  mono_lfo_1_mod_->setButtonText(String::empty);
-  mono_lfo_1_mod_->addListener(this);
-
-  addButton(mono_lfo_2_mod_ = new ModulationButton("mono_lfo_2"));
-  mono_lfo_2_mod_->setButtonText(String::empty);
-  mono_lfo_2_mod_->addListener(this);
-
-  addButton(poly_lfo_mod_ = new ModulationButton("poly_lfo"));
-  poly_lfo_mod_->setButtonText(String::empty);
-  poly_lfo_mod_->addListener(this);
-
-  addButton(aftertouch_mod_ = new ModulationButton("aftertouch"));
+  addModulationButton(aftertouch_mod_ = new ModulationButton("aftertouch"));
   aftertouch_mod_->setButtonText(String::empty);
   aftertouch_mod_->addListener(this);
 
-  addButton(note_mod_ = new ModulationButton("note"));
+  addModulationButton(note_mod_ = new ModulationButton("note"));
   note_mod_->setButtonText(String::empty);
   note_mod_->addListener(this);
 
-  addButton(velocity_mod_ = new ModulationButton("velocity"));
+  addModulationButton(velocity_mod_ = new ModulationButton("velocity"));
   velocity_mod_->setButtonText(String::empty);
   velocity_mod_->addListener(this);
 
-  addButton(mod_wheel_mod_ = new ModulationButton("mod_wheel"));
+  addModulationButton(mod_wheel_mod_ = new ModulationButton("mod_wheel"));
   mod_wheel_mod_->setButtonText(String::empty);
   mod_wheel_mod_->addListener(this);
 
-  addButton(pitch_wheel_mod_ = new ModulationButton("pitch_wheel"));
+  addModulationButton(pitch_wheel_mod_ = new ModulationButton("pitch_wheel"));
   pitch_wheel_mod_->setButtonText(String::empty);
   pitch_wheel_mod_->addListener(this);
 
@@ -188,12 +121,6 @@ SynthesisInterface::~SynthesisInterface() {
   stutter_frequency_ = nullptr;
   stutter_on_ = nullptr;
   stutter_resample_frequency_ = nullptr;
-  filter_envelope_mod_ = nullptr;
-  amplitude_envelope_mod_ = nullptr;
-  step_sequencer_mod_ = nullptr;
-  mono_lfo_1_mod_ = nullptr;
-  mono_lfo_2_mod_ = nullptr;
-  poly_lfo_mod_ = nullptr;
   aftertouch_mod_ = nullptr;
   note_mod_ = nullptr;
   velocity_mod_ = nullptr;
@@ -405,12 +332,6 @@ void SynthesisInterface::resized() {
   stutter_frequency_->setBounds(241 - (40 / 2), 524, 40, 40);
   stutter_on_->setBounds(214, 482, 20, 20);
   stutter_resample_frequency_->setBounds(297 - (40 / 2), 524, 40, 40);
-  amplitude_envelope_mod_->setBounds(346, 272, 32, 32);
-  filter_envelope_mod_->setBounds(346, 116, 32, 32);
-  step_sequencer_mod_->setBounds(346, 438, 32, 32);
-  mono_lfo_1_mod_->setBounds(346, 564, 32, 32);
-  mono_lfo_2_mod_->setBounds(480, 568, 32, 32);
-  poly_lfo_mod_->setBounds(614, 568, 32, 32);
   aftertouch_mod_->setBounds(614, 614, 32, 32);
   note_mod_->setBounds(346, 614, 32, 32);
   velocity_mod_->setBounds(480, 614, 32, 32);
@@ -435,22 +356,6 @@ void SynthesisInterface::buttonClicked(Button* buttonThatWasClicked) {
     parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
   else if (buttonThatWasClicked == legato_)
     parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-  else {
-    std::string name = buttonThatWasClicked->getName().toStdString();
-    FullInterface* full_parent = findParentComponentOfClass<FullInterface>();
-    if (full_parent) {
-      if (buttonThatWasClicked->getToggleState()) {
-        std::string current_modulator = full_parent->getCurrentModulator();
-        if (current_modulator != "") {
-          Button* modulator = button_lookup_[current_modulator];
-          modulator->setToggleState(false, NotificationType::dontSendNotification);
-        }
-        full_parent->changeModulator(name);
-      }
-      else
-        full_parent->forgetModulator();
-    }
-  }
 }
 
 void SynthesisInterface::setSliderUnits() {
@@ -475,12 +380,6 @@ void SynthesisInterface::setDefaultDoubleClickValues() {
 void SynthesisInterface::setStyles() {
   legato_->setLookAndFeel(TextLookAndFeel::instance());
 
-  filter_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  amplitude_envelope_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  step_sequencer_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  mono_lfo_1_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  mono_lfo_2_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  poly_lfo_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
   aftertouch_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
   note_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
   velocity_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
@@ -492,8 +391,4 @@ void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
                                   NotificationType notification) {
   if (slider_lookup_.count(name))
     slider_lookup_[name]->setValue(value, notification);
-}
-
-void SynthesisInterface::modulationChanged(std::string source) {
-  button_lookup_[source]->repaint();
 }

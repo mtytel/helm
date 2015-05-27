@@ -16,6 +16,7 @@
 
 #include "envelope_section.h"
 
+#include "modulation_look_and_feel.h"
 #include "synth_slider.h"
 
 #define KNOB_SECTION_WIDTH 40
@@ -42,6 +43,9 @@ EnvelopeSection::EnvelopeSection(String name, std::string value_prepend) : Synth
   envelope_->setDecaySlider(decay_);
   envelope_->setSustainSlider(sustain_);
   envelope_->setReleaseSlider(release_);
+
+  addModulationButton(modulation_button_ = new ModulationButton(value_prepend + "_envelope"));
+  modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());
 }
 
 EnvelopeSection::~EnvelopeSection() {
@@ -62,8 +66,9 @@ void EnvelopeSection::resized() {
   envelope_->setBounds(0, 20, getWidth(), getHeight() - 20 - KNOB_SECTION_WIDTH);
 
   float space = (getWidth() - (5.0f * KNOB_WIDTH)) / 6.0f;
-  int y = getHeight() - 5 * KNOB_SECTION_WIDTH / 6;
+  int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
 
+  modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
   attack_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   decay_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   sustain_->setBounds(3 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);

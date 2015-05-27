@@ -466,9 +466,6 @@
     <ClCompile Include="..\..\..\src\editor_components\modulation_button.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_components\modulation_manager.cpp">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\modulation_meter.cpp">
       <Filter>Twytch\src\editor_components</Filter>
     </ClCompile>
@@ -515,6 +512,9 @@
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\lfo_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\modulation_manager.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp">
@@ -1956,9 +1956,6 @@
     <ClInclude Include="..\..\..\src\editor_components\modulation_button.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_components\modulation_manager.h">
-      <Filter>Twytch\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\modulation_meter.h">
       <Filter>Twytch\src\editor_components</Filter>
     </ClInclude>
@@ -2005,6 +2002,9 @@
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\lfo_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\modulation_manager.h">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h">

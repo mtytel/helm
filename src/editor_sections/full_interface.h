@@ -40,10 +40,7 @@ class FullInterface : public SynthSection {
     void createModulationSliders(mopo::output_map modulation_sources,
                                  mopo::output_map mono_modulations,
                                  mopo::output_map poly_modulations);
-    void changeModulator(std::string source);
-    void forgetModulator();
-    void modulationChanged(std::string source);
-    std::string getCurrentModulator();
+
     void setToolTipText(String parameter, String value);
 
     void paint (Graphics& g);

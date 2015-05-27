@@ -92,7 +92,6 @@ OBJECTS := \
   $(OBJDIR)/graphical_envelope_4add3912.o \
   $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
   $(OBJDIR)/modulation_button_8258c889.o \
-  $(OBJDIR)/modulation_manager_369eb080.o \
   $(OBJDIR)/modulation_meter_3f248ddc.o \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
@@ -109,6 +108,7 @@ OBJECTS := \
   $(OBJDIR)/formant_section_51494d55.o \
   $(OBJDIR)/full_interface_29b5f507.o \
   $(OBJDIR)/lfo_section_f85fa167.o \
+  $(OBJDIR)/modulation_manager_a5602c68.o \
   $(OBJDIR)/oscillator_section_c90fdcc4.o \
   $(OBJDIR)/reverb_section_a0ad9f76.o \
   $(OBJDIR)/step_sequencer_section_13843dc2.o \
@@ -377,11 +377,6 @@ $(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulatio
 	@echo "Compiling modulation_button.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_manager_369eb080.o: ../../../src/editor_components/modulation_manager.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling modulation_manager.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/modulation_meter_3f248ddc.o: ../../../src/editor_components/modulation_meter.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_meter.cpp"
@@ -460,6 +455,11 @@ $(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface
 $(OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lfo_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation_manager.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp

@@ -16,7 +16,7 @@
 
 #include "step_sequencer_section.h"
 
-#include "synth_slider.h"
+#include "modulation_look_and_feel.h"
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
@@ -53,6 +53,9 @@ StepSequencerSection::StepSequencerSection(String name) : SynthSection(name) {
   addSlider(smoothing_ = new SynthSlider("step_smoothing"));
   smoothing_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
+  addModulationButton(modulation_button_ = new ModulationButton("step_sequencer"));
+  modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());
+
   createStepSequencerSliders();
 }
 
@@ -86,8 +89,9 @@ void StepSequencerSection::paint(Graphics& g) {
 
 void StepSequencerSection::resized() {
   step_sequencer_->setBounds(0, 20, getWidth(), getHeight() - 20 - KNOB_SECTION_WIDTH);
-  int y = getHeight() - 5 * KNOB_SECTION_WIDTH / 6;
+  int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
 
+  modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
   num_steps_->setBounds(proportionOfWidth(0.25f), y, TEXT_WIDTH, TEXT_HEIGHT);
   frequency_->setBounds(proportionOfWidth(0.51f), y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),

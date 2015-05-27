@@ -24,21 +24,28 @@
 
 #define FRAMES_PER_SECOND 30
 
-ModulationManager::ModulationManager(mopo::output_map modulation_sources,
-                                     std::map<std::string, SynthSlider*> sliders,
-                                     mopo::output_map mono_modulations,
-                                     mopo::output_map poly_modulations) {
+ModulationManager::ModulationManager(
+    mopo::output_map modulation_sources,
+    std::map<std::string, ModulationButton*> modulation_buttons,
+    std::map<std::string, SynthSlider*> sliders,
+    mopo::output_map mono_modulations,
+    mopo::output_map poly_modulations) : SynthSection("modulation") {
+  modulation_buttons_ = modulation_buttons;
   modulation_sources_ = modulation_sources;
   setInterceptsMouseClicks(false, true);
   startTimerHz(FRAMES_PER_SECOND);
 
   current_modulator_ = "";
+  last_value_ = -1.0;
 
   polyphonic_destinations_ = new Component();
   polyphonic_destinations_->setInterceptsMouseClicks(false, true);
 
   monophonic_destinations_ = new Component();
   monophonic_destinations_->setInterceptsMouseClicks(false, true);
+
+  for (auto mod_button : modulation_buttons_)
+    mod_button.second->addListener(this);
 
   slider_model_lookup_ = sliders;
   for (auto slider : slider_model_lookup_) {
@@ -103,6 +110,28 @@ void ModulationManager::resized() {
   }
 }
 
+void ModulationManager::buttonClicked(juce::Button *clicked_button) {
+  std::string name = clicked_button->getName().toStdString();
+  if (clicked_button->getToggleState()) {
+    if (current_modulator_ != "") {
+      Button* modulator = modulation_buttons_[current_modulator_];
+      modulator->setToggleState(false, NotificationType::dontSendNotification);
+    }
+    changeModulator(name);
+  }
+  else
+    forgetModulator();
+}
+
+void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
+  std::string destination_name = moved_slider->getName().toStdString();
+  setModulationAmount(current_modulator_, destination_name, moved_slider->getValue());
+
+  if ((bool)last_value_ != (bool)moved_slider->getValue())
+    modulation_buttons_[current_modulator_]->repaint();
+  last_value_ = moved_slider->getValue();
+}
+
 void ModulationManager::timerCallback() {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent == nullptr)
@@ -121,15 +150,6 @@ void ModulationManager::timerCallback() {
     meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
     meter.second->update(num_voices);
   }
-}
-
-void ModulationManager::sliderValueChanged(Slider *slider) {
-  std::string destination_name = slider->getName().toStdString();
-  FullInterface* parent = findParentComponentOfClass<FullInterface>();
-  if (parent)
-    parent->modulationChanged(current_modulator_);
-
-  setModulationAmount(current_modulator_, destination_name, slider->getValue());
 }
 
 void ModulationManager::setModulationAmount(std::string source, std::string destination,

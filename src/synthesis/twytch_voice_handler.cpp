@@ -399,7 +399,7 @@ namespace mopo {
     addProcessor(smooth_saturation_magnitude);
     addProcessor(distorted_filter_);
 
-    mod_sources_["filter_env"] = filter_envelope_->output();
+    mod_sources_["fil_envelope"] = filter_envelope_->output();
 
     // Stutter.
     BypassRouter* stutter_container = new BypassRouter();
@@ -586,7 +586,7 @@ namespace mopo {
 
     addProcessor(current_frequency_);
 
-    mod_sources_["amplitude_env"] = amplitude_envelope_->output();
+    mod_sources_["amp_envelope"] = amplitude_envelope_->output();
     mod_sources_["note"] = note_percentage->output();
     mod_sources_["velocity"] = current_velocity->output();
   }

@@ -147,10 +147,6 @@
               file="../src/editor_components/modulation_button.cpp"/>
         <FILE id="hc4YWp" name="modulation_button.h" compile="0" resource="0"
               file="../src/editor_components/modulation_button.h"/>
-        <FILE id="sqnr1l" name="modulation_manager.cpp" compile="1" resource="0"
-              file="../src/editor_components/modulation_manager.cpp"/>
-        <FILE id="RPNVCt" name="modulation_manager.h" compile="0" resource="0"
-              file="../src/editor_components/modulation_manager.h"/>
         <FILE id="kgMXal" name="modulation_meter.cpp" compile="1" resource="0"
               file="../src/editor_components/modulation_meter.cpp"/>
         <FILE id="dlWqbU" name="modulation_meter.h" compile="0" resource="0"
@@ -206,6 +202,10 @@
               file="../src/editor_sections/full_interface.h"/>
         <FILE id="zd1Pw6" name="lfo_section.cpp" compile="1" resource="0" file="../src/editor_sections/lfo_section.cpp"/>
         <FILE id="P0c3Zy" name="lfo_section.h" compile="0" resource="0" file="../src/editor_sections/lfo_section.h"/>
+        <FILE id="twzAJN" name="modulation_manager.cpp" compile="1" resource="0"
+              file="../src/editor_sections/modulation_manager.cpp"/>
+        <FILE id="ozVonc" name="modulation_manager.h" compile="0" resource="0"
+              file="../src/editor_sections/modulation_manager.h"/>
         <FILE id="dUS4i9" name="oscillator_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/oscillator_section.cpp"/>
         <FILE id="DtjxUU" name="oscillator_section.h" compile="0" resource="0"

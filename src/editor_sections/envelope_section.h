@@ -19,8 +19,8 @@
 #define ENVELOPE_SECTION_H
 
 #include "JuceHeader.h"
-#include "synth_section.h"
 #include "graphical_envelope.h"
+#include "synth_section.h"
 
 class EnvelopeSection : public SynthSection {
   public:
@@ -36,6 +36,7 @@ class EnvelopeSection : public SynthSection {
     ScopedPointer<SynthSlider> decay_;
     ScopedPointer<SynthSlider> sustain_;
     ScopedPointer<SynthSlider> release_;
+    ScopedPointer<ModulationButton> modulation_button_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(EnvelopeSection)
 };

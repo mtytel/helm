@@ -40,6 +40,7 @@ class LfoSection : public SynthSection {
     ScopedPointer<SynthSlider> frequency_;
     ScopedPointer<SynthSlider> tempo_;
     ScopedPointer<TempoSelector> sync_;
+    ScopedPointer<ModulationButton> modulation_button_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LfoSection)
 };
