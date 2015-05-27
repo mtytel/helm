@@ -27,10 +27,10 @@ class ModulationSlider : public SynthSlider {
 
     virtual void mouseDown(const MouseEvent& e) override;
 
-    Slider* getDestinationSlider() { return destination_slider_; }
+    SynthSlider* getDestinationSlider() { return destination_slider_; }
 
   private:
-    Slider* destination_slider_;
+    SynthSlider* destination_slider_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationSlider)
 };

@@ -16,6 +16,7 @@
 
 #include "modulation_meter.h"
 #include "mopo.h"
+#include "text_look_and_feel.h"
 
 #define ANGLE 2.51327412f
 #define ROTARY_MOD_COLOR 0xff00c853
@@ -36,8 +37,12 @@ ModulationMeter::~ModulationMeter() {
 }
 
 void ModulationMeter::paint(Graphics& g) {
-  if (destination_->getSliderStyle() == Slider::RotaryHorizontalVerticalDrag)
-    drawKnob(g);
+  if (destination_->getSliderStyle() == Slider::RotaryHorizontalVerticalDrag) {
+    if (&destination_->getLookAndFeel() == TextLookAndFeel::instance())
+      drawTextSlider(g);
+    else
+      drawKnob(g);
+  }
   else
     drawSlider(g);
 }
@@ -68,6 +73,21 @@ void ModulationMeter::update(int num_voices) {
       mod_percent_ = std::pow(current_mod_percent_, destination_->getSkewFactor());
       repaint();
     }
+  }
+}
+
+void ModulationMeter::drawTextSlider(Graphics& g) {
+  g.setColour(Colour(SLIDER_MOD_COLOR));
+
+  float diff_percent = mod_percent_ - knob_percent_;
+
+  if (diff_percent < 0.0f) {
+    float mod_position = -getHeight() * diff_percent;
+    fillVerticalRect(g, 0.0f, mod_position, getWidth() / 2.0f);
+  }
+  else if (diff_percent > 0.0f) {
+    float mod_position = getHeight() * (1.0f - diff_percent);
+    fillVerticalRect(g, mod_position, getHeight(), getWidth() / 2.0f);
   }
 }
 

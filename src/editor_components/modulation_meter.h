@@ -35,6 +35,7 @@ class ModulationMeter : public Component {
 
   private:
     void drawSlider(Graphics& g);
+    void drawTextSlider(Graphics& g);
 
     void drawKnob(Graphics& g);
     void fillHorizontalRect(Graphics& g, float x1, float x2, float height);

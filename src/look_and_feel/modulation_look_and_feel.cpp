@@ -18,6 +18,7 @@
 #include "modulation_slider.h"
 #include "mopo.h"
 #include "synth_gui_interface.h"
+#include "text_look_and_feel.h"
 
 void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_pos, float min, float max,
@@ -72,6 +73,31 @@ void ModulationLookAndFeel::drawLinearSliderThumb(Graphics& g, int x, int y, int
                                                   const Slider::SliderStyle style, Slider& slider) {
 }
 
+void ModulationLookAndFeel::drawTextModulation(Graphics& g, Slider& slider, float percent) {
+  if (percent == 0.0f) {
+    g.setColour(Colour(0x11b9f6ca));
+    g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
+    g.setColour(Colour(0xffb9f6ca));
+    g.drawRect(0, 0, slider.getWidth(), slider.getHeight(), 1);
+  }
+  else {
+    g.setColour(Colour(0x1100e676));
+    g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
+    g.setColour(Colour(0xff00e676));
+    g.drawRect(0.0f, 0.0f, float(slider.getWidth()), float(slider.getHeight()), 2.5f);
+  }
+
+  g.setColour(Colour(0x5500e676));
+
+  if (percent < 0.0f) {
+    g.fillRect(2.5f, 2.5f, slider.getWidth() - 5.0f, -percent * (slider.getHeight() - 5.0f));
+  }
+  else if (percent > 0.0f) {
+    float height = percent * (slider.getHeight() - 5.0f);
+    g.fillRect(2.5f, slider.getHeight() - height - 2.5f, slider.getWidth() - 5.0f, height);
+  }
+}
+
 void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_t, float start_angle, float end_angle,
                                              Slider& slider) {
@@ -79,7 +105,14 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   if (!mod_slider)
     return;
 
-  Slider* destination = mod_slider->getDestinationSlider();
+  SynthSlider* destination = mod_slider->getDestinationSlider();
+  if (&destination->getLookAndFeel() == TextLookAndFeel::instance()) {
+    float destination_range = destination->getMaximum() - destination->getMinimum();
+    float mod_percentage = slider.getValue() / destination_range;
+    drawTextModulation(g, slider, mod_percentage);
+    return;
+  }
+
   float destination_percentage = destination->valueToProportionOfLength(destination->getValue());
   float destination_range = destination->getMaximum() - destination->getMinimum();
   float destination_angle = start_angle + destination_percentage * (end_angle - start_angle);
