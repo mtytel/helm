@@ -218,6 +218,10 @@
               file="../src/editor_sections/step_sequencer_section.cpp"/>
         <FILE id="atB9T3" name="step_sequencer_section.h" compile="0" resource="0"
               file="../src/editor_sections/step_sequencer_section.h"/>
+        <FILE id="lGmCJ0" name="stutter_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/stutter_section.cpp"/>
+        <FILE id="MUOWYB" name="stutter_section.h" compile="0" resource="0"
+              file="../src/editor_sections/stutter_section.h"/>
         <FILE id="IRUU00" name="synth_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/synth_section.cpp"/>
         <FILE id="ARxMw3" name="synth_section.h" compile="0" resource="0" file="../src/editor_sections/synth_section.h"/>

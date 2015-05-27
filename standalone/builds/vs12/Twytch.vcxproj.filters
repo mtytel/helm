@@ -526,6 +526,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\step_sequencer_section.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\stutter_section.cpp">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\synth_section.cpp">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClCompile>
@@ -2014,6 +2017,9 @@
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\step_sequencer_section.h">
+      <Filter>Twytch\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\stutter_section.h">
       <Filter>Twytch\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\synth_section.h">

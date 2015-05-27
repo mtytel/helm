@@ -34,6 +34,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo"));
   addSubSection(reverb_section_ = new ReverbSection("REVERB"));
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
+  addSubSection(stutter_section_ = new StutterSection("STUTTER"));
 
   addSlider(polyphony_ = new SynthSlider("polyphony"));
   polyphony_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -53,47 +54,37 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSlider(velocity_track_ = new SynthSlider("velocity_track"));
   velocity_track_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  addSlider(stutter_frequency_ = new SynthSlider("stutter_frequency"));
-  stutter_frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
-  addButton(stutter_on_ = new ToggleButton("stutter_on"));
-  stutter_on_->setButtonText(String::empty);
-  stutter_on_->addListener(this);
-  stutter_on_->setToggleState(true, dontSendNotification);
-  stutter_on_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
-
-  addSlider(stutter_resample_frequency_ = new SynthSlider("stutter_resample_frequency"));
-  stutter_resample_frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
   addModulationButton(aftertouch_mod_ = new ModulationButton("aftertouch"));
   aftertouch_mod_->setButtonText(String::empty);
   aftertouch_mod_->addListener(this);
+  aftertouch_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 
   addModulationButton(note_mod_ = new ModulationButton("note"));
   note_mod_->setButtonText(String::empty);
   note_mod_->addListener(this);
+  note_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 
   addModulationButton(velocity_mod_ = new ModulationButton("velocity"));
   velocity_mod_->setButtonText(String::empty);
   velocity_mod_->addListener(this);
+  velocity_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 
   addModulationButton(mod_wheel_mod_ = new ModulationButton("mod_wheel"));
   mod_wheel_mod_->setButtonText(String::empty);
   mod_wheel_mod_->addListener(this);
+  mod_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 
   addModulationButton(pitch_wheel_mod_ = new ModulationButton("pitch_wheel"));
   pitch_wheel_mod_->setButtonText(String::empty);
   pitch_wheel_mod_->addListener(this);
+  pitch_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 
   addButton(legato_ = new ToggleButton("legato"));
   legato_->setButtonText(String::empty);
   legato_->addListener(this);
   legato_->setColour(ToggleButton::textColourId, Colour(0xffbbbbbb));
+  legato_->setLookAndFeel(TextLookAndFeel::instance());
 
-  setSliderUnits();
-  setStyles();
-
-  setDefaultDoubleClickValues();
   setAllValues(controls);
   setOpaque(true);
 }
@@ -111,6 +102,7 @@ SynthesisInterface::~SynthesisInterface() {
   poly_lfo_section_ = nullptr;
   reverb_section_ = nullptr;
   step_sequencer_section_ = nullptr;
+  stutter_section_ = nullptr;
 
   polyphony_ = nullptr;
   portamento_ = nullptr;
@@ -118,9 +110,6 @@ SynthesisInterface::~SynthesisInterface() {
   portamento_type_ = nullptr;
   volume_ = nullptr;
   velocity_track_ = nullptr;
-  stutter_frequency_ = nullptr;
-  stutter_on_ = nullptr;
-  stutter_resample_frequency_ = nullptr;
   aftertouch_mod_ = nullptr;
   note_mod_ = nullptr;
   velocity_mod_ = nullptr;
@@ -152,9 +141,9 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, poly_lfo_section_->getBounds());
   section_shadow.drawForRectangle(g, reverb_section_->getBounds());
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
+  section_shadow.drawForRectangle(g, stutter_section_->getBounds());
 
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
-  section_shadow.drawForRectangle(g, Rectangle<int>(270 - (116 / 2), 482, 116, 118));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 416, 126, 58));
   section_shadow.drawForRectangle(g, Rectangle<int>(604, 4, 126, 220));
 
@@ -173,9 +162,6 @@ void SynthesisInterface::paint(Graphics& g) {
 
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(604.0f, 416.0f, 126.0f, 58.0f, 3.000f);
-
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(static_cast<float>(270 - (116 / 2)), 482.0f, 116.0f, 118.0f, 3.000f);
 
   g.setColour(Colour(0xff999999));
   g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
@@ -255,31 +241,6 @@ void SynthesisInterface::paint(Graphics& g) {
              700 - (60 / 2), 154, 60, 10,
              Justification::centred, true);
 
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("FREQ"),
-             241 - (40 / 2), 570, 40, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("RESAMPLE"),
-             297 - (50 / 2), 570, 50, 10,
-             Justification::centred, true);
-
-  g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
-  g.drawText(TRANS("STUTTER"),
-             270 - (84 / 2), 482, 84, 20,
-             Justification::centred, true);
-
-  g.setGradientFill(ColourGradient(Colour(0x00000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 500.0f,
-                                   Colour(0x77000000),
-                                   static_cast<float>(proportionOfWidth(0.0000f)), 504.0f,
-                                   false));
-  g.fillRect(212, 482, 116, 20);
-
   g.setGradientFill(ColourGradient(Colour(0x00000000),
                                    static_cast<float>(proportionOfWidth(0.0000f)), 434.0f,
                                    Colour(0x77000000),
@@ -322,6 +283,7 @@ void SynthesisInterface::resized() {
   poly_lfo_section_->setBounds(604.0f, 482.0f, 126.0f, 118.0f);
   reverb_section_->setBounds(604.0f, 324.0f, 126.0f, 84.0f);
   step_sequencer_section_->setBounds(336.0f, 316.0f, 260.0f, 158.0f);
+  stutter_section_->setBounds(212.0f, 482.0f, 116.0f, 118.0f);
 
   polyphony_->setBounds(634 - (40 / 2), 42, 40, 40);
   portamento_->setBounds(634 - (40 / 2), 110, 40, 40);
@@ -329,62 +291,12 @@ void SynthesisInterface::resized() {
   portamento_type_->setBounds(634 - (45 / 2), 186, 45, 16);
   volume_->setBounds(604, 436, 126, 38);
   velocity_track_->setBounds(700 - (40 / 2), 110, 40, 40);
-  stutter_frequency_->setBounds(241 - (40 / 2), 524, 40, 40);
-  stutter_on_->setBounds(214, 482, 20, 20);
-  stutter_resample_frequency_->setBounds(297 - (40 / 2), 524, 40, 40);
   aftertouch_mod_->setBounds(614, 614, 32, 32);
   note_mod_->setBounds(346, 614, 32, 32);
   velocity_mod_->setBounds(480, 614, 32, 32);
   mod_wheel_mod_->setBounds(173, 614, 32, 32);
   pitch_wheel_mod_->setBounds(20, 614, 32, 32);
   legato_->setBounds(684, 186, 32, 16);
-}
-
-void SynthesisInterface::sliderValueChanged(Slider* sliderThatWasMoved) {
-  std::string name = sliderThatWasMoved->getName().toStdString();
-  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChanged(name, sliderThatWasMoved->getValue());
-}
-
-void SynthesisInterface::buttonClicked(Button* buttonThatWasClicked) {
-  std::string name = buttonThatWasClicked->getName().toStdString();
-  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  if (parent == nullptr)
-    return;
-
-  if (buttonThatWasClicked == stutter_on_)
-    parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-  else if (buttonThatWasClicked == legato_)
-    parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-}
-
-void SynthesisInterface::setSliderUnits() {
-  portamento_->setUnits("secs/semitone");
-  portamento_->setScalingType(mopo::ValueDetails::kExponential);
-  pitch_bend_range_->setUnits("semitones");
-
-  polyphony_->setUnits("voices");
-
-  velocity_track_->setUnits("%");
-  velocity_track_->setPostMultiply(100.0);
-  portamento_type_->setStringLookup(mopo::strings::off_auto_on);
-}
-
-void SynthesisInterface::setDefaultDoubleClickValues() {
-  portamento_->setDoubleClickReturnValue(true, -7.0f);
-  pitch_bend_range_->setDoubleClickReturnValue(true, 2.0f);
-
-  velocity_track_->setDoubleClickReturnValue(true, 0.0f);
-}
-
-void SynthesisInterface::setStyles() {
-  legato_->setLookAndFeel(TextLookAndFeel::instance());
-
-  aftertouch_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  note_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  velocity_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  mod_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
-  pitch_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 }
 
 void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,

@@ -83,6 +83,7 @@
 		6C329E16F5810CC244F67F67 = {isa = PBXBuildFile; fileRef = D2194F176DD979D13CD5C635; };
 		12D4D31EA69806D5A51FD6B3 = {isa = PBXBuildFile; fileRef = A37921650BCA64E826DCA2E3; };
 		F1A5EB436D8B51D050487A47 = {isa = PBXBuildFile; fileRef = 906DACD2CC99754B579ED6B1; };
+		347D8FA30A9480C4461F62A7 = {isa = PBXBuildFile; fileRef = 263DDCB2BE620604A84DE23A; };
 		64CA50C24CB5E6E91715E58B = {isa = PBXBuildFile; fileRef = 1AAB2625AC894DC77358869F; };
 		90544142846486CEAD5A91B0 = {isa = PBXBuildFile; fileRef = 7A31F18BE81400BACB1CB4D8; };
 		5114F643B298E64EC0D0FBD5 = {isa = PBXBuildFile; fileRef = 15F4C546EE2EDA0895E0884C; };
@@ -267,6 +268,7 @@
 		2583E5CB5DBA25290903D3D2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "oscillator_section.h"; path = "../../../src/editor_sections/oscillator_section.h"; sourceTree = "SOURCE_ROOT"; };
 		25885B6C67E06E98F6285ED8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_LowLevelGraphicsPostScriptRenderer.h"; path = "../../../JUCE/modules/juce_graphics/contexts/juce_LowLevelGraphicsPostScriptRenderer.h"; sourceTree = "SOURCE_ROOT"; };
 		2637484DC1DD57BCF4FE2678 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_ProgressBar.cpp"; path = "../../../JUCE/modules/juce_gui_basics/widgets/juce_ProgressBar.cpp"; sourceTree = "SOURCE_ROOT"; };
+		263DDCB2BE620604A84DE23A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "stutter_section.cpp"; path = "../../../src/editor_sections/stutter_section.cpp"; sourceTree = "SOURCE_ROOT"; };
 		268CB6211E45A2F6251BB497 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "lfo_section.h"; path = "../../../src/editor_sections/lfo_section.h"; sourceTree = "SOURCE_ROOT"; };
 		27FDAA766CFDD7306B3BE0ED = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = oscilloscope.cpp; path = "../../../src/editor_components/oscilloscope.cpp"; sourceTree = "SOURCE_ROOT"; };
 		2809E14456E23EB66C7FCCA7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_FileOutputStream.cpp"; path = "../../../JUCE/modules/juce_core/files/juce_FileOutputStream.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -763,6 +765,7 @@
 		9AC9405C5C4017C6B458DDBA = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_ProgressBar.h"; path = "../../../JUCE/modules/juce_gui_basics/widgets/juce_ProgressBar.h"; sourceTree = "SOURCE_ROOT"; };
 		9B2EEA5DF0BF0C3935E7FD70 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_RelativeCoordinate.cpp"; path = "../../../JUCE/modules/juce_gui_basics/positioning/juce_RelativeCoordinate.cpp"; sourceTree = "SOURCE_ROOT"; };
 		9B5BDBBDF8977CEB58F3AA43 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_LocalisedStrings.cpp"; path = "../../../JUCE/modules/juce_core/text/juce_LocalisedStrings.cpp"; sourceTree = "SOURCE_ROOT"; };
+		9B7BC09605120EE3A9C68681 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "stutter_section.h"; path = "../../../src/editor_sections/stutter_section.h"; sourceTree = "SOURCE_ROOT"; };
 		9B9A93CA9B9E2D7C42C0FB54 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_InterProcessLock.h"; path = "../../../JUCE/modules/juce_core/threads/juce_InterProcessLock.h"; sourceTree = "SOURCE_ROOT"; };
 		9BC794432961EFE765CC1F5B = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "twytch_lfo.cpp"; path = "../../../src/synthesis/twytch_lfo.cpp"; sourceTree = "SOURCE_ROOT"; };
 		9BF854FD9E2D5C8C1FC9575E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "twytch_common.h"; path = "../../../src/common/twytch_common.h"; sourceTree = "SOURCE_ROOT"; };
@@ -1321,6 +1324,8 @@
 					1155819D4958E11A13D83A46,
 					906DACD2CC99754B579ED6B1,
 					FEA40AA3FA4D7AB69857AB5E,
+					263DDCB2BE620604A84DE23A,
+					9B7BC09605120EE3A9C68681,
 					1AAB2625AC894DC77358869F,
 					1FE600C0522E4A25BA915D41,
 					7A31F18BE81400BACB1CB4D8,
@@ -2620,6 +2625,7 @@
 					6C329E16F5810CC244F67F67,
 					12D4D31EA69806D5A51FD6B3,
 					F1A5EB436D8B51D050487A47,
+					347D8FA30A9480C4461F62A7,
 					64CA50C24CB5E6E91715E58B,
 					90544142846486CEAD5A91B0,
 					5114F643B298E64EC0D0FBD5,

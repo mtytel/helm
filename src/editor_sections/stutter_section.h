@@ -15,28 +15,27 @@
  */
 
 #pragma once
-#ifndef FEEDBACK_SECTION_H
-#define FEEDBACK_SECTION_H
+#ifndef STUTTER_SECTION_H
+#define STUTTER_SECTION_H
 
 #include "JuceHeader.h"
 #include "synth_section.h"
 #include "synth_slider.h"
 
-class FeedbackSection : public SynthSection {
+class StutterSection : public SynthSection {
   public:
-    FeedbackSection(String name);
-    ~FeedbackSection();
+    StutterSection(String name);
+    ~StutterSection();
 
     void paint(Graphics& g) override;
     void resized() override;
 
   private:
-    ScopedPointer<SynthSlider> transpose_;
-    ScopedPointer<SynthSlider> tune_;
-    ScopedPointer<SynthSlider> amount_;
-    ScopedPointer<SynthSlider> saturation_;
+    ScopedPointer<SynthSlider> resample_rate_;
+    ScopedPointer<SynthSlider> stutter_rate_;
+    ScopedPointer<ToggleButton> on_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeedbackSection)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StutterSection)
 };
 
-#endif // FEEDBACK_SECTION_H
+#endif // STUTTER_SECTION_H

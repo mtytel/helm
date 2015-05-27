@@ -30,6 +30,7 @@
 #include "oscillator_section.h"
 #include "reverb_section.h"
 #include "step_sequencer_section.h"
+#include "stutter_section.h"
 
 #include "modulation_button.h"
 
@@ -38,18 +39,11 @@ class SynthesisInterface  : public SynthSection {
     SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
 
-    void setSliderUnits();
-    void setDefaultDoubleClickValues();
-    void setStyles();
-    void createStepSequencerSliders();
-
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);
 
     void paint(Graphics& g);
     void resized();
-    void sliderValueChanged(Slider* sliderThatWasMoved);
-    void buttonClicked(Button* buttonThatWasClicked);
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
@@ -64,6 +58,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<LfoSection> poly_lfo_section_;
     ScopedPointer<ReverbSection> reverb_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
+    ScopedPointer<StutterSection> stutter_section_;
 
     ScopedPointer<SynthSlider> polyphony_;
     ScopedPointer<SynthSlider> portamento_;
@@ -71,9 +66,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<SynthSlider> portamento_type_;
     ScopedPointer<SynthSlider> volume_;
     ScopedPointer<SynthSlider> velocity_track_;
-    ScopedPointer<SynthSlider> stutter_frequency_;
-    ScopedPointer<ToggleButton> stutter_on_;
-    ScopedPointer<SynthSlider> stutter_resample_frequency_;
     ScopedPointer<ModulationButton> aftertouch_mod_;
     ScopedPointer<ModulationButton> note_mod_;
     ScopedPointer<ModulationButton> velocity_mod_;

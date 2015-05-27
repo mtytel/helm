@@ -192,6 +192,7 @@
     <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\reverb_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\step_sequencer_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\stutter_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\synth_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\browser_look_and_feel.cpp"/>
@@ -1407,6 +1408,7 @@
     <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\reverb_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\step_sequencer_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\stutter_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\synth_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\synthesis_interface.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\browser_look_and_feel.h"/>

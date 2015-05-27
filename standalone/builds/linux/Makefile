@@ -112,6 +112,7 @@ OBJECTS := \
   $(OBJDIR)/oscillator_section_c90fdcc4.o \
   $(OBJDIR)/reverb_section_a0ad9f76.o \
   $(OBJDIR)/step_sequencer_section_13843dc2.o \
+  $(OBJDIR)/stutter_section_943b1913.o \
   $(OBJDIR)/synth_section_3b1ee2e.o \
   $(OBJDIR)/synthesis_interface_a75e885a.o \
   $(OBJDIR)/browser_look_and_feel_d6654391.o \
@@ -475,6 +476,11 @@ $(OBJDIR)/reverb_section_a0ad9f76.o: ../../../src/editor_sections/reverb_section
 $(OBJDIR)/step_sequencer_section_13843dc2.o: ../../../src/editor_sections/step_sequencer_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling step_sequencer_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/stutter_section_943b1913.o: ../../../src/editor_sections/stutter_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling stutter_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cpp
