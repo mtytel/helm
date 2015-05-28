@@ -40,10 +40,7 @@ class SynthesisInterface  : public SynthSection {
   public:
     SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
-
-    void setValue(std::string name, mopo::mopo_float value,
-                  NotificationType notification = sendNotificationAsync);
-
+  
     void paint(Graphics& g);
     void resized();
 

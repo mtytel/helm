@@ -30,15 +30,26 @@ class SynthSlider;
 class SynthSection : public Component, public SliderListener, public ButtonListener {
   public:
     SynthSection(String name) : Component(name) { }
+
+    // Drawing.
     virtual void paint(Graphics& g) override;
     virtual void paintBackground(Graphics& g);
     void paintKnobShadows(Graphics& g);
+    void drawTextForComponent(Graphics& g, String text, Component* component);
+
+    // Widget Listeners.
     virtual void sliderValueChanged(Slider* moved_slider) override;
     virtual void buttonClicked(Button* clicked_button) override;
+
+    std::map<std::string, SynthSlider*> getAllSliders() { return all_sliders_; }
+    std::map<std::string, Button*> getAllButtons() { return all_buttons_; }
+    std::map<std::string, ModulationButton*> getAllModulationButtons() {
+      return all_modulation_buttons_;
+    }
+
     void setAllValues(mopo::control_map& controls);
-    void drawTextForComponent(Graphics& g, String text, Component* component);
-    std::map<std::string, SynthSlider*> getAllSliders();
-    virtual std::map<std::string, ModulationButton*> getAllModulationButtons();
+    void setValue(std::string name, mopo::mopo_float value,
+                  NotificationType notification = sendNotificationAsync);
 
   protected:
     void addButton(Button* button, bool show = true);
@@ -46,10 +57,15 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void addSlider(SynthSlider* slider, bool show = true);
     void addSubSection(SynthSection* section, bool show = true);
 
+    std::map<std::string, SynthSection*> sub_sections_;
+
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
-    std::map<std::string, SynthSection*> sub_sections_;
     std::map<std::string, ModulationButton*> modulation_buttons_;
+
+    std::map<std::string, SynthSlider*> all_sliders_;
+    std::map<std::string, Button*> all_buttons_;
+    std::map<std::string, ModulationButton*> all_modulation_buttons_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSection)
 };

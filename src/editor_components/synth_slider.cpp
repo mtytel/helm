@@ -106,7 +106,7 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
     Slider::mouseDown(e);
 
     if (parent)
-      parent->startChangeGesture(getName().toStdString());
+      parent->beginChangeGesture(getName().toStdString());
     if (isRotary()) {
       click_position_ = e.getScreenPosition().toFloat();
       setMouseCursor(MouseCursor::NoCursor);
@@ -116,6 +116,11 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
 
 void SynthSlider::mouseUp(const MouseEvent& e) {
   Slider::mouseUp(e);
+
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent)
+    parent->endChangeGesture(getName().toStdString());
+
   if (isRotary() && !e.mods.isPopupMenu()) {
     setMouseCursor(MouseCursor::ParentCursor);
     Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);

@@ -58,37 +58,18 @@ void SynthSection::paintKnobShadows(Graphics& g) {
 void SynthSection::sliderValueChanged(Slider* moved_slider) {
   std::string name = moved_slider->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChanged(name, moved_slider->getValue());
+  parent->valueChangedInternal(name, moved_slider->getValue());
 }
 
 void SynthSection::buttonClicked(juce::Button *clicked_button) {
   std::string name = clicked_button->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChanged(name, clicked_button->getToggleState() ? 1.0 : 0.0);
-}
-
-void SynthSection::setAllValues(mopo::control_map& controls) {
-  for (auto slider : slider_lookup_) {
-    if (controls.count(slider.first))
-      slider.second->setValue(controls[slider.first]->value());
-  }
-
-  for (auto button : button_lookup_) {
-    if (controls.count(button.first)) {
-      bool toggle = controls[button.first]->value();
-      button.second->setToggleState(toggle, NotificationType::sendNotification);
-      button.second->repaint();
-    }
-  }
-
-  for (auto sub_section : sub_sections_)
-    sub_section.second->setAllValues(controls);
-
-  repaint();
+  parent->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
 }
 
 void SynthSection::addButton(Button* button, bool show) {
   button_lookup_[button->getName().toStdString()] = button;
+  all_buttons_[button->getName().toStdString()] = button;
   button->addListener(this);
   if (show)
     addAndMakeVisible(button);
@@ -103,6 +84,7 @@ void SynthSection::addModulationButton(ModulationButton* button, bool show) {
 
 void SynthSection::addSlider(SynthSlider* slider, bool show) {
   slider_lookup_[slider->getName().toStdString()] = slider;
+  all_sliders_[slider->getName().toStdString()] = slider;
   slider->addListener(this);
   if (show)
     addAndMakeVisible(slider);
@@ -110,34 +92,49 @@ void SynthSection::addSlider(SynthSlider* slider, bool show) {
 
 void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
   sub_sections_[sub_section->getName().toStdString()] = sub_section;
+
+  std::map<std::string, SynthSlider*> sub_sliders = sub_section->getAllSliders();
+  all_sliders_.insert(sub_sliders.begin(), sub_sliders.end());
+
+  std::map<std::string, Button*> sub_buttons = sub_section->getAllButtons();
+  all_buttons_.insert(sub_buttons.begin(), sub_buttons.end());
+
+  std::map<std::string, ModulationButton*> sub_mod_buttons = sub_section->getAllModulationButtons();
+  all_modulation_buttons_.insert(sub_mod_buttons.begin(), sub_mod_buttons.end());
+
   if (show)
     addAndMakeVisible(sub_section);
 }
 
 void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component) {
-  g.drawText(text, component->getX() - 20, component->getY() + component->getHeight() + 6,
-             component->getWidth() + 40, 10, Justification::centred, false);
+  static const int ROOM = 20;
+  static const int HEIGHT = 10;
+  static const int SPACE = 6;
+  g.drawText(text, component->getX() - ROOM, component->getY() + component->getHeight() + SPACE,
+             component->getWidth() + 2 * ROOM, HEIGHT, Justification::centred, false);
 }
 
-std::map<std::string, SynthSlider*> SynthSection::getAllSliders() {
-  std::map<std::string, SynthSlider*> sliders = slider_lookup_;
-
-  for (auto sub_section : sub_sections_) {
-    std::map<std::string, SynthSlider*> sub_sliders = sub_section.second->getAllSliders();
-    sliders.insert(sub_sliders.begin(), sub_sliders.end());
+void SynthSection::setAllValues(mopo::control_map& controls) {
+  for (auto slider : all_sliders_) {
+    if (controls.count(slider.first))
+      slider.second->setValue(controls[slider.first]->value());
   }
 
-  return sliders;
+  for (auto button : all_buttons_) {
+    if (controls.count(button.first)) {
+      bool toggle = controls[button.first]->value();
+      button.second->setToggleState(toggle, NotificationType::sendNotification);
+      button.second->repaint();
+    }
+  }
+
+  repaint();
 }
 
-std::map<std::string, ModulationButton*> SynthSection::getAllModulationButtons() {
-  std::map<std::string, ModulationButton*> mod_buttons = modulation_buttons_;
-
-  for (auto sub_section : sub_sections_) {
-    std::map<std::string, ModulationButton*> sub_buttons =
-        sub_section.second->getAllModulationButtons();
-    mod_buttons.insert(sub_buttons.begin(), sub_buttons.end());
-  }
-
-  return mod_buttons;
+void SynthSection::setValue(std::string name, mopo::mopo_float value,
+                            NotificationType notification) {
+  if (all_sliders_.count(name))
+    all_sliders_[name]->setValue(value, notification);
+  else if (all_buttons_.count(name))
+    all_buttons_[name]->setToggleState(value, notification);
 }

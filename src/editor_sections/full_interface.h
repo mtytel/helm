@@ -33,8 +33,6 @@ class FullInterface : public SynthSection {
                   mopo::output_map mono_modulations, mopo::output_map poly_modulations);
     ~FullInterface();
 
-    void setValue(std::string name, mopo::mopo_float value,
-                  NotificationType notification = sendNotificationAsync);
     void setOutputMemory(const mopo::Memory* output_memory);
 
     void createModulationSliders(mopo::output_map modulation_sources,
@@ -43,10 +41,8 @@ class FullInterface : public SynthSection {
 
     void setToolTipText(String parameter, String value);
 
-    void paint (Graphics& g);
+    void paint(Graphics& g);
     void resized();
-    void sliderValueChanged (Slider* sliderThatWasMoved);
-    void buttonClicked (Button* buttonThatWasClicked);
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;

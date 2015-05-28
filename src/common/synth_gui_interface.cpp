@@ -23,7 +23,16 @@ void SynthGuiInterface::valueChanged(std::string name, mopo::mopo_float value) {
   controls_[name]->set(value);
 }
 
+void SynthGuiInterface::valueChangedInternal(std::string name, mopo::mopo_float value) {
+  valueChanged(name, value);
+  setValueNotifyHost(name, value);
+}
+
 void SynthGuiInterface::valueChangedThroughMidi(std::string name, mopo::mopo_float value) {
+  valueChangedExternal(name, value);
+}
+
+void SynthGuiInterface::valueChangedExternal(std::string name, mopo::mopo_float value) {
   valueChanged(name, value);
   MessageManagerLock mml (Thread::getCurrentThread());
   if (mml.lockWasGained())

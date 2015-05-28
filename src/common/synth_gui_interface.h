@@ -29,6 +29,8 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     virtual ~SynthGuiInterface() { }
 
     void valueChangedThroughMidi(std::string name, mopo::mopo_float value) override;
+    void valueChangedExternal(std::string name, mopo::mopo_float value);
+    void valueChangedInternal(std::string name, mopo::mopo_float value);
     void valueChanged(std::string name, mopo::mopo_float value);
     void changeModulationAmount(std::string source, std::string destination,
                                 mopo::mopo_float amount);
@@ -43,7 +45,10 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     var saveToVar();
     void loadFromVar(var state);
 
-    virtual void startChangeGesture(std::string name) { }
+    virtual void beginChangeGesture(std::string name) { }
+    virtual void endChangeGesture(std::string name) { }
+    virtual void setValueNotifyHost(std::string name, mopo::mopo_float value) { }
+
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
     void clearMidiLearn(std::string name);

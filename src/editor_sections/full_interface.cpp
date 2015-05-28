@@ -171,29 +171,6 @@ void FullInterface::resized() {
   arp_tempo_->setBounds(arp_frequency_->getBounds());
 }
 
-void FullInterface::sliderValueChanged(Slider* sliderThatWasMoved) {
-  std::string name = sliderThatWasMoved->getName().toStdString();
-  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChanged(name, sliderThatWasMoved->getValue());
-}
-
-void FullInterface::buttonClicked(Button* buttonThatWasClicked) {
-  if (buttonThatWasClicked == arp_on_) {
-    std::string name = buttonThatWasClicked->getName().toStdString();
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent)
-      parent->valueChanged(name, buttonThatWasClicked->getToggleState() ? 1.0 : 0.0);
-  }
-}
-
-void FullInterface::setValue(std::string name, mopo::mopo_float value,
-                             NotificationType notification) {
-  if (slider_lookup_.count(name))
-    slider_lookup_[name]->setValue(value, notification);
-  else
-    synthesis_interface_->setValue(name, value, notification);
-}
-
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
   oscilloscope_->setOutputMemory(output_memory);
 }

@@ -26,6 +26,7 @@ TwytchPlugin::TwytchPlugin() {
   controls_ = synth_.getControls();
   for (auto control : controls_) {
     ValueBridge* bridge = new ValueBridge(control.first, control.second);
+    bridge->setListener(this);
     bridge_lookup_[control.first] = bridge;
     addParameter(bridge);
   }
@@ -110,8 +111,12 @@ void TwytchPlugin::releaseResources() {
   // spare memory, etc.
 }
 
-void TwytchPlugin::startChangeGesture(std::string name) {
+void TwytchPlugin::beginChangeGesture(std::string name) {
   bridge_lookup_[name]->beginChangeGesture();
+}
+
+void TwytchPlugin::endChangeGesture(std::string name) {
+  bridge_lookup_[name]->endChangeGesture();
 }
 
 void TwytchPlugin::processMidi(juce::MidiBuffer& midi_messages) {
@@ -155,6 +160,18 @@ bool TwytchPlugin::hasEditor() const {
 
 AudioProcessorEditor* TwytchPlugin::createEditor() {
   return new TwytchEditor(*this);
+}
+
+void TwytchPlugin::parameterChanged(std::string name, mopo::mopo_float value) {
+  AudioProcessorEditor* editor = getActiveEditor();
+  TwytchEditor* t_editor = dynamic_cast<TwytchEditor*>(editor);
+  if (t_editor)
+    t_editor->valueChangedExternal(name, value);
+}
+
+void TwytchPlugin::setValueNotifyHost(std::string name, mopo::mopo_float value) {
+  mopo::mopo_float plugin_value =  bridge_lookup_[name]->convertToPluginValue(value);
+  bridge_lookup_[name]->setValueNotifyingHost(plugin_value);
 }
 
 void TwytchPlugin::getStateInformation(MemoryBlock& dest_data) {

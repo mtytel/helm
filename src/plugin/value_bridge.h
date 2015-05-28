@@ -23,8 +23,14 @@
 
 class ValueBridge : public AudioProcessorParameter {
   public:
+    class Listener {
+      public:
+        virtual ~Listener() { }
+        virtual void parameterChanged(std::string name, mopo::mopo_float value) = 0;
+    };
+
     ValueBridge(std::string name, mopo::Value* value) :
-        AudioProcessorParameter(), name_(name), value_(value) {
+        AudioProcessorParameter(), name_(name), value_(value), listener_(nullptr) {
       details_ = mopo::Parameters::getDetails(name);
       span_ = details_.max - details_.min;
     }
@@ -34,7 +40,15 @@ class ValueBridge : public AudioProcessorParameter {
     }
 
     void setValue(float value) override {
+      mopo::mopo_float synth_value = convertToSynthValue(value);
+      if (listener_)
+        listener_->parameterChanged(name_.toStdString(), synth_value);
+
       return value_->set(convertToSynthValue(value));
+    }
+
+    void setListener(Listener* listener) {
+      listener_ = listener;
     }
 
     float getDefaultValue() const override {
@@ -61,6 +75,16 @@ class ValueBridge : public AudioProcessorParameter {
       return true;
     }
 
+    // Converts internal value to value from 0.0 to 1.0.
+    float convertToPluginValue(mopo::mopo_float synth_value) const {
+      return (synth_value - details_.min) / span_;
+    }
+
+    // Converts from value from 0.0 to 1.0 to internal synth value.
+    float convertToSynthValue(mopo::mopo_float plugin_value) const {
+      return span_ * plugin_value + details_.min;
+    }
+
   private:
     float getSkewedValue() const {
       switch (details_.display_skew) {
@@ -73,20 +97,11 @@ class ValueBridge : public AudioProcessorParameter {
       }
     }
 
-    // Converts internal value to value from 0.0 to 1.0.
-    float convertToPluginValue(mopo::mopo_float synth_value) const {
-      return (synth_value - details_.min) / span_;
-    }
-
-    // Converts from value from 0.0 to 1.0 to internal synth value.
-    float convertToSynthValue(mopo::mopo_float plugin_value) const {
-      return span_ * plugin_value + details_.min;
-    }
-
     String name_;
     mopo::ValueDetails details_;
     mopo::mopo_float span_;
     mopo::Value* value_;
+    Listener* listener_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ValueBridge)
 };

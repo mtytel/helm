@@ -189,9 +189,3 @@ void SynthesisInterface::resized() {
   mod_wheel_mod_->setBounds(173, 614, 32, 32);
   pitch_wheel_mod_->setBounds(20, 614, 32, 32);
 }
-
-void SynthesisInterface::setValue(std::string name, mopo::mopo_float value,
-                                  NotificationType notification) {
-  if (slider_lookup_.count(name))
-    slider_lookup_[name]->setValue(value, notification);
-}

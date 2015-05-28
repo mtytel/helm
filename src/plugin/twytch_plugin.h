@@ -21,10 +21,11 @@
 #include "memory.h"
 #include "midi_manager.h"
 #include "twytch_engine.h"
+#include "value_bridge.h"
 
 class ValueBridge;
 
-class TwytchPlugin : public AudioProcessor {
+class TwytchPlugin : public AudioProcessor, public ValueBridge::Listener {
   public:
     TwytchPlugin();
     virtual ~TwytchPlugin();
@@ -58,11 +59,16 @@ class TwytchPlugin : public AudioProcessor {
     void getStateInformation(MemoryBlock& destData) override;
     void setStateInformation(const void* data, int size_in_bytes) override;
 
-    void startChangeGesture(std::string name);
+    void beginChangeGesture(std::string name);
+    void endChangeGesture(std::string name);
+    void setValueNotifyHost(std::string name, mopo::mopo_float value);
     void processMidi(MidiBuffer&);
     mopo::TwytchEngine* getSynth() { return &synth_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }
     MidiManager* getMidiManager() { return midi_manager_; }
+
+    // ValueBridge::Listener
+    void parameterChanged(std::string name, mopo::mopo_float value);
 
   private:
     mopo::TwytchEngine synth_;

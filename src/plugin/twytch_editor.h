@@ -35,7 +35,9 @@ class TwytchEditor : public AudioProcessorEditor, public SynthGuiInterface {
     MidiManager* getMidiManager() override { return twytch_.getMidiManager(); }
     void updateFullGui() override;
     void updateGuiControl(std::string name, mopo::mopo_float value);
-    void startChangeGesture(std::string name) override;
+    void beginChangeGesture(std::string name) override;
+    void endChangeGesture(std::string name) override;
+    void setValueNotifyHost(std::string name, mopo::mopo_float value) override;
 
   private:
     TwytchPlugin& twytch_;
