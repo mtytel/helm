@@ -53,7 +53,7 @@ namespace mopo {
   void Filter::process() {
     current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
     mopo_float cutoff = CLAMP(inputs_->at(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
-    mopo_float resonance = CLAMP(inputs_->at(kCutoff)->at(0), MIN_RESONANCE, MAX_RESONANCE);
+    mopo_float resonance = CLAMP(inputs_->at(kResonance)->at(0), MIN_RESONANCE, MAX_RESONANCE);
     computeCoefficients(current_type_, cutoff, resonance, inputs_->at(kGain)->at(0));
 
     int i = 0;
