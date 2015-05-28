@@ -19,7 +19,7 @@
 #include <cmath>
 
 #define MIN_RESONANCE 0.1
-#define MAX_RESONANCE 0.1
+#define MAX_RESONANCE 16.0
 #define MIN_CUTTOFF 1.0
 
 namespace mopo {
