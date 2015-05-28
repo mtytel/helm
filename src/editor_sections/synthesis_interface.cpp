@@ -21,6 +21,11 @@
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
+#define COLUMN_WIDTH_1 320.0f
+#define COLUMN_WIDTH_2 260.0f
+#define COLUMN_WIDTH_3 126.0f
+#define CELL_PADDING 8.0f
+
 SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSection("synthesis") {
   addSubSection(amplitude_envelope_section_ = new EnvelopeSection("AMPLITUDE ENVELOPE", "amp"));
   addSubSection(articulation_section_ = new ArticulationSection("ARTICULATION"));
@@ -121,7 +126,7 @@ void SynthesisInterface::paint(Graphics& g) {
   section_shadow.drawForRectangle(g, Rectangle<int>(8, 630 - (44 / 2), 722, 44));
 
   g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(8.0f, static_cast<float>(630 - (44 / 2)), 722.0f, 44.0f, 3.0f);
+  g.fillRoundedRectangle(CELL_PADDING, 608.0f, getWidth() - 2.0f * CELL_PADDING, 44.0f, 3.0f);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
@@ -158,21 +163,25 @@ void SynthesisInterface::paint(Graphics& g) {
 }
 
 void SynthesisInterface::resized() {
-  amplitude_envelope_section_->setBounds(336.0f, 160.0f, 260.0f, 148.0f);
-  articulation_section_->setBounds(604.0f, 4.0f, 126.0f, 220.0f);
-  delay_section_->setBounds(604.0f, 232.0f, 126.0f, 84.0f);
-  feedback_section_->setBounds(8.0f, 216.0f, 320.0f, 92.0f);
-  filter_envelope_section_->setBounds(336.0f, 4.0f, 260.0f, 148.0f);
-  filter_section_->setBounds(8.0f, 316.0f, 320.0f, 158.0f);
-  formant_section_->setBounds(8.0f, 482.0f, 196.0f, 118.0f);
-  mono_lfo_1_section_->setBounds(336.0f, 482.0f, 126.0f, 118.0f);
+  float column_1_x = CELL_PADDING;
+  float column_2_x = column_1_x + CELL_PADDING + COLUMN_WIDTH_1;
+  float column_3_x = column_2_x + CELL_PADDING + COLUMN_WIDTH_2;
+  
+  amplitude_envelope_section_->setBounds(column_2_x, 160.0f, 260.0f, 148.0f);
+  articulation_section_->setBounds(column_3_x, 4.0f, 126.0f, 220.0f);
+  delay_section_->setBounds(column_3_x, 232.0f, 126.0f, 84.0f);
+  feedback_section_->setBounds(column_1_x, 216.0f, COLUMN_WIDTH_1, 92.0f);
+  filter_envelope_section_->setBounds(column_2_x, 4.0f, 260.0f, 148.0f);
+  filter_section_->setBounds(column_1_x, 316.0f, COLUMN_WIDTH_1, 158.0f);
+  formant_section_->setBounds(column_1_x, 482.0f, 196.0f, 118.0f);
+  mono_lfo_1_section_->setBounds(column_2_x, 482.0f, 126.0f, 118.0f);
   mono_lfo_2_section_->setBounds(470.0f, 482.0f, 126.0f, 118.0f);
-  oscillator_section_->setBounds(8.0f, 4.0f, 320.0f, 204.0f);
-  poly_lfo_section_->setBounds(604.0f, 482.0f, 126.0f, 118.0f);
-  reverb_section_->setBounds(604.0f, 324.0f, 126.0f, 84.0f);
-  step_sequencer_section_->setBounds(336.0f, 316.0f, 260.0f, 158.0f);
+  oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 204.0f);
+  poly_lfo_section_->setBounds(column_3_x, 482.0f, 126.0f, 118.0f);
+  reverb_section_->setBounds(column_3_x, 324.0f, 126.0f, 84.0f);
+  step_sequencer_section_->setBounds(column_2_x, 316.0f, 260.0f, 158.0f);
   stutter_section_->setBounds(212.0f, 482.0f, 116.0f, 118.0f);
-  volume_section_->setBounds(604.0f, 416.0f, 126.0f, 58.0f);
+  volume_section_->setBounds(column_3_x, 416.0f, 126.0f, 58.0f);
 
   aftertouch_mod_->setBounds(614, 614, 32, 32);
   note_mod_->setBounds(346, 614, 32, 32);
