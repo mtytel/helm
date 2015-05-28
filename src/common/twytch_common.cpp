@@ -32,7 +32,7 @@ namespace mopo {
     { "arp_sync", 0.0, 3.0, 4, 1.0, 1.0, ValueDetails::kLinear, "" },
     { "arp_tempo", 0.0, 11.0, 12, 9.0, 1.0, ValueDetails::kLinear, "" },
     { "beats_per_minute", 20.0, 300.0, 0, 120.0, 1.0, ValueDetails::kLinear, "bpm" },
-    { "cross_modulation", 0.0, 0.4, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
+    { "cross_modulation", 0.0, 0.4, 0, 0.001, 1.0, ValueDetails::kLinear, "" },
     { "cutoff", 28.0, 127.0, 0, 80.0, 1.0, ValueDetails::kLinear, "" },
     { "delay_dry_wet", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "delay_feedback", -1.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "%" },
