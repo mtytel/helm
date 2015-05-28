@@ -53,3 +53,7 @@ void TwytchEditor::updateFullGui() {
 void TwytchEditor::updateGuiControl(std::string name, mopo::mopo_float value) {
   gui_->setValue(name, value);
 }
+
+void TwytchEditor::startChangeGesture(std::string name) {
+  twytch_.startChangeGesture(name);
+}

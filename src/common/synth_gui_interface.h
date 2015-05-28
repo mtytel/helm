@@ -43,6 +43,7 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     var saveToVar();
     void loadFromVar(var state);
 
+    virtual void startChangeGesture(std::string name) { }
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
     void clearMidiLearn(std::string name);

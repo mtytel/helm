@@ -56,13 +56,14 @@ SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), active_(t
 }
 
 void SynthSlider::mouseDown(const MouseEvent& e) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+
   if (e.mods.isPopupMenu()) {
     PopupMenu m;
 
     if (isDoubleClickReturnEnabled())
       m.addItem(kDefaultValue, "Set to Default Value");
 
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     std::vector<mopo::ModulationConnection*> connections;
     if (parent) {
       m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
@@ -103,6 +104,9 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
   }
   else {
     Slider::mouseDown(e);
+
+    if (parent)
+      parent->startChangeGesture(getName().toStdString());
     if (isRotary()) {
       click_position_ = e.getScreenPosition().toFloat();
       setMouseCursor(MouseCursor::NoCursor);

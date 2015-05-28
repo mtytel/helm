@@ -110,6 +110,10 @@ void TwytchPlugin::releaseResources() {
   // spare memory, etc.
 }
 
+void TwytchPlugin::startChangeGesture(std::string name) {
+  bridge_lookup_[name]->beginChangeGesture();
+}
+
 void TwytchPlugin::processMidi(juce::MidiBuffer& midi_messages) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
