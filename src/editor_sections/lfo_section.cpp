@@ -20,7 +20,7 @@
 #include "text_look_and_feel.h"
 
 #define WAVE_VIEWER_RESOLUTION 32
-#define KNOB_SECTION_WIDTH 40
+#define KNOB_SECTION_WIDTH 45
 #define KNOB_WIDTH 32
 #define SLIDER_WIDTH 10
 #define TEXT_HEIGHT 16

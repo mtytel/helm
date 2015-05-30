@@ -16,7 +16,7 @@
 
 #include "reverb_section.h"
 
-#define KNOB_WIDTH 32
+#define KNOB_WIDTH 40
 
 ReverbSection::ReverbSection(String name) : SynthSection(name) {
   addButton(on_ = new ToggleButton("reverb_on"));
@@ -55,7 +55,7 @@ void ReverbSection::resized() {
   on_->setBounds(2, 0, 20, 20);
 
   float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
-  int y = 30;
+  int y = 36;
 
   feedback_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   damping_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);

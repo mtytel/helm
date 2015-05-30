@@ -188,6 +188,10 @@
               file="../src/editor_sections/envelope_section.cpp"/>
         <FILE id="lmL3UB" name="envelope_section.h" compile="0" resource="0"
               file="../src/editor_sections/envelope_section.h"/>
+        <FILE id="VeJ3jY" name="extra_mod_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/extra_mod_section.cpp"/>
+        <FILE id="q2E2MD" name="extra_mod_section.h" compile="0" resource="0"
+              file="../src/editor_sections/extra_mod_section.h"/>
         <FILE id="vh3Rp9" name="feedback_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/feedback_section.cpp"/>
         <FILE id="NXwwYj" name="feedback_section.h" compile="0" resource="0"

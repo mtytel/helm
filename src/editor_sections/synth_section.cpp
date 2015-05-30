@@ -38,10 +38,10 @@ void SynthSection::paintBackground(Graphics& g) {
   // Draw shadow divider.
   float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
   float shadow_bottom = TITLE_WIDTH;
-  g.setGradientFill(ColourGradient(Colour(0x00000000), 0.0f, shadow_top,
-                                   Colour(0x55000000), 0.0f, shadow_bottom,
+  g.setGradientFill(ColourGradient(Colour(0x22000000), 0.0f, shadow_top,
+                                   Colour(0x66000000), 0.0f, shadow_bottom,
                                    false));
-  g.fillRect(0, 0, getWidth(), TITLE_WIDTH);
+  g.fillRoundedRectangle(0, 0, getWidth(), TITLE_WIDTH, 1.0f);
 
   // Draw text title.
   g.setColour(Colour(0xff999999));
@@ -76,8 +76,8 @@ void SynthSection::addButton(Button* button, bool show) {
 }
 
 void SynthSection::addModulationButton(ModulationButton* button, bool show) {
-  button_lookup_[button->getName().toStdString()] = button;
   modulation_buttons_[button->getName().toStdString()] = button;
+  all_modulation_buttons_[button->getName().toStdString()] = button;
   if (show)
     addAndMakeVisible(button);
 }

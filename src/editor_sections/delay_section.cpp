@@ -19,7 +19,7 @@
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
-#define KNOB_WIDTH 32
+#define KNOB_WIDTH 40
 #define TEXT_WIDTH 42
 #define TEXT_HEIGHT 16
 
@@ -80,7 +80,7 @@ void DelaySection::resized() {
   on_->setBounds(2, 0, 20, 20);
 
   float space = (getWidth() - (2.0f * KNOB_WIDTH) - TEXT_WIDTH - TEXT_HEIGHT) / 4.0f;
-  int knob_y = 30;
+  int knob_y = 36;
   int text_y = 42;
 
   frequency_->setBounds(space, text_y, TEXT_WIDTH, TEXT_HEIGHT);

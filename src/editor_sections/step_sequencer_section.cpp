@@ -20,7 +20,7 @@
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
-#define KNOB_SECTION_WIDTH 40
+#define KNOB_SECTION_WIDTH 45
 #define KNOB_WIDTH 32
 #define TEXT_HEIGHT 16
 #define TEXT_WIDTH 42

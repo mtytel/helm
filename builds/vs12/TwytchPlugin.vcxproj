@@ -192,6 +192,7 @@
     <ClCompile Include="..\..\src\editor_sections\articulation_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\delay_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\envelope_section.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\extra_mod_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\feedback_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\filter_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\formant_section.cpp"/>
@@ -1409,6 +1410,7 @@
     <ClInclude Include="..\..\src\editor_sections\articulation_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\delay_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\envelope_section.h"/>
+    <ClInclude Include="..\..\src\editor_sections\extra_mod_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\feedback_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\filter_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\formant_section.h"/>

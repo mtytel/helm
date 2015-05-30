@@ -104,6 +104,7 @@ OBJECTS := \
   $(OBJDIR)/articulation_section_a2117d16.o \
   $(OBJDIR)/delay_section_24197bc4.o \
   $(OBJDIR)/envelope_section_c4ca4205.o \
+  $(OBJDIR)/extra_mod_section_f732c994.o \
   $(OBJDIR)/feedback_section_7831363a.o \
   $(OBJDIR)/filter_section_bda2302d.o \
   $(OBJDIR)/formant_section_c5fa5764.o \
@@ -439,6 +440,11 @@ $(OBJDIR)/delay_section_24197bc4.o: ../../src/editor_sections/delay_section.cpp
 $(OBJDIR)/envelope_section_c4ca4205.o: ../../src/editor_sections/envelope_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling envelope_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/extra_mod_section_f732c994.o: ../../src/editor_sections/extra_mod_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling extra_mod_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/feedback_section_7831363a.o: ../../src/editor_sections/feedback_section.cpp

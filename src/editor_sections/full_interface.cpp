@@ -155,7 +155,7 @@ void FullInterface::paint(Graphics& g) {
 }
 
 void FullInterface::resized() {
-  synthesis_interface_->setBounds(746 - 738, 744 - 672, 738, 672);
+  synthesis_interface_->setBounds(8, 72, getWidth() - 16, 672);
   arp_frequency_->setBounds(510, 28, 42, 16);
   arp_sync_->setBounds(552, 28, 16, 16);
 
