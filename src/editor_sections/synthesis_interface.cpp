@@ -68,7 +68,7 @@ SynthesisInterface::~SynthesisInterface() {
   volume_section_ = nullptr;
 }
 
-void SynthesisInterface::paint(Graphics& g) {
+void SynthesisInterface::paintBackground(Graphics& g) {
   static const DropShadow section_shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,

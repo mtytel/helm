@@ -42,10 +42,10 @@ FeedbackSection::~FeedbackSection() {
   saturation_ = nullptr;
 }
 
-void FeedbackSection::paint(Graphics& g) {
+void FeedbackSection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
+  SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
 

@@ -27,7 +27,7 @@ class FeedbackSection : public SynthSection {
     FeedbackSection(String name);
     ~FeedbackSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

@@ -28,7 +28,7 @@ class StepSequencerSection : public SynthSection {
     StepSequencerSection(String name);
     ~StepSequencerSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

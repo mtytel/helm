@@ -27,7 +27,7 @@ class ExtraModSection : public SynthSection {
     ExtraModSection(String name);
     ~ExtraModSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
     void drawTextToRightOfComponent(Graphics& g, Component* component, String text);
 

@@ -59,11 +59,11 @@ FilterSection::~FilterSection() {
   keytrack_ = nullptr;
 }
 
-void FilterSection::paint(Graphics& g) {
+void FilterSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
+  SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
 

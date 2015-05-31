@@ -41,7 +41,7 @@ class FullInterface : public SynthSection {
 
     void setToolTipText(String parameter, String value);
 
-    void paint(Graphics& g);
+    void paintBackground(Graphics& g) override;
     void resized();
 
   private:

@@ -51,11 +51,11 @@ void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* compone
              component->getHeight(), Justification::centredLeft, false);
 }
 
-void ExtraModSection::paint(Graphics& g) {
+void ExtraModSection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
-
+  SynthSection::paintBackground(g);
+  
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
   drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));

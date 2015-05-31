@@ -27,7 +27,7 @@ class EnvelopeSection : public SynthSection {
     EnvelopeSection(String name, std::string value_preprend);
     ~EnvelopeSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

@@ -27,7 +27,7 @@ class ReverbSection : public SynthSection {
     ReverbSection(String name);
     ~ReverbSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
     virtual void buttonClicked(Button* clicked_button) override;
 

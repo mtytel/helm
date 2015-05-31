@@ -29,7 +29,7 @@ class LfoSection : public SynthSection {
     LfoSection(String name, std::string value_preprend);
     ~LfoSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

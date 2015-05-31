@@ -28,7 +28,7 @@ class FilterSection : public SynthSection {
     FilterSection(String name);
     ~FilterSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

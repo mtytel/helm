@@ -36,10 +36,10 @@ StutterSection::~StutterSection() {
   resample_rate_ = nullptr;
 }
 
-void StutterSection::paint(Graphics& g) {
+void StutterSection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
+  SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));

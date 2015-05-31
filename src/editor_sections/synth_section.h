@@ -34,9 +34,10 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     // Drawing.
     virtual void resized() override;
     virtual void paint(Graphics& g) override;
-    virtual void paintBackground();
-    void paintKnobShadows();
+    virtual void paintBackground(Graphics& g);
+    void paintKnobShadows(Graphics& g);
     void drawTextForComponent(Graphics& g, String text, Component* component);
+    Graphics getBackgroundGraphics();
 
     // Widget Listeners.
     virtual void sliderValueChanged(Slider* moved_slider) override;

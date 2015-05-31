@@ -90,7 +90,8 @@ ModulationManager::~ModulationManager() {
     delete slider;
 }
 
-void ModulationManager::paint(Graphics& g) { }
+void ModulationManager::paint(Graphics& g) {
+}
 
 void ModulationManager::resized() {
   polyphonic_destinations_->setBounds(getBounds());

@@ -42,7 +42,7 @@ class SynthesisInterface  : public SynthSection {
     SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
   
-    void paint(Graphics& g);
+    void paintBackground(Graphics& g) override;
     void resized();
 
   private:

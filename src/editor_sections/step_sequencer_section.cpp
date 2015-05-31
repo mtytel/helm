@@ -70,11 +70,12 @@ StepSequencerSection::~StepSequencerSection() {
     delete slider;
 }
 
-void StepSequencerSection::paint(Graphics& g) {
+void StepSequencerSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
+  SynthSection::paintBackground(g);
+  
   step_sequencer_->showRealtimeFeedback();
 
   g.setColour(Colour(0xffbbbbbb));

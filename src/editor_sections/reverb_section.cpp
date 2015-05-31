@@ -40,10 +40,10 @@ ReverbSection::~ReverbSection() {
   dry_wet_ = nullptr;
 }
 
-void ReverbSection::paint(Graphics& g) {
+void ReverbSection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
+  SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
 

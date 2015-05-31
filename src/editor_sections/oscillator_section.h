@@ -28,8 +28,7 @@ class OscillatorSection : public SynthSection {
     OscillatorSection(String name);
     ~OscillatorSection();
 
-    void paint(Graphics& g) override;
-    void paintBackground() override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

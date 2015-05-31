@@ -24,7 +24,14 @@
 
 void SynthSection::resized() {
   Component::resized();
-  paintBackground();
+
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+
+  paintBackground(g);
 }
 
 void SynthSection::paint(Graphics& g) {
@@ -33,13 +40,10 @@ void SynthSection::paint(Graphics& g) {
               0, 0, background_.getWidth(), background_.getHeight());
 }
 
-void SynthSection::paintBackground() {
+void SynthSection::paintBackground(Graphics& g) {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-
-  background_ = Image(Image::ARGB, getWidth(), getHeight(), true);
-  Graphics g(background_);
 
   // Draw border.
   g.setColour(Colour(0xff303030));
@@ -59,11 +63,10 @@ void SynthSection::paintBackground() {
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);
 
-  paintKnobShadows();
+  paintKnobShadows(g);
 }
 
-void SynthSection::paintKnobShadows() {
-  Graphics g(background_);
+void SynthSection::paintKnobShadows(Graphics& g) {
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
 }

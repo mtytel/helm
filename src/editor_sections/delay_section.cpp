@@ -62,10 +62,10 @@ DelaySection::~DelaySection() {
   dry_wet_ = nullptr;
 }
 
-void DelaySection::paint(Graphics& g) {
+void DelaySection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
+  SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
 

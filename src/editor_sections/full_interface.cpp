@@ -84,7 +84,7 @@ FullInterface::~FullInterface() {
   patch_browser_ = nullptr;
 }
 
-void FullInterface::paint(Graphics& g) {
+void FullInterface::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
   static const DropShadow logo_shadow(Colour(0xff000000), 5, Point<int>(0, 0));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
@@ -96,7 +96,6 @@ void FullInterface::paint(Graphics& g) {
                                                       BinaryData::helm_icon_128_2x_pngSize);
   static const Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                             BinaryData::helm_icon_32_2x_pngSize);
-
   g.setColour(Colour(0xff212121));
   g.fillRect(getLocalBounds());
 
@@ -154,15 +153,16 @@ void FullInterface::paint(Graphics& g) {
 
   component_shadow.drawForRectangle(g, patch_browser_->getBounds());
 
-  for (auto slider : slider_lookup_)
-    slider.second->drawShadow(g);
+  paintKnobShadows(g);
 
+  g.saveState();
   g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 460, 20));
   g.setColour(Colour(0xff999999));
   g.setFont(roboto_light.withPointHeight(13.40f));
   g.drawText(TRANS("ARP"),
              408, 35, 52, 12,
              Justification::centred, true);
+  g.restoreState();
 }
 
 void FullInterface::resized() {

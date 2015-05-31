@@ -27,7 +27,7 @@ class ArticulationSection : public SynthSection {
     ArticulationSection(String name);
     ~ArticulationSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:

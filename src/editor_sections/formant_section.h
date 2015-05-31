@@ -27,7 +27,7 @@ class FormantSection : public SynthSection {
     FormantSection(String name);
     ~FormantSection();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void setActive(bool active = true) override;

@@ -112,35 +112,13 @@ OscillatorSection::~OscillatorSection() {
   cross_modulation_ = nullptr;
 }
 
-void OscillatorSection::paint(Graphics& g) {
+void OscillatorSection::paintBackground(Graphics& g) {
+  static const float extra_knob_padding = 4.0f;
   static const DropShadow component_shadow(Colour(0x99000000), 3, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  SynthSection::paint(g);
 
-  g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
-  drawTextForComponent(g, TRANS("MIX"), osc_mix_);
-  drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
-  drawTextForComponent(g, TRANS("TRANS"), transpose_2_);
-  drawTextForComponent(g, TRANS("TUNE"), tune_1_);
-  drawTextForComponent(g, TRANS("TUNE"), tune_2_);
-  drawTextForComponent(g, TRANS("UNISON"), unison_detune_1_);
-  drawTextForComponent(g, TRANS("UNISON"), unison_detune_2_);
-
-  component_shadow.drawForRectangle(g, wave_viewer_1_->getBounds());
-  component_shadow.drawForRectangle(g, wave_viewer_2_->getBounds());
-  component_shadow.drawForRectangle(g, osc_mix_->getBounds());
-
-  g.setColour(Colour(0xff424242));
-  g.fillRect(osc_mix_->getBounds());
-}
-
-void OscillatorSection::paintBackground() {
-  static const float extra_knob_padding = 4.0f;
-  SynthSection::paintBackground();
-  Graphics g(background_);
+  SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xff212121));
   g.fillEllipse(transpose_1_->getBounds().toFloat().expanded(extra_knob_padding));
@@ -162,6 +140,25 @@ void OscillatorSection::paintBackground() {
 
   g.setColour(Colour(0xff4fc3f7));
   g.strokePath(bottom_right_cross_path_, PathStrokeType(1.0f));
+
+  g.setColour(Colour(0xffbbbbbb));
+  g.setFont(roboto_reg.withPointHeight(10.0f));
+  drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
+  drawTextForComponent(g, TRANS("MIX"), osc_mix_);
+  drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
+  drawTextForComponent(g, TRANS("TRANS"), transpose_2_);
+  drawTextForComponent(g, TRANS("TUNE"), tune_1_);
+  drawTextForComponent(g, TRANS("TUNE"), tune_2_);
+  drawTextForComponent(g, TRANS("UNISON"), unison_detune_1_);
+  drawTextForComponent(g, TRANS("UNISON"), unison_detune_2_);
+
+  component_shadow.drawForRectangle(g, wave_viewer_1_->getBounds());
+  component_shadow.drawForRectangle(g, wave_viewer_2_->getBounds());
+  component_shadow.drawForRectangle(g, osc_mix_->getBounds());
+
+  g.setColour(Colour(0xff424242));
+  g.fillRect(osc_mix_->getBounds());
+  paintKnobShadows(g);
 }
 
 void OscillatorSection::resized() {
@@ -241,5 +238,4 @@ void OscillatorSection::resized() {
                                   cross_percent * cross_height);
 
   SynthSection::resized();
-  paintKnobShadows();
 }
