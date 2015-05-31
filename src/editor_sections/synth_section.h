@@ -32,8 +32,9 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     SynthSection(String name) : Component(name) { }
 
     // Drawing.
+    virtual void resized() override;
     virtual void paint(Graphics& g) override;
-    virtual void paintBackground(Graphics& g);
+    virtual void paintBackground();
     void paintKnobShadows(Graphics& g);
     void drawTextForComponent(Graphics& g, String text, Component* component);
 
@@ -67,6 +68,8 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     std::map<std::string, SynthSlider*> all_sliders_;
     std::map<std::string, Button*> all_buttons_;
     std::map<std::string, ModulationButton*> all_modulation_buttons_;
+
+    Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSection)
 };

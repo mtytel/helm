@@ -22,15 +22,25 @@
 #define TITLE_WIDTH 20
 #define SHADOW_WIDTH 3
 
-void SynthSection::paint(Graphics& g) {
-  paintBackground(g);
-  paintKnobShadows(g);
+void SynthSection::resized() {
+  Component::resized();
+  paintBackground();
 }
 
-void SynthSection::paintBackground(Graphics& g) {
+void SynthSection::paint(Graphics& g) {
+  g.drawImage(background_,
+              0, 0, getWidth(), getHeight(),
+              0, 0, background_.getWidth(), background_.getHeight());
+}
+
+void SynthSection::paintBackground() {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
+
+  background_ = Image(Image::ARGB, getWidth(), getHeight(), true);
+  Graphics g(background_);
+
   // Draw border.
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 3.000f);
@@ -48,6 +58,8 @@ void SynthSection::paintBackground(Graphics& g) {
   g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);
+
+  paintKnobShadows(g);
 }
 
 void SynthSection::paintKnobShadows(Graphics& g) {

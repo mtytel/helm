@@ -73,4 +73,6 @@ void EnvelopeSection::resized() {
   decay_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   sustain_->setBounds(3 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   release_->setBounds(4 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+
+  SynthSection::resized();
 }

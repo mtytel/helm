@@ -54,6 +54,8 @@ void FormantSection::resized() {
   x_->setBounds(0, getHeight() - SLIDER_WIDTH, getWidth() - SLIDER_WIDTH, SLIDER_WIDTH);
   y_->setBounds(getWidth() - SLIDER_WIDTH, 20, SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
   xy_pad_->setBounds(0, 20, getWidth() - SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
+
+  SynthSection::resized();
 }
 
 

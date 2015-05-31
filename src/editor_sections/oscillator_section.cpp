@@ -137,9 +137,10 @@ void OscillatorSection::paint(Graphics& g) {
   g.fillRect(osc_mix_->getBounds());
 }
 
-void OscillatorSection::paintBackground(Graphics& g) {
+void OscillatorSection::paintBackground() {
   static const float extra_knob_padding = 4.0f;
-  SynthSection::paintBackground(g);
+  SynthSection::paintBackground();
+  Graphics g(background_);
 
   g.setColour(Colour(0xff212121));
   g.fillEllipse(transpose_1_->getBounds().toFloat().expanded(extra_knob_padding));
@@ -238,4 +239,6 @@ void OscillatorSection::resized() {
                                   cross_percent * cross_width,
                                   osc_y + osc_height - cross_y_padding -
                                   cross_percent * cross_height);
+
+  SynthSection::resized();
 }

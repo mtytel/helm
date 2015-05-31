@@ -77,4 +77,6 @@ void ArticulationSection::resized() {
   portamento_type_->setBounds(space_x, 2 * KNOB_WIDTH + 3 * space_y, TEXT_WIDTH, TEXT_HEIGHT);
   legato_->setBounds(KNOB_WIDTH + 2 * space_x, 2 * KNOB_WIDTH + 3 * space_y,
                      TEXT_WIDTH, TEXT_HEIGHT);
+
+  SynthSection::resized();
 }

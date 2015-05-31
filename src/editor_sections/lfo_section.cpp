@@ -99,4 +99,6 @@ void LfoSection::resized() {
                    TEXT_HEIGHT, TEXT_HEIGHT);
 
   tempo_->setBounds(frequency_->getBounds());
+
+  SynthSection::resized();
 }

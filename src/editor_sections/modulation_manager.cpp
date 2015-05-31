@@ -108,6 +108,8 @@ void ModulationManager::resized() {
     meter.second->setBounds(model->getParentComponent()->localAreaToGlobal(model->getBounds()));
     meter.second->setVisible(model->isVisible());
   }
+
+  SynthSection::resized();
 }
 
 void ModulationManager::buttonClicked(juce::Button *clicked_button) {

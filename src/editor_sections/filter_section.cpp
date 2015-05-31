@@ -87,4 +87,6 @@ void FilterSection::resized() {
                             KNOB_WIDTH, KNOB_WIDTH);
   keytrack_->setBounds(knob_center_x - KNOB_WIDTH / 2, 3 * getHeight() / 5,
                        KNOB_WIDTH, KNOB_WIDTH);
+
+  SynthSection::resized();
 }

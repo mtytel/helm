@@ -29,7 +29,7 @@ class OscillatorSection : public SynthSection {
     ~OscillatorSection();
 
     void paint(Graphics& g) override;
-    void paintBackground(Graphics& g) override;
+    void paintBackground() override;
     void resized() override;
 
   private:

@@ -28,4 +28,6 @@ VolumeSection::~VolumeSection() {
 
 void VolumeSection::resized() {
   volume_->setBounds(0, 20, getWidth(), getHeight() - 20);
+
+  SynthSection::resized();
 }

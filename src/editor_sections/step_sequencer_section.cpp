@@ -99,6 +99,8 @@ void StepSequencerSection::resized() {
 
   smoothing_->setBounds(proportionOfWidth(0.8f), y, KNOB_WIDTH, KNOB_WIDTH);
   tempo_->setBounds(frequency_->getBounds());
+
+  SynthSection::resized();
 }
 
 void StepSequencerSection::createStepSequencerSliders() {

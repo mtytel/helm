@@ -139,4 +139,6 @@ void SynthesisInterface::resized() {
                              COLUMN_WIDTH_4, 64.0f);
   articulation_section_->setBounds(column_4_x, extra_mod_section_->getY(),
                                    COLUMN_WIDTH_4, extra_mod_section_->getHeight());
+
+  SynthSection::resized();
 }

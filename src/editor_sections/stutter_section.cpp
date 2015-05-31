@@ -54,6 +54,8 @@ void StutterSection::resized() {
   on_->setBounds(2, 0, 20, 20);
   stutter_rate_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   resample_rate_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+
+  SynthSection::resized();
 }
 
 void StutterSection::buttonClicked(Button* clicked_button) {

@@ -180,6 +180,8 @@ void FullInterface::resized() {
   patch_browser_->setBounds(746, 8, 220, 40);
   modulation_manager_->setBounds(getBounds());
   arp_tempo_->setBounds(arp_frequency_->getBounds());
+
+  SynthSection::resized();
 }
 
 void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {

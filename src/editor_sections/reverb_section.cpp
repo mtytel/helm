@@ -62,6 +62,8 @@ void ReverbSection::resized() {
   feedback_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   damping_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   dry_wet_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+
+  SynthSection::resized();
 }
 
 void ReverbSection::buttonClicked(Button* clicked_button) {

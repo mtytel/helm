@@ -74,4 +74,6 @@ void ExtraModSection::resized() {
   velocity_mod_->setBounds(x, note_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
   mod_wheel_mod_->setBounds(x, velocity_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
   pitch_wheel_mod_->setBounds(x, mod_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
+
+  SynthSection::resized();
 }
