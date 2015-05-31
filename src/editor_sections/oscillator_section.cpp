@@ -241,4 +241,5 @@ void OscillatorSection::resized() {
                                   cross_percent * cross_height);
 
   SynthSection::resized();
+  paintKnobShadows();
 }

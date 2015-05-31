@@ -59,10 +59,11 @@ void SynthSection::paintBackground() {
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);
 
-  paintKnobShadows(g);
+  paintKnobShadows();
 }
 
-void SynthSection::paintKnobShadows(Graphics& g) {
+void SynthSection::paintKnobShadows() {
+  Graphics g(background_);
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
 }
