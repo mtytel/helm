@@ -47,6 +47,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
       return all_modulation_buttons_;
     }
 
+    virtual void setActive(bool active = true);
     void setAllValues(mopo::control_map& controls);
     void setValue(std::string name, mopo::mopo_float value,
                   NotificationType notification = sendNotificationAsync);

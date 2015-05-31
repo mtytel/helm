@@ -32,6 +32,8 @@ FormantSection::FormantSection(String name) : SynthSection(name) {
   addAndMakeVisible(xy_pad_ = new XYPad());
   xy_pad_->setXSlider(x_);
   xy_pad_->setYSlider(y_);
+
+  setActive(on_->getToggleStateValue().getValue());
 }
 
 FormantSection::~FormantSection() {
@@ -57,9 +59,11 @@ void FormantSection::resized() {
 
 void FormantSection::buttonClicked(Button* clicked_button) {
   SynthSection::buttonClicked(clicked_button);
-  if (clicked_button == on_) {
-    bool active = clicked_button->getToggleStateValue().getValue();
-    for (auto slider : slider_lookup_)
-      slider.second->setActive(active);
-  }
+  if (clicked_button == on_)
+    setActive(on_->getToggleStateValue().getValue());
+}
+
+void FormantSection::setActive(bool active) {
+  SynthSection::setActive(active);
+  xy_pad_->setActive(active);
 }

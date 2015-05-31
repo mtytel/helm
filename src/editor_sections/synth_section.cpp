@@ -114,6 +114,13 @@ void SynthSection::drawTextForComponent(Graphics &g, String text, Component *com
              component->getWidth() + 2 * ROOM, HEIGHT, Justification::centred, false);
 }
 
+void SynthSection::setActive(bool active) {
+  for (auto slider : slider_lookup_)
+    slider.second->setActive(active);
+  for (auto sub_section : sub_sections_)
+    sub_section.second->setActive(active);
+}
+
 void SynthSection::setAllValues(mopo::control_map& controls) {
   for (auto slider : all_sliders_) {
     if (controls.count(slider.first))

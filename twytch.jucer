@@ -12,6 +12,30 @@
               companyName="Little O Studio" companyEmail="littleioaudio@gmail.com"
               companyWebsite="littleio.co">
   <MAINGROUP id="OwcEM5" name="TwytchPlugin">
+    <GROUP id="{09F0CF3F-0E86-D4FB-3FD6-7EDC481615E0}" name="images">
+      <FILE id="ppDYgd" name="helm_icon_16_1x.png" compile="0" resource="1"
+            file="images/helm_icon_16_1x.png"/>
+      <FILE id="OEbNSk" name="helm_icon_16_2x.png" compile="0" resource="1"
+            file="images/helm_icon_16_2x.png"/>
+      <FILE id="u9vVRt" name="helm_icon_32_1x.png" compile="0" resource="1"
+            file="images/helm_icon_32_1x.png"/>
+      <FILE id="F57EhA" name="helm_icon_32_2x.png" compile="0" resource="1"
+            file="images/helm_icon_32_2x.png"/>
+      <FILE id="JFG2a0" name="helm_icon_128_1x.png" compile="0" resource="1"
+            file="images/helm_icon_128_1x.png"/>
+      <FILE id="hyi1uS" name="helm_icon_128_2x.png" compile="0" resource="1"
+            file="images/helm_icon_128_2x.png"/>
+      <FILE id="aMUImj" name="helm_icon_256_1x.png" compile="0" resource="1"
+            file="images/helm_icon_256_1x.png"/>
+      <FILE id="Bks0FH" name="helm_icon_256_2x.png" compile="0" resource="1"
+            file="images/helm_icon_256_2x.png"/>
+      <FILE id="DoZsst" name="helm_icon_512_1x.png" compile="0" resource="1"
+            file="images/helm_icon_512_1x.png"/>
+      <FILE id="XC7smo" name="helm_icon_512_2x.png" compile="0" resource="1"
+            file="images/helm_icon_512_2x.png"/>
+      <FILE id="xoykCI" name="twytch_debian_icon.xpm" compile="0" resource="1"
+            file="images/twytch_debian_icon.xpm"/>
+    </GROUP>
     <GROUP id="{1A78DEC9-745B-17A2-254E-9D5E30BC1096}" name="fonts">
       <FILE id="s5bBR7" name="Roboto-Light.ttf" compile="0" resource="1"
             file="fonts/Roboto-Light.ttf"/>

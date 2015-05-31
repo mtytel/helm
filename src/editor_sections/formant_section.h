@@ -30,6 +30,7 @@ class FormantSection : public SynthSection {
     void paint(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
+    void setActive(bool active = true) override;
 
   private:
     ScopedPointer<ToggleButton> on_;

@@ -86,26 +86,37 @@ FullInterface::~FullInterface() {
 
 void FullInterface::paint(Graphics& g) {
   static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
+  static const DropShadow logo_shadow(Colour(0xff000000), 5, Point<int>(0, 0));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
   static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                              BinaryData::RobotoLight_ttfSize));
+  static const Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
+                                                      BinaryData::helm_icon_128_2x_pngSize);
+  static const Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
+                                                            BinaryData::helm_icon_32_2x_pngSize);
 
   g.setColour(Colour(0xff212121));
   g.fillRect(getLocalBounds());
 
   shadow.drawForRectangle(g, Rectangle<int>(472, 8, 266, 60));
-  shadow.drawForRectangle(g, Rectangle<int>(16, 8, 220, 60));
+  shadow.drawForRectangle(g, Rectangle<int>(746, 8, 220, 60));
 
   shadow.drawForRectangle(g, Rectangle<int>(376, 8, 88, 60));
   shadow.drawForRectangle(g, Rectangle<int>(368 - 124, 8, 124, 60));
+
+  g.saveState();
+  g.setOrigin(14, 6);
+  logo_shadow.drawForImage(g, helm_small);
+  g.drawImage(helm, 0, 0, 64, 64, 0, 0, helm.getWidth(), helm.getHeight());
+  g.restoreState();
 
   g.setColour(Colour(0xff303030));
   g.fillRoundedRectangle(472.0f, 8.0f, 266.0f, 60.0f, 3.000f);
 
   g.setColour(Colour(0xff303030));
-  g.fillRect(16, 8, 220, 60);
+  g.fillRect(746, 8, 220, 60);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
@@ -134,7 +145,7 @@ void FullInterface::paint(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
   g.drawText(TRANS("BPM"),
-             38 -(44 / 2), 56, 44, 10,
+             746, 56, 44, 10,
              Justification::centred, true);
 
   g.setGradientFill(ColourGradient(Colour(0x00000000), 490.0f, 0.0f,
@@ -164,9 +175,9 @@ void FullInterface::resized() {
   arp_pattern_->setBounds(703 - (40 / 2), 12, 40, 40);
   oscilloscope_->setBounds(376, 8, 88, 60);
   arp_on_->setBounds(472, 10, 20, 20);
-  beats_per_minute_->setBounds(148 - (176 / 2), 48, 176, 20);
+  beats_per_minute_->setBounds(790, 48, 176, 20);
   global_tool_tip_->setBounds(368 - 124, 8, 124, 60);
-  patch_browser_->setBounds(16, 8, 220, 40);
+  patch_browser_->setBounds(746, 8, 220, 40);
   modulation_manager_->setBounds(getBounds());
   arp_tempo_->setBounds(arp_frequency_->getBounds());
 }

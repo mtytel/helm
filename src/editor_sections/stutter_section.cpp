@@ -26,6 +26,8 @@ StutterSection::StutterSection(String name) : SynthSection(name) {
 
   addSlider(resample_rate_ = new SynthSlider("stutter_resample_frequency"));
   resample_rate_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
+  setActive(on_->getToggleStateValue().getValue());
 }
 
 StutterSection::~StutterSection() {
@@ -52,4 +54,10 @@ void StutterSection::resized() {
   on_->setBounds(2, 0, 20, 20);
   stutter_rate_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   resample_rate_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+}
+
+void StutterSection::buttonClicked(Button* clicked_button) {
+  SynthSection::buttonClicked(clicked_button);
+  if (clicked_button == on_)
+    setActive(on_->getToggleStateValue().getValue());
 }

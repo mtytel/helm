@@ -33,31 +33,40 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
     active = s_slider->isActive();
   }
 
+  Colour slider_color(0xff888888);
+  Colour thumb_color(0xffffffff);
+
+  if (!active) {
+    slider_color = Colour(0xff424242);
+    thumb_color = Colour(0xff888888);
+  }
+
   float pos = slider_pos - 1.0f;
   if (style == Slider::SliderStyle::LinearBar) {
     float h = slider.getHeight();
 
-    g.setColour(Colour(0xff888888));
+    g.setColour(slider_color);
     if (bipolar)
       fillHorizontalRect(g, width / 2.0f, pos, h);
     else
       fillHorizontalRect(g, 0.0f, pos, h);
 
     thumb_shadow.drawForRectangle(g, Rectangle<int>(pos + 0.5f, 0, 2, h));
-    g.setColour(slider.findColour(Slider::thumbColourId));
+    g.setColour(thumb_color);
     g.fillRect(pos, 0.0f, 2.0f, h);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
     float w = slider.getWidth();
 
-    g.setColour(Colour(0xff888888));
+    g.setColour(slider_color);
+
     if (bipolar)
       fillVerticalRect(g, height / 2.0f, pos, w);
     else
       fillVerticalRect(g, 0, pos, w);
 
     thumb_shadow.drawForRectangle(g, Rectangle<int>(0, pos + 0.5f, w, 2));
-    g.setColour(slider.findColour(Slider::thumbColourId));
+    g.setColour(thumb_color);
     g.fillRect(0.0f, pos, w, 2.0f);
   }
 }

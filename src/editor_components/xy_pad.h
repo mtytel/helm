@@ -33,14 +33,17 @@ class XYPad : public Component, public SliderListener {
 
     void paint(Graphics& g) override;
     void resized() override;
-    void mouseDown(const MouseEvent& e);
-    void mouseDrag(const MouseEvent& e);
-    void mouseUp(const MouseEvent& e);
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent& e) override;
+
+    void setActive(bool active = true);
 
   private:
     Slider* x_slider_;
     Slider* y_slider_;
     bool mouse_down_;
+    bool active_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(XYPad)
 };

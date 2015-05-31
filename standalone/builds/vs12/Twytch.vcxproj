@@ -1890,6 +1890,17 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\images\helm_icon_16_1x.png"/>
+    <None Include="..\..\..\images\helm_icon_16_2x.png"/>
+    <None Include="..\..\..\images\helm_icon_32_1x.png"/>
+    <None Include="..\..\..\images\helm_icon_32_2x.png"/>
+    <None Include="..\..\..\images\helm_icon_128_1x.png"/>
+    <None Include="..\..\..\images\helm_icon_128_2x.png"/>
+    <None Include="..\..\..\images\helm_icon_256_1x.png"/>
+    <None Include="..\..\..\images\helm_icon_256_2x.png"/>
+    <None Include="..\..\..\images\helm_icon_512_1x.png"/>
+    <None Include="..\..\..\images\helm_icon_512_2x.png"/>
+    <None Include="..\..\..\images\twytch_debian_icon.xpm"/>
     <None Include="..\..\..\fonts\Roboto-Light.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Regular.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Thin.ttf"/>

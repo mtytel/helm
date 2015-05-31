@@ -49,6 +49,8 @@ DelaySection::DelaySection(String name) : SynthSection(name) {
 
   addSlider(dry_wet_ = new SynthSlider("delay_dry_wet"));
   dry_wet_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
+  setActive(on_->getToggleStateValue().getValue());
 }
 
 DelaySection::~DelaySection() {
@@ -93,9 +95,6 @@ void DelaySection::resized() {
 
 void DelaySection::buttonClicked(Button* clicked_button) {
   SynthSection::buttonClicked(clicked_button);
-  if (clicked_button == on_) {
-    bool active = clicked_button->getToggleStateValue().getValue();
-    for (auto slider : slider_lookup_)
-      slider.second->setActive(active);
-  }
+  if (clicked_button == on_)
+    setActive(on_->getToggleStateValue().getValue());
 }

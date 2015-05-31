@@ -24,6 +24,7 @@ XYPad::XYPad() {
   mouse_down_ = false;
   x_slider_ = nullptr;
   y_slider_ = nullptr;
+  active_ = true;
 }
 
 XYPad::~XYPad() { }
@@ -50,7 +51,10 @@ void XYPad::paint(Graphics& g) {
   g.setColour(Colour(0xff565656));
   g.fillPath(target);
 
-  g.setColour(Colour(0xff03a9f4));
+  if (active_)
+    g.setColour(Colour(0xff03a9f4));
+  else
+    g.setColour(Colour(0xff777777));
   g.strokePath(target, stroke);
   g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
 
@@ -106,5 +110,10 @@ void XYPad::setYSlider(Slider* slider) {
     y_slider_->removeListener(this);
   y_slider_ = slider;
   y_slider_->addListener(this);
+  repaint();
+}
+
+void XYPad::setActive(bool active) {
+  active_ = active;
   repaint();
 }
