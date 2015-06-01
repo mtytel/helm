@@ -19,7 +19,7 @@
 #include "modulation_look_and_feel.h"
 #include "text_look_and_feel.h"
 
-#define WAVE_VIEWER_RESOLUTION 32
+#define WAVE_VIEWER_RESOLUTION 128
 #define KNOB_SECTION_WIDTH 45
 #define KNOB_WIDTH 32
 #define SLIDER_WIDTH 10
@@ -54,6 +54,7 @@ LfoSection::LfoSection(String name, std::string value_prepend) : SynthSection(na
   wave_selector_->setStringLookup(mopo::strings::waveforms);
 
   addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
+  wave_viewer_->setName(value_prepend + "_phase");
   wave_viewer_->setAmplitudeSlider(amplitude_);
   wave_viewer_->setWaveSlider(wave_selector_);
 

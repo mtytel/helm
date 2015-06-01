@@ -19,7 +19,7 @@
 #include "synth_gui_interface.h"
 
 #define GRID_CELL_WIDTH 8
-#define FRAMES_PER_SECOND 24
+#define FRAMES_PER_SECOND 60
 #define PADDING 5.0f
 #define MARKER_WIDTH 4.0f
 
@@ -34,23 +34,10 @@ WaveViewer::WaveViewer(int resolution) {
 
 WaveViewer::~WaveViewer() { }
 
-void WaveViewer::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-
-  g.fillAll(Colour(0xff424242));
-
-  g.setColour(Colour(0xff4a4a4a));
-  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
-    g.drawLine(x, 0, x, getHeight());
-  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
-    g.drawLine(0, y, getWidth(), y);
-
-  shadow.drawForPath(g, wave_path_);
-
-  g.setColour(Colour(0xff565656));
-  g.fillPath(wave_path_);
-  g.setColour(Colour(0xff03a9f4));
-  g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
+void WaveViewer::paint(juce::Graphics &g) {
+  g.drawImage(background_,
+              0, 0, getWidth(), getHeight(),
+              0, 0, background_.getWidth(), background_.getHeight());
 
   if (wave_state_) {
     float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
@@ -70,7 +57,29 @@ void WaveViewer::paint(Graphics& g) {
   }
 }
 
+void WaveViewer::paintBackground(Graphics& g) {
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+
+  g.fillAll(Colour(0xff424242));
+
+  g.setColour(Colour(0xff4a4a4a));
+  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+    g.drawLine(x, 0, x, getHeight());
+  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+    g.drawLine(0, y, getWidth(), y);
+
+  shadow.drawForPath(g, wave_path_);
+
+  g.setColour(Colour(0xff565656));
+  g.fillPath(wave_path_);
+  g.setColour(Colour(0xff03a9f4));
+  g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
+}
+
 void WaveViewer::resized() {
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
   resetWavePath();
 }
 
@@ -94,8 +103,8 @@ void WaveViewer::timerCallback() {
       float last_x = phaseToX(phase_);
       float new_x = phaseToX(phase);
       phase_ = phase;
-      repaint(last_x - MARKER_WIDTH / 2.0f, 0.0, MARKER_WIDTH, getHeight());
-      repaint(new_x - MARKER_WIDTH / 2.0f, 0.0, MARKER_WIDTH, getHeight());
+      repaint(last_x - MARKER_WIDTH / 2.0f - 1, 0.0, MARKER_WIDTH + 2, getHeight());
+      repaint(new_x - MARKER_WIDTH / 2.0f - 1, 0.0, MARKER_WIDTH + 2, getHeight());
     }
   }
 }
@@ -117,24 +126,34 @@ void WaveViewer::setAmplitudeSlider(Slider* slider) {
 }
 
 void WaveViewer::resetWavePath() {
+  if (!background_.isValid())
+    return;
+
   wave_path_.clear();
 
   if (wave_slider_ == nullptr)
     return;
 
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
-  float draw_width = getWidth() - 2.0f * PADDING;
+  float draw_width = getWidth();
   float draw_height = getHeight() - 2.0f * PADDING;
 
-  wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
+  wave_path_.startNewSubPath(0, getHeight() / 2.0f);
   mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
   for (int i = 1; i < resolution_ - 1; ++i) {
     float t = (1.0f * i) / resolution_;
     float val = amplitude * mopo::Wave::wave(type, t);
-    wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
   }
 
-  wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
+  wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
+
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+
   repaint();
 }
 
@@ -147,11 +166,11 @@ void WaveViewer::showRealtimeFeedback() {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     if (parent) {
       wave_state_ = parent->getModSource(getName().toStdString());
-      // startTimerHz(FRAMES_PER_SECOND);
+      startTimerHz(FRAMES_PER_SECOND);
     }
   }
 }
 
 float WaveViewer::phaseToX(float phase) {
-  return PADDING + phase * (getWidth() - 2 * PADDING);
+  return phase * getWidth();
 }

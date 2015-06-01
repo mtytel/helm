@@ -32,7 +32,7 @@ GraphicalStepSequencer::GraphicalStepSequencer() {
 
 GraphicalStepSequencer::~GraphicalStepSequencer() { }
 
-void GraphicalStepSequencer::paint(Graphics& g) {
+void GraphicalStepSequencer::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xbb000000), 1, Point<int>(0, 0));
   if (sequence_.size() == 0 || num_steps_slider_ == nullptr)
     return;
@@ -72,22 +72,40 @@ void GraphicalStepSequencer::paint(Graphics& g) {
     g.setColour(Colour(0xff03a9f4));
     g.fillRect(x, bar_position, x_inc, 1.5f);
 
-    if (highlighted_step_ == i) {
-      g.setColour(Colour(0x22ffffff));
-      g.fillRect(x, 0.0f, x_inc, 1.0f * getHeight());
-    }
-
-    if (last_step_ == i) {
-      g.setColour(Colour(0x22ffffff));
-      g.fillRect(x, 0.0f, x_inc, 1.0f * getHeight());
-    }
-
     x += x_inc;
+  }
+}
+
+void GraphicalStepSequencer::paint(Graphics& g) {
+  if (sequence_.size() == 0 || num_steps_slider_ == nullptr)
+    return;
+
+  g.drawImage(background_,
+              0, 0, getWidth(), getHeight(),
+              0, 0, background_.getWidth(), background_.getHeight());
+
+  float step_width = getWidth() / (1.0f * num_steps_);
+
+  if (highlighted_step_ >= 0) {
+    g.setColour(Colour(0x22ffffff));
+    g.fillRect(highlighted_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
+  }
+
+  if (last_step_ >= 0) {
+    g.setColour(Colour(0x22ffffff));
+    g.fillRect(last_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
   }
 }
 
 void GraphicalStepSequencer::resized() {
   ensureMinSize();
+
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
 }
 
 void GraphicalStepSequencer::mouseMove(const MouseEvent& e) {
@@ -179,6 +197,12 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
     y += inc_x * slope;
     inc_x = direction * getWidth() * 1.0f / num_steps_;
   }
+
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
   repaint();
 }
 

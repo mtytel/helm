@@ -34,9 +34,10 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
     void showRealtimeFeedback();
 
-    void paint(Graphics& g);
-    void resized();
-    void mouseDown(const MouseEvent& e);
+    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g);
+    void resized() override;
+    void mouseDown(const MouseEvent& e) override;
 
   private:
     float phaseToX(float phase);
@@ -47,6 +48,7 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
     Path wave_path_;
     int resolution_;
     float phase_;
+    Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveViewer)
 };

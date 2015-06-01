@@ -34,12 +34,13 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
 
     void showRealtimeFeedback();
 
-    void paint(Graphics& g);
-    void resized();
-    void mouseMove(const MouseEvent& e);
-    void mouseExit(const MouseEvent& e);
-    void mouseDown(const MouseEvent& e);
-    void mouseDrag(const MouseEvent& e);
+    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g);
+    void resized() override;
+    void mouseMove(const MouseEvent& e) override;
+    void mouseExit(const MouseEvent& e) override;
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
 
   private:
     int getHoveredStep(Point<int> position);
@@ -54,6 +55,8 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     int highlighted_step_;
     std::vector<Slider*> sequence_;
     Point<int> last_edit_position_;
+
+    Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GraphicalStepSequencer)
 };
