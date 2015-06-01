@@ -104,13 +104,13 @@ void SynthesisInterface::resized() {
   float column_4_x = column_3_x + CELL_PADDING + COLUMN_WIDTH_3;
 
   oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 200.0f);
-  amplitude_envelope_section_->setBounds(column_1_x, 292.0f, COLUMN_WIDTH_1, 148.0f);
+  amplitude_envelope_section_->setBounds(column_1_x, 292.0f, COLUMN_WIDTH_1, 120.0f);
 
   feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 92.0f);
   filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + CELL_PADDING,
                              COLUMN_WIDTH_2, 180.0f);
   filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + CELL_PADDING,
-                                      COLUMN_WIDTH_2, 148.0f);
+                                      COLUMN_WIDTH_2, 120.0f);
 
   float lfo_width = (COLUMN_WIDTH_1 + COLUMN_WIDTH_2 - 3 * CELL_PADDING) / 5.0f;
   float step_sequencer_width = 2 * lfo_width + CELL_PADDING;

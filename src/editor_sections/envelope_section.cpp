@@ -19,24 +19,25 @@
 #include "modulation_look_and_feel.h"
 #include "synth_slider.h"
 
-#define KNOB_SECTION_WIDTH 40
-#define KNOB_WIDTH 32
-#define TEXT_HEIGHT 16
-#define TEXT_WIDTH 42
+#define SLIDER_SECTION_WIDTH 70
+#define MOD_SECTION_WIDTH 36
+#define MOD_BUTTON_WIDTH 32
+#define TEXT_WIDTH 10
+#define SLIDER_WIDTH 20
 
 EnvelopeSection::EnvelopeSection(String name, std::string value_prepend) : SynthSection(name) {
 
   addSlider(attack_ = new SynthSlider(value_prepend + "_attack"));
-  attack_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  attack_->setSliderStyle(Slider::LinearBar);
 
   addSlider(decay_ = new SynthSlider(value_prepend + "_decay"));
-  decay_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  decay_->setSliderStyle(Slider::LinearBar);
 
   addSlider(release_ = new SynthSlider(value_prepend + "_release"));
-  release_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  release_->setSliderStyle(Slider::LinearBar);
 
   addSlider(sustain_ = new SynthSlider(value_prepend + "_sustain"));
-  sustain_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  sustain_->setSliderStyle(Slider::LinearBar);
 
   addAndMakeVisible(envelope_ = new GraphicalEnvelope());
   envelope_->setAttackSlider(attack_);
@@ -58,21 +59,46 @@ EnvelopeSection::~EnvelopeSection() {
 
 void EnvelopeSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
+                                                           BinaryData::RobotoRegular_ttfSize));
+
   SynthSection::paintBackground(g);
   component_shadow.drawForRectangle(g, envelope_->getBounds());
+
+  g.setColour(Colour(0xff212121));
+  g.fillRect(getWidth() - TEXT_WIDTH - SLIDER_SECTION_WIDTH, 20, TEXT_WIDTH, getHeight() - 20);
+
+  g.setColour(Colour(0xffbbbbbb));
+  g.setFont(roboto_reg.withPointHeight(10.0f));
+  
+  g.drawText(TRANS("A"), attack_->getX() - TEXT_WIDTH, attack_->getY(),
+             TEXT_WIDTH, attack_->getHeight(),
+             Justification::centred, true);
+  g.drawText(TRANS("D"), decay_->getX() - TEXT_WIDTH, decay_->getY(),
+             TEXT_WIDTH, decay_->getHeight(),
+             Justification::centred, true);
+  g.drawText(TRANS("S"), sustain_->getX() - TEXT_WIDTH, sustain_->getY(),
+             TEXT_WIDTH, sustain_->getHeight(),
+             Justification::centred, true);
+  g.drawText(TRANS("R"), release_->getX() - TEXT_WIDTH, release_->getY(),
+             TEXT_WIDTH, release_->getHeight(),
+             Justification::centred, true);
 }
 
 void EnvelopeSection::resized() {
-  envelope_->setBounds(0, 20, getWidth(), getHeight() - 20 - KNOB_SECTION_WIDTH);
+  int envelope_width = getWidth() - SLIDER_SECTION_WIDTH - TEXT_WIDTH - MOD_SECTION_WIDTH;
+  envelope_->setBounds(MOD_SECTION_WIDTH, 20, envelope_width, getHeight() - 20);
 
-  float space = (getWidth() - (5.0f * KNOB_WIDTH)) / 6.0f;
-  int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
+  float space = (getHeight() - (4.0f * SLIDER_WIDTH) - 20) / 3.0f;
+  int x = getWidth() - SLIDER_SECTION_WIDTH;
 
-  modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
-  attack_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  decay_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  sustain_->setBounds(3 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  release_->setBounds(4 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+  float mod_button_x = (MOD_SECTION_WIDTH - MOD_BUTTON_WIDTH) / 2.0f;
+  float mod_button_y = (getHeight() - MOD_BUTTON_WIDTH + 20) / 2.0f;
+  modulation_button_->setBounds(mod_button_x, mod_button_y, MOD_BUTTON_WIDTH, MOD_BUTTON_WIDTH);
+  attack_->setBounds(x, 20, SLIDER_SECTION_WIDTH, SLIDER_WIDTH);
+  decay_->setBounds(x, 20 + space + SLIDER_WIDTH, SLIDER_SECTION_WIDTH, SLIDER_WIDTH);
+  sustain_->setBounds(x, 20 + 2 * (space + SLIDER_WIDTH), SLIDER_SECTION_WIDTH, SLIDER_WIDTH);
+  release_->setBounds(x, 20 + 3 * (space + SLIDER_WIDTH), SLIDER_SECTION_WIDTH, SLIDER_WIDTH);
 
   SynthSection::resized();
 }
