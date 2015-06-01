@@ -21,6 +21,8 @@
 #include "twytch_common.h"
 #include "synth_gui_interface.h"
 
+#define TOP_HEIGHT 64
+
 FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
                              mopo::output_map mono_modulations,
                              mopo::output_map poly_modulations) : SynthSection("full_interface") {
@@ -66,25 +68,23 @@ void FullInterface::paintBackground(Graphics& g) {
   g.fillRect(getLocalBounds());
 
   shadow.drawForRectangle(g, arp_section_->getBounds());
-  shadow.drawForRectangle(g, Rectangle<int>(80, 8, 220, 60));
-
-  shadow.drawForRectangle(g, Rectangle<int>(376, 8, 88, 60));
-  shadow.drawForRectangle(g, Rectangle<int>(368 - 124, 8, 124, 60));
-
+  shadow.drawForRectangle(g, global_tool_tip_->getBounds());
+  shadow.drawForRectangle(g, oscilloscope_->getBounds());
+  shadow.drawForRectangle(g, Rectangle<int>(90, 8, 246, TOP_HEIGHT));
   g.saveState();
-  g.setOrigin(14, 6);
+  g.setOrigin(16, 6);
   logo_shadow.drawForImage(g, helm_small);
   g.drawImage(helm, 0, 0, 64, 64, 0, 0, helm.getWidth(), helm.getHeight());
   g.restoreState();
   
   g.setColour(Colour(0xff303030));
-  g.fillRect(80, 8, 220, 60);
+  g.fillRect(90, 8, 246, TOP_HEIGHT);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("BPM"),
-             80, 56, 44, 10,
-             Justification::centred, true);
+  g.drawText(TRANS("BPM"), patch_browser_->getX(), beats_per_minute_->getY(),
+             44, beats_per_minute_->getHeight(),
+             Justification::centred, false);
 
   component_shadow.drawForRectangle(g, patch_browser_->getBounds());
 
@@ -93,15 +93,15 @@ void FullInterface::paintBackground(Graphics& g) {
 
 void FullInterface::resized() {
   static const int arp_width = 308;
-  static const int top_height = 64;
 
-  arp_section_->setBounds(getWidth() - arp_width - 16.0f, 8.0f, arp_width, top_height);
-  synthesis_interface_->setBounds(8, top_height + 16,
-                                  getWidth() - 12, getHeight() - top_height - 12);
-  oscilloscope_->setBounds(376, 8, 88, 60);
-  beats_per_minute_->setBounds(124, 48, 176, top_height / 3);
-  global_tool_tip_->setBounds(244, 8, 124, 60);
-  patch_browser_->setBounds(80, 8, 220, 2 * top_height / 3);
+  arp_section_->setBounds(getWidth() - arp_width - 16.0f, 8.0f, arp_width, TOP_HEIGHT);
+  synthesis_interface_->setBounds(8, TOP_HEIGHT + 16,
+                                  getWidth() - 12, getHeight() - TOP_HEIGHT - 12);
+  oscilloscope_->setBounds(552, 8, 112, TOP_HEIGHT);
+  patch_browser_->setBounds(90, 8, 246, 2 * TOP_HEIGHT / 3);
+  beats_per_minute_->setBounds(134, patch_browser_->getBottom(),
+                               202, TOP_HEIGHT - patch_browser_->getHeight());
+  global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
 
   SynthSection::resized();
