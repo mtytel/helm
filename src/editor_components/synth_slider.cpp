@@ -193,7 +193,6 @@ void SynthSlider::drawRectangularShadow(Graphics &g) {
 void SynthSlider::notifyTooltip() {
   if (!parent_)
     parent_ = findParentComponentOfClass<FullInterface>();
-  if (parent_) {
+  if (parent_)
     parent_->setToolTipText(getName(), getTextFromValue(getValue()));
-  }
 }

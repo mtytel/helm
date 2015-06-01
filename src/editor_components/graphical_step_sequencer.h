@@ -47,7 +47,8 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     void updateHover(int step_index);
     void changeStep(const MouseEvent& e);
     void ensureMinSize();
-    
+    void resetBackground();
+
     int num_steps_;
     mopo::Processor::Output* step_generator_output_;
     int last_step_;

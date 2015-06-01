@@ -103,9 +103,7 @@ void GraphicalStepSequencer::resized() {
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
-  Graphics g(background_);
-  g.addTransform(AffineTransform::scale(scale, scale));
-  paintBackground(g);
+  resetBackground();
 }
 
 void GraphicalStepSequencer::mouseMove(const MouseEvent& e) {
@@ -142,12 +140,12 @@ void GraphicalStepSequencer::setStepSliders(std::vector<Slider*> sliders) {
   sequence_ = sliders;
   for (int i = 0; i < sliders.size(); ++i)
     sequence_[i]->addListener(this);
-  repaint();
+  resetBackground();
 }
 
 void GraphicalStepSequencer::sliderValueChanged(Slider* moved_slider) {
   ensureMinSize();
-  repaint();
+  resetBackground();
 }
 
 void GraphicalStepSequencer::setNumStepsSlider(Slider* num_steps_slider) {
@@ -157,7 +155,7 @@ void GraphicalStepSequencer::setNumStepsSlider(Slider* num_steps_slider) {
   num_steps_slider_->addListener(this);
 
   ensureMinSize();
-  repaint();
+  resetBackground();
 }
 
 void GraphicalStepSequencer::ensureMinSize() {
@@ -165,6 +163,18 @@ void GraphicalStepSequencer::ensureMinSize() {
     return;
 
   num_steps_ = num_steps_slider_->getValue();
+}
+
+void GraphicalStepSequencer::resetBackground() {
+  if (!background_.isValid())
+    return;
+
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+  repaint();
 }
 
 // Sets the height of the steps based on mouse positions.
@@ -197,13 +207,7 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
     y += inc_x * slope;
     inc_x = direction * getWidth() * 1.0f / num_steps_;
   }
-
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  Graphics g(background_);
-  g.addTransform(AffineTransform::scale(scale, scale));
-  paintBackground(g);
-  repaint();
+  resetBackground();
 }
 
 int GraphicalStepSequencer::getHoveredStep(Point<int> position) {
@@ -216,7 +220,6 @@ void GraphicalStepSequencer::updateHover(int step_index) {
   highlighted_step_ = step_index;
   repaint();
 }
-
 
 void GraphicalStepSequencer::showRealtimeFeedback() {
   if (step_generator_output_ == nullptr) {
