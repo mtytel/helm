@@ -35,6 +35,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void resized() override;
     virtual void paint(Graphics& g) override;
     virtual void paintBackground(Graphics& g);
+    virtual void paintContainer(Graphics& g);
     void paintKnobShadows(Graphics& g);
     void drawTextForComponent(Graphics& g, String text, Component* component);
     Graphics getBackgroundGraphics();
@@ -59,6 +60,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void addModulationButton(ModulationButton* button, bool show = true);
     void addSlider(SynthSlider* slider, bool show = true);
     void addSubSection(SynthSection* section, bool show = true);
+    void setActivator(ToggleButton* activator);
 
     std::map<std::string, SynthSection*> sub_sections_;
 
@@ -69,6 +71,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     std::map<std::string, SynthSlider*> all_sliders_;
     std::map<std::string, Button*> all_buttons_;
     std::map<std::string, ModulationButton*> all_modulation_buttons_;
+    ToggleButton* activator_;
 
     Image background_;
 

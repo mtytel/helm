@@ -19,7 +19,6 @@
 #define KNOB_WIDTH 40
 
 StutterSection::StutterSection(String name) : SynthSection(name) {
-  addButton(on_ = new ToggleButton("stutter_on"));
 
   addSlider(stutter_rate_ = new SynthSlider("stutter_frequency"));
   stutter_rate_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -27,7 +26,8 @@ StutterSection::StutterSection(String name) : SynthSection(name) {
   addSlider(resample_rate_ = new SynthSlider("stutter_resample_frequency"));
   resample_rate_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  setActive(on_->getToggleStateValue().getValue());
+  addButton(on_ = new ToggleButton("stutter_on"));
+  setActivator(on_);
 }
 
 StutterSection::~StutterSection() {
@@ -56,10 +56,4 @@ void StutterSection::resized() {
   resample_rate_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
 
   SynthSection::resized();
-}
-
-void StutterSection::buttonClicked(Button* clicked_button) {
-  SynthSection::buttonClicked(clicked_button);
-  if (clicked_button == on_)
-    setActive(on_->getToggleStateValue().getValue());
 }

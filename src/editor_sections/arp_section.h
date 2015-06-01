@@ -15,28 +15,32 @@
  */
 
 #pragma once
-#ifndef REVERB_SECTION_H
-#define REVERB_SECTION_H
+#ifndef ARP_SECTION_H
+#define ARP_SECTION_H
 
 #include "JuceHeader.h"
 #include "synth_section.h"
 #include "synth_slider.h"
+#include "tempo_selector.h"
 
-class ReverbSection : public SynthSection {
+class ArpSection : public SynthSection {
   public:
-    ReverbSection(String name);
-    ~ReverbSection();
+    ArpSection(String name);
+    ~ArpSection();
 
     void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:
+    ScopedPointer<SynthSlider> frequency_;
+    ScopedPointer<SynthSlider> tempo_;
+    ScopedPointer<TempoSelector> sync_;
+    ScopedPointer<SynthSlider> gate_;
+    ScopedPointer<SynthSlider> octaves_;
+    ScopedPointer<SynthSlider> pattern_;
     ScopedPointer<ToggleButton> on_;
-    ScopedPointer<SynthSlider> feedback_;
-    ScopedPointer<SynthSlider> damping_;
-    ScopedPointer<SynthSlider> dry_wet_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ReverbSection)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ArpSection)
 };
 
-#endif // REVERB_SECTION_H
+#endif // ARP_SECTION_H

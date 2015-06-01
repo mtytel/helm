@@ -25,8 +25,6 @@
 
 DelaySection::DelaySection(String name) : SynthSection(name) {
   static const int TEMPO_DRAG_SENSITIVITY = 150;
-  addButton(on_ = new ToggleButton("delay_on"));
-
   addSlider(frequency_ = new SynthSlider("delay_frequency"));
   frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   frequency_->setLookAndFeel(TextLookAndFeel::instance());
@@ -50,7 +48,8 @@ DelaySection::DelaySection(String name) : SynthSection(name) {
   addSlider(dry_wet_ = new SynthSlider("delay_dry_wet"));
   dry_wet_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  setActive(on_->getToggleStateValue().getValue());
+  addButton(on_ = new ToggleButton("delay_on"));
+  setActivator(on_);
 }
 
 DelaySection::~DelaySection() {
@@ -93,10 +92,4 @@ void DelaySection::resized() {
                         KNOB_WIDTH, KNOB_WIDTH);
 
   SynthSection::resized();
-}
-
-void DelaySection::buttonClicked(Button* clicked_button) {
-  SynthSection::buttonClicked(clicked_button);
-  if (clicked_button == on_)
-    setActive(on_->getToggleStateValue().getValue());
 }

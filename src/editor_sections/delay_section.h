@@ -30,7 +30,6 @@ class DelaySection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
-    void buttonClicked(Button* clicked_button) override;
 
   private:
     ScopedPointer<ToggleButton> on_;

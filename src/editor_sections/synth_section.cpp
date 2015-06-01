@@ -44,11 +44,7 @@ void SynthSection::paintBackground(Graphics& g) {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-
-  // Draw border.
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 3.000f);
-
+  paintContainer(g);
   // Draw shadow divider.
   float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
   float shadow_bottom = TITLE_WIDTH;
@@ -66,6 +62,11 @@ void SynthSection::paintBackground(Graphics& g) {
   paintKnobShadows(g);
 }
 
+void SynthSection::paintContainer(Graphics& g) {
+  g.setColour(Colour(0xff303030));
+  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 3.000f);
+}
+
 void SynthSection::paintKnobShadows(Graphics& g) {
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
@@ -81,6 +82,9 @@ void SynthSection::buttonClicked(juce::Button *clicked_button) {
   std::string name = clicked_button->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   parent->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
+
+  if (clicked_button == activator_)
+    setActive(activator_->getToggleStateValue().getValue());
 }
 
 void SynthSection::addButton(Button* button, bool show) {
@@ -120,6 +124,11 @@ void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
 
   if (show)
     addAndMakeVisible(sub_section);
+}
+
+void SynthSection::setActivator(ToggleButton* activator) {
+  activator_ = activator;
+  setActive(activator_->getToggleStateValue().getValue());
 }
 
 void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component) {

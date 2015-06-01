@@ -21,8 +21,6 @@
 #define SLIDER_WIDTH 10
 
 FormantSection::FormantSection(String name) : SynthSection(name) {
-  addButton(on_ = new ToggleButton("formant_on"));
-
   addSlider(x_ = new SynthSlider("formant_x"));
   x_->setSliderStyle(Slider::LinearBar);
 
@@ -33,7 +31,8 @@ FormantSection::FormantSection(String name) : SynthSection(name) {
   xy_pad_->setXSlider(x_);
   xy_pad_->setYSlider(y_);
 
-  setActive(on_->getToggleStateValue().getValue());
+  addButton(on_ = new ToggleButton("formant_on"));
+  setActivator(on_);
 }
 
 FormantSection::~FormantSection() {
@@ -56,13 +55,6 @@ void FormantSection::resized() {
   xy_pad_->setBounds(0, 20, getWidth() - SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
 
   SynthSection::resized();
-}
-
-
-void FormantSection::buttonClicked(Button* clicked_button) {
-  SynthSection::buttonClicked(clicked_button);
-  if (clicked_button == on_)
-    setActive(on_->getToggleStateValue().getValue());
 }
 
 void FormantSection::setActive(bool active) {

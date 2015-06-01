@@ -19,7 +19,6 @@
 #define KNOB_WIDTH 40
 
 ReverbSection::ReverbSection(String name) : SynthSection(name) {
-  addButton(on_ = new ToggleButton("reverb_on"));
 
   addSlider(feedback_ = new SynthSlider("reverb_feedback"));
   feedback_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -30,7 +29,8 @@ ReverbSection::ReverbSection(String name) : SynthSection(name) {
   addSlider(dry_wet_ = new SynthSlider("reverb_dry_wet"));
   dry_wet_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  setActive(on_->getToggleStateValue().getValue());
+  addButton(on_ = new ToggleButton("reverb_on"));
+  setActivator(on_);
 }
 
 ReverbSection::~ReverbSection() {
@@ -64,10 +64,4 @@ void ReverbSection::resized() {
   dry_wet_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
 
   SynthSection::resized();
-}
-
-void ReverbSection::buttonClicked(Button* clicked_button) {
-  SynthSection::buttonClicked(clicked_button);
-  if (clicked_button == on_)
-    setActive(on_->getToggleStateValue().getValue());
 }

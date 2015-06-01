@@ -508,6 +508,9 @@
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp">
       <Filter>TwytchPlugin\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_sections\arp_section.cpp">
+      <Filter>TwytchPlugin\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\articulation_section.cpp">
       <Filter>TwytchPlugin\src\editor_sections</Filter>
     </ClCompile>
@@ -2027,6 +2030,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\xy_pad.h">
       <Filter>TwytchPlugin\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_sections\arp_section.h">
+      <Filter>TwytchPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\articulation_section.h">
       <Filter>TwytchPlugin\src\editor_sections</Filter>

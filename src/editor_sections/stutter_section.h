@@ -29,7 +29,6 @@ class StutterSection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
-    void buttonClicked(Button* clicked_button) override;
 
   private:
     ScopedPointer<SynthSlider> resample_rate_;

@@ -130,7 +130,7 @@ void SynthesisInterface::resized() {
   formant_section_->setBounds(column_3_x, stutter_section_->getBottom() + CELL_PADDING,
                               COLUMN_WIDTH_3, 136.0f);
   extra_mod_section_->setBounds(column_3_x, formant_section_->getBottom() + CELL_PADDING,
-                              COLUMN_WIDTH_3, 304.0f);
+                              COLUMN_WIDTH_3, 276.0f);
 
   delay_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 100.0f);
   reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,

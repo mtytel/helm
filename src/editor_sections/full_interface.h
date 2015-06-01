@@ -20,12 +20,13 @@
 
 #include "JuceHeader.h"
 
-#include "synth_section.h"
-#include "modulation_manager.h"
-#include "synthesis_interface.h"
-#include "oscilloscope.h"
+#include "arp_section.h"
 #include "global_tool_tip.h"
+#include "modulation_manager.h"
+#include "oscilloscope.h"
 #include "patch_browser.h"
+#include "synthesis_interface.h"
+#include "synth_section.h"
 
 class FullInterface : public SynthSection {
   public:
@@ -51,6 +52,7 @@ class FullInterface : public SynthSection {
     TooltipWindow tooltip_;
     ScopedPointer<SynthSlider> arp_tempo_;
 
+    ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
     ScopedPointer<SynthSlider> arp_frequency_;
     ScopedPointer<SynthSlider> arp_gate_;
