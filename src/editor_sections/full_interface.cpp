@@ -46,7 +46,6 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   arp_on_->setColour(ToggleButton::textColourId, Colours::white);
 
   addSlider(beats_per_minute_ = new SynthSlider("beats_per_minute"));
-  beats_per_minute_->setRange(20, 300, 0);
   beats_per_minute_->setSliderStyle(Slider::LinearBar);
   beats_per_minute_->setTextBoxStyle(Slider::TextBoxAbove, false, 150, 20);
 

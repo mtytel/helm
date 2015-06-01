@@ -136,6 +136,20 @@ void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
 }
 
 void ModulationManager::timerCallback() {
+  for (auto slider : slider_lookup_) {
+    SynthSlider* model = slider_model_lookup_[slider.first];
+    slider.second->setVisible(model->isVisible());
+  }
+
+  updateModulationValues();
+
+  for (auto meter : meter_lookup_) {
+    meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
+    meter.second->updateDrawing();
+  }
+}
+
+void ModulationManager::updateModulationValues() {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent == nullptr)
     return;
@@ -144,15 +158,10 @@ void ModulationManager::timerCallback() {
   if (num_voices < 0)
     return;
 
-  for (auto slider : slider_lookup_) {
-    SynthSlider* model = slider_model_lookup_[slider.first];
-    slider.second->setVisible(model->isVisible());
-  }
-
-  for (auto meter : meter_lookup_) {
-    meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
-    meter.second->update(num_voices);
-  }
+  parent->lockSynth();
+  for (auto meter : meter_lookup_)
+    meter.second->updateValue(num_voices);
+  parent->unlockSynth();
 }
 
 void ModulationManager::setModulationAmount(std::string source, std::string destination,

@@ -40,6 +40,8 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     std::vector<mopo::ModulationConnection*> getDestinationConnections(std::string destination);
 
     int getNumActiveVoices();
+    void lockSynth();
+    void unlockSynth();
     mopo::Processor::Output* getModSource(std::string name);
 
     var saveToVar();

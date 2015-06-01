@@ -90,6 +90,14 @@ int SynthGuiInterface::getNumActiveVoices() {
   return -1;
 }
 
+void SynthGuiInterface::lockSynth() {
+  getCriticalSection().enter();
+}
+
+void SynthGuiInterface::unlockSynth() {
+  getCriticalSection().exit();
+}
+
 mopo::Processor::Output* SynthGuiInterface::getModSource(std::string name) {
   ScopedLock lock(getCriticalSection());
   return synth_->getModulationSource(name);

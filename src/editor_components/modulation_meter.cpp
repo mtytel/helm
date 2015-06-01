@@ -26,11 +26,12 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
                                  const mopo::Processor::Output* poly_total,
                                  const SynthSlider* slider) :
         mono_total_(mono_total), poly_total_(poly_total),
-        destination_(slider), current_knob_percent_(0.0), current_mod_percent_(0.0),
+        destination_(slider), current_value_(0.0), knob_percent_(0.0), mod_percent_(0.0),
         knob_stroke_(0.0f, PathStrokeType::beveled, PathStrokeType::butt),
-        full_radius_(0.0), outer_radius_(0.0), knob_percent_(0.0), mod_percent_(0.0) {
+        full_radius_(0.0), outer_radius_(0.0) {
   setInterceptsMouseClicks(false, false);
-  update(0);
+  updateValue(0);
+  updateDrawing();
 }
 
 ModulationMeter::~ModulationMeter() {
@@ -56,23 +57,23 @@ void ModulationMeter::resized() {
   outer_radius_ = full_radius_ - stroke_width;
 }
 
-void ModulationMeter::update(int num_voices) {
+void ModulationMeter::updateValue(int num_voices) {
   if (mono_total_) {
-    float value = mono_total_->buffer[0];
+    current_value_ = mono_total_->buffer[0];
     if (poly_total_ && num_voices)
-      value += poly_total_->buffer[0] / num_voices;
+      current_value_ += poly_total_->buffer[0] / num_voices;
+  }
+}
 
-    double range = destination_->getMaximum() - destination_->getMinimum();
-    double mod_percent = CLAMP((value - destination_->getMinimum()) / range, 0.0, 1.0);
-    double knob_percent = (destination_->getValue() - destination_->getMinimum()) / range;
+void ModulationMeter::updateDrawing() {
+  double range = destination_->getMaximum() - destination_->getMinimum();
+  double new_mod_percent = CLAMP((current_value_ - destination_->getMinimum()) / range, 0.0, 1.0);
+  double new_knob_percent = (destination_->getValue() - destination_->getMinimum()) / range;
 
-    if (mod_percent != current_mod_percent_ || knob_percent != current_knob_percent_) {
-      current_mod_percent_ = mod_percent;
-      current_knob_percent_ = knob_percent;
-      knob_percent_ = std::pow(current_knob_percent_, destination_->getSkewFactor());
-      mod_percent_ = std::pow(current_mod_percent_, destination_->getSkewFactor());
-      repaint();
-    }
+  if (new_mod_percent != mod_percent_ || new_knob_percent != knob_percent_) {
+    mod_percent_ = new_mod_percent;
+    knob_percent_ = new_knob_percent;
+    repaint();
   }
 }
 
@@ -99,7 +100,7 @@ void ModulationMeter::drawSlider(Graphics& g) {
     float mod_position = getWidth() * mod_percent_;
 
     if (destination_->getInterval() == 1.0 && destination_->getMinimum() == 0.0) {
-      int index = current_mod_percent_ * destination_->getMaximum() + 0.5;
+      int index = mod_percent_ * destination_->getMaximum() + 0.5;
       float width = getWidth() / (destination_->getMaximum() + 1.0);
 
       g.setColour(Colour(0xaaffffff));

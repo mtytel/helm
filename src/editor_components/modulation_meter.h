@@ -31,7 +31,8 @@ class ModulationMeter : public Component {
     void paint(Graphics& g) override;
     void resized() override;
 
-    void update(int num_voices);
+    void updateValue(int num_voices);
+    void updateDrawing();
 
   private:
     void drawSlider(Graphics& g);
@@ -45,15 +46,13 @@ class ModulationMeter : public Component {
     const mopo::Processor::Output* poly_total_;
     const SynthSlider* destination_;
 
-    double current_knob_percent_;
-    double current_mod_percent_;
+    double current_value_;
+    double knob_percent_;
+    double mod_percent_;
 
     PathStrokeType knob_stroke_;
     float full_radius_;
     float outer_radius_;
-
-    float knob_percent_;
-    float mod_percent_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
 };

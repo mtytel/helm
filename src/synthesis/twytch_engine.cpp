@@ -238,9 +238,10 @@ namespace mopo {
 
   void TwytchEngine::connectModulation(ModulationConnection* connection) {
     Processor::Output* source = getModulationSource(connection->source);
+    MOPO_ASSERT(source != 0);
+    
     Processor* destination = getModulationDestination(connection->destination,
                                                       source->owner->isPolyphonic());
-    MOPO_ASSERT(source != 0);
     MOPO_ASSERT(destination != 0);
 
     connection->modulation_scale.plug(source, 0);

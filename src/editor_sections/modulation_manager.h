@@ -40,6 +40,7 @@ class ModulationManager : public SynthSection, public Timer {
     std::string getCurrentModulator() { return current_modulator_; }
 
     void timerCallback() override;
+    void updateModulationValues();
     void paint(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
