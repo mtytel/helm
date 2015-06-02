@@ -106,7 +106,9 @@ void ModulationManager::resized() {
 
   for (auto meter : meter_lookup_) {
     Slider* model = slider_model_lookup_[meter.first];
-    meter.second->setBounds(model->getParentComponent()->localAreaToGlobal(model->getBounds()));
+    Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
+    meter.second->setBounds(local_top_left.x, local_top_left.y,
+                            model->getWidth(), model->getHeight());
     meter.second->setVisible(model->isVisible());
   }
 
