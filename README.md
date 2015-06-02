@@ -22,11 +22,11 @@ The executable is located in standalone/builds/linux/build
 
 #### OSX
 Open /standalone/builds/osx/Helm.xcodeproj for standalone version  
-Open /builds/osx/Helm.xcodeproj for plugin versions
+Open /builds/osx/HelmPlugin.xcodeproj for plugin versions
 
 #### Windows
 Open /standalone/builds/vs12/Helm.sln for standalone version  
-Open /builds/vs12/Helm.sln for plugin versions
+Open /builds/vs12/HelmPlugin.sln for plugin versions
 
 ### Features:
  - 32 voice polyphony
