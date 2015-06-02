@@ -87,12 +87,12 @@ void GraphicalStepSequencer::paint(Graphics& g) {
   float step_width = getWidth() / (1.0f * num_steps_);
 
   if (highlighted_step_ >= 0) {
-    g.setColour(Colour(0x22ffffff));
+    g.setColour(Colour(0x11ffffff));
     g.fillRect(highlighted_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
   }
 
   if (last_step_ >= 0) {
-    g.setColour(Colour(0x22ffffff));
+    g.setColour(Colour(0x11ffffff));
     g.fillRect(last_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
   }
 }

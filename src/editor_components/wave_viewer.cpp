@@ -53,6 +53,9 @@ void WaveViewer::paint(juce::Graphics &g) {
       g.setColour(Colour(0xff03a9f4));
       g.fillEllipse(x - MARKER_WIDTH / 2.0f, y - MARKER_WIDTH / 2.0f,
                     MARKER_WIDTH, MARKER_WIDTH);
+      g.setColour(Colour(0xffffffff));
+      g.fillEllipse(x - MARKER_WIDTH / 4.0f, y - MARKER_WIDTH / 4.0f,
+                    MARKER_WIDTH / 2.0f, MARKER_WIDTH / 2.0f);
     }
   }
 }
