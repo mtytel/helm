@@ -192,10 +192,12 @@
     <ClCompile Include="..\..\..\src\editor_sections\full_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\lfo_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\modulation_manager.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\noise_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\reverb_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\step_sequencer_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\stutter_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\sub_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\synth_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\volume_section.cpp"/>
@@ -1412,10 +1414,12 @@
     <ClInclude Include="..\..\..\src\editor_sections\full_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\lfo_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\modulation_manager.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\noise_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\reverb_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\step_sequencer_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\stutter_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\sub_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\synth_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\synthesis_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\volume_section.h"/>

@@ -112,10 +112,12 @@ OBJECTS := \
   $(OBJDIR)/full_interface_29b5f507.o \
   $(OBJDIR)/lfo_section_f85fa167.o \
   $(OBJDIR)/modulation_manager_a5602c68.o \
+  $(OBJDIR)/noise_section_31fdfd0c.o \
   $(OBJDIR)/oscillator_section_c90fdcc4.o \
   $(OBJDIR)/reverb_section_a0ad9f76.o \
   $(OBJDIR)/step_sequencer_section_13843dc2.o \
   $(OBJDIR)/stutter_section_943b1913.o \
+  $(OBJDIR)/sub_section_8cb704f2.o \
   $(OBJDIR)/synth_section_3b1ee2e.o \
   $(OBJDIR)/synthesis_interface_a75e885a.o \
   $(OBJDIR)/volume_section_9cff0be.o \
@@ -482,6 +484,11 @@ $(OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation
 	@echo "Compiling modulation_manager.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/noise_section_31fdfd0c.o: ../../../src/editor_sections/noise_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling noise_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscillator_section.cpp"
@@ -500,6 +507,11 @@ $(OBJDIR)/step_sequencer_section_13843dc2.o: ../../../src/editor_sections/step_s
 $(OBJDIR)/stutter_section_943b1913.o: ../../../src/editor_sections/stutter_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling stutter_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/sub_section_8cb704f2.o: ../../../src/editor_sections/sub_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling sub_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cpp

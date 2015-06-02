@@ -248,6 +248,9 @@
               file="src/editor_sections/modulation_manager.cpp"/>
         <FILE id="nxwkXA" name="modulation_manager.h" compile="0" resource="0"
               file="src/editor_sections/modulation_manager.h"/>
+        <FILE id="SI00KL" name="noise_section.cpp" compile="1" resource="0"
+              file="src/editor_sections/noise_section.cpp"/>
+        <FILE id="kno5Wl" name="noise_section.h" compile="0" resource="0" file="src/editor_sections/noise_section.h"/>
         <FILE id="miINFU" name="oscillator_section.cpp" compile="1" resource="0"
               file="src/editor_sections/oscillator_section.cpp"/>
         <FILE id="zVswj0" name="oscillator_section.h" compile="0" resource="0"
@@ -264,6 +267,8 @@
               file="src/editor_sections/stutter_section.cpp"/>
         <FILE id="MciKeq" name="stutter_section.h" compile="0" resource="0"
               file="src/editor_sections/stutter_section.h"/>
+        <FILE id="uHk9Ji" name="sub_section.cpp" compile="1" resource="0" file="src/editor_sections/sub_section.cpp"/>
+        <FILE id="NQxGHm" name="sub_section.h" compile="0" resource="0" file="src/editor_sections/sub_section.h"/>
         <FILE id="cxaRNz" name="synth_section.cpp" compile="1" resource="0"
               file="src/editor_sections/synth_section.cpp"/>
         <FILE id="LJA591" name="synth_section.h" compile="0" resource="0" file="src/editor_sections/synth_section.h"/>
