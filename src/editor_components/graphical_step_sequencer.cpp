@@ -17,7 +17,7 @@
 #include "graphical_step_sequencer.h"
 #include "synth_gui_interface.h"
 
-#define FRAMES_PER_SECOND 30
+#define FRAMES_PER_SECOND 60
 
 GraphicalStepSequencer::GraphicalStepSequencer() {
   num_steps_slider_ = nullptr;

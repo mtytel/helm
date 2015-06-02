@@ -21,7 +21,7 @@
 #define GRID_CELL_WIDTH 8
 #define FRAMES_PER_SECOND 60
 #define PADDING 5.0f
-#define MARKER_WIDTH 4.0f
+#define MARKER_WIDTH 6.0f
 
 WaveViewer::WaveViewer(int resolution) {
   wave_slider_ = nullptr;
@@ -44,13 +44,13 @@ void WaveViewer::paint(juce::Graphics &g) {
 
     if (phase_ >= 0.0 && phase_ < 1.0) {
       float x = phaseToX(phase_);
-      g.setColour(Colour(0x66ffffff));
+      g.setColour(Colour(0x33ffffff));
       g.fillRect(x, 0.0f, 1.0f, (float)getHeight());
 
       mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
       float value = amplitude * mopo::Wave::wave(type, phase_);
       float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - value) / 2.0f;
-      g.setColour(Colour(0xffffffff));
+      g.setColour(Colour(0xff03a9f4));
       g.fillEllipse(x - MARKER_WIDTH / 2.0f, y - MARKER_WIDTH / 2.0f,
                     MARKER_WIDTH, MARKER_WIDTH);
     }

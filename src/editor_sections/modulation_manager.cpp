@@ -22,7 +22,7 @@
 #include "synth_gui_interface.h"
 #include "twytch_common.h"
 
-#define FRAMES_PER_SECOND 30
+#define FRAMES_PER_SECOND 60
 
 ModulationManager::ModulationManager(
     mopo::output_map modulation_sources,

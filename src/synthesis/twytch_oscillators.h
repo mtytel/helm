@@ -87,6 +87,8 @@ namespace mopo {
           oscillator1_total += FixedPointWave::wave(waveform1, phase, osc_phase_diff);
         }
 
+        tickCrossMod(base_phase1, base_phase2, phase_diff1, phase_diff2);
+
         for (int v = 0; v < voices2; ++v) {
           int osc_phase_diff = detune2_amounts_[v] * base_phase2;
           oscillator2_phases_[v] += osc_phase_diff;
@@ -96,8 +98,6 @@ namespace mopo {
 
         oscillator1_total /= ((voices1 >> 2) + 1);
         oscillator2_total /= ((voices2 >> 2) + 1);
-
-        tickCrossMod(base_phase1, base_phase2, phase_diff1, phase_diff2);
 
         mopo_float mixed = (1.0 - mix) * oscillator1_total + mix * oscillator2_total;
         output(0)->buffer[i] = (mixed / FixedPointWaveLookup::SCALE) / INT_MAX;

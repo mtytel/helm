@@ -24,43 +24,33 @@
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/twytch/patches"
 #define LINUX_USER_PATCH_DIRECTORY "/usr/local/share/twytch/patches"
 
-PatchBrowser::PatchBrowser() {
+PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   setLookAndFeel(BrowserLookAndFeel::instance());
 
-  addAndMakeVisible (prev_folder_ = new TextButton ("prev_folder"));
-  prev_folder_->setButtonText (TRANS("<"));
-  prev_folder_->addListener (this);
-  prev_folder_->setColour (TextButton::buttonColourId, Colour (0xff303030));
-  prev_folder_->setColour (TextButton::buttonOnColourId, Colours::black);
-  prev_folder_->setColour (TextButton::textColourOffId, Colours::white);
+  addButton(prev_folder_ = new TextButton("prev_folder"));
+  prev_folder_->setButtonText(TRANS("<"));
+  prev_folder_->setColour(TextButton::buttonColourId, Colour(0xff303030));
+  prev_folder_->setColour(TextButton::textColourOffId, Colours::white);
 
-  addAndMakeVisible (prev_patch_ = new TextButton ("prev_patch"));
-  prev_patch_->setButtonText (TRANS("<"));
-  prev_patch_->addListener (this);
-  prev_patch_->setColour (TextButton::buttonColourId, Colour (0xff464646));
-  prev_patch_->setColour (TextButton::buttonOnColourId, Colours::black);
-  prev_patch_->setColour (TextButton::textColourOffId, Colours::white);
+  addButton(prev_patch_ = new TextButton("prev_patch"));
+  prev_patch_->setButtonText(TRANS("<"));
+  prev_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
+  prev_patch_->setColour(TextButton::textColourOffId, Colours::white);
 
-  addAndMakeVisible (next_folder_ = new TextButton ("next_folder"));
-  next_folder_->setButtonText (TRANS(">"));
-  next_folder_->addListener (this);
-  next_folder_->setColour (TextButton::buttonColourId, Colour (0xff303030));
-  next_folder_->setColour (TextButton::buttonOnColourId, Colours::black);
-  next_folder_->setColour (TextButton::textColourOffId, Colours::white);
+  addButton(next_folder_ = new TextButton("next_folder"));
+  next_folder_->setButtonText(TRANS(">"));
+  next_folder_->setColour(TextButton::buttonColourId, Colour(0xff303030));
+  next_folder_->setColour(TextButton::textColourOffId, Colours::white);
 
-  addAndMakeVisible (next_patch_ = new TextButton ("next_patch"));
-  next_patch_->setButtonText (TRANS(">"));
-  next_patch_->addListener (this);
-  next_patch_->setColour (TextButton::buttonColourId, Colour (0xff464646));
-  next_patch_->setColour (TextButton::buttonOnColourId, Colour (0xff212121));
-  next_patch_->setColour (TextButton::textColourOffId, Colours::white);
+  addButton(next_patch_ = new TextButton("next_patch"));
+  next_patch_->setButtonText(TRANS(">"));
+  next_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
+  next_patch_->setColour(TextButton::textColourOffId, Colours::white);
 
-  addAndMakeVisible (save_ = new TextButton ("save"));
-  save_->setButtonText (TRANS("SAVE"));
-  save_->addListener (this);
-  save_->setColour (TextButton::buttonColourId, Colour (0xff464646));
-  save_->setColour (TextButton::buttonOnColourId, Colours::black);
-  save_->setColour (TextButton::textColourOffId, Colours::white);
+  addButton(save_ = new TextButton("save"));
+  save_->setButtonText(TRANS("SAVE"));
+  save_->setColour(TextButton::buttonColourId, Colour(0xff303030));
+  save_->setColour(TextButton::textColourOffId, Colours::white);
 
   folder_index_ = 0;
   patch_index_ = 0;
@@ -74,7 +64,7 @@ PatchBrowser::~PatchBrowser() {
   save_ = nullptr;
 }
 
-void PatchBrowser::paint(Graphics& g) {
+void PatchBrowser::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
 
   g.setColour(Colour(0xff303030));
@@ -113,6 +103,8 @@ void PatchBrowser::resized() {
                          proportionOfWidth(0.1f), proportionOfHeight(0.5f));
   save_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.0f),
                    proportionOfWidth(0.2f), proportionOfHeight (1.0f));
+
+  SynthSection::resized();
 }
 
 void PatchBrowser::buttonClicked(Button* buttonThatWasClicked) {
@@ -147,6 +139,12 @@ void PatchBrowser::buttonClicked(Button* buttonThatWasClicked) {
     folder_text_ = folder.getFileNameWithoutExtension();
     patch_text_ = patch.getFileNameWithoutExtension();
     loadFromFile(patch);
+
+    const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+    float scale = display.scale;
+    Graphics g(background_);
+    g.addTransform(AffineTransform::scale(scale, scale));
+    paintBackground(g);
     repaint();
   }
 }

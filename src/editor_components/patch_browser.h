@@ -19,13 +19,14 @@
 #define PATCH_BROWSER_H
 
 #include "JuceHeader.h"
+#include "synth_section.h"
 
-class PatchBrowser : public Component, public ButtonListener {
+class PatchBrowser : public SynthSection {
   public:
     PatchBrowser();
     ~PatchBrowser();
 
-    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* buttonThatWasClicked) override;
 

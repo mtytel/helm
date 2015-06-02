@@ -30,8 +30,8 @@ namespace mopo {
   } // namespace
 
   TwytchOscillators::TwytchOscillators() : Processor(kNumInputs, 1) {
-    oscillator1_cross_mod_ = 0.0;
-    oscillator2_cross_mod_ = 0.0;
+    oscillator1_cross_mod_ = 0;
+    oscillator2_cross_mod_ = 0;
 
     for (int i = 0; i < MAX_UNISON; ++i) {
       oscillator1_phases_[i] = 0;
@@ -53,8 +53,8 @@ namespace mopo {
   }
 
   void TwytchOscillators::reset() {
-    oscillator1_cross_mod_ = 0.0;
-    oscillator2_cross_mod_ = 0.0;
+    oscillator1_cross_mod_ = 0;
+    oscillator2_cross_mod_ = 0;
 
     for (int i = 0; i < MAX_UNISON; ++i) {
       oscillator1_phases_[i] = i * (INT_MAX / MAX_UNISON);
