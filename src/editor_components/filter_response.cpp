@@ -100,14 +100,20 @@ void FilterResponse::resetResponsePath() {
   filter_response_path_.clear();
   filter_response_path_.startNewSubPath(-wrap_size, getHeight() + wrap_size);
   float start_percent = getPercentForMidiNote(0.0);
-  filter_response_path_.lineTo(-wrap_size, getHeight() * (1.0f - start_percent));
+  float last_y = getHeight() * (1.0f - start_percent);
+
+  filter_response_path_.lineTo(-wrap_size, last_y);
 
   for (int i = 0; i < resolution_; ++i) {
     float t = (1.0f * i) / (resolution_ - 1);
     float midi_note = cutoff_slider_->proportionOfLengthToValue(t);
     float percent = getPercentForMidiNote(midi_note);
 
-    filter_response_path_.lineTo(getWidth() * t, getHeight() * (1.0f - percent));
+    float new_y = getHeight() * (1.0f - percent);
+    if (fabs(last_y - new_y) >= 1.0) {
+      last_y = new_y;
+      filter_response_path_.lineTo(getWidth() * t, new_y);
+    }
   }
 
   float end_percent = getPercentForMidiNote(cutoff_slider_->getMaximum());
