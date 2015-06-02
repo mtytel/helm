@@ -220,7 +220,7 @@ namespace mopo {
     addProcessor(clamp_mix);
 
     // Oscillator feedback.
-    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", true);
+    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", false, true);
     Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", false);
     Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", true);
     Add* osc_feedback_transposed = new Add();
