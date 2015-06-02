@@ -25,19 +25,20 @@ GlobalToolTip::GlobalToolTip() {
 GlobalToolTip::~GlobalToolTip() { }
 
 void GlobalToolTip::paint(Graphics& g) {
+  static Font tooltip_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                             BinaryData::DroidSansMono_ttfSize));
   g.setColour(Colour(0xff444444));
   g.fillRect(0, 0, getWidth(), getHeight() / 2);
 
   g.setColour(Colour(0xff424242));
   g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
-  g.setFont(Font(Font::getDefaultMonospacedFontName(), 15.0f, Font::plain));
   g.setColour(Colour(0xffffffff));
+  g.setFont(tooltip_font.withPointHeight(13.0f));
   g.drawText(parameter_text_, 0.0, 0.0,
-             getWidth(), proportionOfHeight(0.5), Justification::centred);
-  g.setFont(Font(Font::getDefaultMonospacedFontName(), 15.0f, Font::plain));
+             getWidth(), proportionOfHeight(0.5), Justification::centred, false);
   g.drawText(value_text_, 0.0, proportionOfHeight(0.5),
-             getWidth(), proportionOfHeight(0.5), Justification::centred);
+             getWidth(), proportionOfHeight(0.5), Justification::centred, false);
 }
 
 void GlobalToolTip::setText(String parameter, String value) {

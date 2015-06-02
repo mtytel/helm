@@ -30,6 +30,8 @@
             file="../images/helm_icon_512_2x.png"/>
     </GROUP>
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
+      <FILE id="FShH5H" name="DroidSansMono.ttf" compile="0" resource="1"
+            file="../fonts/DroidSansMono.ttf"/>
       <FILE id="ZQ0pdZ" name="Roboto-Light.ttf" compile="0" resource="1"
             file="../fonts/Roboto-Light.ttf"/>
       <FILE id="XdvVa2" name="Roboto-Regular.ttf" compile="0" resource="1"

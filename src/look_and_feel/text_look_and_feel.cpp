@@ -19,16 +19,18 @@
 void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                        float slider_t, float start_angle, float end_angle,
                                        Slider& slider) {
-  static const float text_percentage = 0.8f;
+  static Font slider_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                            BinaryData::DroidSansMono_ttfSize));
+  static const float text_percentage = 0.7f;
   g.fillAll(Colour(0xff424242));
 
   g.setColour(Colour(0xff565656));
   g.drawRect(slider.getLocalBounds());
 
-  g.setFont(Font(Font::getDefaultMonospacedFontName(), height * text_percentage, Font::plain));
   g.setColour(Colours::white);
+  g.setFont(slider_font.withPointHeight(height * text_percentage));
   g.drawText(slider.getTextFromValue(slider.getValue()),
-             x, y, width, height, Justification::centred);
+             x, y, width, height, Justification::centred, false);
 }
 
 void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,

@@ -1136,6 +1136,7 @@
 		D8CDAE4774D99246AA6FE349 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "delay_section.h"; path = "../../src/editor_sections/delay_section.h"; sourceTree = "SOURCE_ROOT"; };
 		D8F8A6EFE2DE2F083FA26868 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "graphical_envelope.h"; path = "../../src/editor_components/graphical_envelope.h"; sourceTree = "SOURCE_ROOT"; };
 		D9CEC4898869E672FA65A9D4 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "tick_router.h"; path = "../../mopo/src/tick_router.h"; sourceTree = "SOURCE_ROOT"; };
+		D9F15EEAEBAFDE95E5AA10B5 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = DroidSansMono.ttf; path = ../../fonts/DroidSansMono.ttf; sourceTree = "SOURCE_ROOT"; };
 		DA5A56B932539300E2B852FF = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_ChannelRemappingAudioSource.cpp"; path = "../../JUCE/modules/juce_audio_basics/sources/juce_ChannelRemappingAudioSource.cpp"; sourceTree = "SOURCE_ROOT"; };
 		DA90DDBCE35D083A27B8A0D8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "modulation_manager.cpp"; path = "../../src/editor_sections/modulation_manager.cpp"; sourceTree = "SOURCE_ROOT"; };
 		DAB5BE8DA356AA173FD8B953 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_audio_processors.mm"; path = "../../JUCE/modules/juce_audio_processors/juce_audio_processors.mm"; sourceTree = "SOURCE_ROOT"; };
@@ -1311,6 +1312,7 @@
 					CE29CE1B64B130A972D42A7F,
 					EF4071BE5FADE599D6217B97, ); name = images; sourceTree = "<group>"; };
 		1FC658771DBF90172052E6B5 = {isa = PBXGroup; children = (
+					D9F15EEAEBAFDE95E5AA10B5,
 					5E2F818FBD14C05BA63B40EC,
 					4AF86B86D3629A3FB44A85C1,
 					A6B25BEE44F66BF421287AD4, ); name = fonts; sourceTree = "<group>"; };

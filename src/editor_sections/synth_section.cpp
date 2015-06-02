@@ -42,8 +42,8 @@ void SynthSection::paint(Graphics& g) {
 
 void SynthSection::paintBackground(Graphics& g) {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
+  static Font title_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
+                                                          BinaryData::RobotoLight_ttfSize));
   paintContainer(g);
   // Draw shadow divider.
   float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
@@ -55,7 +55,7 @@ void SynthSection::paintBackground(Graphics& g) {
 
   // Draw text title.
   g.setColour(Colour(0xff999999));
-  g.setFont(roboto_reg.withPointHeight(13.40f).withExtraKerningFactor(0.05f));
+  g.setFont(title_font.withPointHeight(14.0f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);
 

@@ -3503,6 +3503,9 @@
     <None Include="..\..\..\images\helm_icon_512_2x.png">
       <Filter>Helm\images</Filter>
     </None>
+    <None Include="..\..\..\fonts\DroidSansMono.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
     <None Include="..\..\..\fonts\Roboto-Light.ttf">
       <Filter>Helm\fonts</Filter>
     </None>
