@@ -195,6 +195,8 @@ protected:
         String getMacArchitecture() const              { return config   [Ids::osxArchitecture]; }
         Value  getCustomXcodeFlagsValue()              { return getValue (Ids::customXcodeFlags); }
         String getCustomXcodeFlags() const             { return config   [Ids::customXcodeFlags]; }
+        Value  getCppLanguageStandardValue()           { return getValue (Ids::cppLanguageStandard); }
+        String getCppLanguageStandard() const          { return config   [Ids::cppLanguageStandard]; }
         Value  getCppLibTypeValue()                    { return getValue (Ids::cppLibType); }
         String getCppLibType() const                   { return config   [Ids::cppLibType]; }
         Value  getCodeSignIdentityValue()              { return getValue (Ids::codeSigningIdentity); }
@@ -253,10 +255,24 @@ protected:
                        "A comma-separated list of custom Xcode setting flags which will be appended to the list of generated flags, "
                        "e.g. MACOSX_DEPLOYMENT_TARGET_i386 = 10.5, VALID_ARCHS = \"ppc i386 x86_64\"");
 
-            const char* cppLibNames[] = { "Use Default", "Use LLVM libc++", nullptr };
+            const char* cppLanguageStandardNames[] = { "Use Default", "C++98", "GNU++98", "C++11", "GNU++11", "C++14", "GNU++14", nullptr };
+            Array<var> cppLanguageStandardValues;
+            cppLanguageStandardValues.add (var::null);
+            cppLanguageStandardValues.add ("c++98");
+            cppLanguageStandardValues.add ("gnu++98");
+            cppLanguageStandardValues.add ("c++11");
+            cppLanguageStandardValues.add ("gnu++11");
+            cppLanguageStandardValues.add ("c++14");
+            cppLanguageStandardValues.add ("gnu++14");
+
+            props.add (new ChoicePropertyComponent (getCppLanguageStandardValue(), "C++ Language Standard", StringArray (cppLanguageStandardNames), cppLanguageStandardValues),
+                       "The standard of the C++ language that will be used for compilation.");
+
+            const char* cppLibNames[] = { "Use Default", "LLVM libc++", "GNU libstdc++", nullptr };
             Array<var> cppLibValues;
             cppLibValues.add (var::null);
             cppLibValues.add ("libc++");
+            cppLibValues.add ("libstdc++");
 
             props.add (new ChoicePropertyComponent (getCppLibTypeValue(), "C++ Library", StringArray (cppLibNames), cppLibValues),
                        "The type of C++ std lib that will be linked.");
@@ -645,8 +661,8 @@ private:
         StringArray paths (extraSearchPaths);
         paths.addArray (config.getHeaderSearchPaths());
         paths.add ("$(inherited)");
-        paths.removeDuplicates (false);
-        paths.removeEmptyStrings();
+
+        paths = getCleanedStringArray (paths);
 
         for (int i = 0; i < paths.size(); ++i)
         {
@@ -707,8 +723,7 @@ private:
         for (int i = 0; i < xcodeLibs.size(); ++i)
             flags.add (getLinkerFlagForLib (xcodeLibs[i]));
 
-        flags.removeEmptyStrings (true);
-        flags.removeDuplicates (false);
+        flags = getCleanedStringArray (flags);
     }
 
     StringArray getProjectSettings (const XcodeBuildConfiguration& config) const
@@ -844,6 +859,9 @@ private:
         if (config.getCodeSignIdentity().isNotEmpty())
             s.add ("CODE_SIGN_IDENTITY = " + config.getCodeSignIdentity().quoted());
 
+        if (config.getCppLanguageStandard().isNotEmpty())
+            s.add ("CLANG_CXX_LANGUAGE_STANDARD = " + config.getCppLanguageStandard().quoted());
+
         if (config.getCppLibType().isNotEmpty())
             s.add ("CLANG_CXX_LIBRARY = " + config.getCppLibType().quoted());
 
@@ -857,7 +875,7 @@ private:
                 s.add ("OTHER_LDFLAGS = \"" + linkerFlags.joinIntoString (" ") + "\"");
 
             librarySearchPaths.addArray (config.getLibrarySearchPaths());
-            librarySearchPaths.removeDuplicates (false);
+            librarySearchPaths = getCleanedStringArray (librarySearchPaths);
 
             if (librarySearchPaths.size() > 0)
             {
@@ -907,11 +925,8 @@ private:
         }
 
         s.addTokens (config.getCustomXcodeFlags(), ",", "\"'");
-        s.trim();
-        s.removeEmptyStrings();
-        s.removeDuplicates (false);
 
-        return s;
+        return getCleanedStringArray (s);
     }
 
     void addFrameworks() const
