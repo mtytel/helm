@@ -32,6 +32,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addSlider(beats_per_minute_ = new SynthSlider("beats_per_minute"));
   beats_per_minute_->setSliderStyle(Slider::LinearBar);
   beats_per_minute_->setTextBoxStyle(Slider::TextBoxAbove, false, 150, 20);
+  beats_per_minute_->setColour(Slider::textBoxTextColourId, Colours::white);
 
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
 
@@ -54,7 +55,7 @@ FullInterface::~FullInterface() {
 
 void FullInterface::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
-  static const DropShadow logo_shadow(Colour(0xff000000), 5, Point<int>(0, 0));
+  static const DropShadow logo_shadow(Colour(0xff000000), 8, Point<int>(0, 0));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
@@ -70,15 +71,21 @@ void FullInterface::paintBackground(Graphics& g) {
   shadow.drawForRectangle(g, arp_section_->getBounds());
   shadow.drawForRectangle(g, global_tool_tip_->getBounds());
   shadow.drawForRectangle(g, oscilloscope_->getBounds());
-  shadow.drawForRectangle(g, Rectangle<int>(90, 8, 246, TOP_HEIGHT));
+  shadow.drawForRectangle(g, Rectangle<int>(92, 8, 244, TOP_HEIGHT));
+
+  shadow.drawForRectangle(g, Rectangle<int>(16, 8, 68, 64));
+  g.setColour(Colour(0xff303030));
+  g.fillRoundedRectangle(16.0f, 8.0f, 68.0f, 64.0f, 3.0f);
+
   g.saveState();
-  g.setOrigin(16, 6);
+  g.setOrigin(18, 8);
+
   logo_shadow.drawForImage(g, helm_small);
   g.drawImage(helm, 0, 0, 64, 64, 0, 0, helm.getWidth(), helm.getHeight());
   g.restoreState();
   
   g.setColour(Colour(0xff303030));
-  g.fillRect(90, 8, 246, TOP_HEIGHT);
+  g.fillRect(92, 8, 244, TOP_HEIGHT);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
@@ -98,9 +105,9 @@ void FullInterface::resized() {
   synthesis_interface_->setBounds(8, TOP_HEIGHT + 16,
                                   getWidth() - 12, getHeight() - TOP_HEIGHT - 12);
   oscilloscope_->setBounds(552, 8, 112, TOP_HEIGHT);
-  patch_browser_->setBounds(90, 8, 246, 2 * TOP_HEIGHT / 3);
-  beats_per_minute_->setBounds(134, patch_browser_->getBottom(),
-                               202, TOP_HEIGHT - patch_browser_->getHeight());
+  patch_browser_->setBounds(92, 8, 244, 2 * TOP_HEIGHT / 3);
+  beats_per_minute_->setBounds(141, patch_browser_->getBottom(),
+                               200, TOP_HEIGHT - patch_browser_->getHeight());
   global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
 
