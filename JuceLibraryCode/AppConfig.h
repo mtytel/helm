@@ -222,16 +222,16 @@
  #define JucePlugin_Build_AAX              1
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "Twytch"
+ #define JucePlugin_Name                   "Helm"
 #endif
 #ifndef  JucePlugin_Desc
  #define JucePlugin_Desc                   ""
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "Little O Studio"
+ #define JucePlugin_Manufacturer           "Matt Tytel"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    "littleio.co"
+ #define JucePlugin_ManufacturerWebsite    "tytel.org"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
  #define JucePlugin_ManufacturerEmail      "littleioaudio@gmail.com"
@@ -288,16 +288,16 @@
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         twytch
+ #define JucePlugin_AUExportPrefix         helm
 #endif
 #ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "twytch"
+ #define JucePlugin_AUExportPrefixQuoted   "helm"
 #endif
 #ifndef  JucePlugin_AUManufacturerCode
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     co.littleio.twytch
+ #define JucePlugin_CFBundleIdentifier     org.tytel.helm_plugin
 #endif
 #ifndef  JucePlugin_RTASCategory
  #define JucePlugin_RTASCategory           ePlugInCategory_SWGenerators
@@ -315,7 +315,7 @@
  #define JucePlugin_RTASDisableMultiMono   0
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          co.littleio.twytch
+ #define JucePlugin_AAXIdentifier          org.tytel.helm
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode

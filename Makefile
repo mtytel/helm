@@ -1,4 +1,4 @@
-PROGRAM = twytch
+PROGRAM = helm
 BIN     = $(DESTDIR)/usr/bin
 ICONS   = $(DESTDIR)/usr/share/$(PROGRAM)/icons
 PATCHES = $(DESTDIR)/usr/share/$(PROGRAM)/patches

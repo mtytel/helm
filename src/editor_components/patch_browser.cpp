@@ -1,17 +1,17 @@
 /* Copyright 2013-2015 Matt Tytel
  *
- * twytch is free software: you can redistribute it and/or modify
+ * helm is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * twytch is distributed in the hope that it will be useful,
+ * helm is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with twytch.  If not, see <http://www.gnu.org/licenses/>.
+ * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "synth_gui_interface.h"
@@ -19,10 +19,10 @@
 
 #include "patch_browser.h"
 
-#define PATCH_EXTENSION "twytch"
+#define PATCH_EXTENSION "helm"
 #define TEXT_PADDING 4.0f
-#define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/twytch/patches"
-#define LINUX_USER_PATCH_DIRECTORY "/usr/local/share/twytch/patches"
+#define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
+#define LINUX_USER_PATCH_DIRECTORY "/usr/local/share/helm/patches"
 
 PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   setLookAndFeel(BrowserLookAndFeel::instance());
@@ -155,7 +155,7 @@ File PatchBrowser::getSystemPatchDirectory() {
   patch_dir = File(LINUX_SYSTEM_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
   File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Twytch");
+  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "helm");
 #elif defined(_WIN32)
   patch_dir = File("C:");
 #endif
@@ -171,7 +171,7 @@ File PatchBrowser::getUserPatchDirectory() {
   patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
   File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Twytch");
+  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "helm");
 #elif defined(_WIN32)
   patch_dir = File("C:");
 #endif

@@ -13,10 +13,10 @@ BEGIN
   BEGIN
     BLOCK "040904E4"
     BEGIN
-      VALUE "CompanyName",  "Little O Studio\0"
-      VALUE "FileDescription",  "TwytchPlugin\0"
+      VALUE "CompanyName",  "Matt Tytel\0"
+      VALUE "FileDescription",  "HelmPlugin\0"
       VALUE "FileVersion",  "1.0.0\0"
-      VALUE "ProductName",  "TwytchPlugin\0"
+      VALUE "ProductName",  "HelmPlugin\0"
       VALUE "ProductVersion",  "1.0.0\0"
     END
   END

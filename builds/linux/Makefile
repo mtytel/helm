@@ -23,7 +23,7 @@ ifeq ($(CONFIG),Debug)
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
-  TARGET := twytch.so
+  TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
 endif
@@ -43,7 +43,7 @@ ifeq ($(CONFIG),Release)
   CXXFLAGS += $(CFLAGS)
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
-  TARGET := twytch.so
+  TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
   CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
 endif
@@ -82,10 +82,10 @@ OBJECTS := \
   $(OBJDIR)/value_9037106d.o \
   $(OBJDIR)/voice_handler_b8888f39.o \
   $(OBJDIR)/wave_42d06f87.o \
+  $(OBJDIR)/helm_common_5e4ffcc8.o \
   $(OBJDIR)/load_save_4069acb2.o \
   $(OBJDIR)/midi_manager_e9b5d29d.o \
   $(OBJDIR)/synth_gui_interface_bde2c2e.o \
-  $(OBJDIR)/twytch_common_653bb63.o \
   $(OBJDIR)/filter_response_802ac2eb.o \
   $(OBJDIR)/filter_selector_d3a4a389.o \
   $(OBJDIR)/global_tool_tip_6b9e5053.o \
@@ -123,16 +123,16 @@ OBJECTS := \
   $(OBJDIR)/default_look_and_feel_335824f9.o \
   $(OBJDIR)/modulation_look_and_feel_547d34cc.o \
   $(OBJDIR)/text_look_and_feel_6c688b3d.o \
-  $(OBJDIR)/twytch_editor_cb41a52d.o \
-  $(OBJDIR)/twytch_plugin_10f49ff3.o \
+  $(OBJDIR)/helm_editor_39961892.o \
+  $(OBJDIR)/helm_plugin_7f491358.o \
   $(OBJDIR)/fixed_point_wave_cbeb31ee.o \
   $(OBJDIR)/resonance_cancel_fe80786.o \
   $(OBJDIR)/switch_9aef122f.o \
-  $(OBJDIR)/twytch_engine_ecbf26ed.o \
-  $(OBJDIR)/twytch_lfo_95ce0b34.o \
-  $(OBJDIR)/twytch_module_630cae17.o \
-  $(OBJDIR)/twytch_oscillators_99cd5bd2.o \
-  $(OBJDIR)/twytch_voice_handler_8b173dbc.o \
+  $(OBJDIR)/helm_engine_d1a97912.o \
+  $(OBJDIR)/helm_lfo_31e8732f.o \
+  $(OBJDIR)/helm_module_47f7003c.o \
+  $(OBJDIR)/helm_oscillators_63a998cd.o \
+  $(OBJDIR)/helm_voice_handler_4ed827f7.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_5a4fbb1c.o \
   $(OBJDIR)/juce_audio_devices_8af8b8da.o \
@@ -154,18 +154,18 @@ OBJECTS := \
 .PHONY: clean
 
 $(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
-	@echo Linking TwytchPlugin
+	@echo Linking HelmPlugin
 	-@mkdir -p $(BINDIR)
 	-@mkdir -p $(LIBDIR)
 	-@mkdir -p $(OUTDIR)
 	@$(BLDCMD)
 
 clean:
-	@echo Cleaning TwytchPlugin
+	@echo Cleaning HelmPlugin
 	@$(CLEANCMD)
 
 strip:
-	@echo Stripping TwytchPlugin
+	@echo Stripping HelmPlugin
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
 $(OBJDIR)/alias_1d388dcc.o: ../../mopo/src/alias.cpp
@@ -333,6 +333,11 @@ $(OBJDIR)/wave_42d06f87.o: ../../mopo/src/wave.cpp
 	@echo "Compiling wave.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/helm_common_5e4ffcc8.o: ../../src/common/helm_common.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling helm_common.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/load_save_4069acb2.o: ../../src/common/load_save.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling load_save.cpp"
@@ -346,11 +351,6 @@ $(OBJDIR)/midi_manager_e9b5d29d.o: ../../src/common/midi_manager.cpp
 $(OBJDIR)/synth_gui_interface_bde2c2e.o: ../../src/common/synth_gui_interface.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_gui_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/twytch_common_653bb63.o: ../../src/common/twytch_common.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_common.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_802ac2eb.o: ../../src/editor_components/filter_response.cpp
@@ -538,14 +538,14 @@ $(OBJDIR)/text_look_and_feel_6c688b3d.o: ../../src/look_and_feel/text_look_and_f
 	@echo "Compiling text_look_and_feel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_editor_cb41a52d.o: ../../src/plugin/twytch_editor.cpp
+$(OBJDIR)/helm_editor_39961892.o: ../../src/plugin/helm_editor.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_editor.cpp"
+	@echo "Compiling helm_editor.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_plugin_10f49ff3.o: ../../src/plugin/twytch_plugin.cpp
+$(OBJDIR)/helm_plugin_7f491358.o: ../../src/plugin/helm_plugin.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_plugin.cpp"
+	@echo "Compiling helm_plugin.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/fixed_point_wave_cbeb31ee.o: ../../src/synthesis/fixed_point_wave.cpp
@@ -563,29 +563,29 @@ $(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp
 	@echo "Compiling switch.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_engine_ecbf26ed.o: ../../src/synthesis/twytch_engine.cpp
+$(OBJDIR)/helm_engine_d1a97912.o: ../../src/synthesis/helm_engine.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_engine.cpp"
+	@echo "Compiling helm_engine.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_lfo_95ce0b34.o: ../../src/synthesis/twytch_lfo.cpp
+$(OBJDIR)/helm_lfo_31e8732f.o: ../../src/synthesis/helm_lfo.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_lfo.cpp"
+	@echo "Compiling helm_lfo.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_module_630cae17.o: ../../src/synthesis/twytch_module.cpp
+$(OBJDIR)/helm_module_47f7003c.o: ../../src/synthesis/helm_module.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_module.cpp"
+	@echo "Compiling helm_module.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_oscillators_99cd5bd2.o: ../../src/synthesis/twytch_oscillators.cpp
+$(OBJDIR)/helm_oscillators_63a998cd.o: ../../src/synthesis/helm_oscillators.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_oscillators.cpp"
+	@echo "Compiling helm_oscillators.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/twytch_voice_handler_8b173dbc.o: ../../src/synthesis/twytch_voice_handler.cpp
+$(OBJDIR)/helm_voice_handler_4ed827f7.o: ../../src/synthesis/helm_voice_handler.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling twytch_voice_handler.cpp"
+	@echo "Compiling helm_voice_handler.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp

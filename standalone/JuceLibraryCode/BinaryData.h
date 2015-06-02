@@ -9,6 +9,9 @@
 
 namespace BinaryData
 {
+    extern const char*   helm_debian_icon_xpm;
+    const int            helm_debian_icon_xpmSize = 6879;
+
     extern const char*   helm_icon_16_1x_png;
     const int            helm_icon_16_1x_pngSize = 1230;
 
@@ -38,9 +41,6 @@ namespace BinaryData
 
     extern const char*   helm_icon_512_2x_png;
     const int            helm_icon_512_2x_pngSize = 137623;
-
-    extern const char*   twytch_debian_icon_xpm;
-    const int            twytch_debian_icon_xpmSize = 6881;
 
     extern const char*   RobotoLight_ttf;
     const int            RobotoLight_ttfSize = 126792;

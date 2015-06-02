@@ -1,12 +1,12 @@
-## Twytch
-Twytch is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a VST/AU/AAX plugin. Release is in beta so there are outstanding bugs. Please send any bugs found to matthewtytel@gmail.com
+## Helm
+Helm is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a VST/AU/AAX plugin. Release is in beta so there are outstanding bugs. Please send any bugs found to matthewtytel@gmail.com
 
 ### Installing:
-Go to [tytel.org/twytch](http://tytel.org/twytch) for builds. If you're on Ubuntu you can download it through the command line:
+Go to [tytel.org/helm](http://tytel.org/helm) for builds. If you're on Ubuntu you can download it through the command line:
 ```bash
-sudo add-apt-repository ppa:tytel/twytch
+sudo add-apt-repository ppa:tytel/helm
 sudo apt-get update
-sudo apt-get install twytch
+sudo apt-get install helm
 ```
 
 ### Building:
@@ -21,12 +21,12 @@ make
 The executable is located in standalone/builds/linux/build
 
 #### OSX
-Open /standalone/builds/osx/Twytch.xcodeproj for standalone version  
-Open /builds/osx/Twytch.xcodeproj for plugin versions
+Open /standalone/builds/osx/Helm.xcodeproj for standalone version  
+Open /builds/osx/Helm.xcodeproj for plugin versions
 
 #### Windows
-Open /standalone/builds/vs12/Twytch.sln for standalone version  
-Open /builds/vs12/Twytch.sln for plugin versions
+Open /standalone/builds/vs12/Helm.sln for standalone version  
+Open /builds/vs12/Helm.sln for plugin versions
 
 ### Features:
  - 32 voice polyphony
@@ -44,4 +44,4 @@ Open /builds/vs12/Twytch.sln for plugin versions
  - Effects: Formant filter, stutter, delay
  - Still more...
 
-![alt tag](http://tytel.org/static/images/twytch_screenshot.png)
+![alt tag](http://tytel.org/static/images/helm_screenshot.png)
