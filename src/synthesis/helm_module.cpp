@@ -51,7 +51,7 @@ namespace mopo {
   }
 
   Processor* HelmModule::createMonoModControl(std::string name, bool control_rate,
-                                                bool smooth_value) {
+                                              bool smooth_value) {
     ProcessorRouter* mono_owner = getMonoRouter();
     ValueDetails details = Parameters::getDetails(name);
 
@@ -79,7 +79,7 @@ namespace mopo {
   }
 
   Processor* HelmModule::createPolyModControl(std::string name, bool control_rate,
-                                                bool smooth_value) {
+                                              bool smooth_value) {
     ValueDetails details = Parameters::getDetails(name);
     Processor* base_control = createBaseModControl(name, smooth_value);
     ProcessorRouter* poly_owner = getPolyRouter();
@@ -122,7 +122,7 @@ namespace mopo {
   }
 
   Processor* HelmModule::createTempoSyncSwitch(std::string name, Processor* frequency,
-                                                 Processor* bps, bool poly) {
+                                               Processor* bps, bool poly) {
     static const Value dotted_ratio(2.0 / 3.0);
     static const Value triplet_ratio(3.0 / 2.0);
 

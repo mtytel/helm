@@ -20,7 +20,7 @@
 #define KEYBOARD "awsedftgyhujkolp;'"
 
 HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
-                                               const CriticalSection* critical_section) {
+                                           const CriticalSection* critical_section) {
   synth_ = synth;
   critical_section_ = critical_section;
   computer_keyboard_offset_ = DEFAULT_KEYBOARD_OFFSET;

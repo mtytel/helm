@@ -18,7 +18,6 @@
 
 namespace mopo {
 
-
   const ValueDetails ValueDetailsLookup::parameter_list[] = {
     { "amp_attack", 0.0, 4.0, 0, 0.1, 1.0, ValueDetails::kQuadratic, "secs" },
     { "amp_decay", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },

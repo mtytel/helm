@@ -65,8 +65,8 @@ namespace mopo {
   }
 
   void HelmOscillators::computeDetuneRatios(mopo_float* detune_amounts,
-                                              mopo_float* random_offsets,
-                                              bool harmonize, mopo_float detune, int voices) {
+                                            mopo_float* random_offsets,
+                                            bool harmonize, mopo_float detune, int voices) {
     for (int i = 0; i < voices; ++i) {
       mopo_float amount = (detune * ((i + 1) / 2)) / ((voices + 1) / 2);
 
