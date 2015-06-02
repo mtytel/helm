@@ -23,6 +23,7 @@
 #define MIN_RESONANCE 0.5
 #define MAX_RESONANCE 16.0
 #define GRID_CELL_WIDTH 8
+#define DELTA_SLOPE_REDRAW_THRESHOLD 0.01
 
 FilterResponse::FilterResponse(int resolution) {
   resolution_ = resolution;
@@ -39,16 +40,23 @@ FilterResponse::FilterResponse(int resolution) {
 
 FilterResponse::~FilterResponse() { }
 
-void FilterResponse::paint(Graphics& g) {
-  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-  
-  g.fillAll (Colour (0xff424242));
+void FilterResponse::paintBackground(Graphics& g) {
+  g.fillAll(Colour(0xff424242));
+
   g.setColour(Colour(0xff4a4a4a));
   for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
     g.drawLine(x, 0, x, getHeight());
   for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
     g.drawLine(0, y, getWidth(), y);
+}
+
+void FilterResponse::paint(Graphics& g) {
+  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+
+  g.drawImage(background_,
+              0, 0, getWidth(), getHeight(),
+              0, 0, background_.getWidth(), background_.getHeight());
 
   shadow.drawForPath(g, filter_response_path_);
 
@@ -60,6 +68,13 @@ void FilterResponse::paint(Graphics& g) {
 }
 
 void FilterResponse::resized() {
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+
   computeFilterCoefficients();
   resetResponsePath();
 }
@@ -101,6 +116,8 @@ void FilterResponse::resetResponsePath() {
   filter_response_path_.startNewSubPath(-wrap_size, getHeight() + wrap_size);
   float start_percent = getPercentForMidiNote(0.0);
   float last_y = getHeight() * (1.0f - start_percent);
+  float last_slope = 0.0f;
+  float last_x = 0.0f;
 
   filter_response_path_.lineTo(-wrap_size, last_y);
 
@@ -109,10 +126,14 @@ void FilterResponse::resetResponsePath() {
     float midi_note = cutoff_slider_->proportionOfLengthToValue(t);
     float percent = getPercentForMidiNote(midi_note);
 
+    float new_x = getWidth() * t;
     float new_y = getHeight() * (1.0f - percent);
-    if (fabs(last_y - new_y) >= 1.0) {
+    float new_slope = (new_y - last_y) / (new_x - last_x);
+    if (fabs(last_slope - new_slope) > DELTA_SLOPE_REDRAW_THRESHOLD) {
+      last_x = new_x;
       last_y = new_y;
-      filter_response_path_.lineTo(getWidth() * t, new_y);
+      last_slope = new_slope;
+      filter_response_path_.lineTo(new_x, new_y);
     }
   }
 

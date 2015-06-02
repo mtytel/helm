@@ -24,7 +24,7 @@
 
 class FilterResponse : public Component, SliderListener {
   public:
-    FilterResponse (int resolution);
+    FilterResponse(int resolution);
     ~FilterResponse();
 
     float getPercentForMidiNote(float midi_note);
@@ -37,10 +37,11 @@ class FilterResponse : public Component, SliderListener {
     void setCutoffSlider(Slider* slider);
     void setFilterTypeSlider(Slider* slider);
 
-    void paint (Graphics& g);
-    void resized();
-    void mouseDown (const MouseEvent& e);
-    void mouseDrag (const MouseEvent& e);
+    void paint(Graphics& g) override;
+    void paintBackground(Graphics& g);
+    void resized() override;
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
 
   private:
     Path filter_response_path_;
@@ -51,6 +52,8 @@ class FilterResponse : public Component, SliderListener {
     Slider* filter_type_slider_;
     Slider* cutoff_slider_;
     Slider* resonance_slider_;
+
+    Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilterResponse)
 };
