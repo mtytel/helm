@@ -25,14 +25,12 @@ XYPad::XYPad() {
   x_slider_ = nullptr;
   y_slider_ = nullptr;
   active_ = true;
+  setOpaque(true);
 }
 
 XYPad::~XYPad() { }
 
-void XYPad::paint(Graphics& g) {
-  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-
+void XYPad::paintBackground(Graphics& g) {
   g.fillAll(Colour(0xff424242));
 
   g.setColour(Colour(0xff4a4a4a));
@@ -40,6 +38,15 @@ void XYPad::paint(Graphics& g) {
     g.drawLine(x, 0, x, getHeight());
   for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
     g.drawLine(0, y, getWidth(), y);
+}
+
+void XYPad::paint(Graphics& g) {
+  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+
+  g.drawImage(background_,
+              0, 0, getWidth(), getHeight(),
+              0, 0, background_.getWidth(), background_.getHeight());
 
   float x = x_slider_->getValue() * getWidth();
   float y = (1.0f - y_slider_->getValue()) * getHeight();
@@ -64,7 +71,14 @@ void XYPad::paint(Graphics& g) {
   }
 }
 
-void XYPad::resized() { }
+void XYPad::resized() {
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+}
 
 void XYPad::mouseDown(const MouseEvent& e) {
   setSlidersFromPosition(e.getPosition());

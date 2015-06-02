@@ -32,6 +32,7 @@ class XYPad : public Component, public SliderListener {
     void setYSlider(Slider* slider);
 
     void paint(Graphics& g) override;
+    void paintBackground(Graphics& g);
     void resized() override;
     void mouseDown(const MouseEvent& e) override;
     void mouseDrag(const MouseEvent& e) override;
@@ -44,6 +45,8 @@ class XYPad : public Component, public SliderListener {
     Slider* y_slider_;
     bool mouse_down_;
     bool active_;
+
+    Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(XYPad)
 };
