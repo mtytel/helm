@@ -31,11 +31,11 @@ void GlobalToolTip::paint(Graphics& g) {
   g.setColour(Colour(0xff424242));
   g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
-  g.setFont(Font(Font::getDefaultMonospacedFontName(), 13.0f, Font::plain));
+  g.setFont(Font(Font::getDefaultMonospacedFontName(), 15.0f, Font::plain));
   g.setColour(Colour(0xffffffff));
   g.drawText(parameter_text_, 0.0, 0.0,
              getWidth(), proportionOfHeight(0.5), Justification::centred);
-  g.setFont(Font(Font::getDefaultMonospacedFontName(), 14.0f, Font::plain));
+  g.setFont(Font(Font::getDefaultMonospacedFontName(), 15.0f, Font::plain));
   g.drawText(value_text_, 0.0, proportionOfHeight(0.5),
              getWidth(), proportionOfHeight(0.5), Justification::centred);
 }
