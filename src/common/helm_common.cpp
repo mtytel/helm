@@ -20,9 +20,9 @@ namespace mopo {
 
   const ValueDetails ValueDetailsLookup::parameter_list[] = {
     { "amp_attack", 0.0, 4.0, 0, 0.1, 1.0, ValueDetails::kQuadratic, "secs" },
-    { "amp_decay", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },
-    { "amp_release", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },
-    { "amp_sustain", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
+    { "amp_decay", 0.0, 4.0, 0, 1.5, 1.0, ValueDetails::kQuadratic, "secs" },
+    { "amp_release", 0.0, 4.0, 0, 0.3, 1.0, ValueDetails::kQuadratic, "secs" },
+    { "amp_sustain", 0.0, 1.0, 0, 1.0, 1.0, ValueDetails::kLinear, "" },
     { "arp_frequency", -1.0, 4.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
     { "arp_gate", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
     { "arp_octaves", 1.0, 4.0, 4, 1.0, 1.0, ValueDetails::kLinear, "octaves" },
@@ -40,9 +40,9 @@ namespace mopo {
     { "delay_sync", 0.0, 3.0, 4, 1.0, 1.0, ValueDetails::kLinear, "" },
     { "delay_tempo", 0.0, 11.0, 12, 9.0, 1.0, ValueDetails::kLinear, "" },
     { "fil_attack", 0.0, 4.0, 0, 0.1, 1.0, ValueDetails::kQuadratic, "secs" },
-    { "fil_decay", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },
+    { "fil_decay", 0.0, 4.0, 0, 1.5, 1.0, ValueDetails::kQuadratic, "secs" },
     { "fil_env_depth", -128.0, 128.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
-    { "fil_release", 0.0, 4.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "secs" },
+    { "fil_release", 0.0, 4.0, 0, 1.5, 1.0, ValueDetails::kQuadratic, "secs" },
     { "fil_sustain", 0.0, 1.0, 0, 0.5, 1.0, ValueDetails::kLinear, "" },
     { "filter_saturation", -60.0, 60.0, 0, 0.0, 1.0, ValueDetails::kLinear, "dB" },
     { "filter_type", 0.0, 6.0, 7, 6.0, 1.0, ValueDetails::kLinear, "" },
@@ -132,7 +132,7 @@ namespace mopo {
     { "unison_1_harmonize", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "unison_2_harmonize", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "velocity_track", -1.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "%" },
-    { "volume", 0.0, 1.0, 0, 0.6, 1.0, ValueDetails::kQuadratic, "" },
+    { "volume", 0.0, 1.0, 0, 0.75, 1.0, ValueDetails::kQuadratic, "" },
   };
 
   ValueDetailsLookup::ValueDetailsLookup() {
