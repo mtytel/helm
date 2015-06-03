@@ -38,11 +38,13 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(formant_section_ = new FormantSection("FORMANT"));
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1"));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2"));
+  addSubSection(noise_section_ = new NoiseSection("NOISE"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo"));
   addSubSection(reverb_section_ = new ReverbSection("REVERB"));
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
   addSubSection(stutter_section_ = new StutterSection("STUTTER"));
+  addSubSection(sub_section_ = new SubSection("SUB"));
   addSubSection(volume_section_ = new VolumeSection("VOLUME"));
 
   setAllValues(controls);
@@ -60,11 +62,13 @@ SynthesisInterface::~SynthesisInterface() {
   formant_section_ = nullptr;
   mono_lfo_1_section_ = nullptr;
   mono_lfo_2_section_ = nullptr;
+  noise_section_ = nullptr;
   oscillator_section_ = nullptr;
   poly_lfo_section_ = nullptr;
   reverb_section_ = nullptr;
   step_sequencer_section_ = nullptr;
   stutter_section_ = nullptr;
+  sub_section_ = nullptr;
   volume_section_ = nullptr;
 }
 
@@ -89,11 +93,13 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   section_shadow.drawForRectangle(g, formant_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_1_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_2_section_->getBounds());
+  section_shadow.drawForRectangle(g, noise_section_->getBounds());
   section_shadow.drawForRectangle(g, oscillator_section_->getBounds());
   section_shadow.drawForRectangle(g, poly_lfo_section_->getBounds());
   section_shadow.drawForRectangle(g, reverb_section_->getBounds());
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
   section_shadow.drawForRectangle(g, stutter_section_->getBounds());
+  section_shadow.drawForRectangle(g, sub_section_->getBounds());
   section_shadow.drawForRectangle(g, volume_section_->getBounds());
 }
 
@@ -104,6 +110,10 @@ void SynthesisInterface::resized() {
   float column_4_x = column_3_x + CELL_PADDING + COLUMN_WIDTH_3;
 
   oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 200.0f);
+  sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + CELL_PADDING,
+                          (COLUMN_WIDTH_1 - CELL_PADDING) / 2, 72);
+  noise_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
+                            sub_section_->getWidth(), sub_section_->getHeight());
   amplitude_envelope_section_->setBounds(column_1_x, 292.0f, COLUMN_WIDTH_1, 120.0f);
 
   feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 92.0f);

@@ -42,6 +42,9 @@ namespace BinaryData
     extern const char*   helm_icon_512_2x_png;
     const int            helm_icon_512_2x_pngSize = 137623;
 
+    extern const char*   DroidSansMono_ttf;
+    const int            DroidSansMono_ttfSize = 119380;
+
     extern const char*   RobotoLight_ttf;
     const int            RobotoLight_ttfSize = 126792;
 
@@ -55,7 +58,7 @@ namespace BinaryData
     extern const char* namedResourceList[];
 
     // Number of elements in the namedResourceList array.
-    const int namedResourceListSize = 14;
+    const int namedResourceListSize = 15;
 
     // If you provide the name of one of the binary resource variables above, this function will
     // return the corresponding data and its size (or a null pointer if the name isn't found).

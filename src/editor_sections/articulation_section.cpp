@@ -30,6 +30,7 @@ ArticulationSection::ArticulationSection(String name) : SynthSection(name) {
 
   addSlider(portamento_type_ = new SynthSlider("portamento_type"));
   portamento_type_->setSliderStyle(Slider::LinearBar);
+  portamento_type_->setStringLookup(mopo::strings::off_auto_on);
 
   addSlider(velocity_track_ = new SynthSlider("velocity_track"));
   velocity_track_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -63,6 +64,16 @@ void ArticulationSection::paintBackground(Graphics& g) {
   drawTextForComponent(g, TRANS("PITCH BEND"), pitch_bend_);
   drawTextForComponent(g, TRANS("VEL TRACK"), velocity_track_);
   drawTextForComponent(g, TRANS("LEGATO"), legato_);
+
+  static const int ROOM = 20;
+  g.setFont(roboto_reg.withPointHeight(8.0f));
+  int type_y = portamento_type_->getY() - 12;
+  g.drawText(TRANS("OFF"), portamento_type_->getX() - ROOM,
+             type_y, 2 * ROOM, 10, Justification::centred, false);
+  g.drawText(TRANS("AUTO"), portamento_type_->getX() - ROOM + portamento_type_->getWidth() / 2,
+             type_y, 2 * ROOM, 10, Justification::centred, false);
+  g.drawText(TRANS("ON"), portamento_type_->getRight() - ROOM,
+             type_y, 2 * ROOM, 10, Justification::centred, false);
 }
 
 void ArticulationSection::resized() {

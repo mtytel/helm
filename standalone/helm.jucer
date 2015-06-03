@@ -30,6 +30,8 @@
             file="../images/helm_icon_512_2x.png"/>
     </GROUP>
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
+      <FILE id="FShH5H" name="DroidSansMono.ttf" compile="0" resource="1"
+            file="../fonts/DroidSansMono.ttf"/>
       <FILE id="ZQ0pdZ" name="Roboto-Light.ttf" compile="0" resource="1"
             file="../fonts/Roboto-Light.ttf"/>
       <FILE id="XdvVa2" name="Roboto-Regular.ttf" compile="0" resource="1"
@@ -239,6 +241,9 @@
               file="../src/editor_sections/modulation_manager.cpp"/>
         <FILE id="ozVonc" name="modulation_manager.h" compile="0" resource="0"
               file="../src/editor_sections/modulation_manager.h"/>
+        <FILE id="L31Qlt" name="noise_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/noise_section.cpp"/>
+        <FILE id="sUTz4c" name="noise_section.h" compile="0" resource="0" file="../src/editor_sections/noise_section.h"/>
         <FILE id="dUS4i9" name="oscillator_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/oscillator_section.cpp"/>
         <FILE id="DtjxUU" name="oscillator_section.h" compile="0" resource="0"
@@ -255,6 +260,8 @@
               file="../src/editor_sections/stutter_section.cpp"/>
         <FILE id="MUOWYB" name="stutter_section.h" compile="0" resource="0"
               file="../src/editor_sections/stutter_section.h"/>
+        <FILE id="LJtyWE" name="sub_section.cpp" compile="1" resource="0" file="../src/editor_sections/sub_section.cpp"/>
+        <FILE id="vhVlrl" name="sub_section.h" compile="0" resource="0" file="../src/editor_sections/sub_section.h"/>
         <FILE id="IRUU00" name="synth_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/synth_section.cpp"/>
         <FILE id="ARxMw3" name="synth_section.h" compile="0" resource="0" file="../src/editor_sections/synth_section.h"/>

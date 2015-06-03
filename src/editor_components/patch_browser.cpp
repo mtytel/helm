@@ -66,6 +66,8 @@ PatchBrowser::~PatchBrowser() {
 
 void PatchBrowser::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
+  static Font browser_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                             BinaryData::DroidSansMono_ttfSize));
 
   g.setColour(Colour(0xff303030));
   g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
@@ -85,7 +87,7 @@ void PatchBrowser::paintBackground(Graphics& g) {
   Rectangle<int> bottom(proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
                         proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
 
-  g.setFont(Font(Font::getDefaultMonospacedFontName(), 12.0f, Font::plain));
+  g.setFont(browser_font.withPointHeight(12.0f));
   g.setColour(Colour(0xffbbbbbb));
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));

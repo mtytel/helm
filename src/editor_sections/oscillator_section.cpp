@@ -36,9 +36,11 @@ OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
 
   addSlider(wave_selector_1_ = new WaveSelector("osc_1_waveform"));
   wave_selector_1_->setSliderStyle(Slider::LinearBar);
+  wave_selector_1_->setStringLookup(mopo::strings::waveforms);
 
   addSlider(wave_selector_2_ = new WaveSelector("osc_2_waveform"));
   wave_selector_2_->setSliderStyle(Slider::LinearBar);
+  wave_selector_2_->setStringLookup(mopo::strings::waveforms);
 
   addAndMakeVisible(wave_viewer_1_ = new WaveViewer(WAVE_RESOLUTION));
   wave_viewer_1_->setWaveSlider(wave_selector_1_);

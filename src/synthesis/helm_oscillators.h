@@ -68,6 +68,7 @@ namespace mopo {
       }
 
       void tick(int i, int waveform1, int waveform2, int voices1, int voices2) {
+        static const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float mix = input(kMix)->source->buffer[i];
         int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
@@ -100,7 +101,7 @@ namespace mopo {
         oscillator2_total /= ((voices2 >> 2) + 1);
 
         mopo_float mixed = (1.0 - mix) * oscillator1_total + mix * oscillator2_total;
-        output(0)->buffer[i] = (mixed / FixedPointWaveLookup::SCALE) / INT_MAX;
+        output(0)->buffer[i] = SCALE_OUT * mixed;
       }
 
       int oscillator1_cross_mod_;

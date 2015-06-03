@@ -529,6 +529,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\modulation_manager.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\noise_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
@@ -539,6 +542,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\stutter_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\sub_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\synth_section.cpp">
@@ -2034,6 +2040,9 @@
     <ClInclude Include="..\..\..\src\editor_sections\modulation_manager.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\noise_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
@@ -2044,6 +2053,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\stutter_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\sub_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\synth_section.h">
@@ -3502,6 +3514,9 @@
     </None>
     <None Include="..\..\..\images\helm_icon_512_2x.png">
       <Filter>Helm\images</Filter>
+    </None>
+    <None Include="..\..\..\fonts\DroidSansMono.ttf">
+      <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\..\fonts\Roboto-Light.ttf">
       <Filter>Helm\fonts</Filter>

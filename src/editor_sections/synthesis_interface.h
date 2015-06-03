@@ -29,8 +29,10 @@
 #include "filter_section.h"
 #include "formant_section.h"
 #include "lfo_section.h"
+#include "noise_section.h"
 #include "oscillator_section.h"
 #include "reverb_section.h"
+#include "sub_section.h"
 #include "step_sequencer_section.h"
 #include "stutter_section.h"
 #include "volume_section.h"
@@ -56,11 +58,13 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FormantSection> formant_section_;
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
+    ScopedPointer<NoiseSection> noise_section_;
     ScopedPointer<OscillatorSection> oscillator_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
     ScopedPointer<ReverbSection> reverb_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
     ScopedPointer<StutterSection> stutter_section_;
+    ScopedPointer<SubSection> sub_section_;
     ScopedPointer<VolumeSection> volume_section_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesisInterface)

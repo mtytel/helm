@@ -99,12 +99,10 @@ void FullInterface::paintBackground(Graphics& g) {
 }
 
 void FullInterface::resized() {
-  static const int arp_width = 308;
-
-  arp_section_->setBounds(getWidth() - arp_width - 16.0f, 8.0f, arp_width, TOP_HEIGHT);
   synthesis_interface_->setBounds(8, TOP_HEIGHT + 16,
                                   getWidth() - 12, getHeight() - TOP_HEIGHT - 12);
   oscilloscope_->setBounds(552, 8, 112, TOP_HEIGHT);
+  arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 308, TOP_HEIGHT);
   patch_browser_->setBounds(92, 8, 244, 2 * TOP_HEIGHT / 3);
   beats_per_minute_->setBounds(141, patch_browser_->getBottom(),
                                200, TOP_HEIGHT - patch_browser_->getHeight());
