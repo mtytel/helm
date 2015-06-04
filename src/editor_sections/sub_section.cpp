@@ -16,7 +16,9 @@
 
 #include "sub_section.h"
 
-#define WAVE_VIEWER_RESOLUTION 128
+#define WAVE_VIEWER_RESOLUTION 80
+#define WAVE_SELECTOR_WIDTH 10
+#define WAVE_SECTION_WIDTH 100
 #define KNOB_WIDTH 40
 
 SubSection::SubSection(String name) : SynthSection(name) {
@@ -47,7 +49,11 @@ void SubSection::paintBackground(Graphics& g) {
 }
 
 void SubSection::resized() {
-  volume_->setBounds((getWidth() - KNOB_WIDTH) / 2, (20 + getHeight() - KNOB_WIDTH) / 2,
+  wave_selector_->setBounds(0, 20, WAVE_SECTION_WIDTH, WAVE_SELECTOR_WIDTH);
+  wave_viewer_->setBounds(0, wave_selector_->getBottom(),
+                          WAVE_SECTION_WIDTH, getHeight() - wave_selector_->getBottom());
+  volume_->setBounds((getWidth() - KNOB_WIDTH + WAVE_SECTION_WIDTH) / 2,
+                     (20 + getHeight() - KNOB_WIDTH) / 2,
                      KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }
