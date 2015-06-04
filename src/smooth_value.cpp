@@ -23,7 +23,7 @@
 namespace mopo {
 
   SmoothValue::SmoothValue(mopo_float value) :
-      Value(value), target_value_(value) { }
+      Value(value), target_value_(value), decay_(1.0) { }
 
   void SmoothValue::setSampleRate(int sample_rate) {
     sample_rate_ = sample_rate;
