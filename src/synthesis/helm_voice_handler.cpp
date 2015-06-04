@@ -16,6 +16,7 @@
 
 #include "helm_voice_handler.h"
 
+#include "fixed_point_oscillator.h"
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
 #include "helm_oscillators.h"
@@ -219,6 +220,42 @@ namespace mopo {
     oscillators->plug(clamp_mix, HelmOscillators::kMix);
     addProcessor(clamp_mix);
 
+    // Sub Oscillator.
+    Add* sub_midi = new Add();
+    Value* sub_transpose = new Value(-2 * NOTES_PER_OCTAVE);
+    sub_midi->plug(bent_midi, 0);
+    sub_midi->plug(sub_transpose, 1);
+
+    MidiScale* sub_frequency = new MidiScale();
+    sub_frequency->plug(sub_midi);
+    FrequencyToPhase* sub_phase_inc = new FrequencyToPhase();
+    sub_phase_inc->plug(sub_frequency);
+
+    Processor* sub_waveform = createPolyModControl("sub_waveform", true);
+    FixedPointOscillator* sub_oscillator = new FixedPointOscillator();
+    sub_oscillator->plug(sub_phase_inc, FixedPointOscillator::kPhaseInc);
+    sub_oscillator->plug(sub_waveform, FixedPointOscillator::kWaveform);
+    sub_oscillator->plug(reset, FixedPointOscillator::kReset);
+
+    Processor* sub_volume = createPolyModControl("sub_volume", false, true);
+    Multiply* scaled_sub_oscillator = new Multiply();
+    scaled_sub_oscillator->plug(sub_oscillator, 0);
+    scaled_sub_oscillator->plug(sub_volume, 1);
+
+    addProcessor(sub_midi);
+    addProcessor(sub_frequency);
+    addProcessor(sub_phase_inc);
+    addProcessor(sub_oscillator);
+    addProcessor(scaled_sub_oscillator);
+
+    Add *oscillator_sum = new Add();
+    oscillator_sum->plug(oscillators, 0);
+    oscillator_sum->plug(scaled_sub_oscillator, 1);
+
+    addProcessor(oscillator_sum);
+
+    // Noise Oscillator.
+
     // Oscillator feedback.
     Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", false, true);
     Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", false);
@@ -252,7 +289,7 @@ namespace mopo {
     osc_feedback_amount_clamped->plug(osc_feedback_amount);
 
     osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
-    osc_feedback_->plug(oscillators, SimpleDelay::kAudio);
+    osc_feedback_->plug(oscillator_sum, SimpleDelay::kAudio);
     osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
     osc_feedback_->plug(osc_feedback_amount_clamped, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);

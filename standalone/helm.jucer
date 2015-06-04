@@ -304,6 +304,10 @@
         <FILE id="hxYpJD" name="main.cpp" compile="1" resource="0" file="../src/standalone/main.cpp"/>
       </GROUP>
       <GROUP id="{8CD89F15-3EE7-F179-F84F-049F31596941}" name="synthesis">
+        <FILE id="l8IUiB" name="fixed_point_oscillator.cpp" compile="1" resource="0"
+              file="../src/synthesis/fixed_point_oscillator.cpp"/>
+        <FILE id="WFvP0P" name="fixed_point_oscillator.h" compile="0" resource="0"
+              file="../src/synthesis/fixed_point_oscillator.h"/>
         <FILE id="xl6C3z" name="fixed_point_wave.cpp" compile="1" resource="0"
               file="../src/synthesis/fixed_point_wave.cpp"/>
         <FILE id="BXZTzs" name="fixed_point_wave.h" compile="0" resource="0"

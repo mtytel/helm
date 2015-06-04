@@ -127,14 +127,15 @@ OBJECTS := \
   $(OBJDIR)/text_look_and_feel_6c688b3d.o \
   $(OBJDIR)/helm_editor_39961892.o \
   $(OBJDIR)/helm_plugin_7f491358.o \
+  $(OBJDIR)/fixed_point_oscillator_88189c15.o \
   $(OBJDIR)/fixed_point_wave_cbeb31ee.o \
-  $(OBJDIR)/resonance_cancel_fe80786.o \
-  $(OBJDIR)/switch_9aef122f.o \
   $(OBJDIR)/helm_engine_d1a97912.o \
   $(OBJDIR)/helm_lfo_31e8732f.o \
   $(OBJDIR)/helm_module_47f7003c.o \
   $(OBJDIR)/helm_oscillators_63a998cd.o \
   $(OBJDIR)/helm_voice_handler_4ed827f7.o \
+  $(OBJDIR)/resonance_cancel_fe80786.o \
+  $(OBJDIR)/switch_9aef122f.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
   $(OBJDIR)/juce_audio_basics_5a4fbb1c.o \
   $(OBJDIR)/juce_audio_devices_8af8b8da.o \
@@ -560,19 +561,14 @@ $(OBJDIR)/helm_plugin_7f491358.o: ../../src/plugin/helm_plugin.cpp
 	@echo "Compiling helm_plugin.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/fixed_point_oscillator_88189c15.o: ../../src/synthesis/fixed_point_oscillator.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling fixed_point_oscillator.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/fixed_point_wave_cbeb31ee.o: ../../src/synthesis/fixed_point_wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fixed_point_wave.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/resonance_cancel_fe80786.o: ../../src/synthesis/resonance_cancel.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling resonance_cancel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling switch.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_engine_d1a97912.o: ../../src/synthesis/helm_engine.cpp
@@ -598,6 +594,16 @@ $(OBJDIR)/helm_oscillators_63a998cd.o: ../../src/synthesis/helm_oscillators.cpp
 $(OBJDIR)/helm_voice_handler_4ed827f7.o: ../../src/synthesis/helm_voice_handler.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_voice_handler.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/resonance_cancel_fe80786.o: ../../src/synthesis/resonance_cancel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling resonance_cancel.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/switch_9aef122f.o: ../../src/synthesis/switch.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling switch.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp

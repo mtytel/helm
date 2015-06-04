@@ -208,6 +208,7 @@
     <ClCompile Include="..\..\..\src\standalone\helm_computer_keyboard.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\helm_standalone_editor.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\main.cpp"/>
+    <ClCompile Include="..\..\..\src\synthesis\fixed_point_oscillator.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\helm_engine.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\helm_lfo.cpp"/>
@@ -1429,6 +1430,7 @@
     <ClInclude Include="..\..\..\src\look_and_feel\text_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\standalone\helm_computer_keyboard.h"/>
     <ClInclude Include="..\..\..\src\standalone\helm_standalone_editor.h"/>
+    <ClInclude Include="..\..\..\src\synthesis\fixed_point_oscillator.h"/>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h"/>
     <ClInclude Include="..\..\..\src\synthesis\helm_engine.h"/>
     <ClInclude Include="..\..\..\src\synthesis\helm_lfo.h"/>

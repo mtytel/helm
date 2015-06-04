@@ -577,6 +577,9 @@
     <ClCompile Include="..\..\..\src\standalone\main.cpp">
       <Filter>Helm\src\standalone</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\fixed_point_oscillator.cpp">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
@@ -2084,6 +2087,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\standalone\helm_standalone_editor.h">
       <Filter>Helm\src\standalone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\fixed_point_oscillator.h">
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h">
       <Filter>Helm\src\synthesis</Filter>

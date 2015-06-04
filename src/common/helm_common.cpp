@@ -133,7 +133,7 @@ namespace mopo {
     { "sub_transpose", -12.0, 12.0, 25, 0.0, 1.0, ValueDetails::kLinear, "semitones" },
     { "sub_tune", -1.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "cents" },
     { "sub_volume", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
-    { "sub_waveform", 0.0, 10.0, 11, 0.0, 1.0, ValueDetails::kLinear, "" },
+    { "sub_waveform", 0.0, 10.0, 11, 2.0, 1.0, ValueDetails::kLinear, "" },
     { "unison_1_harmonize", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "unison_2_harmonize", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "velocity_track", -1.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "%" },

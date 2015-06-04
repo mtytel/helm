@@ -128,6 +128,7 @@ OBJECTS := \
   $(OBJDIR)/helm_computer_keyboard_15a10faf.o \
   $(OBJDIR)/helm_standalone_editor_c8ee03cb.o \
   $(OBJDIR)/main_b7ad981e.o \
+  $(OBJDIR)/fixed_point_oscillator_66a86444.o \
   $(OBJDIR)/fixed_point_wave_2344895d.o \
   $(OBJDIR)/helm_engine_2e44f843.o \
   $(OBJDIR)/helm_lfo_c32ba99e.o \
@@ -562,6 +563,11 @@ $(OBJDIR)/helm_standalone_editor_c8ee03cb.o: ../../../src/standalone/helm_standa
 $(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling main.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/fixed_point_oscillator_66a86444.o: ../../../src/synthesis/fixed_point_oscillator.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling fixed_point_oscillator.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_wave.cpp
