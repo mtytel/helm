@@ -25,8 +25,6 @@ namespace mopo {
 
   class FixedPointOscillator : public Processor {
     public:
-      static const int MAX_UNISON = 15;
-
       enum Inputs {
         kWaveform,
         kPhaseInc,

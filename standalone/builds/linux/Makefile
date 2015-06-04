@@ -135,6 +135,7 @@ OBJECTS := \
   $(OBJDIR)/helm_module_a4927f6d.o \
   $(OBJDIR)/helm_oscillators_bb02f03c.o \
   $(OBJDIR)/helm_voice_handler_35395fa6.o \
+  $(OBJDIR)/noise_oscillator_93de254f.o \
   $(OBJDIR)/resonance_cancel_67415ef5.o \
   $(OBJDIR)/switch_871b185e.o \
   $(OBJDIR)/BinaryData_ce4232d4.o \
@@ -598,6 +599,11 @@ $(OBJDIR)/helm_oscillators_bb02f03c.o: ../../../src/synthesis/helm_oscillators.c
 $(OBJDIR)/helm_voice_handler_35395fa6.o: ../../../src/synthesis/helm_voice_handler.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_voice_handler.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/noise_oscillator_93de254f.o: ../../../src/synthesis/noise_oscillator.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling noise_oscillator.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp

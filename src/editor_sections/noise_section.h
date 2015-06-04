@@ -20,6 +20,7 @@
 
 #include "JuceHeader.h"
 #include "synth_section.h"
+#include "synth_slider.h"
 
 class NoiseSection : public SynthSection {
   public:

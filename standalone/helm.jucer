@@ -326,6 +326,10 @@
               file="../src/synthesis/helm_voice_handler.cpp"/>
         <FILE id="J7xfc4" name="helm_voice_handler.h" compile="0" resource="0"
               file="../src/synthesis/helm_voice_handler.h"/>
+        <FILE id="oCNwG3" name="noise_oscillator.cpp" compile="1" resource="0"
+              file="../src/synthesis/noise_oscillator.cpp"/>
+        <FILE id="Q7j5lo" name="noise_oscillator.h" compile="0" resource="0"
+              file="../src/synthesis/noise_oscillator.h"/>
         <FILE id="rWOeWW" name="resonance_cancel.cpp" compile="1" resource="0"
               file="../src/synthesis/resonance_cancel.cpp"/>
         <FILE id="yuS1i4" name="resonance_cancel.h" compile="0" resource="0"

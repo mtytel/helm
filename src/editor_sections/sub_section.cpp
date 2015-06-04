@@ -16,9 +16,6 @@
 
 #include "sub_section.h"
 
-#include "modulation_look_and_feel.h"
-#include "text_look_and_feel.h"
-
 #define WAVE_VIEWER_RESOLUTION 128
 #define KNOB_WIDTH 40
 

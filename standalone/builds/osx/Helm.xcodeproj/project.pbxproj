@@ -106,6 +106,7 @@
 		C3296137F392E38ED37D2B3F = {isa = PBXBuildFile; fileRef = AB36EEF473B6A20D14E18906; };
 		4E5E26BD5F91395B7E338B7A = {isa = PBXBuildFile; fileRef = A550A45862DA631F6846333D; };
 		4B702B7E2454984F16036DEB = {isa = PBXBuildFile; fileRef = 18D2EBFF6DD240BBF1046BBC; };
+		35F3293D3579C03733C3FBFD = {isa = PBXBuildFile; fileRef = 9F350F12FF325DC8D214295A; };
 		6F79A4B1712B7E4F214C2679 = {isa = PBXBuildFile; fileRef = 85EBF75E18A2F9F3D8318A0E; };
 		554F5852423B67A618685526 = {isa = PBXBuildFile; fileRef = D65C59F62D83DB0E9A55086E; };
 		A8E6EEB9327FCABBCFA8EDA7 = {isa = PBXBuildFile; fileRef = 8989728CE374F2C301A4763F; };
@@ -522,6 +523,7 @@
 		5D69EF32F15C5F1B2A08EF76 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_AudioProcessorPlayer.cpp"; path = "../../../JUCE/modules/juce_audio_utils/players/juce_AudioProcessorPlayer.cpp"; sourceTree = "SOURCE_ROOT"; };
 		5DA28CC25F4F5C576A979706 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_MemoryMappedAudioFormatReader.h"; path = "../../../JUCE/modules/juce_audio_formats/format/juce_MemoryMappedAudioFormatReader.h"; sourceTree = "SOURCE_ROOT"; };
 		5DA2931A32CD25A769D5D0A2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_AudioProcessorListener.h"; path = "../../../JUCE/modules/juce_audio_processors/processors/juce_AudioProcessorListener.h"; sourceTree = "SOURCE_ROOT"; };
+		5DD68E1DE6FD3655AE99ACF8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "noise_oscillator.h"; path = "../../../src/synthesis/noise_oscillator.h"; sourceTree = "SOURCE_ROOT"; };
 		5DE3706367E3F615FAA72C80 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = value.cpp; path = ../../../mopo/src/value.cpp; sourceTree = "SOURCE_ROOT"; };
 		5DED91B9054867170E3E738E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_FlacAudioFormat.h"; path = "../../../JUCE/modules/juce_audio_formats/codecs/juce_FlacAudioFormat.h"; sourceTree = "SOURCE_ROOT"; };
 		5E20E37C027576335BC8348D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_Value.cpp"; path = "../../../JUCE/modules/juce_data_structures/values/juce_Value.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -798,6 +800,7 @@
 		9E22EBD1F88BC3D3AEED5D7B = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_XMLCodeTokeniser.h"; path = "../../../JUCE/modules/juce_gui_extra/code_editor/juce_XMLCodeTokeniser.h"; sourceTree = "SOURCE_ROOT"; };
 		9E9C52E4DE875F3ADD833924 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_module_info"; path = "../../../JUCE/modules/juce_gui_extra/juce_module_info"; sourceTree = "SOURCE_ROOT"; };
 		9EB76CA06CA5EBB5D3C6AA39 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_MemoryOutputStream.cpp"; path = "../../../JUCE/modules/juce_core/streams/juce_MemoryOutputStream.cpp"; sourceTree = "SOURCE_ROOT"; };
+		9F350F12FF325DC8D214295A = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "noise_oscillator.cpp"; path = "../../../src/synthesis/noise_oscillator.cpp"; sourceTree = "SOURCE_ROOT"; };
 		9F92EE1C487BBD7E668CD828 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_MidiMessageSequence.cpp"; path = "../../../JUCE/modules/juce_audio_basics/midi/juce_MidiMessageSequence.cpp"; sourceTree = "SOURCE_ROOT"; };
 		9F98265E6865D1B9FB605F50 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_CameraDevice.cpp"; path = "../../../JUCE/modules/juce_video/capture/juce_CameraDevice.cpp"; sourceTree = "SOURCE_ROOT"; };
 		9FD7A4865B47855C74BBE740 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_CoreAudioFormat.h"; path = "../../../JUCE/modules/juce_audio_formats/codecs/juce_CoreAudioFormat.h"; sourceTree = "SOURCE_ROOT"; };
@@ -1418,6 +1421,8 @@
 					6AC3C7C81769B722705516CD,
 					18D2EBFF6DD240BBF1046BBC,
 					7F0CC9361A4AFDD91C7DA3FB,
+					9F350F12FF325DC8D214295A,
+					5DD68E1DE6FD3655AE99ACF8,
 					85EBF75E18A2F9F3D8318A0E,
 					6699EB7A1104E7C4A259D215,
 					D65C59F62D83DB0E9A55086E,
@@ -2709,6 +2714,7 @@
 					C3296137F392E38ED37D2B3F,
 					4E5E26BD5F91395B7E338B7A,
 					4B702B7E2454984F16036DEB,
+					35F3293D3579C03733C3FBFD,
 					6F79A4B1712B7E4F214C2679,
 					554F5852423B67A618685526,
 					A8E6EEB9327FCABBCFA8EDA7,

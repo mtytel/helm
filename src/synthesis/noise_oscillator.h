@@ -19,36 +19,20 @@
 #define NOISE_OSCILLATOR_H
 
 #include "mopo.h"
-#include "fixed_point_wave.h"
 
 namespace mopo {
 
   class NoiseOscillator : public Processor {
     public:
-      static const int MAX_UNISON = 15;
-
-      enum Inputs {
-        kWaveform,
-        kPhaseInc,
-        kReset,
-        kNumInputs
-      };
-
       NoiseOscillator();
 
       virtual void process();
       virtual Processor* clone() const { return new NoiseOscillator(*this); }
 
     protected:
-      void tick(int i, int waveform) {
-        static const mopo_float SCALE_OUT = 0.5 / (NoiseWaveLookup::SCALE * INT_MAX);
-        int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[i];
-
-        phase_ += phase_inc;
-        output()->buffer[i] = SCALE_OUT * NoiseWave::wave(waveform, phase_, phase_inc);
+      void tick(int i) {
+        output()->buffer[i] = Wave::whitenoise();
       }
-
-      unsigned int phase_;
   };
 } // namespace mopo
 

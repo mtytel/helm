@@ -17,6 +17,7 @@
 #include "helm_voice_handler.h"
 
 #include "fixed_point_oscillator.h"
+#include "noise_oscillator.h"
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
 #include "helm_oscillators.h"
@@ -255,6 +256,21 @@ namespace mopo {
     addProcessor(oscillator_sum);
 
     // Noise Oscillator.
+    NoiseOscillator* noise_oscillator = new NoiseOscillator();
+
+    Processor* noise_volume = createPolyModControl("noise_volume", false);
+    Multiply* scaled_noise_oscillator = new Multiply();
+    scaled_noise_oscillator->plug(noise_oscillator, 0);
+    scaled_noise_oscillator->plug(noise_volume, 1);
+
+    addProcessor(noise_oscillator);
+    addProcessor(scaled_noise_oscillator);
+
+    Add *oscillator_noise_sum = new Add();
+    oscillator_noise_sum->plug(oscillator_sum, 0);
+    oscillator_noise_sum->plug(scaled_noise_oscillator, 1);
+
+    addProcessor(oscillator_noise_sum);
 
     // Oscillator feedback.
     Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", false, true);
@@ -289,7 +305,7 @@ namespace mopo {
     osc_feedback_amount_clamped->plug(osc_feedback_amount);
 
     osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
-    osc_feedback_->plug(oscillator_sum, SimpleDelay::kAudio);
+    osc_feedback_->plug(oscillator_noise_sum, SimpleDelay::kAudio);
     osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
     osc_feedback_->plug(osc_feedback_amount_clamped, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);

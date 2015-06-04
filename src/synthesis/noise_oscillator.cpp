@@ -14,28 +14,14 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "fixed_point_oscillator.h"
+#include "noise_oscillator.h"
 
 namespace mopo {
 
-  FixedPointOscillator::FixedPointOscillator() : Processor(kNumInputs, 1) {
-    phase_ = 0;
-  }
+  NoiseOscillator::NoiseOscillator() : Processor(0, 1) { }
 
-  void FixedPointOscillator::process() {
-    int waveform = static_cast<int>(input(kWaveform)->source->buffer[0] + 0.5);
-
-    waveform = CLAMP(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
-
-    int i = 0;
-    if (input(kReset)->source->triggered) {
-      int trigger_offset = input(kReset)->source->trigger_offset;
-      for (; i < trigger_offset; ++i)
-        tick(i, waveform);
-
-      phase_ = 0;
-    }
-    for (; i < buffer_size_; ++i)
-      tick(i, waveform);
+  void NoiseOscillator::process() {
+    for (int i = 0; i < buffer_size_; ++i)
+      tick(i);
   }
 } // namespace mopo
