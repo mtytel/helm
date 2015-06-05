@@ -319,8 +319,10 @@ public:
         bool acceptsMidi() const override;
         bool producesMidi() const override;
 
+#if ! JUCE_AUDIO_PROCESSOR_NO_GUI
         bool hasEditor() const override;
         AudioProcessorEditor* createEditor() override;
+#endif
 
         int getNumPrograms() override;
         int getCurrentProgram() override;
@@ -361,8 +363,10 @@ public:
     bool acceptsMidi() const override;
     bool producesMidi() const override;
 
+#if ! JUCE_AUDIO_PROCESSOR_NO_GUI
     bool hasEditor() const override                         { return false; }
     AudioProcessorEditor* createEditor() override           { return nullptr; }
+#endif
     int getNumPrograms() override                           { return 0; }
     int getCurrentProgram() override                        { return 0; }
     void setCurrentProgram (int) override                   { }

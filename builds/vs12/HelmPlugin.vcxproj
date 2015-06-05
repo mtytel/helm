@@ -253,6 +253,9 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilterOld.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -1456,6 +1459,7 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilterOld.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_Reverb.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\sources\juce_AudioSource.h"/>

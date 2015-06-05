@@ -367,7 +367,7 @@ inline bool juce_isfinite (NumericType) noexcept
 template <>
 inline bool juce_isfinite (float value) noexcept
 {
-   #if JUCE_WINDOWS
+   #if JUCE_MSVC
     return _finite (value) != 0;
    #else
     return std::isfinite (value);
@@ -377,7 +377,7 @@ inline bool juce_isfinite (float value) noexcept
 template <>
 inline bool juce_isfinite (double value) noexcept
 {
-   #if JUCE_WINDOWS
+   #if JUCE_MSVC
     return _finite (value) != 0;
    #else
     return std::isfinite (value);

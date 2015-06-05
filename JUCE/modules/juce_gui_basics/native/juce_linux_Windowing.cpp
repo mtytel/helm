@@ -2879,8 +2879,9 @@ private:
     {
         Atom netHints [2];
 
-        if ((styleFlags & windowIsTemporary) != 0
-             || ((styleFlags & windowHasDropShadow) == 0 && Desktop::canUseSemiTransparentWindows()))
+        if (styleFlags & windowIsTemporary)
+            netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_TOOLTIP");
+        else if ((styleFlags & windowHasDropShadow) == 0 && Desktop::canUseSemiTransparentWindows())
             netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_COMBO");
         else
             netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_NORMAL");
@@ -2930,7 +2931,7 @@ private:
         swa.border_pixel = 0;
         swa.background_pixmap = None;
         swa.colormap = colormap;
-        swa.override_redirect = (component.isAlwaysOnTop() && (styleFlags & windowIsTemporary) != 0) ? True : False;
+        swa.override_redirect = (styleFlags & windowIsTemporary) ? True : False;
         swa.event_mask = getAllEventsMask();
 
         windowH = XCreateWindow (display, parentToAddTo != 0 ? parentToAddTo : root,

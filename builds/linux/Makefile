@@ -18,10 +18,10 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/srcs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/editor_sections -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis -D "JucePlugin_Build_LV2=1"
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0
   CXXFLAGS += $(CFLAGS)
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -38,10 +38,10 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := -march=native
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/srcs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis
+  CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../JUCE/modules -I ../../mopo/src -I ../../src -I ../../src/common -I ../../src/editor_components -I ../../src/editor_sections -I ../../src/look_and_feel -I ../../src/standalone -I ../../src/synthesis -D "JucePlugin_Build_LV2=1"
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -Os
   CXXFLAGS += $(CFLAGS)
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -150,8 +150,7 @@ OBJECTS := \
   $(OBJDIR)/juce_opengl_c76a619e.o \
   $(OBJDIR)/juce_PluginUtilities_c6ec07e6.o \
   $(OBJDIR)/juce_video_a860d77a.o \
-  $(OBJDIR)/juce_VST_Wrapper_148728ef.o \
-  $(OBJDIR)/juce_VST3_Wrapper_18fae26d.o \
+  $(OBJDIR)/juce_LV2_Wrapper_18fae26d.o \
 
 .PHONY: clean
 
@@ -675,14 +674,9 @@ $(OBJDIR)/juce_video_a860d77a.o: ../../JUCE/modules/juce_video/juce_video.cpp
 	@echo "Compiling juce_video.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_VST_Wrapper_148728ef.o: ../../JUCE/modules/juce_audio_plugin_client/VST/juce_VST_Wrapper.cpp
+$(OBJDIR)/juce_LV2_Wrapper_18fae26d.o: ../../JUCE/modules/juce_audio_plugin_client/LV2/juce_LV2_Wrapper.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling juce_VST_Wrapper.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/juce_VST3_Wrapper_18fae26d.o: ../../JUCE/modules/juce_audio_plugin_client/VST3/juce_VST3_Wrapper.cpp
-	-@mkdir -p $(OBJDIR)
-	@echo "Compiling juce_VST3_Wrapper.cpp"
+	@echo "Compiling juce_LV2_Wrapper.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

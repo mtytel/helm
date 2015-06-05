@@ -234,7 +234,7 @@
  #define JucePlugin_ManufacturerWebsite    "tytel.org"
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
- #define JucePlugin_ManufacturerEmail      "littleioaudio@gmail.com"
+ #define JucePlugin_ManufacturerEmail      "matthewtytel@gmail.com"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
  #define JucePlugin_ManufacturerCode       'Manu'
@@ -332,5 +332,11 @@
 #ifndef  JucePlugin_AAXDisableMultiMono
  #define JucePlugin_AAXDisableMultiMono    0
 #endif
+
+#define JucePlugin_LV2URI               "http://tytel.org/helm"
+#define JucePlugin_LV2Category          "InstrumentPlugin"
+#define JucePlugin_WantsLV2Presets      1
+#define JucePlugin_WantsLV2State        1
+#define JucePlugin_WantsLV2TimePos      0
 
 #endif  // __JUCE_APPCONFIG_C9WUMW__
