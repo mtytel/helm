@@ -52,7 +52,7 @@ namespace mopo {
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
     num_steps = CLAMP(num_steps, 1, max_steps_);
 
-    offset_ += samples * input(kFrequency)->at(0) / sample_rate_;
+    offset_ = samples * input(kFrequency)->at(0) / sample_rate_;
     offset_ = modf(offset_, &integral);
     current_step_ = integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
