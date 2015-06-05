@@ -46,6 +46,7 @@ namespace mopo {
 
       virtual Processor* clone() const { return new HelmLfo(*this); }
       void process();
+      void correctToTime(mopo_float samples);
 
     protected:
       mopo_float offset_;

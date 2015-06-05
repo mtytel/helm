@@ -60,20 +60,19 @@ namespace mopo {
     Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
                                                        beats_per_second, false);
 
-
-    HelmLfo* lfo_1 = new HelmLfo();
-    lfo_1->plug(lfo_1_waveform, HelmLfo::kWaveform);
-    lfo_1->plug(lfo_1_frequency, HelmLfo::kFrequency);
+    lfo_1_ = new HelmLfo();
+    lfo_1_->plug(lfo_1_waveform, HelmLfo::kWaveform);
+    lfo_1_->plug(lfo_1_frequency, HelmLfo::kFrequency);
 
     Multiply* scaled_lfo_1 = new Multiply();
     scaled_lfo_1->setControlRate();
-    scaled_lfo_1->plug(lfo_1, 0);
+    scaled_lfo_1->plug(lfo_1_, 0);
     scaled_lfo_1->plug(lfo_1_free_amplitude, 1);
 
-    addProcessor(lfo_1);
+    addProcessor(lfo_1_);
     addProcessor(scaled_lfo_1);
     mod_sources_["mono_lfo_1"] = scaled_lfo_1->output();
-    mod_sources_["mono_lfo_1_phase"] = lfo_1->output(Oscillator::kPhase);
+    mod_sources_["mono_lfo_1_phase"] = lfo_1_->output(Oscillator::kPhase);
 
     // Monophonic LFO 2.
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", true);
@@ -82,19 +81,19 @@ namespace mopo {
     Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
                                                        beats_per_second, false);
 
-    HelmLfo* lfo_2 = new HelmLfo();
-    lfo_2->plug(lfo_2_waveform, HelmLfo::kWaveform);
-    lfo_2->plug(lfo_2_frequency, HelmLfo::kFrequency);
+    lfo_2_ = new HelmLfo();
+    lfo_2_->plug(lfo_2_waveform, HelmLfo::kWaveform);
+    lfo_2_->plug(lfo_2_frequency, HelmLfo::kFrequency);
 
     Multiply* scaled_lfo_2 = new Multiply();
     scaled_lfo_2->setControlRate();
-    scaled_lfo_2->plug(lfo_2, 0);
+    scaled_lfo_2->plug(lfo_2_, 0);
     scaled_lfo_2->plug(lfo_2_free_amplitude, 1);
 
-    addProcessor(lfo_2);
+    addProcessor(lfo_2_);
     addProcessor(scaled_lfo_2);
     mod_sources_["mono_lfo_2"] = scaled_lfo_2->output();
-    mod_sources_["mono_lfo_2_phase"] = lfo_2->output(Oscillator::kPhase);
+    mod_sources_["mono_lfo_2_phase"] = lfo_2_->output(Oscillator::kPhase);
 
     // Step Sequencer.
     Processor* num_steps = createMonoModControl("num_steps", true);
@@ -103,9 +102,9 @@ namespace mopo {
     Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency,
                                                       beats_per_second, false);
 
-    StepGenerator* step_sequencer = new StepGenerator(MAX_STEPS);
-    step_sequencer->plug(num_steps, StepGenerator::kNumSteps);
-    step_sequencer->plug(step_frequency, StepGenerator::kFrequency);
+    step_sequencer_ = new StepGenerator(MAX_STEPS);
+    step_sequencer_->plug(num_steps, StepGenerator::kNumSteps);
+    step_sequencer_->plug(step_frequency, StepGenerator::kFrequency);
 
     for (int i = 0; i < MAX_STEPS; ++i) {
       std::stringstream stream;
@@ -114,18 +113,18 @@ namespace mopo {
       if (num.length() == 1)
         num = "0" + num;
       Processor* step = createBaseControl(std::string("step_seq_") + num);
-      step_sequencer->plug(step, StepGenerator::kSteps + i);
+      step_sequencer_->plug(step, StepGenerator::kSteps + i);
     }
 
     SmoothFilter* smoothed_step_sequencer = new SmoothFilter();
-    smoothed_step_sequencer->plug(step_sequencer, SmoothFilter::kTarget);
+    smoothed_step_sequencer->plug(step_sequencer_, SmoothFilter::kTarget);
     smoothed_step_sequencer->plug(step_smoothing, SmoothFilter::kHalfLife);
 
-    addProcessor(step_sequencer);
+    addProcessor(step_sequencer_);
     addProcessor(smoothed_step_sequencer);
 
     mod_sources_["step_sequencer"] = smoothed_step_sequencer->output();
-    mod_sources_["step_sequencer_step"] = step_sequencer->output(StepGenerator::kStep);
+    mod_sources_["step_sequencer_step"] = step_sequencer_->output(StepGenerator::kStep);
 
     // Arpeggiator.
     Processor* arp_free_frequency = createMonoModControl("arp_frequency", true, false);
@@ -352,6 +351,13 @@ namespace mopo {
 
   void HelmEngine::setBpm(mopo_float bpm) {
     controls_["beats_per_minute"]->set(bpm);
+  }
+
+  void HelmEngine::correctToTime(mopo_float samples) {
+    HelmModule::correctToTime(samples);
+    lfo_1_->correctToTime(samples);
+    lfo_2_->correctToTime(samples);
+    step_sequencer_->correctToTime(samples);
   }
 
   void HelmEngine::sustainOn() {

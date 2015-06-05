@@ -267,4 +267,8 @@ namespace mopo {
     return all_readouts;
   }
 
+  void HelmModule::correctToTime(mopo_float samples) {
+    for (HelmModule* sub_module : sub_modules_)
+      sub_module->correctToTime(samples);
+  }
 } // namespace mopo

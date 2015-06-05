@@ -132,7 +132,7 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
 
   int num_samples = buffer.getNumSamples();
   int num_channels = getNumOutputChannels();
-  juce::AudioPlayHead::CurrentPositionInfo position_info;
+  AudioPlayHead::CurrentPositionInfo position_info;
   getPlayHead()->getCurrentPosition(position_info);
   synth_.setBpm(position_info.bpm);
 
