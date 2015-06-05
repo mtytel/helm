@@ -18,7 +18,7 @@
 
 #define WAVE_VIEWER_RESOLUTION 80
 #define WAVE_SELECTOR_WIDTH 10
-#define WAVE_SECTION_WIDTH 100
+#define WAVE_SECTION_WIDTH 80
 #define KNOB_WIDTH 40
 
 SubSection::SubSection(String name) : SynthSection(name) {

@@ -115,7 +115,7 @@ namespace mopo {
     if (control_rate)
       return control_rate_total;
 
-    LinearSmoothBuffer* audio_rate = new LinearSmoothBuffer();
+    SampleAndHoldBuffer* audio_rate = new SampleAndHoldBuffer();
     audio_rate->plug(control_rate_total);
     poly_owner->addProcessor(audio_rate);
     return audio_rate;

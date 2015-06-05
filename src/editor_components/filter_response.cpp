@@ -24,6 +24,7 @@
 #define MAX_RESONANCE 16.0
 #define GRID_CELL_WIDTH 8
 #define DELTA_SLOPE_REDRAW_THRESHOLD 0.01
+#define X_REDRAW_THRESHOLD 30
 
 FilterResponse::FilterResponse(int resolution) {
   resolution_ = resolution;
@@ -129,7 +130,8 @@ void FilterResponse::resetResponsePath() {
     float new_x = getWidth() * t;
     float new_y = getHeight() * (1.0f - percent);
     float new_slope = (new_y - last_y) / (new_x - last_x);
-    if (fabs(last_slope - new_slope) > DELTA_SLOPE_REDRAW_THRESHOLD) {
+    if (fabs(last_slope - new_slope) > DELTA_SLOPE_REDRAW_THRESHOLD ||
+        new_x - last_x > X_REDRAW_THRESHOLD) {
       last_x = new_x;
       last_y = new_y;
       last_slope = new_slope;

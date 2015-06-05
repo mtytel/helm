@@ -223,7 +223,7 @@ namespace mopo {
 
     // Sub Oscillator.
     Add* sub_midi = new Add();
-    Value* sub_transpose = new Value(-2 * NOTES_PER_OCTAVE);
+    Value* sub_transpose = new Value(-NOTES_PER_OCTAVE);
     sub_midi->plug(bent_midi, 0);
     sub_midi->plug(sub_transpose, 1);
 
