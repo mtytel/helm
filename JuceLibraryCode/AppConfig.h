@@ -333,10 +333,4 @@
  #define JucePlugin_AAXDisableMultiMono    0
 #endif
 
-#define JucePlugin_LV2URI               "http://tytel.org/helm"
-#define JucePlugin_LV2Category          "InstrumentPlugin"
-#define JucePlugin_WantsLV2Presets      1
-#define JucePlugin_WantsLV2State        1
-#define JucePlugin_WantsLV2TimePos      0
-
 #endif  // __JUCE_APPCONFIG_C9WUMW__
