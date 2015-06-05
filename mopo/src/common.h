@@ -40,7 +40,7 @@ namespace mopo {
   const int DEFAULT_BUFFER_SIZE = 1024;
   const int DEFAULT_SAMPLE_RATE = 44100;
   const int MIDI_SIZE = 128;
-  const int PPQ = 15360; // Pulses per quarter note.
+  const int PPQ = 960; // Pulses per quarter note.
   const mopo_float VOICE_KILL_TIME = 0.02;
 
   // Common types of events across different Processors.

@@ -45,6 +45,7 @@ namespace mopo {
       virtual Processor* clone() const { return new StepGenerator(*this); }
 
       void process();
+      void correctToTime(mopo_float samples);
 
     protected:
       unsigned int max_steps_;
