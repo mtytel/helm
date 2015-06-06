@@ -1,4 +1,3 @@
-
 ifndef CONFIG
   CONFIG=Release
 endif
