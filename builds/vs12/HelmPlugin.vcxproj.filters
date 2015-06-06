@@ -586,13 +586,10 @@
     <ClCompile Include="..\..\src\plugin\helm_plugin.cpp">
       <Filter>HelmPlugin\src\plugin</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\fixed_point_oscillator.cpp">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\synthesis\fixed_point_wave.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\synthesis\resonance_cancel.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\synthesis\switch.cpp">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_engine.cpp">
@@ -608,6 +605,15 @@
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_voice_handler.cpp">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\noise_oscillator.cpp">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\resonance_cancel.cpp">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\switch.cpp">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -2121,13 +2127,10 @@
     <ClInclude Include="..\..\src\plugin\value_bridge.h">
       <Filter>HelmPlugin\src\plugin</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\fixed_point_oscillator.h">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\synthesis\resonance_cancel.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\synthesis\switch.h">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_engine.h">
@@ -2143,6 +2146,15 @@
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_voice_handler.h">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\noise_oscillator.h">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\resonance_cancel.h">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\switch.h">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">

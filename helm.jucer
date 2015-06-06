@@ -307,16 +307,14 @@
         <FILE id="yYGbwS" name="value_bridge.h" compile="0" resource="0" file="src/plugin/value_bridge.h"/>
       </GROUP>
       <GROUP id="{A96D5AAE-0076-8457-E00A-AD803B7FD9A7}" name="synthesis">
+        <FILE id="wrPSky" name="fixed_point_oscillator.cpp" compile="1" resource="0"
+              file="src/synthesis/fixed_point_oscillator.cpp"/>
+        <FILE id="bEoVFi" name="fixed_point_oscillator.h" compile="0" resource="0"
+              file="src/synthesis/fixed_point_oscillator.h"/>
         <FILE id="egF8Vt" name="fixed_point_wave.cpp" compile="1" resource="0"
               file="src/synthesis/fixed_point_wave.cpp"/>
         <FILE id="kyVcS6" name="fixed_point_wave.h" compile="0" resource="0"
               file="src/synthesis/fixed_point_wave.h"/>
-        <FILE id="VHEoGq" name="resonance_cancel.cpp" compile="1" resource="0"
-              file="src/synthesis/resonance_cancel.cpp"/>
-        <FILE id="cgVNbe" name="resonance_cancel.h" compile="0" resource="0"
-              file="src/synthesis/resonance_cancel.h"/>
-        <FILE id="kB2giJ" name="switch.cpp" compile="1" resource="0" file="src/synthesis/switch.cpp"/>
-        <FILE id="JoFJi2" name="switch.h" compile="0" resource="0" file="src/synthesis/switch.h"/>
         <FILE id="OFc1Ri" name="helm_engine.cpp" compile="1" resource="0" file="src/synthesis/helm_engine.cpp"/>
         <FILE id="tnzCLm" name="helm_engine.h" compile="0" resource="0" file="src/synthesis/helm_engine.h"/>
         <FILE id="HLpMIM" name="helm_lfo.cpp" compile="1" resource="0" file="src/synthesis/helm_lfo.cpp"/>
@@ -331,6 +329,16 @@
               file="src/synthesis/helm_voice_handler.cpp"/>
         <FILE id="RQDmw6" name="helm_voice_handler.h" compile="0" resource="0"
               file="src/synthesis/helm_voice_handler.h"/>
+        <FILE id="FPX4kz" name="noise_oscillator.cpp" compile="1" resource="0"
+              file="src/synthesis/noise_oscillator.cpp"/>
+        <FILE id="ZraUKZ" name="noise_oscillator.h" compile="0" resource="0"
+              file="src/synthesis/noise_oscillator.h"/>
+        <FILE id="VHEoGq" name="resonance_cancel.cpp" compile="1" resource="0"
+              file="src/synthesis/resonance_cancel.cpp"/>
+        <FILE id="cgVNbe" name="resonance_cancel.h" compile="0" resource="0"
+              file="src/synthesis/resonance_cancel.h"/>
+        <FILE id="kB2giJ" name="switch.cpp" compile="1" resource="0" file="src/synthesis/switch.cpp"/>
+        <FILE id="JoFJi2" name="switch.h" compile="0" resource="0" file="src/synthesis/switch.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

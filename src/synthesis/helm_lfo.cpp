@@ -42,4 +42,11 @@ namespace mopo {
     output(kOscPhase)->buffer[0] = phased_offset;
     output(kValue)->buffer[0] = Wave::wave(waveform, phased_offset);
   }
+
+  void HelmLfo::correctToTime(mopo_float samples) {
+    mopo_float frequency = input(kFrequency)->at(0);
+    offset_ = samples * frequency / sample_rate_;
+    double integral;
+    offset_ = modf(offset_, &integral);
+  }
 } // namespace mopo

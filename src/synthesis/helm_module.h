@@ -43,6 +43,7 @@ namespace mopo {
       output_map getModulationSources();
       output_map getMonoModulations();
       output_map getPolyModulations();
+      virtual void correctToTime(mopo_float samples);
 
     protected:
       // Creates a basic linear non-scaled control.

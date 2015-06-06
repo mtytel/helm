@@ -25,6 +25,7 @@ namespace mopo {
       offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
+    static double integral;
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
     num_steps = CLAMP(num_steps, 1, max_steps_);
 
@@ -34,13 +35,8 @@ namespace mopo {
       i = input(kReset)->source->trigger_offset;
     }
 
-    mopo_float total = 0.0;
-    for (; i < buffer_size_; ++i)
-      total += input(kFrequency)->at(i);
-
-    total /= sample_rate_;
-    mopo_float integral;
-    offset_ = modf(offset_ + total, &integral);
+    offset_ += buffer_size_ * input(kFrequency)->at(0) / sample_rate_;
+    offset_ = modf(offset_, &integral);
     current_step_ += integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
 
@@ -48,5 +44,17 @@ namespace mopo {
       output(kValue)->buffer[i] = input(kSteps + current_step_)->at(i);
 
     output(kStep)->buffer[0] = current_step_;
+  }
+
+  void StepGenerator::correctToTime(mopo_float samples) {
+    static double integral;
+
+    unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
+    num_steps = CLAMP(num_steps, 1, max_steps_);
+
+    offset_ = samples * input(kFrequency)->at(0) / sample_rate_;
+    offset_ = modf(offset_, &integral);
+    current_step_ = integral;
+    current_step_ = (current_step_ + num_steps) % num_steps;
   }
 } // namespace mopo

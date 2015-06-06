@@ -16,15 +16,15 @@
 
 #include "noise_section.h"
 
-#include "modulation_look_and_feel.h"
-#include "text_look_and_feel.h"
-
-#define WAVE_VIEWER_RESOLUTION 128
+#define KNOB_WIDTH 40
 
 NoiseSection::NoiseSection(String name) : SynthSection(name) {
+  addSlider(volume_ = new SynthSlider("noise_volume"));
+  volume_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 }
 
 NoiseSection::~NoiseSection() {
+  volume_ = nullptr;
 }
 
 void NoiseSection::paintBackground(Graphics& g) {
@@ -35,5 +35,7 @@ void NoiseSection::paintBackground(Graphics& g) {
 }
 
 void NoiseSection::resized() {
+  volume_->setBounds((getWidth() - KNOB_WIDTH) / 2, (20 + getHeight() - KNOB_WIDTH) / 2,
+                     KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }

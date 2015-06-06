@@ -16,10 +16,10 @@
 
 #include "sub_section.h"
 
-#include "modulation_look_and_feel.h"
-#include "text_look_and_feel.h"
-
-#define WAVE_VIEWER_RESOLUTION 128
+#define WAVE_VIEWER_RESOLUTION 80
+#define WAVE_SELECTOR_WIDTH 10
+#define WAVE_SECTION_WIDTH 80
+#define KNOB_WIDTH 40
 
 SubSection::SubSection(String name) : SynthSection(name) {
   addSlider(wave_selector_ = new WaveSelector("sub_waveform"));
@@ -28,9 +28,13 @@ SubSection::SubSection(String name) : SynthSection(name) {
 
   addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
   wave_viewer_->setWaveSlider(wave_selector_);
+
+  addSlider(volume_ = new SynthSlider("sub_volume"));
+  volume_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 }
 
 SubSection::~SubSection() {
+  volume_ = nullptr;
   wave_viewer_ = nullptr;
   wave_selector_ = nullptr;
 }
@@ -45,5 +49,11 @@ void SubSection::paintBackground(Graphics& g) {
 }
 
 void SubSection::resized() {
+  wave_selector_->setBounds(0, 20, WAVE_SECTION_WIDTH, WAVE_SELECTOR_WIDTH);
+  wave_viewer_->setBounds(0, wave_selector_->getBottom(),
+                          WAVE_SECTION_WIDTH, getHeight() - wave_selector_->getBottom());
+  volume_->setBounds((getWidth() - KNOB_WIDTH + WAVE_SECTION_WIDTH) / 2,
+                     (20 + getHeight() - KNOB_WIDTH) / 2,
+                     KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }

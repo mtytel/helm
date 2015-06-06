@@ -65,6 +65,7 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *originatin
     if (!keys_pressed_.count('z')) {
       keys_pressed_.insert('z');
       changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
+      consumed = true;
     }
   }
   else
@@ -74,10 +75,21 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *originatin
     if (!keys_pressed_.count('x')) {
       keys_pressed_.insert('x');
       changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
+      consumed = true;
     }
   }
   else
     keys_pressed_.erase('x');
+
+  if (KeyPress::isKeyCurrentlyDown(KeyPress::spaceKey)) {
+    if (!keys_pressed_.count(' ')) {
+      keys_pressed_.insert(' ');
+      synth_->correctToTime(0.0);
+      consumed = true;
+    }
+  }
+  else
+    keys_pressed_.erase(' ');
 
   return consumed;
 }

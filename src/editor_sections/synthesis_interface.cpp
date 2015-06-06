@@ -111,9 +111,11 @@ void SynthesisInterface::resized() {
 
   oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 200.0f);
   sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + CELL_PADDING,
-                          (COLUMN_WIDTH_1 - CELL_PADDING) / 2, 72);
+                          200, 72);
   noise_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
-                            sub_section_->getWidth(), sub_section_->getHeight());
+                            oscillator_section_->getWidth() -
+                            CELL_PADDING - sub_section_->getWidth(),
+                            sub_section_->getHeight());
   amplitude_envelope_section_->setBounds(column_1_x, 292.0f, COLUMN_WIDTH_1, 120.0f);
 
   feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 92.0f);

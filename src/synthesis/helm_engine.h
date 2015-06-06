@@ -25,6 +25,7 @@
 namespace mopo {
   class Arpeggiator;
   class HelmVoiceHandler;
+  class HelmLfo;
   class Value;
 
   // The overall helm engine. All audio processing is contained in here.
@@ -53,6 +54,7 @@ namespace mopo {
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
       void setBpm(mopo_float bpm);
+      void correctToTime(mopo_float samples) override;
       void setAftertouch(mopo_float note, mopo_float value, int sample = 0);
 
       // Sustain pedal events.
@@ -64,6 +66,10 @@ namespace mopo {
       Arpeggiator* arpeggiator_;
       Value* arp_on_;
       bool was_playing_arp_;
+
+      HelmLfo* lfo_1_;
+      HelmLfo* lfo_2_;
+      StepGenerator* step_sequencer_;
 
       std::set<ModulationConnection*> mod_connections_;
   };
