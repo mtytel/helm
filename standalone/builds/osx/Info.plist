@@ -16,6 +16,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.0</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.music</string>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
