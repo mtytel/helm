@@ -81,7 +81,11 @@ void FullInterface::paintBackground(Graphics& g) {
   g.setOrigin(18, 8);
 
   logo_shadow.drawForImage(g, helm_small);
-  g.drawImage(helm, 0, 0, 64, 64, 0, 0, helm.getWidth(), helm.getHeight());
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  if (display.scale > 1.5)
+    g.drawImage(helm, 0, 0, 64, 64, 0, 0, helm.getWidth(), helm.getHeight());
+  else
+    g.drawImage(helm_small, 0, 0, 64, 64, 0, 0, helm_small.getWidth(), helm_small.getHeight());
   g.restoreState();
   
   g.setColour(Colour(0xff303030));
