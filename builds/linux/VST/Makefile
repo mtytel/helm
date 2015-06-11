@@ -21,7 +21,7 @@ ifeq ($(CONFIG),Debug)
   CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D JucePlugin_LV2URI="http://tytel.org/helm" -D JucePlugin_LV2Category="InstrumentPlugin" -D "JucePlugin_WantsLV2Presets=1" -D "JucePlugin_WantsLV2State=0" -D "JucePlugin_WantsLV2TimePos=1" -D "JUCER_LINUX_MAKE_1D79FBD2=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/srcs/vstsdk2.4 -I ../../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0
   CXXFLAGS += $(CFLAGS)
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -41,7 +41,7 @@ ifeq ($(CONFIG),Release)
   CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D JucePlugin_LV2URI="http://tytel.org/helm" -D JucePlugin_LV2Category="InstrumentPlugin" -D "JucePlugin_WantsLV2Presets=1" -D "JucePlugin_WantsLV2State=0" -D "JucePlugin_WantsLV2TimePos=1" -D "JUCER_LINUX_MAKE_1D79FBD2=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/srcs/vstsdk2.4 -I ../../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -Os
   CXXFLAGS += $(CFLAGS)
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt 
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)

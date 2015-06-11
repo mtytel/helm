@@ -2740,7 +2740,7 @@
 					"JUCE_APP_VERSION_HEX=0x10000", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"~/srcs/VST3 SDK\"", "~/srcs/vstsdk2.4", "../../JuceLibraryCode", "../../JUCE/modules", "$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/Utility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase", "~/srcs/AAX", "~/srcs/AAX/Interfaces", "~/srcs/AAX/Interfaces/ACF", "../../src", "../../src/editor_components", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("\"~/srcs/VST3 SDK\"", "~/srcs/vstsdk2.4", "../../JuceLibraryCode", "../../JUCE/modules", "$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/Utility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase", "~/srcs/AAX", "~/srcs/AAX/Interfaces", "~/srcs/AAX/Interfaces/ACF", "../../src", "../../src/editor_components", "../../src/editor_sections", "$(inherited)");
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_SEARCH_PATHS = ("$(inherited)", "\"$(HOME)/srcs/AAX/Libs/Debug\"");
@@ -2771,7 +2771,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = ("\"~/srcs/VST3 SDK\"", "~/srcs/vstsdk2.4", "../../JuceLibraryCode", "../../JUCE/modules", "$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/Utility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase", "~/srcs/AAX", "~/srcs/AAX/Interfaces", "~/srcs/AAX/Interfaces/ACF", "../../src", "../../src/editor_components", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("\"~/srcs/VST3 SDK\"", "~/srcs/vstsdk2.4", "../../JuceLibraryCode", "../../JUCE/modules", "$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/Utility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase", "~/srcs/AAX", "~/srcs/AAX/Interfaces", "~/srcs/AAX/Interfaces/ACF", "../../src", "../../src/editor_components", "../../src/editor_sections", "$(inherited)");
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_SEARCH_PATHS = ("$(inherited)", "\"$(HOME)/srcs/AAX/Libs/Release\"");
