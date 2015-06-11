@@ -2043,10 +2043,6 @@
   <ItemGroup>
     <ResourceCompile Include=".\resources.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\images\helm_icon_256_2x.ico" />
-    <Image Include="icon1.ico" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

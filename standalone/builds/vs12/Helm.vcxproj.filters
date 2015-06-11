@@ -3518,8 +3518,4 @@
       <Filter>Juce Library Code</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico" />
-    <Image Include="..\..\..\images\helm_icon_256_2x.ico" />
-  </ItemGroup>
 </Project>
