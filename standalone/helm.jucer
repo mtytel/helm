@@ -343,9 +343,11 @@
     <XCODE_MAC targetFolder="builds/osx">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="default"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"/>
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
+                       codeSigningIdentity=""/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="default"
-                       isDebug="0" optimisation="2" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"/>
+                       isDebug="0" optimisation="2" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
+                       codeSigningIdentity=""/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
@@ -367,9 +369,9 @@
     <VS2012 targetFolder="builds/vs12">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="0" optimisation="2" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>

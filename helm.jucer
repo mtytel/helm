@@ -10,7 +10,7 @@
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
-              companyWebsite="tytel.org" defines="">
+              companyWebsite="tytel.org">
   <MAINGROUP id="OwcEM5" name="HelmPlugin">
     <GROUP id="{09F0CF3F-0E86-D4FB-3FD6-7EDC481615E0}" name="images">
       <FILE id="Cz18x6" name="helm_debian_icon.xpm" compile="0" resource="1"
@@ -375,9 +375,9 @@
             aaxFolder="c:\srcs\AAX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
+                       isDebug="1" optimisation="1" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
+                       isDebug="0" optimisation="2" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="JUCE/modules"/>
@@ -397,12 +397,12 @@
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux/VST" vstFolder="~/srcs/vstsdk2.4"
-                vst3Folder="~/srcs/VST3 SDK" extraDefs="JucePlugin_LV2URI=&quot;http://tytel.org/helm&quot;&#10;JucePlugin_LV2Category=&quot;InstrumentPlugin&quot;&#10;JucePlugin_WantsLV2Presets=1&#10;JucePlugin_WantsLV2State=0&#10;JucePlugin_WantsLV2TimePos=1">
+                vst3Folder="~/srcs/VST3 SDK">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
-                       targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="JUCE/modules"/>
