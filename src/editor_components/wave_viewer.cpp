@@ -45,7 +45,7 @@ void WaveViewer::paint(juce::Graphics &g) {
     if (phase_ >= 0.0 && phase_ < 1.0) {
       float x = phaseToX(phase_);
       g.setColour(Colour(0x33ffffff));
-      g.fillRect(x, 0.0f, 1.0f, (float)getHeight());
+      g.fillRect(x - 0.5f, 0.0f, 1.0f, (float)getHeight());
 
       mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
       float value = amplitude * mopo::Wave::wave(type, phase_);
