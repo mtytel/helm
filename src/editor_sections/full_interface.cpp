@@ -41,6 +41,27 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
+
+  logo_button_ = new ImageButton("logo_button");
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  if (display.scale > 1.5) {
+    Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
+                                           BinaryData::helm_icon_128_2x_pngSize);
+    logo_button_->setImages(false, true, false,
+                            helm, 1.0, Colours::transparentBlack,
+                            helm, 1.0, Colour(0x11ffffff),
+                            helm, 1.0, Colour(0x11000000));
+  }
+  else {
+    Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
+                                                 BinaryData::helm_icon_32_2x_pngSize);
+  }
+  addAndMakeVisible(logo_button_);
+  logo_button_->addListener(this);
+
+  about_section_ = new AboutSection("about");
+  addAndMakeVisible(about_section_);
+
   setOpaque(true);
 }
 
@@ -61,8 +82,6 @@ void FullInterface::paintBackground(Graphics& g) {
                                                            BinaryData::RobotoRegular_ttfSize));
   static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                              BinaryData::RobotoLight_ttfSize));
-  static const Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
-                                                      BinaryData::helm_icon_128_2x_pngSize);
   static const Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                             BinaryData::helm_icon_32_2x_pngSize);
   g.setColour(Colour(0xff212121));
@@ -81,11 +100,6 @@ void FullInterface::paintBackground(Graphics& g) {
   g.setOrigin(18, 8);
 
   logo_shadow.drawForImage(g, helm_small);
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  if (display.scale > 1.5)
-    g.drawImage(helm, 0, 0, 64, 64, 0, 0, helm.getWidth(), helm.getHeight());
-  else
-    g.drawImage(helm_small, 0, 0, 64, 64, 0, 0, helm_small.getWidth(), helm_small.getHeight());
   g.restoreState();
   
   g.setColour(Colour(0xff303030));
@@ -112,6 +126,8 @@ void FullInterface::resized() {
                                200, TOP_HEIGHT - patch_browser_->getHeight());
   global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
+  about_section_->setBounds(getBounds());
+  logo_button_->setBounds(18, 8, 64, 64);
 
   SynthSection::resized();
 }
@@ -142,4 +158,11 @@ void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
 void FullInterface::setToolTipText(String parameter, String value) {
   if (global_tool_tip_)
     global_tool_tip_->setText(parameter, value);
+}
+
+void FullInterface::buttonClicked(Button* clicked_button) {
+  if (clicked_button == logo_button_)
+    about_section_->setVisible(true);
+  else
+    SynthSection::buttonClicked(clicked_button);
 }

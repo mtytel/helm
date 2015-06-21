@@ -20,6 +20,7 @@
 
 #include "JuceHeader.h"
 
+#include "about_section.h"
 #include "arp_section.h"
 #include "global_tool_tip.h"
 #include "modulation_manager.h"
@@ -44,6 +45,7 @@ class FullInterface : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized();
+    void buttonClicked(Button* clicked_button) override;
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;
@@ -52,6 +54,8 @@ class FullInterface : public SynthSection {
     TooltipWindow tooltip_;
     ScopedPointer<SynthSlider> arp_tempo_;
 
+    ScopedPointer<AboutSection> about_section_;
+    ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
     ScopedPointer<SynthSlider> arp_frequency_;
@@ -65,7 +69,7 @@ class FullInterface : public SynthSection {
     ScopedPointer<TempoSelector> arp_sync_;
     ScopedPointer<PatchBrowser> patch_browser_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FullInterface)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FullInterface)
 };
 
 #endif // FULL_INTERFACE_H
