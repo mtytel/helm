@@ -1906,6 +1906,10 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\fonts\DroidSansMono.ttf"/>
+    <None Include="..\..\..\fonts\Roboto-Light.ttf"/>
+    <None Include="..\..\..\fonts\Roboto-Regular.ttf"/>
+    <None Include="..\..\..\fonts\Roboto-Thin.ttf"/>
     <None Include="..\..\..\images\helm_debian_icon.xpm"/>
     <None Include="..\..\..\images\helm_icon_16_1x.png"/>
     <None Include="..\..\..\images\helm_icon_16_2x.png"/>
@@ -1917,10 +1921,14 @@
     <None Include="..\..\..\images\helm_icon_256_2x.png"/>
     <None Include="..\..\..\images\helm_icon_512_1x.png"/>
     <None Include="..\..\..\images\helm_icon_512_2x.png"/>
-    <None Include="..\..\..\fonts\DroidSansMono.ttf"/>
-    <None Include="..\..\..\fonts\Roboto-Light.ttf"/>
-    <None Include="..\..\..\fonts\Roboto-Regular.ttf"/>
-    <None Include="..\..\..\fonts\Roboto-Thin.ttf"/>
+    <None Include="..\..\..\images\modulation_selected_active_1x.png"/>
+    <None Include="..\..\..\images\modulation_selected_active_2x.png"/>
+    <None Include="..\..\..\images\modulation_selected_inactive_1x.png"/>
+    <None Include="..\..\..\images\modulation_selected_inactive_2x.png"/>
+    <None Include="..\..\..\images\modulation_unselected_active_1x.png"/>
+    <None Include="..\..\..\images\modulation_unselected_active_2x.png"/>
+    <None Include="..\..\..\images\modulation_unselected_inactive_1x.png"/>
+    <None Include="..\..\..\images\modulation_unselected_inactive_2x.png"/>
     <None Include="..\..\..\JUCE\modules\juce_audio_basics\juce_module_info"/>
     <None Include="..\..\..\JUCE\modules\juce_audio_devices\juce_module_info"/>
     <None Include="..\..\..\JUCE\modules\juce_audio_formats\juce_module_info"/>

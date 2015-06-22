@@ -5,11 +5,11 @@
     <Filter Include="Helm">
       <UniqueIdentifier>{AD1DAC9A-C926-E7A0-653C-9D06162360AD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helm\images">
-      <UniqueIdentifier>{F420C6D4-39B7-A330-2CA2-EA4545D3FF94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helm\fonts">
       <UniqueIdentifier>{AB4F77F5-BC4D-11D1-EE2C-6B495D9D25B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helm\images">
+      <UniqueIdentifier>{F420C6D4-39B7-A330-2CA2-EA4545D3FF94}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helm\mopo">
       <UniqueIdentifier>{6A305D94-5E08-AF50-EE5B-6B881B1996CE}</UniqueIdentifier>
@@ -3506,6 +3506,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\fonts\DroidSansMono.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
+    <None Include="..\..\..\fonts\Roboto-Light.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
+    <None Include="..\..\..\fonts\Roboto-Regular.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
+    <None Include="..\..\..\fonts\Roboto-Thin.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
     <None Include="..\..\..\images\helm_debian_icon.xpm">
       <Filter>Helm\images</Filter>
     </None>
@@ -3539,17 +3551,29 @@
     <None Include="..\..\..\images\helm_icon_512_2x.png">
       <Filter>Helm\images</Filter>
     </None>
-    <None Include="..\..\..\fonts\DroidSansMono.ttf">
-      <Filter>Helm\fonts</Filter>
+    <None Include="..\..\..\images\modulation_selected_active_1x.png">
+      <Filter>Helm\images</Filter>
     </None>
-    <None Include="..\..\..\fonts\Roboto-Light.ttf">
-      <Filter>Helm\fonts</Filter>
+    <None Include="..\..\..\images\modulation_selected_active_2x.png">
+      <Filter>Helm\images</Filter>
     </None>
-    <None Include="..\..\..\fonts\Roboto-Regular.ttf">
-      <Filter>Helm\fonts</Filter>
+    <None Include="..\..\..\images\modulation_selected_inactive_1x.png">
+      <Filter>Helm\images</Filter>
     </None>
-    <None Include="..\..\..\fonts\Roboto-Thin.ttf">
-      <Filter>Helm\fonts</Filter>
+    <None Include="..\..\..\images\modulation_selected_inactive_2x.png">
+      <Filter>Helm\images</Filter>
+    </None>
+    <None Include="..\..\..\images\modulation_unselected_active_1x.png">
+      <Filter>Helm\images</Filter>
+    </None>
+    <None Include="..\..\..\images\modulation_unselected_active_2x.png">
+      <Filter>Helm\images</Filter>
+    </None>
+    <None Include="..\..\..\images\modulation_unselected_inactive_1x.png">
+      <Filter>Helm\images</Filter>
+    </None>
+    <None Include="..\..\..\images\modulation_unselected_inactive_2x.png">
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\..\JUCE\modules\juce_audio_basics\juce_module_info">
       <Filter>Juce Modules\juce_audio_basics</Filter>

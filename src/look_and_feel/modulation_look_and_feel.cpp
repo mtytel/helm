@@ -160,48 +160,56 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
 
 void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                              bool isMouseOverButton, bool isButtonDown) {
-  static const PathStrokeType stroke(3.0f, PathStrokeType::beveled, PathStrokeType::rounded);
-  static const DropShadow shadow(Colour(0xff000000), 1, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0x88000000), 2, Point<int>(0, 0));
 
-  Colour background = Colour(0xff303030);
-  Colour icon_source_color = Colour(0xff565656);
-  Colour icon_dest_color = Colour(0xff565656);
-  if (button.getToggleState())
-    icon_source_color = Colour(0xff4fc3f7);
+  static const Image on_active_2x =
+      ImageCache::getFromMemory(BinaryData::modulation_selected_active_2x_png,
+                                BinaryData::modulation_selected_active_2x_pngSize);
+  static const Image on_active_1x =
+      ImageCache::getFromMemory(BinaryData::modulation_selected_active_1x_png,
+                                BinaryData::modulation_selected_active_1x_pngSize);
+  static const Image off_active_2x =
+      ImageCache::getFromMemory(BinaryData::modulation_unselected_active_2x_png,
+                                BinaryData::modulation_unselected_active_2x_pngSize);
+  static const Image off_active_1x =
+      ImageCache::getFromMemory(BinaryData::modulation_unselected_active_1x_png,
+                                BinaryData::modulation_unselected_active_1x_pngSize);
+  static const Image on_inactive_2x =
+      ImageCache::getFromMemory(BinaryData::modulation_selected_inactive_2x_png,
+                                BinaryData::modulation_selected_inactive_2x_pngSize);
+  static const Image on_inactive_1x =
+      ImageCache::getFromMemory(BinaryData::modulation_selected_inactive_1x_png,
+                                BinaryData::modulation_selected_inactive_1x_pngSize);
+  static const Image off_inactive_2x =
+      ImageCache::getFromMemory(BinaryData::modulation_unselected_inactive_2x_png,
+                                BinaryData::modulation_unselected_inactive_2x_pngSize);
+  static const Image off_inactive_1x =
+      ImageCache::getFromMemory(BinaryData::modulation_unselected_inactive_1x_png,
+                                BinaryData::modulation_unselected_inactive_1x_pngSize);
 
+  shadow.drawForImage(g, on_active_1x);
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+
+  bool is_2x = display.scale > 1.5;
+  Image button_image;
   SynthGuiInterface* parent = button.findParentComponentOfClass<SynthGuiInterface>();
-  if (parent && parent->getSourceConnections(button.getName().toStdString()).size())
-    icon_dest_color = Colour(0xff00c853);
+  if (parent && parent->getSourceConnections(button.getName().toStdString()).size()) {
+    if (button.getToggleState())
+      button_image = is_2x ? on_active_2x : on_active_1x;
+    else
+      button_image = is_2x ? off_active_2x : off_active_1x;
+  }
+  else {
+    if (button.getToggleState())
+      button_image = is_2x ? on_inactive_2x : on_inactive_1x;
+    else
+      button_image = is_2x ? off_inactive_2x : off_inactive_1x;
+  }
 
-  g.setColour(background);
-  g.fillAll();
-
-  float width = button.getWidth();
-  float height = button.getHeight();
-
-  Path modulation_source;
-  modulation_source.addEllipse(width * 0.55f, height * 0.3f, width * 0.4f, height * 0.4f);
-  Path modulation_dest;
-  modulation_dest.addEllipse(width * 0.05f, height * 0.3f, width * 0.4f, height * 0.4f);
-
-  // Shadows.
-  shadow.drawForPath(g, modulation_source);
-  shadow.drawForPath(g, modulation_dest);
-
-  // Modulation destination port.
-  g.setColour(icon_dest_color);
-  g.fillPath(modulation_dest);
-
-  // Hole in modulation destination
-  g.setColour(Colour(0xff111111));
-  g.fillEllipse(width * 0.13f, height * 0.38f, width * 0.24f, height * 0.24f);
-  g.fillRect(width * 0.25f, height * 0.4f, width * 0.19f, height * 0.2f);
-
-  // Ball and wire for modulation source.
-  g.setColour(icon_source_color);
-  g.fillPath(modulation_source);
-  g.fillRoundedRectangle(width * 0.17f, height * 0.43f,
-                         width * 0.5f, height * 0.14f, 2.0f);
+  g.setColour(Colours::white);
+  g.drawImage(button_image,
+              0, 0, button.getWidth(), button.getHeight(),
+              0, 0, button_image.getWidth(), button_image.getHeight());
 
   if (isButtonDown) {
     g.setColour(Colour(0x11000000));
