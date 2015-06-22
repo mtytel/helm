@@ -55,12 +55,16 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   else {
     Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                  BinaryData::helm_icon_32_2x_pngSize);
+    logo_button_->setImages(false, true, false,
+                            helm_small, 1.0, Colours::transparentBlack,
+                            helm_small, 1.0, Colour(0x11ffffff),
+                            helm_small, 1.0, Colour(0x11000000));
   }
   addAndMakeVisible(logo_button_);
   logo_button_->addListener(this);
 
   about_section_ = new AboutSection("about");
-  addAndMakeVisible(about_section_);
+  addChildComponent(about_section_);
 
   setOpaque(true);
 }
