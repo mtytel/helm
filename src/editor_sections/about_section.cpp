@@ -16,21 +16,92 @@
 
 #include "about_section.h"
 
-#define INFO_WIDTH 400
-#define INFO_HEIGHT 200
+#define LOGO_WIDTH 128
+#define INFO_WIDTH 340
+#define INFO_HEIGHT 160
+
+AboutSection::AboutSection(String name) : Component(name) {
+  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
+                                                             BinaryData::RobotoLight_ttfSize));
+
+  developer_link_ = new HyperlinkButton("Matt Tytel", URL("http://tytel.org"));
+  developer_link_->setFont(roboto_light.withPointHeight(12.0f), false);
+  developer_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
+  addAndMakeVisible(developer_link_);
+
+  free_software_link_ = new HyperlinkButton("Read more about free software.",
+                                            URL("http://www.gnu.org/philosophy/free-sw.html"));
+  free_software_link_->setFont(roboto_light.withPointHeight(12.0f), false);
+  free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
+  addAndMakeVisible(free_software_link_);
+}
 
 void AboutSection::paint(Graphics& g) {
+  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
+                                                           BinaryData::RobotoRegular_ttfSize));
+  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
+                                                             BinaryData::RobotoLight_ttfSize));
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
   g.setColour(Colour(0xbb212121));
   g.fillAll();
 
-  shadow.drawForRectangle(g, getInfoRect());
+  Rectangle<int> info_rect = getInfoRect();
+  shadow.drawForRectangle(g, info_rect);
   g.setColour(Colour(0xff303030));
-  g.fillRect(getInfoRect());
+  g.fillRect(info_rect);
+
+  g.saveState();
+  int logo_padding = (INFO_HEIGHT - LOGO_WIDTH) / 2;
+  g.setOrigin(info_rect.getX() + logo_padding, info_rect.getY() + logo_padding);
+  Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_128_1x_png,
+                                               BinaryData::helm_icon_128_1x_pngSize);
+  shadow.drawForImage(g, helm_small);
+
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  if (display.scale > 1.5) {
+    Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
+                                           BinaryData::helm_icon_128_2x_pngSize);
+    g.drawImage(helm, 0, 0, 128, 128, 0, 0, 256, 256);
+  }
+  else
+    g.drawImage(helm_small, 0, 0, 128, 128, 0, 0, 128, 128);
+
+  g.setFont(roboto_reg.withPointHeight(32.0));
+  g.setColour(Colour(0xff2196f3));
+  g.drawText(TRANS("HELM"),
+             LOGO_WIDTH + logo_padding - 1.0f, 8.0f,
+             info_rect.getWidth(), 32.0f, Justification::left);
+
+  g.setFont(roboto_light.withPointHeight(12.0));
+  g.setColour(Colour(0xff666666));
+  g.drawText(TRANS("v") + " " + ProjectInfo::versionString,
+             LOGO_WIDTH + logo_padding + 90.0f, 14.0f,
+             info_rect.getWidth(), 32.0f, Justification::left);
+
+  g.setFont(roboto_light.withPointHeight(12.0));
+  g.drawText(TRANS("Developer") + ":",
+             LOGO_WIDTH + logo_padding, 56.0f - logo_padding,
+             info_rect.getWidth(), 20.0f, Justification::left);
+
+  g.setColour(Colour(0xffaaaaaa));
+  g.drawText(TRANS("Helm is free software and"),
+             LOGO_WIDTH + logo_padding, 88.0f - logo_padding,
+             160.0f, 20.0f, Justification::topLeft);
+
+  g.drawText(TRANS("comes with no warranty."),
+             LOGO_WIDTH + logo_padding, 102.0f - logo_padding,
+             160.0f, 20.0f, Justification::topLeft);
+
+  g.restoreState();
 }
 
 void AboutSection::resized() {
+  Rectangle<int> info_rect = getInfoRect();
+  developer_link_->setBounds(info_rect.getX() + INFO_HEIGHT + 48.0f, info_rect.getY() + 56.0f,
+                             98.0f, 20.0f);
+  free_software_link_->setBounds(info_rect.getX() + INFO_HEIGHT - 2.0f, info_rect.getY() + 120.0f,
+                                 170.0f, 20.0f);
 }
 
 void AboutSection::mouseUp(const MouseEvent &e) {

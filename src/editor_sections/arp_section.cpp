@@ -66,8 +66,8 @@ ArpSection::~ArpSection() {
 void ArpSection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                             BinaryData::RobotoRegular_ttfSize));
+  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
+                                                             BinaryData::RobotoLight_ttfSize));
   SynthSection::paintContainer(g);
 
   float shadow_left = TITLE_WIDTH - SHADOW_WIDTH;

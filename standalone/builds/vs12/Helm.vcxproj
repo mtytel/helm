@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\..\src\editor_components\wave_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_viewer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\about_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\arp_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\articulation_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delay_section.cpp"/>
@@ -1408,6 +1409,7 @@
     <ClInclude Include="..\..\..\src\editor_components\wave_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_viewer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\about_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\arp_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\articulation_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delay_section.h"/>

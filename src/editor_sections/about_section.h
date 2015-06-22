@@ -22,7 +22,7 @@
 
 class AboutSection : public Component {
   public:
-    AboutSection(String name) : Component(name) { }
+    AboutSection(String name);
     void paint(Graphics& g) override;
     void resized() override;
 
@@ -31,6 +31,8 @@ class AboutSection : public Component {
     void mouseUp(const MouseEvent& e) override;
 
   private:
+    ScopedPointer<HyperlinkButton> developer_link_;
+    ScopedPointer<HyperlinkButton> free_software_link_;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };
 

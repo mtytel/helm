@@ -202,6 +202,9 @@
         <FILE id="HjR1um" name="xy_pad.h" compile="0" resource="0" file="../src/editor_components/xy_pad.h"/>
       </GROUP>
       <GROUP id="{5EBDE717-DCC0-2586-CDAD-0EF41A56EA02}" name="editor_sections">
+        <FILE id="S4ciPG" name="about_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/about_section.cpp"/>
+        <FILE id="nHr0O6" name="about_section.h" compile="0" resource="0" file="../src/editor_sections/about_section.h"/>
         <FILE id="sw0aY1" name="arp_section.cpp" compile="1" resource="0" file="../src/editor_sections/arp_section.cpp"/>
         <FILE id="XjFuqw" name="arp_section.h" compile="0" resource="0" file="../src/editor_sections/arp_section.h"/>
         <FILE id="lxK7yK" name="articulation_section.cpp" compile="1" resource="0"

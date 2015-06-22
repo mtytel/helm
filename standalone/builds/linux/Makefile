@@ -101,6 +101,7 @@ OBJECTS := \
   $(OBJDIR)/wave_selector_6d163719.o \
   $(OBJDIR)/wave_viewer_e4b5610c.o \
   $(OBJDIR)/xy_pad_77c192eb.o \
+  $(OBJDIR)/about_section_7d82e4ff.o \
   $(OBJDIR)/arp_section_a0da8a91.o \
   $(OBJDIR)/articulation_section_a61395c5.o \
   $(OBJDIR)/delay_section_9df39f5.o \
@@ -429,6 +430,11 @@ $(OBJDIR)/wave_viewer_e4b5610c.o: ../../../src/editor_components/wave_viewer.cpp
 $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling xy_pad.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/about_section_7d82e4ff.o: ../../../src/editor_sections/about_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling about_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.cpp
