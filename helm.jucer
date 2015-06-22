@@ -12,6 +12,15 @@
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
               companyWebsite="tytel.org">
   <MAINGROUP id="OwcEM5" name="HelmPlugin">
+    <GROUP id="{1A78DEC9-745B-17A2-254E-9D5E30BC1096}" name="fonts">
+      <FILE id="qUo4es" name="DroidSansMono.ttf" compile="0" resource="1"
+            file="fonts/DroidSansMono.ttf"/>
+      <FILE id="s5bBR7" name="Roboto-Light.ttf" compile="0" resource="1"
+            file="fonts/Roboto-Light.ttf"/>
+      <FILE id="KdyTVH" name="Roboto-Regular.ttf" compile="0" resource="1"
+            file="fonts/Roboto-Regular.ttf"/>
+      <FILE id="fdc8ml" name="Roboto-Thin.ttf" compile="0" resource="1" file="fonts/Roboto-Thin.ttf"/>
+    </GROUP>
     <GROUP id="{09F0CF3F-0E86-D4FB-3FD6-7EDC481615E0}" name="images">
       <FILE id="Cz18x6" name="helm_debian_icon.xpm" compile="0" resource="1"
             file="images/helm_debian_icon.xpm"/>
@@ -35,15 +44,22 @@
             file="images/helm_icon_512_1x.png"/>
       <FILE id="XC7smo" name="helm_icon_512_2x.png" compile="0" resource="1"
             file="images/helm_icon_512_2x.png"/>
-    </GROUP>
-    <GROUP id="{1A78DEC9-745B-17A2-254E-9D5E30BC1096}" name="fonts">
-      <FILE id="qUo4es" name="DroidSansMono.ttf" compile="0" resource="1"
-            file="fonts/DroidSansMono.ttf"/>
-      <FILE id="s5bBR7" name="Roboto-Light.ttf" compile="0" resource="1"
-            file="fonts/Roboto-Light.ttf"/>
-      <FILE id="KdyTVH" name="Roboto-Regular.ttf" compile="0" resource="1"
-            file="fonts/Roboto-Regular.ttf"/>
-      <FILE id="fdc8ml" name="Roboto-Thin.ttf" compile="0" resource="1" file="fonts/Roboto-Thin.ttf"/>
+      <FILE id="tWsWkS" name="modulation_selected_active_1x.png" compile="0"
+            resource="1" file="images/modulation_selected_active_1x.png"/>
+      <FILE id="PTlcCl" name="modulation_selected_active_2x.png" compile="0"
+            resource="1" file="images/modulation_selected_active_2x.png"/>
+      <FILE id="r37R3B" name="modulation_selected_inactive_1x.png" compile="0"
+            resource="1" file="images/modulation_selected_inactive_1x.png"/>
+      <FILE id="rkmTr3" name="modulation_selected_inactive_2x.png" compile="0"
+            resource="1" file="images/modulation_selected_inactive_2x.png"/>
+      <FILE id="B21pqr" name="modulation_unselected_active_1x.png" compile="0"
+            resource="1" file="images/modulation_unselected_active_1x.png"/>
+      <FILE id="n4Po63" name="modulation_unselected_active_2x.png" compile="0"
+            resource="1" file="images/modulation_unselected_active_2x.png"/>
+      <FILE id="q6sxVH" name="modulation_unselected_inactive_1x.png" compile="0"
+            resource="1" file="images/modulation_unselected_inactive_1x.png"/>
+      <FILE id="odhsaH" name="modulation_unselected_inactive_2x.png" compile="0"
+            resource="1" file="images/modulation_unselected_inactive_2x.png"/>
     </GROUP>
     <GROUP id="{62473741-CEAB-4114-BC89-BD9679916997}" name="mopo">
       <GROUP id="{60B256E9-0BC0-5F48-DCC3-3D5548165CB4}" name="src">
