@@ -26,9 +26,7 @@ namespace {
 
 } // namespace
 
-ModulationButton::ModulationButton(String name) : ToggleButton(name) {
-  setBufferedToImage(true);
-}
+ModulationButton::ModulationButton(String name) : ToggleButton(name) { }
 
 void ModulationButton::mouseDown(const MouseEvent& e) {
   if (e.mods.isPopupMenu()) {

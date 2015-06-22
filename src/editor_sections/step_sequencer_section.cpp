@@ -111,10 +111,8 @@ void StepSequencerSection::createStepSequencerSliders() {
       num = String("0") + num;
 
     SynthSlider* step = new SynthSlider(String("step_seq_") + num);
-    step->setRange(-1.0, 1.0);
-    step->addListener(this);
+    addSlider(step);
     sequencer_sliders_.push_back(step);
-    slider_lookup_[step->getName().toStdString()] = step;
   }
   step_sequencer_->setStepSliders(sequencer_sliders_);
   step_sequencer_->setNumStepsSlider(num_steps_);
