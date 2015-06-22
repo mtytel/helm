@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="1.0.0"
+<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.1.0"
               bundleIdentifier="org.tytel.helm_plugin" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="1"
               pluginName="Helm" pluginDesc="" pluginManufacturer="Matt Tytel"
@@ -209,6 +209,9 @@
         <FILE id="qDFrBs" name="xy_pad.h" compile="0" resource="0" file="src/editor_components/xy_pad.h"/>
       </GROUP>
       <GROUP id="{432C47DA-C65D-5DEF-7ECC-62DE0A80C834}" name="editor_sections">
+        <FILE id="xQst7L" name="about_section.cpp" compile="1" resource="0"
+              file="src/editor_sections/about_section.cpp"/>
+        <FILE id="tCvisq" name="about_section.h" compile="0" resource="0" file="src/editor_sections/about_section.h"/>
         <FILE id="D7gj80" name="arp_section.cpp" compile="1" resource="0" file="src/editor_sections/arp_section.cpp"/>
         <FILE id="QYzslR" name="arp_section.h" compile="0" resource="0" file="src/editor_sections/arp_section.h"/>
         <FILE id="fHRv9L" name="articulation_section.cpp" compile="1" resource="0"
