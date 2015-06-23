@@ -55,28 +55,28 @@ namespace BinaryData
     const int            helm_icon_512_2x_pngSize = 137623;
 
     extern const char*   modulation_selected_active_1x_png;
-    const int            modulation_selected_active_1x_pngSize = 2640;
+    const int            modulation_selected_active_1x_pngSize = 2739;
 
     extern const char*   modulation_selected_active_2x_png;
-    const int            modulation_selected_active_2x_pngSize = 6080;
+    const int            modulation_selected_active_2x_pngSize = 6228;
 
     extern const char*   modulation_selected_inactive_1x_png;
-    const int            modulation_selected_inactive_1x_pngSize = 2689;
+    const int            modulation_selected_inactive_1x_pngSize = 2783;
 
     extern const char*   modulation_selected_inactive_2x_png;
-    const int            modulation_selected_inactive_2x_pngSize = 6195;
+    const int            modulation_selected_inactive_2x_pngSize = 6264;
 
     extern const char*   modulation_unselected_active_1x_png;
-    const int            modulation_unselected_active_1x_pngSize = 2515;
+    const int            modulation_unselected_active_1x_pngSize = 2529;
 
     extern const char*   modulation_unselected_active_2x_png;
-    const int            modulation_unselected_active_2x_pngSize = 5216;
+    const int            modulation_unselected_active_2x_pngSize = 5267;
 
     extern const char*   modulation_unselected_inactive_1x_png;
-    const int            modulation_unselected_inactive_1x_pngSize = 2148;
+    const int            modulation_unselected_inactive_1x_pngSize = 2314;
 
     extern const char*   modulation_unselected_inactive_2x_png;
-    const int            modulation_unselected_inactive_2x_pngSize = 4561;
+    const int            modulation_unselected_inactive_2x_pngSize = 4996;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
