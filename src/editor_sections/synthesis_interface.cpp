@@ -111,7 +111,7 @@ void SynthesisInterface::resized() {
 
   oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 190.0f);
   sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + CELL_PADDING,
-                          200, 92.0f);
+                          220, 92.0f);
   noise_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
                             oscillator_section_->getWidth() -
                             CELL_PADDING - sub_section_->getWidth(),

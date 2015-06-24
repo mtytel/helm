@@ -48,7 +48,6 @@ void SubSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
-
   g.setFont(roboto_reg.withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("AMP"), volume_);
   drawTextForComponent(g, TRANS("SHUFFLE"), shuffle_);

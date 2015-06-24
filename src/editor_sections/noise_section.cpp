@@ -32,10 +32,14 @@ void NoiseSection::paintBackground(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
+
+  g.setColour(Colour(0xffbbbbbb));
+  g.setFont(roboto_reg.withPointHeight(10.0f));
+  drawTextForComponent(g, TRANS("AMP"), volume_);
 }
 
 void NoiseSection::resized() {
-  volume_->setBounds((getWidth() - KNOB_WIDTH) / 2, (20 + getHeight() - KNOB_WIDTH) / 2,
+  volume_->setBounds((getWidth() - KNOB_WIDTH) / 2, 30,
                      KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }
