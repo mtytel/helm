@@ -45,7 +45,7 @@ namespace mopo {
 
         phase_ += phase_inc;
 
-        mopo_float shuffle = CLAMP(input(kShuffle)->source->buffer[i], 0.0, 1.0);
+        mopo_float shuffle = CLAMP(1.0 - input(kShuffle)->source->buffer[i], 0.0, 1.0);
         unsigned int shuffle_index = INT_MAX * shuffle;
         if (shuffle_index > phase_) {
           unsigned int phase = phase_ * (2.0 / shuffle);
