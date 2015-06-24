@@ -223,7 +223,7 @@ namespace mopo {
 
     // Sub Oscillator.
     Add* sub_midi = new Add();
-    Value* sub_transpose = new Value(-NOTES_PER_OCTAVE);
+    Value* sub_transpose = new Value(-2 * NOTES_PER_OCTAVE);
     sub_midi->plug(bent_midi, 0);
     sub_midi->plug(sub_transpose, 1);
 
@@ -233,8 +233,10 @@ namespace mopo {
     sub_phase_inc->plug(sub_frequency);
 
     Processor* sub_waveform = createPolyModControl("sub_waveform", true);
+    Processor* sub_shuffle = createPolyModControl("sub_shuffle", false, true);
     FixedPointOscillator* sub_oscillator = new FixedPointOscillator();
     sub_oscillator->plug(sub_phase_inc, FixedPointOscillator::kPhaseInc);
+    sub_oscillator->plug(sub_shuffle, FixedPointOscillator::kShuffle);
     sub_oscillator->plug(sub_waveform, FixedPointOscillator::kWaveform);
     sub_oscillator->plug(reset, FixedPointOscillator::kReset);
 

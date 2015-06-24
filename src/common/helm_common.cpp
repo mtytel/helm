@@ -130,6 +130,7 @@ namespace mopo {
     { "stutter_frequency", -7.0, 6.0, 0, 3.0, 1.0, ValueDetails::kExponential, "Hz" },
     { "stutter_on", 0.0, 1.0, 2, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "stutter_resample_frequency", -7.0, 6.0, 0, 1.0, 1.0, ValueDetails::kExponential, "Hz" },
+    { "sub_shuffle", 0.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "%" },
     { "sub_transpose", -12.0, 12.0, 25, 0.0, 1.0, ValueDetails::kLinear, "semitones" },
     { "sub_tune", -1.0, 1.0, 0, 0.0, 100.0, ValueDetails::kLinear, "cents" },
     { "sub_volume", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kQuadratic, "" },

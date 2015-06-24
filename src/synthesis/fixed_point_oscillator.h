@@ -29,6 +29,7 @@ namespace mopo {
         kWaveform,
         kPhaseInc,
         kReset,
+        kShuffle,
         kNumInputs
       };
 
@@ -43,7 +44,17 @@ namespace mopo {
         int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[i];
 
         phase_ += phase_inc;
-        output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase_, phase_inc);
+
+        mopo_float shuffle = CLAMP(input(kShuffle)->source->buffer[i], 0.0, 1.0);
+        unsigned int shuffle_index = INT_MAX * shuffle;
+        if (shuffle_index > phase_) {
+          unsigned int phase = phase_ * (2.0 / shuffle);
+          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, phase_inc);
+        }
+        else {
+          unsigned int phase = (phase_ - shuffle_index) / (1.0 - 0.5 * shuffle);
+          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, phase_inc);
+        }
       }
 
       unsigned int phase_;

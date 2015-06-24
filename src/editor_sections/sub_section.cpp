@@ -29,6 +29,9 @@ SubSection::SubSection(String name) : SynthSection(name) {
   addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
   wave_viewer_->setWaveSlider(wave_selector_);
 
+  addSlider(shuffle_ = new SynthSlider("sub_shuffle"));
+  shuffle_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
   addSlider(volume_ = new SynthSlider("sub_volume"));
   volume_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 }
@@ -52,8 +55,12 @@ void SubSection::resized() {
   wave_selector_->setBounds(0, 20, WAVE_SECTION_WIDTH, WAVE_SELECTOR_WIDTH);
   wave_viewer_->setBounds(0, wave_selector_->getBottom(),
                           WAVE_SECTION_WIDTH, getHeight() - wave_selector_->getBottom());
-  volume_->setBounds((getWidth() - KNOB_WIDTH + WAVE_SECTION_WIDTH) / 2,
-                     (20 + getHeight() - KNOB_WIDTH) / 2,
+
+  int knob_y = (20 + getHeight() - KNOB_WIDTH) / 2;
+  int space = (getWidth() - 2 * KNOB_WIDTH - WAVE_SECTION_WIDTH) / 3;
+  shuffle_->setBounds(WAVE_SECTION_WIDTH + space, knob_y,
+                      KNOB_WIDTH, KNOB_WIDTH);
+  volume_->setBounds(WAVE_SECTION_WIDTH + KNOB_WIDTH + 2 * space, knob_y,
                      KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }
