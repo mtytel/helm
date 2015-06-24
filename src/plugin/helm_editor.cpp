@@ -21,7 +21,7 @@
 #include "helm_plugin.h"
 
 #define WIDTH 996
-#define HEIGHT 660
+#define HEIGHT 670
 
 HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(helm) {
   setSynth(helm_.getSynth());

@@ -109,18 +109,18 @@ void SynthesisInterface::resized() {
   float column_3_x = column_2_x + CELL_PADDING + COLUMN_WIDTH_2;
   float column_4_x = column_3_x + CELL_PADDING + COLUMN_WIDTH_3;
 
-  oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 200.0f);
+  oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 190.0f);
   sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + CELL_PADDING,
-                          200, 72);
+                          200, 92.0f);
   noise_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
                             oscillator_section_->getWidth() -
                             CELL_PADDING - sub_section_->getWidth(),
                             sub_section_->getHeight());
-  amplitude_envelope_section_->setBounds(column_1_x, 292.0f, COLUMN_WIDTH_1, 120.0f);
+  amplitude_envelope_section_->setBounds(column_1_x, 302.0f, COLUMN_WIDTH_1, 120.0f);
 
   feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 92.0f);
   filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + CELL_PADDING,
-                             COLUMN_WIDTH_2, 180.0f);
+                             COLUMN_WIDTH_2, 190.0f);
   filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + CELL_PADDING,
                                       COLUMN_WIDTH_2, 120.0f);
 
@@ -138,15 +138,15 @@ void SynthesisInterface::resized() {
   step_sequencer_section_->setBounds(poly_lfo_section_->getRight() + CELL_PADDING, step_lfo_y,
                                      step_sequencer_width, step_lfo_height);
 
-  stutter_section_->setBounds(column_3_x, 4.0f, COLUMN_WIDTH_3, 136.0f);
+  stutter_section_->setBounds(column_3_x, 4.0f, COLUMN_WIDTH_3, 141.0f);
   formant_section_->setBounds(column_3_x, stutter_section_->getBottom() + CELL_PADDING,
-                              COLUMN_WIDTH_3, 136.0f);
+                              COLUMN_WIDTH_3, 141.0f);
   extra_mod_section_->setBounds(column_3_x, formant_section_->getBottom() + CELL_PADDING,
                               COLUMN_WIDTH_3, 276.0f);
 
-  delay_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 100.0f);
+  delay_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 105.0f);
   reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
-                             COLUMN_WIDTH_4, 100.0f);
+                             COLUMN_WIDTH_4, 105.0f);
   volume_section_->setBounds(column_4_x, reverb_section_->getBottom() + CELL_PADDING,
                              COLUMN_WIDTH_4, 64.0f);
   articulation_section_->setBounds(column_4_x, extra_mod_section_->getY(),

@@ -23,7 +23,7 @@
 #define NUM_CHANNELS 2
 
 #define WIDTH 996
-#define HEIGHT 660
+#define HEIGHT 670
 #define MAX_OUTPUT_MEMORY 1048576
 
 HelmStandaloneEditor::HelmStandaloneEditor() {

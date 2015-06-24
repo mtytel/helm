@@ -18,7 +18,7 @@
 
 #define WAVE_VIEWER_RESOLUTION 80
 #define WAVE_SELECTOR_WIDTH 10
-#define WAVE_SECTION_WIDTH 80
+#define WAVE_SECTION_WIDTH 100
 #define KNOB_WIDTH 40
 
 SubSection::SubSection(String name) : SynthSection(name) {
@@ -43,12 +43,15 @@ SubSection::~SubSection() {
 }
 
 void SubSection::paintBackground(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
-  component_shadow.drawForRectangle(g, wave_viewer_->getBounds());
+  g.setColour(Colour(0xffbbbbbb));
+
+  g.setFont(roboto_reg.withPointHeight(10.0f));
+  drawTextForComponent(g, TRANS("AMP"), volume_);
+  drawTextForComponent(g, TRANS("SHUFFLE"), shuffle_);
 }
 
 void SubSection::resized() {
@@ -56,7 +59,7 @@ void SubSection::resized() {
   wave_viewer_->setBounds(0, wave_selector_->getBottom(),
                           WAVE_SECTION_WIDTH, getHeight() - wave_selector_->getBottom());
 
-  int knob_y = (20 + getHeight() - KNOB_WIDTH) / 2;
+  int knob_y = 30;
   int space = (getWidth() - 2 * KNOB_WIDTH - WAVE_SECTION_WIDTH) / 3;
   shuffle_->setBounds(WAVE_SECTION_WIDTH + space, knob_y,
                       KNOB_WIDTH, KNOB_WIDTH);
