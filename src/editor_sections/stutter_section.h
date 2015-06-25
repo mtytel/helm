@@ -33,6 +33,7 @@ class StutterSection : public SynthSection {
   private:
     ScopedPointer<SynthSlider> resample_rate_;
     ScopedPointer<SynthSlider> stutter_rate_;
+    ScopedPointer<SynthSlider> stutter_softness_;
     ScopedPointer<ToggleButton> on_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StutterSection)

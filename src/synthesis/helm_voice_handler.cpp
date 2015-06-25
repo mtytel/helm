@@ -463,14 +463,16 @@ namespace mopo {
     stutter_container->plug(distorted_filter_, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(44100);
-    Processor* stutter_frequency = createPolyModControl("stutter_frequency", false);
-    Processor* resample_frequency = createPolyModControl("stutter_resample_frequency", false);
+    Processor* stutter_frequency = createPolyModControl("stutter_frequency", true);
+    Processor* stutter_softness = createPolyModControl("stutter_softness", false);
+    Processor* resample_frequency = createPolyModControl("stutter_resample_frequency", true);
     stutter_container->addProcessor(stutter);
     stutter_container->registerOutput(stutter->output());
 
     stutter->plug(distorted_filter_, Stutter::kAudio);
     stutter->plug(stutter_frequency, Stutter::kStutterFrequency);
     stutter->plug(resample_frequency, Stutter::kResampleFrequency);
+    stutter->plug(stutter_softness, Stutter::kWindowSoftness);
     stutter->plug(reset, Stutter::kReset);
 
     addProcessor(stutter_container);

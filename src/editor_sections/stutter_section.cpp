@@ -19,12 +19,14 @@
 #define KNOB_WIDTH 40
 
 StutterSection::StutterSection(String name) : SynthSection(name) {
-
   addSlider(stutter_rate_ = new SynthSlider("stutter_frequency"));
   stutter_rate_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
   addSlider(resample_rate_ = new SynthSlider("stutter_resample_frequency"));
   resample_rate_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
+  addSlider(stutter_softness_ = new SynthSlider("stutter_softness"));
+  stutter_softness_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
   addButton(on_ = new ToggleButton("stutter_on"));
   setActivator(on_);
@@ -45,15 +47,17 @@ void StutterSection::paintBackground(Graphics& g) {
   g.setFont(roboto_reg.withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("FREQ"), stutter_rate_);
   drawTextForComponent(g, TRANS("RESAMPLE"), resample_rate_);
+  drawTextForComponent(g, TRANS("SOFT"), stutter_softness_);
 }
 
 void StutterSection::resized() {
-  float space = (getWidth() - (2.0f * KNOB_WIDTH)) / 3.0f;
+  float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
   int y = (getHeight() - KNOB_WIDTH) / 2;
 
   on_->setBounds(2, 0, 20, 20);
   stutter_rate_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   resample_rate_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+  stutter_softness_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
 
   SynthSection::resized();
 }
