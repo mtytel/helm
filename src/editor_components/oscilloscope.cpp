@@ -19,7 +19,8 @@
 #define FRAMES_PER_SECOND 15
 #define MAX_RESOLUTION 54
 #define GRID_CELL_WIDTH 8
-#define PADDING 5
+#define PADDING_X -2
+#define PADDING_Y 5
 
 Oscilloscope::Oscilloscope(int num_samples) {
   output_memory_ = nullptr;
@@ -57,20 +58,20 @@ void Oscilloscope::resetWavePath() {
 
   wave_path_.clear();
 
-  float draw_width = getWidth() - 2.0f * PADDING;
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float draw_width = getWidth() - 2.0f * PADDING_X;
+  float draw_height = getHeight() - 2.0f * PADDING_Y;
 
-  wave_path_.startNewSubPath(PADDING, getHeight() / 2.0f);
+  wave_path_.startNewSubPath(PADDING_X, getHeight() / 2.0f);
   int inc = samples_to_show_ / MAX_RESOLUTION;
   for (int i = samples_to_show_; i >= 0; i -= inc) {
     float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
     float val = output_memory_->get(i);
     if (val != val)
       val = 0.0f;
-    wave_path_.lineTo(PADDING + t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(PADDING_X + t * draw_width, PADDING_Y + draw_height * ((1.0f - val) / 2.0f));
   }
 
-  wave_path_.lineTo(getWidth() - PADDING, getHeight() / 2.0f);
+  wave_path_.lineTo(getWidth() - PADDING_X, getHeight() / 2.0f);
 }
 
 void Oscilloscope::update() {
