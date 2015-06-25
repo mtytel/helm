@@ -56,15 +56,24 @@ namespace mopo {
           offset_ += stutter_period;
         }
 
-        mopo_float softness = input(kWindowSoftness)->at(i);
-        mopo_float phase = 2.0 * PI * offset_ / stutter_period;
-        mopo_float amp = std::pow(sin(phase), softness);
         if (resampling_) {
+          mopo_float softness = input(kWindowSoftness)->at(i);
+          mopo_float phase = 2.0 * PI * (sample_period - resample_offset_) /
+                             stutter_period;
+          mopo_float amp = std::pow(0.5 - 0.5 * cos(phase), softness);
+
           mopo_float audio = input(kAudio)->at(i);
           memory_->push(audio);
           output(0)->buffer[i] = amp * audio;
         }
         else {
+          mopo_float softness = input(kWindowSoftness)->at(i);
+          mopo_float phase1 = 2.0 * PI * offset_ / stutter_period;
+          mopo_float amp = std::pow(0.5 - 0.5 * cos(phase1), softness);
+          if (resample_offset_ < offset_) {
+            mopo_float phase2 = 2.0 * PI * resample_offset_ / stutter_period;
+            amp = std::min(amp, std::pow(0.5 - 0.5 * cos(phase2), softness));
+          }
           output(0)->buffer[i] = amp * memory_->get(offset_);
         }
       }
