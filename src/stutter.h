@@ -58,7 +58,7 @@ namespace mopo {
 
         mopo_float softness = input(kWindowSoftness)->at(i);
         mopo_float phase = 2.0 * PI * offset_ / stutter_period;
-        mopo_float amp = std::powf(sin(phase), softness);
+        mopo_float amp = std::pow(sin(phase), softness);
         if (resampling_) {
           mopo_float audio = input(kAudio)->at(i);
           memory_->push(audio);
