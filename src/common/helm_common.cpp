@@ -84,7 +84,7 @@ namespace mopo {
     { "poly_lfo_tempo", 0.0, 11.0, 12, 7.0, 1.0, ValueDetails::kLinear, "" },
     { "poly_lfo_waveform", 0.0, 11.0, 12, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "polyphony", 1.0, 32.0, 32, 1.0, 1.0, ValueDetails::kLinear, "voices" },
-    { "portamento", -9.0, -1.0, 0, -9.0, 1.0, ValueDetails::kExponential, "s/oct" },
+    { "portamento", -9.0, -1.0, 0, -9.0, 12.0, ValueDetails::kExponential, "s/oct" },
     { "portamento_type", 0.0, 2.0, 3, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "resonance", 0.0, 1.0, 0, 0.0, 1.0, ValueDetails::kLinear, "" },
     { "step_frequency", -5.0, 6.0, 0, 2.0, 1.0, ValueDetails::kExponential, "Hz" },
