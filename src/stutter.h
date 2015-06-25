@@ -31,6 +31,7 @@ namespace mopo {
         kAudio,
         kStutterFrequency,
         kResampleFrequency,
+        kWindowSoftness,
         kReset,
         kNumInputs
       };
@@ -42,26 +43,29 @@ namespace mopo {
       virtual Processor* clone() const { return new Stutter(*this); }
       virtual void process();
 
-      void tick(int i) {
+      void tick(int i, mopo_float sample_period, mopo_float stutter_period) {
         offset_ -= 1.0;
         resample_offset_ -= 1.0;
         if (resample_offset_ <= 0.0) {
           resampling_ = true;
-          resample_offset_ += sample_rate_ / input(kResampleFrequency)->at(i);
-          offset_ = sample_rate_ / input(kStutterFrequency)->at(i);
+          resample_offset_ += sample_period;
+          offset_ = stutter_period;
         }
         else if (offset_ <= 0.0) {
           resampling_ = false;
-          offset_ += sample_rate_ / input(kStutterFrequency)->at(i);
+          offset_ += stutter_period;
         }
 
+        mopo_float softness = input(kWindowSoftness)->at(i);
+        mopo_float phase = 2.0 * PI * offset_ / stutter_period;
+        mopo_float amp = std::powf(sin(phase), softness);
         if (resampling_) {
           mopo_float audio = input(kAudio)->at(i);
           memory_->push(audio);
-          output(0)->buffer[i] = audio;
+          output(0)->buffer[i] = amp * audio;
         }
         else {
-          output(0)->buffer[i] = memory_->get(offset_);
+          output(0)->buffer[i] = amp * memory_->get(offset_);
         }
       }
 

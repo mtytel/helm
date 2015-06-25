@@ -35,11 +35,13 @@ namespace mopo {
   }
 
   void Stutter::process() {
+    mopo_float sample_period = sample_rate_ / input(kResampleFrequency)->at(0);
+    mopo_float stutter_period = sample_rate_ / input(kStutterFrequency)->at(0);
     int i = 0;
     if (input(kReset)->source->triggered) {
       int offset = input(kReset)->source->trigger_offset;
       for (; i < offset; ++i)
-        tick(i);
+        tick(i, sample_period, stutter_period);
 
       resampling_ = true;
       offset_ = 0.0;
@@ -47,6 +49,6 @@ namespace mopo {
     }
 
     for (; i < buffer_size_; ++i)
-      tick(i);
+      tick(i, sample_period, stutter_period);
   }
 } // namespace mopo
