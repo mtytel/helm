@@ -47,6 +47,14 @@ namespace mopo {
       Value(Filter::kLowPass)
     };
 
+    static const Value formant_a_decibals(-1.41);
+    static const Value formant_e_decibals(-2.82);
+    static const Value formant_i_decibals(-2.51);
+    static const Value formant_o_decibals(-6.42);
+    static const Value formant_oe_decibals(-6.42);
+    static const Value formant_u_decibals(-9.21);
+    static const Value formant_uu_decibals(-12.0);
+
     static const FormantValues formant_a[NUM_FORMANTS] = {
       {new Value(1.0), new Value(4.75), new Value(77.9534075105)},
       {new Value(9.68), new Value(12.0), new Value(84.8631371387)},
@@ -500,18 +508,18 @@ namespace mopo {
 
       formant_gain->plug(formant_u[i].gain, BilinearInterpolate::kTopLeft);
       formant_gain->plug(formant_a[i].gain, BilinearInterpolate::kTopRight);
-      formant_gain->plug(formant_i[i].gain, BilinearInterpolate::kBottomLeft);
-      formant_gain->plug(formant_o[i].gain, BilinearInterpolate::kBottomRight);
+      formant_gain->plug(formant_e[i].gain, BilinearInterpolate::kBottomLeft);
+      formant_gain->plug(formant_uu[i].gain, BilinearInterpolate::kBottomRight);
 
       formant_q->plug(formant_u[i].resonance, BilinearInterpolate::kTopLeft);
       formant_q->plug(formant_a[i].resonance, BilinearInterpolate::kTopRight);
-      formant_q->plug(formant_i[i].resonance, BilinearInterpolate::kBottomLeft);
-      formant_q->plug(formant_o[i].resonance, BilinearInterpolate::kBottomRight);
+      formant_q->plug(formant_e[i].resonance, BilinearInterpolate::kBottomLeft);
+      formant_q->plug(formant_uu[i].resonance, BilinearInterpolate::kBottomRight);
 
       formant_midi->plug(formant_u[i].midi_cutoff, BilinearInterpolate::kTopLeft);
       formant_midi->plug(formant_a[i].midi_cutoff, BilinearInterpolate::kTopRight);
-      formant_midi->plug(formant_i[i].midi_cutoff, BilinearInterpolate::kBottomLeft);
-      formant_midi->plug(formant_o[i].midi_cutoff, BilinearInterpolate::kBottomRight);
+      formant_midi->plug(formant_e[i].midi_cutoff, BilinearInterpolate::kBottomLeft);
+      formant_midi->plug(formant_uu[i].midi_cutoff, BilinearInterpolate::kBottomRight);
 
       formant_gain->plug(formant_x, BilinearInterpolate::kXPosition);
       formant_q->plug(formant_x, BilinearInterpolate::kXPosition);
@@ -541,8 +549,26 @@ namespace mopo {
       addProcessor(formant_frequency);
     }
 
+    BilinearInterpolate* formant_decibals = new BilinearInterpolate();
+    formant_decibals->plug(&formant_u_decibals, BilinearInterpolate::kTopLeft);
+    formant_decibals->plug(&formant_a_decibals, BilinearInterpolate::kTopRight);
+    formant_decibals->plug(&formant_e_decibals, BilinearInterpolate::kBottomLeft);
+    formant_decibals->plug(&formant_uu_decibals, BilinearInterpolate::kBottomRight);
+    formant_decibals->plug(formant_x, BilinearInterpolate::kXPosition);
+    formant_decibals->plug(formant_y, BilinearInterpolate::kYPosition);
+
+    MagnitudeScale* formant_gain = new MagnitudeScale();
+    formant_gain->plug(formant_decibals);
+
+    Multiply* formant_output = new Multiply();
+    formant_output->plug(formant_gain, 0);
+    formant_output->plug(formant_filter_, 1);
+
+    formant_container_->addProcessor(formant_decibals);
+    formant_container_->addProcessor(formant_gain);
     formant_container_->addProcessor(formant_filter_);
-    formant_container_->registerOutput(formant_filter_->output());
+    formant_container_->addProcessor(formant_output);
+    formant_container_->registerOutput(formant_output->output());
 
     addProcessor(formant_container_);
   }
