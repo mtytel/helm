@@ -2757,8 +2757,8 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_E4F0A9CA=1",
-					"JUCE_APP_VERSION=0.1.0",
-					"JUCE_APP_VERSION_HEX=0x100", );
+					"JUCE_APP_VERSION=0.1.1",
+					"JUCE_APP_VERSION_HEX=0x101", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("\"~/srcs/VST3 SDK\"", "~/srcs/vstsdk2.4", "../../JuceLibraryCode", "../../JUCE/modules", "$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/Utility", "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase", "~/srcs/AAX", "~/srcs/AAX/Interfaces", "~/srcs/AAX/Interfaces/ACF", "../../src", "../../src/editor_components", "../../src/editor_sections", "$(inherited)");
@@ -2787,8 +2787,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_E4F0A9CA=1",
-					"JUCE_APP_VERSION=0.1.0",
-					"JUCE_APP_VERSION_HEX=0x100", );
+					"JUCE_APP_VERSION=0.1.1",
+					"JUCE_APP_VERSION_HEX=0x101", );
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
