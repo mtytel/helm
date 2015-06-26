@@ -48,12 +48,12 @@ namespace mopo {
     };
 
     static const Value formant_a_decibals(-1.41);
-    static const Value formant_e_decibals(-2.82);
+    static const Value formant_e_decibals(-8.82);
     static const Value formant_i_decibals(-2.51);
     static const Value formant_o_decibals(-6.42);
     static const Value formant_oe_decibals(-6.42);
-    static const Value formant_u_decibals(-9.21);
-    static const Value formant_uu_decibals(-12.0);
+    static const Value formant_u_decibals(-15.21);
+    static const Value formant_uu_decibals(-18.0);
 
     static const FormantValues formant_a[NUM_FORMANTS] = {
       {new Value(1.0), new Value(4.75), new Value(77.9534075105)},
