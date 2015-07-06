@@ -52,8 +52,10 @@ PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   save_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   save_->setColour(TextButton::textColourOffId, Colours::white);
 
-  folder_index_ = 0;
-  patch_index_ = 0;
+  folder_index_ = -1;
+  patch_index_ = -1;
+  folder_text_ = TRANS("Init Folder");
+  patch_text_ = TRANS("Init Patch");
 }
 
 PatchBrowser::~PatchBrowser() {
