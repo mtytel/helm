@@ -138,8 +138,10 @@ void SynthSlider::valueChanged() {
 }
 
 String SynthSlider::getTextFromValue(double value) {
-  if (string_lookup_)
-    return string_lookup_[(int)value];
+  if (string_lookup_) {
+    int lookup = CLAMP(value, 0, getMaximum()); 
+    return string_lookup_[lookup];
+  }
 
   float display_value = value;
   switch (scaling_type_) {
