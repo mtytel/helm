@@ -26,7 +26,7 @@ clean:
 	$(MAKE) clean -C builds/linux/VST CONFIG=$(CONFIG)
 
 install: all
-	install -d $(PATCHES) $(BIN) $(ICONS)
+	install -d $(PATCHES) $(BIN) $(ICONS) $(LV2)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
 	install builds/linux/LV2/helm.lv2/* $(LV2)
