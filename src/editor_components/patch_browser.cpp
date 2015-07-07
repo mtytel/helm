@@ -133,10 +133,16 @@ void PatchBrowser::buttonClicked(Button* buttonThatWasClicked) {
       folder_index_++;
       patch_index_ = 0;
     }
-    else if (buttonThatWasClicked == prev_patch_)
+    else if (buttonThatWasClicked == prev_patch_) {
       patch_index_--;
-    else if (buttonThatWasClicked == next_patch_)
+      if (folder_index_ < 0)
+        folder_index_ = 0;
+    }
+    else if (buttonThatWasClicked == next_patch_) {
       patch_index_++;
+      if (folder_index_ < 0)
+        folder_index_ = 0;
+    }
 
     File folder = getCurrentFolder();
     File patch = getCurrentPatch();
@@ -159,9 +165,10 @@ File PatchBrowser::getSystemPatchDirectory() {
   patch_dir = File(LINUX_SYSTEM_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
   File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "helm");
+  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  patch_dir = File("C:");
+  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
+  patch_dir = data_dir.getChildFile("Helm/Patches");
 #endif
 
   if (!patch_dir.exists())
@@ -175,9 +182,10 @@ File PatchBrowser::getUserPatchDirectory() {
   patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
   File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "helm");
+  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  patch_dir = File("C:");
+  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
+  patch_dir = data_dir.getChildFile("Helm/UserPatches");
 #endif
 
   if (!patch_dir.exists())
