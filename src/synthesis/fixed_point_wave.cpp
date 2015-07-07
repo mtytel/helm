@@ -117,19 +117,20 @@ namespace mopo {
 
   template<size_t steps>
   void FixedPointWaveLookup::preprocessStep(wave_type buffer) {
-    static const mopo_float step_size = (1.0 * steps) / (steps - 1);
+    static int num_steps = steps;
+    static const mopo_float step_size = num_steps / (num_steps - 1.0);
 
     for (int h = 0; h < HARMONICS + 1; ++h) {
       int base_num_harmonics = HARMONICS + 1 - h;
-      int harmony_num_harmonics = base_num_harmonics / steps;
+      int harmony_num_harmonics = base_num_harmonics / num_steps;
       int harmony_h = HARMONICS + 1 - harmony_num_harmonics;
 
       for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
         buffer[h][i] = step_size * up_saw_[h][i];
 
         if (harmony_num_harmonics) {
-          int harm_index = (steps * i) % FIXED_LOOKUP_SIZE;
-          buffer[h][i] += step_size * down_saw_[harmony_h][harm_index] / steps;
+          int harm_index = (num_steps * i) % FIXED_LOOKUP_SIZE;
+          buffer[h][i] += step_size * down_saw_[harmony_h][harm_index] / num_steps;
         }
       }
     }
@@ -137,12 +138,12 @@ namespace mopo {
 
   template<size_t steps>
   void FixedPointWaveLookup::preprocessPyramid(wave_type buffer) {
-    static const size_t squares = steps - 1;
+    static const int squares = steps - 1;
     static const int offset = 3 * FIXED_LOOKUP_SIZE / 4;
 
     for (int h = 0; h < HARMONICS + 1; ++h) {
       for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-        buffer[h][i] = 0.0;
+        buffer[h][i] = 0;
 
         for (size_t s = 0; s < squares; ++s) {
           int square_offset = (s * FIXED_LOOKUP_SIZE) / (2 * squares);
