@@ -17,7 +17,7 @@
 #include "about_section.h"
 
 #define LOGO_WIDTH 128
-#define INFO_WIDTH 340
+#define INFO_WIDTH 350
 #define INFO_HEIGHT 160
 
 AboutSection::AboutSection(String name) : Component(name) {
@@ -101,7 +101,7 @@ void AboutSection::resized() {
   developer_link_->setBounds(info_rect.getX() + INFO_HEIGHT + 48.0f, info_rect.getY() + 56.0f,
                              98.0f, 20.0f);
   free_software_link_->setBounds(info_rect.getX() + INFO_HEIGHT - 2.0f, info_rect.getY() + 120.0f,
-                                 170.0f, 20.0f);
+                                 180.0f, 20.0f);
 }
 
 void AboutSection::mouseUp(const MouseEvent &e) {
