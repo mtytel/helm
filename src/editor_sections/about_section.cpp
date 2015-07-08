@@ -29,7 +29,7 @@ AboutSection::AboutSection(String name) : Component(name) {
   developer_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(developer_link_);
 
-  free_software_link_ = new HyperlinkButton("Read more about free software.",
+  free_software_link_ = new HyperlinkButton(TRANS("Read more about free software."),
                                             URL("http://www.gnu.org/philosophy/free-sw.html"));
   free_software_link_->setFont(roboto_light.withPointHeight(12.0f), false);
   free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));

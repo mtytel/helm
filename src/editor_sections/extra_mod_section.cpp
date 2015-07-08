@@ -47,7 +47,7 @@ ExtraModSection::~ExtraModSection() {
 void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* component, String text) {
   static const int SPACE = 6;
   g.drawText(text, component->getRight() + SPACE, component->getY(),
-             getWidth() - component->getRight() - component->getX() - 2 * SPACE,
+             getWidth() - component->getRight() - component->getX(),
              component->getHeight(), Justification::centredLeft, false);
 }
 
