@@ -7,7 +7,7 @@
 #include <windows.h>
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION  0,1,1,0
+FILEVERSION  0,3,3,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -15,9 +15,9 @@ BEGIN
     BEGIN
       VALUE "CompanyName",  "Matt Tytel\0"
       VALUE "FileDescription",  "HelmPlugin\0"
-      VALUE "FileVersion",  "0.1.1\0"
+      VALUE "FileVersion",  "0.3.3\0"
       VALUE "ProductName",  "HelmPlugin\0"
-      VALUE "ProductVersion",  "0.1.1\0"
+      VALUE "ProductVersion",  "0.3.3\0"
     END
   END
 

@@ -40,8 +40,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "HelmPlugin";
-    const char* const  versionString  = "0.1.1";
-    const int          versionNumber  = 0x101;
+    const char* const  versionString  = "0.3.3";
+    const int          versionNumber  = 0x303;
 }
 #endif
 
