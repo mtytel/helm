@@ -4,20 +4,22 @@ endif
 
 PROGRAM = helm
 BIN     = $(DESTDIR)/usr/bin
+BINFILE = $(BIN)/$(PROGRAM)
 LV2     = $(DESTDIR)/usr/lib/lv2/$(PROGRAM).lv2
 VST     = $(DESTDIR)/usr/lib/lxvst
-ICONS   = $(DESTDIR)/usr/share/$(PROGRAM)/icons
-PATCHES = $(DESTDIR)/usr/share/$(PROGRAM)/patches
+SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
+ICONS   = $(SYSDATA)/icons
+PATCHES = $(SYSDATA)/patches
 
-all: standalone_build lv2_build
+all: standalone lv2
 
-standalone_build:
+standalone:
 	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG)
 
-lv2_build:
+lv2:
 	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG)
 
-vst_build:
+vst:
 	$(MAKE) -C builds/linux/VST CONFIG=$(CONFIG)
 
 clean:
@@ -31,3 +33,8 @@ install: all
 	install -m644 images/* $(ICONS)
 	install builds/linux/LV2/helm.lv2/* $(LV2)
 	cp -rf patches/* $(PATCHES)
+
+uninstall:
+	rm -rf $(LV2)
+	rm -rf $(SYSDATA)
+	rm -rf $(BINFILE)
