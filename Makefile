@@ -38,3 +38,5 @@ uninstall:
 	rm -rf $(LV2)
 	rm -rf $(SYSDATA)
 	rm -rf $(BINFILE)
+
+.PHONY: standalone
