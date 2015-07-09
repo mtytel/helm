@@ -35,8 +35,10 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
 
   int midi_index = MidiInput::getDefaultDeviceIndex();
   midi_input_ = MidiInput::openDevice(midi_index, midi_manager_);
-  if (midi_input_.get())
+  if (midi_input_.get()) {
+    midi_input_->setName(ProjectInfo::projectName);
     midi_input_->start();
+  }
 
   setLookAndFeel(DefaultLookAndFeel::instance());
 

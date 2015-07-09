@@ -27,8 +27,8 @@
 #include "synth_gui_interface.h"
 
 class HelmStandaloneEditor : public AudioAppComponent,
-                               public MessageListener,
-                               public SynthGuiInterface {
+                             public MessageListener,
+                             public SynthGuiInterface {
   public:
     HelmStandaloneEditor();
     ~HelmStandaloneEditor();
