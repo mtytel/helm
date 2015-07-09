@@ -22,7 +22,7 @@
 #define PATCH_EXTENSION "helm"
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
-#define LINUX_USER_PATCH_DIRECTORY "/usr/local/share/helm/patches"
+#define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
 
 PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   setLookAndFeel(BrowserLookAndFeel::instance());
