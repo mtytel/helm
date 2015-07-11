@@ -17,7 +17,7 @@
 #include "helm_computer_keyboard.h"
 
 #define DEFAULT_KEYBOARD_OFFSET 48
-#define KEYBOARD "awsedftgyhujkolp;'"
+#define KEYBOARD "awsedftgzhujkolpöä"
 
 HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
                                            const CriticalSection* critical_section) {
