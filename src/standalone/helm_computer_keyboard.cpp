@@ -61,15 +61,15 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *originatin
     consumed = true;
   }
 
-  if (KeyPress::isKeyCurrentlyDown('z')) {
-    if (!keys_pressed_.count('z')) {
-      keys_pressed_.insert('z');
+  if (KeyPress::isKeyCurrentlyDown('y')) {
+    if (!keys_pressed_.count('y')) {
+      keys_pressed_.insert('y');
       changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
       consumed = true;
     }
   }
   else
-    keys_pressed_.erase('z');
+    keys_pressed_.erase('y');
 
   if (KeyPress::isKeyCurrentlyDown('x')) {
     if (!keys_pressed_.count('x')) {
