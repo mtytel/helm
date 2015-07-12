@@ -81,7 +81,8 @@ void SynthSection::sliderValueChanged(Slider* moved_slider) {
 void SynthSection::buttonClicked(juce::Button *clicked_button) {
   std::string name = clicked_button->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
+  if (parent)
+    parent->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
 
   if (clicked_button == activator_)
     setActive(activator_->getToggleStateValue().getValue());
@@ -155,8 +156,7 @@ void SynthSection::setAllValues(mopo::control_map& controls) {
   for (auto button : all_buttons_) {
     if (controls.count(button.first)) {
       bool toggle = controls[button.first]->value();
-      button.second->setToggleState(toggle, NotificationType::sendNotification);
-      button.second->repaint();
+      button.second->setToggleState(toggle, NotificationType::sendNotificationSync);
     }
   }
 

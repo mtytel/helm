@@ -29,7 +29,7 @@ class SynthSlider;
 
 class SynthSection : public Component, public SliderListener, public ButtonListener {
   public:
-    SynthSection(String name) : Component(name) { }
+    SynthSection(String name) : Component(name), activator_(nullptr) { }
 
     // Drawing.
     virtual void resized() override;

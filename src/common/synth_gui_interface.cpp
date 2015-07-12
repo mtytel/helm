@@ -34,8 +34,8 @@ void SynthGuiInterface::valueChangedThroughMidi(std::string name, mopo::mopo_flo
 
 void SynthGuiInterface::valueChangedExternal(std::string name, mopo::mopo_float value) {
   valueChanged(name, value);
-  MessageManagerLock mml (Thread::getCurrentThread());
-  if (mml.lockWasGained())
+  MessageManagerLock message_lock(Thread::getCurrentThread());
+  if (message_lock.lockWasGained())
     updateGuiControl(name, value);
 }
 
