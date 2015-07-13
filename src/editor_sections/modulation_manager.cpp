@@ -169,7 +169,8 @@ void ModulationManager::updateModulationValues() {
 void ModulationManager::setModulationAmount(std::string source, std::string destination,
                                             mopo::mopo_float amount) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->changeModulationAmount(source, destination, amount);
+  if (parent)
+    parent->changeModulationAmount(source, destination, amount);
 }
 
 void ModulationManager::forgetModulator() {
@@ -180,6 +181,9 @@ void ModulationManager::forgetModulator() {
 
 void ModulationManager::setSliderValues() {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+  
   std::vector<mopo::ModulationConnection*> connections =
   parent->getSourceConnections(current_modulator_);
   for (auto slider : slider_lookup_) {
