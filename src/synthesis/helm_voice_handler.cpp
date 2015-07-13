@@ -144,7 +144,6 @@ namespace mopo {
     // Pitch bend.
     Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", false);
     Multiply* pitch_bend = new Multiply();
-    pitch_bend->setControlRate();
     pitch_bend->plug(pitch_wheel_amount_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
     Add* bent_midi = new Add();
