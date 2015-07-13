@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.3.3"
-              bundleIdentifier="org.tytel.helm_plugin" includeBinaryInAppConfig="1"
+<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.4.0"
+              bundleIdentifier="org.tytel.helmplugin" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="1"
               pluginName="Helm" pluginDesc="" pluginManufacturer="Matt Tytel"
               pluginManufacturerCode="Manu" pluginCode="Plug" pluginChannelConfigs="{0, 1}, {0, 2}"

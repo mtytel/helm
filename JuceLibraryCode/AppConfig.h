@@ -267,13 +267,13 @@
  #define JucePlugin_EditorRequiresKeyboardFocus  0
 #endif
 #ifndef  JucePlugin_Version
- #define JucePlugin_Version                0.3.3
+ #define JucePlugin_Version                0.4.0
 #endif
 #ifndef  JucePlugin_VersionCode
- #define JucePlugin_VersionCode            0x303
+ #define JucePlugin_VersionCode            0x400
 #endif
 #ifndef  JucePlugin_VersionString
- #define JucePlugin_VersionString          "0.3.3"
+ #define JucePlugin_VersionString          "0.4.0"
 #endif
 #ifndef  JucePlugin_VSTUniqueID
  #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode
@@ -297,7 +297,7 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     org.tytel.helm_plugin
+ #define JucePlugin_CFBundleIdentifier     org.tytel.helmplugin
 #endif
 #ifndef  JucePlugin_RTASCategory
  #define JucePlugin_RTASCategory           ePlugInCategory_SWGenerators
