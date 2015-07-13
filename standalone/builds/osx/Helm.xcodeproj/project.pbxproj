@@ -111,7 +111,7 @@
 		CBDEF0B7ACD825C1ACFC3687 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA170B8B6946E4F4B51585CC /* QuartzCore.framework */; };
 		CE2907C8E920B17AB0D25FF8 /* patch_browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CC3363AE2A23A6A3472CCF1A /* patch_browser.cpp */; };
 		D01F306698E471B42861A5DC /* juce_graphics.mm in Sources */ = {isa = PBXBuildFile; fileRef = F844DD5A0FE149493DF56D58 /* juce_graphics.mm */; };
-		D113C15A1B4D015600FDCC7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D113C1591B4D015600FDCC7A /* Images.xcassets */; };
+		D14016CB1B546893000DE9A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D14016CA1B546893000DE9A8 /* Images.xcassets */; };
 		D33B878F0A7EBAE0E7BB2E30 /* phaser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431F67091922F7BD0109A828 /* phaser.cpp */; };
 		D835DE73BA6FB36584AE5D48 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D9F09D97A42C38A359EC516 /* memory.cpp */; };
 		D85C45F6CF7BFCF1D06FAEA7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591A5D7E1BDF114A78A7D6EF /* OpenGL.framework */; };
@@ -1040,7 +1040,7 @@
 		D0AB98316AA966E8AA33993A /* oscilloscope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = oscilloscope.h; path = ../../../src/editor_components/oscilloscope.h; sourceTree = SOURCE_ROOT; };
 		D0C3E9A11D3F35720F5581FE /* juce_audio_formats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_audio_formats.h; path = ../../../JUCE/modules/juce_audio_formats/juce_audio_formats.h; sourceTree = SOURCE_ROOT; };
 		D0FBF05B8328C3A352955B5E /* resonance_lookup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = resonance_lookup.cpp; path = ../../../mopo/src/resonance_lookup.cpp; sourceTree = SOURCE_ROOT; };
-		D113C1591B4D015600FDCC7A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D14016CA1B546893000DE9A8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Helm/Images.xcassets; sourceTree = "<group>"; };
 		D167CEA6D87869AAF6AF3951 /* juce_ListBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_ListBox.cpp; path = ../../../JUCE/modules/juce_gui_basics/widgets/juce_ListBox.cpp; sourceTree = SOURCE_ROOT; };
 		D169C0D109C4C0A56DE4D3F3 /* juce_MouseCursor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MouseCursor.cpp; path = ../../../JUCE/modules/juce_gui_basics/mouse/juce_MouseCursor.cpp; sourceTree = SOURCE_ROOT; };
 		D1D453BE13BA62BB78EA3FC2 /* juce_LuaCodeTokeniser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LuaCodeTokeniser.h; path = ../../../JUCE/modules/juce_gui_extra/code_editor/juce_LuaCodeTokeniser.h; sourceTree = SOURCE_ROOT; };
@@ -3123,11 +3123,11 @@
 		E6F55E099A03EDB1F990708E /* Helm */ = {
 			isa = PBXGroup;
 			children = (
-				D113C1591B4D015600FDCC7A /* Images.xcassets */,
 				C36E614840270BE90614F436 /* fonts */,
 				9E9AFF1ADE6CB3ECF4679965 /* images */,
 				CAB3615425E728EAFAB20561 /* mopo */,
 				22FE8F4953DBB1955B71409A /* src */,
+				D14016CA1B546893000DE9A8 /* Images.xcassets */,
 			);
 			name = Helm;
 			sourceTree = "<group>";
@@ -3355,7 +3355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D38713E044E4966AD971F06 /* RecentFilesMenuTemplate.nib in Resources */,
-				D113C15A1B4D015600FDCC7A /* Images.xcassets in Resources */,
+				D14016CB1B546893000DE9A8 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3491,8 +3491,6 @@
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = Helm;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
@@ -3513,7 +3511,6 @@
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				PRODUCT_NAME = Helm;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
@@ -3537,8 +3534,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_E4F0A9CA=1",
-					"JUCE_APP_VERSION=0.3.3",
-					"JUCE_APP_VERSION_HEX=0x303",
+					"JUCE_APP_VERSION=0.4.0",
+					"JUCE_APP_VERSION_HEX=0x400",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -3575,8 +3572,8 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_E4F0A9CA=1",
-					"JUCE_APP_VERSION=0.3.3",
-					"JUCE_APP_VERSION_HEX=0x303",
+					"JUCE_APP_VERSION=0.4.0",
+					"JUCE_APP_VERSION_HEX=0x400",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (

@@ -1,5 +1,5 @@
 ifndef CONFIG
-  CONFIG=Release
+	CONFIG=Release
 endif
 
 PROGRAM = helm
