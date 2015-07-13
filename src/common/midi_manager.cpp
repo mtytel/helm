@@ -17,6 +17,8 @@
 #include "midi_manager.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
+#define MOD_WHEEL_RESOLUTION 127
+#define MOD_WHEEL_CONTROL_NUMBER 1
 
 void MidiManager::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
   control_armed_ = name;
@@ -84,6 +86,10 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
     synth_->setPitchWheel(value);
   }
   else if (midi_message.isController()) {
+    if (midi_message.getControllerNumber() == MOD_WHEEL_CONTROL_NUMBER) {
+      double percent = (1.0 * midi_message.getControllerValue()) / MOD_WHEEL_RESOLUTION;
+      synth_->setModWheel(percent);
+    }
     midiInput(midi_message.getControllerNumber(), midi_message.getControllerValue());
   }
 }
