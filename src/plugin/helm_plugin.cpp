@@ -17,6 +17,7 @@
 #include "helm_plugin.h"
 #include "helm_common.h"
 #include "helm_editor.h"
+#include "load_save.h"
 #include "value_bridge.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
@@ -175,14 +176,19 @@ void HelmPlugin::setValueNotifyHost(std::string name, mopo::mopo_float value) {
 }
 
 void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
-  // You should use this method to store your parameters in the memory block.
-  // You could do that either as raw data, or use the XML or ValueTree classes
-  // as intermediaries to make it easy to save and load complex data.
+  var state = LoadSave::stateToVar(&synth_, getCallbackLock());
+  String data_string = JSON::toString(state);
+  MemoryOutputStream stream;
+  stream.writeString(data_string);
+  dest_data.append(stream.getData(), stream.getDataSize());
 }
 
 void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
-  // You should use this method to restore your parameters from this memory block,
-  // whose contents will have been created by the getStateInformation() call.
+  MemoryInputStream stream(data, size_in_bytes, false);
+  String data_string = stream.readEntireStreamAsString();
+  var state;
+  if (JSON::parse(data_string, state).wasOk())
+    LoadSave::varToState(&synth_, getCallbackLock(), state);
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
