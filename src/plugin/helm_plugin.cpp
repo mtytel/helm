@@ -104,7 +104,7 @@ void HelmPlugin::changeProgramName(int index, const String& new_name) {
 
 void HelmPlugin::prepareToPlay(double sample_rate, int buffer_size) {
   synth_.setSampleRate(sample_rate);
-  synth_.setBufferSize(buffer_size);
+  synth_.setBufferSize(std::min<int>(buffer_size, mopo::MAX_BUFFER_SIZE));
 }
 
 void HelmPlugin::releaseResources() {
@@ -131,28 +131,34 @@ void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages) {
 void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
   processMidi(midi_messages);
 
-  int num_samples = buffer.getNumSamples();
+  int total_samples = buffer.getNumSamples();
   int num_channels = getNumOutputChannels();
   AudioPlayHead::CurrentPositionInfo position_info;
   getPlayHead()->getCurrentPosition(position_info);
   synth_.setBpm(position_info.bpm);
 
-  if (synth_.getBufferSize() != num_samples)
-    synth_.setBufferSize(num_samples);
-  synth_.process();
+  for (int sample_offset = 0; sample_offset < total_samples;) {
+    int num_samples = std::min<int>(total_samples - sample_offset, mopo::MAX_BUFFER_SIZE);
 
-  const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
-  const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
-  for (int channel = 0; channel < num_channels; ++channel) {
-    float* channelData = buffer.getWritePointer(channel);
-    const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
+    if (synth_.getBufferSize() != num_samples)
+      synth_.setBufferSize(num_samples);
+    synth_.process();
+
+    const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
+    const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
+    for (int channel = 0; channel < num_channels; ++channel) {
+      float* channelData = buffer.getWritePointer(channel);
+      const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
+
+      for (int i = 0; i < num_samples; ++i)
+        channelData[sample_offset + i] = synth_output[i];
+    }
 
     for (int i = 0; i < num_samples; ++i)
-      channelData[i] = synth_output[i];
-  }
+      output_memory_->push(synth_output_left[i] + synth_output_right[i]);
 
-  for (int i = 0; i < num_samples; ++i)
-    output_memory_->push(synth_output_left[i] + synth_output_right[i]);
+    sample_offset += num_samples;
+  }
 }
 
 bool HelmPlugin::hasEditor() const {
