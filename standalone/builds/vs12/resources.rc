@@ -14,7 +14,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,3,3,0
+ FILEVERSION 0,4,0,0
  PRODUCTVERSION 0,0,0,0
  FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
@@ -32,9 +32,9 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Matt Tytel"
             VALUE "FileDescription", "Helm"
-            VALUE "FileVersion", "0.3.3"
+            VALUE "FileVersion", "0.4.0"
             VALUE "ProductName", "Helm"
-            VALUE "ProductVersion", "0.3.3"
+            VALUE "ProductVersion", "0.4.0"
         END
     END
     BLOCK "VarFileInfo"

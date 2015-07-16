@@ -77,7 +77,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\vstsdk2.4;c:\srcs\VST3 SDK;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.3.3;JUCE_APP_VERSION_HEX=0x303;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader />
@@ -123,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\vstsdk2.4;c:\srcs\VST3 SDK;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.3.3;JUCE_APP_VERSION_HEX=0x303;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>
@@ -168,7 +168,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\vstsdk2.4;c:\srcs\VST3 SDK;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.3.3;JUCE_APP_VERSION_HEX=0x303;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader />
@@ -214,7 +214,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\vstsdk2.4;c:\srcs\VST3 SDK;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.3.3;JUCE_APP_VERSION_HEX=0x303;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>JucePlugin_AAXLibs_path="c:\\srcs\\AAX\\Libs";WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>
