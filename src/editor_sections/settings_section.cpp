@@ -19,6 +19,8 @@
 #define INFO_WIDTH 350
 #define INFO_HEIGHT 400
 #define PADDING 10
+#define MARGIN_X 20
+#define MARGIN_Y 30
 
 SettingsSection::SettingsSection(String name) : Component(name) {
 }
@@ -40,6 +42,17 @@ void SettingsSection::paint(Graphics& g) {
 
   g.saveState();
   g.setOrigin(info_rect.getX() + PADDING, info_rect.getY() + PADDING);
+
+  g.setFont(roboto_light.withPointHeight(12.0));
+  g.setColour(Colour(0xffaaaaaa));
+
+  g.drawText(TRANS("Audio Driver") + ":",
+             PADDING + MARGIN_X, PADDING + MARGIN_Y,
+             info_rect.getWidth(), 20.0f, Justification::left);
+
+  g.drawText(TRANS("Audio Out Device") + ":",
+             PADDING + MARGIN_X, PADDING + 2 * MARGIN_Y,
+             info_rect.getWidth(), 20.0f, Justification::left);
 
   g.restoreState();
 }
