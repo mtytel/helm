@@ -15,30 +15,24 @@
  */
 
 #pragma once
-#ifndef ABOUT_SECTION_H
-#define ABOUT_SECTION_H
+#ifndef SETTINGS_SECTION_H
+#define SETTINGS_SECTION_H
 
 #include "JuceHeader.h"
 
-class AboutSection : public Component, public ButtonListener {
+class SettingsSection : public Component {
   public:
-    AboutSection(String name);
+    SettingsSection(String name);
+
     void paint(Graphics& g) override;
     void resized() override;
 
     Rectangle<int> getInfoRect();
 
     void mouseUp(const MouseEvent& e) override;
-    void buttonClicked(Button* clicked_button) override;
-    void setSettingsComponent(Component* settings) { settings_component_ = settings; }
 
   private:
-    ScopedPointer<HyperlinkButton> developer_link_;
-    ScopedPointer<HyperlinkButton> free_software_link_;
-    ScopedPointer<ImageButton> settings_button_;
-    Component* settings_component_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SettingsSection)
 };
 
-#endif // ABOUT_SECTION_H
+#endif // SETTINGS_SECTION_H

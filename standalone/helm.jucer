@@ -275,6 +275,10 @@
               file="../src/editor_sections/reverb_section.cpp"/>
         <FILE id="Ppfp0O" name="reverb_section.h" compile="0" resource="0"
               file="../src/editor_sections/reverb_section.h"/>
+        <FILE id="BWbDQN" name="settings_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/settings_section.cpp"/>
+        <FILE id="u0zklO" name="settings_section.h" compile="0" resource="0"
+              file="../src/editor_sections/settings_section.h"/>
         <FILE id="O64bNX" name="step_sequencer_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/step_sequencer_section.cpp"/>
         <FILE id="atB9T3" name="step_sequencer_section.h" compile="0" resource="0"

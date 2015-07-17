@@ -55,10 +55,10 @@ namespace BinaryData
     const int            helm_icon_512_2x_pngSize = 137623;
 
     extern const char*   ic_settings_white_24dp_1x_png;
-    const int            ic_settings_white_24dp_1x_pngSize = 326;
+    const int            ic_settings_white_24dp_1x_pngSize = 554;
 
     extern const char*   ic_settings_white_24dp_2x_png;
-    const int            ic_settings_white_24dp_2x_pngSize = 562;
+    const int            ic_settings_white_24dp_2x_pngSize = 999;
 
     extern const char*   modulation_selected_active_1x_png;
     const int            modulation_selected_active_1x_pngSize = 2739;

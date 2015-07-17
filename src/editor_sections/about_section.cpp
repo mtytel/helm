@@ -20,7 +20,7 @@
 #define INFO_WIDTH 350
 #define INFO_HEIGHT 160
 
-AboutSection::AboutSection(String name) : Component(name) {
+AboutSection::AboutSection(String name) : Component(name), settings_component_(nullptr) {
   static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                              BinaryData::RobotoLight_ttfSize));
 
@@ -34,6 +34,27 @@ AboutSection::AboutSection(String name) : Component(name) {
   free_software_link_->setFont(roboto_light.withPointHeight(12.0f), false);
   free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(free_software_link_);
+
+  settings_button_ = new ImageButton("settings_button");
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  if (display.scale > 1.5) {
+    Image icon = ImageCache::getFromMemory(BinaryData::ic_settings_white_24dp_1x_png,
+                                           BinaryData::ic_settings_white_24dp_1x_pngSize);
+    settings_button_->setImages(false, true, false,
+                                icon, 1.0, Colours::transparentBlack,
+                                icon, 1.0, Colour(0x77ffffff),
+                                icon, 1.0, Colour(0x55000000));
+  }
+  else {
+    Image icon_small = ImageCache::getFromMemory(BinaryData::ic_settings_white_24dp_2x_png,
+                                                 BinaryData::ic_settings_white_24dp_2x_pngSize);
+    settings_button_->setImages(false, true, false,
+                                icon_small, 1.0, Colours::transparentBlack,
+                                icon_small, 1.0, Colour(0x77ffffff),
+                                icon_small, 1.0, Colour(0x55000000));
+  }
+  addAndMakeVisible(settings_button_);
+  settings_button_->addListener(this);
 }
 
 void AboutSection::paint(Graphics& g) {
@@ -102,11 +123,18 @@ void AboutSection::resized() {
                              98.0f, 20.0f);
   free_software_link_->setBounds(info_rect.getX() + INFO_HEIGHT - 2.0f, info_rect.getY() + 120.0f,
                                  180.0f, 20.0f);
+  settings_button_->setBounds(info_rect.getRight() - 36.0f, info_rect.getY() + 12.0f, 24.0f, 24.0f);
 }
 
 void AboutSection::mouseUp(const MouseEvent &e) {
   if (!getInfoRect().contains(e.getPosition()))
     setVisible(false);
+}
+
+void AboutSection::buttonClicked(Button* clicked_button) {
+  setVisible(false);
+  if (settings_component_)
+    settings_component_->setVisible(true);
 }
 
 Rectangle<int> AboutSection::getInfoRect() {

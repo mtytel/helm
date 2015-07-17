@@ -55,6 +55,7 @@ class FullInterface : public SynthSection {
     ScopedPointer<SynthSlider> arp_tempo_;
 
     ScopedPointer<AboutSection> about_section_;
+    ScopedPointer<Component> standalone_settings_section_;
     ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
