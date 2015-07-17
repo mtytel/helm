@@ -44,6 +44,10 @@
             file="images/helm_icon_512_1x.png"/>
       <FILE id="XC7smo" name="helm_icon_512_2x.png" compile="0" resource="1"
             file="images/helm_icon_512_2x.png"/>
+      <FILE id="jwBv1J" name="ic_settings_white_24dp_1x.png" compile="0"
+            resource="1" file="images/ic_settings_white_24dp_1x.png"/>
+      <FILE id="hAOVzU" name="ic_settings_white_24dp_2x.png" compile="0"
+            resource="1" file="images/ic_settings_white_24dp_2x.png"/>
       <FILE id="tWsWkS" name="modulation_selected_active_1x.png" compile="0"
             resource="1" file="images/modulation_selected_active_1x.png"/>
       <FILE id="PTlcCl" name="modulation_selected_active_2x.png" compile="0"
