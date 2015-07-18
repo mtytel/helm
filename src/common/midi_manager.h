@@ -47,6 +47,18 @@ class MidiManager : public MidiInputCallback {
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
 
+    struct MidiMessageCallback : public CallbackMessage {
+      MidiMessageCallback(MidiManager* man, const MidiMessage& mes) : manager(man), message(mes) { }
+
+      void messageCallback() override {
+        if (manager != nullptr)
+          manager->processMidiMessage(message);
+      }
+
+      MidiManager* manager;
+      MidiMessage message;
+    };
+
   protected:
     mopo::HelmEngine* synth_;
     const CriticalSection* critical_section_;

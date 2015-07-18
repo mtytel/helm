@@ -96,5 +96,6 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
 
 void MidiManager::handleIncomingMidiMessage(MidiInput *source,
                                             const MidiMessage &midi_message) {
-  processMidiMessage(midi_message);
+  MidiMessageCallback* midi_callback = new MidiMessageCallback(this, midi_message);
+  midi_callback->post();
 }
