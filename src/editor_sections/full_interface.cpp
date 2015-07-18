@@ -19,7 +19,6 @@
 #include "text_look_and_feel.h"
 #include "helm_engine.h"
 #include "helm_common.h"
-#include "settings_section.h"
 #include "synth_gui_interface.h"
 
 #define TOP_HEIGHT 64
@@ -66,12 +65,6 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
-
-#ifndef JucePlugin_Version
-  standalone_settings_section_ = new SettingsSection("settings");
-  about_section_->setSettingsComponent(standalone_settings_section_);
-  addChildComponent(standalone_settings_section_);
-#endif
 
   setOpaque(true);
 }
@@ -138,8 +131,6 @@ void FullInterface::resized() {
   global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
-  if (standalone_settings_section_)
-    standalone_settings_section_->setBounds(getBounds());
   logo_button_->setBounds(18, 8, 64, 64);
 
   SynthSection::resized();

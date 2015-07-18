@@ -48,6 +48,7 @@ class HelmStandaloneEditor : public AudioAppComponent,
     MidiManager* getMidiManager() override { return midi_manager_.get(); }
     void updateFullGui() override;
     void updateGuiControl(std::string name, mopo::mopo_float value);
+    AudioDeviceManager* getAudioDeviceManager() override { return &deviceManager; }
 
   private:
     mopo::HelmEngine synth_;

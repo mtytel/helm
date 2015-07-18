@@ -30,13 +30,11 @@ class AboutSection : public Component, public ButtonListener {
 
     void mouseUp(const MouseEvent& e) override;
     void buttonClicked(Button* clicked_button) override;
-    void setSettingsComponent(Component* settings) { settings_component_ = settings; }
 
   private:
     ScopedPointer<HyperlinkButton> developer_link_;
     ScopedPointer<HyperlinkButton> free_software_link_;
     ScopedPointer<ImageButton> settings_button_;
-    Component* settings_component_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };

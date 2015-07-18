@@ -33,6 +33,16 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   setAudioChannels(0, NUM_CHANNELS);
 
+  if (deviceManager.getCurrentAudioDevice() == nullptr) {
+    const OwnedArray<AudioIODeviceType>& device_types = deviceManager.getAvailableDeviceTypes();
+
+    for (AudioIODeviceType* device_type : device_types) {
+      deviceManager.setCurrentAudioDeviceType(device_type->getTypeName(), true);
+      if (deviceManager.getCurrentAudioDevice())
+        break;
+    }
+  }
+
   int midi_index = MidiInput::getDefaultDeviceIndex();
   midi_input_ = MidiInput::openDevice(midi_index, midi_manager_);
   if (midi_input_.get()) {

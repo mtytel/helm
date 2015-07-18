@@ -50,6 +50,7 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     virtual void beginChangeGesture(std::string name) { }
     virtual void endChangeGesture(std::string name) { }
     virtual void setValueNotifyHost(std::string name, mopo::mopo_float value) { }
+    virtual AudioDeviceManager* getAudioDeviceManager() { return nullptr; }
 
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();

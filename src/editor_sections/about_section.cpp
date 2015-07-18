@@ -15,12 +15,13 @@
  */
 
 #include "about_section.h"
+#include "synth_gui_interface.h"
 
 #define LOGO_WIDTH 128
 #define INFO_WIDTH 350
 #define INFO_HEIGHT 160
 
-AboutSection::AboutSection(String name) : Component(name), settings_component_(nullptr) {
+AboutSection::AboutSection(String name) : Component(name) {
   static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                              BinaryData::RobotoLight_ttfSize));
 
@@ -35,6 +36,7 @@ AboutSection::AboutSection(String name) : Component(name), settings_component_(n
   free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(free_software_link_);
 
+#ifndef JucePlugin_Version
   settings_button_ = new ImageButton("settings_button");
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   if (display.scale > 1.5) {
@@ -55,6 +57,7 @@ AboutSection::AboutSection(String name) : Component(name), settings_component_(n
   }
   addAndMakeVisible(settings_button_);
   settings_button_->addListener(this);
+#endif
 }
 
 void AboutSection::paint(Graphics& g) {
@@ -123,7 +126,8 @@ void AboutSection::resized() {
                              98.0f, 20.0f);
   free_software_link_->setBounds(info_rect.getX() + INFO_HEIGHT - 2.0f, info_rect.getY() + 120.0f,
                                  180.0f, 20.0f);
-  settings_button_->setBounds(info_rect.getRight() - 36.0f, info_rect.getY() + 12.0f, 24.0f, 24.0f);
+  if (settings_button_)
+    settings_button_->setBounds(info_rect.getRight() - 36.0f, info_rect.getY() + 12.0f, 24.0f, 24.0f);
 }
 
 void AboutSection::mouseUp(const MouseEvent &e) {
@@ -132,9 +136,23 @@ void AboutSection::mouseUp(const MouseEvent &e) {
 }
 
 void AboutSection::buttonClicked(Button* clicked_button) {
-  setVisible(false);
-  if (settings_component_)
-    settings_component_->setVisible(true);
+  DialogWindow::LaunchOptions options;
+
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  AudioDeviceManager* device_manager =  parent->getAudioDeviceManager();
+  if (device_manager == nullptr)
+    return;
+
+  options.content.setOwned(new AudioDeviceSelectorComponent(*device_manager,
+                                                            0, 0, 1, 2,
+                                                            true, false, true, false));
+  options.content->setSize (500, 350);
+  options.dialogTitle = TRANS("Audio Settings");
+  options.dialogBackgroundColour = Colours::darkgrey;
+  options.escapeKeyTriggersCloseButton = true;
+  options.useNativeTitleBar = true;
+  options.resizable = false;
+  options.launchAsync();
 }
 
 Rectangle<int> AboutSection::getInfoRect() {
