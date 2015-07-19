@@ -139,14 +139,15 @@ void AboutSection::buttonClicked(Button* clicked_button) {
   DialogWindow::LaunchOptions options;
 
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  AudioDeviceManager* device_manager =  parent->getAudioDeviceManager();
+  AudioDeviceManager* device_manager = parent->getAudioDeviceManager();
   if (device_manager == nullptr)
     return;
 
-  options.content.setOwned(new AudioDeviceSelectorComponent(*device_manager,
-                                                            0, 0, 1, 2,
-                                                            true, false, true, false));
-  options.content->setSize (500, 350);
+  AudioDeviceSelectorComponent* device_selector =
+      new AudioDeviceSelectorComponent(*device_manager, 0, 0, 1, 2,
+                                       true, false, true, false);
+  options.content.setOwned(device_selector);
+  options.content->setSize(500, 350);
   options.dialogTitle = TRANS("Audio Settings");
   options.dialogBackgroundColour = Colours::darkgrey;
   options.escapeKeyTriggersCloseButton = true;
