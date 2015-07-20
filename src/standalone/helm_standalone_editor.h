@@ -56,7 +56,6 @@ class HelmStandaloneEditor : public AudioAppComponent,
 
     ScopedPointer<mopo::Memory> output_memory_;
     ScopedPointer<FullInterface> gui_;
-    ScopedPointer<MidiInput> midi_input_;
     ScopedPointer<MidiManager> midi_manager_;
     ScopedPointer<HelmComputerKeyboard> computer_keyboard_;
 

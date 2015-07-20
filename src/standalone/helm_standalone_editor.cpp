@@ -43,12 +43,12 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
     }
   }
 
-  int midi_index = MidiInput::getDefaultDeviceIndex();
-  midi_input_ = MidiInput::openDevice(midi_index, midi_manager_);
-  if (midi_input_.get()) {
-    midi_input_->setName(ProjectInfo::projectName);
-    midi_input_->start();
-  }
+  const StringArray all_midi_ins(MidiInput::getDevices());
+
+  for (int i = 0; i < all_midi_ins.size(); ++i)
+    deviceManager.setMidiInputEnabled(all_midi_ins[i], true);
+
+  deviceManager.addMidiInputCallback("", midi_manager_);
 
   setLookAndFeel(DefaultLookAndFeel::instance());
 
