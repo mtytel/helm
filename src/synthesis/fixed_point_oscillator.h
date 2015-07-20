@@ -49,11 +49,11 @@ namespace mopo {
         unsigned int shuffle_index = INT_MAX * shuffle;
         if (shuffle_index > phase_) {
           unsigned int phase = phase_ * (2.0 / shuffle);
-          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, phase_inc);
+          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, 2.0 * phase_inc);
         }
         else {
           unsigned int phase = (phase_ - shuffle_index) / (1.0 - 0.5 * shuffle);
-          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, phase_inc);
+          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, 2.0 * phase_inc);
         }
       }
 
