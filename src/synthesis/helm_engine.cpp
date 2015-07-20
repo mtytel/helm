@@ -16,6 +16,7 @@
 
 #include "helm_engine.h"
 
+#include "dc_filter.h"
 #include "helm_lfo.h"
 #include "helm_voice_handler.h"
 #include "switch.h"
@@ -177,6 +178,12 @@ namespace mopo {
 
     addProcessor(delay_container);
 
+    // DC Blocker.
+    DcFilter* dc_filter = new DcFilter();
+    dc_filter->plug(delay_container, DcFilter::kAudio);
+
+    addProcessor(dc_filter);
+
     // Reverb Effect.
     Processor* reverb_feedback = createMonoModControl("reverb_feedback", false, true);
     Processor* reverb_damping = createMonoModControl("reverb_damping", false, true);
@@ -187,14 +194,14 @@ namespace mopo {
     reverb_feedback_clamped->plug(reverb_feedback);
 
     Reverb* reverb = new Reverb();
-    reverb->plug(delay, Reverb::kAudio);
+    reverb->plug(dc_filter, Reverb::kAudio);
     reverb->plug(reverb_feedback_clamped, Reverb::kFeedback);
     reverb->plug(reverb_damping, Reverb::kDamping);
     reverb->plug(reverb_wet, Reverb::kWet);
 
     BypassRouter* reverb_container = new BypassRouter();
     reverb_container->plug(reverb_on, BypassRouter::kOn);
-    reverb_container->plug(delay, BypassRouter::kAudio);
+    reverb_container->plug(dc_filter, BypassRouter::kAudio);
     reverb_container->addProcessor(reverb);
     reverb_container->addProcessor(reverb_feedback_clamped);
     reverb_container->registerOutput(reverb->output(0));
