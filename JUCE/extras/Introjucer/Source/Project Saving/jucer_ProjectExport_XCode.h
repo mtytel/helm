@@ -530,10 +530,8 @@ private:
         out << data;
     }
 
-    void createIconFile() const
+    void getIconImages (OwnedArray<Drawable>& images) const
     {
-        OwnedArray<Drawable> images;
-
         ScopedPointer<Drawable> bigIcon (getBigIcon());
         if (bigIcon != nullptr)
             images.add (bigIcon.release());
@@ -541,6 +539,35 @@ private:
         ScopedPointer<Drawable> smallIcon (getSmallIcon());
         if (smallIcon != nullptr)
             images.add (smallIcon.release());
+    }
+
+    void createiOSIconFiles (File appIconSet) const
+    {
+        const Array<AppIconType> types (getiOSAppIconTypes());
+
+        OwnedArray<Drawable> images;
+        getIconImages (images);
+
+        if (images.size() > 0)
+        {
+            for (int i = 0; i < types.size(); ++i)
+            {
+                const AppIconType type = types.getUnchecked(i);
+                const Image image (rescaleImageForIcon (*images.getFirst(), type.size));
+
+                MemoryOutputStream pngData;
+                PNGImageFormat pngFormat;
+                pngFormat.writeImageToStream (image, pngData);
+
+                overwriteFileIfDifferentOrThrow (appIconSet.getChildFile (type.filename), pngData);
+            }
+        }
+    }
+
+    void createIconFile() const
+    {
+        OwnedArray<Drawable> images;
+        getIconImages (images);
 
         if (images.size() > 0)
         {
@@ -627,6 +654,7 @@ private:
             static const char* kDefaultiOSOrientationStrings[] =
             {
                 "UIInterfaceOrientationPortrait",
+                "UIInterfaceOrientationPortraitUpsideDown",
                 "UIInterfaceOrientationLandscapeLeft",
                 "UIInterfaceOrientationLandscapeRight",
                 nullptr
@@ -1322,33 +1350,56 @@ private:
         return JSON::toString (var (v));
     }
 
-    String getiOSAppIconContents() const
+    struct AppIconType
     {
-        struct ImageType
+        const char* idiom;
+        const char* sizeString;
+        const char* filename;
+        const char* scale;
+        int size;
+    };
+
+    static Array<AppIconType> getiOSAppIconTypes()
+    {
+        AppIconType types[] =
         {
-            const char* idiom;
-            const char* size;
-            const char* scale;
+            { "iphone", "29x29",   "Icon-Small.png",             "1x", 29  },
+            { "iphone", "29x29",   "Icon-Small@2x.png",          "2x", 58  },
+            { "iphone", "40x40",   "Icon-Spotlight-40@2x.png",   "2x", 80  },
+            { "iphone", "57x57",   "Icon.png",                   "1x", 57  },
+            { "iphone", "57x57",   "Icon@2x.png",                "2x", 114 },
+            { "iphone", "60x60",   "Icon-60@2x.png",             "2x", 120 },
+            { "iphone", "60x60",   "Icon-@3x.png",               "3x", 180 },
+            { "ipad",   "29x29",   "Icon-Small-1.png",           "1x", 29  },
+            { "ipad",   "29x29",   "Icon-Small@2x-1.png",        "2x", 58  },
+            { "ipad",   "40x40",   "Icon-Spotlight-40.png",      "1x", 40  },
+            { "ipad",   "40x40",   "Icon-Spotlight-40@2x-1.png", "2x", 80  },
+            { "ipad",   "50x50",   "Icon-Small-50.png",          "1x", 50  },
+            { "ipad",   "50x50",   "Icon-Small-50@2x.png",       "2x", 100 },
+            { "ipad",   "72x72",   "Icon-72.png",                "1x", 72  },
+            { "ipad",   "72x72",   "Icon-72@2x.png",             "2x", 144 },
+            { "ipad",   "76x76",   "Icon-76.png",                "1x", 76  },
+            { "ipad",   "76x76",   "Icon-76@2x.png",             "2x", 152 }
         };
 
-        const ImageType types[] = { { "iphone", "29x29", "2x" },
-                                    { "iphone", "40x40", "2x" },
-                                    { "iphone", "60x60", "2x" },
-                                    { "iphone", "60x60", "3x" },
-                                    { "ipad",   "29x29", "1x" },
-                                    { "ipad",   "29x29", "2x" },
-                                    { "ipad",   "40x40", "1x" },
-                                    { "ipad",   "40x40", "2x" },
-                                    { "ipad",   "76x76", "1x" },
-                                    { "ipad",   "76x76", "2x" } };
+        return Array<AppIconType> (types, numElementsInArray (types));
+    }
+
+    String getiOSAppIconContents() const
+    {
+        const Array<AppIconType> types = getiOSAppIconTypes();
+
         var images;
 
-        for (size_t i = 0; i < sizeof (types) / sizeof (types[0]); ++i)
+        for (int i = 0; i < types.size(); ++i)
         {
+            AppIconType type = types.getUnchecked(i);
+
             DynamicObject::Ptr d = new DynamicObject();
-            d->setProperty ("idiom", types[i].idiom);
-            d->setProperty ("size",  types[i].size);
-            d->setProperty ("scale", types[i].scale);
+            d->setProperty ("idiom",    type.idiom);
+            d->setProperty ("size",     type.sizeString);
+            d->setProperty ("filename", type.filename);
+            d->setProperty ("scale",    type.scale);
             images.append (var (d));
         }
 
@@ -1391,7 +1442,9 @@ private:
     {
         File assets (getTargetFolder().getChildFile (project.getProjectFilenameRoot()).getChildFile ("Images.xcassets"));
 
-        overwriteFileIfDifferentOrThrow (assets.getChildFile ("AppIcon.appiconset")     .getChildFile ("Contents.json"), getiOSAppIconContents());
+        overwriteFileIfDifferentOrThrow (assets.getChildFile ("AppIcon.appiconset").getChildFile ("Contents.json"), getiOSAppIconContents());
+        createiOSIconFiles (assets.getChildFile ("AppIcon.appiconset"));
+
         overwriteFileIfDifferentOrThrow (assets.getChildFile ("LaunchImage.launchimage").getChildFile ("Contents.json"), getiOSLaunchImageContents());
 
         RelativePath assetsPath (assets, getTargetFolder(), RelativePath::buildTargetFolder);

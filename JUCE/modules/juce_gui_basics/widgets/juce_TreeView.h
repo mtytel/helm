@@ -446,6 +446,19 @@ public:
     */
     void setDrawsInLeftMargin (bool canDrawInLeftMargin) noexcept;
 
+    /** Sets a flag to indicate that the item wants to be allowed
+        to draw all the way across to the right edge of the treeview.
+
+        Similar to setDrawsInLeftMargin: when this flag is set to true,
+        then the graphics context isn't clipped on the right side. Unlike
+        setDrawsInLeftMargin, you will very rarely need to use this function,
+        as this method won't clip the right margin unless your TreeViewItem
+        overrides getItemWidth to return a positive value.
+     
+        @see setDrawsInLeftMargin, getItemWidth
+     */
+    void setDrawsInRightMargin (bool canDrawInRightMargin) noexcept;
+
     //==============================================================================
     /** Saves the current state of open/closed nodes so it can be restored later.
 
@@ -544,6 +557,7 @@ private:
     bool drawLinesInside    : 1;
     bool drawLinesSet       : 1;
     bool drawsInLeftMargin  : 1;
+    bool drawsInRightMargin : 1;
     unsigned int openness   : 2;
 
     friend class TreeView;

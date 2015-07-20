@@ -29,7 +29,6 @@
 #ifndef JUCE_LEAKEDOBJECTDETECTOR_H_INCLUDED
 #define JUCE_LEAKEDOBJECTDETECTOR_H_INCLUDED
 
-#define DBG2(dbgtext)  { juce::String str; str << dbgtext; std::cout << str.toRawUTF8() << std::endl; }
 
 //==============================================================================
 /**
@@ -56,7 +55,7 @@ public:
     {
         if (--(getCounter().numObjects) < 0)
         {
-            DBG2 ("*** Dangling pointer deletion! Class: " << getLeakedObjectClassName());
+            DBG ("*** Dangling pointer deletion! Class: " << getLeakedObjectClassName());
 
             /** If you hit this, then you've managed to delete more instances of this class than you've
                 created.. That indicates that you're deleting some dangling pointers.
@@ -69,7 +68,7 @@ public:
                 your object management. Tut, tut. Always, always use ScopedPointers, OwnedArrays,
                 ReferenceCountedObjects, etc, and avoid the 'delete' operator at all costs!
             */
-            //jassertfalse;
+            jassertfalse;
         }
     }
 
@@ -84,7 +83,7 @@ private:
         {
             if (numObjects.value > 0)
             {
-                DBG2 ("*** Leaked objects detected: " << numObjects.value << " instance(s) of class " << getLeakedObjectClassName());
+                DBG ("*** Leaked objects detected: " << numObjects.value << " instance(s) of class " << getLeakedObjectClassName());
 
                 /** If you hit this, then you've leaked one or more objects of the type specified by
                     the 'OwnerClass' template parameter - the name should have been printed by the line above.
@@ -93,7 +92,7 @@ private:
                     your object management. Tut, tut. Always, always use ScopedPointers, OwnedArrays,
                     ReferenceCountedObjects, etc, and avoid the 'delete' operator at all costs!
                 */
-                //jassertfalse;
+                jassertfalse;
             }
         }
 

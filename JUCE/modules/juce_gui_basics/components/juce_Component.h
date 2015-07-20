@@ -443,7 +443,7 @@ public:
     /** Changes the component's position and size.
 
         The coordinates are relative to the top-left of the component's parent, or relative
-        to the origin of the screen is the component is on the desktop.
+        to the origin of the screen if the component is on the desktop.
 
         If this method changes the component's top-left position, it will make a synchronous
         call to moved(). If it changes the size, it will also make a call to resized().
@@ -459,7 +459,7 @@ public:
     /** Changes the component's position and size.
 
         The coordinates are relative to the top-left of the component's parent, or relative
-        to the origin of the screen is the component is on the desktop.
+        to the origin of the screen if the component is on the desktop.
 
         If this method changes the component's top-left position, it will make a synchronous
         call to moved(). If it changes the size, it will also make a call to resized().
@@ -812,7 +812,7 @@ public:
     virtual void childrenChanged();
 
     //==============================================================================
-    /** Tests whether a given point inside the component.
+    /** Tests whether a given point is inside the component.
 
         Overriding this method allows you to create components which only intercept
         mouse-clicks within a user-defined area.

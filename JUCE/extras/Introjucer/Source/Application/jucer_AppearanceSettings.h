@@ -88,8 +88,9 @@ public:
 
     void drawTabButton (TabBarButton& button, Graphics&, bool isMouseOver, bool isMouseDown) override;
     void drawTabAreaBehindFrontButton (TabbedButtonBar&, Graphics&, int, int) override {}
-
     int getTabButtonBestWidth (TabBarButton&, int tabDepth) override;
+    void drawConcertinaPanelHeader (Graphics&, const Rectangle<int>&, bool, bool, ConcertinaPanel&, Component&) override;
+    static Colour getTabBackgroundColour (TabBarButton&);
 
 private:
     Image backgroundTexture;

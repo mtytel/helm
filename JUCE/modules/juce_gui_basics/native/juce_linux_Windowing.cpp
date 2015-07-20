@@ -978,9 +978,9 @@ private:
 
     //==============================================================================
    #if JUCE_USE_XRANDR
-    friend class ContainerDeletePolicy<XRRScreenResources>;
-    friend class ContainerDeletePolicy<XRROutputInfo>;
-    friend class ContainerDeletePolicy<XRRCrtcInfo>;
+    friend struct ContainerDeletePolicy<XRRScreenResources>;
+    friend struct ContainerDeletePolicy<XRROutputInfo>;
+    friend struct ContainerDeletePolicy<XRRCrtcInfo>;
 
     class XRandrWrapper
     {
@@ -1062,9 +1062,9 @@ private:
 
     private:
         //==============================================================================
-        friend class ContainerDeletePolicy<XRRScreenResources>;
-        friend class ContainerDeletePolicy<XRROutputInfo>;
-        friend class ContainerDeletePolicy<XRRCrtcInfo>;
+        friend struct ContainerDeletePolicy<XRRScreenResources>;
+        friend struct ContainerDeletePolicy<XRROutputInfo>;
+        friend struct ContainerDeletePolicy<XRRCrtcInfo>;
 
         void freeScreenResources (XRRScreenResources* ptr)
         {
@@ -2209,6 +2209,7 @@ public:
         wheel.deltaY = amount;
         wheel.isReversed = false;
         wheel.isSmooth = false;
+        wheel.isInertial = false;
 
         handleMouseWheel (0, getMousePos (buttonPressEvent), getEventTime (buttonPressEvent), wheel);
     }
@@ -2318,6 +2319,10 @@ public:
         // Batch together all pending expose events
         XEvent nextEvent;
         ScopedXLock xlock;
+
+        // if we have opengl contexts then just repaint them all
+        // regardless if this is really necessary
+        repaintOpenGLContexts ();
 
         if (exposeEvent.window != windowH)
         {
@@ -2508,6 +2513,28 @@ public:
         return currentScaleFactor;
     }
 
+    //===============================================================================
+    void addOpenGLRepaintListener (Component* dummy)
+    {
+        if (dummy != nullptr)
+            glRepaintListeners.addIfNotAlreadyThere (dummy);
+    }
+
+    void removeOpenGLRepaintListener (Component* dummy)
+    {
+        if (dummy != nullptr)
+            glRepaintListeners.removeAllInstancesOf (dummy);
+    }
+
+    void repaintOpenGLContexts()
+    {
+        for (int i = 0; i < glRepaintListeners.size(); ++i)
+        {
+            if (Component* c = glRepaintListeners [i])
+                c->handleCommandMessage (0);
+        }
+    }
+
     //==============================================================================
     bool dontRepaint;
 
@@ -2667,6 +2694,7 @@ private:
     BorderSize<int> windowBorder;
     bool isAlwaysOnTop;
     double currentScaleFactor;
+    Array<Component*> glRepaintListeners;
     enum { KeyPressEventType = 2 };
 
     struct MotifWmHints
@@ -2879,9 +2907,8 @@ private:
     {
         Atom netHints [2];
 
-        if (styleFlags & windowIsTemporary)
-            netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_TOOLTIP");
-        else if ((styleFlags & windowHasDropShadow) == 0 && Desktop::canUseSemiTransparentWindows())
+        if ((styleFlags & windowIsTemporary) != 0
+             || ((styleFlags & windowHasDropShadow) == 0 && Desktop::canUseSemiTransparentWindows()))
             netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_COMBO");
         else
             netHints [0] = Atoms::getIfExists ("_NET_WM_WINDOW_TYPE_NORMAL");
@@ -2931,7 +2958,7 @@ private:
         swa.border_pixel = 0;
         swa.background_pixmap = None;
         swa.colormap = colormap;
-        swa.override_redirect = (styleFlags & windowIsTemporary) ? True : False;
+        swa.override_redirect = (component.isAlwaysOnTop() && (styleFlags & windowIsTemporary) != 0) ? True : False;
         swa.event_mask = getAllEventsMask();
 
         windowH = XCreateWindow (display, parentToAddTo != 0 ? parentToAddTo : root,
@@ -4122,6 +4149,18 @@ Rectangle<int> juce_LinuxScaledToPhysicalBounds(ComponentPeer* peer, const Recta
         retval *= linuxPeer->getCurrentScale();
 
     return retval;
+}
+
+void juce_LinuxAddRepaintListener (ComponentPeer* peer, Component* dummy)
+{
+    if (LinuxComponentPeer* linuxPeer = dynamic_cast<LinuxComponentPeer*> (peer))
+        linuxPeer->addOpenGLRepaintListener (dummy);
+}
+
+void juce_LinuxRemoveRepaintListener (ComponentPeer* peer, Component* dummy)
+{
+    if (LinuxComponentPeer* linuxPeer = dynamic_cast<LinuxComponentPeer*> (peer))
+        linuxPeer->removeOpenGLRepaintListener (dummy);
 }
 
 //==============================================================================

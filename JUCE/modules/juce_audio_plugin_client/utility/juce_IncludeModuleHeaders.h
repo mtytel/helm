@@ -31,7 +31,7 @@ using namespace juce;
 
 namespace juce
 {
-    #if JUCE_MAC && ! DOXYGEN
+    #if JUCE_MAC
      #define Point     juce::Point
      #define Component juce::Component
 

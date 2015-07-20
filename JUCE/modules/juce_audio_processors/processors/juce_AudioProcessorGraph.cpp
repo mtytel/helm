@@ -977,7 +977,6 @@ bool AudioProcessorGraph::removeNode (const uint32 nodeId)
     {
         if (nodes.getUnchecked(i)->nodeId == nodeId)
         {
-            nodes.getUnchecked(i)->setParentGraph (nullptr);
             nodes.remove (i);
             triggerAsyncUpdate();
 
@@ -1270,17 +1269,19 @@ void AudioProcessorGraph::reset()
         nodes.getUnchecked(i)->getProcessor()->reset();
 }
 
-void AudioProcessorGraph::setNonRealtime (bool isNonRealtime) noexcept
+void AudioProcessorGraph::setNonRealtime (bool isProcessingNonRealtime) noexcept
 {
     const ScopedLock sl (getCallbackLock());
 
     for (int i = 0; i < nodes.size(); ++i)
-        nodes.getUnchecked(i)->getProcessor()->setNonRealtime (isNonRealtime);
+        nodes.getUnchecked(i)->getProcessor()->setNonRealtime (isProcessingNonRealtime);
 }
 
 void AudioProcessorGraph::setPlayHead (AudioPlayHead* audioPlayHead)
 {
     const ScopedLock sl (getCallbackLock());
+
+    AudioProcessor::setPlayHead (audioPlayHead);
 
     for (int i = 0; i < nodes.size(); ++i)
         nodes.getUnchecked(i)->getProcessor()->setPlayHead (audioPlayHead);
@@ -1482,10 +1483,8 @@ bool AudioProcessorGraph::AudioGraphIOProcessor::isOutputChannelStereoPair (int 
 bool AudioProcessorGraph::AudioGraphIOProcessor::isInput() const noexcept           { return type == audioInputNode  || type == midiInputNode; }
 bool AudioProcessorGraph::AudioGraphIOProcessor::isOutput() const noexcept          { return type == audioOutputNode || type == midiOutputNode; }
 
-#if ! JUCE_AUDIO_PROCESSOR_NO_GUI
 bool AudioProcessorGraph::AudioGraphIOProcessor::hasEditor() const                  { return false; }
 AudioProcessorEditor* AudioProcessorGraph::AudioGraphIOProcessor::createEditor()    { return nullptr; }
-#endif
 
 int AudioProcessorGraph::AudioGraphIOProcessor::getNumPrograms()                    { return 0; }
 int AudioProcessorGraph::AudioGraphIOProcessor::getCurrentProgram()                 { return 0; }
