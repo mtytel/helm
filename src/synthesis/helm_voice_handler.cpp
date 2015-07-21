@@ -661,10 +661,10 @@ namespace mopo {
     portamento_filter->plug(trigger, PortamentoFilter::kVoiceTrigger);
     addProcessor(portamento_filter);
 
-    current_frequency_ = new LinearSlope();
-    current_frequency_->plug(current_note, LinearSlope::kTarget);
-    current_frequency_->plug(portamento, LinearSlope::kRunSeconds);
-    current_frequency_->plug(portamento_filter, LinearSlope::kTriggerJump);
+    current_frequency_ = new PortamentoSlope();
+    current_frequency_->plug(current_note, PortamentoSlope::kTarget);
+    current_frequency_->plug(portamento, PortamentoSlope::kRunSeconds);
+    current_frequency_->plug(portamento_filter, PortamentoSlope::kTriggerJump);
 
     addProcessor(current_frequency_);
 

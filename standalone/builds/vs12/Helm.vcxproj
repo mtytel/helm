@@ -147,6 +147,7 @@
     <ClCompile Include="..\..\..\mopo\src\operators.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\oscillator.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\phaser.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\portamento_slope.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\processor.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\processor_router.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\resonance_lookup.cpp"/>
@@ -1373,6 +1374,7 @@
     <ClInclude Include="..\..\..\mopo\src\operators.h"/>
     <ClInclude Include="..\..\..\mopo\src\oscillator.h"/>
     <ClInclude Include="..\..\..\mopo\src\phaser.h"/>
+    <ClInclude Include="..\..\..\mopo\src\portamento_slope.h"/>
     <ClInclude Include="..\..\..\mopo\src\processor.h"/>
     <ClInclude Include="..\..\..\mopo\src\processor_router.h"/>
     <ClInclude Include="..\..\..\mopo\src\resonance_lookup.h"/>

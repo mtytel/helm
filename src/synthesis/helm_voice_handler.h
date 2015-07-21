@@ -70,7 +70,7 @@ namespace mopo {
       Add* note_from_center_;
       SmoothValue* mod_wheel_amount_;
       SmoothValue* pitch_wheel_amount_;
-      LinearSlope* current_frequency_;
+      PortamentoSlope* current_frequency_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
       SimpleDelay* osc_feedback_;

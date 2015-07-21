@@ -111,6 +111,10 @@
         <FILE id="KMlHeH" name="oscillator.h" compile="0" resource="0" file="mopo/src/oscillator.h"/>
         <FILE id="H5zXja" name="phaser.cpp" compile="1" resource="0" file="mopo/src/phaser.cpp"/>
         <FILE id="v612x4" name="phaser.h" compile="0" resource="0" file="mopo/src/phaser.h"/>
+        <FILE id="vYh7c6" name="portamento_slope.cpp" compile="1" resource="0"
+              file="mopo/src/portamento_slope.cpp"/>
+        <FILE id="GRYedf" name="portamento_slope.h" compile="0" resource="0"
+              file="mopo/src/portamento_slope.h"/>
         <FILE id="B9nzMm" name="processor.cpp" compile="1" resource="0" file="mopo/src/processor.cpp"/>
         <FILE id="unhGBY" name="processor.h" compile="0" resource="0" file="mopo/src/processor.h"/>
         <FILE id="RDdsuF" name="processor_router.cpp" compile="1" resource="0"

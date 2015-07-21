@@ -39,6 +39,7 @@
 		129F86230AE6565FD254DC33 = {isa = PBXBuildFile; fileRef = FBD40B3FBA590937EE835769; };
 		40C01DA356D1576FF5CFF57A = {isa = PBXBuildFile; fileRef = 44E13CAB15B1A247C36F16D9; };
 		E50CDEC88F0CE918FC0C48A5 = {isa = PBXBuildFile; fileRef = 03CD6F36F9B9A096DD743C43; };
+		65A741BE06FC1970F1392698 = {isa = PBXBuildFile; fileRef = 4DBFDDC57F692A26490E5051; };
 		183B1863EC215F2C8F4D88AB = {isa = PBXBuildFile; fileRef = 2B561BCB8E02B205A0DC6F9F; };
 		27B007CD0F35B4B32398A1B8 = {isa = PBXBuildFile; fileRef = 1E2DB287C0CB71FFB89BB037; };
 		C8E97209238D3CFBB147AC63 = {isa = PBXBuildFile; fileRef = 04973A95DD52439F3A873176; };
@@ -293,6 +294,7 @@
 		1DA17AD9D3A6219D06E257F5 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "juce_mac_Files.mm"; path = "../../JUCE/modules/juce_core/native/juce_mac_Files.mm"; sourceTree = "SOURCE_ROOT"; };
 		1DA52973BD5080F30067847E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_linux_Fonts.cpp"; path = "../../JUCE/modules/juce_graphics/native/juce_linux_Fonts.cpp"; sourceTree = "SOURCE_ROOT"; };
 		1DA84015402D21EC5AF100B7 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_EdgeTable.h"; path = "../../JUCE/modules/juce_graphics/geometry/juce_EdgeTable.h"; sourceTree = "SOURCE_ROOT"; };
+		1DCDA062A5FBB2F99D9A9BF5 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "portamento_slope.h"; path = "../../mopo/src/portamento_slope.h"; sourceTree = "SOURCE_ROOT"; };
 		1DDE8D8BD5D7C163946C6241 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "smooth_value.cpp"; path = "../../mopo/src/smooth_value.cpp"; sourceTree = "SOURCE_ROOT"; };
 		1E2DB287C0CB71FFB89BB037 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "processor_router.cpp"; path = "../../mopo/src/processor_router.cpp"; sourceTree = "SOURCE_ROOT"; };
 		1E3317D8707B680BB849EC3C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_ToolbarItemPalette.cpp"; path = "../../JUCE/modules/juce_gui_basics/widgets/juce_ToolbarItemPalette.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -545,6 +547,7 @@
 		4CFBED271D08811476A00CBE = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_AudioDeviceSelectorComponent.cpp"; path = "../../JUCE/modules/juce_audio_utils/gui/juce_AudioDeviceSelectorComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
 		4D68A60F983E0C516DA5F605 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = utils.h; path = ../../mopo/src/utils.h; sourceTree = "SOURCE_ROOT"; };
 		4D8A838542D61C7AC42FA75A = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "midi_lookup.h"; path = "../../mopo/src/midi_lookup.h"; sourceTree = "SOURCE_ROOT"; };
+		4DBFDDC57F692A26490E5051 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "portamento_slope.cpp"; path = "../../mopo/src/portamento_slope.cpp"; sourceTree = "SOURCE_ROOT"; };
 		4DCF7D1C35D7808E4B31E450 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "synthesis_interface.cpp"; path = "../../src/editor_sections/synthesis_interface.cpp"; sourceTree = "SOURCE_ROOT"; };
 		4DE5F2556F7C20A8F107880F = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_TextInputTarget.h"; path = "../../JUCE/modules/juce_gui_basics/keyboard/juce_TextInputTarget.h"; sourceTree = "SOURCE_ROOT"; };
 		4DE9F7DD56A6A047F2CF264F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "linear_slope.cpp"; path = "../../mopo/src/linear_slope.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -1411,6 +1414,8 @@
 					11CFCFB927886EBE8554555C,
 					03CD6F36F9B9A096DD743C43,
 					86C69F199F0C0871EBBB012D,
+					4DBFDDC57F692A26490E5051,
+					1DCDA062A5FBB2F99D9A9BF5,
 					2B561BCB8E02B205A0DC6F9F,
 					2A457823EE75131ADB88C259,
 					1E2DB287C0CB71FFB89BB037,
@@ -2910,6 +2915,7 @@
 					129F86230AE6565FD254DC33,
 					40C01DA356D1576FF5CFF57A,
 					E50CDEC88F0CE918FC0C48A5,
+					65A741BE06FC1970F1392698,
 					183B1863EC215F2C8F4D88AB,
 					27B007CD0F35B4B32398A1B8,
 					C8E97209238D3CFBB147AC63,

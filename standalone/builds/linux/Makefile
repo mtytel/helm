@@ -67,6 +67,7 @@ OBJECTS := \
   $(OBJDIR)/operators_8e60d6ba.o \
   $(OBJDIR)/oscillator_53287adf.o \
   $(OBJDIR)/phaser_d7048a16.o \
+  $(OBJDIR)/portamento_slope_c638d2fc.o \
   $(OBJDIR)/processor_c4855d7d.o \
   $(OBJDIR)/processor_router_80596755.o \
   $(OBJDIR)/resonance_lookup_6f824fca.o \
@@ -261,6 +262,11 @@ $(OBJDIR)/oscillator_53287adf.o: ../../../mopo/src/oscillator.cpp
 $(OBJDIR)/phaser_d7048a16.o: ../../../mopo/src/phaser.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling phaser.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/portamento_slope_c638d2fc.o: ../../../mopo/src/portamento_slope.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling portamento_slope.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/processor_c4855d7d.o: ../../../mopo/src/processor.cpp

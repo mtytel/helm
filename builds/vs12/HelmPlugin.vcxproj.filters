@@ -415,6 +415,9 @@
     <ClCompile Include="..\..\mopo\src\phaser.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\portamento_slope.cpp">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
@@ -1969,6 +1972,9 @@
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\phaser.h">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\portamento_slope.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor.h">
