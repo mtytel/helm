@@ -14,7 +14,7 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "linear_slope.h"
+#include "portamento_slope.h"
 
 #include "utils.h"
 
@@ -22,11 +22,11 @@
 
 namespace mopo {
 
-  LinearSlope::LinearSlope() : Processor(kNumInputs, 1) {
+  PortamentoSlope::PortamentoSlope() : Processor(kNumInputs, 1) {
     last_value_ = 0.0;
   }
 
-  void LinearSlope::process() {
+  void PortamentoSlope::process() {
     int i = 0;
     if (input(kTriggerJump)->source->triggered) {
       int trigger_offset = input(kTriggerJump)->source->trigger_offset;
@@ -40,16 +40,20 @@ namespace mopo {
       tick(i);
   }
 
-  inline void LinearSlope::tick(int i) {
+  inline void PortamentoSlope::tick(int i) {
     mopo_float target = input(kTarget)->at(i);
     if (utils::closeToZero(input(kRunSeconds)->at(i)))
       last_value_ = input(kTarget)->at(i);
 
-    mopo_float increment = 1.0 / (sample_rate_ * input(kRunSeconds)->at(0));
+    mopo_float increment = 0.4 / (sample_rate_ * input(kRunSeconds)->at(0));
     if (target <= last_value_)
       last_value_ = CLAMP(last_value_ - increment, target, last_value_);
     else
       last_value_ = CLAMP(last_value_ + increment, last_value_, target);
+
+    mopo_float movement = target - last_value_;
+    movement *= fabs(movement);
+    last_value_ += 0.07 * movement / (sample_rate_ * input(kRunSeconds)->at(0));
     output(0)->buffer[i] = last_value_;
   }
 } // namespace mopo
