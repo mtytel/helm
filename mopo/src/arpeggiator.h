@@ -29,8 +29,6 @@
 
 namespace mopo {
 
-  class VoiceHandler;
-
   class Arpeggiator : public Processor, public NoteHandler {
     public:
       enum Pattern {
@@ -50,7 +48,7 @@ namespace mopo {
         kNumInputs
       };
 
-      Arpeggiator(VoiceHandler* voice_handler);
+      Arpeggiator(NoteHandler* note_handler);
 
       virtual Processor* clone() const { MOPO_ASSERT(false); return 0; }
       virtual void process();
@@ -71,7 +69,7 @@ namespace mopo {
     private:
       Arpeggiator() : Processor(0, 0) { }
 
-      VoiceHandler* voice_handler_;
+      NoteHandler* note_handler_;
 
       bool sustain_;
       mopo_float phase_;
