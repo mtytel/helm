@@ -29,7 +29,7 @@ namespace mopo {
   class Value;
 
   // The overall helm engine. All audio processing is contained in here.
-  class HelmEngine : public HelmModule {
+  class HelmEngine : public HelmModule, public NoteHandler {
     public:
       HelmEngine();
 
@@ -48,9 +48,9 @@ namespace mopo {
       int getNumActiveVoices();
 
       // Keyboard events.
-      void allNotesOff(int sample = 0);
-      void noteOn(mopo_float note, mopo_float velocity = 1.0, int sample = 0);
-      void noteOff(mopo_float note, int sample = 0);
+      void allNotesOff(int sample = 0) override;
+      void noteOn(mopo_float note, mopo_float velocity = 1.0, int sample = 0) override;
+      VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
       void setBpm(mopo_float bpm);

@@ -27,11 +27,12 @@ void SynthSection::resized() {
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
-  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
-  Graphics g(background_);
+  Image background = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background);
   g.addTransform(AffineTransform::scale(scale, scale));
 
   paintBackground(g);
+  background_ = background;
 }
 
 void SynthSection::paint(Graphics& g) {

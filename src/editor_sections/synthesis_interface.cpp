@@ -36,11 +36,11 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(filter_envelope_section_ = new EnvelopeSection("FILTER ENVELOPE", "fil"));
   addSubSection(filter_section_ = new FilterSection("FILTER"));
   addSubSection(formant_section_ = new FormantSection("FORMANT"));
-  addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1"));
-  addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2"));
+  addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true));
+  addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true));
   addSubSection(noise_section_ = new NoiseSection("NOISE"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
-  addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo"));
+  addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo", false));
   addSubSection(reverb_section_ = new ReverbSection("REVERB"));
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
   addSubSection(stutter_section_ = new StutterSection("STUTTER"));
@@ -124,8 +124,9 @@ void SynthesisInterface::resized() {
   filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + CELL_PADDING,
                                       COLUMN_WIDTH_2, 120.0f);
 
-  float lfo_width = (COLUMN_WIDTH_1 + COLUMN_WIDTH_2 - 3 * CELL_PADDING) / 5.0f;
-  float step_sequencer_width = 2 * lfo_width + CELL_PADDING;
+  float lfo_width = 135.0f;
+  float step_sequencer_width = COLUMN_WIDTH_1 + COLUMN_WIDTH_2 + CELL_PADDING -
+                               3 * (lfo_width + CELL_PADDING);
 
   float step_lfo_y = amplitude_envelope_section_->getBottom() + CELL_PADDING;
   float step_lfo_height = 148.0f;

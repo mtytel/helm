@@ -48,8 +48,13 @@ namespace mopo {
 
       void init() override;
 
+      void process() override;
+      void noteOn(mopo_float note, mopo_float velocity = 1,
+                  int sample = 0) override;
+      VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setModWheel(mopo_float value);
       void setPitchWheel(mopo_float value);
+      Output* note_retrigger() { return &note_retriggered_; }
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
@@ -75,10 +80,12 @@ namespace mopo {
       Multiply* amplitude_;
       SimpleDelay* osc_feedback_;
 
+      Value* legato_;
       Distortion* distorted_filter_;
       FormantManager* formant_filter_;
       Envelope* filter_envelope_;
       BypassRouter* formant_container_;
+      Output note_retriggered_;
 
       Multiply* output_;
   };

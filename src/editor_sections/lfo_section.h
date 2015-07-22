@@ -26,7 +26,7 @@
 
 class LfoSection : public SynthSection {
   public:
-    LfoSection(String name, std::string value_preprend);
+    LfoSection(String name, std::string value_preprend, bool retrigger);
     ~LfoSection();
 
     void paintBackground(Graphics& g) override;
@@ -36,6 +36,7 @@ class LfoSection : public SynthSection {
     ScopedPointer<WaveViewer> wave_viewer_;
     ScopedPointer<WaveSelector> wave_selector_;
 
+    ScopedPointer<ToggleButton> retrigger_;
     ScopedPointer<SynthSlider> amplitude_;
     ScopedPointer<SynthSlider> frequency_;
     ScopedPointer<SynthSlider> tempo_;

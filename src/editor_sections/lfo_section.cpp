@@ -26,8 +26,14 @@
 #define TEXT_HEIGHT 16
 #define TEXT_WIDTH 42
 
-LfoSection::LfoSection(String name, std::string value_prepend) : SynthSection(name) {
+LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
+    SynthSection(name) {
   static const int TEMPO_DRAG_SENSITIVITY = 150;
+
+  if (retrigger) {
+    addButton(retrigger_ = new ToggleButton(value_prepend + "_retrigger"));
+    retrigger_->setLookAndFeel(TextLookAndFeel::instance());
+  }
 
   addSlider(amplitude_ = new SynthSlider(value_prepend + "_amplitude"));
   amplitude_->setSliderStyle(Slider::LinearBarVertical);
@@ -63,6 +69,7 @@ LfoSection::LfoSection(String name, std::string value_prepend) : SynthSection(na
 }
 
 LfoSection::~LfoSection() {
+  retrigger_ = nullptr;
   wave_viewer_ = nullptr;
   wave_selector_ = nullptr;
   frequency_ = nullptr;
@@ -96,7 +103,10 @@ void LfoSection::resized() {
 
   int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
   modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
-  frequency_->setBounds(proportionOfWidth(0.45f), y, TEXT_WIDTH, TEXT_HEIGHT);
+  if (retrigger_.get())
+    retrigger_->setBounds(proportionOfWidth(0.5f) - TEXT_HEIGHT, y, TEXT_HEIGHT, TEXT_HEIGHT);
+
+  frequency_->setBounds(proportionOfWidth(0.5f), y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),
                    TEXT_HEIGHT, TEXT_HEIGHT);
 

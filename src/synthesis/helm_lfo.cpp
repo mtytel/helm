@@ -26,8 +26,7 @@ namespace mopo {
     static mopo_float integral;
     int num_samples = buffer_size_;
 
-    if (input(kReset)->source->triggered &&
-        input(kReset)->source->trigger_value == kVoiceReset) {
+    if (input(kReset)->source->triggered) {
       num_samples = buffer_size_ - input(kReset)->source->trigger_offset;
       offset_ = 0.0;
     }

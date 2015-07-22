@@ -575,9 +575,9 @@ namespace mopo {
   void HelmVoiceHandler::createArticulation(
       Output* note, Output* velocity, Output* trigger) {
     // Legato.
-    Processor* legato = createBaseControl("legato");
+    legato_ = createBaseControl("legato");
     LegatoFilter* legato_filter = new LegatoFilter();
-    legato_filter->plug(legato, LegatoFilter::kLegato);
+    legato_filter->plug(legato_, LegatoFilter::kLegato);
     legato_filter->plug(trigger, LegatoFilter::kTrigger);
 
     addProcessor(legato_filter);
@@ -671,6 +671,23 @@ namespace mopo {
     mod_sources_["amp_envelope"] = amplitude_envelope_->output();
     mod_sources_["note"] = note_percentage->output();
     mod_sources_["velocity"] = current_velocity->output();
+  }
+
+  void HelmVoiceHandler::process() {
+    VoiceHandler::process();
+    note_retriggered_.clearTrigger();
+  }
+
+  void HelmVoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
+    if (getPressedNotes().size() < polyphony() || legato_->value() == 0.0)
+      note_retriggered_.trigger(note, sample);
+    VoiceHandler::noteOn(note, sample);
+  }
+
+  VoiceEvent HelmVoiceHandler::noteOff(mopo_float note, int sample) {
+    if (getPressedNotes().size() > polyphony() && legato_->value() == 0.0)
+      note_retriggered_.trigger(note, sample);
+    return VoiceHandler::noteOff(note, sample);
   }
 
   void HelmVoiceHandler::setModWheel(mopo_float value) {

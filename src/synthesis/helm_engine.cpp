@@ -55,6 +55,10 @@ namespace mopo {
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
 
     // Monophonic LFO 1.
+    Value* lfo_1_retrigger = createBaseControl("mono_lfo_1_retrigger");
+    TriggerCondition* lfo_1_reset = new TriggerCondition();
+    lfo_1_reset->plug(lfo_1_retrigger, TriggerCondition::kCondition);
+    lfo_1_reset->plug(voice_handler_->note_retrigger(), TriggerCondition::kTrigger);
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", true);
     Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true, false);
     Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
@@ -64,6 +68,7 @@ namespace mopo {
     lfo_1_ = new HelmLfo();
     lfo_1_->plug(lfo_1_waveform, HelmLfo::kWaveform);
     lfo_1_->plug(lfo_1_frequency, HelmLfo::kFrequency);
+    lfo_1_->plug(lfo_1_reset, HelmLfo::kReset);
 
     Multiply* scaled_lfo_1 = new Multiply();
     scaled_lfo_1->setControlRate();
@@ -71,11 +76,16 @@ namespace mopo {
     scaled_lfo_1->plug(lfo_1_free_amplitude, 1);
 
     addProcessor(lfo_1_);
+    addProcessor(lfo_1_reset);
     addProcessor(scaled_lfo_1);
     mod_sources_["mono_lfo_1"] = scaled_lfo_1->output();
     mod_sources_["mono_lfo_1_phase"] = lfo_1_->output(Oscillator::kPhase);
 
     // Monophonic LFO 2.
+    Value* lfo_2_retrigger = createBaseControl("mono_lfo_2_retrigger");
+    TriggerCondition* lfo_2_reset = new TriggerCondition();
+    lfo_2_reset->plug(lfo_2_retrigger, TriggerCondition::kCondition);
+    lfo_2_reset->plug(voice_handler_->note_retrigger(), TriggerCondition::kTrigger);
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", true);
     Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true, false);
     Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
@@ -85,6 +95,7 @@ namespace mopo {
     lfo_2_ = new HelmLfo();
     lfo_2_->plug(lfo_2_waveform, HelmLfo::kWaveform);
     lfo_2_->plug(lfo_2_frequency, HelmLfo::kFrequency);
+    lfo_2_->plug(lfo_2_reset, HelmLfo::kReset);
 
     Multiply* scaled_lfo_2 = new Multiply();
     scaled_lfo_2->setControlRate();
@@ -92,6 +103,7 @@ namespace mopo {
     scaled_lfo_2->plug(lfo_2_free_amplitude, 1);
 
     addProcessor(lfo_2_);
+    addProcessor(lfo_2_reset);
     addProcessor(scaled_lfo_2);
     mod_sources_["mono_lfo_2"] = scaled_lfo_2->output();
     mod_sources_["mono_lfo_2_phase"] = lfo_2_->output(Oscillator::kPhase);
@@ -337,11 +349,10 @@ namespace mopo {
       voice_handler_->noteOn(note, velocity, sample);
   }
 
-  void HelmEngine::noteOff(mopo_float note, int sample) {
+  VoiceEvent HelmEngine::noteOff(mopo_float note, int sample) {
     if (arp_on_->value())
-      arpeggiator_->noteOff(note, sample);
-    else
-      voice_handler_->noteOff(note, sample);
+      return arpeggiator_->noteOff(note, sample);
+    return voice_handler_->noteOff(note, sample);
   }
 
   void HelmEngine::setModWheel(mopo_float value) {
