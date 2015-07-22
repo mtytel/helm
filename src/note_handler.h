@@ -24,6 +24,7 @@ namespace mopo {
 
   class NoteHandler {
     public:
+      virtual ~NoteHandler() { }
       virtual void allNotesOff(int sample = 0) = 0;
       virtual void noteOn(mopo_float note, mopo_float velocity = 1,
                           int sample = 0) = 0;

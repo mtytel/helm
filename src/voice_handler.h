@@ -121,9 +121,9 @@ namespace mopo {
 
       Voice* grabVoice();
       void allNotesOff(int sample = 0) override;
-      void noteOn(mopo_float note, mopo_float velocity = 1,
-                  int sample = 0) override;
-      VoiceEvent noteOff(mopo_float note, int sample = 0) override;
+      virtual void noteOn(mopo_float note, mopo_float velocity = 1,
+                          int sample = 0) override;
+      virtual VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
       void sustainOn();
       void sustainOff(int sample = 0);
@@ -132,6 +132,7 @@ namespace mopo {
       Output* note() { return &note_; }
       Output* velocity() { return &velocity_; }
       Output* aftertouch() { return &aftertouch_; }
+      size_t polyphony() { return polyphony_; }
 
       virtual ProcessorRouter* getMonoRouter() override { return &global_router_; }
       virtual ProcessorRouter* getPolyRouter() override { return &voice_router_; }
