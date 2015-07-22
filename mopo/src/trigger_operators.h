@@ -70,6 +70,19 @@ namespace mopo {
       mopo_float trigger_filter_;
   };
 
+  class TriggerCondition : public Processor {
+  public:
+    enum Inputs {
+      kTrigger,
+      kCondition,
+      kNumInputs
+    };
+    TriggerCondition() : Processor(kNumInputs, 1) { }
+
+    virtual Processor* clone() const { return new TriggerCondition(*this); }
+    void process();
+  };
+
   class LegatoFilter : public Processor {
     public:
       enum Inputs {

@@ -18,6 +18,7 @@
 #ifndef ARPEGGIATOR_H
 #define ARPEGGIATOR_H
 
+#include "note_handler.h"
 #include "processor.h"
 #include "value.h"
 
@@ -30,7 +31,7 @@ namespace mopo {
 
   class VoiceHandler;
 
-  class Arpeggiator : public Processor {
+  class Arpeggiator : public Processor, public NoteHandler {
     public:
       enum Pattern {
         kUp,
@@ -60,9 +61,10 @@ namespace mopo {
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
 
-      void allNotesOff(int sample = 0);
-      void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
-      void noteOff(mopo_float note, int sample = 0);
+      void allNotesOff(int sample = 0) override;
+      void noteOn(mopo_float note, mopo_float velocity = 1,
+                  int sample = 0) override;
+      VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void sustainOn();
       void sustainOff();
 

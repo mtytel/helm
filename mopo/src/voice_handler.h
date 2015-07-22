@@ -18,6 +18,7 @@
 #ifndef VOICE_HANDLER_H
 #define VOICE_HANDLER_H
 
+#include "note_handler.h"
 #include "processor_router.h"
 #include "value.h"
 
@@ -102,7 +103,7 @@ namespace mopo {
       Processor* processor_;
   };
 
-  class VoiceHandler : public virtual ProcessorRouter {
+  class VoiceHandler : public virtual ProcessorRouter, public NoteHandler {
     public:
       enum Inputs {
         kPolyphony,
@@ -118,10 +119,11 @@ namespace mopo {
       int getNumActiveVoices();
       std::list<mopo_float> getPressedNotes() { return pressed_notes_; }
 
-      void allNotesOff(int sample = 0);
       Voice* grabVoice();
-      void noteOn(mopo_float note, mopo_float velocity = 1, int sample = 0);
-      void noteOff(mopo_float note, int sample = 0);
+      void allNotesOff(int sample = 0) override;
+      void noteOn(mopo_float note, mopo_float velocity = 1,
+                  int sample = 0) override;
+      VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
       void sustainOn();
       void sustainOff(int sample = 0);
