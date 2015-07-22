@@ -90,9 +90,11 @@ OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
 
   addButton(unison_harmonize_1_ = new ToggleButton("unison_1_harmonize"));
   unison_harmonize_1_->setLookAndFeel(TextLookAndFeel::instance());
+  unison_harmonize_1_->setButtonText("H");
 
   addButton(unison_harmonize_2_ = new ToggleButton("unison_2_harmonize"));
   unison_harmonize_2_->setLookAndFeel(TextLookAndFeel::instance());
+  unison_harmonize_2_->setButtonText("H");
 }
 
 OscillatorSection::~OscillatorSection() {

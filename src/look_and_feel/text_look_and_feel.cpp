@@ -35,11 +35,18 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
 
 void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                        bool isMouseOverButton, bool isButtonDown) {
+  static Font button_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                            BinaryData::DroidSansMono_ttfSize));
   if (button.getToggleState())
     g.setColour(Colour(0xffffc400));
   else
     g.setColour(Colour(0xff313131));
   g.fillRect(button.getLocalBounds());
+
+  g.setColour(Colours::white);
+  g.setFont(button_font);
+  g.drawText(button.getButtonText(), 0, 0,
+             button.getWidth(), button.getHeight(), Justification::centred);
 
   g.setColour(Colour(0xff565656));
   g.drawRect(button.getLocalBounds());

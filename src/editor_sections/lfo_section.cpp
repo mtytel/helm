@@ -33,6 +33,7 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
   if (retrigger) {
     addButton(retrigger_ = new ToggleButton(value_prepend + "_retrigger"));
     retrigger_->setLookAndFeel(TextLookAndFeel::instance());
+    retrigger_->setButtonText(TRANS("R"));
   }
 
   addSlider(amplitude_ = new SynthSlider(value_prepend + "_amplitude"));
