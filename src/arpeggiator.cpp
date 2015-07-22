@@ -17,7 +17,6 @@
 #include "arpeggiator.h"
 
 #include "utils.h"
-#include "voice_handler.h"
 
 #include <algorithm>
 #include <cstdlib>
@@ -28,11 +27,11 @@ namespace mopo {
     const float MIN_VOICE_TIME = 0.01;
   } // namespace
 
-  Arpeggiator::Arpeggiator(VoiceHandler* voice_handler) :
-      Processor(kNumInputs, 1), voice_handler_(voice_handler),
+  Arpeggiator::Arpeggiator(NoteHandler* note_handler) :
+      Processor(kNumInputs, 1), note_handler_(note_handler),
       sustain_(false), phase_(1.0), note_index_(-1),
       current_octave_(0), octave_up_(true), last_played_note_(0) {
-    MOPO_ASSERT(voice_handler);
+    MOPO_ASSERT(note_handler);
   }
 
   void Arpeggiator::process() {
@@ -46,7 +45,7 @@ namespace mopo {
     // If we're past the gate phase and we're playing a note, turn it off.
     if (new_phase >= gate && last_played_note_ >= 0) {
       int offset = CLAMP((gate - phase_) / delta_phase, 0, buffer_size_ - 1);
-      voice_handler_->noteOff(last_played_note_, offset);
+      note_handler_->noteOff(last_played_note_, offset);
       last_played_note_ = -1;
     }
 
@@ -54,7 +53,7 @@ namespace mopo {
     if (getNumNotes() && new_phase >= 1) {
       int offset = CLAMP((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
       std::pair<mopo_float, mopo_float> note = getNextNote();
-      voice_handler_->noteOn(note.first, note.second, offset);
+      note_handler_->noteOn(note.first, note.second, offset);
       last_played_note_ = note.first;
       phase_ = new_phase - 1.0;
     }
@@ -156,7 +155,7 @@ namespace mopo {
     ascending_.clear();
     decending_.clear();
     as_played_.clear();
-    voice_handler_->allNotesOff();
+    note_handler_->allNotesOff();
   }
 
   void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample) {
