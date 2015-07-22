@@ -5,6 +5,8 @@ libmopo_a_SOURCES = alias.cpp \
                     arpeggiator.h \
                     bit_crush.cpp \
                     bit_crush.h \
+                    bypass_router.cpp \
+                    bypass_router.h \
                     common.h \
                     delay.cpp \
                     delay.h \
@@ -29,12 +31,15 @@ libmopo_a_SOURCES = alias.cpp \
                     mono_panner.cpp \
                     mono_panner.h \
                     mopo.h \
+                    note_handler.h \
                     operators.cpp \
                     operators.h \
                     oscillator.cpp \
                     oscillator.h \
                     phaser.cpp \
                     phaser.h \
+                    portamento_slope.cpp \
+                    portamento_slope.h \
                     processor.cpp \
                     processor.h \
                     processor_router.cpp \

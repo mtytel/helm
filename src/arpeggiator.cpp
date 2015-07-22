@@ -172,9 +172,9 @@ namespace mopo {
     addNoteToPatterns(note);
   }
 
-  void Arpeggiator::noteOff(mopo_float note, int sample) {
+  VoiceEvent Arpeggiator::noteOff(mopo_float note, int sample) {
     if (pressed_notes_.count(note) == 0)
-      return;
+      return kVoiceOff;
 
     if (sustain_)
       sustained_notes_.insert(note);
@@ -184,5 +184,6 @@ namespace mopo {
     }
 
     pressed_notes_.erase(note);
+    return kVoiceOff;
   }
 } // namespace mopo

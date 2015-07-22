@@ -168,7 +168,7 @@ namespace mopo {
     active_voices_.push_back(voice);
   }
 
-  void VoiceHandler::noteOff(mopo_float note, int sample) {
+  VoiceEvent VoiceHandler::noteOff(mopo_float note, int sample) {
     pressed_notes_.remove(note);
 
     for (Voice* voice : active_voices_) {
@@ -181,12 +181,14 @@ namespace mopo {
             pressed_notes_.pop_back();
             pressed_notes_.push_front(old_note);
             voice->activate(old_note, voice->state().velocity, sample);
+            return kVoiceReset;
           }
           else
             voice->deactivate(sample);
         }
       }
     }
+    return kVoiceOff;
   }
 
   void VoiceHandler::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {

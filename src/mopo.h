@@ -34,6 +34,7 @@
 #include "memory.h"
 #include "midi_lookup.h"
 #include "mono_panner.h"
+#include "note_handler.h"
 #include "operators.h"
 #include "oscillator.h"
 #include "phaser.h"
