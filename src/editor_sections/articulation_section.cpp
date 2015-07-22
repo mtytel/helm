@@ -40,6 +40,7 @@ ArticulationSection::ArticulationSection(String name) : SynthSection(name) {
 
   addButton(legato_ = new ToggleButton("legato"));
   legato_->setLookAndFeel(TextLookAndFeel::instance());
+  legato_->setButtonText("");
 }
 
 ArticulationSection::~ArticulationSection() {
