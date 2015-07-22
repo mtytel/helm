@@ -1150,7 +1150,6 @@ TreeViewItem::TreeViewItem()
       drawLinesInside (false),
       drawLinesSet (false),
       drawsInLeftMargin (false),
-      drawsInRightMargin (false),
       openness (opennessDefault)
 {
     static int nextUID = 0;
@@ -1506,11 +1505,6 @@ void TreeViewItem::setDrawsInLeftMargin (bool canDrawInLeftMargin) noexcept
     drawsInLeftMargin = canDrawInLeftMargin;
 }
 
-void TreeViewItem::setDrawsInRightMargin (bool canDrawInRightMargin) noexcept
-{
-    drawsInRightMargin = canDrawInRightMargin;
-}
-
 namespace TreeViewHelpers
 {
     static int calculateDepth (const TreeViewItem* item, const bool rootIsVisible) noexcept
@@ -1538,7 +1532,7 @@ void TreeViewItem::paintRecursively (Graphics& g, int width)
         return;
 
     const int indent = getIndentX();
-    const int itemW = (itemWidth < 0 || drawsInRightMargin) ? width - indent : itemWidth;
+    const int itemW = itemWidth < 0 ? width - indent : itemWidth;
 
     {
         Graphics::ScopedSaveState ss (g);
@@ -1550,7 +1544,7 @@ void TreeViewItem::paintRecursively (Graphics& g, int width)
             if (isSelected())
                 g.fillAll (ownerView->findColour (TreeView::selectedItemBackgroundColourId));
 
-            paintItem (g, itemWidth < 0 ? width - indent : itemWidth, itemHeight);
+            paintItem (g, itemW, itemHeight);
         }
     }
 

@@ -31,7 +31,7 @@ public:
         setVisible (true);
         setInterceptsMouseClicks (false, false);
 
-        if (comp->isOnDesktop())
+        if (! comp->isOnDesktop())
         {
             setSize (1, 1); // to keep the OS happy by not having zero-size windows
             addToDesktop (ComponentPeer::windowIgnoresMouseClicks

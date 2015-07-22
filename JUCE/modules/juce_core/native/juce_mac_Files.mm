@@ -110,23 +110,22 @@ namespace FileHelpers
 
     static bool launchExecutable (const String& pathAndArguments)
     {
-        const char* const argv[4] = { "/bin/sh", "-c", pathAndArguments.toUTF8(), 0 };
+        const char* const argv[4] = { "/bin/sh", "-c", pathAndArguments.toUTF8(), nullptr };
 
+#if JUCE_USE_VFORK
+        const int cpid = vfork();
+#else
         const int cpid = fork();
+#endif
 
         if (cpid == 0)
         {
             // Child process
-            if (execve (argv[0], (char**) argv, 0) < 0)
-                exit (0);
-        }
-        else
-        {
-            if (cpid < 0)
-                return false;
+            if (execvp (argv[0], (char**) argv) < 0)
+                _exit (0);
         }
 
-        return true;
+        return cpid >= 0;
     }
 }
 
