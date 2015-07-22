@@ -213,9 +213,9 @@ public:
     void run() override
     {
         initialiseJuce_GUI();
-        initialised = true;
 
         MessageManager::getInstance()->setCurrentThreadAsMessageThread();
+        initialised = true;
 
         while ((! threadShouldExit()) && MessageManager::getInstance()->runDispatchLoopUntil (250))
         {}
@@ -285,10 +285,6 @@ public:
         setInitialDelay (filter->getLatencySamples());
         programsAreChunks (true);
 
-        // NB: For reasons best known to themselves, some hosts fail to load/save plugin
-        // state correctly if the plugin doesn't report that it has at least 1 program.
-        jassert (af->getNumPrograms() > 0);
-
         activePlugins.add (this);
     }
 
@@ -352,7 +348,7 @@ public:
     //==============================================================================
     bool getEffectName (char* name) override
     {
-        String (JucePlugin_Name).copyToUTF8 (name, 64);
+        String (filter->getName()).copyToUTF8 (name, 64);
         return true;
     }
 

@@ -1355,7 +1355,8 @@ private:
 
             const Result result (finder.findDescriptionsAndPerform (f));
 
-            if (result.getErrorMessage() == MatchingDescriptionFinder::getSuccessString())
+            if (result.getErrorMessage() == MatchingDescriptionFinder::getSuccessString() ||
+                result.getErrorMessage().isEmpty())
             {
                 name = description.name;
                 return true;
