@@ -32,6 +32,10 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   setAudioChannels(0, NUM_CHANNELS);
+  AudioDeviceManager::AudioDeviceSetup setup;
+  deviceManager.getAudioDeviceSetup(setup);
+  setup.sampleRate = mopo::DEFAULT_SAMPLE_RATE;
+  deviceManager.initialise(0, NUM_CHANNELS, nullptr, true, "", &setup);
 
   if (deviceManager.getCurrentAudioDevice() == nullptr) {
     const OwnedArray<AudioIODeviceType>& device_types = deviceManager.getAvailableDeviceTypes();
