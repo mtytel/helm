@@ -27,8 +27,10 @@ WaveViewer::WaveViewer(int resolution) {
   wave_slider_ = nullptr;
   amplitude_slider_ = nullptr;
   resolution_ = resolution;
-  wave_state_ = nullptr;
+  wave_phase_ = nullptr;
+  wave_amp_ = nullptr;
   phase_ = -1.0f;
+  amp_ = 0.0;
   setOpaque(true);
 }
 
@@ -39,17 +41,13 @@ void WaveViewer::paint(juce::Graphics &g) {
               0, 0, getWidth(), getHeight(),
               0, 0, background_.getWidth(), background_.getHeight());
 
-  if (wave_state_) {
-    float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
-
+  if (wave_phase_) {
     if (phase_ >= 0.0 && phase_ < 1.0) {
       float x = phaseToX(phase_);
       g.setColour(Colour(0x33ffffff));
       g.fillRect(x - 0.5f, 0.0f, 1.0f, (float)getHeight());
 
-      mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
-      float value = amplitude * mopo::Wave::wave(type, phase_);
-      float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - value) / 2.0f;
+      float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - amp_) / 2.0f;
       g.setColour(Colour(0xff03a9f4));
       g.fillEllipse(x - MARKER_WIDTH / 2.0f, y - MARKER_WIDTH / 2.0f,
                     MARKER_WIDTH, MARKER_WIDTH);
@@ -100,8 +98,9 @@ void WaveViewer::mouseDown(const MouseEvent& e) {
 }
 
 void WaveViewer::timerCallback() {
-  if (wave_state_) {
-    float phase = wave_state_->buffer[0];
+  if (wave_phase_) {
+    float phase = wave_phase_->buffer[0];
+    amp_ = wave_amp_->buffer[0];
     if (phase != phase_) {
       float last_x = phaseToX(phase_);
       float new_x = phaseToX(phase);
@@ -141,15 +140,19 @@ void WaveViewer::resetWavePath() {
   float draw_width = getWidth();
   float draw_height = getHeight() - 2.0f * PADDING;
 
-  wave_path_.startNewSubPath(0, getHeight() / 2.0f);
   mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
-  for (int i = 1; i < resolution_ - 1; ++i) {
-    float t = (1.0f * i) / resolution_;
-    float val = amplitude * mopo::Wave::wave(type, t);
-    wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
-  }
 
-  wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
+  wave_path_.clear();
+  if (type < mopo::Wave::kWhiteNoise) {
+    wave_path_.startNewSubPath(0, getHeight() / 2.0f);
+    for (int i = 1; i < resolution_ - 1; ++i) {
+      float t = (1.0f * i) / resolution_;
+      float val = amplitude * mopo::Wave::wave(type, t);
+      wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    }
+
+    wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
+  }
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
@@ -165,10 +168,11 @@ void WaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
 }
 
 void WaveViewer::showRealtimeFeedback() {
-  if (wave_state_ == nullptr) {
+  if (wave_phase_ == nullptr) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     if (parent) {
-      wave_state_ = parent->getModSource(getName().toStdString());
+      wave_amp_ = parent->getModSource(getName().toStdString());
+      wave_phase_ = parent->getModSource(getName().toStdString() + "_phase");
       startTimerHz(FRAMES_PER_SECOND);
     }
   }

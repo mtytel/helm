@@ -50,6 +50,8 @@ namespace mopo {
 
     protected:
       mopo_float offset_;
+      mopo_float last_random_value_;
+      mopo_float current_random_value_;
   };
 } // namespace mopo
 

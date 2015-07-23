@@ -44,10 +44,12 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
 
     Slider* wave_slider_;
     Slider* amplitude_slider_;
-    mopo::Processor::Output* wave_state_;
+    mopo::Processor::Output* wave_phase_;
+    mopo::Processor::Output* wave_amp_;
     Path wave_path_;
     int resolution_;
     float phase_;
+    float amp_;
     Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(WaveViewer)

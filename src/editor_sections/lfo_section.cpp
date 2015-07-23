@@ -61,7 +61,7 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
   wave_selector_->setStringLookup(mopo::strings::waveforms);
 
   addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
-  wave_viewer_->setName(value_prepend + "_phase");
+  wave_viewer_->setName(value_prepend);
   wave_viewer_->setAmplitudeSlider(amplitude_);
   wave_viewer_->setWaveSlider(wave_selector_);
 
