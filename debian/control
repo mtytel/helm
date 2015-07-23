@@ -2,7 +2,7 @@ Source: helm
 Section: sound
 Priority: optional
 Maintainer: Matt Tytel <matthewtytel@gmail.com>
-Build-Depends: debhelper (>= 9), mesa-common-dev, libasound2-dev, libfreetype6-dev, libx11-dev, libxrandr-dev, libxinerama-dev, libxcursor-dev, freeglut3-dev, libxcomposite-dev
+Build-Depends: debhelper (>= 9), mesa-common-dev, libasound2-dev, libfreetype6-dev, libx11-dev, libxrandr-dev, libxinerama-dev, libxcursor-dev, freeglut3-dev, libxcomposite-dev, libjack-dev
 Standards-Version: 3.9.6
 Homepage: http://tytel.org/helm
 #Vcs-Git: git://anonscm.debian.org/collab-maint/helm.git
