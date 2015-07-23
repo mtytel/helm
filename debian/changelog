@@ -1,9 +1,14 @@
-helm (0.4.0-1) trusty; urgency=low
+helm (0.4.1-1) trusty; urgency=low
 
-  * Fixed a crash that would sometimes happen on startup in plugin version.
-  * Midi input is marked "Helm" instead of "JUCE: Midi Input"
-  * Fixed loading back parameters from DAW project.
-  * Reenabled Mod Wheel input.
-  * Pitch Wheel now changes pitch by default through "Pitch Bend" range knob.
+  * Add Audio/MIDI settings page under Helm logo button
+  * Fixed occasional hang when using MIDI learn/automation
+  * Better MIDI default device connection.
+  * JACK support for GNU/Linux!
+  * Reduced aliasing in sub oscillator a bit
+  * Added DC blocker
+  * Added retrigger to monophonic LFOs
+  * Improved portamento slide function
+  * Change white noise LFO to Sample and Hold.
+  * Added Sample and Glide to LFO waveforms
 
  -- Matt Tytel <matthewtytel@gmail.com>  Tue, 14 Jul 2015 12:31:07 -0700
