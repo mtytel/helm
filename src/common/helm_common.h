@@ -95,7 +95,8 @@ namespace mopo {
       "3 pyramid",
       "5 pyramid",
       "9 pyramid",
-      "white noise"
+      "sample and hold",
+      "sample and glide",
     };
 
     const std::string synced_frequencies[] = {
