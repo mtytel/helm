@@ -1,0 +1,9 @@
+helm (0.4.0-1) trusty; urgency=low
+
+  * Fixed a crash that would sometimes happen on startup in plugin version.
+  * Midi input is marked "Helm" instead of "JUCE: Midi Input"
+  * Fixed loading back parameters from DAW project.
+  * Reenabled Mod Wheel input.
+  * Pitch Wheel now changes pitch by default through "Pitch Bend" range knob.
+
+ -- Matt Tytel <matthewtytel@gmail.com>  Tue, 14 Jul 2015 12:31:07 -0700

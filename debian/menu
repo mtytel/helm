@@ -1,0 +1,3 @@
+?package(helm):needs="X11" section="Applications/Sound"\
+  title="helm" command="/usr/bin/helm"\
+  icon="/usr/share/helm/icons/helm_debian_icon.xpm"

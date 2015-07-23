@@ -1,0 +1,22 @@
+Source: helm
+Section: sound
+Priority: optional
+Maintainer: Matt Tytel <matthewtytel@gmail.com>
+Build-Depends: debhelper (>= 9), mesa-common-dev, libasound2-dev, libfreetype6-dev, libx11-dev, libxrandr-dev, libxinerama-dev, libxcursor-dev, freeglut3-dev, libxcomposite-dev
+Standards-Version: 3.9.6
+Homepage: http://tytel.org/helm
+#Vcs-Git: git://anonscm.debian.org/collab-maint/helm.git
+#Vcs-Browser: http://anonscm.debian.org/?p=collab-maint/helm.git;a=summary
+
+Package: helm
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: polyphonic synthesizer with realtime modulation feedback
+ helm is a MIDI enabled polyphonic music synthesizer with an easy to use
+ parameter modulation system with real-time graphical feedback.
+ .
+ helm has a subtractive synthesizer engine with three oscillators with 15
+ anti-aliased waveforms, cross modulation, 32 voice polyphony, a low-pass,
+ high-pass, band-pass, notch, low-shelf, high-shelf and all-pass filter.
+ There is also a formant filter, stutter, delay and reverb effects,
+ patch browsing, MIDI learn and more.
