@@ -689,7 +689,7 @@ namespace mopo {
   void HelmVoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
     if (getPressedNotes().size() < polyphony() || legato_->value() == 0.0)
       note_retriggered_.trigger(note, sample);
-    VoiceHandler::noteOn(note, sample);
+    VoiceHandler::noteOn(note, velocity, sample);
   }
 
   VoiceEvent HelmVoiceHandler::noteOff(mopo_float note, int sample) {
