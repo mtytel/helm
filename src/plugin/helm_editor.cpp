@@ -51,7 +51,7 @@ void HelmEditor::updateFullGui() {
 }
 
 void HelmEditor::updateGuiControl(std::string name, mopo::mopo_float value) {
-  gui_->setValue(name, value);
+  gui_->setValue(name, value, NotificationType::dontSendNotification);
 }
 
 void HelmEditor::beginChangeGesture(std::string name) {
