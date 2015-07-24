@@ -60,6 +60,10 @@ AboutSection::AboutSection(String name) : Component(name) {
 #endif
 }
 
+AboutSection::~AboutSection() {
+  settings_window_.deleteAndZero();
+}
+
 void AboutSection::paint(Graphics& g) {
   static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
                                                            BinaryData::RobotoRegular_ttfSize));
@@ -153,7 +157,7 @@ void AboutSection::buttonClicked(Button* clicked_button) {
   options.escapeKeyTriggersCloseButton = true;
   options.useNativeTitleBar = true;
   options.resizable = false;
-  options.launchAsync();
+  settings_window_ = options.launchAsync();
 }
 
 Rectangle<int> AboutSection::getInfoRect() {

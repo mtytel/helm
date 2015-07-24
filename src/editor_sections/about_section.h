@@ -23,6 +23,7 @@
 class AboutSection : public Component, public ButtonListener {
   public:
     AboutSection(String name);
+    ~AboutSection();
     void paint(Graphics& g) override;
     void resized() override;
 
@@ -35,6 +36,7 @@ class AboutSection : public Component, public ButtonListener {
     ScopedPointer<HyperlinkButton> developer_link_;
     ScopedPointer<HyperlinkButton> free_software_link_;
     ScopedPointer<ImageButton> settings_button_;
+    SafePointer<DialogWindow> settings_window_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };
