@@ -118,8 +118,8 @@ namespace mopo {
       virtual void setBufferSize(int buffer_size);
       int getNumActiveVoices();
       std::list<mopo_float> getPressedNotes() { return pressed_notes_; }
+      bool isNotePlaying(mopo_float note);
 
-      Voice* grabVoice();
       void allNotesOff(int sample = 0) override;
       virtual void noteOn(mopo_float note, mopo_float velocity = 1,
                           int sample = 0) override;
@@ -159,6 +159,7 @@ namespace mopo {
     private:
       VoiceHandler() { }
 
+      Voice* grabVoice();
       Voice* createVoice();
       void prepareVoiceTriggers(Voice* voice);
       void processVoice(Voice* voice);

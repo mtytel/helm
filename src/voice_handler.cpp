@@ -105,6 +105,14 @@ namespace mopo {
     return active_voices_.size();
   }
 
+  bool VoiceHandler::isNotePlaying(mopo_float note) {
+    for (Voice* voice : active_voices_) {
+      if (voice->state().note == note)
+        return true;
+    }
+    return false;
+  }
+
   void VoiceHandler::sustainOn() {
     sustain_ = true;
   }
