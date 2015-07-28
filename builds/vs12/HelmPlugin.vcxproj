@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\patch_browser.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\retrigger_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp"/>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp"/>
@@ -1436,6 +1437,7 @@
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\patch_browser.h"/>
+    <ClInclude Include="..\..\src\editor_components\retrigger_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h"/>

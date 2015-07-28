@@ -484,6 +484,9 @@
     <ClCompile Include="..\..\..\src\editor_components\patch_browser.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\retrigger_selector.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
@@ -2014,6 +2017,9 @@
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\patch_browser.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\retrigger_selector.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h">

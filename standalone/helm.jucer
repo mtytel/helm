@@ -206,6 +206,10 @@
         <FILE id="MZrbcn" name="patch_browser.cpp" compile="1" resource="0"
               file="../src/editor_components/patch_browser.cpp"/>
         <FILE id="R33s2T" name="patch_browser.h" compile="0" resource="0" file="../src/editor_components/patch_browser.h"/>
+        <FILE id="S8EFcR" name="retrigger_selector.cpp" compile="1" resource="0"
+              file="../src/editor_components/retrigger_selector.cpp"/>
+        <FILE id="WBMhsV" name="retrigger_selector.h" compile="0" resource="0"
+              file="../src/editor_components/retrigger_selector.h"/>
         <FILE id="k0I8xO" name="synth_slider.cpp" compile="1" resource="0"
               file="../src/editor_components/synth_slider.cpp"/>
         <FILE id="R8YCWa" name="synth_slider.h" compile="0" resource="0" file="../src/editor_components/synth_slider.h"/>

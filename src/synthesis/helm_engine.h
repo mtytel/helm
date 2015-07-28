@@ -67,6 +67,9 @@ namespace mopo {
       Value* arp_on_;
       bool was_playing_arp_;
 
+      Value* lfo_1_retrigger_;
+      Value* lfo_2_retrigger_;
+      Value* step_sequencer_retrigger_;
       HelmLfo* lfo_1_;
       HelmLfo* lfo_2_;
       StepGenerator* step_sequencer_;

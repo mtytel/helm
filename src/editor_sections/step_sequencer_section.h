@@ -19,6 +19,7 @@
 #define STEP_SEQUENCER_SECTION_H
 
 #include "JuceHeader.h"
+#include "retrigger_selector.h"
 #include "synth_section.h"
 #include "tempo_selector.h"
 #include "graphical_step_sequencer.h"
@@ -36,6 +37,7 @@ class StepSequencerSection : public SynthSection {
 
     std::vector<Slider*> sequencer_sliders_;
     ScopedPointer<GraphicalStepSequencer> step_sequencer_;
+    ScopedPointer<RetriggerSelector> retrigger_;
     ScopedPointer<SynthSlider> num_steps_;
     ScopedPointer<SynthSlider> frequency_;
     ScopedPointer<SynthSlider> tempo_;

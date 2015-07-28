@@ -55,10 +55,10 @@ namespace mopo {
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
 
     // Monophonic LFO 1.
-    Value* lfo_1_retrigger = createBaseControl("mono_lfo_1_retrigger");
-    TriggerCondition* lfo_1_reset = new TriggerCondition();
-    lfo_1_reset->plug(lfo_1_retrigger, TriggerCondition::kCondition);
-    lfo_1_reset->plug(voice_handler_->note_retrigger(), TriggerCondition::kTrigger);
+    lfo_1_retrigger_ = createBaseControl("mono_lfo_1_retrigger");
+    TriggerEquals* lfo_1_reset = new TriggerEquals(1.0);
+    lfo_1_reset->plug(lfo_1_retrigger_, TriggerEquals::kCondition);
+    lfo_1_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", true);
     Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true, false);
     Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
@@ -82,10 +82,10 @@ namespace mopo {
     mod_sources_["mono_lfo_1_phase"] = lfo_1_->output(Oscillator::kPhase);
 
     // Monophonic LFO 2.
-    Value* lfo_2_retrigger = createBaseControl("mono_lfo_2_retrigger");
-    TriggerCondition* lfo_2_reset = new TriggerCondition();
-    lfo_2_reset->plug(lfo_2_retrigger, TriggerCondition::kCondition);
-    lfo_2_reset->plug(voice_handler_->note_retrigger(), TriggerCondition::kTrigger);
+    lfo_2_retrigger_ = createBaseControl("mono_lfo_2_retrigger");
+    TriggerEquals* lfo_2_reset = new TriggerEquals(1.0);
+    lfo_2_reset->plug(lfo_2_retrigger_, TriggerEquals::kCondition);
+    lfo_2_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", true);
     Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true, false);
     Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
@@ -109,6 +109,10 @@ namespace mopo {
     mod_sources_["mono_lfo_2_phase"] = lfo_2_->output(Oscillator::kPhase);
 
     // Step Sequencer.
+    step_sequencer_retrigger_ = createBaseControl("step_sequencer_retrigger");
+    TriggerEquals* step_sequencer_reset = new TriggerEquals(1.0);
+    step_sequencer_reset->plug(step_sequencer_retrigger_, TriggerEquals::kCondition);
+    step_sequencer_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* num_steps = createMonoModControl("num_steps", true);
     Processor* step_smoothing = createMonoModControl("step_smoothing", true);
     Processor* step_free_frequency = createMonoModControl("step_frequency", false, false);
@@ -116,6 +120,7 @@ namespace mopo {
                                                       beats_per_second, false);
 
     step_sequencer_ = new StepGenerator(MAX_STEPS);
+    step_sequencer_->plug(step_sequencer_reset, StepGenerator::kReset);
     step_sequencer_->plug(num_steps, StepGenerator::kNumSteps);
     step_sequencer_->plug(step_frequency, StepGenerator::kFrequency);
 
@@ -134,6 +139,7 @@ namespace mopo {
     smoothed_step_sequencer->plug(step_smoothing, SmoothFilter::kHalfLife);
 
     addProcessor(step_sequencer_);
+    addProcessor(step_sequencer_reset);
     addProcessor(smoothed_step_sequencer);
 
     mod_sources_["step_sequencer"] = smoothed_step_sequencer->output();
@@ -257,7 +263,7 @@ namespace mopo {
   void HelmEngine::connectModulation(ModulationConnection* connection) {
     Processor::Output* source = getModulationSource(connection->source);
     MOPO_ASSERT(source != 0);
-    
+
     Processor* destination = getModulationDestination(connection->destination,
                                                       source->owner->isPolyphonic());
     MOPO_ASSERT(destination != 0);
@@ -373,8 +379,10 @@ namespace mopo {
 
   void HelmEngine::correctToTime(mopo_float samples) {
     HelmModule::correctToTime(samples);
-    lfo_1_->correctToTime(samples);
-    lfo_2_->correctToTime(samples);
+    if (lfo_1_retrigger_->value() == 2.0)
+      lfo_1_->correctToTime(samples);
+    if (lfo_2_retrigger_->value() == 2.0)
+      lfo_2_->correctToTime(samples);
     step_sequencer_->correctToTime(samples);
   }
 

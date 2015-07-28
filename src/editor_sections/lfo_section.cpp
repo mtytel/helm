@@ -30,11 +30,11 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
     SynthSection(name) {
   static const int TEMPO_DRAG_SENSITIVITY = 150;
 
-  if (retrigger) {
-    addButton(retrigger_ = new ToggleButton(value_prepend + "_retrigger"));
-    retrigger_->setLookAndFeel(TextLookAndFeel::instance());
-    retrigger_->setButtonText(TRANS("R"));
-  }
+  retrigger_ = new RetriggerSelector(value_prepend + "_retrigger");
+  retrigger_->setSliderStyle(Slider::LinearBar);
+  retrigger_->setStringLookup(mopo::strings::freq_retrigger_styles);
+  if (retrigger)
+    addSlider(retrigger_);
 
   addSlider(amplitude_ = new SynthSlider(value_prepend + "_amplitude"));
   amplitude_->setSliderStyle(Slider::LinearBarVertical);
@@ -89,10 +89,20 @@ void LfoSection::paintBackground(Graphics& g) {
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
-             frequency_->getBounds().getWidth() + TEXT_HEIGHT, 10, Justification::centred, false);
-  
+
+  if (retrigger_->isVisible()) {
+    g.drawText(TRANS("FREQUENCY"),
+               retrigger_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
+               frequency_->getBounds().getWidth() + 2 * TEXT_HEIGHT, 10,
+               Justification::centred, false);
+  }
+  else {
+    g.drawText(TRANS("FREQUENCY"),
+               frequency_->getBounds().getX() - 5, frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
+               frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10, 10,
+               Justification::centred, false);
+  }
+
   component_shadow.drawForRectangle(g, wave_viewer_->getBounds());
 }
 
@@ -104,8 +114,7 @@ void LfoSection::resized() {
 
   int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
   modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
-  if (retrigger_.get())
-    retrigger_->setBounds(proportionOfWidth(0.5f) - TEXT_HEIGHT, y, TEXT_HEIGHT, TEXT_HEIGHT);
+  retrigger_->setBounds(proportionOfWidth(0.5f) - TEXT_HEIGHT, y, TEXT_HEIGHT, TEXT_HEIGHT);
 
   frequency_->setBounds(proportionOfWidth(0.5f), y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),

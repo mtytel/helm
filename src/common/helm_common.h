@@ -73,6 +73,13 @@ namespace mopo {
       "Tempo Triplets"
     };
 
+
+    const std::string freq_retrigger_styles[] = {
+      "Free",
+      "Retrigger",
+      "Sync to Playhead"
+    };
+
     const std::string filter_types[] = {
       "low pass",
       "high pass",

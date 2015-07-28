@@ -20,6 +20,7 @@
 
 #include "JuceHeader.h"
 #include "synth_section.h"
+#include "retrigger_selector.h"
 #include "tempo_selector.h"
 #include "wave_selector.h"
 #include "wave_viewer.h"
@@ -36,7 +37,7 @@ class LfoSection : public SynthSection {
     ScopedPointer<WaveViewer> wave_viewer_;
     ScopedPointer<WaveSelector> wave_selector_;
 
-    ScopedPointer<ToggleButton> retrigger_;
+    ScopedPointer<RetriggerSelector> retrigger_;
     ScopedPointer<SynthSlider> amplitude_;
     ScopedPointer<SynthSlider> frequency_;
     ScopedPointer<SynthSlider> tempo_;

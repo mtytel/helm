@@ -97,6 +97,7 @@ OBJECTS := \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
   $(OBJDIR)/patch_browser_2710c0e5.o \
+  $(OBJDIR)/retrigger_selector_9cbab7cf.o \
   $(OBJDIR)/synth_slider_ab0cf9a.o \
   $(OBJDIR)/tempo_selector_e5a31119.o \
   $(OBJDIR)/wave_selector_6d163719.o \
@@ -414,6 +415,11 @@ $(OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.c
 $(OBJDIR)/patch_browser_2710c0e5.o: ../../../src/editor_components/patch_browser.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling patch_browser.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/retrigger_selector.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling retrigger_selector.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp

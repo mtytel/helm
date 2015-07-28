@@ -14,32 +14,24 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TEMPO_SELECTOR_H
-#define TEMPO_SELECTOR_H
+#ifndef RETRIGGER_SELECTOR_H
+#define RETRIGGER_SELECTOR_H
 
 #include "JuceHeader.h"
 #include "synth_slider.h"
 
-class TempoSelector : public SynthSlider {
+class RetriggerSelector : public SynthSlider {
   public:
-    TempoSelector(String name);
+    RetriggerSelector(String name);
 
     void mouseDown(const MouseEvent& e) override;
     void paint(Graphics& g) override;
-    void valueChanged() override;
     void resized() override;
 
-    void setFreeSlider(Slider* slider) { free_slider_ = slider; }
-    void setTempoSlider(Slider* slider) { tempo_slider_ = slider; }
-
   private:
-    Slider* free_slider_;
-    Slider* tempo_slider_;
-
     Path arrow_;
-    Path clock_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TempoSelector)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RetriggerSelector)
 };
 
-#endif // TEMPO_SELECTOR_H
+#endif // RETRIGGER_SELECTOR_H
