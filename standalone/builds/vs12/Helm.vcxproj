@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\JUCE\modules;../../../mopo/src;../../../src;../../../src/common;../../../src/editor_components;../../../src/editor_sections;../../../src/look_and_feel;../../../src/standalone;../../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -97,7 +97,7 @@
     <ClCompile>
       <Optimization>MinSpace</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\..\JUCE\modules;../../../mopo/src;../../../src;../../../src/common;../../../src/editor_components;../../../src/editor_sections;../../../src/look_and_feel;../../../src/standalone;../../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.4.0;JUCE_APP_VERSION_HEX=0x400;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader/>
@@ -249,6 +249,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilterOld.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.cpp">
@@ -1461,6 +1464,7 @@
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilterOld.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\effects\juce_Reverb.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\sources\juce_AudioSource.h"/>
@@ -1924,8 +1928,6 @@
     <None Include="..\..\..\images\helm_icon_256_2x.png"/>
     <None Include="..\..\..\images\helm_icon_512_1x.png"/>
     <None Include="..\..\..\images\helm_icon_512_2x.png"/>
-    <None Include="..\..\..\images\ic_settings_white_24dp_1x.png"/>
-    <None Include="..\..\..\images\ic_settings_white_24dp_2x.png"/>
     <None Include="..\..\..\images\modulation_selected_active_1x.png"/>
     <None Include="..\..\..\images\modulation_selected_active_2x.png"/>
     <None Include="..\..\..\images\modulation_selected_inactive_1x.png"/>

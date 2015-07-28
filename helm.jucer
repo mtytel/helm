@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.2.0"
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
               companyWebsite="tytel.org">
   <MAINGROUP id="OwcEM5" name="HelmPlugin">
@@ -44,10 +44,6 @@
             file="images/helm_icon_512_1x.png"/>
       <FILE id="XC7smo" name="helm_icon_512_2x.png" compile="0" resource="1"
             file="images/helm_icon_512_2x.png"/>
-      <FILE id="jwBv1J" name="ic_settings_white_24dp_1x.png" compile="0"
-            resource="1" file="images/ic_settings_white_24dp_1x.png"/>
-      <FILE id="hAOVzU" name="ic_settings_white_24dp_2x.png" compile="0"
-            resource="1" file="images/ic_settings_white_24dp_2x.png"/>
       <FILE id="tWsWkS" name="modulation_selected_active_1x.png" compile="0"
             resource="1" file="images/modulation_selected_active_1x.png"/>
       <FILE id="PTlcCl" name="modulation_selected_active_2x.png" compile="0"

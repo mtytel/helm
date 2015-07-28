@@ -664,6 +664,9 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.cpp">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilterOld.cpp">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.cpp">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClCompile>
@@ -2238,6 +2241,9 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilterOld.h">
+      <Filter>Juce Modules\juce_audio_basics\effects</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_LagrangeInterpolator.h">
       <Filter>Juce Modules\juce_audio_basics\effects</Filter>
     </ClInclude>
@@ -3648,12 +3654,6 @@
       <Filter>HelmPlugin\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_512_2x.png">
-      <Filter>HelmPlugin\images</Filter>
-    </None>
-    <None Include="..\..\images\ic_settings_white_24dp_1x.png">
-      <Filter>HelmPlugin\images</Filter>
-    </None>
-    <None Include="..\..\images\ic_settings_white_24dp_2x.png">
       <Filter>HelmPlugin\images</Filter>
     </None>
     <None Include="..\..\images\modulation_selected_active_1x.png">

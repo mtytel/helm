@@ -16,6 +16,16 @@
 
 #include "text_look_and_feel.h"
 
+TextLookAndFeel::TextLookAndFeel() {
+  setColour(ComboBox::backgroundColourId, Colour(0xff212121));
+  setColour(ComboBox::arrowColourId, Colour(0xff888888));
+  setColour(ComboBox::outlineColourId, Colour(0xff888888));
+  setColour(ComboBox::textColourId, Colour(0xffbbbbbb));
+  setColour(Label::textColourId, Colour(0xffaaaaaa));
+  setColour(ListBox::backgroundColourId, Colour(0xff212121));
+  setColour(ListBox::textColourId, Colour(0xffaaaaaa));
+}
+
 void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                        float slider_t, float start_angle, float end_angle,
                                        Slider& slider) {
@@ -58,5 +68,20 @@ void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   else if (isMouseOverButton) {
     g.setColour(Colour(0x11ffffff));
     g.fillRect(button.getLocalBounds());
+  }
+}
+
+void TextLookAndFeel::drawTickBox(Graphics& g, Component& component,
+                                  float x, float y, float w, float h, bool ticked,
+                                  bool enabled, bool mouse_over, bool button_down) {
+  float border_width = 1.5f;
+  g.setColour(Colour(0xffbbbbbb));
+  g.drawRect(x + border_width, y + border_width,
+             w - 2 * border_width, h - 2 * border_width, border_width);
+
+  if (ticked) {
+    g.setColour(Colour(0xffffd740));
+    g.fillRect(x + 3 * border_width, y + 3 * border_width,
+               w - 6 * border_width, h - 6 * border_width);
   }
 }

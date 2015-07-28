@@ -21,12 +21,16 @@
 
 class TextLookAndFeel : public juce::LookAndFeel_V3 {
   public:
+    TextLookAndFeel();
     void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                           float slider_t, float start_angle, float end_angle,
                           Slider& slider);
 
     void drawToggleButton(Graphics& g, ToggleButton& button,
                           bool isMouseOverButton, bool isButtonDown) override;
+
+    void drawTickBox(Graphics &, Component &, float x, float y, float w, float h, bool ticked,
+                     bool enabled, bool mouse_over, bool button_down) override;
 
     static TextLookAndFeel* instance() {
       static TextLookAndFeel instance;

@@ -20,23 +20,22 @@
 
 #include "JuceHeader.h"
 
-class AboutSection : public Component, public ButtonListener {
+class AboutSection : public Component {
   public:
     AboutSection(String name);
-    ~AboutSection();
+    ~AboutSection() { }
     void paint(Graphics& g) override;
     void resized() override;
 
     Rectangle<int> getInfoRect();
 
     void mouseUp(const MouseEvent& e) override;
-    void buttonClicked(Button* clicked_button) override;
+    void setVisible(bool should_be_visible) override;
 
   private:
     ScopedPointer<HyperlinkButton> developer_link_;
     ScopedPointer<HyperlinkButton> free_software_link_;
-    ScopedPointer<ImageButton> settings_button_;
-    SafePointer<DialogWindow> settings_window_;
+    ScopedPointer<AudioDeviceSelectorComponent> device_selector_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };

@@ -17,10 +17,9 @@
 #include "helm_standalone_editor.h"
 
 #include "default_look_and_feel.h"
+#include "helm_common.h"
 #include "mopo.h"
 #include "utils.h"
-
-#define NUM_CHANNELS 2
 
 #define WIDTH 996
 #define HEIGHT 670
@@ -31,11 +30,11 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   midi_manager_ = new MidiManager(&synth_, &critical_section_, this);
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
-  setAudioChannels(0, NUM_CHANNELS);
+  setAudioChannels(0, mopo::NUM_CHANNELS);
   AudioDeviceManager::AudioDeviceSetup setup;
   deviceManager.getAudioDeviceSetup(setup);
   setup.sampleRate = mopo::DEFAULT_SAMPLE_RATE;
-  deviceManager.initialise(0, NUM_CHANNELS, nullptr, true, "", &setup);
+  deviceManager.initialise(0, mopo::NUM_CHANNELS, nullptr, true, "", &setup);
 
   if (deviceManager.getCurrentAudioDevice() == nullptr) {
     const OwnedArray<AudioIODeviceType>& device_types = deviceManager.getAvailableDeviceTypes();
@@ -92,7 +91,7 @@ void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffe
 
     const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
     const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
-    for (int channel = 0; channel < NUM_CHANNELS; ++channel) {
+    for (int channel = 0; channel < mopo::NUM_CHANNELS; ++channel) {
       float* channelData = buffer.buffer->getWritePointer(channel);
       const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
 

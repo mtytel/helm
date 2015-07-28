@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.4.0"
               bundleIdentifier="org.tytel.helm" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.1" companyName="Matt Tytel" companyWebsite="tytel.org"
+              jucerVersion="3.2.0" companyName="Matt Tytel" companyWebsite="tytel.org"
               companyEmail="matthewtytel@gmail.com">
   <MAINGROUP id="CeypXq" name="Helm">
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
@@ -37,10 +37,6 @@
             file="../images/helm_icon_512_1x.png"/>
       <FILE id="PwV9iC" name="helm_icon_512_2x.png" compile="0" resource="1"
             file="../images/helm_icon_512_2x.png"/>
-      <FILE id="BzKYjZ" name="ic_settings_white_24dp_1x.png" compile="0"
-            resource="1" file="../images/ic_settings_white_24dp_1x.png"/>
-      <FILE id="rxdWk9" name="ic_settings_white_24dp_2x.png" compile="0"
-            resource="1" file="../images/ic_settings_white_24dp_2x.png"/>
       <FILE id="DiM4XM" name="modulation_selected_active_1x.png" compile="0"
             resource="1" file="../images/modulation_selected_active_1x.png"/>
       <FILE id="nzjcBD" name="modulation_selected_active_2x.png" compile="0"
