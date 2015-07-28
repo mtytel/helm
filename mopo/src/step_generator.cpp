@@ -30,8 +30,9 @@ namespace mopo {
     num_steps = CLAMP(num_steps, 1, max_steps_);
 
     int i = 0;
-    if (input(kReset)->source->triggered &&
-        input(kReset)->source->trigger_value == kVoiceReset) {
+    if (input(kReset)->source->triggered) {
+      offset_ = 0.0f;
+      current_step_ = 0;
       i = input(kReset)->source->trigger_offset;
     }
 
