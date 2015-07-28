@@ -140,6 +140,9 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
   for (int sample_offset = 0; sample_offset < total_samples;) {
     int num_samples = std::min<int>(total_samples - sample_offset, mopo::MAX_BUFFER_SIZE);
 
+    if (position_info.isPlaying || position_info.isLooping || position_info.isRecording)
+      synth_.correctToTime(position_info.timeInSamples);
+
     if (synth_.getBufferSize() != num_samples)
       synth_.setBufferSize(num_samples);
     synth_.process();
