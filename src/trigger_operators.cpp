@@ -85,7 +85,17 @@ namespace mopo {
     }
   }
 
-  void TriggerCondition::process() {
+  void TriggerEquals::process() {
+    output()->clearTrigger();
+
+    if (input(kTrigger)->source->triggered && input(kCondition)->at(0) == value_) {
+      mopo_float trigger_value = input(kTrigger)->source->trigger_value;
+      output()->trigger(trigger_value,
+                        input(kTrigger)->source->trigger_offset);
+    }
+  }
+
+  void TriggerNonZero::process() {
     output()->clearTrigger();
 
     if (input(kTrigger)->source->triggered && input(kCondition)->at(0)) {
