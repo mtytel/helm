@@ -21,7 +21,8 @@
 
 #define LOGO_WIDTH 128
 #define INFO_WIDTH 450
-#define INFO_HEIGHT 500
+#define STANDALONE_INFO_HEIGHT 500
+#define PLUGIN_INFO_HEIGHT 160
 #define PADDING_X 25
 #define PADDING_Y 15
 
@@ -135,6 +136,7 @@ void AboutSection::setVisible(bool should_be_visible) {
       int y = info_rect.getY() + LOGO_WIDTH + 2 * PADDING_Y;
       device_selector_->setBounds(info_rect.getX(), y,
                                   info_rect.getWidth(), info_rect.getBottom() - y);
+      resized();
     }
   }
 
@@ -142,7 +144,8 @@ void AboutSection::setVisible(bool should_be_visible) {
 }
 
 Rectangle<int> AboutSection::getInfoRect() {
+  int info_height = device_selector_ ? STANDALONE_INFO_HEIGHT : PLUGIN_INFO_HEIGHT;
   int x = (getWidth() - INFO_WIDTH) / 2;
-  int y = (getHeight() - INFO_HEIGHT) / 2;
-  return Rectangle<int>(x, y, INFO_WIDTH, INFO_HEIGHT);
+  int y = (getHeight() - info_height) / 2;
+  return Rectangle<int>(x, y, INFO_WIDTH, info_height);
 }
