@@ -2,11 +2,15 @@ ifndef CONFIG
 	CONFIG=Release
 endif
 
+ifndef LIBDIR
+	LIBDIR=/usr/lib/
+endif
+
 PROGRAM = helm
 BIN     = $(DESTDIR)/usr/bin
 BINFILE = $(BIN)/$(PROGRAM)
-LV2     = $(DESTDIR)/usr/lib/lv2/$(PROGRAM).lv2
-VST     = $(DESTDIR)/usr/lib/lxvst
+LV2     = $(DESTDIR)/$(LIBDIR)/lv2/$(PROGRAM).lv2
+VST     = $(DESTDIR)/$(LIBDIR)/lxvst
 SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
 ICONS   = $(SYSDATA)/icons
 PATCHES = $(SYSDATA)/patches
