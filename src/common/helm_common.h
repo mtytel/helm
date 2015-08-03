@@ -159,6 +159,10 @@ namespace mopo {
   class ValueDetailsLookup {
     public:
       ValueDetailsLookup();
+      const bool isParameter(std::string name) {
+        return details_lookup_.count(name);
+      }
+
       const ValueDetails& getDetails(std::string name) {
         MOPO_ASSERT(details_lookup_.count(name));
         return details_lookup_[name];
@@ -172,6 +176,7 @@ namespace mopo {
   class Parameters {
     public:
       static const ValueDetails& getDetails(std::string name) { return lookup_.getDetails(name); }
+      static const bool isParameter(std::string name) { return lookup_.isParameter(name); }
     private:
       static ValueDetailsLookup lookup_;
   };

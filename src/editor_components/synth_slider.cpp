@@ -38,6 +38,9 @@ namespace {
 
 SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), active_(true),
                                         string_lookup_(nullptr), parent_(nullptr) {
+  if (!mopo::Parameters::isParameter(name.toStdString()))
+    return;
+
   mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
   if (details.steps)
     setRange(details.min, details.max, (details.max - details.min) / (details.steps - 1));
