@@ -463,6 +463,6 @@
     <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_video" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_ASIO="enabled" JUCE_WASAPI="enabled" JUCE_DIRECTSOUND="enabled"
-               JUCE_ALSA="enabled" JUCE_JACK="enabled"/>
+  <JUCEOPTIONS JUCE_WASAPI="enabled" JUCE_DIRECTSOUND="enabled" JUCE_ALSA="enabled"
+               JUCE_JACK="enabled"/>
 </JUCERPROJECT>
