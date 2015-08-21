@@ -14,7 +14,7 @@ If you want to build VST/AAX plugins You'll need their SDKs located in ~/srcs
 For AU on the Mac you'll want to put the CoreAudio SDK in /Applications/Xcode.app/Contents/Developer/Extras/CoreAudio  
 Nothing extra is needed for building LV2 plugins
 
-#### Linux
+#### GNU/Linux
 ```bash
 make
 ```
