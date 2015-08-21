@@ -16,6 +16,19 @@
 
 #include "load_save.h"
 
+namespace {
+
+  String createPatchLicense(String patch_name, String author) {
+    return patch_name + " (c) by " + author + newLine +
+           newLine +
+           patch_name + " is licensed under a" + newLine +
+           "Creative Commons Attribution 3.0 Unported License." + newLine +
+           newLine +
+           "You should have received a copy of the license along with this" + newLine +
+           "work.  If not, see <http://creativecommons.org/licenses/by/3.0/>.";
+  }
+} // namespace
+
 var LoadSave::stateToVar(mopo::HelmEngine* synth,
                          const CriticalSection& critical_section) {
   mopo::control_map controls = synth->getControls();
