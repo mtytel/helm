@@ -47,7 +47,7 @@ class HelmStandaloneEditor : public AudioAppComponent,
     const CriticalSection& getCriticalSection() override { return critical_section_; }
     MidiManager* getMidiManager() override { return midi_manager_.get(); }
     void updateFullGui() override;
-    void updateGuiControl(std::string name, mopo::mopo_float value);
+    void updateGuiControl(const std::string& name, mopo::mopo_float value) override;
     AudioDeviceManager* getAudioDeviceManager() override { return &deviceManager; }
 
   private:

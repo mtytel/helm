@@ -29,7 +29,7 @@ void MidiManager::cancelMidiLearn() {
   control_armed_ = "";
 }
 
-void MidiManager::clearMidiLearn(std::string name) {
+void MidiManager::clearMidiLearn(const std::string& name) {
   for (auto controls : midi_learn_map_) {
     if (controls.second.count(name))
       midi_learn_map_[controls.first].erase(name);
@@ -41,7 +41,7 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
     control_armed_ = "";
   }
-  
+
   if (midi_learn_map_.count(midi_id)) {
     for (auto control : midi_learn_map_[midi_id]) {
       midi_range range = control.second;
@@ -53,7 +53,7 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
   }
 }
 
-bool MidiManager::isMidiMapped(std::string name) {
+bool MidiManager::isMidiMapped(const std::string& name) const {
   for (auto controls : midi_learn_map_) {
     if (controls.second.count(name))
       return true;

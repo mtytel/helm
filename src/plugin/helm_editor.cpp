@@ -50,18 +50,18 @@ void HelmEditor::updateFullGui() {
   gui_->setAllValues(controls_);
 }
 
-void HelmEditor::updateGuiControl(std::string name, mopo::mopo_float value) {
+void HelmEditor::updateGuiControl(const std::string& name, mopo::mopo_float value) {
   gui_->setValue(name, value, NotificationType::dontSendNotification);
 }
 
-void HelmEditor::beginChangeGesture(std::string name) {
+void HelmEditor::beginChangeGesture(const std::string& name) {
   helm_.beginChangeGesture(name);
 }
 
-void HelmEditor::endChangeGesture(std::string name) {
+void HelmEditor::endChangeGesture(const std::string& name) {
   helm_.endChangeGesture(name);
 }
 
-void HelmEditor::setValueNotifyHost(std::string name, mopo::mopo_float value) {
+void HelmEditor::setValueNotifyHost(const std::string& name, mopo::mopo_float value) {
   helm_.setValueNotifyHost(name, value);
 }

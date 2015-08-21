@@ -118,7 +118,7 @@ void HelmStandaloneEditor::updateFullGui() {
   gui_->setAllValues(controls_);
 }
 
-void HelmStandaloneEditor::updateGuiControl(std::string name, mopo::mopo_float value) {
+void HelmStandaloneEditor::updateGuiControl(const std::string& name, mopo::mopo_float value) {
   gui_->setValue(name, value, NotificationType::dontSendNotification);
 }
 

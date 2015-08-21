@@ -28,41 +28,42 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     SynthGuiInterface() { }
     virtual ~SynthGuiInterface() { }
 
-    void valueChangedThroughMidi(std::string name, mopo::mopo_float value) override;
-    void valueChangedExternal(std::string name, mopo::mopo_float value);
-    void valueChangedInternal(std::string name, mopo::mopo_float value);
-    void valueChanged(std::string name, mopo::mopo_float value);
-    void changeModulationAmount(std::string source, std::string destination,
+    void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
+    void valueChangedExternal(const std::string& name, mopo::mopo_float value);
+    void valueChangedInternal(const std::string& name, mopo::mopo_float value);
+    void valueChanged(const std::string& name, mopo::mopo_float value);
+    void changeModulationAmount(const std::string& source, const std::string& destination,
                                 mopo::mopo_float amount);
     void connectModulation(mopo::ModulationConnection* connection);
     void disconnectModulation(mopo::ModulationConnection* connection);
-    std::vector<mopo::ModulationConnection*> getSourceConnections(std::string source);
-    std::vector<mopo::ModulationConnection*> getDestinationConnections(std::string destination);
+    std::vector<mopo::ModulationConnection*> getSourceConnections(const std::string& source);
+    std::vector<mopo::ModulationConnection*> getDestinationConnections(const std::string& destination);
 
     int getNumActiveVoices();
     void lockSynth();
     void unlockSynth();
-    mopo::Processor::Output* getModSource(std::string name);
+    mopo::Processor::Output* getModSource(const std::string& name);
 
     var saveToVar();
     void loadFromVar(var state);
 
-    virtual void beginChangeGesture(std::string name) { }
-    virtual void endChangeGesture(std::string name) { }
-    virtual void setValueNotifyHost(std::string name, mopo::mopo_float value) { }
+    virtual void beginChangeGesture(const std::string& name) { }
+    virtual void endChangeGesture(const std::string& name) { }
+    virtual void setValueNotifyHost(const std::string& name, mopo::mopo_float value) { }
     virtual AudioDeviceManager* getAudioDeviceManager() { return nullptr; }
 
-    void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
+    void armMidiLearn(const std::string& name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
-    void clearMidiLearn(std::string name);
-    bool isMidiMapped(std::string name);
+    void clearMidiLearn(const std::string& name);
+    bool isMidiMapped(const std::string& name);
 
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual MidiManager* getMidiManager() = 0;
     virtual void updateFullGui() = 0;
-    virtual void updateGuiControl(std::string name, mopo::mopo_float value) = 0;
-    mopo::ModulationConnection* getConnection(std::string source, std::string destination);
+    virtual void updateGuiControl(const std::string& name, mopo::mopo_float value) = 0;
+    mopo::ModulationConnection* getConnection(const std::string& source,
+                                              const std::string& destination);
 
     void setSynth(mopo::HelmEngine* synth) {
       synth_ = synth;

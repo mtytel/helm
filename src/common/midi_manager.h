@@ -28,7 +28,8 @@ class MidiManager : public MidiInputCallback {
     class MidiManagerListener {
       public:
         virtual ~MidiManagerListener() { }
-        virtual void valueChangedThroughMidi(std::string name, mopo::mopo_float value) = 0;
+        virtual void valueChangedThroughMidi(const std::string& name,
+                                             mopo::mopo_float value) = 0;
     };
 
     MidiManager(mopo::HelmEngine* synth, const CriticalSection* critical_section,
@@ -39,10 +40,10 @@ class MidiManager : public MidiInputCallback {
 
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
-    void clearMidiLearn(std::string name);
+    void clearMidiLearn(const std::string& name);
     void midiInput(int control, mopo::mopo_float value);
     void processMidiMessage(const MidiMessage &midi_message, int sample_position = 0);
-    bool isMidiMapped(std::string name);
+    bool isMidiMapped(const std::string& name) const;
 
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
@@ -63,7 +64,7 @@ class MidiManager : public MidiInputCallback {
     mopo::HelmEngine* synth_;
     const CriticalSection* critical_section_;
     MidiManagerListener* listener_;
-  
+
     std::string control_armed_;
     std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;
     std::map<int, std::map<std::string, midi_range>> midi_learn_map_;

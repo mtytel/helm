@@ -159,13 +159,14 @@ namespace mopo {
   class ValueDetailsLookup {
     public:
       ValueDetailsLookup();
-      const bool isParameter(std::string name) {
+      const bool isParameter(const std::string& name) const {
         return details_lookup_.count(name);
       }
 
-      const ValueDetails& getDetails(std::string name) {
-        MOPO_ASSERT(details_lookup_.count(name));
-        return details_lookup_[name];
+      const ValueDetails& getDetails(const std::string& name) const {
+        auto details = details_lookup_.find(name);
+        MOPO_ASSERT(details != details_lookup_.end());
+        return details->second;
       }
 
     private:
@@ -175,8 +176,14 @@ namespace mopo {
 
   class Parameters {
     public:
-      static const ValueDetails& getDetails(std::string name) { return lookup_.getDetails(name); }
-      static const bool isParameter(std::string name) { return lookup_.isParameter(name); }
+      static const ValueDetails& getDetails(const std::string& name) {
+        return lookup_.getDetails(name);
+      }
+
+      static const bool isParameter(const std::string& name) {
+        return lookup_.isParameter(name);
+      }
+
     private:
       static ValueDetailsLookup lookup_;
   };
