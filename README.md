@@ -2,12 +2,7 @@
 Helm is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, Mac, and Windows as a standalone program and as a LV2/VST/AU/AAX plugin. Release is in beta so there are outstanding bugs. Please send any bugs found to matthewtytel@gmail.com
 
 ### Installing:
-Go to [tytel.org/helm](http://tytel.org/helm) for builds. If you're on Ubuntu you can download it through the command line:
-```bash
-sudo add-apt-repository ppa:tytel/helm
-sudo apt-get update
-sudo apt-get install helm
-```
+Go to [tytel.org/helm](http://tytel.org/helm) for builds.
 
 ### Building:
 If you want to build VST/AAX plugins You'll need their SDKs located in ~/srcs  
