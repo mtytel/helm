@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.2.0"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.1.1"
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
               companyWebsite="tytel.org">
   <MAINGROUP id="OwcEM5" name="HelmPlugin">
@@ -428,8 +428,8 @@
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux/VST" vstFolder="~/srcs/vstsdk2.4"
-                vst3Folder="~/srcs/VST3 SDK" extraCompilerFlags="-ffast-math -mtune=generic -msse -msse2 -mfpmath=sse"
-                extraLinkerFlags="-ffast-math -mtune=generic -msse -msse2 -mfpmath=sse">
+                vst3Folder="~/srcs/VST3 SDK" extraCompilerFlags="-ffast-math"
+                extraLinkerFlags="-ffast-math">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
