@@ -22,10 +22,10 @@ namespace {
     return patch_name + " (c) by " + author + newLine +
            newLine +
            patch_name + " is licensed under a" + newLine +
-           "Creative Commons Attribution 3.0 Unported License." + newLine +
+           "Creative Commons Attribution 4.0 International License." + newLine +
            newLine +
            "You should have received a copy of the license along with this" + newLine +
-           "work.  If not, see <http://creativecommons.org/licenses/by/3.0/>.";
+           "work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.";
   }
 } // namespace
 
