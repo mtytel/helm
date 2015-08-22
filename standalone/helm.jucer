@@ -2,8 +2,8 @@
 
 <JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.4.1"
               bundleIdentifier="org.tytel.helm" includeBinaryInAppConfig="1"
-              jucerVersion="3.2.0" companyName="Matt Tytel" companyWebsite="tytel.org"
-              companyEmail="matthewtytel@gmail.com">
+              jucerVersion="3.1.1" companyName="Matt Tytel" companyWebsite="tytel.org"
+              companyEmail="matthewtytel@gmail.com" defines="JUCE_JACK_CLIENT_NAME=\&quot;Helm\&quot;">
   <MAINGROUP id="CeypXq" name="Helm">
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
       <FILE id="FShH5H" name="DroidSansMono.ttf" compile="0" resource="1"
