@@ -49,6 +49,7 @@ class PatchBrowser : public SynthSection {
     ScopedPointer<TextButton> next_folder_;
     ScopedPointer<TextButton> next_patch_;
     ScopedPointer<TextButton> save_;
+    ScopedPointer<TextButton> browse_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };

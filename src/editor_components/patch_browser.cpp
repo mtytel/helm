@@ -24,6 +24,15 @@
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
 
+namespace {
+  class FileSorter {
+    public:
+      static int compareElements(File a, File b) {
+        return a.getFileName().compare(b.getFileName());
+      }
+  };
+}
+
 PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   setLookAndFeel(BrowserLookAndFeel::instance());
 
@@ -52,6 +61,11 @@ PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   save_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   save_->setColour(TextButton::textColourOffId, Colours::white);
 
+  addButton(browse_ = new TextButton("browse"));
+  browse_->setButtonText(TRANS("BROWSE"));
+  browse_->setColour(TextButton::buttonColourId, Colour(0xff303030));
+  browse_->setColour(TextButton::textColourOffId, Colours::white);
+
   folder_index_ = -1;
   patch_index_ = -1;
   folder_text_ = TRANS("Init Folder");
@@ -64,6 +78,7 @@ PatchBrowser::~PatchBrowser() {
   next_folder_ = nullptr;
   next_patch_ = nullptr;
   save_ = nullptr;
+  browse_ = nullptr;
 }
 
 void PatchBrowser::paintBackground(Graphics& g) {
@@ -106,13 +121,15 @@ void PatchBrowser::resized() {
   next_patch_->setBounds(getWidth() - proportionOfWidth(0.1f), proportionOfHeight(0.5f),
                          proportionOfWidth(0.1f), proportionOfHeight(0.5f));
   save_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.0f),
-                   proportionOfWidth(0.2f), proportionOfHeight (1.0f));
+                   proportionOfWidth(0.2f), proportionOfHeight (0.5f));
+  browse_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.5f),
+                     proportionOfWidth(0.2f), proportionOfHeight (0.5f));
 
   SynthSection::resized();
 }
 
-void PatchBrowser::buttonClicked(Button* buttonThatWasClicked) {
-  if (buttonThatWasClicked == save_) {
+void PatchBrowser::buttonClicked(Button* clicked_button) {
+  if (clicked_button == save_) {
     int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
     FileBrowserComponent browser(flags, getUserPatchDirectory(), nullptr, nullptr);
     FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
@@ -124,21 +141,24 @@ void PatchBrowser::buttonClicked(Button* buttonThatWasClicked) {
       save_file.replaceWithText(JSON::toString(parent->saveToVar()));
     }
   }
+  else if (clicked_button == browse_) {
+
+  }
   else {
-    if (buttonThatWasClicked == prev_folder_) {
+    if (clicked_button == prev_folder_) {
       folder_index_--;
       patch_index_ = 0;
     }
-    else if (buttonThatWasClicked == next_folder_) {
+    else if (clicked_button == next_folder_) {
       folder_index_++;
       patch_index_ = 0;
     }
-    else if (buttonThatWasClicked == prev_patch_) {
+    else if (clicked_button == prev_patch_) {
       patch_index_--;
       if (folder_index_ < 0)
         folder_index_ = 0;
     }
-    else if (buttonThatWasClicked == next_patch_) {
+    else if (clicked_button == next_patch_) {
       patch_index_++;
       if (folder_index_ < 0)
         folder_index_ = 0;
@@ -194,10 +214,12 @@ File PatchBrowser::getUserPatchDirectory() {
 }
 
 File PatchBrowser::getCurrentPatch() {
+  static const FileSorter file_sorter;
   Array<File> patches;
   File patch_folder = getCurrentFolder();
 
   patch_folder.findChildFiles(patches, File::findFiles, false, String("*.") + PATCH_EXTENSION);
+  patches.sort(file_sorter);
   if (patch_index_ >= patches.size())
     patch_index_ = 0;
   else if (patch_index_ < 0)
