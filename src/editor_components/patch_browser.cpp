@@ -111,7 +111,7 @@ PatchBrowser::~PatchBrowser() {
 
 void PatchBrowser::paint(Graphics& g) {
   g.fillAll(Colour(0xbb212121));
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colour(0xff111111));
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 }
 
