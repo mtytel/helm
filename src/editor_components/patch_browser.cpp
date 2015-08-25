@@ -153,6 +153,11 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
   }
 }
 
+void PatchBrowser::mouseUp(const MouseEvent& e) {
+  if (e.getPosition().y > BROWSING_HEIGHT)
+    setVisible(false);
+}
+
 void PatchBrowser::loadFromFile(File& patch) {
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {

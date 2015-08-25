@@ -52,6 +52,7 @@ class PatchBrowser : public Component, public FileListBoxModel::FileListBoxModel
 
     void paint(Graphics& g) override;
     void resized() override;
+    void mouseUp(const MouseEvent& e) override;
 
     void selectedFilesChanged(FileListBoxModel* model) override;
 
