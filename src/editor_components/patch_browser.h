@@ -36,7 +36,7 @@ class FileListBoxModel : public ListBoxModel {
     void selectedRowsChanged(int last_selected_row) override;
 
     File getFileAtRow(int row) { return files_[row]; }
-    void rescanFiles(const Array<File>& folders);
+    void rescanFiles(const Array<File>& folders, bool find_files = false);
     void setListener(FileListBoxModelListener* listener) { listener_ = listener; }
 
   private:

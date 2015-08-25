@@ -126,6 +126,8 @@ namespace mopo {
   const int NUM_FORMANTS = 4;
   const int NUM_CHANNELS = 2;
 
+  const std::string PATCH_EXTENSION = "helm";
+
   typedef std::map<std::string, Value*> control_map;
   typedef std::map<char, std::string> midi_learn_map;
   typedef std::map<std::string, Processor*> input_map;

@@ -16,10 +16,10 @@
 
 #include "synth_gui_interface.h"
 #include "browser_look_and_feel.h"
+#include "helm_common.h"
 #include "load_save.h"
 #include "patch_browser.h"
 
-#define PATCH_EXTENSION "helm"
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
@@ -50,16 +50,23 @@ void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
     listener_->selectedFilesChanged(this);
 }
 
-void FileListBoxModel::rescanFiles(const Array<File>& folders) {
+void FileListBoxModel::rescanFiles(const Array<File>& folders, bool find_files) {
+  static const FileSorterAscending file_sorter;
   files_.clear();
 
   for (File folder : folders) {
     if (folder.isDirectory()) {
       Array<File> child_folders;
-      folder.findChildFiles(child_folders, File::findFilesAndDirectories, false);
+      if (find_files) {
+        folder.findChildFiles(child_folders, File::findFiles, false,
+                              String("*.") + mopo::PATCH_EXTENSION);
+      }
+      else
+        folder.findChildFiles(child_folders, File::findDirectories, false);
       files_.addArray(child_folders);
     }
   }
+  files_.sort(file_sorter);
 }
 
 PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
@@ -76,12 +83,16 @@ PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   addAndMakeVisible(banks_view_);
 
   folders_model_ = new FileListBoxModel();
+  folders_model_->setListener(this);
+
   folders_view_ = new ListBox("folders", folders_model_);
   folders_view_->setMultipleSelectionEnabled(true);
   folders_view_->updateContent();
   addAndMakeVisible(folders_view_);
 
   patches_model_ = new FileListBoxModel();
+  patches_model_->setListener(this);
+
   patches_view_ = new ListBox("patches", patches_model_);
   patches_view_->updateContent();
   addAndMakeVisible(patches_view_);
@@ -114,9 +125,25 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
     folders_model_->rescanFiles(selected_files);
     folders_view_->updateContent();
   }
+  else if (model == folders_model_) {
+    SparseSet<int> selected_rows = folders_view_->getSelectedRows();
+    Array<File> selected_files;
+    for (int i = 0; i < selected_rows.size(); ++i)
+      selected_files.add(folders_model_->getFileAtRow(selected_rows[i]));
+
+    patches_model_->rescanFiles(selected_files, true);
+    patches_view_->updateContent();
+  }
+  else if (model == patches_model_) {
+    SparseSet<int> selected_rows = patches_view_->getSelectedRows();
+    if (selected_rows.size()) {
+      File patch = patches_model_->getFileAtRow(selected_rows[0]);
+      loadFromFile(patch);
+    }
+  }
 }
 
-void PatchBrowser::loadFromFile(File &patch) {
+void PatchBrowser::loadFromFile(File& patch) {
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();

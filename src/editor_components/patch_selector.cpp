@@ -19,7 +19,6 @@
 #include "load_save.h"
 #include "synth_gui_interface.h"
 
-#define PATCH_EXTENSION "helm"
 #define TEXT_PADDING 4.0f
 
 PatchSelector::PatchSelector() : SynthSection("patch_selector"), browser_(nullptr) {
@@ -125,8 +124,8 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
     if (save_dialog.show()) {
       SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
       File save_file = browser.getSelectedFile(0);
-      if (save_file.getFileExtension() != PATCH_EXTENSION)
-        save_file = save_file.withFileExtension(PATCH_EXTENSION);
+      if (save_file.getFileExtension() != mopo::PATCH_EXTENSION)
+        save_file = save_file.withFileExtension(String(mopo::PATCH_EXTENSION));
       save_file.replaceWithText(JSON::toString(parent->saveToVar()));
     }
   }
@@ -175,7 +174,8 @@ File PatchSelector::getCurrentPatch() {
   Array<File> patches;
   File patch_folder = getCurrentFolder();
 
-  patch_folder.findChildFiles(patches, File::findFiles, false, String("*.") + PATCH_EXTENSION);
+  patch_folder.findChildFiles(patches, File::findFiles, false,
+                              String("*.") + mopo::PATCH_EXTENSION);
   patches.sort(file_sorter);
   if (patch_index_ >= patches.size())
     patch_index_ = 0;
@@ -199,7 +199,7 @@ File PatchSelector::getCurrentFolder() {
   return folders[folder_index_];
 }
 
-void PatchSelector::loadFromFile(File &patch) {
+void PatchSelector::loadFromFile(File& patch) {
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
