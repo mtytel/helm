@@ -213,6 +213,10 @@
         <FILE id="a55sF5" name="patch_browser.cpp" compile="1" resource="0"
               file="src/editor_components/patch_browser.cpp"/>
         <FILE id="KWKOha" name="patch_browser.h" compile="0" resource="0" file="src/editor_components/patch_browser.h"/>
+        <FILE id="p8Vh4v" name="patch_selector.cpp" compile="1" resource="0"
+              file="src/editor_components/patch_selector.cpp"/>
+        <FILE id="hIgOid" name="patch_selector.h" compile="0" resource="0"
+              file="src/editor_components/patch_selector.h"/>
         <FILE id="K0tt6u" name="retrigger_selector.cpp" compile="1" resource="0"
               file="src/editor_components/retrigger_selector.cpp"/>
         <FILE id="quGHxW" name="retrigger_selector.h" compile="0" resource="0"

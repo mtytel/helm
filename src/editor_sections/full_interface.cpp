@@ -36,7 +36,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
 
-  addAndMakeVisible(patch_browser_ = new PatchBrowser());
+  addAndMakeVisible(patch_selector_ = new PatchSelector());
   addAndMakeVisible(oscilloscope_ = new Oscilloscope(512));
 
   setAllValues(controls);
@@ -63,6 +63,9 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addAndMakeVisible(logo_button_);
   logo_button_->addListener(this);
 
+  addChildComponent(patch_browser_ = new PatchBrowser());
+  patch_selector_->setBrowser(patch_browser_);
+
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
 
@@ -75,7 +78,7 @@ FullInterface::~FullInterface() {
   oscilloscope_ = nullptr;
   beats_per_minute_ = nullptr;
   global_tool_tip_ = nullptr;
-  patch_browser_ = nullptr;
+  patch_selector_ = nullptr;
 }
 
 void FullInterface::paintBackground(Graphics& g) {
@@ -105,17 +108,17 @@ void FullInterface::paintBackground(Graphics& g) {
 
   logo_shadow.drawForImage(g, helm_small);
   g.restoreState();
-  
+
   g.setColour(Colour(0xff303030));
   g.fillRect(92, 8, 244, TOP_HEIGHT);
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  g.drawText(TRANS("BPM"), patch_browser_->getX(), beats_per_minute_->getY(),
+  g.drawText(TRANS("BPM"), patch_selector_->getX(), beats_per_minute_->getY(),
              44, beats_per_minute_->getHeight(),
              Justification::centred, false);
 
-  component_shadow.drawForRectangle(g, patch_browser_->getBounds());
+  component_shadow.drawForRectangle(g, patch_selector_->getBounds());
 
   paintKnobShadows(g);
 }
@@ -125,13 +128,16 @@ void FullInterface::resized() {
                                   getWidth() - 12, getHeight() - TOP_HEIGHT - 12);
   oscilloscope_->setBounds(552, 8, 112, TOP_HEIGHT);
   arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 308, TOP_HEIGHT);
-  patch_browser_->setBounds(92, 8, 244, 2 * TOP_HEIGHT / 3);
-  beats_per_minute_->setBounds(141, patch_browser_->getBottom(),
-                               200, TOP_HEIGHT - patch_browser_->getHeight());
+  patch_selector_->setBounds(92, 8, 244, 2 * TOP_HEIGHT / 3);
+  beats_per_minute_->setBounds(141, patch_selector_->getBottom(),
+                               200, TOP_HEIGHT - patch_selector_->getHeight());
   global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
   logo_button_->setBounds(18, 8, 64, 64);
+
+  patch_browser_->setBounds(synthesis_interface_->getX(), synthesis_interface_->getY(),
+                            synthesis_interface_->getWidth(), proportionOfHeight(0.5f));
 
   SynthSection::resized();
 }

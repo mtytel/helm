@@ -26,6 +26,7 @@
 #include "modulation_manager.h"
 #include "oscilloscope.h"
 #include "patch_browser.h"
+#include "patch_selector.h"
 #include "synthesis_interface.h"
 #include "synth_section.h"
 
@@ -68,6 +69,7 @@ class FullInterface : public SynthSection {
     ScopedPointer<SynthSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<TempoSelector> arp_sync_;
+    ScopedPointer<PatchSelector> patch_selector_;
     ScopedPointer<PatchBrowser> patch_browser_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FullInterface)

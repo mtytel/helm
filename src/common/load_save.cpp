@@ -16,6 +16,9 @@
 
 #include "load_save.h"
 
+#define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
+#define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
+
 namespace {
 
   String createPatchLicense(String patch_name, String author) {
@@ -86,4 +89,38 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
     connection->amount.set(mod->getProperty("amount"));
     synth->connectModulation(connection);
   }
+}
+
+File LoadSave::getSystemPatchDirectory() {
+  File patch_dir = File("");
+#ifdef LINUX
+  patch_dir = File(LINUX_SYSTEM_PATCH_DIRECTORY);
+#elif defined(__APPLE__)
+  File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
+  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
+#elif defined(_WIN32)
+  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
+  patch_dir = data_dir.getChildFile("Helm/Patches");
+#endif
+
+  if (!patch_dir.exists())
+    patch_dir.createDirectory();
+  return patch_dir;
+}
+
+File LoadSave::getUserPatchDirectory() {
+  File patch_dir = File("");
+#ifdef LINUX
+  patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
+#elif defined(__APPLE__)
+  File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
+  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
+#elif defined(_WIN32)
+  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
+  patch_dir = data_dir.getChildFile("Helm/UserPatches");
+#endif
+
+  if (!patch_dir.exists())
+    patch_dir.createDirectory();
+  return patch_dir;
 }

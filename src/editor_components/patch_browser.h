@@ -21,7 +21,31 @@
 #include "JuceHeader.h"
 #include "synth_section.h"
 
-class PatchBrowser : public SynthSection {
+class FileListBoxModel : public ListBoxModel {
+  public:
+    class FileListBoxModelListener {
+      public:
+        virtual void selectedFilesChanged(FileListBoxModel* model) = 0;
+    };
+
+    FileListBoxModel() : listener_(nullptr), sort_ascending_(true) { }
+
+    int getNumRows() override;
+    void paintListBoxItem(int row_number, Graphics& g,
+                          int width, int height, bool selected) override;
+    void selectedRowsChanged(int last_selected_row) override;
+
+    File getFileAtRow(int row) { return files_[row]; }
+    void rescanFiles(const Array<File>& folders);
+    void setListener(FileListBoxModelListener* listener) { listener_ = listener; }
+
+  private:
+    Array<File> files_;
+    FileListBoxModelListener* listener_;
+    bool sort_ascending_;
+};
+
+class PatchBrowser : public SynthSection, public FileListBoxModel::FileListBoxModelListener {
   public:
     PatchBrowser();
     ~PatchBrowser();
@@ -30,26 +54,19 @@ class PatchBrowser : public SynthSection {
     void resized() override;
     void buttonClicked(Button* buttonThatWasClicked) override;
 
+    void selectedFilesChanged(FileListBoxModel* model) override;
+
   private:
-    void refreshPatches();
-    File getSystemPatchDirectory();
-    File getUserPatchDirectory();
-    File getCurrentPatch();
-    File getCurrentFolder();
     void loadFromFile(File& patch);
 
-    int folder_index_;
-    int patch_index_;
+    ScopedPointer<ListBox> banks_view_;
+    ScopedPointer<FileListBoxModel> banks_model_;
 
-    String folder_text_;
-    String patch_text_;
+    ScopedPointer<ListBox> folders_view_;
+    ScopedPointer<FileListBoxModel> folders_model_;
 
-    ScopedPointer<TextButton> prev_folder_;
-    ScopedPointer<TextButton> prev_patch_;
-    ScopedPointer<TextButton> next_folder_;
-    ScopedPointer<TextButton> next_patch_;
-    ScopedPointer<TextButton> save_;
-    ScopedPointer<TextButton> browse_;
+    ScopedPointer<ListBox> patches_view_;
+    ScopedPointer<FileListBoxModel> patches_model_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };

@@ -16,7 +16,7 @@
 
 #include "synth_gui_interface.h"
 #include "browser_look_and_feel.h"
-
+#include "load_save.h"
 #include "patch_browser.h"
 
 #define PATCH_EXTENSION "helm"
@@ -24,222 +24,96 @@
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
 
-namespace {
-  class FileSorter {
-    public:
-      static int compareElements(File a, File b) {
-        return a.getFileName().compare(b.getFileName());
-      }
-  };
+int FileListBoxModel::getNumRows() {
+  return files_.size();
+}
+
+void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
+                                        int width, int height, bool selected) {
+  static Font list_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                          BinaryData::DroidSansMono_ttfSize));
+  g.fillAll(Colour(0xff323232));
+  g.setColour(Colour(0xffdddddd));
+  if (selected) {
+    g.fillAll(Colours::lightblue);
+    g.setColour(Colours::white);
+  }
+
+  g.setFont(list_font.withPointHeight(12.0f));
+  g.drawText(files_[row_number].getFileName(),
+             5, 0, width, height,
+             Justification::centredLeft, true);
+}
+
+void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
+  if (listener_)
+    listener_->selectedFilesChanged(this);
+}
+
+void FileListBoxModel::rescanFiles(const Array<File>& folders) {
+  files_.clear();
+
+  for (File folder : folders) {
+    if (folder.isDirectory()) {
+      Array<File> child_folders;
+      folder.findChildFiles(child_folders, File::findFilesAndDirectories, false);
+      files_.addArray(child_folders);
+    }
+  }
 }
 
 PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
-  setLookAndFeel(BrowserLookAndFeel::instance());
+  banks_model_ = new FileListBoxModel();
+  banks_model_->setListener(this);
+  Array<File> bank_locations;
+  File bank_dir = LoadSave::getSystemPatchDirectory();
+  bank_locations.add(bank_dir);
+  banks_model_->rescanFiles(bank_locations);
 
-  addButton(prev_folder_ = new TextButton("prev_folder"));
-  prev_folder_->setButtonText(TRANS("<"));
-  prev_folder_->setColour(TextButton::buttonColourId, Colour(0xff303030));
-  prev_folder_->setColour(TextButton::textColourOffId, Colours::white);
+  banks_view_ = new ListBox("banks", banks_model_);
+  banks_view_->setMultipleSelectionEnabled(true);
+  banks_view_->updateContent();
+  addAndMakeVisible(banks_view_);
 
-  addButton(prev_patch_ = new TextButton("prev_patch"));
-  prev_patch_->setButtonText(TRANS("<"));
-  prev_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
-  prev_patch_->setColour(TextButton::textColourOffId, Colours::white);
+  folders_model_ = new FileListBoxModel();
+  folders_view_ = new ListBox("folders", folders_model_);
+  folders_view_->setMultipleSelectionEnabled(true);
+  folders_view_->updateContent();
+  addAndMakeVisible(folders_view_);
 
-  addButton(next_folder_ = new TextButton("next_folder"));
-  next_folder_->setButtonText(TRANS(">"));
-  next_folder_->setColour(TextButton::buttonColourId, Colour(0xff303030));
-  next_folder_->setColour(TextButton::textColourOffId, Colours::white);
-
-  addButton(next_patch_ = new TextButton("next_patch"));
-  next_patch_->setButtonText(TRANS(">"));
-  next_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
-  next_patch_->setColour(TextButton::textColourOffId, Colours::white);
-
-  addButton(save_ = new TextButton("save"));
-  save_->setButtonText(TRANS("SAVE"));
-  save_->setColour(TextButton::buttonColourId, Colour(0xff303030));
-  save_->setColour(TextButton::textColourOffId, Colours::white);
-
-  addButton(browse_ = new TextButton("browse"));
-  browse_->setButtonText(TRANS("BROWSE"));
-  browse_->setColour(TextButton::buttonColourId, Colour(0xff303030));
-  browse_->setColour(TextButton::textColourOffId, Colours::white);
-
-  folder_index_ = -1;
-  patch_index_ = -1;
-  folder_text_ = TRANS("Init Folder");
-  patch_text_ = TRANS("Init Patch");
+  patches_model_ = new FileListBoxModel();
+  patches_view_ = new ListBox("patches", patches_model_);
+  patches_view_->updateContent();
+  addAndMakeVisible(patches_view_);
 }
 
 PatchBrowser::~PatchBrowser() {
-  prev_folder_ = nullptr;
-  prev_patch_ = nullptr;
-  next_folder_ = nullptr;
-  next_patch_ = nullptr;
-  save_ = nullptr;
-  browse_ = nullptr;
 }
 
 void PatchBrowser::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
-  static Font browser_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                             BinaryData::DroidSansMono_ttfSize));
-
-  g.setColour(Colour(0xff303030));
-  g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
-
-  g.setColour(Colour(0xff464646));
-  g.fillRect(0, proportionOfHeight(0.5), getWidth(), proportionOfHeight(0.5));
-
-  Rectangle<int> left(proportionOfWidth(0.2), 0,
-                      proportionOfWidth(0.1), proportionOfHeight(1.0));
-  Rectangle<int> right(proportionOfWidth(0.9), 0,
-                       proportionOfWidth(0.1), proportionOfHeight(1.0));
-  shadow.drawForRectangle(g, left);
-  shadow.drawForRectangle(g, right);
-
-  Rectangle<int> top(proportionOfWidth(0.3) + TEXT_PADDING, 0,
-                     proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
-  Rectangle<int> bottom(proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
-                        proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
-
-  g.setFont(browser_font.withPointHeight(12.0f));
-  g.setColour(Colour(0xffbbbbbb));
-  g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
-  g.setColour(Colour(0xffffffff));
-  g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);
 }
 
 void PatchBrowser::resized() {
-  prev_folder_->setBounds(proportionOfWidth(0.2f), 0,
-                          proportionOfWidth(0.1f), proportionOfHeight(0.5f));
-  prev_patch_->setBounds(proportionOfWidth(0.2f), proportionOfHeight(0.5f),
-                         proportionOfWidth(0.1f), proportionOfHeight (0.5f));
-  next_folder_->setBounds(getWidth() - proportionOfWidth(0.1f), 0,
-                          proportionOfWidth(0.1f), proportionOfHeight(0.5f));
-  next_patch_->setBounds(getWidth() - proportionOfWidth(0.1f), proportionOfHeight(0.5f),
-                         proportionOfWidth(0.1f), proportionOfHeight(0.5f));
-  save_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.0f),
-                   proportionOfWidth(0.2f), proportionOfHeight (0.5f));
-  browse_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.5f),
-                     proportionOfWidth(0.2f), proportionOfHeight (0.5f));
-
-  SynthSection::resized();
+  float start_x = 250.0f;
+  float width = (getWidth() - start_x) / 3.0f;
+  banks_view_->setBounds(start_x, 0.0, width, getHeight());
+  folders_view_->setBounds(start_x + width, 0.0, width, getHeight());
+  patches_view_->setBounds(start_x + 2 * width, 0.0, width, getHeight());
 }
 
 void PatchBrowser::buttonClicked(Button* clicked_button) {
-  if (clicked_button == save_) {
-    int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-    FileBrowserComponent browser(flags, getUserPatchDirectory(), nullptr, nullptr);
-    FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
-    if (save_dialog.show()) {
-      SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-      File save_file = browser.getSelectedFile(0);
-      if (save_file.getFileExtension() != PATCH_EXTENSION)
-        save_file = save_file.withFileExtension(PATCH_EXTENSION);
-      save_file.replaceWithText(JSON::toString(parent->saveToVar()));
-    }
+}
+
+void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
+  if (model == banks_model_) {
+    SparseSet<int> selected_rows = banks_view_->getSelectedRows();
+    Array<File> selected_files;
+    for (int i = 0; i < selected_rows.size(); ++i)
+      selected_files.add(banks_model_->getFileAtRow(selected_rows[i]));
+
+    folders_model_->rescanFiles(selected_files);
+    folders_view_->updateContent();
   }
-  else if (clicked_button == browse_) {
-
-  }
-  else {
-    if (clicked_button == prev_folder_) {
-      folder_index_--;
-      patch_index_ = 0;
-    }
-    else if (clicked_button == next_folder_) {
-      folder_index_++;
-      patch_index_ = 0;
-    }
-    else if (clicked_button == prev_patch_) {
-      patch_index_--;
-      if (folder_index_ < 0)
-        folder_index_ = 0;
-    }
-    else if (clicked_button == next_patch_) {
-      patch_index_++;
-      if (folder_index_ < 0)
-        folder_index_ = 0;
-    }
-
-    File folder = getCurrentFolder();
-    File patch = getCurrentPatch();
-    folder_text_ = folder.getFileNameWithoutExtension();
-    patch_text_ = patch.getFileNameWithoutExtension();
-    loadFromFile(patch);
-
-    const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-    float scale = display.scale;
-    Graphics g(background_);
-    g.addTransform(AffineTransform::scale(scale, scale));
-    paintBackground(g);
-    repaint();
-  }
-}
-
-File PatchBrowser::getSystemPatchDirectory() {
-  File patch_dir = File("");
-#ifdef LINUX
-  patch_dir = File(LINUX_SYSTEM_PATCH_DIRECTORY);
-#elif defined(__APPLE__)
-  File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
-#elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
-  patch_dir = data_dir.getChildFile("Helm/Patches");
-#endif
-
-  if (!patch_dir.exists())
-    patch_dir.createDirectory();
-  return patch_dir;
-}
-
-File PatchBrowser::getUserPatchDirectory() {
-  File patch_dir = File("");
-#ifdef LINUX
-  patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
-#elif defined(__APPLE__)
-  File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
-#elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
-  patch_dir = data_dir.getChildFile("Helm/UserPatches");
-#endif
-
-  if (!patch_dir.exists())
-    patch_dir.createDirectory();
-  return patch_dir;
-}
-
-File PatchBrowser::getCurrentPatch() {
-  static const FileSorter file_sorter;
-  Array<File> patches;
-  File patch_folder = getCurrentFolder();
-
-  patch_folder.findChildFiles(patches, File::findFiles, false, String("*.") + PATCH_EXTENSION);
-  patches.sort(file_sorter);
-  if (patch_index_ >= patches.size())
-    patch_index_ = 0;
-  else if (patch_index_ < 0)
-    patch_index_ = patches.size() - 1;
-
-  return patches[patch_index_];
-}
-
-File PatchBrowser::getCurrentFolder() {
-  Array<File> folders;
-  File patch_dir = getSystemPatchDirectory();
-
-  patch_dir.findChildFiles(folders, File::findDirectories, false);
-  folders.add(getUserPatchDirectory());
-  if (folder_index_ >= folders.size())
-    folder_index_ = 0;
-  else if (folder_index_ < 0)
-    folder_index_ = folders.size() - 1;
-
-  return folders[folder_index_];
 }
 
 void PatchBrowser::loadFromFile(File &patch) {

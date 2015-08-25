@@ -21,6 +21,20 @@
 
 #include "helm_engine.h"
 
+class FileSorterAscending {
+  public:
+    static int compareElements(File a, File b) {
+      return a.getFileName().toLowerCase().compare(b.getFileName().toLowerCase());
+    }
+};
+
+class FileSorterDescending {
+  public:
+    static int compareElements(File a, File b) {
+      return b.getFileName().toLowerCase().compare(a.getFileName().toLowerCase());
+    }
+};
+
 class LoadSave {
   public:
     static var stateToVar(mopo::HelmEngine* synth,
@@ -29,6 +43,10 @@ class LoadSave {
     static void varToState(mopo::HelmEngine* synth,
                            const CriticalSection& critical_section,
                            var state);
+
+    static File getSystemPatchDirectory();
+
+    static File getUserPatchDirectory();
 };
 
 #endif  // LOAD_SAVE_H
