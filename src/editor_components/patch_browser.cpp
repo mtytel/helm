@@ -23,6 +23,7 @@
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
+#define BROWSING_HEIGHT 426.0f
 
 int FileListBoxModel::getNumRows() {
   return files_.size();
@@ -43,6 +44,9 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
   g.drawText(files_[row_number].getFileName(),
              5, 0, width, height,
              Justification::centredLeft, true);
+
+  g.setColour(Colours::black);
+  g.fillRect(0.0f, height - 1.0f, 1.0f * width, 1.0f);
 }
 
 void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
@@ -69,7 +73,7 @@ void FileListBoxModel::rescanFiles(const Array<File>& folders, bool find_files) 
   files_.sort(file_sorter);
 }
 
-PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
+PatchBrowser::PatchBrowser() : Component("patch_browser") {
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);
   Array<File> bank_locations;
@@ -96,23 +100,29 @@ PatchBrowser::PatchBrowser() : SynthSection("patch_browser") {
   patches_view_ = new ListBox("patches", patches_model_);
   patches_view_->updateContent();
   addAndMakeVisible(patches_view_);
+
+  banks_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
+  folders_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
+  patches_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
 }
 
 PatchBrowser::~PatchBrowser() {
 }
 
-void PatchBrowser::paintBackground(Graphics& g) {
+void PatchBrowser::paint(Graphics& g) {
+  g.fillAll(Colour(0xbb212121));
+  g.setColour(Colour(0xff212121));
+  g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 }
 
 void PatchBrowser::resized() {
   float start_x = 250.0f;
-  float width = (getWidth() - start_x) / 3.0f;
-  banks_view_->setBounds(start_x, 0.0, width, getHeight());
-  folders_view_->setBounds(start_x + width, 0.0, width, getHeight());
-  patches_view_->setBounds(start_x + 2 * width, 0.0, width, getHeight());
-}
-
-void PatchBrowser::buttonClicked(Button* clicked_button) {
+  float padding = 8.0f;
+  float width = (getWidth() - start_x) / 3.0f - padding;
+  float height = BROWSING_HEIGHT - 2.0f * padding;
+  banks_view_->setBounds(start_x, padding, width, height);
+  folders_view_->setBounds(start_x + width + padding, padding, width, height);
+  patches_view_->setBounds(start_x + 2.0f * (width + padding), padding, width, height);
 }
 
 void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {

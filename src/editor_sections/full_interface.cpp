@@ -136,8 +136,9 @@ void FullInterface::resized() {
   about_section_->setBounds(getBounds());
   logo_button_->setBounds(18, 8, 64, 64);
 
-  patch_browser_->setBounds(synthesis_interface_->getX(), synthesis_interface_->getY(),
-                            synthesis_interface_->getWidth(), proportionOfHeight(0.5f));
+  patch_browser_->setBounds(0.0f, synthesis_interface_->getY() - 4.0f,
+                            arp_section_->getRight() + 8.0f,
+                            synthesis_interface_->getHeight());
 
   SynthSection::resized();
 }

@@ -45,14 +45,13 @@ class FileListBoxModel : public ListBoxModel {
     bool sort_ascending_;
 };
 
-class PatchBrowser : public SynthSection, public FileListBoxModel::FileListBoxModelListener {
+class PatchBrowser : public Component, public FileListBoxModel::FileListBoxModelListener {
   public:
     PatchBrowser();
     ~PatchBrowser();
 
-    void paintBackground(Graphics& g) override;
+    void paint(Graphics& g) override;
     void resized() override;
-    void buttonClicked(Button* buttonThatWasClicked) override;
 
     void selectedFilesChanged(FileListBoxModel* model) override;
 
