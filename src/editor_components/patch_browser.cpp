@@ -23,7 +23,7 @@
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
-#define BROWSING_HEIGHT 426.0f
+#define BROWSING_HEIGHT 422.0f
 
 int FileListBoxModel::getNumRows() {
   return files_.size();
@@ -45,7 +45,7 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
              5, 0, width, height,
              Justification::centredLeft, true);
 
-  g.setColour(Colours::black);
+  g.setColour(Colour(0x88000000));
   g.fillRect(0.0f, height - 1.0f, 1.0f * width, 1.0f);
 }
 

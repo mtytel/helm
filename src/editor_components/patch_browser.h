@@ -25,6 +25,8 @@ class FileListBoxModel : public ListBoxModel {
   public:
     class FileListBoxModelListener {
       public:
+        virtual ~FileListBoxModelListener() { }
+
         virtual void selectedFilesChanged(FileListBoxModel* model) = 0;
     };
 
