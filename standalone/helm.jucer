@@ -2,8 +2,8 @@
 
 <JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.4.1"
               bundleIdentifier="org.tytel.helm" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.1" companyName="Matt Tytel" companyWebsite="tytel.org"
-              companyEmail="matthewtytel@gmail.com" defines="JUCE_JACK_CLIENT_NAME=\&quot;Helm\&quot;">
+              jucerVersion="3.2.0" companyName="Matt Tytel" companyWebsite="tytel.org"
+              companyEmail="matthewtytel@gmail.com" defines="">
   <MAINGROUP id="CeypXq" name="Helm">
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
       <FILE id="FShH5H" name="DroidSansMono.ttf" compile="0" resource="1"
@@ -424,7 +424,7 @@
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux" bigIcon="" smallIcon="" extraCompilerFlags="-ffast-math"
-                extraLinkerFlags="-ffast-math">
+                extraLinkerFlags="-ffast-math" extraDefs="JUCE_JACK_CLIENT_NAME=\&quot;Helm\&quot;">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
