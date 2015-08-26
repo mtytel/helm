@@ -23,6 +23,8 @@
 
 class FileSorterAscending {
   public:
+    FileSorterAscending() { }
+
     static int compareElements(File a, File b) {
       return a.getFileName().toLowerCase().compare(b.getFileName().toLowerCase());
     }
@@ -30,6 +32,8 @@ class FileSorterAscending {
 
 class FileSorterDescending {
   public:
+    FileSorterDescending() { }
+
     static int compareElements(File a, File b) {
       return b.getFileName().toLowerCase().compare(a.getFileName().toLowerCase());
     }
