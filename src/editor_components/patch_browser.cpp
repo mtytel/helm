@@ -36,8 +36,8 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
   g.fillAll(Colour(0xff323232));
   g.setColour(Colour(0xffdddddd));
   if (selected) {
-    g.fillAll(Colours::lightblue);
-    g.setColour(Colours::white);
+    g.fillAll(Colour(0xff212121));
+    g.setColour(Colour(0xff03a9f4));
   }
 
   g.setFont(list_font.withPointHeight(12.0f));
@@ -83,6 +83,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
 
   banks_view_ = new ListBox("banks", banks_model_);
   banks_view_->setMultipleSelectionEnabled(true);
+  banks_view_->setClickingTogglesRowSelection(true);
   banks_view_->updateContent();
   addAndMakeVisible(banks_view_);
 
@@ -91,6 +92,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
 
   folders_view_ = new ListBox("folders", folders_model_);
   folders_view_->setMultipleSelectionEnabled(true);
+  folders_view_->setClickingTogglesRowSelection(true);
   folders_view_->updateContent();
   addAndMakeVisible(folders_view_);
 
@@ -104,6 +106,9 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   banks_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
   folders_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
   patches_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
+
+  selectedFilesChanged(banks_model_);
+  selectedFilesChanged(folders_model_);
 }
 
 PatchBrowser::~PatchBrowser() {
@@ -129,17 +134,29 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
   if (model == banks_model_) {
     SparseSet<int> selected_rows = banks_view_->getSelectedRows();
     Array<File> selected_files;
-    for (int i = 0; i < selected_rows.size(); ++i)
-      selected_files.add(banks_model_->getFileAtRow(selected_rows[i]));
+    if (selected_rows.size()) {
+      for (int i = 0; i < selected_rows.size(); ++i)
+        selected_files.add(banks_model_->getFileAtRow(selected_rows[i]));
+    }
+    else {
+      for (int i = 0; i < banks_model_->getNumRows(); ++i)
+        selected_files.add(banks_model_->getFileAtRow(i));
+    }
 
     folders_model_->rescanFiles(selected_files);
     folders_view_->updateContent();
   }
-  else if (model == folders_model_) {
+  if (model == banks_model_ || model == folders_model_) {
     SparseSet<int> selected_rows = folders_view_->getSelectedRows();
     Array<File> selected_files;
-    for (int i = 0; i < selected_rows.size(); ++i)
-      selected_files.add(folders_model_->getFileAtRow(selected_rows[i]));
+    if (selected_rows.size()) {
+      for (int i = 0; i < selected_rows.size(); ++i)
+        selected_files.add(folders_model_->getFileAtRow(selected_rows[i]));
+    }
+    else {
+      for (int i = 0; i < folders_model_->getNumRows(); ++i)
+        selected_files.add(folders_model_->getFileAtRow(i));
+    }
 
     patches_model_->rescanFiles(selected_files, true);
     patches_view_->updateContent();
