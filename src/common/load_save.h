@@ -26,7 +26,7 @@ class FileSorterAscending {
     FileSorterAscending() { }
 
     static int compareElements(File a, File b) {
-      return a.getFileName().toLowerCase().compare(b.getFileName().toLowerCase());
+      return a.getFullPathName().toLowerCase().compare(b.getFullPathName().toLowerCase());
     }
 };
 
@@ -35,7 +35,7 @@ class FileSorterDescending {
     FileSorterDescending() { }
 
     static int compareElements(File a, File b) {
-      return b.getFileName().toLowerCase().compare(a.getFileName().toLowerCase());
+      return b.getFullPathName().toLowerCase().compare(a.getFullPathName().toLowerCase());
     }
 };
 
