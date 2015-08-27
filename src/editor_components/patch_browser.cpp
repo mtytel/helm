@@ -122,17 +122,18 @@ void PatchBrowser::paint(Graphics& g) {
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 
   g.setColour(Colour(0xff212121));
-  g.fillRect(8.0f, 8.0f, 0.25f * getWidth() - BROWSE_PADDING, BROWSING_HEIGHT - 16.0f);
+  g.fillRect(8.0f, 8.0f, 3.0f * getWidth() / 10.0f - BROWSE_PADDING, BROWSING_HEIGHT - 16.0f);
 }
 
 void PatchBrowser::resized() {
-  float start_x = 250.0f;
-  float width = (getWidth() - start_x) / 3.0f - BROWSE_PADDING;
+  float start_x = 3.0f * getWidth() / 10.0f + BROWSE_PADDING;
+  float width1 = 2.0f * (getWidth() - start_x) / 7.0f - BROWSE_PADDING;
+  float width2 = 3.0f * (getWidth() - start_x) / 7.0f - BROWSE_PADDING;
   float height = BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
-  banks_view_->setBounds(start_x, BROWSE_PADDING, width, height);
-  folders_view_->setBounds(start_x + width + BROWSE_PADDING, BROWSE_PADDING, width, height);
-  patches_view_->setBounds(start_x + 2.0f * (width + BROWSE_PADDING), BROWSE_PADDING,
-                           width, height);
+  banks_view_->setBounds(start_x, BROWSE_PADDING, width1, height);
+  folders_view_->setBounds(start_x + width1 + BROWSE_PADDING, BROWSE_PADDING, width1, height);
+  patches_view_->setBounds(start_x + 2.0f * (width1 + BROWSE_PADDING), BROWSE_PADDING,
+                           width2, height);
 }
 
 void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
@@ -164,6 +165,7 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
     }
 
     patches_model_->rescanFiles(selected_files, true);
+    patches_view_->deselectAllRows();
     patches_view_->updateContent();
   }
   else if (model == patches_model_) {
