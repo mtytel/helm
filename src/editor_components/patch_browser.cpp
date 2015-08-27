@@ -24,6 +24,8 @@
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
 #define BROWSING_HEIGHT 422.0f
+#define BROWSE_PADDING 8.0f
+
 
 int FileListBoxModel::getNumRows() {
   return files_.size();
@@ -118,16 +120,19 @@ void PatchBrowser::paint(Graphics& g) {
   g.fillAll(Colour(0xbb212121));
   g.setColour(Colour(0xff111111));
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
+
+  g.setColour(Colour(0xff212121));
+  g.fillRect(8.0f, 8.0f, 0.25f * getWidth() - BROWSE_PADDING, BROWSING_HEIGHT - 16.0f);
 }
 
 void PatchBrowser::resized() {
   float start_x = 250.0f;
-  float padding = 8.0f;
-  float width = (getWidth() - start_x) / 3.0f - padding;
-  float height = BROWSING_HEIGHT - 2.0f * padding;
-  banks_view_->setBounds(start_x, padding, width, height);
-  folders_view_->setBounds(start_x + width + padding, padding, width, height);
-  patches_view_->setBounds(start_x + 2.0f * (width + padding), padding, width, height);
+  float width = (getWidth() - start_x) / 3.0f - BROWSE_PADDING;
+  float height = BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
+  banks_view_->setBounds(start_x, BROWSE_PADDING, width, height);
+  folders_view_->setBounds(start_x + width + BROWSE_PADDING, BROWSE_PADDING, width, height);
+  patches_view_->setBounds(start_x + 2.0f * (width + BROWSE_PADDING), BROWSE_PADDING,
+                           width, height);
 }
 
 void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
