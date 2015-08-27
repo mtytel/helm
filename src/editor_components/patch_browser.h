@@ -37,9 +37,10 @@ class FileListBoxModel : public ListBoxModel {
                           int width, int height, bool selected) override;
     void selectedRowsChanged(int last_selected_row) override;
 
-    File getFileAtRow(int row) { return files_[row]; }
     void rescanFiles(const Array<File>& folders, bool find_files = false);
+    File getFileAtRow(int row) { return files_[row]; }
     void setListener(FileListBoxModelListener* listener) { listener_ = listener; }
+    Array<File> getAllFiles() { return files_; }
 
   private:
     Array<File> files_;

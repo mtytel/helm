@@ -27,6 +27,44 @@
 #define BROWSE_PADDING 8.0f
 
 
+namespace {
+  Array<File> getSelectedFolders(ListBox* view, FileListBoxModel* model) {
+    SparseSet<int> selected_rows = view->getSelectedRows();
+
+    Array<File> selected_folders;
+    for (int i = 0; i < selected_rows.size(); ++i)
+      selected_folders.add(model->getFileAtRow(selected_rows[i]));
+
+    return selected_folders;
+  }
+
+  Array<File> getFoldersToScan(ListBox* view, FileListBoxModel* model) {
+    if (view->getSelectedRows().size())
+      return getSelectedFolders(view, model);
+
+    return model->getAllFiles();
+  }
+
+  void setSelectedRows(ListBox* view, FileListBoxModel* model, Array<File> selected) {
+    view->deselectAllRows();
+
+    for (int sel = 0, row = 0; sel < selected.size() && row < model->getNumRows();) {
+      String selected_path = selected[sel].getFullPathName();
+      int compare = model->getFileAtRow(row).getFullPathName().compare(selected_path);
+
+      if (compare < 0)
+        ++row;
+      else if (compare > 0)
+        ++sel;
+      else {
+        view->selectRow(row, true, false);
+        ++row;
+        ++sel;
+      }
+    }
+  }
+} // namespace
+
 int FileListBoxModel::getNumRows() {
   return files_.size();
 }
@@ -56,7 +94,8 @@ void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
     listener_->selectedFilesChanged(this);
 }
 
-void FileListBoxModel::rescanFiles(const Array<File>& folders, bool find_files) {
+void FileListBoxModel::rescanFiles(const Array<File>& folders,
+                                   bool find_files) {
   static const FileSorterAscending file_sorter;
   files_.clear();
 
@@ -72,6 +111,7 @@ void FileListBoxModel::rescanFiles(const Array<File>& folders, bool find_files) 
       files_.addArray(child_folders);
     }
   }
+
   files_.sort(file_sorter);
 }
 
@@ -138,35 +178,20 @@ void PatchBrowser::resized() {
 
 void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
   if (model == banks_model_) {
-    SparseSet<int> selected_rows = banks_view_->getSelectedRows();
-    Array<File> selected_files;
-    if (selected_rows.size()) {
-      for (int i = 0; i < selected_rows.size(); ++i)
-        selected_files.add(banks_model_->getFileAtRow(selected_rows[i]));
-    }
-    else {
-      for (int i = 0; i < banks_model_->getNumRows(); ++i)
-        selected_files.add(banks_model_->getFileAtRow(i));
-    }
+    Array<File> banks = getFoldersToScan(banks_view_, banks_model_);
+    Array<File> folders_selected = getSelectedFolders(folders_view_, folders_model_);
 
-    folders_model_->rescanFiles(selected_files);
+    folders_model_->rescanFiles(banks);
     folders_view_->updateContent();
+    setSelectedRows(folders_view_, folders_model_, folders_selected);
   }
   if (model == banks_model_ || model == folders_model_) {
-    SparseSet<int> selected_rows = folders_view_->getSelectedRows();
-    Array<File> selected_files;
-    if (selected_rows.size()) {
-      for (int i = 0; i < selected_rows.size(); ++i)
-        selected_files.add(folders_model_->getFileAtRow(selected_rows[i]));
-    }
-    else {
-      for (int i = 0; i < folders_model_->getNumRows(); ++i)
-        selected_files.add(folders_model_->getFileAtRow(i));
-    }
+    Array<File> folders = getFoldersToScan(folders_view_, folders_model_);
+    Array<File> patches_selected = getSelectedFolders(patches_view_, patches_model_);
 
-    patches_model_->rescanFiles(selected_files, true);
-    patches_view_->deselectAllRows();
+    patches_model_->rescanFiles(folders, true);
     patches_view_->updateContent();
+    setSelectedRows(patches_view_, patches_model_, patches_selected);
   }
   else if (model == patches_model_) {
     SparseSet<int> selected_rows = patches_view_->getSelectedRows();
