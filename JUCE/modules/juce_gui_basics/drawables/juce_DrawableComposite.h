@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -29,6 +29,11 @@
 //==============================================================================
 /**
     A drawable object which acts as a container for a set of other Drawables.
+
+    Note that although this is a Component, it takes ownership of its child components
+    and will delete them, so that you can use it as a self-contained graphic object.
+    The intention is that you should not add your own components to it, only add other
+    Drawable objects.
 
     @see Drawable
 */

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -133,7 +133,9 @@ public:
     TreeViewItem* getParentItem() const noexcept        { return parentItem; }
 
     //==============================================================================
-    /** True if this item is currently open in the treeview. */
+    /** True if this item is currently open in the treeview.
+        @see getOpenness
+    */
     bool isOpen() const noexcept;
 
     /** Opens or closes the item.
@@ -142,9 +144,37 @@ public:
         and a subclass should use this callback to create and add any sub-items that
         it needs to.
 
-        @see itemOpennessChanged, mightContainSubItems
+        Note that if this is called when the item is in its default openness state, and
+        this call would not change whether it's open or closed, then no change will be
+        stored. If you want to explicitly set the openness state to be non-default then
+        you should use setOpenness instead.
+
+        @see setOpenness, itemOpennessChanged, mightContainSubItems
     */
     void setOpen (bool shouldBeOpen);
+
+    /** An enum of states to describe the explicit or implicit openness of an item. */
+    enum Openness
+    {
+        opennessDefault = 0,
+        opennessClosed = 1,
+        opennessOpen = 2
+    };
+
+    /** Returns the openness state of this item.
+        @see isOpen
+    */
+    Openness getOpenness() const noexcept;
+
+    /** Opens or closes the item.
+
+        If this causes the value of isOpen() to change, then the item's itemOpennessChanged()
+        method will be called, and a subclass should use this callback to create and add any
+        sub-items that it needs to.
+
+        @see setOpen
+    */
+    void setOpenness (Openness newOpenness);
 
     /** True if this item is currently selected.
         Use this when painting the node, to decide whether to draw it as selected or not.
@@ -364,6 +394,9 @@ public:
     */
     virtual void itemSelectionChanged (bool isNowSelected);
 
+    /** Called when the owner view changes */
+    virtual void ownerViewChanged (TreeView* newOwner);
+
     /** The item can return a tool tip string here if it wants to.
         @see TooltipClient
     */
@@ -445,6 +478,19 @@ public:
         highlighted item.
     */
     void setDrawsInLeftMargin (bool canDrawInLeftMargin) noexcept;
+
+    /** Sets a flag to indicate that the item wants to be allowed
+        to draw all the way across to the right edge of the treeview.
+
+        Similar to setDrawsInLeftMargin: when this flag is set to true,
+        then the graphics context isn't clipped on the right side. Unlike
+        setDrawsInLeftMargin, you will very rarely need to use this function,
+        as this method won't clip the right margin unless your TreeViewItem
+        overrides getItemWidth to return a positive value.
+
+        @see setDrawsInLeftMargin, getItemWidth
+     */
+    void setDrawsInRightMargin (bool canDrawInRightMargin) noexcept;
 
     //==============================================================================
     /** Saves the current state of open/closed nodes so it can be restored later.
@@ -544,6 +590,7 @@ private:
     bool drawLinesInside    : 1;
     bool drawLinesSet       : 1;
     bool drawsInLeftMargin  : 1;
+    bool drawsInRightMargin : 1;
     unsigned int openness   : 2;
 
     friend class TreeView;

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -23,6 +23,11 @@
 */
 
 //==============================================================================
+
+#ifndef JUCER_MISCUTILITIES_H_INCLUDED
+#define JUCER_MISCUTILITIES_H_INCLUDED
+
+
 String hexString8Digits (int value);
 
 String createAlphaNumericUID();
@@ -435,7 +440,7 @@ private:
 
         void resized() override
         {
-            Rectangle<int> r (getLocalBounds());
+            juce::Rectangle<int> r (getLocalBounds());
 
             button.setBounds (r.removeFromRight (24));
             textbox.setBounds (r);
@@ -496,3 +501,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FilePathPropertyComponent)
 };
+
+#endif // JUCER_MISCUTILITIES_H_INCLUDED

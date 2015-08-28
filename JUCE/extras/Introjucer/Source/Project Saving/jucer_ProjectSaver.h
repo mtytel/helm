@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,8 +22,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_PROJECTSAVER_JUCEHEADER__
-#define __JUCER_PROJECTSAVER_JUCEHEADER__
+#ifndef JUCER_PROJECTSAVER_H_INCLUDED
+#define JUCER_PROJECTSAVER_H_INCLUDED
 
 #include "jucer_ResourceFile.h"
 #include "../Project/jucer_Module.h"
@@ -137,7 +137,7 @@ public:
         if (item.isValid())
             return item;
 
-        generatedFilesGroup.addFile (file, -1, true);
+        generatedFilesGroup.addFileAtIndex (file, -1, true);
         return generatedFilesGroup.findItemForFile (file);
     }
 
@@ -504,7 +504,7 @@ private:
                     const File& f = binaryDataFiles.getReference(i);
 
                     filesCreated.add (f);
-                    generatedFilesGroup.addFile (f, -1, ! f.hasFileExtension (".h"));
+                    generatedFilesGroup.addFileRetainingSortOrder (f, ! f.hasFileExtension (".h"));
                 }
             }
             else
@@ -629,4 +629,4 @@ private:
 };
 
 
-#endif   // __JUCER_PROJECTSAVER_JUCEHEADER__
+#endif   // JUCER_PROJECTSAVER_H_INCLUDED

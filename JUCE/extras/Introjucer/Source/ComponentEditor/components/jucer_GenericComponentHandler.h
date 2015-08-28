@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -137,14 +137,14 @@ private:
         {
         }
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new GenericCompClassChangeAction (component, *document.getComponentLayout(),
                                                                 CodeHelpers::makeValidIdentifier (newText, false, false, true)),
                               "Change generic component class");
         }
 
-        String getText() const
+        String getText() const override
         {
             return component->actualClassName;
         }
@@ -188,13 +188,13 @@ private:
         {
         }
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new GenericCompParamsChangeAction (component, *document.getComponentLayout(), newText),
                               "Change generic component class");
         }
 
-        String getText() const
+        String getText() const override
         {
             return component->constructorParams;
         }

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -578,16 +578,10 @@ MemoryMappedFile::~MemoryMappedFile()
 }
 
 //==============================================================================
-#if JUCE_PROJUCER_LIVE_BUILD
-extern "C" const char* juce_getCurrentExecutablePath();
-#endif
-
 File juce_getExecutableFile();
 File juce_getExecutableFile()
 {
-   #if JUCE_PROJUCER_LIVE_BUILD
-    return File (juce_getCurrentExecutablePath());
-   #elif JUCE_ANDROID
+   #if JUCE_ANDROID
     return File (android.appFile);
    #else
     struct DLAddrReader

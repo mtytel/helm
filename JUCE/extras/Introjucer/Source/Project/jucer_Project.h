@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,8 +22,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_PROJECT_JUCEHEADER__
-#define __JUCER_PROJECT_JUCEHEADER__
+#ifndef JUCER_PROJECT_H_INCLUDED
+#define JUCER_PROJECT_H_INCLUDED
 
 #include "../jucer_Headers.h"
 class ProjectExporter;
@@ -181,7 +181,8 @@ public:
         Item addNewSubGroup (const String& name, int insertIndex);
         Item getOrCreateSubGroup (const String& name);
         void addChild (const Item& newChild, int insertIndex);
-        bool addFile (const File& file, int insertIndex, bool shouldCompile);
+        bool addFileAtIndex (const File& file, int insertIndex, bool shouldCompile);
+        bool addFileRetainingSortOrder (const File& file, bool shouldCompile);
         void addFileUnchecked (const File& file, int insertIndex, bool shouldCompile);
         bool addRelativeFile (const RelativePath& file, int insertIndex, bool shouldCompile);
         void removeItemFromProject();
@@ -289,4 +290,4 @@ private:
 };
 
 
-#endif   // __JUCER_PROJECT_JUCEHEADER__
+#endif   // JUCER_PROJECT_H_INCLUDED

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -40,10 +40,11 @@ class WebInputStream  : public InputStream
 public:
     WebInputStream (const String& address_, bool isPost_, const MemoryBlock& postData_,
                     URL::OpenStreamProgressCallback* progressCallback, void* progressCallbackContext,
-                    const String& headers_, int timeOutMs_, StringPairArray* responseHeaders, int numRedirectsToFollow)
+                    const String& headers_, int timeOutMs_, StringPairArray* responseHeaders,
+                    int numRedirectsToFollow, const String& httpRequestCmd_)
       : statusCode (0), connection (0), request (0),
         address (address_), headers (headers_), postData (postData_), position (0),
-        finished (false), isPost (isPost_), timeOutMs (timeOutMs_)
+        finished (false), isPost (isPost_), timeOutMs (timeOutMs_), httpRequestCmd (httpRequestCmd_)
     {
         while (numRedirectsToFollow-- >= 0)
         {
@@ -52,7 +53,7 @@ public:
             if (! isError())
             {
                 DWORD bufferSizeBytes = 4096;
-                StringPairArray headers (false);
+                StringPairArray dataHeaders (false);
 
                 for (;;)
                 {
@@ -68,8 +69,8 @@ public:
                             const String& header = headersArray[i];
                             const String key   (header.upToFirstOccurrenceOf (": ", false, false));
                             const String value (header.fromFirstOccurrenceOf (": ", false, false));
-                            const String previousValue (headers[key]);
-                            headers.set (key, previousValue.isEmpty() ? value : (previousValue + "," + value));
+                            const String previousValue (dataHeaders[key]);
+                            dataHeaders.set (key, previousValue.isEmpty() ? value : (previousValue + "," + value));
                         }
 
                         break;
@@ -91,7 +92,7 @@ public:
                     if (numRedirectsToFollow >= 0
                          && (statusCode == 301 || statusCode == 302 || statusCode == 303 || statusCode == 307))
                     {
-                        String newLocation (headers["Location"]);
+                        String newLocation (dataHeaders["Location"]);
 
                         // Check whether location is a relative URI - this is an incomplete test for relative path,
                         // but we'll use it for now (valid protocols for this implementation are http, https & ftp)
@@ -114,7 +115,7 @@ public:
                 }
 
                 if (responseHeaders != nullptr)
-                    responseHeaders->addArray (headers);
+                    responseHeaders->addArray (dataHeaders);
             }
 
             break;
@@ -198,6 +199,7 @@ private:
     bool finished;
     const bool isPost;
     int timeOutMs;
+    String httpRequestCmd;
 
     void close()
     {
@@ -299,7 +301,7 @@ private:
             flags |= INTERNET_FLAG_SECURE;  // (this flag only seems necessary if the OS is running IE6 -
                                             //  IE7 seems to automatically work out when it's https)
 
-        request = HttpOpenRequest (connection, isPost ? _T("POST") : _T("GET"),
+        request = HttpOpenRequest (connection, httpRequestCmd.toWideCharPointer(),
                                    uc.lpszUrlPath, 0, 0, mimeTypes, flags, 0);
 
         if (request != 0)

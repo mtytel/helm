@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -56,8 +56,10 @@ public:
 
     /** Tries to create a new pipe.
         Returns true if it succeeds.
+        If mustNotExist is true then it will fail if a pipe is already
+        open with the same name.
     */
-    bool createNewPipe (const String& pipeName);
+    bool createNewPipe (const String& pipeName, bool mustNotExist = false);
 
     /** Closes the pipe, if it's open. */
     void close();
@@ -95,7 +97,7 @@ private:
     String currentPipeName;
     ReadWriteLock lock;
 
-    bool openInternal (const String& pipeName, const bool createPipe);
+    bool openInternal (const String& pipeName, bool createPipe, bool mustNotExist);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NamedPipe)
 };

@@ -1,24 +1,23 @@
 /*
   ==============================================================================
 
-   This file is part of the JUCE library - "Jules' Utility Class Extensions"
-   Copyright 2004-12 by Raw Material Software Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2015 - ROLI Ltd.
 
-  ------------------------------------------------------------------------------
+   Permission is granted to use this software under the terms of either:
+   a) the GPL v2 (or any later version)
+   b) the Affero GPL v3
 
-   JUCE can be redistributed and/or modified under the terms of the GNU General
-   Public License (Version 2), as published by the Free Software Foundation.
-   A copy of the license is included in the JUCE distribution, or can be found
-   online at www.gnu.org/licenses.
+   Details of these licenses can be found at: www.gnu.org/licenses
 
    JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-  ------------------------------------------------------------------------------
+   ------------------------------------------------------------------------------
 
    To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.rawmaterialsoftware.com/juce for more information.
+   available: visit www.juce.com for more information.
 
   ==============================================================================
 */
@@ -110,12 +109,12 @@ public:
     }
 
     //==============================================================================
-    void paint (Graphics& g)
+    void paint (Graphics& g) override
     {
         fillTiledBackground (g);
     }
 
-    void resized()
+    void resized() override
     {
         Rectangle<int> r (getLocalBounds().reduced (5));
 
@@ -150,27 +149,27 @@ public:
         demoTextBox.setBounds (r);
     }
 
-    void sliderValueChanged (Slider* sliderThatWasMoved)
+    void sliderValueChanged (Slider* sliderThatWasMoved) override
     {
         if (sliderThatWasMoved == &heightSlider)            refreshPreviewBoxFont();
         else if (sliderThatWasMoved == &kerningSlider)      refreshPreviewBoxFont();
         else if (sliderThatWasMoved == &scaleSlider)        refreshPreviewBoxFont();
     }
 
-    void buttonClicked (Button* buttonThatWasClicked)
+    void buttonClicked (Button* buttonThatWasClicked) override
     {
         if (buttonThatWasClicked == &boldToggle)            refreshPreviewBoxFont();
         else if (buttonThatWasClicked == &italicToggle)     refreshPreviewBoxFont();
     }
 
     // The following methods implement the ListBoxModel virtual methods:
-    int getNumRows()
+    int getNumRows() override
     {
         return fonts.size();
     }
 
     void paintListBoxItem (int rowNumber, Graphics& g,
-                           int width, int height, bool rowIsSelected)
+                           int width, int height, bool rowIsSelected) override
     {
         if (rowIsSelected)
             g.fillAll (Colours::lightblue);
@@ -186,7 +185,7 @@ public:
         s.draw (g, Rectangle<int> (width, height).expanded (-4, 50).toFloat());
     }
 
-    void selectedRowsChanged (int /*lastRowselected*/)
+    void selectedRowsChanged (int /*lastRowselected*/) override
     {
         refreshPreviewBoxFont();
     }

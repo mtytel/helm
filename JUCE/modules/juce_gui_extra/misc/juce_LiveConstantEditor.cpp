@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -90,7 +90,10 @@ juce_ImplementSingleton (ValueList)
 //==============================================================================
 int64 parseInt (String s)
 {
-    s = s.retainCharacters ("0123456789abcdefABCDEFx");
+    s = s.trimStart();
+
+    if (s.startsWithChar ('-'))
+        return -parseInt (s.substring (1));
 
     if (s.startsWith ("0x"))
         return s.substring(2).getHexValue64();

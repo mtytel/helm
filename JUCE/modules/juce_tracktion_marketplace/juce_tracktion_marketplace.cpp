@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -39,9 +39,10 @@
 
 namespace juce
 {
+    #include "marketplace/juce_OnlineUnlockStatus.cpp"
     #include "marketplace/juce_TracktionMarketplaceStatus.cpp"
 
-    #if JUCE_MODULE_AVAILABLE_juce_gui_extra
-     #include "marketplace/juce_TracktionMarketplaceUnlockForm.cpp"
-    #endif
+   #if JUCE_MODULE_AVAILABLE_juce_gui_extra
+    #include "marketplace/juce_OnlineUnlockForm.cpp"
+   #endif
 }

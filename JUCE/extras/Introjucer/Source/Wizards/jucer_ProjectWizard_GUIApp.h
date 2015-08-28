@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -21,7 +21,6 @@
 
   ==============================================================================
 */
-
 
 struct GUIAppWizard   : public NewProjectWizard
 {
@@ -94,8 +93,8 @@ struct GUIAppWizard   : public NewProjectWizard
             if (! FileHelpers::overwriteFileWithNewDataIfDifferent (contentCompCpp, windowCpp))
                 failedFiles.add (contentCompCpp.getFullPathName());
 
-            sourceGroup.addFile (contentCompCpp, -1, true);
-            sourceGroup.addFile (contentCompH, -1, false);
+            sourceGroup.addFileAtIndex (contentCompCpp, -1, true);
+            sourceGroup.addFileAtIndex (contentCompH, -1, false);
         }
 
         if (createMainCpp)
@@ -111,7 +110,7 @@ struct GUIAppWizard   : public NewProjectWizard
             if (! FileHelpers::overwriteFileWithNewDataIfDifferent (mainCppFile, mainCpp))
                 failedFiles.add (mainCppFile.getFullPathName());
 
-            sourceGroup.addFile (mainCppFile, -1, true);
+            sourceGroup.addFileAtIndex (mainCppFile, -1, true);
         }
 
         return true;

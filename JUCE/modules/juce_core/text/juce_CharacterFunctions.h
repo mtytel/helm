@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -331,15 +331,8 @@ public:
     template <typename DestCharPointerType, typename SrcCharPointerType>
     static void copyAll (DestCharPointerType& dest, SrcCharPointerType src) noexcept
     {
-        for (;;)
-        {
-            const juce_wchar c = src.getAndAdvance();
-
-            if (c == 0)
-                break;
-
+        while (juce_wchar c = src.getAndAdvance())
             dest.write (c);
-        }
 
         dest.writeNull();
     }

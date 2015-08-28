@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -1130,13 +1130,6 @@ void TreeView::itemDropped (const SourceDetails& dragSourceDetails)
 }
 
 //==============================================================================
-enum TreeViewOpenness
-{
-    opennessDefault = 0,
-    opennessClosed = 1,
-    opennessOpen = 2
-};
-
 TreeViewItem::TreeViewItem()
     : ownerView (nullptr),
       parentItem (nullptr),
@@ -1150,6 +1143,7 @@ TreeViewItem::TreeViewItem()
       drawLinesInside (false),
       drawLinesSet (false),
       drawsInLeftMargin (false),
+      drawsInRightMargin (false),
       openness (opennessDefault)
 {
     static int nextUID = 0;
@@ -1261,6 +1255,24 @@ bool TreeViewItem::removeSubItemFromList (int index, bool deleteItem)
     return false;
 }
 
+TreeViewItem::Openness TreeViewItem::getOpenness() const noexcept
+{
+    return (Openness) openness;
+}
+
+void TreeViewItem::setOpenness (Openness newOpenness)
+{
+    const bool wasOpen = isOpen();
+    openness = newOpenness;
+    const bool isNowOpen = isOpen();
+
+    if (isNowOpen != wasOpen)
+    {
+        treeHasChanged();
+        itemOpennessChanged (isNowOpen);
+    }
+}
+
 bool TreeViewItem::isOpen() const noexcept
 {
     if (openness == opennessDefault)
@@ -1272,13 +1284,8 @@ bool TreeViewItem::isOpen() const noexcept
 void TreeViewItem::setOpen (const bool shouldBeOpen)
 {
     if (isOpen() != shouldBeOpen)
-    {
-        openness = shouldBeOpen ? opennessOpen
-                                : opennessClosed;
-        treeHasChanged();
-
-        itemOpennessChanged (isOpen());
-    }
+        setOpenness (shouldBeOpen ? opennessOpen
+                                  : opennessClosed);
 }
 
 bool TreeViewItem::isFullyOpen() const noexcept
@@ -1295,11 +1302,7 @@ bool TreeViewItem::isFullyOpen() const noexcept
 
 void TreeViewItem::restoreToDefaultOpenness()
 {
-    if (openness != opennessDefault && ownerView != nullptr)
-    {
-        setOpen (ownerView->defaultOpenness);
-        openness = opennessDefault;
-    }
+    setOpenness (opennessDefault);
 }
 
 bool TreeViewItem::isSelected() const noexcept
@@ -1376,6 +1379,10 @@ void TreeViewItem::itemSelectionChanged (bool)
 String TreeViewItem::getTooltip()
 {
     return String::empty;
+}
+
+void TreeViewItem::ownerViewChanged (TreeView*)
+{
 }
 
 var TreeViewItem::getDragSourceDescription()
@@ -1484,7 +1491,11 @@ void TreeViewItem::setOwnerView (TreeView* const newOwner) noexcept
     ownerView = newOwner;
 
     for (int i = subItems.size(); --i >= 0;)
-        subItems.getUnchecked(i)->setOwnerView (newOwner);
+    {
+        TreeViewItem* subItem = subItems.getUnchecked(i);
+        subItem->setOwnerView (newOwner);
+        subItem->ownerViewChanged (newOwner);
+    }
 }
 
 int TreeViewItem::getIndentX() const noexcept
@@ -1503,6 +1514,11 @@ int TreeViewItem::getIndentX() const noexcept
 void TreeViewItem::setDrawsInLeftMargin (bool canDrawInLeftMargin) noexcept
 {
     drawsInLeftMargin = canDrawInLeftMargin;
+}
+
+void TreeViewItem::setDrawsInRightMargin (bool canDrawInRightMargin) noexcept
+{
+    drawsInRightMargin = canDrawInRightMargin;
 }
 
 namespace TreeViewHelpers
@@ -1532,7 +1548,7 @@ void TreeViewItem::paintRecursively (Graphics& g, int width)
         return;
 
     const int indent = getIndentX();
-    const int itemW = itemWidth < 0 ? width - indent : itemWidth;
+    const int itemW = (itemWidth < 0 || drawsInRightMargin) ? width - indent : itemWidth;
 
     {
         Graphics::ScopedSaveState ss (g);
@@ -1544,7 +1560,7 @@ void TreeViewItem::paintRecursively (Graphics& g, int width)
             if (isSelected())
                 g.fillAll (ownerView->findColour (TreeView::selectedItemBackgroundColourId));
 
-            paintItem (g, itemW, itemHeight);
+            paintItem (g, itemWidth < 0 ? width - indent : itemWidth, itemHeight);
         }
     }
 
@@ -1850,6 +1866,7 @@ void TreeViewItem::restoreOpennessState (const XmlElement& e)
             }
         }
 
+        // for any items that weren't mentioned in the XML, reset them to default:
         for (int i = 0; i < items.size(); ++i)
             items.getUnchecked(i)->restoreToDefaultOpenness();
     }

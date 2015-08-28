@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -281,13 +281,13 @@ private:
             : ComponentTextProperty <ComboBox> ("items", 10000, true, comp, doc)
         {}
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new ComboItemsChangeAction (component, *document.getComponentLayout(), newText),
                               "Change combo box items");
         }
 
-        String getText() const
+        String getText() const override
         {
             return component->getProperties() ["items"];
         }
@@ -333,13 +333,13 @@ private:
             : ComponentTextProperty <ComboBox> ("text when none selected", 200, false, comp, doc)
         {}
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new ComboNonSelTextChangeAction (component, *document.getComponentLayout(), newText),
                               "Change combo box text when nothing selected");
         }
 
-        String getText() const
+        String getText() const override
         {
             return component->getTextWhenNothingSelected();
         }
@@ -383,13 +383,13 @@ private:
             : ComponentTextProperty <ComboBox> ("text when no items", 200, false, comp, doc)
         {}
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new ComboNoItemTextChangeAction (component, *document.getComponentLayout(), newText),
                               "Change combo box 'no items' text");
         }
 
-        String getText() const
+        String getText() const override
         {
             return component->getTextWhenNoChoicesAvailable();
         }

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -21,7 +21,6 @@
 
   ==============================================================================
 */
-
 
 struct AudioPluginAppWizard   : public NewProjectWizard
 {
@@ -95,10 +94,10 @@ struct AudioPluginAppWizard   : public NewProjectWizard
         if (! FileHelpers::overwriteFileWithNewDataIfDifferent (editorHFile, editorH))
             failedFiles.add (editorHFile.getFullPathName());
 
-        sourceGroup.addFile (filterCppFile, -1, true);
-        sourceGroup.addFile (filterHFile,   -1, false);
-        sourceGroup.addFile (editorCppFile, -1, true);
-        sourceGroup.addFile (editorHFile,   -1, false);
+        sourceGroup.addFileAtIndex (filterCppFile, -1, true);
+        sourceGroup.addFileAtIndex (filterHFile,   -1, false);
+        sourceGroup.addFileAtIndex (editorCppFile, -1, true);
+        sourceGroup.addFileAtIndex (editorHFile,   -1, false);
 
         return true;
     }

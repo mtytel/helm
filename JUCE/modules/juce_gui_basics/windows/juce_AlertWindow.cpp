@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -343,9 +343,9 @@ void AlertWindow::updateLayout (const bool onlyIncreaseSize)
     const int titleH = 24;
     const int iconWidth = 80;
 
-    LookAndFeel& lookAndFeel = getLookAndFeel();
+    LookAndFeel& lf = getLookAndFeel();
 
-    const Font messageFont (lookAndFeel.getAlertWindowMessageFont());
+    const Font messageFont (lf.getAlertWindowMessageFont());
 
     const int wid = jmax (messageFont.getStringWidth (text),
                           messageFont.getStringWidth (getName()));
@@ -357,7 +357,7 @@ void AlertWindow::updateLayout (const bool onlyIncreaseSize)
     int iconSpace = 0;
 
     AttributedString attributedText;
-    attributedText.append (getName(), lookAndFeel.getAlertWindowTitleFont());
+    attributedText.append (getName(), lf.getAlertWindowTitleFont());
 
     if (text.isNotEmpty())
         attributedText.append ("\n\n" + text, messageFont);

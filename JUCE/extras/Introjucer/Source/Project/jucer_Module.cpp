@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -601,9 +601,9 @@ void LibraryModule::addBrowseableCode (ProjectExporter& exporter, const Array<Fi
                                pathWithinModule);
     }
 
-    sourceGroup.addFile (localModuleFolder.getChildFile (FileHelpers::getRelativePathFrom (moduleInfo.manifestFile,
-                                                                                           moduleInfo.getFolder())), -1, false);
-    sourceGroup.addFile (getModuleHeaderFile (localModuleFolder), -1, false);
+    sourceGroup.addFileAtIndex (localModuleFolder.getChildFile (FileHelpers::getRelativePathFrom (moduleInfo.manifestFile,
+                                                                                                  moduleInfo.getFolder())), -1, false);
+    sourceGroup.addFileAtIndex (getModuleHeaderFile (localModuleFolder), -1, false);
 
     exporter.getModulesGroup().state.addChild (sourceGroup.state.createCopy(), -1, nullptr);
 }
@@ -728,7 +728,7 @@ void EnabledModuleList::addModule (const File& moduleManifestFile, bool copyLoca
 
         if (! isModuleEnabled (moduleID))
         {
-            ValueTree module (Ids::MODULES);
+            ValueTree module (Ids::MODULE);
             module.setProperty (Ids::ID, moduleID, nullptr);
 
             state.addChild (module, -1, getUndoManager());

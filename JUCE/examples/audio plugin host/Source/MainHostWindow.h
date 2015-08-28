@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -35,9 +35,11 @@ namespace CommandIDs
     static const int open                   = 0x30000;
     static const int save                   = 0x30001;
     static const int saveAs                 = 0x30002;
+    static const int newFile                = 0x30003;
     static const int showPluginListEditor   = 0x30100;
     static const int showAudioSettings      = 0x30200;
     static const int aboutBox               = 0x30300;
+    static const int allWindowsForward      = 0x30400;
 }
 
 ApplicationCommandManager& getCommandManager();

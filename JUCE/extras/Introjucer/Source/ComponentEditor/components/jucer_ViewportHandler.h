@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -559,13 +559,13 @@ private:
         {
         }
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new ViewportClassNameChangeAction (component, *document.getComponentLayout(), newText),
                               "Change Viewport content class");
         }
 
-        String getText() const
+        String getText() const override
         {
             return getViewportGenericComponentClass (component);
         }
@@ -612,13 +612,13 @@ private:
         {
         }
 
-        void setText (const String& newText)
+        void setText (const String& newText) override
         {
             document.perform (new ConstructorParamChangeAction (component, *document.getComponentLayout(), newText),
                               "Change Viewport content constructor params");
         }
 
-        String getText() const
+        String getText() const override
         {
             return getViewportConstructorParams (component);
         }

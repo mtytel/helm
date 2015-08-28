@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -87,6 +87,7 @@ public:
 
         exporter.msvcIsWindowsSubsystem = true;
         exporter.msvcTargetSuffix = ".exe";
+        exporter.msvcExtraPreprocessorDefs.set ("_CRT_SECURE_NO_WARNINGS", "");
     }
 };
 
@@ -118,6 +119,7 @@ public:
         exporter.msvcIsWindowsSubsystem = false;
         exporter.msvcTargetSuffix = ".exe";
         exporter.msvcExtraPreprocessorDefs.set ("_CONSOLE", "");
+        exporter.msvcExtraPreprocessorDefs.set ("_CRT_SECURE_NO_WARNINGS", "");
     }
 };
 
@@ -147,6 +149,7 @@ public:
         exporter.makefileTargetSuffix = ".a";
         exporter.msvcTargetSuffix = ".lib";
         exporter.msvcExtraPreprocessorDefs.set ("_LIB", "");
+        exporter.msvcExtraPreprocessorDefs.set ("_CRT_SECURE_NO_WARNINGS", "");
     }
 };
 
@@ -177,6 +180,7 @@ public:
         exporter.makefileTargetSuffix = ".so";
         exporter.msvcTargetSuffix = ".dll";
         exporter.msvcExtraPreprocessorDefs.set ("_LIB", "");
+        exporter.msvcExtraPreprocessorDefs.set ("_CRT_SECURE_NO_WARNINGS", "");
     }
 };
 
@@ -262,9 +266,6 @@ public:
         props.add (new BooleanPropertyComponent (getPluginEditorNeedsKeyFocus (project), "Key Focus", "Plugin editor requires keyboard focus"),
                    "Enable this if your plugin needs keyboard input - some hosts can be a bit funny about keyboard focus..");
 
-        props.add (new TextPropertyComponent (getPluginAUSDKLocation (project), "Plugin AU SDK Path", 512, false),
-                   "An optional path to the Apple AudioUnit SDK's 'CoreAudio' folder. Leave this blank to use the default location.");
-
         props.add (new TextPropertyComponent (getPluginAUExportPrefix (project), "Plugin AU Export Prefix", 64, false),
                    "A prefix for the names of exported entry-point functions that the component exposes - typically this will be a version of your plugin's name that can be used as part of a C++ token.");
 
@@ -304,7 +305,7 @@ public:
 
         exporter.msvcTargetSuffix = ".dll";
         exporter.msvcIsDLL = true;
-
+        exporter.msvcExtraPreprocessorDefs.set ("_CRT_SECURE_NO_WARNINGS", "");
         exporter.makefileIsDLL = true;
     }
 
@@ -355,6 +356,7 @@ public:
 
         exporter.msvcTargetSuffix = ".dll";
         exporter.msvcIsDLL = true;
+        exporter.msvcExtraPreprocessorDefs.set ("_CRT_SECURE_NO_WARNINGS", "");
 
         exporter.makefileIsDLL = true;
     }

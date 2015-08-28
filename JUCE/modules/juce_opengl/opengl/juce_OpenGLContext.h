@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -86,6 +86,9 @@ public:
 
     /** Returns the component to which this context is currently attached, or nullptr. */
     Component* getTargetComponent() const noexcept;
+
+    /** If the given component has an OpenGLContext attached, then this will return it. */
+    static OpenGLContext* getContextAttachedTo (Component& component) noexcept;
 
     //==============================================================================
     /** Sets the pixel format which you'd like to use for the target GL surface.
@@ -280,7 +283,7 @@ private:
     OpenGLRenderer* renderer;
     double currentRenderScale;
     ScopedPointer<Attachment> attachment;
-    OpenGLPixelFormat pixelFormat;
+    OpenGLPixelFormat openGLPixelFormat;
     void* contextToShareWith;
     OpenGLVersion versionRequired;
     size_t imageCacheMaxSize;

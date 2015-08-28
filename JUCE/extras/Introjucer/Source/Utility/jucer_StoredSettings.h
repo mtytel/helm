@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,14 +22,14 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_STOREDSETTINGS_JUCEHEADER__
-#define __JUCER_STOREDSETTINGS_JUCEHEADER__
+#ifndef JUCER_STOREDSETTINGS_H_INCLUDED
+#define JUCER_STOREDSETTINGS_H_INCLUDED
 
+#include <map>
 #include "../Application/jucer_AppearanceSettings.h"
 
-
 //==============================================================================
-class StoredSettings
+class StoredSettings : public ValueTree::Listener
 {
 public:
     StoredSettings();
@@ -42,6 +42,13 @@ public:
     void reload();
 
     //==============================================================================
+    void valueTreePropertyChanged (ValueTree&, const Identifier&) override  { changed(); }
+    void valueTreeChildAdded (ValueTree&, ValueTree&) override              { changed(); }
+    void valueTreeChildRemoved (ValueTree&, ValueTree&, int) override       { changed(); }
+    void valueTreeChildOrderChanged (ValueTree&, int, int) override         { changed(); }
+    void valueTreeParentChanged (ValueTree&) override                       { changed(); }
+
+    //==============================================================================
     RecentlyOpenedFilesList recentFiles;
 
     Array<File> getLastProjects();
@@ -50,9 +57,8 @@ public:
     //==============================================================================
     Array<Colour> swatchColours;
 
-    class ColourSelectorWithSwatches    : public ColourSelector
+    struct ColourSelectorWithSwatches    : public ColourSelector
     {
-    public:
         ColourSelectorWithSwatches() {}
 
         int getNumSwatches() const override;
@@ -65,10 +71,23 @@ public:
 
     StringArray monospacedFontNames;
 
+    ValueTree projectDefaults;
+    std::map<String, Value> pathValues;
+
 private:
     OwnedArray<PropertiesFile> propertyFiles;
 
-    void updateGlobalProps();
+    void changed()
+    {
+        ScopedPointer<XmlElement> data (projectDefaults.createXml());
+        propertyFiles.getUnchecked (0)->setValue ("PROJECT_DEFAULT_SETTINGS", data);
+    }
+
+    void updateGlobalPreferences();
+    void updateAppearanceSettings();
+    void updateRecentFiles();
+    void updateKeyMappings();
+
     void loadSwatchColours();
     void saveSwatchColours();
 
@@ -79,4 +98,4 @@ StoredSettings& getAppSettings();
 PropertiesFile& getGlobalProperties();
 
 
-#endif   // __JUCER_STOREDSETTINGS_JUCEHEADER__
+#endif   // JUCER_STOREDSETTINGS_H_INCLUDED

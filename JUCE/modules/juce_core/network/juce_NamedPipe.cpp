@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -41,7 +41,7 @@ bool NamedPipe::openExisting (const String& pipeName)
 
     ScopedWriteLock sl (lock);
     currentPipeName = pipeName;
-    return openInternal (pipeName, false);
+    return openInternal (pipeName, false, false);
 }
 
 bool NamedPipe::isOpen() const
@@ -49,13 +49,13 @@ bool NamedPipe::isOpen() const
     return pimpl != nullptr;
 }
 
-bool NamedPipe::createNewPipe (const String& pipeName)
+bool NamedPipe::createNewPipe (const String& pipeName, bool mustNotExist)
 {
     close();
 
     ScopedWriteLock sl (lock);
     currentPipeName = pipeName;
-    return openInternal (pipeName, true);
+    return openInternal (pipeName, true, mustNotExist);
 }
 
 String NamedPipe::getName() const

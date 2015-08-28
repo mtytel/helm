@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -752,8 +752,8 @@ public:
                         odm.closeDocument (cpp, true);
                         odm.closeDocument (header, true);
 
-                        parent.addFile (headerFile, 0, true);
-                        parent.addFile (cppFile, 0, true);
+                        parent.addFileRetainingSortOrder (headerFile, true);
+                        parent.addFileRetainingSortOrder (cppFile, true);
                     }
                 }
             }

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -89,6 +89,8 @@ public:
 
         if (getTargetLocationString().isEmpty())
             getTargetLocationValue() = getDefaultBuildsRootFolder() + getTargetFolderName (os);
+
+        initialiseDependencyPathValues();
     }
 
     //==============================================================================
@@ -399,6 +401,38 @@ private:
     void setAddOption (XmlElement& xml, const String& nm, const String& value) const
     {
         xml.createNewChildElement ("Add")->setAttribute (nm, value);
+    }
+
+    void initialiseDependencyPathValues()
+    {
+        DependencyPathOS pathOS = isLinux() ? DependencyPath::linux : DependencyPath::windows;
+
+        vst2Path.referTo (Value (new DependencyPathValueSource (
+             getSetting (Ids::vstFolder),
+             DependencyPath::vst2KeyName,
+             pathOS
+        )));
+
+        vst3Path.referTo (Value (new DependencyPathValueSource (
+             getSetting (Ids::vst3Folder),
+             DependencyPath::vst3KeyName,
+             pathOS
+        )));
+
+        if (! isLinux())
+        {
+            aaxPath.referTo (Value (new DependencyPathValueSource (
+                 getSetting (Ids::aaxFolder),
+                 DependencyPath::aaxKeyName,
+                 pathOS
+            )));
+
+            rtasPath.referTo (Value (new DependencyPathValueSource (
+                 getSetting (Ids::rtasFolder),
+                 DependencyPath::rtasKeyName,
+                 pathOS
+            )));
+        }
     }
 
     CodeBlocksOS os;

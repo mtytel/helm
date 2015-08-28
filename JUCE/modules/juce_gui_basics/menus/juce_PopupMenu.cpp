@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -1328,7 +1328,8 @@ void PopupMenu::addItem (int itemResultID, const String& itemText, bool isActive
 
 void PopupMenu::addCommandItem (ApplicationCommandManager* commandManager,
                                 const CommandID commandID,
-                                const String& displayName)
+                                const String& displayName,
+                                Drawable* iconToUse)
 {
     jassert (commandManager != nullptr && commandID != 0);
 
@@ -1342,7 +1343,7 @@ void PopupMenu::addCommandItem (ApplicationCommandManager* commandManager,
                                                       : info.shortName,
                              target != nullptr && (info.flags & ApplicationCommandInfo::isDisabled) == 0,
                              (info.flags & ApplicationCommandInfo::isTicked) != 0,
-                             nullptr,
+                             iconToUse,
                              Colours::black,
                              false,
                              nullptr, nullptr,

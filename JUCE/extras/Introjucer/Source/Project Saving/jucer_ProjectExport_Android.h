@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -38,7 +38,8 @@ public:
     }
 
     //==============================================================================
-    AndroidProjectExporter (Project& p, const ValueTree& t)    : ProjectExporter (p, t)
+    AndroidProjectExporter (Project& p, const ValueTree& t)
+        : ProjectExporter (p, t)
     {
         name = getNameAndroid();
 
@@ -51,9 +52,6 @@ public:
         if (getActivityClassPath().isEmpty())
             getActivityClassPathValue() = createDefaultClassName();
 
-        if (getSDKPathString().isEmpty())       getSDKPathValue() = "${user.home}/SDKs/android-sdk";
-        if (getNDKPathString().isEmpty())       getNDKPathValue() = "${user.home}/SDKs/android-ndk";
-
         if (getMinimumSDKVersionString().isEmpty())
             getMinimumSDKVersionValue() = 10;
 
@@ -65,6 +63,8 @@ public:
         if (getKeyAliasValue().getValue().isVoid())         getKeyAliasValue()      = "androiddebugkey";
         if (getKeyAliasPassValue().getValue().isVoid())     getKeyAliasPassValue()  = "android";
         if (getCPP11EnabledValue().getValue().isVoid())     getCPP11EnabledValue()  = true;
+
+        initialiseDependencyPathValues();
     }
 
     //==============================================================================
@@ -79,13 +79,17 @@ public:
         props.add (new TextPropertyComponent (getActivityClassPathValue(), "Android Activity class name", 256, false),
                    "The full java class name to use for the app's Activity class.");
 
+        props.add (new TextPropertyComponent (getActivitySubClassPathValue(), "Android Activity sub-class name", 256, false),
+                   "If not empty, specifies the Android Activity class name stored in the app's manifest. "
+                   "Use this if you would like to use your own Android Activity sub-class.");
+
         props.add (new TextPropertyComponent (getVersionCodeValue(), "Android Version Code", 32, false),
                    "An integer value that represents the version of the application code, relative to other versions.");
 
-        props.add (new TextPropertyComponent (getSDKPathValue(), "Android SDK Path", 1024, false),
+        props.add (new DependencyPathPropertyComponent (getSDKPathValue(), "Android SDK Path"),
                    "The path to the Android SDK folder on the target build machine");
 
-        props.add (new TextPropertyComponent (getNDKPathValue(), "Android NDK Path", 1024, false),
+        props.add (new DependencyPathPropertyComponent (getNDKPathValue(), "Android NDK Path"),
                    "The path to the Android NDK folder on the target build machine");
 
         props.add (new TextPropertyComponent (getMinimumSDKVersionValue(), "Minimum SDK version", 32, false),
@@ -127,12 +131,14 @@ public:
 
     Value  getActivityClassPathValue()              { return getSetting (Ids::androidActivityClass); }
     String getActivityClassPath() const             { return settings [Ids::androidActivityClass]; }
+    Value  getActivitySubClassPathValue()           { return getSetting (Ids::androidActivitySubClassName); }
+    String getActivitySubClassPath() const          { return settings [Ids::androidActivitySubClassName]; }
     Value  getVersionCodeValue()                    { return getSetting (Ids::androidVersionCode); }
     String getVersionCodeString() const             { return settings [Ids::androidVersionCode]; }
-    Value  getSDKPathValue()                        { return getSetting (Ids::androidSDKPath); }
-    String getSDKPathString() const                 { return settings [Ids::androidSDKPath]; }
-    Value  getNDKPathValue()                        { return getSetting (Ids::androidNDKPath); }
-    String getNDKPathString() const                 { return settings [Ids::androidNDKPath]; }
+    Value  getSDKPathValue()                        { return sdkPath; }
+    String getSDKPathString() const                 { return sdkPath.toString(); }
+    Value  getNDKPathValue()                        { return ndkPath; }
+    String getNDKPathString() const                 { return ndkPath.toString(); }
     Value  getNDKToolchainVersionValue()            { return getSetting (Ids::toolset); }
     String getNDKToolchainVersionString() const     { return settings [Ids::toolset]; }
 
@@ -317,7 +323,7 @@ private:
             app->setAttribute ("android:hardwareAccelerated", "false"); // (using the 2D acceleration slows down openGL)
 
         XmlElement* act = app->createNewChildElement ("activity");
-        act->setAttribute ("android:name", getActivityName());
+        act->setAttribute ("android:name", getActivitySubClassName());
         act->setAttribute ("android:label", "@string/app_name");
         act->setAttribute ("android:configChanges", "keyboardHidden|orientation");
 
@@ -358,6 +364,13 @@ private:
     String getActivityName() const
     {
         return getActivityClassPath().fromLastOccurrenceOf (".", false, false);
+    }
+
+    String getActivitySubClassName() const
+    {
+        String activityPath = getActivitySubClassPath();
+
+        return (activityPath.isEmpty()) ? getActivityName() : activityPath.fromLastOccurrenceOf (".", false, false);
     }
 
     String getActivityClassPackage() const
@@ -738,6 +751,23 @@ private:
         writeXmlOrThrow (strings, file, "utf-8", 100);
     }
 
+    void initialiseDependencyPathValues()
+    {
+        sdkPath.referTo (Value (new DependencyPathValueSource (
+             getSetting (Ids::androidSDKPath),
+             DependencyPath::androidSdkKeyName,
+             DependencyPath::getThisOS()
+        )));
+
+        ndkPath.referTo (Value (new DependencyPathValueSource (
+             getSetting (Ids::androidNDKPath),
+             DependencyPath::androidNdkKeyName,
+             DependencyPath::getThisOS()
+        )));
+    }
+
     //==============================================================================
+    Value sdkPath, ndkPath;
+
     JUCE_DECLARE_NON_COPYABLE (AndroidProjectExporter)
 };

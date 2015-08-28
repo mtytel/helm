@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -1691,11 +1691,11 @@ public:
             outputArrangements.add (getArrangementForBus (processor, false, i));
     }
 
-    void prepareToPlay (double sampleRate, int estimatedSamplesPerBlock) override
+    void prepareToPlay (double newSampleRate, int estimatedSamplesPerBlock) override
     {
         // Avoid redundantly calling things like setActive, which can be a heavy-duty call for some plugins:
         if (isActive
-              && getSampleRate() == sampleRate
+              && getSampleRate() == newSampleRate
               && getBlockSize() == estimatedSamplesPerBlock)
             return;
 
@@ -1704,7 +1704,7 @@ public:
         ProcessSetup setup;
         setup.symbolicSampleSize    = kSample32;
         setup.maxSamplesPerBlock    = estimatedSamplesPerBlock;
-        setup.sampleRate            = sampleRate;
+        setup.sampleRate            = newSampleRate;
         setup.processMode           = isNonRealtime() ? kOffline : kRealtime;
 
         warnOnFailure (processor->setupProcessing (setup));
@@ -1737,7 +1737,7 @@ public:
         // Needed for having the same sample rate in processBlock(); some plugins need this!
         setPlayConfigDetails (getNumSingleDirectionChannelsFor (component, true, true),
                               getNumSingleDirectionChannelsFor (component, false, true),
-                              sampleRate, estimatedSamplesPerBlock);
+                              newSampleRate, estimatedSamplesPerBlock);
 
         setStateForAllBusses (true);
 
@@ -1859,10 +1859,10 @@ public:
     {
         if (processor != nullptr)
         {
-            const double sampleRate = getSampleRate();
+            const double currentSampleRate = getSampleRate();
 
-            if (sampleRate > 0.0)
-                return jlimit (0, 0x7fffffff, (int) processor->getTailSamples()) / sampleRate;
+            if (currentSampleRate > 0.0)
+                return jlimit (0, 0x7fffffff, (int) processor->getTailSamples()) / currentSampleRate;
         }
 
         return 0.0;

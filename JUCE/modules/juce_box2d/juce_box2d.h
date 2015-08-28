@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -30,9 +30,11 @@
 
 #include "box2d/Box2D.h"
 
+#ifndef DOXYGEN // for some reason, Doxygen sees this as a re-definition of Box2DRenderer
 namespace juce
 {
   #include "utils/juce_Box2DRenderer.h"
 }
+#endif // DOXYGEN
 
 #endif   // JUCE_BOX2D_H_INCLUDED

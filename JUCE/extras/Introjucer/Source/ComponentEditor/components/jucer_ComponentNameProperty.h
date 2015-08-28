@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,8 +22,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_COMPONENTNAMEPROPERTY_JUCEHEADER__
-#define __JUCER_COMPONENTNAMEPROPERTY_JUCEHEADER__
+#ifndef JUCER_COMPONENTNAMEPROPERTY_H_INCLUDED
+#define JUCER_COMPONENTNAMEPROPERTY_H_INCLUDED
 
 #include "jucer_ComponentTypeHandler.h"
 #include "jucer_ComponentUndoableAction.h"
@@ -40,13 +40,13 @@ public:
     }
 
 
-    void setText (const String& newText)
+    void setText (const String& newText) override
     {
         document.perform (new CompNameChangeAction (component, *document.getComponentLayout(), newText),
                           "Change component name");
     }
 
-    String getText() const
+    String getText() const override
     {
         return component->getName();
     }
@@ -90,13 +90,13 @@ public:
     {
     }
 
-    void setText (const String& newText)
+    void setText (const String& newText) override
     {
         document.perform (new CompMemberNameChangeAction (component, *document.getComponentLayout(), newText),
                           "Change component member name");
     }
 
-    String getText() const
+    String getText() const override
     {
         return document.getComponentLayout()->getComponentMemberVariableName (component);
     }
@@ -139,13 +139,13 @@ public:
     {
     }
 
-    void setText (const String& newText)
+    void setText (const String& newText) override
     {
         document.perform (new CompVirtualClassChangeAction (component, *document.getComponentLayout(), newText),
                           "Change component virtual class name");
     }
 
-    String getText() const
+    String getText() const override
     {
         return document.getComponentLayout()->getComponentVirtualClassName (component);
     }
@@ -180,4 +180,4 @@ private:
 
 
 
-#endif   // __JUCER_COMPONENTNAMEPROPERTY_JUCEHEADER__
+#endif   // JUCER_COMPONENTNAMEPROPERTY_H_INCLUDED

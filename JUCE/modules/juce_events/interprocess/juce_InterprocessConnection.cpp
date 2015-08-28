@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -91,13 +91,13 @@ bool InterprocessConnection::connectToPipe (const String& pipeName, const int ti
     return false;
 }
 
-bool InterprocessConnection::createPipe (const String& pipeName, const int timeoutMs)
+bool InterprocessConnection::createPipe (const String& pipeName, const int timeoutMs, bool mustNotExist)
 {
     disconnect();
 
     ScopedPointer<NamedPipe> newPipe (new NamedPipe());
 
-    if (newPipe->createNewPipe (pipeName))
+    if (newPipe->createNewPipe (pipeName, mustNotExist))
     {
         const ScopedLock sl (pipeAndSocketLock);
         pipeReceiveMessageTimeout = timeoutMs;
