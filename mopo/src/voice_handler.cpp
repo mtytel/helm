@@ -21,7 +21,12 @@
 namespace mopo {
 
   Voice::Voice(Processor* processor) : event_sample_(-1),
-      aftertouch_sample_(-1), aftertouch_(0.0), processor_(processor) { }
+      aftertouch_sample_(-1), aftertouch_(0.0), processor_(processor) {
+    state_.event = kVoiceOff;
+    state_.note = 0;
+    state_.velocity = 0;
+    key_state_ = kReleased;
+  }
 
   VoiceHandler::VoiceHandler(size_t polyphony) :
       ProcessorRouter(kNumInputs, 0), polyphony_(0), sustain_(false),
@@ -210,7 +215,7 @@ namespace mopo {
     while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
       all_voices_.push_back(new_voice);
-      free_voices_.push_back(new_voice);
+      active_voices_.push_back(new_voice);
     }
 
     while (active_voices_.size() > polyphony) {
