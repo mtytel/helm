@@ -157,12 +157,53 @@ PatchBrowser::~PatchBrowser() {
 }
 
 void PatchBrowser::paint(Graphics& g) {
+  static Font info_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
+                                                          BinaryData::RobotoLight_ttfSize));
+  static Font data_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                          BinaryData::DroidSansMono_ttfSize));
   g.fillAll(Colour(0xbb212121));
   g.setColour(Colour(0xff111111));
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 
   g.setColour(Colour(0xff212121));
   g.fillRect(8.0f, 8.0f, 3.0f * getWidth() / 10.0f - BROWSE_PADDING, BROWSING_HEIGHT - 16.0f);
+
+  float width = 3.0f * getWidth() / 10.0f + BROWSE_PADDING;
+  float division = 100.0f;
+  float buffer = 20.0f;
+
+  g.setFont(info_font.withPointHeight(14.0f));
+  g.setColour(Colour(0xff888888));
+
+  g.fillRect(BROWSE_PADDING + division + buffer / 2.0f, BROWSE_PADDING + 30.0f,
+             1.0f, 120.0f);
+
+  g.drawText(TRANS("PATCH NAME"),
+             BROWSE_PADDING, BROWSE_PADDING + 40.0f, division, 20.0f,
+             Justification::centredRight, false);
+  g.drawText(TRANS("AUTHOR"),
+             BROWSE_PADDING, BROWSE_PADDING + 80.0f, division, 20.0f,
+             Justification::centredRight, false);
+  g.drawText(TRANS("BANK"),
+             BROWSE_PADDING, BROWSE_PADDING + 120.0f, division, 20.0f,
+             Justification::centredRight, false);
+
+  if (isPatchSelected()) {
+    g.setFont(data_font.withPointHeight(12.0f));
+    g.setColour(Colour(0xff03a9f4));
+
+    File selected_patch = getSelectedPatch();
+    float data_width = width - division - buffer - 2.0f * BROWSE_PADDING;
+    g.drawText(selected_patch.getFileNameWithoutExtension(),
+               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 40.0f, data_width, 20.0f,
+               Justification::centredLeft, true);
+    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
+               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 80.0f, data_width, 20.0f,
+               Justification::centredLeft, true);
+    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
+               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 120.0f, data_width, 20.0f,
+               Justification::centredLeft, true);
+  }
 }
 
 void PatchBrowser::resized() {
@@ -199,12 +240,20 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
       File patch = patches_model_->getFileAtRow(selected_rows[0]);
       loadFromFile(patch);
     }
+    repaint();
   }
 }
 
 void PatchBrowser::mouseUp(const MouseEvent& e) {
   if (e.getPosition().y > BROWSING_HEIGHT)
     setVisible(false);
+}
+
+File PatchBrowser::getSelectedPatch() {
+  SparseSet<int> selected_rows = patches_view_->getSelectedRows();
+  if (selected_rows.size())
+    return patches_model_->getFileAtRow(selected_rows[0]);
+  return File();
 }
 
 void PatchBrowser::loadFromFile(File& patch) {
