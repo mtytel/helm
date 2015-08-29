@@ -44,9 +44,7 @@ class PatchSelector : public SynthSection {
     String folder_text_;
     String patch_text_;
 
-    ScopedPointer<TextButton> prev_folder_;
     ScopedPointer<TextButton> prev_patch_;
-    ScopedPointer<TextButton> next_folder_;
     ScopedPointer<TextButton> next_patch_;
     ScopedPointer<TextButton> save_;
     ScopedPointer<TextButton> browse_;

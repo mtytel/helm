@@ -24,20 +24,10 @@
 PatchSelector::PatchSelector() : SynthSection("patch_selector"), browser_(nullptr) {
   setLookAndFeel(BrowserLookAndFeel::instance());
 
-  addButton(prev_folder_ = new TextButton("prev_folder"));
-  prev_folder_->setButtonText(TRANS("<"));
-  prev_folder_->setColour(TextButton::buttonColourId, Colour(0xff303030));
-  prev_folder_->setColour(TextButton::textColourOffId, Colours::white);
-
   addButton(prev_patch_ = new TextButton("prev_patch"));
   prev_patch_->setButtonText(TRANS("<"));
   prev_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
   prev_patch_->setColour(TextButton::textColourOffId, Colours::white);
-
-  addButton(next_folder_ = new TextButton("next_folder"));
-  next_folder_->setButtonText(TRANS(">"));
-  next_folder_->setColour(TextButton::buttonColourId, Colour(0xff303030));
-  next_folder_->setColour(TextButton::textColourOffId, Colours::white);
 
   addButton(next_patch_ = new TextButton("next_patch"));
   next_patch_->setButtonText(TRANS(">"));
@@ -61,9 +51,7 @@ PatchSelector::PatchSelector() : SynthSection("patch_selector"), browser_(nullpt
 }
 
 PatchSelector::~PatchSelector() {
-  prev_folder_ = nullptr;
   prev_patch_ = nullptr;
-  next_folder_ = nullptr;
   next_patch_ = nullptr;
   save_ = nullptr;
   browse_ = nullptr;
@@ -100,14 +88,10 @@ void PatchSelector::paintBackground(Graphics& g) {
 }
 
 void PatchSelector::resized() {
-  prev_folder_->setBounds(proportionOfWidth(0.2f), 0,
-                          proportionOfWidth(0.1f), proportionOfHeight(0.5f));
-  prev_patch_->setBounds(proportionOfWidth(0.2f), proportionOfHeight(0.5f),
-                         proportionOfWidth(0.1f), proportionOfHeight (0.5f));
-  next_folder_->setBounds(getWidth() - proportionOfWidth(0.1f), 0,
-                          proportionOfWidth(0.1f), proportionOfHeight(0.5f));
-  next_patch_->setBounds(getWidth() - proportionOfWidth(0.1f), proportionOfHeight(0.5f),
-                         proportionOfWidth(0.1f), proportionOfHeight(0.5f));
+  prev_patch_->setBounds(proportionOfWidth(0.2f), 0,
+                         proportionOfWidth(0.1f), proportionOfHeight (1.0f));
+  next_patch_->setBounds(getWidth() - proportionOfWidth(0.1f), 0,
+                         proportionOfWidth(0.1f), proportionOfHeight(1.0f));
   save_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.0f),
                    proportionOfWidth(0.2f), proportionOfHeight (0.5f));
   browse_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.5f),
@@ -117,6 +101,9 @@ void PatchSelector::resized() {
 }
 
 void PatchSelector::buttonClicked(Button* clicked_button) {
+  if (browser_ == nullptr)
+    return;
+
   if (clicked_button == save_) {
     int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
     FileBrowserComponent browser(flags, LoadSave::getUserPatchDirectory(), nullptr, nullptr);
@@ -129,44 +116,24 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
       save_file.replaceWithText(JSON::toString(parent->saveToVar()));
     }
   }
-  else if (clicked_button == browse_) {
-    if (browser_) {
-      browser_->setVisible(!browser_->isVisible());
-    }
-  }
-  else {
-    if (clicked_button == prev_folder_) {
-      folder_index_--;
-      patch_index_ = 0;
-    }
-    else if (clicked_button == next_folder_) {
-      folder_index_++;
-      patch_index_ = 0;
-    }
-    else if (clicked_button == prev_patch_) {
-      patch_index_--;
-      if (folder_index_ < 0)
-        folder_index_ = 0;
-    }
-    else if (clicked_button == next_patch_) {
-      patch_index_++;
-      if (folder_index_ < 0)
-        folder_index_ = 0;
-    }
+  else if (clicked_button == browse_)
+    browser_->setVisible(!browser_->isVisible());
+  else if (clicked_button == prev_patch_)
+    browser_->loadPrevPatch();
+  else if (clicked_button == next_patch_)
+    browser_->loadNextPatch();
 
-    File folder = getCurrentFolder();
-    File patch = getCurrentPatch();
-    folder_text_ = folder.getFileNameWithoutExtension();
-    patch_text_ = patch.getFileNameWithoutExtension();
-    loadFromFile(patch);
+  File patch = browser_->getSelectedPatch();
+  File folder = patch.getParentDirectory();
+  folder_text_ = folder.getFileNameWithoutExtension();
+  patch_text_ = patch.getFileNameWithoutExtension();
 
-    const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-    float scale = display.scale;
-    Graphics g(background_);
-    g.addTransform(AffineTransform::scale(scale, scale));
-    paintBackground(g);
-    repaint();
-  }
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+  repaint();
 }
 
 File PatchSelector::getCurrentPatch() {

@@ -256,6 +256,30 @@ File PatchBrowser::getSelectedPatch() {
   return File();
 }
 
+void PatchBrowser::loadPrevPatch() {
+  SparseSet<int> selected_rows = patches_view_->getSelectedRows();
+  if (selected_rows.size()) {
+    int row = selected_rows[0] - 1;
+    if (row < 0)
+      row += patches_model_->getNumRows();
+    patches_view_->selectRow(row);
+  }
+  else
+    patches_view_->selectRow(0);
+}
+
+void PatchBrowser::loadNextPatch() {
+  SparseSet<int> selected_rows = patches_view_->getSelectedRows();
+  if (selected_rows.size()) {
+    int row = selected_rows[0] + 1;
+    if (row >= patches_model_->getNumRows())
+      row -= patches_model_->getNumRows();
+    patches_view_->selectRow(row);
+  }
+  else
+    patches_view_->selectRow(0);
+}
+
 void PatchBrowser::loadFromFile(File& patch) {
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {

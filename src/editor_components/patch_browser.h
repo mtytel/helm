@@ -61,6 +61,8 @@ class PatchBrowser : public Component, public FileListBoxModel::FileListBoxModel
 
     bool isPatchSelected() { return patches_view_->getSelectedRows().size(); }
     File getSelectedPatch();
+    void loadNextPatch();
+    void loadPrevPatch();
 
   private:
     void loadFromFile(File& patch);
