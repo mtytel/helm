@@ -43,11 +43,6 @@ PatchSelector::PatchSelector() : SynthSection("patch_selector"), browser_(nullpt
   browse_->setButtonText(TRANS("BROWSE"));
   browse_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   browse_->setColour(TextButton::textColourOffId, Colours::white);
-
-  folder_index_ = -1;
-  patch_index_ = -1;
-  folder_text_ = TRANS("Init Folder");
-  patch_text_ = TRANS("Init Patch");
 }
 
 PatchSelector::~PatchSelector() {
@@ -122,8 +117,9 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
     browser_->loadPrevPatch();
   else if (clicked_button == next_patch_)
     browser_->loadNextPatch();
+}
 
-  File patch = browser_->getSelectedPatch();
+void PatchSelector::newPatchSelected(File patch) {
   File folder = patch.getParentDirectory();
   folder_text_ = folder.getFileNameWithoutExtension();
   patch_text_ = patch.getFileNameWithoutExtension();
@@ -134,36 +130,6 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
   g.addTransform(AffineTransform::scale(scale, scale));
   paintBackground(g);
   repaint();
-}
-
-File PatchSelector::getCurrentPatch() {
-  static const FileSorterAscending file_sorter;
-  Array<File> patches;
-  File patch_folder = getCurrentFolder();
-
-  patch_folder.findChildFiles(patches, File::findFiles, false,
-                              String("*.") + mopo::PATCH_EXTENSION);
-  patches.sort(file_sorter);
-  if (patch_index_ >= patches.size())
-    patch_index_ = 0;
-  else if (patch_index_ < 0)
-    patch_index_ = patches.size() - 1;
-
-  return patches[patch_index_];
-}
-
-File PatchSelector::getCurrentFolder() {
-  Array<File> folders;
-  File patch_dir = LoadSave::getSystemPatchDirectory();
-
-  patch_dir.findChildFiles(folders, File::findDirectories, false);
-  folders.add(LoadSave::getUserPatchDirectory());
-  if (folder_index_ >= folders.size())
-    folder_index_ = 0;
-  else if (folder_index_ < 0)
-    folder_index_ = folders.size() - 1;
-
-  return folders[folder_index_];
 }
 
 void PatchSelector::loadFromFile(File& patch) {

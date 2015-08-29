@@ -30,7 +30,7 @@ class HelmComputerKeyboard : public KeyListener {
 
     // KeyListener
     bool keyPressed(const KeyPress &key, Component *origin) override;
-    bool keyStateChanged(bool isKeyDown, Component *originatingComponent) override;
+    bool keyStateChanged(bool isKeyDown, Component *origin) override;
 
   private:
     mopo::HelmEngine* synth_;

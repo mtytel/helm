@@ -37,7 +37,7 @@ class FileListBoxModel : public ListBoxModel {
                           int width, int height, bool selected) override;
     void selectedRowsChanged(int last_selected_row) override;
 
-    void rescanFiles(const Array<File>& folders, bool find_files = false);
+    void rescanFiles(const Array<File>& folders, String search = "*", bool find_files = false);
     File getFileAtRow(int row) { return files_[row]; }
     void setListener(FileListBoxModelListener* listener) { listener_ = listener; }
     Array<File> getAllFiles() { return files_; }
@@ -48,24 +48,42 @@ class FileListBoxModel : public ListBoxModel {
     bool sort_ascending_;
 };
 
-class PatchBrowser : public Component, public FileListBoxModel::FileListBoxModelListener {
+class PatchBrowser : public Component,
+                     public FileListBoxModel::FileListBoxModelListener,
+                     public TextEditor::Listener,
+                     public KeyListener {
   public:
+    class PatchSelectedListener {
+      public:
+        virtual ~PatchSelectedListener() { }
+
+        virtual void newPatchSelected(File patch) = 0;
+    };
+
     PatchBrowser();
     ~PatchBrowser();
 
     void paint(Graphics& g) override;
     void resized() override;
     void mouseUp(const MouseEvent& e) override;
+    bool keyPressed(const KeyPress &key, Component *origin) override;
+    bool keyStateChanged(bool isKeyDown, Component *origin) override;
+    void visibilityChanged() override;
 
     void selectedFilesChanged(FileListBoxModel* model) override;
+    void textEditorTextChanged(TextEditor& editor) override;
 
     bool isPatchSelected() { return patches_view_->getSelectedRows().size(); }
     File getSelectedPatch();
     void loadNextPatch();
     void loadPrevPatch();
 
+    void setListener(PatchSelectedListener* listener) { listener_ = listener; }
+
   private:
     void loadFromFile(File& patch);
+    void scanFolders();
+    void scanPatches();
 
     ScopedPointer<ListBox> banks_view_;
     ScopedPointer<FileListBoxModel> banks_model_;
@@ -75,6 +93,10 @@ class PatchBrowser : public Component, public FileListBoxModel::FileListBoxModel
 
     ScopedPointer<ListBox> patches_view_;
     ScopedPointer<FileListBoxModel> patches_model_;
+
+    ScopedPointer<TextEditor> search_box_;
+
+    PatchSelectedListener* listener_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };

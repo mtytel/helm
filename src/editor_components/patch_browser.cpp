@@ -95,6 +95,7 @@ void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
 }
 
 void FileListBoxModel::rescanFiles(const Array<File>& folders,
+                                   String search,
                                    bool find_files) {
   static const FileSorterAscending file_sorter;
   files_.clear();
@@ -102,10 +103,8 @@ void FileListBoxModel::rescanFiles(const Array<File>& folders,
   for (File folder : folders) {
     if (folder.isDirectory()) {
       Array<File> child_folders;
-      if (find_files) {
-        folder.findChildFiles(child_folders, File::findFiles, false,
-                              String("*.") + mopo::PATCH_EXTENSION);
-      }
+      if (find_files)
+        folder.findChildFiles(child_folders, File::findFiles, false, search);
       else
         folder.findChildFiles(child_folders, File::findDirectories, false);
       files_.addArray(child_folders);
@@ -149,8 +148,16 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   folders_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
   patches_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
 
+  search_box_ = new TextEditor("Search");
+  search_box_->addListener(this);
+  search_box_->setSelectAllWhenFocused(true);
+  search_box_->setTextToShowWhenEmpty(TRANS("Search"), Colour(0xff888888));
+  addAndMakeVisible(search_box_);
+
   selectedFilesChanged(banks_model_);
   selectedFilesChanged(folders_model_);
+
+  addKeyListener(this);
 }
 
 PatchBrowser::~PatchBrowser() {
@@ -215,33 +222,46 @@ void PatchBrowser::resized() {
   folders_view_->setBounds(start_x + width1 + BROWSE_PADDING, BROWSE_PADDING, width1, height);
   patches_view_->setBounds(start_x + 2.0f * (width1 + BROWSE_PADDING), BROWSE_PADDING,
                            width2, height);
+
+  search_box_->setBounds(20.0f, 20.0f, 200.0f, 30.0f);
+}
+
+void PatchBrowser::visibilityChanged() {
+  Component::visibilityChanged();
+  if (isVisible()) {
+    search_box_->setText("");
+    search_box_->grabKeyboardFocus();
+  }
 }
 
 void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
-  if (model == banks_model_) {
-    Array<File> banks = getFoldersToScan(banks_view_, banks_model_);
-    Array<File> folders_selected = getSelectedFolders(folders_view_, folders_model_);
-
-    folders_model_->rescanFiles(banks);
-    folders_view_->updateContent();
-    setSelectedRows(folders_view_, folders_model_, folders_selected);
-  }
-  if (model == banks_model_ || model == folders_model_) {
-    Array<File> folders = getFoldersToScan(folders_view_, folders_model_);
-    Array<File> patches_selected = getSelectedFolders(patches_view_, patches_model_);
-
-    patches_model_->rescanFiles(folders, true);
-    patches_view_->updateContent();
-    setSelectedRows(patches_view_, patches_model_, patches_selected);
-  }
+  if (model == banks_model_)
+    scanFolders();
+  if (model == banks_model_ || model == folders_model_)
+    scanPatches();
   else if (model == patches_model_) {
     SparseSet<int> selected_rows = patches_view_->getSelectedRows();
     if (selected_rows.size()) {
       File patch = patches_model_->getFileAtRow(selected_rows[0]);
       loadFromFile(patch);
+
+      if (listener_)
+        listener_->newPatchSelected(patch);
     }
     repaint();
   }
+}
+
+void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
+  scanPatches();
+}
+
+bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
+  return search_box_->hasKeyboardFocus(true);
+}
+
+bool PatchBrowser::keyStateChanged(bool isKeyDown, Component *origin) {
+  return search_box_->hasKeyboardFocus(true);
 }
 
 void PatchBrowser::mouseUp(const MouseEvent& e) {
@@ -286,4 +306,23 @@ void PatchBrowser::loadFromFile(File& patch) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     parent->loadFromVar(parsed_json_state);
   }
+}
+
+void PatchBrowser::scanFolders() {
+  Array<File> banks = getFoldersToScan(banks_view_, banks_model_);
+  Array<File> folders_selected = getSelectedFolders(folders_view_, folders_model_);
+
+  folders_model_->rescanFiles(banks);
+  folders_view_->updateContent();
+  setSelectedRows(folders_view_, folders_model_, folders_selected);
+}
+
+void PatchBrowser::scanPatches() {
+  Array<File> folders = getFoldersToScan(folders_view_, folders_model_);
+  Array<File> patches_selected = getSelectedFolders(patches_view_, patches_model_);
+
+  String search = "*" + search_box_->getText() + "*." + mopo::PATCH_EXTENSION;
+  patches_model_->rescanFiles(folders, search, true);
+  patches_view_->updateContent();
+  setSelectedRows(patches_view_, patches_model_, patches_selected);
 }

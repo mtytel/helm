@@ -22,7 +22,7 @@
 #include "patch_browser.h"
 #include "synth_section.h"
 
-class PatchSelector : public SynthSection {
+class PatchSelector : public SynthSection, public PatchBrowser::PatchSelectedListener {
   public:
     PatchSelector();
     ~PatchSelector();
@@ -30,16 +30,14 @@ class PatchSelector : public SynthSection {
     void paintBackground(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* buttonThatWasClicked) override;
-    void setBrowser(PatchBrowser* browser) { browser_ = browser; }
+    void newPatchSelected(File patch) override;
+    void setBrowser(PatchBrowser* browser) {
+      browser_ = browser;
+      browser_->setListener(this);
+    }
 
   private:
-    void refreshPatches();
-    File getCurrentPatch();
-    File getCurrentFolder();
     void loadFromFile(File& patch);
-
-    int folder_index_;
-    int patch_index_;
 
     String folder_text_;
     String patch_text_;

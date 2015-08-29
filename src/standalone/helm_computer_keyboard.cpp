@@ -44,7 +44,7 @@ bool HelmComputerKeyboard::keyPressed(const KeyPress &key, Component *origin) {
   return false;
 }
 
-bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *originatingComponent) {
+bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
   bool consumed = false;
   ScopedLock lock(*critical_section_);
   for (int i = 0; i < strlen(KEYBOARD); ++i) {
