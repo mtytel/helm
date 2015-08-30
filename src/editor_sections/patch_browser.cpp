@@ -121,6 +121,9 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
                                                              BinaryData::DroidSansMono_ttfSize));
 
   current_author_ = "";
+  listener_ = nullptr;
+  save_section_ = nullptr;
+  delete_section_ = nullptr;
 
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);
@@ -297,12 +300,10 @@ void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
 }
 
 void PatchBrowser::buttonClicked(Button* clicked_button) {
-  if (clicked_button == save_as_button_) {
-
-  }
-  else if (clicked_button == delete_patch_button_) {
-
-  }
+  if (clicked_button == save_as_button_ && save_section_)
+    save_section_->setVisible(true);
+  else if (clicked_button == delete_patch_button_ && delete_section_)
+    delete_section_->setVisible(true);
 }
 
 bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {

@@ -108,6 +108,7 @@ OBJECTS := \
   $(OBJDIR)/arp_section_a0da8a91.o \
   $(OBJDIR)/articulation_section_a61395c5.o \
   $(OBJDIR)/delay_section_9df39f5.o \
+  $(OBJDIR)/delete_section_a0453dcf.o \
   $(OBJDIR)/envelope_section_a35a0a34.o \
   $(OBJDIR)/extra_mod_section_ea9c0745.o \
   $(OBJDIR)/feedback_section_56c0fe69.o \
@@ -472,6 +473,11 @@ $(OBJDIR)/articulation_section_a61395c5.o: ../../../src/editor_sections/articula
 $(OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delay_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/delete_section_a0453dcf.o: ../../../src/editor_sections/delete_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling delete_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/envelope_section_a35a0a34.o: ../../../src/editor_sections/envelope_section.cpp

@@ -66,6 +66,12 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addChildComponent(patch_browser_ = new PatchBrowser());
   patch_selector_->setBrowser(patch_browser_);
 
+  addChildComponent(save_section_ = new SaveSection("save_section"));
+  patch_browser_->setSaveSection(save_section_);
+
+  addChildComponent(delete_section_ = new DeleteSection("delete_section"));
+  patch_browser_->setDeleteSection(delete_section_);
+
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
 
@@ -79,6 +85,8 @@ FullInterface::~FullInterface() {
   beats_per_minute_ = nullptr;
   global_tool_tip_ = nullptr;
   patch_selector_ = nullptr;
+  save_section_ = nullptr;
+  delete_section_ = nullptr;
 }
 
 void FullInterface::paintBackground(Graphics& g) {
@@ -134,6 +142,8 @@ void FullInterface::resized() {
   global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
+  save_section_->setBounds(getBounds());
+  delete_section_->setBounds(getBounds());
   logo_button_->setBounds(18, 8, 64, 64);
 
   patch_browser_->setBounds(synthesis_interface_->getX() + 8.0f, synthesis_interface_->getY(),

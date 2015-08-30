@@ -19,6 +19,8 @@
 #define PATCH_BROWSER_H
 
 #include "JuceHeader.h"
+#include "delete_section.h"
+#include "save_section.h"
 #include "synth_section.h"
 
 class FileListBoxModel : public ListBoxModel {
@@ -82,6 +84,8 @@ class PatchBrowser : public Component,
     void loadPrevPatch();
 
     void setListener(PatchSelectedListener* listener) { listener_ = listener; }
+    void setSaveSection(SaveSection* save_section) { save_section_ = save_section; }
+    void setDeleteSection(DeleteSection* delete_section) { delete_section_ = delete_section; }
 
   private:
     void loadFromFile(File& patch);
@@ -102,6 +106,8 @@ class PatchBrowser : public Component,
     PatchSelectedListener* listener_;
     ScopedPointer<HyperlinkButton> license_link_;
 
+    SaveSection* save_section_;
+    DeleteSection* delete_section_;
     ScopedPointer<TextButton> save_as_button_;
     ScopedPointer<TextButton> delete_patch_button_;
     String current_author_;

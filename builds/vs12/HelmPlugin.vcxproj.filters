@@ -535,6 +535,9 @@
     <ClCompile Include="..\..\src\editor_sections\delay_section.cpp">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_sections\delete_section.cpp">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\envelope_section.cpp">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClCompile>
@@ -2116,6 +2119,9 @@
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\delay_section.h">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_sections\delete_section.h">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\envelope_section.h">

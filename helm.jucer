@@ -246,6 +246,10 @@
         <FILE id="CnOWyK" name="delay_section.cpp" compile="1" resource="0"
               file="src/editor_sections/delay_section.cpp"/>
         <FILE id="Y1r52Y" name="delay_section.h" compile="0" resource="0" file="src/editor_sections/delay_section.h"/>
+        <FILE id="CM7DLG" name="delete_section.cpp" compile="1" resource="0"
+              file="src/editor_sections/delete_section.cpp"/>
+        <FILE id="F0rzl3" name="delete_section.h" compile="0" resource="0"
+              file="src/editor_sections/delete_section.h"/>
         <FILE id="BGUSkC" name="envelope_section.cpp" compile="1" resource="0"
               file="src/editor_sections/envelope_section.cpp"/>
         <FILE id="iqtIWU" name="envelope_section.h" compile="0" resource="0"

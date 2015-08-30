@@ -71,6 +71,8 @@ class FullInterface : public SynthSection {
     ScopedPointer<TempoSelector> arp_sync_;
     ScopedPointer<PatchSelector> patch_selector_;
     ScopedPointer<PatchBrowser> patch_browser_;
+    ScopedPointer<SaveSection> save_section_;
+    ScopedPointer<DeleteSection> delete_section_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FullInterface)
 };
