@@ -16,9 +16,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.4.1</string>
+    <string>0.5.0</string>
     <key>CFBundleVersion</key>
-    <string>0.4.1</string>
+    <string>0.5.0</string>
     <key>NSHumanReadableCopyright</key>
     <string>Matt Tytel</string>
     <key>NSHighResolutionCapable</key>
