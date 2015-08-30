@@ -117,6 +117,8 @@ void FileListBoxModel::rescanFiles(const Array<File>& folders,
 PatchBrowser::PatchBrowser() : Component("patch_browser") {
   static Font search_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                             BinaryData::RobotoLight_ttfSize));
+  static Font license_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                             BinaryData::DroidSansMono_ttfSize));
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);
   Array<File> bank_locations;
@@ -167,6 +169,11 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   selectedFilesChanged(banks_model_);
   selectedFilesChanged(folders_model_);
 
+  license_link_ = new HyperlinkButton("CC-BY", URL("https://creativecommons.org/licenses/by/4.0/"));
+  license_link_->setFont(license_font.withPointHeight(12.0f), false, Justification::centredLeft);
+  license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
+  addAndMakeVisible(license_link_);
+
   addKeyListener(this);
 }
 
@@ -193,7 +200,7 @@ void PatchBrowser::paint(Graphics& g) {
   g.setColour(Colour(0xff888888));
 
   g.fillRect(BROWSE_PADDING + division + buffer / 2.0f, BROWSE_PADDING + 70.0f,
-             1.0f, 120.0f);
+             1.0f, 160.0f);
 
   g.drawText(TRANS("PATCH NAME"),
              BROWSE_PADDING, BROWSE_PADDING + 80.0f, division, 20.0f,
@@ -203,6 +210,9 @@ void PatchBrowser::paint(Graphics& g) {
              Justification::centredRight, false);
   g.drawText(TRANS("BANK"),
              BROWSE_PADDING, BROWSE_PADDING + 160.0f, division, 20.0f,
+             Justification::centredRight, false);
+  g.drawText(TRANS("LICENSE"),
+             BROWSE_PADDING, BROWSE_PADDING + 200.0f, division, 20.0f,
              Justification::centredRight, false);
 
   if (isPatchSelected()) {
@@ -235,6 +245,8 @@ void PatchBrowser::resized() {
 
   float search_box_width = 3.0f * getWidth() / 10.0f - BROWSE_PADDING - 24.0f;
   search_box_->setBounds(20.0f, 30.0f, search_box_width, 28.0f);
+  license_link_->setBounds(BROWSE_PADDING + 120.0f, BROWSE_PADDING + 200.0f,
+                           200.0f, 20.0f);
 }
 
 void PatchBrowser::visibilityChanged() {
@@ -242,6 +254,7 @@ void PatchBrowser::visibilityChanged() {
   if (isVisible()) {
     search_box_->setText("");
     search_box_->grabKeyboardFocus();
+    license_link_->setVisible(isPatchSelected());
   }
 }
 
@@ -318,6 +331,7 @@ void PatchBrowser::loadFromFile(File& patch) {
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     parent->loadFromVar(parsed_json_state);
+    license_link_->setVisible(true);
   }
 }
 

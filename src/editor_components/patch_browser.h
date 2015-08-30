@@ -97,6 +97,7 @@ class PatchBrowser : public Component,
     ScopedPointer<TextEditor> search_box_;
 
     PatchSelectedListener* listener_;
+    ScopedPointer<HyperlinkButton> license_link_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };
