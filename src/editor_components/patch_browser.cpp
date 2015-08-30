@@ -261,7 +261,9 @@ bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
 }
 
 bool PatchBrowser::keyStateChanged(bool isKeyDown, Component *origin) {
-  return search_box_->hasKeyboardFocus(true);
+  if (isKeyDown)
+    return search_box_->hasKeyboardFocus(true);
+  return false;
 }
 
 void PatchBrowser::mouseUp(const MouseEvent& e) {
