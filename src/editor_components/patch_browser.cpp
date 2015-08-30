@@ -115,6 +115,8 @@ void FileListBoxModel::rescanFiles(const Array<File>& folders,
 }
 
 PatchBrowser::PatchBrowser() : Component("patch_browser") {
+  static Font search_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
+                                                            BinaryData::RobotoLight_ttfSize));
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);
   Array<File> bank_locations;
@@ -151,7 +153,15 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   search_box_ = new TextEditor("Search");
   search_box_->addListener(this);
   search_box_->setSelectAllWhenFocused(true);
-  search_box_->setTextToShowWhenEmpty(TRANS("Search"), Colour(0xff888888));
+  search_box_->setTextToShowWhenEmpty(TRANS("Search"), Colour(0xffaaaaaa));
+  search_box_->setFont(search_font.withPointHeight(16.0f));
+  search_box_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
+  search_box_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
+  search_box_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
+  search_box_->setColour(TextEditor::highlightColourId, Colour(0xff888888));
+  search_box_->setColour(TextEditor::backgroundColourId, Colour(0xff323232));
+  search_box_->setColour(TextEditor::outlineColourId, Colour(0xff888888));
+  search_box_->setColour(TextEditor::focusedOutlineColourId, Colour(0xff888888));
   addAndMakeVisible(search_box_);
 
   selectedFilesChanged(banks_model_);
@@ -182,17 +192,17 @@ void PatchBrowser::paint(Graphics& g) {
   g.setFont(info_font.withPointHeight(14.0f));
   g.setColour(Colour(0xff888888));
 
-  g.fillRect(BROWSE_PADDING + division + buffer / 2.0f, BROWSE_PADDING + 30.0f,
+  g.fillRect(BROWSE_PADDING + division + buffer / 2.0f, BROWSE_PADDING + 70.0f,
              1.0f, 120.0f);
 
   g.drawText(TRANS("PATCH NAME"),
-             BROWSE_PADDING, BROWSE_PADDING + 40.0f, division, 20.0f,
-             Justification::centredRight, false);
-  g.drawText(TRANS("AUTHOR"),
              BROWSE_PADDING, BROWSE_PADDING + 80.0f, division, 20.0f,
              Justification::centredRight, false);
-  g.drawText(TRANS("BANK"),
+  g.drawText(TRANS("AUTHOR"),
              BROWSE_PADDING, BROWSE_PADDING + 120.0f, division, 20.0f,
+             Justification::centredRight, false);
+  g.drawText(TRANS("BANK"),
+             BROWSE_PADDING, BROWSE_PADDING + 160.0f, division, 20.0f,
              Justification::centredRight, false);
 
   if (isPatchSelected()) {
@@ -202,13 +212,13 @@ void PatchBrowser::paint(Graphics& g) {
     File selected_patch = getSelectedPatch();
     float data_width = width - division - buffer - 2.0f * BROWSE_PADDING;
     g.drawText(selected_patch.getFileNameWithoutExtension(),
-               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 40.0f, data_width, 20.0f,
-               Justification::centredLeft, true);
-    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
                BROWSE_PADDING + division + buffer, BROWSE_PADDING + 80.0f, data_width, 20.0f,
                Justification::centredLeft, true);
     g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
                BROWSE_PADDING + division + buffer, BROWSE_PADDING + 120.0f, data_width, 20.0f,
+               Justification::centredLeft, true);
+    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
+               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 160.0f, data_width, 20.0f,
                Justification::centredLeft, true);
   }
 }
@@ -223,7 +233,8 @@ void PatchBrowser::resized() {
   patches_view_->setBounds(start_x + 2.0f * (width1 + BROWSE_PADDING), BROWSE_PADDING,
                            width2, height);
 
-  search_box_->setBounds(20.0f, 20.0f, 200.0f, 30.0f);
+  float search_box_width = 3.0f * getWidth() / 10.0f - BROWSE_PADDING - 24.0f;
+  search_box_->setBounds(20.0f, 30.0f, search_box_width, 28.0f);
 }
 
 void PatchBrowser::visibilityChanged() {
