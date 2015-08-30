@@ -119,6 +119,9 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
                                                             BinaryData::RobotoLight_ttfSize));
   static Font license_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
                                                              BinaryData::DroidSansMono_ttfSize));
+
+  current_author_ = "";
+
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);
   Array<File> bank_locations;
@@ -173,6 +176,14 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   license_link_->setFont(license_font.withPointHeight(12.0f), false, Justification::centredLeft);
   license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(license_link_);
+
+  save_as_button_ = new TextButton(TRANS("Save As"));
+  save_as_button_->addListener(this);
+  addAndMakeVisible(save_as_button_);
+
+  delete_patch_button_ = new TextButton(TRANS("Delete Patch"));
+  delete_patch_button_->addListener(this);
+  addAndMakeVisible(delete_patch_button_);
 
   addKeyListener(this);
 }
@@ -247,6 +258,11 @@ void PatchBrowser::resized() {
   search_box_->setBounds(20.0f, 30.0f, search_box_width, 28.0f);
   license_link_->setBounds(BROWSE_PADDING + 120.0f, BROWSE_PADDING + 200.0f,
                            200.0f, 20.0f);
+
+  save_as_button_->setBounds(BROWSE_PADDING + 10.0f, height - 30.0f,
+                             width2 / 2.0f - 10.0f, 30.0f);
+  delete_patch_button_->setBounds(width2 / 2.0f + 10.0f + BROWSE_PADDING / 2.0f, height - 30.0f,
+                                  width2 / 2.0f - 10.0f, 30.0f);
 }
 
 void PatchBrowser::visibilityChanged() {
@@ -280,12 +296,21 @@ void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
   scanPatches();
 }
 
+void PatchBrowser::buttonClicked(Button* clicked_button) {
+  if (clicked_button == save_as_button_) {
+
+  }
+  else if (clicked_button == delete_patch_button_) {
+
+  }
+}
+
 bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
   return search_box_->hasKeyboardFocus(true);
 }
 
-bool PatchBrowser::keyStateChanged(bool isKeyDown, Component *origin) {
-  if (isKeyDown)
+bool PatchBrowser::keyStateChanged(bool is_key_down, Component *origin) {
+  if (is_key_down)
     return search_box_->hasKeyboardFocus(true);
   return false;
 }

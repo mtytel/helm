@@ -50,7 +50,8 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
   for (int i = 0; i < strlen(KEYBOARD); ++i) {
     int note = computer_keyboard_offset_ + i;
 
-    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && !keys_pressed_.count(KEYBOARD[i])) {
+    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) &&
+        !keys_pressed_.count(KEYBOARD[i]) && isKeyDown) {
       keys_pressed_.insert(KEYBOARD[i]);
       synth_->noteOn(note);
     }

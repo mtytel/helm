@@ -176,7 +176,6 @@
     <ClCompile Include="..\..\..\src\editor_components\modulation_meter.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\oscilloscope.cpp"/>
-    <ClCompile Include="..\..\..\src\editor_components\patch_browser.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\patch_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\retrigger_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp"/>
@@ -198,7 +197,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\modulation_manager.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\noise_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\patch_browser.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\reverb_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\save_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\step_sequencer_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\stutter_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\sub_section.cpp"/>
@@ -1414,7 +1415,6 @@
     <ClInclude Include="..\..\..\src\editor_components\modulation_meter.h"/>
     <ClInclude Include="..\..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\oscilloscope.h"/>
-    <ClInclude Include="..\..\..\src\editor_components\patch_browser.h"/>
     <ClInclude Include="..\..\..\src\editor_components\patch_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\retrigger_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h"/>
@@ -1436,7 +1436,9 @@
     <ClInclude Include="..\..\..\src\editor_sections\modulation_manager.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\noise_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\patch_browser.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\reverb_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\save_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\step_sequencer_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\stutter_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\sub_section.h"/>

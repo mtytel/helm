@@ -51,7 +51,8 @@ class FileListBoxModel : public ListBoxModel {
 class PatchBrowser : public Component,
                      public FileListBoxModel::FileListBoxModelListener,
                      public TextEditor::Listener,
-                     public KeyListener {
+                     public KeyListener,
+                     public ButtonListener {
   public:
     class PatchSelectedListener {
       public:
@@ -67,11 +68,13 @@ class PatchBrowser : public Component,
     void resized() override;
     void mouseUp(const MouseEvent& e) override;
     bool keyPressed(const KeyPress &key, Component *origin) override;
-    bool keyStateChanged(bool isKeyDown, Component *origin) override;
+    bool keyStateChanged(bool is_key_down, Component *origin) override;
     void visibilityChanged() override;
 
     void selectedFilesChanged(FileListBoxModel* model) override;
     void textEditorTextChanged(TextEditor& editor) override;
+
+    void buttonClicked(Button* clicked_button) override;
 
     bool isPatchSelected() { return patches_view_->getSelectedRows().size(); }
     File getSelectedPatch();
@@ -98,6 +101,10 @@ class PatchBrowser : public Component,
 
     PatchSelectedListener* listener_;
     ScopedPointer<HyperlinkButton> license_link_;
+
+    ScopedPointer<TextButton> save_as_button_;
+    ScopedPointer<TextButton> delete_patch_button_;
+    String current_author_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };

@@ -502,9 +502,6 @@
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\editor_components\patch_browser.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\patch_selector.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
@@ -568,7 +565,13 @@
     <ClCompile Include="..\..\src\editor_sections\oscillator_section.cpp">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_sections\patch_browser.cpp">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\reverb_section.cpp">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\editor_sections\save_section.cpp">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\step_sequencer_section.cpp">
@@ -2082,9 +2085,6 @@
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\editor_components\patch_browser.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\patch_selector.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
@@ -2148,7 +2148,13 @@
     <ClInclude Include="..\..\src\editor_sections\oscillator_section.h">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\editor_sections\patch_browser.h">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\reverb_section.h">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_sections\save_section.h">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\step_sequencer_section.h">
