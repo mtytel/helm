@@ -64,6 +64,8 @@ class PatchBrowser : public Component,
     void loadFromFile(File& patch);
     void scanFolders();
     void scanPatches();
+    float getNarrowWidth();
+    float getWideWidth();
 
     ScopedPointer<ListBox> banks_view_;
     ScopedPointer<FileListBoxModel> banks_model_;

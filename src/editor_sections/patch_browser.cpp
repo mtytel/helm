@@ -20,6 +20,7 @@
 #include "load_save.h"
 #include "patch_browser.h"
 
+#define WIDTH1_PERCENT 0.2
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
@@ -155,68 +156,79 @@ void PatchBrowser::paint(Graphics& g) {
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 
   g.setColour(Colour(0xff212121));
-  g.fillRect(8.0f, 8.0f, 3.0f * getWidth() / 10.0f - BROWSE_PADDING, BROWSING_HEIGHT - 16.0f);
-
-  float width = 3.0f * getWidth() / 10.0f + BROWSE_PADDING;
-  float division = 100.0f;
-  float buffer = 20.0f;
-
-  g.setFont(info_font.withPointHeight(14.0f));
-  g.setColour(Colour(0xff888888));
-
-  g.fillRect(BROWSE_PADDING + division + buffer / 2.0f, BROWSE_PADDING + 70.0f,
-             1.0f, 160.0f);
-
-  g.drawText(TRANS("PATCH NAME"),
-             BROWSE_PADDING, BROWSE_PADDING + 80.0f, division, 20.0f,
-             Justification::centredRight, false);
-  g.drawText(TRANS("AUTHOR"),
-             BROWSE_PADDING, BROWSE_PADDING + 120.0f, division, 20.0f,
-             Justification::centredRight, false);
-  g.drawText(TRANS("BANK"),
-             BROWSE_PADDING, BROWSE_PADDING + 160.0f, division, 20.0f,
-             Justification::centredRight, false);
-  g.drawText(TRANS("LICENSE"),
-             BROWSE_PADDING, BROWSE_PADDING + 200.0f, division, 20.0f,
-             Justification::centredRight, false);
+  float info_width = getWideWidth();
+  g.fillRect(getWidth() - info_width - BROWSE_PADDING, BROWSE_PADDING,
+             info_width, BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
 
   if (isPatchSelected()) {
-    g.setFont(data_font.withPointHeight(12.0f));
+    float data_x = BROWSE_PADDING + 2.0f * getNarrowWidth() + getWideWidth() + 3.0f * BROWSE_PADDING;
+    float division = 90.0f;
+    float buffer = 20.0f;
+
+    g.setFont(info_font.withPointHeight(14.0f));
+    g.setColour(Colour(0xff888888));
+
+    g.fillRect(data_x + division + buffer / 2.0f, BROWSE_PADDING + 70.0f,
+               1.0f, 120.0f);
+
+    g.drawText(TRANS("AUTHOR"),
+               data_x, BROWSE_PADDING + 80.0f, division, 20.0f,
+               Justification::centredRight, false);
+    g.drawText(TRANS("BANK"),
+               data_x, BROWSE_PADDING + 120.0f, division, 20.0f,
+               Justification::centredRight, false);
+    g.drawText(TRANS("LICENSE"),
+               data_x, BROWSE_PADDING + 160.0f, division, 20.0f,
+               Justification::centredRight, false);
+    
+    g.setFont(data_font.withPointHeight(16.0f));
     g.setColour(Colour(0xff03a9f4));
 
     File selected_patch = getSelectedPatch();
-    float data_width = width - division - buffer - 2.0f * BROWSE_PADDING;
-    g.drawText(selected_patch.getFileNameWithoutExtension(),
-               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 80.0f, data_width, 20.0f,
+    g.drawFittedText(selected_patch.getFileNameWithoutExtension(),
+                     data_x + 2.0f * BROWSE_PADDING, 2.0f * BROWSE_PADDING,
+                     info_width - 2.0f * BROWSE_PADDING, 20.0f,
+                     Justification::centred, true);
+
+    g.setFont(data_font.withPointHeight(12.0f));
+    g.setColour(Colour(0xffbbbbbb));
+
+    float data_width = info_width - division - buffer - 2.0f * BROWSE_PADDING;
+    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
+               data_x + division + buffer, BROWSE_PADDING + 80.0f, data_width, 20.0f,
                Justification::centredLeft, true);
     g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
-               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 120.0f, data_width, 20.0f,
-               Justification::centredLeft, true);
-    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
-               BROWSE_PADDING + division + buffer, BROWSE_PADDING + 160.0f, data_width, 20.0f,
+               data_x + division + buffer, BROWSE_PADDING + 120.0f, data_width, 20.0f,
                Justification::centredLeft, true);
   }
 }
 
 void PatchBrowser::resized() {
-  float start_x = 3.0f * getWidth() / 10.0f + BROWSE_PADDING;
-  float width1 = 2.0f * (getWidth() - start_x) / 7.0f - BROWSE_PADDING;
-  float width2 = 3.0f * (getWidth() - start_x) / 7.0f - BROWSE_PADDING;
+  float start_x = BROWSE_PADDING;
+  float width1 = getNarrowWidth();
+  float width2 = getWideWidth();
   float height = BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
+  float search_box_height = 28.0f;
+
   banks_view_->setBounds(start_x, BROWSE_PADDING, width1, height);
   folders_view_->setBounds(start_x + width1 + BROWSE_PADDING, BROWSE_PADDING, width1, height);
-  patches_view_->setBounds(start_x + 2.0f * (width1 + BROWSE_PADDING), BROWSE_PADDING,
-                           width2, height);
 
-  float search_box_width = 3.0f * getWidth() / 10.0f - BROWSE_PADDING - 24.0f;
-  search_box_->setBounds(20.0f, 30.0f, search_box_width, 28.0f);
-  license_link_->setBounds(BROWSE_PADDING + 120.0f, BROWSE_PADDING + 200.0f,
+  float patches_x = start_x + 2.0f * (width1 + BROWSE_PADDING);
+  search_box_->setBounds(patches_x, BROWSE_PADDING, width2, search_box_height);
+  patches_view_->setBounds(patches_x, search_box_height + BROWSE_PADDING,
+                           width2, height - search_box_height);
+
+  float data_x = start_x + 2.0f * width1 + width2 + 3.0f * BROWSE_PADDING;
+  float data_widget_buffer_x = 12.0f;
+  license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
                            200.0f, 20.0f);
 
-  save_as_button_->setBounds(BROWSE_PADDING + 10.0f, height - 30.0f,
-                             width2 / 2.0f - 10.0f, 30.0f);
-  delete_patch_button_->setBounds(width2 / 2.0f + 10.0f + BROWSE_PADDING / 2.0f, height - 30.0f,
-                                  width2 / 2.0f - 10.0f, 30.0f);
+  float button_width = (width2 - 3.0f * data_widget_buffer_x) / 2.0f;
+  save_as_button_->setBounds(data_x + data_widget_buffer_x, height - 30.0f,
+                             button_width, 30.0f);
+  delete_patch_button_->setBounds(data_x + button_width + 2.0f * data_widget_buffer_x,
+                                  height - 30.0f,
+                                  button_width, 30.0f);
 }
 
 void PatchBrowser::visibilityChanged() {
@@ -242,6 +254,8 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
       if (listener_)
         listener_->newPatchSelected(patch);
     }
+    else
+      license_link_->setVisible(false);
     repaint();
   }
 }
@@ -329,4 +343,12 @@ void PatchBrowser::scanPatches() {
   patches_model_->rescanFiles(folders, search, true);
   patches_view_->updateContent();
   setSelectedRows(patches_view_, patches_model_, patches_selected);
+}
+
+float PatchBrowser::getNarrowWidth() {
+  return (getWidth() - 5.0f * BROWSE_PADDING) * WIDTH1_PERCENT;
+}
+
+float PatchBrowser::getWideWidth() {
+  return (getWidth() - 5.0f * BROWSE_PADDING) * (0.5f - WIDTH1_PERCENT);
 }
