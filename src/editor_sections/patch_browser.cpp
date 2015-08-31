@@ -112,7 +112,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   search_box_ = new TextEditor("Search");
   search_box_->addListener(this);
   search_box_->setSelectAllWhenFocused(true);
-  search_box_->setTextToShowWhenEmpty(TRANS("Search"), Colour(0xffaaaaaa));
+  search_box_->setTextToShowWhenEmpty(TRANS("Search"), Colour(0xff777777));
   search_box_->setFont(search_font.withPointHeight(16.0f));
   search_box_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   search_box_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
