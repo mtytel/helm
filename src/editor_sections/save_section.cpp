@@ -20,7 +20,7 @@
 #include "text_look_and_feel.h"
 
 #define SAVE_WIDTH 450
-#define SAVE_HEIGHT 160
+#define SAVE_HEIGHT 230
 #define PADDING_X 25
 #define PADDING_Y 15
 
@@ -33,6 +33,7 @@ SaveSection::SaveSection(String name) : Component(name) {
 
   folders_view_ = new ListBox("folders", folders_model_);
   folders_view_->updateContent();
+  folders_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
   addAndMakeVisible(folders_view_);
 }
 
@@ -43,19 +44,24 @@ void SaveSection::paint(Graphics& g) {
                                                              BinaryData::RobotoLight_ttfSize));
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
-  g.setColour(Colour(0xbb212121));
+  g.setColour(Colour(0xbb111111));
   g.fillAll();
 
   Rectangle<int> save_rect = getSaveRect();
   shadow.drawForRectangle(g, save_rect);
-  g.setColour(Colour(0xff303030));
+  g.setColour(Colour(0xff212121));
   g.fillRect(save_rect);
 
   g.saveState();
   g.setOrigin(save_rect.getX() + PADDING_X, save_rect.getY() + PADDING_Y);
+
+  g.restoreState();
 }
 
 void SaveSection::resized() {
+  Rectangle<int> save_rect = getSaveRect();
+  folders_view_->setBounds(save_rect.getX() + PADDING_X, save_rect.getY() + PADDING_Y,
+                           140.0f, 200.0f);
 }
 
 void SaveSection::mouseUp(const MouseEvent &e) {
