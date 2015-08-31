@@ -19,6 +19,7 @@
 #define SAVE_SECTION_H
 
 #include "JuceHeader.h"
+#include "file_list_box_model.h"
 
 class SaveSection : public Component {
   public:
@@ -32,6 +33,12 @@ class SaveSection : public Component {
     void mouseUp(const MouseEvent& e) override;
 
   private:
+    ScopedPointer<TextEditor> patch_name_;
+    ScopedPointer<TextEditor> author_;
+
+    ScopedPointer<ListBox> folders_view_;
+    ScopedPointer<FileListBoxModel> folders_model_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SaveSection)
 };
 

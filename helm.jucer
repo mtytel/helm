@@ -162,6 +162,10 @@
     </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="src">
       <GROUP id="{DE787BB4-594A-AA21-F217-66E56838C81E}" name="common">
+        <FILE id="JJu7K4" name="file_list_box_model.cpp" compile="1" resource="0"
+              file="src/common/file_list_box_model.cpp"/>
+        <FILE id="hLinOI" name="file_list_box_model.h" compile="0" resource="0"
+              file="src/common/file_list_box_model.h"/>
         <FILE id="oj1At5" name="helm_common.cpp" compile="1" resource="0" file="src/common/helm_common.cpp"/>
         <FILE id="GA3RDN" name="helm_common.h" compile="0" resource="0" file="src/common/helm_common.h"/>
         <FILE id="qMTggO" name="load_save.cpp" compile="1" resource="0" file="src/common/load_save.cpp"/>

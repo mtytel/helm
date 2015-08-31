@@ -83,6 +83,7 @@ OBJECTS := \
   $(OBJDIR)/value_76b325dc.o \
   $(OBJDIR)/voice_handler_49cbc5a8.o \
   $(OBJDIR)/wave_9cd47038.o \
+  $(OBJDIR)/file_list_box_model_85bc4022.o \
   $(OBJDIR)/helm_common_ef933337.o \
   $(OBJDIR)/load_save_2c95b2e1.o \
   $(OBJDIR)/midi_manager_80d96a0e.o \
@@ -348,6 +349,11 @@ $(OBJDIR)/voice_handler_49cbc5a8.o: ../../../mopo/src/voice_handler.cpp
 $(OBJDIR)/wave_9cd47038.o: ../../../mopo/src/wave.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/file_list_box_model_85bc4022.o: ../../../src/common/file_list_box_model.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling file_list_box_model.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_common_ef933337.o: ../../../src/common/helm_common.cpp

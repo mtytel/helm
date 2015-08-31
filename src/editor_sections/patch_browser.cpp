@@ -65,55 +65,6 @@ namespace {
   }
 } // namespace
 
-int FileListBoxModel::getNumRows() {
-  return files_.size();
-}
-
-void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
-                                        int width, int height, bool selected) {
-  static Font list_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                          BinaryData::DroidSansMono_ttfSize));
-  g.fillAll(Colour(0xff323232));
-  g.setColour(Colour(0xffdddddd));
-  if (selected) {
-    g.fillAll(Colour(0xff212121));
-    g.setColour(Colour(0xff03a9f4));
-  }
-
-  g.setFont(list_font.withPointHeight(12.0f));
-  g.drawText(files_[row_number].getFileName(),
-             5, 0, width, height,
-             Justification::centredLeft, true);
-
-  g.setColour(Colour(0x88000000));
-  g.fillRect(0.0f, height - 1.0f, 1.0f * width, 1.0f);
-}
-
-void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
-  if (listener_)
-    listener_->selectedFilesChanged(this);
-}
-
-void FileListBoxModel::rescanFiles(const Array<File>& folders,
-                                   String search,
-                                   bool find_files) {
-  static const FileSorterAscending file_sorter;
-  files_.clear();
-
-  for (File folder : folders) {
-    if (folder.isDirectory()) {
-      Array<File> child_folders;
-      if (find_files)
-        folder.findChildFiles(child_folders, File::findFiles, false, search);
-      else
-        folder.findChildFiles(child_folders, File::findDirectories, false);
-      files_.addArray(child_folders);
-    }
-  }
-
-  files_.sort(file_sorter);
-}
-
 PatchBrowser::PatchBrowser() : Component("patch_browser") {
   static Font search_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                             BinaryData::RobotoLight_ttfSize));
@@ -128,7 +79,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);
   Array<File> bank_locations;
-  File bank_dir = LoadSave::getSystemPatchDirectory();
+  File bank_dir = LoadSave::getBankDirectory();
   bank_locations.add(bank_dir);
   banks_model_->rescanFiles(bank_locations);
 

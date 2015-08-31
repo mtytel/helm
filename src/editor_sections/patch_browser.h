@@ -20,35 +20,8 @@
 
 #include "JuceHeader.h"
 #include "delete_section.h"
+#include "file_list_box_model.h"
 #include "save_section.h"
-#include "synth_section.h"
-
-class FileListBoxModel : public ListBoxModel {
-  public:
-    class FileListBoxModelListener {
-      public:
-        virtual ~FileListBoxModelListener() { }
-
-        virtual void selectedFilesChanged(FileListBoxModel* model) = 0;
-    };
-
-    FileListBoxModel() : listener_(nullptr), sort_ascending_(true) { }
-
-    int getNumRows() override;
-    void paintListBoxItem(int row_number, Graphics& g,
-                          int width, int height, bool selected) override;
-    void selectedRowsChanged(int last_selected_row) override;
-
-    void rescanFiles(const Array<File>& folders, String search = "*", bool find_files = false);
-    File getFileAtRow(int row) { return files_[row]; }
-    void setListener(FileListBoxModelListener* listener) { listener_ = listener; }
-    Array<File> getAllFiles() { return files_; }
-
-  private:
-    Array<File> files_;
-    FileListBoxModelListener* listener_;
-    bool sort_ascending_;
-};
 
 class PatchBrowser : public Component,
                      public FileListBoxModel::FileListBoxModelListener,

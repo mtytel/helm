@@ -101,7 +101,7 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
 
   if (clicked_button == save_) {
     int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-    FileBrowserComponent browser(flags, LoadSave::getUserPatchDirectory(), nullptr, nullptr);
+    FileBrowserComponent browser(flags, LoadSave::getUserBankDirectory(), nullptr, nullptr);
     FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
     if (save_dialog.show()) {
       SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();

@@ -463,6 +463,9 @@
     <ClCompile Include="..\..\mopo\src\wave.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\common\file_list_box_model.cpp">
+      <Filter>HelmPlugin\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\common\helm_common.cpp">
       <Filter>HelmPlugin\src\common</Filter>
     </ClCompile>
@@ -2048,6 +2051,9 @@
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
       <Filter>HelmPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common\file_list_box_model.h">
+      <Filter>HelmPlugin\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\helm_common.h">
       <Filter>HelmPlugin\src\common</Filter>

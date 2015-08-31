@@ -16,6 +16,7 @@
 
 #include "save_section.h"
 #include "helm_common.h"
+#include "load_save.h"
 #include "text_look_and_feel.h"
 
 #define SAVE_WIDTH 450
@@ -24,6 +25,15 @@
 #define PADDING_Y 15
 
 SaveSection::SaveSection(String name) : Component(name) {
+  folders_model_ = new FileListBoxModel();
+  Array<File> folder_locations;
+  File bank_dir = LoadSave::getUserBankDirectory();
+  folder_locations.add(bank_dir);
+  folders_model_->rescanFiles(folder_locations);
+
+  folders_view_ = new ListBox("folders", folders_model_);
+  folders_view_->updateContent();
+  addAndMakeVisible(folders_view_);
 }
 
 void SaveSection::paint(Graphics& g) {

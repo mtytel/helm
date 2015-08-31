@@ -16,8 +16,9 @@
 
 #include "load_save.h"
 
-#define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
-#define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
+#define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
+#define USER_BANK_NAME "User Patches"
+#define LINUX_BANK_DIRECTORY "~/.helm/patches"
 
 namespace {
 
@@ -91,10 +92,10 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
   }
 }
 
-File LoadSave::getSystemPatchDirectory() {
+File LoadSave::getFactoryBankDirectory() {
   File patch_dir = File("");
 #ifdef LINUX
-  patch_dir = File(LINUX_SYSTEM_PATCH_DIRECTORY);
+  patch_dir = File(LINUX_FACTORY_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
   File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
@@ -108,19 +109,28 @@ File LoadSave::getSystemPatchDirectory() {
   return patch_dir;
 }
 
-File LoadSave::getUserPatchDirectory() {
+File LoadSave::getBankDirectory() {
   File patch_dir = File("");
 #ifdef LINUX
-  patch_dir = File(LINUX_USER_PATCH_DIRECTORY);
+  patch_dir = File(LINUX_BANK_DIRECTORY);
 #elif defined(__APPLE__)
   File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
-  patch_dir = data_dir.getChildFile("Helm/UserPatches");
+  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory);
+  patch_dir = data_dir.getChildFile("Helm/patches");
 #endif
 
   if (!patch_dir.exists())
     patch_dir.createDirectory();
   return patch_dir;
+}
+
+File LoadSave::getUserBankDirectory() {
+  File bank_dir = getBankDirectory();
+  File folder_dir = bank_dir.getChildFile(USER_BANK_NAME);
+
+  if (!folder_dir.exists())
+    folder_dir.createDirectory();
+  return folder_dir;
 }

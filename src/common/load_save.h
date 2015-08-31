@@ -48,9 +48,10 @@ class LoadSave {
                            const CriticalSection& critical_section,
                            var state);
 
-    static File getSystemPatchDirectory();
+    static File getFactoryBankDirectory();
 
-    static File getUserPatchDirectory();
+    static File getBankDirectory();
+    static File getUserBankDirectory();
 };
 
 #endif  // LOAD_SAVE_H
