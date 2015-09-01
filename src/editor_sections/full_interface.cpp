@@ -68,6 +68,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   addChildComponent(save_section_ = new SaveSection("save_section"));
   patch_browser_->setSaveSection(save_section_);
+  patch_selector_->setSaveSection(save_section_);
 
   addChildComponent(delete_section_ = new DeleteSection("delete_section"));
   patch_browser_->setDeleteSection(delete_section_);

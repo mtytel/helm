@@ -21,7 +21,8 @@
 
 #define TEXT_PADDING 4.0f
 
-PatchSelector::PatchSelector() : SynthSection("patch_selector"), browser_(nullptr) {
+PatchSelector::PatchSelector() : SynthSection("patch_selector"),
+                                 browser_(nullptr), save_section_(nullptr) {
   setLookAndFeel(BrowserLookAndFeel::instance());
 
   addButton(prev_patch_ = new TextButton("prev_patch"));
@@ -99,18 +100,8 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
   if (browser_ == nullptr)
     return;
 
-  if (clicked_button == save_) {
-    int flags = FileBrowserComponent::canSelectFiles | FileBrowserComponent::saveMode;
-    FileBrowserComponent browser(flags, LoadSave::getUserBankDirectory(), nullptr, nullptr);
-    FileChooserDialogBox save_dialog("save patch", "save", browser, true, Colours::white);
-    if (save_dialog.show()) {
-      SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-      File save_file = browser.getSelectedFile(0);
-      if (save_file.getFileExtension() != mopo::PATCH_EXTENSION)
-        save_file = save_file.withFileExtension(String(mopo::PATCH_EXTENSION));
-      save_file.replaceWithText(JSON::toString(parent->saveToVar()));
-    }
-  }
+  if (clicked_button == save_ && save_section_)
+    save_section_->setVisible(true);
   else if (clicked_button == browse_)
     browser_->setVisible(!browser_->isVisible());
   else if (clicked_button == prev_patch_)

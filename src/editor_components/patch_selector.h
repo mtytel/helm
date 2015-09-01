@@ -31,6 +31,7 @@ class PatchSelector : public SynthSection, public PatchBrowser::PatchSelectedLis
     void resized() override;
     void buttonClicked(Button* buttonThatWasClicked) override;
     void newPatchSelected(File patch) override;
+    void setSaveSection(SaveSection* save_section) { save_section_ = save_section; }
     void setBrowser(PatchBrowser* browser) {
       browser_ = browser;
       browser_->setListener(this);
@@ -47,6 +48,7 @@ class PatchSelector : public SynthSection, public PatchBrowser::PatchSelectedLis
     ScopedPointer<TextButton> save_;
     ScopedPointer<TextButton> browse_;
     PatchBrowser* browser_;
+    SaveSection* save_section_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchSelector)
 };
