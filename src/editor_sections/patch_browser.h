@@ -24,10 +24,11 @@
 #include "save_section.h"
 
 class PatchBrowser : public Component,
-                     public FileListBoxModel::FileListBoxModelListener,
+                     public FileListBoxModel::Listener,
                      public TextEditor::Listener,
                      public KeyListener,
-                     public ButtonListener {
+                     public ButtonListener,
+                     public SaveSection::Listener {
   public:
     class PatchSelectedListener {
       public:
@@ -49,6 +50,8 @@ class PatchBrowser : public Component,
     void selectedFilesChanged(FileListBoxModel* model) override;
     void textEditorTextChanged(TextEditor& editor) override;
 
+    void fileSaved(File save_file) override;
+
     void buttonClicked(Button* clicked_button) override;
 
     bool isPatchSelected() { return patches_view_->getSelectedRows().size(); }
@@ -57,7 +60,7 @@ class PatchBrowser : public Component,
     void loadPrevPatch();
 
     void setListener(PatchSelectedListener* listener) { listener_ = listener; }
-    void setSaveSection(SaveSection* save_section) { save_section_ = save_section; }
+    void setSaveSection(SaveSection* save_section);
     void setDeleteSection(DeleteSection* delete_section) { delete_section_ = delete_section; }
 
   private:
@@ -85,7 +88,6 @@ class PatchBrowser : public Component,
     DeleteSection* delete_section_;
     ScopedPointer<TextButton> save_as_button_;
     ScopedPointer<TextButton> delete_patch_button_;
-    String current_author_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };

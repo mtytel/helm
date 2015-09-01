@@ -22,9 +22,9 @@
 
 class FileListBoxModel : public ListBoxModel {
   public:
-    class FileListBoxModelListener {
+    class Listener {
       public:
-        virtual ~FileListBoxModelListener() { }
+        virtual ~Listener() { }
 
         virtual void selectedFilesChanged(FileListBoxModel* model) = 0;
     };
@@ -38,12 +38,13 @@ class FileListBoxModel : public ListBoxModel {
 
     void rescanFiles(const Array<File>& folders, String search = "*", bool find_files = false);
     File getFileAtRow(int row) { return files_[row]; }
-    void setListener(FileListBoxModelListener* listener) { listener_ = listener; }
+    int getIndexOfFile(File file) { return files_.indexOf(file); }
+    void setListener(Listener* listener) { listener_ = listener; }
     Array<File> getAllFiles() { return files_; }
 
   private:
     Array<File> files_;
-    FileListBoxModelListener* listener_;
+    Listener* listener_;
     bool sort_ascending_;
 };
 

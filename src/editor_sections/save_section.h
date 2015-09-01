@@ -21,23 +21,45 @@
 #include "JuceHeader.h"
 #include "file_list_box_model.h"
 
-class SaveSection : public Component {
+class SaveSection : public Component, public TextEditor::Listener, public ButtonListener {
   public:
+    class Listener {
+    public:
+      virtual ~Listener() { }
+
+      virtual void fileSaved(File save_file) = 0;
+    };
+
     SaveSection(String name);
     ~SaveSection() { }
     void paint(Graphics& g) override;
     void resized() override;
+    void visibilityChanged() override;
 
-    Rectangle<int> getSaveRect();
-
+    void textEditorReturnKeyPressed(TextEditor& editor) override;
+    void buttonClicked(Button* clicked_button) override;
     void mouseUp(const MouseEvent& e) override;
 
+    Rectangle<int> getSaveRect();
+    void setSaveRect(Rectangle<int> rectangle) { active_rect_ = rectangle; }
+
+    void setListener(Listener* listener) { listener_ = listener; }
+
   private:
+    void save();
+
     ScopedPointer<TextEditor> patch_name_;
     ScopedPointer<TextEditor> author_;
 
     ScopedPointer<ListBox> folders_view_;
     ScopedPointer<FileListBoxModel> folders_model_;
+
+    ScopedPointer<TextButton> save_button_;
+    ScopedPointer<TextButton> cancel_button_;
+
+    Rectangle<int> active_rect_;
+
+    Listener* listener_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SaveSection)
 };

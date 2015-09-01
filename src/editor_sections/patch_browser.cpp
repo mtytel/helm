@@ -71,8 +71,6 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
                                                             BinaryData::RobotoLight_ttfSize));
   static Font license_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
                                                              BinaryData::DroidSansMono_ttfSize));
-
-  current_author_ = "";
   listener_ = nullptr;
   save_section_ = nullptr;
   delete_section_ = nullptr;
@@ -157,8 +155,9 @@ void PatchBrowser::paint(Graphics& g) {
 
   g.setColour(Colour(0xff212121));
   float info_width = getWideWidth();
-  g.fillRect(getWidth() - info_width - BROWSE_PADDING, BROWSE_PADDING,
-             info_width, BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
+  Rectangle<int> data_rect(getWidth() - info_width - BROWSE_PADDING, BROWSE_PADDING,
+                           info_width, BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
+  g.fillRect(data_rect);
 
   if (isPatchSelected()) {
     float data_x = BROWSE_PADDING + 2.0f * getNarrowWidth() + getWideWidth() + 3.0f * BROWSE_PADDING;
@@ -264,6 +263,12 @@ void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
   scanPatches();
 }
 
+void PatchBrowser::fileSaved(File save_file) {
+  scanPatches();
+  int index = patches_model_->getIndexOfFile(save_file);
+  patches_view_->selectRow(index);
+}
+
 void PatchBrowser::buttonClicked(Button* clicked_button) {
   if (clicked_button == save_as_button_ && save_section_)
     save_section_->setVisible(true);
@@ -324,6 +329,11 @@ void PatchBrowser::loadFromFile(File& patch) {
     parent->loadFromVar(parsed_json_state);
     license_link_->setVisible(true);
   }
+}
+
+void PatchBrowser::setSaveSection(SaveSection* save_section) {
+  save_section_ = save_section;
+  save_section_->setListener(this);
 }
 
 void PatchBrowser::scanFolders() {

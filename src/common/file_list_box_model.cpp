@@ -28,7 +28,7 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
   g.fillAll(Colour(0xff323232));
   g.setColour(Colour(0xffdddddd));
   if (selected) {
-    g.fillAll(Colour(0xff212121));
+    g.fillAll(Colour(0xff444444));
     g.setColour(Colour(0xff03a9f4));
   }
 
