@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="3.2.0"
+              pluginAAXCategory="AAX_ePlugInCategory_SWGenerators" jucerVersion="3.2.0"
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
               companyWebsite="tytel.org">
   <MAINGROUP id="OwcEM5" name="HelmPlugin">

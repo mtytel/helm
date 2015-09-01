@@ -19,6 +19,8 @@
 
 // (You can add your own code in this section, and the Introjucer will not overwrite it)
 
+#define JucePlugin_PreferredChannelConfigurations_AAX {1, 1}, {2, 2}
+
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
@@ -329,7 +331,7 @@
  #define JucePlugin_AAXProductId           JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AAXCategory
- #define JucePlugin_AAXCategory            AAX_ePlugInCategory_Dynamics
+ #define JucePlugin_AAXCategory            AAX_ePlugInCategory_SWGenerators
 #endif
 #ifndef  JucePlugin_AAXDisableBypass
  #define JucePlugin_AAXDisableBypass       0
