@@ -208,6 +208,30 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                   button.getWidth() - 2 * hover_padding, button.getHeight() - 2 * hover_padding);  }
 }
 
+void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
+                                              const Colour &backgroundColour,
+                                              bool isMouseOverButton,
+                                              bool isButtonDown) {
+  g.fillAll(Colour(0xff323232));
+  g.setColour(Colour(0xff505050));
+  g.drawRect(button.getLocalBounds());
+
+  if (isButtonDown)
+    g.fillAll(Colour(0x11000000));
+  else if (isMouseOverButton)
+    g.fillAll(Colour(0x11ffffff));
+}
+
+void DefaultLookAndFeel::drawButtonText(Graphics& g, TextButton& button,
+                                        bool isMouseOverButton, bool isButtonDown) {
+  static Font roboto_regular(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
+                                                               BinaryData::RobotoRegular_ttfSize));
+
+  g.setFont(roboto_regular.withPointHeight(14.0f));
+  g.setColour(Colour(0xffaaaaaa));
+  g.drawText(button.getName(), button.getLocalBounds(), Justification::centred, false);
+}
+
 void DefaultLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
   float x = std::min(x1, x2);
   float width = fabsf(x1 - x2);

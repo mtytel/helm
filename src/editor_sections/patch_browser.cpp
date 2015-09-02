@@ -185,7 +185,7 @@ void PatchBrowser::paint(Graphics& g) {
 
     File selected_patch = getSelectedPatch();
     g.drawFittedText(selected_patch.getFileNameWithoutExtension(),
-                     data_x + 2.0f * BROWSE_PADDING, 2.0f * BROWSE_PADDING,
+                     data_x + 2.0f * BROWSE_PADDING, 4.0f * BROWSE_PADDING,
                      info_width - 2.0f * BROWSE_PADDING, 20.0f,
                      Justification::centred, true);
 
