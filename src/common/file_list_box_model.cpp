@@ -59,9 +59,9 @@ void FileListBoxModel::rescanFiles(const Array<File>& folders,
         folder.findChildFiles(child_folders, File::findFiles, false, search);
       else
         folder.findChildFiles(child_folders, File::findDirectories, false);
+
+      child_folders.sort(file_sorter);
       files_.addArray(child_folders);
     }
   }
-
-  files_.sort(file_sorter);
 }

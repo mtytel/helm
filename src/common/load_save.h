@@ -21,22 +21,19 @@
 
 #include "helm_engine.h"
 
+
 class FileSorterAscending {
-  public:
-    FileSorterAscending() { }
+public:
+  FileSorterAscending() { }
 
-    static int compareElements(File a, File b) {
-      return a.getFullPathName().toLowerCase().compare(b.getFullPathName().toLowerCase());
-    }
-};
+  static int compareElements(File a, File b) {
+    if (a.getFileName() == "Factory Presets")
+      return -1;
+    else if (b.getFileName() == "Factory Presets")
+      return 1;
 
-class FileSorterDescending {
-  public:
-    FileSorterDescending() { }
-
-    static int compareElements(File a, File b) {
-      return b.getFullPathName().toLowerCase().compare(a.getFullPathName().toLowerCase());
-    }
+    return a.getFullPathName().toLowerCase().compare(b.getFullPathName().toLowerCase());
+  }
 };
 
 class LoadSave {
