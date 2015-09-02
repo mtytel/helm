@@ -24,10 +24,10 @@
 class SaveSection : public Component, public TextEditor::Listener, public ButtonListener {
   public:
     class Listener {
-    public:
-      virtual ~Listener() { }
+      public:
+        virtual ~Listener() { }
 
-      virtual void fileSaved(File save_file) = 0;
+        virtual void fileSaved(File save_file) = 0;
     };
 
     SaveSection(String name);

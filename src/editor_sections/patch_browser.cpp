@@ -263,17 +263,27 @@ void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
   scanPatches();
 }
 
-void PatchBrowser::fileSaved(File save_file) {
+void PatchBrowser::fileSaved(File saved_file) {
+  patches_view_->deselectAllRows();
   scanPatches();
-  int index = patches_model_->getIndexOfFile(save_file);
+  int index = patches_model_->getIndexOfFile(saved_file);
   patches_view_->selectRow(index);
+}
+
+void PatchBrowser::fileDeleted(File saved_file) {
+  scanPatches();
 }
 
 void PatchBrowser::buttonClicked(Button* clicked_button) {
   if (clicked_button == save_as_button_ && save_section_)
     save_section_->setVisible(true);
-  else if (clicked_button == delete_patch_button_ && delete_section_)
-    delete_section_->setVisible(true);
+  else if (clicked_button == delete_patch_button_ && delete_section_) {
+    File selected_patch = getSelectedPatch();
+    if (selected_patch.exists()) {
+      delete_section_->setFileToDelete(selected_patch);
+      delete_section_->setVisible(true);
+    }
+  }
 }
 
 bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
@@ -335,6 +345,12 @@ void PatchBrowser::setSaveSection(SaveSection* save_section) {
   save_section_ = save_section;
   save_section_->setListener(this);
 }
+
+void PatchBrowser::setDeleteSection(DeleteSection* delete_section) {
+  delete_section_ = delete_section;
+  delete_section_->setListener(this);
+}
+
 
 void PatchBrowser::scanFolders() {
   Array<File> banks = getFoldersToScan(banks_view_, banks_model_);

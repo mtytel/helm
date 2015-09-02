@@ -20,18 +20,37 @@
 
 #include "JuceHeader.h"
 
-class DeleteSection : public Component {
+class DeleteSection : public Component, public ButtonListener {
   public:
+    class Listener {
+      public:
+        virtual ~Listener() { }
+
+        virtual void fileDeleted(File save_file) = 0;
+    };
+
     DeleteSection(String name);
     ~DeleteSection() { }
     void paint(Graphics& g) override;
     void resized() override;
 
+    void mouseUp(const MouseEvent& e) override;
+    void buttonClicked(Button* clicked_button) override;
+
+    void setFileToDelete(File file) { file_ = file; }
+
     Rectangle<int> getDeleteRect();
 
-    void mouseUp(const MouseEvent& e) override;
+    void setListener(Listener* listener) { listener_ = listener; }
 
   private:
+    File file_;
+
+    ScopedPointer<TextButton> delete_button_;
+    ScopedPointer<TextButton> cancel_button_;
+
+    Listener* listener_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeleteSection)
 };
 

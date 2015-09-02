@@ -28,7 +28,8 @@ class PatchBrowser : public Component,
                      public TextEditor::Listener,
                      public KeyListener,
                      public ButtonListener,
-                     public SaveSection::Listener {
+                     public SaveSection::Listener,
+                     public DeleteSection::Listener {
   public:
     class PatchSelectedListener {
       public:
@@ -50,7 +51,8 @@ class PatchBrowser : public Component,
     void selectedFilesChanged(FileListBoxModel* model) override;
     void textEditorTextChanged(TextEditor& editor) override;
 
-    void fileSaved(File save_file) override;
+    void fileSaved(File saved_file) override;
+    void fileDeleted(File deleted_file) override;
 
     void buttonClicked(Button* clicked_button) override;
 
@@ -61,7 +63,7 @@ class PatchBrowser : public Component,
 
     void setListener(PatchSelectedListener* listener) { listener_ = listener; }
     void setSaveSection(SaveSection* save_section);
-    void setDeleteSection(DeleteSection* delete_section) { delete_section_ = delete_section; }
+    void setDeleteSection(DeleteSection* delete_section);
 
   private:
     void loadFromFile(File& patch);

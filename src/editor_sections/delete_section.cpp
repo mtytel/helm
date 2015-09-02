@@ -18,17 +18,27 @@
 #include "helm_common.h"
 #include "text_look_and_feel.h"
 
-#define DELETE_WIDTH 450
-#define DELETE_HEIGHT 160
+#define DELETE_WIDTH 320
+#define DELETE_HEIGHT 140
 #define PADDING_X 25
-#define PADDING_Y 15
+#define PADDING_Y 20
+#define BUTTON_HEIGHT 30
 
 DeleteSection::DeleteSection(String name) : Component(name) {
+  listener_ = nullptr;
+  
+  delete_button_ = new TextButton(TRANS("Delete"));
+  delete_button_->addListener(this);
+  addAndMakeVisible(delete_button_);
+
+  cancel_button_ = new TextButton(TRANS("Cancel"));
+  cancel_button_->addListener(this);
+  addAndMakeVisible(cancel_button_);
 }
 
 void DeleteSection::paint(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
+  static Font patch_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
+                                                           BinaryData::DroidSansMono_ttfSize));
   static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
                                                              BinaryData::RobotoLight_ttfSize));
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
@@ -36,20 +46,55 @@ void DeleteSection::paint(Graphics& g) {
   g.setColour(Colour(0xbb212121));
   g.fillAll();
 
-  Rectangle<int> save_rect = getDeleteRect();
-  shadow.drawForRectangle(g, save_rect);
+  Rectangle<int> delete_rect = getDeleteRect();
+  shadow.drawForRectangle(g, delete_rect);
   g.setColour(Colour(0xff303030));
-  g.fillRect(save_rect);
+  g.fillRect(delete_rect);
 
   g.saveState();
-  g.setOrigin(save_rect.getX() + PADDING_X, save_rect.getY() + PADDING_Y);
+  g.setOrigin(delete_rect.getX() + PADDING_X, delete_rect.getY() + PADDING_Y);
+
+  g.setFont(roboto_light.withPointHeight(14.0f));
+  g.setColour(Colour(0xffaaaaaa));
+
+  g.drawText(TRANS("Are you sure you want to delete this patch?"),
+             0, 0.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
+             Justification::centred, false);
+
+  g.setFont(patch_font.withPointHeight(16.0f));
+  g.setColour(Colour(0xff03a9f4));
+  g.drawText(file_.getFileNameWithoutExtension(),
+             0, 20.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
+             Justification::centred, false);
+
+  g.restoreState();
 }
 
 void DeleteSection::resized() {
+  Rectangle<int> delete_rect = getDeleteRect();
+
+  float button_width = (delete_rect.getWidth() - 3 * PADDING_X) / 2.0f;
+  delete_button_->setBounds(delete_rect.getX() + PADDING_X,
+                            delete_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
+                            button_width, BUTTON_HEIGHT);
+  cancel_button_->setBounds(delete_rect.getX() + button_width + 2 * PADDING_X,
+                            delete_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
+                            button_width, BUTTON_HEIGHT);
 }
 
 void DeleteSection::mouseUp(const MouseEvent &e) {
   if (!getDeleteRect().contains(e.getPosition()))
+    setVisible(false);
+}
+
+void DeleteSection::buttonClicked(Button* clicked_button) {
+  if (clicked_button == delete_button_) {
+    file_.deleteFile();
+    setVisible(false);
+    if (listener_)
+      listener_->fileDeleted(file_);
+  }
+  else if (clicked_button == cancel_button_)
     setVisible(false);
 }
 
