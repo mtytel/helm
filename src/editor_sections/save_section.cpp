@@ -125,10 +125,10 @@ void SaveSection::resized() {
                      TEXT_EDITOR_HEIGHT);
 
   float button_width = (save_rect.getWidth() - 3 * PADDING_X) / 2.0f;
-  save_button_->setBounds(save_rect.getX() + PADDING_X,
+  save_button_->setBounds(save_rect.getX() + button_width + 2 * PADDING_X,
                           save_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
                           button_width, BUTTON_HEIGHT);
-  cancel_button_->setBounds(save_rect.getX() + button_width + 2 * PADDING_X,
+  cancel_button_->setBounds(save_rect.getX() + PADDING_X,
                             save_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
                             button_width, BUTTON_HEIGHT);
 
