@@ -18,8 +18,9 @@
 #define TEXT_LOOK_AND_FEEL_H
 
 #include "JuceHeader.h"
+#include "default_look_and_feel.h"
 
-class TextLookAndFeel : public juce::LookAndFeel_V3 {
+class TextLookAndFeel : public DefaultLookAndFeel {
   public:
     TextLookAndFeel();
     void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
