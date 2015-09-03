@@ -57,19 +57,10 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
   return state_object;
 }
 
-void LoadSave::varToState(mopo::HelmEngine* synth,
-                          const CriticalSection& critical_section,
-                          var state) {
-  if (!state.isObject())
-    return;
-
+void LoadSave::loadControls(mopo::HelmEngine* synth,
+                            const CriticalSection& critical_section,
+                            const NamedValueSet& properties) {
   mopo::control_map controls = synth->getControls();
-  DynamicObject* object_state = state.getDynamicObject();
-
-  ScopedLock lock(critical_section);
-  NamedValueSet properties = object_state->getProperties();
-  int size = properties.size();
-
   for (auto control : controls) {
     String name = control.first;
     if (properties.contains(name)) {
@@ -83,7 +74,7 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
   }
 
   synth->clearModulations();
-  Array<var>* modulations = object_state->getProperty("modulations").getArray();
+  Array<var>* modulations = properties["modulations"].getArray();
   var* modulation = modulations->begin();
   for (; modulation != modulations->end(); ++modulation) {
     DynamicObject* mod = modulation->getDynamicObject();
@@ -92,6 +83,29 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
     mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
     connection->amount.set(mod->getProperty("amount"));
     synth->connectModulation(connection);
+  }
+}
+
+void LoadSave::varToState(mopo::HelmEngine* synth,
+                          const CriticalSection& critical_section,
+                          var state) {
+  if (!state.isObject())
+    return;
+
+  DynamicObject* object_state = state.getDynamicObject();
+  NamedValueSet properties = object_state->getProperties();
+
+  if (properties.contains("version")) {
+    // If there is version specific loading, fill it in here.
+    String version = properties["version"];
+    var settings = properties["settings"];
+    DynamicObject* settings_object = settings.getDynamicObject();
+    NamedValueSet settings_properties = settings_object->getProperties();
+    loadControls(synth, critical_section, settings_properties);
+  }
+  else {
+    // Version 0.4.1 and earlier.
+    loadControls(synth, critical_section, properties);
   }
 }
 

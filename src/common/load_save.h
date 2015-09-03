@@ -40,6 +40,10 @@ class LoadSave {
     static var stateToVar(mopo::HelmEngine* synth,
                           const CriticalSection& critical_section);
 
+    static void loadControls(mopo::HelmEngine* synth,
+                             const CriticalSection& critical_section,
+                             const NamedValueSet& properties);
+
     static void varToState(mopo::HelmEngine* synth,
                            const CriticalSection& critical_section,
                            var state);
