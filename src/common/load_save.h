@@ -21,7 +21,6 @@
 
 #include "helm_engine.h"
 
-
 class FileSorterAscending {
 public:
   FileSorterAscending() { }

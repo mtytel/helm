@@ -15,6 +15,7 @@
  */
 
 #include "load_save.h"
+#include "helm_common.h"
 
 #define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define USER_BANK_NAME "User Patches"
@@ -68,14 +69,16 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
   ScopedLock lock(critical_section);
   NamedValueSet properties = object_state->getProperties();
   int size = properties.size();
-  for (int i = 0; i < size; ++i) {
-    Identifier id = properties.getName(i);
-    if (id.isValid()) {
-      std::string name = id.toString().toStdString();
-      if (controls.count(name)) {
-        mopo::mopo_float value = properties.getValueAt(i);
-        controls[name]->set(value);
-      }
+
+  for (auto control : controls) {
+    String name = control.first;
+    if (properties.contains(name)) {
+      mopo::mopo_float value = properties[name];
+      control.second->set(value);
+    }
+    else {
+      mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
+      control.second->set(details.default_value);
     }
   }
 
