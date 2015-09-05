@@ -265,6 +265,8 @@ void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
 
 void PatchBrowser::fileSaved(File saved_file) {
   patches_view_->deselectAllRows();
+  folders_view_->deselectAllRows();
+  banks_view_->deselectAllRows();
   scanPatches();
   int index = patches_model_->getIndexOfFile(saved_file);
   patches_view_->selectRow(index);
