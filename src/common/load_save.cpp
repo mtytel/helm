@@ -15,6 +15,7 @@
  */
 
 #include "load_save.h"
+#include "JuceHeader.h"
 #include "helm_common.h"
 
 #define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
@@ -23,10 +24,10 @@
 
 namespace {
 
-  String createPatchLicense(String patch_name, String author) {
-    return patch_name + " (c) by " + author + newLine +
+  String createPatchLicense(String author) {
+    return "Patch (c) by " + author + newLine +
            newLine +
-           patch_name + " is licensed under a" + newLine +
+           "This patch is licensed under a" + newLine +
            "Creative Commons Attribution 4.0 International License." + newLine +
            newLine +
            "You should have received a copy of the license along with this" + newLine +
@@ -35,13 +36,14 @@ namespace {
 } // namespace
 
 var LoadSave::stateToVar(mopo::HelmEngine* synth,
-                         const CriticalSection& critical_section) {
+                         const CriticalSection& critical_section,
+                         String author) {
   mopo::control_map controls = synth->getControls();
-  DynamicObject* state_object = new DynamicObject();
+  DynamicObject* settings_object = new DynamicObject();
 
   ScopedLock lock(critical_section);
   for (auto control : controls)
-    state_object->setProperty(String(control.first), control.second->value());
+    settings_object->setProperty(String(control.first), control.second->value());
 
   std::set<mopo::ModulationConnection*> modulations = synth->getModulationConnections();
   Array<var> modulation_states;
@@ -53,7 +55,13 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
     modulation_states.add(mod_object);
   }
 
-  state_object->setProperty("modulations", modulation_states);
+  settings_object->setProperty("modulations", modulation_states);
+
+  DynamicObject* state_object = new DynamicObject();
+  state_object->setProperty("synth_version", ProjectInfo::versionString);
+  state_object->setProperty("license", createPatchLicense("Author"));
+  state_object->setProperty("author", author);
+  state_object->setProperty("settings", settings_object);
   return state_object;
 }
 
@@ -95,9 +103,9 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
   DynamicObject* object_state = state.getDynamicObject();
   NamedValueSet properties = object_state->getProperties();
 
-  if (properties.contains("version")) {
+  if (properties.contains("synth_version")) {
     // If there is version specific loading, fill it in here.
-    String version = properties["version"];
+    String version = properties["synth_version"];
     var settings = properties["settings"];
     DynamicObject* settings_object = settings.getDynamicObject();
     NamedValueSet settings_properties = settings_object->getProperties();
@@ -107,6 +115,17 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
     // Version 0.4.1 and earlier.
     loadControls(synth, critical_section, properties);
   }
+}
+
+String LoadSave::getAuthor(var state) {
+  if (!state.isObject())
+    return "";
+
+  DynamicObject* object_state = state.getDynamicObject();
+  NamedValueSet properties = object_state->getProperties();
+  if (properties.contains("author"))
+    return properties["author"];
+  return "";
 }
 
 File LoadSave::getFactoryBankDirectory() {

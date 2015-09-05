@@ -109,7 +109,7 @@ void SaveSection::paint(Graphics& g) {
   g.drawText(TRANS("FOLDER"),
              0, 3 * PADDING_Y + 2 * TEXT_EDITOR_HEIGHT, DIVISION - 10, TEXT_EDITOR_HEIGHT,
              Justification::centredRight, false);
-  
+
   g.restoreState();
 }
 
@@ -165,7 +165,7 @@ void SaveSection::buttonClicked(Button* clicked_button) {
 Rectangle<int> SaveSection::getSaveRect() {
   if (active_rect_.getWidth() > 0.0f)
     return active_rect_;
-  
+
   int x = (getWidth() - SAVE_WIDTH) / 2;
   int y = (getHeight() - SAVE_HEIGHT) / 2;
   return Rectangle<int>(x, y, SAVE_WIDTH, SAVE_HEIGHT);
@@ -185,7 +185,7 @@ void SaveSection::save() {
   File save_file = folder.getChildFile(patch_name);
   if (save_file.getFileExtension() != mopo::PATCH_EXTENSION)
     save_file = save_file.withFileExtension(String(mopo::PATCH_EXTENSION));
-  save_file.replaceWithText(JSON::toString(parent->saveToVar()));
+  save_file.replaceWithText(JSON::toString(parent->saveToVar(author_->getText())));
 
   patch_name_->clear();
   setVisible(false);

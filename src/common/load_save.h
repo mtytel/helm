@@ -38,7 +38,8 @@ public:
 class LoadSave {
   public:
     static var stateToVar(mopo::HelmEngine* synth,
-                          const CriticalSection& critical_section);
+                          const CriticalSection& critical_section,
+                          String author);
 
     static void loadControls(mopo::HelmEngine* synth,
                              const CriticalSection& critical_section,
@@ -47,6 +48,8 @@ class LoadSave {
     static void varToState(mopo::HelmEngine* synth,
                            const CriticalSection& critical_section,
                            var state);
+
+    static String getAuthor(var state);
 
     static File getFactoryBankDirectory();
 

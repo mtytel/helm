@@ -179,7 +179,7 @@ void PatchBrowser::paint(Graphics& g) {
     g.drawText(TRANS("LICENSE"),
                data_x, BROWSE_PADDING + 160.0f, division, 20.0f,
                Justification::centredRight, false);
-    
+
     g.setFont(data_font.withPointHeight(16.0f));
     g.setColour(Colour(0xff03a9f4));
 
@@ -193,7 +193,7 @@ void PatchBrowser::paint(Graphics& g) {
     g.setColour(Colour(0xffbbbbbb));
 
     float data_width = info_width - division - buffer - 2.0f * BROWSE_PADDING;
-    g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
+    g.drawText(author_,
                data_x + division + buffer, BROWSE_PADDING + 80.0f, data_width, 20.0f,
                Justification::centredLeft, true);
     g.drawText(selected_patch.getParentDirectory().getParentDirectory().getFileName(),
@@ -338,6 +338,8 @@ void PatchBrowser::loadFromFile(File& patch) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     parent->loadFromVar(parsed_json_state);
     license_link_->setVisible(true);
+
+    author_ = LoadSave::getAuthor(parsed_json_state);
   }
 }
 

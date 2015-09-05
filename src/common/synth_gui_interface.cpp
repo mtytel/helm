@@ -102,8 +102,8 @@ mopo::Processor::Output* SynthGuiInterface::getModSource(const std::string& name
   return synth_->getModulationSource(name);
 }
 
-var SynthGuiInterface::saveToVar() {
-  return LoadSave::stateToVar(synth_, getCriticalSection());
+var SynthGuiInterface::saveToVar(String author) {
+  return LoadSave::stateToVar(synth_, getCriticalSection(), author);
 }
 
 void SynthGuiInterface::loadFromVar(juce::var state) {

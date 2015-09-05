@@ -185,7 +185,7 @@ void HelmPlugin::setValueNotifyHost(std::string name, mopo::mopo_float value) {
 }
 
 void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
-  var state = LoadSave::stateToVar(&synth_, getCallbackLock());
+  var state = LoadSave::stateToVar(&synth_, getCallbackLock(), "");
   String data_string = JSON::toString(state);
   MemoryOutputStream stream;
   stream.writeString(data_string);

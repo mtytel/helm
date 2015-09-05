@@ -91,6 +91,8 @@ class PatchBrowser : public Component,
     ScopedPointer<TextButton> save_as_button_;
     ScopedPointer<TextButton> delete_patch_button_;
 
+    String author_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };
 

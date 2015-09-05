@@ -44,7 +44,7 @@ class SynthGuiInterface : public MidiManager::MidiManagerListener {
     void unlockSynth();
     mopo::Processor::Output* getModSource(const std::string& name);
 
-    var saveToVar();
+    var saveToVar(String author);
     void loadFromVar(var state);
 
     virtual void beginChangeGesture(const std::string& name) { }
