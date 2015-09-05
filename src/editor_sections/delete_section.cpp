@@ -18,7 +18,7 @@
 #include "helm_common.h"
 #include "text_look_and_feel.h"
 
-#define DELETE_WIDTH 320
+#define DELETE_WIDTH 340
 #define DELETE_HEIGHT 140
 #define PADDING_X 25
 #define PADDING_Y 20
@@ -26,7 +26,7 @@
 
 DeleteSection::DeleteSection(String name) : Component(name) {
   listener_ = nullptr;
-  
+
   delete_button_ = new TextButton(TRANS("Delete"));
   delete_button_->addListener(this);
   addAndMakeVisible(delete_button_);

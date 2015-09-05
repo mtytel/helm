@@ -134,7 +134,7 @@ void SynthSection::setActivator(ToggleButton* activator) {
 }
 
 void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component) {
-  static const int ROOM = 20;
+  static const int ROOM = 30;
   static const int HEIGHT = 10;
   static const int SPACE = 6;
   g.drawText(text, component->getX() - ROOM, component->getY() + component->getHeight() + SPACE,

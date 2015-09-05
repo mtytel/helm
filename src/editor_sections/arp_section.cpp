@@ -83,8 +83,9 @@ void ArpSection::paintBackground(Graphics& g) {
   drawTextForComponent(g, TRANS("OCTAVES"), octaves_);
   drawTextForComponent(g, TRANS("PATTERN"), pattern_);
   g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX(), gate_->getBounds().getY() + KNOB_WIDTH + 6,
-             frequency_->getBounds().getWidth() + TEXT_HEIGHT, 10, Justification::centred, false);
+             frequency_->getBounds().getX() - 5, gate_->getBounds().getY() + KNOB_WIDTH + 6,
+             frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10,
+             10, Justification::centred, false);
 
   g.saveState();
   g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 0, 0));

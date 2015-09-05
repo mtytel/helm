@@ -73,8 +73,9 @@ void DelaySection::paintBackground(Graphics& g) {
   drawTextForComponent(g, TRANS("WET"), dry_wet_);
 
   g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
-             frequency_->getBounds().getWidth() + TEXT_HEIGHT, 10, Justification::centred, false);
+             frequency_->getBounds().getX() - 5, frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
+             frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10,
+             10, Justification::centred, false);
 }
 
 void DelaySection::resized() {

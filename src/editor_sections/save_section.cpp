@@ -20,11 +20,11 @@
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
-#define SAVE_WIDTH 400
+#define SAVE_WIDTH 420
 #define SAVE_HEIGHT 300
 #define TEXT_EDITOR_HEIGHT 24
 #define BUTTON_HEIGHT 30
-#define DIVISION 100
+#define DIVISION 110
 #define PADDING_X 25
 #define PADDING_Y 15
 
