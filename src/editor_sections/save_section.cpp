@@ -24,6 +24,7 @@
 #define SAVE_HEIGHT 300
 #define TEXT_EDITOR_HEIGHT 24
 #define BUTTON_HEIGHT 30
+#define ADD_FOLDER_HEIGHT 20
 #define DIVISION 110
 #define PADDING_X 25
 #define PADDING_Y 15
@@ -70,6 +71,19 @@ SaveSection::SaveSection(String name) : Component(name) {
   author_->setColour(TextEditor::focusedOutlineColourId, Colour(0xff888888));
   addAndMakeVisible(author_);
 
+  add_folder_name_ = new TextEditor("Add Folder");
+  add_folder_name_->addListener(this);
+  add_folder_name_->setTextToShowWhenEmpty(TRANS("New Folder"), Colour(0xff777777));
+  add_folder_name_->setFont(patch_font.withPointHeight(12.0f));
+  add_folder_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
+  add_folder_name_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
+  add_folder_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
+  add_folder_name_->setColour(TextEditor::highlightColourId, Colour(0xff888888));
+  add_folder_name_->setColour(TextEditor::backgroundColourId, Colour(0xff323232));
+  add_folder_name_->setColour(TextEditor::outlineColourId, Colour(0xff888888));
+  add_folder_name_->setColour(TextEditor::focusedOutlineColourId, Colour(0xff888888));
+  addAndMakeVisible(add_folder_name_);
+
   save_button_ = new TextButton(TRANS("Save"));
   save_button_->addListener(this);
   addAndMakeVisible(save_button_);
@@ -77,6 +91,10 @@ SaveSection::SaveSection(String name) : Component(name) {
   cancel_button_ = new TextButton(TRANS("Cancel"));
   cancel_button_->addListener(this);
   addAndMakeVisible(cancel_button_);
+
+  add_folder_button_ = new TextButton("+");
+  add_folder_button_->addListener(this);
+  addAndMakeVisible(add_folder_button_);
 }
 
 void SaveSection::paint(Graphics& g) {
@@ -132,10 +150,15 @@ void SaveSection::resized() {
                             save_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
                             button_width, BUTTON_HEIGHT);
 
+  float folder_x = save_rect.getX() + PADDING_X + DIVISION;
+  float folder_width = save_rect.getWidth() - 2 * PADDING_X - DIVISION;
+  float add_folder_y = save_button_->getY() - PADDING_Y - ADD_FOLDER_HEIGHT;
+  add_folder_button_->setBounds(folder_x, add_folder_y, ADD_FOLDER_HEIGHT, ADD_FOLDER_HEIGHT);
+  add_folder_name_->setBounds(folder_x + ADD_FOLDER_HEIGHT, add_folder_y,
+                              folder_width - ADD_FOLDER_HEIGHT, ADD_FOLDER_HEIGHT);
+
   float folder_y = save_rect.getY() + 4 * PADDING_Y + 2 * TEXT_EDITOR_HEIGHT;
-  folders_view_->setBounds(save_rect.getX() + PADDING_X + DIVISION, folder_y,
-                           save_rect.getWidth() - 2 * PADDING_X - DIVISION,
-                           save_button_->getY() - folder_y - PADDING_Y);
+  folders_view_->setBounds(folder_x, folder_y, folder_width, add_folder_y - folder_y);
 }
 
 void SaveSection::visibilityChanged() {
@@ -152,7 +175,10 @@ void SaveSection::mouseUp(const MouseEvent &e) {
 }
 
 void SaveSection::textEditorReturnKeyPressed(TextEditor& editor) {
-  save();
+  if (&editor == add_folder_name_)
+    createNewFolder();
+  else
+    save();
 }
 
 void SaveSection::buttonClicked(Button* clicked_button) {
@@ -160,6 +186,8 @@ void SaveSection::buttonClicked(Button* clicked_button) {
     save();
   else if (clicked_button == cancel_button_)
     setVisible(false);
+  else if (clicked_button == add_folder_button_)
+    createNewFolder();
 }
 
 Rectangle<int> SaveSection::getSaveRect() {
@@ -191,4 +219,22 @@ void SaveSection::save() {
   setVisible(false);
   if (listener_)
     listener_->fileSaved(save_file);
+}
+
+void SaveSection::createNewFolder() {
+  String folder_name = add_folder_name_->getText();
+  if (folder_name.length() == 0)
+    return;
+
+  File bank_dir = LoadSave::getUserBankDirectory();
+  File new_folder = bank_dir.getChildFile(folder_name);
+  if (!new_folder.exists())
+    new_folder.createDirectory();
+
+  add_folder_name_->clear();
+
+  Array<File> folder_locations;
+  folder_locations.add(bank_dir);
+  folders_model_->rescanFiles(folder_locations);
+  folders_view_->updateContent();
 }

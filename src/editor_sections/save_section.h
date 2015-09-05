@@ -47,15 +47,18 @@ class SaveSection : public Component, public TextEditor::Listener, public Button
 
   private:
     void save();
+    void createNewFolder();
 
     ScopedPointer<TextEditor> patch_name_;
     ScopedPointer<TextEditor> author_;
+    ScopedPointer<TextEditor> add_folder_name_;
 
     ScopedPointer<ListBox> folders_view_;
     ScopedPointer<FileListBoxModel> folders_model_;
 
     ScopedPointer<TextButton> save_button_;
     ScopedPointer<TextButton> cancel_button_;
+    ScopedPointer<TextButton> add_folder_button_;
 
     Rectangle<int> active_rect_;
 
