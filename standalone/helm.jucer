@@ -166,6 +166,8 @@
         <FILE id="uwvpGq" name="midi_manager.cpp" compile="1" resource="0"
               file="../src/common/midi_manager.cpp"/>
         <FILE id="oEAVBn" name="midi_manager.h" compile="0" resource="0" file="../src/common/midi_manager.h"/>
+        <FILE id="o9zJ4C" name="startup.cpp" compile="1" resource="0" file="../src/common/startup.cpp"/>
+        <FILE id="Y5oFfq" name="startup.h" compile="0" resource="0" file="../src/common/startup.h"/>
         <FILE id="E5f3VG" name="synth_gui_interface.cpp" compile="1" resource="0"
               file="../src/common/synth_gui_interface.cpp"/>
         <FILE id="cPdwSD" name="synth_gui_interface.h" compile="0" resource="0"

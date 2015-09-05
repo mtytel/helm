@@ -18,12 +18,14 @@
 #include "helm_common.h"
 #include "helm_editor.h"
 #include "load_save.h"
+#include "startup.h"
 #include "value_bridge.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MAX_MEMORY_SAMPLES 1000000
 
 HelmPlugin::HelmPlugin() {
+  Startup::doStartupChecks();
   controls_ = synth_.getControls();
   for (auto control : controls_) {
     ValueBridge* bridge = new ValueBridge(control.first, control.second);
