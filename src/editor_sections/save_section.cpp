@@ -35,13 +35,8 @@ SaveSection::SaveSection(String name) : Component(name) {
 
   listener_ = nullptr;
   folders_model_ = new FileListBoxModel();
-  Array<File> folder_locations;
-  File bank_dir = LoadSave::getUserBankDirectory();
-  folder_locations.add(bank_dir);
-  folders_model_->rescanFiles(folder_locations);
-
   folders_view_ = new ListBox("folders", folders_model_);
-  folders_view_->updateContent();
+  rescanFolders();
   folders_view_->setColour(ListBox::backgroundColourId, Colour(0xff323232));
   addAndMakeVisible(folders_view_);
 
@@ -166,6 +161,8 @@ void SaveSection::visibilityChanged() {
     SparseSet<int> selected_rows = folders_view_->getSelectedRows();
     if (selected_rows.size() == 0)
       folders_view_->selectRow(0);
+
+    rescanFolders();
   }
 }
 
@@ -233,7 +230,15 @@ void SaveSection::createNewFolder() {
 
   add_folder_name_->clear();
 
+  rescanFolders();
+  int row = folders_model_->getIndexOfFile(new_folder);
+  folders_view_->selectRow(row);
+  folders_view_->updateContent();
+}
+
+void SaveSection::rescanFolders() {
   Array<File> folder_locations;
+  File bank_dir = LoadSave::getUserBankDirectory();
   folder_locations.add(bank_dir);
   folders_model_->rescanFiles(folder_locations);
   folders_view_->updateContent();

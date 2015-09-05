@@ -41,7 +41,8 @@ class DeleteSection : public Component, public ButtonListener {
 
     Rectangle<int> getDeleteRect();
 
-    void setListener(Listener* listener) { listener_ = listener; }
+    void addListener(Listener* listener) { listeners_.add(listener); }
+    void removeListener(Listener* listener) { listeners_.removeAllInstancesOf(listener); }
 
   private:
     File file_;
@@ -49,7 +50,7 @@ class DeleteSection : public Component, public ButtonListener {
     ScopedPointer<TextButton> delete_button_;
     ScopedPointer<TextButton> cancel_button_;
 
-    Listener* listener_;
+    Array<Listener*> listeners_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DeleteSection)
 };

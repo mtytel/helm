@@ -46,6 +46,17 @@ void FileListBoxModel::selectedRowsChanged(int last_selected_row) {
     listener_->selectedFilesChanged(this);
 }
 
+void FileListBoxModel::deleteKeyPressed(int lastRowSelected) {
+  if (delete_section_ == nullptr)
+    return;
+
+  File selected_patch = getFileAtRow(lastRowSelected);
+  if (selected_patch.exists()) {
+    delete_section_->setFileToDelete(selected_patch);
+    delete_section_->setVisible(true);
+  }
+}
+
 void FileListBoxModel::rescanFiles(const Array<File>& folders,
                                    String search,
                                    bool find_files) {

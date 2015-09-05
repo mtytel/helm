@@ -273,6 +273,7 @@ void PatchBrowser::fileSaved(File saved_file) {
 }
 
 void PatchBrowser::fileDeleted(File saved_file) {
+  scanFolders();
   scanPatches();
 }
 
@@ -352,7 +353,10 @@ void PatchBrowser::setSaveSection(SaveSection* save_section) {
 
 void PatchBrowser::setDeleteSection(DeleteSection* delete_section) {
   delete_section_ = delete_section;
-  delete_section_->setListener(this);
+  delete_section_->addListener(this);
+  banks_model_->setDeleteSection(delete_section);
+  folders_model_->setDeleteSection(delete_section);
+  patches_model_->setDeleteSection(delete_section);
 }
 
 

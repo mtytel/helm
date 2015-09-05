@@ -25,8 +25,6 @@
 #define BUTTON_HEIGHT 30
 
 DeleteSection::DeleteSection(String name) : Component(name) {
-  listener_ = nullptr;
-
   delete_button_ = new TextButton(TRANS("Delete"));
   delete_button_->addListener(this);
   addAndMakeVisible(delete_button_);
@@ -57,7 +55,12 @@ void DeleteSection::paint(Graphics& g) {
   g.setFont(roboto_light.withPointHeight(14.0f));
   g.setColour(Colour(0xffaaaaaa));
 
-  g.drawText(TRANS("Are you sure you want to delete this patch?"),
+  String text;
+  if (file_.isDirectory())
+    text = TRANS("Are you sure you want to delte this folder?");
+  else
+  text = TRANS("Are you sure you want to delte this patch?");
+  g.drawText(text,
              0, 0.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);
 
@@ -89,10 +92,10 @@ void DeleteSection::mouseUp(const MouseEvent &e) {
 
 void DeleteSection::buttonClicked(Button* clicked_button) {
   if (clicked_button == delete_button_) {
-    file_.deleteFile();
+    file_.deleteRecursively();
     setVisible(false);
-    if (listener_)
-      listener_->fileDeleted(file_);
+    for (int i = 0; i < listeners_.size(); ++i)
+      listeners_[i]->fileDeleted(file_);
   }
   else if (clicked_button == cancel_button_)
     setVisible(false);

@@ -48,6 +48,7 @@ class SaveSection : public Component, public TextEditor::Listener, public Button
   private:
     void save();
     void createNewFolder();
+    void rescanFolders();
 
     ScopedPointer<TextEditor> patch_name_;
     ScopedPointer<TextEditor> author_;
