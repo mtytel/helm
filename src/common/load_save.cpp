@@ -25,12 +25,10 @@
 namespace {
 
   String createPatchLicense(String author) {
-    return "Patch (c) by " + author + newLine +
-           newLine +
-           "This patch is licensed under a" + newLine +
-           "Creative Commons Attribution 4.0 International License." + newLine +
-           newLine +
-           "You should have received a copy of the license along with this" + newLine +
+    return "Patch (c) by " + author +
+           ".  This patch is licensed under a " +
+           "Creative Commons Attribution 4.0 International License.  " +
+           "You should have received a copy of the license along with this " +
            "work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.";
   }
 } // namespace
@@ -58,8 +56,8 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
   settings_object->setProperty("modulations", modulation_states);
 
   DynamicObject* state_object = new DynamicObject();
-  state_object->setProperty("synth_version", ProjectInfo::versionString);
   state_object->setProperty("license", createPatchLicense("Author"));
+  state_object->setProperty("synth_version", ProjectInfo::versionString);
   state_object->setProperty("author", author);
   state_object->setProperty("settings", settings_object);
   return state_object;
