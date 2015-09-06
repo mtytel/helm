@@ -68,6 +68,8 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
 void LoadSave::loadControls(mopo::HelmEngine* synth,
                             const CriticalSection& critical_section,
                             const NamedValueSet& properties) {
+  ScopedLock lock(critical_section);
+
   mopo::control_map controls = synth->getControls();
   for (auto control : controls) {
     String name = control.first;
