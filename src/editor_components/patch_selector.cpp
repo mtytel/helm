@@ -96,6 +96,11 @@ void PatchSelector::resized() {
   SynthSection::resized();
 }
 
+void PatchSelector::mouseUp(const MouseEvent& event) {
+  if (browser_)
+    browser_->setVisible(!browser_->isVisible());
+}
+
 void PatchSelector::buttonClicked(Button* clicked_button) {
   if (browser_ == nullptr)
     return;
