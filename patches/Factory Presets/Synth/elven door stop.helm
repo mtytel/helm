@@ -1,5 +1,5 @@
 {
-  "license": "Matt Tytel",
+  "license": "Patch (c) by Matt Tytel.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
   "synth_version": "0.5.0",
   "author": "Matt Tytel",
   "settings": {
@@ -127,6 +127,11 @@
     "volume": 0.89162795608108091905,
     "modulations": [
       {
+        "source": "poly_lfo",
+        "destination": "cutoff",
+        "amount": 58.225711822509765625
+      },
+      {
         "source": "fil_envelope",
         "destination": "resonance",
         "amount": -0.46430575847625726871
@@ -140,11 +145,6 @@
         "source": "fil_envelope",
         "destination": "poly_lfo_amplitude",
         "amount": 1.2533246278762817383
-      },
-      {
-        "source": "poly_lfo",
-        "destination": "cutoff",
-        "amount": 58.225711822509765625
       }
     ]
   }
