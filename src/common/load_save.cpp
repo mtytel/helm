@@ -56,7 +56,7 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
   settings_object->setProperty("modulations", modulation_states);
 
   DynamicObject* state_object = new DynamicObject();
-  state_object->setProperty("license", author);
+  state_object->setProperty("license", createPatchLicense(author));
   state_object->setProperty("synth_version", ProjectInfo::versionString);
   state_object->setProperty("author", author);
   state_object->setProperty("settings", settings_object);
