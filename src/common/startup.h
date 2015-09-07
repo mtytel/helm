@@ -17,11 +17,20 @@
 #ifndef STARTUP_H
 #define STARTUP_H
 
+#include "JuceHeader.h"
+
+namespace mopo {
+  class HelmEngine;
+}
+
 class Startup {
   public:
     static void doStartupChecks();
-    static void fixPatchesFolder();
     static void checkConfigFile();
+    static void copyFactoryPatches();
+    static void fixPatchesFolder();
+    static void updateAllPatches(mopo::HelmEngine* synth,
+                                 const CriticalSection& critical_section);
 };
 
 #endif  // STARTUP_H

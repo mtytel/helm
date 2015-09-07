@@ -17,6 +17,7 @@
 #include "startup.h"
 #include "load_save.h"
 #include "JuceHeader.h"
+#include "helm_engine.h"
 
 #define OLD_LINUX_USER_BANK_DIRECTORY "~/.helm/User Patches"
 
@@ -67,4 +68,25 @@ void Startup::fixPatchesFolder() {
 
 void Startup::checkConfigFile() {
 
+}
+
+void Startup::updateAllPatches(mopo::HelmEngine* synth,
+                               const CriticalSection& critical_section) {
+  File user_bank = LoadSave::getBankDirectory();
+  Array<File> all_patches;
+  user_bank.findChildFiles(all_patches, File::findFiles, true,
+                           String("*.") + mopo::PATCH_EXTENSION);
+
+  for (File patch : all_patches) {
+    var parsed_json_state;
+    if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
+      LoadSave::varToState(synth, critical_section, parsed_json_state);
+      String author = LoadSave::getAuthor(parsed_json_state);
+      if (author.isEmpty())
+        author = patch.getParentDirectory().getParentDirectory().getFileName();
+
+      var save_var = LoadSave::stateToVar(synth, critical_section, author);
+      patch.replaceWithText(JSON::toString(save_var));
+    }
+  }
 }
