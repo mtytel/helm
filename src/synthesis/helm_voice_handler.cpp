@@ -115,7 +115,7 @@ namespace mopo {
     mod_sources_["mod_wheel"] = mod_wheel_amount_->output();
 
     // Create all synthesizer voice components.
-    createArticulation(note(), velocity(), voice_event());
+    createArticulation(note(), last_note(), velocity(), voice_event());
     createOscillators(current_frequency_->output(),
                       amplitude_envelope_->output(Envelope::kFinished));
     createModulators(amplitude_envelope_->output(Envelope::kFinished));
@@ -581,7 +581,7 @@ namespace mopo {
   }
 
   void HelmVoiceHandler::createArticulation(
-      Output* note, Output* velocity, Output* trigger) {
+      Output* note, Output* last_note, Output* velocity, Output* trigger) {
     // Legato.
     legato_ = createBaseControl("legato");
     LegatoFilter* legato_filter = new LegatoFilter();
@@ -663,16 +663,14 @@ namespace mopo {
     // Portamento.
     Processor* portamento = createPolyModControl("portamento", false, false);
     Processor* portamento_type = createBaseControl("portamento_type");
-    PortamentoFilter* portamento_filter = new PortamentoFilter();
-    portamento_filter->plug(portamento_type, PortamentoFilter::kPortamento);
-    portamento_filter->plug(note_change_trigger, PortamentoFilter::kFrequencyTrigger);
-    portamento_filter->plug(trigger, PortamentoFilter::kVoiceTrigger);
-    addProcessor(portamento_filter);
 
     current_frequency_ = new PortamentoSlope();
     current_frequency_->plug(current_note, PortamentoSlope::kTarget);
+    current_frequency_->plug(portamento_type, PortamentoSlope::kPortamentoType);
+    current_frequency_->plug(note_pressed(), PortamentoSlope::kNoteNumber);
     current_frequency_->plug(portamento, PortamentoSlope::kRunSeconds);
-    current_frequency_->plug(portamento_filter, PortamentoSlope::kTriggerJump);
+    current_frequency_->plug(trigger, PortamentoSlope::kTriggerJump);
+    current_frequency_->plug(last_note, PortamentoSlope::kTriggerStart);
 
     addProcessor(current_frequency_);
 
@@ -682,6 +680,7 @@ namespace mopo {
   }
 
   void HelmVoiceHandler::process() {
+    setLegato(legato_->output()->buffer[0]);
     VoiceHandler::process();
     note_retriggered_.clearTrigger();
   }

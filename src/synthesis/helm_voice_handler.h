@@ -59,7 +59,7 @@ namespace mopo {
     private:
       // Create the portamento, legato, amplifier envelope and other processors
       // that effect how voices start and turn into other notes.
-      void createArticulation(Output* note, Output* velocity, Output* trigger);
+      void createArticulation(Output* note, Output* last_note, Output* velocity, Output* trigger);
 
       // Create the oscillators and hook up frequency controls.
       void createOscillators(Output* frequency, Output* reset);
