@@ -28,12 +28,26 @@ namespace mopo {
 
   void PortamentoSlope::process() {
     int i = 0;
-    if (input(kTriggerJump)->source->triggered) {
-      int trigger_offset = input(kTriggerJump)->source->trigger_offset;
-      for (; i < trigger_offset; ++i)
-        tick(i);
+    int state = static_cast<int>(input(kPortamentoType)->at(0));
+    int note_number = static_cast<int>(input(kNoteNumber)->source->trigger_value);
 
-      last_value_ = input(kTarget)->at(i);
+    if (state == kPortamentoOff || (state == kPortamentoAuto && note_number <= 1)) {
+      if (input(kTriggerJump)->source->triggered) {
+        int trigger_offset = input(kTriggerJump)->source->trigger_offset;
+        for (; i < trigger_offset; ++i)
+          tick(i);
+
+        last_value_ = input(kTarget)->at(i);
+      }
+    }
+    else {
+      if (input(kTriggerStart)->source->triggered) {
+        int trigger_offset = input(kTriggerStart)->source->trigger_offset;
+        for (; i < trigger_offset; ++i)
+          tick(i);
+
+        last_value_ = input(kTriggerStart)->source->trigger_value;
+      }
     }
 
     for (; i < buffer_size_; ++i)
