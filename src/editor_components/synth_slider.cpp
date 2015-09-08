@@ -15,8 +15,9 @@
  */
 
 #include "synth_slider.h"
-#include "synth_gui_interface.h"
 #include "full_interface.h"
+#include "helm_common.h"
+#include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
 namespace {
@@ -198,6 +199,11 @@ void SynthSlider::drawRectangularShadow(Graphics &g) {
 void SynthSlider::notifyTooltip() {
   if (!parent_)
     parent_ = findParentComponentOfClass<FullInterface>();
-  if (parent_)
-    parent_->setToolTipText(getName(), getTextFromValue(getValue()));
+  if (parent_) {
+    std::string name = getName().toStdString();
+    if (mopo::Parameters::isParameter(name))
+      name = mopo::Parameters::getDetails(name).display_name;
+
+    parent_->setToolTipText(name, getTextFromValue(getValue()));
+  }
 }
