@@ -29,7 +29,7 @@ HelmPlugin::HelmPlugin() {
   midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
 
   Startup::doStartupChecks(midi_manager_);
-  
+
   controls_ = synth_.getControls();
   for (auto control : controls_) {
     ValueBridge* bridge = new ValueBridge(control.first, control.second);

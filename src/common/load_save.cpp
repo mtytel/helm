@@ -164,8 +164,8 @@ void LoadSave::saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
   // Computer Keyboard Layout
   DynamicObject* layout_object = new DynamicObject();
   String chromatic_layout;
-  wchar_t up_key = NULL;
-  wchar_t down_key = NULL;
+  wchar_t up_key = L'\0';
+  wchar_t down_key = L'\0';
 
   if (layout) {
     chromatic_layout = String(layout->getLayout().data());
@@ -260,6 +260,10 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
 
 std::wstring LoadSave::getComputerKeyboardLayout() {
   var config_state = getConfigVar();
+
+  if (config_state.isVoid())
+    return mopo::DEFAULT_KEYBOARD;
+
   DynamicObject* config_object = config_state.getDynamicObject();
   NamedValueSet config_properties = config_object->getProperties();
 
@@ -277,6 +281,9 @@ std::pair<wchar_t, wchar_t> LoadSave::getComputerKeyboardOctaveControls() {
   std::pair<wchar_t, wchar_t> octave_controls(mopo::DEFAULT_KEYBOARD_OCTAVE_DOWN,
                                               mopo::DEFAULT_KEYBOARD_OCTAVE_UP);
   var config_state = getConfigVar();
+  if (config_state.isVoid())
+    return octave_controls;
+
   DynamicObject* config_object = config_state.getDynamicObject();
   NamedValueSet config_properties = config_object->getProperties();
 
