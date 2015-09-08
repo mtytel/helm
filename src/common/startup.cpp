@@ -35,19 +35,41 @@ namespace {
 #endif
     return patch_dir;
   }
+
+  bool isBankDirectory(File bank) {
+    Array<File> patches;
+    bank.findChildFiles(patches, File::findFiles, true);
+
+    return patches.size() && patches[0].getParentDirectory().getParentDirectory() == bank;
+  }
 } // namespace
 
 void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* layout) {
   fixPatchesFolder();
 
-  if (isFirstStartup())
+  if (isFirstStartup()) {
     LoadSave::saveConfig(midi_manager, layout);
+    copyFactoryPatches();
+  }
   else
     LoadSave::loadConfig(midi_manager, layout);
 }
 
 bool Startup::isFirstStartup() {
   return !LoadSave::getConfigFile().exists();
+}
+
+void Startup::copyFactoryPatches() {
+  File factory_bank_dir = LoadSave::getFactoryBankDirectory();
+  Array<File> factory_banks;
+  factory_bank_dir.findChildFiles(factory_banks, File::findDirectories, false);
+
+  for (File factory_bank : factory_banks) {
+    if (isBankDirectory(factory_bank)) {
+      File destination = LoadSave::getBankDirectory().getChildFile(factory_bank.getFileName());
+      factory_bank.copyDirectoryTo(destination);
+    }
+  }
 }
 
 void Startup::fixPatchesFolder() {
