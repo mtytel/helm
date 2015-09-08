@@ -37,15 +37,13 @@ namespace {
   }
 } // namespace
 
-void Startup::doStartupChecks(MidiManager* midi_manager) {
+void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* layout) {
   fixPatchesFolder();
 
-  if (isFirstStartup()) {
-    LoadSave::saveConfig(midi_manager);
-  }
-  else {
-    LoadSave::loadConfig(midi_manager);
-  }
+  if (isFirstStartup())
+    LoadSave::saveConfig(midi_manager, layout);
+  else
+    LoadSave::loadConfig(midi_manager, layout);
 }
 
 bool Startup::isFirstStartup() {

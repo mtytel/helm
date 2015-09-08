@@ -25,7 +25,11 @@
 #define MAX_MEMORY_SAMPLES 1000000
 
 HelmPlugin::HelmPlugin() {
-  Startup::doStartupChecks();
+  output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
+  midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
+
+  Startup::doStartupChecks(midi_manager_);
+  
   controls_ = synth_.getControls();
   for (auto control : controls_) {
     ValueBridge* bridge = new ValueBridge(control.first, control.second);
@@ -33,9 +37,6 @@ HelmPlugin::HelmPlugin() {
     bridge_lookup_[control.first] = bridge;
     addParameter(bridge);
   }
-
-  output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
-  midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
 }
 
 HelmPlugin::~HelmPlugin() { }

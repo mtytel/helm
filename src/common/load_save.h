@@ -54,8 +54,11 @@ class LoadSave {
     static String getAuthor(var state);
 
     static File getConfigFile();
-    static void saveConfig(MidiManager* midi_manager);
-    static void loadConfig(MidiManager* midi_manager);
+    static var getConfigVar();
+    static void saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout = nullptr);
+    static void loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout = nullptr);
+    static std::wstring getComputerKeyboardLayout();
+    static std::pair<wchar_t, wchar_t> getComputerKeyboardOctaveControls();
     static File getFactoryBankDirectory();
     static File getBankDirectory();
     static File getUserBankDirectory();

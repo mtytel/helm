@@ -21,13 +21,15 @@
 
 namespace mopo {
   class HelmEngine;
+  class StringLayout;
 }
 
 class MidiManager;
 
 class Startup {
   public:
-    static void doStartupChecks(MidiManager* midi_manager);
+    static void doStartupChecks(MidiManager* midi_manager,
+                                mopo::StringLayout* layout = nullptr);
     static bool isFirstStartup();
     static void copyFactoryPatches();
     static void fixPatchesFolder();

@@ -19,9 +19,10 @@
 
 #include "JuceHeader.h"
 
+#include "helm_common.h"
 #include "helm_engine.h"
 
-class HelmComputerKeyboard : public KeyListener {
+class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
   public:
     HelmComputerKeyboard(mopo::HelmEngine* synth, const CriticalSection* critical_section);
     ~HelmComputerKeyboard();

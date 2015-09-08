@@ -144,9 +144,45 @@ File LoadSave::getConfigFile() {
   return config_options.getDefaultFile();
 }
 
-void LoadSave::saveConfig(MidiManager* midi_manager) {
+var LoadSave::getConfigVar() {
+  File config_file = getConfigFile();
+
+  var config_state;
+  if (!JSON::parse(config_file.loadFileAsString(), config_state).wasOk())
+    return var();
+
+  if (!config_state.isObject())
+    return var();
+
+  return config_state;
+}
+
+void LoadSave::saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout) {
   MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
   DynamicObject* config_object = new DynamicObject();
+
+  // Computer Keyboard Layout
+  DynamicObject* layout_object = new DynamicObject();
+  String chromatic_layout;
+  wchar_t up_key = NULL;
+  wchar_t down_key = NULL;
+
+  if (layout) {
+    chromatic_layout = String(layout->getLayout().data());
+    up_key = layout->getUpKey();
+    down_key = layout->getDownKey();
+  }
+  else {
+    chromatic_layout = String(getComputerKeyboardLayout().data());
+    std::pair<wchar_t, wchar_t> octave_controls = getComputerKeyboardOctaveControls();
+    down_key = octave_controls.first;
+    up_key = octave_controls.second;
+  }
+
+  layout_object->setProperty("chromatic_layout", chromatic_layout);
+  layout_object->setProperty("octave_up", String() + up_key);
+  layout_object->setProperty("octave_down", String() + down_key);
+  config_object->setProperty("keyboard_layout", layout_object);
 
   // Midi Learn Map
   Array<var> midi_learn_object;
@@ -178,19 +214,20 @@ void LoadSave::saveConfig(MidiManager* midi_manager) {
   config_file.replaceWithText(JSON::toString(config_object));
 }
 
-void LoadSave::loadConfig(MidiManager* midi_manager) {
-  File config_file = getConfigFile();
-
-  var config_state;
-  if (!JSON::parse(config_file.loadFileAsString(), config_state).wasOk())
-    return;
-
-  if (!config_state.isObject())
-    return;
-
+void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout) {
+  var config_state = getConfigVar();
   DynamicObject* config_object = config_state.getDynamicObject();
   NamedValueSet config_properties = config_object->getProperties();
 
+  // Computer Keyboard Layout
+  if (layout) {
+    layout->setLayout(getComputerKeyboardLayout());
+    std::pair<wchar_t, wchar_t> octave_controls = getComputerKeyboardOctaveControls();
+    layout->setDownKey(octave_controls.first);
+    layout->setUpKey(octave_controls.second);
+  }
+
+  // Midi Learn Map
   if (config_properties.contains("midi_learn")) {
     MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
 
@@ -219,6 +256,37 @@ void LoadSave::loadConfig(MidiManager* midi_manager) {
     }
     midi_manager->setMidiLearnMap(midi_learn_map);
   }
+}
+
+std::wstring LoadSave::getComputerKeyboardLayout() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  NamedValueSet config_properties = config_object->getProperties();
+
+  if (config_properties.contains("keyboard_layout")) {
+    DynamicObject* layout = config_properties["keyboard_layout"].getDynamicObject();
+
+    if (layout->hasProperty("chromatic_layout"))
+      return layout->getProperty("chromatic_layout").toString().toWideCharPointer();
+  }
+
+  return mopo::DEFAULT_KEYBOARD;
+}
+
+std::pair<wchar_t, wchar_t> LoadSave::getComputerKeyboardOctaveControls() {
+  std::pair<wchar_t, wchar_t> octave_controls(mopo::DEFAULT_KEYBOARD_OCTAVE_DOWN,
+                                              mopo::DEFAULT_KEYBOARD_OCTAVE_UP);
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  NamedValueSet config_properties = config_object->getProperties();
+
+  if (config_properties.contains("keyboard_layout")) {
+    DynamicObject* layout = config_properties["keyboard_layout"].getDynamicObject();
+    octave_controls.first = layout->getProperty("octave_down").toString()[0];
+    octave_controls.second = layout->getProperty("octave_up").toString()[0];
+  }
+
+  return octave_controls;
 }
 
 File LoadSave::getFactoryBankDirectory() {

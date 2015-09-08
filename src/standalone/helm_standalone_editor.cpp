@@ -32,7 +32,7 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
 
-  Startup::doStartupChecks(midi_manager_);
+  Startup::doStartupChecks(midi_manager_, computer_keyboard_);
   setAudioChannels(0, mopo::NUM_CHANNELS);
 
   AudioDeviceManager::AudioDeviceSetup setup;

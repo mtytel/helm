@@ -15,15 +15,16 @@
  */
 
 #include "helm_computer_keyboard.h"
-
-#define DEFAULT_KEYBOARD_OFFSET 48
-#define KEYBOARD "awsedftgyhujkolp;'"
+#include "helm_common.h"
 
 HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
                                            const CriticalSection* critical_section) {
   synth_ = synth;
   critical_section_ = critical_section;
-  computer_keyboard_offset_ = DEFAULT_KEYBOARD_OFFSET;
+  computer_keyboard_offset_ = mopo::DEFAULT_KEYBOARD_OFFSET;
+  layout_ = mopo::DEFAULT_KEYBOARD;
+  up_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_UP;
+  down_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_DOWN;
 }
 
 HelmComputerKeyboard::~HelmComputerKeyboard() {
@@ -31,10 +32,10 @@ HelmComputerKeyboard::~HelmComputerKeyboard() {
 
 void HelmComputerKeyboard::changeKeyboardOffset(int new_offset) {
   ScopedLock lock(*critical_section_);
-  for (int i = 0; i < strlen(KEYBOARD); ++i) {
+  for (int i = 0; i < layout_.length(); ++i) {
     int note = computer_keyboard_offset_ + i;
     synth_->noteOff(note);
-    keys_pressed_.erase(KEYBOARD[i]);
+    keys_pressed_.erase(layout_[i]);
   }
 
   computer_keyboard_offset_ = CLAMP(new_offset, 0, mopo::MIDI_SIZE - mopo::NOTES_PER_OCTAVE);
@@ -47,40 +48,41 @@ bool HelmComputerKeyboard::keyPressed(const KeyPress &key, Component *origin) {
 bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
   bool consumed = false;
   ScopedLock lock(*critical_section_);
-  for (int i = 0; i < strlen(KEYBOARD); ++i) {
+  for (int i = 0; i < layout_.length(); ++i) {
     int note = computer_keyboard_offset_ + i;
 
-    if (KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) &&
-        !keys_pressed_.count(KEYBOARD[i]) && isKeyDown) {
-      keys_pressed_.insert(KEYBOARD[i]);
+    if (KeyPress::isKeyCurrentlyDown(layout_[i]) &&
+        !keys_pressed_.count(layout_[i]) && isKeyDown) {
+      keys_pressed_.insert(layout_[i]);
       synth_->noteOn(note);
     }
-    else if (!KeyPress::isKeyCurrentlyDown(KEYBOARD[i]) && keys_pressed_.count(KEYBOARD[i])) {
-      keys_pressed_.erase(KEYBOARD[i]);
+    else if (!KeyPress::isKeyCurrentlyDown(layout_[i]) &&
+             keys_pressed_.count(layout_[i])) {
+      keys_pressed_.erase(layout_[i]);
       synth_->noteOff(note);
     }
     consumed = true;
   }
 
-  if (KeyPress::isKeyCurrentlyDown('z')) {
-    if (!keys_pressed_.count('z')) {
-      keys_pressed_.insert('z');
+  if (KeyPress::isKeyCurrentlyDown(down_key_)) {
+    if (!keys_pressed_.count(down_key_)) {
+      keys_pressed_.insert(down_key_);
       changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
       consumed = true;
     }
   }
   else
-    keys_pressed_.erase('z');
+    keys_pressed_.erase(down_key_);
 
-  if (KeyPress::isKeyCurrentlyDown('x')) {
-    if (!keys_pressed_.count('x')) {
-      keys_pressed_.insert('x');
+  if (KeyPress::isKeyCurrentlyDown(up_key_)) {
+    if (!keys_pressed_.count(up_key_)) {
+      keys_pressed_.insert(up_key_);
       changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
       consumed = true;
     }
   }
   else
-    keys_pressed_.erase('x');
+    keys_pressed_.erase(up_key_);
 
   if (KeyPress::isKeyCurrentlyDown(KeyPress::spaceKey)) {
     if (!keys_pressed_.count(' ')) {

@@ -127,6 +127,11 @@ namespace mopo {
   const int NUM_FORMANTS = 4;
   const int NUM_CHANNELS = 2;
 
+  const int DEFAULT_KEYBOARD_OFFSET = 48;
+  const std::wstring DEFAULT_KEYBOARD = L"awsedftgyhujkolp;'";
+  const wchar_t DEFAULT_KEYBOARD_OCTAVE_UP = 'x';
+  const wchar_t DEFAULT_KEYBOARD_OCTAVE_DOWN = 'z';
+
   const std::string PATCH_EXTENSION = "helm";
 
   typedef std::map<std::string, Value*> control_map;
@@ -156,6 +161,23 @@ namespace mopo {
     std::string destination;
     Value amount;
     Multiply modulation_scale;
+  };
+
+  class StringLayout {
+    public:
+      std::wstring getLayout() { return layout_; }
+      void setLayout(std::wstring layout) { layout_ = layout; }
+
+      wchar_t getUpKey() { return up_key_; }
+      void setUpKey(wchar_t up_key) { up_key_ = up_key; }
+
+      wchar_t getDownKey() { return down_key_; }
+      void setDownKey(wchar_t down_key) { down_key_ = down_key; }
+
+    protected:
+      std::wstring layout_;
+      int up_key_;
+      int down_key_;
   };
 
   class ValueDetailsLookup {
