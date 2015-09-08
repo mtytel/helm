@@ -159,7 +159,7 @@ void LoadSave::saveConfig(MidiManager* midi_manager) {
     for (auto midi_destination : midi_mapping.second) {
       DynamicObject* midi_destination_object = new DynamicObject();
 
-      midi_destination_object->setProperty("destination", String(midi_mapping.first));
+      midi_destination_object->setProperty("destination", String(midi_destination.first));
       midi_destination_object->setProperty("min_range", midi_destination.second.first);
       midi_destination_object->setProperty("max_range", midi_destination.second.second);
       midi_destinations_object.add(midi_destination_object);
@@ -206,7 +206,7 @@ void LoadSave::loadConfig(MidiManager* midi_manager) {
         var* midi_destination = destinations->begin();
 
         for (; midi_destination != destinations->end(); ++midi_destination) {
-          DynamicObject* destination_object = midi_source->getDynamicObject();
+          DynamicObject* destination_object = midi_destination->getDynamicObject();
 
           String destination_name = destination_object->getProperty("destination").toString();
           mopo::mopo_float min_range = destination_object->getProperty("min_range");
@@ -217,6 +217,7 @@ void LoadSave::loadConfig(MidiManager* midi_manager) {
         }
       }
     }
+    midi_manager->setMidiLearnMap(midi_learn_map);
   }
 }
 

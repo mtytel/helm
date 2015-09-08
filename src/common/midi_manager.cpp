@@ -15,6 +15,7 @@
  */
 
 #include "midi_manager.h"
+#include "load_save.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MOD_WHEEL_RESOLUTION 127
@@ -31,8 +32,10 @@ void MidiManager::cancelMidiLearn() {
 
 void MidiManager::clearMidiLearn(const std::string& name) {
   for (auto controls : midi_learn_map_) {
-    if (controls.second.count(name))
+    if (controls.second.count(name)) {
       midi_learn_map_[controls.first].erase(name);
+      LoadSave::saveConfig(this);
+    }
   }
 }
 
@@ -40,6 +43,7 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
   if (control_armed_ != "") {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
     control_armed_ = "";
+    LoadSave::saveConfig(this);
   }
 
   if (midi_learn_map_.count(midi_id)) {
