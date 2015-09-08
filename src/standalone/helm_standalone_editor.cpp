@@ -31,8 +31,10 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   midi_manager_ = new MidiManager(&synth_, &critical_section_, this);
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
-  Startup::doStartupChecks();
+
+  Startup::doStartupChecks(midi_manager_);
   setAudioChannels(0, mopo::NUM_CHANNELS);
+
   AudioDeviceManager::AudioDeviceSetup setup;
   deviceManager.getAudioDeviceSetup(setup);
   setup.sampleRate = mopo::DEFAULT_SAMPLE_RATE;

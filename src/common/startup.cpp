@@ -37,9 +37,19 @@ namespace {
   }
 } // namespace
 
-void Startup::doStartupChecks() {
+void Startup::doStartupChecks(MidiManager* midi_manager) {
   fixPatchesFolder();
-  checkConfigFile();
+
+  if (isFirstStartup()) {
+    LoadSave::saveConfig(midi_manager);
+  }
+  else {
+    LoadSave::loadConfig(midi_manager);
+  }
+}
+
+bool Startup::isFirstStartup() {
+  return !LoadSave::getConfigFile().exists();
 }
 
 void Startup::fixPatchesFolder() {
@@ -64,10 +74,6 @@ void Startup::fixPatchesFolder() {
     File new_patch_location = default_user_folder.getChildFile(misplaced_files[i].getFileName());
     misplaced_files[i].moveFileTo(new_patch_location);
   }
-}
-
-void Startup::checkConfigFile() {
-
 }
 
 void Startup::updateAllPatches(mopo::HelmEngine* synth,

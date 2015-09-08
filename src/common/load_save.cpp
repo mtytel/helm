@@ -17,6 +17,7 @@
 #include "load_save.h"
 #include "JuceHeader.h"
 #include "helm_common.h"
+#include "midi_manager.h"
 
 #define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define USER_BANK_NAME "User Patches"
@@ -126,6 +127,97 @@ String LoadSave::getAuthor(var state) {
   if (properties.contains("author"))
     return properties["author"];
   return "";
+}
+
+File LoadSave::getConfigFile() {
+  PropertiesFile::Options config_options;
+  config_options.applicationName = ProjectInfo::projectName;
+  config_options.osxLibrarySubFolder = "Application Support";
+  config_options.filenameSuffix = "config";
+  
+#ifdef LINUX
+  config_options.folderName = "." + String(ProjectInfo::projectName).toLowerCase();
+#else
+  config_options.folderName = String(ProjectInfo::projectName).toLowerCase();
+#endif
+
+  return config_options.getDefaultFile();
+}
+
+void LoadSave::saveConfig(MidiManager* midi_manager) {
+  MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
+  DynamicObject* config_object = new DynamicObject();
+
+  // Midi Learn Map
+  Array<var> midi_learn_object;
+  for (auto midi_mapping : midi_learn_map) {
+    DynamicObject* midi_map_object = new DynamicObject();
+    Array<var> midi_destinations_object;
+
+    midi_map_object->setProperty("source", midi_mapping.first);
+
+    for (auto midi_destination : midi_mapping.second) {
+      DynamicObject* midi_destination_object = new DynamicObject();
+
+      midi_destination_object->setProperty("destination", String(midi_mapping.first));
+      midi_destination_object->setProperty("min_range", midi_destination.second.first);
+      midi_destination_object->setProperty("max_range", midi_destination.second.second);
+      midi_destinations_object.add(midi_destination_object);
+    }
+
+    midi_map_object->setProperty("destinations", midi_destinations_object);
+    midi_learn_object.add(midi_map_object);
+  }
+
+  config_object->setProperty("midi_learn", midi_learn_object);
+
+  File config_file = getConfigFile();
+
+  if (!config_file.exists())
+    config_file.create();
+  config_file.replaceWithText(JSON::toString(config_object));
+}
+
+void LoadSave::loadConfig(MidiManager* midi_manager) {
+  File config_file = getConfigFile();
+
+  var config_state;
+  if (!JSON::parse(config_file.loadFileAsString(), config_state).wasOk())
+    return;
+
+  if (!config_state.isObject())
+    return;
+
+  DynamicObject* config_object = config_state.getDynamicObject();
+  NamedValueSet config_properties = config_object->getProperties();
+
+  if (config_properties.contains("midi_learn")) {
+    MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
+
+    Array<var>* midi_learn = config_properties["midi_learn"].getArray();
+    var* midi_source = midi_learn->begin();
+
+    for (; midi_source != midi_learn->end(); ++midi_source) {
+      DynamicObject* source_object = midi_source->getDynamicObject();
+      int source = source_object->getProperty("source");
+
+      if (source_object->hasProperty("destinations")) {
+        Array<var>* destinations = source_object->getProperty("destinations").getArray();
+        var* midi_destination = destinations->begin();
+
+        for (; midi_destination != destinations->end(); ++midi_destination) {
+          DynamicObject* destination_object = midi_source->getDynamicObject();
+
+          String destination_name = destination_object->getProperty("destination").toString();
+          mopo::mopo_float min_range = destination_object->getProperty("min_range");
+          mopo::mopo_float max_range = destination_object->getProperty("max_range");
+
+          midi_learn_map[source][destination_name.toStdString()] =
+              MidiManager::midi_range(min_range, max_range);
+        }
+      }
+    }
+  }
 }
 
 File LoadSave::getFactoryBankDirectory() {

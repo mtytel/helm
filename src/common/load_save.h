@@ -21,6 +21,8 @@
 
 #include "helm_engine.h"
 
+class MidiManager;
+
 class FileSorterAscending {
 public:
   FileSorterAscending() { }
@@ -51,8 +53,10 @@ class LoadSave {
 
     static String getAuthor(var state);
 
+    static File getConfigFile();
+    static void saveConfig(MidiManager* midi_manager);
+    static void loadConfig(MidiManager* midi_manager);
     static File getFactoryBankDirectory();
-
     static File getBankDirectory();
     static File getUserBankDirectory();
 };

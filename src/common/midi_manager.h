@@ -23,8 +23,10 @@
 #include <map>
 
 class MidiManager : public MidiInputCallback {
-  typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
   public:
+    typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
+    typedef std::map<int, std::map<std::string, midi_range>> midi_map;
+
     class MidiManagerListener {
       public:
         virtual ~MidiManagerListener() { }
@@ -44,6 +46,9 @@ class MidiManager : public MidiInputCallback {
     void midiInput(int control, mopo::mopo_float value);
     void processMidiMessage(const MidiMessage &midi_message, int sample_position = 0);
     bool isMidiMapped(const std::string& name) const;
+
+    midi_map getMidiLearnMap() { return midi_learn_map_; }
+    void setMidiLearnMap(midi_map midi_learn_map) { midi_learn_map_ = midi_learn_map; }
 
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
@@ -67,7 +72,7 @@ class MidiManager : public MidiInputCallback {
 
     std::string control_armed_;
     std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;
-    std::map<int, std::map<std::string, midi_range>> midi_learn_map_;
+    midi_map midi_learn_map_;
 };
 
 #endif // MIDI_MANAGER_H

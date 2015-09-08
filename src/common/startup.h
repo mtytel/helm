@@ -23,10 +23,12 @@ namespace mopo {
   class HelmEngine;
 }
 
+class MidiManager;
+
 class Startup {
   public:
-    static void doStartupChecks();
-    static void checkConfigFile();
+    static void doStartupChecks(MidiManager* midi_manager);
+    static bool isFirstStartup();
     static void copyFactoryPatches();
     static void fixPatchesFolder();
     static void updateAllPatches(mopo::HelmEngine* synth,
