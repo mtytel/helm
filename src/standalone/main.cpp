@@ -46,7 +46,7 @@ public:
   bool moreThanOneInstanceAllowed() override { return true; }
 
   void initialise(const String& commandLine) override {
-    if (commandLine.contains("--version") || commandLine.contains(" -v")) {
+    if (commandLine.contains("--version") || commandLine.contains("-v")) {
       std::cout << getApplicationName() << " " << getApplicationVersion() << newLine;
       quit();
     }
