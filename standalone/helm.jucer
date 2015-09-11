@@ -313,6 +313,10 @@
               file="../src/editor_sections/synthesis_interface.cpp"/>
         <FILE id="H44Jxk" name="synthesis_interface.h" compile="0" resource="0"
               file="../src/editor_sections/synthesis_interface.h"/>
+        <FILE id="xJbByM" name="update_check_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/update_check_section.cpp"/>
+        <FILE id="gzDKvX" name="update_check_section.h" compile="0" resource="0"
+              file="../src/editor_sections/update_check_section.h"/>
         <FILE id="Kd30GX" name="volume_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/volume_section.cpp"/>
         <FILE id="t5dwUZ" name="volume_section.h" compile="0" resource="0"

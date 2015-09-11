@@ -216,6 +216,7 @@
     <ClCompile Include="..\..\src\editor_sections\sub_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\synth_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\synthesis_interface.cpp"/>
+    <ClCompile Include="..\..\src\editor_sections\update_check_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\volume_section.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\browser_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp"/>
@@ -1476,6 +1477,7 @@
     <ClInclude Include="..\..\src\editor_sections\sub_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\synth_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\synthesis_interface.h"/>
+    <ClInclude Include="..\..\src\editor_sections\update_check_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\volume_section.h"/>
     <ClInclude Include="..\..\src\look_and_feel\browser_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h"/>

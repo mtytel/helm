@@ -29,6 +29,7 @@
 #include "patch_selector.h"
 #include "synthesis_interface.h"
 #include "synth_section.h"
+#include "update_check_section.h"
 
 class FullInterface : public SynthSection {
   public:
@@ -56,6 +57,7 @@ class FullInterface : public SynthSection {
     ScopedPointer<SynthSlider> arp_tempo_;
 
     ScopedPointer<AboutSection> about_section_;
+    ScopedPointer<UpdateCheckSection> update_check_section_;
     ScopedPointer<Component> standalone_settings_section_;
     ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;

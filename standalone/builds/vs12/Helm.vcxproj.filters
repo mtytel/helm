@@ -577,6 +577,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\synthesis_interface.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\update_check_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\volume_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
@@ -2128,6 +2131,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\synthesis_interface.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\update_check_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\volume_section.h">

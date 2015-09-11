@@ -76,10 +76,15 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
 
+  update_check_section_ = new UpdateCheckSection("update_check");
+  addChildComponent(update_check_section_);
+
   setOpaque(true);
 }
 
 FullInterface::~FullInterface() {
+  about_section_ = nullptr;
+  update_check_section_ = nullptr;
   arp_section_ = nullptr;
   synthesis_interface_ = nullptr;
   oscilloscope_ = nullptr;
@@ -143,6 +148,7 @@ void FullInterface::resized() {
   global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
+  update_check_section_->setBounds(getBounds());
   save_section_->setBounds(getBounds());
   delete_section_->setBounds(getBounds());
   logo_button_->setBounds(18, 8, 64, 64);
