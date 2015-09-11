@@ -33,11 +33,11 @@
         <key>factoryFunction</key>
         <string>helmFactory</string>
         <key>manufacturer</key>
-        <string>Manu</string>
+        <string>Tyte</string>
         <key>type</key>
         <string>aumu</string>
         <key>subtype</key>
-        <string>Plug</string>
+        <string>Helm</string>
         <key>version</key>
         <integer>1280</integer>
       </dict>

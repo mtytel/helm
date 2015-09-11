@@ -244,10 +244,10 @@
  #define JucePlugin_ManufacturerEmail      "matthewtytel@gmail.com"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       'Manu'
+ #define JucePlugin_ManufacturerCode       'Tyte'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             'Plug'
+ #define JucePlugin_PluginCode             'Helm'
 #endif
 #ifndef  JucePlugin_MaxNumInputChannels
  #define JucePlugin_MaxNumInputChannels    0
