@@ -47,6 +47,10 @@ class LoadSave {
                              const CriticalSection& critical_section,
                              const NamedValueSet& properties);
 
+    static void loadModulations(mopo::HelmEngine* synth,
+                                const CriticalSection& critical_section,
+                                const Array<var>* modulations);
+
     static void varToState(mopo::HelmEngine* synth,
                            const CriticalSection& critical_section,
                            var state);
@@ -62,6 +66,7 @@ class LoadSave {
     static File getFactoryBankDirectory();
     static File getBankDirectory();
     static File getUserBankDirectory();
+    static int compareVersionStrings(String a, String b);
 };
 
 #endif  // LOAD_SAVE_H

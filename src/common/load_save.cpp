@@ -81,10 +81,16 @@ void LoadSave::loadControls(mopo::HelmEngine* synth,
       control.second->set(details.default_value);
     }
   }
+}
+
+void LoadSave::loadModulations(mopo::HelmEngine* synth,
+                               const CriticalSection& critical_section,
+                               const Array<var>* modulations) {
+  ScopedLock lock(critical_section);
 
   synth->clearModulations();
-  Array<var>* modulations = properties["modulations"].getArray();
   var* modulation = modulations->begin();
+
   for (; modulation != modulations->end(); ++modulation) {
     DynamicObject* mod = modulation->getDynamicObject();
     std::string source = mod->getProperty("source").toString().toStdString();
@@ -104,18 +110,70 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
   DynamicObject* object_state = state.getDynamicObject();
   NamedValueSet properties = object_state->getProperties();
 
-  if (properties.contains("synth_version")) {
-    // If there is version specific loading, fill it in here.
-    String version = properties["synth_version"];
-    var settings = properties["settings"];
-    DynamicObject* settings_object = settings.getDynamicObject();
-    NamedValueSet settings_properties = settings_object->getProperties();
-    loadControls(synth, critical_section, settings_properties);
+  // Version 0.4.1 was the last build before we saved the version number.
+  String version = "0.4.1";
+  if (properties.contains("synth_version"))
+    version = properties["synth_version"];
+
+  // After 0.4.1 there was a patch file restructure.
+  if (compareVersionStrings(version, "0.4.1") <= 0) {
+    NamedValueSet new_properties;
+    new_properties.set("settings", object_state);
+    properties = new_properties;
   }
-  else {
-    // Version 0.4.1 and earlier.
-    loadControls(synth, critical_section, properties);
+
+  var settings = properties["settings"];
+  DynamicObject* settings_object = settings.getDynamicObject();
+  NamedValueSet settings_properties = settings_object->getProperties();
+  Array<var>* modulations = settings_properties["modulations"].getArray();
+
+  // After 0.5.0 mixer was added and osc_mix was removed.
+  if (compareVersionStrings(version, "0.5.0") <= 0) {
+
+    // Fix control control values.
+    if (settings_properties.contains("osc_mix")) {
+      mopo::mopo_float osc_mix = settings_properties["osc_mix"];
+      settings_properties.set("osc_1_volume", 1.0f - osc_mix);
+      settings_properties.set("osc_2_volume", osc_mix);
+      settings_properties.remove("osc_mix");
+    }
+
+    // Fix modulation routing.
+    var* modulation = modulations->begin();
+    Array<var> old_modulations;
+    Array<DynamicObject*> new_modulations;
+    for (; modulation != modulations->end(); ++modulation) {
+      DynamicObject* mod = modulation->getDynamicObject();
+      String destination = mod->getProperty("destination").toString();
+
+      if (destination == "osc_mix") {
+        String source = mod->getProperty("source").toString();
+        mopo::mopo_float amount = mod->getProperty("amount");
+        old_modulations.add(mod);
+
+        DynamicObject* osc_1_mod = new DynamicObject();
+        osc_1_mod->setProperty("source", source);
+        osc_1_mod->setProperty("destination", "osc_1_volume");
+        osc_1_mod->setProperty("amount", -amount);
+        new_modulations.add(osc_1_mod);
+
+        DynamicObject* osc_2_mod = new DynamicObject();
+        osc_2_mod->setProperty("source", source);
+        osc_2_mod->setProperty("destination", "osc_2_volume");
+        osc_2_mod->setProperty("amount", amount);
+        new_modulations.add(osc_2_mod);
+      }
+    }
+
+    for (var old_modulation : old_modulations)
+      modulations->removeFirstMatchingValue(old_modulation);
+
+    for (DynamicObject* modulation : new_modulations)
+      modulations->add(modulation);
   }
+
+  loadControls(synth, critical_section, settings_properties);
+  loadModulations(synth, critical_section, modulations);
 }
 
 String LoadSave::getAuthor(var state) {
@@ -337,4 +395,30 @@ File LoadSave::getUserBankDirectory() {
   if (!folder_dir.exists())
     folder_dir.createDirectory();
   return folder_dir;
+}
+
+int LoadSave::compareVersionStrings(String a, String b) {
+  a.trim();
+  b.trim();
+
+  if (a.isEmpty() && b.isEmpty())
+    return 0;
+
+  String major_version_a = a.upToFirstOccurrenceOf(".", false, true);
+  String major_version_b = b.upToFirstOccurrenceOf(".", false, true);
+
+  if (!major_version_a.containsOnly("0123456789"))
+    major_version_a = "0";
+  if (!major_version_b.containsOnly("0123456789"))
+    major_version_b = "0";
+
+  int major_value_a = major_version_a.getIntValue();
+  int major_value_b = major_version_b.getIntValue();
+
+  if (major_value_a > major_value_b)
+    return 1;
+  else if (major_value_a < major_value_b)
+    return -1;
+  return compareVersionStrings(a.fromFirstOccurrenceOf(".", false, true),
+                               b.fromFirstOccurrenceOf(".", false, true));
 }

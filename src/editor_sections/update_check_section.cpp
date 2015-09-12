@@ -16,6 +16,7 @@
 
 #include "update_check_section.h"
 #include "helm_common.h"
+#include "load_save.h"
 #include "JuceHeader.h"
 #include "text_look_and_feel.h"
 
@@ -25,33 +26,6 @@
 #define PADDING_Y 20
 #define BUTTON_HEIGHT 30
 
-namespace {
-  int compareVersionStrings(String a, String b) {
-    a.trim();
-    b.trim();
-
-    if (a.isEmpty() && b.isEmpty())
-      return 0;
-
-    String major_version_a = a.upToFirstOccurrenceOf(".", false, true);
-    String major_version_b = b.upToFirstOccurrenceOf(".", false, true);
-
-    if (!major_version_a.containsOnly("0123456789"))
-      major_version_a = "0";
-    if (!major_version_b.containsOnly("0123456789"))
-      major_version_b = "0";
-
-    int major_value_a = major_version_a.getIntValue();
-    int major_value_b = major_version_b.getIntValue();
-
-    if (major_value_a > major_value_b)
-      return 1;
-    else if (major_value_a < major_value_b)
-      return -1;
-    return compareVersionStrings(a.fromFirstOccurrenceOf(".", false, true),
-                                 b.fromFirstOccurrenceOf(".", false, true));
-  }
-} // namespace
 
 UpdateCheckSection::UpdateCheckSection(String name) : Component(name) {
   download_button_ = new TextButton(TRANS("Download"));
@@ -126,7 +100,8 @@ void UpdateCheckSection::checkUpdate() {
   URL version_url("http://tytel.org/static/dist/helm_version.txt");
   version_ = version_url.readEntireTextStream().upToFirstOccurrenceOf("\n", false, false);
 
-  if (!version_.isEmpty() && compareVersionStrings(ProjectInfo::versionString, version_) < 0) {
+  if (!version_.isEmpty() &&
+      LoadSave::compareVersionStrings(ProjectInfo::versionString, version_) < 0) {
     repaint();
     setVisible(true);
   }
