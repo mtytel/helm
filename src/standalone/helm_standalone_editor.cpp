@@ -23,7 +23,7 @@
 #include "utils.h"
 
 #define WIDTH 996
-#define HEIGHT 670
+#define HEIGHT 798
 #define MAX_OUTPUT_MEMORY 1048576
 
 HelmStandaloneEditor::HelmStandaloneEditor() {

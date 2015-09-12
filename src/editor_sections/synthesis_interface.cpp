@@ -31,6 +31,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(amplitude_envelope_section_ = new EnvelopeSection("AMPLITUDE ENVELOPE", "amp"));
   addSubSection(articulation_section_ = new ArticulationSection("ARTICULATION"));
   addSubSection(delay_section_ = new DelaySection("DELAY"));
+  addSubSection(extra_envelope_section_ = new EnvelopeSection("MOD ENVELOPE", "mod"));
   addSubSection(extra_mod_section_ = new ExtraModSection("KEYBOARD MOD"));
   addSubSection(feedback_section_ = new FeedbackSection("FEEDBACK"));
   addSubSection(filter_envelope_section_ = new EnvelopeSection("FILTER ENVELOPE", "fil"));
@@ -55,6 +56,7 @@ SynthesisInterface::~SynthesisInterface() {
   amplitude_envelope_section_ = nullptr;
   articulation_section_ = nullptr;
   delay_section_ = nullptr;
+  extra_envelope_section_ = nullptr;
   extra_mod_section_ = nullptr;
   feedback_section_ = nullptr;
   filter_envelope_section_ = nullptr;
@@ -86,6 +88,7 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, articulation_section_->getBounds());
   section_shadow.drawForRectangle(g, delay_section_->getBounds());
+  section_shadow.drawForRectangle(g, extra_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, extra_mod_section_->getBounds());
   section_shadow.drawForRectangle(g, feedback_section_->getBounds());
   section_shadow.drawForRectangle(g, filter_envelope_section_->getBounds());
@@ -152,6 +155,10 @@ void SynthesisInterface::resized() {
                              COLUMN_WIDTH_4, 64.0f);
   articulation_section_->setBounds(column_4_x, extra_mod_section_->getY(),
                                    COLUMN_WIDTH_4, extra_mod_section_->getHeight());
+
+  extra_envelope_section_->setBounds(column_2_x,
+                                     step_sequencer_section_->getBottom() + CELL_PADDING,
+                                     COLUMN_WIDTH_2, 120.0f);
 
   SynthSection::resized();
 }

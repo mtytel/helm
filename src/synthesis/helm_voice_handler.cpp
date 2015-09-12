@@ -120,7 +120,7 @@ namespace mopo {
                       amplitude_envelope_->output(Envelope::kFinished));
     createModulators(amplitude_envelope_->output(Envelope::kFinished));
     createFilter(osc_feedback_->output(0), note_from_center_->output(),
-                 amplitude_envelope_->output(Envelope::kFinished), voice_event());
+                 amplitude_envelope_->output(Envelope::kFinished));
 
     Value* aftertouch_value = new Value();
     aftertouch_value->plug(aftertouch());
@@ -349,28 +349,38 @@ namespace mopo {
     addProcessor(lfo);
     addProcessor(scaled_lfo);
     mod_sources_["poly_lfo"] = scaled_lfo->output();
+
+    // Extra Envelope.
+    Processor* mod_attack = createPolyModControl("mod_attack", false, false);
+    Processor* mod_decay = createPolyModControl("mod_decay", true, false);
+    Processor* mod_sustain = createPolyModControl("mod_sustain", false);
+    Processor* mod_release = createPolyModControl("mod_release", true, false);
+
+    extra_envelope_ = new Envelope();
+    extra_envelope_->plug(mod_attack, Envelope::kAttack);
+    extra_envelope_->plug(mod_decay, Envelope::kDecay);
+    extra_envelope_->plug(mod_sustain, Envelope::kSustain);
+    extra_envelope_->plug(mod_release, Envelope::kRelease);
+    extra_envelope_->plug(env_trigger_, Envelope::kTrigger);
+
+    addProcessor(extra_envelope_);
+    mod_sources_["mod_envelope"] = extra_envelope_->output();
   }
 
   void HelmVoiceHandler::createFilter(
-      Output* audio, Output* keytrack, Output* reset, Output* note_event) {
+      Output* audio, Output* keytrack, Output* reset) {
     // Filter envelope.
     Processor* filter_attack = createPolyModControl("fil_attack", false, false);
     Processor* filter_decay = createPolyModControl("fil_decay", true, false);
     Processor* filter_sustain = createPolyModControl("fil_sustain", false);
     Processor* filter_release = createPolyModControl("fil_release", true, false);
 
-    TriggerFilter* note_off = new TriggerFilter(kVoiceOff);
-    note_off->plug(note_event);
-    TriggerCombiner* filter_env_trigger = new TriggerCombiner();
-    filter_env_trigger->plug(note_off, 0);
-    filter_env_trigger->plug(reset, 1);
-
     filter_envelope_ = new Envelope();
     filter_envelope_->plug(filter_attack, Envelope::kAttack);
     filter_envelope_->plug(filter_decay, Envelope::kDecay);
     filter_envelope_->plug(filter_sustain, Envelope::kSustain);
     filter_envelope_->plug(filter_release, Envelope::kRelease);
-    filter_envelope_->plug(filter_env_trigger, Envelope::kTrigger);
+    filter_envelope_->plug(env_trigger_, Envelope::kTrigger);
 
     Processor* filter_envelope_depth = createPolyModControl("fil_env_depth", false);
     Multiply* scaled_envelope = new Multiply();
@@ -379,8 +389,6 @@ namespace mopo {
     scaled_envelope->plug(filter_envelope_depth, 1);
 
     addProcessor(filter_envelope_);
-    addProcessor(note_off);
-    addProcessor(filter_env_trigger);
     addProcessor(scaled_envelope);
 
     // Filter.
@@ -677,6 +685,16 @@ namespace mopo {
     mod_sources_["amp_envelope"] = amplitude_envelope_->output();
     mod_sources_["note"] = note_percentage->output();
     mod_sources_["velocity"] = current_velocity->output();
+
+    // Envelope Trigger.
+    TriggerFilter* note_off = new TriggerFilter(kVoiceOff);
+    note_off->plug(trigger);
+    env_trigger_ = new TriggerCombiner();
+    env_trigger_->plug(note_off, 0);
+    env_trigger_->plug(amplitude_envelope_->output(Envelope::kFinished), 1);
+
+    addProcessor(note_off);
+    addProcessor(env_trigger_);
   }
 
   void HelmVoiceHandler::process() {

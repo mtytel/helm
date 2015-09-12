@@ -68,7 +68,7 @@ namespace mopo {
       void createModulators(Output* reset);
 
       // Create the filter and filter envelope.
-      void createFilter(Output* audio, Output* keytrack, Output* reset, Output* note_event);
+      void createFilter(Output* audio, Output* keytrack, Output* reset);
 
       Processor* beats_per_second_;
 
@@ -79,6 +79,9 @@ namespace mopo {
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
       SimpleDelay* osc_feedback_;
+
+      TriggerCombiner* env_trigger_;
+      Envelope* extra_envelope_;
 
       Value* legato_;
       Distortion* distorted_filter_;

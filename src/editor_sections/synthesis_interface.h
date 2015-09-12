@@ -51,6 +51,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
     ScopedPointer<ArticulationSection> articulation_section_;
     ScopedPointer<DelaySection> delay_section_;
+    ScopedPointer<EnvelopeSection> extra_envelope_section_;
     ScopedPointer<ExtraModSection> extra_mod_section_;
     ScopedPointer<FeedbackSection> feedback_section_;
     ScopedPointer<EnvelopeSection> filter_envelope_section_;
