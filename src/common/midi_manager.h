@@ -27,15 +27,16 @@ class MidiManager : public MidiInputCallback {
     typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
     typedef std::map<int, std::map<std::string, midi_range>> midi_map;
 
-    class MidiManagerListener {
+    class Listener {
       public:
-        virtual ~MidiManagerListener() { }
+        virtual ~Listener() { }
         virtual void valueChangedThroughMidi(const std::string& name,
                                              mopo::mopo_float value) = 0;
+        virtual void patchChangedThroughMidi(File patch) = 0;
     };
 
     MidiManager(mopo::HelmEngine* synth, const CriticalSection* critical_section,
-                MidiManagerListener* listener = nullptr) :
+                Listener* listener = nullptr) :
         synth_(synth), critical_section_(critical_section), listener_(listener),
         armed_range_(0.0, 1.0) { }
     virtual ~MidiManager() { }
@@ -68,7 +69,9 @@ class MidiManager : public MidiInputCallback {
   protected:
     mopo::HelmEngine* synth_;
     const CriticalSection* critical_section_;
-    MidiManagerListener* listener_;
+    Listener* listener_;
+    int current_bank_;
+    int current_patch_;
 
     std::string control_armed_;
     std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;

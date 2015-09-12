@@ -19,9 +19,12 @@
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MOD_WHEEL_RESOLUTION 127
+#define BANK_SELECT_NUMBER 0
 #define MOD_WHEEL_CONTROL_NUMBER 1
 
 void MidiManager::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
+  current_bank_ = 0;
+  current_patch_ = 0;
   control_armed_ = name;
   armed_range_ = std::pair<mopo::mopo_float, mopo::mopo_float>(min, max);
 }
@@ -67,7 +70,13 @@ bool MidiManager::isMidiMapped(const std::string& name) const {
 
 void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int sample_position) {
   ScopedLock lock(*critical_section_);
-  if (midi_message.isNoteOn()) {
+  if (midi_message.isProgramChange()) {
+    current_patch_ = midi_message.getProgramChangeNumber();
+    File patch = LoadSave::loadPatch(current_bank_, current_patch_, synth_, *critical_section_);
+    if (listener_)
+      listener_->patchChangedThroughMidi(patch);
+  }
+  else if (midi_message.isNoteOn()) {
     float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
     synth_->noteOn(midi_message.getNoteNumber(), velocity, sample_position);
   }
@@ -94,6 +103,8 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
       double percent = (1.0 * midi_message.getControllerValue()) / MOD_WHEEL_RESOLUTION;
       synth_->setModWheel(percent);
     }
+    else if (midi_message.getControllerNumber() == BANK_SELECT_NUMBER)
+      current_bank_ = midi_message.getControllerValue();
     midiInput(midi_message.getControllerNumber(), midi_message.getControllerValue());
   }
 }

@@ -26,7 +26,7 @@
 
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
-  midi_manager_ = new MidiManager(&synth_, &getCallbackLock());
+  midi_manager_ = new MidiManager(&synth_, &getCallbackLock(), this);
 
   Startup::doStartupChecks(midi_manager_);
 
@@ -201,6 +201,20 @@ void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
   var state;
   if (JSON::parse(data_string, state).wasOk())
     LoadSave::varToState(&synth_, getCallbackLock(), state);
+}
+
+void HelmPlugin::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {
+  AudioProcessorEditor* editor = getActiveEditor();
+  HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
+  if (t_editor)
+    t_editor->valueChangedThroughMidi(name, value);
+}
+
+void HelmPlugin::patchChangedThroughMidi(File patch) {
+  AudioProcessorEditor* editor = getActiveEditor();
+  HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
+  if (t_editor)
+    t_editor->patchChangedThroughMidi(patch);
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {

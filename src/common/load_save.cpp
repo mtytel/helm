@@ -422,3 +422,32 @@ int LoadSave::compareVersionStrings(String a, String b) {
   return compareVersionStrings(a.fromFirstOccurrenceOf(".", false, true),
                                b.fromFirstOccurrenceOf(".", false, true));
 }
+
+
+File LoadSave::loadPatch(int bank_index, int patch_index,
+                         mopo::HelmEngine* synth, const CriticalSection& critical_section) {
+  static const FileSorterAscending file_sorter;
+
+  File bank_directory = getBankDirectory();
+  Array<File> banks;
+  bank_directory.findChildFiles(banks, File::findDirectories, false);
+  banks.sort(file_sorter);
+
+  if (banks.size() == 0)
+    return File();
+  File bank = banks[std::min(bank_index, banks.size() - 1)];
+
+  Array<File> patches;
+  bank.findChildFiles(patches, File::findFiles, true, String("*.") + mopo::PATCH_EXTENSION);
+  patches.sort(file_sorter);
+
+  if (patches.size() == 0)
+    return File();
+  File patch = patches[std::min(patch_index, patches.size() - 1)];
+
+  var parsed_json_state;
+  if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
+    varToState(synth, critical_section, parsed_json_state);
+
+  return patch;
+}

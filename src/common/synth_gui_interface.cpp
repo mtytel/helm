@@ -32,6 +32,10 @@ void SynthGuiInterface::valueChangedThroughMidi(const std::string& name, mopo::m
   valueChangedExternal(name, value);
 }
 
+void SynthGuiInterface::patchChangedThroughMidi(File patch) {
+  updateFullGui();
+}
+
 void SynthGuiInterface::valueChangedExternal(const std::string& name, mopo::mopo_float value) {
   valueChanged(name, value);
   updateGuiControl(name, value);

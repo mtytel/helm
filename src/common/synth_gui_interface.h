@@ -23,12 +23,13 @@
 #include "helm_engine.h"
 #include <string>
 
-class SynthGuiInterface : public MidiManager::MidiManagerListener {
+class SynthGuiInterface : public MidiManager::Listener {
   public:
     SynthGuiInterface() { }
     virtual ~SynthGuiInterface() { }
 
     void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
+    void patchChangedThroughMidi(File patch) override;
     void valueChangedExternal(const std::string& name, mopo::mopo_float value);
     void valueChangedInternal(const std::string& name, mopo::mopo_float value);
     void valueChanged(const std::string& name, mopo::mopo_float value);

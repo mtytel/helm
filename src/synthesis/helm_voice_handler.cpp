@@ -296,7 +296,7 @@ namespace mopo {
     addProcessor(oscillator_noise_sum);
 
     // Oscillator feedback.
-    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", false, true);
+    Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", true);
     Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", false);
     Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", true);
     Add* osc_feedback_transposed = new Add();
@@ -313,10 +313,11 @@ namespace mopo {
     osc_feedback_frequency->plug(osc_feedback_midi);
 
     FrequencyToSamples* osc_feedback_samples = new FrequencyToSamples();
+    osc_feedback_samples->setControlRate();
     osc_feedback_samples->plug(osc_feedback_frequency);
 
-    SampleAndHoldBuffer* osc_feedback_samples_audio = new SampleAndHoldBuffer();
-    osc_feedback_samples_audio->plug(osc_feedback_samples);
+    LinearSmoothBuffer* osc_feedback_samples_audio = new LinearSmoothBuffer();
+    osc_feedback_samples_audio->plug(osc_feedback_samples, LinearSmoothBuffer::kValue);
 
     addProcessor(osc_feedback_transposed);
     addProcessor(osc_feedback_midi);

@@ -25,7 +25,7 @@
 
 class ValueBridge;
 
-class HelmPlugin : public AudioProcessor, public ValueBridge::Listener {
+class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiManager::Listener {
   public:
     HelmPlugin();
     virtual ~HelmPlugin();
@@ -58,6 +58,9 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener {
 
     void getStateInformation(MemoryBlock& destData) override;
     void setStateInformation(const void* data, int size_in_bytes) override;
+
+    void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
+    void patchChangedThroughMidi(File patch) override;
 
     void beginChangeGesture(std::string name);
     void endChangeGesture(std::string name);
