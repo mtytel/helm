@@ -222,15 +222,20 @@ namespace mopo {
     addProcessor(oscillator2_phase_inc);
 
     // Oscillator mix.
-    Processor* oscillator_mix_amount = createPolyModControl("osc_mix", false, true);
-    Clamp* clamp_mix = new Clamp(0, 1);
-    clamp_mix->plug(oscillator_mix_amount);
-    LinearSmoothBuffer* smooth_osc_mix = new LinearSmoothBuffer();
-    smooth_osc_mix->plug(clamp_mix);
+    Processor* osc_1_amplitude = createPolyModControl("osc_1_volume", true, false);
+    LinearSmoothBuffer* smooth_osc_1_amp = new LinearSmoothBuffer();
+    smooth_osc_1_amp->plug(osc_1_amplitude, LinearSmoothBuffer::kValue);
+    smooth_osc_1_amp->plug(reset, LinearSmoothBuffer::kTrigger);
+    oscillators->plug(smooth_osc_1_amp, HelmOscillators::kOscillator1Amplitude);
 
-    oscillators->plug(smooth_osc_mix, HelmOscillators::kMix);
-    addProcessor(clamp_mix);
-    addProcessor(smooth_osc_mix);
+    Processor* osc_2_amplitude = createPolyModControl("osc_2_volume", true, false);
+    LinearSmoothBuffer* smooth_osc_2_amp = new LinearSmoothBuffer();
+    smooth_osc_2_amp->plug(osc_2_amplitude, LinearSmoothBuffer::kValue);
+    smooth_osc_2_amp->plug(reset, LinearSmoothBuffer::kTrigger);
+    oscillators->plug(smooth_osc_2_amp, HelmOscillators::kOscillator2Amplitude);
+
+    addProcessor(smooth_osc_1_amp);
+    addProcessor(smooth_osc_2_amp);
 
     // Sub Oscillator.
     Add* sub_midi = new Add();
@@ -251,11 +256,12 @@ namespace mopo {
     sub_oscillator->plug(sub_waveform, FixedPointOscillator::kWaveform);
     sub_oscillator->plug(reset, FixedPointOscillator::kReset);
 
-    Processor* sub_volume = createPolyModControl("sub_volume", false, true);
+    Processor* sub_volume = createPolyModControl("sub_volume", true, false);
     Multiply* scaled_sub_oscillator = new Multiply();
 
     LinearSmoothBuffer* smooth_sub_volume = new LinearSmoothBuffer();
-    smooth_sub_volume->plug(sub_volume);
+    smooth_sub_volume->plug(sub_volume, LinearSmoothBuffer::kValue);
+    smooth_sub_volume->plug(reset, LinearSmoothBuffer::kTrigger);
     scaled_sub_oscillator->plug(sub_oscillator, 0);
     scaled_sub_oscillator->plug(smooth_sub_volume, 1);
 

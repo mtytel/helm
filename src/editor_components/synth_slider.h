@@ -53,23 +53,30 @@ class SynthSlider : public Slider {
     void setUnits(String units) { units_ = units; }
     String getUnits() const { return units_; }
 
+    void flipColoring(bool flip_coloring = true) {
+      flip_coloring_ = flip_coloring;
+      repaint();
+    }
+
     void setBipolar(bool bipolar = true) {
       bipolar_ = bipolar;
       repaint();
     }
-  
+
     void setActive(bool active = true) {
       active_ = active;
       repaint();
     }
 
     bool isBipolar() const { return bipolar_; }
+    bool isFlippedColor() const { return flip_coloring_; }
     bool isActive() const { return active_; }
 
   private:
     void notifyTooltip();
 
     bool bipolar_;
+    bool flip_coloring_;
     bool active_;
     String units_;
     mopo::ValueDetails::DisplaySkew scaling_type_;

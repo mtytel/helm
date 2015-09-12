@@ -28,7 +28,6 @@
 #define TEXT_HEIGHT 16
 #define TRANS_WIDTH 42
 #define TUNE_WIDTH 32
-#define OSC_MIX_HEIGHT 15
 #define WAVE_SELECTOR_HEIGHT 10
 
 OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
@@ -49,10 +48,6 @@ OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
 
   addSlider(cross_modulation_ = new SynthSlider("cross_modulation"));
   cross_modulation_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
-  addSlider(osc_mix_ = new SynthSlider("osc_mix"));
-  osc_mix_->setSliderStyle(Slider::LinearBar);
-  osc_mix_->setBipolar();
 
   addSlider(transpose_1_ = new SynthSlider("osc_1_transpose"));
   transpose_1_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -112,7 +107,6 @@ OscillatorSection::~OscillatorSection() {
   unison_detune_2_ = nullptr;
   unison_harmonize_1_ = nullptr;
   unison_harmonize_2_ = nullptr;
-  osc_mix_ = nullptr;
   cross_modulation_ = nullptr;
 }
 
@@ -148,7 +142,6 @@ void OscillatorSection::paintBackground(Graphics& g) {
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
-  drawTextForComponent(g, TRANS("MIX"), osc_mix_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_2_);
   drawTextForComponent(g, TRANS("TUNE"), tune_1_);
@@ -158,24 +151,21 @@ void OscillatorSection::paintBackground(Graphics& g) {
 
   component_shadow.drawForRectangle(g, wave_viewer_1_->getBounds());
   component_shadow.drawForRectangle(g, wave_viewer_2_->getBounds());
-  component_shadow.drawForRectangle(g, osc_mix_->getBounds());
 
   g.setColour(Colour(0xff424242));
-  g.fillRect(osc_mix_->getBounds());
   paintKnobShadows(g);
 }
 
 void OscillatorSection::resized() {
   float cross_mod_width = CROSS_MOD_WIDTH_PERCENT * getWidth();
   float osc_width = (getWidth() - cross_mod_width) / 2.0f;
-  float osc_height = getHeight() - 20 - WAVE_SELECTOR_HEIGHT - OSC_MIX_HEIGHT - KNOB_SECTION_HEIGHT;
+  float osc_height = getHeight() - 20 - WAVE_SELECTOR_HEIGHT - KNOB_SECTION_HEIGHT;
   float osc_y = 20 + WAVE_SELECTOR_HEIGHT;
 
   wave_selector_1_->setBounds(0.0f, 20.0f, osc_width, WAVE_SELECTOR_HEIGHT);
   wave_selector_2_->setBounds(getWidth() - osc_width, 20.0f, osc_width, WAVE_SELECTOR_HEIGHT);
   wave_viewer_1_->setBounds(0.0f, osc_y, osc_width, osc_height);
   wave_viewer_2_->setBounds(getWidth() - osc_width, osc_y, osc_width, osc_height);
-  osc_mix_->setBounds(0, osc_y + osc_height + 1, getWidth(), OSC_MIX_HEIGHT - 1);
   cross_modulation_->setBounds((getWidth() - KNOB_WIDTH) / 2.0f,
                                osc_y + (osc_height - KNOB_WIDTH) / 2.0f,
                                KNOB_WIDTH, KNOB_WIDTH);

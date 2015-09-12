@@ -89,7 +89,7 @@ void UpdateCheckSection::paint(Graphics& g) {
   g.drawText(TRANS("There is a new version of Helm!"),
              0, 0.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);
-  g.drawText(TRANS("Version:") + version_,
+  g.drawText(TRANS("Version: ") + version_,
              0, 22.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);
   g.drawText(TRANS("Would you like to download it?"),

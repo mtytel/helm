@@ -31,13 +31,9 @@ SubSection::SubSection(String name) : SynthSection(name) {
 
   addSlider(shuffle_ = new SynthSlider("sub_shuffle"));
   shuffle_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-
-  addSlider(volume_ = new SynthSlider("sub_volume"));
-  volume_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 }
 
 SubSection::~SubSection() {
-  volume_ = nullptr;
   wave_viewer_ = nullptr;
   wave_selector_ = nullptr;
 }
@@ -49,7 +45,6 @@ void SubSection::paintBackground(Graphics& g) {
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
-  drawTextForComponent(g, TRANS("AMP"), volume_);
   drawTextForComponent(g, TRANS("SHUFFLE"), shuffle_);
 }
 
@@ -58,11 +53,9 @@ void SubSection::resized() {
   wave_viewer_->setBounds(0, wave_selector_->getBottom(),
                           WAVE_SECTION_WIDTH, getHeight() - wave_selector_->getBottom());
 
-  int knob_y = 30;
-  int space = (getWidth() - 2 * KNOB_WIDTH - WAVE_SECTION_WIDTH) / 3;
+  int knob_y = 34;
+  int space = (getWidth() - KNOB_WIDTH - WAVE_SECTION_WIDTH) / 2;
   shuffle_->setBounds(WAVE_SECTION_WIDTH + space, knob_y,
                       KNOB_WIDTH, KNOB_WIDTH);
-  volume_->setBounds(WAVE_SECTION_WIDTH + KNOB_WIDTH + 2 * space, knob_y,
-                     KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }

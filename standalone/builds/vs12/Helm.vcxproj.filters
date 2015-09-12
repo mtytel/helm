@@ -544,6 +544,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\lfo_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\mixer_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\modulation_manager.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
@@ -2098,6 +2101,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\lfo_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\mixer_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\modulation_manager.h">

@@ -47,7 +47,6 @@ class OscillatorSection : public SynthSection {
     ScopedPointer<ToggleButton> unison_harmonize_1_;
     ScopedPointer<ToggleButton> unison_harmonize_2_;
     ScopedPointer<SynthSlider> cross_modulation_;
-    ScopedPointer<SynthSlider> osc_mix_;
 
     Path top_left_cross_path_;
     Path top_right_cross_path_;

@@ -15,28 +15,27 @@
  */
 
 #pragma once
-#ifndef SUB_SECTION_H
-#define SUB_SECTION_H
+#ifndef MIXER_SECTION_H
+#define MIXER_SECTION_H
 
 #include "JuceHeader.h"
 #include "synth_section.h"
-#include "wave_selector.h"
-#include "wave_viewer.h"
 
-class SubSection : public SynthSection {
+class MixerSection : public SynthSection {
   public:
-    SubSection(String name);
-    ~SubSection();
+    MixerSection(String name);
+    ~MixerSection();
 
     void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:
-    ScopedPointer<WaveViewer> wave_viewer_;
-    ScopedPointer<WaveSelector> wave_selector_;
-    ScopedPointer<SynthSlider> shuffle_;
+    ScopedPointer<SynthSlider> osc_1_;
+    ScopedPointer<SynthSlider> osc_2_;
+    ScopedPointer<SynthSlider> sub_;
+    ScopedPointer<SynthSlider> noise_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SubSection)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MixerSection)
 };
 
-#endif // SUB_SECTION_H
+#endif // MIXER_SECTION_H

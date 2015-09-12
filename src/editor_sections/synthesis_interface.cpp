@@ -39,7 +39,7 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(formant_section_ = new FormantSection("FORMANT"));
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true));
-  addSubSection(noise_section_ = new NoiseSection("NOISE"));
+  addSubSection(mixer_section_ = new MixerSection("MIXER"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo", false));
   addSubSection(reverb_section_ = new ReverbSection("REVERB"));
@@ -64,7 +64,7 @@ SynthesisInterface::~SynthesisInterface() {
   formant_section_ = nullptr;
   mono_lfo_1_section_ = nullptr;
   mono_lfo_2_section_ = nullptr;
-  noise_section_ = nullptr;
+  mixer_section_ = nullptr;
   oscillator_section_ = nullptr;
   poly_lfo_section_ = nullptr;
   reverb_section_ = nullptr;
@@ -96,7 +96,7 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   section_shadow.drawForRectangle(g, formant_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_1_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_2_section_->getBounds());
-  section_shadow.drawForRectangle(g, noise_section_->getBounds());
+  section_shadow.drawForRectangle(g, mixer_section_->getBounds());
   section_shadow.drawForRectangle(g, oscillator_section_->getBounds());
   section_shadow.drawForRectangle(g, poly_lfo_section_->getBounds());
   section_shadow.drawForRectangle(g, reverb_section_->getBounds());
@@ -112,10 +112,10 @@ void SynthesisInterface::resized() {
   float column_3_x = column_2_x + CELL_PADDING + COLUMN_WIDTH_2;
   float column_4_x = column_3_x + CELL_PADDING + COLUMN_WIDTH_3;
 
-  oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 190.0f);
+  oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 180.0f);
   sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + CELL_PADDING,
-                          220, 92.0f);
-  noise_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
+                          170.0f, 102.0f);
+  mixer_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
                             oscillator_section_->getWidth() -
                             CELL_PADDING - sub_section_->getWidth(),
                             sub_section_->getHeight());

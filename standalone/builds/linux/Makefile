@@ -117,6 +117,7 @@ OBJECTS := \
   $(OBJDIR)/formant_section_51494d55.o \
   $(OBJDIR)/full_interface_29b5f507.o \
   $(OBJDIR)/lfo_section_f85fa167.o \
+  $(OBJDIR)/mixer_section_9e4a737b.o \
   $(OBJDIR)/modulation_manager_a5602c68.o \
   $(OBJDIR)/noise_section_31fdfd0c.o \
   $(OBJDIR)/oscillator_section_c90fdcc4.o \
@@ -519,6 +520,11 @@ $(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface
 $(OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lfo_section.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/mixer_section_9e4a737b.o: ../../../src/editor_sections/mixer_section.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling mixer_section.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation_manager.cpp

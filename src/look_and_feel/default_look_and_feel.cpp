@@ -26,10 +26,12 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
   static const DropShadow thumb_shadow(Colour(0x88000000), 3, Point<int>(-1, 0));
 
   bool bipolar = false;
+  bool flip_coloring = false;
   bool active = true;
   SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
   if (s_slider) {
     bipolar = s_slider->isBipolar();
+    flip_coloring = s_slider->isFlippedColor();
     active = s_slider->isActive();
   }
 
@@ -48,6 +50,8 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
     g.setColour(slider_color);
     if (bipolar)
       fillHorizontalRect(g, width / 2.0f, pos, h);
+    else if (flip_coloring)
+      fillHorizontalRect(g, pos, width - pos, h);
     else
       fillHorizontalRect(g, 0.0f, pos, h);
 
@@ -62,6 +66,8 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
 
     if (bipolar)
       fillVerticalRect(g, height / 2.0f, pos, w);
+    else if (flip_coloring)
+      fillVerticalRect(g, height + 1, pos, w);
     else
       fillVerticalRect(g, 0, pos, w);
 

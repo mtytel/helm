@@ -275,6 +275,9 @@
               file="../src/editor_sections/full_interface.h"/>
         <FILE id="zd1Pw6" name="lfo_section.cpp" compile="1" resource="0" file="../src/editor_sections/lfo_section.cpp"/>
         <FILE id="P0c3Zy" name="lfo_section.h" compile="0" resource="0" file="../src/editor_sections/lfo_section.h"/>
+        <FILE id="SfrWqo" name="mixer_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/mixer_section.cpp"/>
+        <FILE id="TtSTMu" name="mixer_section.h" compile="0" resource="0" file="../src/editor_sections/mixer_section.h"/>
         <FILE id="twzAJN" name="modulation_manager.cpp" compile="1" resource="0"
               file="../src/editor_sections/modulation_manager.cpp"/>
         <FILE id="ozVonc" name="modulation_manager.h" compile="0" resource="0"

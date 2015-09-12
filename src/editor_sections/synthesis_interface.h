@@ -29,7 +29,7 @@
 #include "filter_section.h"
 #include "formant_section.h"
 #include "lfo_section.h"
-#include "noise_section.h"
+#include "mixer_section.h"
 #include "oscillator_section.h"
 #include "reverb_section.h"
 #include "sub_section.h"
@@ -59,7 +59,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FormantSection> formant_section_;
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
-    ScopedPointer<NoiseSection> noise_section_;
+    ScopedPointer<MixerSection> mixer_section_;
     ScopedPointer<OscillatorSection> oscillator_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
     ScopedPointer<ReverbSection> reverb_section_;

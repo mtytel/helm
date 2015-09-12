@@ -37,7 +37,8 @@ namespace {
   }
 } // namespace
 
-SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), active_(true),
+SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_coloring_(false),
+                                        active_(true),
                                         string_lookup_(nullptr), parent_(nullptr) {
   if (!mopo::Parameters::isParameter(name.toStdString()))
     return;

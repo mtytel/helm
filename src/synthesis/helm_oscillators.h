@@ -32,6 +32,8 @@ namespace mopo {
         kOscillator2Waveform,
         kOscillator1PhaseInc,
         kOscillator2PhaseInc,
+        kOscillator1Amplitude,
+        kOscillator2Amplitude,
         kUnisonVoices1,
         kUnisonVoices2,
         kUnisonDetune1,
@@ -40,7 +42,6 @@ namespace mopo {
         kHarmonize2,
         kReset,
         kCrossMod,
-        kMix,
         kNumInputs
       };
 
@@ -70,7 +71,8 @@ namespace mopo {
       void tick(int i, int waveform1, int waveform2, int voices1, int voices2) {
         static const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
-        mopo_float mix = input(kMix)->source->buffer[i];
+        mopo_float amp1 = input(kOscillator1Amplitude)->source->buffer[i];
+        mopo_float amp2 = input(kOscillator2Amplitude)->source->buffer[i];
         int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
         int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[i];
 
@@ -100,7 +102,7 @@ namespace mopo {
         oscillator1_total /= ((voices1 >> 2) + 1);
         oscillator2_total /= ((voices2 >> 2) + 1);
 
-        mopo_float mixed = (1.0 - mix) * oscillator1_total + mix * oscillator2_total;
+        mopo_float mixed = amp1 * oscillator1_total + amp2 * oscillator2_total;
         output(0)->buffer[i] = SCALE_OUT * mixed;
       }
 
