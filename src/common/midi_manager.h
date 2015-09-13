@@ -53,22 +53,44 @@ class MidiManager : public MidiInputCallback {
 
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
-    void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message,
-                                   int sample_offset);
 
     struct MidiMessageCallback : public CallbackMessage {
-      MidiMessageCallback(MidiManager* man, const MidiMessage& mes, int sample = 0) :
-          manager(man), message(mes), sample_offset(sample) { }
+      MidiMessageCallback(MidiManager* man, const MidiMessage& mes) : manager(man), message(mes) { }
 
       void messageCallback() override {
-        if (manager != nullptr)
-          manager->processMidiMessage(message, sample_offset);
+        if (manager)
+          manager->processMidiMessage(message);
       }
 
       MidiManager* manager;
       MidiMessage message;
-      int sample_offset;
     };
+
+    struct MidiPatchLoadCallback : public CallbackMessage {
+      MidiPatchLoadCallback(Listener* lis, File pat) : listener(lis), patch(pat) { }
+
+      void messageCallback() override {
+        if (listener)
+          listener->patchChangedThroughMidi(patch);
+      }
+
+      Listener* listener;
+      File patch;
+    };
+
+    struct MidiValueChangeCallback : public CallbackMessage {
+      MidiValueChangeCallback(Listener* lis, std::string name, mopo::mopo_float val) :
+          listener(lis), control_name(name), value(val) { }
+
+      void messageCallback() override {
+        if (listener)
+          listener->valueChangedThroughMidi(control_name, value);
+      }
+
+      Listener* listener;
+      std::string control_name;
+      mopo::mopo_float value;
+  };
 
   protected:
     mopo::HelmEngine* synth_;
