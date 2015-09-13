@@ -56,7 +56,7 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
       midi_range range = control.second;
       mopo::mopo_float percent = value / mopo::MIDI_SIZE;
       mopo::mopo_float translated = percent * (range.second - range.first) + range.first;
-      
+
       CallbackMessage* callback = new MidiValueChangeCallback(listener_, control.first, translated);
       callback->post();
     }
