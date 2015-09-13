@@ -67,7 +67,7 @@ class LoadSave {
     static File getBankDirectory();
     static File getUserBankDirectory();
     static int compareVersionStrings(String a, String b);
-    static File loadPatch(int bank_index, int patch_index,
+    static File loadPatch(int bank_index, int folder_index, int patch_index,
                           mopo::HelmEngine* synth, const CriticalSection& critical_section);
 };
 

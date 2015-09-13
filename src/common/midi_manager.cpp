@@ -20,11 +20,13 @@
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MOD_WHEEL_RESOLUTION 127
 #define BANK_SELECT_NUMBER 0
+#define FOLDER_SELECT_NUMBER 32
 #define MOD_WHEEL_CONTROL_NUMBER 1
 
 void MidiManager::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
-  current_bank_ = 0;
-  current_patch_ = 0;
+  current_bank_ = -1;
+  current_folder_ = -1;
+  current_patch_ = -1;
   control_armed_ = name;
   armed_range_ = std::pair<mopo::mopo_float, mopo::mopo_float>(min, max);
 }
@@ -69,14 +71,18 @@ bool MidiManager::isMidiMapped(const std::string& name) const {
 }
 
 void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int sample_position) {
-  ScopedLock lock(*critical_section_);
   if (midi_message.isProgramChange()) {
     current_patch_ = midi_message.getProgramChangeNumber();
-    File patch = LoadSave::loadPatch(current_bank_, current_patch_, synth_, *critical_section_);
+    File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
+                                     synth_, *critical_section_);
     if (listener_)
       listener_->patchChangedThroughMidi(patch);
+
+    return;
   }
-  else if (midi_message.isNoteOn()) {
+  
+  ScopedLock lock(*critical_section_);
+  if (midi_message.isNoteOn()) {
     float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
     synth_->noteOn(midi_message.getNoteNumber(), velocity, sample_position);
   }
@@ -99,12 +105,15 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
     synth_->setPitchWheel(value);
   }
   else if (midi_message.isController()) {
-    if (midi_message.getControllerNumber() == MOD_WHEEL_CONTROL_NUMBER) {
+    int controller_number = midi_message.getControllerNumber();
+    if (controller_number == MOD_WHEEL_CONTROL_NUMBER) {
       double percent = (1.0 * midi_message.getControllerValue()) / MOD_WHEEL_RESOLUTION;
       synth_->setModWheel(percent);
     }
-    else if (midi_message.getControllerNumber() == BANK_SELECT_NUMBER)
+    else if (controller_number == BANK_SELECT_NUMBER)
       current_bank_ = midi_message.getControllerValue();
+    else if (controller_number == FOLDER_SELECT_NUMBER)
+      current_folder_ = midi_message.getControllerValue();
     midiInput(midi_message.getControllerNumber(), midi_message.getControllerValue());
   }
 }
@@ -112,5 +121,12 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
 void MidiManager::handleIncomingMidiMessage(MidiInput *source,
                                             const MidiMessage &midi_message) {
   MidiMessageCallback* midi_callback = new MidiMessageCallback(this, midi_message);
+  midi_callback->post();
+}
+
+void MidiManager::handleIncomingMidiMessage(MidiInput *source,
+                                            const MidiMessage &midi_message,
+                                            int sample_offset) {
+  MidiMessageCallback* midi_callback = new MidiMessageCallback(this, midi_message, sample_offset);
   midi_callback->post();
 }

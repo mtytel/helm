@@ -53,17 +53,21 @@ class MidiManager : public MidiInputCallback {
 
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
+    void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message,
+                                   int sample_offset);
 
     struct MidiMessageCallback : public CallbackMessage {
-      MidiMessageCallback(MidiManager* man, const MidiMessage& mes) : manager(man), message(mes) { }
+      MidiMessageCallback(MidiManager* man, const MidiMessage& mes, int sample = 0) :
+          manager(man), message(mes), sample_offset(sample) { }
 
       void messageCallback() override {
         if (manager != nullptr)
-          manager->processMidiMessage(message);
+          manager->processMidiMessage(message, sample_offset);
       }
 
       MidiManager* manager;
       MidiMessage message;
+      int sample_offset;
     };
 
   protected:
@@ -71,6 +75,7 @@ class MidiManager : public MidiInputCallback {
     const CriticalSection* critical_section_;
     Listener* listener_;
     int current_bank_;
+    int current_folder_;
     int current_patch_;
 
     std::string control_armed_;

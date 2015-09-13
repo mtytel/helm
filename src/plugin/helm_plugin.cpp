@@ -128,7 +128,7 @@ void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages) {
   MidiMessage midi_message;
   int midi_sample_position = 0;
   while (midi_iter.getNextEvent(midi_message, midi_sample_position))
-    midi_manager_->processMidiMessage(midi_message, midi_sample_position);
+    midi_manager_->handleIncomingMidiMessage(nullptr, midi_message, midi_sample_position);
 }
 
 void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {

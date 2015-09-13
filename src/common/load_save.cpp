@@ -424,7 +424,7 @@ int LoadSave::compareVersionStrings(String a, String b) {
 }
 
 
-File LoadSave::loadPatch(int bank_index, int patch_index,
+File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
                          mopo::HelmEngine* synth, const CriticalSection& critical_section) {
   static const FileSorterAscending file_sorter;
 
@@ -435,14 +435,42 @@ File LoadSave::loadPatch(int bank_index, int patch_index,
 
   if (banks.size() == 0)
     return File();
-  File bank = banks[std::min(bank_index, banks.size() - 1)];
+
+  if (bank_index >= 0) {
+    File bank = banks[std::min(bank_index, banks.size() - 1)];
+    banks.clear();
+    banks.add(bank);
+  }
+
+  Array<File> folders;
+  for (File bank : banks) {
+    Array<File> bank_folders;
+    bank.findChildFiles(bank_folders, File::findDirectories, false);
+    bank_folders.sort(file_sorter);
+    folders.addArray(bank_folders);
+  }
+
+  if (folders.size() == 0)
+    return File();
+
+  if (folder_index >= 0) {
+    File folder = folders[std::min(folder_index, folders.size() - 1)];
+    folders.clear();
+    folders.add(folder);
+  }
 
   Array<File> patches;
-  bank.findChildFiles(patches, File::findFiles, true, String("*.") + mopo::PATCH_EXTENSION);
-  patches.sort(file_sorter);
+  for (File folder : folders) {
+    Array<File> folder_patches;
+    folder.findChildFiles(folder_patches, File::findFiles, false,
+                          String("*.") + mopo::PATCH_EXTENSION);
+    folder_patches.sort(file_sorter);
+    patches.addArray(folder_patches);
+  }
 
-  if (patches.size() == 0)
+  if (patches.size() == 0 || patch_index < 0)
     return File();
+
   File patch = patches[std::min(patch_index, patches.size() - 1)];
 
   var parsed_json_state;
