@@ -1,13 +1,11 @@
-helm (0.5.1-1) unstable; urgency=low
+0.5.1 (unreleased)
 
   * Added oscillator mixer
   * Added third envelope
   * Auto detection of new versions
   * MIDI enabled patch switching
 
- -- Matt Tytel <matthewtytel@gmail.com>  In progress -0700
-
-helm (0.5.0-1) unstable; urgency=low
+0.5.0 (10 September 2015)
 
   * New patch browser!
   * Added a bunch of patches submitted by Cris Owl Alvarez
@@ -25,9 +23,7 @@ helm (0.5.0-1) unstable; urgency=low
   * Added --version [-v] flag for GNU/Linux
   * Fixed clipped text on GNU/Linux
 
- -- Matt Tytel <matthewtytel@gmail.com>  Thu, 10 Sep 2015 20:00:00 -0700
-
-helm (0.4.1-1) unstable; urgency=low
+0.4.1 (13 August 2015)
 
   * Add Audio/MIDI settings page under Helm logo button
   * Fixed occasional hang when using MIDI learn/automation
@@ -43,9 +39,7 @@ helm (0.4.1-1) unstable; urgency=low
   * Fixed unintentional automation cancelling in some DAWs
   * Fixed zippering when modulating some parameters
 
- -- Matt Tytel <matthewtytel@gmail.com>  Thu, 13 Aug 2015 20:30:00 -0500
-
-helm (0.4.0-1) unstable; urgency=low
+0.4.0 (16 July 2015)
 
   * Fixed a crash when opening plugin GUI after changing parameters
   * Fixed loading back parameters from a saved DAW project
@@ -58,10 +52,6 @@ helm (0.4.0-1) unstable; urgency=low
   * Fixed Pitch Wheel's default pitch bending
   * Small optimizations to GNU/Linux builds
 
- -- Matt Tytel <matthewtytel@gmail.com>  Thu, 16 Jul 2015 12:30:00 -0700
-
-helm (0.3.2-1) unstable; urgency=low
+0.3.2 (8 July 2015)
 
   * Initial Release.
-
- -- Matt Tytel <matthewtytel@gmail.com>  Wed, 8 Jul 2015 12:30:00 -0700
