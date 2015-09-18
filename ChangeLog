@@ -1,3 +1,7 @@
+2015-09-18  Matt Tytel  <matthewtytel@gmail.com>
+
+ * Makefiles: added verbose printing to makefiles.
+
 2015-09-14  Matt Tytel  <matthewtytel@gmail.com>
 
  * Makefile.binary: add mixer_seciton.* to compilation.
