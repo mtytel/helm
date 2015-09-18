@@ -5,7 +5,7 @@ ifndef CONFIG
   CONFIG=Release
 endif
 
-ifndef AT
+ifndef VERBOSE
 	AT:=@
 endif
 

@@ -8,7 +8,7 @@ ifndef CONFIG
   CONFIG=Debug
 endif
 
-ifndef AT
+ifndef VERBOSE
   AT:=@
 endif
 
