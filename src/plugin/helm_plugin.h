@@ -78,6 +78,8 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     mopo::control_map controls_;
     mopo::Memory* output_memory_;
     ScopedPointer<MidiManager> midi_manager_;
+    int num_programs_;
+    int current_program_;;
 
     std::map<std::string, ValueBridge*> bridge_lookup_;
 

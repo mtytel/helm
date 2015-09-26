@@ -48,6 +48,7 @@ void HelmEditor::resized() {
 
 void HelmEditor::updateFullGui() {
   gui_->setAllValues(controls_);
+  helm_.updateHostDisplay();
 }
 
 void HelmEditor::updateGuiControl(const std::string& name, mopo::mopo_float value) {

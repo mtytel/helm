@@ -423,9 +423,15 @@ int LoadSave::compareVersionStrings(String a, String b) {
                                b.fromFirstOccurrenceOf(".", false, true));
 }
 
+int LoadSave::getNumPatches() {
+  File bank_directory = getBankDirectory();
+  Array<File> patches;
+  bank_directory.findChildFiles(patches, File::findFiles, true,
+                                String("*.") + mopo::PATCH_EXTENSION);
+  return patches.size();
+}
 
-File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
-                         mopo::HelmEngine* synth, const CriticalSection& critical_section) {
+File LoadSave::getPatchFile(int bank_index, int folder_index, int patch_index) {
   static const FileSorterAscending file_sorter;
 
   File bank_directory = getBankDirectory();
@@ -471,7 +477,12 @@ File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
   if (patches.size() == 0 || patch_index < 0)
     return File();
 
-  File patch = patches[std::min(patch_index, patches.size() - 1)];
+  return patches[std::min(patch_index, patches.size() - 1)];
+}
+
+File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
+                         mopo::HelmEngine* synth, const CriticalSection& critical_section) {
+  File patch = getPatchFile(bank_index, folder_index, patch_index);
 
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
