@@ -28,7 +28,8 @@
 
 HelmStandaloneEditor::HelmStandaloneEditor() {
   setSynth(&synth_);
-  midi_manager_ = new MidiManager(&synth_, &critical_section_, this);
+  setGuiState(&gui_state_);
+  midi_manager_ = new MidiManager(&synth_, &gui_state_, &critical_section_, this);
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
 
