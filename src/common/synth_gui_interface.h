@@ -25,7 +25,7 @@
 
 class SynthGuiInterface : public MidiManager::Listener {
   public:
-    SynthGuiInterface() { }
+    SynthGuiInterface() : synth_(nullptr), gui_state_(nullptr) { }
     virtual ~SynthGuiInterface() { }
 
     void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
@@ -47,6 +47,7 @@ class SynthGuiInterface : public MidiManager::Listener {
 
     var saveToVar(String author);
     void loadFromVar(var state);
+    void loadFromFile(File patch_file);
 
     virtual void beginChangeGesture(const std::string& name) { }
     virtual void endChangeGesture(const std::string& name) { }
@@ -57,6 +58,13 @@ class SynthGuiInterface : public MidiManager::Listener {
     void cancelMidiLearn();
     void clearMidiLearn(const std::string& name);
     bool isMidiMapped(const std::string& name);
+
+    void setAuthor(String author);
+    void setPatchName(String patch_name);
+    void setFolderName(String folder_name);
+    String getAuthor();
+    String getPatchName();
+    String getFolderName();
 
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
@@ -71,7 +79,12 @@ class SynthGuiInterface : public MidiManager::Listener {
       controls_ = synth->getControls();
     }
 
+    void setGuiState(std::map<std::string, String>* gui_state) {
+      gui_state_ = gui_state;
+    }
+
     mopo::HelmEngine* synth_;
+    std::map<std::string, String>* gui_state_;
     mopo::control_map controls_;
 };
 

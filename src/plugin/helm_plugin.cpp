@@ -26,7 +26,7 @@
 
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
-  midi_manager_ = new MidiManager(&synth_, &getCallbackLock(), this);
+  midi_manager_ = new MidiManager(&synth_, &gui_state_, &getCallbackLock(), this);
 
   current_program_ = 0;
   num_programs_ = LoadSave::getNumPatches();
@@ -100,7 +100,7 @@ int HelmPlugin::getCurrentProgram() {
 
 void HelmPlugin::setCurrentProgram(int index) {
   current_program_ = index;
-  LoadSave::loadPatch(-1, -1, index, &synth_, getCallbackLock());
+  LoadSave::loadPatch(-1, -1, index, &synth_, gui_state_, getCallbackLock());
 }
 
 const String HelmPlugin::getProgramName(int index) {
@@ -197,7 +197,7 @@ void HelmPlugin::setValueNotifyHost(std::string name, mopo::mopo_float value) {
 }
 
 void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
-  var state = LoadSave::stateToVar(&synth_, getCallbackLock(), "");
+  var state = LoadSave::stateToVar(&synth_, gui_state_, getCallbackLock());
   String data_string = JSON::toString(state);
   MemoryOutputStream stream;
   stream.writeString(data_string);
@@ -209,7 +209,7 @@ void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
   String data_string = stream.readEntireStreamAsString();
   var state;
   if (JSON::parse(data_string, state).wasOk())
-    LoadSave::varToState(&synth_, getCallbackLock(), state);
+    LoadSave::varToState(&synth_, gui_state_, getCallbackLock(), state);
 }
 
 void HelmPlugin::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {

@@ -25,6 +25,7 @@
 
 HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(helm) {
   setSynth(helm_.getSynth());
+  setGuiState(helm_.getGuiState());
   setLookAndFeel(DefaultLookAndFeel::instance());
 
   gui_ = new FullInterface(helm.getSynth()->getControls(),

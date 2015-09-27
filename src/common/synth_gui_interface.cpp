@@ -107,11 +107,11 @@ mopo::Processor::Output* SynthGuiInterface::getModSource(const std::string& name
 }
 
 var SynthGuiInterface::saveToVar(String author) {
-  return LoadSave::stateToVar(synth_, getCriticalSection(), author);
+  return LoadSave::stateToVar(synth_, *gui_state_, getCriticalSection());
 }
 
 void SynthGuiInterface::loadFromVar(juce::var state) {
-  LoadSave::varToState(synth_, getCriticalSection(), state);
+  LoadSave::varToState(synth_, *gui_state_, getCriticalSection(), state);
   updateFullGui();
 }
 
@@ -130,4 +130,28 @@ void SynthGuiInterface::clearMidiLearn(const std::string& name) {
 
 bool SynthGuiInterface::isMidiMapped(const std::string& name) {
   return getMidiManager()->isMidiMapped(name);
+}
+
+void SynthGuiInterface::setAuthor(String author) {
+  gui_state_->operator[]("author") = author;
+}
+
+void SynthGuiInterface::setPatchName(String patch_name) {
+  gui_state_->operator[]("patch_name") = patch_name;
+}
+
+void SynthGuiInterface::setFolderName(String folder_name) {
+  gui_state_->operator[]("folder_name") = folder_name;
+}
+
+String SynthGuiInterface::getAuthor() {
+  return gui_state_->operator[]("author");
+}
+
+String SynthGuiInterface::getPatchName() {
+  return gui_state_->operator[]("patch_name");
+}
+
+String SynthGuiInterface::getFolderName() {
+  return gui_state_->operator[]("folder_name");
 }

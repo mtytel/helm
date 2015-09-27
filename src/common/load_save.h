@@ -40,8 +40,8 @@ public:
 class LoadSave {
   public:
     static var stateToVar(mopo::HelmEngine* synth,
-                          const CriticalSection& critical_section,
-                          String author);
+                          std::map<std::string, String>& gui_state,
+                          const CriticalSection& critical_section);
 
     static void loadControls(mopo::HelmEngine* synth,
                              const CriticalSection& critical_section,
@@ -51,7 +51,11 @@ class LoadSave {
                                 const CriticalSection& critical_section,
                                 const Array<var>* modulations);
 
+    static void loadGuiState(std::map<std::string, String>& state,
+                             const NamedValueSet& properties);
+
     static void varToState(mopo::HelmEngine* synth,
+                           std::map<std::string, String>& gui_state,
                            const CriticalSection& critical_section,
                            var state);
 
@@ -59,18 +63,24 @@ class LoadSave {
 
     static File getConfigFile();
     static var getConfigVar();
-    static void saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout = nullptr);
+    static void saveVarToConfig(var config_state);
+    static void saveLayoutConfig(mopo::StringLayout* layout);
+    static void saveMidiMapConfig(MidiManager* midi_manager);
     static void loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout = nullptr);
+
     static std::wstring getComputerKeyboardLayout();
     static std::pair<wchar_t, wchar_t> getComputerKeyboardOctaveControls();
+
     static File getFactoryBankDirectory();
     static File getBankDirectory();
     static File getUserBankDirectory();
     static int compareVersionStrings(String a, String b);
+
     static int getNumPatches();
     static File getPatchFile(int bank_index, int folder_index, int patch_index);
     static File loadPatch(int bank_index, int folder_index, int patch_index,
-                          mopo::HelmEngine* synth, const CriticalSection& critical_section);
+                          mopo::HelmEngine* synth, std::map<std::string, String>& gui_state,
+                          const CriticalSection& critical_section);
 };
 
 #endif  // LOAD_SAVE_H

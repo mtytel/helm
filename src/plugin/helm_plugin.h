@@ -67,6 +67,7 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     void setValueNotifyHost(std::string name, mopo::mopo_float value);
     void processMidi(MidiBuffer&);
     mopo::HelmEngine* getSynth() { return &synth_; }
+    std::map<std::string, String>* getGuiState() { return &gui_state_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }
     MidiManager* getMidiManager() { return midi_manager_; }
 
@@ -76,10 +77,13 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
   private:
     mopo::HelmEngine synth_;
     mopo::control_map controls_;
+    std::map<std::string, String> gui_state_;
+
     mopo::Memory* output_memory_;
     ScopedPointer<MidiManager> midi_manager_;
+
     int num_programs_;
-    int current_program_;;
+    int current_program_;
 
     std::map<std::string, ValueBridge*> bridge_lookup_;
 

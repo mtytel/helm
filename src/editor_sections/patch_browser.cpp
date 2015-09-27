@@ -340,9 +340,12 @@ void PatchBrowser::loadFromFile(File& patch) {
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     parent->loadFromVar(parsed_json_state);
-    license_link_->setVisible(true);
-
+    parent->setPatchName(patch.getFileNameWithoutExtension());
+    parent->setFolderName(patch.getParentDirectory().getFileName());
     author_ = LoadSave::getAuthor(parsed_json_state);
+    parent->setAuthor(author_);
+
+    license_link_->setVisible(true);
   }
 }
 

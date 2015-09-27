@@ -24,7 +24,6 @@
 PatchSelector::PatchSelector() : SynthSection("patch_selector"),
                                  browser_(nullptr), save_section_(nullptr) {
   setLookAndFeel(BrowserLookAndFeel::instance());
-
   addButton(prev_patch_ = new TextButton("prev_patch"));
   prev_patch_->setButtonText(TRANS("<"));
   prev_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
@@ -58,6 +57,10 @@ void PatchSelector::paintBackground(Graphics& g) {
   static Font selector_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
                                                               BinaryData::DroidSansMono_ttfSize));
 
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  patch_text_ = parent->getPatchName();
+  folder_text_ = parent->getFolderName();
+  
   g.setColour(Colour(0xff303030));
   g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
 

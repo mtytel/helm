@@ -19,6 +19,8 @@
 
 #include "JuceHeader.h"
 
+#include <map>
+
 namespace mopo {
   class HelmEngine;
   class StringLayout;
@@ -34,6 +36,7 @@ class Startup {
     static void copyFactoryPatches();
     static void fixPatchesFolder();
     static void updateAllPatches(mopo::HelmEngine* synth,
+                                 std::map<std::string, String>* gui_state,
                                  const CriticalSection& critical_section);
 };
 
