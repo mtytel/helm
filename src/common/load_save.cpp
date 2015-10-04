@@ -205,7 +205,7 @@ String LoadSave::getAuthor(var state) {
 
 File LoadSave::getConfigFile() {
   PropertiesFile::Options config_options;
-  config_options.applicationName = ProjectInfo::projectName;
+  config_options.applicationName = "Helm";
   config_options.osxLibrarySubFolder = "Application Support";
   config_options.filenameSuffix = "config";
   
@@ -241,6 +241,9 @@ void LoadSave::saveVarToConfig(var config_state) {
 
 void LoadSave::saveVersionConfig() {
   var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
   DynamicObject* config_object = config_var.getDynamicObject();
   config_object->setProperty("synth_version", ProjectInfo::versionString);
   saveVarToConfig(config_object);
@@ -251,6 +254,9 @@ void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
     return;
 
   var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
   DynamicObject* config_object = config_var.getDynamicObject();
   DynamicObject* layout_object = new DynamicObject();
   String chromatic_layout;
@@ -278,7 +284,11 @@ void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
 
 void LoadSave::saveMidiMapConfig(MidiManager* midi_manager) {
   MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
-  DynamicObject* config_object = getConfigVar().getDynamicObject();
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
 
   Array<var> midi_learn_object;
   for (auto midi_mapping : midi_learn_map) {
@@ -305,8 +315,11 @@ void LoadSave::saveMidiMapConfig(MidiManager* midi_manager) {
 }
 
 void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout) {
-  var config_state = getConfigVar();
-  DynamicObject* config_object = config_state.getDynamicObject();
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+  
+  DynamicObject* config_object = config_var.getDynamicObject();
   NamedValueSet config_properties = config_object->getProperties();
 
   // Computer Keyboard Layout
@@ -351,6 +364,9 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
 bool LoadSave::wasUpgraded() {
   var config_state = getConfigVar();
   DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return true;
+
   if (!config_object->hasProperty("synth_version"))
     return true;
 
