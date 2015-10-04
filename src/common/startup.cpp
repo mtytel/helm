@@ -47,9 +47,9 @@ namespace {
 void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* layout) {
   fixPatchesFolder();
 
-  if (isFirstStartup()) {
-    LoadSave::saveLayoutConfig(layout);
+  if (LoadSave::wasUpgraded()) {
     copyFactoryPatches();
+    LoadSave::saveVersionConfig();
   }
   else
     LoadSave::loadConfig(midi_manager, layout);
@@ -61,13 +61,25 @@ bool Startup::isFirstStartup() {
 
 void Startup::copyFactoryPatches() {
   File factory_bank_dir = LoadSave::getFactoryBankDirectory();
+  File destination = LoadSave::getBankDirectory();
   Array<File> factory_banks;
   factory_bank_dir.findChildFiles(factory_banks, File::findDirectories, false);
 
   for (File factory_bank : factory_banks) {
     if (isBankDirectory(factory_bank)) {
-      File destination = LoadSave::getBankDirectory().getChildFile(factory_bank.getFileName());
-      factory_bank.copyDirectoryTo(destination);
+      Array<File> patches;
+      factory_bank.findChildFiles(patches, File::findFiles, true,
+                                      String("*.") + mopo::PATCH_EXTENSION);
+
+      for (File patch : patches) {
+        String relative_path = patch.getRelativePathFrom(factory_bank_dir);
+        File patch_location = destination.getChildFile(relative_path);
+
+        if (!patch_location.exists()) {
+          patch_location.getParentDirectory().createDirectory();
+          patch.copyFileTo(patch_location);
+        }
+      }
     }
   }
 }

@@ -239,11 +239,19 @@ void LoadSave::saveVarToConfig(var config_state) {
   config_file.replaceWithText(JSON::toString(config_state));
 }
 
+void LoadSave::saveVersionConfig() {
+  var config_var = getConfigVar();
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("synth_version", ProjectInfo::versionString);
+  saveVarToConfig(config_object);
+}
+
 void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
   if (layout == nullptr)
     return;
 
-  DynamicObject* config_object = getConfigVar().getDynamicObject();
+  var config_var = getConfigVar();
+  DynamicObject* config_object = config_var.getDynamicObject();
   DynamicObject* layout_object = new DynamicObject();
   String chromatic_layout;
   wchar_t up_key = L'\0';
@@ -338,6 +346,16 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
     }
     midi_manager->setMidiLearnMap(midi_learn_map);
   }
+}
+
+bool LoadSave::wasUpgraded() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_object->hasProperty("synth_version"))
+    return true;
+
+  return compareVersionStrings(config_object->getProperty("synth_version"),
+                               ProjectInfo::versionString) < 0;
 }
 
 std::wstring LoadSave::getComputerKeyboardLayout() {
