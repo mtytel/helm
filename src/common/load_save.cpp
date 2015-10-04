@@ -32,6 +32,8 @@ namespace {
            "You should have received a copy of the license along with this " +
            "work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.";
   }
+
+  const String DEFAULT_USER_FOLDERS[] = { "Lead", "Keys", "Pad", "Bass", "SFX" };
 } // namespace
 
 var LoadSave::stateToVar(mopo::HelmEngine* synth,
@@ -450,8 +452,11 @@ File LoadSave::getUserBankDirectory() {
   File bank_dir = getBankDirectory();
   File folder_dir = bank_dir.getChildFile(USER_BANK_NAME);
 
-  if (!folder_dir.exists())
+  if (!folder_dir.exists()) {
     folder_dir.createDirectory();
+    for (String patch_folder : DEFAULT_USER_FOLDERS)
+      folder_dir.getChildFile(patch_folder).createDirectory();
+  }
   return folder_dir;
 }
 
