@@ -127,7 +127,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
     g.setColour(Colour(0x33b9f6ca));
     g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                   2.0 * knob_radius, 2.0 * knob_radius);
-    g.setColour(Colour(0xff00c853));
+    g.setColour(Colour(0xff00e676));
     g.drawEllipse(width / 2.0f - knob_radius + 0.5f, height / 2.0f - knob_radius + 0.5f,
                   2.0f * knob_radius - 1.0f, 2.0f * knob_radius - 1.0f, 1.0f);
   }
@@ -135,7 +135,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
     g.setColour(Colour(0xaa00e676));
     g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                   2.0 * knob_radius, 2.0 * knob_radius);
-    g.setColour(Colour(0xff00c853));
+    g.setColour(Colour(0xff00e676));
     g.drawEllipse(width / 2.0f - knob_radius + 1.5f, height / 2.0f - knob_radius + 1.5f,
                   2.0f * knob_radius - 3.0f, 2.0f * knob_radius - 3.0f, 3.0f);
   }

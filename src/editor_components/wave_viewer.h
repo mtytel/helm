@@ -33,6 +33,7 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
     void showRealtimeFeedback();
+    void setControlRate(bool control_rate = true) { is_control_rate_ = control_rate; }
 
     void paint(Graphics& g) override;
     void paintBackground(Graphics& g);
@@ -47,6 +48,7 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
     mopo::Processor::Output* wave_phase_;
     mopo::Processor::Output* wave_amp_;
     Path wave_path_;
+    bool is_control_rate_;
     int resolution_;
     float phase_;
     float amp_;

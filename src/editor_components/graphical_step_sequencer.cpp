@@ -69,7 +69,7 @@ void GraphicalStepSequencer::paintBackground(Graphics& g) {
       g.fillRect(x, half_height, x_inc, bar_position - half_height);
     }
 
-    g.setColour(Colour(0xff03a9f4));
+    g.setColour(Colour(0xff00e676));
     g.fillRect(x, bar_position, x_inc, 1.5f);
 
     x += x_inc;

@@ -19,7 +19,7 @@
 #include "text_look_and_feel.h"
 
 #define ANGLE 2.51327412f
-#define ROTARY_MOD_COLOR 0xff00c853
+#define ROTARY_MOD_COLOR 0xff00e676
 #define SLIDER_MOD_COLOR 0xff69f0ae
 
 ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,

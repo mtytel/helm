@@ -64,6 +64,7 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
   wave_viewer_->setName(value_prepend);
   wave_viewer_->setAmplitudeSlider(amplitude_);
   wave_viewer_->setWaveSlider(wave_selector_);
+  wave_viewer_->setControlRate();
 
   addModulationButton(modulation_button_ = new ModulationButton(value_prepend));
   modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());

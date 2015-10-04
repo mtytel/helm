@@ -29,6 +29,7 @@ WaveViewer::WaveViewer(int resolution) {
   resolution_ = resolution;
   wave_phase_ = nullptr;
   wave_amp_ = nullptr;
+  is_control_rate_ = false;
   phase_ = -1.0f;
   amp_ = 0.0;
   setOpaque(true);
@@ -48,10 +49,14 @@ void WaveViewer::paint(juce::Graphics &g) {
       g.fillRect(x - 0.5f, 0.0f, 1.0f, (float)getHeight());
 
       float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - amp_) / 2.0f;
-      g.setColour(Colour(0xff03a9f4));
+
+      if (is_control_rate_)
+        g.setColour(Colour(0xff00e676));
+      else
+        g.setColour(Colour(0xff03a9f4));
       g.fillEllipse(x - MARKER_WIDTH / 2.0f, y - MARKER_WIDTH / 2.0f,
                     MARKER_WIDTH, MARKER_WIDTH);
-      g.setColour(Colour(0xffffffff));
+      g.setColour(Colour(0xff000000));
       g.fillEllipse(x - MARKER_WIDTH / 4.0f, y - MARKER_WIDTH / 4.0f,
                     MARKER_WIDTH / 2.0f, MARKER_WIDTH / 2.0f);
     }
@@ -73,7 +78,11 @@ void WaveViewer::paintBackground(Graphics& g) {
 
   g.setColour(Colour(0xff565656));
   g.fillPath(wave_path_);
-  g.setColour(Colour(0xff03a9f4));
+  
+  if (is_control_rate_)
+    g.setColour(Colour(0xff00e676));
+  else
+    g.setColour(Colour(0xff03a9f4));
   g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
 }
 

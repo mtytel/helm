@@ -21,6 +21,7 @@ namespace {
   const float DECAY_RANGE_PERCENT = 0.33f;
   const float HOVER_DISTANCE = 20.0f;
   const int GRID_CELL_WIDTH = 8;
+  const float MARKER_WIDTH = 6.0f;
 } // namespace
 
 
@@ -59,7 +60,7 @@ void GraphicalEnvelope::paint(Graphics& g) {
   g.drawLine(getAttackX(), 0.0f, getAttackX(), getHeight());
   g.drawLine(getDecayX(), getSustainY(), getDecayX(), getHeight());
 
-  g.setColour(Colour(0xff03a9f4));
+  g.setColour(Colour(0xff00e676));
   g.strokePath(envelope_line_, stroke);
 
   float hover_line_x = -20;
@@ -80,15 +81,19 @@ void GraphicalEnvelope::paint(Graphics& g) {
     }
 
     g.setColour(Colour(0xbbffffff));
-    g.drawEllipse(getDecayX() - 5.0, getSustainY() - 5.0, 10.0, 10.0, 1.0);
+    g.drawEllipse(getDecayX() - 7.0, getSustainY() - 7.0, 14.0, 14.0, 1.0);
   }
   else if (mouse_down_) {
     g.setColour(Colour(0x11ffffff));
     g.fillRect(hover_line_x - 10.0f, 0.0f, 20.0f, 1.0f * getHeight());
   }
 
-  g.setColour(Colour(0xffffffff));
-  g.fillEllipse(getDecayX() - 2.5, getSustainY() - 2.5, 5.0, 5.0);
+  g.setColour(Colour(0xff00e676));
+  g.fillEllipse(getDecayX() - MARKER_WIDTH / 2.0f, getSustainY() - MARKER_WIDTH / 2.0f,
+                MARKER_WIDTH, MARKER_WIDTH);
+  g.setColour(Colour(0xff000000));
+  g.fillEllipse(getDecayX() - MARKER_WIDTH / 4.0f, getSustainY() - MARKER_WIDTH / 4.0f,
+                MARKER_WIDTH / 2.0f, MARKER_WIDTH / 2.0f);
 }
 
 void GraphicalEnvelope::resized() {
