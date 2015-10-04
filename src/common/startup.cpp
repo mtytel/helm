@@ -69,7 +69,7 @@ void Startup::copyFactoryPatches() {
     if (isBankDirectory(factory_bank)) {
       Array<File> patches;
       factory_bank.findChildFiles(patches, File::findFiles, true,
-                                      String("*.") + mopo::PATCH_EXTENSION);
+                                  String("*.") + mopo::PATCH_EXTENSION);
 
       for (File patch : patches) {
         String relative_path = patch.getRelativePathFrom(factory_bank_dir);
