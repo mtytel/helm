@@ -47,9 +47,9 @@ namespace {
 void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* layout) {
   fixPatchesFolder();
 
-  if (isFirstStartup()) {
-    LoadSave::saveConfig(midi_manager, layout);
+  if (LoadSave::wasUpgraded()) {
     copyFactoryPatches();
+    LoadSave::saveVersionConfig();
   }
   else
     LoadSave::loadConfig(midi_manager, layout);
@@ -61,13 +61,25 @@ bool Startup::isFirstStartup() {
 
 void Startup::copyFactoryPatches() {
   File factory_bank_dir = LoadSave::getFactoryBankDirectory();
+  File destination = LoadSave::getBankDirectory();
   Array<File> factory_banks;
   factory_bank_dir.findChildFiles(factory_banks, File::findDirectories, false);
 
   for (File factory_bank : factory_banks) {
     if (isBankDirectory(factory_bank)) {
-      File destination = LoadSave::getBankDirectory().getChildFile(factory_bank.getFileName());
-      factory_bank.copyDirectoryTo(destination);
+      Array<File> patches;
+      factory_bank.findChildFiles(patches, File::findFiles, true,
+                                  String("*.") + mopo::PATCH_EXTENSION);
+
+      for (File patch : patches) {
+        String relative_path = patch.getRelativePathFrom(factory_bank_dir);
+        File patch_location = destination.getChildFile(relative_path);
+
+        if (!patch_location.exists()) {
+          patch_location.getParentDirectory().createDirectory();
+          patch.copyFileTo(patch_location);
+        }
+      }
     }
   }
 }
@@ -97,6 +109,7 @@ void Startup::fixPatchesFolder() {
 }
 
 void Startup::updateAllPatches(mopo::HelmEngine* synth,
+                               std::map<std::string, String>* gui_state,
                                const CriticalSection& critical_section) {
   File user_bank = LoadSave::getBankDirectory();
   Array<File> all_patches;
@@ -106,12 +119,17 @@ void Startup::updateAllPatches(mopo::HelmEngine* synth,
   for (File patch : all_patches) {
     var parsed_json_state;
     if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
-      LoadSave::varToState(synth, critical_section, parsed_json_state);
+      LoadSave::varToState(synth, *gui_state, critical_section, parsed_json_state);
       String author = LoadSave::getAuthor(parsed_json_state);
       if (author.isEmpty())
         author = patch.getParentDirectory().getParentDirectory().getFileName();
 
-      var save_var = LoadSave::stateToVar(synth, critical_section, author);
+      std::map<std::string, String> gui_state;
+      gui_state["author"] = author;
+      gui_state["patch_name"] = patch.getFileNameWithoutExtension();
+      gui_state["folder_name"] = patch.getParentDirectory().getFileName();
+
+      var save_var = LoadSave::stateToVar(synth, gui_state, critical_section);
       patch.replaceWithText(JSON::toString(save_var));
     }
   }

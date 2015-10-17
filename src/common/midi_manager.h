@@ -35,9 +35,10 @@ class MidiManager : public MidiInputCallback {
         virtual void patchChangedThroughMidi(File patch) = 0;
     };
 
-    MidiManager(mopo::HelmEngine* synth, const CriticalSection* critical_section,
-                Listener* listener = nullptr) :
-        synth_(synth), critical_section_(critical_section), listener_(listener),
+    MidiManager(mopo::HelmEngine* synth, std::map<std::string, String>* gui_state,
+                const CriticalSection* critical_section, Listener* listener = nullptr) :
+        synth_(synth), gui_state_(gui_state),
+        critical_section_(critical_section), listener_(listener),
         armed_range_(0.0, 1.0) { }
     virtual ~MidiManager() { }
 
@@ -94,6 +95,7 @@ class MidiManager : public MidiInputCallback {
 
   protected:
     mopo::HelmEngine* synth_;
+    std::map<std::string, String>* gui_state_;
     const CriticalSection* critical_section_;
     Listener* listener_;
     int current_bank_;

@@ -25,6 +25,7 @@
 
 HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(helm) {
   setSynth(helm_.getSynth());
+  setGuiState(helm_.getGuiState());
   setLookAndFeel(DefaultLookAndFeel::instance());
 
   gui_ = new FullInterface(helm.getSynth()->getControls(),
@@ -48,6 +49,7 @@ void HelmEditor::resized() {
 
 void HelmEditor::updateFullGui() {
   gui_->setAllValues(controls_);
+  helm_.updateHostDisplay();
 }
 
 void HelmEditor::updateGuiControl(const std::string& name, mopo::mopo_float value) {

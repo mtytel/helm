@@ -52,6 +52,7 @@ class HelmStandaloneEditor : public AudioAppComponent,
 
   private:
     mopo::HelmEngine synth_;
+    std::map<std::string, String> gui_state_;
     CriticalSection critical_section_;
 
     ScopedPointer<mopo::Memory> output_memory_;

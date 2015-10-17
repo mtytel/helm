@@ -32,11 +32,13 @@ namespace {
            "You should have received a copy of the license along with this " +
            "work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.";
   }
+
+  const String DEFAULT_USER_FOLDERS[] = { "Lead", "Keys", "Pad", "Bass", "SFX" };
 } // namespace
 
 var LoadSave::stateToVar(mopo::HelmEngine* synth,
-                         const CriticalSection& critical_section,
-                         String author) {
+                         std::map<std::string, String>& gui_state,
+                         const CriticalSection& critical_section) {
   mopo::control_map controls = synth->getControls();
   DynamicObject* settings_object = new DynamicObject();
 
@@ -57,8 +59,11 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
   settings_object->setProperty("modulations", modulation_states);
 
   DynamicObject* state_object = new DynamicObject();
+  String author = gui_state["author"];
   state_object->setProperty("license", createPatchLicense(author));
   state_object->setProperty("synth_version", ProjectInfo::versionString);
+  state_object->setProperty("patch_name", gui_state["patch_name"]);
+  state_object->setProperty("folder_name", gui_state["folder_name"]);
   state_object->setProperty("author", author);
   state_object->setProperty("settings", settings_object);
   return state_object;
@@ -101,7 +106,19 @@ void LoadSave::loadModulations(mopo::HelmEngine* synth,
   }
 }
 
+
+void LoadSave::loadGuiState(std::map<std::string, String>& state,
+                            const NamedValueSet& properties) {
+  if (properties.contains("author"))
+    state["author"] = properties["author"];
+  if (properties.contains("patch_name"))
+    state["patch_name"] = properties["patch_name"];
+  if (properties.contains("folder_name"))
+    state["folder_name"] = properties["folder_name"];
+}
+
 void LoadSave::varToState(mopo::HelmEngine* synth,
+                          std::map<std::string, String>& gui_state,
                           const CriticalSection& critical_section,
                           var state) {
   if (!state.isObject())
@@ -174,6 +191,7 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
 
   loadControls(synth, critical_section, settings_properties);
   loadModulations(synth, critical_section, modulations);
+  loadGuiState(gui_state, properties);
 }
 
 String LoadSave::getAuthor(var state) {
@@ -189,7 +207,7 @@ String LoadSave::getAuthor(var state) {
 
 File LoadSave::getConfigFile() {
   PropertiesFile::Options config_options;
-  config_options.applicationName = ProjectInfo::projectName;
+  config_options.applicationName = "Helm";
   config_options.osxLibrarySubFolder = "Application Support";
   config_options.filenameSuffix = "config";
   
@@ -215,11 +233,33 @@ var LoadSave::getConfigVar() {
   return config_state;
 }
 
-void LoadSave::saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout) {
-  MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
-  DynamicObject* config_object = new DynamicObject();
+void LoadSave::saveVarToConfig(var config_state) {
+  File config_file = getConfigFile();
 
-  // Computer Keyboard Layout
+  if (!config_file.exists())
+    config_file.create();
+  config_file.replaceWithText(JSON::toString(config_state));
+}
+
+void LoadSave::saveVersionConfig() {
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("synth_version", ProjectInfo::versionString);
+  saveVarToConfig(config_object);
+}
+
+void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
+  if (layout == nullptr)
+    return;
+
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
   DynamicObject* layout_object = new DynamicObject();
   String chromatic_layout;
   wchar_t up_key = L'\0';
@@ -241,8 +281,17 @@ void LoadSave::saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
   layout_object->setProperty("octave_up", String() + up_key);
   layout_object->setProperty("octave_down", String() + down_key);
   config_object->setProperty("keyboard_layout", layout_object);
+  saveVarToConfig(config_object);
+}
 
-  // Midi Learn Map
+void LoadSave::saveMidiMapConfig(MidiManager* midi_manager) {
+  MidiManager::midi_map midi_learn_map = midi_manager->getMidiLearnMap();
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+
   Array<var> midi_learn_object;
   for (auto midi_mapping : midi_learn_map) {
     DynamicObject* midi_map_object = new DynamicObject();
@@ -264,17 +313,15 @@ void LoadSave::saveConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
   }
 
   config_object->setProperty("midi_learn", midi_learn_object);
-
-  File config_file = getConfigFile();
-
-  if (!config_file.exists())
-    config_file.create();
-  config_file.replaceWithText(JSON::toString(config_object));
+  saveVarToConfig(config_object);
 }
 
 void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout) {
-  var config_state = getConfigVar();
-  DynamicObject* config_object = config_state.getDynamicObject();
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+  
+  DynamicObject* config_object = config_var.getDynamicObject();
   NamedValueSet config_properties = config_object->getProperties();
 
   // Computer Keyboard Layout
@@ -314,6 +361,19 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
     }
     midi_manager->setMidiLearnMap(midi_learn_map);
   }
+}
+
+bool LoadSave::wasUpgraded() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return true;
+
+  if (!config_object->hasProperty("synth_version"))
+    return true;
+
+  return compareVersionStrings(config_object->getProperty("synth_version"),
+                               ProjectInfo::versionString) < 0;
 }
 
 std::wstring LoadSave::getComputerKeyboardLayout() {
@@ -392,8 +452,11 @@ File LoadSave::getUserBankDirectory() {
   File bank_dir = getBankDirectory();
   File folder_dir = bank_dir.getChildFile(USER_BANK_NAME);
 
-  if (!folder_dir.exists())
+  if (!folder_dir.exists()) {
     folder_dir.createDirectory();
+    for (String patch_folder : DEFAULT_USER_FOLDERS)
+      folder_dir.getChildFile(patch_folder).createDirectory();
+  }
   return folder_dir;
 }
 
@@ -423,9 +486,15 @@ int LoadSave::compareVersionStrings(String a, String b) {
                                b.fromFirstOccurrenceOf(".", false, true));
 }
 
+int LoadSave::getNumPatches() {
+  File bank_directory = getBankDirectory();
+  Array<File> patches;
+  bank_directory.findChildFiles(patches, File::findFiles, true,
+                                String("*.") + mopo::PATCH_EXTENSION);
+  return patches.size();
+}
 
-File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
-                         mopo::HelmEngine* synth, const CriticalSection& critical_section) {
+File LoadSave::getPatchFile(int bank_index, int folder_index, int patch_index) {
   static const FileSorterAscending file_sorter;
 
   File bank_directory = getBankDirectory();
@@ -471,11 +540,17 @@ File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
   if (patches.size() == 0 || patch_index < 0)
     return File();
 
-  File patch = patches[std::min(patch_index, patches.size() - 1)];
+  return patches[std::min(patch_index, patches.size() - 1)];
+}
+
+File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
+                         mopo::HelmEngine* synth, std::map<std::string, String>& gui_state,
+                         const CriticalSection& critical_section) {
+  File patch = getPatchFile(bank_index, folder_index, patch_index);
 
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
-    varToState(synth, critical_section, parsed_json_state);
+    varToState(synth, gui_state, critical_section, parsed_json_state);
 
   return patch;
 }

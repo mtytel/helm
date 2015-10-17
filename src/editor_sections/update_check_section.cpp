@@ -77,12 +77,12 @@ void UpdateCheckSection::resized() {
   Rectangle<int> update_rect = getUpdateCheckRect();
 
   float button_width = (update_rect.getWidth() - 3 * PADDING_X) / 2.0f;
-  nope_button_->setBounds(update_rect.getX() + PADDING_X,
-                          update_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
-                          button_width, BUTTON_HEIGHT);
-  download_button_->setBounds(update_rect.getX() + button_width + 2 * PADDING_X,
+  download_button_->setBounds(update_rect.getX() + PADDING_X,
                               update_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
                               button_width, BUTTON_HEIGHT);
+  nope_button_->setBounds(update_rect.getX() + button_width + 2 * PADDING_X,
+                          update_rect.getBottom() - PADDING_Y - BUTTON_HEIGHT,
+                          button_width, BUTTON_HEIGHT);
 }
 
 void UpdateCheckSection::buttonClicked(Button *clicked_button) {
@@ -97,8 +97,15 @@ void UpdateCheckSection::mouseUp(const MouseEvent &e) {
 }
 
 void UpdateCheckSection::checkUpdate() {
+  static const int TIMEOUT = 200;
   URL version_url("http://tytel.org/static/dist/helm_version.txt");
-  version_ = version_url.readEntireTextStream().upToFirstOccurrenceOf("\n", false, false);
+  const ScopedPointer<InputStream> in(version_url.createInputStream(false, nullptr, nullptr,
+                                                                    "", TIMEOUT));
+
+  if (in == nullptr)
+    return;
+
+  version_ = in->readEntireStreamAsString().upToFirstOccurrenceOf("\n", false, false);
 
   if (!version_.isEmpty() &&
       LoadSave::compareVersionStrings(ProjectInfo::versionString, version_) < 0) {

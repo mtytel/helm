@@ -39,7 +39,7 @@ void MidiManager::clearMidiLearn(const std::string& name) {
   for (auto controls : midi_learn_map_) {
     if (controls.second.count(name)) {
       midi_learn_map_[controls.first].erase(name);
-      LoadSave::saveConfig(this);
+      LoadSave::saveMidiMapConfig(this);
     }
   }
 }
@@ -48,7 +48,7 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
   if (control_armed_ != "") {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
     control_armed_ = "";
-    LoadSave::saveConfig(this);
+    LoadSave::saveMidiMapConfig(this);
   }
 
   if (midi_learn_map_.count(midi_id)) {
@@ -75,7 +75,7 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
   if (midi_message.isProgramChange()) {
     current_patch_ = midi_message.getProgramChangeNumber();
     File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
-                                     synth_, *critical_section_);
+                                     synth_, *gui_state_, *critical_section_);
     MidiPatchLoadCallback* callback = new MidiPatchLoadCallback(listener_, patch);
     callback->post();
     return;

@@ -26,7 +26,12 @@
 
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
-  midi_manager_ = new MidiManager(&synth_, &getCallbackLock(), this);
+  midi_manager_ = new MidiManager(&synth_, &gui_state_, &getCallbackLock(), this);
+
+  current_program_ = 0;
+  num_programs_ = LoadSave::getNumPatches();
+  if (num_programs_ <= 0)
+    num_programs_ = 1;
 
   Startup::doStartupChecks(midi_manager_);
 
@@ -86,23 +91,27 @@ double HelmPlugin::getTailLengthSeconds() const {
 }
 
 int HelmPlugin::getNumPrograms() {
-  // Some hosts don't cope very well if you tell them there are 0 programs,
-  // so this should be at least 1, even if you're not really implementing programs.
-  return 1;
+  return num_programs_;
 }
 
 int HelmPlugin::getCurrentProgram() {
-  return 0;
+  return current_program_;
 }
 
 void HelmPlugin::setCurrentProgram(int index) {
+  current_program_ = index;
+  LoadSave::loadPatch(-1, -1, index, &synth_, gui_state_, getCallbackLock());
 }
 
 const String HelmPlugin::getProgramName(int index) {
-  return String();
+  return LoadSave::getPatchFile(-1, -1, index).getFileNameWithoutExtension();
 }
 
 void HelmPlugin::changeProgramName(int index, const String& new_name) {
+  File patch = LoadSave::getPatchFile(-1, -1, index);
+  File parent = patch.getParentDirectory();
+  File new_patch_location = parent.getChildFile(new_name + "." + mopo::PATCH_EXTENSION);
+  patch.moveFileTo(new_patch_location);
 }
 
 void HelmPlugin::prepareToPlay(double sample_rate, int buffer_size) {
@@ -188,7 +197,7 @@ void HelmPlugin::setValueNotifyHost(std::string name, mopo::mopo_float value) {
 }
 
 void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
-  var state = LoadSave::stateToVar(&synth_, getCallbackLock(), "");
+  var state = LoadSave::stateToVar(&synth_, gui_state_, getCallbackLock());
   String data_string = JSON::toString(state);
   MemoryOutputStream stream;
   stream.writeString(data_string);
@@ -200,7 +209,7 @@ void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
   String data_string = stream.readEntireStreamAsString();
   var state;
   if (JSON::parse(data_string, state).wasOk())
-    LoadSave::varToState(&synth_, getCallbackLock(), state);
+    LoadSave::varToState(&synth_, gui_state_, getCallbackLock(), state);
 }
 
 void HelmPlugin::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {

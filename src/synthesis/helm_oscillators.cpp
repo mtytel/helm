@@ -56,9 +56,14 @@ namespace mopo {
     oscillator1_cross_mod_ = 0;
     oscillator2_cross_mod_ = 0;
 
-    for (int i = 0; i < MAX_UNISON; ++i) {
-      oscillator1_phases_[i] = i * (INT_MAX / MAX_UNISON);
-      oscillator2_phases_[i] = i * (INT_MAX / MAX_UNISON);
+    oscillator1_phases_[0] = 0;
+    oscillator2_phases_[0] = 0;
+    oscillator1_rand_offset_[0] = 0.0;
+    oscillator2_rand_offset_[0] = 0.0;
+
+    for (int i = 1; i < MAX_UNISON; ++i) {
+      oscillator1_phases_[i] = rand();
+      oscillator2_phases_[i] = rand();
       oscillator1_rand_offset_[i] = 0.0;
       oscillator2_rand_offset_[i] = 0.0;
     }
