@@ -1,9 +1,14 @@
 0.5.1 (unreleased)
 
-  * Added oscillator mixer
+  * Replaced oscillator "Mix" parameter with a full mixer.
+  * Added patch changing through MIDI so you can use one instance of Helm with multiple patches throughout a song
+  * Fixed some problems with presets in different DAWs
+  * Added update checking
   * Added third envelope
-  * Auto detection of new versions
-  * MIDI enabled patch switching
+  * JACK MIDI input is now labeled "Helm"
+  * Added some more patches
+  * When reopening the plugin GUI, Helm now shows the current patch and folder
+  * Better starting phases for unison voices
 
 0.5.0 (10 September 2015)
 
