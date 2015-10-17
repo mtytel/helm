@@ -65,7 +65,7 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     void beginChangeGesture(std::string name);
     void endChangeGesture(std::string name);
     void setValueNotifyHost(std::string name, mopo::mopo_float value);
-    void processMidi(MidiBuffer&);
+    void processMidi(MidiBuffer&, int start_sample, int end_sample);
     mopo::HelmEngine* getSynth() { return &synth_; }
     std::map<std::string, String>* getGuiState() { return &gui_state_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }

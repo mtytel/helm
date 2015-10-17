@@ -132,28 +132,30 @@ void HelmPlugin::endChangeGesture(std::string name) {
   bridge_lookup_[name]->endChangeGesture();
 }
 
-void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages) {
+void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages, int start_sample, int end_sample) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
   int midi_sample_position = 0;
-  while (midi_iter.getNextEvent(midi_message, midi_sample_position))
-    midi_manager_->processMidiMessage(midi_message, midi_sample_position);
+  while (midi_iter.getNextEvent(midi_message, midi_sample_position)) {
+    if (midi_sample_position >= start_sample && midi_sample_position < end_sample)
+      midi_manager_->processMidiMessage(midi_message, midi_sample_position - start_sample);
+  }
 }
 
 void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
-  processMidi(midi_messages);
-
   int total_samples = buffer.getNumSamples();
   int num_channels = getNumOutputChannels();
   AudioPlayHead::CurrentPositionInfo position_info;
   getPlayHead()->getCurrentPosition(position_info);
   synth_.setBpm(position_info.bpm);
 
+  if (position_info.isPlaying || position_info.isLooping || position_info.isRecording)
+    synth_.correctToTime(position_info.timeInSamples);
+
   for (int sample_offset = 0; sample_offset < total_samples;) {
     int num_samples = std::min<int>(total_samples - sample_offset, mopo::MAX_BUFFER_SIZE);
 
-    if (position_info.isPlaying || position_info.isLooping || position_info.isRecording)
-      synth_.correctToTime(position_info.timeInSamples);
+    processMidi(midi_messages, sample_offset, sample_offset + num_samples);
 
     if (synth_.getBufferSize() != num_samples)
       synth_.setBufferSize(num_samples);
