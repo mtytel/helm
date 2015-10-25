@@ -86,19 +86,27 @@ namespace mopo {
 
   class FixedPointWave {
     public:
+      static inline int harmonicWave(int waveform, unsigned int t, int harmonic) {
+        return lookup_.waves_[waveform][harmonic][getIndex(t)];
+      }
+
       static inline int wave(int waveform, unsigned int t, int phase_inc) {
-        int ratio = INT_MAX / phase_inc;
-        int less_harmonics2 = CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
-                                    0, FixedPointWaveLookup::HARMONICS - 1);
+        return lookup_.waves_[waveform][getHarmonicIndex(phase_inc)][getIndex(t)];
+      }
+
+      static inline int wave(int waveform, unsigned int t) {
         unsigned int index = getIndex(t);
-        return lookup_.waves_[waveform][less_harmonics2][index];
+        return lookup_.waves_[waveform][0][index];
       }
 
       static inline int* getBuffer(int waveform, int phase_inc) {
+        return lookup_.waves_[waveform][getHarmonicIndex(phase_inc)];
+      }
+
+      static inline int getHarmonicIndex(int phase_inc) {
         int ratio = INT_MAX / phase_inc;
-        int less_harmonics2 = CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
-                                    0, FixedPointWaveLookup::HARMONICS - 1);
-        return lookup_.waves_[waveform][less_harmonics2];
+        return CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
+                     0, FixedPointWaveLookup::HARMONICS - 1);
       }
 
       static inline unsigned int getIndex(unsigned int t) {

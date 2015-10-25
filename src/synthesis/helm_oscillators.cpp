@@ -70,7 +70,7 @@ namespace mopo {
   }
 
   void HelmOscillators::computeDetuneRatios(mopo_float* detune_amounts,
-                                            mopo_float* random_offsets,
+                                            const mopo_float* random_offsets,
                                             bool harmonize, mopo_float detune, int voices) {
     for (int i = 0; i < voices; ++i) {
       mopo_float amount = (detune * ((i + 1) / 2)) / ((voices + 1) / 2);
@@ -79,11 +79,21 @@ namespace mopo {
       if (i % 2)
         exponent = -exponent;
 
-      mopo_float harmonic = 1.0;
+      mopo_float harmonic = 0.0;
       if (harmonize)
-        harmonic = i + 1;
+        harmonic = i;
 
       detune_amounts[i] = harmonic + std::pow(2.0, exponent) + amount * random_offsets[i];
+    }
+  }
+
+  void HelmOscillators::computeHarmonicIndices(int* harmonic_indices,
+                                               const mopo_float* detune_amounts,
+                                               mopo_float base_phase,
+                                               int voices) {
+    for (int v = 0; v < voices; ++v) {
+      int osc_phase_diff = detune_amounts[v] * base_phase;
+      harmonic_indices[v] = FixedPointWave::getHarmonicIndex(osc_phase_diff);
     }
   }
 
@@ -98,6 +108,11 @@ namespace mopo {
     addRandomPhaseToVoices();
     computeDetuneRatios(detune1_amounts_, oscillator1_rand_offset_, harmonize1, detune1, voices1);
     computeDetuneRatios(detune2_amounts_, oscillator2_rand_offset_, harmonize2, detune2, voices2);
+
+    int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[0];
+    int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[0];
+    computeHarmonicIndices(harmonic1_indices_, detune1_amounts_, base_phase1, voices1);
+    computeHarmonicIndices(harmonic2_indices_, detune2_amounts_, base_phase2, voices2);
 
     int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
     int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
