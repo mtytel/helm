@@ -124,11 +124,11 @@ namespace mopo {
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, wave1, wave2, voices1, voices2);
+        tick(i, wave1, wave2, voices1, voices2, base_phase1, base_phase2);
 
       reset();
     }
     for (; i < buffer_size_; ++i)
-      tick(i, wave1, wave2, voices1, voices2);
+      tick(i, wave1, wave2, voices1, voices2, base_phase1, base_phase2);
   }
 } // namespace mopo

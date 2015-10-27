@@ -136,7 +136,7 @@ namespace mopo {
     addGlobalProcessor(mod_wheel_amount_);
 
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
-    
+
     HelmModule::init();
   }
 
@@ -144,9 +144,11 @@ namespace mopo {
     // Pitch bend.
     Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", false);
     Multiply* pitch_bend = new Multiply();
+    pitch_bend->setControlRate();
     pitch_bend->plug(pitch_wheel_amount_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
     Add* bent_midi = new Add();
+    bent_midi->setControlRate();
     bent_midi->plug(midi, 0);
     bent_midi->plug(pitch_bend, 1);
 
@@ -163,16 +165,20 @@ namespace mopo {
     Processor* oscillator1_unison_harmonize = createBaseControl("unison_1_harmonize");
 
     Add* oscillator1_transposed = new Add();
+    oscillator1_transposed->setControlRate();
     oscillator1_transposed->plug(bent_midi, 0);
     oscillator1_transposed->plug(oscillator1_transpose, 1);
     Add* oscillator1_midi = new Add();
+    oscillator1_midi->setControlRate();
     oscillator1_midi->plug(oscillator1_transposed, 0);
     oscillator1_midi->plug(oscillator1_tune, 1);
 
     MidiScale* oscillator1_frequency = new MidiScale();
     oscillator1_frequency->plug(oscillator1_midi);
+    oscillator1_frequency->setControlRate();
     FrequencyToPhase* oscillator1_phase_inc = new FrequencyToPhase();
     oscillator1_phase_inc->plug(oscillator1_frequency);
+    oscillator1_phase_inc->setControlRate();
 
     oscillators->plug(oscillator1_waveform, HelmOscillators::kOscillator1Waveform);
     oscillators->plug(reset, HelmOscillators::kReset);
@@ -199,15 +205,19 @@ namespace mopo {
     Processor* oscillator2_unison_harmonize = createBaseControl("unison_2_harmonize");
 
     Add* oscillator2_transposed = new Add();
+    oscillator2_transposed->setControlRate();
     oscillator2_transposed->plug(bent_midi, 0);
     oscillator2_transposed->plug(oscillator2_transpose, 1);
     Add* oscillator2_midi = new Add();
+    oscillator2_midi->setControlRate();
     oscillator2_midi->plug(oscillator2_transposed, 0);
     oscillator2_midi->plug(oscillator2_tune, 1);
 
     MidiScale* oscillator2_frequency = new MidiScale();
+    oscillator2_frequency->setControlRate();
     oscillator2_frequency->plug(oscillator2_midi);
     FrequencyToPhase* oscillator2_phase_inc = new FrequencyToPhase();
+    oscillator2_phase_inc->setControlRate();
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
     oscillators->plug(oscillator2_waveform, HelmOscillators::kOscillator2Waveform);
@@ -239,13 +249,16 @@ namespace mopo {
 
     // Sub Oscillator.
     Add* sub_midi = new Add();
+    sub_midi->setControlRate();
     Value* sub_transpose = new Value(-2 * NOTES_PER_OCTAVE);
     sub_midi->plug(bent_midi, 0);
     sub_midi->plug(sub_transpose, 1);
 
     MidiScale* sub_frequency = new MidiScale();
+    sub_frequency->setControlRate();
     sub_frequency->plug(sub_midi);
     FrequencyToPhase* sub_phase_inc = new FrequencyToPhase();
+    sub_phase_inc->setControlRate();
     sub_phase_inc->plug(sub_frequency);
 
     Processor* sub_waveform = createPolyModControl("sub_waveform", true);

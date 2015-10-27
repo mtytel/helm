@@ -23,6 +23,8 @@ namespace mopo {
   }
 
   void FixedPointOscillator::process() {
+    int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[0];
+
     int waveform = static_cast<int>(input(kWaveform)->source->buffer[0] + 0.5);
 
     waveform = CLAMP(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
@@ -31,11 +33,11 @@ namespace mopo {
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, waveform);
+        tick(i, waveform, phase_inc);
 
       phase_ = 0;
     }
     for (; i < buffer_size_; ++i)
-      tick(i, waveform);
+      tick(i, waveform, phase_inc);
   }
 } // namespace mopo

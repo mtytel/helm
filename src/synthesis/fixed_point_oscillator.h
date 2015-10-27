@@ -39,10 +39,8 @@ namespace mopo {
       virtual Processor* clone() const { return new FixedPointOscillator(*this); }
 
     protected:
-      void tick(int i, int waveform) {
+      void tick(int i, int waveform, int phase_inc) {
         static const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
-        int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[i];
-
         phase_ += phase_inc;
 
         mopo_float shuffle = CLAMP(1.0 - input(kShuffle)->source->buffer[i], 0.0, 1.0);
