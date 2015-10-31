@@ -60,8 +60,8 @@ namespace mopo {
       Envelope();
       virtual ~Envelope() { }
 
-      virtual Processor* clone() const { return new Envelope(*this); }
-      void process();
+      virtual Processor* clone() const override { return new Envelope(*this); }
+      void process() override;
       void trigger(mopo_float event, int offset);
       void tick(int i);
 

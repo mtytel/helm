@@ -33,8 +33,11 @@ namespace mopo {
 
       SmoothFilter();
 
-      virtual Processor* clone() const { return new SmoothFilter(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new SmoothFilter(*this);
+      }
+
+      virtual void process() override;
 
     private:
       mopo_float last_value_;

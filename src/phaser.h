@@ -38,7 +38,7 @@ namespace mopo {
 
       Phaser(int num_passes = 8);
 
-      virtual Processor* clone() const { return new Phaser(*this); }
+      virtual Processor* clone() const override { return new Phaser(*this); }
   };
 } // namespace mopo
 

@@ -37,7 +37,7 @@ namespace mopo {
       Operator(int num_inputs, int num_outputs) :
           Processor(num_inputs, num_outputs) { }
 
-      virtual void process();
+      virtual void process() override;
       virtual void tick(int i) = 0;
 
     private:
@@ -50,9 +50,9 @@ namespace mopo {
       Clamp(mopo_float min = -1, mopo_float max = 1) : Operator(1, 1),
                                                        min_(min), max_(max) { }
 
-      virtual Processor* clone() const { return new Clamp(*this); }
+      virtual Processor* clone() const override { return new Clamp(*this); }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -71,9 +71,9 @@ namespace mopo {
     public:
       Bypass() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new Bypass(*this); }
+      virtual Processor* clone() const override { return new Bypass(*this); }
 
-      void process() {
+      void process() override {
         memcpy(output()->buffer, input()->source->buffer,
                buffer_size_ * sizeof(mopo_float));
 
@@ -96,9 +96,9 @@ namespace mopo {
     public:
       Negate() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new Negate(*this); }
+      virtual Processor* clone() const override { return new Negate(*this); }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -114,7 +114,7 @@ namespace mopo {
     public:
       Inverse() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new Inverse(*this); }
+      virtual Processor* clone() const override { return new Inverse(*this); }
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -131,9 +131,11 @@ namespace mopo {
   class LinearScale : public Operator {
     public:
       LinearScale(mopo_float scale = 1) : Operator(1, 1), scale_(scale) { }
-      virtual Processor* clone() const { return new LinearScale(*this); }
+      virtual Processor* clone() const override {
+        return new LinearScale(*this);
+      }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -151,7 +153,7 @@ namespace mopo {
   class Square : public Operator {
     public:
       Square() : Operator(1, 1) { }
-      virtual Processor* clone() const { return new Square(*this); }
+      virtual Processor* clone() const override { return new Square(*this); }
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -169,7 +171,10 @@ namespace mopo {
     public:
       ExponentialScale(mopo_float scale = 1) :
           Operator(1, 1), scale_(scale) { }
-      virtual Processor* clone() const { return new ExponentialScale(*this); }
+
+      virtual Processor* clone() const override {
+        return new ExponentialScale(*this);
+      }
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -190,7 +195,9 @@ namespace mopo {
     public:
       MidiScale() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new MidiScale(*this); }
+      virtual Processor* clone() const override {
+        return new MidiScale(*this);
+      }
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -209,7 +216,9 @@ namespace mopo {
     public:
       ResonanceScale() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new ResonanceScale(*this); }
+      virtual Processor* clone() const override {
+        return new ResonanceScale(*this);
+      }
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -228,7 +237,9 @@ namespace mopo {
     public:
       MagnitudeScale() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new MagnitudeScale(*this); }
+      virtual Processor* clone() const override {
+        return new MagnitudeScale(*this);
+      }
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -246,9 +257,9 @@ namespace mopo {
     public:
       Add() : Operator(2, 1) { }
 
-      virtual Processor* clone() const { return new Add(*this); }
+      virtual Processor* clone() const override { return new Add(*this); }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input(0)->source->buffer,
@@ -267,9 +278,11 @@ namespace mopo {
     public:
       VariableAdd(int num_inputs = 0) : Operator(num_inputs, 1) { }
 
-      virtual Processor* clone() const { return new VariableAdd(*this); }
+      virtual Processor* clone() const override {
+        return new VariableAdd(*this);
+      }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         int num_inputs = inputs_->size();
@@ -284,9 +297,9 @@ namespace mopo {
     public:
       Subtract() : Operator(2, 1) { }
 
-      virtual Processor* clone() const { return new Subtract(*this); }
+      virtual Processor* clone() const override { return new Subtract(*this); }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input(0)->source->buffer,
@@ -305,9 +318,9 @@ namespace mopo {
     public:
       Multiply() : Operator(2, 1) { }
 
-      virtual Processor* clone() const { return new Multiply(*this); }
+      virtual Processor* clone() const override { return new Multiply(*this); }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input(0)->source->buffer,
@@ -333,9 +346,11 @@ namespace mopo {
 
       Interpolate() : Operator(kNumInputs, 1) { }
 
-      virtual Processor* clone() const { return new Interpolate(*this); }
+      virtual Processor* clone() const override {
+        return new Interpolate(*this);
+      }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input(kFrom)->source->buffer,
@@ -366,11 +381,11 @@ namespace mopo {
 
       BilinearInterpolate() : Operator(kNumInputs, 1) { }
 
-      virtual Processor* clone() const {
+      virtual Processor* clone() const override {
         return new BilinearInterpolate(*this);
       }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         float top = INTERPOLATE(input(kTopLeft)->at(i),
@@ -388,9 +403,11 @@ namespace mopo {
     public:
       FrequencyToPhase() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new FrequencyToPhase(*this); }
+      virtual Processor* clone() const override {
+        return new FrequencyToPhase(*this);
+      }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -405,9 +422,11 @@ namespace mopo {
     public:
       FrequencyToSamples() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new FrequencyToSamples(*this); }
+      virtual Processor* clone() const override {
+        return new FrequencyToSamples(*this);
+      }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -422,9 +441,11 @@ namespace mopo {
     public:
       TimeToSamples() : Operator(1, 1) { }
 
-      virtual Processor* clone() const { return new TimeToSamples(*this); }
+      virtual Processor* clone() const override {
+        return new TimeToSamples(*this);
+      }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -439,11 +460,11 @@ namespace mopo {
     public:
       SampleAndHoldBuffer() : Operator(1, 1) { }
 
-      virtual Processor* clone() const {
+      virtual Processor* clone() const override {
         return new SampleAndHoldBuffer(*this);
       }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -464,11 +485,11 @@ namespace mopo {
 
       LinearSmoothBuffer() : Operator(kNumInputs, 1), last_value_(1.0) { }
 
-      virtual Processor* clone() const {
+      virtual Processor* clone() const override {
         return new LinearSmoothBuffer(*this);
       }
 
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         output()->buffer[i] = input()->at(0);

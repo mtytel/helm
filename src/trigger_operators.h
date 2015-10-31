@@ -26,9 +26,11 @@ namespace mopo {
     public:
       TriggerCombiner();
 
-      virtual Processor* clone() const { return new TriggerCombiner(*this); }
+      virtual Processor* clone() const override {
+        return new TriggerCombiner(*this);
+      }
 
-      void process();
+      void process() override ;
   };
 
   class TriggerWait : public Processor {
@@ -41,9 +43,11 @@ namespace mopo {
 
       TriggerWait();
 
-      virtual Processor* clone() const { return new TriggerWait(*this); }
+      virtual Processor* clone() const override {
+        return new TriggerWait(*this);
+      }
 
-      void process();
+      void process() override;
 
     private:
       void waitTrigger(mopo_float trigger_value);
@@ -63,8 +67,11 @@ namespace mopo {
       TriggerFilter(mopo_float fitler = 0.0);
       ~TriggerFilter() { }
 
-      virtual Processor* clone() const { return new TriggerFilter(*this); }
-      void process();
+      virtual Processor* clone() const override {
+        return new TriggerFilter(*this);
+      }
+
+      void process() override;
 
     private:
       mopo_float trigger_filter_;
@@ -79,8 +86,11 @@ namespace mopo {
       };
       TriggerEquals(mopo_float value) : Processor(kNumInputs, 1), value_(value) { }
 
-      virtual Processor* clone() const { return new TriggerEquals(*this); }
-      void process();
+      virtual Processor* clone() const override {
+        return new TriggerEquals(*this);
+      }
+
+      void process() override;
 
     private:
       mopo_float value_;
@@ -95,8 +105,11 @@ namespace mopo {
       };
       TriggerNonZero() : Processor(kNumInputs, 1) { }
 
-      virtual Processor* clone() const { return new TriggerNonZero(*this); }
-      void process();
+      virtual Processor* clone() const override {
+        return new TriggerNonZero(*this);
+      }
+
+      void process() override;
   };
 
   class LegatoFilter : public Processor {
@@ -115,9 +128,11 @@ namespace mopo {
 
       LegatoFilter();
 
-      virtual Processor* clone() const { return new LegatoFilter(*this); }
+      virtual Processor* clone() const override {
+        return new LegatoFilter(*this);
+      }
 
-      void process();
+      void process() override;
 
     private:
       mopo_float last_value_;
@@ -141,9 +156,11 @@ namespace mopo {
 
       PortamentoFilter();
 
-      virtual Processor* clone() const { return new PortamentoFilter(*this); }
+      virtual Processor* clone() const override {
+        return new PortamentoFilter(*this);
+      }
 
-      void process();
+      void process() override;
 
     private:
 

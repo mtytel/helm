@@ -38,8 +38,11 @@ namespace mopo {
       ReverbComb(const ReverbComb& other);
       virtual ~ReverbComb() { }
 
-      virtual Processor* clone() const { return new ReverbComb(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new ReverbComb(*this);
+      }
+
+      virtual void process() override;
 
       void tick(int i) {
         mopo_float audio = input(kAudio)->at(i);

@@ -37,8 +37,11 @@ namespace mopo {
       ReverbAllPass(const ReverbAllPass& other);
       virtual ~ReverbAllPass() { }
 
-      virtual Processor* clone() const { return new ReverbAllPass(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new ReverbAllPass(*this);
+      }
+
+      virtual void process() override;
 
       void tick(int i) {
         mopo_float audio = input(kAudio)->at(i);

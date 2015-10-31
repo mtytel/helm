@@ -42,8 +42,11 @@ namespace mopo {
       MonoPanner();
       virtual ~MonoPanner() { }
 
-      virtual Processor* clone() const { return new MonoPanner(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new MonoPanner(*this);
+      }
+
+      virtual void process() override;
   };
 } // namespace mopo
 
