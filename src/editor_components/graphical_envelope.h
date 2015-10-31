@@ -36,11 +36,11 @@ class GraphicalEnvelope  : public Component, public SliderListener {
 
     void paint(Graphics& g) override;
     void resized() override;
-    void mouseMove (const MouseEvent& e);
-    void mouseExit (const MouseEvent& e);
-    void mouseDown (const MouseEvent& e);
-    void mouseDrag (const MouseEvent& e);
-    void mouseUp (const MouseEvent& e);
+    void mouseMove(const MouseEvent& e) override;
+    void mouseExit(const MouseEvent& e) override;
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent& e) override;
 
   private:
     float getAttackX();

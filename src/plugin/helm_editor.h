@@ -34,7 +34,7 @@ class HelmEditor : public AudioProcessorEditor, public SynthGuiInterface {
     const CriticalSection& getCriticalSection() override { return helm_.getCallbackLock(); }
     MidiManager* getMidiManager() override { return helm_.getMidiManager(); }
     void updateFullGui() override;
-    void updateGuiControl(const std::string& name, mopo::mopo_float value);
+    void updateGuiControl(const std::string& name, mopo::mopo_float value) override;
     void beginChangeGesture(const std::string& name) override;
     void endChangeGesture(const std::string& name) override;
     void setValueNotifyHost(const std::string& name, mopo::mopo_float value) override;

@@ -72,7 +72,7 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     MidiManager* getMidiManager() { return midi_manager_; }
 
     // ValueBridge::Listener
-    void parameterChanged(std::string name, mopo::mopo_float value);
+    void parameterChanged(std::string name, mopo::mopo_float value) override;
 
   private:
     mopo::HelmEngine synth_;

@@ -49,7 +49,7 @@ void GraphicalStepSequencer::paintBackground(Graphics& g) {
   for (int i = 0; i < num_steps_; ++i) {
     float val = sequence_[i]->getValue();
     float bar_position = (getHeight() - 1.0f) * ((1.0f - val) / 2.0f);
-    Rectangle<int> rect(x, bar_position, x_inc, 1.5f);
+    Rectangle<int> rect(x, bar_position, x_inc, 1);
     shadow.drawForRectangle(g, rect);
     x += x_inc;
   }

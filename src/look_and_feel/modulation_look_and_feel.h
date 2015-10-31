@@ -36,7 +36,7 @@ class ModulationLookAndFeel : public LookAndFeel_V3 {
 
     void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                           float slider_t, float start_angle, float end_angle,
-                          Slider& slider);
+                          Slider& slider) override;
 
     void drawToggleButton(Graphics& g, ToggleButton& button,
                           bool isMouseOverButton, bool isButtonDown) override;

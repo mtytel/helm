@@ -23,6 +23,10 @@
 
 namespace mopo {
 
+  namespace {
+    const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
+  }
+
   class HelmOscillators : public Processor {
     public:
       static const int MAX_UNISON = 15;
@@ -74,7 +78,6 @@ namespace mopo {
 
       void tick(int i, int waveform1, int waveform2, int voices1, int voices2,
                 int base_phase1, int base_phase2) {
-        static const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float amp1 = input(kOscillator1Amplitude)->source->buffer[i];
         mopo_float amp2 = input(kOscillator2Amplitude)->source->buffer[i];

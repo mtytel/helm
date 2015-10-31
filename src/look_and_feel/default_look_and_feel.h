@@ -30,12 +30,12 @@ class DefaultLookAndFeel : public juce::LookAndFeel_V3 {
                                float slider_pos, float min, float max,
                                const Slider::SliderStyle style, Slider& slider) override;
 
-    void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
-                          float slider_t, float start_angle, float end_angle,
-                          Slider& slider);
+    virtual void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
+                                  float slider_t, float start_angle, float end_angle,
+                                  Slider& slider) override;
 
-    void drawToggleButton(Graphics& g, ToggleButton& button,
-                          bool isMouseOverButton, bool isButtonDown) override;
+    virtual void drawToggleButton(Graphics& g, ToggleButton& button,
+                                  bool isMouseOverButton, bool isButtonDown) override;
 
     void drawButtonBackground(Graphics& g, Button& button,
                               const Colour &backgroundColour,
@@ -43,7 +43,7 @@ class DefaultLookAndFeel : public juce::LookAndFeel_V3 {
                               bool isButtonDown) override;
 
     void drawButtonText(Graphics& g, TextButton& button,
-                        bool isMouseOverButton, bool isButtonDown);
+                        bool isMouseOverButton, bool isButtonDown) override;
 
     void fillHorizontalRect(Graphics& g, float x1, float x2, float height);
 

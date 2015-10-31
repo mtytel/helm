@@ -43,9 +43,9 @@ class SynthesisInterface  : public SynthSection {
   public:
     SynthesisInterface(mopo::control_map controls);
     ~SynthesisInterface();
-  
+
     void paintBackground(Graphics& g) override;
-    void resized();
+    void resized() override;
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
