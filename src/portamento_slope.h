@@ -48,6 +48,7 @@ namespace mopo {
 
       virtual Processor* clone() const { return new PortamentoSlope(*this); }
       virtual void process();
+      void processBypass(int start);
       void tick(int i);
 
     private:

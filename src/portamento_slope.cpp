@@ -26,38 +26,51 @@ namespace mopo {
     last_value_ = 0.0;
   }
 
+  void PortamentoSlope::processBypass(int start) {
+    for (int i = start; i < buffer_size_; ++i)
+      output(0)->buffer[i] = input(kTarget)->at(i);
+    last_value_ = output(0)->buffer[buffer_size_ - 1];
+  }
+
   void PortamentoSlope::process() {
-    int i = 0;
     int state = static_cast<int>(input(kPortamentoType)->at(0));
+    int i = 0;
     int note_number = static_cast<int>(input(kNoteNumber)->source->trigger_value);
 
-    if (state == kPortamentoOff || (state == kPortamentoAuto && note_number <= 1)) {
-      if (input(kTriggerJump)->source->triggered) {
-        int trigger_offset = input(kTriggerJump)->source->trigger_offset;
-        for (; i < trigger_offset; ++i)
-          tick(i);
+    if (state == kPortamentoOff) {
+      processBypass(0);
+      return;
+    }
+    else if (state == kPortamentoAuto && note_number <= 1 &&
+             input(kTriggerJump)->source->triggered) {
+      int trigger_offset = input(kTriggerJump)->source->trigger_offset;
+      for (; i < trigger_offset; ++i)
+        tick(i);
 
-        last_value_ = input(kTarget)->at(i);
-      }
+      last_value_ = input(kTarget)->at(i);
+    }
+    else if (input(kTriggerStart)->source->triggered) {
+      int trigger_offset = input(kTriggerStart)->source->trigger_offset;
+      for (; i < trigger_offset; ++i)
+        tick(i);
+
+      last_value_ = input(kTriggerStart)->source->trigger_value;
+    }
+
+    if (last_value_ == input(kTarget)->at(0) &&
+        last_value_ == input(kTarget)->at(buffer_size_ - 1)) {
+      processBypass(i);
     }
     else {
-      if (input(kTriggerStart)->source->triggered) {
-        int trigger_offset = input(kTriggerStart)->source->trigger_offset;
-        for (; i < trigger_offset; ++i)
-          tick(i);
-
-        last_value_ = input(kTriggerStart)->source->trigger_value;
-      }
+      for (; i < buffer_size_; ++i)
+        tick(i);
     }
-
-    for (; i < buffer_size_; ++i)
-      tick(i);
   }
 
   inline void PortamentoSlope::tick(int i) {
     mopo_float target = input(kTarget)->at(i);
     if (utils::closeToZero(input(kRunSeconds)->at(i)))
-      last_value_ = input(kTarget)->at(i);
+      last_value_ = target;
 
     mopo_float increment = 0.4 / (sample_rate_ * input(kRunSeconds)->at(0));
     if (target <= last_value_)
