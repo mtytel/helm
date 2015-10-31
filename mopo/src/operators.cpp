@@ -65,8 +65,13 @@ namespace mopo {
                input(1)->source->buffer, 1,
                output()->buffer, 1, buffer_size_);
 #else
+    mopo_float* dest = output()->buffer;
+    const mopo_float* source_left = input(0)->source->buffer;
+    const mopo_float* source_right = input(1)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, source_left, source_right, i);
 #endif
   }
 
@@ -87,8 +92,13 @@ namespace mopo {
                input(1)->source->buffer, 1,
                output()->buffer, 1, buffer_size_);
 #else
+    mopo_float* dest = output()->buffer;
+    const mopo_float* source_left = input(0)->source->buffer;
+    const mopo_float* source_right = input(1)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, source_left, source_right, i);
 #endif
   }
 
