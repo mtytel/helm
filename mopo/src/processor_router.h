@@ -37,8 +37,8 @@ namespace mopo {
       }
 
       virtual void process() override;
-      virtual void setSampleRate(int sample_rate);
-      virtual void setBufferSize(int buffer_size);
+      virtual void setSampleRate(int sample_rate) override;
+      virtual void setBufferSize(int buffer_size) override;
 
       virtual void addProcessor(Processor* processor);
       virtual void removeProcessor(const Processor* processor);

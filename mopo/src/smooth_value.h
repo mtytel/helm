@@ -32,15 +32,15 @@ namespace mopo {
 
       virtual void process() override;
 
-      virtual void setSampleRate(int sample_rate);
+      virtual void setSampleRate(int sample_rate) override;
 
-      void set(mopo_float value) { target_value_ = value; }
+      void set(mopo_float value) override { target_value_ = value; }
       void setHard(mopo_float value) {
         Value::set(value);
         target_value_ = value;
       }
 
-      mopo_float value() const { return target_value_; }
+      mopo_float value() const override { return target_value_; }
 
     private:
       void tick(int i);
