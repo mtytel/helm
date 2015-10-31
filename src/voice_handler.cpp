@@ -289,7 +289,7 @@ namespace mopo {
     voice_router_.addProcessor(processor);
   }
 
-  void VoiceHandler::removeProcessor(Processor* processor) {
+  void VoiceHandler::removeProcessor(const Processor* processor) {
     voice_router_.removeProcessor(processor);
   }
 

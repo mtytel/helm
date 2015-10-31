@@ -28,7 +28,7 @@ namespace mopo {
           ProcessorRouter(num_inputs, num_outputs) { }
 
       virtual void process() override = 0;
-      virtual void tick(int i) override = 0;
+      virtual void tick(int i) = 0;
   };
 } // namespace mopo
 

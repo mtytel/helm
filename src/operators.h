@@ -24,7 +24,7 @@
 #include "processor.h"
 
 #define PROCESS_TICK_FUNCTION \
-void process() { \
+void process() override { \
   for (int i = 0; i < buffer_size_; ++i) \
     tick(i); \
 }
@@ -54,7 +54,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -82,7 +82,7 @@ namespace mopo {
         output()->trigger_offset = input()->source->trigger_offset;
       }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -100,7 +100,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -116,7 +116,7 @@ namespace mopo {
 
       virtual Processor* clone() const override { return new Inverse(*this); }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -137,7 +137,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -155,7 +155,7 @@ namespace mopo {
       Square() : Operator(1, 1) { }
       virtual Processor* clone() const override { return new Square(*this); }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -176,7 +176,7 @@ namespace mopo {
         return new ExponentialScale(*this);
       }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -199,7 +199,7 @@ namespace mopo {
         return new MidiScale(*this);
       }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -220,7 +220,7 @@ namespace mopo {
         return new ResonanceScale(*this);
       }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -241,7 +241,7 @@ namespace mopo {
         return new MagnitudeScale(*this);
       }
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -261,7 +261,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input(0)->source->buffer,
                                      input(1)->source->buffer, i);
       }
@@ -284,7 +284,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         int num_inputs = inputs_->size();
         output()->buffer[i] = 0.0;
         for (int in = 0; in < num_inputs; ++in)
@@ -301,7 +301,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input(0)->source->buffer,
                                      input(1)->source->buffer, i);
       }
@@ -322,7 +322,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input(0)->source->buffer,
                                      input(1)->source->buffer, i);
       }
@@ -352,7 +352,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input(kFrom)->source->buffer,
                                      input(kTo)->source->buffer,
                                      input(kFractional)->source->buffer, i);
@@ -387,7 +387,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         float top = INTERPOLATE(input(kTopLeft)->at(i),
                                 input(kTopRight)->at(i),
                                 input(kXPosition)->at(i));
@@ -409,7 +409,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -428,7 +428,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -447,7 +447,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -466,7 +466,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
       }
 
@@ -491,7 +491,7 @@ namespace mopo {
 
       void process() override;
 
-      inline void tick(int i) {
+      inline void tick(int i) override {
         output()->buffer[i] = input()->at(0);
       }
 
