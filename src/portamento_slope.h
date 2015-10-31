@@ -28,9 +28,19 @@ namespace mopo {
     public:
       enum Inputs {
         kTarget,
+        kPortamentoType,
+        kNoteNumber,
         kRunSeconds,
         kTriggerJump,
+        kTriggerStart,
         kNumInputs
+      };
+
+      enum State {
+        kPortamentoOff,
+        kPortamentoAuto,
+        kPortamentoOn,
+        kNumPortamentoStates,
       };
 
       PortamentoSlope();

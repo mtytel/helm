@@ -41,11 +41,16 @@ namespace mopo {
       state_ = kAttacking;
       current_value_ = 0.0;
     }
+    else if (event == kVoiceKill) {
+      state_ = kKilling;
+      next_life_state_ = kReleasing;
+    }
   }
 
   void Envelope::process() {
     kill_decrement_ = 1.0 / (VOICE_KILL_TIME * sample_rate_);
     output(kFinished)->clearTrigger();
+
     // Only update decay and release rate once per buffer.
     mopo_float decay_samples = sample_rate_ * input(kDecay)->at(0);
     decay_samples = CLAMP(decay_samples, 1.0, decay_samples);
@@ -88,6 +93,7 @@ namespace mopo {
     else if (state_ == kKilling) {
       current_value_ -= kill_decrement_;
       if (current_value_ <= 0) {
+        current_value_ = 0.0;
         output(kFinished)->trigger(kVoiceReset, i);
         state_ = next_life_state_;
       }

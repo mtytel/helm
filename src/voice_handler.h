@@ -30,7 +30,9 @@ namespace mopo {
   struct VoiceState {
     VoiceEvent event;
     mopo_float note;
+    mopo_float last_note;
     mopo_float velocity;
+    int note_pressed;
   };
 
   class Voice {
@@ -52,11 +54,15 @@ namespace mopo {
       mopo_float aftertouch() { return aftertouch_; }
       mopo_float aftertouch_sample() { return aftertouch_sample_; }
 
-      void activate(mopo_float note, mopo_float velocity, int sample = 0) {
+      void activate(mopo_float note, mopo_float velocity,
+                    mopo_float last_note, int note_pressed = 0,
+                    int sample = 0) {
         event_sample_ = sample;
         state_.event = kVoiceOn;
         state_.note = note;
         state_.velocity = velocity;
+        state_.last_note = last_note;
+        state_.note_pressed = note_pressed;
         aftertouch_ = velocity;
         aftertouch_sample_ = sample;
         key_state_ = kHeld;
@@ -70,6 +76,11 @@ namespace mopo {
         event_sample_ = sample;
         state_.event = kVoiceOff;
         key_state_ = kReleased;
+      }
+
+      void kill(int sample = 0) {
+        event_sample_ = sample;
+        state_.event = kVoiceKill;
       }
 
       bool hasNewEvent() {
@@ -118,8 +129,8 @@ namespace mopo {
       virtual void setBufferSize(int buffer_size);
       int getNumActiveVoices();
       std::list<mopo_float> getPressedNotes() { return pressed_notes_; }
+      bool isNotePlaying(mopo_float note);
 
-      Voice* grabVoice();
       void allNotesOff(int sample = 0) override;
       virtual void noteOn(mopo_float note, mopo_float velocity = 1,
                           int sample = 0) override;
@@ -130,6 +141,8 @@ namespace mopo {
 
       Output* voice_event() { return &voice_event_; }
       Output* note() { return &note_; }
+      Output* last_note() { return &last_note_; }
+      Output* note_pressed() { return &note_pressed_; }
       Output* velocity() { return &velocity_; }
       Output* aftertouch() { return &aftertouch_; }
       size_t polyphony() { return polyphony_; }
@@ -150,6 +163,10 @@ namespace mopo {
         voice_killer_ = killer;
       }
 
+      void setLegato(bool legato) {
+        legato_ = legato;
+      }
+
       void setVoiceKiller(const Processor* killer) {
         setVoiceKiller(killer->output());
       }
@@ -159,16 +176,22 @@ namespace mopo {
     private:
       VoiceHandler() { }
 
+      Voice* grabVoice();
+      Voice* getVoiceToKill();
       Voice* createVoice();
       void prepareVoiceTriggers(Voice* voice);
       void processVoice(Voice* voice);
 
       size_t polyphony_;
       bool sustain_;
+      bool legato_;
       std::vector<Output*> voice_outputs_;
       const Output* voice_killer_;
+      mopo_float last_played_note_;
       Output voice_event_;
       Output note_;
+      Output last_note_;
+      Output note_pressed_;
       Output velocity_;
       Output aftertouch_;
 

@@ -47,7 +47,8 @@ namespace mopo {
   enum VoiceEvent {
     kVoiceOff,     // Stop. (e.g. release in an envelope)
     kVoiceOn,      // Start. (e.g. start attack in an envelope)
-    kVoiceReset,   // Reset. Immediately reset to initial state.
+    kVoiceReset,   // Reset. Immediately reset to initial state and play.
+    kVoiceKill,   // Kill. Silence voice as fast as possible.
   };
 } // namespace mopo
 
