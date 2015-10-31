@@ -25,7 +25,7 @@
 Oscilloscope::Oscilloscope(int num_samples) {
   output_memory_ = nullptr;
   samples_to_show_ = num_samples;
-  setFramesPerSecond(FRAMES_PER_SECOND);
+  // setFramesPerSecond(FRAMES_PER_SECOND);
 }
 
 Oscilloscope::~Oscilloscope() { }

@@ -81,7 +81,7 @@ void StepSequencerSection::paintBackground(Graphics& g) {
                                                            BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
-  step_sequencer_->showRealtimeFeedback();
+  // step_sequencer_->showRealtimeFeedback();
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));

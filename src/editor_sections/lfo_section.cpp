@@ -86,7 +86,7 @@ void LfoSection::paintBackground(Graphics& g) {
 
   SynthSection::paintBackground(g);
 
-  wave_viewer_->showRealtimeFeedback();
+  // wave_viewer_->showRealtimeFeedback();
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(roboto_reg.withPointHeight(10.0f));
