@@ -55,7 +55,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = CLAMP(input()->at(i), min_, max_);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = CLAMP(source[i], min_, max_);
       }
 
     private:
@@ -79,7 +83,11 @@ namespace mopo {
       }
 
       inline void tick(int i) {
-        output()->buffer[i] = input()->at(i);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = source[i];
       }
   };
 
@@ -93,7 +101,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = -input()->at(i);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = -source[i];
       }
   };
 
@@ -105,7 +117,11 @@ namespace mopo {
       virtual Processor* clone() const { return new Inverse(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = 1.0 / input()->at(i);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = 1.0 / source[i];
       }
 
       PROCESS_TICK_FUNCTION
@@ -120,7 +136,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = scale_ * input()->at(i);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = scale_ * source[i];
       }
 
     private:
@@ -134,7 +154,11 @@ namespace mopo {
       virtual Processor* clone() const { return new Square(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = input()->at(i) * std::fabs(input()->at(i));
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = source[i] * source[i];
       }
 
       PROCESS_TICK_FUNCTION
@@ -148,7 +172,11 @@ namespace mopo {
       virtual Processor* clone() const { return new ExponentialScale(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = std::pow(scale_, input()->at(i));
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = std::pow(scale_, source[i]);
       }
 
       PROCESS_TICK_FUNCTION
@@ -165,8 +193,11 @@ namespace mopo {
       virtual Processor* clone() const { return new MidiScale(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] =
-            MidiLookup::centsLookup(CENTS_PER_NOTE * input()->at(i));
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = MidiLookup::centsLookup(CENTS_PER_NOTE * source[i]);
       }
 
       PROCESS_TICK_FUNCTION
@@ -181,7 +212,11 @@ namespace mopo {
       virtual Processor* clone() const { return new ResonanceScale(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = ResonanceLookup::qLookup(input()->at(i));
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = ResonanceLookup::qLookup(source[i]);
       }
 
       PROCESS_TICK_FUNCTION
@@ -196,7 +231,11 @@ namespace mopo {
       virtual Processor* clone() const { return new MagnitudeScale(*this); }
 
       inline void tick(int i) {
-        output()->buffer[i] = MagnitudeLookup::magnitudeLookup(input()->at(i));
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = MagnitudeLookup::magnitudeLookup(source[i]);
       }
 
       PROCESS_TICK_FUNCTION
@@ -212,7 +251,14 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = input(0)->at(i) + input(1)->at(i);
+        bufferTick(output()->buffer, input(0)->source->buffer,
+                                     input(1)->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest,
+                             const mopo_float* source_left,
+                             const mopo_float* source_right, int i) {
+        dest[i] = source_left[i] + source_right[i];
       }
   };
 
@@ -243,7 +289,14 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = input(0)->at(i) - input(1)->at(i);
+        bufferTick(output()->buffer, input(0)->source->buffer,
+                                     input(1)->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest,
+                             const mopo_float* source_left,
+                             const mopo_float* source_right, int i) {
+        dest[i] = source_left[i] - source_right[i];
       }
   };
 
@@ -257,7 +310,14 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = input(0)->at(i) * input(1)->at(i);
+        bufferTick(output()->buffer, input(0)->source->buffer,
+                                     input(1)->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest,
+                             const mopo_float* source_left,
+                             const mopo_float* source_right, int i) {
+        dest[i] = source_left[i] * source_right[i];
       }
   };
 
@@ -278,10 +338,16 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] =
-            INTERPOLATE(input(kFrom)->at(i),
-                        input(kTo)->at(i),
-                        input(kFractional)->at(i));
+        bufferTick(output()->buffer, input(kFrom)->source->buffer,
+                                     input(kTo)->source->buffer,
+                                     input(kFractional)->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest,
+                             const mopo_float* source_left,
+                             const mopo_float* source_right,
+                             const mopo_float* fraction, int i) {
+        dest[i] = INTERPOLATE(source_left[i], source_right[i], fraction[i]);
       }
   };
 
@@ -327,7 +393,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = input()->at(i) / sample_rate_;
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = source[i] / sample_rate_;
       }
   };
 
@@ -340,7 +410,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = sample_rate_ / input()->at(i);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = sample_rate_ / source[i];
       }
   };
 
@@ -353,7 +427,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = sample_rate_ * input()->at(i);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = sample_rate_ * source[i];
       }
   };
 
@@ -368,7 +446,11 @@ namespace mopo {
       void process();
 
       inline void tick(int i) {
-        output()->buffer[i] = input()->at(0);
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = source[0];
       }
   };
 
