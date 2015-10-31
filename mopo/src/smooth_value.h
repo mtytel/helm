@@ -26,8 +26,11 @@ namespace mopo {
     public:
       SmoothValue(mopo_float value = 0.0);
 
-      virtual Processor* clone() const { return new SmoothValue(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new SmoothValue(*this);
+      }
+
+      virtual void process() override;
 
       virtual void setSampleRate(int sample_rate);
 

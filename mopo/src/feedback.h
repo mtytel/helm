@@ -33,8 +33,8 @@ namespace mopo {
 
       virtual ~Feedback() { }
 
-      virtual Processor* clone() const { return new Feedback(*this); }
-      virtual void process();
+      virtual Processor* clone() const override { return new Feedback(*this); }
+      virtual void process() override;
       virtual void refreshOutput();
 
       inline void tick(int i) {

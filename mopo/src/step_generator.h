@@ -42,9 +42,11 @@ namespace mopo {
 
       StepGenerator(int max_steps = DEFAULT_MAX_STEPS);
 
-      virtual Processor* clone() const { return new StepGenerator(*this); }
+      virtual Processor* clone() const override {
+        return new StepGenerator(*this);
+      }
 
-      void process();
+      void process() override;
       void correctToTime(mopo_float samples);
 
     protected:

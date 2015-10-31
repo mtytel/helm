@@ -46,8 +46,11 @@ namespace mopo {
       PortamentoSlope();
       virtual ~PortamentoSlope() { }
 
-      virtual Processor* clone() const { return new PortamentoSlope(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new PortamentoSlope(*this);
+      }
+
+      virtual void process() override;
       void processBypass(int start);
       void tick(int i);
 

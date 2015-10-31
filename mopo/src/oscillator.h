@@ -44,9 +44,12 @@ namespace mopo {
 
       Oscillator();
 
-      virtual Processor* clone() const { return new Oscillator(*this); }
+      virtual Processor* clone() const override {
+        return new Oscillator(*this);
+      }
+
       void preprocess();
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         mopo_float frequency = input(kFrequency)->at(i);

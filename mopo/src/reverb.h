@@ -37,7 +37,7 @@ namespace mopo {
       Reverb();
       virtual ~Reverb() { }
 
-      virtual Processor* clone() const { return new Reverb(*this); }
+      virtual Processor* clone() const override { return new Reverb(*this); }
   };
 } // namespace mopo
 

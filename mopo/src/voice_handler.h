@@ -123,8 +123,12 @@ namespace mopo {
 
       VoiceHandler(size_t polyphony = 1);
 
-      virtual Processor* clone() const { MOPO_ASSERT(false); return 0; }
-      virtual void process();
+      virtual Processor* clone() const override {
+        MOPO_ASSERT(false);
+        return 0;
+      }
+
+      virtual void process() override;
       virtual void setSampleRate(int sample_rate);
       virtual void setBufferSize(int buffer_size);
       int getNumActiveVoices();

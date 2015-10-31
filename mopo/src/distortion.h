@@ -44,8 +44,11 @@ namespace mopo {
       Distortion();
       virtual ~Distortion() { }
 
-      virtual Processor* clone() const { return new Distortion(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new Distortion(*this);
+      }
+
+      virtual void process() override;
 
       void processTanh();
       void processHardClip();

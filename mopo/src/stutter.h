@@ -40,8 +40,8 @@ namespace mopo {
       Stutter(const Stutter& other);
       virtual ~Stutter();
 
-      virtual Processor* clone() const { return new Stutter(*this); }
-      virtual void process();
+      virtual Processor* clone() const override { return new Stutter(*this); }
+      virtual void process() override;
 
       void tick(int i, mopo_float sample_period, mopo_float stutter_period) {
         offset_ -= 1.0;
