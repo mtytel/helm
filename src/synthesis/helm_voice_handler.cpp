@@ -478,13 +478,6 @@ namespace mopo {
     filter->plug(final_resonance, Filter::kResonance);
     filter->plug(final_gain, Filter::kGain);
 
-    distorted_filter_ = new Distortion();
-    Value* distortion_type = new Value(Distortion::kTanh);
-    Value* distortion_threshold = new Value(0.5);
-    distorted_filter_->plug(filter, Distortion::kAudio);
-    distorted_filter_->plug(distortion_type, Distortion::kType);
-    distorted_filter_->plug(distortion_threshold, Distortion::kThreshold);
-
     addProcessor(current_keytrack);
     addProcessor(saturated_audio);
     addProcessor(keytracked_cutoff);
@@ -498,7 +491,6 @@ namespace mopo {
 
     addProcessor(saturation_magnitude);
     addProcessor(smooth_saturation_magnitude);
-    addProcessor(distorted_filter_);
 
     mod_sources_["fil_envelope"] = filter_envelope_->output();
 
@@ -506,7 +498,7 @@ namespace mopo {
     BypassRouter* stutter_container = new BypassRouter();
     Processor* stutter_on = createBaseControl("stutter_on");
     stutter_container->plug(stutter_on, BypassRouter::kOn);
-    stutter_container->plug(distorted_filter_, BypassRouter::kAudio);
+    stutter_container->plug(filter, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(44100);
     Processor* stutter_frequency = createPolyModControl("stutter_frequency", true);
@@ -515,7 +507,7 @@ namespace mopo {
     stutter_container->addProcessor(stutter);
     stutter_container->registerOutput(stutter->output());
 
-    stutter->plug(distorted_filter_, Stutter::kAudio);
+    stutter->plug(filter, Stutter::kAudio);
     stutter->plug(stutter_frequency, Stutter::kStutterFrequency);
     stutter->plug(resample_frequency, Stutter::kResampleFrequency);
     stutter->plug(stutter_softness, Stutter::kWindowSoftness);
