@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     void* const handle = dlopen(argv[1], RTLD_LAZY);
 #endif
 
-    if (! handle)
+    if (!handle)
     {
 #ifdef TTL_GENERATOR_WINDOWS
         printf("Failed to open plugin DLL\n");
@@ -54,10 +54,11 @@ int main(int argc, char* argv[])
 
         char* base2 = 0;
 #ifdef TTL_GENERATOR_WINDOWS
-        if (base2 = strrchr(argv[1], '\\'))
+        base2 = strrchr(argv[1], '\\');
 #else
-        if (base2 = strrchr(argv[1], '/'))
+        base2 = strrchr(argv[1], '/');
 #endif
+        if (base2)
         {
             strcpy(basename, base2+1);
             basename[strrchr(base2, '.')-base2-1] = '\0';
