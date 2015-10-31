@@ -24,7 +24,6 @@ namespace mopo {
   HelmModule::HelmModule() { }
 
   Value* HelmModule::createBaseControl(std::string name, bool smooth_value) {
-    
     mopo_float default_value = Parameters::getDetails(name).default_value;
     Value* val = 0;
     if (smooth_value) {
@@ -61,11 +60,13 @@ namespace mopo {
     if (details.display_skew == ValueDetails::kQuadratic) {
       control_rate_total = new Square();
       control_rate_total->plug(base_control);
+      control_rate_total->setControlRate();
       mono_owner->addProcessor(control_rate_total);
     }
     else if (details.display_skew == ValueDetails::kExponential) {
       control_rate_total = new ExponentialScale(2.0);
       control_rate_total->plug(base_control);
+      control_rate_total->setControlRate();
       mono_owner->addProcessor(control_rate_total);
     }
 

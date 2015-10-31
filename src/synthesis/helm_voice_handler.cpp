@@ -109,7 +109,9 @@ namespace mopo {
   void HelmVoiceHandler::init() {
     // Create modulation and pitch wheels.
     mod_wheel_amount_ = new SmoothValue(0);
+    mod_wheel_amount_->setControlRate();
     pitch_wheel_amount_ = new SmoothValue(0);
+    pitch_wheel_amount_->setControlRate();
 
     mod_sources_["pitch_wheel"] = pitch_wheel_amount_->output();
     mod_sources_["mod_wheel"] = mod_wheel_amount_->output();
@@ -123,6 +125,7 @@ namespace mopo {
                  amplitude_envelope_->output(Envelope::kFinished));
 
     Value* aftertouch_value = new Value();
+    aftertouch_value->setControlRate();
     aftertouch_value->plug(aftertouch());
 
     addProcessor(aftertouch_value);
@@ -142,7 +145,7 @@ namespace mopo {
 
   void HelmVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
-    Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", false);
+    Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", true);
     Multiply* pitch_bend = new Multiply();
     pitch_bend->setControlRate();
     pitch_bend->plug(pitch_wheel_amount_, 0);
@@ -158,8 +161,8 @@ namespace mopo {
     // Oscillator 1.
     HelmOscillators* oscillators = new HelmOscillators();
     Processor* oscillator1_waveform = createPolyModControl("osc_1_waveform", true);
-    Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", false);
-    Processor* oscillator1_tune = createPolyModControl("osc_1_tune", false);
+    Processor* oscillator1_transpose = createPolyModControl("osc_1_transpose", true);
+    Processor* oscillator1_tune = createPolyModControl("osc_1_tune", true);
     Processor* oscillator1_unison_voices = createPolyModControl("osc_1_unison_voices", true);
     Processor* oscillator1_unison_detune = createPolyModControl("osc_1_unison_detune", true);
     Processor* oscillator1_unison_harmonize = createBaseControl("unison_1_harmonize");
@@ -198,8 +201,8 @@ namespace mopo {
 
     // Oscillator 2.
     Processor* oscillator2_waveform = createPolyModControl("osc_2_waveform", true);
-    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", false);
-    Processor* oscillator2_tune = createPolyModControl("osc_2_tune", false);
+    Processor* oscillator2_transpose = createPolyModControl("osc_2_transpose", true);
+    Processor* oscillator2_tune = createPolyModControl("osc_2_tune", true);
     Processor* oscillator2_unison_voices = createPolyModControl("osc_2_unison_voices", true);
     Processor* oscillator2_unison_detune = createPolyModControl("osc_2_unison_detune", true);
     Processor* oscillator2_unison_harmonize = createBaseControl("unison_2_harmonize");
