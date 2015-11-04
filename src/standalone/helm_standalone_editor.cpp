@@ -116,7 +116,7 @@ void HelmStandaloneEditor::paint(Graphics& g) {
 }
 
 void HelmStandaloneEditor::resized() {
-  gui_->setBounds(0, 0, getWidth(), getHeight());
+  gui_->setBounds(getBounds());
 }
 
 void HelmStandaloneEditor::updateFullGui() {

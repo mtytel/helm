@@ -40,6 +40,8 @@ namespace mopo {
       oscillator2_rand_offset_[i] = 0.0;
       detune1_amounts_[i] = 1.0;
       detune2_amounts_[i] = 1.0;
+      wave_buffers1_[i] = nullptr;
+      wave_buffers2_[i] = nullptr;
     }
   }
 
@@ -87,13 +89,13 @@ namespace mopo {
     }
   }
 
-  void HelmOscillators::computeHarmonicIndices(int* harmonic_indices,
-                                               const mopo_float* detune_amounts,
-                                               mopo_float base_phase,
-                                               int voices) {
+  void HelmOscillators::prepareBuffers(int** wave_buffers,
+                                       const mopo_float* detune_amounts,
+                                       mopo_float base_phase,
+                                       int waveform) {
     for (int v = 0; v < MAX_UNISON; ++v) {
       int osc_phase_diff = detune_amounts[v] * base_phase;
-      harmonic_indices[v] = FixedPointWave::getHarmonicIndex(osc_phase_diff);
+      wave_buffers[v] = FixedPointWave::getBuffer(waveform, osc_phase_diff);
     }
   }
 
@@ -111,24 +113,24 @@ namespace mopo {
 
     int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[0];
     int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[0];
-    computeHarmonicIndices(harmonic1_indices_, detune1_amounts_, base_phase1, voices1);
-    computeHarmonicIndices(harmonic2_indices_, detune2_amounts_, base_phase2, voices2);
 
     int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
     int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
-
     wave1 = CLAMP(wave1, 0, FixedPointWaveLookup::kWhiteNoise - 1);
     wave2 = CLAMP(wave2, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+
+    prepareBuffers(wave_buffers1_, detune1_amounts_, base_phase1, wave1);
+    prepareBuffers(wave_buffers2_, detune2_amounts_, base_phase2, wave2);
 
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, wave1, wave2, voices1, voices2, base_phase1, base_phase2);
+        tick(i, voices1, voices2, base_phase1, base_phase2);
 
       reset();
     }
     for (; i < buffer_size_; ++i)
-      tick(i, wave1, wave2, voices1, voices2, base_phase1, base_phase2);
+      tick(i, voices1, voices2, base_phase1, base_phase2);
   }
 } // namespace mopo

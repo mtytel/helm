@@ -62,10 +62,10 @@ namespace mopo {
       void reset();
       void computeDetuneRatios(mopo_float* detune_amounts, const mopo_float* random_offsets,
                                bool harmonize, mopo_float detune, int voices);
-      void computeHarmonicIndices(int* harmonic_indices,
-                                  const mopo_float* detune_amounts,
-                                  mopo_float base_phase,
-                                  int voices);
+      void prepareBuffers(int** wave_buffers,
+                          const mopo_float* detune_amounts,
+                          mopo_float base_phase,
+                          int waveform);
 
       void tickCrossMod(int phase_diff1, int phase_diff2) {
         int master_phase1 = phase_diff1 + oscillator1_phases_[0];
@@ -76,7 +76,7 @@ namespace mopo {
         oscillator2_cross_mod_ = sin2 / FixedPointWaveLookup::SCALE;
       }
 
-      void tick(int i, int waveform1, int waveform2, int voices1, int voices2,
+      void tick(int i, int voices1, int voices2,
                 int base_phase1, int base_phase2) {
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float amp1 = input(kOscillator1Amplitude)->source->buffer[i];
@@ -93,8 +93,7 @@ namespace mopo {
           int osc_phase_diff = detune1_amounts_[v] * base_phase1;
           oscillator1_phases_[v] += osc_phase_diff;
           int phase = phase_diff1 + oscillator1_phases_[v];
-          oscillator1_total += FixedPointWave::harmonicWave(waveform1, phase,
-                                                            harmonic1_indices_[v]);
+          oscillator1_total += wave_buffers1_[v][FixedPointWave::getIndex(phase)];
         }
 
         tickCrossMod(phase_diff1, phase_diff2);
@@ -103,8 +102,7 @@ namespace mopo {
           int osc_phase_diff = detune2_amounts_[v] * base_phase2;
           oscillator2_phases_[v] += osc_phase_diff;
           int phase = phase_diff2 + oscillator2_phases_[v];
-          oscillator2_total += FixedPointWave::harmonicWave(waveform2, phase,
-                                                            harmonic2_indices_[v]);
+          oscillator2_total += wave_buffers2_[v][FixedPointWave::getIndex(phase)];
         }
 
         oscillator1_total /= ((voices1 >> 1) + 1);
@@ -119,8 +117,8 @@ namespace mopo {
 
       unsigned int oscillator1_phases_[MAX_UNISON];
       unsigned int oscillator2_phases_[MAX_UNISON];
-      int harmonic1_indices_[MAX_UNISON];
-      int harmonic2_indices_[MAX_UNISON];
+      int* wave_buffers1_[MAX_UNISON];
+      int* wave_buffers2_[MAX_UNISON];
       mopo_float detune1_amounts_[MAX_UNISON];
       mopo_float detune2_amounts_[MAX_UNISON];
       mopo_float oscillator1_rand_offset_[MAX_UNISON];
