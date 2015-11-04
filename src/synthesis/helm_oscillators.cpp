@@ -91,7 +91,7 @@ namespace mopo {
                                                const mopo_float* detune_amounts,
                                                mopo_float base_phase,
                                                int voices) {
-    for (int v = 0; v < voices; ++v) {
+    for (int v = 0; v < MAX_UNISON; ++v) {
       int osc_phase_diff = detune_amounts[v] * base_phase;
       harmonic_indices[v] = FixedPointWave::getHarmonicIndex(osc_phase_diff);
     }

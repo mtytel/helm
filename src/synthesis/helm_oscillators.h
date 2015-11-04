@@ -107,8 +107,8 @@ namespace mopo {
                                                             harmonic2_indices_[v]);
         }
 
-        oscillator1_total /= ((voices1 >> 2) + 1);
-        oscillator2_total /= ((voices2 >> 2) + 1);
+        oscillator1_total /= ((voices1 >> 1) + 1);
+        oscillator2_total /= ((voices2 >> 1) + 1);
 
         mopo_float mixed = amp1 * oscillator1_total + amp2 * oscillator2_total;
         output(0)->buffer[i] = SCALE_OUT * mixed;
