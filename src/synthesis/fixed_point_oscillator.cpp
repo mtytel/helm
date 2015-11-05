@@ -18,6 +18,8 @@
 
 namespace mopo {
 
+  const mopo_float FixedPointOscillator::SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
+
   FixedPointOscillator::FixedPointOscillator() : Processor(kNumInputs, 1) {
     phase_ = 0;
   }

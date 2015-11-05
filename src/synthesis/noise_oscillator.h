@@ -22,8 +22,8 @@
 
 namespace mopo {
 
-  static const mopo_float NOISE_CONSTANT = 9.19191919191919191919191919191919191919191919;
-  static const int NOISE_INT_CONSTANT = NOISE_CONSTANT;
+  const mopo_float NOISE_CONSTANT = 9.19191919191919191919191919191919191919191919;
+  const int NOISE_INT_CONSTANT = NOISE_CONSTANT;
 
   class NoiseOscillator : public Processor {
     public:

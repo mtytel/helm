@@ -23,12 +23,9 @@
 
 namespace mopo {
 
-  namespace {
-    const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
-  }
-
   class HelmOscillators : public Processor {
     public:
+      static const mopo_float SCALE_OUT;
       static const int MAX_UNISON = 15;
 
       enum Inputs {

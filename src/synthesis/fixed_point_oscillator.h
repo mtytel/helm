@@ -25,6 +25,8 @@ namespace mopo {
 
   class FixedPointOscillator : public Processor {
     public:
+      static const mopo_float SCALE_OUT;
+
       enum Inputs {
         kWaveform,
         kPhaseInc,
@@ -39,8 +41,7 @@ namespace mopo {
       virtual Processor* clone() const { return new FixedPointOscillator(*this); }
 
     protected:
-      void tick(int i, int waveform, int phase_inc) {
-        static const mopo_float SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
+      inline void tick(int i, int waveform, int phase_inc) {
         phase_ += phase_inc;
 
         mopo_float shuffle = 1.0 - input(kShuffle)->source->buffer[i];

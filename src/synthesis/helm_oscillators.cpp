@@ -19,7 +19,6 @@
 #define RAND_DECAY 0.999
 
 namespace mopo {
-
   namespace {
     inline mopo_float getRandomPitchChange() {
       static const int RESOLUTION = 10000;
@@ -28,6 +27,8 @@ namespace mopo {
       return (RAND_RATIO * (rand() % RESOLUTION)) / RESOLUTION - RAND_RATIO / 2.0;
     }
   } // namespace
+
+  const mopo_float HelmOscillators::SCALE_OUT = 0.5 / (FixedPointWaveLookup::SCALE * INT_MAX);
 
   HelmOscillators::HelmOscillators() : Processor(kNumInputs, 1) {
     oscillator1_cross_mod_ = 0;
