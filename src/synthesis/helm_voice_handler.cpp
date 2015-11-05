@@ -296,6 +296,7 @@ namespace mopo {
 
     // Noise Oscillator.
     NoiseOscillator* noise_oscillator = new NoiseOscillator();
+    noise_oscillator->plug(reset, NoiseOscillator::kReset);
 
     Processor* noise_volume = createPolyModControl("noise_volume", false);
     Multiply* scaled_noise_oscillator = new Multiply();

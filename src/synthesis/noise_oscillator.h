@@ -22,17 +22,32 @@
 
 namespace mopo {
 
+  static const mopo_float NOISE_CONSTANT = 9.19191919191919191919191919191919191919191919;
+  static const int NOISE_INT_CONSTANT = NOISE_CONSTANT;
+
   class NoiseOscillator : public Processor {
     public:
+      enum Inputs {
+        kReset,
+        kNumInputs
+      };
+
       NoiseOscillator();
 
       virtual void process();
       virtual Processor* clone() const { return new NoiseOscillator(*this); }
 
     protected:
-      void tick(int i) {
-        output()->buffer[i] = Wave::whitenoise();
+      inline void tick(int i) {
+        current_noise_value_ *= current_noise_value_;
+        current_noise_value_ = current_noise_value_ - int(current_noise_value_);
+
+        output()->buffer[i] = 2.0 * current_noise_value_ - 1.0;
+
+        current_noise_value_ += NOISE_INT_CONSTANT;
       }
+
+      mopo_float current_noise_value_;
   };
 } // namespace mopo
 
