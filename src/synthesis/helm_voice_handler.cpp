@@ -693,7 +693,7 @@ namespace mopo {
     current_frequency_->plug(portamento_type, PortamentoSlope::kPortamentoType);
     current_frequency_->plug(note_pressed(), PortamentoSlope::kNoteNumber);
     current_frequency_->plug(portamento, PortamentoSlope::kRunSeconds);
-    current_frequency_->plug(trigger, PortamentoSlope::kTriggerJump);
+    current_frequency_->plug(note_pressed(), PortamentoSlope::kTriggerJump);
     current_frequency_->plug(last_note, PortamentoSlope::kTriggerStart);
 
     addProcessor(current_frequency_);
