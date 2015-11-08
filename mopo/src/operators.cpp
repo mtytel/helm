@@ -118,9 +118,9 @@ namespace mopo {
 #else
 #define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
     mopo_float* dest = output()->buffer;
-    const mopo_float* from = input(0)->source->buffer;
-    const mopo_float* to = input(1)->source->buffer;
-    const mopo_float* fractional = input(1)->source->buffer;
+    const mopo_float* from = input(kFrom)->source->buffer;
+    const mopo_float* to = input(kTo)->source->buffer;
+    const mopo_float* fractional = input(kFractional)->source->buffer;
 
 #pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
