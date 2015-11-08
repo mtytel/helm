@@ -16,6 +16,7 @@
 
 #include "filter_response.h"
 #include "midi_lookup.h"
+#include "utils.h"
 
 #define MAG_TO_DB_CONSTANT 20.0f
 #define MIN_GAIN_DB -30.0f
@@ -168,12 +169,12 @@ void FilterResponse::computeFilterCoefficients() {
 
 void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
   if (cutoff_slider_) {
-    double percent = CLAMP((1.0 * position.x) / getWidth(), 0.0, 1.0);
+    double percent = mopo::utils::clamp((1.0 * position.x) / getWidth(), 0.0, 1.0);
     double frequency = cutoff_slider_->proportionOfLengthToValue(percent);
     cutoff_slider_->setValue(frequency);
   }
   if (resonance_slider_) {
-    double percent = CLAMP(1.0 - (1.0 * position.y) / getHeight(), 0.0, 1.0);
+    double percent = mopo::utils::clamp(1.0 - (1.0 * position.y) / getHeight(), 0.0, 1.0);
     resonance_slider_->setValue(resonance_slider_->proportionOfLengthToValue(percent));
   }
 

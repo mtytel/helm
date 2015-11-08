@@ -15,7 +15,7 @@
  */
 
 #include "switch.h"
-
+#include "utils.h"
 #include <cmath>
 
 namespace mopo {
@@ -24,7 +24,7 @@ namespace mopo {
 
   void Switch::process() {
     int source = static_cast<int>(input(kSource)->at(0));
-    source = CLAMP(source, 0, numInputs() - kNumInputs - 1);
+    source = utils::clamp(source, 0, numInputs() - kNumInputs - 1);
 
     memcpy(output()->buffer, input(kNumInputs + source)->source->buffer,
            buffer_size_ * sizeof(mopo_float));

@@ -67,7 +67,8 @@ void ModulationMeter::updateValue(int num_voices) {
 
 void ModulationMeter::updateDrawing() {
   double range = destination_->getMaximum() - destination_->getMinimum();
-  double new_mod_percent = CLAMP((current_value_ - destination_->getMinimum()) / range, 0.0, 1.0);
+  double value = (current_value_ - destination_->getMinimum()) / range;
+  double new_mod_percent = mopo::utils::clamp(value , 0.0, 1.0);
   double new_knob_percent = (destination_->getValue() - destination_->getMinimum()) / range;
 
   if (new_mod_percent != mod_percent_ || new_knob_percent != knob_percent_) {

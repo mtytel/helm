@@ -38,7 +38,8 @@ void HelmComputerKeyboard::changeKeyboardOffset(int new_offset) {
     keys_pressed_.erase(layout_[i]);
   }
 
-  computer_keyboard_offset_ = CLAMP(new_offset, 0, mopo::MIDI_SIZE - mopo::NOTES_PER_OCTAVE);
+  int max = (mopo::MIDI_SIZE / mopo::NOTES_PER_OCTAVE - 1) * mopo::NOTES_PER_OCTAVE;
+  computer_keyboard_offset_ = mopo::utils::iclamp(new_offset, 0, max);
 }
 
 bool HelmComputerKeyboard::keyPressed(const KeyPress &key, Component *origin) {

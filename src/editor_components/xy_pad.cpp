@@ -97,11 +97,11 @@ void XYPad::mouseUp(const MouseEvent& e) {
 
 void XYPad::setSlidersFromPosition(Point<int> position) {
   if (x_slider_) {
-    double percent = CLAMP((1.0 * position.x) / getWidth(), 0.0, 1.0);
+    double percent = mopo::utils::clamp((1.0 * position.x) / getWidth(), 0.0, 1.0);
     x_slider_->setValue(percent);
   }
   if (y_slider_) {
-    double percent = CLAMP(1.0 - (1.0 * position.y) / getHeight(), 0.0, 1.0);
+    double percent = mopo::utils::clamp(1.0 - (1.0 * position.y) / getHeight(), 0.0, 1.0);
     y_slider_->setValue(percent);
   }
 }

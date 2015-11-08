@@ -144,7 +144,7 @@ void SynthSlider::valueChanged() {
 
 String SynthSlider::getTextFromValue(double value) {
   if (string_lookup_) {
-    int lookup = CLAMP(value, 0, getMaximum()); 
+    int lookup = mopo::utils::iclamp(value, 0, getMaximum());
     return string_lookup_[lookup];
   }
 

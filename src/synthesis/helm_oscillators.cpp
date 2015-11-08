@@ -105,8 +105,8 @@ namespace mopo {
   void HelmOscillators::process() {
     int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[0];
     int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[0];
-    int voices1 = CLAMP(input(kUnisonVoices1)->source->buffer[0], 1, MAX_UNISON);
-    int voices2 = CLAMP(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
+    int voices1 = utils::iclamp(input(kUnisonVoices1)->source->buffer[0], 1, MAX_UNISON);
+    int voices2 = utils::iclamp(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
     mopo_float detune1 = input(kUnisonDetune1)->source->buffer[0];
     mopo_float detune2 = input(kUnisonDetune2)->source->buffer[0];
     mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0];
@@ -120,8 +120,8 @@ namespace mopo {
 
     int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
     int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
-    wave1 = CLAMP(wave1, 0, FixedPointWaveLookup::kWhiteNoise - 1);
-    wave2 = CLAMP(wave2, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+    wave1 = utils::iclamp(wave1, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+    wave2 = utils::iclamp(wave2, 0, FixedPointWaveLookup::kWhiteNoise - 1);
 
     prepareBuffers(wave_buffers1_, oscillator1_phase_diffs_, base_phase1, wave1);
     prepareBuffers(wave_buffers2_, oscillator2_phase_diffs_, base_phase2, wave2);

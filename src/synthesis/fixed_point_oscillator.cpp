@@ -28,7 +28,7 @@ namespace mopo {
     int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[0];
 
     int waveform = static_cast<int>(input(kWaveform)->source->buffer[0] + 0.5);
-    waveform = CLAMP(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+    waveform = mopo::utils::clamp(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
     int* wave_buffer = FixedPointWave::getBuffer(waveform, 2.0 * phase_inc);
 
     mopo_float shuffle = 1.0 - input(kShuffle)->source->buffer[0];

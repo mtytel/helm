@@ -20,6 +20,7 @@
 
 #include "common.h"
 #include "wave.h"
+#include "utils.h"
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -105,8 +106,8 @@ namespace mopo {
 
       static inline int getHarmonicIndex(int phase_inc) {
         int ratio = INT_MAX / phase_inc;
-        return CLAMP(FixedPointWaveLookup::HARMONICS + 1 - ratio,
-                     0, FixedPointWaveLookup::HARMONICS - 1);
+        return mopo::utils::iclamp(FixedPointWaveLookup::HARMONICS + 1 - ratio,
+                                   0, FixedPointWaveLookup::HARMONICS - 1);
       }
 
       static inline unsigned int getIndex(unsigned int t) {
