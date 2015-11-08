@@ -41,18 +41,17 @@ namespace mopo {
       virtual Processor* clone() const { return new FixedPointOscillator(*this); }
 
     protected:
-      inline void tick(int i, int waveform, int phase_inc) {
+      inline void tick(int i, int* wave_buffer, int phase_inc,
+                       mopo_float shuffle, unsigned int shuffle_index) {
         phase_ += phase_inc;
 
-        mopo_float shuffle = 1.0 - input(kShuffle)->source->buffer[i];
-        unsigned int shuffle_index = INT_MAX * shuffle;
         if (shuffle_index > phase_) {
           unsigned int phase = phase_ * (2.0 / shuffle);
-          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, 2.0 * phase_inc);
+          output()->buffer[i] = SCALE_OUT * wave_buffer[FixedPointWave::getIndex(phase)];
         }
         else {
           unsigned int phase = (phase_ - shuffle_index) / (1.0 - 0.5 * shuffle);
-          output()->buffer[i] = SCALE_OUT * FixedPointWave::wave(waveform, phase, 2.0 * phase_inc);
+          output()->buffer[i] = SCALE_OUT * wave_buffer[FixedPointWave::getIndex(phase)];
         }
       }
 

@@ -28,18 +28,31 @@ namespace mopo {
     int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[0];
 
     int waveform = static_cast<int>(input(kWaveform)->source->buffer[0] + 0.5);
-
     waveform = CLAMP(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+    int* wave_buffer = FixedPointWave::getBuffer(waveform, 2.0 * phase_inc);
+
+    mopo_float shuffle = 1.0 - input(kShuffle)->source->buffer[0];
+    mopo_float shuffle_end = 1.0 - input(kShuffle)->source->buffer[buffer_size_ - 1];
+    unsigned int shuffle_index = INT_MAX * shuffle;
+    unsigned int shuffle_end_index = INT_MAX * shuffle_end;
+    mopo_float shuffle_delta = (shuffle_end - shuffle) / buffer_size_;
+    int shuffle_index_delta = (shuffle_end_index - shuffle_index) / buffer_size_;
 
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
-      for (; i < trigger_offset; ++i)
-        tick(i, waveform, phase_inc);
+      for (; i < trigger_offset; ++i) {
+        tick(i, wave_buffer, phase_inc, shuffle, shuffle_index);
+        shuffle += shuffle_delta;
+        shuffle_index += shuffle_index_delta;
+      }
 
       phase_ = 0;
     }
-    for (; i < buffer_size_; ++i)
-      tick(i, waveform, phase_inc);
+    for (; i < buffer_size_; ++i) {
+      tick(i, wave_buffer, phase_inc, shuffle, shuffle_index);
+      shuffle += shuffle_delta;
+      shuffle_index += shuffle_index_delta;
+    }
   }
 } // namespace mopo
