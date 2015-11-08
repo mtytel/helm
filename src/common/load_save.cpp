@@ -144,14 +144,14 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
   NamedValueSet settings_properties = settings_object->getProperties();
   Array<var>* modulations = settings_properties["modulations"].getArray();
 
-  // After 0.5.0 mixer was added and osc_mix was removed.
+  // After 0.5.0 mixer was added and osc_mix was removed. And scaling of oscillators was changed.
   if (compareVersionStrings(version, "0.5.0") <= 0) {
 
     // Fix control control values.
     if (settings_properties.contains("osc_mix")) {
       mopo::mopo_float osc_mix = settings_properties["osc_mix"];
-      settings_properties.set("osc_1_volume", 1.0f - osc_mix);
-      settings_properties.set("osc_2_volume", osc_mix);
+      settings_properties.set("osc_1_volume", sqrt(1.0f - osc_mix));
+      settings_properties.set("osc_2_volume", sqrt(osc_mix));
       settings_properties.remove("osc_mix");
     }
 
@@ -210,7 +210,7 @@ File LoadSave::getConfigFile() {
   config_options.applicationName = "Helm";
   config_options.osxLibrarySubFolder = "Application Support";
   config_options.filenameSuffix = "config";
-  
+
 #ifdef LINUX
   config_options.folderName = "." + String(ProjectInfo::projectName).toLowerCase();
 #else
@@ -320,7 +320,7 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
   var config_var = getConfigVar();
   if (!config_var.isObject())
     config_var = new DynamicObject();
-  
+
   DynamicObject* config_object = config_var.getDynamicObject();
   NamedValueSet config_properties = config_object->getProperties();
 
