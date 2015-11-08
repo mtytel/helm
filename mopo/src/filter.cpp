@@ -56,17 +56,42 @@ namespace mopo {
     mopo_float resonance = CLAMP(inputs_->at(kResonance)->at(0), MIN_RESONANCE, MAX_RESONANCE);
     computeCoefficients(current_type_, cutoff, resonance, inputs_->at(kGain)->at(0));
 
-    int i = 0;
+    mopo_float delta_in_0 = (target_in_0_ - in_0_) / buffer_size_;
+    mopo_float delta_in_1 = (target_in_1_ - in_1_) / buffer_size_;
+    mopo_float delta_in_2 = (target_in_2_ - in_2_) / buffer_size_;
+    mopo_float delta_out_1 = (target_out_1_ - out_1_) / buffer_size_;
+    mopo_float delta_out_2 = (target_out_2_ - out_2_) / buffer_size_;
+
+    const mopo_float* audio_buffer = input(kAudio)->source->buffer;
+    mopo_float* dest = output()->buffer;
     if (inputs_->at(kReset)->source->triggered &&
         inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
-      for (; i < trigger_offset; ++i)
-        tick(i);
+      int i = 0;
+      for (; i < trigger_offset; ++i) {
+        in_0_ += delta_in_0;
+        in_1_ += delta_in_1;
+        in_2_ += delta_in_2;
+        out_1_ += delta_out_1;
+        out_2_ += delta_out_2;
+        tick(i, dest, audio_buffer);
+      }
 
       reset();
+
+      for (; i < buffer_size_; ++i)
+        tick(i, dest, audio_buffer);
     }
-    for (; i < buffer_size_; ++i)
-      tick(i);
+    else {
+      for (int i = 0; i < buffer_size_; ++i) {
+        in_0_ += delta_in_0;
+        in_1_ += delta_in_1;
+        in_2_ += delta_in_2;
+        out_1_ += delta_out_1;
+        out_2_ += delta_out_2;
+        tick(i, dest, audio_buffer);
+      }
+    }
   }
 
   void Filter::reset() {
