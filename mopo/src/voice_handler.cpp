@@ -75,7 +75,7 @@ namespace mopo {
     global_router_.process();
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
-    setPolyphony(CLAMP(polyphony, 1, polyphony));
+    setPolyphony(utils::iclamp(polyphony, 1, polyphony));
     for (int out = 0; out < numOutputs(); ++out)
       memset(output(out)->buffer, 0, buffer_size_ * sizeof(mopo_float));
 

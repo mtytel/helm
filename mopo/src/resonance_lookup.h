@@ -38,7 +38,7 @@ namespace mopo {
       }
 
       mopo_float qLookup(mopo_float magnitude) const {
-        mopo_float index = Q_RESOLUTION * CLAMP(magnitude, 0.0, 1.0);
+        mopo_float index = Q_RESOLUTION * utils::clamp(magnitude, 0.0, 1.0);
         int int_index = index;
         mopo_float fraction = index - int_index;
 

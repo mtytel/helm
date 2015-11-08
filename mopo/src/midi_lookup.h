@@ -34,7 +34,7 @@ namespace mopo {
       }
 
       mopo_float centsLookup(mopo_float cents_from_0) const {
-        mopo_float clamped_cents = CLAMP(cents_from_0, 0.0, MAX_CENTS);
+        mopo_float clamped_cents = utils::clamp(cents_from_0, 0.0, MAX_CENTS);
         int full_cents = clamped_cents;
         mopo_float fraction_cents = clamped_cents - full_cents;
 

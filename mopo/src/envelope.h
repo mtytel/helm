@@ -19,6 +19,7 @@
 #define ENVELOPE_H
 
 #include "processor.h"
+#include "utils.h"
 
 #define CLOSE_ENOUGH (1.0 / 256.0)
 
@@ -74,7 +75,7 @@ namespace mopo {
             current_value_ = 1;
           else {
             mopo_float change = 1.0 / (sample_rate_ * input(kAttack)->at(i));
-            current_value_ = CLAMP(current_value_ + change, 0, 1);
+            current_value_ = utils::clamp(current_value_ + change, 0.0, 1.0);
           }
           if (current_value_ >= 1)
             state_ = kDecaying;

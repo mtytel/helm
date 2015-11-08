@@ -47,9 +47,9 @@ namespace mopo {
 
     mopo_float increment = 1.0 / (sample_rate_ * input(kRunSeconds)->at(0));
     if (target <= last_value_)
-      last_value_ = CLAMP(last_value_ - increment, target, last_value_);
+      last_value_ = utils::clamp(last_value_ - increment, target, last_value_);
     else
-      last_value_ = CLAMP(last_value_ + increment, last_value_, target);
+      last_value_ = utils::clamp(last_value_ + increment, last_value_, target);
     output(0)->buffer[i] = last_value_;
   }
 } // namespace mopo

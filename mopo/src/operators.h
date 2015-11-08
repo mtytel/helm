@@ -59,7 +59,7 @@ namespace mopo {
       }
 
       inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
-        dest[i] = CLAMP(source[i], min_, max_);
+        dest[i] = utils::clamp(source[i], min_, max_);
       }
 
     private:

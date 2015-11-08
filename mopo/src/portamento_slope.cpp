@@ -74,9 +74,9 @@ namespace mopo {
 
     mopo_float increment = 0.4 / (sample_rate_ * input(kRunSeconds)->at(0));
     if (target <= last_value_)
-      last_value_ = CLAMP(last_value_ - increment, target, last_value_);
+      last_value_ = utils::clamp(last_value_ - increment, target, last_value_);
     else
-      last_value_ = CLAMP(last_value_ + increment, last_value_, target);
+      last_value_ = utils::clamp(last_value_ + increment, last_value_, target);
 
     mopo_float movement = target - last_value_;
     movement *= fabs(movement);

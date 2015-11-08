@@ -53,11 +53,11 @@ namespace mopo {
 
     // Only update decay and release rate once per buffer.
     mopo_float decay_samples = sample_rate_ * input(kDecay)->at(0);
-    decay_samples = CLAMP(decay_samples, 1.0, decay_samples);
+    decay_samples = utils::clamp(decay_samples, 1.0, decay_samples);
     decay_decay_ = pow(CLOSE_ENOUGH, 1.0 / decay_samples);
 
     mopo_float release_samples = sample_rate_ * input(kRelease)->at(0);
-    release_samples = CLAMP(release_samples, 1.0, release_samples);
+    release_samples = utils::clamp(release_samples, 1.0, release_samples);
     release_decay_ = pow(CLOSE_ENOUGH, 1.0 / release_samples);
 
     mopo_float* out_buffer = output(kValue)->buffer;
