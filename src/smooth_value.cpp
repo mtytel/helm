@@ -31,12 +31,16 @@ namespace mopo {
   }
 
   void SmoothValue::process() {
+    if (value_ == target_value_ && value_ == output()->buffer[0] &&
+        value_ == output()->buffer[buffer_size_ - 1]) {
+      return;
+    }
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
   }
 
   inline void SmoothValue::tick(int i) {
     value_ = INTERPOLATE(value_, target_value_, decay_);
-    output(0)->buffer[i] = value_;
+    output()->buffer[i] = value_;
   }
 } // namespace mopo

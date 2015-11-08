@@ -34,8 +34,11 @@ namespace mopo {
                 &min_, &max_,
                 output()->buffer, 1, buffer_size_);
 #else
+    mopo_float* dest = output()->buffer;
+    const mopo_float* source = input()->source->buffer;
+
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, source, i);
 #endif
   }
 

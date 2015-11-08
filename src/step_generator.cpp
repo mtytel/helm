@@ -15,8 +15,9 @@
  */
 
 #include "step_generator.h"
+#include "utils.h"
 
-#include <cmath>  
+#include <cmath>
 
 namespace mopo {
 
@@ -27,7 +28,7 @@ namespace mopo {
   void StepGenerator::process() {
     static double integral;
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
-    num_steps = CLAMP(num_steps, 1, max_steps_);
+    num_steps = utils::iclamp(num_steps, 1, max_steps_);
 
     int i = 0;
     if (input(kReset)->source->triggered) {
@@ -51,7 +52,7 @@ namespace mopo {
     static double integral;
 
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
-    num_steps = CLAMP(num_steps, 1, max_steps_);
+    num_steps = utils::iclamp(num_steps, 1, max_steps_);
 
     offset_ = samples * input(kFrequency)->at(0) / sample_rate_;
     offset_ = modf(offset_, &integral);

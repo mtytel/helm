@@ -64,6 +64,7 @@ namespace mopo {
 
       mopo_float past_in_;
       mopo_float past_out_;
+      mopo_float tmp_buffer_[MAX_BUFFER_SIZE];
   };
 } // namespace mopo
 

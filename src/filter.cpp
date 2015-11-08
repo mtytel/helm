@@ -15,6 +15,7 @@
  */
 
 #include "filter.h"
+#include "utils.h"
 
 #include <cmath>
 
@@ -52,8 +53,9 @@ namespace mopo {
 
   void Filter::process() {
     current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
-    mopo_float cutoff = CLAMP(inputs_->at(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
-    mopo_float resonance = CLAMP(inputs_->at(kResonance)->at(0), MIN_RESONANCE, MAX_RESONANCE);
+    mopo_float cutoff = utils::clamp(inputs_->at(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
+    mopo_float resonance = utils::clamp(inputs_->at(kResonance)->at(0),
+                                        MIN_RESONANCE, MAX_RESONANCE);
     computeCoefficients(current_type_, cutoff, resonance, inputs_->at(kGain)->at(0));
 
     mopo_float delta_in_0 = (target_in_0_ - in_0_) / buffer_size_;

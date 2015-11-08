@@ -18,9 +18,10 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <mmintrin.h>
+
 // Utilities.
 #define UNUSED(x) (void)(x)
-#define CLAMP(v, s, b) ((v) < (s) ? (s) : ((v) > (b) ? (b) : (v)))
 #define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
 
 // Debugging.
