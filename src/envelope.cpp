@@ -69,6 +69,10 @@ namespace mopo {
         for (; i < trigger_offset; ++i)
           tickRelease(i, out_buffer);
       }
+      else if (state_ == kDecaying) {
+        for (; i < trigger_offset; ++i)
+          tickDecay(i, out_buffer);
+      }
       else {
         for (; i < trigger_offset; ++i)
           tick(i, out_buffer);
@@ -80,6 +84,10 @@ namespace mopo {
     if (state_ == kReleasing) {
       for (; i < buffer_size_; ++i)
         tickRelease(i, out_buffer);
+    }
+    else if (state_ == kDecaying) {
+      for (; i < buffer_size_; ++i)
+        tickDecay(i, out_buffer);
     }
     else {
       for (; i < buffer_size_; ++i)

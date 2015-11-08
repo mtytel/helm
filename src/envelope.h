@@ -64,8 +64,14 @@ namespace mopo {
       virtual Processor* clone() const override { return new Envelope(*this); }
       void process() override;
       void trigger(mopo_float event, int offset);
+
       void tickRelease(int i, mopo_float* out_buffer) {
         current_value_ *= release_decay_;
+        out_buffer[i] = current_value_;
+      }
+
+      void tickDecay(int i, mopo_float* out_buffer) {
+        current_value_ = INTERPOLATE(input(kSustain)->at(i), current_value_, decay_decay_);
         out_buffer[i] = current_value_;
       }
 
@@ -79,11 +85,6 @@ namespace mopo {
           }
           if (current_value_ >= 1)
             state_ = kDecaying;
-        }
-        else if (state_ == kDecaying) {
-          current_value_ = INTERPOLATE(input(kSustain)->at(i),
-                                       current_value_,
-                                       decay_decay_);
         }
         else if (state_ == kKilling) {
           current_value_ -= kill_decrement_;
