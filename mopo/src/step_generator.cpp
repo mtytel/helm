@@ -26,7 +26,7 @@ namespace mopo {
       offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
-    static double integral;
+    static mopo_float integral;
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
     num_steps = utils::iclamp(num_steps, 1, max_steps_);
 
@@ -38,7 +38,7 @@ namespace mopo {
     }
 
     offset_ += buffer_size_ * input(kFrequency)->at(0) / sample_rate_;
-    offset_ = modf(offset_, &integral);
+    offset_ = utils::mod(offset_, &integral);
     current_step_ += integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
 
@@ -49,13 +49,13 @@ namespace mopo {
   }
 
   void StepGenerator::correctToTime(mopo_float samples) {
-    static double integral;
+    static mopo_float integral;
 
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
     num_steps = utils::iclamp(num_steps, 1, max_steps_);
 
     offset_ = samples * input(kFrequency)->at(0) / sample_rate_;
-    offset_ = modf(offset_, &integral);
+    offset_ = utils::mod(offset_, &integral);
     current_step_ = integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
   }
