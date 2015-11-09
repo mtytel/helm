@@ -32,6 +32,7 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   midi_manager_ = new MidiManager(&synth_, &gui_state_, &critical_section_, this);
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
+  memory_offset_ = 0;
 
   Startup::doStartupChecks(midi_manager_, computer_keyboard_);
   setAudioChannels(0, mopo::NUM_CHANNELS);
@@ -97,15 +98,18 @@ void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffe
     const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
     const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
     for (int channel = 0; channel < mopo::NUM_CHANNELS; ++channel) {
-      float* channelData = buffer.buffer->getWritePointer(channel);
+      float* channelData = buffer.buffer->getWritePointer(channel) + b;
       const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
 
+      #pragma clang loop vectorize(enable) interleave(enable)
       for (int i = 0; i < synth_samples; ++i)
-        channelData[b + i] = synth_output[i];
+        channelData[i] = synth_output[i];
     }
 
-    for (int i = 0; i < synth_samples; ++i)
-      output_memory_->push(synth_output_left[i] + synth_output_right[i]);
+    int output_inc = synth_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
+    for (; memory_offset_ < synth_samples; memory_offset_ += output_inc)
+      output_memory_->push(synth_output_left[memory_offset_] + synth_output_right[memory_offset_]);
+    memory_offset_ -= synth_samples;
   }
 }
 

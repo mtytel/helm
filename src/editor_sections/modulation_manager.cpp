@@ -138,6 +138,7 @@ void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
 }
 
 void ModulationManager::timerCallback() {
+  return;
   for (auto slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
     slider.second->setVisible(model->isVisible());
@@ -183,7 +184,7 @@ void ModulationManager::setSliderValues() {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent == nullptr)
     return;
-  
+
   std::vector<mopo::ModulationConnection*> connections =
   parent->getSourceConnections(current_modulator_);
   for (auto slider : slider_lookup_) {

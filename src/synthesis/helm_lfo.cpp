@@ -48,10 +48,10 @@ namespace mopo {
     offset_ += num_samples * frequency / sample_rate_;
 
     mopo_float offset_integral;
-    offset_ = modf(offset_, &offset_integral);
+    offset_ = utils::mod(offset_, &offset_integral);
 
     mopo_float phase_integral;
-    mopo_float phased_offset = modf(offset_ + phase, &phase_integral);
+    mopo_float phased_offset = utils::mod(offset_ + phase, &phase_integral);
 
     output(kOscPhase)->buffer[0] = phased_offset;
 
@@ -75,7 +75,7 @@ namespace mopo {
   void HelmLfo::correctToTime(mopo_float samples) {
     mopo_float frequency = input(kFrequency)->at(0);
     offset_ = samples * frequency / sample_rate_;
-    double integral;
-    offset_ = modf(offset_, &integral);
+    mopo_float integral;
+    offset_ = utils::mod(offset_, &integral);
   }
 } // namespace mopo

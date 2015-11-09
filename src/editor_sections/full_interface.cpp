@@ -37,7 +37,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
 
   addAndMakeVisible(patch_selector_ = new PatchSelector());
-  addAndMakeVisible(oscilloscope_ = new Oscilloscope(512));
+  addAndMakeVisible(oscilloscope_ = new Oscilloscope());
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);

@@ -126,6 +126,7 @@ namespace mopo {
   const mopo_float MAX_STEPS = 32;
   const int NUM_FORMANTS = 4;
   const int NUM_CHANNELS = 2;
+  const int MEMORY_SAMPLE_RATE = 4410;
 
   const int DEFAULT_KEYBOARD_OFFSET = 48;
   const std::wstring DEFAULT_KEYBOARD = L"awsedftgyhujkolp;'";

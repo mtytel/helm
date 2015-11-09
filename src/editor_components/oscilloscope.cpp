@@ -17,14 +17,13 @@
 #include "oscilloscope.h"
 
 #define FRAMES_PER_SECOND 15
-#define MAX_RESOLUTION 54
+#define RESOLUTION 54
 #define GRID_CELL_WIDTH 8
 #define PADDING_X -2
 #define PADDING_Y 5
 
-Oscilloscope::Oscilloscope(int num_samples) {
+Oscilloscope::Oscilloscope() {
   output_memory_ = nullptr;
-  samples_to_show_ = num_samples;
   // setFramesPerSecond(FRAMES_PER_SECOND);
 }
 
@@ -62,9 +61,8 @@ void Oscilloscope::resetWavePath() {
   float draw_height = getHeight() - 2.0f * PADDING_Y;
 
   wave_path_.startNewSubPath(PADDING_X, getHeight() / 2.0f);
-  int inc = samples_to_show_ / MAX_RESOLUTION;
-  for (int i = samples_to_show_; i >= 0; i -= inc) {
-    float t = (samples_to_show_ - 1.0f * i) / samples_to_show_;
+  for (int i = RESOLUTION - 1; i >= 0; --i) {
+    float t = (RESOLUTION - 1.0f * i) / RESOLUTION;
     float val = output_memory_->get(i);
     if (val != val)
       val = 0.0f;

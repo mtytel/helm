@@ -23,7 +23,7 @@
 
 class Oscilloscope : public AnimatedAppComponent {
   public:
-    Oscilloscope(int num_samples);
+    Oscilloscope();
     ~Oscilloscope();
 
     void paint(Graphics& g) override;
@@ -35,7 +35,6 @@ class Oscilloscope : public AnimatedAppComponent {
 
   private:
     const mopo::Memory* output_memory_;
-    int samples_to_show_;
     Path wave_path_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Oscilloscope)
