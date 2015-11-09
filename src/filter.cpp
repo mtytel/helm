@@ -44,8 +44,8 @@ namespace mopo {
   std::complex<mopo_float> Filter::getResponse(mopo_float frequency) {
     static const std::complex<mopo_float> one(1.0, 0.0);
     const mopo_float phase_delta = 2.0 * PI * frequency / sample_rate_;
-    const std::complex<mopo_float> freq_tick1 = std::polar(1.0, -phase_delta);
-    const std::complex<mopo_float> freq_tick2 = std::polar(1.0, -2 * phase_delta);
+    const std::complex<mopo_float> freq_tick1 = std::polar(mopo_float(1.0), -phase_delta);
+    const std::complex<mopo_float> freq_tick2 = std::polar(mopo_float(1.0), -2 * phase_delta);
 
     return (target_in_0_ * one + target_in_1_ * freq_tick1 + target_in_2_ * freq_tick2) /
            (one + target_out_1_ * freq_tick1 + target_out_2_ * freq_tick2);
