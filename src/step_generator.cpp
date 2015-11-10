@@ -42,9 +42,8 @@ namespace mopo {
     current_step_ += integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
 
-    for (i = 0; i < buffer_size_; ++i)
-      output(kValue)->buffer[i] = input(kSteps + current_step_)->at(i);
-
+    int size = buffer_size_ * sizeof(mopo_float);
+    memcpy(output(kValue)->buffer, input(kSteps + current_step_)->source->buffer, size);
     output(kStep)->buffer[0] = current_step_;
   }
 
