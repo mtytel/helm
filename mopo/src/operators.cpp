@@ -134,19 +134,28 @@ namespace mopo {
   }
 
   void VariableAdd::process() {
-    memset(output()->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    if (isControlRate()) {
+      output()->buffer[0] = 0.0;
 
-    int num_inputs = inputs_->size();
-    for (int i = 0; i < num_inputs; ++i) {
-      if (input(i)->source != &Processor::null_source_) {
+      int num_inputs = inputs_->size();
+      for (int i = 0; i < num_inputs; ++i)
+        output()->buffer[0] += input(i)->at(0);
+    }
+    else {
+      memset(output()->buffer, 0, buffer_size_ * sizeof(mopo_float));
+
+      int num_inputs = inputs_->size();
+      for (int i = 0; i < num_inputs; ++i) {
+        if (input(i)->source != &Processor::null_source_) {
 #ifdef USE_APPLE_ACCELERATE
-        vDSP_vaddD(input(i)->source->buffer, 1,
-                   output()->buffer, 1,
-                   output()->buffer, 1, buffer_size_);
+          vDSP_vaddD(input(i)->source->buffer, 1,
+                     output()->buffer, 1,
+                     output()->buffer, 1, buffer_size_);
 #else
-        for (int s = 0; s < buffer_size_; ++s)
-          output()->buffer[s] += input(i)->at(s);
+          for (int s = 0; s < buffer_size_; ++s)
+            output()->buffer[s] += input(i)->at(s);
 #endif
+        }
       }
     }
   }
