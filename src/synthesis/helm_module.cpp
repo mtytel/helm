@@ -30,8 +30,10 @@ namespace mopo {
       val = new SmoothValue(default_value);
       getMonoRouter()->addProcessor(val);
     }
-    else
+    else {
       val = new Value(default_value);
+      val->setControlRate();
+    }
 
     controls_[name] = val;
     return val;
@@ -135,14 +137,14 @@ namespace mopo {
       tempo = createMonoModControl(name + "_tempo", 6, false);
 
     Switch* choose_tempo = new Switch();
-
-    choose_tempo->plug(tempo, Switch::kSource);
     choose_tempo->setControlRate(frequency->isControlRate());
+    choose_tempo->plug(tempo, Switch::kSource);
 
     for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(Value); ++i)
       choose_tempo->plugNext(&synced_freq_ratios[i]);
 
     Switch* choose_modifier = new Switch();
+    choose_modifier->setControlRate(frequency->isControlRate());
     Value* sync = new Value(1);
     choose_modifier->plug(sync, Switch::kSource);
     choose_modifier->plugNext(&utils::value_one);

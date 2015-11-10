@@ -60,7 +60,7 @@ namespace mopo {
     lfo_1_reset->plug(lfo_1_retrigger_, TriggerEquals::kCondition);
     lfo_1_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", true);
-    Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true, false);
+    Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true);
     Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
     Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
                                                        beats_per_second, false);
@@ -87,7 +87,7 @@ namespace mopo {
     lfo_2_reset->plug(lfo_2_retrigger_, TriggerEquals::kCondition);
     lfo_2_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", true);
-    Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true, false);
+    Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true);
     Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
     Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
                                                        beats_per_second, false);
@@ -115,7 +115,7 @@ namespace mopo {
     step_sequencer_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* num_steps = createMonoModControl("num_steps", true);
     Processor* step_smoothing = createMonoModControl("step_smoothing", true);
-    Processor* step_free_frequency = createMonoModControl("step_frequency", false, false);
+    Processor* step_free_frequency = createMonoModControl("step_frequency", true);
     Processor* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency,
                                                       beats_per_second, false);
 
@@ -146,7 +146,7 @@ namespace mopo {
     mod_sources_["step_sequencer_step"] = step_sequencer_->output(StepGenerator::kStep);
 
     // Arpeggiator.
-    Processor* arp_free_frequency = createMonoModControl("arp_frequency", true, false);
+    Processor* arp_free_frequency = createMonoModControl("arp_frequency", true);
     Processor* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency,
                                                      beats_per_second, false);
     Processor* arp_octaves = createMonoModControl("arp_octaves", true);
@@ -163,7 +163,7 @@ namespace mopo {
     addProcessor(voice_handler_);
 
     // Delay effect.
-    Processor* delay_free_frequency = createMonoModControl("delay_frequency", false, false);
+    Processor* delay_free_frequency = createMonoModControl("delay_frequency", true);
     Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency,
                                                        beats_per_second, false);
     Processor* delay_feedback = createMonoModControl("delay_feedback", false, true);
@@ -173,8 +173,11 @@ namespace mopo {
     Clamp* delay_feedback_clamped = new Clamp(-1, 1);
     delay_feedback_clamped->plug(delay_feedback);
 
+    SampleAndHoldBuffer* delay_frequency_audio_rate = new SampleAndHoldBuffer();
+    delay_frequency_audio_rate->plug(delay_frequency);
+
     SmoothFilter* delay_frequency_smoothed = new SmoothFilter();
-    delay_frequency_smoothed->plug(delay_frequency, SmoothFilter::kTarget);
+    delay_frequency_smoothed->plug(delay_frequency_audio_rate, SmoothFilter::kTarget);
     delay_frequency_smoothed->plug(&utils::value_half, SmoothFilter::kHalfLife);
     FrequencyToSamples* delay_samples = new FrequencyToSamples();
     delay_samples->plug(delay_frequency_smoothed);
@@ -189,6 +192,7 @@ namespace mopo {
     delay_container->plug(delay_on, BypassRouter::kOn);
     delay_container->plug(voice_handler_, BypassRouter::kAudio);
     delay_container->addProcessor(delay_feedback_clamped);
+    delay_container->addProcessor(delay_frequency_audio_rate);
     delay_container->addProcessor(delay_frequency_smoothed);
     delay_container->addProcessor(delay_samples);
     delay_container->addProcessor(delay);
