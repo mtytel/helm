@@ -26,17 +26,19 @@ namespace mopo {
   void DcFilter::process() {
     computeCoefficients();
 
+    const mopo_float* source = input(kAudio)->source->buffer;
+    mopo_float* dest = output()->buffer;
     int i = 0;
     if (inputs_->at(kReset)->source->triggered &&
         inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i);
+        tick(i, dest, source);
 
       reset();
     }
     for (; i < buffer_size_; ++i)
-      tick(i);
+      tick(i, dest, source);
   }
 
   void DcFilter::reset() {

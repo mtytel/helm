@@ -42,12 +42,12 @@ namespace mopo {
         coefficient_ = 1.0 - COEFFICIENT_TO_SR_CONSTANT / getSampleRate();
       }
 
-      void tick(int i) {
-        mopo_float audio = input(kAudio)->at(i);
+      void tick(int i, mopo_float* dest, const mopo_float* source) {
+        mopo_float audio = source[i];
         mopo_float out = audio - past_in_ + coefficient_ * past_out_;
         past_in_ = audio;
         past_out_ = out;
-        output(0)->buffer[i] = out;
+        dest[i] = out;
       }
 
     private:
