@@ -27,7 +27,13 @@ namespace mopo {
   }
 
   void ReverbAllPass::process() {
+    mopo_float* dest = output()->buffer;
+
+    const mopo_float* audio_buffer = input(kAudio)->source->buffer;
+    const mopo_float* feedback_buffer = input(kFeedback)->source->buffer;
+    int period = input(kSampleDelay)->at(0);
+
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      tick(i, dest, period, audio_buffer, feedback_buffer);
   }
 } // namespace mopo

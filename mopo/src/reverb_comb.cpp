@@ -29,7 +29,13 @@ namespace mopo {
   }
 
   void ReverbComb::process() {
+    mopo_float* dest = output()->buffer;
+    const mopo_float* audio_buffer = input(kAudio)->source->buffer;
+    int period = input(kSampleDelay)->source->buffer[0];
+    const mopo_float* feedback_buffer = input(kFeedback)->source->buffer;
+    const mopo_float* damping_buffer = input(kDamping)->source->buffer;
+
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      tick(i, dest, period, audio_buffer, feedback_buffer, damping_buffer);
   }
 } // namespace mopo

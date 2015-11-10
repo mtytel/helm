@@ -44,6 +44,7 @@ namespace mopo {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
       Value* time = new Value(COMB_TUNINGS[i]);
       TimeToSamples* samples = new TimeToSamples();
+      samples->setControlRate();
       samples->plug(time);
 
       comb->plug(damping_input, ReverbComb::kDamping);
@@ -60,6 +61,7 @@ namespace mopo {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
       Value* time = new Value(COMB_TUNINGS[i] + STEREO_SPREAD);
       TimeToSamples* samples = new TimeToSamples();
+      samples->setControlRate();
       samples->plug(time);
 
       comb->plug(damping_input, ReverbComb::kDamping);
@@ -84,6 +86,7 @@ namespace mopo {
       ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
       Value* time = new Value(ALL_PASS_TUNINGS[i]);
       TimeToSamples* samples = new TimeToSamples();
+      samples->setControlRate();
       samples->plug(time);
 
       all_pass->plug(left_audio, ReverbAllPass::kAudio);
@@ -100,6 +103,7 @@ namespace mopo {
       ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
       Value* time = new Value(ALL_PASS_TUNINGS[i] + STEREO_SPREAD);
       TimeToSamples* samples = new TimeToSamples();
+      samples->setControlRate();
       samples->plug(time);
 
       all_pass->plug(right_audio, ReverbAllPass::kAudio);
