@@ -44,7 +44,7 @@ class ValueBridge : public AudioProcessorParameter {
       if (listener_)
         listener_->parameterChanged(name_.toStdString(), synth_value);
 
-      return value_->set(convertToSynthValue(value));
+      value_->set(convertToSynthValue(value));
     }
 
     void setListener(Listener* listener) {
@@ -70,7 +70,7 @@ class ValueBridge : public AudioProcessorParameter {
     float getValueForText(const String &text) const override {
       return text.getFloatValue();
     }
-  
+
     bool isAutomatable() const override {
       return true;
     }
