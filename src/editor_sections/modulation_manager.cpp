@@ -138,7 +138,6 @@ void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
 }
 
 void ModulationManager::timerCallback() {
-  return;
   for (auto slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
     slider.second->setVisible(model->isVisible());
