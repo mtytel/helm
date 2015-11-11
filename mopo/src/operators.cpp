@@ -134,15 +134,17 @@ namespace mopo {
   }
 
   void VariableAdd::process() {
+    mopo_float* dest = output()->buffer;
+
     if (isControlRate()) {
-      output()->buffer[0] = 0.0;
+      dest[0] = 0.0;
 
       int num_inputs = inputs_->size();
       for (int i = 0; i < num_inputs; ++i)
-        output()->buffer[0] += input(i)->at(0);
+        dest[0] += input(i)->at(0);
     }
     else {
-      memset(output()->buffer, 0, buffer_size_ * sizeof(mopo_float));
+      memset(dest, 0, buffer_size_ * sizeof(mopo_float));
 
       int num_inputs = inputs_->size();
       for (int i = 0; i < num_inputs; ++i) {
@@ -152,8 +154,11 @@ namespace mopo {
                      output()->buffer, 1,
                      output()->buffer, 1, buffer_size_);
 #else
+          const mopo_float* source = input(i)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
           for (int s = 0; s < buffer_size_; ++s)
-            output()->buffer[s] += input(i)->at(s);
+            dest[s] += source[s];
 #endif
         }
       }
