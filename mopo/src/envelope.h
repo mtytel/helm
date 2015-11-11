@@ -83,7 +83,7 @@ namespace mopo {
             mopo_float change = 1.0 / (sample_rate_ * input(kAttack)->at(i));
             current_value_ = utils::clamp(current_value_ + change, 0.0, 1.0);
           }
-          if (current_value_ >= 1)
+          if (current_value_ >= 0.999)
             state_ = kDecaying;
         }
         else if (state_ == kKilling) {
