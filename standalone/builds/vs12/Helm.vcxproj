@@ -187,9 +187,9 @@
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\about_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\arp_section.cpp"/>
-    <ClCompile Include="..\..\..\src\editor_sections\articulation_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delay_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delete_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\dynamic_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\envelope_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\extra_mod_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\feedback_section.cpp"/>
@@ -210,9 +210,11 @@
     <ClCompile Include="..\..\..\src\editor_sections\synth_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\synthesis_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\update_check_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\voice_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\volume_section.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\browser_look_and_feel.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\default_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\..\src\look_and_feel\fonts.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\text_look_and_feel.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\helm_computer_keyboard.cpp"/>
@@ -1431,9 +1433,9 @@
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\about_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\arp_section.h"/>
-    <ClInclude Include="..\..\..\src\editor_sections\articulation_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delay_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delete_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\dynamic_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\envelope_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\extra_mod_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\feedback_section.h"/>
@@ -1454,9 +1456,11 @@
     <ClInclude Include="..\..\..\src\editor_sections\synth_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\synthesis_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\update_check_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\voice_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\volume_section.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\browser_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\default_look_and_feel.h"/>
+    <ClInclude Include="..\..\..\src\look_and_feel\fonts.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\modulation_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\text_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\standalone\helm_computer_keyboard.h"/>

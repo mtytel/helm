@@ -111,9 +111,9 @@ OBJECTS := \
   $(OBJDIR)/xy_pad_77c192eb.o \
   $(OBJDIR)/about_section_7d82e4ff.o \
   $(OBJDIR)/arp_section_a0da8a91.o \
-  $(OBJDIR)/articulation_section_a61395c5.o \
   $(OBJDIR)/delay_section_9df39f5.o \
   $(OBJDIR)/delete_section_a0453dcf.o \
+  $(OBJDIR)/dynamic_section_846a1cf1.o \
   $(OBJDIR)/envelope_section_a35a0a34.o \
   $(OBJDIR)/extra_mod_section_ea9c0745.o \
   $(OBJDIR)/feedback_section_56c0fe69.o \
@@ -134,9 +134,11 @@ OBJECTS := \
   $(OBJDIR)/synth_section_3b1ee2e.o \
   $(OBJDIR)/synthesis_interface_a75e885a.o \
   $(OBJDIR)/update_check_section_c57e00f6.o \
+  $(OBJDIR)/voice_section_99705324.o \
   $(OBJDIR)/volume_section_9cff0be.o \
   $(OBJDIR)/browser_look_and_feel_d6654391.o \
   $(OBJDIR)/default_look_and_feel_f168ba6a.o \
+  $(OBJDIR)/fonts_7e4e153e.o \
   $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
   $(OBJDIR)/text_look_and_feel_4af8536c.o \
   $(OBJDIR)/helm_editor_cad94f01.o \
@@ -478,11 +480,6 @@ $(OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.cpp
 	@echo "Compiling arp_section.cpp"
 	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/articulation_section_a61395c5.o: ../../../src/editor_sections/articulation_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
-	@echo "Compiling articulation_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
 $(OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp
 	-$(AT)mkdir -p $(OBJDIR)
 	@echo "Compiling delay_section.cpp"
@@ -491,6 +488,11 @@ $(OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cp
 $(OBJDIR)/delete_section_a0453dcf.o: ../../../src/editor_sections/delete_section.cpp
 	-$(AT)mkdir -p $(OBJDIR)
 	@echo "Compiling delete_section.cpp"
+	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/dynamic_section_846a1cf1.o: ../../../src/editor_sections/dynamic_section.cpp
+	-$(AT)mkdir -p $(OBJDIR)
+	@echo "Compiling dynamic_section.cpp"
 	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/envelope_section_a35a0a34.o: ../../../src/editor_sections/envelope_section.cpp
@@ -593,6 +595,11 @@ $(OBJDIR)/update_check_section_c57e00f6.o: ../../../src/editor_sections/update_c
 	@echo "Compiling update_check_section.cpp"
 	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
+$(OBJDIR)/voice_section_99705324.o: ../../../src/editor_sections/voice_section.cpp
+	-$(AT)mkdir -p $(OBJDIR)
+	@echo "Compiling voice_section.cpp"
+	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/volume_section_9cff0be.o: ../../../src/editor_sections/volume_section.cpp
 	-$(AT)mkdir -p $(OBJDIR)
 	@echo "Compiling volume_section.cpp"
@@ -606,6 +613,11 @@ $(OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_l
 $(OBJDIR)/default_look_and_feel_f168ba6a.o: ../../../src/look_and_feel/default_look_and_feel.cpp
 	-$(AT)mkdir -p $(OBJDIR)
 	@echo "Compiling default_look_and_feel.cpp"
+	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/fonts_7e4e153e.o: ../../../src/look_and_feel/fonts.cpp
+	-$(AT)mkdir -p $(OBJDIR)
+	@echo "Compiling fonts.cpp"
 	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp

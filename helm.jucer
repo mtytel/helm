@@ -245,10 +245,6 @@
         <FILE id="tCvisq" name="about_section.h" compile="0" resource="0" file="src/editor_sections/about_section.h"/>
         <FILE id="D7gj80" name="arp_section.cpp" compile="1" resource="0" file="src/editor_sections/arp_section.cpp"/>
         <FILE id="QYzslR" name="arp_section.h" compile="0" resource="0" file="src/editor_sections/arp_section.h"/>
-        <FILE id="fHRv9L" name="articulation_section.cpp" compile="1" resource="0"
-              file="src/editor_sections/articulation_section.cpp"/>
-        <FILE id="mWnGb0" name="articulation_section.h" compile="0" resource="0"
-              file="src/editor_sections/articulation_section.h"/>
         <FILE id="CnOWyK" name="delay_section.cpp" compile="1" resource="0"
               file="src/editor_sections/delay_section.cpp"/>
         <FILE id="Y1r52Y" name="delay_section.h" compile="0" resource="0" file="src/editor_sections/delay_section.h"/>
@@ -256,6 +252,10 @@
               file="src/editor_sections/delete_section.cpp"/>
         <FILE id="F0rzl3" name="delete_section.h" compile="0" resource="0"
               file="src/editor_sections/delete_section.h"/>
+        <FILE id="bbyWPu" name="dynamic_section.cpp" compile="1" resource="0"
+              file="src/editor_sections/dynamic_section.cpp"/>
+        <FILE id="DMbyFk" name="dynamic_section.h" compile="0" resource="0"
+              file="src/editor_sections/dynamic_section.h"/>
         <FILE id="BGUSkC" name="envelope_section.cpp" compile="1" resource="0"
               file="src/editor_sections/envelope_section.cpp"/>
         <FILE id="iqtIWU" name="envelope_section.h" compile="0" resource="0"
@@ -327,6 +327,9 @@
               file="src/editor_sections/update_check_section.cpp"/>
         <FILE id="IwF5wt" name="update_check_section.h" compile="0" resource="0"
               file="src/editor_sections/update_check_section.h"/>
+        <FILE id="hZhaZh" name="voice_section.cpp" compile="1" resource="0"
+              file="src/editor_sections/voice_section.cpp"/>
+        <FILE id="TFrZnp" name="voice_section.h" compile="0" resource="0" file="src/editor_sections/voice_section.h"/>
         <FILE id="IhnAES" name="volume_section.cpp" compile="1" resource="0"
               file="src/editor_sections/volume_section.cpp"/>
         <FILE id="sRx61t" name="volume_section.h" compile="0" resource="0"
@@ -341,6 +344,8 @@
               file="src/look_and_feel/default_look_and_feel.cpp"/>
         <FILE id="v8k9Zi" name="default_look_and_feel.h" compile="0" resource="0"
               file="src/look_and_feel/default_look_and_feel.h"/>
+        <FILE id="k8R1wQ" name="fonts.cpp" compile="1" resource="0" file="src/look_and_feel/fonts.cpp"/>
+        <FILE id="fV6uSa" name="fonts.h" compile="0" resource="0" file="src/look_and_feel/fonts.h"/>
         <FILE id="u244Ok" name="modulation_look_and_feel.cpp" compile="1" resource="0"
               file="src/look_and_feel/modulation_look_and_feel.cpp"/>
         <FILE id="KO0t5N" name="modulation_look_and_feel.h" compile="0" resource="0"

@@ -514,13 +514,13 @@
     <ClCompile Include="..\..\..\src\editor_sections\arp_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\editor_sections\articulation_section.cpp">
-      <Filter>Helm\src\editor_sections</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\delay_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\delete_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\dynamic_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\envelope_section.cpp">
@@ -583,6 +583,9 @@
     <ClCompile Include="..\..\..\src\editor_sections\update_check_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\voice_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\volume_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
@@ -590,6 +593,9 @@
       <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\look_and_feel\default_look_and_feel.cpp">
+      <Filter>Helm\src\look_and_feel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\look_and_feel\fonts.cpp">
       <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\look_and_feel\modulation_look_and_feel.cpp">
@@ -2073,13 +2079,13 @@
     <ClInclude Include="..\..\..\src\editor_sections\arp_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\editor_sections\articulation_section.h">
-      <Filter>Helm\src\editor_sections</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\delay_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\delete_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\dynamic_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\envelope_section.h">
@@ -2142,6 +2148,9 @@
     <ClInclude Include="..\..\..\src\editor_sections\update_check_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\voice_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\volume_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
@@ -2149,6 +2158,9 @@
       <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\default_look_and_feel.h">
+      <Filter>Helm\src\look_and_feel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\look_and_feel\fonts.h">
       <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\look_and_feel\modulation_look_and_feel.h">
