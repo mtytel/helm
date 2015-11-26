@@ -15,6 +15,7 @@
  */
 
 #include "stutter_section.h"
+#include "fonts.h"
 
 #define KNOB_WIDTH 40
 
@@ -39,12 +40,10 @@ StutterSection::~StutterSection() {
 }
 
 void StutterSection::paintBackground(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("FREQ"), stutter_rate_);
   drawTextForComponent(g, TRANS("RESAMPLE"), resample_rate_);
   drawTextForComponent(g, TRANS("SOFT"), stutter_softness_);

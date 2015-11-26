@@ -22,15 +22,16 @@
 #include "startup.h"
 #include "utils.h"
 
-#define WIDTH 996
-#define HEIGHT 798
+#define WIDTH 992
+#define HEIGHT 734
 #define MAX_OUTPUT_MEMORY 1048576
 
 HelmStandaloneEditor::HelmStandaloneEditor() {
   setSynth(&synth_);
   setGuiState(&gui_state_);
-  midi_manager_ = new MidiManager(&synth_, &gui_state_, &critical_section_, this);
-  computer_keyboard_ = new HelmComputerKeyboard(&synth_, &critical_section_);
+  keyboard_state_ = new MidiKeyboardState();
+  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, &critical_section_, this);
+  computer_keyboard_ = new HelmComputerKeyboard(&synth_, keyboard_state_, &critical_section_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   memory_offset_ = 0;
 
@@ -64,7 +65,8 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   gui_ = new FullInterface(synth_.getControls(),
                            synth_.getModulationSources(),
                            synth_.getMonoModulations(),
-                           synth_.getPolyModulations());
+                           synth_.getPolyModulations(),
+                           keyboard_state_);
   gui_->setOutputMemory(output_memory_.get());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
@@ -120,7 +122,10 @@ void HelmStandaloneEditor::paint(Graphics& g) {
 }
 
 void HelmStandaloneEditor::resized() {
-  gui_->setBounds(getBounds());
+  Rectangle<int> bounds = getBounds();
+  double scale = std::min(double(bounds.getWidth()) / WIDTH, double(bounds.getHeight()) / HEIGHT);
+  gui_->setTransform(AffineTransform::scale(scale));
+  gui_->setBounds(Rectangle<int>(0, 0, bounds.getWidth() / scale, bounds.getHeight() / scale));
 }
 
 void HelmStandaloneEditor::updateFullGui() {

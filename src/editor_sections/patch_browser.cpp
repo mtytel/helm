@@ -15,6 +15,7 @@
  */
 
 #include "synth_gui_interface.h"
+#include "fonts.h"
 #include "browser_look_and_feel.h"
 #include "helm_common.h"
 #include "load_save.h"
@@ -67,10 +68,6 @@ namespace {
 } // namespace
 
 PatchBrowser::PatchBrowser() : Component("patch_browser") {
-  static Font search_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                            BinaryData::RobotoLight_ttfSize));
-  static Font license_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                             BinaryData::DroidSansMono_ttfSize));
   listener_ = nullptr;
   save_section_ = nullptr;
   delete_section_ = nullptr;
@@ -112,7 +109,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   search_box_->addListener(this);
   search_box_->setSelectAllWhenFocused(true);
   search_box_->setTextToShowWhenEmpty(TRANS("Search"), Colour(0xff777777));
-  search_box_->setFont(search_font.withPointHeight(16.0f));
+  search_box_->setFont(Fonts::getInstance()->proportional_light().withPointHeight(16.0f));
   search_box_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   search_box_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
   search_box_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
@@ -126,7 +123,8 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   selectedFilesChanged(folders_model_);
 
   license_link_ = new HyperlinkButton("CC-BY", URL("https://creativecommons.org/licenses/by/4.0/"));
-  license_link_->setFont(license_font.withPointHeight(12.0f), false, Justification::centredLeft);
+  license_link_->setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f),
+                         false, Justification::centredLeft);
   license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(license_link_);
 
@@ -145,10 +143,6 @@ PatchBrowser::~PatchBrowser() {
 }
 
 void PatchBrowser::paint(Graphics& g) {
-  static Font info_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                          BinaryData::RobotoLight_ttfSize));
-  static Font data_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                          BinaryData::DroidSansMono_ttfSize));
   g.fillAll(Colour(0xbb212121));
   g.setColour(Colour(0xff111111));
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
@@ -164,7 +158,7 @@ void PatchBrowser::paint(Graphics& g) {
     float division = 90.0f;
     float buffer = 20.0f;
 
-    g.setFont(info_font.withPointHeight(14.0f));
+    g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(14.0f));
     g.setColour(Colour(0xff888888));
 
     g.fillRect(data_x + division + buffer / 2.0f, BROWSE_PADDING + 70.0f,
@@ -180,7 +174,7 @@ void PatchBrowser::paint(Graphics& g) {
                data_x, BROWSE_PADDING + 160.0f, division, 20.0f,
                Justification::centredRight, false);
 
-    g.setFont(data_font.withPointHeight(16.0f));
+    g.setFont(Fonts::getInstance()->monospace().withPointHeight(16.0f));
     g.setColour(Colour(0xff03a9f4));
 
     File selected_patch = getSelectedPatch();
@@ -189,7 +183,7 @@ void PatchBrowser::paint(Graphics& g) {
                      info_width - 2.0f * BROWSE_PADDING, 20.0f,
                      Justification::centred, true);
 
-    g.setFont(data_font.withPointHeight(12.0f));
+    g.setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f));
     g.setColour(Colour(0xffbbbbbb));
 
     float data_width = info_width - division - buffer - 2.0f * BROWSE_PADDING;

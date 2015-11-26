@@ -15,6 +15,7 @@
  */
 
 #include "about_section.h"
+#include "fonts.h"
 #include "helm_common.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
@@ -27,26 +28,21 @@
 #define PADDING_Y 15
 
 AboutSection::AboutSection(String name) : Component(name) {
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
-
   developer_link_ = new HyperlinkButton("Matt Tytel", URL("http://tytel.org"));
-  developer_link_->setFont(roboto_light.withPointHeight(16.0f), false, Justification::right);
+  developer_link_->setFont(Fonts::getInstance()->proportional_light().withPointHeight(16.0f),
+                           false, Justification::right);
   developer_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(developer_link_);
 
   free_software_link_ = new HyperlinkButton(TRANS("Read more about free software."),
                                             URL("http://www.gnu.org/philosophy/free-sw.html"));
-  free_software_link_->setFont(roboto_light.withPointHeight(12.0f), false, Justification::right);
+  free_software_link_->setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0f),
+                               false, Justification::right);
   free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(free_software_link_);
 }
 
 void AboutSection::paint(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
   g.setColour(Colour(0xbb212121));
@@ -72,19 +68,19 @@ void AboutSection::paint(Graphics& g) {
   else
     g.drawImage(helm_small, 0, 0, 128, 128, 0, 0, 128, 128);
 
-  g.setFont(roboto_reg.withPointHeight(32.0));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(32.0));
   g.setColour(Colour(0xff2196f3));
   g.drawText(TRANS("HELM"),
              0.0f, 0.0f,
              info_rect.getWidth() - 2 * PADDING_X, 32.0f, Justification::centredTop);
 
-  g.setFont(roboto_light.withPointHeight(12.0));
+  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
   g.setColour(Colour(0xff666666));
   g.drawText(TRANS("v") + " " + ProjectInfo::versionString,
              0.0f, 36.0f,
              info_rect.getWidth() - 2 * PADDING_X, 32.0f, Justification::centredTop);
 
-  g.setFont(roboto_light.withPointHeight(12.0));
+  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
   g.drawText(TRANS("Developed by"),
              0.0f, 4.0f,
              info_rect.getWidth() - 2 * PADDING_X, 20.0f, Justification::right);

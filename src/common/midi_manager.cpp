@@ -23,6 +23,25 @@
 #define FOLDER_SELECT_NUMBER 32
 #define MOD_WHEEL_CONTROL_NUMBER 1
 
+MidiManager::MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
+                         std::map<std::string, String>* gui_state,
+                         const CriticalSection* critical_section, Listener* listener) :
+    synth_(synth), keyboard_state_(keyboard_state), gui_state_(gui_state),
+    critical_section_(critical_section), listener_(listener),
+    armed_range_(0.0, 1.0) {
+  keyboard_state_->addListener(this);
+}
+
+void MidiManager::handleNoteOn(MidiKeyboardState* source,
+                               int midiChannel, int midiNoteNumber, float velocity) {
+  ScopedLock lock(*critical_section_);
+  synth_->noteOn(midiNoteNumber, velocity);
+}
+void MidiManager::handleNoteOff(MidiKeyboardState* source, int midiChannel, int midiNoteNumber) {
+  ScopedLock lock(*critical_section_);
+  synth_->noteOff(midiNoteNumber);
+}
+
 void MidiManager::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
   current_bank_ = -1;
   current_folder_ = -1;
@@ -80,20 +99,14 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
     callback->post();
     return;
   }
-  
+
+  keyboard_state_->processNextMidiEvent(midi_message);
+
   ScopedLock lock(*critical_section_);
-  if (midi_message.isNoteOn()) {
-    float velocity = (1.0 * midi_message.getVelocity()) / mopo::MIDI_SIZE;
-    synth_->noteOn(midi_message.getNoteNumber(), velocity, sample_position);
-  }
-  else if (midi_message.isNoteOff())
-    synth_->noteOff(midi_message.getNoteNumber(), sample_position);
-  else if (midi_message.isSustainPedalOn())
+  if (midi_message.isSustainPedalOn())
     synth_->sustainOn();
   else if (midi_message.isSustainPedalOff())
     synth_->sustainOff();
-  else if (midi_message.isAllNotesOff())
-    synth_->allNotesOff();
   else if (midi_message.isAftertouch()) {
     mopo::mopo_float note = midi_message.getNoteNumber();
     mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;

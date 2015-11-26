@@ -18,6 +18,7 @@
 
 #include "filter_response.h"
 #include "filter_selector.h"
+#include "fonts.h"
 #include "synth_slider.h"
 
 #define KNOB_SECTION_WIDTH 70
@@ -61,13 +62,11 @@ FilterSection::~FilterSection() {
 
 void FilterSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
 
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);
   drawTextForComponent(g, TRANS("KEY TRACK"), keytrack_);
 

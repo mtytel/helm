@@ -15,6 +15,7 @@
  */
 
 #include "arp_section.h"
+#include "fonts.h"
 #include "text_look_and_feel.h"
 
 #define KNOB_WIDTH 40
@@ -64,10 +65,6 @@ ArpSection::~ArpSection() {
 }
 
 void ArpSection::paintBackground(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
   SynthSection::paintContainer(g);
 
   float shadow_left = TITLE_WIDTH - SHADOW_WIDTH;
@@ -78,19 +75,19 @@ void ArpSection::paintBackground(Graphics& g) {
   g.fillRoundedRectangle(0, 0, TITLE_WIDTH, getHeight(), 1.0f);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("GATE"), gate_);
   drawTextForComponent(g, TRANS("OCTAVES"), octaves_);
   drawTextForComponent(g, TRANS("PATTERN"), pattern_);
   g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX() - 5, gate_->getBounds().getY() + KNOB_WIDTH + 6,
+             frequency_->getBounds().getX() - 5, gate_->getBounds().getY() + KNOB_WIDTH + 4,
              frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10,
              10, Justification::centred, false);
 
   g.saveState();
   g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 0, 0));
   g.setColour(Colour(0xff999999));
-  g.setFont(roboto_light.withPointHeight(13.40f));
+  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(13.40f));
   g.drawText(TRANS("ARP"), -getHeight(), 0, getHeight() - 20, 20, Justification::centred, false);
   g.restoreState();
 

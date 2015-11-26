@@ -15,30 +15,27 @@
  */
 
 #pragma once
-#ifndef ARTICULATION_SECTION_H
-#define ARTICULATION_SECTION_H
+#ifndef VOICE_SECTION_H
+#define VOICE_SECTION_H
 
 #include "JuceHeader.h"
 #include "synth_section.h"
 #include "synth_slider.h"
 
-class ArticulationSection : public SynthSection {
+class VoiceSection : public SynthSection {
   public:
-    ArticulationSection(String name);
-    ~ArticulationSection();
+    VoiceSection(String name);
+    ~VoiceSection();
 
     void paintBackground(Graphics& g) override;
     void resized() override;
 
   private:
     ScopedPointer<SynthSlider> polyphony_;
-    ScopedPointer<SynthSlider> portamento_;
-    ScopedPointer<SynthSlider> portamento_type_;
     ScopedPointer<SynthSlider> pitch_bend_;
     ScopedPointer<SynthSlider> velocity_track_;
-    ScopedPointer<ToggleButton> legato_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ArticulationSection)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VoiceSection)
 };
 
-#endif // ARTICULATION_SECTION_H
+#endif // VOICE_SECTION_H

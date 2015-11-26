@@ -15,6 +15,7 @@
  */
 
 #include "synth_section.h"
+#include "fonts.h"
 
 #include "synth_gui_interface.h"
 #include "synth_slider.h"
@@ -43,8 +44,7 @@ void SynthSection::paint(Graphics& g) {
 
 void SynthSection::paintBackground(Graphics& g) {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
-  static Font title_font(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                          BinaryData::RobotoLight_ttfSize));
+
   paintContainer(g);
   // Draw shadow divider.
   float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
@@ -56,7 +56,7 @@ void SynthSection::paintBackground(Graphics& g) {
 
   // Draw text title.
   g.setColour(Colour(0xff999999));
-  g.setFont(title_font.withPointHeight(14.0f));
+  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(14.0f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);
 
@@ -133,11 +133,10 @@ void SynthSection::setActivator(ToggleButton* activator) {
   setActive(activator_->getToggleStateValue().getValue());
 }
 
-void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component) {
+void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component, int space) {
   static const int ROOM = 30;
   static const int HEIGHT = 10;
-  static const int SPACE = 6;
-  g.drawText(text, component->getX() - ROOM, component->getY() + component->getHeight() + SPACE,
+  g.drawText(text, component->getX() - ROOM, component->getY() + component->getHeight() + space,
              component->getWidth() + 2 * ROOM, HEIGHT, Justification::centred, false);
 }
 

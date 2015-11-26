@@ -34,7 +34,8 @@
 class FullInterface : public SynthSection {
   public:
     FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
-                  mopo::output_map mono_modulations, mopo::output_map poly_modulations);
+                  mopo::output_map mono_modulations, mopo::output_map poly_modulations,
+                  MidiKeyboardState* keyboard_state);
     ~FullInterface();
 
     void setOutputMemory(const mopo::Memory* output_memory);
@@ -62,15 +63,9 @@ class FullInterface : public SynthSection {
     ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<SynthSlider> arp_frequency_;
-    ScopedPointer<SynthSlider> arp_gate_;
-    ScopedPointer<SynthSlider> arp_octaves_;
-    ScopedPointer<SynthSlider> arp_pattern_;
     ScopedPointer<Oscilloscope> oscilloscope_;
-    ScopedPointer<ToggleButton> arp_on_;
     ScopedPointer<SynthSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
-    ScopedPointer<TempoSelector> arp_sync_;
     ScopedPointer<PatchSelector> patch_selector_;
     ScopedPointer<PatchBrowser> patch_browser_;
     ScopedPointer<SaveSection> save_section_;

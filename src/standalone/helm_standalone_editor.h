@@ -60,6 +60,7 @@ class HelmStandaloneEditor : public AudioAppComponent,
 
     ScopedPointer<FullInterface> gui_;
     ScopedPointer<MidiManager> midi_manager_;
+    ScopedPointer<MidiKeyboardState> keyboard_state_;
     ScopedPointer<HelmComputerKeyboard> computer_keyboard_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmStandaloneEditor)

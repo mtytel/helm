@@ -15,6 +15,7 @@
  */
 
 #include "default_look_and_feel.h"
+#include "fonts.h"
 #include "synth_slider.h"
 #include "utils.h"
 
@@ -45,6 +46,8 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
 
   float pos = slider_pos - 1.0f;
   if (style == Slider::SliderStyle::LinearBar) {
+    g.setColour(Colour(0x22000000));
+    g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
     float h = slider.getHeight();
 
     g.setColour(slider_color);
@@ -60,6 +63,8 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
     g.fillRect(pos, 0.0f, 2.0f, h);
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
+    g.setColour(Colour(0x22000000));
+    g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
     float w = slider.getWidth();
 
     g.setColour(slider_color);
@@ -88,8 +93,6 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
                                           float slider_t, float start_angle, float end_angle,
                                           Slider& slider) {
   static const float stroke_percent = 0.12f;
-  static Font roboto_regular(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                               BinaryData::RobotoRegular_ttfSize));
 
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float stroke_width = 2.0f * full_radius * stroke_percent;
@@ -111,7 +114,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
     g.fillRoundedRectangle(text_bounds, 2.0f);
 
     g.setColour(Colour(0xff999999));
-    g.setFont(roboto_regular.withPointHeight(0.2f * height));
+    g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(0.2f * height));
     g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
                      Justification::horizontallyCentred | Justification::bottom, 1);
   }
@@ -230,10 +233,7 @@ void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
 
 void DefaultLookAndFeel::drawButtonText(Graphics& g, TextButton& button,
                                         bool isMouseOverButton, bool isButtonDown) {
-  static Font roboto_regular(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                               BinaryData::RobotoRegular_ttfSize));
-
-  g.setFont(roboto_regular.withPointHeight(14.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(14.0f));
   g.setColour(Colour(0xffaaaaaa));
   g.drawText(button.getName(), button.getLocalBounds(), Justification::centred, false);
 }

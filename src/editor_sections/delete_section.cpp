@@ -15,6 +15,7 @@
  */
 
 #include "delete_section.h"
+#include "fonts.h"
 #include "helm_common.h"
 #include "text_look_and_feel.h"
 
@@ -35,10 +36,6 @@ DeleteSection::DeleteSection(String name) : Component(name) {
 }
 
 void DeleteSection::paint(Graphics& g) {
-  static Font patch_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                           BinaryData::DroidSansMono_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
   g.setColour(Colour(0xbb212121));
@@ -52,7 +49,7 @@ void DeleteSection::paint(Graphics& g) {
   g.saveState();
   g.setOrigin(delete_rect.getX() + PADDING_X, delete_rect.getY() + PADDING_Y);
 
-  g.setFont(roboto_light.withPointHeight(14.0f));
+  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(14.0f));
   g.setColour(Colour(0xffaaaaaa));
 
   String text;
@@ -64,7 +61,7 @@ void DeleteSection::paint(Graphics& g) {
              0, 0.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);
 
-  g.setFont(patch_font.withPointHeight(16.0f));
+  g.setFont(Fonts::getInstance()->monospace().withPointHeight(16.0f));
   g.setColour(Colour(0xff03a9f4));
   g.drawText(file_.getFileNameWithoutExtension(),
              0, 20.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,

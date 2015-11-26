@@ -16,6 +16,7 @@
 
 #include "full_interface.h"
 
+#include "fonts.h"
 #include "text_look_and_feel.h"
 #include "helm_engine.h"
 #include "helm_common.h"
@@ -25,8 +26,9 @@
 
 FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
                              mopo::output_map mono_modulations,
-                             mopo::output_map poly_modulations) : SynthSection("full_interface") {
-  addSubSection(synthesis_interface_ = new SynthesisInterface(controls));
+                             mopo::output_map poly_modulations,
+                             MidiKeyboardState* keyboard_state) : SynthSection("full_interface") {
+  addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
   addSubSection(arp_section_ = new ArpSection("ARP"));
 
   addSlider(beats_per_minute_ = new SynthSlider("beats_per_minute"));
@@ -99,10 +101,6 @@ void FullInterface::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
   static const DropShadow logo_shadow(Colour(0xff000000), 8, Point<int>(0, 0));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
   static const Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                             BinaryData::helm_icon_32_2x_pngSize);
   g.setColour(Colour(0xff212121));
@@ -111,23 +109,23 @@ void FullInterface::paintBackground(Graphics& g) {
   shadow.drawForRectangle(g, arp_section_->getBounds());
   shadow.drawForRectangle(g, global_tool_tip_->getBounds());
   shadow.drawForRectangle(g, oscilloscope_->getBounds());
-  shadow.drawForRectangle(g, Rectangle<int>(92, 8, 244, TOP_HEIGHT));
+  shadow.drawForRectangle(g, Rectangle<int>(84, 8, 244, TOP_HEIGHT));
 
-  shadow.drawForRectangle(g, Rectangle<int>(16, 8, 68, 64));
+  shadow.drawForRectangle(g, Rectangle<int>(8, 8, 68, 64));
   g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(16.0f, 8.0f, 68.0f, 64.0f, 3.0f);
+  g.fillRoundedRectangle(8.0f, 8.0f, 68.0f, 64.0f, 3.0f);
 
   g.saveState();
-  g.setOrigin(18, 8);
+  g.setOrigin(10, 8);
 
   logo_shadow.drawForImage(g, helm_small);
   g.restoreState();
 
   g.setColour(Colour(0xff303030));
-  g.fillRect(92, 8, 244, TOP_HEIGHT);
+  g.fillRect(84, 8, 244, TOP_HEIGHT);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   g.drawText(TRANS("BPM"), patch_selector_->getX(), beats_per_minute_->getY(),
              44, beats_per_minute_->getHeight(),
              Justification::centred, false);
@@ -138,20 +136,22 @@ void FullInterface::paintBackground(Graphics& g) {
 }
 
 void FullInterface::resized() {
-  synthesis_interface_->setBounds(8, TOP_HEIGHT + 16,
-                                  getWidth() - 12, getHeight() - TOP_HEIGHT - 12);
-  oscilloscope_->setBounds(552, 8, 112, TOP_HEIGHT);
-  arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 308, TOP_HEIGHT);
-  patch_selector_->setBounds(92, 8, 244, 2 * TOP_HEIGHT / 3);
-  beats_per_minute_->setBounds(141, patch_selector_->getBottom(),
+  logo_button_->setBounds(10, 8, 64, 64);
+  patch_selector_->setBounds(84, 8, 244, 2 * TOP_HEIGHT / 3);
+  global_tool_tip_->setBounds(patch_selector_->getRight() + 8, 8, 200, TOP_HEIGHT);
+  oscilloscope_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
+  arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 320, TOP_HEIGHT);
+
+  synthesis_interface_->setBounds(0, TOP_HEIGHT + 12,
+                                  getWidth(), getHeight() - TOP_HEIGHT - 8);
+
+  beats_per_minute_->setBounds(133, patch_selector_->getBottom(),
                                200, TOP_HEIGHT - patch_selector_->getHeight());
-  global_tool_tip_->setBounds(344, 8, 200, TOP_HEIGHT);
   modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
   update_check_section_->setBounds(getBounds());
   save_section_->setBounds(getBounds());
   delete_section_->setBounds(getBounds());
-  logo_button_->setBounds(18, 8, 64, 64);
 
   patch_browser_->setBounds(synthesis_interface_->getX() + 8.0f, synthesis_interface_->getY(),
                             arp_section_->getRight() - synthesis_interface_->getX() - 8.0f,

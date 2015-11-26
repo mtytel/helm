@@ -15,6 +15,7 @@
  */
 
 #include "save_section.h"
+#include "fonts.h"
 #include "helm_common.h"
 #include "load_save.h"
 #include "synth_gui_interface.h"
@@ -30,9 +31,6 @@
 #define PADDING_Y 15
 
 SaveSection::SaveSection(String name) : Component(name) {
-  static Font patch_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                           BinaryData::DroidSansMono_ttfSize));
-
   listener_ = nullptr;
   folders_model_ = new FileListBoxModel();
   folders_view_ = new ListBox("folders", folders_model_);
@@ -43,7 +41,7 @@ SaveSection::SaveSection(String name) : Component(name) {
   patch_name_ = new TextEditor("Patch Name");
   patch_name_->addListener(this);
   patch_name_->setTextToShowWhenEmpty(TRANS("Patch Name"), Colour(0xff777777));
-  patch_name_->setFont(patch_font.withPointHeight(16.0f));
+  patch_name_->setFont(Fonts::getInstance()->monospace().withPointHeight(16.0f));
   patch_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   patch_name_->setColour(TextEditor::textColourId, Colour(0xff03a9f4));
   patch_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xff03a9f4));
@@ -56,7 +54,7 @@ SaveSection::SaveSection(String name) : Component(name) {
   author_ = new TextEditor("Author");
   author_->addListener(this);
   author_->setTextToShowWhenEmpty(TRANS("Author"), Colour(0xff777777));
-  author_->setFont(patch_font.withPointHeight(16.0f));
+  author_->setFont(Fonts::getInstance()->monospace().withPointHeight(16.0f));
   author_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   author_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
   author_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
@@ -69,7 +67,7 @@ SaveSection::SaveSection(String name) : Component(name) {
   add_folder_name_ = new TextEditor("Add Folder");
   add_folder_name_->addListener(this);
   add_folder_name_->setTextToShowWhenEmpty(TRANS("New Folder"), Colour(0xff777777));
-  add_folder_name_->setFont(patch_font.withPointHeight(12.0f));
+  add_folder_name_->setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f));
   add_folder_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   add_folder_name_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
   add_folder_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
@@ -93,10 +91,6 @@ SaveSection::SaveSection(String name) : Component(name) {
 }
 
 void SaveSection::paint(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
   g.setColour(Colour(0xbb111111));
@@ -110,7 +104,7 @@ void SaveSection::paint(Graphics& g) {
   g.saveState();
   g.setOrigin(save_rect.getX() + PADDING_X, save_rect.getY() + PADDING_Y);
 
-  g.setFont(roboto_light.withPointHeight(14.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(14.0f));
   g.setColour(Colour(0xff888888));
 
   g.drawText(TRANS("PATCH NAME"),

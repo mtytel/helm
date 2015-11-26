@@ -20,8 +20,8 @@
 #include "helm_common.h"
 #include "helm_plugin.h"
 
-#define WIDTH 996
-#define HEIGHT 670
+#define WIDTH 992
+#define HEIGHT 734
 
 HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(helm) {
   setSynth(helm_.getSynth());
@@ -31,7 +31,8 @@ HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(he
   gui_ = new FullInterface(helm.getSynth()->getControls(),
                            helm.getSynth()->getModulationSources(),
                            helm.getSynth()->getMonoModulations(),
-                           helm.getSynth()->getPolyModulations());
+                           helm.getSynth()->getPolyModulations(),
+                           helm.getKeyboardState());
   gui_->setOutputMemory(helm.getOutputMemory());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);

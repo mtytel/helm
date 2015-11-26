@@ -16,6 +16,7 @@
 
 #include "envelope_section.h"
 
+#include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "synth_slider.h"
 
@@ -59,8 +60,6 @@ EnvelopeSection::~EnvelopeSection() {
 
 void EnvelopeSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
 
   SynthSection::paintBackground(g);
   component_shadow.drawForRectangle(g, envelope_->getBounds());
@@ -69,8 +68,8 @@ void EnvelopeSection::paintBackground(Graphics& g) {
   g.fillRect(getWidth() - TEXT_WIDTH - SLIDER_SECTION_WIDTH, 20, TEXT_WIDTH, getHeight() - 20);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+
   g.drawText(TRANS("A"), attack_->getX() - TEXT_WIDTH, attack_->getY(),
              TEXT_WIDTH, attack_->getHeight(),
              Justification::centred, true);

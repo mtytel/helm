@@ -22,7 +22,7 @@
 #include <string>
 #include <map>
 
-class MidiManager : public MidiInputCallback {
+class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
   public:
     typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
     typedef std::map<int, std::map<std::string, midi_range>> midi_map;
@@ -35,12 +35,15 @@ class MidiManager : public MidiInputCallback {
         virtual void patchChangedThroughMidi(File patch) = 0;
     };
 
-    MidiManager(mopo::HelmEngine* synth, std::map<std::string, String>* gui_state,
-                const CriticalSection* critical_section, Listener* listener = nullptr) :
-        synth_(synth), gui_state_(gui_state),
-        critical_section_(critical_section), listener_(listener),
-        armed_range_(0.0, 1.0) { }
+    MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
+                std::map<std::string, String>* gui_state,
+                const CriticalSection* critical_section, Listener* listener = nullptr);
     virtual ~MidiManager() { }
+
+    void handleNoteOn(MidiKeyboardState* source,
+                      int midiChannel, int midiNoteNumber, float velocity) override;
+    void handleNoteOff(MidiKeyboardState* source,
+                       int midiChannel, int midiNoteNumber) override;
 
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
@@ -95,6 +98,7 @@ class MidiManager : public MidiInputCallback {
 
   protected:
     mopo::HelmEngine* synth_;
+    MidiKeyboardState* keyboard_state_;
     std::map<std::string, String>* gui_state_;
     const CriticalSection* critical_section_;
     Listener* listener_;

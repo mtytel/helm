@@ -15,6 +15,7 @@
  */
 
 #include "text_look_and_feel.h"
+#include "fonts.h"
 
 TextLookAndFeel::TextLookAndFeel() {
   setColour(ComboBox::backgroundColourId, Colour(0xff212121));
@@ -29,8 +30,6 @@ TextLookAndFeel::TextLookAndFeel() {
 void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height,
                                        float slider_t, float start_angle, float end_angle,
                                        Slider& slider) {
-  static Font slider_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                            BinaryData::DroidSansMono_ttfSize));
   static const float text_percentage = 0.7f;
   g.fillAll(Colour(0xff424242));
 
@@ -38,15 +37,13 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
   g.drawRect(slider.getLocalBounds());
 
   g.setColour(Colours::white);
-  g.setFont(slider_font.withPointHeight(height * text_percentage));
+  g.setFont(Fonts::getInstance()->monospace().withPointHeight(height * text_percentage));
   g.drawText(slider.getTextFromValue(slider.getValue()),
              x, y, width, height, Justification::centred, false);
 }
 
 void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                        bool isMouseOverButton, bool isButtonDown) {
-  static Font button_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                            BinaryData::DroidSansMono_ttfSize));
   if (button.getToggleState())
     g.setColour(Colour(0xffffc400));
   else
@@ -54,7 +51,7 @@ void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.fillRect(button.getLocalBounds());
 
   g.setColour(Colours::white);
-  g.setFont(button_font);
+  g.setFont(Fonts::getInstance()->monospace());
   g.drawText(button.getButtonText(), 0, 0,
              button.getWidth(), button.getHeight(), Justification::centred);
 

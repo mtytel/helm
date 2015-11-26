@@ -37,7 +37,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void paintBackground(Graphics& g);
     virtual void paintContainer(Graphics& g);
     void paintKnobShadows(Graphics& g);
-    void drawTextForComponent(Graphics& g, String text, Component* component);
+    void drawTextForComponent(Graphics& g, String text, Component* component, int space = 4);
     Graphics getBackgroundGraphics();
 
     // Widget Listeners.

@@ -15,6 +15,7 @@
  */
 
 #include "retrigger_selector.h"
+#include "fonts.h"
 #include "synth_gui_interface.h"
 
 namespace {
@@ -45,15 +46,13 @@ void RetriggerSelector::mouseDown(const MouseEvent& e) {
 }
 
 void RetriggerSelector::paint(Graphics& g) {
-  static Font retrigger_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                               BinaryData::DroidSansMono_ttfSize));
   g.setColour(Colour(0xffbbbbbb));
   g.fillRect(0, 0, getWidth(), getHeight());
 
   g.setColour(Colour(0xff222222));
   g.fillPath(arrow_);
 
-  g.setFont(retrigger_font);
+  g.setFont(Fonts::getInstance()->monospace());
   int value = getValue() + 1;
   if (value == kFree)
     g.drawText("F", getLocalBounds(), Justification::centred);

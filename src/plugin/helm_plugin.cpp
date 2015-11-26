@@ -26,7 +26,8 @@
 
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
-  midi_manager_ = new MidiManager(&synth_, &gui_state_, &getCallbackLock(), this);
+  keyboard_state_ = new MidiKeyboardState();
+  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, &getCallbackLock(), this);
 
   current_program_ = 0;
   num_programs_ = LoadSave::getNumPatches();

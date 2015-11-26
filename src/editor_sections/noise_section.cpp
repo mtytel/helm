@@ -15,6 +15,7 @@
  */
 
 #include "noise_section.h"
+#include "fonts.h"
 
 #define KNOB_WIDTH 40
 
@@ -29,12 +30,10 @@ NoiseSection::~NoiseSection() {
 
 void NoiseSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("AMP"), volume_);
 }
 

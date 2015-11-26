@@ -16,6 +16,7 @@
 
 #include "patch_selector.h"
 #include "browser_look_and_feel.h"
+#include "fonts.h"
 #include "load_save.h"
 #include "synth_gui_interface.h"
 
@@ -54,13 +55,11 @@ PatchSelector::~PatchSelector() {
 
 void PatchSelector::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
-  static Font selector_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                              BinaryData::DroidSansMono_ttfSize));
 
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   patch_text_ = parent->getPatchName();
   folder_text_ = parent->getFolderName();
-  
+
   g.setColour(Colour(0xff303030));
   g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
 
@@ -79,7 +78,7 @@ void PatchSelector::paintBackground(Graphics& g) {
   Rectangle<int> bottom(proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
                         proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
 
-  g.setFont(selector_font.withPointHeight(12.0f));
+  g.setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f));
   g.setColour(Colour(0xffbbbbbb));
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));

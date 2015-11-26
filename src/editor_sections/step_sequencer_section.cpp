@@ -16,12 +16,13 @@
 
 #include "step_sequencer_section.h"
 
+#include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
 #define KNOB_SECTION_WIDTH 45
-#define KNOB_WIDTH 32
+#define KNOB_WIDTH 36
 #define TEXT_HEIGHT 16
 #define TEXT_WIDTH 42
 
@@ -55,7 +56,7 @@ StepSequencerSection::StepSequencerSection(String name) : SynthSection(name) {
   sync_->setStringLookup(mopo::strings::freq_sync_styles);
 
   addSlider(smoothing_ = new SynthSlider("step_smoothing"));
-  smoothing_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  smoothing_->setSliderStyle(Slider::LinearBar);
 
   addModulationButton(modulation_button_ = new ModulationButton("step_sequencer"));
   modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());
@@ -77,19 +78,19 @@ StepSequencerSection::~StepSequencerSection() {
 
 void StepSequencerSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
   // step_sequencer_->showRealtimeFeedback();
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("STEPS"), num_steps_);
   g.drawText(TRANS("FREQUENCY"),
              retrigger_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
              frequency_->getBounds().getWidth() + 2 * TEXT_HEIGHT, 10,
              Justification::centred, false);
+
+  drawTextForComponent(g, TRANS("SLIDE"), smoothing_);
 
   component_shadow.drawForRectangle(g, step_sequencer_->getBounds());
 }
@@ -105,7 +106,7 @@ void StepSequencerSection::resized() {
   sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),
                    TEXT_HEIGHT, TEXT_HEIGHT);
 
-  smoothing_->setBounds(proportionOfWidth(0.81f), y, KNOB_WIDTH, KNOB_WIDTH);
+  smoothing_->setBounds(proportionOfWidth(0.81f), y, KNOB_WIDTH, TEXT_HEIGHT);
   tempo_->setBounds(frequency_->getBounds());
 
   SynthSection::resized();

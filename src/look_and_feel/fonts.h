@@ -14,16 +14,27 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "browser_look_and_feel.h"
+#ifndef FONTS_H
+#define FONTS_H
 
-void BrowserLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
-                                              const Colour &backgroundColour,
-                                              bool isMouseOverButton, bool isButtonDown) {
-  g.setColour(button.findColour(TextButton::buttonColourId));
-  g.fillAll();
+#include "JuceHeader.h"
 
-  if (isButtonDown)
-    g.fillAll(Colour(0x11000000));
-  else if (isMouseOverButton)
-    g.fillAll(Colour(0x11ffffff));
-}
+class Fonts : public DeletedAtShutdown {
+  public:
+    Fonts();
+
+    Font& proportional_regular() { return proportional_regular_; }
+    Font& proportional_light() { return proportional_light_; }
+    Font& monospace() { return monospace_; }
+
+    juce_DeclareSingleton(Fonts, false)
+
+  private:
+    static ScopedPointer<Fonts> instance_;
+
+    Font proportional_regular_;
+    Font proportional_light_;
+    Font monospace_;
+};
+
+#endif // FONTS_H

@@ -16,6 +16,7 @@
 
 #include "lfo_section.h"
 
+#include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "text_look_and_feel.h"
 
@@ -81,15 +82,13 @@ LfoSection::~LfoSection() {
 
 void LfoSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
 
   SynthSection::paintBackground(g);
 
   // wave_viewer_->showRealtimeFeedback();
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
 
   if (retrigger_->isVisible()) {
     g.drawText(TRANS("FREQUENCY"),

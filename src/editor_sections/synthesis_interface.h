@@ -21,8 +21,8 @@
 #include "JuceHeader.h"
 #include "helm_engine.h"
 
-#include "articulation_section.h"
 #include "delay_section.h"
+#include "dynamic_section.h"
 #include "envelope_section.h"
 #include "extra_mod_section.h"
 #include "feedback_section.h"
@@ -35,13 +35,14 @@
 #include "sub_section.h"
 #include "step_sequencer_section.h"
 #include "stutter_section.h"
+#include "voice_section.h"
 #include "volume_section.h"
 
 #include "modulation_button.h"
 
 class SynthesisInterface  : public SynthSection {
   public:
-    SynthesisInterface(mopo::control_map controls);
+    SynthesisInterface(mopo::control_map controls, MidiKeyboardState* keyboard_state);
     ~SynthesisInterface();
 
     void paintBackground(Graphics& g) override;
@@ -49,8 +50,8 @@ class SynthesisInterface  : public SynthSection {
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
-    ScopedPointer<ArticulationSection> articulation_section_;
     ScopedPointer<DelaySection> delay_section_;
+    ScopedPointer<DynamicSection> dynamic_section_;
     ScopedPointer<EnvelopeSection> extra_envelope_section_;
     ScopedPointer<ExtraModSection> extra_mod_section_;
     ScopedPointer<FeedbackSection> feedback_section_;
@@ -59,6 +60,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FormantSection> formant_section_;
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
+    ScopedPointer<MidiKeyboardComponent> keyboard_;
     ScopedPointer<MixerSection> mixer_section_;
     ScopedPointer<OscillatorSection> oscillator_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
@@ -66,6 +68,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
     ScopedPointer<StutterSection> stutter_section_;
     ScopedPointer<SubSection> sub_section_;
+    ScopedPointer<VoiceSection> voice_section_;
     ScopedPointer<VolumeSection> volume_section_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesisInterface)

@@ -15,6 +15,7 @@
  */
 
 #include "file_list_box_model.h"
+#include "fonts.h"
 #include "load_save.h"
 
 int FileListBoxModel::getNumRows() {
@@ -23,8 +24,6 @@ int FileListBoxModel::getNumRows() {
 
 void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
                                         int width, int height, bool selected) {
-  static Font list_font(Typeface::createSystemTypefaceFor(BinaryData::DroidSansMono_ttf,
-                                                          BinaryData::DroidSansMono_ttfSize));
   g.fillAll(Colour(0xff323232));
   g.setColour(Colour(0xffdddddd));
   if (selected) {
@@ -32,7 +31,7 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
     g.setColour(Colour(0xff03a9f4));
   }
 
-  g.setFont(list_font.withPointHeight(12.0f));
+  g.setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f));
   g.drawText(files_[row_number].getFileName(),
              5, 0, width, height,
              Justification::centredLeft, true);

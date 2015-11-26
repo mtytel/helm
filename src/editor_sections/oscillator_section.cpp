@@ -16,6 +16,7 @@
 
 #include "oscillator_section.h"
 
+#include "fonts.h"
 #include "synth_slider.h"
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
@@ -113,8 +114,6 @@ OscillatorSection::~OscillatorSection() {
 void OscillatorSection::paintBackground(Graphics& g) {
   static const float extra_knob_padding = 4.0f;
   static const DropShadow component_shadow(Colour(0x99000000), 3, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
 
   SynthSection::paintBackground(g);
 
@@ -140,7 +139,7 @@ void OscillatorSection::paintBackground(Graphics& g) {
   g.strokePath(bottom_right_cross_path_, PathStrokeType(1.0f));
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_2_);

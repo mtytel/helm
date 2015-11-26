@@ -14,16 +14,28 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "browser_look_and_feel.h"
+#pragma once
+#ifndef DYNAMIC_SECTION_H
+#define DYNAMIC_SECTION_H
 
-void BrowserLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
-                                              const Colour &backgroundColour,
-                                              bool isMouseOverButton, bool isButtonDown) {
-  g.setColour(button.findColour(TextButton::buttonColourId));
-  g.fillAll();
+#include "JuceHeader.h"
+#include "synth_section.h"
+#include "synth_slider.h"
 
-  if (isButtonDown)
-    g.fillAll(Colour(0x11000000));
-  else if (isMouseOverButton)
-    g.fillAll(Colour(0x11ffffff));
-}
+class DynamicSection : public SynthSection {
+  public:
+    DynamicSection(String name);
+    ~DynamicSection();
+
+    void paintBackground(Graphics& g) override;
+    void resized() override;
+
+  private:
+    ScopedPointer<SynthSlider> portamento_;
+    ScopedPointer<SynthSlider> portamento_type_;
+    ScopedPointer<ToggleButton> legato_;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DynamicSection)
+};
+
+#endif // DYNAMIC_SECTION_H

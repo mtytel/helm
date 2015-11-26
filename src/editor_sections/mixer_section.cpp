@@ -16,6 +16,7 @@
 
 #include "mixer_section.h"
 
+#include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "synth_slider.h"
 
@@ -49,9 +50,6 @@ MixerSection::~MixerSection() {
 
 void MixerSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                           BinaryData::RobotoLight_ttfSize));
-
   SynthSection::paintBackground(g);
 
   float text_y = getHeight() - TEXT_SECTION_WIDTH;
@@ -60,8 +58,8 @@ void MixerSection::paintBackground(Graphics& g) {
 
   float buffer = (getWidth() - 4 * SLIDER_WIDTH) / 3.0f;
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
-  
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+
   g.drawText(TRANS("OSC 1"), 0, text_y,
              SLIDER_WIDTH, TEXT_SECTION_WIDTH,
              Justification::centred, false);

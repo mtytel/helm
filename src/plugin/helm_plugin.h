@@ -70,6 +70,7 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     std::map<std::string, String>* getGuiState() { return &gui_state_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }
     MidiManager* getMidiManager() { return midi_manager_; }
+    MidiKeyboardState* getKeyboardState() { return keyboard_state_; }
 
     // ValueBridge::Listener
     void parameterChanged(std::string name, mopo::mopo_float value) override;
@@ -81,6 +82,7 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
 
     mopo::Memory* output_memory_;
     ScopedPointer<MidiManager> midi_manager_;
+    ScopedPointer<MidiKeyboardState> keyboard_state_;
 
     int num_programs_;
     int current_program_;

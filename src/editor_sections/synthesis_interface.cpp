@@ -16,21 +16,24 @@
 
 #include "synthesis_interface.h"
 
-#include <iomanip>
+#include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
+#include <iomanip>
 
 #define COLUMN_WIDTH_1 320.0f
 #define COLUMN_WIDTH_2 320.0f
-#define COLUMN_WIDTH_3 150.0f
-#define COLUMN_WIDTH_4 150.0f
+#define COLUMN_WIDTH_3 156.0f
+#define COLUMN_WIDTH_4 156.0f
 #define CELL_PADDING 8.0f
+#define DYNAMIC_WIDTH 220.0f
 
-SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSection("synthesis") {
+SynthesisInterface::SynthesisInterface(
+    mopo::control_map controls, MidiKeyboardState* keyboard_state) : SynthSection("synthesis") {
   addSubSection(amplitude_envelope_section_ = new EnvelopeSection("AMPLITUDE ENVELOPE", "amp"));
-  addSubSection(articulation_section_ = new ArticulationSection("ARTICULATION"));
   addSubSection(delay_section_ = new DelaySection("DELAY"));
+  addSubSection(dynamic_section_ = new DynamicSection("DYNAMICS"));
   addSubSection(extra_envelope_section_ = new EnvelopeSection("MOD ENVELOPE", "mod"));
   addSubSection(extra_mod_section_ = new ExtraModSection("KEYBOARD MOD"));
   addSubSection(feedback_section_ = new FeedbackSection("FEEDBACK"));
@@ -39,6 +42,9 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(formant_section_ = new FormantSection("FORMANT"));
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true));
+  keyboard_ = new MidiKeyboardComponent(*keyboard_state,
+                                       MidiKeyboardComponent::horizontalKeyboard);
+  addAndMakeVisible(keyboard_);
   addSubSection(mixer_section_ = new MixerSection("MIXER"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo", false));
@@ -46,7 +52,15 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
   addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
   addSubSection(stutter_section_ = new StutterSection("STUTTER"));
   addSubSection(sub_section_ = new SubSection("SUB"));
+  addSubSection(voice_section_ = new VoiceSection("VOICE"));
   addSubSection(volume_section_ = new VolumeSection("VOLUME"));
+
+  keyboard_->setColour(MidiKeyboardComponent::whiteNoteColourId, Colour(0xff444444));
+  keyboard_->setColour(MidiKeyboardComponent::blackNoteColourId, Colour(0xff000000));
+  keyboard_->setColour(MidiKeyboardComponent::keySeparatorLineColourId, Colour(0xff000000));
+  keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0xff000000));
+  keyboard_->setColour(MidiKeyboardComponent::upDownButtonBackgroundColourId, Colour(0xff222222));
+  keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colour(0xffff0000));
 
   setAllValues(controls);
   setOpaque(true);
@@ -54,14 +68,15 @@ SynthesisInterface::SynthesisInterface(mopo::control_map controls) : SynthSectio
 
 SynthesisInterface::~SynthesisInterface() {
   amplitude_envelope_section_ = nullptr;
-  articulation_section_ = nullptr;
   delay_section_ = nullptr;
+  dynamic_section_ = nullptr;
   extra_envelope_section_ = nullptr;
   extra_mod_section_ = nullptr;
   feedback_section_ = nullptr;
   filter_envelope_section_ = nullptr;
   filter_section_ = nullptr;
   formant_section_ = nullptr;
+  keyboard_ = nullptr;
   mono_lfo_1_section_ = nullptr;
   mono_lfo_2_section_ = nullptr;
   mixer_section_ = nullptr;
@@ -72,28 +87,26 @@ SynthesisInterface::~SynthesisInterface() {
   stutter_section_ = nullptr;
   sub_section_ = nullptr;
   volume_section_ = nullptr;
+  voice_section_ = nullptr;
 }
 
 void SynthesisInterface::paintBackground(Graphics& g) {
   static const DropShadow section_shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
-  static Font roboto_light(Typeface::createSystemTypefaceFor(BinaryData::RobotoLight_ttf,
-                                                             BinaryData::RobotoLight_ttfSize));
 
   g.setColour(Colour(0xff212121));
   g.fillRect(getLocalBounds());
 
   section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());
-  section_shadow.drawForRectangle(g, articulation_section_->getBounds());
   section_shadow.drawForRectangle(g, delay_section_->getBounds());
+  section_shadow.drawForRectangle(g, dynamic_section_->getBounds());
   section_shadow.drawForRectangle(g, extra_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, extra_mod_section_->getBounds());
   section_shadow.drawForRectangle(g, feedback_section_->getBounds());
   section_shadow.drawForRectangle(g, filter_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, filter_section_->getBounds());
   section_shadow.drawForRectangle(g, formant_section_->getBounds());
+  section_shadow.drawForRectangle(g, keyboard_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_1_section_->getBounds());
   section_shadow.drawForRectangle(g, mono_lfo_2_section_->getBounds());
   section_shadow.drawForRectangle(g, mixer_section_->getBounds());
@@ -103,6 +116,7 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   section_shadow.drawForRectangle(g, step_sequencer_section_->getBounds());
   section_shadow.drawForRectangle(g, stutter_section_->getBounds());
   section_shadow.drawForRectangle(g, sub_section_->getBounds());
+  section_shadow.drawForRectangle(g, voice_section_->getBounds());
   section_shadow.drawForRectangle(g, volume_section_->getBounds());
 }
 
@@ -119,7 +133,8 @@ void SynthesisInterface::resized() {
                             oscillator_section_->getWidth() -
                             CELL_PADDING - sub_section_->getWidth(),
                             sub_section_->getHeight());
-  amplitude_envelope_section_->setBounds(column_1_x, 302.0f, COLUMN_WIDTH_1, 120.0f);
+  amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + CELL_PADDING,
+                                         COLUMN_WIDTH_1, 120.0f);
 
   feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 92.0f);
   filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + CELL_PADDING,
@@ -145,20 +160,24 @@ void SynthesisInterface::resized() {
   stutter_section_->setBounds(column_3_x, 4.0f, COLUMN_WIDTH_3, 141.0f);
   formant_section_->setBounds(column_3_x, stutter_section_->getBottom() + CELL_PADDING,
                               COLUMN_WIDTH_3, 141.0f);
-  extra_mod_section_->setBounds(column_3_x, formant_section_->getBottom() + CELL_PADDING,
-                              COLUMN_WIDTH_3, 276.0f);
+  extra_envelope_section_->setBounds(column_3_x, formant_section_->getBottom() + CELL_PADDING,
+                                     COLUMN_WIDTH_3 + COLUMN_WIDTH_3 + CELL_PADDING, 120.0f);
+  extra_mod_section_->setBounds(column_3_x, extra_envelope_section_->getBottom() + CELL_PADDING,
+                                extra_envelope_section_->getWidth(), step_lfo_height);
 
   delay_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 105.0f);
   reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
                              COLUMN_WIDTH_4, 105.0f);
   volume_section_->setBounds(column_4_x, reverb_section_->getBottom() + CELL_PADDING,
                              COLUMN_WIDTH_4, 64.0f);
-  articulation_section_->setBounds(column_4_x, extra_mod_section_->getY(),
-                                   COLUMN_WIDTH_4, extra_mod_section_->getHeight());
-
-  extra_envelope_section_->setBounds(column_2_x,
-                                     step_sequencer_section_->getBottom() + CELL_PADDING,
-                                     COLUMN_WIDTH_2, 120.0f);
+  voice_section_->setBounds(column_1_x, step_sequencer_section_->getBottom() + CELL_PADDING,
+                            DYNAMIC_WIDTH, 64.0f);
+  dynamic_section_->setBounds(extra_envelope_section_->getRight() - DYNAMIC_WIDTH,
+                              step_sequencer_section_->getBottom() + CELL_PADDING,
+                              DYNAMIC_WIDTH, 64.0f);
+  keyboard_->setBounds(voice_section_->getRight() + CELL_PADDING, voice_section_->getY(),
+                       dynamic_section_->getX() - voice_section_->getRight() - 2 * CELL_PADDING,
+                       64.0f);
 
   SynthSection::resized();
 }

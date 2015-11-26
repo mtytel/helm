@@ -16,6 +16,7 @@
 
 #include "delay_section.h"
 
+#include "fonts.h"
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
@@ -62,13 +63,11 @@ DelaySection::~DelaySection() {
 }
 
 void DelaySection::paintBackground(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
 
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
   drawTextForComponent(g, TRANS("WET"), dry_wet_);
 

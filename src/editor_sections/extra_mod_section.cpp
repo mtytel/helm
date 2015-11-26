@@ -15,6 +15,7 @@
  */
 
 #include "extra_mod_section.h"
+#include "fonts.h"
 #include "modulation_look_and_feel.h"
 
 #define BUTTON_WIDTH 32
@@ -46,18 +47,15 @@ ExtraModSection::~ExtraModSection() {
 
 void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* component, String text) {
   static const int SPACE = 6;
-  g.drawText(text, component->getRight() + SPACE, component->getY(),
-             getWidth() - component->getRight() - component->getX(),
+  g.drawText(text, component->getRight() + SPACE, component->getY(), getWidth() / 2,
              component->getHeight(), Justification::centredLeft, false);
 }
 
 void ExtraModSection::paintBackground(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
-  
+
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));
   drawTextToRightOfComponent(g, note_mod_, TRANS("NOTE"));
   drawTextToRightOfComponent(g, velocity_mod_, TRANS("VELOCITY"));
@@ -66,14 +64,15 @@ void ExtraModSection::paintBackground(Graphics& g) {
 }
 
 void ExtraModSection::resized() {
-  int x = 20;
-  float space = (getHeight() - 20 - (5.0f * BUTTON_WIDTH)) / 6.0f;
+  int x = 30;
+  int x2 = getWidth() / 2 + 15;
+  float space = (getHeight() - 20 - (3.0f * BUTTON_WIDTH)) / 4.0f;
 
   aftertouch_mod_->setBounds(x, 20 + space, BUTTON_WIDTH, BUTTON_WIDTH);
   note_mod_->setBounds(x, aftertouch_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
   velocity_mod_->setBounds(x, note_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  mod_wheel_mod_->setBounds(x, velocity_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  pitch_wheel_mod_->setBounds(x, mod_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
+  mod_wheel_mod_->setBounds(x2, 20 + space, BUTTON_WIDTH, BUTTON_WIDTH);
+  pitch_wheel_mod_->setBounds(x2, mod_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
 
   SynthSection::resized();
 }

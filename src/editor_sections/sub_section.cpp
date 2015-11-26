@@ -15,6 +15,7 @@
  */
 
 #include "sub_section.h"
+#include "fonts.h"
 
 #define WAVE_VIEWER_RESOLUTION 80
 #define WAVE_SELECTOR_WIDTH 10
@@ -39,12 +40,10 @@ SubSection::~SubSection() {
 }
 
 void SubSection::paintBackground(Graphics& g) {
-  static Font roboto_reg(Typeface::createSystemTypefaceFor(BinaryData::RobotoRegular_ttf,
-                                                           BinaryData::RobotoRegular_ttfSize));
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(roboto_reg.withPointHeight(10.0f));
+  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("SHUFFLE"), shuffle_);
 }
 
