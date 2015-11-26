@@ -98,6 +98,7 @@ OBJECTS := \
   $(OBJDIR)/global_tool_tip_5f078e04.o \
   $(OBJDIR)/graphical_envelope_4add3912.o \
   $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
+  $(OBJDIR)/midi_keyboard_ec3d63f9.o \
   $(OBJDIR)/modulation_button_8258c889.o \
   $(OBJDIR)/modulation_meter_3f248ddc.o \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
@@ -411,6 +412,11 @@ $(OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphica
 $(OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
 	-$(AT)mkdir -p $(OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
+	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/midi_keyboard_ec3d63f9.o: ../../../src/editor_components/midi_keyboard.cpp
+	-$(AT)mkdir -p $(OBJDIR)
+	@echo "Compiling midi_keyboard.cpp"
 	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp

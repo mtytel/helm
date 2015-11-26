@@ -864,37 +864,6 @@ void MidiKeyboardComponent::setKeyPressBaseOctave (const int newOctaveNumber)
     keyMappingOctave = newOctaveNumber;
 }
 
-bool MidiKeyboardComponent::keyStateChanged (const bool /*isKeyDown*/)
-{
-    bool keyPressUsed = false;
-
-    for (int i = keyPresses.size(); --i >= 0;)
-    {
-        const int note = 12 * keyMappingOctave + keyPressNotes.getUnchecked (i);
-
-        if (keyPresses.getReference(i).isCurrentlyDown())
-        {
-            if (! keysPressed [note])
-            {
-                keysPressed.setBit (note);
-                state.noteOn (midiChannel, note, velocity);
-                keyPressUsed = true;
-            }
-        }
-        else
-        {
-            if (keysPressed [note])
-            {
-                keysPressed.clearBit (note);
-                state.noteOff (midiChannel, note);
-                keyPressUsed = true;
-            }
-        }
-    }
-
-    return keyPressUsed;
-}
-
 bool MidiKeyboardComponent::keyPressed (const KeyPress& key)
 {
     return keyPresses.contains (key);

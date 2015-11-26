@@ -279,8 +279,6 @@ public:
     /** @internal */
     void timerCallback() override;
     /** @internal */
-    bool keyStateChanged (bool isKeyDown) override;
-    /** @internal */
     bool keyPressed (const KeyPress&) override;
     /** @internal */
     void focusLost (FocusChangeType) override;

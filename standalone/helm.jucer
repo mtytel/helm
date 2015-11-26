@@ -194,6 +194,9 @@
               file="../src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="I0Msfq" name="graphical_step_sequencer.h" compile="0" resource="0"
               file="../src/editor_components/graphical_step_sequencer.h"/>
+        <FILE id="baMLkc" name="midi_keyboard.cpp" compile="1" resource="0"
+              file="../src/editor_components/midi_keyboard.cpp"/>
+        <FILE id="D8ehAM" name="midi_keyboard.h" compile="0" resource="0" file="../src/editor_components/midi_keyboard.h"/>
         <FILE id="qWOUvi" name="modulation_button.cpp" compile="1" resource="0"
               file="../src/editor_components/modulation_button.cpp"/>
         <FILE id="hc4YWp" name="modulation_button.h" compile="0" resource="0"

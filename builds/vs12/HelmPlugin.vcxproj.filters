@@ -496,6 +496,9 @@
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\midi_keyboard.cpp">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_button.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
@@ -2098,6 +2101,9 @@
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\midi_keyboard.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_button.h">

@@ -17,6 +17,7 @@
 #include "synthesis_interface.h"
 
 #include "fonts.h"
+#include "midi_keyboard.h"
 #include "modulation_look_and_feel.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
@@ -42,8 +43,7 @@ SynthesisInterface::SynthesisInterface(
   addSubSection(formant_section_ = new FormantSection("FORMANT"));
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true));
-  keyboard_ = new MidiKeyboardComponent(*keyboard_state,
-                                       MidiKeyboardComponent::horizontalKeyboard);
+  keyboard_ = new MidiKeyboard(*keyboard_state, MidiKeyboardComponent::horizontalKeyboard);
   addAndMakeVisible(keyboard_);
   addSubSection(mixer_section_ = new MixerSection("MIXER"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
@@ -56,11 +56,12 @@ SynthesisInterface::SynthesisInterface(
   addSubSection(volume_section_ = new VolumeSection("VOLUME"));
 
   keyboard_->setColour(MidiKeyboardComponent::whiteNoteColourId, Colour(0xff444444));
-  keyboard_->setColour(MidiKeyboardComponent::blackNoteColourId, Colour(0xff000000));
-  keyboard_->setColour(MidiKeyboardComponent::keySeparatorLineColourId, Colour(0xff000000));
-  keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0xff000000));
+  keyboard_->setColour(MidiKeyboardComponent::blackNoteColourId, Colour(0xff222222));
+  keyboard_->setColour(MidiKeyboardComponent::keySeparatorLineColourId, Colour(0x00000000));
+  keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0x00000000));
   keyboard_->setColour(MidiKeyboardComponent::upDownButtonBackgroundColourId, Colour(0xff222222));
   keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colour(0xffff0000));
+  keyboard_->setLowestVisibleKey(36);
 
   setAllValues(controls);
   setOpaque(true);
@@ -175,9 +176,10 @@ void SynthesisInterface::resized() {
   dynamic_section_->setBounds(extra_envelope_section_->getRight() - DYNAMIC_WIDTH,
                               step_sequencer_section_->getBottom() + CELL_PADDING,
                               DYNAMIC_WIDTH, 64.0f);
-  keyboard_->setBounds(voice_section_->getRight() + CELL_PADDING, voice_section_->getY(),
+  keyboard_->setBounds(voice_section_->getRight() + CELL_PADDING, voice_section_->getY() + 5,
                        dynamic_section_->getX() - voice_section_->getRight() - 2 * CELL_PADDING,
-                       64.0f);
+                       54.0f);
+  keyboard_->setWantsKeyboardFocus(false);
 
   SynthSection::resized();
 }
