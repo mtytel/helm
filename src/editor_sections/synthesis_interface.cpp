@@ -60,7 +60,8 @@ SynthesisInterface::SynthesisInterface(
   keyboard_->setColour(MidiKeyboardComponent::keySeparatorLineColourId, Colour(0x00000000));
   keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0x00000000));
   keyboard_->setColour(MidiKeyboardComponent::upDownButtonBackgroundColourId, Colour(0xff222222));
-  keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colour(0xffff0000));
+  keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colour(0xff03a9f4));
+  keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x4403a9f4));
   keyboard_->setLowestVisibleKey(36);
 
   setAllValues(controls);
