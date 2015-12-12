@@ -34,15 +34,18 @@ namespace mopo {
     oscillator1_cross_mod_ = 0;
     oscillator2_cross_mod_ = 0;
 
-    for (int i = 0; i < MAX_UNISON; ++i) {
-      oscillator1_phases_[i] = 0;
-      oscillator2_phases_[i] = 0;
-      oscillator1_rand_offset_[i] = 0.0;
-      oscillator2_rand_offset_[i] = 0.0;
-      oscillator1_phase_diffs_[i] = 0;
-      oscillator2_phase_diffs_[i] = 0;
-      wave_buffers1_[i] = nullptr;
-      wave_buffers2_[i] = nullptr;
+    for (int v = 0; v < MAX_UNISON; ++v) {
+      oscillator1_phases_[v] = 0;
+      oscillator2_phases_[v] = 0;
+      oscillator1_rand_offset_[v] = 0.0;
+      oscillator2_rand_offset_[v] = 0.0;
+      wave_buffers1_[v] = nullptr;
+      wave_buffers2_[v] = nullptr;
+
+      for (int i = 0; i < MAX_BUFFER_SIZE; ++i) {
+        oscillator1_phase_diffs_[v][i] = 0;
+        oscillator2_phase_diffs_[v][i] = 0;
+      }
     }
   }
 
@@ -72,39 +75,48 @@ namespace mopo {
     }
   }
 
+  void HelmOscillators::loadBasePhaseInc() {
+    for (int i = 0; i < buffer_size_; ++i) {
+      oscillator1_phase_diffs_[0][i] = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
+      oscillator2_phase_diffs_[0][i] = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[i];
+    }
+  }
+
   void HelmOscillators::computeDetuneRatios(int* oscillator_phase_diffs,
                                             const mopo_float* random_offsets,
-                                            int base_phase,
                                             bool harmonize, mopo_float detune,
                                             int voices) {
-    for (int i = 0; i < MAX_UNISON; ++i) {
-      mopo_float amount = (detune * ((i + 1) / 2)) / ((voices + 1) / 2);
+    for (int v = 0; v < MAX_UNISON; ++v) {
+      mopo_float amount = (detune * ((v + 1) / 2)) / ((voices + 1) / 2);
 
       mopo_float exponent = amount / mopo::CENTS_PER_OCTAVE;
-      if (i % 2)
+      if (v % 2)
         exponent = -exponent;
 
       mopo_float harmonic = 0.0;
       if (harmonize)
-        harmonic = i;
+        harmonic = v;
 
-      mopo_float total_detune = harmonic + std::pow(2.0, exponent) + amount * random_offsets[i];
-      oscillator_phase_diffs[i] = total_detune * base_phase;
+      mopo_float total_detune = harmonic + std::pow(2.0, exponent) + amount * random_offsets[v];
+
+      int* voice_phase_diffs = oscillator_phase_diffs + (v * MAX_BUFFER_SIZE);
+      for (int i = 0; i < buffer_size_; ++i) {
+        voice_phase_diffs[i] = total_detune * oscillator_phase_diffs[i];
+      }
     }
   }
 
   void HelmOscillators::prepareBuffers(int** wave_buffers,
                                        const int* oscillator_phase_diffs,
-                                       int base_phase,
                                        int waveform) {
     for (int v = 0; v < MAX_UNISON; ++v) {
-      wave_buffers[v] = FixedPointWave::getBuffer(waveform, oscillator_phase_diffs[v]);
+      int phase_diff = oscillator_phase_diffs[v * MAX_BUFFER_SIZE];
+      wave_buffers[v] = FixedPointWave::getBuffer(waveform, phase_diff);
     }
   }
 
   void HelmOscillators::process() {
-    int base_phase1 = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[0];
-    int base_phase2 = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[0];
+    loadBasePhaseInc();
     int voices1 = utils::iclamp(input(kUnisonVoices1)->source->buffer[0], 1, MAX_UNISON);
     int voices2 = utils::iclamp(input(kUnisonVoices2)->source->buffer[0], 1, MAX_UNISON);
     mopo_float detune1 = input(kUnisonDetune1)->source->buffer[0];
@@ -113,18 +125,18 @@ namespace mopo {
     mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0];
 
     addRandomPhaseToVoices();
-    computeDetuneRatios(oscillator1_phase_diffs_, oscillator1_rand_offset_,
-                        base_phase1, harmonize1, detune1, voices1);
-    computeDetuneRatios(oscillator2_phase_diffs_, oscillator2_rand_offset_,
-                        base_phase2, harmonize2, detune2, voices2);
+    computeDetuneRatios((int*)oscillator1_phase_diffs_, oscillator1_rand_offset_,
+                        harmonize1, detune1, voices1);
+    computeDetuneRatios((int*)oscillator2_phase_diffs_, oscillator2_rand_offset_,
+                        harmonize2, detune2, voices2);
 
     int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
     int wave2 = static_cast<int>(input(kOscillator2Waveform)->source->buffer[0] + 0.5);
     wave1 = utils::iclamp(wave1, 0, FixedPointWaveLookup::kWhiteNoise - 1);
     wave2 = utils::iclamp(wave2, 0, FixedPointWaveLookup::kWhiteNoise - 1);
 
-    prepareBuffers(wave_buffers1_, oscillator1_phase_diffs_, base_phase1, wave1);
-    prepareBuffers(wave_buffers2_, oscillator2_phase_diffs_, base_phase2, wave2);
+    prepareBuffers(wave_buffers1_, (int*)oscillator1_phase_diffs_, wave1);
+    prepareBuffers(wave_buffers2_, (int*)oscillator2_phase_diffs_, wave2);
 
     int i = 0;
     if (input(kReset)->source->triggered) {

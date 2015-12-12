@@ -57,14 +57,13 @@ namespace mopo {
     protected:
       void addRandomPhaseToVoices();
       void reset();
+      void loadBasePhaseInc();
       void computeDetuneRatios(int* oscillator_phase_diffs,
                                const mopo_float* random_offsets,
-                               int base_phase,
                                bool harmonize, mopo_float detune,
                                int voices);
       void prepareBuffers(int** wave_buffers,
                           const int* oscillator_phase_diffs,
-                          int base_phase,
                           int waveform);
 
       void tickCrossMod(int phase_diff1, int phase_diff2) {
@@ -89,7 +88,7 @@ namespace mopo {
 
         // Run Voices.
         for (int v = 0; v < voices1; ++v) {
-          oscillator1_phases_[v] += oscillator1_phase_diffs_[v];
+          oscillator1_phases_[v] += oscillator1_phase_diffs_[v][i];
           int phase = phase_diff1 + oscillator1_phases_[v];
           oscillator1_total += wave_buffers1_[v][FixedPointWave::getIndex(phase)];
         }
@@ -97,7 +96,7 @@ namespace mopo {
         tickCrossMod(phase_diff1, phase_diff2);
 
         for (int v = 0; v < voices2; ++v) {
-          oscillator2_phases_[v] += oscillator2_phase_diffs_[v];
+          oscillator2_phases_[v] += oscillator2_phase_diffs_[v][i];
           int phase = phase_diff2 + oscillator2_phases_[v];
           oscillator2_total += wave_buffers2_[v][FixedPointWave::getIndex(phase)];
         }
@@ -116,8 +115,8 @@ namespace mopo {
       unsigned int oscillator2_phases_[MAX_UNISON];
       int* wave_buffers1_[MAX_UNISON];
       int* wave_buffers2_[MAX_UNISON];
-      int oscillator1_phase_diffs_[MAX_UNISON];
-      int oscillator2_phase_diffs_[MAX_UNISON];
+      int oscillator1_phase_diffs_[MAX_UNISON][MAX_BUFFER_SIZE];
+      int oscillator2_phase_diffs_[MAX_UNISON][MAX_BUFFER_SIZE];
       mopo_float oscillator1_rand_offset_[MAX_UNISON];
       mopo_float oscillator2_rand_offset_[MAX_UNISON];
   };

@@ -183,9 +183,13 @@ namespace mopo {
     oscillator1_phase_inc->plug(oscillator1_frequency);
     oscillator1_phase_inc->setControlRate();
 
+    LinearSmoothBuffer* oscillator1_phase_inc_smooth = new LinearSmoothBuffer();
+    oscillator1_phase_inc_smooth->plug(oscillator1_phase_inc, LinearSmoothBuffer::kValue);
+    oscillator1_phase_inc_smooth->plug(oscillator1_phase_inc, LinearSmoothBuffer::kTrigger);
+
     oscillators->plug(oscillator1_waveform, HelmOscillators::kOscillator1Waveform);
     oscillators->plug(reset, HelmOscillators::kReset);
-    oscillators->plug(oscillator1_phase_inc, HelmOscillators::kOscillator1PhaseInc);
+    oscillators->plug(oscillator1_phase_inc_smooth, HelmOscillators::kOscillator1PhaseInc);
     oscillators->plug(oscillator1_unison_detune, HelmOscillators::kUnisonDetune1);
     oscillators->plug(oscillator1_unison_voices, HelmOscillators::kUnisonVoices1);
     oscillators->plug(oscillator1_unison_harmonize, HelmOscillators::kHarmonize1);
@@ -197,6 +201,7 @@ namespace mopo {
     addProcessor(oscillator1_midi);
     addProcessor(oscillator1_frequency);
     addProcessor(oscillator1_phase_inc);
+    addProcessor(oscillator1_phase_inc_smooth);
     addProcessor(oscillators);
 
     // Oscillator 2.
@@ -223,8 +228,12 @@ namespace mopo {
     oscillator2_phase_inc->setControlRate();
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
+    LinearSmoothBuffer* oscillator2_phase_inc_smooth = new LinearSmoothBuffer();
+    oscillator2_phase_inc_smooth->plug(oscillator2_phase_inc, LinearSmoothBuffer::kValue);
+    oscillator2_phase_inc_smooth->plug(oscillator2_phase_inc, LinearSmoothBuffer::kTrigger);
+
     oscillators->plug(oscillator2_waveform, HelmOscillators::kOscillator2Waveform);
-    oscillators->plug(oscillator2_phase_inc, HelmOscillators::kOscillator2PhaseInc);
+    oscillators->plug(oscillator2_phase_inc_smooth, HelmOscillators::kOscillator2PhaseInc);
     oscillators->plug(oscillator2_unison_detune, HelmOscillators::kUnisonDetune2);
     oscillators->plug(oscillator2_unison_voices, HelmOscillators::kUnisonVoices2);
     oscillators->plug(oscillator2_unison_harmonize, HelmOscillators::kHarmonize2);
@@ -233,6 +242,7 @@ namespace mopo {
     addProcessor(oscillator2_midi);
     addProcessor(oscillator2_frequency);
     addProcessor(oscillator2_phase_inc);
+    addProcessor(oscillator2_phase_inc_smooth);
 
     // Oscillator mix.
     Processor* osc_1_amplitude = createPolyModControl("osc_1_volume", true, false);
