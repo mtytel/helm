@@ -19,6 +19,7 @@
 #include "utils.h"
 
 #include <cmath>
+#include <iostream>
 
 namespace mopo {
 
@@ -32,22 +33,36 @@ namespace mopo {
     last_value_ = output(0)->buffer[buffer_size_ - 1];
   }
 
-  void PortamentoSlope::process() {
-    int state = static_cast<int>(input(kPortamentoType)->at(0));
-    int i = 0;
-    int note_number = static_cast<int>(input(kNoteNumber)->source->trigger_value);
+  void PortamentoSlope::processTriggers() {
+    output()->clearTrigger();
 
+    if (input(kTriggerJump)->source->triggered) {
+      int offset = input(kTriggerJump)->source->trigger_offset;
+      output()->trigger(input(kTarget)->at(offset), offset);
+    }
+    else if (input(kTriggerStart)->source->triggered) {
+      float value = input(kTriggerStart)->source->trigger_value;
+      output()->trigger(value, input(kTriggerStart)->source->trigger_offset);
+    }
+  }
+
+  void PortamentoSlope::process() {
+    processTriggers();
+    int state = static_cast<int>(input(kPortamentoType)->at(0));
     if (state == kPortamentoOff) {
       processBypass(0);
       return;
     }
-    else if (state == kPortamentoAuto && note_number <= 1 &&
-             input(kTriggerJump)->source->triggered) {
+
+    int i = 0;
+    int note_number = static_cast<int>(input(kNoteNumber)->source->trigger_value);
+
+    if (state == kPortamentoAuto && note_number <= 1 && input(kTriggerJump)->source->triggered) {
       int trigger_offset = input(kTriggerJump)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
         tick(i);
 
-      last_value_ = input(kTarget)->at(i);
+      last_value_ = input(kTarget)->at(trigger_offset);
     }
     else if (input(kTriggerStart)->source->triggered) {
       int trigger_offset = input(kTriggerStart)->source->trigger_offset;
@@ -81,6 +96,6 @@ namespace mopo {
     mopo_float movement = target - last_value_;
     movement *= fabs(movement);
     last_value_ += 0.07 * movement / (sample_rate_ * input(kRunSeconds)->at(0));
-    output(0)->buffer[i] = last_value_;
+    output()->buffer[i] = last_value_;
   }
 } // namespace mopo
