@@ -21,11 +21,24 @@
   #define USE_APPLE_ACCELERATE
 #endif
 
+#include <iostream>
+
 namespace mopo {
 
   void Operator::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+  }
+
+  void Operator::processTriggers() {
+    output()->clearTrigger();
+    for (int i = 0; i < numInputs(); ++i) {
+      if (input(i)->source->triggered) {
+        int offset = input(i)->source->trigger_offset;
+        tick(offset);
+        output()->trigger(output()->buffer[offset], offset);
+      }
+    }
   }
 
   void Clamp::process() {
@@ -40,6 +53,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source, i);
 #endif
+    processTriggers();
   }
 
   void Negate::process() {
@@ -50,6 +64,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void LinearScale::process() {
@@ -60,6 +75,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void Add::process() {
@@ -76,6 +92,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source_left, source_right, i);
 #endif
+    processTriggers();
   }
 
   void Subtract::process() {
@@ -87,6 +104,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void Multiply::process() {
@@ -103,6 +121,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source_left, source_right, i);
 #endif
+    processTriggers();
   }
 
   void Interpolate::process() {
@@ -126,11 +145,13 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, from, to, fractional, i);
 #endif
+    processTriggers();
   }
 
   void BilinearInterpolate::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+    processTriggers();
   }
 
   void VariableAdd::process() {
@@ -163,6 +184,7 @@ namespace mopo {
         }
       }
     }
+    processTriggers();
   }
 
   void FrequencyToPhase::process() {
@@ -174,6 +196,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void FrequencyToSamples::process() {
@@ -185,6 +208,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void TimeToSamples::process() {
@@ -196,6 +220,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void SampleAndHoldBuffer::process() {
@@ -203,6 +228,7 @@ namespace mopo {
       return;
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+    processTriggers();
   }
 
   void LinearSmoothBuffer::process() {
@@ -210,7 +236,8 @@ namespace mopo {
 
     if (input(kTrigger)->source->triggered) {
       int trigger_samples = input(kTrigger)->source->trigger_offset;
-
+      // std::cout << "SMOOTH BUFFER TRIGGERED OFFSET: " << input(kTrigger)->source->trigger_offset << stt::endl;
+      // std::cout << "SMOOTH BUFFER TRIGGERED VALUE: " << input(kTrigger)->source->trigger_value << std::endl << std::endl;
       int i = 0;
       for (; i < trigger_samples; ++i)
         output()->buffer[i] = last_value_;
@@ -233,5 +260,6 @@ namespace mopo {
 
       last_value_ = new_value;
     }
+    processTriggers();
   }
 } // namespace mopo

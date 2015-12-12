@@ -27,6 +27,7 @@
 void process() override { \
   for (int i = 0; i < buffer_size_; ++i) \
     tick(i); \
+  processTriggers(); \
 }
 
 namespace mopo {
@@ -39,6 +40,7 @@ namespace mopo {
 
       virtual void process() override;
       virtual void tick(int i) = 0;
+      virtual void processTriggers();
 
     private:
       Operator() : Processor(0, 0) { }

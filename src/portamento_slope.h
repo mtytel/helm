@@ -50,8 +50,9 @@ namespace mopo {
         return new PortamentoSlope(*this);
       }
 
-      virtual void process() override;
+      void processTriggers();
       void processBypass(int start);
+      virtual void process() override;
       void tick(int i);
 
     private:

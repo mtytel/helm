@@ -147,7 +147,8 @@ namespace mopo {
     Voice* voice = 0;
 
     // First check free voices.
-    if (free_voices_.size() && (!legato_ || active_voices_.size() < polyphony_)) {
+    if (free_voices_.size() &&
+       (!legato_ || pressed_notes_.size() == 0 || active_voices_.size() < polyphony_)) {
       voice = free_voices_.front();
       free_voices_.pop_front();
       return voice;
@@ -219,9 +220,9 @@ namespace mopo {
   }
 
   void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
+    Voice* voice = grabVoice();
     pressed_notes_.push_front(note);
 
-    Voice* voice = grabVoice();
     if (last_played_note_ < 0)
       last_played_note_ = note;
     voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample);
