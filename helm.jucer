@@ -423,7 +423,6 @@
         <MODULEPATH id="juce_gui_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
         <MODULEPATH id="juce_cryptography" path="JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_formats" path="JUCE/modules"/>
@@ -431,6 +430,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="JUCE/modules"/>
         <MODULEPATH id="juce_video" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2012 targetFolder="builds/vs12" vstFolder="c:\srcs\vstsdk2.4" vst3Folder="c:\srcs\VST3 SDK"
@@ -439,6 +439,8 @@
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
+        <CONFIGURATION name="Release64" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="0" optimisation="2" targetName="helm" headerPath="../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -449,7 +451,6 @@
         <MODULEPATH id="juce_gui_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
         <MODULEPATH id="juce_cryptography" path="JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_formats" path="JUCE/modules"/>
@@ -457,6 +458,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="JUCE/modules"/>
         <MODULEPATH id="juce_video" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux/VST" vstFolder="~/srcs/vstsdk2.4"
@@ -478,7 +480,6 @@
         <MODULEPATH id="juce_gui_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
         <MODULEPATH id="juce_cryptography" path="JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_formats" path="JUCE/modules"/>
@@ -486,6 +487,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="JUCE/modules"/>
         <MODULEPATH id="juce_video" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
