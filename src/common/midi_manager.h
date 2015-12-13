@@ -38,7 +38,7 @@ class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
     MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
                 std::map<std::string, String>* gui_state,
                 const CriticalSection* critical_section, Listener* listener = nullptr);
-    virtual ~MidiManager() { }
+    virtual ~MidiManager();
 
     void handleNoteOn(MidiKeyboardState* source,
                       int midiChannel, int midiNoteNumber, float velocity) override;

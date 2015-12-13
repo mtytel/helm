@@ -79,6 +79,10 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
 }
 
 HelmStandaloneEditor::~HelmStandaloneEditor() {
+  midi_manager_ = nullptr;
+  computer_keyboard_ = nullptr;
+  gui_ = nullptr;
+  keyboard_state_ = nullptr;
   shutdownAudio();
 }
 

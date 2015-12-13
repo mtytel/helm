@@ -32,6 +32,10 @@ MidiManager::MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_st
   keyboard_state_->addListener(this);
 }
 
+MidiManager::~MidiManager() {
+  keyboard_state_->removeListener(this);
+}
+
 void MidiManager::handleNoteOn(MidiKeyboardState* source,
                                int midiChannel, int midiNoteNumber, float velocity) {
   ScopedLock lock(*critical_section_);
