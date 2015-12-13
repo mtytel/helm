@@ -372,6 +372,12 @@ bool LoadSave::wasUpgraded() {
   if (!config_object->hasProperty("synth_version"))
     return true;
 
+  Array<File> patches;
+  String extension = String("*.") + mopo::PATCH_EXTENSION;
+  getBankDirectory().findChildFiles(patches, File::findFiles, true, extension);
+  if (patches.size() == 0)
+    return true;
+
   return compareVersionStrings(config_object->getProperty("synth_version"),
                                ProjectInfo::versionString) < 0;
 }
@@ -422,7 +428,7 @@ File LoadSave::getFactoryBankDirectory() {
   File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory );
+  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory);
   patch_dir = data_dir.getChildFile("Helm/Patches");
 #endif
 
@@ -439,7 +445,7 @@ File LoadSave::getBankDirectory() {
   File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory);
+  File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
   patch_dir = data_dir.getChildFile("Helm/patches");
 #endif
 
