@@ -149,8 +149,10 @@ void SynthSection::setActive(bool active) {
 
 void SynthSection::setAllValues(mopo::control_map& controls) {
   for (auto slider : all_sliders_) {
-    if (controls.count(slider.first))
+    if (controls.count(slider.first)) {
       slider.second->setValue(controls[slider.first]->value());
+      slider.second->valueChanged();
+    }
   }
 
   for (auto button : all_buttons_) {
