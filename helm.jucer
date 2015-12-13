@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.5.1"
+<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.6.0"
               bundleIdentifier="org.tytel.helmplugin" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="1"
               pluginName="Helm" pluginDesc="" pluginManufacturer="Matt Tytel"
@@ -8,7 +8,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
-              pluginAAXCategory="AAX_ePlugInCategory_SWGenerators" jucerVersion="3.2.0"
+              pluginAAXCategory="AAX_ePlugInCategory_SWGenerators" jucerVersion="4.0.2"
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
               companyWebsite="tytel.org">
   <MAINGROUP id="OwcEM5" name="HelmPlugin">
