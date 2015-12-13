@@ -25,7 +25,7 @@ ifeq ($(CONFIG),Debug)
   CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_1D79FBD2=1" -D "JUCE_APP_VERSION=0.6.0" -D "JUCE_APP_VERSION_HEX=0x600" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/srcs/vstsdk2.4 -I ../../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0 -ffast-math
   CXXFLAGS += $(CFLAGS) -std=c++11
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -ffast-math
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -ffast-math
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -45,7 +45,7 @@ ifeq ($(CONFIG),Release)
   CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_1D79FBD2=1" -D "JUCE_APP_VERSION=0.6.0" -D "JUCE_APP_VERSION_HEX=0x600" -I /usr/include -I /usr/include/freetype2 -I ~/srcs/VST3\ SDK -I ~/srcs/vstsdk2.4 -I ../../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -Os -ffast-math
   CXXFLAGS += $(CFLAGS) -std=c++11
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -ffast-math
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -ffast-math
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -168,7 +168,6 @@ OBJECTS := \
   $(OBJDIR)/juce_graphics_a34b2885.o \
   $(OBJDIR)/juce_gui_basics_3e4cc581.o \
   $(OBJDIR)/juce_gui_extra_20746349.o \
-  $(OBJDIR)/juce_opengl_a5fa29cd.o \
   $(OBJDIR)/juce_PluginUtilities_b46a93d5.o \
   $(OBJDIR)/juce_video_7b52df69.o \
   $(OBJDIR)/juce_VST_Wrapper_6cac13de.o \
@@ -764,11 +763,6 @@ $(OBJDIR)/juce_gui_basics_3e4cc581.o: ../../../JUCE/modules/juce_gui_basics/juce
 $(OBJDIR)/juce_gui_extra_20746349.o: ../../../JUCE/modules/juce_gui_extra/juce_gui_extra.cpp
 	-$(AT)mkdir -p $(OBJDIR)
 	@echo "Compiling juce_gui_extra.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/juce_opengl_a5fa29cd.o: ../../../JUCE/modules/juce_opengl/juce_opengl.cpp
-	-$(AT)mkdir -p $(OBJDIR)
-	@echo "Compiling juce_opengl.cpp"
 	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_PluginUtilities_b46a93d5.o: ../../../JUCE/modules/juce_audio_plugin_client/utility/juce_PluginUtilities.cpp
