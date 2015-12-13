@@ -82,7 +82,10 @@ class ValueBridge : public AudioProcessorParameter {
 
     // Converts from value from 0.0 to 1.0 to internal synth value.
     float convertToSynthValue(mopo::mopo_float plugin_value) const {
-      return span_ * plugin_value + details_.min;
+      mopo::mopo_float raw_value = span_ * plugin_value + details_.min;
+      if (details_.steps)
+        return std::round(raw_value);
+      return raw_value;
     }
 
   private:
