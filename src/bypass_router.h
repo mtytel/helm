@@ -32,9 +32,11 @@ namespace mopo {
 
       BypassRouter(int num_inputs = kNumInputs, int num_outputs = 0);
 
-      virtual Processor* clone() const { return new BypassRouter(*this); }
+      virtual Processor* clone() const override {
+        return new BypassRouter(*this);
+      }
 
-      void process();
+      void process() override;
   };
 } // namespace mopo
 

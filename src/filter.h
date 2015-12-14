@@ -24,10 +24,6 @@
 
 namespace mopo {
 
-  namespace {
-    const mopo::mopo_float COEFFICIENT_FILTERING = 0.99;
-  } // namespace
-
   // Implements RBJ biquad filters of different types.
   class Filter : public Processor {
     public:
@@ -189,14 +185,8 @@ namespace mopo {
         current_resonance_ = resonance;
       }
 
-      void tick(int i) {
-        mopo_float audio = input(kAudio)->at(i);
-        in_0_ = INTERPOLATE(target_in_0_, in_0_, COEFFICIENT_FILTERING);
-        in_1_ = INTERPOLATE(target_in_1_, in_1_, COEFFICIENT_FILTERING);
-        in_2_ = INTERPOLATE(target_in_2_, in_2_, COEFFICIENT_FILTERING);
-        out_1_ = INTERPOLATE(target_out_1_, out_1_, COEFFICIENT_FILTERING);
-        out_2_ = INTERPOLATE(target_out_2_, out_2_, COEFFICIENT_FILTERING);
-
+      inline void tick(int i, mopo_float* dest, const mopo_float* audio_buffer) {
+        mopo_float audio = audio_buffer[i];
         mopo_float out = audio * in_0_ +
                          past_in_1_ * in_1_ +
                          past_in_2_ * in_2_ -
@@ -206,7 +196,7 @@ namespace mopo {
         past_in_1_ = audio;
         past_out_2_ = past_out_1_;
         past_out_1_ = out;
-        output(0)->buffer[i] = out;
+        dest[i] = out;
       }
 
     private:

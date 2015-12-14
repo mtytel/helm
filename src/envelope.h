@@ -19,6 +19,7 @@
 #define ENVELOPE_H
 
 #include "processor.h"
+#include "utils.h"
 
 #define CLOSE_ENOUGH (1.0 / 256.0)
 
@@ -60,10 +61,41 @@ namespace mopo {
       Envelope();
       virtual ~Envelope() { }
 
-      virtual Processor* clone() const { return new Envelope(*this); }
-      void process();
+      virtual Processor* clone() const override { return new Envelope(*this); }
+      void process() override;
       void trigger(mopo_float event, int offset);
-      void tick(int i);
+
+      void tickRelease(int i, mopo_float* out_buffer) {
+        current_value_ *= release_decay_;
+        out_buffer[i] = current_value_;
+      }
+
+      void tickDecay(int i, mopo_float* out_buffer) {
+        current_value_ = INTERPOLATE(input(kSustain)->at(i), current_value_, decay_decay_);
+        out_buffer[i] = current_value_;
+      }
+
+      void tick(int i, mopo_float* out_buffer) {
+        if (state_ == kAttacking) {
+          if (input(kAttack)->at(i) <= 0)
+            current_value_ = 1;
+          else {
+            mopo_float change = 1.0 / (sample_rate_ * input(kAttack)->at(i));
+            current_value_ = utils::clamp(current_value_ + change, 0.0, 1.0);
+          }
+          if (current_value_ >= 0.999)
+            state_ = kDecaying;
+        }
+        else if (state_ == kKilling) {
+          current_value_ -= kill_decrement_;
+          if (current_value_ <= 0) {
+            current_value_ = 0.0;
+            output(kFinished)->trigger(kVoiceReset, i);
+            state_ = next_life_state_;
+          }
+        }
+        out_buffer[i] = current_value_;
+      }
 
     protected:
       State state_;

@@ -31,8 +31,8 @@ namespace mopo {
 
       Value(mopo_float value = 0.0);
 
-      virtual Processor* clone() const { return new Value(*this); }
-      virtual void process();
+      virtual Processor* clone() const override { return new Value(*this); }
+      virtual void process() override;
 
       virtual mopo_float value() const { return value_; }
       virtual void set(mopo_float value);

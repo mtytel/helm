@@ -44,9 +44,12 @@ namespace mopo {
 
       Oscillator();
 
-      virtual Processor* clone() const { return new Oscillator(*this); }
+      virtual Processor* clone() const override {
+        return new Oscillator(*this);
+      }
+
       void preprocess();
-      void process();
+      void process() override;
 
       inline void tick(int i) {
         mopo_float frequency = input(kFrequency)->at(i);
@@ -54,7 +57,7 @@ namespace mopo {
 
         offset_ += frequency / sample_rate_;
         mopo_float integral;
-        offset_ = modf(offset_, &integral);
+        offset_ = utils::mod(offset_, &integral);
         output(kOscPhase)->buffer[i] = offset_;
         output(kAudio)->buffer[i] =
             Wave::blwave(waveform_, offset_ + phase, frequency);

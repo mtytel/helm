@@ -44,14 +44,14 @@ namespace mopo {
 
     // If we're past the gate phase and we're playing a note, turn it off.
     if (new_phase >= gate && last_played_note_ >= 0) {
-      int offset = CLAMP((gate - phase_) / delta_phase, 0, buffer_size_ - 1);
+      int offset = utils::iclamp((gate - phase_) / delta_phase, 0, buffer_size_ - 1);
       note_handler_->noteOff(last_played_note_, offset);
       last_played_note_ = -1;
     }
 
     // Check if it's time to play the next note.
     if (getNumNotes() && new_phase >= 1) {
-      int offset = CLAMP((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
+      int offset = utils::iclamp((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
       std::pair<mopo_float, mopo_float> note = getNextNote();
       note_handler_->noteOn(note.first, note.second, offset);
       last_played_note_ = note.first;

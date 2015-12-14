@@ -45,7 +45,7 @@ namespace mopo {
 
       mopo_float magnitudeLookup(mopo_float decibals) const {
         mopo_float t = (decibals - MIN_DB_LOOKUP) / DB_RANGE;
-        mopo_float index = MAGNITUDE_LOOKUP_RESOLUTION * CLAMP(t, 0.0, 1.0);
+        mopo_float index = MAGNITUDE_LOOKUP_RESOLUTION * utils::clamp(t, 0.0, 1.0);
         int int_index = index;
         mopo_float fraction = index - int_index;
 

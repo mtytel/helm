@@ -50,8 +50,12 @@ namespace mopo {
 
       Arpeggiator(NoteHandler* note_handler);
 
-      virtual Processor* clone() const { MOPO_ASSERT(false); return 0; }
-      virtual void process();
+      virtual Processor* clone() const override {
+        MOPO_ASSERT(false);
+        return 0;
+      }
+
+      virtual void process() override;
 
       int getNumNotes() { return pressed_notes_.size(); }
       std::list<mopo_float> getPressedNotes();

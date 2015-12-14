@@ -21,11 +21,24 @@
   #define USE_APPLE_ACCELERATE
 #endif
 
+#include <iostream>
+
 namespace mopo {
 
   void Operator::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+  }
+
+  void Operator::processTriggers() {
+    output()->clearTrigger();
+    for (int i = 0; i < numInputs(); ++i) {
+      if (input(i)->source->triggered) {
+        int offset = input(i)->source->trigger_offset;
+        tick(offset);
+        output()->trigger(output()->buffer[offset], offset);
+      }
+    }
   }
 
   void Clamp::process() {
@@ -34,9 +47,13 @@ namespace mopo {
                 &min_, &max_,
                 output()->buffer, 1, buffer_size_);
 #else
+    mopo_float* dest = output()->buffer;
+    const mopo_float* source = input()->source->buffer;
+
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, source, i);
 #endif
+    processTriggers();
   }
 
   void Negate::process() {
@@ -47,6 +64,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void LinearScale::process() {
@@ -57,6 +75,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void Add::process() {
@@ -65,9 +84,15 @@ namespace mopo {
                input(1)->source->buffer, 1,
                output()->buffer, 1, buffer_size_);
 #else
+    mopo_float* dest = output()->buffer;
+    const mopo_float* source_left = input(0)->source->buffer;
+    const mopo_float* source_right = input(1)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, source_left, source_right, i);
 #endif
+    processTriggers();
   }
 
   void Subtract::process() {
@@ -79,6 +104,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void Multiply::process() {
@@ -87,9 +113,15 @@ namespace mopo {
                input(1)->source->buffer, 1,
                output()->buffer, 1, buffer_size_);
 #else
+    mopo_float* dest = output()->buffer;
+    const mopo_float* source_left = input(0)->source->buffer;
+    const mopo_float* source_right = input(1)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, source_left, source_right, i);
 #endif
+    processTriggers();
   }
 
   void Interpolate::process() {
@@ -103,32 +135,56 @@ namespace mopo {
                output()->buffer, 1,
                output()->buffer, 1, buffer_size_);
 #else
+#define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
+    mopo_float* dest = output()->buffer;
+    const mopo_float* from = input(kFrom)->source->buffer;
+    const mopo_float* to = input(kTo)->source->buffer;
+    const mopo_float* fractional = input(kFractional)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, from, to, fractional, i);
 #endif
+    processTriggers();
   }
 
   void BilinearInterpolate::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+    processTriggers();
   }
 
   void VariableAdd::process() {
-    memset(output()->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    mopo_float* dest = output()->buffer;
 
-    int num_inputs = inputs_->size();
-    for (int i = 0; i < num_inputs; ++i) {
-      if (input(i)->source != &Processor::null_source_) {
+    if (isControlRate()) {
+      dest[0] = 0.0;
+
+      int num_inputs = inputs_->size();
+      for (int i = 0; i < num_inputs; ++i)
+        dest[0] += input(i)->at(0);
+    }
+    else {
+      memset(dest, 0, buffer_size_ * sizeof(mopo_float));
+
+      int num_inputs = inputs_->size();
+      for (int i = 0; i < num_inputs; ++i) {
+        if (input(i)->source != &Processor::null_source_) {
 #ifdef USE_APPLE_ACCELERATE
-        vDSP_vaddD(input(i)->source->buffer, 1,
-                   output()->buffer, 1,
-                   output()->buffer, 1, buffer_size_);
+          vDSP_vaddD(input(i)->source->buffer, 1,
+                     output()->buffer, 1,
+                     output()->buffer, 1, buffer_size_);
 #else
-        for (int s = 0; s < buffer_size_; ++s)
-          output()->buffer[s] += input(i)->at(s);
+          const mopo_float* source = input(i)->source->buffer;
+
+#pragma clang loop vectorize(enable) interleave(enable)
+          for (int s = 0; s < buffer_size_; ++s)
+            dest[s] += source[s];
 #endif
+        }
       }
     }
+    processTriggers();
   }
 
   void FrequencyToPhase::process() {
@@ -140,6 +196,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void FrequencyToSamples::process() {
@@ -151,6 +208,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void TimeToSamples::process() {
@@ -162,6 +220,7 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
 #endif
+    processTriggers();
   }
 
   void SampleAndHoldBuffer::process() {
@@ -169,6 +228,7 @@ namespace mopo {
       return;
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
+    processTriggers();
   }
 
   void LinearSmoothBuffer::process() {
@@ -176,7 +236,8 @@ namespace mopo {
 
     if (input(kTrigger)->source->triggered) {
       int trigger_samples = input(kTrigger)->source->trigger_offset;
-
+      // std::cout << "SMOOTH BUFFER TRIGGERED OFFSET: " << input(kTrigger)->source->trigger_offset << stt::endl;
+      // std::cout << "SMOOTH BUFFER TRIGGERED VALUE: " << input(kTrigger)->source->trigger_value << std::endl << std::endl;
       int i = 0;
       for (; i < trigger_samples; ++i)
         output()->buffer[i] = last_value_;
@@ -199,5 +260,6 @@ namespace mopo {
 
       last_value_ = new_value;
     }
+    processTriggers();
   }
 } // namespace mopo

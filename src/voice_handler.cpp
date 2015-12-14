@@ -75,7 +75,7 @@ namespace mopo {
     global_router_.process();
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
-    setPolyphony(CLAMP(polyphony, 1, polyphony));
+    setPolyphony(utils::iclamp(polyphony, 1, polyphony));
     for (int out = 0; out < numOutputs(); ++out)
       memset(output(out)->buffer, 0, buffer_size_ * sizeof(mopo_float));
 
@@ -147,7 +147,8 @@ namespace mopo {
     Voice* voice = 0;
 
     // First check free voices.
-    if (free_voices_.size() && (!legato_ || active_voices_.size() < polyphony_)) {
+    if (free_voices_.size() &&
+       (!legato_ || pressed_notes_.size() == 0 || active_voices_.size() < polyphony_)) {
       voice = free_voices_.front();
       free_voices_.pop_front();
       return voice;
@@ -219,9 +220,9 @@ namespace mopo {
   }
 
   void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
+    Voice* voice = grabVoice();
     pressed_notes_.push_front(note);
 
-    Voice* voice = grabVoice();
     if (last_played_note_ < 0)
       last_played_note_ = note;
     voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample);
@@ -289,7 +290,7 @@ namespace mopo {
     voice_router_.addProcessor(processor);
   }
 
-  void VoiceHandler::removeProcessor(Processor* processor) {
+  void VoiceHandler::removeProcessor(const Processor* processor) {
     voice_router_.removeProcessor(processor);
   }
 

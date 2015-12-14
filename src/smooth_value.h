@@ -26,18 +26,21 @@ namespace mopo {
     public:
       SmoothValue(mopo_float value = 0.0);
 
-      virtual Processor* clone() const { return new SmoothValue(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new SmoothValue(*this);
+      }
 
-      virtual void setSampleRate(int sample_rate);
+      virtual void process() override;
 
-      void set(mopo_float value) { target_value_ = value; }
+      virtual void setSampleRate(int sample_rate) override;
+
+      void set(mopo_float value) override { target_value_ = value; }
       void setHard(mopo_float value) {
         Value::set(value);
         target_value_ = value;
       }
 
-      mopo_float value() const { return target_value_; }
+      mopo_float value() const override { return target_value_; }
 
     private:
       void tick(int i);

@@ -34,7 +34,9 @@ namespace mopo {
 
       FormantManager(int num_formants = 4);
 
-      virtual Processor* clone() const { return new FormantManager(*this); }
+      virtual Processor* clone() const override {
+        return new FormantManager(*this);
+      }
 
       Filter* getFormant(int index = 0) { return formants_[index]; }
       int num_formants() { return formants_.size(); }

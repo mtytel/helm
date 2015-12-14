@@ -15,8 +15,9 @@
  */
 
 #include "step_generator.h"
+#include "utils.h"
 
-#include <cmath>  
+#include <cmath>
 
 namespace mopo {
 
@@ -25,9 +26,9 @@ namespace mopo {
       offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
-    static double integral;
+    static mopo_float integral;
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
-    num_steps = CLAMP(num_steps, 1, max_steps_);
+    num_steps = utils::iclamp(num_steps, 1, max_steps_);
 
     int i = 0;
     if (input(kReset)->source->triggered) {
@@ -37,24 +38,23 @@ namespace mopo {
     }
 
     offset_ += buffer_size_ * input(kFrequency)->at(0) / sample_rate_;
-    offset_ = modf(offset_, &integral);
+    offset_ = utils::mod(offset_, &integral);
     current_step_ += integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
 
-    for (i = 0; i < buffer_size_; ++i)
-      output(kValue)->buffer[i] = input(kSteps + current_step_)->at(i);
-
+    int size = buffer_size_ * sizeof(mopo_float);
+    memcpy(output(kValue)->buffer, input(kSteps + current_step_)->source->buffer, size);
     output(kStep)->buffer[0] = current_step_;
   }
 
   void StepGenerator::correctToTime(mopo_float samples) {
-    static double integral;
+    static mopo_float integral;
 
     unsigned int num_steps = static_cast<int>(input(kNumSteps)->at(0));
-    num_steps = CLAMP(num_steps, 1, max_steps_);
+    num_steps = utils::iclamp(num_steps, 1, max_steps_);
 
     offset_ = samples * input(kFrequency)->at(0) / sample_rate_;
-    offset_ = modf(offset_, &integral);
+    offset_ = utils::mod(offset_, &integral);
     current_step_ = integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
   }

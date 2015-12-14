@@ -38,21 +38,26 @@ namespace mopo {
       ReverbComb(const ReverbComb& other);
       virtual ~ReverbComb() { }
 
-      virtual Processor* clone() const { return new ReverbComb(*this); }
-      virtual void process();
+      virtual Processor* clone() const override {
+        return new ReverbComb(*this);
+      }
 
-      void tick(int i) {
-        mopo_float audio = input(kAudio)->at(i);
-        mopo_float period = input(kSampleDelay)->at(i);
-        mopo_float feedback = input(kFeedback)->at(i);
-        mopo_float damping = input(kDamping)->at(i);
+      virtual void process() override;
 
-        mopo_float read = memory_->get(period);
+      void tick(int i, mopo_float* dest, int period,
+                const mopo_float* audio_buffer,
+                const mopo_float* feedback_buffer,
+                const mopo_float* damping_buffer) {
+        mopo_float audio = audio_buffer[i];
+        mopo_float feedback = feedback_buffer[i];
+        mopo_float damping = damping_buffer[i];
+
+        mopo_float read = memory_->getIndex(period);
         filtered_sample_ = INTERPOLATE(read, filtered_sample_, damping);
 
         mopo_float value = audio + filtered_sample_ * feedback;
         memory_->push(value);
-        output(0)->buffer[i] = read;
+        dest[i] = read;
       }
 
     protected:

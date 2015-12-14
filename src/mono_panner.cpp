@@ -33,10 +33,10 @@ namespace mopo {
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float audio = input(kAudio)->at(i);
       mopo_float pan = input(kPan)->at(i);
-      mopo_float left_gain = Wave::fullsin(modf(pan + LEFT_ROTATION,
-                                                &integral));
-      mopo_float right_gain = Wave::fullsin(modf(pan + RIGHT_ROTATION,
-                                                 &integral));
+      mopo_float left_gain = Wave::fullsin(utils::mod(pan + LEFT_ROTATION,
+                                                      &integral));
+      mopo_float right_gain = Wave::fullsin(utils::mod(pan + RIGHT_ROTATION,
+                                                       &integral));
 
       output(kLeft)->buffer[i] = audio * left_gain;
       output(kRight)->buffer[i] = audio * right_gain;

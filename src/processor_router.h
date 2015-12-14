@@ -32,10 +32,13 @@ namespace mopo {
       ProcessorRouter(int num_inputs = 0, int num_outputs = 0);
       ProcessorRouter(const ProcessorRouter& original);
 
-      virtual Processor* clone() const { return new ProcessorRouter(*this); }
-      virtual void process();
-      virtual void setSampleRate(int sample_rate);
-      virtual void setBufferSize(int buffer_size);
+      virtual Processor* clone() const override {
+        return new ProcessorRouter(*this);
+      }
+
+      virtual void process() override;
+      virtual void setSampleRate(int sample_rate) override;
+      virtual void setBufferSize(int buffer_size) override;
 
       virtual void addProcessor(Processor* processor);
       virtual void removeProcessor(const Processor* processor);

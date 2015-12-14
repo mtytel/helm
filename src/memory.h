@@ -42,9 +42,8 @@ namespace mopo {
       }
 
       mopo_float get(mopo_float past) const {
-        mopo_float float_index;
-        mopo_float sample_fraction = modf(past, &float_index);
-        int index = std::max<int>(float_index, 1);
+        int index = std::max<int>(past, 1);
+        mopo_float sample_fraction = past - index;
 
         // TODO(mtytel): Quadratic or all-pass interpolation is better.
         mopo_float from = getIndex(index - 1);

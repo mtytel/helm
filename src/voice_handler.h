@@ -123,10 +123,14 @@ namespace mopo {
 
       VoiceHandler(size_t polyphony = 1);
 
-      virtual Processor* clone() const { MOPO_ASSERT(false); return 0; }
-      virtual void process();
-      virtual void setSampleRate(int sample_rate);
-      virtual void setBufferSize(int buffer_size);
+      virtual Processor* clone() const override {
+        MOPO_ASSERT(false);
+        return 0;
+      }
+
+      virtual void process() override;
+      virtual void setSampleRate(int sample_rate) override;
+      virtual void setBufferSize(int buffer_size) override;
       int getNumActiveVoices();
       std::list<mopo_float> getPressedNotes() { return pressed_notes_; }
       bool isNotePlaying(mopo_float note);
@@ -150,12 +154,12 @@ namespace mopo {
       virtual ProcessorRouter* getMonoRouter() override { return &global_router_; }
       virtual ProcessorRouter* getPolyRouter() override { return &voice_router_; }
 
-      void addProcessor(Processor* processor);
-      void removeProcessor(Processor* processor);
+      void addProcessor(Processor* processor) override;
+      void removeProcessor(const Processor* processor) override;
       void addGlobalProcessor(Processor* processor);
       void removeGlobalProcessor(Processor* processor);
-      void registerOutput(Output* output);
-      void registerOutput(Output* output, int index);
+      void registerOutput(Output* output) override;
+      void registerOutput(Output* output, int index) override;
 
       void setPolyphony(size_t polyphony);
 
@@ -171,7 +175,7 @@ namespace mopo {
         setVoiceKiller(killer->output());
       }
 
-      bool isPolyphonic(const Processor* processor) const;
+      bool isPolyphonic(const Processor* processor) const override;
 
     private:
       VoiceHandler() { }

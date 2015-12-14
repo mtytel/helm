@@ -20,6 +20,7 @@
 
 #include "memory.h"
 #include "processor.h"
+#include "utils.h"
 
 namespace mopo {
 
@@ -40,8 +41,8 @@ namespace mopo {
       Stutter(const Stutter& other);
       virtual ~Stutter();
 
-      virtual Processor* clone() const { return new Stutter(*this); }
-      virtual void process();
+      virtual Processor* clone() const override { return new Stutter(*this); }
+      virtual void process() override;
 
       void tick(int i, mopo_float sample_period, mopo_float stutter_period) {
         offset_ -= 1.0;
@@ -72,7 +73,7 @@ namespace mopo {
           mopo_float amp = std::pow(0.5 - 0.5 * cos(phase1), softness);
           if (resample_offset_ < offset_) {
             mopo_float phase2 = 2.0 * PI * resample_offset_ / stutter_period;
-            amp = std::min(amp, std::pow(0.5 - 0.5 * cos(phase2), softness));
+            amp = utils::min(amp, std::pow(0.5 - 0.5 * cos(phase2), softness));
           }
           output(0)->buffer[i] = amp * memory_->get(offset_);
         }

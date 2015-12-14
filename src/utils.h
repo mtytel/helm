@@ -21,6 +21,7 @@
 #include "common.h"
 #include "value.h"
 #include <cmath>
+#include <emmintrin.h>
 
 namespace mopo {
 
@@ -45,6 +46,54 @@ namespace mopo {
     const Value value_pi(PI);
     const Value value_2pi(2.0 * PI);
     const Value value_neg_one(-1.0);
+
+#ifdef MOPO_DOUBLE
+    inline mopo_float min(mopo_float one, mopo_float two) {
+      _mm_store_sd(&one, _mm_min_sd(_mm_set_sd(one),_mm_set_sd(two)));
+      return one;
+    }
+
+    inline mopo_float max(mopo_float one, mopo_float two) {
+        _mm_store_sd(&one, _mm_max_sd(_mm_set_sd(one),_mm_set_sd(two)));
+        return one;
+    }
+
+    inline mopo_float clamp(mopo_float value, mopo_float min, mopo_float max) {
+        _mm_store_sd(&value, _mm_min_sd(_mm_max_sd(_mm_set_sd(value),
+                                                   _mm_set_sd(min)),
+                                                   _mm_set_sd(max)));
+        return value;
+    }
+
+    inline mopo_float mod(mopo_float value, mopo_float* integral) {
+      return modf(value, integral);
+    }
+#else
+    inline mopo_float min(mopo_float one, mopo_float two) {
+      _mm_store_ss(&one, _mm_min_ss(_mm_set_ss(one),_mm_set_ss(two)));
+      return one;
+    }
+
+    inline mopo_float max(mopo_float one, mopo_float two) {
+        _mm_store_ss(&one, _mm_max_ss(_mm_set_ss(one),_mm_set_ss(two)));
+        return one;
+    }
+
+    inline mopo_float clamp(mopo_float value, mopo_float min, mopo_float max) {
+        _mm_store_ss(&value, _mm_min_ss(_mm_max_ss(_mm_set_ss(value),
+                                                   _mm_set_ss(min)),
+                                                   _mm_set_ss(max)));
+        return value;
+    }
+
+    inline mopo_float mod(mopo_float value, mopo_float* integral) {
+      return utils::mod(value, integral);
+    }
+#endif
+
+    inline mopo_float iclamp(int value, int min, int max) {
+        return value > max ? max : (value < min ? min : value);
+    }
 
     inline bool closeToZero(mopo_float value) {
       return value <= EPSILON && value >= -EPSILON;
