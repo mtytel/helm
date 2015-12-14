@@ -23,6 +23,7 @@
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MAX_MEMORY_SAMPLES 1000000
+#define MAX_BUFFER_PROCESS 256
 
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
@@ -117,7 +118,7 @@ void HelmPlugin::changeProgramName(int index, const String& new_name) {
 
 void HelmPlugin::prepareToPlay(double sample_rate, int buffer_size) {
   synth_.setSampleRate(sample_rate);
-  synth_.setBufferSize(std::min<int>(buffer_size, mopo::MAX_BUFFER_SIZE));
+  synth_.setBufferSize(std::min<int>(buffer_size, MAX_BUFFER_PROCESS));
 }
 
 void HelmPlugin::releaseResources() {
@@ -154,22 +155,22 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
     synth_.correctToTime(position_info.timeInSamples);
 
   for (int sample_offset = 0; sample_offset < total_samples;) {
-    int num_samples = std::min<int>(total_samples - sample_offset, mopo::MAX_BUFFER_SIZE);
+    int num_samples = std::min<int>(total_samples - sample_offset, MAX_BUFFER_PROCESS);
 
     processMidi(midi_messages, sample_offset, sample_offset + num_samples);
 
-    if (synth_.getBufferSize() != num_samples)
+    if (synth_.getBufferSize())
       synth_.setBufferSize(num_samples);
     synth_.process();
 
     const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
     const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
     for (int channel = 0; channel < num_channels; ++channel) {
-      float* channelData = buffer.getWritePointer(channel);
+      float* channelData = buffer.getWritePointer(channel, sample_offset);
       const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
 
       for (int i = 0; i < num_samples; ++i)
-        channelData[sample_offset + i] = synth_output[i];
+        channelData[i] = synth_output[i];
     }
 
     for (int i = 0; i < num_samples; ++i)

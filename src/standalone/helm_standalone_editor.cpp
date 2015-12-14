@@ -25,6 +25,7 @@
 #define WIDTH 992
 #define HEIGHT 734
 #define MAX_OUTPUT_MEMORY 1048576
+#define MAX_BUFFER_PROCESS 256
 
 HelmStandaloneEditor::HelmStandaloneEditor() {
   setSynth(&synth_);
@@ -88,34 +89,37 @@ HelmStandaloneEditor::~HelmStandaloneEditor() {
 
 void HelmStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
   synth_.setSampleRate(sample_rate);
-  synth_.setBufferSize(std::min(buffer_size, mopo::MAX_BUFFER_SIZE));
+  synth_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));
 }
 
 void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffer) {
   ScopedLock lock(critical_section_);
   int num_samples = buffer.buffer->getNumSamples();
-  int synth_samples = std::min(num_samples, mopo::MAX_BUFFER_SIZE);
-
-  MOPO_ASSERT(num_samples % synth_samples == 0);
+  int synth_samples = std::min(num_samples, MAX_BUFFER_PROCESS);
 
   for (int b = 0; b < num_samples; b += synth_samples) {
+    int current_samples = std::min<int>(synth_samples, num_samples - b);
+
+    if (current_samples != synth_.getBufferSize())
+      synth_.setBufferSize(current_samples);
+
     synth_.process();
 
     const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
     const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
     for (int channel = 0; channel < mopo::NUM_CHANNELS; ++channel) {
-      float* channelData = buffer.buffer->getWritePointer(channel) + b;
+      float* channel_data = buffer.buffer->getWritePointer(channel, b);
       const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
 
       #pragma clang loop vectorize(enable) interleave(enable)
-      for (int i = 0; i < synth_samples; ++i)
-        channelData[i] = synth_output[i];
+      for (int i = 0; i < current_samples; ++i)
+        channel_data[i] = synth_output[i];
     }
 
     int output_inc = synth_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
-    for (; memory_offset_ < synth_samples; memory_offset_ += output_inc)
+    for (; memory_offset_ < current_samples; memory_offset_ += output_inc)
       output_memory_->push(synth_output_left[memory_offset_] + synth_output_right[memory_offset_]);
-    memory_offset_ -= synth_samples;
+    memory_offset_ -= current_samples;
   }
 }
 
