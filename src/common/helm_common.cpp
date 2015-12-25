@@ -163,7 +163,7 @@ namespace mopo {
       ValueDetails::kLinear, "", "Poly LFO Tempo" },
     { "poly_lfo_waveform", 0.0, 12.0, 13, 0.0, 1.0,
       ValueDetails::kLinear, "", "Poly LFO Waveform" },
-    { "polyphony", 1.0, 32.0, 32, 1.0, 1.0,
+    { "polyphony", 1.0, 32.0, 32, 4.0, 1.0,
       ValueDetails::kLinear, "voices", "Polyphony" },
     { "portamento", -9.0, -1.0, 0, -9.0, 12.0,
       ValueDetails::kExponential, "s/oct", "Portamento" },

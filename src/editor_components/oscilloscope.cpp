@@ -24,7 +24,7 @@
 
 Oscilloscope::Oscilloscope() {
   output_memory_ = nullptr;
-  // setFramesPerSecond(FRAMES_PER_SECOND);
+  setFramesPerSecond(FRAMES_PER_SECOND);
 }
 
 Oscilloscope::~Oscilloscope() { }
