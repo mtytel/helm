@@ -458,7 +458,7 @@
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        linuxArchitecture=""/>
-        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="5"
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="3"
                        targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        linuxArchitecture="" defines=""/>
       </CONFIGURATIONS>
