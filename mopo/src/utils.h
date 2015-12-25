@@ -78,7 +78,7 @@ namespace mopo {
     }
 
     inline mopo_float clamp(mopo_float value, mopo_float min, mopo_float max) {
-      return std::min(min, std::max(value, max));
+      return std::min(max, std::max(value, min));
     }
 #endif
 
