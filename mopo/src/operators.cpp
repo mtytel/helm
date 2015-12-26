@@ -236,8 +236,6 @@ namespace mopo {
 
     if (input(kTrigger)->source->triggered) {
       int trigger_samples = input(kTrigger)->source->trigger_offset;
-      // std::cout << "SMOOTH BUFFER TRIGGERED OFFSET: " << input(kTrigger)->source->trigger_offset << stt::endl;
-      // std::cout << "SMOOTH BUFFER TRIGGERED VALUE: " << input(kTrigger)->source->trigger_value << std::endl << std::endl;
       int i = 0;
       for (; i < trigger_samples; ++i)
         output()->buffer[i] = last_value_;
@@ -247,13 +245,16 @@ namespace mopo {
       for (; i < buffer_size_; ++i)
         output()->buffer[i] = last_value_;
     }
-    else if (new_value == output()->buffer[0] && new_value == output()->buffer[buffer_size_ - 1])
+    else if (last_value_ == new_value &&
+             new_value == output()->buffer[0] &&
+             new_value == output()->buffer[buffer_size_ - 1] &&
+             (buffer_size_ <= 1 || new_value == output()->buffer[buffer_size_ - 2])) {
       return;
+    }
     else {
       mopo_float inc = (new_value - last_value_) / buffer_size_;
 
-      int i = 0;
-      for (; i < buffer_size_; ++i) {
+      for (int i = 0; i < buffer_size_; ++i) {
         last_value_ += inc;
         output()->buffer[i] = last_value_;
       }
