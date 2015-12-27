@@ -84,7 +84,7 @@ class ValueBridge : public AudioProcessorParameter {
     float convertToSynthValue(mopo::mopo_float plugin_value) const {
       mopo::mopo_float raw_value = span_ * plugin_value + details_.min;
       if (details_.steps)
-        return round(raw_value);
+        return floor(raw_value + 0.5);
       return raw_value;
     }
 
