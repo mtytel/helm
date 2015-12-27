@@ -112,7 +112,7 @@
       <HeaderFileName/>
     </Midl>
     <ClCompile>
-      <Optimization>MinSpace</Optimization>
+      <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\vstsdk2.4;c:\srcs\VST3 SDK;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;JucePlugin_AAXLibs_path=&quot;c:\\srcs\\AAX\\Libs&quot;;WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.6.0;JUCE_APP_VERSION_HEX=0x600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -121,7 +121,7 @@
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)\</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)\</ProgramDataBaseFileName>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -158,7 +158,7 @@
       <HeaderFileName/>
     </Midl>
     <ClCompile>
-      <Optimization>MinSpace</Optimization>
+      <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\vstsdk2.4;c:\srcs\VST3 SDK;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;JucePlugin_AAXLibs_path=&quot;c:\\srcs\\AAX\\Libs&quot;;WIN32;_WINDOWS;NDEBUG;JUCER_VS2012_B927B5A8=1;JUCE_APP_VERSION=0.6.0;JUCE_APP_VERSION_HEX=0x600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -167,7 +167,7 @@
       <AssemblerListingLocation>$(IntDir)\</AssemblerListingLocation>
       <ObjectFileName>$(IntDir)\</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)\</ProgramDataBaseFileName>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
