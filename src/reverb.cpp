@@ -39,7 +39,13 @@ namespace mopo {
     gained_input->plug(audio_input, 0);
     gained_input->plug(gain, 1);
 
-    VariableAdd* left_comb_total = new VariableAdd();
+    addProcessor(audio_input);
+    addProcessor(gained_input);
+    addProcessor(feedback_input);
+    addProcessor(wet_input);
+    addProcessor(damping_input);
+
+    VariableAdd* left_comb_total = new VariableAdd(NUM_COMB);
     for (int i = 0; i < NUM_COMB; ++i) {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
       Value* time = new Value(COMB_TUNINGS[i]);
@@ -47,16 +53,16 @@ namespace mopo {
       samples->setControlRate();
       samples->plug(time);
 
-      comb->plug(damping_input, ReverbComb::kDamping);
-      comb->plug(feedback_input, ReverbComb::kFeedback);
       comb->plug(gained_input, ReverbComb::kAudio);
       comb->plug(samples, ReverbComb::kSampleDelay);
+      comb->plug(feedback_input, ReverbComb::kFeedback);
+      comb->plug(damping_input, ReverbComb::kDamping);
+      left_comb_total->plugNext(comb);
       addProcessor(samples);
       addProcessor(comb);
-      left_comb_total->plugNext(comb);
     }
 
-    VariableAdd* right_comb_total = new VariableAdd();
+    VariableAdd* right_comb_total = new VariableAdd(NUM_COMB);
     for (int i = 0; i < NUM_COMB; ++i) {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
       Value* time = new Value(COMB_TUNINGS[i] + STEREO_SPREAD);
@@ -64,20 +70,15 @@ namespace mopo {
       samples->setControlRate();
       samples->plug(time);
 
-      comb->plug(damping_input, ReverbComb::kDamping);
-      comb->plug(feedback_input, ReverbComb::kFeedback);
       comb->plug(gained_input, ReverbComb::kAudio);
       comb->plug(samples, ReverbComb::kSampleDelay);
+      comb->plug(feedback_input, ReverbComb::kFeedback);
+      comb->plug(damping_input, ReverbComb::kDamping);
+      right_comb_total->plugNext(comb);
       addProcessor(samples);
       addProcessor(comb);
-      right_comb_total->plugNext(comb);
     }
 
-    addProcessor(audio_input);
-    addProcessor(gained_input);
-    addProcessor(feedback_input);
-    addProcessor(wet_input);
-    addProcessor(damping_input);
     addProcessor(left_comb_total);
     addProcessor(right_comb_total);
 
