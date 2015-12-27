@@ -46,7 +46,10 @@ HelmPlugin::HelmPlugin() {
   }
 }
 
-HelmPlugin::~HelmPlugin() { }
+HelmPlugin::~HelmPlugin() {
+  midi_manager_ = nullptr;
+  keyboard_state_ = nullptr;
+}
 
 const String HelmPlugin::getName() const {
   return JucePlugin_Name;
