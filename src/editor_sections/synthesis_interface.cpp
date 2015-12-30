@@ -181,6 +181,7 @@ void SynthesisInterface::resized() {
                        dynamic_section_->getX() - voice_section_->getRight() - 2 * CELL_PADDING,
                        54.0f);
   keyboard_->setWantsKeyboardFocus(false);
+  keyboard_->setMouseClickGrabsKeyboardFocus(false);
 
   SynthSection::resized();
 }
