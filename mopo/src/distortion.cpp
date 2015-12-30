@@ -21,7 +21,6 @@ namespace mopo {
 
   void Distortion::processTanh() {
     mopo_float threshold = input(kThreshold)->at(0);
-    mopo_float compression_size = 1.0 - threshold;
     mopo_float compression_scale = 1.0 / threshold;
 
     const mopo_float* audio = input(kAudio)->source->buffer;
