@@ -33,6 +33,7 @@ namespace mopo {
     mopo_float last_note;
     mopo_float velocity;
     int note_pressed;
+    int channel;
   };
 
   class Voice {
@@ -56,13 +57,14 @@ namespace mopo {
 
       void activate(mopo_float note, mopo_float velocity,
                     mopo_float last_note, int note_pressed = 0,
-                    int sample = 0) {
+                    int sample = 0, int channel = 0) {
         event_sample_ = sample;
         state_.event = kVoiceOn;
         state_.note = note;
         state_.velocity = velocity;
         state_.last_note = last_note;
         state_.note_pressed = note_pressed;
+        state_.channel = channel;
         aftertouch_ = velocity;
         aftertouch_sample_ = sample;
         key_state_ = kHeld;
@@ -147,6 +149,7 @@ namespace mopo {
       Output* note() { return &note_; }
       Output* last_note() { return &last_note_; }
       Output* note_pressed() { return &note_pressed_; }
+      Output* channel() { return &channel_; }
       Output* velocity() { return &velocity_; }
       Output* aftertouch() { return &aftertouch_; }
       size_t polyphony() { return polyphony_; }
@@ -196,6 +199,7 @@ namespace mopo {
       Output note_;
       Output last_note_;
       Output note_pressed_;
+      Output channel_;
       Output velocity_;
       Output aftertouch_;
 
