@@ -352,7 +352,7 @@ namespace mopo {
     arpeggiator_->allNotesOff(sample);
   }
 
-  void HelmEngine::noteOn(mopo_float note, mopo_float velocity, int sample) {
+  void HelmEngine::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
     if (arp_on_->value())
       arpeggiator_->noteOn(note, velocity, sample);
     else
@@ -365,11 +365,11 @@ namespace mopo {
     return voice_handler_->noteOff(note, sample);
   }
 
-  void HelmEngine::setModWheel(mopo_float value) {
+  void HelmEngine::setModWheel(mopo_float value, int channel) {
     voice_handler_->setModWheel(value);
   }
 
-  void HelmEngine::setPitchWheel(mopo_float value) {
+  void HelmEngine::setPitchWheel(mopo_float value, int channel) {
     voice_handler_->setPitchWheel(value);
   }
 
