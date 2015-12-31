@@ -158,7 +158,7 @@ namespace mopo {
     note_handler_->allNotesOff();
   }
 
-  void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample) {
+  void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
     if (active_notes_.count(note))
       return;
     if (pressed_notes_.size() == 0) {
