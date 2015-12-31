@@ -252,6 +252,7 @@
 		1C63A3E71DFFFEA0A240FEE3 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_StringArray.h"; path = "../../../JUCE/modules/juce_core/text/juce_StringArray.h"; sourceTree = "SOURCE_ROOT"; };
 		1CBAD68DB90075D0EA53D248 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_win32_HiddenMessageWindow.h"; path = "../../../JUCE/modules/juce_events/native/juce_win32_HiddenMessageWindow.h"; sourceTree = "SOURCE_ROOT"; };
 		1CC329DCEB3CEEAEB33F29CD = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_MathsFunctions.h"; path = "../../../JUCE/modules/juce_core/maths/juce_MathsFunctions.h"; sourceTree = "SOURCE_ROOT"; };
+		1D206B4F9313CE23F35B64DD = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "note_handler.h"; path = "../../../mopo/src/note_handler.h"; sourceTree = "SOURCE_ROOT"; };
 		1D55C8BF7B527B0CECA8CC45 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_Socket.h"; path = "../../../JUCE/modules/juce_core/network/juce_Socket.h"; sourceTree = "SOURCE_ROOT"; };
 		1D5F0C826FBD1169894FA0B1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_ListenerList.h"; path = "../../../JUCE/modules/juce_events/broadcasters/juce_ListenerList.h"; sourceTree = "SOURCE_ROOT"; };
 		1D7A10FDFE688E0282E5CCB8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_StringPairArray.h"; path = "../../../JUCE/modules/juce_core/text/juce_StringPairArray.h"; sourceTree = "SOURCE_ROOT"; };
@@ -1311,6 +1312,7 @@
 					4A58692D0A2A9DDFC19EAF86,
 					91E536D6187F0F0E7942F41F,
 					DF969605DF18BC34CA02B21C,
+					1D206B4F9313CE23F35B64DD,
 					DAD4F59630FDB1AD478F03F6,
 					5BB7CA7B06F55DDCAF65CB65,
 					093E3EFD9749F5FD14E338CC,
@@ -2625,7 +2627,7 @@
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
 				DEAD_CODE_STRIPPING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",

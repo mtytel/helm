@@ -1980,6 +1980,9 @@
     <ClInclude Include="..\..\mopo\src\mopo.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\mopo\src\note_handler.h">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\mopo\src\operators.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>

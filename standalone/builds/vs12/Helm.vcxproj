@@ -1429,6 +1429,7 @@
     <ClInclude Include="..\..\..\mopo\src\midi_lookup.h"/>
     <ClInclude Include="..\..\..\mopo\src\mono_panner.h"/>
     <ClInclude Include="..\..\..\mopo\src\mopo.h"/>
+    <ClInclude Include="..\..\..\mopo\src\note_handler.h"/>
     <ClInclude Include="..\..\..\mopo\src\operators.h"/>
     <ClInclude Include="..\..\..\mopo\src\oscillator.h"/>
     <ClInclude Include="..\..\..\mopo\src\phaser.h"/>

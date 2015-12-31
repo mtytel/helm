@@ -94,6 +94,7 @@
         <FILE id="aP2Jej" name="mono_panner.cpp" compile="1" resource="0" file="../mopo/src/mono_panner.cpp"/>
         <FILE id="KAVWSa" name="mono_panner.h" compile="0" resource="0" file="../mopo/src/mono_panner.h"/>
         <FILE id="V215fq" name="mopo.h" compile="0" resource="0" file="../mopo/src/mopo.h"/>
+        <FILE id="sws41R" name="note_handler.h" compile="0" resource="0" file="../mopo/src/note_handler.h"/>
         <FILE id="dpDpv5" name="operators.cpp" compile="1" resource="0" file="../mopo/src/operators.cpp"/>
         <FILE id="EYwhsr" name="operators.h" compile="0" resource="0" file="../mopo/src/operators.h"/>
         <FILE id="FKKptw" name="oscillator.cpp" compile="1" resource="0" file="../mopo/src/oscillator.cpp"/>
@@ -407,7 +408,7 @@
                        isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
                        codeSigningIdentity="" fastMath="0"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="64BitUniversal"
-                       isDebug="0" optimisation="2" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
                        codeSigningIdentity=""/>
       </CONFIGURATIONS>
       <MODULEPATHS>
