@@ -37,6 +37,7 @@ namespace mopo {
   class StepGenerator;
   class TriggerCombiner;
   class HelmOscillators;
+  class Switch;
 
   // The voice handler duplicates processors to produce polyphony.
   // Everything in the synthesizer we want per-voice instances of must be
@@ -52,8 +53,8 @@ namespace mopo {
       void noteOn(mopo_float note, mopo_float velocity = 1,
                   int sample = 0, int channel = 0) override;
       VoiceEvent noteOff(mopo_float note, int sample = 0) override;
-      void setModWheel(mopo_float value);
-      void setPitchWheel(mopo_float value);
+      void setModWheel(mopo_float value, int channel = 0);
+      void setPitchWheel(mopo_float value, int channel = 0);
       Output* note_retrigger() { return &note_retriggered_; }
 
     private:
@@ -73,8 +74,9 @@ namespace mopo {
       Processor* beats_per_second_;
 
       Add* note_from_center_;
-      SmoothValue* mod_wheel_amount_;
-      SmoothValue* pitch_wheel_amount_;
+      Switch* choose_pitch_wheel_;
+      Value* mod_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
+      Value* pitch_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
       PortamentoSlope* current_frequency_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;

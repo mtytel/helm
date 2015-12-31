@@ -21,6 +21,7 @@
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
 #include "helm_oscillators.h"
+#include "switch.h"
 
 #include <sstream>
 
@@ -107,14 +108,33 @@ namespace mopo {
   }
 
   void HelmVoiceHandler::init() {
-    // Create modulation and pitch wheels.
-    mod_wheel_amount_ = new SmoothValue(0);
-    mod_wheel_amount_->setControlRate();
-    pitch_wheel_amount_ = new SmoothValue(0);
-    pitch_wheel_amount_->setControlRate();
+    // Create modulation and pitch wheels per channel.
+    choose_pitch_wheel_ = new Switch();
+    choose_pitch_wheel_->setControlRate();
+    choose_pitch_wheel_->plug(channel(), Switch::kSource);
 
-    mod_sources_["pitch_wheel"] = pitch_wheel_amount_->output();
-    mod_sources_["mod_wheel"] = mod_wheel_amount_->output();
+    Switch* choose_mod_wheel = new Switch();
+    choose_mod_wheel->setControlRate();
+    choose_mod_wheel->plug(channel(), Switch::kSource);
+
+    for (int i = 0; i < mopo::NUM_MIDI_CHANNELS; ++i) {
+      pitch_wheel_amounts_[i] = new Value(0);
+      pitch_wheel_amounts_[i]->setControlRate();
+      choose_pitch_wheel_->plugNext(pitch_wheel_amounts_[i]);
+
+      mod_wheel_amounts_[i] = new Value(0);
+      mod_wheel_amounts_[i]->setControlRate();
+      choose_mod_wheel->plugNext(mod_wheel_amounts_[i]);
+
+      addGlobalProcessor(pitch_wheel_amounts_[i]);
+      addGlobalProcessor(mod_wheel_amounts_[i]);
+    }
+
+    addProcessor(choose_pitch_wheel_);
+    addProcessor(choose_mod_wheel);
+
+    mod_sources_["pitch_wheel"] = choose_pitch_wheel_->output();
+    mod_sources_["mod_wheel"] = choose_mod_wheel->output();
 
     // Create all synthesizer voice components.
     createArticulation(note(), last_note(), velocity(), voice_event());
@@ -135,8 +155,6 @@ namespace mopo {
     output_->plug(amplitude_, 1);
 
     addProcessor(output_);
-    addGlobalProcessor(pitch_wheel_amount_);
-    addGlobalProcessor(mod_wheel_amount_);
 
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
 
@@ -148,7 +166,7 @@ namespace mopo {
     Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", true);
     Multiply* pitch_bend = new Multiply();
     pitch_bend->setControlRate();
-    pitch_bend->plug(pitch_wheel_amount_, 0);
+    pitch_bend->plug(choose_pitch_wheel_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
     Add* bent_midi = new Add();
     bent_midi->setControlRate();
@@ -732,7 +750,7 @@ namespace mopo {
   void HelmVoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
     if (getPressedNotes().size() < polyphony() || legato_->value() == 0.0)
       note_retriggered_.trigger(note, sample);
-    VoiceHandler::noteOn(note, velocity, sample);
+    VoiceHandler::noteOn(note, velocity, sample, channel);
   }
 
   VoiceEvent HelmVoiceHandler::noteOff(mopo_float note, int sample) {
@@ -743,11 +761,11 @@ namespace mopo {
     return VoiceHandler::noteOff(note, sample);
   }
 
-  void HelmVoiceHandler::setModWheel(mopo_float value) {
-    mod_wheel_amount_->set(value);
+  void HelmVoiceHandler::setModWheel(mopo_float value, int channel) {
+    mod_wheel_amounts_[channel]->set(value);
   }
 
-  void HelmVoiceHandler::setPitchWheel(mopo_float value) {
-    pitch_wheel_amount_->set(value);
+  void HelmVoiceHandler::setPitchWheel(mopo_float value, int channel) {
+    pitch_wheel_amounts_[channel]->set(value);
   }
 } // namespace mopo

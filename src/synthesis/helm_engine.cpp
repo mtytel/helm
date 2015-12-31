@@ -356,7 +356,7 @@ namespace mopo {
     if (arp_on_->value())
       arpeggiator_->noteOn(note, velocity, sample);
     else
-      voice_handler_->noteOn(note, velocity, sample);
+      voice_handler_->noteOn(note, velocity, sample, channel);
   }
 
   VoiceEvent HelmEngine::noteOff(mopo_float note, int sample) {
