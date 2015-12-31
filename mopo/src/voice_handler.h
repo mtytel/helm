@@ -137,7 +137,7 @@ namespace mopo {
 
       void allNotesOff(int sample = 0) override;
       virtual void noteOn(mopo_float note, mopo_float velocity = 1,
-                          int sample = 0) override;
+                          int sample = 0, int channel = 0) override;
       virtual VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
       void sustainOn();

@@ -219,7 +219,7 @@ namespace mopo {
     return 0;
   }
 
-  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
+  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
     Voice* voice = grabVoice();
     pressed_notes_.push_front(note);
 
