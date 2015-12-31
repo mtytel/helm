@@ -27,6 +27,7 @@ namespace mopo {
     state_.velocity = 0;
     state_.last_note = 0;
     state_.note_pressed = 0;
+    state_.channel = 0;
     key_state_ = kReleased;
   }
 
@@ -42,6 +43,7 @@ namespace mopo {
     note_.clearTrigger();
     last_note_.clearTrigger();
     note_pressed_.clearTrigger();
+    channel_.clearTrigger();
     velocity_.clearTrigger();
     voice_event_.clearTrigger();
     aftertouch_.clearTrigger();
@@ -53,6 +55,7 @@ namespace mopo {
         last_note_.trigger(voice->state().last_note, 0);
         velocity_.trigger(voice->state().velocity, 0);
         note_pressed_.trigger(voice->state().note_pressed, 0);
+        channel_.trigger(voice->state().channel, 0);
       }
     }
 
@@ -220,6 +223,9 @@ namespace mopo {
   }
 
   void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
+    MOPO_ASSERT(sample >= 0 && sample < buffer_size_);
+    MOPO_ASSERT(channel >= 0 && channel < NUM_MIDI_CHANNELS);
+
     Voice* voice = grabVoice();
     pressed_notes_.push_front(note);
 

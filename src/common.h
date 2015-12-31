@@ -41,6 +41,7 @@ namespace mopo {
   const int MIDI_SIZE = 128;
   const int PPQ = 960; // Pulses per quarter note.
   const mopo_float VOICE_KILL_TIME = 0.02;
+  const int NUM_MIDI_CHANNELS = 16;
 
   // Common types of events across different Processors.
   enum VoiceEvent {
