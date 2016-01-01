@@ -366,11 +366,11 @@ namespace mopo {
   }
 
   void HelmEngine::setModWheel(mopo_float value, int channel) {
-    voice_handler_->setModWheel(value);
+    voice_handler_->setModWheel(value, channel);
   }
 
   void HelmEngine::setPitchWheel(mopo_float value, int channel) {
-    voice_handler_->setPitchWheel(value);
+    voice_handler_->setPitchWheel(value, channel);
   }
 
   void HelmEngine::setAftertouch(mopo_float note, mopo_float value, int sample) {

@@ -39,7 +39,7 @@ MidiManager::~MidiManager() {
 void MidiManager::handleNoteOn(MidiKeyboardState* source,
                                int midiChannel, int midiNoteNumber, float velocity) {
   ScopedLock lock(*critical_section_);
-  synth_->noteOn(midiNoteNumber, velocity);
+  synth_->noteOn(midiNoteNumber, velocity, 0, midiChannel - 1);
 }
 void MidiManager::handleNoteOff(MidiKeyboardState* source, int midiChannel, int midiNoteNumber) {
   ScopedLock lock(*critical_section_);
@@ -119,13 +119,13 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
   else if (midi_message.isPitchWheel()) {
     double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
     double value = 2 * percent - 1.0;
-    synth_->setPitchWheel(value);
+    synth_->setPitchWheel(value, midi_message.getChannel());
   }
   else if (midi_message.isController()) {
     int controller_number = midi_message.getControllerNumber();
     if (controller_number == MOD_WHEEL_CONTROL_NUMBER) {
       double percent = (1.0 * midi_message.getControllerValue()) / MOD_WHEEL_RESOLUTION;
-      synth_->setModWheel(percent);
+      synth_->setModWheel(percent, midi_message.getChannel());
     }
     else if (controller_number == BANK_SELECT_NUMBER)
       current_bank_ = midi_message.getControllerValue();

@@ -47,6 +47,7 @@ namespace mopo {
     velocity_.clearTrigger();
     voice_event_.clearTrigger();
     aftertouch_.clearTrigger();
+    channel_.buffer[0] = voice->state().channel;
 
     if (voice->hasNewEvent()) {
       voice_event_.trigger(voice->state().event, voice->event_sample());
@@ -231,7 +232,7 @@ namespace mopo {
 
     if (last_played_note_ < 0)
       last_played_note_ = note;
-    voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample);
+    voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample, channel);
     active_voices_.push_back(voice);
     last_played_note_ = note;
   }

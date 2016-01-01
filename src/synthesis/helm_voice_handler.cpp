@@ -762,10 +762,12 @@ namespace mopo {
   }
 
   void HelmVoiceHandler::setModWheel(mopo_float value, int channel) {
-    mod_wheel_amounts_[channel]->set(value);
+    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
+    mod_wheel_amounts_[channel - 1]->set(value);
   }
 
   void HelmVoiceHandler::setPitchWheel(mopo_float value, int channel) {
-    pitch_wheel_amounts_[channel]->set(value);
+    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
+    pitch_wheel_amounts_[channel - 1]->set(value);
   }
 } // namespace mopo
