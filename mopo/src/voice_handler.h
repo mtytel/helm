@@ -161,8 +161,8 @@ namespace mopo {
       void removeProcessor(const Processor* processor) override;
       void addGlobalProcessor(Processor* processor);
       void removeGlobalProcessor(Processor* processor);
-      void registerOutput(Output* output) override;
-      void registerOutput(Output* output, int index) override;
+      Output* registerOutput(Output* output) override;
+      Output* registerOutput(Output* output, int index) override;
 
       void setPolyphony(size_t polyphony);
 

@@ -309,18 +309,17 @@ namespace mopo {
     global_router_.removeProcessor(processor);
   }
 
-  void VoiceHandler::registerOutput(Output* output) {
+  Processor::Output* VoiceHandler::registerOutput(Output* output) {
     Output* new_output = new Output();
     new_output->owner = this;
     ProcessorRouter::registerOutput(new_output);
     voice_outputs_.push_back(output);
+    return new_output;
   }
 
-  void VoiceHandler::registerOutput(Output* output, int index) {
-    while (voice_outputs_.size() <= index)
-      registerOutput(0);
-
-    voice_outputs_[index] = output;
+  Processor::Output* VoiceHandler::registerOutput(Output* output, int index) {
+    MOPO_ASSERT(false);
+    return output;
   }
 
   bool VoiceHandler::isPolyphonic(const Processor* processor) const {
