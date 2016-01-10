@@ -143,9 +143,9 @@ namespace mopo {
       ProcessorRouter* getTopLevelRouter() const;
 
       virtual void registerInput(Input* input, int index);
-      virtual void registerOutput(Output* output, int index);
+      virtual Output* registerOutput(Output* output, int index);
       virtual void registerInput(Input* input);
-      virtual void registerOutput(Output* output);
+      virtual Output* registerOutput(Output* output);
 
       virtual int numInputs() const { return inputs_->size(); }
       virtual int numOutputs() const { return outputs_->size(); }

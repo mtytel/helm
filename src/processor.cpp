@@ -140,8 +140,9 @@ namespace mopo {
       router_->connect(this, input->source, inputs_->size() - 1);
   }
 
-  void Processor::registerOutput(Output* output) {
+  Processor::Output* Processor::registerOutput(Output* output) {
     outputs_->push_back(output);
+    return output;
   }
 
   void Processor::registerInput(Input* input, int index) {
@@ -154,10 +155,11 @@ namespace mopo {
       router_->connect(this, input->source, index);
   }
 
-  void Processor::registerOutput(Output* output, int index) {
+  Processor::Output* Processor::registerOutput(Output* output, int index) {
     while (outputs_->size() <= index)
       outputs_->push_back(0);
 
     outputs_->at(index) = output;
+    return output;
   }
 } // namespace mopo
