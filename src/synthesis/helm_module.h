@@ -41,8 +41,8 @@ namespace mopo {
       Processor* getPolyModulationDestination(std::string name);
 
       output_map getModulationSources();
-      output_map getMonoModulations();
-      output_map getPolyModulations();
+      virtual output_map getMonoModulations();
+      virtual output_map getPolyModulations();
       virtual void correctToTime(mopo_float samples);
 
     protected:

@@ -98,8 +98,7 @@ namespace mopo {
     modulation_total->plug(poly_total, 1);
     poly_owner->addProcessor(modulation_total);
 
-    poly_owner->registerOutput(poly_total->output());
-    poly_modulation_readout_[name] = poly_owner->output(poly_owner->numOutputs() - 1);
+    poly_modulation_readout_[name] = poly_total->output();
 
     Processor* control_rate_total = modulation_total;
     if (details.display_skew == ValueDetails::kQuadratic) {

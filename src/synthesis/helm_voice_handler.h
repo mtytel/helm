@@ -57,6 +57,9 @@ namespace mopo {
       void setPitchWheel(mopo_float value, int channel = 0);
       Output* note_retrigger() { return &note_retriggered_; }
 
+      // HelmModule
+      output_map getPolyModulations() override;
+
     private:
       // Create the portamento, legato, amplifier envelope and other processors
       // that effect how voices start and turn into other notes.
@@ -70,6 +73,8 @@ namespace mopo {
 
       // Create the filter and filter envelope.
       void createFilter(Output* audio, Output* keytrack, Output* reset);
+
+      void setupPolyModulationReadouts();
 
       Processor* beats_per_second_;
 
@@ -93,6 +98,8 @@ namespace mopo {
       Output note_retriggered_;
 
       Multiply* output_;
+
+      output_map poly_readouts_;
   };
 } // namespace mopo
 

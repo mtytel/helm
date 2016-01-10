@@ -159,6 +159,7 @@ namespace mopo {
     setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
 
     HelmModule::init();
+    setupPolyModulationReadouts();
   }
 
   void HelmVoiceHandler::createOscillators(Output* midi, Output* reset) {
@@ -761,6 +762,13 @@ namespace mopo {
     return VoiceHandler::noteOff(note, sample);
   }
 
+  void HelmVoiceHandler::setupPolyModulationReadouts() {
+    output_map poly_mods = HelmModule::getPolyModulations();
+
+    for (auto mod : poly_mods)
+      poly_readouts_[mod.first] = registerOutput(mod.second);
+  }
+
   void HelmVoiceHandler::setModWheel(mopo_float value, int channel) {
     MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
     mod_wheel_amounts_[channel - 1]->set(value);
@@ -769,5 +777,9 @@ namespace mopo {
   void HelmVoiceHandler::setPitchWheel(mopo_float value, int channel) {
     MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
     pitch_wheel_amounts_[channel - 1]->set(value);
+  }
+
+  output_map HelmVoiceHandler::getPolyModulations() {
+    return poly_readouts_;
   }
 } // namespace mopo
