@@ -26,3 +26,7 @@ Fonts::Fonts() {
   monospace_ = Font(Typeface::createSystemTypefaceFor(
       BinaryData::DroidSansMono_ttf, BinaryData::DroidSansMono_ttfSize));
 }
+
+Fonts::~Fonts() {
+  clearSingletonInstance();
+}

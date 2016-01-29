@@ -19,9 +19,10 @@
 
 #include "JuceHeader.h"
 
-class Fonts : public DeletedAtShutdown {
+class Fonts {
   public:
     Fonts();
+    virtual ~Fonts();
 
     Font& proportional_regular() { return proportional_regular_; }
     Font& proportional_light() { return proportional_light_; }
