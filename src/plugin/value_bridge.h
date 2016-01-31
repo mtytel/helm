@@ -44,7 +44,7 @@ class ValueBridge : public AudioProcessorParameter {
       if (listener_)
         listener_->parameterChanged(name_.toStdString(), synth_value);
 
-      value_->set(convertToSynthValue(value));
+      value_->set(synth_value);
     }
 
     void setListener(Listener* listener) {
