@@ -107,8 +107,10 @@ void HelmPlugin::setCurrentProgram(int index) {
   current_program_ = index;
   LoadSave::loadPatch(-1, -1, index, &synth_, gui_state_, getCallbackLock());
   AudioProcessorEditor* editor = getActiveEditor();
-  HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
-  t_editor->updateFullGui();
+  if (editor) {
+    HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
+    t_editor->updateFullGui();
+  }
 }
 
 const String HelmPlugin::getProgramName(int index) {
