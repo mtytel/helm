@@ -22,7 +22,7 @@
 #include "value_bridge.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
-#define MAX_MEMORY_SAMPLES 1000000
+#define MAX_MEMORY_SAMPLES 1048576
 #define MAX_BUFFER_PROCESS 256
 
 HelmPlugin::HelmPlugin() {
@@ -176,7 +176,8 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
         channelData[i] = synth_output[i];
     }
 
-    for (int i = 0; i < num_samples; ++i)
+    int output_inc = synth_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
+    for (int i = 0; i < num_samples; i += output_inc)
       output_memory_->push(synth_output_left[i] + synth_output_right[i]);
 
     sample_offset += num_samples;
