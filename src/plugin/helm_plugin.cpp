@@ -24,11 +24,13 @@
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MAX_MEMORY_SAMPLES 1048576
 #define MAX_BUFFER_PROCESS 256
+#define SET_PROGRAM_WAIT_MILLISECONDS 500
 
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
   keyboard_state_ = new MidiKeyboardState();
   midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, &getCallbackLock(), this);
+  set_state_time_ = 0;
 
   current_program_ = 0;
   num_programs_ = LoadSave::getNumPatches();
@@ -104,6 +106,10 @@ int HelmPlugin::getCurrentProgram() {
 }
 
 void HelmPlugin::setCurrentProgram(int index) {
+  // Hack for some DAWs that set program on load for VSTs.
+  if (Time::getMillisecondCounter() - set_state_time_ < SET_PROGRAM_WAIT_MILLISECONDS)
+    return;
+
   current_program_ = index;
   LoadSave::loadPatch(-1, -1, index, &synth_, gui_state_, getCallbackLock());
   AudioProcessorEditor* editor = getActiveEditor();
@@ -218,6 +224,8 @@ void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
 }
 
 void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
+  set_state_time_ = Time::getMillisecondCounter();
+
   MemoryInputStream stream(data, size_in_bytes, false);
   String data_string = stream.readEntireStreamAsString();
   var state;

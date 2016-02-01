@@ -84,6 +84,8 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     ScopedPointer<MidiManager> midi_manager_;
     ScopedPointer<MidiKeyboardState> keyboard_state_;
 
+    uint32 set_state_time_;
+
     int num_programs_;
     int current_program_;
 
