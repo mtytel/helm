@@ -20,6 +20,20 @@
 
 #include "JuceHeader.h"
 
+class UpdateMemory {
+  public:
+    UpdateMemory();
+    virtual ~UpdateMemory();
+
+    bool shouldCheck() const { return needs_check_; }
+    void check() { needs_check_ = false; }
+
+    juce_DeclareSingleton(UpdateMemory, false)
+
+  private:
+    bool needs_check_;
+};
+
 class UpdateCheckSection : public Component, public ButtonListener {
   public:
     UpdateCheckSection(String name);

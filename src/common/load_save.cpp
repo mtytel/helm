@@ -251,6 +251,16 @@ void LoadSave::saveVersionConfig() {
   saveVarToConfig(config_object);
 }
 
+void LoadSave::saveUpdateCheckConfig(bool check_for_updates) {
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("check_for_updates", check_for_updates);
+  saveVarToConfig(config_object);
+}
+
 void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
   if (layout == nullptr)
     return;
@@ -361,6 +371,18 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
     }
     midi_manager->setMidiLearnMap(midi_learn_map);
   }
+}
+
+bool LoadSave::shouldCheckForUpdates() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return true;
+
+  if (!config_object->hasProperty("check_for_updates"))
+    return true;
+
+  return config_object->getProperty("check_for_updates");
 }
 
 bool LoadSave::wasUpgraded() {

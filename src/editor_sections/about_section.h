@@ -20,7 +20,7 @@
 
 #include "JuceHeader.h"
 
-class AboutSection : public Component {
+class AboutSection : public Component, public ButtonListener {
   public:
     AboutSection(String name);
     ~AboutSection() { }
@@ -31,11 +31,13 @@ class AboutSection : public Component {
 
     void mouseUp(const MouseEvent& e) override;
     void setVisible(bool should_be_visible) override;
+    void buttonClicked(Button* clicked_button) override;
 
   private:
     ScopedPointer<HyperlinkButton> developer_link_;
     ScopedPointer<HyperlinkButton> free_software_link_;
     ScopedPointer<AudioDeviceSelectorComponent> device_selector_;
+    ScopedPointer<Button> check_for_updates_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };

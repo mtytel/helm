@@ -64,9 +64,11 @@ class LoadSave {
     static File getConfigFile();
     static var getConfigVar();
     static bool wasUpgraded();
+    static bool shouldCheckForUpdates();
     static void saveVarToConfig(var config_state);
     static void saveLayoutConfig(mopo::StringLayout* layout);
     static void saveVersionConfig();
+    static void saveUpdateCheckConfig(bool check_for_updates);
     static void saveMidiMapConfig(MidiManager* midi_manager);
     static void loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout = nullptr);
 

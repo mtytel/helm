@@ -28,6 +28,16 @@
 #define BUTTON_HEIGHT 30
 
 
+UpdateMemory::UpdateMemory() {
+  needs_check_ = LoadSave::shouldCheckForUpdates();
+}
+
+UpdateMemory::~UpdateMemory() {
+  clearSingletonInstance();
+}
+
+juce_ImplementSingleton(UpdateMemory)
+
 UpdateCheckSection::UpdateCheckSection(String name) : Component(name) {
   download_button_ = new TextButton(TRANS("Download"));
   download_button_->addListener(this);
@@ -37,7 +47,10 @@ UpdateCheckSection::UpdateCheckSection(String name) : Component(name) {
   nope_button_->addListener(this);
   addAndMakeVisible(nope_button_);
 
-  checkUpdate();
+  if (UpdateMemory::getInstance()->shouldCheck()) {
+    checkUpdate();
+    UpdateMemory::getInstance()->check();
+  }
 }
 
 void UpdateCheckSection::paint(Graphics& g) {
@@ -95,7 +108,7 @@ void UpdateCheckSection::mouseUp(const MouseEvent &e) {
 
 void UpdateCheckSection::checkUpdate() {
   static const int TIMEOUT = 200;
-  URL version_url("http://tytel.org/static/dist/helm_version.txt");
+  URL version_url("http://tytel.org/static/dist/helm_version2.txt");
   const ScopedPointer<InputStream> in(version_url.createInputStream(false, nullptr, nullptr,
                                                                     "", TIMEOUT));
 

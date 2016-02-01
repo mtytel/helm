@@ -17,6 +17,7 @@
 #include "about_section.h"
 #include "fonts.h"
 #include "helm_common.h"
+#include "load_save.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
@@ -26,6 +27,7 @@
 #define PLUGIN_INFO_HEIGHT 160
 #define PADDING_X 25
 #define PADDING_Y 15
+#define BUTTON_WIDTH 16
 
 AboutSection::AboutSection(String name) : Component(name) {
   developer_link_ = new HyperlinkButton("Matt Tytel", URL("http://tytel.org"));
@@ -34,12 +36,19 @@ AboutSection::AboutSection(String name) : Component(name) {
   developer_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(developer_link_);
 
-  free_software_link_ = new HyperlinkButton(TRANS("Read more about free software."),
+  free_software_link_ = new HyperlinkButton(TRANS("Read more about free software"),
                                             URL("http://www.gnu.org/philosophy/free-sw.html"));
   free_software_link_->setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0f),
                                false, Justification::right);
   free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(free_software_link_);
+
+  check_for_updates_ = new ToggleButton();
+  check_for_updates_->setToggleState(LoadSave::shouldCheckForUpdates(),
+                                     NotificationType::dontSendNotification);
+  check_for_updates_->setLookAndFeel(TextLookAndFeel::instance());
+  check_for_updates_->addListener(this);
+  addAndMakeVisible(check_for_updates_);
 }
 
 void AboutSection::paint(Graphics& g) {
@@ -90,9 +99,15 @@ void AboutSection::paint(Graphics& g) {
              0.0f, 62.0,
              info_rect.getWidth() - 2 * PADDING_X, 20.0f, Justification::topRight);
 
-  g.drawText(TRANS("comes with no warranty."),
+  g.drawText(TRANS("comes with no warranty"),
              0.0f, 76.0f,
              info_rect.getWidth() - 2 * PADDING_X, 20.0f, Justification::topRight);
+
+  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
+  g.drawText(TRANS("Check for updates"),
+             0.0f, 136.0f,
+             info_rect.getWidth() - 2 * PADDING_X - 1.5 * BUTTON_WIDTH,
+             20.0f, Justification::topRight);
 
   g.restoreState();
 }
@@ -106,8 +121,12 @@ void AboutSection::resized() {
                              info_rect.getY() + PADDING_Y + 24.0f, developer_link_width, 20.0f);
   free_software_link_->setBounds(info_rect.getRight() - PADDING_X - software_link_width,
                                  info_rect.getY() + PADDING_Y + 105.0f, software_link_width, 20.0f);
+
+  check_for_updates_->setBounds(info_rect.getRight() - PADDING_X - BUTTON_WIDTH,
+                                info_rect.getY() + PADDING_Y + 135.0f, BUTTON_WIDTH, BUTTON_WIDTH);
+
   if (device_selector_) {
-    int y = info_rect.getY() + LOGO_WIDTH + 2 * PADDING_Y;
+    int y = check_for_updates_->getY() + PADDING_Y;
     device_selector_->setBounds(info_rect.getX(), y,
                                 info_rect.getWidth(), info_rect.getBottom() - y);
   }
@@ -137,6 +156,11 @@ void AboutSection::setVisible(bool should_be_visible) {
   }
 
   Component::setVisible(should_be_visible);
+}
+
+void AboutSection::buttonClicked(Button* clicked_button) {
+  if (clicked_button == check_for_updates_)
+    LoadSave::saveUpdateCheckConfig(check_for_updates_->getToggleState());
 }
 
 Rectangle<int> AboutSection::getInfoRect() {
