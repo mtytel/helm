@@ -261,6 +261,16 @@ void LoadSave::saveUpdateCheckConfig(bool check_for_updates) {
   saveVarToConfig(config_object);
 }
 
+void LoadSave::saveAnimateWidgets(bool animate_widgets) {
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("animate_widgets", animate_widgets);
+  saveVarToConfig(config_object);
+}
+
 void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
   if (layout == nullptr)
     return;
@@ -383,6 +393,18 @@ bool LoadSave::shouldCheckForUpdates() {
     return true;
 
   return config_object->getProperty("check_for_updates");
+}
+
+bool LoadSave::shouldAnimateWidgets() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return true;
+
+  if (!config_object->hasProperty("animate_widgets"))
+    return true;
+
+  return config_object->getProperty("animate_widgets");
 }
 
 bool LoadSave::wasUpgraded() {

@@ -49,6 +49,13 @@ AboutSection::AboutSection(String name) : Component(name) {
   check_for_updates_->setLookAndFeel(TextLookAndFeel::instance());
   check_for_updates_->addListener(this);
   addAndMakeVisible(check_for_updates_);
+
+  animate_ = new ToggleButton();
+  animate_->setToggleState(LoadSave::shouldAnimateWidgets(),
+                           NotificationType::dontSendNotification);
+  animate_->setLookAndFeel(TextLookAndFeel::instance());
+  animate_->addListener(this);
+  addAndMakeVisible(animate_);
 }
 
 void AboutSection::paint(Graphics& g) {
@@ -108,6 +115,10 @@ void AboutSection::paint(Graphics& g) {
              0.0f, 136.0f,
              info_rect.getWidth() - 2 * PADDING_X - 1.5 * BUTTON_WIDTH,
              20.0f, Justification::topRight);
+  g.drawText(TRANS("Animate graphics"),
+             0.0f, 166.0f,
+             info_rect.getWidth() - 2 * PADDING_X - 1.5 * BUTTON_WIDTH,
+             20.0f, Justification::topRight);
 
   g.restoreState();
 }
@@ -119,14 +130,18 @@ void AboutSection::resized() {
   Rectangle<int> info_rect = getInfoRect();
   developer_link_->setBounds(info_rect.getRight() - PADDING_X - developer_link_width,
                              info_rect.getY() + PADDING_Y + 24.0f, developer_link_width, 20.0f);
+
   free_software_link_->setBounds(info_rect.getRight() - PADDING_X - software_link_width,
                                  info_rect.getY() + PADDING_Y + 105.0f, software_link_width, 20.0f);
 
   check_for_updates_->setBounds(info_rect.getRight() - PADDING_X - BUTTON_WIDTH,
                                 info_rect.getY() + PADDING_Y + 135.0f, BUTTON_WIDTH, BUTTON_WIDTH);
 
+  animate_->setBounds(info_rect.getRight() - PADDING_X - BUTTON_WIDTH,
+                      info_rect.getY() + PADDING_Y + 165.0f, BUTTON_WIDTH, BUTTON_WIDTH);
+
   if (device_selector_) {
-    int y = check_for_updates_->getY() + PADDING_Y;
+    int y = animate_->getY() + PADDING_Y;
     device_selector_->setBounds(info_rect.getX(), y,
                                 info_rect.getWidth(), info_rect.getBottom() - y);
   }
@@ -161,6 +176,8 @@ void AboutSection::setVisible(bool should_be_visible) {
 void AboutSection::buttonClicked(Button* clicked_button) {
   if (clicked_button == check_for_updates_)
     LoadSave::saveUpdateCheckConfig(check_for_updates_->getToggleState());
+  if (clicked_button == animate_)
+    LoadSave::saveAnimateWidgets(animate_->getToggleState());
 }
 
 Rectangle<int> AboutSection::getInfoRect() {

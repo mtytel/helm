@@ -38,6 +38,7 @@ class AboutSection : public Component, public ButtonListener {
     ScopedPointer<HyperlinkButton> free_software_link_;
     ScopedPointer<AudioDeviceSelectorComponent> device_selector_;
     ScopedPointer<Button> check_for_updates_;
+    ScopedPointer<Button> animate_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };
