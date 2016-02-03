@@ -92,7 +92,7 @@ void GraphicalStepSequencer::paint(Graphics& g) {
   }
 
   if (last_step_ >= 0) {
-    g.setColour(Colour(0x11ffffff));
+    g.setColour(Colour(0x08ffffff));
     g.fillRect(last_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
   }
 }

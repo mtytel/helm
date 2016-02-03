@@ -19,7 +19,7 @@
 #include "synth_gui_interface.h"
 
 #define GRID_CELL_WIDTH 8
-#define FRAMES_PER_SECOND 60
+#define FRAMES_PER_SECOND 30
 #define PADDING 5.0f
 #define MARKER_WIDTH 6.0f
 
@@ -38,9 +38,8 @@ WaveViewer::WaveViewer(int resolution) {
 WaveViewer::~WaveViewer() { }
 
 void WaveViewer::paint(juce::Graphics &g) {
-  g.drawImage(background_,
-              0, 0, getWidth(), getHeight(),
-              0, 0, background_.getWidth(), background_.getHeight());
+  g.drawImageWithin(background_,
+                    0, 0, getWidth(), getHeight(), RectanglePlacement());
 
   if (wave_phase_) {
     if (phase_ >= 0.0 && phase_ < 1.0) {

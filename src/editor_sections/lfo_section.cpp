@@ -84,8 +84,7 @@ void LfoSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
 
   SynthSection::paintBackground(g);
-
-  // wave_viewer_->showRealtimeFeedback();
+  wave_viewer_->showRealtimeFeedback();
 
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
