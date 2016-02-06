@@ -25,7 +25,6 @@ GraphicalStepSequencer::GraphicalStepSequencer() {
   last_step_ = -1;
   highlighted_step_ = -1;
   num_steps_ = 1;
-  startTimerHz(FRAMES_PER_SECOND);
 
   setOpaque(true);
 }
@@ -221,10 +220,19 @@ void GraphicalStepSequencer::updateHover(int step_index) {
   repaint();
 }
 
-void GraphicalStepSequencer::showRealtimeFeedback() {
-  if (step_generator_output_ == nullptr) {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent)
-      step_generator_output_ = parent->getModSource(getName().toStdString());
+void GraphicalStepSequencer::showRealtimeFeedback(bool show_feedback) {
+  if (show_feedback) {
+    if (step_generator_output_ == nullptr) {
+      SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+      startTimerHz(FRAMES_PER_SECOND);
+      if (parent)
+        step_generator_output_ = parent->getModSource(getName().toStdString());
+    }
+  }
+  else {
+    stopTimer();
+    step_generator_output_ = nullptr;
+    last_step_ = -1;
+    repaint();
   }
 }

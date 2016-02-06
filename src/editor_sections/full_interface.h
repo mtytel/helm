@@ -49,6 +49,7 @@ class FullInterface : public SynthSection {
     void paintBackground(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
+    void animate(bool animate = true) override;
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;

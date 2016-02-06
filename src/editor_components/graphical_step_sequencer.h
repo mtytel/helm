@@ -32,7 +32,7 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     void setStepSliders(std::vector<Slider*> sliders);
     void sliderValueChanged(Slider* moved_slider) override;
 
-    void showRealtimeFeedback();
+    void showRealtimeFeedback(bool show_feedback = true);
 
     void paint(Graphics& g) override;
     void paintBackground(Graphics& g);

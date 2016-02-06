@@ -18,6 +18,7 @@
 
 #include "default_look_and_feel.h"
 #include "helm_common.h"
+#include "load_save.h"
 #include "mopo.h"
 #include "startup.h"
 #include "utils.h"
@@ -68,12 +69,13 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
                            synth_.getMonoModulations(),
                            synth_.getPolyModulations(),
                            keyboard_state_);
-  gui_->setOutputMemory(output_memory_.get());
   addAndMakeVisible(gui_);
+  gui_->setOutputMemory(output_memory_.get());
+  gui_->animate(LoadSave::shouldAnimateWidgets());
   setSize(WIDTH, HEIGHT);
 
-  grabKeyboardFocus();
   setWantsKeyboardFocus(true);
+  grabKeyboardFocus();
   addKeyListener(computer_keyboard_);
   postMessage(new Message());
   setOpaque(true);

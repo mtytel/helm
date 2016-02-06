@@ -147,6 +147,11 @@ void SynthSection::setActive(bool active) {
     sub_section.second->setActive(active);
 }
 
+void SynthSection::animate(bool animate) {
+  for (auto sub_section : sub_sections_)
+    sub_section.second->animate(animate);
+}
+
 void SynthSection::setAllValues(mopo::control_map& controls) {
   for (auto slider : all_sliders_) {
     if (controls.count(slider.first)) {

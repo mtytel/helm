@@ -32,7 +32,7 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
     void setAmplitudeSlider(Slider* slider);
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
-    void showRealtimeFeedback();
+    void showRealtimeFeedback(bool show_feedback = true);
     void setControlRate(bool control_rate = true) { is_control_rate_ = control_rate; }
 
     void paint(Graphics& g) override;

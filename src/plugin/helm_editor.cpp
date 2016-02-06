@@ -19,6 +19,7 @@
 #include "default_look_and_feel.h"
 #include "helm_common.h"
 #include "helm_plugin.h"
+#include "load_save.h"
 
 #define WIDTH 992
 #define HEIGHT 734
@@ -34,6 +35,7 @@ HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(he
                            helm.getSynth()->getPolyModulations(),
                            helm.getKeyboardState());
   gui_->setOutputMemory(helm.getOutputMemory());
+  gui_->animate(LoadSave::shouldAnimateWidgets());
   addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
   repaint();

@@ -77,7 +77,7 @@ void WaveViewer::paintBackground(Graphics& g) {
 
   g.setColour(Colour(0xff565656));
   g.fillPath(wave_path_);
-  
+
   if (is_control_rate_)
     g.setColour(Colour(0xff00e676));
   else
@@ -175,14 +175,21 @@ void WaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
   resetWavePath();
 }
 
-void WaveViewer::showRealtimeFeedback() {
-  if (wave_phase_ == nullptr) {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent) {
-      wave_amp_ = parent->getModSource(getName().toStdString());
-      wave_phase_ = parent->getModSource(getName().toStdString() + "_phase");
-      startTimerHz(FRAMES_PER_SECOND);
+void WaveViewer::showRealtimeFeedback(bool show_feedback) {
+  if (show_feedback) {
+    if (wave_phase_ == nullptr) {
+      SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+      if (parent) {
+        wave_amp_ = parent->getModSource(getName().toStdString());
+        wave_phase_ = parent->getModSource(getName().toStdString() + "_phase");
+        startTimerHz(FRAMES_PER_SECOND);
+      }
     }
+  }
+  else {
+    wave_phase_ = nullptr;
+    stopTimer();
+    repaint();
   }
 }
 

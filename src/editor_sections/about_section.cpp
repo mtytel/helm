@@ -19,11 +19,12 @@
 #include "helm_common.h"
 #include "load_save.h"
 #include "synth_gui_interface.h"
+#include "synth_section.h"
 #include "text_look_and_feel.h"
 
 #define LOGO_WIDTH 128
-#define INFO_WIDTH 450
-#define STANDALONE_INFO_HEIGHT 500
+#define INFO_WIDTH 470
+#define STANDALONE_INFO_HEIGHT 550
 #define PLUGIN_INFO_HEIGHT 160
 #define PADDING_X 25
 #define PADDING_Y 15
@@ -112,12 +113,12 @@ void AboutSection::paint(Graphics& g) {
 
   g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
   g.drawText(TRANS("Check for updates"),
-             0.0f, 136.0f,
+             0.0f, 141.0f,
              info_rect.getWidth() - 2 * PADDING_X - 1.5 * BUTTON_WIDTH,
              20.0f, Justification::topRight);
   g.drawText(TRANS("Animate graphics"),
-             0.0f, 166.0f,
-             info_rect.getWidth() - 2 * PADDING_X - 1.5 * BUTTON_WIDTH,
+             0.0f, 141.0f,
+             273.0f - PADDING_X - 0.5 * BUTTON_WIDTH,
              20.0f, Justification::topRight);
 
   g.restoreState();
@@ -135,13 +136,13 @@ void AboutSection::resized() {
                                  info_rect.getY() + PADDING_Y + 105.0f, software_link_width, 20.0f);
 
   check_for_updates_->setBounds(info_rect.getRight() - PADDING_X - BUTTON_WIDTH,
-                                info_rect.getY() + PADDING_Y + 135.0f, BUTTON_WIDTH, BUTTON_WIDTH);
+                                info_rect.getY() + PADDING_Y + 140.0f, BUTTON_WIDTH, BUTTON_WIDTH);
 
-  animate_->setBounds(info_rect.getRight() - PADDING_X - BUTTON_WIDTH,
-                      info_rect.getY() + PADDING_Y + 165.0f, BUTTON_WIDTH, BUTTON_WIDTH);
+  animate_->setBounds(info_rect.getX() + 273.0f,
+                      info_rect.getY() + PADDING_Y + 140.0f, BUTTON_WIDTH, BUTTON_WIDTH);
 
   if (device_selector_) {
-    int y = animate_->getY() + PADDING_Y;
+    int y = check_for_updates_->getY() + PADDING_Y + BUTTON_WIDTH;
     device_selector_->setBounds(info_rect.getX(), y,
                                 info_rect.getWidth(), info_rect.getBottom() - y);
   }
@@ -176,8 +177,15 @@ void AboutSection::setVisible(bool should_be_visible) {
 void AboutSection::buttonClicked(Button* clicked_button) {
   if (clicked_button == check_for_updates_)
     LoadSave::saveUpdateCheckConfig(check_for_updates_->getToggleState());
-  if (clicked_button == animate_)
+  if (clicked_button == animate_) {
     LoadSave::saveAnimateWidgets(animate_->getToggleState());
+
+    SynthSection* parent = parent->findParentComponentOfClass<SynthSection>();
+    SynthSection* next = parent;
+    while (next = parent->findParentComponentOfClass<SynthSection>())
+      parent = next;
+    parent->animate(animate_->getToggleState());
+  }
 }
 
 Rectangle<int> AboutSection::getInfoRect() {

@@ -31,6 +31,7 @@ class StepSequencerSection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+    void animate(bool animate = true) override;
 
   private:
     void createStepSequencerSliders();

@@ -44,6 +44,8 @@ SynthesisInterface::SynthesisInterface(
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true));
   keyboard_ = new MidiKeyboard(*keyboard_state, MidiKeyboardComponent::horizontalKeyboard);
+  keyboard_->setWantsKeyboardFocus(false);
+  keyboard_->setMouseClickGrabsKeyboardFocus(false);
   addAndMakeVisible(keyboard_);
   addSubSection(mixer_section_ = new MixerSection("MIXER"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
@@ -180,8 +182,6 @@ void SynthesisInterface::resized() {
   keyboard_->setBounds(voice_section_->getRight() + CELL_PADDING, voice_section_->getY() + 5,
                        dynamic_section_->getX() - voice_section_->getRight() - 2 * CELL_PADDING,
                        54.0f);
-  keyboard_->setWantsKeyboardFocus(false);
-  keyboard_->setMouseClickGrabsKeyboardFocus(false);
 
   SynthSection::resized();
 }

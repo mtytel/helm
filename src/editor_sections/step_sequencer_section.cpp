@@ -78,10 +78,8 @@ StepSequencerSection::~StepSequencerSection() {
 
 void StepSequencerSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+
   SynthSection::paintBackground(g);
-
-  step_sequencer_->showRealtimeFeedback();
-
   g.setColour(Colour(0xffbbbbbb));
   g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("STEPS"), num_steps_);
@@ -125,4 +123,9 @@ void StepSequencerSection::createStepSequencerSliders() {
   step_sequencer_->setStepSliders(sequencer_sliders_);
   step_sequencer_->setNumStepsSlider(num_steps_);
   step_sequencer_->setName("step_sequencer_step");
+}
+
+void StepSequencerSection::animate(bool animate) {
+  SynthSection::animate(animate);
+  step_sequencer_->showRealtimeFeedback(animate);
 }

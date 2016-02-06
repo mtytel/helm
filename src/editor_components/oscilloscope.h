@@ -21,21 +21,24 @@
 #include "JuceHeader.h"
 #include "memory.h"
 
-class Oscilloscope : public AnimatedAppComponent {
+class Oscilloscope : public Component, public Timer {
   public:
     Oscilloscope();
     ~Oscilloscope();
 
+    void timerCallback() override;
     void paint(Graphics& g) override;
+    void paintBackground(Graphics& g);
     void resized() override;
-    void update() override;
 
     void resetWavePath();
     void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
+    void showRealtimeFeedback(bool show_feedback = true);
 
   private:
     const mopo::Memory* output_memory_;
     Path wave_path_;
+    Image background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Oscilloscope)
 };

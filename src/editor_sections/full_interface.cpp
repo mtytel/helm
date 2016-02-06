@@ -194,3 +194,8 @@ void FullInterface::buttonClicked(Button* clicked_button) {
   else
     SynthSection::buttonClicked(clicked_button);
 }
+
+void FullInterface::animate(bool animate) {
+  SynthSection::animate(animate);
+  oscilloscope_->showRealtimeFeedback(animate);
+}

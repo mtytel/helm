@@ -24,20 +24,14 @@
 
 Oscilloscope::Oscilloscope() {
   output_memory_ = nullptr;
-  setFramesPerSecond(FRAMES_PER_SECOND);
 }
 
 Oscilloscope::~Oscilloscope() { }
 
 void Oscilloscope::paint(Graphics& g) {
   static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
-  g.fillAll(Colour(0xff424242));
-
-  g.setColour(Colour(0xff4a4a4a));
-  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
-    g.drawLine(x, 0, x, getHeight());
-  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
-    g.drawLine(0, y, getWidth(), y);
+  g.drawImageWithin(background_,
+                    0, 0, getWidth(), getHeight(), RectanglePlacement());
 
   shadow.drawForPath(g, wave_path_);
 
@@ -47,8 +41,26 @@ void Oscilloscope::paint(Graphics& g) {
   g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));
 }
 
+void Oscilloscope::paintBackground(Graphics& g) {
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+
+  g.fillAll(Colour(0xff424242));
+
+  g.setColour(Colour(0xff4a4a4a));
+  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+    g.drawLine(x, 0, x, getHeight());
+  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+    g.drawLine(0, y, getWidth(), y);
+}
+
+
 void Oscilloscope::resized() {
-  resetWavePath();
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
 }
 
 void Oscilloscope::resetWavePath() {
@@ -72,6 +84,17 @@ void Oscilloscope::resetWavePath() {
   wave_path_.lineTo(getWidth() - PADDING_X, getHeight() / 2.0f);
 }
 
-void Oscilloscope::update() {
+void Oscilloscope::timerCallback() {
   resetWavePath();
+  repaint();
+}
+
+void Oscilloscope::showRealtimeFeedback(bool show_feedback) {
+  if (show_feedback)
+    startTimerHz(FRAMES_PER_SECOND);
+  else {
+    stopTimer();
+    wave_path_.clear();
+    repaint();
+  }
 }
