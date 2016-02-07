@@ -3,6 +3,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist>
   <dict>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>tytel.org</key>
+        <dict>
+          <key>NSIncludeSubDomains</key>
+          <false/>
+          <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+          <true/>
+          <key>NSTemporaryExceptionMinimumTLSVersion</key>
+          <string>TLSv1.1</string>
+        </dict>
+      </dict>
+    </dict>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
@@ -16,9 +31,9 @@
     <key>CFBundleSignature</key>
     <string>PTul</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.6.1</string>
+    <string>0.6.2</string>
     <key>CFBundleVersion</key>
-    <string>0.6.1</string>
+    <string>0.6.2</string>
     <key>NSHumanReadableCopyright</key>
     <string>Matt Tytel</string>
     <key>NSHighResolutionCapable</key>
@@ -39,7 +54,7 @@
         <key>subtype</key>
         <string>Helm</string>
         <key>version</key>
-        <integer>1537</integer>
+        <integer>1538</integer>
       </dict>
     </array>
   </dict>
