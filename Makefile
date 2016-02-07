@@ -35,7 +35,7 @@ install: all
 	install -d $(PATCHES) $(BIN) $(ICONS) $(LV2)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
-	install builds/linux/LV2/helm.lv2/* $(LV2)
+	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
 	cp -rf patches/* $(PATCHES)
 
 install_vst: vst
