@@ -34,9 +34,9 @@ HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(he
                            helm.getSynth()->getMonoModulations(),
                            helm.getSynth()->getPolyModulations(),
                            helm.getKeyboardState());
+  addAndMakeVisible(gui_);
   gui_->setOutputMemory(helm.getOutputMemory());
   gui_->animate(LoadSave::shouldAnimateWidgets());
-  addAndMakeVisible(gui_);
   setSize(WIDTH, HEIGHT);
   repaint();
 }
