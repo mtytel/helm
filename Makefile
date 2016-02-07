@@ -14,6 +14,7 @@ VST     = $(DESTDIR)/$(LIBDIR)/lxvst/$(PROGRAM).so
 SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
 ICONS   = $(SYSDATA)/icons
 PATCHES = $(SYSDATA)/patches
+MAN     = $(DESTDIR)/usr/share/man/man1/
 
 all: standalone lv2
 
@@ -36,6 +37,7 @@ install: all
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
 	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
+	cp docs/helm.1.gz $(MAN)
 	cp -rf patches/* $(PATCHES)
 
 install_vst: vst
