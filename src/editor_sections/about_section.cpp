@@ -180,7 +180,7 @@ void AboutSection::buttonClicked(Button* clicked_button) {
   if (clicked_button == animate_) {
     LoadSave::saveAnimateWidgets(animate_->getToggleState());
 
-    SynthSection* parent = parent->findParentComponentOfClass<SynthSection>();
+    SynthSection* parent = findParentComponentOfClass<SynthSection>();
     SynthSection* next = parent;
     while (next = parent->findParentComponentOfClass<SynthSection>())
       parent = next;
