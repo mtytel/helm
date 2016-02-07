@@ -20,9 +20,12 @@
 #define KNOB_WIDTH 40
 
 FeedbackSection::FeedbackSection(String name) : SynthSection(name) {
+  static const int TRANSPOSE_MOUSE_SENSITIVITY = 800;
+
   addSlider(transpose_ = new SynthSlider("osc_feedback_transpose"));
   transpose_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   transpose_->setBipolar();
+  transpose_->setMouseDragSensitivity(TRANSPOSE_MOUSE_SENSITIVITY);
 
   addSlider(amount_ = new SynthSlider("osc_feedback_amount"));
   amount_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);

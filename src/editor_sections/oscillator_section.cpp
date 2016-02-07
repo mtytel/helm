@@ -33,6 +33,7 @@
 
 OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
   static const int UNISON_DRAG_SENSITIVITY = 100;
+  static const int TRANSPOSE_MOUSE_SENSITIVITY = 800;
 
   addSlider(wave_selector_1_ = new WaveSelector("osc_1_waveform"));
   wave_selector_1_->setSliderStyle(Slider::LinearBar);
@@ -53,10 +54,12 @@ OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
   addSlider(transpose_1_ = new SynthSlider("osc_1_transpose"));
   transpose_1_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   transpose_1_->setBipolar();
+  transpose_1_->setMouseDragSensitivity(TRANSPOSE_MOUSE_SENSITIVITY);
 
   addSlider(transpose_2_ = new SynthSlider("osc_2_transpose"));
   transpose_2_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   transpose_2_->setBipolar();
+  transpose_2_->setMouseDragSensitivity(TRANSPOSE_MOUSE_SENSITIVITY);
 
   addSlider(tune_1_ = new SynthSlider("osc_1_tune"));
   tune_1_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);

@@ -23,14 +23,18 @@
 #define TEXT_HEIGHT 16
 
 VoiceSection::VoiceSection(String name) : SynthSection(name) {
+  static const int KNOB_SENSITIVITY = 500;
+
   addSlider(polyphony_ = new SynthSlider("polyphony"));
   polyphony_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  polyphony_->setMouseDragSensitivity(KNOB_SENSITIVITY);
 
   addSlider(velocity_track_ = new SynthSlider("velocity_track"));
   velocity_track_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
   addSlider(pitch_bend_ = new SynthSlider("pitch_bend_range"));
   pitch_bend_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  pitch_bend_->setMouseDragSensitivity(KNOB_SENSITIVITY);
 }
 
 VoiceSection::~VoiceSection() {
