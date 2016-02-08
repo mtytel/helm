@@ -461,7 +461,8 @@
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux/VST" vstFolder="~/srcs/VST3 SDK" vst3Folder="~/srcs/VST3 SDK"
-                extraCompilerFlags="-ffast-math -msse2" extraLinkerFlags="-lpng -ffast-math -msse2">
+                extraCompilerFlags="-ffast-math -msse2" extraLinkerFlags="-lpng -ffast-math -msse2"
+                extraDefs="JUCE_USE_XRANDR=0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
