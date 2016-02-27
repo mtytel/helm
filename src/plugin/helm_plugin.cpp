@@ -160,7 +160,7 @@ void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages, int start_sample, 
 
 void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
   int total_samples = buffer.getNumSamples();
-  int num_channels = getNumOutputChannels();
+  int num_channels = getTotalNumOutputChannels();
   AudioPlayHead::CurrentPositionInfo position_info;
   getPlayHead()->getCurrentPosition(position_info);
   synth_.setBpm(position_info.bpm);
@@ -173,7 +173,7 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
 
     processMidi(midi_messages, sample_offset, sample_offset + num_samples);
 
-    if (synth_.getBufferSize())
+    if (synth_.getBufferSize() != num_samples)
       synth_.setBufferSize(num_samples);
     synth_.process();
 
