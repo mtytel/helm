@@ -136,6 +136,10 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   delete_patch_button_->addListener(this);
   addAndMakeVisible(delete_patch_button_);
 
+  hide_button_ = new TextButton("X");
+  hide_button_->addListener(this);
+  addAndMakeVisible(hide_button_);
+
   addKeyListener(this);
 }
 
@@ -222,6 +226,8 @@ void PatchBrowser::resized() {
   delete_patch_button_->setBounds(data_x + button_width + 2.0f * data_widget_buffer_x,
                                   height - 30.0f,
                                   button_width, 30.0f);
+
+  hide_button_->setBounds(getWidth() - 21 - BROWSE_PADDING, BROWSE_PADDING, 20, 20);
 }
 
 void PatchBrowser::visibilityChanged() {
@@ -281,6 +287,8 @@ void PatchBrowser::buttonClicked(Button* clicked_button) {
       delete_section_->setVisible(true);
     }
   }
+  else if (clicked_button == hide_button_)
+    setVisible(false);
 }
 
 bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
