@@ -80,8 +80,10 @@ namespace mopo {
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
     setPolyphony(utils::iclamp(polyphony, 1, polyphony));
-    for (int out = 0; out < numOutputs(); ++out)
-      memset(output(out)->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    for (int i = 0; i < numOutputs(); ++i) {
+      int buffer_size = voice_outputs_[i]->owner->getBufferSize();
+      memset(output(i)->buffer, 0, buffer_size * sizeof(mopo_float));
+    }
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
