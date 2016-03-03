@@ -30,17 +30,6 @@ namespace mopo {
       tick(i);
   }
 
-  void Operator::processTriggers() {
-    output()->clearTrigger();
-    for (int i = 0; i < numInputs(); ++i) {
-      if (input(i)->source->triggered) {
-        int offset = input(i)->source->trigger_offset;
-        tick(offset);
-        output()->trigger(output()->buffer[offset], offset);
-      }
-    }
-  }
-
   void Clamp::process() {
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vclipD(input()->source->buffer, 1,
