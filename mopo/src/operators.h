@@ -40,7 +40,16 @@ namespace mopo {
 
       virtual void process() override;
       virtual void tick(int i) = 0;
-      virtual void processTriggers();
+      inline void processTriggers() {
+        output()->clearTrigger();
+        for (int i = 0; i < numInputs(); ++i) {
+          if (input(i)->source->triggered) {
+            int offset = input(i)->source->trigger_offset;
+            tick(offset);
+            output()->trigger(output()->buffer[offset], offset);
+          }
+        }
+      }
 
     private:
       Operator() : Processor(0, 0) { }
