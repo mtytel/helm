@@ -90,6 +90,7 @@ namespace mopo {
     VariableAdd* poly_total = new VariableAdd();
     poly_total->setControlRate(true);
     poly_owner->addProcessor(poly_total);
+    poly_owner->setControlRate(true);
     poly_mod_destinations_[name] = poly_total;
 
     Add* modulation_total = new Add();
