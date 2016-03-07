@@ -22,6 +22,11 @@
 #define FRAMES_PER_SECOND 30
 #define PADDING 5.0f
 #define MARKER_WIDTH 6.0f
+#define NOISE_RESOLUTION 6
+
+namespace {
+  static const float random_values[NOISE_RESOLUTION] = {0.3, 0.9, -0.9, -0.2, -0.5, 0.7 };
+} // namespace
 
 WaveViewer::WaveViewer(int resolution) {
   wave_slider_ = nullptr;
@@ -135,6 +140,48 @@ void WaveViewer::setAmplitudeSlider(Slider* slider) {
   resetWavePath();
 }
 
+void WaveViewer::drawRandom() {
+  float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
+  float draw_width = getWidth();
+  float draw_height = getHeight() - 2.0f * PADDING;
+
+  wave_path_.startNewSubPath(0, getHeight() / 2.0f);
+  for (int i = 0; i < NOISE_RESOLUTION; ++i) {
+    float t1 = (1.0f * i) / NOISE_RESOLUTION;
+    float t2 = (1.0f + i) / NOISE_RESOLUTION;
+    float val = amplitude * random_values[i];
+    wave_path_.lineTo(t1 * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t2 * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+  }
+
+  wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
+}
+
+void WaveViewer::drawSmoothRandom() {
+  float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
+  float draw_width = getWidth();
+  float draw_height = getHeight() - 2.0f * PADDING;
+
+  float start_val = amplitude * random_values[0];
+  wave_path_.startNewSubPath(-50, getHeight() / 2.0f);
+  wave_path_.lineTo(0, PADDING + draw_height * ((1.0f - start_val) / 2.0f));
+  for (int i = 1; i < resolution_ - 1; ++i) {
+    float t = (1.0f * i) / resolution_;
+    float phase = t * (NOISE_RESOLUTION - 1);
+    int index = (int)phase;
+    phase = mopo::PI * (phase - index);
+    float val = amplitude * INTERPOLATE(random_values[index],
+                                        random_values[index + 1],
+                                        0.5 - cos(phase) / 2.0);
+    wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+  }
+
+  float end_val = amplitude * random_values[NOISE_RESOLUTION - 1];
+  wave_path_.lineTo(getWidth(), PADDING + draw_height * ((1.0f - end_val) / 2.0f));
+  wave_path_.lineTo(getWidth() + 50, getHeight() / 2.0f);
+
+}
+
 void WaveViewer::resetWavePath() {
   if (!background_.isValid())
     return;
@@ -150,7 +197,6 @@ void WaveViewer::resetWavePath() {
 
   mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
 
-  wave_path_.clear();
   if (type < mopo::Wave::kWhiteNoise) {
     wave_path_.startNewSubPath(0, getHeight() / 2.0f);
     for (int i = 1; i < resolution_ - 1; ++i) {
@@ -161,6 +207,10 @@ void WaveViewer::resetWavePath() {
 
     wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
   }
+  else if (type == mopo::Wave::kWhiteNoise)
+    drawRandom();
+  else
+    drawSmoothRandom();
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;

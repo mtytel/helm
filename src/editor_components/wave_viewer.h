@@ -30,6 +30,8 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
     void timerCallback() override;
     void setWaveSlider(Slider* slider);
     void setAmplitudeSlider(Slider* slider);
+    void drawRandom();
+    void drawSmoothRandom();
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
     void showRealtimeFeedback(bool show_feedback = true);
