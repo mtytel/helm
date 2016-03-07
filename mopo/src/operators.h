@@ -509,6 +509,66 @@ namespace mopo {
     protected:
       mopo_float last_value_;
   };
+
+  namespace cr {
+
+    class Add : public Operator {
+      public:
+        Add() : Operator(2, 1) {
+          setControlRate(true);
+        }
+
+        virtual Processor* clone() const override { return new Add(*this); }
+
+        inline void tick(int i) override {
+          output()->buffer[0] = input(0)->at(0) + input(1)->at(0);
+        }
+
+        void process() override {
+          tick(0);
+        }
+    };
+
+    class Multiply : public Operator {
+      public:
+        Multiply() : Operator(2, 1) {
+          setControlRate(true);
+        }
+
+        virtual Processor* clone() const override { return new Multiply(*this); }
+
+        inline void tick(int i) override {
+          output()->buffer[0] = input(0)->at(0) * input(1)->at(0);
+        }
+
+        void process() override {
+          tick(0);
+        }
+    };
+
+    class VariableAdd : public Operator {
+      public:
+        VariableAdd(int num_inputs = 0) : Operator(num_inputs, 1) {
+          setControlRate(true);
+        }
+
+        virtual Processor* clone() const override {
+          return new VariableAdd(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          size_t num_inputs = inputs_->size();
+          output()->buffer[0] = 0.0;
+
+          for (int in = 0; in < num_inputs; ++in)
+            output()->buffer[0] += input(in)->at(0);
+        }
+    };
+  } // namespace cr
 } // namespace mopo
 
 #endif // OPERATORS_H

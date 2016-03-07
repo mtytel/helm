@@ -43,4 +43,32 @@ namespace mopo {
     value_ = INTERPOLATE(value_, target_value_, decay_);
     output()->buffer[i] = value_;
   }
+
+  namespace cr {
+
+    SmoothValue::SmoothValue(mopo_float value) :
+        Value(value), target_value_(value), decay_(1.0), num_samples_(1) {
+      setControlRate(true);
+    }
+
+    void SmoothValue::setSampleRate(int sample_rate) {
+      Value::setSampleRate(sample_rate);
+      computeDecay();
+    }
+
+    void SmoothValue::setBufferSize(int buffer_size) {
+      Value::setBufferSize(buffer_size);
+      num_samples_ = buffer_size;
+      computeDecay();
+    }
+
+    void SmoothValue::process() {
+      value_ = INTERPOLATE(value_, target_value_, decay_);
+      output()->buffer[0] = value_;
+    }
+
+    void SmoothValue::computeDecay() {
+      decay_ = 1 - exp(-2.0 * PI * SMOOTH_CUTOFF * num_samples_ / sample_rate_);
+    }
+  } // namespace cr
 } // namespace mopo
