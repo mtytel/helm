@@ -40,8 +40,8 @@ namespace mopo {
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
 #endif
 
-    Processor* beats_per_minute = createMonoModControl("beats_per_minute", false);
-    Multiply* beats_per_second = new Multiply();
+    Processor* beats_per_minute = createMonoModControl("beats_per_minute", true);
+    cr::Multiply* beats_per_second = new cr::Multiply();
     beats_per_second->plug(beats_per_minute, 0);
     beats_per_second->plug(minutes_per_second, 1);
     addProcessor(beats_per_second);
@@ -70,8 +70,7 @@ namespace mopo {
     lfo_1_->plug(lfo_1_frequency, HelmLfo::kFrequency);
     lfo_1_->plug(lfo_1_reset, HelmLfo::kReset);
 
-    Multiply* scaled_lfo_1 = new Multiply();
-    scaled_lfo_1->setControlRate();
+    cr::Multiply* scaled_lfo_1 = new cr::Multiply();
     scaled_lfo_1->plug(lfo_1_, 0);
     scaled_lfo_1->plug(lfo_1_free_amplitude, 1);
 
@@ -97,7 +96,7 @@ namespace mopo {
     lfo_2_->plug(lfo_2_frequency, HelmLfo::kFrequency);
     lfo_2_->plug(lfo_2_reset, HelmLfo::kReset);
 
-    Multiply* scaled_lfo_2 = new Multiply();
+    cr::Multiply* scaled_lfo_2 = new cr::Multiply();
     scaled_lfo_2->setControlRate();
     scaled_lfo_2->plug(lfo_2_, 0);
     scaled_lfo_2->plug(lfo_2_free_amplitude, 1);

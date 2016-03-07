@@ -27,7 +27,7 @@ namespace mopo {
     mopo_float default_value = Parameters::getDetails(name).default_value;
     Value* val = 0;
     if (smooth_value) {
-      val = new SmoothValue(default_value);
+      val = new cr::SmoothValue(default_value);
       getMonoRouter()->addProcessor(val);
     }
     else {
@@ -42,8 +42,7 @@ namespace mopo {
   Processor* HelmModule::createBaseModControl(std::string name, bool smooth_value) {
     Processor* base_val = createBaseControl(name, smooth_value);
 
-    VariableAdd* mono_total = new VariableAdd();
-    mono_total->setControlRate(true);
+    cr::VariableAdd* mono_total = new cr::VariableAdd();
     mono_total->plugNext(base_val);
     getMonoRouter()->addProcessor(mono_total);
     mono_mod_destinations_[name] = mono_total;
@@ -87,14 +86,12 @@ namespace mopo {
     Processor* base_control = createBaseModControl(name, smooth_value);
     ProcessorRouter* poly_owner = getPolyRouter();
 
-    VariableAdd* poly_total = new VariableAdd();
-    poly_total->setControlRate(true);
+    cr::VariableAdd* poly_total = new cr::VariableAdd();
     poly_owner->addProcessor(poly_total);
     poly_owner->setControlRate(true);
     poly_mod_destinations_[name] = poly_total;
 
-    Add* modulation_total = new Add();
-    modulation_total->setControlRate(true);
+    cr::Add* modulation_total = new cr::Add();
     modulation_total->plug(base_control, 0);
     modulation_total->plug(poly_total, 1);
     poly_owner->addProcessor(modulation_total);
@@ -152,13 +149,20 @@ namespace mopo {
     choose_modifier->plugNext(&dotted_ratio);
     choose_modifier->plugNext(&triplet_ratio);
 
-    Multiply* modified_tempo = new Multiply();
-    modified_tempo->setControlRate(frequency->isControlRate());
+    Processor* modified_tempo = nullptr;
+    Processor* tempo_frequency = nullptr;
+    if (frequency->isControlRate()) {
+      modified_tempo = new cr::Multiply();
+      tempo_frequency = new cr::Multiply();
+    }
+    else {
+      modified_tempo = new Multiply();
+      tempo_frequency = new Multiply();
+    }
+
     modified_tempo->plug(choose_tempo, 0);
     modified_tempo->plug(choose_modifier, 1);
 
-    Multiply* tempo_frequency = new Multiply();
-    tempo_frequency->setControlRate(frequency->isControlRate());
     tempo_frequency->plug(modified_tempo, 0);
     tempo_frequency->plug(bps, 1);
 

@@ -165,12 +165,10 @@ namespace mopo {
   void HelmVoiceHandler::createOscillators(Output* midi, Output* reset) {
     // Pitch bend.
     Processor* pitch_bend_range = createPolyModControl("pitch_bend_range", true);
-    Multiply* pitch_bend = new Multiply();
-    pitch_bend->setControlRate();
+    cr::Multiply* pitch_bend = new cr::Multiply();
     pitch_bend->plug(choose_pitch_wheel_, 0);
     pitch_bend->plug(pitch_bend_range, 1);
-    Add* bent_midi = new Add();
-    bent_midi->setControlRate();
+    cr::Add* bent_midi = new cr::Add();
     bent_midi->plug(midi, 0);
     bent_midi->plug(pitch_bend, 1);
 
@@ -186,12 +184,10 @@ namespace mopo {
     Processor* oscillator1_unison_detune = createPolyModControl("osc_1_unison_detune", true);
     Processor* oscillator1_unison_harmonize = createBaseControl("unison_1_harmonize");
 
-    Add* oscillator1_transposed = new Add();
-    oscillator1_transposed->setControlRate();
+    cr::Add* oscillator1_transposed = new cr::Add();
     oscillator1_transposed->plug(bent_midi, 0);
     oscillator1_transposed->plug(oscillator1_transpose, 1);
-    Add* oscillator1_midi = new Add();
-    oscillator1_midi->setControlRate();
+    cr::Add* oscillator1_midi = new cr::Add();
     oscillator1_midi->plug(oscillator1_transposed, 0);
     oscillator1_midi->plug(oscillator1_tune, 1);
 
@@ -231,12 +227,10 @@ namespace mopo {
     Processor* oscillator2_unison_detune = createPolyModControl("osc_2_unison_detune", true);
     Processor* oscillator2_unison_harmonize = createBaseControl("unison_2_harmonize");
 
-    Add* oscillator2_transposed = new Add();
-    oscillator2_transposed->setControlRate();
+    cr::Add* oscillator2_transposed = new cr::Add();
     oscillator2_transposed->plug(bent_midi, 0);
     oscillator2_transposed->plug(oscillator2_transpose, 1);
-    Add* oscillator2_midi = new Add();
-    oscillator2_midi->setControlRate();
+    cr::Add* oscillator2_midi = new cr::Add();
     oscillator2_midi->plug(oscillator2_transposed, 0);
     oscillator2_midi->plug(oscillator2_tune, 1);
 
@@ -280,8 +274,7 @@ namespace mopo {
     addProcessor(smooth_osc_2_amp);
 
     // Sub Oscillator.
-    Add* sub_midi = new Add();
-    sub_midi->setControlRate();
+    cr::Add* sub_midi = new cr::Add();
     Value* sub_transpose = new Value(-2 * NOTES_PER_OCTAVE);
     sub_midi->plug(bent_midi, 0);
     sub_midi->plug(sub_transpose, 1);
@@ -345,12 +338,12 @@ namespace mopo {
     Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", true);
     Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", false, true);
     Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", true);
-    Add* osc_feedback_transposed = new Add();
-    osc_feedback_transposed->setControlRate();
+
+    cr::Add* osc_feedback_transposed = new cr::Add();
     osc_feedback_transposed->plug(bent_midi, 0);
     osc_feedback_transposed->plug(osc_feedback_transpose, 1);
-    Add* osc_feedback_midi = new Add();
-    osc_feedback_midi->setControlRate();
+
+    cr::Add* osc_feedback_midi = new cr::Add();
     osc_feedback_midi->plug(osc_feedback_transposed, 0);
     osc_feedback_midi->plug(osc_feedback_tune, 1);
 
@@ -394,8 +387,7 @@ namespace mopo {
     lfo->plug(lfo_waveform, HelmLfo::kWaveform);
     lfo->plug(lfo_frequency, HelmLfo::kFrequency);
 
-    Multiply* scaled_lfo = new Multiply();
-    scaled_lfo->setControlRate();
+    cr::Multiply* scaled_lfo = new cr::Multiply();
     scaled_lfo->plug(lfo, 0);
     scaled_lfo->plug(lfo_free_amplitude, 1);
 
@@ -436,8 +428,7 @@ namespace mopo {
     filter_envelope_->plug(env_trigger_, Envelope::kTrigger);
 
     Processor* filter_envelope_depth = createPolyModControl("fil_env_depth", false);
-    Multiply* scaled_envelope = new Multiply();
-    scaled_envelope->setControlRate();
+    cr::Multiply* scaled_envelope = new cr::Multiply();
     scaled_envelope->plug(filter_envelope_, 0);
     scaled_envelope->plug(filter_envelope_depth, 1);
 
@@ -447,19 +438,16 @@ namespace mopo {
     // Filter.
     Processor* filter_type = createBaseControl("filter_type");
     Processor* keytrack_amount = createPolyModControl("keytrack", false);
-    Multiply* current_keytrack = new Multiply();
-    current_keytrack->setControlRate();
+    cr::Multiply* current_keytrack = new cr::Multiply();
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
 
     Processor* base_cutoff = createPolyModControl("cutoff", true, true);
-    Add* keytracked_cutoff = new Add();
-    keytracked_cutoff->setControlRate();
+    cr::Add* keytracked_cutoff = new cr::Add();
     keytracked_cutoff->plug(base_cutoff, 0);
     keytracked_cutoff->plug(current_keytrack, 1);
 
-    Add* midi_cutoff = new Add();
-    midi_cutoff->setControlRate();
+    cr::Add* midi_cutoff = new cr::Add();
     midi_cutoff->plug(keytracked_cutoff, 0);
     midi_cutoff->plug(scaled_envelope, 1);
 
@@ -670,8 +658,7 @@ namespace mopo {
     current_note->plug(note_wait);
 
     Value* max_midi_invert = new Value(1.0 / (MIDI_SIZE - 1));
-    Multiply* note_percentage = new Multiply();
-    note_percentage->setControlRate();
+    cr::Multiply* note_percentage = new cr::Multiply();
     note_percentage->plug(max_midi_invert, 0);
     note_percentage->plug(current_note, 1);
 
@@ -681,7 +668,7 @@ namespace mopo {
 
     // Key tracking.
     Value* center_adjust = new Value(-MIDI_SIZE / 2);
-    note_from_center_ = new Add();
+    note_from_center_ = new cr::Add();
     note_from_center_->plug(center_adjust, 0);
     note_from_center_->plug(current_note, 1);
 

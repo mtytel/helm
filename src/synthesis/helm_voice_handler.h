@@ -78,7 +78,7 @@ namespace mopo {
 
       Processor* beats_per_second_;
 
-      Add* note_from_center_;
+      Processor* note_from_center_;
       Switch* choose_pitch_wheel_;
       Value* mod_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
       Value* pitch_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
