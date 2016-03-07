@@ -48,6 +48,37 @@ namespace mopo {
       mopo_float target_value_;
       mopo_float decay_;
   };
+
+  namespace cr {
+    class SmoothValue : public Value {
+      public:
+        SmoothValue(mopo_float value = 0.0);
+
+        virtual Processor* clone() const override {
+          return new SmoothValue(*this);
+        }
+
+        virtual void process() override;
+
+        virtual void setSampleRate(int sample_rate) override;
+        virtual void setBufferSize(int buffer_size) override;
+
+        void set(mopo_float value) override { target_value_ = value; }
+        void setHard(mopo_float value) {
+          Value::set(value);
+          target_value_ = value;
+        }
+
+        mopo_float value() const override { return target_value_; }
+
+      private:
+        void computeDecay();
+
+        mopo_float target_value_;
+        mopo_float decay_;
+        int num_samples_;
+    };
+  } // namespace cr
 } // namespace mopo
 
 #endif // SMOOTH_VALUE_H
