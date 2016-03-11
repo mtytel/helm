@@ -476,8 +476,6 @@ File LoadSave::getFactoryBankDirectory() {
   patch_dir = data_dir.getChildFile("Helm/Patches");
 #endif
 
-  if (!patch_dir.exists())
-    patch_dir.createDirectory();
   return patch_dir;
 }
 
