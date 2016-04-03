@@ -25,6 +25,8 @@
 
 #ifdef __SSE2__
 #include <emmintrin.h>
+#else
+#include <algorithm>
 #endif
 
 namespace mopo {
