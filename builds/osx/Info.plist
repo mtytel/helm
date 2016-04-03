@@ -23,7 +23,7 @@
     <key>CFBundleIconFile</key>
     <string></string>
     <key>CFBundleIdentifier</key>
-    <string>org.tytel.helmplugin</string>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleName</key>
     <string>HelmPlugin</string>
     <key>CFBundlePackageType</key>

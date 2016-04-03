@@ -479,6 +479,32 @@
         <MODULEPATH id="juce_video" path="../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
+    <VS2015 targetFolder="builds/vs15">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+        <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       warningsAreErrors="0"/>
+        <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
