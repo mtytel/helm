@@ -17,6 +17,7 @@ build
 *.tlog
 *.user
 *.app
+*.opendb
 *.opensdf
 *.component
 *.VST
