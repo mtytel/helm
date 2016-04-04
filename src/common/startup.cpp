@@ -30,8 +30,9 @@ namespace {
     File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
     patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-    File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory);
-    patch_dir = data_dir.getChildFile("Helm/User Patches");
+    File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
+    patch_dir = data_dir.getChildFile("Helm/patches");
+    File folder_dir = patch_dir.getChildFile("User Patches");
 #endif
     return patch_dir;
   }

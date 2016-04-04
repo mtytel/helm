@@ -472,7 +472,7 @@ File LoadSave::getFactoryBankDirectory() {
   File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::globalApplicationsDirectory);
+  File data_dir = File::getSpecialLocation(File::commonDocumentsDirectory);
   patch_dir = data_dir.getChildFile("Helm/Patches");
 #endif
 
@@ -487,8 +487,11 @@ File LoadSave::getBankDirectory() {
   File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
-  File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
-  patch_dir = data_dir.getChildFile("Helm/patches");
+  File documents_dir = File::getSpecialLocation(File::userDocumentsDirectory);
+  File parent_dir = documents_dir.getChildFile("Helm");
+  if (!parent_dir.exists())
+    parent_dir.createDirectory();
+  patch_dir = parent_dir.getChildFile("Patches");
 #endif
 
   if (!patch_dir.exists())
