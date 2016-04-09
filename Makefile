@@ -1,3 +1,5 @@
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
 ifndef CONFIG
 	CONFIG=Release
 endif
@@ -38,7 +40,8 @@ install: all
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
 	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
-	gzip $(CHANGES)/changelog.gz ChangeLog
+	gzip -n -9 ChangeLog
+	mv ChangeLog.gz $(CHANGES)/changelog.gz
 	cp docs/helm.1.gz $(MAN)
 	cp -rf patches/* $(PATCHES)
 
