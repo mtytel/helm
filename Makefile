@@ -15,6 +15,7 @@ SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
 ICONS   = $(SYSDATA)/icons
 PATCHES = $(SYSDATA)/patches
 MAN     = $(DESTDIR)/usr/share/man/man1/
+CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
 
 all: standalone lv2
 
@@ -33,10 +34,11 @@ clean:
 	$(MAKE) clean -C builds/linux/VST CONFIG=$(CONFIG)
 
 install: all
-	install -d $(PATCHES) $(BIN) $(ICONS) $(LV2) $(MAN)
+	install -d $(PATCHES) $(BIN) $(ICONS) $(LV2) $(MAN) $(CHANGES)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
 	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
+	gzip $(CHANGES)/changelog.gz ChangeLog
 	cp docs/helm.1.gz $(MAN)
 	cp -rf patches/* $(PATCHES)
 
