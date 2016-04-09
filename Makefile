@@ -43,6 +43,24 @@ install: all
 install_vst: vst
 	install builds/linux/VST/build/helm.so $(VST)
 
+dist:
+	rm -rf $(PROGRAM)
+	mkdir $(PROGRAM)
+	-cp -rf * $(PROGRAM)/
+	$(MAKE) clean -C $(PROGRAM) CONFIG=Release
+	$(MAKE) clean -C $(PROGRAM) CONFIG=Debug
+	rm -rf $(PROGRAM)/.git
+	rm -rf $(PROGRAM)/JUCE/extras
+	rm -rf $(PROGRAM)/JUCE/examples
+	rm -rf $(PROGRAM)/builds/osx
+	rm -rf $(PROGRAM)/builds/vs12
+	rm -rf $(PROGRAM)/builds/vs15
+	rm -rf $(PROGRAM)/standalone/builds/osx
+	rm -rf $(PROGRAM)/standalone/builds/vs12
+	rm -rf $(PROGRAM)/standalone/builds/vs15
+	tar -cvzf $(PROGRAM).tar.gz $(PROGRAM)
+	rm -rf $(PROGRAM)
+
 uninstall:
 	rm -rf $(LV2)
 	rm -rf $(SYSDATA)
