@@ -27,6 +27,7 @@ namespace mopo {
     state_.velocity = 0;
     state_.last_note = 0;
     state_.note_pressed = 0;
+    state_.channel = 0;
     key_state_ = kReleased;
   }
 
@@ -42,9 +43,11 @@ namespace mopo {
     note_.clearTrigger();
     last_note_.clearTrigger();
     note_pressed_.clearTrigger();
+    channel_.clearTrigger();
     velocity_.clearTrigger();
     voice_event_.clearTrigger();
     aftertouch_.clearTrigger();
+    channel_.buffer[0] = voice->state().channel;
 
     if (voice->hasNewEvent()) {
       voice_event_.trigger(voice->state().event, voice->event_sample());
@@ -53,6 +56,7 @@ namespace mopo {
         last_note_.trigger(voice->state().last_note, 0);
         velocity_.trigger(voice->state().velocity, 0);
         note_pressed_.trigger(voice->state().note_pressed, 0);
+        channel_.trigger(voice->state().channel, 0);
       }
     }
 
@@ -76,8 +80,10 @@ namespace mopo {
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
     setPolyphony(utils::iclamp(polyphony, 1, polyphony));
-    for (int out = 0; out < numOutputs(); ++out)
-      memset(output(out)->buffer, 0, buffer_size_ * sizeof(mopo_float));
+    for (int i = 0; i < numOutputs(); ++i) {
+      int buffer_size = voice_outputs_[i]->owner->getBufferSize();
+      memset(output(i)->buffer, 0, buffer_size * sizeof(mopo_float));
+    }
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
@@ -219,13 +225,16 @@ namespace mopo {
     return 0;
   }
 
-  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample) {
+  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
+    MOPO_ASSERT(sample >= 0 && sample < buffer_size_);
+    MOPO_ASSERT(channel >= 0 && channel < NUM_MIDI_CHANNELS);
+
     Voice* voice = grabVoice();
     pressed_notes_.push_front(note);
 
     if (last_played_note_ < 0)
       last_played_note_ = note;
-    voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample);
+    voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample, channel);
     active_voices_.push_back(voice);
     last_played_note_ = note;
   }
@@ -276,9 +285,9 @@ namespace mopo {
 
     int num_voices_to_kill = active_voices_.size() - polyphony;
     for (int i = 0; i < num_voices_to_kill; ++i) {
-      Voice* sacrafice = getVoiceToKill();
-      if (sacrafice)
-        sacrafice->kill();
+      Voice* sacrifice = getVoiceToKill();
+      if (sacrifice)
+        sacrifice->kill();
     }
 
     polyphony_ = polyphony;
@@ -302,18 +311,17 @@ namespace mopo {
     global_router_.removeProcessor(processor);
   }
 
-  void VoiceHandler::registerOutput(Output* output) {
+  Processor::Output* VoiceHandler::registerOutput(Output* output) {
     Output* new_output = new Output();
     new_output->owner = this;
     ProcessorRouter::registerOutput(new_output);
     voice_outputs_.push_back(output);
+    return new_output;
   }
 
-  void VoiceHandler::registerOutput(Output* output, int index) {
-    while (voice_outputs_.size() <= index)
-      registerOutput(0);
-
-    voice_outputs_[index] = output;
+  Processor::Output* VoiceHandler::registerOutput(Output* output, int index) {
+    MOPO_ASSERT(false);
+    return output;
   }
 
   bool VoiceHandler::isPolyphonic(const Processor* processor) const {
