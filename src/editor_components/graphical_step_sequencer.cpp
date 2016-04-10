@@ -178,7 +178,7 @@ void GraphicalStepSequencer::resetBackground() {
 
 // Sets the height of the steps based on mouse positions.
 // If the mouse skipped over some steps between last mouseDrag event, we'll interpolate
-// and set all the steps inbetween to appropriate values.
+// and set all the steps between to appropriate values.
 void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
   Point<int> mouse_position = e.getPosition();
   int from_step = getHoveredStep(last_edit_position_);
