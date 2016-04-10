@@ -285,9 +285,9 @@ namespace mopo {
 
     int num_voices_to_kill = active_voices_.size() - polyphony;
     for (int i = 0; i < num_voices_to_kill; ++i) {
-      Voice* sacrafice = getVoiceToKill();
-      if (sacrafice)
-        sacrafice->kill();
+      Voice* sacrifice = getVoiceToKill();
+      if (sacrifice)
+        sacrifice->kill();
     }
 
     polyphony_ = polyphony;
