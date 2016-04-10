@@ -1,3 +1,4 @@
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 ifndef CONFIG
 	CONFIG=Release
@@ -21,7 +22,7 @@ CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
 all: standalone lv2
 
 standalone:
-	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEB_BUILD_MAINT_OPTIONS=hardening=+all
+	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG)
 
 lv2:
 	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG) DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
