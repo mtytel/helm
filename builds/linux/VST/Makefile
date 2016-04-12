@@ -8,10 +8,6 @@ ifndef CONFIG
   CONFIG=Debug
 endif
 
-ifndef VERBOSE
-  AT:=@
-endif
-
 ifeq ($(CONFIG),Debug)
   BINDIR := build
   LIBDIR := build
@@ -162,14 +158,12 @@ OBJECTS := \
   $(OBJDIR)/juce_audio_processors_a9c69383.o \
   $(OBJDIR)/juce_audio_utils_f6fe6709.o \
   $(OBJDIR)/juce_core_9d6b33ad.o \
-  $(OBJDIR)/juce_cryptography_306b807.o \
   $(OBJDIR)/juce_data_structures_dcd877a9.o \
   $(OBJDIR)/juce_events_e5b201a1.o \
   $(OBJDIR)/juce_graphics_a34b2885.o \
   $(OBJDIR)/juce_gui_basics_3e4cc581.o \
   $(OBJDIR)/juce_gui_extra_20746349.o \
   $(OBJDIR)/juce_PluginUtilities_b46a93d5.o \
-  $(OBJDIR)/juce_video_7b52df69.o \
   $(OBJDIR)/juce_VST_Wrapper_6cac13de.o \
   $(OBJDIR)/juce_VST3_Wrapper_fb90cd9c.o \
 
@@ -177,612 +171,602 @@ OBJECTS := \
 
 $(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
 	@echo Linking HelmPlugin
-	-$(AT)mkdir -p $(BINDIR)
-	-$(AT)mkdir -p $(LIBDIR)
-	-$(AT)mkdir -p $(OUTDIR)
-	$(AT)$(BLDCMD)
+	-@mkdir -p $(BINDIR)
+	-@mkdir -p $(LIBDIR)
+	-@mkdir -p $(OUTDIR)
+	@$(BLDCMD)
 
 clean:
 	@echo Cleaning HelmPlugin
-	$(AT)$(CLEANCMD)
+	@$(CLEANCMD)
 
 strip:
 	@echo Stripping HelmPlugin
-	-$(AT)strip --strip-unneeded $(OUTDIR)/$(TARGET)
+	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
 $(OBJDIR)/alias_3b4a33b.o: ../../../mopo/src/alias.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling alias.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/arpeggiator_89770ba4.o: ../../../mopo/src/arpeggiator.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling arpeggiator.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/bit_crush_6b16ce74.o: ../../../mopo/src/bit_crush.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling bit_crush.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/bypass_router_40c9316b.o: ../../../mopo/src/bypass_router.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling bypass_router.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/delay_8860f4ee.o: ../../../mopo/src/delay.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delay.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/distortion_f480ec5c.o: ../../../mopo/src/distortion.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling distortion.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/envelope_e820148f.o: ../../../mopo/src/envelope.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling envelope.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/feedback_dd650dc4.o: ../../../mopo/src/feedback.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling feedback.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_8bfdb6b7.o: ../../../mopo/src/filter.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/formant_manager_f436e2fc.o: ../../../mopo/src/formant_manager.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling formant_manager.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/linear_slope_44537f50.o: ../../../mopo/src/linear_slope.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling linear_slope.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/magnitude_lookup_8a3238c8.o: ../../../mopo/src/magnitude_lookup.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling magnitude_lookup.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/memory_5ee1bbc0.o: ../../../mopo/src/memory.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling memory.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/midi_lookup_33d3b4c3.o: ../../../mopo/src/midi_lookup.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling midi_lookup.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/mono_panner_cf566c25.o: ../../../mopo/src/mono_panner.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling mono_panner.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/operators_8e60d6ba.o: ../../../mopo/src/operators.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling operators.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/oscillator_53287adf.o: ../../../mopo/src/oscillator.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscillator.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/phaser_d7048a16.o: ../../../mopo/src/phaser.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling phaser.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/portamento_slope_c638d2fc.o: ../../../mopo/src/portamento_slope.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling portamento_slope.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/processor_c4855d7d.o: ../../../mopo/src/processor.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling processor.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/processor_router_80596755.o: ../../../mopo/src/processor_router.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling processor_router.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/resonance_lookup_6f824fca.o: ../../../mopo/src/resonance_lookup.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling resonance_lookup.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/reverb_b8f91811.o: ../../../mopo/src/reverb.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling reverb.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/reverb_all_pass_2b685f27.o: ../../../mopo/src/reverb_all_pass.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling reverb_all_pass.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/reverb_comb_38882eb9.o: ../../../mopo/src/reverb_comb.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling reverb_comb.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/simple_delay_53bccd75.o: ../../../mopo/src/simple_delay.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling simple_delay.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/smooth_filter_f6a9594.o: ../../../mopo/src/smooth_filter.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling smooth_filter.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/smooth_value_7af0775f.o: ../../../mopo/src/smooth_value.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling smooth_value.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/step_generator_7143a5f.o: ../../../mopo/src/step_generator.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling step_generator.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/stutter_3fda664c.o: ../../../mopo/src/stutter.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling stutter.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/trigger_operators_54fe0673.o: ../../../mopo/src/trigger_operators.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling trigger_operators.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/value_76b325dc.o: ../../../mopo/src/value.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling value.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/voice_handler_49cbc5a8.o: ../../../mopo/src/voice_handler.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling voice_handler.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/wave_9cd47038.o: ../../../mopo/src/wave.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/file_list_box_model_85bc4022.o: ../../../src/common/file_list_box_model.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling file_list_box_model.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_common_ef933337.o: ../../../src/common/helm_common.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_common.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/load_save_2c95b2e1.o: ../../../src/common/load_save.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling load_save.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/midi_manager_80d96a0e.o: ../../../src/common/midi_manager.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling midi_manager.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/startup_52cb2a28.o: ../../../src/common/startup.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling startup.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_gui_interface.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_response.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_selector_c70de13a.o: ../../../src/editor_components/filter_selector.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_selector.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/global_tool_tip_5f078e04.o: ../../../src/editor_components/global_tool_tip.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling global_tool_tip.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphical_envelope.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling graphical_envelope.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/midi_keyboard_ec3d63f9.o: ../../../src/editor_components/midi_keyboard.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling midi_keyboard.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_button.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_meter_3f248ddc.o: ../../../src/editor_components/modulation_meter.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_meter.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_slider_aee8aab8.o: ../../../src/editor_components/modulation_slider.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_slider.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscilloscope.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/patch_selector_fe7c390c.o: ../../../src/editor_components/patch_selector.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling patch_selector.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/retrigger_selector.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling retrigger_selector.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_slider.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling tempo_selector.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/wave_selector_6d163719.o: ../../../src/editor_components/wave_selector.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave_selector.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/wave_viewer_e4b5610c.o: ../../../src/editor_components/wave_viewer.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling wave_viewer.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling xy_pad.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/about_section_7d82e4ff.o: ../../../src/editor_sections/about_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling about_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling arp_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delay_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/delete_section_a0453dcf.o: ../../../src/editor_sections/delete_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling delete_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/dynamic_section_846a1cf1.o: ../../../src/editor_sections/dynamic_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling dynamic_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/envelope_section_a35a0a34.o: ../../../src/editor_sections/envelope_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling envelope_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/extra_mod_section_ea9c0745.o: ../../../src/editor_sections/extra_mod_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling extra_mod_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/feedback_section_56c0fe69.o: ../../../src/editor_sections/feedback_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling feedback_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/filter_section_9094381c.o: ../../../src/editor_sections/filter_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling filter_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/formant_section_51494d55.o: ../../../src/editor_sections/formant_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling formant_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling full_interface.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling lfo_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/mixer_section_9e4a737b.o: ../../../src/editor_sections/mixer_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling mixer_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation_manager.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_manager.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/noise_section_31fdfd0c.o: ../../../src/editor_sections/noise_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling noise_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling oscillator_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/patch_browser_b6fb73fd.o: ../../../src/editor_sections/patch_browser.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling patch_browser.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/reverb_section_a0ad9f76.o: ../../../src/editor_sections/reverb_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling reverb_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/save_section_1a7d8ce1.o: ../../../src/editor_sections/save_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling save_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/step_sequencer_section_13843dc2.o: ../../../src/editor_sections/step_sequencer_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling step_sequencer_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/stutter_section_943b1913.o: ../../../src/editor_sections/stutter_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling stutter_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/sub_section_8cb704f2.o: ../../../src/editor_sections/sub_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling sub_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synth_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synthesis_interface_a75e885a.o: ../../../src/editor_sections/synthesis_interface.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/update_check_section_c57e00f6.o: ../../../src/editor_sections/update_check_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling update_check_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/voice_section_99705324.o: ../../../src/editor_sections/voice_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling voice_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/volume_section_9cff0be.o: ../../../src/editor_sections/volume_section.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling volume_section.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_look_and_feel.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling browser_look_and_feel.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/default_look_and_feel_f168ba6a.o: ../../../src/look_and_feel/default_look_and_feel.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling default_look_and_feel.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/fonts_7e4e153e.o: ../../../src/look_and_feel/fonts.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fonts.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_look_and_feel.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling text_look_and_feel.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_editor_cad94f01.o: ../../../src/plugin/helm_editor.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_editor.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_plugin_108c49c7.o: ../../../src/plugin/helm_plugin.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_plugin.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/dc_filter_3d140d58.o: ../../../src/synthesis/dc_filter.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling dc_filter.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/fixed_point_oscillator_66a86444.o: ../../../src/synthesis/fixed_point_oscillator.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fixed_point_oscillator.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_wave.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling fixed_point_wave.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_engine_2e44f843.o: ../../../src/synthesis/helm_engine.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_engine.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_lfo_c32ba99e.o: ../../../src/synthesis/helm_lfo.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_lfo.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_module_a4927f6d.o: ../../../src/synthesis/helm_module.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_module.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_oscillators_bb02f03c.o: ../../../src/synthesis/helm_oscillators.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_oscillators.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/helm_voice_handler_35395fa6.o: ../../../src/synthesis/helm_voice_handler.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling helm_voice_handler.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/noise_oscillator_93de254f.o: ../../../src/synthesis/noise_oscillator.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling noise_oscillator.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling resonance_cancel.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling switch.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/BinaryData_51699c3.o: ../../../JuceLibraryCode/BinaryData.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling BinaryData.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_181b4cb.o: ../../../JUCE/modules/juce_audio_basics/juce_audio_basics.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_audio_basics.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_devices_2d9302c9.o: ../../../JUCE/modules/juce_audio_devices/juce_audio_devices.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_audio_devices.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_formats_5c144c69.o: ../../../JUCE/modules/juce_audio_formats/juce_audio_formats.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_audio_formats.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_processors_a9c69383.o: ../../../JUCE/modules/juce_audio_processors/juce_audio_processors.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_audio_processors.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_utils_f6fe6709.o: ../../../JUCE/modules/juce_audio_utils/juce_audio_utils.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_audio_utils.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_core_9d6b33ad.o: ../../../JUCE/modules/juce_core/juce_core.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_core.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/juce_cryptography_306b807.o: ../../../JUCE/modules/juce_cryptography/juce_cryptography.cpp
-	-$(AT)mkdir -p $(OBJDIR)
-	@echo "Compiling juce_cryptography.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_data_structures_dcd877a9.o: ../../../JUCE/modules/juce_data_structures/juce_data_structures.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_data_structures.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_events_e5b201a1.o: ../../../JUCE/modules/juce_events/juce_events.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_events.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_graphics_a34b2885.o: ../../../JUCE/modules/juce_graphics/juce_graphics.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_graphics.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_gui_basics_3e4cc581.o: ../../../JUCE/modules/juce_gui_basics/juce_gui_basics.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_gui_basics.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_gui_extra_20746349.o: ../../../JUCE/modules/juce_gui_extra/juce_gui_extra.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_gui_extra.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_PluginUtilities_b46a93d5.o: ../../../JUCE/modules/juce_audio_plugin_client/utility/juce_PluginUtilities.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_PluginUtilities.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-
-$(OBJDIR)/juce_video_7b52df69.o: ../../../JUCE/modules/juce_video/juce_video.cpp
-	-$(AT)mkdir -p $(OBJDIR)
-	@echo "Compiling juce_video.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_VST_Wrapper_6cac13de.o: ../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VST_Wrapper.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_VST_Wrapper.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_VST3_Wrapper_fb90cd9c.o: ../../../JUCE/modules/juce_audio_plugin_client/VST3/juce_VST3_Wrapper.cpp
-	-$(AT)mkdir -p $(OBJDIR)
+	-@mkdir -p $(OBJDIR)
 	@echo "Compiling juce_VST3_Wrapper.cpp"
-	$(AT)$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

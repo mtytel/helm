@@ -300,6 +300,9 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_CatmullRomInterpolator.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -759,6 +762,9 @@
     <ClCompile Include="..\..\JUCE\modules\juce_core\misc\juce_Result.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_core\misc\juce_RuntimePermissions.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_core\misc\juce_Uuid.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -769,6 +775,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_core\native\juce_android_Network.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_core\native\juce_android_RuntimePermissions.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_core\native\juce_android_SystemStats.cpp">
@@ -811,24 +820,6 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_core\native\juce_win32_Threads.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\encryption\juce_BlowFish.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\encryption\juce_Primes.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\encryption\juce_RSAKey.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\hashing\juce_MD5.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\hashing\juce_SHA256.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\hashing\juce_Whirlpool.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_data_structures\values\juce_Value.cpp">
@@ -1422,21 +1413,6 @@
     <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_win32_WebBrowserComponent.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_video\native\juce_android_CameraDevice.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_video\native\juce_win32_CameraDevice.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_video\native\juce_win32_DirectShowComponent.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_video\native\juce_win32_QuickTimeMovieComponent.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Wrapper.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp"/>
@@ -1445,7 +1421,6 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_utils\juce_audio_utils.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_core\juce_core.cpp"/>
-    <ClCompile Include="..\..\JUCE\modules\juce_cryptography\juce_cryptography.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_data_structures\juce_data_structures.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_events\juce_events.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\juce_graphics.cpp"/>
@@ -1467,7 +1442,6 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_Wrapper.cpp">
       <CallingConvention>StdCall</CallingConvention>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_video\juce_video.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\VST\juce_VST_Wrapper.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
@@ -1584,6 +1558,7 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_FloatVectorOperations.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_CatmullRomInterpolator.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_Decibels.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_FFT.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\effects\juce_IIRFilter.h"/>
@@ -1719,6 +1694,7 @@
     <ClInclude Include="..\..\JUCE\modules\juce_core\maths\juce_NormalisableRange.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\maths\juce_Random.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\maths\juce_Range.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_core\maths\juce_StatisticsAccumulator.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\memory\juce_Atomic.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\memory\juce_ByteOrder.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\memory\juce_ContainerDeletePolicy.h"/>
@@ -1805,6 +1781,7 @@
     <ClInclude Include="..\..\JUCE\modules\juce_core\zip\juce_ZipFile.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\unit_tests\juce_UnitTest.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_Result.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_RuntimePermissions.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_Uuid.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_WindowsRegistry.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\native\juce_android_JNIHelpers.h"/>
@@ -1814,13 +1791,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_core\native\juce_posix_SharedCode.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\native\juce_win32_ComSmartPtr.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_core\juce_core.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\encryption\juce_BlowFish.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\encryption\juce_Primes.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\encryption\juce_RSAKey.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\hashing\juce_MD5.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\hashing\juce_SHA256.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\hashing\juce_Whirlpool.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_cryptography\juce_cryptography.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_data_structures\values\juce_Value.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_data_structures\values\juce_ValueTree.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_data_structures\values\juce_ValueTreeSynchroniser.h"/>
@@ -2042,10 +2012,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\misc\juce_WebBrowserComponent.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_video\playback\juce_DirectShowComponent.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_video\playback\juce_QuickTimeMovieComponent.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.h"/>
-    <ClInclude Include="..\..\JUCE\modules\juce_video\juce_video.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
@@ -2081,13 +2047,11 @@
     <None Include="..\..\JUCE\modules\juce_audio_processors\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_audio_utils\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_core\juce_module_info"/>
-    <None Include="..\..\JUCE\modules\juce_cryptography\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_data_structures\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_events\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_graphics\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_gui_basics\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_gui_extra\juce_module_info"/>
-    <None Include="..\..\JUCE\modules\juce_video\juce_module_info"/>
     <None Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_WinResources.rsr"/>
   </ItemGroup>
   <ItemGroup>
