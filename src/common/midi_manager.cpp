@@ -41,7 +41,9 @@ void MidiManager::handleNoteOn(MidiKeyboardState* source,
   ScopedLock lock(*critical_section_);
   synth_->noteOn(midiNoteNumber, velocity, 0, midiChannel - 1);
 }
-void MidiManager::handleNoteOff(MidiKeyboardState* source, int midiChannel, int midiNoteNumber) {
+
+void MidiManager::handleNoteOff(MidiKeyboardState* source,
+                                int midiChannel, int midiNoteNumber, float velocity) {
   ScopedLock lock(*critical_section_);
   synth_->noteOff(midiNoteNumber);
 }

@@ -38,7 +38,7 @@ void HelmComputerKeyboard::changeKeyboardOffset(int new_offset) {
   ScopedLock lock(*critical_section_);
   for (int i = 0; i < layout_.length(); ++i) {
     int note = computer_keyboard_offset_ + i;
-    keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note);
+    keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
     keys_pressed_.erase(layout_[i]);
   }
 
@@ -59,12 +59,12 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
     if (KeyPress::isKeyCurrentlyDown(layout_[i]) &&
         !keys_pressed_.count(layout_[i]) && isKeyDown) {
       keys_pressed_.insert(layout_[i]);
-      keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, 1.0);
+      keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
     }
     else if (!KeyPress::isKeyCurrentlyDown(layout_[i]) &&
              keys_pressed_.count(layout_[i])) {
       keys_pressed_.erase(layout_[i]);
-      keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note);
+      keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
     }
     consumed = true;
   }

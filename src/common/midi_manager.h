@@ -43,7 +43,7 @@ class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
     void handleNoteOn(MidiKeyboardState* source,
                       int midiChannel, int midiNoteNumber, float velocity) override;
     void handleNoteOff(MidiKeyboardState* source,
-                       int midiChannel, int midiNoteNumber) override;
+                       int midiChannel, int midiNoteNumber, float velocity) override;
 
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
