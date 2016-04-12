@@ -116,7 +116,7 @@ public:
     static void CALLBACK midiInCallback (HMIDIIN, UINT uMsg, DWORD_PTR dwInstance,
                                          DWORD_PTR midiMessage, DWORD_PTR timeStamp)
     {
-        MidiInCollector* const collector = reinterpret_cast <MidiInCollector*> (dwInstance);
+        MidiInCollector* const collector = reinterpret_cast<MidiInCollector*> (dwInstance);
 
         if (activeMidiCollectors.contains (collector))
         {
@@ -270,8 +270,8 @@ MidiInput* MidiInput::openDevice (const int index, MidiInputCallback* const call
         }
     }
 
-    ScopedPointer <MidiInput> in (new MidiInput (name));
-    ScopedPointer <MidiInCollector> collector (new MidiInCollector (in, *callback));
+    ScopedPointer<MidiInput> in (new MidiInput (name));
+    ScopedPointer<MidiInCollector> collector (new MidiInCollector (in, *callback));
 
     HMIDIIN h;
     MMRESULT err = midiInOpen (&h, deviceId,
@@ -362,6 +362,7 @@ MidiOutput* MidiOutput::openDevice (int index)
     UINT deviceId = MIDI_MAPPER;
     const UINT num = midiOutGetNumDevs();
     int n = 0;
+    String deviceName;
 
     for (UINT i = 0; i < num; ++i)
     {
@@ -369,13 +370,16 @@ MidiOutput* MidiOutput::openDevice (int index)
 
         if (midiOutGetDevCaps (i, &mc, sizeof (mc)) == MMSYSERR_NOERROR)
         {
+            String name = String (mc.szPname, sizeof (mc.szPname));
+
             // use the microsoft sw synth as a default - best not to allow deviceId
             // to be MIDI_MAPPER, or else device sharing breaks
-            if (String (mc.szPname, sizeof (mc.szPname)).containsIgnoreCase ("microsoft"))
+            if (name.containsIgnoreCase ("microsoft"))
                 deviceId = i;
 
             if (index == n)
             {
+                deviceName = name;
                 deviceId = i;
                 break;
             }
@@ -392,7 +396,7 @@ MidiOutput* MidiOutput::openDevice (int index)
         {
             han->refCount++;
 
-            MidiOutput* const out = new MidiOutput();
+            MidiOutput* const out = new MidiOutput (deviceName);
             out->internal = han;
             return out;
         }
@@ -411,7 +415,7 @@ MidiOutput* MidiOutput::openDevice (int index)
             han->handle = h;
             MidiOutHandle::activeHandles.add (han);
 
-            MidiOutput* const out = new MidiOutput();
+            MidiOutput* const out = new MidiOutput (deviceName);
             out->internal = han;
             return out;
         }

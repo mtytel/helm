@@ -25,7 +25,6 @@
 #ifndef JUCER_PROJECTEXPORTER_H_INCLUDED
 #define JUCER_PROJECTEXPORTER_H_INCLUDED
 
-#include "../jucer_Headers.h"
 #include "../Project/jucer_Project.h"
 #include "../Project/jucer_ProjectType.h"
 #include "../Application/jucer_GlobalPreferences.h"
@@ -44,6 +43,8 @@ public:
         String name;
         const void* iconData;
         int iconDataSize;
+
+        Image getIcon() const   { return ImageCache::getFromMemory (iconData, iconDataSize); }
     };
 
     static StringArray getExporterNames();
@@ -64,6 +65,7 @@ public:
     virtual void create (const OwnedArray<LibraryModule>&) const = 0; // may throw a SaveError
     virtual bool shouldFileBeCompiledByDefault (const RelativePath& path) const;
     virtual bool canCopeWithDuplicateFiles() = 0;
+    virtual bool supportsUserDefinedConfigurations() const   { return true; }
 
     virtual bool isXcode() const                { return false; }
     virtual bool isVisualStudio() const         { return false; }
@@ -110,7 +112,7 @@ public:
     String getExtraLinkerFlagsString() const    { return getSettingString (Ids::extraLinkerFlags).replaceCharacters ("\r\n", "  "); }
 
     Value getExternalLibraries()                { return getSetting (Ids::externalLibraries); }
-    String getExternalLibrariesString() const   { return getSettingString (Ids::externalLibraries).replaceCharacters ("\r\n", " ;"); }
+    String getExternalLibrariesString() const   { return getSearchPathsFromString (getSettingString (Ids::externalLibraries)).joinIntoString (";"); }
 
     Value getUserNotes()                        { return getSetting (Ids::userNotes); }
 
@@ -132,7 +134,7 @@ public:
     void updateOldModulePaths();
 
     RelativePath rebaseFromProjectFolderToBuildTarget (const RelativePath& path) const;
-    void addToExtraSearchPaths (const RelativePath& pathFromProjectFolder);
+    void addToExtraSearchPaths (const RelativePath& pathFromProjectFolder, int index = -1);
 
     Value getBigIconImageItemID()               { return getSetting (Ids::bigIcon); }
     Value getSmallIconImageItemID()             { return getSetting (Ids::smallIcon); }
@@ -196,7 +198,7 @@ public:
     class BuildConfiguration  : public ReferenceCountedObject
     {
     public:
-        BuildConfiguration (Project& project, const ValueTree& configNode);
+        BuildConfiguration (Project& project, const ValueTree& configNode, const ProjectExporter&);
         ~BuildConfiguration();
 
         typedef ReferenceCountedObjectPtr<BuildConfiguration> Ptr;
@@ -248,8 +250,7 @@ public:
         //==============================================================================
         ValueTree config;
         Project& project;
-
-    protected:
+        const ProjectExporter& exporter;
 
     private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BuildConfiguration)

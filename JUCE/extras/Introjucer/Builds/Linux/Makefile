@@ -18,7 +18,7 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := 
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=3.2.0" -D "JUCE_APP_VERSION_HEX=0x30200" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../../modules
+  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=4.1.0" -D "JUCE_APP_VERSION_HEX=0x40100" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../../modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 -std=gnu++0x -Wreorder -Wuninitialized -Wunused-parameter -Wstrict-aliasing -Wshadow -Wsign-compare
   CXXFLAGS += $(CFLAGS) -std=c++11
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -ldl -lfreetype -lpthread -lrt -lcurl 
@@ -38,7 +38,7 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := 
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=3.2.0" -D "JUCE_APP_VERSION_HEX=0x30200" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../../modules
+  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=4.1.0" -D "JUCE_APP_VERSION_HEX=0x40100" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../../modules
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -O3 -std=gnu++0x -Wreorder -Wuninitialized -Wunused-parameter -Wstrict-aliasing -Wshadow -Wsign-compare
   CXXFLAGS += $(CFLAGS) -std=c++11
   LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -ldl -lfreetype -lpthread -lrt -lcurl 
@@ -88,6 +88,7 @@ OBJECTS := \
   $(OBJDIR)/jucer_CodeHelpers_c317179c.o \
   $(OBJDIR)/jucer_FileHelpers_f98ed0ad.o \
   $(OBJDIR)/jucer_Icons_9db2f51e.o \
+  $(OBJDIR)/jucer_IntrojucerLookAndFeel_d578c909.o \
   $(OBJDIR)/jucer_JucerTreeViewBase_d043309d.o \
   $(OBJDIR)/jucer_MiscUtilities_25b68c82.o \
   $(OBJDIR)/jucer_SlidingPanelComponent_9aa7a2ab.o \
@@ -313,6 +314,11 @@ $(OBJDIR)/jucer_FileHelpers_f98ed0ad.o: ../../Source/Utility/jucer_FileHelpers.c
 $(OBJDIR)/jucer_Icons_9db2f51e.o: ../../Source/Utility/jucer_Icons.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling jucer_Icons.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/jucer_IntrojucerLookAndFeel_d578c909.o: ../../Source/Utility/jucer_IntrojucerLookAndFeel.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling jucer_IntrojucerLookAndFeel.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/jucer_JucerTreeViewBase_d043309d.o: ../../Source/Utility/jucer_JucerTreeViewBase.cpp

@@ -34,10 +34,6 @@
  #define JUCE_OPENGL_ES 1
 #endif
 
-#if ! JUCE_ANDROID
- #define JUCE_OPENGL_CREATE_JUCE_RENDER_THREAD 1
-#endif
-
 #if JUCE_WINDOWS
  #ifndef APIENTRY
   #define APIENTRY __stdcall
@@ -75,14 +71,17 @@
   #include <OpenGL/glext.h>
  #endif
 #elif JUCE_ANDROID
+ #include <android/native_window.h>
+ #include <android/native_window_jni.h>
  #include <GLES2/gl2.h>
+ #include <EGL/egl.h>
 #endif
 
 #if GL_ES_VERSION_3_0
  #define JUCE_OPENGL3 1
 #endif
 
-//=============================================================================
+//==============================================================================
 /** This macro is a helper for use in GLSL shader code which needs to compile on both OpenGL 2.1 and OpenGL 3.0.
     It's mandatory in OpenGL 3.0 to specify the GLSL version.
 */
@@ -96,7 +95,7 @@
  #define JUCE_GLSL_VERSION ""
 #endif
 
-//=============================================================================
+//==============================================================================
 #if JUCE_OPENGL_ES || defined (DOXYGEN)
  /** This macro is a helper for use in GLSL shader code which needs to compile on both GLES and desktop GL.
      Since it's mandatory in GLES to mark a variable with a precision, but the keywords don't exist in normal GLSL,
@@ -121,7 +120,7 @@
  #define JUCE_LOWP
 #endif
 
-//=============================================================================
+//==============================================================================
 namespace juce
 {
 

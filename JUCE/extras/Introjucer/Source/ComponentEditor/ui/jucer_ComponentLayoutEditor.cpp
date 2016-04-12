@@ -188,7 +188,7 @@ Image ComponentLayoutEditor::createComponentLayerSnapshot() const
 void ComponentLayoutEditor::updateOverlayPositions()
 {
     for (int i = getNumChildComponents(); --i >= 0;)
-        if (ComponentOverlayComponent* const overlay = dynamic_cast <ComponentOverlayComponent*> (getChildComponent (i)))
+        if (ComponentOverlayComponent* const overlay = dynamic_cast<ComponentOverlayComponent*> (getChildComponent (i)))
             overlay->updateBoundsToMatchTarget();
 }
 
@@ -196,7 +196,7 @@ void ComponentLayoutEditor::refreshAllComponents()
 {
     for (int i = getNumChildComponents(); --i >= 0;)
     {
-        ScopedPointer<ComponentOverlayComponent> overlay (dynamic_cast <ComponentOverlayComponent*> (getChildComponent (i)));
+        ScopedPointer<ComponentOverlayComponent> overlay (dynamic_cast<ComponentOverlayComponent*> (getChildComponent (i)));
 
         if (overlay != nullptr && layout.containsComponent (overlay->target))
             overlay.release();
@@ -298,7 +298,7 @@ void ComponentLayoutEditor::mouseUp (const MouseEvent& e)
     lassoComp.endLasso();
     removeChildComponent (&lassoComp);
 
-    if (e.mouseWasClicked() && ! e.mods.isAnyModifierKeyDown())
+    if (! (e.mouseWasDraggedSinceMouseDown() || e.mods.isAnyModifierKeyDown()))
         layout.getSelectedSet().deselectAll();
 }
 
@@ -399,7 +399,7 @@ ComponentOverlayComponent* ComponentLayoutEditor::getOverlayCompFor (Component* 
 {
     for (int i = getNumChildComponents(); --i >= 0;)
     {
-        if (ComponentOverlayComponent* const overlay = dynamic_cast <ComponentOverlayComponent*> (getChildComponent (i)))
+        if (ComponentOverlayComponent* const overlay = dynamic_cast<ComponentOverlayComponent*> (getChildComponent (i)))
             if (overlay->target == compToFind)
                 return overlay;
     }

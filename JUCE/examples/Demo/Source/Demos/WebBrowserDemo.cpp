@@ -80,7 +80,7 @@ public:
 
         // Create an address box..
         addAndMakeVisible (addressTextBox);
-        addressTextBox.setTextToShowWhenEmpty ("Enter a web address, e.g. http://www.juce.com", Colours::grey);
+        addressTextBox.setTextToShowWhenEmpty ("Enter a web address, e.g. https://www.juce.com", Colours::grey);
         addressTextBox.addListener (this);
 
         // create the actual browser component
@@ -95,7 +95,7 @@ public:
         forwardButton.addListener (this);
 
         // send the browser to a start page..
-        webView->goToURL ("http://www.juce.com");
+        webView->goToURL ("https://www.juce.com");
     }
 
     void paint (Graphics& g) override
@@ -137,7 +137,7 @@ private:
             webView->goToURL (addressTextBox.getText());
     }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WebBrowserDemo);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WebBrowserDemo)
 };
 
 

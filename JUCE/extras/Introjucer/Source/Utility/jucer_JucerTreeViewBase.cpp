@@ -22,6 +22,7 @@
   ==============================================================================
 */
 
+#include "../jucer_Headers.h"
 #include "jucer_JucerTreeViewBase.h"
 #include "../Project/jucer_ProjectContentComponent.h"
 
@@ -82,11 +83,6 @@ void JucerTreeViewBase::refreshSubItems()
 Font JucerTreeViewBase::getFont() const
 {
     return Font (getItemHeight() * 0.6f);
-}
-
-float JucerTreeViewBase::getIconSize() const
-{
-    return jmin (getItemHeight() - 4.0f, 18.0f);
 }
 
 void JucerTreeViewBase::paintOpenCloseButton (Graphics& g, const Rectangle<float>& area, Colour /*backgroundColour*/, bool isMouseOver)
@@ -220,7 +216,7 @@ void JucerTreeViewBase::handlePopupMenuResult (int)
 ProjectContentComponent* JucerTreeViewBase::getProjectContentComponent() const
 {
     for (Component* c = getOwnerView(); c != nullptr; c = c->getParentComponent())
-        if (ProjectContentComponent* pcc = dynamic_cast <ProjectContentComponent*> (c))
+        if (ProjectContentComponent* pcc = dynamic_cast<ProjectContentComponent*> (c))
             return pcc;
 
     return nullptr;

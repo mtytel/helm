@@ -41,7 +41,7 @@
 
     Note: If all that you need to do is to respond to files being drag-and-dropped from
     the operating system onto your component, you don't need any of these classes: you can do this
-    simply by overriding Component::filesDropped().
+    simply by overriding FileDragAndDropTarget::filesDropped().
 
     @see DragAndDropTarget
 */
@@ -86,7 +86,7 @@ public:
     */
     void startDragging (const var& sourceDescription,
                         Component* sourceComponent,
-                        Image dragImage = Image::null,
+                        Image dragImage = Image(),
                         bool allowDraggingToOtherJuceWindows = false,
                         const Point<int>* imageOffsetFromMouse = nullptr);
 
@@ -181,7 +181,7 @@ private:
     friend struct ContainerDeletePolicy<DragImageComponent>;
     ScopedPointer<DragImageComponent> dragImageComponent;
 
-    JUCE_DEPRECATED (virtual bool shouldDropFilesWhenDraggedExternally (const String&, Component*, StringArray&, bool&)) { return false; }
+    JUCE_DEPRECATED_WITH_BODY (virtual bool shouldDropFilesWhenDraggedExternally (const String&, Component*, StringArray&, bool&), { return false; })
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DragAndDropContainer)
 };

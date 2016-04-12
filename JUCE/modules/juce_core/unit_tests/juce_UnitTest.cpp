@@ -143,6 +143,9 @@ void UnitTestRunner::runTests (const Array<UnitTest*>& tests, int64 randomSeed)
         if (shouldAbortTests())
             break;
 
+       #if JUCE_EXCEPTIONS_DISABLED
+        tests.getUnchecked(i)->performTest (this);
+       #else
         try
         {
             tests.getUnchecked(i)->performTest (this);
@@ -151,6 +154,7 @@ void UnitTestRunner::runTests (const Array<UnitTest*>& tests, int64 randomSeed)
         {
             addFail ("An unhandled exception was thrown!");
         }
+       #endif
     }
 
     endTest();
@@ -201,9 +205,9 @@ void UnitTestRunner::endTest()
             m << r->failures << (r->failures == 1 ? " test" : " tests")
               << " failed, out of a total of " << (r->passes + r->failures);
 
-            logMessage (String::empty);
+            logMessage (String());
             logMessage (m);
-            logMessage (String::empty);
+            logMessage (String());
         }
         else
         {

@@ -29,7 +29,7 @@
 #include "../juce_audio_basics/juce_audio_basics.h"
 
 
-//=============================================================================
+//==============================================================================
 /** Config: JUCE_PLUGINHOST_VST
     Enables the VST audio plugin hosting classes. This requires the Steinberg VST SDK to be
     installed on your machine.
@@ -67,8 +67,8 @@
  #define JUCE_SUPPORT_CARBON 1
 #endif
 
-//=============================================================================
-//=============================================================================
+//==============================================================================
+//==============================================================================
 namespace juce
 {
 
@@ -77,6 +77,7 @@ class AudioProcessor;
 #include "processors/juce_AudioProcessorEditor.h"
 #include "processors/juce_AudioProcessorListener.h"
 #include "processors/juce_AudioProcessorParameter.h"
+#include "processors/juce_AudioChannelSet.h"
 #include "processors/juce_AudioProcessor.h"
 #include "processors/juce_PluginDescription.h"
 #include "processors/juce_AudioPluginInstance.h"
@@ -92,6 +93,12 @@ class AudioProcessor;
 #include "format_types/juce_VST3PluginFormat.h"
 #include "scanning/juce_PluginDirectoryScanner.h"
 #include "scanning/juce_PluginListComponent.h"
+#include "utilities/juce_AudioProcessorValueTreeState.h"
+#include "utilities/juce_AudioProcessorParameterWithID.h"
+#include "utilities/juce_AudioParameterFloat.h"
+#include "utilities/juce_AudioParameterInt.h"
+#include "utilities/juce_AudioParameterBool.h"
+#include "utilities/juce_AudioParameterChoice.h"
 
 }
 

@@ -109,7 +109,8 @@ static unsigned int __stdcall threadEntryProc (void* userData)
 void Thread::launchThread()
 {
     unsigned int newThreadId;
-    threadHandle = (void*) _beginthreadex (0, 0, &threadEntryProc, this, 0, &newThreadId);
+    threadHandle = (void*) _beginthreadex (0, (unsigned int) threadStackSize,
+                                           &threadEntryProc, this, 0, &newThreadId);
     threadId = (ThreadID) (pointer_sized_int) newThreadId;
 }
 
@@ -154,7 +155,7 @@ void JUCE_CALLTYPE Thread::setCurrentThreadName (const String& name)
     __except (EXCEPTION_CONTINUE_EXECUTION)
     {}
    #else
-    (void) name;
+    ignoreUnused (name);
    #endif
 }
 
@@ -259,14 +260,9 @@ void JUCE_CALLTYPE Process::setPriority (ProcessPriority prior)
     }
 }
 
-JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger()
+JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger() noexcept
 {
     return IsDebuggerPresent() != FALSE;
-}
-
-bool JUCE_CALLTYPE Process::isRunningUnderDebugger()
-{
-    return juce_isRunningUnderDebugger();
 }
 
 static void* currentModuleHandle = nullptr;
@@ -314,27 +310,17 @@ bool juce_isRunningInWine()
 bool DynamicLibrary::open (const String& name)
 {
     close();
-
-    JUCE_TRY
-    {
-        handle = LoadLibrary (name.toWideCharPointer());
-    }
-    JUCE_CATCH_ALL
-
+    handle = LoadLibrary (name.toWideCharPointer());
     return handle != nullptr;
 }
 
 void DynamicLibrary::close()
 {
-    JUCE_TRY
+    if (handle != nullptr)
     {
-        if (handle != nullptr)
-        {
-            FreeLibrary ((HMODULE) handle);
-            handle = nullptr;
-        }
+        FreeLibrary ((HMODULE) handle);
+        handle = nullptr;
     }
-    JUCE_CATCH_ALL
 }
 
 void* DynamicLibrary::getFunction (const String& functionName) noexcept
@@ -457,11 +443,11 @@ public:
             STARTUPINFOW startupInfo = { 0 };
             startupInfo.cb = sizeof (startupInfo);
 
-            startupInfo.hStdOutput = (streamFlags | wantStdOut) != 0 ? writePipe : 0;
-            startupInfo.hStdError  = (streamFlags | wantStdErr) != 0 ? writePipe : 0;
+            startupInfo.hStdOutput = (streamFlags & wantStdOut) != 0 ? writePipe : 0;
+            startupInfo.hStdError  = (streamFlags & wantStdErr) != 0 ? writePipe : 0;
             startupInfo.dwFlags = STARTF_USESTDHANDLES;
 
-            ok = CreateProcess (nullptr, const_cast <LPWSTR> (command.toWideCharPointer()),
+            ok = CreateProcess (nullptr, const_cast<LPWSTR> (command.toWideCharPointer()),
                                 nullptr, nullptr, TRUE, CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT,
                                 nullptr, nullptr, &startupInfo, &processInfo) != FALSE;
         }

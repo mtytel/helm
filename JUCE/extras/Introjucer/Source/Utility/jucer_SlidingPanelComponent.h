@@ -25,7 +25,6 @@
 #ifndef JUCER_SLIDINGPANELCOMPONENT_H_INCLUDED
 #define JUCER_SLIDINGPANELCOMPONENT_H_INCLUDED
 
-#include "../jucer_Headers.h"
 #include "../Application/jucer_Application.h"
 
 
@@ -78,7 +77,7 @@ private:
     Component pageHolder;
     int currentIndex, dotSize;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SlidingPanelComponent);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SlidingPanelComponent)
 };
 
 

@@ -397,7 +397,7 @@ struct Expression::Helpers
             JUCE_DECLARE_NON_COPYABLE (SymbolRenamingVisitor)
         };
 
-        SymbolTerm* getSymbol() const  { return static_cast <SymbolTerm*> (left.get()); }
+        SymbolTerm* getSymbol() const  { return static_cast<SymbolTerm*> (left.get()); }
 
         JUCE_DECLARE_NON_COPYABLE (DotOperator)
     };
@@ -427,7 +427,7 @@ struct Expression::Helpers
 
         TermPtr createTermToEvaluateInput (const Scope& scope, const Term* t, double overallTarget, Term* topLevelTerm) const
         {
-            (void) t;
+            ignoreUnused (t);
             jassert (t == input);
 
             const Term* const dest = findDestinationFor (topLevelTerm, this);
@@ -656,8 +656,7 @@ struct Expression::Helpers
     {
     public:
         //==============================================================================
-        Parser (String::CharPointerType& stringToParse)
-            : text (stringToParse)
+        Parser (String::CharPointerType& stringToParse)  : text (stringToParse)
         {
         }
 
@@ -669,13 +668,23 @@ struct Expression::Helpers
             const TermPtr e (readExpression());
 
             if (e == nullptr || ((! readOperator (",")) && ! text.isEmpty()))
-                throw ParseError ("Syntax error: \"" + String (text) + "\"");
+                return parseError ("Syntax error: \"" + String (text) + "\"");
 
             return e;
         }
 
+        String error;
+
     private:
         String::CharPointerType& text;
+
+        Term* parseError (const String& message)
+        {
+            if (error.isEmpty())
+                error = message;
+
+            return nullptr;
+        }
 
         //==============================================================================
         static inline bool isDecimalDigit (const juce_wchar c) noexcept
@@ -777,7 +786,7 @@ struct Expression::Helpers
                 TermPtr rhs (readMultiplyOrDivideExpression());
 
                 if (rhs == nullptr)
-                    throw ParseError ("Expected expression after \"" + String::charToString ((juce_wchar) (uint8) opType) + "\"");
+                    return parseError ("Expected expression after \"" + String::charToString ((juce_wchar) (uint8) opType) + "\"");
 
                 if (opType == '+')
                     lhs = new Add (lhs, rhs);
@@ -798,7 +807,7 @@ struct Expression::Helpers
                 TermPtr rhs (readUnaryExpression());
 
                 if (rhs == nullptr)
-                    throw ParseError ("Expected expression after \"" + String::charToString ((juce_wchar) (uint8) opType) + "\"");
+                    return parseError ("Expected expression after \"" + String::charToString ((juce_wchar) (uint8) opType) + "\"");
 
                 if (opType == '*')
                     lhs = new Multiply (lhs, rhs);
@@ -817,7 +826,7 @@ struct Expression::Helpers
                 TermPtr e (readUnaryExpression());
 
                 if (e == nullptr)
-                    throw ParseError ("Expected expression after \"" + String::charToString ((juce_wchar) (uint8) opType) + "\"");
+                    return parseError ("Expected expression after \"" + String::charToString ((juce_wchar) (uint8) opType) + "\"");
 
                 if (opType == '-')
                     e = e->negated();
@@ -858,7 +867,7 @@ struct Expression::Helpers
                         if (readOperator (")"))
                             return func.release();
 
-                        throw ParseError ("Expected parameters after \"" + identifier + " (\"");
+                        return parseError ("Expected parameters after \"" + identifier + " (\"");
                     }
 
                     f->parameters.add (Expression (param));
@@ -868,7 +877,7 @@ struct Expression::Helpers
                         param = readExpression();
 
                         if (param == nullptr)
-                            throw ParseError ("Expected expression after \",\"");
+                            return parseError ("Expected expression after \",\"");
 
                         f->parameters.add (Expression (param));
                     }
@@ -876,7 +885,7 @@ struct Expression::Helpers
                     if (readOperator (")"))
                         return func.release();
 
-                    throw ParseError ("Expected \")\"");
+                    return parseError ("Expected \")\"");
                 }
 
                 if (readOperator ("."))
@@ -884,7 +893,7 @@ struct Expression::Helpers
                     TermPtr rhs (readSymbolOrFunction());
 
                     if (rhs == nullptr)
-                        throw ParseError ("Expected symbol or function after \".\"");
+                        return parseError ("Expected symbol or function after \".\"");
 
                     if (identifier == "this")
                         return rhs;
@@ -926,8 +935,7 @@ Expression::~Expression()
 {
 }
 
-Expression::Expression (Term* const term_)
-    : term (term_)
+Expression::Expression (Term* t) : term (t)
 {
     jassert (term != nullptr);
 }
@@ -950,28 +958,31 @@ Expression& Expression::operator= (const Expression& other)
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
 Expression::Expression (Expression&& other) noexcept
-    : term (static_cast <ReferenceCountedObjectPtr<Term>&&> (other.term))
+    : term (static_cast<ReferenceCountedObjectPtr<Term>&&> (other.term))
 {
 }
 
 Expression& Expression::operator= (Expression&& other) noexcept
 {
-    term = static_cast <ReferenceCountedObjectPtr<Term>&&> (other.term);
+    term = static_cast<ReferenceCountedObjectPtr<Term>&&> (other.term);
     return *this;
 }
 #endif
 
-Expression::Expression (const String& stringToParse)
+Expression::Expression (const String& stringToParse, String& parseError)
 {
     String::CharPointerType text (stringToParse.getCharPointer());
     Helpers::Parser parser (text);
     term = parser.readUpToComma();
+    parseError = parser.error;
 }
 
-Expression Expression::parse (String::CharPointerType& stringToParse)
+Expression Expression::parse (String::CharPointerType& stringToParse, String& parseError)
 {
     Helpers::Parser parser (stringToParse);
-    return Expression (parser.readUpToComma());
+    Expression e (parser.readUpToComma());
+    parseError = parser.error;
+    return e;
 }
 
 double Expression::evaluate() const
@@ -981,14 +992,8 @@ double Expression::evaluate() const
 
 double Expression::evaluate (const Expression::Scope& scope) const
 {
-    try
-    {
-        return term->resolve (scope, 0)->toDouble();
-    }
-    catch (Helpers::EvaluationError&)
-    {}
-
-    return 0;
+    String err;
+    return evaluate (scope, err);
 }
 
 double Expression::evaluate (const Scope& scope, String& evaluationError) const
@@ -1034,20 +1039,16 @@ Expression Expression::adjustedToGiveNewResult (const double targetValue, const 
 
     jassert (termToAdjust != nullptr);
 
-    const Term* const parent = Helpers::findDestinationFor (newTerm, termToAdjust);
-
-    if (parent == nullptr)
+    if (const Term* parent = Helpers::findDestinationFor (newTerm, termToAdjust))
     {
-        termToAdjust->value = targetValue;
+        if (const Helpers::TermPtr reverseTerm = parent->createTermToEvaluateInput (scope, termToAdjust, targetValue, newTerm))
+            termToAdjust->value = Expression (reverseTerm).evaluate (scope);
+        else
+            return Expression (targetValue);
     }
     else
     {
-        const Helpers::TermPtr reverseTerm (parent->createTermToEvaluateInput (scope, termToAdjust, targetValue, newTerm));
-
-        if (reverseTerm == nullptr)
-            return Expression (targetValue);
-
-        termToAdjust->value = reverseTerm->resolve (scope, 0)->toDouble();
+        termToAdjust->value = targetValue;
     }
 
     return Expression (newTerm.release());
@@ -1104,15 +1105,8 @@ ReferenceCountedObjectPtr<Expression::Term> Expression::Term::negated()
 }
 
 //==============================================================================
-Expression::ParseError::ParseError (const String& message)
-    : description (message)
-{
-    DBG ("Expression::ParseError: " + message);
-}
-
-//==============================================================================
-Expression::Symbol::Symbol (const String& scopeUID_, const String& symbolName_)
-    : scopeUID (scopeUID_), symbolName (symbolName_)
+Expression::Symbol::Symbol (const String& scope, const String& symbol)
+    : scopeUID (scope), symbolName (symbol)
 {
 }
 

@@ -45,7 +45,7 @@ public:
     typedef char CharType;
 
     inline explicit CharPointer_ASCII (const CharType* const rawPointer) noexcept
-        : data (const_cast <CharType*> (rawPointer))
+        : data (const_cast<CharType*> (rawPointer))
     {
     }
 
@@ -62,7 +62,7 @@ public:
 
     inline CharPointer_ASCII operator= (const CharType* text) noexcept
     {
-        data = const_cast <CharType*> (text);
+        data = const_cast<CharType*> (text);
         return *this;
     }
 
@@ -215,12 +215,6 @@ public:
         CharacterFunctions::copyAll (*this, src);
     }
 
-    /** Copies a source string to this pointer, advancing this pointer as it goes. */
-    void writeAll (const CharPointer_ASCII src) noexcept
-    {
-        strcpy (data, src.data);
-    }
-
     /** Copies a source string to this pointer, advancing this pointer as it goes.
         The maxDestBytes parameter specifies the maximum number of bytes that can be written
         to the destination buffer before stopping.
@@ -276,7 +270,7 @@ public:
 
     int compareIgnoreCase (const CharPointer_ASCII other) const
     {
-       #if JUCE_MINGW
+       #if JUCE_MINGW || (JUCE_WINDOWS && JUCE_CLANG)
         return CharacterFunctions::compareIgnoreCase (*this, other);
        #elif JUCE_WINDOWS
         return stricmp (data, other.data);

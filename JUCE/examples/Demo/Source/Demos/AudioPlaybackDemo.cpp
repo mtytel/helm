@@ -305,7 +305,7 @@ public:
 
     void paint (Graphics& g) override
     {
-        fillTiledBackground (g);
+        fillStandardDemoBackground (g);
     }
 
     void resized() override
@@ -415,7 +415,7 @@ private:
             showFile (thumbnail->getLastDroppedFile());
     }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlaybackDemo);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPlaybackDemo)
 };
 
 

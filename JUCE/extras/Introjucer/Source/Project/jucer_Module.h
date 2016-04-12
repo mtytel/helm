@@ -25,7 +25,6 @@
 #ifndef JUCER_MODULE_H_INCLUDED
 #define JUCER_MODULE_H_INCLUDED
 
-#include "../jucer_Headers.h"
 #include "jucer_Project.h"
 class ProjectExporter;
 class ProjectSaver;
@@ -127,6 +126,7 @@ public:
 
     bool isModuleEnabled (const String& moduleID) const;
     Value shouldShowAllModuleFilesInProject (const String& moduleID);
+    Value shouldNotOverwriteModuleCodeOnSave (const String& moduleID);
     Value shouldCopyModuleFilesLocally (const String& moduleID) const;
     void removeModule (String moduleID);
     bool isAudioPluginModuleMissing() const;

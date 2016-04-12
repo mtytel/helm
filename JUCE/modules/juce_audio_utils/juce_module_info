@@ -1,7 +1,7 @@
 {
   "id":             "juce_audio_utils",
   "name":           "JUCE extra audio utility classes",
-  "version":        "3.2.0",
+  "version":        "4.1.0",
   "description":    "Classes for audio-related GUI and miscellaneous tasks.",
   "website":        "http://www.juce.com/juce",
   "license":        "GPL/Commercial",
@@ -17,5 +17,8 @@
                       { "file": "juce_audio_utils.mm",  "target": "xcode" } ],
 
   "browse":         [ "gui/*",
-                      "players/*" ]
+                      "players/*",
+                      "native/*" ],
+
+  "iOSFrameworks":  "CoreAudioKit"
 }

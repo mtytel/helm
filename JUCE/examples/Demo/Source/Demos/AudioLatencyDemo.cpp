@@ -284,7 +284,7 @@ private:
                                    : (recordedStart - referenceStart);
     }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LatencyTester);
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LatencyTester)
 };
 
 //==============================================================================
@@ -339,7 +339,7 @@ public:
 
     void paint (Graphics& g) override
     {
-        fillTiledBackground (g);
+        fillStandardDemoBackground (g);
     }
 
     void resized() override

@@ -57,8 +57,19 @@ public:
     bool isLinux() const override                       { return true; }
     bool canCopeWithDuplicateFiles() override           { return false; }
 
-    void createExporterProperties (PropertyListBuilder&) override
+    Value getCppStandardValue()                         { return getSetting (Ids::cppLanguageStandard); }
+    String getCppStandardString() const                 { return settings[Ids::cppLanguageStandard]; }
+
+    void createExporterProperties (PropertyListBuilder& properties) override
     {
+        static const char* cppStandardNames[]  = { "C++03",       "C++11",       "C++14",        nullptr };
+        static const char* cppStandardValues[] = { "-std=c++03",  "-std=c++11",  "-std=c++14",   nullptr };
+
+        properties.add (new ChoicePropertyComponent (getCppStandardValue(),
+                                                     "C++ standard to use",
+                                                     StringArray (cppStandardNames),
+                                                     Array<var>  (cppStandardValues)),
+                        "The C++ standard to specify in the makefile");
     }
 
     //==============================================================================
@@ -79,8 +90,8 @@ protected:
     class MakeBuildConfiguration  : public BuildConfiguration
     {
     public:
-        MakeBuildConfiguration (Project& p, const ValueTree& settings)
-            : BuildConfiguration (p, settings)
+        MakeBuildConfiguration (Project& p, const ValueTree& settings, const ProjectExporter& e)
+            : BuildConfiguration (p, settings, e)
         {
             setValueIfVoid (getLibrarySearchPathValue(), "/usr/X11R6/lib/");
         }
@@ -105,7 +116,7 @@ protected:
 
     BuildConfiguration::Ptr createBuildConfig (const ValueTree& tree) const override
     {
-        return new MakeBuildConfiguration (project, tree);
+        return new MakeBuildConfiguration (project, tree, *this);
     }
 
 private:
@@ -237,7 +248,14 @@ private:
             << (" "  + replacePreprocessorTokens (config, getExtraCompilerFlagsString())).trimEnd()
             << newLine;
 
-        out << "  CXXFLAGS += $(CFLAGS) -std=c++11" << newLine;
+        String cppStandardToUse (getCppStandardString());
+
+        if (cppStandardToUse.isEmpty())
+            cppStandardToUse = "-std=c++11";
+
+        out << "  CXXFLAGS += $(CFLAGS) "
+            << cppStandardToUse
+            << newLine;
 
         writeLinkerFlags (out, config);
 
@@ -350,17 +368,13 @@ private:
 
     void initialiseDependencyPathValues()
     {
-        vst2Path.referTo (Value (new DependencyPathValueSource (
-             getSetting (Ids::vstFolder),
-             DependencyPath::vst2KeyName,
-             DependencyPath::linux
-        )));
+        vst2Path.referTo (Value (new DependencyPathValueSource (getSetting (Ids::vstFolder),
+                                                                Ids::vst2Path,
+                                                                TargetOS::linux)));
 
-        vst3Path.referTo (Value (new DependencyPathValueSource (
-             getSetting (Ids::vst3Folder),
-             DependencyPath::vst3KeyName,
-             DependencyPath::linux
-        )));
+        vst3Path.referTo (Value (new DependencyPathValueSource (getSetting (Ids::vst3Folder),
+                                                                Ids::vst3Path,
+                                                                TargetOS::linux)));
     }
 
     JUCE_DECLARE_NON_COPYABLE (MakefileProjectExporter)

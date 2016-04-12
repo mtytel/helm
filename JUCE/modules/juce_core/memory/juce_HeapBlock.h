@@ -29,14 +29,14 @@
 #ifndef JUCE_HEAPBLOCK_H_INCLUDED
 #define JUCE_HEAPBLOCK_H_INCLUDED
 
-#ifndef DOXYGEN
+#if ! (defined (DOXYGEN) || JUCE_EXCEPTIONS_DISABLED)
 namespace HeapBlockHelper
 {
     template <bool shouldThrow>
-    struct ThrowOnFail          { static void check (void*) {} };
+    struct ThrowOnFail          { static void checkPointer (void*) {} };
 
     template<>
-    struct ThrowOnFail<true>    { static void check (void* data) { if (data == nullptr) throw std::bad_alloc(); } };
+    struct ThrowOnFail<true>    { static void checkPointer (void* data) { if (data == nullptr) throw std::bad_alloc(); } };
 }
 #endif
 
@@ -295,7 +295,11 @@ private:
 
     void throwOnAllocationFailure() const
     {
-        HeapBlockHelper::ThrowOnFail<throwOnFailure>::check (data);
+       #if JUCE_EXCEPTIONS_DISABLED
+        jassert (data != nullptr); // without exceptions, you'll need to find a better way to handle this failure case.
+       #else
+        HeapBlockHelper::ThrowOnFail<throwOnFailure>::checkPointer (data);
+       #endif
     }
 
    #if ! (defined (JUCE_DLL) || defined (JUCE_DLL_BUILD))

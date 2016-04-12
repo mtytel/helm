@@ -34,8 +34,8 @@
 
     See also SystemStats::getJUCEVersion() for a string version.
 */
-#define JUCE_MAJOR_VERSION      3
-#define JUCE_MINOR_VERSION      2
+#define JUCE_MAJOR_VERSION      4
+#define JUCE_MINOR_VERSION      1
 #define JUCE_BUILDNUMBER        0
 
 /** Current Juce version number.
@@ -50,10 +50,11 @@
 
 
 //==============================================================================
+#include <memory>
 #include <vector>  // included before platform defs to provide a definition of _LIBCPP_VERSION
 
-#include "juce_PlatformDefs.h"
 #include "juce_CompilerSupport.h"
+#include "juce_PlatformDefs.h"
 
 //==============================================================================
 // Now we'll include some common OS headers..
@@ -114,7 +115,6 @@
 #endif
 
 // undef symbols that are sometimes set by misguided 3rd-party headers..
-#undef check
 #undef TYPE_BOOL
 #undef max
 #undef min

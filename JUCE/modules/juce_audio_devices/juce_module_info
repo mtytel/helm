@@ -1,7 +1,7 @@
 {
   "id":             "juce_audio_devices",
   "name":           "JUCE audio and midi I/O device classes",
-  "version":        "3.2.0",
+  "version":        "4.1.0",
   "description":    "Classes to play and record from audio and midi i/o devices.",
   "website":        "http://www.juce.com/juce",
   "license":        "GPL/Commercial",
@@ -22,7 +22,7 @@
                       "native/*" ],
 
   "OSXFrameworks":  "CoreAudio CoreMIDI DiscRecording",
-  "iOSFrameworks":  "AudioToolbox CoreMIDI",
+  "iOSFrameworks":  "AudioToolbox CoreMIDI CoreAudio AVFoundation",
   "LinuxLibs":      "asound",
   "mingwLibs":      "winmm"
 }

@@ -25,7 +25,7 @@
 #ifndef JUCE_EVENTS_H_INCLUDED
 #define JUCE_EVENTS_H_INCLUDED
 
-//=============================================================================
+//==============================================================================
 #include "../juce_core/juce_core.h"
 
 namespace juce
@@ -40,7 +40,6 @@ namespace juce
 #include "messages/juce_ApplicationBase.h"
 #include "messages/juce_Initialisation.h"
 #include "messages/juce_MountedVolumeListChangeDetector.h"
-#include "broadcasters/juce_ListenerList.h"
 #include "broadcasters/juce_ActionBroadcaster.h"
 #include "broadcasters/juce_ActionListener.h"
 #include "broadcasters/juce_AsyncUpdater.h"
@@ -52,6 +51,10 @@ namespace juce
 #include "interprocess/juce_InterprocessConnectionServer.h"
 #include "interprocess/juce_ConnectedChildProcess.h"
 #include "native/juce_ScopedXLock.h"
+
+#if JUCE_EVENTS_INCLUDE_WIN32_MESSAGE_WINDOW && JUCE_WINDOWS
+ #include "native/juce_win32_HiddenMessageWindow.h"
+#endif
 
 }
 

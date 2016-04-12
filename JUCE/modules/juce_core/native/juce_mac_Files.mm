@@ -106,8 +106,7 @@ namespace FileHelpers
         return nsStringToJuce ([NSSearchPathForDirectoriesInDomains (type, NSUserDomainMask, YES)
                                 objectAtIndex: 0]);
     }
-   #endif
-
+   #else
     static bool launchExecutable (const String& pathAndArguments)
     {
         const char* const argv[4] = { "/bin/sh", "-c", pathAndArguments.toUTF8(), nullptr };
@@ -127,6 +126,7 @@ namespace FileHelpers
 
         return cpid >= 0;
     }
+   #endif
 }
 
 bool File::isOnCDRomDrive() const
@@ -276,15 +276,10 @@ String File::getVersion() const
 //==============================================================================
 static NSString* getFileLink (const String& path)
 {
-   #if JUCE_IOS || (defined (MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5)
     return [[NSFileManager defaultManager] destinationOfSymbolicLinkAtPath: juceStringToNS (path) error: nil];
-   #else
-    // (the cast here avoids a deprecation warning)
-    return [((id) [NSFileManager defaultManager]) pathContentOfSymbolicLinkAtPath: juceStringToNS (path)];
-   #endif
 }
 
-bool File::isLink() const
+bool File::isSymbolicLink() const
 {
     return getFileLink (fullPath) != nil;
 }
@@ -308,14 +303,11 @@ bool File::moveToTrash() const
    #else
     JUCE_AUTORELEASEPOOL
     {
-        NSString* p = juceStringToNS (getFullPathName());
+        NSURL* url = [NSURL fileURLWithPath: juceStringToNS (getFullPathName())];
 
-        return [[NSWorkspace sharedWorkspace]
-                    performFileOperation: NSWorkspaceRecycleOperation
-                                  source: [p stringByDeletingLastPathComponent]
-                             destination: nsEmptyString()
-                                   files: [NSArray arrayWithObject: [p lastPathComponent]]
-                                     tag: nil ];
+        [[NSWorkspace sharedWorkspace] recycleURLs: [NSArray arrayWithObject: url]
+                                 completionHandler: nil];
+        return true;
     }
    #endif
 }
@@ -403,10 +395,15 @@ bool JUCE_CALLTYPE Process::openDocument (const String& fileName, const String& 
 {
     JUCE_AUTORELEASEPOOL
     {
-        NSURL* filenameAsURL = [NSURL URLWithString: juceStringToNS (fileName)];
+        NSString* fileNameAsNS (juceStringToNS (fileName));
+
+        NSURL* filenameAsURL ([NSURL URLWithString: fileNameAsNS]);
+
+        if (filenameAsURL == nil)
+            filenameAsURL = [NSURL fileURLWithPath: fileNameAsNS];
 
       #if JUCE_IOS
-        (void) parameters;
+        ignoreUnused (parameters);
         return [[UIApplication sharedApplication] openURL: filenameAsURL];
       #else
         NSWorkspace* workspace = [NSWorkspace sharedWorkspace];
@@ -459,13 +456,7 @@ OSType File::getMacOSType() const
 {
     JUCE_AUTORELEASEPOOL
     {
-       #if JUCE_IOS || (defined (MAC_OS_X_VERSION_10_5) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5)
         NSDictionary* fileDict = [[NSFileManager defaultManager] attributesOfItemAtPath: juceStringToNS (getFullPathName()) error: nil];
-       #else
-        // (the cast here avoids a deprecation warning)
-        NSDictionary* fileDict = [((id) [NSFileManager defaultManager]) fileAttributesAtPath: juceStringToNS (getFullPathName()) traverseLink: NO];
-       #endif
-
         return [fileDict fileHFSTypeCode];
     }
 }

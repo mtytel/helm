@@ -55,8 +55,14 @@
 #include "CAVectorUnit.h"
 #include "CAXException.h"
 
-// NB: This line added for JUCE, for backwards-compatibility with pre-10.8 frameworks
-#define kAudioUnitProperty_NickName ((AudioUnitPropertyID) 54)
+// This is for JUCE, added as a workaround for problems in older hosts following an API change.
+struct OldHostCallbackInfo
+{
+    void* hostUserData;
+    HostCallback_GetBeatAndTempo beatAndTempoProc;
+    HostCallback_GetMusicalTimeLocation musicalTimeLocationProc;
+    HostCallback_GetTransportState transportStateProc;
+};
 
 
 #if TARGET_OS_MAC && (TARGET_CPU_X86 || TARGET_CPU_X86_64)
@@ -509,7 +515,7 @@ OSStatus			AUBase::DispatchGetPropertyInfo(AudioUnitPropertyID				inID,
 #if !CA_NO_AU_HOST_CALLBACKS
 	case kAudioUnitProperty_HostCallbacks:
 		ca_require(inScope == kAudioUnitScope_Global, InvalidScope);
-		outDataSize = sizeof(mHostCallbackInfo);
+		outDataSize = sizeof(OldHostCallbackInfo);
 		outWritable = true;
 		break;
 #endif
@@ -540,7 +546,7 @@ OSStatus			AUBase::DispatchGetPropertyInfo(AudioUnitPropertyID				inID,
 		outWritable = false;
 		break;
 
-    case kAudioUnitProperty_NickName:
+    case /*kAudioUnitProperty_NickName*/ 54:
         ca_require(inScope == kAudioUnitScope_Global, InvalidScope);
         outDataSize = sizeof(CFStringRef);
         outWritable = true;
@@ -743,7 +749,7 @@ OSStatus			AUBase::DispatchGetProperty(	AudioUnitPropertyID 			inID,
 
 #if !CA_NO_AU_HOST_CALLBACKS
 	case kAudioUnitProperty_HostCallbacks:
-		memcpy(outData, &mHostCallbackInfo, sizeof(mHostCallbackInfo));
+		memcpy(outData, &mHostCallbackInfo, sizeof(OldHostCallbackInfo));
 		break;
 #endif
 #if !CA_NO_AU_UI_FEATURES
@@ -791,7 +797,7 @@ OSStatus			AUBase::DispatchGetProperty(	AudioUnitPropertyID 			inID,
 		*(Float64*)outData = mCurrentRenderTime.mSampleTime;
 		break;
 
-    case kAudioUnitProperty_NickName:
+    case /*kAudioUnitProperty_NickName*/ 54:
         // Ownership follows Core Foundation's 'Copy Rule'
         if (mNickName) CFRetain(mNickName);
         *(CFStringRef*)outData = mNickName;
@@ -1006,7 +1012,7 @@ OSStatus			AUBase::DispatchSetProperty(	AudioUnitPropertyID 			inID,
 
 #endif // !CA_NO_AU_UI_FEATURES
 
-    case kAudioUnitProperty_NickName:
+    case /*kAudioUnitProperty_NickName*/ 54:
     {
 		ca_require(inScope == kAudioUnitScope_Global, InvalidScope);
         ca_require(inDataSize == sizeof(CFStringRef), InvalidPropertyValue);
@@ -1093,7 +1099,7 @@ OSStatus			AUBase::DispatchRemovePropertyValue (AudioUnitPropertyID		inID,
 
 #endif // !CA_NO_AU_UI_FEATURES
 
-    case kAudioUnitProperty_NickName:
+    case /*kAudioUnitProperty_NickName*/ 54:
     {
         if(inScope == kAudioUnitScope_Global) {
             if (mNickName) CFRelease(mNickName);
@@ -1444,14 +1450,14 @@ OSStatus			AUBase::DoRender(		AudioUnitRenderActionFlags &	ioActionFlags,
 		}
 		ca_require (!UsesFixedBlockSize() || inFramesToProcess == GetMaxFramesPerSlice(), ParamErr);
 
-		AUOutputElement *output = GetOutput(inBusNumber);	// will throw if non-existant
-		if (output->GetStreamFormat().NumberChannelStreams() != ioData.mNumberBuffers) {
+        AUOutputElement *output = GetScope(kAudioUnitScope_Output).GetNumberOfElements() > 0 ? GetOutput(inBusNumber) : NULL;	// will throw if non-existant
+		if (output != NULL && output->GetStreamFormat().NumberChannelStreams() != ioData.mNumberBuffers) {
 			DebugMessageN4("%s:%d ioData.mNumberBuffers=%u, output->GetStreamFormat().NumberChannelStreams()=%u; kAudio_ParamError",
 				__FILE__, __LINE__, (unsigned)ioData.mNumberBuffers, (unsigned)output->GetStreamFormat().NumberChannelStreams());
 			goto ParamErr;
 		}
 
-		unsigned expectedBufferByteSize = inFramesToProcess * output->GetStreamFormat().mBytesPerFrame;
+        unsigned expectedBufferByteSize = output != NULL ? inFramesToProcess * output->GetStreamFormat().mBytesPerFrame : 0;
 		for (unsigned ibuf = 0; ibuf < ioData.mNumberBuffers; ++ibuf) {
 			AudioBuffer &buf = ioData.mBuffers[ibuf];
 			if (buf.mData != NULL) {

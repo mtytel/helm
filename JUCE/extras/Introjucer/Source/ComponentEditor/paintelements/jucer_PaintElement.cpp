@@ -291,12 +291,12 @@ void PaintElement::mouseDrag (const MouseEvent& e)
 {
     if (! e.mods.isPopupMenu())
     {
-        jassert (dynamic_cast <PaintRoutineEditor*> (getParentComponent()) != nullptr);
+        jassert (dynamic_cast<PaintRoutineEditor*> (getParentComponent()) != nullptr);
         const Rectangle<int> area (((PaintRoutineEditor*) getParentComponent())->getComponentArea());
 
         if (selected && ! dragging)
         {
-            dragging = ! e.mouseWasClicked();
+            dragging = e.mouseWasDraggedSinceMouseDown();
 
             if (dragging)
                 owner->startDragging (area);
@@ -392,7 +392,7 @@ void PaintElement::applyBoundsToComponent (Component*, const Rectangle<int>& new
     {
         getDocument()->getUndoManager().undoCurrentTransactionOnly();
 
-        jassert (dynamic_cast <PaintRoutineEditor*> (getParentComponent()) != nullptr);
+        jassert (dynamic_cast<PaintRoutineEditor*> (getParentComponent()) != nullptr);
 
         setCurrentBounds (newBounds.expanded (-borderThickness, -borderThickness),
                           ((PaintRoutineEditor*) getParentComponent())->getComponentArea(),
@@ -402,7 +402,7 @@ void PaintElement::applyBoundsToComponent (Component*, const Rectangle<int>& new
 
 Rectangle<int> PaintElement::getCurrentAbsoluteBounds() const
 {
-    jassert (dynamic_cast <PaintRoutineEditor*> (getParentComponent()) != nullptr);
+    jassert (dynamic_cast<PaintRoutineEditor*> (getParentComponent()) != nullptr);
     const Rectangle<int> area (((PaintRoutineEditor*) getParentComponent())->getComponentArea());
 
     return position.getRectangle (area, getDocument()->getComponentLayout());
@@ -410,7 +410,7 @@ Rectangle<int> PaintElement::getCurrentAbsoluteBounds() const
 
 void PaintElement::getCurrentAbsoluteBoundsDouble (double& x, double& y, double& w, double& h) const
 {
-    jassert (dynamic_cast <PaintRoutineEditor*> (getParentComponent()) != nullptr);
+    jassert (dynamic_cast<PaintRoutineEditor*> (getParentComponent()) != nullptr);
     const Rectangle<int> area (((PaintRoutineEditor*) getParentComponent())->getComponentArea());
 
     position.getRectangleDouble (x, y, w, h, area, getDocument()->getComponentLayout());

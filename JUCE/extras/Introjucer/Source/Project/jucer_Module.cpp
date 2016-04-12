@@ -22,6 +22,7 @@
   ==============================================================================
 */
 
+#include "../jucer_Headers.h"
 #include "jucer_Module.h"
 #include "jucer_ProjectType.h"
 #include "../Project Saving/jucer_ProjectExporter.h"
@@ -240,23 +241,34 @@ File LibraryModule::getModuleHeaderFile (const File& folder) const
 //==============================================================================
 void LibraryModule::writeIncludes (ProjectSaver& projectSaver, OutputStream& out)
 {
-    const File localModuleFolder (projectSaver.project.getLocalModuleFolder (getID()));
+    Project& project = projectSaver.project;
+    EnabledModuleList& modules = project.getModules();
+
+    const String id (getID());
+    const File localModuleFolder (project.getLocalModuleFolder (id));
     const File localHeader (getModuleHeaderFile (localModuleFolder));
+    const bool usingLocalCopyOfModules = modules.shouldCopyModuleFilesLocally (id).getValue();
 
-    localModuleFolder.createDirectory();
-
-    if (projectSaver.project.getModules().shouldCopyModuleFilesLocally (getID()).getValue())
+    if (usingLocalCopyOfModules
+          && modules.shouldNotOverwriteModuleCodeOnSave (id).getValue()
+          && localModuleFolder.getChildFile ("juce_module_info").exists())
     {
-        projectSaver.copyFolder (moduleInfo.getFolder(), localModuleFolder);
+        projectSaver.filesCreated.add (localModuleFolder);
     }
     else
     {
-        localModuleFolder.createDirectory();
-        createLocalHeaderWrapper (projectSaver, getModuleHeaderFile (moduleInfo.getFolder()), localHeader);
-    }
+        const File juceModuleFolder (moduleInfo.getFolder());
 
-    out << CodeHelpers::createIncludeStatement (localHeader, projectSaver.getGeneratedCodeFolder()
-                                                                         .getChildFile ("AppConfig.h")) << newLine;
+        localModuleFolder.createDirectory();
+
+        if (usingLocalCopyOfModules)
+            projectSaver.copyFolder (juceModuleFolder, localModuleFolder);
+        else
+            createLocalHeaderWrapper (projectSaver, getModuleHeaderFile (juceModuleFolder), localHeader);
+
+        out << CodeHelpers::createIncludeStatement (localHeader, projectSaver.getGeneratedCodeFolder()
+                                                                             .getChildFile ("AppConfig.h")) << newLine;
+    }
 }
 
 static void writeGuardedInclude (OutputStream& out, StringArray paths, StringArray guards)
@@ -314,12 +326,15 @@ void LibraryModule::createLocalHeaderWrapper (ProjectSaver& projectSaver, const 
         const RelativePath fileFromHere (headerFromProject.rebased (project.getProjectFolder(),
                                                                     localHeader.getParentDirectory(), RelativePath::unknown));
 
-        paths.add (fileFromHere.toUnixStyle().quoted());
+        if (exporter->isWindows() && fileFromHere.isAbsolute())
+            paths.add (fileFromHere.toWindowsStyle().quoted());
+        else
+            paths.add (fileFromHere.toUnixStyle().quoted());
+
         guards.add ("defined (" + exporter->getExporterIdentifierMacro() + ")");
     }
 
     writeGuardedInclude (out, paths, guards);
-    out << newLine;
 
     projectSaver.replaceFileIfDifferent (localHeader, out);
 }
@@ -422,7 +437,7 @@ void LibraryModule::getConfigFlags (Project& project, OwnedArray<Project::Config
 
         if (line.startsWith ("/**") && line.containsIgnoreCase ("Config:"))
         {
-            ScopedPointer <Project::ConfigFlag> config (new Project::ConfigFlag());
+            ScopedPointer<Project::ConfigFlag> config (new Project::ConfigFlag());
             config->sourceModuleID = getID();
             config->symbol = line.fromFirstOccurrenceOf (":", false, false).trim();
 
@@ -641,6 +656,12 @@ Value EnabledModuleList::shouldShowAllModuleFilesInProject (const String& module
                 .getPropertyAsValue (Ids::showAllCode, getUndoManager());
 }
 
+Value EnabledModuleList::shouldNotOverwriteModuleCodeOnSave (const String& moduleID)
+{
+    return state.getChildWithProperty (Ids::ID, moduleID)
+                .getPropertyAsValue (Ids::overwriteOnSave, getUndoManager());
+}
+
 File EnabledModuleList::findLocalModuleInfoFile (const String& moduleID, bool useExportersForOtherOSes)
 {
     for (Project::ExporterIterator exporter (project); exporter.next();)
@@ -759,12 +780,7 @@ void EnabledModuleList::removeModule (String moduleID) // must be pass-by-value,
 void EnabledModuleList::createRequiredModules (OwnedArray<LibraryModule>& modules)
 {
     for (int i = 0; i < getNumModules(); ++i)
-    {
-        ModuleDescription info (getModuleInfo (getModuleID (i)));
-
-        if (info.isValid())
-            modules.add (new LibraryModule (info));
-    }
+        modules.add (new LibraryModule (getModuleInfo (getModuleID (i))));
 }
 
 StringArray EnabledModuleList::getAllModules() const

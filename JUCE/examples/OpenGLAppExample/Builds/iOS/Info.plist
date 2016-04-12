@@ -9,10 +9,8 @@
     <false/>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
-    <key>CFBundleIconFile</key>
-    <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.OpenGLAppExample</string>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleName</key>
     <string>OpenGLAppExample</string>
     <key>CFBundlePackageType</key>
@@ -26,6 +24,8 @@
     <key>NSHumanReadableCopyright</key>
     <string></string>
     <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>UIRequiresFullScreen</key>
     <true/>
     <key>UISupportedInterfaceOrientations</key>
     <array>

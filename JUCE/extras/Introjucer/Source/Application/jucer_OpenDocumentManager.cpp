@@ -22,6 +22,7 @@
   ==============================================================================
 */
 
+#include "../jucer_Headers.h"
 #include "jucer_OpenDocumentManager.h"
 #include "jucer_FilePreviewComponent.h"
 #include "../Code Editor/jucer_SourceCodeEditor.h"
@@ -103,9 +104,9 @@ void OpenDocumentManager::clear()
 }
 
 //==============================================================================
-void OpenDocumentManager::registerType (DocumentType* type)
+void OpenDocumentManager::registerType (DocumentType* type, int index)
 {
-    types.add (type);
+    types.insert (index, type);
 }
 
 //==============================================================================

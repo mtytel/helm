@@ -208,6 +208,9 @@
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>ComponentTutorialExample\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\modules\juce_core\text\juce_Base64.cpp">
+      <Filter>Juce Modules\juce_core\text</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\modules\juce_core\text\juce_CharacterFunctions.cpp">
       <Filter>Juce Modules\juce_core\text</Filter>
     </ClCompile>
@@ -382,6 +385,9 @@
     <ClCompile Include="..\..\..\..\modules\juce_core\misc\juce_Result.cpp">
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\modules\juce_core\misc\juce_RuntimePermissions.cpp">
+      <Filter>Juce Modules\juce_core\misc</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\modules\juce_core\misc\juce_Uuid.cpp">
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClCompile>
@@ -392,6 +398,9 @@
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\modules\juce_core\native\juce_android_Network.cpp">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\modules\juce_core\native\juce_android_RuntimePermissions.cpp">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\modules\juce_core\native\juce_android_SystemStats.cpp">
@@ -1116,6 +1125,9 @@
     <ClInclude Include="..\..\Source\MainComponent.h">
       <Filter>ComponentTutorialExample\Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\modules\juce_core\text\juce_Base64.h">
+      <Filter>Juce Modules\juce_core\text</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\text\juce_CharacterFunctions.h">
       <Filter>Juce Modules\juce_core\text</Filter>
     </ClInclude>
@@ -1176,6 +1188,9 @@
     <ClInclude Include="..\..\..\..\modules\juce_core\maths\juce_Range.h">
       <Filter>Juce Modules\juce_core\maths</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\modules\juce_core\maths\juce_StatisticsAccumulator.h">
+      <Filter>Juce Modules\juce_core\maths</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\memory\juce_Atomic.h">
       <Filter>Juce Modules\juce_core\memory</Filter>
     </ClInclude>
@@ -1234,6 +1249,9 @@
       <Filter>Juce Modules\juce_core\containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\containers\juce_LinkedListPointer.h">
+      <Filter>Juce Modules\juce_core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\modules\juce_core\containers\juce_ListenerList.h">
       <Filter>Juce Modules\juce_core\containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\containers\juce_NamedValueSet.h">
@@ -1431,6 +1449,9 @@
     <ClInclude Include="..\..\..\..\modules\juce_core\misc\juce_Result.h">
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\modules\juce_core\misc\juce_RuntimePermissions.h">
+      <Filter>Juce Modules\juce_core\misc</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\misc\juce_Uuid.h">
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClInclude>
@@ -1441,6 +1462,9 @@
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\native\juce_BasicNativeHeaders.h">
+      <Filter>Juce Modules\juce_core\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\modules\juce_core\native\juce_mac_ClangBugWorkaround.h">
       <Filter>Juce Modules\juce_core\native</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_core\native\juce_osx_ObjCHelpers.h">
@@ -1525,9 +1549,6 @@
       <Filter>Juce Modules\juce_events\broadcasters</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_events\broadcasters\juce_ChangeListener.h">
-      <Filter>Juce Modules\juce_events\broadcasters</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\modules\juce_events\broadcasters\juce_ListenerList.h">
       <Filter>Juce Modules\juce_events\broadcasters</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\modules\juce_events\interprocess\juce_ConnectedChildProcess.h">

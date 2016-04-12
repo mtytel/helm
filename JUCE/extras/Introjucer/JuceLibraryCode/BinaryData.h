@@ -22,10 +22,10 @@ namespace BinaryData
     const int            jucer_AudioPluginEditorTemplate_hSize = 1012;
 
     extern const char*   jucer_AudioPluginFilterTemplate_cpp;
-    const int            jucer_AudioPluginFilterTemplate_cppSize = 4648;
+    const int            jucer_AudioPluginFilterTemplate_cppSize = 4273;
 
     extern const char*   jucer_AudioPluginFilterTemplate_h;
-    const int            jucer_AudioPluginFilterTemplate_hSize = 2464;
+    const int            jucer_AudioPluginFilterTemplate_hSize = 2132;
 
     extern const char*   jucer_ComponentTemplate_cpp;
     const int            jucer_ComponentTemplate_cppSize = 2161;
@@ -75,6 +75,9 @@ namespace BinaryData
     extern const char*   AudioPluginXCodeScript_txt;
     const int            AudioPluginXCodeScript_txtSize = 2745;
 
+    extern const char*   background_logo_svg;
+    const int            background_logo_svgSize = 3117;
+
     extern const char*   background_tile_png;
     const int            background_tile_pngSize = 151;
 
@@ -85,7 +88,7 @@ namespace BinaryData
     const int            colourscheme_light_xmlSize = 1050;
 
     extern const char*   juce_icon_png;
-    const int            juce_icon_pngSize = 83091;
+    const int            juce_icon_pngSize = 40749;
 
     extern const char*   projectIconAndroid_png;
     const int            projectIconAndroid_pngSize = 8150;
@@ -142,7 +145,7 @@ namespace BinaryData
     extern const char* namedResourceList[];
 
     // Number of elements in the namedResourceList array.
-    const int namedResourceListSize = 43;
+    const int namedResourceListSize = 44;
 
     // If you provide the name of one of the binary resource variables above, this function will
     // return the corresponding data and its size (or a null pointer if the name isn't found).

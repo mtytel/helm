@@ -513,6 +513,11 @@ struct OpenGLDemoClasses
            #endif
         }
 
+        void updateShader()
+        {
+            startTimer (10);
+        }
+
         Label statusLabel;
 
     private:
@@ -584,9 +589,10 @@ struct OpenGLDemoClasses
         OpenGLDemo()
             : doBackgroundDrawing (false),
               scale (0.5f), rotationSpeed (0.0f), rotation (0.0f),
-              textureToUse (nullptr)
+              textureToUse (nullptr), lastTexture (nullptr)
         {
-            MainAppWindow::getMainAppWindow()->setRenderingEngine (0);
+            if (MainAppWindow* mw = MainAppWindow::getMainAppWindow())
+                mw->setRenderingEngine (0);
 
             setOpaque (true);
             addAndMakeVisible (controlsOverlay = new DemoControlsOverlay (*this));
@@ -608,6 +614,9 @@ struct OpenGLDemoClasses
             // nothing to do in this case - we'll initialise our shaders + textures
             // on demand, during the render callback.
             freeAllContextObjects();
+
+            if (controlsOverlay != nullptr)
+                controlsOverlay->updateShader();
         }
 
         void openGLContextClosing() override
@@ -615,6 +624,9 @@ struct OpenGLDemoClasses
             // When the context is about to close, you must use this callback to delete
             // any GPU resources while the context is still current.
             freeAllContextObjects();
+
+            if (lastTexture != nullptr)
+                setTexture (lastTexture);
         }
 
         void freeAllContextObjects()
@@ -710,7 +722,7 @@ struct OpenGLDemoClasses
 
         void setTexture (DemoTexture* t)
         {
-            textureToUse = t;
+            lastTexture = textureToUse = t;
         }
 
         void setShaderProgram (const String& vertexShader, const String& fragmentShader)
@@ -780,7 +792,7 @@ struct OpenGLDemoClasses
         ScopedPointer<Uniforms> uniforms;
 
         OpenGLTexture texture;
-        DemoTexture* textureToUse;
+        DemoTexture* textureToUse, *lastTexture;
 
         String newVertexShader, newFragmentShader;
 

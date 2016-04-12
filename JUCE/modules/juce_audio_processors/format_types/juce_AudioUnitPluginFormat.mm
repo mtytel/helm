@@ -209,7 +209,7 @@ namespace AudioUnitFormatHelpers
                 if (manuString != 0 && CFGetTypeID (manuString) == CFStringGetTypeID())
                     manufacturer = String::fromCFString ((CFStringRef) manuString);
 
-                const short resFileId = CFBundleOpenBundleResourceMap (bundleRef);
+                const ResFileRefNum resFileId = CFBundleOpenBundleResourceMap (bundleRef);
                 UseResFile (resFileId);
 
                 const OSType thngType = stringToOSType ("thng");
@@ -374,22 +374,18 @@ public:
                     ^ ((int) componentDesc.componentSubType)
                     ^ ((int) componentDesc.componentManufacturer);
         desc.lastFileModTime = Time();
+        desc.lastInfoUpdateTime = Time::getCurrentTime();
         desc.pluginFormatName = "AudioUnit";
         desc.category = AudioUnitFormatHelpers::getCategory (componentDesc.componentType);
         desc.manufacturerName = manufacturer;
         desc.version = version;
-        desc.numInputChannels = getNumInputChannels();
-        desc.numOutputChannels = getNumOutputChannels();
+        desc.numInputChannels = getTotalNumInputChannels();
+        desc.numOutputChannels = getTotalNumOutputChannels();
         desc.isInstrument = (componentDesc.componentType == kAudioUnitType_MusicDevice);
     }
 
     void* getPlatformSpecificData() override             { return audioUnit; }
     const String getName() const override                { return pluginName; }
-
-    bool silenceInProducesSilenceOut() const override
-    {
-        return getTailLengthSeconds() <= 0;
-    }
 
     double getTailLengthSeconds() const override
     {
@@ -444,12 +440,7 @@ public:
                                   (int) (numOutputBusChannels * numOutputBusses),
                                   (double) newSampleRate, estimatedSamplesPerBlock);
 
-            Float64 latencySecs = 0.0;
-            UInt32 latencySize = sizeof (latencySecs);
-            AudioUnitGetProperty (audioUnit, kAudioUnitProperty_Latency, kAudioUnitScope_Global,
-                                  0, &latencySecs, &latencySize);
-
-            setLatencySamples (roundToInt (latencySecs * newSampleRate));
+            updateLatency();
 
             {
                 AudioStreamBasicDescription stream;
@@ -539,7 +530,7 @@ public:
                     for (AudioUnitElement j = 0; j < numOutputBusChannels; ++j)
                     {
                         abl->mBuffers[j].mNumberChannels = 1;
-                        abl->mBuffers[j].mDataByteSize = sizeof (float) * (size_t) numSamples;
+                        abl->mBuffers[j].mDataByteSize = (UInt32) (sizeof (float) * (size_t) numSamples);
                         abl->mBuffers[j].mData = buffer.getWritePointer ((int) (i * numOutputBusChannels + j));
                     }
                 }
@@ -577,7 +568,7 @@ public:
         else
         {
             // Plugin not working correctly, so just bypass..
-            for (int i = 0; i < getNumOutputChannels(); ++i)
+            for (int i = getTotalNumOutputChannels(); --i >= 0;)
                 buffer.clear (i, 0, buffer.getNumSamples());
         }
 
@@ -596,7 +587,7 @@ public:
     //==============================================================================
     const String getInputChannelName (int index) const override
     {
-        if (isPositiveAndBelow (index, getNumInputChannels()))
+        if (isPositiveAndBelow (index, getTotalNumInputChannels()))
             return "Input " + String (index + 1);
 
         return String();
@@ -604,14 +595,14 @@ public:
 
     const String getOutputChannelName (int index) const override
     {
-        if (isPositiveAndBelow (index, getNumOutputChannels()))
+        if (isPositiveAndBelow (index, getTotalNumOutputChannels()))
             return "Output " + String (index + 1);
 
         return String();
     }
 
-    bool isInputChannelStereoPair (int index) const override    { return isPositiveAndBelow (index, getNumInputChannels()); }
-    bool isOutputChannelStereoPair (int index) const override   { return isPositiveAndBelow (index, getNumOutputChannels()); }
+    bool isInputChannelStereoPair (int index) const override    { return isPositiveAndBelow (index, getTotalNumInputChannels()); }
+    bool isOutputChannelStereoPair (int index) const override   { return isPositiveAndBelow (index, getTotalNumOutputChannels()); }
 
     //==============================================================================
     int getNumParameters() override              { return parameters.size(); }
@@ -841,8 +832,8 @@ public:
         if (audioUnit != nullptr)
         {
             UInt32 paramListSize = 0;
-            AudioUnitGetProperty (audioUnit, kAudioUnitProperty_ParameterList, kAudioUnitScope_Global,
-                                  0, 0, &paramListSize);
+            AudioUnitGetPropertyInfo (audioUnit, kAudioUnitProperty_ParameterList, kAudioUnitScope_Global,
+                                      0, &paramListSize, nullptr);
 
             if (paramListSize > 0)
             {
@@ -854,7 +845,7 @@ public:
                 AudioUnitGetProperty (audioUnit, kAudioUnitProperty_ParameterList, kAudioUnitScope_Global,
                                       0, ids, &paramListSize);
 
-                for (int i = 0; i < numParams; ++i)
+                for (size_t i = 0; i < numParams; ++i)
                 {
                     AudioUnitParameterInfo info;
                     UInt32 sz = sizeof (info);
@@ -888,6 +879,16 @@ public:
         }
     }
 
+    void updateLatency()
+    {
+        Float64 latencySecs = 0.0;
+        UInt32 latencySize = sizeof (latencySecs);
+        AudioUnitGetProperty (audioUnit, kAudioUnitProperty_Latency, kAudioUnitScope_Global,
+                              0, &latencySecs, &latencySize);
+
+        setLatencySamples (roundToInt (latencySecs * getSampleRate()));
+    }
+
     void handleIncomingMidiMessage (void*, const MidiMessage& message)
     {
         const ScopedLock sl (midiInLock);
@@ -908,7 +909,7 @@ private:
     CriticalSection lock;
     bool wantsMidiMessages, producesMidiMessages, wasPlaying, prepared;
 
-    HeapBlock <AudioBufferList> outputBufferList;
+    HeapBlock<AudioBufferList> outputBufferList;
     AudioTimeStamp timeStamp;
     AudioSampleBuffer* currentBuffer;
     AudioUnitElement numInputBusChannels, numOutputBusChannels, numInputBusses, numOutputBusses;
@@ -971,12 +972,7 @@ private:
                                       kAudioUnitScope_Global, 0, &info, sizeof (info));
             }
 
-            AUEventListenerCreate (eventListenerCallback, this,
-                                  #if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_4
-                                   CFRunLoopGetMain(),
-                                  #else
-                                   nullptr,
-                                  #endif
+            AUEventListenerCreate (eventListenerCallback, this, CFRunLoopGetMain(),
                                    kCFRunLoopDefaultMode, 0, 0, &eventListenerRef);
 
             for (int i = 0; i < parameters.size(); ++i)
@@ -997,16 +993,22 @@ private:
                 AUEventListenerAddEventType (eventListenerRef, nullptr, &event);
             }
 
-            // Add a listener for program changes
-            AudioUnitEvent event;
-            event.mArgument.mProperty.mAudioUnit = audioUnit;
-            event.mArgument.mProperty.mPropertyID = kAudioUnitProperty_PresentPreset;
-            event.mArgument.mProperty.mScope = kAudioUnitScope_Global;
-            event.mArgument.mProperty.mElement = 0;
-
-            event.mEventType = kAudioUnitEvent_PropertyChange;
-            AUEventListenerAddEventType (eventListenerRef, nullptr, &event);
+            addPropertyChangeListener (kAudioUnitProperty_PresentPreset);
+            addPropertyChangeListener (kAudioUnitProperty_ParameterList);
+            addPropertyChangeListener (kAudioUnitProperty_Latency);
         }
+    }
+
+    void addPropertyChangeListener (AudioUnitPropertyID type) const
+    {
+        AudioUnitEvent event;
+        event.mEventType = kAudioUnitEvent_PropertyChange;
+        event.mArgument.mProperty.mPropertyID = type;
+        event.mArgument.mProperty.mAudioUnit = audioUnit;
+        event.mArgument.mProperty.mPropertyID = kAudioUnitProperty_PresentPreset;
+        event.mArgument.mProperty.mScope = kAudioUnitScope_Global;
+        event.mArgument.mProperty.mElement = 0;
+        AUEventListenerAddEventType (eventListenerRef, nullptr, &event);
     }
 
     void eventCallback (const AudioUnitEvent& event, AudioUnitParameterValue newValue)
@@ -1036,7 +1038,13 @@ private:
                 break;
 
             default:
-                sendAllParametersChangedEvents();
+                if (event.mArgument.mProperty.mPropertyID == kAudioUnitProperty_ParameterList)
+                    updateHostDisplay();
+                else if (event.mArgument.mProperty.mPropertyID == kAudioUnitProperty_PresentPreset)
+                    sendAllParametersChangedEvents();
+                else if (event.mArgument.mProperty.mPropertyID == kAudioUnitProperty_Latency)
+                    updateLatency();
+
                 break;
         }
     }
@@ -1126,24 +1134,24 @@ private:
     OSStatus getMusicalTimeLocation (UInt32* outDeltaSampleOffsetToNextBeat, Float32* outTimeSig_Numerator,
                                      UInt32* outTimeSig_Denominator, Float64* outCurrentMeasureDownBeat) const
     {
-        AudioPlayHead* const ph = getPlayHead();
-        AudioPlayHead::CurrentPositionInfo result;
+        if (AudioPlayHead* const ph = getPlayHead())
+        {
+            AudioPlayHead::CurrentPositionInfo result;
 
-        if (ph != nullptr && ph->getCurrentPosition (result))
-        {
-            setIfNotNull (outTimeSig_Numerator,   (UInt32) result.timeSigNumerator);
-            setIfNotNull (outTimeSig_Denominator, (UInt32) result.timeSigDenominator);
-            setIfNotNull (outDeltaSampleOffsetToNextBeat, (UInt32) 0); //xxx
-            setIfNotNull (outCurrentMeasureDownBeat, result.ppqPositionOfLastBarStart); //xxx wrong
-        }
-        else
-        {
-            setIfNotNull (outDeltaSampleOffsetToNextBeat, (UInt32) 0);
-            setIfNotNull (outTimeSig_Numerator, (UInt32) 4);
-            setIfNotNull (outTimeSig_Denominator, (UInt32) 4);
-            setIfNotNull (outCurrentMeasureDownBeat, 0);
+            if (ph->getCurrentPosition (result))
+            {
+                setIfNotNull (outDeltaSampleOffsetToNextBeat, (UInt32) 0); //xxx
+                setIfNotNull (outTimeSig_Numerator,   (UInt32) result.timeSigNumerator);
+                setIfNotNull (outTimeSig_Denominator, (UInt32) result.timeSigDenominator);
+                setIfNotNull (outCurrentMeasureDownBeat, result.ppqPositionOfLastBarStart); //xxx wrong
+                return noErr;
+            }
         }
 
+        setIfNotNull (outDeltaSampleOffsetToNextBeat, (UInt32) 0);
+        setIfNotNull (outTimeSig_Numerator, (UInt32) 4);
+        setIfNotNull (outTimeSig_Denominator, (UInt32) 4);
+        setIfNotNull (outCurrentMeasureDownBeat, 0);
         return noErr;
     }
 
@@ -1151,34 +1159,34 @@ private:
                                 Float64* outCurrentSampleInTimeLine, Boolean* outIsCycling,
                                 Float64* outCycleStartBeat, Float64* outCycleEndBeat)
     {
-        AudioPlayHead* const ph = getPlayHead();
-        AudioPlayHead::CurrentPositionInfo result;
-
-        if (ph != nullptr && ph->getCurrentPosition (result))
+        if (AudioPlayHead* const ph = getPlayHead())
         {
-            setIfNotNull (outIsPlaying, result.isPlaying);
+            AudioPlayHead::CurrentPositionInfo result;
 
-            if (outTransportStateChanged != nullptr)
+            if (ph->getCurrentPosition (result))
             {
-                *outTransportStateChanged = result.isPlaying != wasPlaying;
-                wasPlaying = result.isPlaying;
+                setIfNotNull (outIsPlaying, result.isPlaying);
+
+                if (outTransportStateChanged != nullptr)
+                {
+                    *outTransportStateChanged = result.isPlaying != wasPlaying;
+                    wasPlaying = result.isPlaying;
+                }
+
+                setIfNotNull (outCurrentSampleInTimeLine, result.timeInSamples);
+                setIfNotNull (outIsCycling, result.isLooping);
+                setIfNotNull (outCycleStartBeat, result.ppqLoopStart);
+                setIfNotNull (outCycleEndBeat, result.ppqLoopEnd);
+                return noErr;
             }
-
-            setIfNotNull (outCurrentSampleInTimeLine, result.timeInSamples);
-            setIfNotNull (outIsCycling, false);
-            setIfNotNull (outCycleStartBeat, 0);
-            setIfNotNull (outCycleEndBeat, 0);
-        }
-        else
-        {
-            setIfNotNull (outIsPlaying, false);
-            setIfNotNull (outTransportStateChanged, false);
-            setIfNotNull (outCurrentSampleInTimeLine, 0);
-            setIfNotNull (outIsCycling, false);
-            setIfNotNull (outCycleStartBeat, 0);
-            setIfNotNull (outCycleEndBeat, 0);
         }
 
+        setIfNotNull (outIsPlaying, false);
+        setIfNotNull (outTransportStateChanged, false);
+        setIfNotNull (outCurrentSampleInTimeLine, 0);
+        setIfNotNull (outIsCycling, false);
+        setIfNotNull (outCycleStartBeat, 0.0);
+        setIfNotNull (outCycleEndBeat, 0.0);
         return noErr;
     }
 
@@ -1192,7 +1200,7 @@ private:
     }
 
     static OSStatus renderMidiOutputCallback (void* hostRef, const AudioTimeStamp*, UInt32 /*midiOutNum*/,
-                                              const struct MIDIPacketList* pktlist)
+                                              const MIDIPacketList* pktlist)
     {
         return static_cast<AudioUnitPluginInstance*> (hostRef)->renderMidiOutput (pktlist);
     }
@@ -1223,7 +1231,7 @@ private:
     //==============================================================================
     size_t getAudioBufferSizeInBytes() const noexcept
     {
-        return offsetof (AudioBufferList, mBuffers) + (sizeof (AudioBuffer) * numOutputBusChannels);
+        return offsetof (AudioBufferList, mBuffers) + (sizeof (::AudioBuffer) * numOutputBusChannels);
     }
 
     AudioBufferList* getAudioBufferListForBus (AudioUnitElement busIndex) const noexcept
@@ -1325,6 +1333,27 @@ private:
         return false;
     }
 
+    bool supportsMPE() const override
+    {
+        UInt32 dataSize = 0;
+        Boolean isWritable = false;
+
+        if (AudioUnitGetPropertyInfo (audioUnit, kAudioUnitProperty_SupportsMPE,
+                                      kAudioUnitScope_Global, 0, &dataSize, &isWritable) == noErr
+            && dataSize == sizeof (UInt32))
+        {
+            UInt32 result = 0;
+
+            if (AudioUnitGetProperty (audioUnit, kAudioUnitProperty_SupportsMPE,
+                                      kAudioUnitScope_Global, 0, &result, &dataSize) == noErr)
+            {
+                return result > 0;
+            }
+        }
+
+        return false;
+    }
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioUnitPluginInstance)
 };
 
@@ -1393,7 +1422,7 @@ private:
              && AudioUnitGetPropertyInfo (plugin.audioUnit, kAudioUnitProperty_CocoaUI, kAudioUnitScope_Global,
                                           0, &dataSize, &isWritable) == noErr)
         {
-            HeapBlock <AudioUnitCocoaViewInfo> info;
+            HeapBlock<AudioUnitCocoaViewInfo> info;
             info.calloc (dataSize, 1);
 
             if (AudioUnitGetProperty (plugin.audioUnit, kAudioUnitProperty_CocoaUI, kAudioUnitScope_Global,

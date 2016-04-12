@@ -33,8 +33,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "The Introjucer";
-    const char* const  versionString  = "3.2.0";
-    const int          versionNumber  = 0x30200;
+    const char* const  versionString  = "4.1.0";
+    const int          versionNumber  = 0x40100;
 }
 #endif
 

@@ -38,16 +38,14 @@ public:
     }
 
     //==============================================================================
-    virtual bool isRoot() const                         { return false; }
-
     virtual bool acceptsFileDrop (const StringArray& files) const = 0;
     virtual bool acceptsDragItems (const OwnedArray<Project::Item>& selectedNodes) = 0;
 
     //==============================================================================
-    virtual String getDisplayName() const               { return item.getName(); }
-    virtual String getRenamingName() const              { return getDisplayName(); }
+    String getDisplayName() const override              { return item.getName(); }
+    String getRenamingName() const override             { return getDisplayName(); }
 
-    virtual void setName (const String& newName)
+    void setName (const String& newName) override
     {
         if (item.isMainGroup())
             item.project.setTitle (newName);
@@ -55,12 +53,12 @@ public:
             item.getNameValue() = newName;
     }
 
-    virtual bool isMissing()                            { return isFileMissing; }
+    bool isMissing() override                           { return isFileMissing; }
     virtual File getFile() const                        { return item.getFile(); }
 
-    virtual void deleteItem()                           { item.removeItemFromProject(); }
+    void deleteItem() override                          { item.removeItemFromProject(); }
 
-    virtual void deleteAllSelectedItems()
+    virtual void deleteAllSelectedItems() override
     {
         TreeView* tree = getOwnerView();
         const int numSelected = tree->getNumSelectedItems();
@@ -184,7 +182,7 @@ public:
         jassertfalse;
     }
 
-    virtual void showMultiSelectionPopupMenu()
+    void showMultiSelectionPopupMenu() override
     {
         PopupMenu m;
         m.addItem (1, "Delete");

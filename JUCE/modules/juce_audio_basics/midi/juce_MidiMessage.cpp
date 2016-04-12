@@ -33,6 +33,11 @@ namespace MidiHelpers
     {
         return (uint8) jlimit (0, 127, v);
     }
+
+    inline uint8 floatVelocityToByte (const float v) noexcept
+    {
+        return validVelocity (roundToInt (v * 127.0f));
+    }
 }
 
 //==============================================================================
@@ -304,6 +309,31 @@ uint8* MidiMessage::allocateSpace (int bytes)
     return preallocatedData.asBytes;
 }
 
+String MidiMessage::getDescription() const
+{
+    if (isNoteOn())           return "Note on "  + MidiMessage::getMidiNoteName (getNoteNumber(), true, true, 3) + " Velocity " + String (getVelocity()) + " Channel " + String (getChannel());
+    if (isNoteOff())          return "Note off " + MidiMessage::getMidiNoteName (getNoteNumber(), true, true, 3) + " Velocity " + String (getVelocity()) + " Channel " + String (getChannel());
+    if (isProgramChange())    return "Program change " + String (getProgramChangeNumber()) + " Channel " + String (getChannel());
+    if (isPitchWheel())       return "Pitch wheel " + String (getPitchWheelValue()) + " Channel " + String (getChannel());
+    if (isAftertouch())       return "Aftertouch " + MidiMessage::getMidiNoteName (getNoteNumber(), true, true, 3) +  ": " + String (getAfterTouchValue()) + " Channel " + String (getChannel());
+    if (isChannelPressure())  return "Channel pressure " + String (getChannelPressureValue()) + " Channel " + String (getChannel());
+    if (isAllNotesOff())      return "All notes off Channel " + String (getChannel());
+    if (isAllSoundOff())      return "All sound off Channel " + String (getChannel());
+    if (isMetaEvent())        return "Meta event";
+
+    if (isController())
+    {
+        String name (MidiMessage::getControllerName (getControllerNumber()));
+
+        if (name.isEmpty())
+            name = String (getControllerNumber());
+
+        return "Controller " + name + ": " + String (getControllerValue()) + " Channel " + String (getChannel());
+    }
+
+    return String::toHexString (getRawData(), getRawDataSize());
+}
+
 int MidiMessage::getChannel() const noexcept
 {
     const uint8* const data = getRawData();
@@ -366,7 +396,7 @@ int MidiMessage::getNoteNumber() const noexcept
 
 void MidiMessage::setNoteNumber (const int newNoteNumber) noexcept
 {
-    if (isNoteOnOrOff())
+    if (isNoteOnOrOff() || isAftertouch())
         getData()[1] = (uint8) (newNoteNumber & 127);
 }
 
@@ -386,7 +416,7 @@ float MidiMessage::getFloatVelocity() const noexcept
 void MidiMessage::setVelocity (const float newVelocity) noexcept
 {
     if (isNoteOnOrOff())
-        getData()[2] = MidiHelpers::validVelocity (roundToInt (newVelocity * 127.0f));
+        getData()[2] = MidiHelpers::floatVelocityToByte (newVelocity);
 }
 
 void MidiMessage::multiplyVelocity (const float scaleFactor) noexcept
@@ -522,11 +552,6 @@ MidiMessage MidiMessage::controllerEvent (const int channel, const int controlle
                         controllerType & 127, value & 127);
 }
 
-MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const float velocity) noexcept
-{
-    return noteOn (channel, noteNumber, (uint8) (velocity * 127.0f + 0.5f));
-}
-
 MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const uint8 velocity) noexcept
 {
     jassert (channel > 0 && channel <= 16);
@@ -536,6 +561,11 @@ MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const 
                         noteNumber & 127, MidiHelpers::validVelocity (velocity));
 }
 
+MidiMessage MidiMessage::noteOn (const int channel, const int noteNumber, const float velocity) noexcept
+{
+    return noteOn (channel, noteNumber, MidiHelpers::floatVelocityToByte (velocity));
+}
+
 MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber, uint8 velocity) noexcept
 {
     jassert (channel > 0 && channel <= 16);
@@ -543,6 +573,19 @@ MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber, uint8
 
     return MidiMessage (MidiHelpers::initialByte (0x80, channel),
                         noteNumber & 127, MidiHelpers::validVelocity (velocity));
+}
+
+MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber, float velocity) noexcept
+{
+    return noteOff (channel, noteNumber, MidiHelpers::floatVelocityToByte (velocity));
+}
+
+MidiMessage MidiMessage::noteOff (const int channel, const int noteNumber) noexcept
+{
+    jassert (channel > 0 && channel <= 16);
+    jassert (isPositiveAndBelow (noteNumber, (int) 128));
+
+    return MidiMessage (MidiHelpers::initialByte (0x80, channel), noteNumber & 127, 0);
 }
 
 MidiMessage MidiMessage::allNotesOff (const int channel) noexcept
@@ -654,7 +697,7 @@ bool MidiMessage::isTextMetaEvent() const noexcept
 
 String MidiMessage::getTextFromTextMetaEvent() const
 {
-    const char* const textData = reinterpret_cast <const char*> (getMetaEventData());
+    const char* const textData = reinterpret_cast<const char*> (getMetaEventData());
     return String (CharPointer_UTF8 (textData),
                    CharPointer_UTF8 (textData + getMetaEventLength()));
 }
@@ -964,7 +1007,7 @@ String MidiMessage::getMidiNoteName (int note, bool useSharps, bool includeOctav
         return s;
     }
 
-    return String::empty;
+    return String();
 }
 
 double MidiMessage::getMidiNoteInHertz (int noteNumber, const double frequencyOfA) noexcept

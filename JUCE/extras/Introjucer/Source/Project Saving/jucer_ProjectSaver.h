@@ -83,11 +83,13 @@ public:
         OwnedArray<LibraryModule> modules;
         project.getModules().createRequiredModules (modules);
 
-        if (errors.size() == 0)  writeAppConfigFile (modules, appConfigUserContent);
-        if (errors.size() == 0)  writeBinaryDataFiles();
-        if (errors.size() == 0)  writeAppHeader (modules);
-        if (errors.size() == 0)  writeProjects (modules);
-        if (errors.size() == 0)  writeAppConfigFile (modules, appConfigUserContent); // (this is repeated in case the projects added anything to it)
+        checkModuleValidity (modules);
+
+        if (errors.size() == 0) writeAppConfigFile (modules, appConfigUserContent);
+        if (errors.size() == 0) writeBinaryDataFiles();
+        if (errors.size() == 0) writeAppHeader (modules);
+        if (errors.size() == 0) writeProjects (modules);
+        if (errors.size() == 0) writeAppConfigFile (modules, appConfigUserContent); // (this is repeated in case the projects added anything to it)
 
         if (errors.size() == 0 && generatedCodeFolder.exists())
             writeReadmeFile();
@@ -215,6 +217,7 @@ public:
     }
 
     Project& project;
+    SortedSet<File> filesCreated;
 
 private:
     const File projectFile, generatedCodeFolder;
@@ -224,7 +227,6 @@ private:
     CriticalSection errorLock;
 
     File appConfigFile;
-    SortedSet<File> filesCreated;
     bool hasBinaryData;
 
     // Recursively clears out any files in a folder that we didn't create, but avoids
@@ -276,7 +278,7 @@ private:
 
     void writeMainProjectFile()
     {
-        ScopedPointer <XmlElement> xml (project.getProjectRoot().createXml());
+        ScopedPointer<XmlElement> xml (project.getProjectRoot().createXml());
         jassert (xml != nullptr);
 
         if (xml != nullptr)
@@ -325,6 +327,27 @@ private:
         }
 
         return userContent.joinIntoString (newLine) + newLine;
+    }
+
+    void checkModuleValidity (OwnedArray<LibraryModule>& modules)
+    {
+        for (LibraryModule** moduleIter = modules.begin(); moduleIter != modules.end(); ++moduleIter)
+        {
+            if (const LibraryModule* const module = *moduleIter)
+            {
+                if (! module->isValid())
+                {
+                    addError ("At least one of your JUCE module paths is invalid!\n"
+                              "Please go to Config -> Modules and ensure each path points to the correct JUCE modules folder.");
+                    return;
+                }
+            }
+            else
+            {
+                // this should never happen!
+                jassertfalse;
+            }
+        }
     }
 
     void writeAppConfig (OutputStream& out, const OwnedArray<LibraryModule>& modules, const String& userContent)

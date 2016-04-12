@@ -24,8 +24,8 @@
           <Add option="-DDEBUG=1"/>
           <Add option="-D_DEBUG=1"/>
           <Add option="-DJUCER_CODEBLOCKS_20734A5D=1"/>
-          <Add option="-DJUCE_APP_VERSION=3.2.0"/>
-          <Add option="-DJUCE_APP_VERSION_HEX=0x30200"/>
+          <Add option="-DJUCE_APP_VERSION=4.1.0"/>
+          <Add option="-DJUCE_APP_VERSION_HEX=0x40100"/>
           <Add directory="."/>
           <Add directory="..\..\JuceLibraryCode"/>
         </Compiler>
@@ -59,8 +59,8 @@
           <Add option="-D__MINGW_EXTENSION="/>
           <Add option="-DNDEBUG=1"/>
           <Add option="-DJUCER_CODEBLOCKS_20734A5D=1"/>
-          <Add option="-DJUCE_APP_VERSION=3.2.0"/>
-          <Add option="-DJUCE_APP_VERSION_HEX=0x30200"/>
+          <Add option="-DJUCE_APP_VERSION=4.1.0"/>
+          <Add option="-DJUCE_APP_VERSION_HEX=0x40100"/>
           <Add directory="."/>
           <Add directory="..\..\JuceLibraryCode"/>
         </Compiler>
@@ -429,7 +429,15 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
-    <Unit filename="../../Source/Project Saving/jucer_ProjectExport_Android.h">
+    <Unit filename="../../Source/Project Saving/jucer_ProjectExport_AndroidBase.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/Project Saving/jucer_ProjectExport_AndroidStudio.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/Project Saving/jucer_ProjectExport_AndroidAnt.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -533,6 +541,10 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../Source/Utility/jucer_ColourPropertyComponent.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../Source/Utility/jucer_Colours.h">
       <Option compile="0"/>
       <Option link="0"/>
@@ -542,8 +554,21 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../Source/Utility/jucer_FilePathPropertyComponent.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/Utility/jucer_FloatingToolWindow.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../Source/Utility/jucer_Icons.cpp"/>
     <Unit filename="../../Source/Utility/jucer_Icons.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/Utility/jucer_IntrojucerLookAndFeel.cpp"/>
+    <Unit filename="../../Source/Utility/jucer_IntrojucerLookAndFeel.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -575,7 +600,15 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../Source/Utility/jucer_SVGPathDataComponent.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../Source/Utility/jucer_TranslationTool.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/Utility/jucer_UTF8Component.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -730,6 +763,10 @@
       <Option link="0"/>
     </Unit>
     <Unit filename="../../Source/BinaryData/AudioPluginXCodeScript.txt">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/BinaryData/background_logo.svg">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -949,6 +986,10 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../../../modules/juce_core/maths/juce_StatisticsAccumulator.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../../../modules/juce_core/memory/juce_Atomic.h">
       <Option compile="0"/>
       <Option link="0"/>
@@ -1038,6 +1079,10 @@
       <Option link="0"/>
     </Unit>
     <Unit filename="../../../../modules/juce_core/containers/juce_LinkedListPointer.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../../../modules/juce_core/containers/juce_ListenerList.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -1477,6 +1522,14 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../../../modules/juce_core/misc/juce_RuntimePermissions.cpp">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../../../modules/juce_core/misc/juce_RuntimePermissions.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../../../modules/juce_core/misc/juce_Uuid.cpp">
       <Option compile="0"/>
       <Option link="0"/>
@@ -1502,6 +1555,10 @@
       <Option link="0"/>
     </Unit>
     <Unit filename="../../../../modules/juce_core/native/juce_android_Network.cpp">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../../../modules/juce_core/native/juce_android_RuntimePermissions.cpp">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -1538,6 +1595,10 @@
       <Option link="0"/>
     </Unit>
     <Unit filename="../../../../modules/juce_core/native/juce_linux_Threads.cpp">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../../../modules/juce_core/native/juce_mac_ClangBugWorkaround.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -1818,10 +1879,6 @@
       <Option link="0"/>
     </Unit>
     <Unit filename="../../../../modules/juce_events/broadcasters/juce_ChangeListener.h">
-      <Option compile="0"/>
-      <Option link="0"/>
-    </Unit>
-    <Unit filename="../../../../modules/juce_events/broadcasters/juce_ListenerList.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>

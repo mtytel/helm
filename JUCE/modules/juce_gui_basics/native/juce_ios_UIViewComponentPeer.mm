@@ -118,6 +118,8 @@ using namespace juce;
 - (void) willRotateToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation duration: (NSTimeInterval) duration;
 - (void) didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation;
 - (void) viewWillTransitionToSize: (CGSize) size withTransitionCoordinator: (id<UIViewControllerTransitionCoordinator>) coordinator;
+- (BOOL) prefersStatusBarHidden;
+- (UIStatusBarStyle) preferredStatusBarStyle;
 
 - (void) viewDidLoad;
 - (void) viewWillAppear: (BOOL) animated;
@@ -298,6 +300,15 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
     juceView->owner->updateTransformAndScreenBounds();
 }
 
+static bool isKioskModeView (JuceUIViewController* c)
+{
+    JuceUIView* juceView = (JuceUIView*) [c view];
+    jassert (juceView != nil && juceView->owner != nullptr);
+
+    return Desktop::getInstance().getKioskModeComponent() == &(juceView->owner->getComponent());
+}
+
+
 } // (juce namespace)
 
 //==============================================================================
@@ -317,15 +328,14 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
 - (void) willRotateToInterfaceOrientation: (UIInterfaceOrientation) toInterfaceOrientation
                                  duration: (NSTimeInterval) duration
 {
-    (void) toInterfaceOrientation;
-    (void) duration;
+    ignoreUnused (toInterfaceOrientation, duration);
 
     [UIView setAnimationsEnabled: NO]; // disable this because it goes the wrong way and looks like crap.
 }
 
 - (void) didRotateFromInterfaceOrientation: (UIInterfaceOrientation) fromInterfaceOrientation
 {
-    (void) fromInterfaceOrientation;
+    ignoreUnused (fromInterfaceOrientation);
     sendScreenBoundsUpdate (self);
     [UIView setAnimationsEnabled: YES];
 }
@@ -340,6 +350,16 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
     MessageManager::callAsync ([=]() { sendScreenBoundsUpdate (self); });
 }
 
+- (BOOL) prefersStatusBarHidden
+{
+    return isKioskModeView (self);
+}
+
+- (UIStatusBarStyle) preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 - (void) viewDidLoad
 {
     sendScreenBoundsUpdate (self);
@@ -347,13 +367,13 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
 
 - (void) viewWillAppear: (BOOL) animated
 {
-    (void) animated;
+    ignoreUnused (animated);
     [self viewDidLoad];
 }
 
 - (void) viewDidAppear: (BOOL) animated
 {
-    (void) animated;
+    ignoreUnused (animated);
     [self viewDidLoad];
 }
 
@@ -405,7 +425,7 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
 //==============================================================================
 - (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event
 {
-    (void) touches;
+    ignoreUnused (touches);
 
     if (owner != nullptr)
         owner->handleTouches (event, true, false, false);
@@ -413,7 +433,7 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
 
 - (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event
 {
-    (void) touches;
+    ignoreUnused (touches);
 
     if (owner != nullptr)
         owner->handleTouches (event, false, false, false);
@@ -421,7 +441,7 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
 
 - (void) touchesEnded: (NSSet*) touches withEvent: (UIEvent*) event
 {
-    (void) touches;
+    ignoreUnused (touches);
 
     if (owner != nullptr)
         owner->handleTouches (event, false, true, false);
@@ -459,7 +479,7 @@ static void sendScreenBoundsUpdate (JuceUIViewController* c)
 
 - (BOOL) textView: (UITextView*) textView shouldChangeTextInRange: (NSRange) range replacementText: (NSString*) text
 {
-    (void) textView;
+    ignoreUnused (textView);
     return owner->textViewReplaceCharacters (Range<int> ((int) range.location, (int) (range.location + range.length)),
                                              nsStringToJuce (text));
 }
@@ -659,7 +679,7 @@ void UIViewComponentPeer::setFullScreen (bool shouldBeFullScreen)
 
         // (can't call the component's setBounds method because that'll reset our fullscreen flag)
         if (! r.isEmpty())
-            setBounds (r, shouldBeFullScreen);
+            setBounds (ScalingHelpers::scaledScreenPosToUnscaled (component, r), shouldBeFullScreen);
 
         component.repaint();
     }
@@ -700,8 +720,13 @@ void UIViewComponentPeer::updateTransformAndScreenBounds()
 
 bool UIViewComponentPeer::contains (Point<int> localPos, bool trueIfInAChildWindow) const
 {
-    if (! component.getLocalBounds().contains (localPos))
-        return false;
+    {
+        Rectangle<int> localBounds =
+            ScalingHelpers::scaledScreenPosToUnscaled (component, component.getLocalBounds());
+
+        if (! localBounds.contains (localPos))
+            return false;
+    }
 
     UIView* v = [view hitTest: convertToCGPoint (localPos)
                     withEvent: nil];
@@ -754,6 +779,26 @@ void UIViewComponentPeer::setIcon (const Image& /*newIcon*/)
 }
 
 //==============================================================================
+static float getMaximumTouchForce (UITouch* touch) noexcept
+{
+   #if defined (__IPHONE_9_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+    if ([touch respondsToSelector: @selector (maximumPossibleForce)])
+        return (float) touch.maximumPossibleForce;
+   #endif
+
+    return 0.0f;
+}
+
+static float getTouchForce (UITouch* touch) noexcept
+{
+   #if defined (__IPHONE_9_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+    if ([touch respondsToSelector: @selector (force)])
+        return (float) touch.force;
+   #endif
+
+    return 0.0f;
+}
+
 void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, const bool isUp, bool isCancel)
 {
     NSArray* touches = [[event touchesForView: view] allObjects];
@@ -761,12 +806,13 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
     for (unsigned int i = 0; i < [touches count]; ++i)
     {
         UITouch* touch = [touches objectAtIndex: i];
+        const float maximumForce = getMaximumTouchForce (touch);
 
-        if ([touch phase] == UITouchPhaseStationary)
+        if ([touch phase] == UITouchPhaseStationary && maximumForce <= 0)
             continue;
 
         CGPoint p = [touch locationInView: view];
-        const Point<float> pos (p.x, p.y);
+        const Point<float> pos (static_cast<float> (p.x), static_cast<float> (p.y));
         juce_lastMousePos = pos + getBounds (true).getPosition().toFloat();
 
         const int64 time = getMouseTime (event);
@@ -783,7 +829,9 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
             modsToSend = currentModifiers;
 
             // this forces a mouse-enter/up event, in case for some reason we didn't get a mouse-up before.
-            handleMouseEvent (touchIndex, pos, modsToSend.withoutMouseButtons(), time);
+            handleMouseEvent (touchIndex, pos, modsToSend.withoutMouseButtons(),
+                              MouseInputSource::invalidPressure, time);
+
             if (! isValidPeer (this)) // (in case this component was deleted by the event)
                 return;
         }
@@ -805,13 +853,20 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
             modsToSend = currentModifiers = currentModifiers.withoutMouseButtons();
         }
 
-        handleMouseEvent (touchIndex, pos, modsToSend, time);
+        // NB: some devices return 0 or 1.0 if pressure is unknown, so we'll clip our value to a believable range:
+        float pressure = maximumForce > 0 ? jlimit (0.0001f, 0.9999f, getTouchForce (touch) / maximumForce)
+                                          : MouseInputSource::invalidPressure;
+
+        handleMouseEvent (touchIndex, pos, modsToSend, pressure, time);
+
         if (! isValidPeer (this)) // (in case this component was deleted by the event)
             return;
 
         if (isUp || isCancel)
         {
-            handleMouseEvent (touchIndex, Point<float> (-1.0f, -1.0f), modsToSend, time);
+            handleMouseEvent (touchIndex, Point<float> (-1.0f, -1.0f),
+                              modsToSend, MouseInputSource::invalidPressure, time);
+
             if (! isValidPeer (this))
                 return;
         }
@@ -942,7 +997,7 @@ void UIViewComponentPeer::drawRect (CGRect r)
         CGContextClearRect (cg, CGContextGetClipBoundingBox (cg));
 
     CGContextConcatCTM (cg, CGAffineTransformMake (1, 0, 0, -1, 0, getComponent().getHeight()));
-    CoreGraphicsContext g (cg, getComponent().getHeight(), [UIScreen mainScreen].scale);
+    CoreGraphicsContext g (cg, getComponent().getHeight(), static_cast<float> ([UIScreen mainScreen].scale));
 
     insideDrawRect = true;
     handlePaint (g);
@@ -957,14 +1012,18 @@ bool UIViewComponentPeer::canBecomeKeyWindow()
 //==============================================================================
 void Desktop::setKioskComponent (Component* kioskModeComp, bool enableOrDisable, bool /*allowMenusAndBars*/)
 {
-    [[UIApplication sharedApplication] setStatusBarHidden: enableOrDisable
-                                            withAnimation: UIStatusBarAnimationSlide];
-
     displays->refresh();
 
-    if (ComponentPeer* const peer = kioskModeComp->getPeer())
+    if (ComponentPeer* peer = kioskModeComp->getPeer())
+    {
+        if (UIViewComponentPeer* uiViewPeer = dynamic_cast<UIViewComponentPeer*> (peer))
+            [uiViewPeer->controller setNeedsStatusBarAppearanceUpdate];
+
         peer->setFullScreen (enableOrDisable);
+    }
 }
+
+void Desktop::allowedOrientationsChanged() {}
 
 //==============================================================================
 void UIViewComponentPeer::repaint (const Rectangle<int>& area)

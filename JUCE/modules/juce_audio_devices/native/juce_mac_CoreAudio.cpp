@@ -28,10 +28,21 @@
  #define JUCE_COREAUDIOLOG(a)
 #endif
 
+#ifdef __clang__
+ #pragma clang diagnostic push
+ #pragma clang diagnostic ignored "-Wnonnull" // aovid some spurious 10.11 SDK warnings
+
+ // The AudioHardwareService stuff was deprecated in 10.11 but there's no replacement yet,
+ // so we'll have to silence the warnings here and revisit it in a future OS version..
+ #if defined (MAC_OS_X_VERSION_10_11) && MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_11
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+ #endif
+#endif
+
 //==============================================================================
 struct SystemVol
 {
-    SystemVol (AudioObjectPropertySelector selector)
+    SystemVol (AudioObjectPropertySelector selector) noexcept
         : outputDeviceID (kAudioObjectUnknown)
     {
         addr.mScope    = kAudioObjectPropertyScopeGlobal;
@@ -56,7 +67,7 @@ struct SystemVol
         }
     }
 
-    float getGain()
+    float getGain() const noexcept
     {
         Float32 gain = 0;
 
@@ -70,7 +81,7 @@ struct SystemVol
         return (float) gain;
     }
 
-    bool setGain (float gain)
+    bool setGain (float gain) const noexcept
     {
         if (outputDeviceID != kAudioObjectUnknown && canSetVolume())
         {
@@ -84,7 +95,7 @@ struct SystemVol
         return false;
     }
 
-    bool isMuted()
+    bool isMuted() const noexcept
     {
         UInt32 muted = 0;
 
@@ -98,7 +109,7 @@ struct SystemVol
         return muted != 0;
     }
 
-    bool setMuted (bool mute)
+    bool setMuted (bool mute) const noexcept
     {
         if (outputDeviceID != kAudioObjectUnknown && canSetVolume())
         {
@@ -116,13 +127,17 @@ private:
     AudioDeviceID outputDeviceID;
     AudioObjectPropertyAddress addr;
 
-    bool canSetVolume()
+    bool canSetVolume() const noexcept
     {
         Boolean isSettable = NO;
         return AudioHardwareServiceIsPropertySettable (outputDeviceID, &addr, &isSettable) == noErr
                  && isSettable;
     }
 };
+
+#ifdef __clang__
+ #pragma clang diagnostic pop
+#endif
 
 #define JUCE_SYSTEMAUDIOVOL_IMPLEMENTED 1
 float JUCE_CALLTYPE SystemAudioVolume::getGain()              { return SystemVol (kAudioHardwareServiceDeviceProperty_VirtualMasterVolume).getGain(); }
@@ -146,9 +161,7 @@ public:
          outputLatency (0),
          bitDepth (32),
          callback (nullptr),
-        #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
          audioProcID (0),
-        #endif
          deviceID (id),
          started (false),
          sampleRate (0),
@@ -224,7 +237,7 @@ public:
 
                 for (int i = 0; i < numStreams; ++i)
                 {
-                    const AudioBuffer& b = bufList->mBuffers[i];
+                    const ::AudioBuffer& b = bufList->mBuffers[i];
 
                     for (unsigned int j = 0; j < b.mNumberChannels; ++j)
                     {
@@ -343,14 +356,20 @@ public:
 
     int getLatencyFromDevice (AudioObjectPropertyScope scope) const
     {
-        UInt32 lat = 0;
-        UInt32 size = sizeof (lat);
+        UInt32 latency = 0;
+        UInt32 size = sizeof (latency);
         AudioObjectPropertyAddress pa;
         pa.mElement = kAudioObjectPropertyElementMaster;
         pa.mSelector = kAudioDevicePropertyLatency;
         pa.mScope = scope;
-        AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &lat);
-        return (int) lat;
+        AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &latency);
+
+        UInt32 safetyOffset = 0;
+        size = sizeof (safetyOffset);
+        pa.mSelector = kAudioDevicePropertySafetyOffset;
+        AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &safetyOffset);
+
+        return (int) (latency + safetyOffset);
     }
 
     int getBitDepthFromDevice (AudioObjectPropertyScope scope) const
@@ -369,67 +388,84 @@ public:
         return 0;
     }
 
-    void updateDetailsFromDevice()
+    int getFrameSizeFromDevice() const
     {
-        stopTimer();
-
-        if (deviceID == 0)
-            return;
-
-        // this collects all the new details from the device without any locking, then
-        // locks + swaps them afterwards.
         AudioObjectPropertyAddress pa;
         pa.mScope = kAudioObjectPropertyScopeWildcard;
         pa.mElement = kAudioObjectPropertyElementMaster;
-
-        UInt32 isAlive;
-        UInt32 size = sizeof (isAlive);
-        pa.mSelector = kAudioDevicePropertyDeviceIsAlive;
-        if (OK (AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &isAlive)) && isAlive == 0)
-            return;
-
-        Float64 sr;
-        size = sizeof (sr);
-        pa.mSelector = kAudioDevicePropertyNominalSampleRate;
-        if (OK (AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &sr)))
-            sampleRate = sr;
+        pa.mSelector = kAudioDevicePropertyBufferFrameSize;
 
         UInt32 framesPerBuf = (UInt32) bufferSize;
-        size = sizeof (framesPerBuf);
-        pa.mSelector = kAudioDevicePropertyBufferFrameSize;
+        UInt32 size = sizeof (framesPerBuf);
         AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &framesPerBuf);
+        return (int) framesPerBuf;
+    }
 
-        Array<int> newBufferSizes (getBufferSizesFromDevice());
-        Array<double> newSampleRates (getSampleRatesFromDevice());
+    bool isDeviceAlive() const
+    {
+        AudioObjectPropertyAddress pa;
+        pa.mScope = kAudioObjectPropertyScopeWildcard;
+        pa.mElement = kAudioObjectPropertyElementMaster;
+        pa.mSelector = kAudioDevicePropertyDeviceIsAlive;
 
-        inputLatency  = getLatencyFromDevice (kAudioDevicePropertyScopeInput);
-        outputLatency = getLatencyFromDevice (kAudioDevicePropertyScopeOutput);
+        UInt32 isAlive = 0;
+        UInt32 size = sizeof (isAlive);
+        return deviceID != 0
+                && OK (AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &isAlive))
+                && isAlive != 0;
+    }
+
+    bool updateDetailsFromDevice()
+    {
+        stopTimer();
+
+        if (! isDeviceAlive())
+            return false;
+
+        // this collects all the new details from the device without any locking, then
+        // locks + swaps them afterwards.
+
+        const double newSampleRate = getNominalSampleRate();
+        const int newBufferSize = getFrameSizeFromDevice();
+
+        Array<int>    newBufferSizes = getBufferSizesFromDevice();
+        Array<double> newSampleRates = getSampleRatesFromDevice();
+
+        const int newInputLatency  = getLatencyFromDevice (kAudioDevicePropertyScopeInput);
+        const int newOutputLatency = getLatencyFromDevice (kAudioDevicePropertyScopeOutput);
 
         Array<CallbackDetailsForChannel> newInChans, newOutChans;
         StringArray newInNames  (getChannelInfo (true,  newInChans));
         StringArray newOutNames (getChannelInfo (false, newOutChans));
 
-        const int inputBitDepth = getBitDepthFromDevice (kAudioDevicePropertyScopeInput);
-        const int outputBitDepth = getBitDepthFromDevice (kAudioDevicePropertyScopeOutput);
+        const int newBitDepth  = jmax (getBitDepthFromDevice (kAudioDevicePropertyScopeInput),
+                                       getBitDepthFromDevice (kAudioDevicePropertyScopeOutput));
 
-        bitDepth = jmax (inputBitDepth, outputBitDepth);
-        if (bitDepth <= 0)
-            bitDepth = 32;
+        {
+            const ScopedLock sl (callbackLock);
 
-        // after getting the new values, lock + apply them
-        const ScopedLock sl (callbackLock);
+            bitDepth = newBitDepth > 0 ? newBitDepth : 32;
 
-        bufferSize = (int) framesPerBuf;
-        allocateTempBuffers();
+            if (newSampleRate > 0)
+                sampleRate = newSampleRate;
 
-        sampleRates.swapWith (newSampleRates);
-        bufferSizes.swapWith (newBufferSizes);
+            inputLatency  = newInputLatency;
+            outputLatency = newOutputLatency;
+            bufferSize = newBufferSize;
 
-        inChanNames.swapWith (newInNames);
-        outChanNames.swapWith (newOutNames);
+            sampleRates.swapWith (newSampleRates);
+            bufferSizes.swapWith (newBufferSizes);
 
-        inputChannelInfo.swapWith (newInChans);
-        outputChannelInfo.swapWith (newOutChans);
+            inChanNames.swapWith (newInNames);
+            outChanNames.swapWith (newOutNames);
+
+            inputChannelInfo.swapWith (newInChans);
+            outputChannelInfo.swapWith (newOutChans);
+
+            allocateTempBuffers();
+        }
+
+        return true;
     }
 
     //==============================================================================
@@ -516,6 +552,30 @@ public:
         }
     }
 
+    double getNominalSampleRate() const
+    {
+        AudioObjectPropertyAddress pa;
+        pa.mSelector = kAudioDevicePropertyNominalSampleRate;
+        pa.mScope = kAudioObjectPropertyScopeGlobal;
+        pa.mElement = kAudioObjectPropertyElementMaster;
+        Float64 sr = 0;
+        UInt32 size = (UInt32) sizeof (sr);
+        return OK (AudioObjectGetPropertyData (deviceID, &pa, 0, nullptr, &size, &sr)) ? (double) sr : 0.0;
+    }
+
+    bool setNominalSampleRate (double newSampleRate) const
+    {
+        if (std::abs (getNominalSampleRate() - newSampleRate) < 1.0)
+            return true;
+
+        AudioObjectPropertyAddress pa;
+        pa.mSelector = kAudioDevicePropertyNominalSampleRate;
+        pa.mScope = kAudioObjectPropertyScopeGlobal;
+        pa.mElement = kAudioObjectPropertyElementMaster;
+        Float64 sr = newSampleRate;
+        return OK (AudioObjectSetPropertyData (deviceID, &pa, 0, 0, sizeof (sr), &sr));
+    }
+
     //==============================================================================
     String reopen (const BigInteger& inputChannels,
                    const BigInteger& outputChannels,
@@ -540,25 +600,23 @@ public:
         numInputChans = activeInputChans.countNumberOfSetBits();
         numOutputChans = activeOutputChans.countNumberOfSetBits();
 
-        // set sample rate
-        AudioObjectPropertyAddress pa;
-        pa.mSelector = kAudioDevicePropertyNominalSampleRate;
-        pa.mScope = kAudioObjectPropertyScopeGlobal;
-        pa.mElement = kAudioObjectPropertyElementMaster;
-        Float64 sr = newSampleRate;
-
-        if (! OK (AudioObjectSetPropertyData (deviceID, &pa, 0, 0, sizeof (sr), &sr)))
+        if (! setNominalSampleRate (newSampleRate))
         {
+            updateDetailsFromDevice();
             error = "Couldn't change sample rate";
         }
         else
         {
             // change buffer size
-            UInt32 framesPerBuf = (UInt32) bufferSizeSamples;
+            AudioObjectPropertyAddress pa;
             pa.mSelector = kAudioDevicePropertyBufferFrameSize;
+            pa.mScope = kAudioObjectPropertyScopeGlobal;
+            pa.mElement = kAudioObjectPropertyElementMaster;
+            UInt32 framesPerBuf = (UInt32) bufferSizeSamples;
 
             if (! OK (AudioObjectSetPropertyData (deviceID, &pa, 0, 0, sizeof (framesPerBuf), &framesPerBuf)))
             {
+                updateDetailsFromDevice();
                 error = "Couldn't change buffer size";
             }
             else
@@ -590,11 +648,7 @@ public:
 
             if (deviceID != 0)
             {
-               #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-                if (OK (AudioDeviceAddIOProc (deviceID, audioIOProc, this)))
-               #else
                 if (OK (AudioDeviceCreateIOProcID (deviceID, audioIOProc, this, &audioProcID)))
-               #endif
                 {
                     if (OK (AudioDeviceStart (deviceID, audioIOProc)))
                     {
@@ -602,12 +656,8 @@ public:
                     }
                     else
                     {
-                       #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-                        OK (AudioDeviceRemoveIOProc (deviceID, audioIOProc));
-                       #else
                         OK (AudioDeviceDestroyIOProcID (deviceID, audioProcID));
                         audioProcID = 0;
-                       #endif
                     }
                 }
             }
@@ -634,13 +684,8 @@ public:
              && ! leaveInterruptRunning)
         {
             OK (AudioDeviceStop (deviceID, audioIOProc));
-
-           #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
-            OK (AudioDeviceRemoveIOProc (deviceID, audioIOProc));
-           #else
             OK (AudioDeviceDestroyIOProcID (deviceID, audioProcID));
             audioProcID = 0;
-           #endif
 
             started = false;
 
@@ -743,9 +788,10 @@ public:
         stopTimer();
         const double oldSampleRate = sampleRate;
         const int oldBufferSize = bufferSize;
-        updateDetailsFromDevice();
 
-        if (oldBufferSize != bufferSize || oldSampleRate != sampleRate)
+        if (! updateDetailsFromDevice())
+            owner.stop();
+        else if (oldBufferSize != bufferSize || oldSampleRate != sampleRate)
             owner.restart();
     }
 
@@ -758,9 +804,7 @@ public:
     Array<double> sampleRates;
     Array<int> bufferSizes;
     AudioIODeviceCallback* callback;
-   #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
     AudioDeviceIOProcID audioProcID;
-   #endif
 
 private:
     CriticalSection callbackLock;
@@ -1916,7 +1960,7 @@ private:
 
                 for (int i = 0; i < numStreams; ++i)
                 {
-                    const AudioBuffer& b = bufList->mBuffers[i];
+                    const ::AudioBuffer& b = bufList->mBuffers[i];
                     total += b.mNumberChannels;
                 }
             }

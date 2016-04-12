@@ -127,10 +127,10 @@ PaintElement* PaintRoutine::addElementFromXml (const XmlElement& xml, const int 
 {
     selectedPoints.deselectAll();
 
-    if (undoable)
+    if (undoable && document != nullptr)
     {
         AddXmlElementAction* action = new AddXmlElementAction (*this, new XmlElement (xml));
-        perform (action, "Add new element");
+        document->getUndoManager().perform (action, "Add new element");
 
         return elements [action->indexAdded];
     }
@@ -505,7 +505,7 @@ void PaintRoutine::dropImageAt (const File& f, int x, int y)
         PaintElement* newElement
             = addNewElement (ObjectTypes::createNewImageElement (this), -1, true);
 
-        if (PaintElementImage* pei = dynamic_cast <PaintElementImage*> (newElement))
+        if (PaintElementImage* pei = dynamic_cast<PaintElementImage*> (newElement))
         {
             String resourceName (getDocument()->getResources().findUniqueName (f.getFileName()));
 

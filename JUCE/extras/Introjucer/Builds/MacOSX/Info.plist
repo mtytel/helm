@@ -8,7 +8,7 @@
     <key>CFBundleIconFile</key>
     <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.roli.introjucer</string>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleName</key>
     <string>The Introjucer</string>
     <key>CFBundlePackageType</key>
@@ -16,9 +16,9 @@
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleShortVersionString</key>
-    <string>3.2.0</string>
+    <string>4.1.0</string>
     <key>CFBundleVersion</key>
-    <string>3.2.0</string>
+    <string>4.1.0</string>
     <key>NSHumanReadableCopyright</key>
     <string>ROLI Ltd.</string>
     <key>NSHighResolutionCapable</key>
@@ -34,6 +34,8 @@
         <string>jucer</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
+        <key>CFBundleTypeIconFile</key>
+        <string>Icon</string>
         <key>NSPersistentStoreTypeKey</key>
         <string>XML</string>
       </dict>

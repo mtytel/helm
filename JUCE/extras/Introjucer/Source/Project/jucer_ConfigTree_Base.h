@@ -70,6 +70,77 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertyGroupComponent)
 };
 
+//==============================================================================
+class RolloverHelpComp   : public Component,
+                           private Timer
+{
+public:
+    RolloverHelpComp()  : lastComp (nullptr)
+    {
+        setInterceptsMouseClicks (false, false);
+        startTimer (150);
+    }
+
+    void paint (Graphics& g) override
+    {
+        AttributedString s;
+        s.setJustification (Justification::centredLeft);
+        s.append (lastTip, Font (14.0f), findColour (mainBackgroundColourId).contrasting (0.7f));
+
+        TextLayout tl;
+        tl.createLayoutWithBalancedLineLengths (s, getWidth() - 10.0f);
+        if (tl.getNumLines() > 3)
+            tl.createLayout (s, getWidth() - 10.0f);
+
+        tl.draw (g, getLocalBounds().toFloat());
+    }
+
+private:
+    Component* lastComp;
+    String lastTip;
+
+    void timerCallback() override
+    {
+        Component* newComp = Desktop::getInstance().getMainMouseSource().getComponentUnderMouse();
+
+        if (newComp != nullptr
+             && (newComp->getTopLevelComponent() != getTopLevelComponent()
+                  || newComp->isCurrentlyBlockedByAnotherModalComponent()))
+            newComp = nullptr;
+
+        if (newComp != lastComp)
+        {
+            lastComp = newComp;
+
+            String newTip (findTip (newComp));
+
+            if (newTip != lastTip)
+            {
+                lastTip = newTip;
+                repaint();
+            }
+        }
+    }
+
+    static String findTip (Component* c)
+    {
+        while (c != nullptr)
+        {
+            if (TooltipClient* tc = dynamic_cast<TooltipClient*> (c))
+            {
+                const String tip (tc->getTooltip());
+
+                if (tip.isNotEmpty())
+                    return tip;
+            }
+
+            c = c->getParentComponent();
+        }
+
+        return String();
+    }
+};
+
 
 //==============================================================================
 class ConfigTreeItemBase  : public JucerTreeViewBase,
@@ -134,9 +205,8 @@ public:
 
 private:
     //==============================================================================
-    class PropertyPanelViewport  : public Component
+    struct PropertyPanelViewport  : public Component
     {
-    public:
         PropertyPanelViewport (Component* content)
         {
             addAndMakeVisible (viewport);
@@ -159,7 +229,6 @@ private:
         Viewport viewport;
         RolloverHelpComp rolloverHelp;
 
-    private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertyPanelViewport)
     };
 };
@@ -174,6 +243,7 @@ public:
         exportersTree.addListener (this);
     }
 
+    bool isRoot() const override              { return true; }
     bool isProjectSettings() const override   { return true; }
     String getRenamingName() const override   { return getDisplayName(); }
     String getDisplayName() const override    { return project.getTitle(); }
@@ -197,25 +267,8 @@ public:
 
     void showPopupMenu() override
     {
-        PopupMenu menu;
-
-        const StringArray exporters (ProjectExporter::getExporterNames());
-
-        for (int i = 0; i < exporters.size(); ++i)
-            menu.addItem (i + 1, "Create a new " + exporters[i] + " target");
-
-        launchPopupMenu (menu);
-    }
-
-    void handlePopupMenuResult (int resultCode) override
-    {
-        if (resultCode > 0)
-        {
-            String exporterName (ProjectExporter::getExporterNames() [resultCode - 1]);
-
-            if (exporterName.isNotEmpty())
-                project.addNewExporter (exporterName);
-        }
+        if (ProjectContentComponent* pcc = getProjectContentComponent())
+            pcc->showNewExporterMenu();
     }
 
     bool isInterestedInDragSource (const DragAndDropTarget::SourceDetails& dragSourceDetails) override

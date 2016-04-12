@@ -25,12 +25,15 @@
 #ifndef JUCER_APPLICATION_H_INCLUDED
 #define JUCER_APPLICATION_H_INCLUDED
 
-#include "../jucer_Headers.h"
 #include "jucer_MainWindow.h"
 #include "jucer_CommandLine.h"
 #include "../Project/jucer_Module.h"
 #include "jucer_AutoUpdater.h"
 #include "../Code Editor/jucer_SourceCodeEditor.h"
+#include "../Utility/jucer_UTF8Component.h"
+#include "../Utility/jucer_SVGPathDataComponent.h"
+#include "../Utility/jucer_FloatingToolWindow.h"
+#include "../Utility/jucer_IntrojucerLookAndFeel.h"
 
 void createGUIEditorMenu (PopupMenu&);
 void handleGUIEditorMenuCommand (int);
@@ -46,8 +49,7 @@ public:
     //==============================================================================
     void initialise (const String& commandLine) override
     {
-        LookAndFeel::setDefaultLookAndFeel (&lookAndFeel);
-        settings = new StoredSettings();
+        initialiseBasics();
 
         if (commandLine.isNotEmpty())
         {
@@ -69,36 +71,62 @@ public:
             return;
         }
 
-        initialiseLogger ("log_");
-
-        icons = new Icons();
-
-        if (! doExtraInitialisation())
+        if (! initialiseLog())
         {
             quit();
             return;
         }
 
         initCommandManager();
-
         menuModel = new MainMenuModel();
 
         settings->appearance.refreshPresetSchemeList();
 
-        ImageCache::setCacheTimeout (30 * 1000);
-
-        if (commandLine.trim().isNotEmpty() && ! commandLine.trim().startsWithChar ('-'))
-            anotherInstanceStarted (commandLine);
-        else
-            mainWindowList.reopenLastProjects();
-
-        mainWindowList.createWindowIfNoneAreOpen();
+        initialiseWindows (commandLine);
 
        #if JUCE_MAC
         MenuBarModel::setMacMainMenu (menuModel, nullptr, "Open Recent");
        #endif
 
-        versionChecker = new LatestVersionChecker();
+        versionChecker = createVersionChecker();
+    }
+
+    void initialiseBasics()
+    {
+        LookAndFeel::setDefaultLookAndFeel (&lookAndFeel);
+        settings = new StoredSettings();
+        ImageCache::setCacheTimeout (30 * 1000);
+        icons = new Icons();
+    }
+
+    virtual bool initialiseLog()
+    {
+        return initialiseLogger ("log_");
+    }
+
+    bool initialiseLogger (const char* filePrefix)
+    {
+        if (logger == nullptr)
+        {
+            logger = FileLogger::createDateStampedLogger (getLogFolderName(), filePrefix, ".txt",
+                                                          getApplicationName() + " " + getApplicationVersion()
+                                                            + "  ---  Build date: " __DATE__);
+            Logger::setCurrentLogger (logger);
+        }
+
+        return logger != nullptr;
+    }
+
+    virtual void initialiseWindows (const String& commandLine)
+    {
+        const String commandLineWithoutNSDebug (commandLine.replace ("-NSDocumentRevisionsDebugMode YES", ""));
+
+        if (commandLineWithoutNSDebug.trim().isNotEmpty() && ! commandLineWithoutNSDebug.trim().startsWithChar ('-'))
+            anotherInstanceStarted (commandLine);
+        else
+            mainWindowList.reopenLastProjects();
+
+        mainWindowList.createWindowIfNoneAreOpen();
     }
 
     void shutdown() override
@@ -146,6 +174,21 @@ public:
     const String getApplicationName() override       { return "Introjucer"; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
 
+    virtual String getVersionDescription() const
+    {
+        String s;
+
+        const Time buildDate (Time::getCompilationDate());
+
+        s << "Introjucer " << ProjectInfo::versionString
+          << newLine
+          << "Build date: " << buildDate.getDayOfMonth()
+          << " " << Time::getMonthName (buildDate.getMonth(), true)
+          << " " << buildDate.getYear();
+
+        return s;
+    }
+
     bool moreThanOneInstanceAllowed() override
     {
         return true; // this is handled manually in initialise()
@@ -171,9 +214,8 @@ public:
     }
 
     //==============================================================================
-    class MainMenuModel  : public MenuBarModel
+    struct MainMenuModel  : public MenuBarModel
     {
-    public:
         MainMenuModel()
         {
             setApplicationCommandManagerToWatch (&getCommandManager());
@@ -413,8 +455,8 @@ public:
             case CommandIDs::open:                      askUserToOpenFile(); break;
             case CommandIDs::saveAll:                   openDocumentManager.saveAll(); break;
             case CommandIDs::closeAllDocuments:         closeAllDocuments (true); break;
-            case CommandIDs::showUTF8Tool:              showUTF8ToolWindow (utf8Window); break;
-            case CommandIDs::showSVGPathTool:           showSVGPathDataToolWindow (svgPathWindow); break;
+            case CommandIDs::showUTF8Tool:              showUTF8ToolWindow(); break;
+            case CommandIDs::showSVGPathTool:           showSVGPathDataToolWindow(); break;
 
             case CommandIDs::showGlobalPreferences:     AppearanceSettings::showGlobalPreferences (globalPreferencesWindow); break;
             default:                                    return JUCEApplication::perform (info);
@@ -457,17 +499,29 @@ public:
     }
 
     //==============================================================================
-    void initialiseLogger (const char* filePrefix)
+    void showUTF8ToolWindow()
     {
-        if (logger == nullptr)
-        {
-            logger = FileLogger::createDateStampedLogger (getLogFolderName(), filePrefix, ".txt",
-                                                          getApplicationName() + " " + getApplicationVersion()
-                                                            + "  ---  Build date: " __DATE__);
-            Logger::setCurrentLogger (logger);
-        }
+        if (utf8Window != nullptr)
+            utf8Window->toFront (true);
+        else
+            new FloatingToolWindow ("UTF-8 String Literal Converter",
+                                    "utf8WindowPos",
+                                    new UTF8Component(), utf8Window,
+                                    500, 500, 300, 300, 1000, 1000);
     }
 
+    void showSVGPathDataToolWindow()
+    {
+        if (svgPathWindow != nullptr)
+            svgPathWindow->toFront (true);
+        else
+            new FloatingToolWindow ("SVG Path Converter",
+                                    "svgPathWindowPos",
+                                    new SVGPathDataComponent(), svgPathWindow,
+                                    500, 500, 300, 300, 1000, 1000);
+    }
+
+    //==============================================================================
     struct FileWithTime
     {
         FileWithTime (const File& f) : file (f), time (f.getLastModificationTime()) {}
@@ -506,7 +560,6 @@ public:
         logger = nullptr;
     }
 
-    virtual bool doExtraInitialisation()  { return true; }
     virtual void addExtraConfigItems (Project&, TreeViewItem&) {}
 
    #if JUCE_LINUX
@@ -533,6 +586,12 @@ public:
     virtual Component* createProjectContentComponent() const
     {
         return new ProjectContentComponent();
+    }
+
+    //==============================================================================
+    virtual LatestVersionChecker* createVersionChecker() const
+    {
+        return new LatestVersionChecker();
     }
 
     //==============================================================================

@@ -25,9 +25,6 @@
 #ifndef JUCE_VST3HEADERS_H_INCLUDED
 #define JUCE_VST3HEADERS_H_INCLUDED
 
-#undef Point
-#undef Component
-
 // Wow, those Steinberg guys really don't worry too much about compiler warnings.
 #if _MSC_VER
  #pragma warning (disable: 4505)
@@ -44,6 +41,10 @@
  #pragma clang diagnostic ignored "-Woverloaded-virtual"
  #pragma clang diagnostic ignored "-Wshadow"
  #pragma clang diagnostic ignored "-Wdeprecated-register"
+ #pragma clang diagnostic ignored "-Wunused-function"
+ #pragma clang diagnostic ignored "-Wsign-conversion"
+ #pragma clang diagnostic ignored "-Wsign-compare"
+ #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
 #endif
 
 /*  These files come with the Steinberg VST3 SDK - to get them, you'll need to
@@ -75,8 +76,12 @@
  #include <pluginterfaces/vst/ivstprocesscontext.h>
  #include <pluginterfaces/vst/vsttypes.h>
  #include <pluginterfaces/vst/ivstunits.h>
+ #include <pluginterfaces/vst/ivstmidicontrollers.h>
  #include <public.sdk/source/common/memorystream.h>
 #else
+ #if JUCE_MINGW
+  #define _set_abort_behavior(...)
+ #endif
  #include <base/source/baseiids.cpp>
  #include <base/source/fatomic.cpp>
  #include <base/source/fbuffer.cpp>
@@ -92,6 +97,7 @@
  #include <pluginterfaces/base/ipluginbase.h>
  #include <pluginterfaces/base/ustring.cpp>
  #include <pluginterfaces/gui/iplugview.h>
+ #include <pluginterfaces/vst/ivstmidicontrollers.h>
  #include <public.sdk/source/common/memorystream.cpp>
  #include <public.sdk/source/common/pluginview.cpp>
  #include <public.sdk/source/vst/vsteditcontroller.cpp>
@@ -165,7 +171,5 @@ namespace Steinberg
 #undef DEF_CLASS2
 #undef DEF_CLASS_W
 #undef END_FACTORY
-#undef Point
-#undef Component
 
 #endif   // JUCE_VST3HEADERS_H_INCLUDED

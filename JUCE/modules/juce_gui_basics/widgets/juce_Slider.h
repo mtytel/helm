@@ -138,22 +138,35 @@ public:
     SliderStyle getSliderStyle() const noexcept;
 
     //==============================================================================
-    /** Changes the properties of a rotary slider.
+    struct RotaryParameters
+    {
+        /** The angle (in radians, clockwise from the top) at which
+            the slider's minimum value is represented. */
+        float startAngleRadians;
 
-        @param startAngleRadians    the angle (in radians, clockwise from the top) at which
-                                    the slider's minimum value is represented
-        @param endAngleRadians      the angle (in radians, clockwise from the top) at which
-                                    the slider's maximum value is represented. This must be
-                                    greater than startAngleRadians
-        @param stopAtEnd            determines what happens when a circular drag action rotates beyond
-                                    the minimum or maximum angle. If true, the value will stop changing
-                                    until the mouse moves back the way it came; if false, the value
-                                    will snap back to the value nearest to the mouse. Note that this has
-                                    no effect if the drag mode is vertical or horizontal.
-    */
+        /** The angle (in radians, clockwise from the top) at which
+            the slider's maximum value is represented. This must be
+            greater than startAngleRadians. */
+        float endAngleRadians;
+
+        /** Determines what happens when a circular drag action rotates beyond
+            the minimum or maximum angle. If true, the value will stop changing
+            until the mouse moves back the way it came; if false, the value
+            will snap back to the value nearest to the mouse. Note that this has
+            no effect if the drag mode is vertical or horizontal.*/
+        bool stopAtEnd;
+    };
+
+    /** Changes the properties of a rotary slider. */
+    void setRotaryParameters (RotaryParameters newParameters) noexcept;
+
+    /** Changes the properties of a rotary slider. */
     void setRotaryParameters (float startAngleRadians,
                               float endAngleRadians,
-                              bool stopAtEnd);
+                              bool stopAtEnd) noexcept;
+
+    /** Changes the properties of a rotary slider. */
+    RotaryParameters getRotaryParameters() const noexcept;
 
     /** Sets the distance the mouse has to move to drag the slider across
         the full extent of its range.
@@ -597,7 +610,7 @@ public:
 
         If you pass a component as the parentComponentToUse parameter, the pop-up
         bubble will be added as a child of that component when it's needed. If you
-        pass 0, the pop-up will be placed on the desktop instead (note that it's a
+        pass nullptr, the pop-up will be placed on the desktop instead (note that it's a
         transparent window, so if you're using an OS that can't do transparent windows
         you'll have to add it to a parent component instead).
     */
@@ -726,7 +739,7 @@ public:
         If the slider is rotary, this will throw an assertion and return 0. If the
         value is out-of-range, it will be constrained to the length of the slider.
     */
-    float getPositionOfValue (double value);
+    float getPositionOfValue (double value) const;
 
     //==============================================================================
     /** This can be overridden to allow the slider to snap to user-definable values.

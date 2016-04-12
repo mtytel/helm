@@ -32,11 +32,22 @@ struct MidiOutput::PendingMessage
     PendingMessage* next;
 };
 
-MidiOutput::MidiOutput()
+MidiOutput::MidiOutput(const String& midiName)
     : Thread ("midi out"),
       internal (nullptr),
-      firstMessage (nullptr)
+      firstMessage (nullptr),
+      name (midiName)
 {
+}
+
+void MidiOutput::sendBlockOfMessagesNow (const MidiBuffer& buffer)
+{
+    MidiBuffer::Iterator i (buffer);
+    MidiMessage message;
+    int samplePosition; // Note: not actually used, so no need to initialise.
+
+    while (i.getNextEvent (message, samplePosition))
+        sendMessageNow (message);
 }
 
 void MidiOutput::sendBlockOfMessages (const MidiBuffer& buffer,

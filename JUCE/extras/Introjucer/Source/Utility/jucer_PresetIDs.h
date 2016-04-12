@@ -47,6 +47,7 @@ namespace Ids
     DECLARE_ID (source);
     DECLARE_ID (width);
     DECLARE_ID (height);
+    DECLARE_ID (bounds);
     DECLARE_ID (background);
     DECLARE_ID (initialState);
     DECLARE_ID (targetFolder);
@@ -55,6 +56,10 @@ namespace Ids
     DECLARE_ID (vst3Folder);
     DECLARE_ID (rtasFolder);
     DECLARE_ID (auFolder);
+    DECLARE_ID (vst2Path);
+    DECLARE_ID (vst3Path);
+    DECLARE_ID (rtasPath);
+    DECLARE_ID (aaxPath);
     DECLARE_ID (flags);
     DECLARE_ID (line);
     DECLARE_ID (index);
@@ -75,6 +80,8 @@ namespace Ids
     DECLARE_ID (systemHeaderPath);
     DECLARE_ID (libraryPath);
     DECLARE_ID (customXcodeFlags);
+    DECLARE_ID (customXcassetsFolder);
+    DECLARE_ID (customXcodeResourceFolders);
     DECLARE_ID (cppLanguageStandard);
     DECLARE_ID (cppLibType);
     DECLARE_ID (codeSigningIdentity);
@@ -109,6 +116,7 @@ namespace Ids
     DECLARE_ID (compile);
     DECLARE_ID (noWarnings);
     DECLARE_ID (resource);
+    DECLARE_ID (xcodeResource);
     DECLARE_ID (className);
     DECLARE_ID (classDesc);
     DECLARE_ID (controlPoint);
@@ -129,6 +137,7 @@ namespace Ids
     DECLARE_ID (useStdCall);
     DECLARE_ID (showAllCode);
     DECLARE_ID (useLocalCopy);
+    DECLARE_ID (overwriteOnSave);
     DECLARE_ID (androidActivityClass);
     DECLARE_ID (androidActivitySubClassName);
     DECLARE_ID (androidVersionCode);
@@ -136,8 +145,8 @@ namespace Ids
     DECLARE_ID (androidNDKPath);
     DECLARE_ID (androidInternetNeeded);
     DECLARE_ID (androidArchitectures);
-    DECLARE_ID (androidCpp11);
     DECLARE_ID (androidMicNeeded);
+    DECLARE_ID (androidBluetoothNeeded);
     DECLARE_ID (androidMinimumSDK);
     DECLARE_ID (androidOtherPermissions);
     DECLARE_ID (androidKeyStore);
@@ -147,6 +156,18 @@ namespace Ids
     DECLARE_ID (androidTheme);
     DECLARE_ID (androidStaticLibraries);
     DECLARE_ID (androidSharedLibraries);
+    DECLARE_ID (androidNdkPlatformVersion);
+    DECLARE_ID (androidScreenOrientation);
+    DECLARE_ID (iosScreenOrientation);
+    DECLARE_ID (iosInAppPurchases);
+    DECLARE_ID (iosBackgroundAudio);
+    DECLARE_ID (iosBackgroundBle);
+    DECLARE_ID (iosDevelopmentTeamID);
+    DECLARE_ID (buildToolsVersion);
+    DECLARE_ID (gradleVersion);
+    DECLARE_ID (gradleWrapperVersion);
+    DECLARE_ID (gradleToolchain);
+    DECLARE_ID (gradleToolchainVersion);
     DECLARE_ID (font);
     DECLARE_ID (colour);
     DECLARE_ID (userNotes);

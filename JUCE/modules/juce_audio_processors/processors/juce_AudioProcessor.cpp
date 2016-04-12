@@ -22,26 +22,6 @@
   ==============================================================================
 */
 
-static ThreadLocalValue<AudioProcessor::WrapperType> wrapperTypeBeingCreated;
-
-void JUCE_CALLTYPE AudioProcessor::setTypeOfNextNewPlugin (AudioProcessor::WrapperType type)
-{
-    wrapperTypeBeingCreated = type;
-}
-
-AudioProcessor::AudioProcessor()
-    : wrapperType (wrapperTypeBeingCreated.get()),
-      playHead (nullptr),
-      sampleRate (0),
-      blockSize (0),
-      numInputChannels (0),
-      numOutputChannels (0),
-      latencySamples (0),
-      suspended (false),
-      nonRealtime (false)
-{
-}
-
 AudioProcessor::~AudioProcessor()
 {
    #if ! JUCE_AUDIO_PROCESSOR_NO_GUI
@@ -77,27 +57,49 @@ void AudioProcessor::removeListener (AudioProcessorListener* const listenerToRem
 void AudioProcessor::setPlayConfigDetails (const int newNumIns,
                                            const int newNumOuts,
                                            const double newSampleRate,
-                                           const int newBlockSize) noexcept
+                                           const int newBlockSize)
 {
-    sampleRate = newSampleRate;
-    blockSize  = newBlockSize;
+    const int oldNumInputs  = getTotalNumInputChannels();
+    const int oldNumOutputs = getTotalNumOutputChannels();
 
-    if (numInputChannels != newNumIns || numOutputChannels != newNumOuts)
+    // if the user is using this method then they do not want any side-buses or aux outputs
+    disableNonMainBuses (true);
+    disableNonMainBuses (false);
+
+    if (getTotalNumInputChannels()  != newNumIns)  setPreferredBusArrangement (true,  0, AudioChannelSet::canonicalChannelSet (newNumIns));
+    if (getTotalNumOutputChannels() != newNumOuts) setPreferredBusArrangement (false, 0, AudioChannelSet::canonicalChannelSet (newNumOuts));
+
+    // the processor may not support this arrangement at all
+    jassert (newNumIns == getTotalNumInputChannels() && newNumOuts == getTotalNumOutputChannels());
+
+    setRateAndBufferSizeDetails (newSampleRate, newBlockSize);
+
+    if (oldNumInputs != newNumIns || oldNumOutputs != newNumOuts)
     {
-        numInputChannels  = newNumIns;
-        numOutputChannels = newNumOuts;
-
+        updateSpeakerFormatStrings();
         numChannelsChanged();
     }
 }
 
-void AudioProcessor::numChannelsChanged() {}
-
-void AudioProcessor::setSpeakerArrangement (const String& inputs, const String& outputs)
+void AudioProcessor::setRateAndBufferSizeDetails (double newSampleRate, int newBlockSize) noexcept
 {
-    inputSpeakerArrangement  = inputs;
-    outputSpeakerArrangement = outputs;
+    currentSampleRate = newSampleRate;
+    blockSize = newBlockSize;
 }
+
+int AudioProcessor::getMainBusNumInputChannels()  const noexcept
+{
+    const Array<AudioProcessorBus>& buses = busArrangement.inputBuses;
+    return buses.size() > 0 ? buses.getReference (0).channels.size() : 0;
+}
+
+int AudioProcessor::getMainBusNumOutputChannels() const noexcept
+{
+    const Array<AudioProcessorBus>& buses = busArrangement.outputBuses;
+    return buses.size() > 0 ? buses.getReference (0).channels.size() : 0;
+}
+
+void AudioProcessor::numChannelsChanged() {}
 
 void AudioProcessor::setNonRealtime (const bool newNonRealtime) noexcept
 {
@@ -240,6 +242,13 @@ String AudioProcessor::getParameterName (int index, int maximumStringLength)
 
 const String AudioProcessor::getParameterText (int index)
 {
+   #if JUCE_DEBUG
+    // if you hit this, then you're probably using the old parameter control methods,
+    // but have forgotten to implement either of the getParameterText() methods.
+    jassert (! textRecursionCheck);
+    ScopedValueSetter<bool> sv (textRecursionCheck, true, false);
+   #endif
+
     return getParameterText (index, 1024);
 }
 
@@ -325,7 +334,88 @@ void AudioProcessor::suspendProcessing (const bool shouldBeSuspended)
 }
 
 void AudioProcessor::reset() {}
-void AudioProcessor::processBlockBypassed (AudioSampleBuffer&, MidiBuffer&) {}
+void AudioProcessor::processBlockBypassed (AudioBuffer<float>&, MidiBuffer&) {}
+void AudioProcessor::processBlockBypassed (AudioBuffer<double>&, MidiBuffer&) {}
+
+void AudioProcessor::processBlock (AudioBuffer<double>& buffer, MidiBuffer& midiMessages)
+{
+    ignoreUnused (buffer, midiMessages);
+
+    // If you hit this assertion then either the caller called the double
+    // precision version of processBlock on a processor which does not support it
+    // (i.e. supportsDoublePrecisionProcessing() returns false), or the implementation
+    // of the AudioProcessor forgot to override the double precision version of this method
+    jassertfalse;
+}
+
+void AudioProcessor::setProcessingPrecision (ProcessingPrecision precision) noexcept
+{
+    // If you hit this assertion then you're trying to use double precision
+    // processing on a processor which does not support it!
+    jassert (precision != doublePrecision || supportsDoublePrecisionProcessing());
+
+    processingPrecision = precision;
+}
+
+bool AudioProcessor::supportsDoublePrecisionProcessing() const
+{
+    return false;
+}
+
+//==============================================================================
+static String getChannelName (const Array<AudioProcessor::AudioProcessorBus>& buses, int index)
+{
+    return buses.size() > 0 ? AudioChannelSet::getChannelTypeName (buses.getReference(0).channels.getTypeOfChannel (index))
+                            : String();
+}
+
+const String AudioProcessor::getInputChannelName (int index) const   { return getChannelName (busArrangement.inputBuses, index); }
+const String AudioProcessor::getOutputChannelName (int index) const  { return getChannelName (busArrangement.outputBuses, index); }
+
+static bool isStereoPair (const Array<AudioProcessor::AudioProcessorBus>& buses, int index)
+{
+    return index < 2
+            && buses.size() > 0
+            && buses.getReference(0).channels == AudioChannelSet::stereo();
+}
+
+bool AudioProcessor::isInputChannelStereoPair  (int index) const    { return isStereoPair (busArrangement.inputBuses, index); }
+bool AudioProcessor::isOutputChannelStereoPair (int index) const    { return isStereoPair (busArrangement.outputBuses, index); }
+
+//==============================================================================
+void AudioProcessor::disableNonMainBuses (bool isInput)
+{
+    const Array<AudioProcessorBus>& buses = (isInput ? busArrangement.inputBuses : busArrangement.outputBuses);
+
+    for (int busIdx = 1; busIdx < buses.size(); ++busIdx)
+    {
+        if (buses.getReference (busIdx).channels != AudioChannelSet::disabled())
+        {
+            bool success = setPreferredBusArrangement (isInput, busIdx, AudioChannelSet::disabled());
+
+            ignoreUnused (success);
+            // You are using the setPlayConfigDetails method which should only be used on processors
+            // with no aux outputs and sidechains. Please use setRateAndBufferSizeDetails and
+            // setPreferredBusArrangement instead.
+            jassert (success);
+        }
+    }
+}
+
+// Unfortunately the deprecated getInputSpeakerArrangement/getOutputSpeakerArrangement return
+// references to strings. Therefore we need to keep a copy. Once getInputSpeakerArrangement is
+// removed, we can also remove this function
+void AudioProcessor::updateSpeakerFormatStrings()
+{
+    cachedInputSpeakerArrString.clear();
+    cachedOutputSpeakerArrString.clear();
+
+    if (busArrangement.inputBuses.size() > 0)
+        cachedInputSpeakerArrString  = busArrangement.inputBuses. getReference (0).channels.getSpeakerArrangementAsString();
+
+    if (busArrangement.outputBuses.size() > 0)
+        cachedOutputSpeakerArrString = busArrangement.outputBuses.getReference (0).channels.getSpeakerArrangementAsString();
+}
 
 #if ! JUCE_AUDIO_PROCESSOR_NO_GUI
 //==============================================================================
@@ -403,6 +493,36 @@ XmlElement* AudioProcessor::getXmlFromBinary (const void* data, const int sizeIn
     }
 
     return nullptr;
+}
+
+//==============================================================================
+int AudioProcessor::AudioBusArrangement::getChannelIndexInProcessBlockBuffer (bool isInput, int busIndex, int channelIndex) const noexcept
+{
+    const Array<AudioProcessorBus>& ioBus = isInput ? inputBuses : outputBuses;
+    jassert (busIndex < ioBus.size());
+
+    for (int i = 0; i < ioBus.size() && i < busIndex; ++i)
+        channelIndex += ioBus.getReference(i).channels.size();
+
+    return channelIndex;
+}
+
+static int countTotalChannels (const Array<AudioProcessor::AudioProcessorBus>& buses) noexcept
+{
+    int n = 0;
+
+    for (int i = 0; i < buses.size(); ++i)
+        n += buses.getReference(i).channels.size();
+
+    return n;
+}
+
+int AudioProcessor::AudioBusArrangement::getTotalNumInputChannels() const noexcept   { return countTotalChannels (inputBuses); }
+int AudioProcessor::AudioBusArrangement::getTotalNumOutputChannels() const noexcept  { return countTotalChannels (outputBuses); }
+
+AudioProcessor::AudioProcessorBus::AudioProcessorBus (const String& nm, const AudioChannelSet& chans)
+   : name (nm), channels (chans)
+{
 }
 
 //==============================================================================

@@ -22,6 +22,7 @@
   ==============================================================================
 */
 
+#include "../jucer_Headers.h"
 #include "jucer_NewFileWizard.h"
 
 NewFileWizard::Type* createGUIComponentWizard();
@@ -53,9 +54,9 @@ class NewCppFileWizard  : public NewFileWizard::Type
 public:
     NewCppFileWizard() {}
 
-    String getName()  { return "CPP File"; }
+    String getName() override  { return "CPP File"; }
 
-    void createNewFile (Project::Item parent)
+    void createNewFile (Project::Item parent) override
     {
         const File newFile (askUserToChooseNewFile ("SourceCode.cpp", "*.cpp", parent));
 
@@ -82,9 +83,9 @@ class NewHeaderFileWizard  : public NewFileWizard::Type
 public:
     NewHeaderFileWizard() {}
 
-    String getName()  { return "Header File"; }
+    String getName() override  { return "Header File"; }
 
-    void createNewFile (Project::Item parent)
+    void createNewFile (Project::Item parent) override
     {
         const File newFile (askUserToChooseNewFile ("SourceCode.h", "*.h", parent));
 
@@ -111,9 +112,9 @@ class NewCppAndHeaderFileWizard  : public NewFileWizard::Type
 public:
     NewCppAndHeaderFileWizard() {}
 
-    String getName()  { return "CPP & Header File"; }
+    String getName() override  { return "CPP & Header File"; }
 
-    void createNewFile (Project::Item parent)
+    void createNewFile (Project::Item parent) override
     {
         const File newFile (askUserToChooseNewFile ("SourceCode.h", "*.h;*.cpp", parent));
 
@@ -131,9 +132,9 @@ class NewComponentFileWizard  : public NewFileWizard::Type
 public:
     NewComponentFileWizard() {}
 
-    String getName()  { return "Component class (split between a CPP & header)"; }
+    String getName() override  { return "Component class (split between a CPP & header)"; }
 
-    void createNewFile (Project::Item parent)
+    void createNewFile (Project::Item parent) override
     {
         for (;;)
         {
@@ -195,9 +196,9 @@ class NewSingleFileComponentFileWizard  : public NewComponentFileWizard
 public:
     NewSingleFileComponentFileWizard() {}
 
-    String getName()  { return "Component class (in a single source file)"; }
+    String getName() override  { return "Component class (in a single source file)"; }
 
-    void createFiles (Project::Item parent, const String& className, const File& newFile)
+    void createFiles (Project::Item parent, const String& className, const File& newFile) override
     {
         create (className, parent, newFile.withFileExtension ("h"), "jucer_NewInlineComponentTemplate_h");
     }
