@@ -44,7 +44,7 @@ namespace mopo {
       virtual Processor* clone() const override { return new Stutter(*this); }
       virtual void process() override;
 
-      void tick(int i, mopo_float sample_period, mopo_float stutter_period) {
+      inline void tick(int i, mopo_float sample_period, mopo_float stutter_period) {
         offset_ -= 1.0;
         resample_offset_ -= 1.0;
         if (resample_offset_ <= 0.0) {

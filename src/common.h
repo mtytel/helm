@@ -35,8 +35,8 @@ namespace mopo {
   typedef double mopo_float;
 
   const mopo_float PI = 3.1415926535897932384626433832795;
-  const int MAX_BUFFER_SIZE = 512;
-  const int DEFAULT_BUFFER_SIZE = 512;
+  const int MAX_BUFFER_SIZE = 256;
+  const int DEFAULT_BUFFER_SIZE = 256;
   const int DEFAULT_SAMPLE_RATE = 44100;
   const int MIDI_SIZE = 128;
   const int PPQ = 960; // Pulses per quarter note.

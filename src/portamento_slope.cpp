@@ -28,8 +28,9 @@ namespace mopo {
   }
 
   void PortamentoSlope::processBypass(int start) {
-    for (int i = start; i < buffer_size_; ++i)
-      output(0)->buffer[i] = input(kTarget)->at(i);
+    mopo_float* dest = output(0)->buffer;
+    const mopo_float* src = input(kTarget)->source->buffer;
+    memcpy(dest + start, src, (buffer_size_ - start) * sizeof(mopo_float));
     last_value_ = output(0)->buffer[buffer_size_ - 1];
   }
 
