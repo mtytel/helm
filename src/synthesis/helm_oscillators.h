@@ -1,4 +1,4 @@
-/* Copyright 2013-2015 Matt Tytel
+/* Copyright 2013-2016 Matt Tytel
  *
  * helm is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ namespace mopo {
         oscillator2_cross_mod_ = sin2 / FixedPointWaveLookup::SCALE;
       }
 
-      void tick(int i, int voices1, int voices2) {
+      inline void tick(int i, int voices1, int voices2, float scale1, float scale2) {
         mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
         mopo_float amp1 = input(kOscillator1Amplitude)->source->buffer[i];
         mopo_float amp2 = input(kOscillator2Amplitude)->source->buffer[i];
@@ -101,8 +101,8 @@ namespace mopo {
           oscillator2_total += wave_buffers2_[v][FixedPointWave::getIndex(phase)];
         }
 
-        oscillator1_total /= ((voices1 >> 1) + 1);
-        oscillator2_total /= ((voices2 >> 1) + 1);
+        oscillator1_total *= scale1;
+        oscillator2_total *= scale2;
 
         mopo_float mixed = amp1 * oscillator1_total + amp2 * oscillator2_total;
         output(0)->buffer[i] = SCALE_OUT * mixed;

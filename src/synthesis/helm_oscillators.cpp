@@ -1,4 +1,4 @@
-/* Copyright 2013-2015 Matt Tytel
+/* Copyright 2013-2016 Matt Tytel
  *
  * helm is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,9 +76,17 @@ namespace mopo {
   }
 
   void HelmOscillators::loadBasePhaseInc() {
-    for (int i = 0; i < buffer_size_; ++i) {
-      oscillator1_phase_diffs_[0][i] = UINT_MAX * input(kOscillator1PhaseInc)->source->buffer[i];
-      oscillator2_phase_diffs_[0][i] = UINT_MAX * input(kOscillator2PhaseInc)->source->buffer[i];
+    int samples = buffer_size_;
+
+    int* dest1 = oscillator1_phase_diffs_[0];
+    int* dest2 = oscillator2_phase_diffs_[0];
+    const mopo_float* src1 = input(kOscillator1PhaseInc)->source->buffer;
+    const mopo_float* src2 = input(kOscillator2PhaseInc)->source->buffer;
+
+    #pragma clang loop vectorize(enable) interleave(enable)
+    for (int i = 0; i < samples; ++i) {
+      dest1[i] = UINT_MAX * src1[i];
+      dest2[i] = UINT_MAX * src2[i];
     }
   }
 
@@ -86,6 +94,8 @@ namespace mopo {
                                             const mopo_float* random_offsets,
                                             bool harmonize, mopo_float detune,
                                             int voices) {
+    int samples = buffer_size_;
+
     for (int v = 0; v < MAX_UNISON; ++v) {
       mopo_float amount = (detune * ((v + 1) / 2)) / ((voices + 1) / 2);
 
@@ -100,9 +110,9 @@ namespace mopo {
       mopo_float total_detune = harmonic + std::pow(2.0, exponent) + amount * random_offsets[v];
 
       int* voice_phase_diffs = oscillator_phase_diffs + (v * MAX_BUFFER_SIZE);
-      for (int i = 0; i < buffer_size_; ++i) {
+      #pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < samples; ++i)
         voice_phase_diffs[i] = total_detune * oscillator_phase_diffs[i];
-      }
     }
   }
 
@@ -138,15 +148,18 @@ namespace mopo {
     prepareBuffers(wave_buffers1_, (int*)oscillator1_phase_diffs_, wave1);
     prepareBuffers(wave_buffers2_, (int*)oscillator2_phase_diffs_, wave2);
 
+    float scale1 = 1.0f / ((voices1 >> 1) + 1);
+    float scale2 = 1.0f / ((voices2 >> 1) + 1);
+
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i, voices1, voices2);
+        tick(i, voices1, voices2, scale1, scale2);
 
       reset();
     }
     for (; i < buffer_size_; ++i)
-      tick(i, voices1, voices2);
+      tick(i, voices1, voices2, scale1, scale2);
   }
 } // namespace mopo
