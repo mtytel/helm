@@ -1,4 +1,4 @@
-/* Copyright 2013-2015 Matt Tytel
+/* Copyright 2013-2016 Matt Tytel
  *
  * helm is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -181,9 +181,9 @@ void AboutSection::buttonClicked(Button* clicked_button) {
     LoadSave::saveAnimateWidgets(animate_->getToggleState());
 
     SynthSection* parent = findParentComponentOfClass<SynthSection>();
-    SynthSection* next = parent;
-    while (next = parent->findParentComponentOfClass<SynthSection>())
-      parent = next;
+    for (SynthSection* s = parent; s; s = parent->findParentComponentOfClass<SynthSection>())
+      parent = s;
+
     parent->animate(animate_->getToggleState());
   }
 }
