@@ -1,4 +1,4 @@
-/* Copyright 2013-2015 Matt Tytel
+/* Copyright 2013-2016 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -138,6 +138,7 @@ namespace mopo {
   }
 
   void BilinearInterpolate::process() {
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
     processTriggers();
@@ -215,6 +216,7 @@ namespace mopo {
   void SampleAndHoldBuffer::process() {
     if (input()->source->buffer[0] == output()->buffer[0])
       return;
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
     processTriggers();

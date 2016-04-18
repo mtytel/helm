@@ -1,4 +1,4 @@
-/* Copyright 2013-2015 Matt Tytel
+/* Copyright 2013-2016 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,8 +28,9 @@ namespace mopo {
   }
 
   void PortamentoSlope::processBypass(int start) {
-    for (int i = start; i < buffer_size_; ++i)
-      output(0)->buffer[i] = input(kTarget)->at(i);
+    mopo_float* dest = output(0)->buffer;
+    const mopo_float* src = input(kTarget)->source->buffer;
+    memcpy(dest + start, src, (buffer_size_ - start) * sizeof(mopo_float));
     last_value_ = output(0)->buffer[buffer_size_ - 1];
   }
 
