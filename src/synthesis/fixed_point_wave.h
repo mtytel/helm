@@ -1,4 +1,4 @@
-/* Copyright 2013-2015 Matt Tytel
+/* Copyright 2013-2016 Matt Tytel
  *
  * mopo is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,11 +46,11 @@ namespace mopo {
         kNumFixedPointWaveforms
       };
 
-      static const int FIXED_LOOKUP_BITS = 12;
-      static const int FIXED_LOOKUP_SIZE = 4096;
+      static const int FIXED_LOOKUP_BITS = 13;
+      static const int FIXED_LOOKUP_SIZE = 8192;
 
-      static const int FRACTIONAL_BITS = 20;
-      static const int FRACTIONAL_SIZE = 1048576;
+      static const int FRACTIONAL_BITS = 19;
+      static const int FRACTIONAL_SIZE = 524288;
 
       static const int HARMONICS = 127;
 
@@ -112,6 +112,10 @@ namespace mopo {
 
       static inline unsigned int getIndex(unsigned int t) {
         return t >> FixedPointWaveLookup::FRACTIONAL_BITS;
+      }
+
+      static inline unsigned int getFractional(unsigned int t) {
+        return t & FixedPointWaveLookup::FRACTIONAL_BITS;
       }
 
     protected:
