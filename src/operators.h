@@ -242,7 +242,7 @@ namespace mopo {
       PROCESS_TICK_FUNCTION
   };
 
-  // A processor that will convert a stream of decibals to a stream of
+  // A processor that will convert a stream of decibels to a stream of
   // magnitudes.
   class MagnitudeScale : public Operator {
     public:
