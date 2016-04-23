@@ -38,13 +38,13 @@ namespace mopo {
       MagnitudeLookupSingleton() {
         for (int i = 0; i < MAGNITUDE_LOOKUP_RESOLUTION + 2; ++i) {
           mopo_float t = (1.0 * i) / MAGNITUDE_LOOKUP_RESOLUTION;
-          mopo_float decibals = INTERPOLATE(MIN_DB_LOOKUP, MAX_DB_LOOKUP, t);
-          magnitude_lookup_[i] = utils::dbToGain(decibals);
+          mopo_float decibels = INTERPOLATE(MIN_DB_LOOKUP, MAX_DB_LOOKUP, t);
+          magnitude_lookup_[i] = utils::dbToGain(decibels);
         }
       }
 
-      mopo_float magnitudeLookup(mopo_float decibals) const {
-        mopo_float t = (decibals - MIN_DB_LOOKUP) / DB_RANGE;
+      mopo_float magnitudeLookup(mopo_float decibels) const {
+        mopo_float t = (decibels - MIN_DB_LOOKUP) / DB_RANGE;
         mopo_float index = MAGNITUDE_LOOKUP_RESOLUTION * utils::clamp(t, 0.0, 1.0);
         int int_index = index;
         mopo_float fraction = index - int_index;
@@ -59,8 +59,8 @@ namespace mopo {
 
   class MagnitudeLookup {
     public:
-      static mopo_float magnitudeLookup(mopo_float decibals) {
-        return lookup_.magnitudeLookup(decibals);
+      static mopo_float magnitudeLookup(mopo_float decibels) {
+        return lookup_.magnitudeLookup(decibels);
       }
 
     private:

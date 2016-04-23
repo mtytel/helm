@@ -100,8 +100,8 @@ namespace mopo {
       return DB_GAIN_CONVERSION_MULT * log10(gain);
     }
 
-    inline mopo_float dbToGain(mopo_float decibals) {
-      return std::pow(10.0, decibals / DB_GAIN_CONVERSION_MULT);
+    inline mopo_float dbToGain(mopo_float decibels) {
+      return std::pow(10.0, decibels / DB_GAIN_CONVERSION_MULT);
     }
 
     inline mopo_float midiCentsToFrequency(mopo_float cents) {
