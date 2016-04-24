@@ -76,7 +76,8 @@ void SynthSection::paintKnobShadows(Graphics& g) {
 void SynthSection::sliderValueChanged(Slider* moved_slider) {
   std::string name = moved_slider->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  parent->valueChangedInternal(name, moved_slider->getValue());
+  if (parent)
+    parent->valueChangedInternal(name, moved_slider->getValue());
 }
 
 void SynthSection::buttonClicked(juce::Button *clicked_button) {

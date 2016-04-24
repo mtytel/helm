@@ -18,7 +18,6 @@
 #include "midi_lookup.h"
 #include "utils.h"
 
-#define MAG_TO_DB_CONSTANT 20.0f
 #define MIN_GAIN_DB -30.0f
 #define MAX_GAIN_DB 24.0f
 #define MIN_RESONANCE 0.5
@@ -104,7 +103,7 @@ void FilterResponse::mouseDrag(const MouseEvent& e) {
 float FilterResponse::getPercentForMidiNote(float midi_note) {
   float frequency = mopo::utils::midiNoteToFrequency(midi_note);
   float response = fabs(filter_.getAmplitudeResponse(frequency));
-  float gain_db = MAG_TO_DB_CONSTANT * log10(response);
+  float gain_db = mopo::utils::gainToDb(response);
   return (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
 }
 
