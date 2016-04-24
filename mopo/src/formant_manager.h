@@ -20,6 +20,8 @@
 
 #include "processor_router.h"
 
+#include <complex>
+
 namespace mopo {
 
   class Filter;
@@ -40,6 +42,16 @@ namespace mopo {
 
       Filter* getFormant(int index = 0) { return formants_[index]; }
       int num_formants() { return formants_.size(); }
+
+      std::complex<mopo_float> getResponse(mopo_float frequency);
+
+      mopo_float getAmplitudeResponse(mopo_float frequency) {
+        return std::abs(getResponse(frequency));
+      }
+
+      mopo_float getPhaseResponse(mopo_float frequency) {
+        return std::arg(getResponse(frequency));
+      }
 
     protected:
       std::vector<Filter*> formants_;
