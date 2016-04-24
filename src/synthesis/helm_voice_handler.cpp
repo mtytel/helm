@@ -42,60 +42,51 @@ namespace mopo {
     };
 
     static const Value formant_filter_types[NUM_FORMANTS] = {
-      Value(Filter::kHighPass),
-      Value(Filter::kBandShelf),
-      Value(Filter::kBandShelf),
-      Value(Filter::kLowPass)
+      Value(Filter::kGainedBandPass),
+      Value(Filter::kGainedBandPass),
+      Value(Filter::kGainedBandPass),
+      Value(Filter::kGainedBandPass)
     };
 
-    static const Value formant_a_decibals(-1.41);
-    static const Value formant_e_decibals(-8.82);
-    static const Value formant_i_decibals(-2.51);
-    static const Value formant_o_decibals(-6.42);
-    static const Value formant_oe_decibals(-6.42);
-    static const Value formant_u_decibals(-15.21);
-    static const Value formant_uu_decibals(-18.0);
+    static const Value formant_a_decibels(0.0f);
+    static const Value formant_e_decibels(0.0f);
+    static const Value formant_i_decibels(0.0f);
+    static const Value formant_o_decibels(0.0f);
+    static const Value formant_u_decibels(0.0f);
 
     static const FormantValues formant_a[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(4.75), new Value(77.9534075105)},
-      {new Value(9.68), new Value(12.0), new Value(84.8631371387)},
-      {new Value(-13.1), new Value(2.04), new Value(89.764715283)},
-      {new Value(1.0), new Value(4.75), new Value(99.1453432239)},
+      {new Value(24), new Value(10), new Value(75.7552343327)},
+      {new Value(18), new Value(12), new Value(84.5454706023)},
+      {new Value(17), new Value(16), new Value(100.08500317)},
+      {new Value(16), new Value(16), new Value(101.645729657)},
     };
 
     static const FormantValues formant_e[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(4.86), new Value(66.9116472028)},
-      {new Value(15.0), new Value(12.0), new Value(95.126316023)},
-      {new Value(-15.0), new Value(2.04), new Value(76.7388604942)},
-      {new Value(1.0), new Value(5.04), new Value(99.4190618188)},
+      {new Value(24), new Value(10), new Value(67.349957715)},
+      {new Value(10), new Value(12), new Value(92.39951181)},
+      {new Value(12), new Value(16), new Value(99.7552343327)},
+      {new Value(10), new Value(16), new Value(103.349957715)},
     };
 
     static const FormantValues formant_i[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(4.86), new Value(60.5454706024)},
-      {new Value(15.0), new Value(12.0), new Value(97.5572660336)},
-      {new Value(-15.0), new Value(0.63), new Value(79.9872937526)},
-      {new Value(1.0), new Value(5.04), new Value(102.80031344)},
+      {new Value(24), new Value(13), new Value(61.7825925179)},
+      {new Value(9), new Value(12), new Value(94.049554095)},
+      {new Value(6), new Value(16), new Value(101.03821678)},
+      {new Value(4), new Value(16), new Value(103.618371471)},
     };
 
     static const FormantValues formant_o[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(4.86), new Value(72.2218660312)},
-      {new Value(15.0), new Value(12.0), new Value(93.7695640491)},
-      {new Value(-15.0), new Value(2.04), new Value(90.5754746888)},
-      {new Value(1.0), new Value(5.04), new Value(98.9371763011)},
+      {new Value(24), new Value(11), new Value(67.349957715)},
+      {new Value(14), new Value(12), new Value(79.349957715)},
+      {new Value(12), new Value(16), new Value(99.7552343327)},
+      {new Value(12), new Value(16), new Value(101.03821678)},
     };
 
     static const FormantValues formant_u[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(4.86), new Value(62.3695077237)},
-      {new Value(15.0), new Value(12.0), new Value(80.8021425266)},
-      {new Value(-9.19), new Value(2.04), new Value(75.9143074932)},
-      {new Value(1.0), new Value(7.61), new Value(97.1750796411)},
-    };
-
-    static const FormantValues formant_uu[NUM_FORMANTS] = {
-      {new Value(1.0), new Value(4.86), new Value(77.764715283)},
-      {new Value(15.0), new Value(12.0), new Value(80.1946296498)},
-      {new Value(-15.0), new Value(2.04), new Value(121.117016958)},
-      {new Value(1.0), new Value(7.61), new Value(98.6556686272)},
+      {new Value(24), new Value(11), new Value(65.0382167797)},
+      {new Value(4), new Value(12), new Value(74.3695077237)},
+      {new Value(7), new Value(16), new Value(100.408607741)},
+      {new Value(10), new Value(16), new Value(101.645729657)},
     };
 
   } // namespace
@@ -467,14 +458,14 @@ namespace mopo {
 
     Value* min_db = new Value(MIN_GAIN_DB);
     Value* max_db = new Value(MAX_GAIN_DB);
-    Interpolate* decibals = new Interpolate();
-    decibals->setControlRate();
-    decibals->plug(min_db, Interpolate::kFrom);
-    decibals->plug(max_db, Interpolate::kTo);
-    decibals->plug(resonance, Interpolate::kFractional);
+    Interpolate* decibels = new Interpolate();
+    decibels->setControlRate();
+    decibels->plug(min_db, Interpolate::kFrom);
+    decibels->plug(max_db, Interpolate::kTo);
+    decibels->plug(resonance, Interpolate::kFractional);
     MagnitudeScale* final_gain = new MagnitudeScale();
     final_gain->setControlRate();
-    final_gain->plug(decibals);
+    final_gain->plug(decibels);
 
     Processor* filter_saturation = createPolyModControl("filter_saturation", true);
     MagnitudeScale* saturation_magnitude = new MagnitudeScale();
@@ -502,7 +493,7 @@ namespace mopo {
     addProcessor(midi_cutoff);
     addProcessor(scaled_resonance);
     addProcessor(final_resonance);
-    addProcessor(decibals);
+    addProcessor(decibels);
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter);
@@ -554,20 +545,20 @@ namespace mopo {
       BilinearInterpolate* formant_midi = new BilinearInterpolate();
       formant_midi->setControlRate();
 
-      formant_gain->plug(formant_u[i].gain, BilinearInterpolate::kTopLeft);
-      formant_gain->plug(formant_a[i].gain, BilinearInterpolate::kTopRight);
-      formant_gain->plug(formant_e[i].gain, BilinearInterpolate::kBottomLeft);
-      formant_gain->plug(formant_uu[i].gain, BilinearInterpolate::kBottomRight);
+      formant_gain->plug(formant_a[i].gain, BilinearInterpolate::kTopLeft);
+      formant_gain->plug(formant_u[i].gain, BilinearInterpolate::kTopRight);
+      formant_gain->plug(formant_i[i].gain, BilinearInterpolate::kBottomLeft);
+      formant_gain->plug(formant_o[i].gain, BilinearInterpolate::kBottomRight);
 
-      formant_q->plug(formant_u[i].resonance, BilinearInterpolate::kTopLeft);
-      formant_q->plug(formant_a[i].resonance, BilinearInterpolate::kTopRight);
-      formant_q->plug(formant_e[i].resonance, BilinearInterpolate::kBottomLeft);
-      formant_q->plug(formant_uu[i].resonance, BilinearInterpolate::kBottomRight);
+      formant_q->plug(formant_a[i].resonance, BilinearInterpolate::kTopLeft);
+      formant_q->plug(formant_u[i].resonance, BilinearInterpolate::kTopRight);
+      formant_q->plug(formant_i[i].resonance, BilinearInterpolate::kBottomLeft);
+      formant_q->plug(formant_o[i].resonance, BilinearInterpolate::kBottomRight);
 
-      formant_midi->plug(formant_u[i].midi_cutoff, BilinearInterpolate::kTopLeft);
-      formant_midi->plug(formant_a[i].midi_cutoff, BilinearInterpolate::kTopRight);
-      formant_midi->plug(formant_e[i].midi_cutoff, BilinearInterpolate::kBottomLeft);
-      formant_midi->plug(formant_uu[i].midi_cutoff, BilinearInterpolate::kBottomRight);
+      formant_midi->plug(formant_a[i].midi_cutoff, BilinearInterpolate::kTopLeft);
+      formant_midi->plug(formant_u[i].midi_cutoff, BilinearInterpolate::kTopRight);
+      formant_midi->plug(formant_i[i].midi_cutoff, BilinearInterpolate::kBottomLeft);
+      formant_midi->plug(formant_o[i].midi_cutoff, BilinearInterpolate::kBottomRight);
 
       formant_gain->plug(formant_x, BilinearInterpolate::kXPosition);
       formant_q->plug(formant_x, BilinearInterpolate::kXPosition);
@@ -597,23 +588,23 @@ namespace mopo {
       addProcessor(formant_frequency);
     }
 
-    BilinearInterpolate* formant_decibals = new BilinearInterpolate();
-    formant_decibals->plug(&formant_u_decibals, BilinearInterpolate::kTopLeft);
-    formant_decibals->plug(&formant_a_decibals, BilinearInterpolate::kTopRight);
-    formant_decibals->plug(&formant_e_decibals, BilinearInterpolate::kBottomLeft);
-    formant_decibals->plug(&formant_uu_decibals, BilinearInterpolate::kBottomRight);
-    formant_decibals->plug(formant_x, BilinearInterpolate::kXPosition);
-    formant_decibals->plug(formant_y, BilinearInterpolate::kYPosition);
+    BilinearInterpolate* formant_decibels = new BilinearInterpolate();
+    formant_decibels->plug(&formant_a_decibels, BilinearInterpolate::kTopLeft);
+    formant_decibels->plug(&formant_u_decibels, BilinearInterpolate::kTopRight);
+    formant_decibels->plug(&formant_i_decibels, BilinearInterpolate::kBottomLeft);
+    formant_decibels->plug(&formant_o_decibels, BilinearInterpolate::kBottomRight);
+    formant_decibels->plug(formant_x, BilinearInterpolate::kXPosition);
+    formant_decibels->plug(formant_y, BilinearInterpolate::kYPosition);
 
-    MagnitudeScale* formant_gain = new MagnitudeScale();
-    formant_gain->plug(formant_decibals);
+    MagnitudeScale* formant_total_gain = new MagnitudeScale();
+    formant_total_gain->plug(formant_decibels);
 
     Multiply* formant_output = new Multiply();
-    formant_output->plug(formant_gain, 0);
+    formant_output->plug(formant_total_gain, 0);
     formant_output->plug(formant_filter_, 1);
 
-    formant_container_->addProcessor(formant_decibals);
-    formant_container_->addProcessor(formant_gain);
+    formant_container_->addProcessor(formant_decibels);
+    formant_container_->addProcessor(formant_total_gain);
     formant_container_->addProcessor(formant_filter_);
     formant_container_->addProcessor(formant_output);
     formant_container_->registerOutput(formant_output->output());
