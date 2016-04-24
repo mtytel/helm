@@ -33,7 +33,7 @@ namespace mopo {
 
   namespace {
     const mopo_float EPSILON = 1e-16;
-    const mopo_float DB_GAIN_CONVERSION_MULT = 40.0;
+    const mopo_float DB_GAIN_CONVERSION_MULT = 20.0;
     const mopo_float MIDI_0_FREQUENCY = 8.1757989156;
     const int NOTES_PER_OCTAVE = 12;
     const int CENTS_PER_NOTE = 100;

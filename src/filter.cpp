@@ -96,6 +96,130 @@ namespace mopo {
     }
   }
 
+  void Filter::computeCoefficients(Type type,
+                                   mopo_float cutoff,
+                                   mopo_float resonance,
+                                   mopo_float gain) {
+    MOPO_ASSERT(resonance > 0.0);
+    MOPO_ASSERT(cutoff > 0.0);
+    MOPO_ASSERT(gain >= 0.0);
+
+    mopo_float phase_delta = 2.0 * PI * cutoff / sample_rate_;
+    mopo_float real_delta = cos(phase_delta);
+    mopo_float imag_delta = sin(phase_delta);
+
+    switch(type) {
+      case kLowPass: {
+        mopo_float alpha = imag_delta / (2.0 * resonance);
+        mopo_float norm = 1.0 + alpha;
+        target_in_0_ = (1.0 - real_delta) / (2.0 * norm);
+        target_in_1_ = (1.0 - real_delta) / norm;
+        target_in_2_ = target_in_0_;
+        target_out_1_ = -2.0 * real_delta / norm;
+        target_out_2_ = (1.0 - alpha) / norm;
+        break;
+      }
+      case kHighPass: {
+        mopo_float alpha = imag_delta / (2.0 * resonance);
+        mopo_float norm = 1.0 + alpha;
+        target_in_0_ = (1.0 + real_delta) / (2.0 * norm);
+        target_in_1_ = -(1.0 + real_delta) / norm;
+        target_in_2_ = target_in_0_;
+        target_out_1_ = -2.0 * real_delta / norm;
+        target_out_2_ = (1.0 - alpha) / norm;
+        break;
+      }
+      case kBandPass: {
+        mopo_float alpha = imag_delta / (2.0 * resonance);
+        mopo_float norm = 1.0 + alpha;
+        target_in_0_ = (imag_delta / 2.0) / norm;
+        target_in_1_ = 0;
+        target_in_2_ = -target_in_0_;
+        target_out_1_ = -2.0 * real_delta / norm;
+        target_out_2_ = (1.0 - alpha) / norm;
+        break;
+      }
+      case kLowShelf: {
+        mopo_float g = std::sqrt(gain);
+        mopo_float alpha = (imag_delta / 2.0) * std::sqrt((g + 1.0 / g) *
+                                                          (1.0 / resonance - 1) + 2.0);
+        mopo_float sq = 2 * std::sqrt(g) * alpha;
+        mopo_float norm = (g + 1) + (g - 1) * real_delta + sq;
+
+        target_in_0_ = ((g + 1) - (g - 1) * real_delta + sq) * (g / norm);
+        target_in_1_ = 2 * ((g - 1) - (g + 1) * real_delta) * (g / norm);
+        target_in_2_ = ((g + 1) - (g - 1) * real_delta - sq) * (g / norm);
+        target_out_1_ = -2 * ((g - 1) + (g + 1) * real_delta) / norm;
+        target_out_2_ = ((g + 1) + (g - 1) * real_delta - sq) / norm;
+        break;
+      }
+      case kHighShelf: {
+        mopo_float g = std::sqrt(gain);
+        mopo_float alpha = (imag_delta / 2.0) * std::sqrt((g + 1.0 / g) *
+                                                          (1.0 / resonance - 1) + 2.0);
+        mopo_float sq = 2 * std::sqrt(g) * alpha;
+        mopo_float norm = (g + 1) - (g - 1) * real_delta + sq;
+
+        target_in_0_ = ((g + 1) + (g - 1) * real_delta + sq) * (g / norm);
+        target_in_1_ = -2 * ((g - 1) + (g + 1) * real_delta) * (g / norm);
+        target_in_2_ = ((g + 1) + (g - 1) * real_delta - sq) * (g / norm);
+        target_out_1_ = 2 * ((g - 1) - (g + 1) * real_delta) / norm;
+        target_out_2_ = ((g + 1) - (g - 1) * real_delta - sq) / norm;
+        break;
+      }
+      case kBandShelf: {
+        mopo_float g = std::sqrt(gain);
+        mopo_float alpha = imag_delta *
+                           sinh(log(2.0) * resonance * phase_delta / (2.0 * imag_delta));
+        mopo_float norm = 1.0 + alpha / g;
+
+        target_in_0_ = (1.0 + alpha * g) / norm;
+        target_in_1_ = -2.0 * real_delta / norm;
+        target_in_2_ = (1.0 - alpha * g) / norm;
+        target_out_1_ = -2.0 * real_delta / norm;
+        target_out_2_ = (1.0 - alpha / g) / norm;
+        break;
+      }
+      case kAllPass: {
+        mopo_float alpha = imag_delta / (2.0 * resonance);
+        mopo_float norm = 1.0 + alpha;
+        target_in_0_ = (1.0 - alpha) / norm;
+        target_in_1_ = -2.0 * real_delta / norm;
+        target_in_2_ = 1.0;
+        target_out_1_ = -2.0 * real_delta / norm;
+        target_out_2_ = (1.0 - alpha) / norm;
+        break;
+      }
+      case kNotch: {
+        mopo_float alpha = imag_delta / (2.0 * resonance);
+        mopo_float norm = 1.0 + alpha;
+        target_in_0_ = 1.0 / norm;
+        target_in_1_ = -2.0 * real_delta / norm;
+        target_in_2_ = target_in_0_;
+        target_out_1_ = target_in_1_;
+        target_out_2_ = (1.0 - alpha) / norm;
+        break;
+      }
+      case kGainedBandPass: {
+        mopo_float alpha = imag_delta / (2.0 * resonance);
+        mopo_float norm = 1.0 + alpha;
+        target_in_0_ = gain * (imag_delta / (2.0 * resonance)) / norm;
+        target_in_1_ = 0;
+        target_in_2_ = -target_in_0_;
+        target_out_1_ = -2.0 * real_delta / norm;
+        target_out_2_ = (1.0 - alpha) / norm;
+        break;
+      }
+      default: {
+        target_in_0_ = 1.0;
+        target_in_2_ = target_in_1_ = target_out_2_ = target_out_1_ = 0.0;
+      }
+    }
+
+    current_cutoff_ = cutoff;
+    current_resonance_ = resonance;
+  }
+
   void Filter::reset() {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
 

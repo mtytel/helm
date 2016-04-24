@@ -31,16 +31,26 @@ namespace mopo {
     addProcessor(audio_input);
     addProcessor(reset_input);
 
-    Processor* audio_flow = audio_input;
+    VariableAdd* total = new VariableAdd(num_formants);
     for (int i = 0; i < num_formants; ++i) {
       Filter* formant = new Filter();
-      formant->plug(audio_flow, Filter::kAudio);
+      formant->plug(audio_input, Filter::kAudio);
       formant->plug(reset_input, Filter::kReset);
       formants_.push_back(formant);
+
       addProcessor(formant);
-      audio_flow = formant;
+      total->plugNext(formant);
     }
 
-    registerOutput(audio_flow->output());
+    addProcessor(total);
+    registerOutput(total->output());
+  }
+
+  std::complex<mopo_float> FormantManager::getResponse(mopo_float frequency) {
+    std::complex<mopo_float> total;
+    for (int i = 0; i < formants_.size(); ++i)
+      total += formants_[i]->getResponse(frequency);
+
+    return total;
   }
 } // namespace mopo
