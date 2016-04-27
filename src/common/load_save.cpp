@@ -383,6 +383,30 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
   }
 }
 
+bool LoadSave::isInstalled() {
+  File factory_bank = getFactoryBankDirectory();
+  return factory_bank.exists();
+}
+
+bool LoadSave::wasUpgraded() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return true;
+
+  if (!config_object->hasProperty("synth_version"))
+    return true;
+
+  Array<File> patches;
+  String extension = String("*.") + mopo::PATCH_EXTENSION;
+  getBankDirectory().findChildFiles(patches, File::findFiles, true, extension);
+  if (patches.size() == 0)
+    return true;
+
+  return compareVersionStrings(config_object->getProperty("synth_version"),
+                               ProjectInfo::versionString) < 0;
+}
+
 bool LoadSave::shouldCheckForUpdates() {
   var config_state = getConfigVar();
   DynamicObject* config_object = config_state.getDynamicObject();
@@ -405,25 +429,6 @@ bool LoadSave::shouldAnimateWidgets() {
     return true;
 
   return config_object->getProperty("animate_widgets");
-}
-
-bool LoadSave::wasUpgraded() {
-  var config_state = getConfigVar();
-  DynamicObject* config_object = config_state.getDynamicObject();
-  if (!config_state.isObject())
-    return true;
-
-  if (!config_object->hasProperty("synth_version"))
-    return true;
-
-  Array<File> patches;
-  String extension = String("*.") + mopo::PATCH_EXTENSION;
-  getBankDirectory().findChildFiles(patches, File::findFiles, true, extension);
-  if (patches.size() == 0)
-    return true;
-
-  return compareVersionStrings(config_object->getProperty("synth_version"),
-                               ProjectInfo::versionString) < 0;
 }
 
 std::wstring LoadSave::getComputerKeyboardLayout() {
@@ -480,6 +485,9 @@ File LoadSave::getFactoryBankDirectory() {
 }
 
 File LoadSave::getBankDirectory() {
+  if (!isInstalled())
+    return File("../../../patches");
+
   File patch_dir = File("");
 #ifdef LINUX
   patch_dir = File(LINUX_BANK_DIRECTORY);
@@ -538,7 +546,9 @@ int LoadSave::compareVersionStrings(String a, String b) {
 }
 
 int LoadSave::getNumPatches() {
-  File bank_directory = getBankDirectory();
+  File bank_directory;
+  bank_directory = getBankDirectory();
+
   Array<File> patches;
   bank_directory.findChildFiles(patches, File::findFiles, true,
                                 String("*.") + mopo::PATCH_EXTENSION);

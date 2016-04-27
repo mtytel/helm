@@ -32,12 +32,12 @@ HelmPlugin::HelmPlugin() {
   midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, &getCallbackLock(), this);
   set_state_time_ = 0;
 
+  Startup::doStartupChecks(midi_manager_);
+
   current_program_ = 0;
   num_programs_ = LoadSave::getNumPatches();
   if (num_programs_ <= 0)
     num_programs_ = 1;
-
-  Startup::doStartupChecks(midi_manager_);
 
   controls_ = synth_.getControls();
   for (auto control : controls_) {

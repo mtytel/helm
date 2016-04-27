@@ -63,6 +63,7 @@ class LoadSave {
 
     static File getConfigFile();
     static var getConfigVar();
+    static bool isInstalled();
     static bool wasUpgraded();
     static bool shouldCheckForUpdates();
     static bool shouldAnimateWidgets();

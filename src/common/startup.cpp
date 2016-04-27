@@ -46,6 +46,9 @@ namespace {
 } // namespace
 
 void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* layout) {
+  if (!LoadSave::isInstalled())
+    return;
+
   fixPatchesFolder();
 
   if (LoadSave::wasUpgraded()) {
