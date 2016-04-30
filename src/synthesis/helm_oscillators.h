@@ -58,11 +58,13 @@ namespace mopo {
       void addRandomPhaseToVoices();
       void reset();
       void loadBasePhaseInc();
-      void computeDetuneRatios(int* oscillator_phase_diffs,
+      void computeDetuneRatios(int* detune_diffs,
+                               int oscillator_diff,
                                const mopo_float* random_offsets,
                                bool harmonize, mopo_float detune,
                                int voices);
       void prepareBuffers(int** wave_buffers,
+                          const int* detune_diffs,
                           const int* oscillator_phase_diffs,
                           int waveform);
 
@@ -88,7 +90,7 @@ namespace mopo {
 
         // Run Voices.
         for (int v = 0; v < voices1; ++v) {
-          oscillator1_phases_[v] += oscillator1_phase_diffs_[v][i];
+          oscillator1_phases_[v] += detune_diffs1_[v] + oscillator1_phase_diffs_[i];
           int phase = phase_diff1 + oscillator1_phases_[v];
           oscillator1_total += wave_buffers1_[v][FixedPointWave::getIndex(phase)];
         }
@@ -96,7 +98,7 @@ namespace mopo {
         tickCrossMod(phase_diff1, phase_diff2);
 
         for (int v = 0; v < voices2; ++v) {
-          oscillator2_phases_[v] += oscillator2_phase_diffs_[v][i];
+          oscillator2_phases_[v] += detune_diffs2_[v] + oscillator2_phase_diffs_[i];
           int phase = phase_diff2 + oscillator2_phases_[v];
           oscillator2_total += wave_buffers2_[v][FixedPointWave::getIndex(phase)];
         }
@@ -115,8 +117,10 @@ namespace mopo {
       unsigned int oscillator2_phases_[MAX_UNISON];
       int* wave_buffers1_[MAX_UNISON];
       int* wave_buffers2_[MAX_UNISON];
-      int oscillator1_phase_diffs_[MAX_UNISON][MAX_BUFFER_SIZE];
-      int oscillator2_phase_diffs_[MAX_UNISON][MAX_BUFFER_SIZE];
+      int detune_diffs1_[MAX_UNISON];
+      int detune_diffs2_[MAX_UNISON];
+      int oscillator1_phase_diffs_[MAX_BUFFER_SIZE];
+      int oscillator2_phase_diffs_[MAX_BUFFER_SIZE];
       mopo_float oscillator1_rand_offset_[MAX_UNISON];
       mopo_float oscillator2_rand_offset_[MAX_UNISON];
   };
