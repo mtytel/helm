@@ -208,6 +208,7 @@
     <ClCompile Include="..\..\..\mopo\src\reverb.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\reverb_all_pass.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\reverb_comb.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\sample_decay_lookup.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\simple_delay.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\smooth_filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\smooth_value.cpp"/>
@@ -1484,6 +1485,7 @@
     <ClInclude Include="..\..\..\mopo\src\reverb_all_pass.h"/>
     <ClInclude Include="..\..\..\mopo\src\reverb_comb.h"/>
     <ClInclude Include="..\..\..\mopo\src\reverb_tuning.h"/>
+    <ClInclude Include="..\..\..\mopo\src\sample_decay_lookup.h"/>
     <ClInclude Include="..\..\..\mopo\src\simple_delay.h"/>
     <ClInclude Include="..\..\..\mopo\src\smooth_filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\smooth_value.h"/>

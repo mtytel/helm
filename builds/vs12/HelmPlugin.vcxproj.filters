@@ -406,6 +406,9 @@
     <ClCompile Include="..\..\mopo\src\reverb_comb.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\sample_decay_lookup.cpp">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\simple_delay.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
@@ -1996,6 +1999,9 @@
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\reverb_tuning.h">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\sample_decay_lookup.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\simple_delay.h">

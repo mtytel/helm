@@ -131,6 +131,10 @@
         <FILE id="V7wp7b" name="reverb_comb.cpp" compile="1" resource="0" file="mopo/src/reverb_comb.cpp"/>
         <FILE id="Y3bw4x" name="reverb_comb.h" compile="0" resource="0" file="mopo/src/reverb_comb.h"/>
         <FILE id="hDwnKu" name="reverb_tuning.h" compile="0" resource="0" file="mopo/src/reverb_tuning.h"/>
+        <FILE id="UIT31m" name="sample_decay_lookup.cpp" compile="1" resource="0"
+              file="mopo/src/sample_decay_lookup.cpp"/>
+        <FILE id="UOBay0" name="sample_decay_lookup.h" compile="0" resource="0"
+              file="mopo/src/sample_decay_lookup.h"/>
         <FILE id="cgKBjF" name="simple_delay.cpp" compile="1" resource="0"
               file="mopo/src/simple_delay.cpp"/>
         <FILE id="lyFG3w" name="simple_delay.h" compile="0" resource="0" file="mopo/src/simple_delay.h"/>

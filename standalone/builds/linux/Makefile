@@ -74,6 +74,7 @@ OBJECTS := \
   $(OBJDIR)/reverb_b8f91811.o \
   $(OBJDIR)/reverb_all_pass_2b685f27.o \
   $(OBJDIR)/reverb_comb_38882eb9.o \
+  $(OBJDIR)/sample_decay_lookup_eafa367f.o \
   $(OBJDIR)/simple_delay_53bccd75.o \
   $(OBJDIR)/smooth_filter_f6a9594.o \
   $(OBJDIR)/smooth_value_7af0775f.o \
@@ -308,6 +309,11 @@ $(OBJDIR)/reverb_all_pass_2b685f27.o: ../../../mopo/src/reverb_all_pass.cpp
 $(OBJDIR)/reverb_comb_38882eb9.o: ../../../mopo/src/reverb_comb.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling reverb_comb.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/sample_decay_lookup_eafa367f.o: ../../../mopo/src/sample_decay_lookup.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling sample_decay_lookup.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/simple_delay_53bccd75.o: ../../../mopo/src/simple_delay.cpp
