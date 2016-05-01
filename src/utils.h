@@ -104,8 +104,12 @@ namespace mopo {
       return std::pow(10.0, decibels / DB_GAIN_CONVERSION_MULT);
     }
 
+    inline mopo_float centsToRatio(mopo_float cents) {
+      return pow(2.0, cents / CENTS_PER_OCTAVE);
+    }
+
     inline mopo_float midiCentsToFrequency(mopo_float cents) {
-      return MIDI_0_FREQUENCY * pow(2.0, cents / CENTS_PER_OCTAVE);
+      return MIDI_0_FREQUENCY * centsToRatio(cents);
     }
 
     inline mopo_float midiNoteToFrequency(mopo_float note) {
