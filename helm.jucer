@@ -369,6 +369,9 @@
       <GROUP id="{A96D5AAE-0076-8457-E00A-AD803B7FD9A7}" name="synthesis">
         <FILE id="q7labq" name="dc_filter.cpp" compile="1" resource="0" file="src/synthesis/dc_filter.cpp"/>
         <FILE id="oHDgvd" name="dc_filter.h" compile="0" resource="0" file="src/synthesis/dc_filter.h"/>
+        <FILE id="tVaauO" name="detune_lookup.cpp" compile="1" resource="0"
+              file="src/synthesis/detune_lookup.cpp"/>
+        <FILE id="N7YAXm" name="detune_lookup.h" compile="0" resource="0" file="src/synthesis/detune_lookup.h"/>
         <FILE id="wrPSky" name="fixed_point_oscillator.cpp" compile="1" resource="0"
               file="src/synthesis/fixed_point_oscillator.cpp"/>
         <FILE id="bEoVFi" name="fixed_point_oscillator.h" compile="0" resource="0"

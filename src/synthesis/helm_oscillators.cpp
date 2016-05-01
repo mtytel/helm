@@ -16,6 +16,8 @@
 
 #include "helm_oscillators.h"
 
+#include "detune_lookup.h"
+
 #define RAND_DECAY 0.999
 
 namespace mopo {
@@ -97,20 +99,18 @@ namespace mopo {
                                             const mopo_float* random_offsets,
                                             bool harmonize, mopo_float detune,
                                             int voices) {
-    int samples = buffer_size_;
-
     for (int v = 0; v < MAX_UNISON; ++v) {
       mopo_float amount = (detune * ((v + 1) / 2)) / ((voices + 1) / 2);
 
-      mopo_float exponent = amount / mopo::CENTS_PER_OCTAVE;
       if (v % 2)
-        exponent = -exponent;
+        amount = -amount;
 
       mopo_float harmonic = 0.0;
       if (harmonize)
         harmonic = v;
 
-      mopo_float detune_ratio = harmonic + std::pow(2.0, exponent) + amount * random_offsets[v];
+      mopo_float detune_ratio = harmonic + DetuneLookup::detuneLookup(amount) +
+                                amount * random_offsets[v];
       detune_diffs[v] = detune_ratio * oscillator_diff - oscillator_diff;
     }
   }

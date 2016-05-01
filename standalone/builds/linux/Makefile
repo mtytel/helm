@@ -142,6 +142,7 @@ OBJECTS := \
   $(OBJDIR)/helm_standalone_editor_c8ee03cb.o \
   $(OBJDIR)/main_b7ad981e.o \
   $(OBJDIR)/dc_filter_3d140d58.o \
+  $(OBJDIR)/detune_lookup_ea628520.o \
   $(OBJDIR)/fixed_point_oscillator_66a86444.o \
   $(OBJDIR)/fixed_point_wave_2344895d.o \
   $(OBJDIR)/helm_engine_2e44f843.o \
@@ -647,6 +648,11 @@ $(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
 $(OBJDIR)/dc_filter_3d140d58.o: ../../../src/synthesis/dc_filter.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling dc_filter.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/detune_lookup_ea628520.o: ../../../src/synthesis/detune_lookup.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling detune_lookup.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/fixed_point_oscillator_66a86444.o: ../../../src/synthesis/fixed_point_oscillator.cpp

@@ -607,6 +607,9 @@
     <ClCompile Include="..\..\src\synthesis\dc_filter.cpp">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\synthesis\detune_lookup.cpp">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\synthesis\fixed_point_oscillator.cpp">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClCompile>
@@ -2203,6 +2206,9 @@
       <Filter>HelmPlugin\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\dc_filter.h">
+      <Filter>HelmPlugin\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\synthesis\detune_lookup.h">
       <Filter>HelmPlugin\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\fixed_point_oscillator.h">

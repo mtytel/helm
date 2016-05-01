@@ -339,6 +339,7 @@
     <ClCompile Include="..\..\src\plugin\helm_editor.cpp"/>
     <ClCompile Include="..\..\src\plugin\helm_plugin.cpp"/>
     <ClCompile Include="..\..\src\synthesis\dc_filter.cpp"/>
+    <ClCompile Include="..\..\src\synthesis\detune_lookup.cpp"/>
     <ClCompile Include="..\..\src\synthesis\fixed_point_oscillator.cpp"/>
     <ClCompile Include="..\..\src\synthesis\fixed_point_wave.cpp"/>
     <ClCompile Include="..\..\src\synthesis\helm_engine.cpp"/>
@@ -1600,6 +1601,7 @@
     <ClInclude Include="..\..\src\plugin\helm_plugin.h"/>
     <ClInclude Include="..\..\src\plugin\value_bridge.h"/>
     <ClInclude Include="..\..\src\synthesis\dc_filter.h"/>
+    <ClInclude Include="..\..\src\synthesis\detune_lookup.h"/>
     <ClInclude Include="..\..\src\synthesis\fixed_point_oscillator.h"/>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h"/>
     <ClInclude Include="..\..\src\synthesis\helm_engine.h"/>

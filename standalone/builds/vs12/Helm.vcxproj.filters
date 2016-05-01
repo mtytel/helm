@@ -613,6 +613,9 @@
     <ClCompile Include="..\..\..\src\synthesis\dc_filter.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\detune_lookup.cpp">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_oscillator.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
@@ -866,9 +869,6 @@
       <Filter>Juce Modules\juce_audio_processors\processors</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioProcessor.cpp">
-      <Filter>Juce Modules\juce_audio_processors\processors</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioProcessor_export.cpp">
       <Filter>Juce Modules\juce_audio_processors\processors</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioProcessorEditor.cpp">
@@ -2215,6 +2215,9 @@
       <Filter>Helm\src\standalone</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\dc_filter.h">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\detune_lookup.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_oscillator.h">
