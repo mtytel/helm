@@ -21,8 +21,6 @@
 #include "processor.h"
 #include "utils.h"
 
-#define CLOSE_ENOUGH (1.0 / 256.0)
-
 namespace mopo {
 
   // An ADSR (Attack, Decay, Sustain, Release) Envelope.
