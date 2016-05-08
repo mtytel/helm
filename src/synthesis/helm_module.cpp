@@ -88,7 +88,6 @@ namespace mopo {
 
     cr::VariableAdd* poly_total = new cr::VariableAdd();
     poly_owner->addProcessor(poly_total);
-    poly_owner->setControlRate(true);
     poly_mod_destinations_[name] = poly_total;
 
     cr::Add* modulation_total = new cr::Add();
@@ -129,9 +128,9 @@ namespace mopo {
     ProcessorRouter* owner = poly ? getPolyRouter() : getMonoRouter();
     Processor* tempo = nullptr;
     if (poly)
-      tempo = createPolyModControl(name + "_tempo", 6, false);
+      tempo = createPolyModControl(name + "_tempo", frequency->isControlRate());
     else
-      tempo = createMonoModControl(name + "_tempo", 6, false);
+      tempo = createMonoModControl(name + "_tempo", frequency->isControlRate());
 
     Switch* choose_tempo = new Switch();
     choose_tempo->setControlRate(frequency->isControlRate());
