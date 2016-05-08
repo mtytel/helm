@@ -42,7 +42,8 @@ namespace mopo {
       virtual void tick(int i) = 0;
       inline void processTriggers() {
         output()->clearTrigger();
-        for (int i = 0; i < numInputs(); ++i) {
+        int num_inputs = numInputs();
+        for (int i = 0; i < num_inputs; ++i) {
           if (input(i)->source->triggered) {
             int offset = input(i)->source->trigger_offset;
             tick(offset);
