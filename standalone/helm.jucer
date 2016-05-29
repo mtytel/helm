@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.6.6"
+<JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.7.0"
               bundleIdentifier="org.tytel.helm" includeBinaryInAppConfig="1"
               jucerVersion="4.1.0" companyName="Matt Tytel" companyWebsite="tytel.org"
               companyEmail="matthewtytel@gmail.com" defines="">
