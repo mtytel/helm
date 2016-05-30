@@ -234,6 +234,9 @@ var LoadSave::getConfigVar() {
 }
 
 void LoadSave::saveVarToConfig(var config_state) {
+  if (!isInstalled())
+    return;
+
   File config_file = getConfigFile();
 
   if (!config_file.exists())
