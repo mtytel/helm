@@ -84,7 +84,8 @@ class PatchBrowser : public Component,
     ScopedPointer<TextEditor> search_box_;
 
     PatchSelectedListener* listener_;
-    ScopedPointer<HyperlinkButton> license_link_;
+    ScopedPointer<HyperlinkButton> cc_license_link_;
+    ScopedPointer<HyperlinkButton> gpl_license_link_;
 
     SaveSection* save_section_;
     DeleteSection* delete_section_;
@@ -94,6 +95,7 @@ class PatchBrowser : public Component,
     ScopedPointer<TextButton> hide_button_;
 
     String author_;
+    String license_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PatchBrowser)
 };

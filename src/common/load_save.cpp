@@ -205,6 +205,17 @@ String LoadSave::getAuthor(var state) {
   return "";
 }
 
+String LoadSave::getLicense(var state) {
+  if (!state.isObject())
+    return "";
+
+  DynamicObject* object_state = state.getDynamicObject();
+  NamedValueSet properties = object_state->getProperties();
+  if (properties.contains("license"))
+    return properties["license"];
+  return "";
+}
+
 File LoadSave::getConfigFile() {
   PropertiesFile::Options config_options;
   config_options.applicationName = "Helm";

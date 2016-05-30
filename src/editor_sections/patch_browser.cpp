@@ -122,11 +122,19 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   selectedFilesChanged(banks_model_);
   selectedFilesChanged(folders_model_);
 
-  license_link_ = new HyperlinkButton("CC-BY", URL("https://creativecommons.org/licenses/by/4.0/"));
-  license_link_->setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f),
-                         false, Justification::centredLeft);
-  license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
-  addAndMakeVisible(license_link_);
+  cc_license_link_ = new HyperlinkButton("CC-BY",
+                                         URL("https://creativecommons.org/licenses/by/4.0/"));
+  cc_license_link_->setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f),
+                            false, Justification::centredLeft);
+  cc_license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
+  addAndMakeVisible(cc_license_link_);
+
+  gpl_license_link_ = new HyperlinkButton("GPL-3",
+                                          URL("http://www.gnu.org/licenses/gpl-3.0.en.html"));
+  gpl_license_link_->setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f),
+                             false, Justification::centredLeft);
+  gpl_license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
+  addAndMakeVisible(gpl_license_link_);
 
   save_as_button_ = new TextButton(TRANS("Save As"));
   save_as_button_->addListener(this);
@@ -158,7 +166,8 @@ void PatchBrowser::paint(Graphics& g) {
   g.fillRect(data_rect);
 
   if (isPatchSelected()) {
-    float data_x = BROWSE_PADDING + 2.0f * getNarrowWidth() + getWideWidth() + 3.0f * BROWSE_PADDING;
+    float data_x = BROWSE_PADDING + 2.0f * getNarrowWidth() +
+                   getWideWidth() + 3.0f * BROWSE_PADDING;
     float division = 90.0f;
     float buffer = 20.0f;
 
@@ -217,8 +226,10 @@ void PatchBrowser::resized() {
 
   float data_x = start_x + 2.0f * width1 + width2 + 3.0f * BROWSE_PADDING;
   float data_widget_buffer_x = 12.0f;
-  license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
-                           200.0f, 20.0f);
+  cc_license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
+                              200.0f, 20.0f);
+  gpl_license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
+                               200.0f, 20.0f);
 
   float button_width = (width2 - 3.0f * data_widget_buffer_x) / 2.0f;
   save_as_button_->setBounds(data_x + data_widget_buffer_x, height - 30.0f,
@@ -235,7 +246,10 @@ void PatchBrowser::visibilityChanged() {
   if (isVisible()) {
     search_box_->setText("");
     search_box_->grabKeyboardFocus();
-    license_link_->setVisible(isPatchSelected());
+
+    bool is_cc = license_.contains("creativecommons");
+    cc_license_link_->setVisible(isPatchSelected() && is_cc);
+    gpl_license_link_->setVisible(isPatchSelected() && !is_cc);
   }
 }
 
@@ -253,8 +267,10 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
       if (listener_)
         listener_->newPatchSelected(patch);
     }
-    else
-      license_link_->setVisible(false);
+    else {
+      cc_license_link_->setVisible(false);
+      gpl_license_link_->setVisible(false);
+    }
     repaint();
   }
 }
@@ -345,9 +361,12 @@ void PatchBrowser::loadFromFile(File& patch) {
     parent->setPatchName(patch.getFileNameWithoutExtension());
     parent->setFolderName(patch.getParentDirectory().getFileName());
     author_ = LoadSave::getAuthor(parsed_json_state);
+    license_ = LoadSave::getLicense(parsed_json_state);
     parent->setAuthor(author_);
 
-    license_link_->setVisible(true);
+    bool is_cc = license_.contains("creativecommons");
+    cc_license_link_->setVisible(is_cc);
+    gpl_license_link_->setVisible(!is_cc);
   }
 }
 

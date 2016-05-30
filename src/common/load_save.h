@@ -60,6 +60,7 @@ class LoadSave {
                            var state);
 
     static String getAuthor(var state);
+    static String getLicense(var state);
 
     static File getConfigFile();
     static var getConfigVar();
