@@ -1,4 +1,4 @@
-helm (0.6.1-1) trusty; urgency=low
+helm (0.7.0-1) trusty; urgency=low
 
   * Restructured GUI and performance and bug fixes!
 
