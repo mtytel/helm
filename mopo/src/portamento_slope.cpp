@@ -31,7 +31,7 @@ namespace mopo {
     mopo_float* dest = output(0)->buffer;
     const mopo_float* src = input(kTarget)->source->buffer;
     memcpy(dest + start, src, (buffer_size_ - start) * sizeof(mopo_float));
-    last_value_ = output(0)->buffer[buffer_size_ - 1];
+    last_value_ = dest[buffer_size_ - 1];
   }
 
   void PortamentoSlope::processTriggers() {
