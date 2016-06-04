@@ -190,7 +190,7 @@ namespace mopo {
 
     LinearSmoothBuffer* oscillator1_phase_inc_smooth = new LinearSmoothBuffer();
     oscillator1_phase_inc_smooth->plug(oscillator1_phase_inc, LinearSmoothBuffer::kValue);
-    oscillator1_phase_inc_smooth->plug(oscillator1_phase_inc, LinearSmoothBuffer::kTrigger);
+    oscillator1_phase_inc_smooth->plug(reset, LinearSmoothBuffer::kTrigger);
 
     oscillators->plug(oscillator1_waveform, HelmOscillators::kOscillator1Waveform);
     oscillators->plug(reset, HelmOscillators::kReset);
@@ -233,7 +233,7 @@ namespace mopo {
 
     LinearSmoothBuffer* oscillator2_phase_inc_smooth = new LinearSmoothBuffer();
     oscillator2_phase_inc_smooth->plug(oscillator2_phase_inc, LinearSmoothBuffer::kValue);
-    oscillator2_phase_inc_smooth->plug(oscillator2_phase_inc, LinearSmoothBuffer::kTrigger);
+    oscillator2_phase_inc_smooth->plug(reset, LinearSmoothBuffer::kTrigger);
 
     oscillators->plug(oscillator2_waveform, HelmOscillators::kOscillator2Waveform);
     oscillators->plug(oscillator2_phase_inc_smooth, HelmOscillators::kOscillator2PhaseInc);
