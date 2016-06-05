@@ -101,7 +101,8 @@ namespace mopo {
       }
 
       static inline int* getBuffer(int waveform, int phase_inc) {
-        return lookup_.waves_[waveform][getHarmonicIndex(phase_inc)];
+        int clamped_inc = mopo::utils::iclamp(phase_inc, 1, INT_MAX);
+        return lookup_.waves_[waveform][getHarmonicIndex(clamped_inc)];
       }
 
       static inline int getHarmonicIndex(int phase_inc) {

@@ -82,7 +82,7 @@ namespace mopo {
       Switch* choose_pitch_wheel_;
       Value* mod_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
       Value* pitch_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
-      PortamentoSlope* current_frequency_;
+      Processor* current_frequency_;
       Envelope* amplitude_envelope_;
       Multiply* amplitude_;
       SimpleDelay* osc_feedback_;
