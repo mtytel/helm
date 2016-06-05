@@ -504,6 +504,8 @@ namespace mopo {
 
     // Stutter.
     BypassRouter* stutter_container = new BypassRouter();
+    addProcessor(stutter_container);
+
     Processor* stutter_on = createBaseControl("stutter_on");
     stutter_container->plug(stutter_on, BypassRouter::kOn);
     stutter_container->plug(filter, BypassRouter::kAudio);
@@ -521,10 +523,10 @@ namespace mopo {
     stutter->plug(stutter_softness, Stutter::kWindowSoftness);
     stutter->plug(reset, Stutter::kReset);
 
-    addProcessor(stutter_container);
-
     // Formant Filter.
     formant_container_ = new BypassRouter();
+    addProcessor(formant_container_);
+
     Processor* formant_on = createBaseControl("formant_on");
     formant_container_->plug(formant_on, BypassRouter::kOn);
     formant_container_->plug(stutter_container, BypassRouter::kAudio);
@@ -607,8 +609,6 @@ namespace mopo {
     formant_container_->addProcessor(formant_filter_);
     formant_container_->addProcessor(formant_output);
     formant_container_->registerOutput(formant_output->output());
-
-    addProcessor(formant_container_);
   }
 
   void HelmVoiceHandler::createArticulation(
