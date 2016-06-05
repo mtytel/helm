@@ -31,7 +31,7 @@ class ModulationMeter : public Component {
     void paint(Graphics& g) override;
     void resized() override;
 
-    void updateValue(int num_voices);
+    void updateValue();
     void updateDrawing();
 
   private:

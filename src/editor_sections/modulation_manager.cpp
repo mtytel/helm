@@ -162,7 +162,7 @@ void ModulationManager::updateModulationValues() {
 
   parent->lockSynth();
   for (auto meter : meter_lookup_)
-    meter.second->updateValue(num_voices);
+    meter.second->updateValue();
   parent->unlockSynth();
 }
 

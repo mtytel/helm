@@ -30,7 +30,7 @@ ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
         knob_stroke_(0.0f, PathStrokeType::beveled, PathStrokeType::butt),
         full_radius_(0.0), outer_radius_(0.0) {
   setInterceptsMouseClicks(false, false);
-  updateValue(0);
+  updateValue();
   updateDrawing();
 }
 
@@ -57,11 +57,11 @@ void ModulationMeter::resized() {
   outer_radius_ = full_radius_ - stroke_width;
 }
 
-void ModulationMeter::updateValue(int num_voices) {
+void ModulationMeter::updateValue() {
   if (mono_total_) {
     current_value_ = mono_total_->buffer[0];
-    if (poly_total_ && num_voices)
-      current_value_ += poly_total_->buffer[0] / num_voices;
+    if (poly_total_)
+      current_value_ += poly_total_->buffer[0];
   }
 }
 
