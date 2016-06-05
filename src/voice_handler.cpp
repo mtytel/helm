@@ -69,9 +69,13 @@ namespace mopo {
   void VoiceHandler::processVoice(Voice* voice) {
     voice->processor()->process();
     for (int out = 0; out < numOutputs(); ++out) {
-      int buffer_size = voice_outputs_[out]->owner->getBufferSize();
-      for (int i = 0; i < buffer_size; ++i)
-        output(out)->buffer[i] += voice_outputs_[out]->buffer[i];
+      if (voice_outputs_[out]->owner->isControlRate())
+        output(out)->buffer[0] = voice_outputs_[out]->buffer[0];
+      else {
+        int buffer_size = voice_outputs_[out]->owner->getBufferSize();
+        for (int i = 0; i < buffer_size; ++i)
+          output(out)->buffer[i] += voice_outputs_[out]->buffer[i];
+      }
     }
   }
 
