@@ -50,12 +50,12 @@ void ModulationButton::mouseDown(const MouseEvent& e) {
     int result = m.show();
     if (result == kDisconnect) {
       for (mopo::ModulationConnection* connection : connections)
-        parent->disconnectModulation(connection);
+        disconnectModulation(connection);
       repaint();
     }
     else if (result >= kModulationList) {
       int connection_index = result - kModulationList;
-      parent->disconnectModulation(connections[connection_index]);
+      disconnectModulation(connections[connection_index]);
       repaint();
     }
   }
@@ -67,3 +67,16 @@ void ModulationButton::mouseUp(const MouseEvent& e) {
   if (!e.mods.isPopupMenu())
     ToggleButton::mouseUp(e);
 }
+
+void ModulationButton::addDisconnectListener(ModulationDisconnectListener* listener) {
+  listeners_.push_back(listener);
+}
+
+void ModulationButton::disconnectModulation(mopo::ModulationConnection* connection) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  for (ModulationDisconnectListener* listener : listeners_)
+    listener->modulationDisconnected(connection);
+  
+  parent->disconnectModulation(connection);
+}
+

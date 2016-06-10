@@ -25,7 +25,8 @@
 #include "helm_common.h"
 #include <set>
 
-class ModulationManager : public SynthSection, public Timer {
+class ModulationManager : public SynthSection, public Timer,
+                          public ModulationButton::ModulationDisconnectListener {
   public:
     ModulationManager (mopo::output_map modulation_sources,
                        std::map<std::string, ModulationButton*> modulation_buttons,
@@ -45,6 +46,7 @@ class ModulationManager : public SynthSection, public Timer {
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void sliderValueChanged(Slider* moved_slider) override;
+    void modulationDisconnected(mopo::ModulationConnection* connection) override;
 
   private:
     void setSliderValues();

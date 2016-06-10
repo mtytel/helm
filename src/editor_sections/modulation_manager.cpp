@@ -44,8 +44,10 @@ ModulationManager::ModulationManager(
   monophonic_destinations_ = new Component();
   monophonic_destinations_->setInterceptsMouseClicks(false, true);
 
-  for (auto mod_button : modulation_buttons_)
+  for (auto mod_button : modulation_buttons_) {
     mod_button.second->addListener(this);
+    mod_button.second->addDisconnectListener(this);
+  }
 
   slider_model_lookup_ = sliders;
   for (auto slider : slider_model_lookup_) {
@@ -135,6 +137,13 @@ void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
   if ((bool)last_value_ != (bool)moved_slider->getValue())
     modulation_buttons_[current_modulator_]->repaint();
   last_value_ = moved_slider->getValue();
+}
+
+void ModulationManager::modulationDisconnected(mopo::ModulationConnection* connection) {
+  if (connection->source == current_modulator_) {
+    Slider* slider = slider_lookup_[connection->destination];
+    slider->setValue(slider->getDoubleClickReturnValue());
+  }
 }
 
 void ModulationManager::timerCallback() {

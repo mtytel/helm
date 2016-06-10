@@ -20,14 +20,29 @@
 
 #include "JuceHeader.h"
 
+namespace mopo {
+  class ModulationConnection;
+} // namespace mopo
+
 class ModulationButton : public ToggleButton {
   public:
+    class ModulationDisconnectListener {
+      public:
+        virtual ~ModulationDisconnectListener() { }
+
+        virtual void modulationDisconnected(mopo::ModulationConnection* connection) = 0;
+    };
+  
     ModulationButton(String name);
 
     void mouseDown(const MouseEvent& e) override;
     void mouseUp(const MouseEvent& e) override;
+    void addDisconnectListener(ModulationDisconnectListener* listener);
 
   private:
+    void disconnectModulation(mopo::ModulationConnection* connection);
+
+    std::vector<ModulationDisconnectListener*> listeners_;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationButton)
 };
 
