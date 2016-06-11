@@ -17,7 +17,9 @@
 #include "modulation_manager.h"
 
 #include "full_interface.h"
+#include "modulation_highlight.h"
 #include "modulation_look_and_feel.h"
+#include "modulation_meter.h"
 #include "modulation_slider.h"
 #include "synth_gui_interface.h"
 #include "helm_common.h"
@@ -47,6 +49,15 @@ ModulationManager::ModulationManager(
   for (auto mod_button : modulation_buttons_) {
     mod_button.second->addListener(this);
     mod_button.second->addDisconnectListener(this);
+
+    // Create modulation highlight overlays.
+    std::string name = mod_button.second->getName().toStdString();
+    ModulationHighlight* overlay = new ModulationHighlight();
+    addChildComponent(overlay);
+    overlay_lookup_[name] = overlay;
+    overlay->setName(name);
+    Rectangle<int> local_bounds = mod_button.second->getBoundsInParent();
+    overlay->setBounds(mod_button.second->getParentComponent()->localAreaToGlobal(local_bounds));
   }
 
   slider_model_lookup_ = sliders;
@@ -54,6 +65,8 @@ ModulationManager::ModulationManager(
     std::string name = slider.first;
     const mopo::Processor::Output* mono_total = mono_modulations[name];
     const mopo::Processor::Output* poly_total = poly_modulations[name];
+
+    slider.second->addHoverListener(this);
 
     // Create modulation meter.
     if (mono_total) {
@@ -98,6 +111,8 @@ void ModulationManager::paint(Graphics& g) {
 void ModulationManager::resized() {
   polyphonic_destinations_->setBounds(getBounds());
   monophonic_destinations_->setBounds(getBounds());
+
+  // Update modulation slider locations.
   for (auto slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
@@ -106,12 +121,21 @@ void ModulationManager::resized() {
                              model->getWidth(), model->getHeight());
   }
 
+  // Update modulation meter locations.
   for (auto meter : meter_lookup_) {
     Slider* model = slider_model_lookup_[meter.first];
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
     meter.second->setBounds(local_top_left.x, local_top_left.y,
                             model->getWidth(), model->getHeight());
     meter.second->setVisible(model->isVisible());
+  }
+
+  // Update modulation highlight overlay locations.
+  for (auto overlay : overlay_lookup_) {
+    ModulationButton* model = modulation_buttons_[overlay.first];
+    Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
+    overlay.second->setBounds(local_top_left.x, local_top_left.y,
+                              model->getWidth(), model->getHeight());
   }
 
   SynthSection::resized();
@@ -144,6 +168,14 @@ void ModulationManager::modulationDisconnected(mopo::ModulationConnection* conne
     Slider* slider = slider_lookup_[connection->destination];
     slider->setValue(slider->getDoubleClickReturnValue());
   }
+}
+
+void ModulationManager::hoverStarted(const std::string& name) {
+  makeModulationsVisible(name, true);
+}
+
+void ModulationManager::hoverEnded(const std::string& name) {
+  makeModulationsVisible(name, false);
 }
 
 void ModulationManager::timerCallback() {
@@ -188,13 +220,25 @@ void ModulationManager::forgetModulator() {
   current_modulator_ = "";
 }
 
+void ModulationManager::makeModulationsVisible(std::string destination, bool visible) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+
+  std::vector<mopo::ModulationConnection*> connections =
+      parent->getDestinationConnections(destination);
+
+  for (mopo::ModulationConnection* connection : connections)
+    overlay_lookup_[connection->source]->setVisible(visible);
+}
+
 void ModulationManager::setSliderValues() {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent == nullptr)
     return;
 
   std::vector<mopo::ModulationConnection*> connections =
-  parent->getSourceConnections(current_modulator_);
+      parent->getSourceConnections(current_modulator_);
   for (auto slider : slider_lookup_) {
     std::string destination_name = slider.second->getName().toStdString();
     float value = 0.0f;

@@ -213,6 +213,10 @@
               file="src/editor_components/modulation_button.cpp"/>
         <FILE id="pT6aBD" name="modulation_button.h" compile="0" resource="0"
               file="src/editor_components/modulation_button.h"/>
+        <FILE id="xyWTVh" name="modulation_highlight.cpp" compile="1" resource="0"
+              file="src/editor_components/modulation_highlight.cpp"/>
+        <FILE id="pUQcB2" name="modulation_highlight.h" compile="0" resource="0"
+              file="src/editor_components/modulation_highlight.h"/>
         <FILE id="tQFZLx" name="modulation_meter.cpp" compile="1" resource="0"
               file="src/editor_components/modulation_meter.cpp"/>
         <FILE id="vYRW2S" name="modulation_meter.h" compile="0" resource="0"

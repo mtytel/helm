@@ -24,10 +24,17 @@ class FullInterface;
 
 class SynthSlider : public Slider {
   public:
+    class HoverListener {
+      public:
+        virtual void hoverStarted(const std::string& name) = 0;
+        virtual void hoverEnded(const std::string& name) = 0;
+    };
+
     SynthSlider(String name);
 
     virtual void mouseDown(const MouseEvent& e) override;
     virtual void mouseEnter(const MouseEvent& e) override;
+    virtual void mouseExit(const MouseEvent& e) override;
     virtual void mouseUp(const MouseEvent& e) override;
     void valueChanged() override;
     String getTextFromValue(double value) override;
@@ -53,20 +60,11 @@ class SynthSlider : public Slider {
     void setUnits(String units) { units_ = units; }
     String getUnits() const { return units_; }
 
-    void flipColoring(bool flip_coloring = true) {
-      flip_coloring_ = flip_coloring;
-      repaint();
-    }
+    void flipColoring(bool flip_coloring = true);
+    void setBipolar(bool bipolar = true);
+    void setActive(bool active = true);
 
-    void setBipolar(bool bipolar = true) {
-      bipolar_ = bipolar;
-      repaint();
-    }
-
-    void setActive(bool active = true) {
-      active_ = active;
-      repaint();
-    }
+    void addHoverListener(HoverListener*);
 
     bool isBipolar() const { return bipolar_; }
     bool isFlippedColor() const { return flip_coloring_; }
@@ -85,6 +83,8 @@ class SynthSlider : public Slider {
     Point<float> click_position_;
 
     FullInterface* parent_;
+
+    std::vector<HoverListener*> hover_listeners_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSlider)
 };

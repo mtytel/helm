@@ -43,6 +43,7 @@ class ModulationButton : public ToggleButton {
     void disconnectModulation(mopo::ModulationConnection* connection);
 
     std::vector<ModulationDisconnectListener*> listeners_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationButton)
 };
 

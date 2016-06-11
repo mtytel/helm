@@ -26,7 +26,7 @@ class ModulationMeter : public Component {
     ModulationMeter(const mopo::Processor::Output* mono_total,
                     const mopo::Processor::Output* poly_total,
                     const SynthSlider* slider);
-    ~ModulationMeter();
+    virtual ~ModulationMeter();
 
     void paint(Graphics& g) override;
     void resized() override;

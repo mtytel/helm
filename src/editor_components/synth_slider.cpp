@@ -135,6 +135,14 @@ void SynthSlider::mouseUp(const MouseEvent& e) {
 void SynthSlider::mouseEnter(const MouseEvent &e) {
   Slider::mouseEnter(e);
   notifyTooltip();
+  for (SynthSlider::HoverListener* listener : hover_listeners_)
+    listener->hoverStarted(getName().toStdString());
+}
+
+void SynthSlider::mouseExit(const MouseEvent &e) {
+  Slider::mouseExit(e);
+  for (SynthSlider::HoverListener* listener : hover_listeners_)
+    listener->hoverEnded(getName().toStdString());
 }
 
 void SynthSlider::valueChanged() {
@@ -195,6 +203,25 @@ void SynthSlider::drawRectangularShadow(Graphics &g) {
   shadow.drawForRectangle(g, getLocalBounds());
 
   g.restoreState();
+}
+
+void SynthSlider::flipColoring(bool flip_coloring) {
+  flip_coloring_ = flip_coloring;
+  repaint();
+}
+
+void SynthSlider::setBipolar(bool bipolar) {
+  bipolar_ = bipolar;
+  repaint();
+}
+
+void SynthSlider::setActive(bool active) {
+  active_ = active;
+  repaint();
+}
+
+void SynthSlider::addHoverListener(SynthSlider::HoverListener* listener) {
+  hover_listeners_.push_back(listener);
 }
 
 void SynthSlider::notifyTooltip() {

@@ -97,6 +97,7 @@ OBJECTS := \
   $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
   $(OBJDIR)/midi_keyboard_ec3d63f9.o \
   $(OBJDIR)/modulation_button_8258c889.o \
+  $(OBJDIR)/modulation_highlight_dd34a287.o \
   $(OBJDIR)/modulation_meter_3f248ddc.o \
   $(OBJDIR)/modulation_slider_aee8aab8.o \
   $(OBJDIR)/oscilloscope_48e472e5.o \
@@ -424,6 +425,11 @@ $(OBJDIR)/midi_keyboard_ec3d63f9.o: ../../../src/editor_components/midi_keyboard
 $(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling modulation_button.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/modulation_highlight_dd34a287.o: ../../../src/editor_components/modulation_highlight.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling modulation_highlight.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/modulation_meter_3f248ddc.o: ../../../src/editor_components/modulation_meter.cpp

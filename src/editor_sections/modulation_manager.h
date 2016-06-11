@@ -19,14 +19,19 @@
 #define MODULATION_MANAGER_H
 
 #include "JuceHeader.h"
-#include "modulation_button.h"
-#include "modulation_meter.h"
-#include "synth_section.h"
+
 #include "helm_common.h"
+#include "modulation_button.h"
+#include "synth_section.h"
+#include "synth_slider.h"
 #include <set>
 
+class ModulationHighlight;
+class ModulationMeter;
+
 class ModulationManager : public SynthSection, public Timer,
-                          public ModulationButton::ModulationDisconnectListener {
+                          public ModulationButton::ModulationDisconnectListener,
+                          public SynthSlider::HoverListener {
   public:
     ModulationManager (mopo::output_map modulation_sources,
                        std::map<std::string, ModulationButton*> modulation_buttons,
@@ -47,8 +52,11 @@ class ModulationManager : public SynthSection, public Timer,
     void buttonClicked(Button* clicked_button) override;
     void sliderValueChanged(Slider* moved_slider) override;
     void modulationDisconnected(mopo::ModulationConnection* connection) override;
+    void hoverStarted(const std::string& name) override;
+    void hoverEnded(const std::string& name) override;
 
   private:
+    void makeModulationsVisible(std::string destination, bool visible);
     void setSliderValues();
     void showMeter(std::string name, bool show);
 
@@ -64,6 +72,7 @@ class ModulationManager : public SynthSection, public Timer,
     std::vector<Slider*> owned_sliders_;
 
     std::map<std::string, ModulationMeter*> meter_lookup_;
+    std::map<std::string, ModulationHighlight*> overlay_lookup_;
     mopo::output_map modulation_sources_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationManager)
