@@ -30,7 +30,7 @@
 #define MAX_GAIN_DB 24.0
 
 #define MAX_FEEDBACK_SAMPLES 20000
-#define MAX_POLYPHONY 32
+#define MAX_POLYPHONY 33
 
 namespace mopo {
 
