@@ -24,8 +24,7 @@
 
 class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
   public:
-    HelmComputerKeyboard(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
-                         const CriticalSection* critical_section);
+    HelmComputerKeyboard(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state);
     ~HelmComputerKeyboard();
 
     void changeKeyboardOffset(int new_offset);
@@ -37,7 +36,6 @@ class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
   private:
     mopo::HelmEngine* synth_;
     MidiKeyboardState* keyboard_state_;
-    const CriticalSection* critical_section_;
     std::set<char> keys_pressed_;
     int computer_keyboard_offset_;
 

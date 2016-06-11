@@ -20,11 +20,9 @@
 #define KEYBOARD_MIDI_CHANNEL 1
 
 HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
-                                           MidiKeyboardState* keyboard_state,
-                                           const CriticalSection* critical_section) {
+                                           MidiKeyboardState* keyboard_state) {
   synth_ = synth;
   keyboard_state_ = keyboard_state;
-  critical_section_ = critical_section;
   computer_keyboard_offset_ = mopo::DEFAULT_KEYBOARD_OFFSET;
   layout_ = mopo::DEFAULT_KEYBOARD;
   up_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_UP;
@@ -35,7 +33,6 @@ HelmComputerKeyboard::~HelmComputerKeyboard() {
 }
 
 void HelmComputerKeyboard::changeKeyboardOffset(int new_offset) {
-  ScopedLock lock(*critical_section_);
   for (int i = 0; i < layout_.length(); ++i) {
     int note = computer_keyboard_offset_ + i;
     keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
@@ -52,7 +49,6 @@ bool HelmComputerKeyboard::keyPressed(const KeyPress &key, Component *origin) {
 
 bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
   bool consumed = false;
-  ScopedLock lock(*critical_section_);
   for (int i = 0; i < layout_.length(); ++i) {
     int note = computer_keyboard_offset_ + i;
 
