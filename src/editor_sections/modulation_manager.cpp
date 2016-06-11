@@ -197,14 +197,8 @@ void ModulationManager::updateModulationValues() {
   if (parent == nullptr)
     return;
 
-  int num_voices = parent->getNumActiveVoices();
-  if (num_voices < 0)
-    return;
-
-  parent->lockSynth();
   for (auto meter : meter_lookup_)
     meter.second->updateValue();
-  parent->unlockSynth();
 }
 
 void ModulationManager::setModulationAmount(std::string source, std::string destination,
