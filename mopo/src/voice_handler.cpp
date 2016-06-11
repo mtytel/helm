@@ -68,10 +68,27 @@ namespace mopo {
 
   void VoiceHandler::processVoice(Voice* voice) {
     voice->processor()->process();
+  }
+
+  void VoiceHandler::clearAccumulatedOutputs() {
+    for (int i = 0; i < numOutputs(); ++i) {
+      if (shouldAccumulate(voice_outputs_[i])) {
+        int buffer_size = voice_outputs_[i]->owner->getBufferSize();
+        memset(output(i)->buffer, 0, buffer_size * sizeof(mopo_float));
+      }
+    }
+  }
+
+  void VoiceHandler::clearNonaccumulatedOutputs() {
+    for (int i = 0; i < numOutputs(); ++i) {
+      if (!shouldAccumulate(voice_outputs_[i]))
+        output(i)->buffer[0] = 0.0;
+    }
+  }
+
+  void VoiceHandler::accumulateOutputs() {
     for (int out = 0; out < numOutputs(); ++out) {
-      if (voice_outputs_[out]->owner->isControlRate())
-        output(out)->buffer[0] = voice_outputs_[out]->buffer[0];
-      else {
+      if (shouldAccumulate(voice_outputs_[out])) {
         int buffer_size = voice_outputs_[out]->owner->getBufferSize();
         for (int i = 0; i < buffer_size; ++i)
           output(out)->buffer[i] += voice_outputs_[out]->buffer[i];
@@ -79,21 +96,32 @@ namespace mopo {
     }
   }
 
+  void VoiceHandler::writeNonaccumulatedOutputs() {
+    for (int i = 0; i < numOutputs(); ++i) {
+      if (!shouldAccumulate(voice_outputs_[i])) {
+        if (active_voices_.size())
+          output(i)->buffer[0] = voice_outputs_[i]->buffer[0];
+      }
+    }
+  }
+
+  bool VoiceHandler::shouldAccumulate(Output* output) {
+    return !output->owner->isControlRate();
+  }
+
   void VoiceHandler::process() {
     global_router_.process();
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
     setPolyphony(utils::iclamp(polyphony, 1, polyphony));
-    for (int i = 0; i < numOutputs(); ++i) {
-      int buffer_size = voice_outputs_[i]->owner->getBufferSize();
-      memset(output(i)->buffer, 0, buffer_size * sizeof(mopo_float));
-    }
+    clearAccumulatedOutputs();
 
     std::list<Voice*>::iterator iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
       Voice* voice = *iter;
       prepareVoiceTriggers(voice);
       processVoice(voice);
+      accumulateOutputs();
 
       // Remove voice if the right processor has a full silent buffer.
       if (voice_killer_ && voice->state().event != kVoiceOn &&
@@ -104,6 +132,11 @@ namespace mopo {
       else
         iter++;
     }
+
+    if (active_voices_.size())
+      writeNonaccumulatedOutputs();
+    else
+      clearNonaccumulatedOutputs();
   }
 
   void VoiceHandler::setSampleRate(int sample_rate) {

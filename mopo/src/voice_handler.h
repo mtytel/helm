@@ -188,6 +188,11 @@ namespace mopo {
       Voice* createVoice();
       void prepareVoiceTriggers(Voice* voice);
       void processVoice(Voice* voice);
+      void clearAccumulatedOutputs();
+      void clearNonaccumulatedOutputs();
+      void accumulateOutputs();
+      void writeNonaccumulatedOutputs();
+      bool shouldAccumulate(Output* output);
 
       size_t polyphony_;
       bool sustain_;
