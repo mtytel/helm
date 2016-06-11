@@ -81,7 +81,7 @@ void StepSequencerSection::paintBackground(Graphics& g) {
 
   SynthSection::paintBackground(g);
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("STEPS"), num_steps_);
   g.drawText(TRANS("FREQUENCY"),
              retrigger_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,

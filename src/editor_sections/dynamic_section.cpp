@@ -45,7 +45,7 @@ void DynamicSection::paintBackground(Graphics& g) {
   SynthSection::paintContainer(g);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("PORTA"), portamento_);
   drawTextForComponent(g, TRANS("PORTA TYPE"), portamento_type_,
                        4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);
@@ -53,7 +53,7 @@ void DynamicSection::paintBackground(Graphics& g) {
                        4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);
 
   static const int ROOM = 20;
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(8.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(8.0f));
   int type_y = portamento_type_->getY() - 12;
   g.drawText(TRANS("OFF"), portamento_type_->getX() - ROOM,
              type_y, 2 * ROOM, 10, Justification::centred, false);

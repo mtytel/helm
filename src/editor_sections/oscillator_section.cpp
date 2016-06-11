@@ -142,7 +142,7 @@ void OscillatorSection::paintBackground(Graphics& g) {
   g.strokePath(bottom_right_cross_path_, PathStrokeType(1.0f));
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_2_);

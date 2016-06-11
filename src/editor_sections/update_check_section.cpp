@@ -67,7 +67,7 @@ void UpdateCheckSection::paint(Graphics& g) {
   g.saveState();
   g.setOrigin(delete_rect.getX() + PADDING_X, delete_rect.getY() + PADDING_Y);
 
-  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(14.0f));
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(14.0f));
   g.setColour(Colour(0xffaaaaaa));
 
   g.drawText(TRANS("There is a new version of Helm!"),

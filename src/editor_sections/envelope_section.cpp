@@ -68,7 +68,7 @@ void EnvelopeSection::paintBackground(Graphics& g) {
   g.fillRect(getWidth() - TEXT_WIDTH - SLIDER_SECTION_WIDTH, 20, TEXT_WIDTH, getHeight() - 20);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
 
   g.drawText(TRANS("A"), attack_->getX() - TEXT_WIDTH, attack_->getY(),
              TEXT_WIDTH, attack_->getHeight(),

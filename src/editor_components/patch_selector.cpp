@@ -78,7 +78,7 @@ void PatchSelector::paintBackground(Graphics& g) {
   Rectangle<int> bottom(proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
                         proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
 
-  g.setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f));
+  g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
   g.setColour(Colour(0xffbbbbbb));
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));

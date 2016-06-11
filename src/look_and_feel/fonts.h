@@ -22,13 +22,16 @@
 class Fonts {
   public:
     Fonts();
-    virtual ~Fonts();
+    virtual ~Fonts() { }
 
     Font& proportional_regular() { return proportional_regular_; }
     Font& proportional_light() { return proportional_light_; }
     Font& monospace() { return monospace_; }
 
-    juce_DeclareSingleton(Fonts, false)
+    static Fonts* instance() {
+      static Fonts instance;
+      return &instance;
+    }
 
   private:
     static ScopedPointer<Fonts> instance_;

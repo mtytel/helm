@@ -37,7 +37,7 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
   g.drawRect(slider.getLocalBounds());
 
   g.setColour(Colours::white);
-  g.setFont(Fonts::getInstance()->monospace().withPointHeight(height * text_percentage));
+  g.setFont(Fonts::instance()->monospace().withPointHeight(height * text_percentage));
   g.drawText(slider.getTextFromValue(slider.getValue()),
              x, y, width, height, Justification::centred, false);
 }
@@ -51,7 +51,7 @@ void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.fillRect(button.getLocalBounds());
 
   g.setColour(Colours::white);
-  g.setFont(Fonts::getInstance()->monospace());
+  g.setFont(Fonts::instance()->monospace());
   g.drawText(button.getButtonText(), 0, 0,
              button.getWidth(), button.getHeight(), Justification::centred);
 

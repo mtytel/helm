@@ -101,6 +101,8 @@ ModulationManager::ModulationManager(
 ModulationManager::~ModulationManager() {
   for (auto meter : meter_lookup_)
     delete meter.second;
+  for (auto overlay : overlay_lookup_)
+    delete overlay.second;
   for (Slider* slider : owned_sliders_)
     delete slider;
 }

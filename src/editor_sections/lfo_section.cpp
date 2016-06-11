@@ -85,7 +85,7 @@ void LfoSection::paintBackground(Graphics& g) {
 
   SynthSection::paintBackground(g);
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
 
   if (retrigger_->isVisible()) {
     g.drawText(TRANS("FREQUENCY"),

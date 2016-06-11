@@ -58,7 +58,7 @@ void MixerSection::paintBackground(Graphics& g) {
 
   float buffer = (getWidth() - 4 * SLIDER_WIDTH) / 3.0f;
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
 
   g.drawText(TRANS("OSC 1"), 0, text_y,
              SLIDER_WIDTH, TEXT_SECTION_WIDTH,

@@ -31,7 +31,7 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
     g.setColour(Colour(0xff03a9f4));
   }
 
-  g.setFont(Fonts::getInstance()->monospace().withPointHeight(12.0f));
+  g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
   g.drawText(files_[row_number].getFileName(),
              5, 0, width, height,
              Justification::centredLeft, true);

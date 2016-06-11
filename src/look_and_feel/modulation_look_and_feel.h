@@ -23,7 +23,6 @@ class SynthSlider;
 
 class ModulationLookAndFeel : public LookAndFeel_V3 {
   public:
-
     void drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                           float slider_pos, float min, float max,
                           const Slider::SliderStyle style, Slider& slider) override;

@@ -26,6 +26,7 @@ class SynthSlider : public Slider {
   public:
     class HoverListener {
       public:
+        virtual ~HoverListener() { }
         virtual void hoverStarted(const std::string& name) = 0;
         virtual void hoverEnded(const std::string& name) = 0;
     };

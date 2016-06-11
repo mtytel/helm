@@ -55,7 +55,7 @@ void ExtraModSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));
   drawTextToRightOfComponent(g, note_mod_, TRANS("NOTE"));
   drawTextToRightOfComponent(g, velocity_mod_, TRANS("VELOCITY"));

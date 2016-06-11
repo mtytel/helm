@@ -32,14 +32,14 @@
 
 AboutSection::AboutSection(String name) : Component(name) {
   developer_link_ = new HyperlinkButton("Matt Tytel", URL("http://tytel.org"));
-  developer_link_->setFont(Fonts::getInstance()->proportional_light().withPointHeight(16.0f),
+  developer_link_->setFont(Fonts::instance()->proportional_light().withPointHeight(16.0f),
                            false, Justification::right);
   developer_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(developer_link_);
 
   free_software_link_ = new HyperlinkButton(TRANS("Read more about free software"),
                                             URL("http://www.gnu.org/philosophy/free-sw.html"));
-  free_software_link_->setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0f),
+  free_software_link_->setFont(Fonts::instance()->proportional_light().withPointHeight(12.0f),
                                false, Justification::right);
   free_software_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(free_software_link_);
@@ -85,19 +85,19 @@ void AboutSection::paint(Graphics& g) {
   else
     g.drawImage(helm_small, 0, 0, 128, 128, 0, 0, 128, 128);
 
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(32.0));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(32.0));
   g.setColour(Colour(0xff2196f3));
   g.drawText(TRANS("HELM"),
              0.0f, 0.0f,
              info_rect.getWidth() - 2 * PADDING_X, 32.0f, Justification::centredTop);
 
-  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(12.0));
   g.setColour(Colour(0xff666666));
   g.drawText(TRANS("v") + " " + ProjectInfo::versionString,
              0.0f, 36.0f,
              info_rect.getWidth() - 2 * PADDING_X, 32.0f, Justification::centredTop);
 
-  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(12.0));
   g.drawText(TRANS("Developed by"),
              0.0f, 4.0f,
              info_rect.getWidth() - 2 * PADDING_X, 20.0f, Justification::right);
@@ -111,7 +111,7 @@ void AboutSection::paint(Graphics& g) {
              0.0f, 76.0f,
              info_rect.getWidth() - 2 * PADDING_X, 20.0f, Justification::topRight);
 
-  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(12.0));
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(12.0));
   g.drawText(TRANS("Check for updates"),
              0.0f, 141.0f,
              info_rect.getWidth() - 2 * PADDING_X - 1.5 * BUTTON_WIDTH,

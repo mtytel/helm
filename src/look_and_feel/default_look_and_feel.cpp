@@ -114,7 +114,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
     g.fillRoundedRectangle(text_bounds, 2.0f);
 
     g.setColour(Colour(0xff999999));
-    g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(0.2f * height));
+    g.setFont(Fonts::instance()->proportional_regular().withPointHeight(0.2f * height));
     g.drawFittedText(String(slider.getValue()), text_bounds.getSmallestIntegerContainer(),
                      Justification::horizontallyCentred | Justification::bottom, 1);
   }
@@ -233,7 +233,7 @@ void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
 
 void DefaultLookAndFeel::drawButtonText(Graphics& g, TextButton& button,
                                         bool isMouseOverButton, bool isButtonDown) {
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(14.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(14.0f));
   g.setColour(Colour(0xffaaaaaa));
   g.drawText(button.getName(), button.getLocalBounds(), Justification::centred, false);
 }

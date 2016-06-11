@@ -75,7 +75,7 @@ void ArpSection::paintBackground(Graphics& g) {
   g.fillRoundedRectangle(0, 0, TITLE_WIDTH, getHeight(), 1.0f);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("GATE"), gate_);
   drawTextForComponent(g, TRANS("OCTAVES"), octaves_);
   drawTextForComponent(g, TRANS("PATTERN"), pattern_);
@@ -87,7 +87,7 @@ void ArpSection::paintBackground(Graphics& g) {
   g.saveState();
   g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 0, 0));
   g.setColour(Colour(0xff999999));
-  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(13.40f));
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(13.40f));
   g.drawText(TRANS("ARP"), -getHeight(), 0, getHeight() - 20, 20, Justification::centred, false);
   g.restoreState();
 

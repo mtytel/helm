@@ -125,7 +125,7 @@ void FullInterface::paintBackground(Graphics& g) {
   g.fillRect(84, 8, 244, TOP_HEIGHT);
 
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::getInstance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   g.drawText(TRANS("BPM"), patch_selector_->getX(), beats_per_minute_->getY(),
              44, beats_per_minute_->getHeight(),
              Justification::centred, false);

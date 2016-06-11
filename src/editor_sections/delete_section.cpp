@@ -49,7 +49,7 @@ void DeleteSection::paint(Graphics& g) {
   g.saveState();
   g.setOrigin(delete_rect.getX() + PADDING_X, delete_rect.getY() + PADDING_Y);
 
-  g.setFont(Fonts::getInstance()->proportional_light().withPointHeight(14.0f));
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(14.0f));
   g.setColour(Colour(0xffaaaaaa));
 
   String text;
@@ -61,7 +61,7 @@ void DeleteSection::paint(Graphics& g) {
              0, 0.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);
 
-  g.setFont(Fonts::getInstance()->monospace().withPointHeight(16.0f));
+  g.setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
   g.setColour(Colour(0xff03a9f4));
   g.drawText(file_.getFileNameWithoutExtension(),
              0, 20.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,

@@ -52,7 +52,7 @@ void RetriggerSelector::paint(Graphics& g) {
   g.setColour(Colour(0xff222222));
   g.fillPath(arrow_);
 
-  g.setFont(Fonts::getInstance()->monospace());
+  g.setFont(Fonts::instance()->monospace());
   int value = getValue() + 1;
   if (value == kFree)
     g.drawText("F", getLocalBounds(), Justification::centred);

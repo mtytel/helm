@@ -16,8 +16,6 @@
 
 #include "fonts.h"
 
-juce_ImplementSingleton(Fonts)
-
 Fonts::Fonts() {
   proportional_regular_ = Font(Typeface::createSystemTypefaceFor(
       BinaryData::RobotoRegular_ttf, BinaryData::RobotoRegular_ttfSize));
@@ -25,8 +23,4 @@ Fonts::Fonts() {
       BinaryData::RobotoLight_ttf, BinaryData::RobotoLight_ttfSize));
   monospace_ = Font(Typeface::createSystemTypefaceFor(
       BinaryData::DroidSansMono_ttf, BinaryData::DroidSansMono_ttfSize));
-}
-
-Fonts::~Fonts() {
-  clearSingletonInstance();
 }
