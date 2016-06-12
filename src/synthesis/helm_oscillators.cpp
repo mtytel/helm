@@ -84,8 +84,7 @@ namespace mopo {
 
     int* dest1 = oscillator1_phase_diffs_;
     int* dest2 = oscillator2_phase_diffs_;
-    // TODO: On project loading these have bad values and crashes later
-    // with 0 phase_inc in buffer lookup.
+
     const mopo_float* src1 = input(kOscillator1PhaseInc)->source->buffer;
     const mopo_float* src2 = input(kOscillator2PhaseInc)->source->buffer;
 
