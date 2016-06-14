@@ -54,6 +54,7 @@ void MidiManager::clearMidiLearn(const std::string& name) {
 }
 
 void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
+  // TODO: this is getting called from audio thread.
   if (control_armed_.length()) {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
     control_armed_ = "";
@@ -91,7 +92,7 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
     current_patch_ = midi_message.getProgramChangeNumber();
     File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
                                      synth_, *gui_state_);
-    MidiPatchLoadCallback* callback = new MidiPatchLoadCallback(listener_, patch);
+    PatchLoadedCallback* callback = new PatchLoadedCallback(listener_, patch);
     callback->post();
     return;
   }

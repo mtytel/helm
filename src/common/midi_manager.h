@@ -56,8 +56,8 @@ class MidiManager : public MidiInputCallback {
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
 
-    struct MidiPatchLoadCallback : public CallbackMessage {
-      MidiPatchLoadCallback(Listener* lis, File pat) : listener(lis), patch(pat) { }
+    struct PatchLoadedCallback : public CallbackMessage {
+      PatchLoadedCallback(Listener* lis, File pat) : listener(lis), patch(pat) { }
 
       void messageCallback() override {
         if (listener)
@@ -67,20 +67,6 @@ class MidiManager : public MidiInputCallback {
       Listener* listener;
       File patch;
     };
-
-    struct MidiValueChangeCallback : public CallbackMessage {
-      MidiValueChangeCallback(Listener* lis, std::string name, mopo::mopo_float val) :
-          listener(lis), control_name(name), value(val) { }
-
-      void messageCallback() override {
-        if (listener)
-          listener->valueChangedThroughMidi(control_name, value);
-      }
-
-      Listener* listener;
-      std::string control_name;
-      mopo::mopo_float value;
-  };
 
   protected:
     mopo::HelmEngine* synth_;

@@ -72,6 +72,17 @@ class SynthBase : public MidiManager::Listener {
     MidiKeyboardState* getKeyboardState() { return keyboard_state_; }
     const mopo::Memory* getOutputMemory() { return output_memory_; }
 
+    struct ValueChangedCallback : public CallbackMessage {
+      ValueChangedCallback(SynthBase* listener, std::string name, mopo::mopo_float val) :
+          listener(listener), control_name(name), value(val) { }
+
+      void messageCallback() override;
+
+      SynthBase* listener;
+      std::string control_name;
+      mopo::mopo_float value;
+    };
+
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual SynthGuiInterface* getGuiInterface() = 0;
@@ -83,8 +94,8 @@ class SynthBase : public MidiManager::Listener {
     }
 
     void processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset);
-    void processMidi(MidiBuffer&, int start_sample, int end_sample);
-    void processKeyboardEvents(int num_samples);
+    void processMidi(MidiBuffer& buffer, int start_sample = 0, int end_sample = 0);
+    void processKeyboardEvents(MidiBuffer& buffer, int num_samples);
     void processControlChanges();
 
     mopo::HelmEngine engine_;

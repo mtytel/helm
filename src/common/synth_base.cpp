@@ -53,9 +53,8 @@ void SynthBase::patchChangedThroughMidi(File patch) {
 
 void SynthBase::valueChangedExternal(const std::string& name, mopo::mopo_float value) {
   valueChanged(name, value);
-  SynthGuiInterface* gui_interface = getGuiInterface();
-  if (gui_interface)
-    gui_interface->updateGuiControl(name, value);
+  ValueChangedCallback* callback = new ValueChangedCallback(this, name, value);
+  callback->post();
 }
 
 void SynthBase::changeModulationAmount(const std::string& source,
@@ -147,23 +146,20 @@ void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int sample
 void SynthBase::processMidi(MidiBuffer& midi_messages, int start_sample, int end_sample) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
-  int midi_sample_position = 0;
-  while (midi_iter.getNextEvent(midi_message, midi_sample_position)) {
-    if (midi_sample_position >= start_sample && midi_sample_position < end_sample)
-      midi_manager_->processMidiMessage(midi_message, midi_sample_position - start_sample);
+  int midi_sample = 0;
+  bool process_all = end_sample == 0;
+  while (midi_iter.getNextEvent(midi_message, midi_sample)) {
+    if (process_all || (midi_sample >= start_sample && midi_sample < end_sample))
+      midi_manager_->processMidiMessage(midi_message, midi_sample - start_sample);
   }
 }
 
-void SynthBase::processKeyboardEvents(int num_samples) {
-  MidiBuffer midi_messages;
+void SynthBase::processKeyboardEvents(MidiBuffer& buffer, int num_samples) {
   MidiBuffer keyboard_messages;
-  midi_manager_->removeNextBlockOfMessages(midi_messages, num_samples);
   midi_manager_->replaceKeyboardMessages(keyboard_messages, num_samples);
+  processMidi(keyboard_messages);
 
-  processMidi(midi_messages, 0, num_samples);
-  processMidi(keyboard_messages, 0, num_samples);
-
-  midi_manager_->replaceKeyboardMessages(midi_messages, num_samples);
+  midi_manager_->replaceKeyboardMessages(buffer, num_samples);
 }
 
 void SynthBase::processControlChanges() {
@@ -211,4 +207,12 @@ String SynthBase::getPatchName() {
 
 String SynthBase::getFolderName() {
   return save_info_["folder_name"];
+}
+
+void SynthBase::ValueChangedCallback::messageCallback() {
+  if (listener) {
+    SynthGuiInterface* gui_interface = listener->getGuiInterface();
+    if (gui_interface)
+      gui_interface->updateGuiControl(control_name, value);
+  }
 }

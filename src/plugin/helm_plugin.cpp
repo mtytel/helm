@@ -167,7 +167,8 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
     engine_.correctToTime(position_info.timeInSamples);
 
   processControlChanges();
-  processKeyboardEvents(total_samples);
+  MidiBuffer keyboard_messages = midi_messages;
+  processKeyboardEvents(keyboard_messages, total_samples);
 
   for (int sample_offset = 0; sample_offset < total_samples;) {
     int num_samples = std::min<int>(total_samples - sample_offset, MAX_BUFFER_PROCESS);
@@ -177,8 +178,6 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
 
     sample_offset += num_samples;
   }
-
-  midi_manager_->replaceKeyboardMessages(midi_messages, total_samples);
 }
 
 bool HelmPlugin::hasEditor() const {

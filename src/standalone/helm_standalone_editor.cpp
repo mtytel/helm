@@ -89,7 +89,10 @@ void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffe
   int synth_samples = std::min(num_samples, MAX_BUFFER_PROCESS);
 
   processControlChanges();
-  processKeyboardEvents(num_samples);
+  MidiBuffer midi_messages;
+  midi_manager_->removeNextBlockOfMessages(midi_messages, num_samples);
+  processMidi(midi_messages);
+  processKeyboardEvents(midi_messages, num_samples);
 
   for (int b = 0; b < num_samples; b += synth_samples) {
     int current_samples = std::min<int>(synth_samples, num_samples - b);
