@@ -22,7 +22,7 @@
 #include <string>
 #include <map>
 
-class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
+class MidiManager : public MidiInputCallback {
   public:
     typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
     typedef std::map<int, std::map<std::string, midi_range>> midi_map;
@@ -36,14 +36,8 @@ class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
     };
 
     MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
-                std::map<std::string, String>* gui_state,
-                const CriticalSection* critical_section, Listener* listener = nullptr);
+                std::map<std::string, String>* gui_state, Listener* listener = nullptr);
     virtual ~MidiManager();
-
-    void handleNoteOn(MidiKeyboardState* source,
-                      int midiChannel, int midiNoteNumber, float velocity) override;
-    void handleNoteOff(MidiKeyboardState* source,
-                       int midiChannel, int midiNoteNumber, float velocity) override;
 
     void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
     void cancelMidiLearn();
@@ -52,23 +46,15 @@ class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
     void processMidiMessage(const MidiMessage &midi_message, int sample_position = 0);
     bool isMidiMapped(const std::string& name) const;
 
+    void setSampleRate(double sample_rate);
+    void removeNextBlockOfMessages(MidiBuffer& buffer, int num_samples);
+    void replaceKeyboardMessages(MidiBuffer& buffer, int num_samples);
+
     midi_map getMidiLearnMap() { return midi_learn_map_; }
     void setMidiLearnMap(midi_map midi_learn_map) { midi_learn_map_ = midi_learn_map; }
 
     // MidiInputCallback
     void handleIncomingMidiMessage(MidiInput *source, const MidiMessage &midi_message) override;
-
-    struct MidiMessageCallback : public CallbackMessage {
-      MidiMessageCallback(MidiManager* man, const MidiMessage& mes) : manager(man), message(mes) { }
-
-      void messageCallback() override {
-        if (manager)
-          manager->processMidiMessage(message);
-      }
-
-      MidiManager* manager;
-      MidiMessage message;
-    };
 
     struct MidiPatchLoadCallback : public CallbackMessage {
       MidiPatchLoadCallback(Listener* lis, File pat) : listener(lis), patch(pat) { }
@@ -99,8 +85,8 @@ class MidiManager : public MidiInputCallback, public MidiKeyboardStateListener {
   protected:
     mopo::HelmEngine* synth_;
     MidiKeyboardState* keyboard_state_;
+    MidiMessageCollector midi_collector_;
     std::map<std::string, String>* gui_state_;
-    const CriticalSection* critical_section_;
     Listener* listener_;
     int current_bank_;
     int current_folder_;

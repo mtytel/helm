@@ -5,6 +5,9 @@
     <Filter Include="HelmPlugin">
       <UniqueIdentifier>{4AEB9D60-F3C5-9A61-341D-6F1537C8B36E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HelmPlugin\concurrentqueue">
+      <UniqueIdentifier>{E69C4652-F482-7DE3-AA7E-C622D4728FBF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HelmPlugin\fonts">
       <UniqueIdentifier>{C467F65A-3E79-61AB-D092-116289BCD52E}</UniqueIdentifier>
     </Filter>
@@ -1917,6 +1920,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\concurrentqueue\blockingconcurrentqueue.h">
+      <Filter>HelmPlugin\concurrentqueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\concurrentqueue\concurrentqueue.h">
+      <Filter>HelmPlugin\concurrentqueue</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\mopo\src\alias.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>

@@ -123,7 +123,7 @@ void Startup::updateAllPatches(mopo::HelmEngine* synth,
   for (File patch : all_patches) {
     var parsed_json_state;
     if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
-      LoadSave::varToState(synth, *gui_state, critical_section, parsed_json_state);
+      LoadSave::varToState(synth, *gui_state, parsed_json_state);
       String author = LoadSave::getAuthor(parsed_json_state);
       if (author.isEmpty())
         author = patch.getParentDirectory().getParentDirectory().getFileName();

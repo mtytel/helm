@@ -377,7 +377,8 @@ namespace mopo {
   }
 
   void HelmEngine::setBpm(mopo_float bpm) {
-    controls_["beats_per_minute"]->set(bpm);
+    if (controls_["beats_per_minute"]->value() != bpm)
+      controls_["beats_per_minute"]->set(bpm);
   }
 
   void HelmEngine::correctToTime(mopo_float samples) {

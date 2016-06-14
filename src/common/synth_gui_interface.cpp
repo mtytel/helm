@@ -19,8 +19,7 @@
 #include "load_save.h"
 
 void SynthGuiInterface::valueChanged(const std::string& name, mopo::mopo_float value) {
-  ScopedLock lock(getCriticalSection());
-  controls_[name]->set(value);
+  value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
 }
 
 void SynthGuiInterface::valueChangedInternal(const std::string& name, mopo::mopo_float value) {
@@ -111,7 +110,9 @@ var SynthGuiInterface::saveToVar(String author) {
 }
 
 void SynthGuiInterface::loadFromVar(juce::var state) {
-  LoadSave::varToState(synth_, *gui_state_, getCriticalSection(), state);
+  getCriticalSection().enter();
+  LoadSave::varToState(synth_, *gui_state_, state);
+  getCriticalSection().exit();
   updateFullGui();
 }
 

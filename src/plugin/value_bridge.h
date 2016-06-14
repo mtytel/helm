@@ -43,8 +43,6 @@ class ValueBridge : public AudioProcessorParameter {
       mopo::mopo_float synth_value = convertToSynthValue(value);
       if (listener_)
         listener_->parameterChanged(name_.toStdString(), synth_value);
-
-      value_->set(synth_value);
     }
 
     void setListener(Listener* listener) {

@@ -29,7 +29,7 @@
 HelmPlugin::HelmPlugin() {
   output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
   keyboard_state_ = new MidiKeyboardState();
-  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, &getCallbackLock(), this);
+  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, this);
   set_state_time_ = 0;
 
   Startup::doStartupChecks(midi_manager_);
@@ -111,7 +111,7 @@ void HelmPlugin::setCurrentProgram(int index) {
     return;
 
   current_program_ = index;
-  LoadSave::loadPatch(-1, -1, index, &synth_, gui_state_, getCallbackLock());
+  LoadSave::loadPatch(-1, -1, index, &synth_, gui_state_);
   AudioProcessorEditor* editor = getActiveEditor();
   if (editor) {
     HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
@@ -133,6 +133,7 @@ void HelmPlugin::changeProgramName(int index, const String& new_name) {
 void HelmPlugin::prepareToPlay(double sample_rate, int buffer_size) {
   synth_.setSampleRate(sample_rate);
   synth_.setBufferSize(std::min<int>(buffer_size, MAX_BUFFER_PROCESS));
+  midi_manager_->setSampleRate(sample_rate);
 }
 
 void HelmPlugin::releaseResources() {
@@ -148,7 +149,7 @@ void HelmPlugin::endChangeGesture(std::string name) {
   bridge_lookup_[name]->endChangeGesture();
 }
 
-void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages, int start_sample, int end_sample) {
+void HelmPlugin::processMidi(MidiBuffer& midi_messages, int start_sample, int end_sample) {
   MidiBuffer::Iterator midi_iter(midi_messages);
   MidiMessage midi_message;
   int midi_sample_position = 0;
@@ -156,6 +157,21 @@ void HelmPlugin::processMidi(juce::MidiBuffer& midi_messages, int start_sample, 
     if (midi_sample_position >= start_sample && midi_sample_position < end_sample)
       midi_manager_->processMidiMessage(midi_message, midi_sample_position - start_sample);
   }
+}
+
+void HelmPlugin::processKeyboardEvents(int num_samples) {
+  MidiBuffer midi_messages;
+  MidiBuffer keyboard_messages;
+  midi_manager_->removeNextBlockOfMessages(midi_messages, num_samples);
+  midi_manager_->replaceKeyboardMessages(keyboard_messages, num_samples);
+
+  processMidi(midi_messages, 0, num_samples);
+  processMidi(keyboard_messages, 0, num_samples);
+
+  midi_manager_->replaceKeyboardMessages(midi_messages, num_samples);
+}
+
+void HelmPlugin::processControlChanges() {
 }
 
 void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
@@ -167,6 +183,10 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
 
   if (position_info.isPlaying || position_info.isLooping || position_info.isRecording)
     synth_.correctToTime(position_info.timeInSamples);
+
+  MidiBuffer midi_buffer;
+  midi_manager_->removeNextBlockOfMessages(midi_buffer, total_samples);
+  processMidi(midi_buffer, 0, total_samples);
 
   for (int sample_offset = 0; sample_offset < total_samples;) {
     int num_samples = std::min<int>(total_samples - sample_offset, MAX_BUFFER_PROCESS);
@@ -230,7 +250,7 @@ void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
   String data_string = stream.readEntireStreamAsString();
   var state;
   if (JSON::parse(data_string, state).wasOk())
-    LoadSave::varToState(&synth_, gui_state_, getCallbackLock(), state);
+    LoadSave::varToState(&synth_, gui_state_, state);
 }
 
 void HelmPlugin::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {

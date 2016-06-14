@@ -5,6 +5,9 @@
     <Filter Include="Helm">
       <UniqueIdentifier>{AD1DAC9A-C926-E7A0-653C-9D06162360AD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helm\concurrentqueue">
+      <UniqueIdentifier>{7800A441-EDFF-61ED-0F6B-DD37C1E04F97}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helm\fonts">
       <UniqueIdentifier>{AB4F77F5-BC4D-11D1-EE2C-6B495D9D25B3}</UniqueIdentifier>
     </Filter>
@@ -16,6 +19,9 @@
     </Filter>
     <Filter Include="Helm\mopo\src">
       <UniqueIdentifier>{6F5DFC0E-4390-DA76-1430-E4E987000F8F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helm\readerwriterqueue">
+      <UniqueIdentifier>{5965A105-603F-D8B3-7045-561956763B2E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helm\src">
       <UniqueIdentifier>{A15CC3E0-F1A7-A3F7-24BF-BB4F165F29FE}</UniqueIdentifier>
@@ -1929,6 +1935,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\concurrentqueue\blockingconcurrentqueue.h">
+      <Filter>Helm\concurrentqueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\concurrentqueue\concurrentqueue.h">
+      <Filter>Helm\concurrentqueue</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\alias.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
@@ -2051,6 +2063,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\wave.h">
       <Filter>Helm\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\readerwriterqueue\atomicops.h">
+      <Filter>Helm\readerwriterqueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\readerwriterqueue\readerwriterqueue.h">
+      <Filter>Helm\readerwriterqueue</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\file_list_box_model.h">
       <Filter>Helm\src\common</Filter>

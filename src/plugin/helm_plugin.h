@@ -76,6 +76,9 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     void parameterChanged(std::string name, mopo::mopo_float value) override;
 
   private:
+    void processKeyboardEvents(int num_samples);
+    void processControlChanges();
+
     mopo::HelmEngine synth_;
     mopo::control_map controls_;
     std::map<std::string, String> gui_state_;

@@ -70,10 +70,7 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
 }
 
 void LoadSave::loadControls(mopo::HelmEngine* synth,
-                            const CriticalSection& critical_section,
                             const NamedValueSet& properties) {
-  ScopedLock lock(critical_section);
-
   mopo::control_map controls = synth->getControls();
   for (auto control : controls) {
     String name = control.first;
@@ -89,10 +86,7 @@ void LoadSave::loadControls(mopo::HelmEngine* synth,
 }
 
 void LoadSave::loadModulations(mopo::HelmEngine* synth,
-                               const CriticalSection& critical_section,
                                const Array<var>* modulations) {
-  ScopedLock lock(critical_section);
-
   synth->clearModulations();
   var* modulation = modulations->begin();
 
@@ -119,7 +113,6 @@ void LoadSave::loadGuiState(std::map<std::string, String>& state,
 
 void LoadSave::varToState(mopo::HelmEngine* synth,
                           std::map<std::string, String>& gui_state,
-                          const CriticalSection& critical_section,
                           var state) {
   if (!state.isObject())
     return;
@@ -189,8 +182,8 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
       modulations->add(modulation);
   }
 
-  loadControls(synth, critical_section, settings_properties);
-  loadModulations(synth, critical_section, modulations);
+  loadControls(synth, settings_properties);
+  loadModulations(synth, modulations);
   loadGuiState(gui_state, properties);
 }
 
@@ -619,13 +612,12 @@ File LoadSave::getPatchFile(int bank_index, int folder_index, int patch_index) {
 }
 
 File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
-                         mopo::HelmEngine* synth, std::map<std::string, String>& gui_state,
-                         const CriticalSection& critical_section) {
+                         mopo::HelmEngine* synth, std::map<std::string, String>& gui_state) {
   File patch = getPatchFile(bank_index, folder_index, patch_index);
 
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
-    varToState(synth, gui_state, critical_section, parsed_json_state);
+    varToState(synth, gui_state, parsed_json_state);
 
   return patch;
 }

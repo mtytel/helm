@@ -18,6 +18,8 @@
 #define SYNTH_GUI_INTERFACE_H
 
 #include "JuceHeader.h"
+#include "concurrentqueue.h"
+
 #include "midi_manager.h"
 #include "helm_common.h"
 #include "helm_engine.h"
@@ -66,6 +68,10 @@ class SynthGuiInterface : public MidiManager::Listener {
     String getPatchName();
     String getFolderName();
 
+    inline bool getNextControlChange(mopo::control_change& change) {
+      return value_change_queue_.try_dequeue(change);
+    }
+
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual MidiManager* getMidiManager() = 0;
@@ -86,6 +92,7 @@ class SynthGuiInterface : public MidiManager::Listener {
     mopo::HelmEngine* synth_;
     std::map<std::string, String>* gui_state_;
     mopo::control_map controls_;
+    moodycamel::ConcurrentQueue<mopo::control_change> value_change_queue_;
 };
 
 #endif // SYNTH_GUI_INTERFACE_H

@@ -44,11 +44,9 @@ class LoadSave {
                           const CriticalSection& critical_section);
 
     static void loadControls(mopo::HelmEngine* synth,
-                             const CriticalSection& critical_section,
                              const NamedValueSet& properties);
 
     static void loadModulations(mopo::HelmEngine* synth,
-                                const CriticalSection& critical_section,
                                 const Array<var>* modulations);
 
     static void loadGuiState(std::map<std::string, String>& state,
@@ -56,7 +54,6 @@ class LoadSave {
 
     static void varToState(mopo::HelmEngine* synth,
                            std::map<std::string, String>& gui_state,
-                           const CriticalSection& critical_section,
                            var state);
 
     static String getAuthor(var state);
@@ -87,8 +84,7 @@ class LoadSave {
     static int getNumPatches();
     static File getPatchFile(int bank_index, int folder_index, int patch_index);
     static File loadPatch(int bank_index, int folder_index, int patch_index,
-                          mopo::HelmEngine* synth, std::map<std::string, String>& gui_state,
-                          const CriticalSection& critical_section);
+                          mopo::HelmEngine* synth, std::map<std::string, String>& gui_state);
 };
 
 #endif  // LOAD_SAVE_H

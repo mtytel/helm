@@ -32,7 +32,7 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   setSynth(&synth_);
   setGuiState(&gui_state_);
   keyboard_state_ = new MidiKeyboardState();
-  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, &critical_section_, this);
+  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, this);
   computer_keyboard_ = new HelmComputerKeyboard(&synth_, keyboard_state_);
   output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
   memory_offset_ = 0;
@@ -82,22 +82,54 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
 }
 
 HelmStandaloneEditor::~HelmStandaloneEditor() {
+  shutdownAudio();
   midi_manager_ = nullptr;
   computer_keyboard_ = nullptr;
   gui_ = nullptr;
   keyboard_state_ = nullptr;
-  shutdownAudio();
 }
 
 void HelmStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
   synth_.setSampleRate(sample_rate);
   synth_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));
+  midi_manager_->setSampleRate(sample_rate);
+}
+
+void HelmStandaloneEditor::processMidi(MidiBuffer& midi_messages) {
+  MidiBuffer::Iterator midi_iter(midi_messages);
+
+  MidiMessage midi_message;
+  int midi_sample_position = 0;
+  while (midi_iter.getNextEvent(midi_message, midi_sample_position))
+    midi_manager_->processMidiMessage(midi_message, midi_sample_position);
+}
+
+void HelmStandaloneEditor::processKeyboardEvents(int num_samples) {
+  MidiBuffer midi_messages;
+  MidiBuffer keyboard_messages;
+  midi_manager_->removeNextBlockOfMessages(midi_messages, num_samples);
+  midi_manager_->replaceKeyboardMessages(keyboard_messages, num_samples);
+
+  processMidi(midi_messages);
+  processMidi(keyboard_messages);
+
+  midi_manager_->replaceKeyboardMessages(midi_messages, num_samples);
+}
+
+void HelmStandaloneEditor::processControlChanges() {
+  mopo::control_change change;
+  while (getNextControlChange(change))
+    change.first->set(change.second);
 }
 
 void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffer) {
   ScopedLock lock(critical_section_);
+
   int num_samples = buffer.buffer->getNumSamples();
   int synth_samples = std::min(num_samples, MAX_BUFFER_PROCESS);
+
+  processControlChanges();
+  processKeyboardEvents(num_samples);
 
   for (int b = 0; b < num_samples; b += synth_samples) {
     int current_samples = std::min<int>(synth_samples, num_samples - b);

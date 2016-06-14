@@ -51,6 +51,10 @@ class HelmStandaloneEditor : public AudioAppComponent,
     AudioDeviceManager* getAudioDeviceManager() override { return &deviceManager; }
 
   private:
+    void processMidi(MidiBuffer& midi_messages);
+    void processKeyboardEvents(int num_samples);
+    void processControlChanges();
+
     mopo::HelmEngine synth_;
     std::map<std::string, String> gui_state_;
     CriticalSection critical_section_;

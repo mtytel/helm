@@ -5,6 +5,12 @@
               jucerVersion="4.1.0" companyName="Matt Tytel" companyWebsite="tytel.org"
               companyEmail="matthewtytel@gmail.com" defines="">
   <MAINGROUP id="CeypXq" name="Helm">
+    <GROUP id="{F9396290-DE03-305A-7B02-8F0D1833F92B}" name="concurrentqueue">
+      <FILE id="t3qQ5F" name="blockingconcurrentqueue.h" compile="0" resource="0"
+            file="../concurrentqueue/blockingconcurrentqueue.h"/>
+      <FILE id="OVLlxr" name="concurrentqueue.h" compile="0" resource="0"
+            file="../concurrentqueue/concurrentqueue.h"/>
+    </GROUP>
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
       <FILE id="FShH5H" name="DroidSansMono.ttf" compile="0" resource="1"
             file="../fonts/DroidSansMono.ttf"/>
@@ -157,6 +163,11 @@
         <FILE id="oTnqIq" name="wave.cpp" compile="1" resource="0" file="../mopo/src/wave.cpp"/>
         <FILE id="jRssuU" name="wave.h" compile="0" resource="0" file="../mopo/src/wave.h"/>
       </GROUP>
+    </GROUP>
+    <GROUP id="{75742A3A-BE93-C563-1C91-0F2DE454B316}" name="readerwriterqueue">
+      <FILE id="oKcu2r" name="atomicops.h" compile="0" resource="0" file="../readerwriterqueue/atomicops.h"/>
+      <FILE id="Jf19jM" name="readerwriterqueue.h" compile="0" resource="0"
+            file="../readerwriterqueue/readerwriterqueue.h"/>
     </GROUP>
     <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
       <GROUP id="{C469F3D8-F6EF-BDCC-7C07-4B716B9C6577}" name="common">
@@ -413,14 +424,15 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="builds/osx" customPList="&lt;plist&gt;&#10;  &lt;dict&gt;&#10;    &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&#10;    &lt;dict&gt;&#10;      &lt;key&gt;NSExceptionDomains&lt;/key&gt;&#10;      &lt;dict&gt;&#10;        &lt;key&gt;tytel.org&lt;/key&gt;&#10;        &lt;dict&gt;&#10;          &lt;key&gt;NSIncludeSubDomains&lt;/key&gt;&#10;          &lt;false/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;&#10;          &lt;true/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;&#10;          &lt;string&gt;TLSv1.1&lt;/string&gt;&#10;        &lt;/dict&gt;&#10;      &lt;/dict&gt;&#10;    &lt;/dict&gt;&#10;  &lt;/dict&gt;&#10;&lt;/plist&gt;">
+    <XCODE_MAC targetFolder="builds/osx" customPList="&lt;plist&gt;&#10;  &lt;dict&gt;&#10;    &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&#10;    &lt;dict&gt;&#10;      &lt;key&gt;NSExceptionDomains&lt;/key&gt;&#10;      &lt;dict&gt;&#10;        &lt;key&gt;tytel.org&lt;/key&gt;&#10;        &lt;dict&gt;&#10;          &lt;key&gt;NSIncludeSubDomains&lt;/key&gt;&#10;          &lt;false/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;&#10;          &lt;true/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;&#10;          &lt;string&gt;TLSv1.1&lt;/string&gt;&#10;        &lt;/dict&gt;&#10;      &lt;/dict&gt;&#10;    &lt;/dict&gt;&#10;  &lt;/dict&gt;&#10;&lt;/plist&gt;"
+               extraCompilerFlags="" extraLinkerFlags="">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="64BitUniversal"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
-                       codeSigningIdentity="" fastMath="0"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.5 SDK" osxArchitecture="64BitUniversal"
-                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../src&#10;../../../src/editor_components&#10;../../../src/editor_sections"
-                       codeSigningIdentity=""/>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath=""
+                       codeSigningIdentity="" fastMath="0" cppLibType="libc++"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath=""
+                       codeSigningIdentity="" cppLibType="libc++"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
@@ -441,11 +453,11 @@
     <VS2012 targetFolder="builds/vs12">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       isDebug="0" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        optimisation="3"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -470,10 +482,10 @@
                 extraDefs="JUCE_JACK_CLIENT_NAME=\&quot;Helm\&quot;,&#10;JUCE_ALSA_MIDI_INPUT_NAME=\&quot;Helm\&quot;&#10;JUCE_ALSA_MIDI_OUTPUT_NAME=\&quot;Helm\&quot;&#10;JUCE_USE_XRANDR=0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
-                       targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       targetName="helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        linuxArchitecture="" defines="JUCE_INCLUDE_PNGLIB_CODE=0&#10;PNG_SKIP_SETJMP_CHECK=1"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="3"
-                       targetName="helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       targetName="helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        linuxArchitecture="" defines="JUCE_INCLUDE_PNGLIB_CODE=0&#10;PNG_SKIP_SETJMP_CHECK=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
@@ -495,14 +507,14 @@
     <VS2015 targetFolder="builds/vs15">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        warningsAreErrors="0"/>
         <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
+                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_video" path="../JUCE/modules"/>

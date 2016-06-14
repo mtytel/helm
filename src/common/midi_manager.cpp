@@ -24,28 +24,12 @@
 #define MOD_WHEEL_CONTROL_NUMBER 1
 
 MidiManager::MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
-                         std::map<std::string, String>* gui_state,
-                         const CriticalSection* critical_section, Listener* listener) :
+                         std::map<std::string, String>* gui_state, Listener* listener) :
     synth_(synth), keyboard_state_(keyboard_state), gui_state_(gui_state),
-    critical_section_(critical_section), listener_(listener),
-    armed_range_(0.0, 1.0) {
-  keyboard_state_->addListener(this);
+    listener_(listener), armed_range_(0.0, 1.0) {
 }
 
 MidiManager::~MidiManager() {
-  keyboard_state_->removeListener(this);
-}
-
-void MidiManager::handleNoteOn(MidiKeyboardState* source,
-                               int midiChannel, int midiNoteNumber, float velocity) {
-  ScopedLock lock(*critical_section_);
-  synth_->noteOn(midiNoteNumber, velocity, 0, midiChannel - 1);
-}
-
-void MidiManager::handleNoteOff(MidiKeyboardState* source,
-                                int midiChannel, int midiNoteNumber, float velocity) {
-  ScopedLock lock(*critical_section_);
-  synth_->noteOff(midiNoteNumber);
 }
 
 void MidiManager::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
@@ -70,7 +54,7 @@ void MidiManager::clearMidiLearn(const std::string& name) {
 }
 
 void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
-  if (control_armed_ != "") {
+  if (control_armed_.length()) {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
     control_armed_ = "";
     LoadSave::saveMidiMapConfig(this);
@@ -81,9 +65,7 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
       midi_range range = control.second;
       mopo::mopo_float percent = value / mopo::MIDI_SIZE;
       mopo::mopo_float translated = percent * (range.second - range.first) + range.first;
-
-      CallbackMessage* callback = new MidiValueChangeCallback(listener_, control.first, translated);
-      callback->post();
+      listener_->valueChangedThroughMidi(control.first, translated);
     }
   }
 }
@@ -96,20 +78,34 @@ bool MidiManager::isMidiMapped(const std::string& name) const {
   return false;
 }
 
-void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int sample_position) {
+void MidiManager::setSampleRate(double sample_rate) {
+  midi_collector_.reset(sample_rate);
+}
+
+void MidiManager::removeNextBlockOfMessages(MidiBuffer& buffer, int num_samples) {
+  midi_collector_.removeNextBlockOfMessages(buffer, num_samples);
+}
+
+void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample_position) {
   if (midi_message.isProgramChange()) {
     current_patch_ = midi_message.getProgramChangeNumber();
     File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
-                                     synth_, *gui_state_, *critical_section_);
+                                     synth_, *gui_state_);
     MidiPatchLoadCallback* callback = new MidiPatchLoadCallback(listener_, patch);
     callback->post();
     return;
   }
 
-  keyboard_state_->processNextMidiEvent(midi_message);
-
-  ScopedLock lock(*critical_section_);
-  if (midi_message.isSustainPedalOn())
+  if (midi_message.isNoteOn()) {
+    synth_->noteOn(midi_message.getNoteNumber(),
+                   midi_message.getVelocity(),
+                   0, midi_message.getChannel() - 1);
+  }
+  else if (midi_message.isNoteOff())
+    synth_->noteOff(midi_message.getNoteNumber());
+  else if (midi_message.isAllNotesOff())
+    synth_->allNotesOff();
+  else if (midi_message.isSustainPedalOn())
     synth_->sustainOn();
   else if (midi_message.isSustainPedalOff())
     synth_->sustainOff();
@@ -139,6 +135,10 @@ void MidiManager::processMidiMessage(const juce::MidiMessage &midi_message, int 
 
 void MidiManager::handleIncomingMidiMessage(MidiInput *source,
                                             const MidiMessage &midi_message) {
-  MidiMessageCallback* midi_callback = new MidiMessageCallback(this, midi_message);
-  midi_callback->post();
+  midi_collector_.addMessageToQueue(midi_message);
 }
+
+void MidiManager::replaceKeyboardMessages(MidiBuffer& buffer, int num_samples) {
+  keyboard_state_->processNextMidiBuffer(buffer, 0, num_samples, true);
+}
+

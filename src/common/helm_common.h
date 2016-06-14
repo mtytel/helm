@@ -136,6 +136,7 @@ namespace mopo {
   const std::string PATCH_EXTENSION = "helm";
 
   typedef std::map<std::string, Value*> control_map;
+  typedef std::pair<Value*, mopo_float> control_change;
   typedef std::map<std::string, Processor*> input_map;
   typedef std::map<std::string, Processor::Output*> output_map;
 

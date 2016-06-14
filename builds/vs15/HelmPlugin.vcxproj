@@ -1504,6 +1504,8 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\concurrentqueue\blockingconcurrentqueue.h"/>
+    <ClInclude Include="..\..\concurrentqueue\concurrentqueue.h"/>
     <ClInclude Include="..\..\mopo\src\alias.h"/>
     <ClInclude Include="..\..\mopo\src\arpeggiator.h"/>
     <ClInclude Include="..\..\mopo\src\bit_crush.h"/>
