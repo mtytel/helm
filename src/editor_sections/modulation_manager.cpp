@@ -207,7 +207,7 @@ void ModulationManager::setModulationAmount(std::string source, std::string dest
                                             mopo::mopo_float amount) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent)
-    parent->changeModulationAmount(source, destination, amount);
+    parent->getSynth()->changeModulationAmount(source, destination, amount);
 }
 
 void ModulationManager::forgetModulator() {
@@ -222,7 +222,7 @@ void ModulationManager::makeModulationsVisible(std::string destination, bool vis
     return;
 
   std::vector<mopo::ModulationConnection*> connections =
-      parent->getDestinationConnections(destination);
+      parent->getSynth()->getDestinationConnections(destination);
 
   for (mopo::ModulationConnection* connection : connections)
     overlay_lookup_[connection->source]->setVisible(visible);
@@ -234,7 +234,7 @@ void ModulationManager::setSliderValues() {
     return;
 
   std::vector<mopo::ModulationConnection*> connections =
-      parent->getSourceConnections(current_modulator_);
+      parent->getSynth()->getSourceConnections(current_modulator_);
   for (auto slider : slider_lookup_) {
     std::string destination_name = slider.second->getName().toStdString();
     float value = 0.0f;

@@ -226,7 +226,7 @@ void GraphicalStepSequencer::showRealtimeFeedback(bool show_feedback) {
       SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
       startTimerHz(FRAMES_PER_SECOND);
       if (parent)
-        step_generator_output_ = parent->getModSource(getName().toStdString());
+        step_generator_output_ = parent->getSynth()->getModSource(getName().toStdString());
     }
   }
   else {

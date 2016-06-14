@@ -230,8 +230,8 @@ void WaveViewer::showRealtimeFeedback(bool show_feedback) {
     if (wave_phase_ == nullptr) {
       SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
       if (parent) {
-        wave_amp_ = parent->getModSource(getName().toStdString());
-        wave_phase_ = parent->getModSource(getName().toStdString() + "_phase");
+        wave_amp_ = parent->getSynth()->getModSource(getName().toStdString());
+        wave_phase_ = parent->getSynth()->getModSource(getName().toStdString() + "_phase");
         startTimerHz(FRAMES_PER_SECOND);
       }
     }

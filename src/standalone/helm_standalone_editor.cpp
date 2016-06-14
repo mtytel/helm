@@ -28,16 +28,9 @@
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
-HelmStandaloneEditor::HelmStandaloneEditor() {
-  setSynth(&synth_);
-  setGuiState(&gui_state_);
-  keyboard_state_ = new MidiKeyboardState();
-  midi_manager_ = new MidiManager(&synth_, keyboard_state_, &gui_state_, this);
-  computer_keyboard_ = new HelmComputerKeyboard(&synth_, keyboard_state_);
-  output_memory_ = new mopo::Memory(MAX_OUTPUT_MEMORY);
-  memory_offset_ = 0;
+HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
+  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_);
 
-  Startup::doStartupChecks(midi_manager_, computer_keyboard_);
   setAudioChannels(0, mopo::NUM_CHANNELS);
 
   AudioDeviceManager::AudioDeviceSetup setup;
@@ -63,14 +56,8 @@ HelmStandaloneEditor::HelmStandaloneEditor() {
   deviceManager.addMidiInputCallback("", midi_manager_);
 
   setLookAndFeel(DefaultLookAndFeel::instance());
-
-  gui_ = new FullInterface(synth_.getControls(),
-                           synth_.getModulationSources(),
-                           synth_.getMonoModulations(),
-                           synth_.getPolyModulations(),
-                           keyboard_state_);
   addAndMakeVisible(gui_);
-  gui_->setOutputMemory(output_memory_.get());
+  gui_->setOutputMemory(getOutputMemory());
   gui_->animate(LoadSave::shouldAnimateWidgets());
   setSize(WIDTH, HEIGHT);
 
@@ -90,40 +77,13 @@ HelmStandaloneEditor::~HelmStandaloneEditor() {
 }
 
 void HelmStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
-  synth_.setSampleRate(sample_rate);
-  synth_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));
+  engine_.setSampleRate(sample_rate);
+  engine_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));
   midi_manager_->setSampleRate(sample_rate);
 }
 
-void HelmStandaloneEditor::processMidi(MidiBuffer& midi_messages) {
-  MidiBuffer::Iterator midi_iter(midi_messages);
-
-  MidiMessage midi_message;
-  int midi_sample_position = 0;
-  while (midi_iter.getNextEvent(midi_message, midi_sample_position))
-    midi_manager_->processMidiMessage(midi_message, midi_sample_position);
-}
-
-void HelmStandaloneEditor::processKeyboardEvents(int num_samples) {
-  MidiBuffer midi_messages;
-  MidiBuffer keyboard_messages;
-  midi_manager_->removeNextBlockOfMessages(midi_messages, num_samples);
-  midi_manager_->replaceKeyboardMessages(keyboard_messages, num_samples);
-
-  processMidi(midi_messages);
-  processMidi(keyboard_messages);
-
-  midi_manager_->replaceKeyboardMessages(midi_messages, num_samples);
-}
-
-void HelmStandaloneEditor::processControlChanges() {
-  mopo::control_change change;
-  while (getNextControlChange(change))
-    change.first->set(change.second);
-}
-
 void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffer) {
-  ScopedLock lock(critical_section_);
+  ScopedLock lock(getCriticalSection());
 
   int num_samples = buffer.buffer->getNumSamples();
   int synth_samples = std::min(num_samples, MAX_BUFFER_PROCESS);
@@ -134,26 +94,7 @@ void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffe
   for (int b = 0; b < num_samples; b += synth_samples) {
     int current_samples = std::min<int>(synth_samples, num_samples - b);
 
-    if (current_samples != synth_.getBufferSize())
-      synth_.setBufferSize(current_samples);
-
-    synth_.process();
-
-    const mopo::mopo_float* synth_output_left = synth_.output(0)->buffer;
-    const mopo::mopo_float* synth_output_right = synth_.output(1)->buffer;
-    for (int channel = 0; channel < mopo::NUM_CHANNELS; ++channel) {
-      float* channel_data = buffer.buffer->getWritePointer(channel, b);
-      const mopo::mopo_float* synth_output = (channel % 2) ? synth_output_right : synth_output_left;
-
-      #pragma clang loop vectorize(enable) interleave(enable)
-      for (int i = 0; i < current_samples; ++i)
-        channel_data[i] = synth_output[i];
-    }
-
-    int output_inc = synth_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
-    for (; memory_offset_ < current_samples; memory_offset_ += output_inc)
-      output_memory_->push(synth_output_left[memory_offset_] + synth_output_right[memory_offset_]);
-    memory_offset_ -= current_samples;
+    processAudio(buffer.buffer, mopo::NUM_CHANNELS, current_samples, b);
   }
 }
 
@@ -168,14 +109,6 @@ void HelmStandaloneEditor::resized() {
   double scale = std::min(double(bounds.getWidth()) / WIDTH, double(bounds.getHeight()) / HEIGHT);
   gui_->setTransform(AffineTransform::scale(scale));
   gui_->setBounds(Rectangle<int>(0, 0, bounds.getWidth() / scale, bounds.getHeight() / scale));
-}
-
-void HelmStandaloneEditor::updateFullGui() {
-  gui_->setAllValues(controls_);
-}
-
-void HelmStandaloneEditor::updateGuiControl(const std::string& name, mopo::mopo_float value) {
-  gui_->setValue(name, value, NotificationType::dontSendNotification);
 }
 
 void HelmStandaloneEditor::handleMessage(const Message& message) {

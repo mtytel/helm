@@ -31,18 +31,10 @@ class HelmEditor : public AudioProcessorEditor, public SynthGuiInterface {
     void resized() override;
 
     // SynthGuiInterface
-    const CriticalSection& getCriticalSection() override { return helm_.getCallbackLock(); }
-    MidiManager* getMidiManager() override { return helm_.getMidiManager(); }
     void updateFullGui() override;
-    void updateGuiControl(const std::string& name, mopo::mopo_float value) override;
-    void beginChangeGesture(const std::string& name) override;
-    void endChangeGesture(const std::string& name) override;
-    void setValueNotifyHost(const std::string& name, mopo::mopo_float value) override;
 
   private:
     HelmPlugin& helm_;
-
-    ScopedPointer<FullInterface> gui_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmEditor)
 };

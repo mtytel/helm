@@ -24,16 +24,10 @@
 #define WIDTH 992
 #define HEIGHT 734
 
-HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), helm_(helm) {
-  setSynth(helm_.getSynth());
-  setGuiState(helm_.getGuiState());
+HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), SynthGuiInterface(&helm),
+                                           helm_(helm) {
   setLookAndFeel(DefaultLookAndFeel::instance());
 
-  gui_ = new FullInterface(helm.getSynth()->getControls(),
-                           helm.getSynth()->getModulationSources(),
-                           helm.getSynth()->getMonoModulations(),
-                           helm.getSynth()->getPolyModulations(),
-                           helm.getKeyboardState());
   addAndMakeVisible(gui_);
   gui_->setOutputMemory(helm.getOutputMemory());
   gui_->animate(LoadSave::shouldAnimateWidgets());
@@ -51,22 +45,6 @@ void HelmEditor::resized() {
 }
 
 void HelmEditor::updateFullGui() {
-  gui_->setAllValues(controls_);
+  SynthGuiInterface::updateFullGui();
   helm_.updateHostDisplay();
-}
-
-void HelmEditor::updateGuiControl(const std::string& name, mopo::mopo_float value) {
-  gui_->setValue(name, value, NotificationType::dontSendNotification);
-}
-
-void HelmEditor::beginChangeGesture(const std::string& name) {
-  helm_.beginChangeGesture(name);
-}
-
-void HelmEditor::endChangeGesture(const std::string& name) {
-  helm_.endChangeGesture(name);
-}
-
-void HelmEditor::setValueNotifyHost(const std::string& name, mopo::mopo_float value) {
-  helm_.setValueNotifyHost(name, value);
 }

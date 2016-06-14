@@ -57,8 +57,8 @@ void PatchSelector::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
 
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  patch_text_ = parent->getPatchName();
-  folder_text_ = parent->getFolderName();
+  patch_text_ = parent->getSynth()->getPatchName();
+  folder_text_ = parent->getSynth()->getFolderName();
 
   g.setColour(Colour(0xff303030));
   g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
@@ -134,6 +134,6 @@ void PatchSelector::loadFromFile(File& patch) {
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    parent->loadFromVar(parsed_json_state);
+    parent->getSynth()->loadFromVar(parsed_json_state);
   }
 }

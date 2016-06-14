@@ -89,6 +89,7 @@ OBJECTS := \
   $(OBJDIR)/load_save_2c95b2e1.o \
   $(OBJDIR)/midi_manager_80d96a0e.o \
   $(OBJDIR)/startup_52cb2a28.o \
+  $(OBJDIR)/synth_base_c3ad3b73.o \
   $(OBJDIR)/synth_gui_interface_6337839d.o \
   $(OBJDIR)/filter_response_7394009c.o \
   $(OBJDIR)/filter_selector_c70de13a.o \
@@ -385,6 +386,11 @@ $(OBJDIR)/midi_manager_80d96a0e.o: ../../../src/common/midi_manager.cpp
 $(OBJDIR)/startup_52cb2a28.o: ../../../src/common/startup.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling startup.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/synth_base_c3ad3b73.o: ../../../src/common/synth_base.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling synth_base.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp

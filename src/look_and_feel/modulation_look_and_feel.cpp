@@ -193,7 +193,7 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   bool is_2x = display.scale > 1.5;
   Image button_image;
   SynthGuiInterface* parent = button.findParentComponentOfClass<SynthGuiInterface>();
-  if (parent && parent->getSourceConnections(button.getName().toStdString()).size()) {
+  if (parent && parent->getSynth()->getSourceConnections(button.getName().toStdString()).size()) {
     if (button.getToggleState())
       button_image = is_2x ? on_active_2x : on_active_1x;
     else

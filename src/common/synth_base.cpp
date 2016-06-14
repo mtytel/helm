@@ -1,0 +1,214 @@
+/* Copyright 2013-2016 Matt Tytel
+ *
+ * helm is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * helm is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with helm.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "synth_base.h"
+
+#include "load_save.h"
+#include "startup.h"
+#include "synth_gui_interface.h"
+
+#define MAX_MEMORY_SAMPLES 1048576
+
+SynthBase::SynthBase() {
+  controls_ = engine_.getControls();
+
+  keyboard_state_ = new MidiKeyboardState();
+  midi_manager_ = new MidiManager(&engine_, keyboard_state_, &save_info_, this);
+  output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
+
+  Startup::doStartupChecks(midi_manager_);
+}
+
+void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
+  value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
+}
+
+void SynthBase::valueChangedInternal(const std::string& name, mopo::mopo_float value) {
+  valueChanged(name, value);
+  setValueNotifyHost(name, value);
+}
+
+void SynthBase::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {
+  valueChangedExternal(name, value);
+}
+
+void SynthBase::patchChangedThroughMidi(File patch) {
+  SynthGuiInterface* gui_interface = getGuiInterface();
+  if (gui_interface)
+    gui_interface->updateFullGui();
+}
+
+void SynthBase::valueChangedExternal(const std::string& name, mopo::mopo_float value) {
+  valueChanged(name, value);
+  SynthGuiInterface* gui_interface = getGuiInterface();
+  if (gui_interface)
+    gui_interface->updateGuiControl(name, value);
+}
+
+void SynthBase::changeModulationAmount(const std::string& source,
+                                               const std::string& destination,
+                                               mopo::mopo_float amount) {
+  mopo::ModulationConnection* connection = engine_.getConnection(source, destination);
+  if (connection == nullptr && amount != 0.0) {
+    connection = new mopo::ModulationConnection(source, destination);
+    connectModulation(connection);
+  }
+
+  ScopedLock lock(getCriticalSection());
+  if (amount != 0.0)
+    connection->amount.set(amount);
+  else if (connection)
+    disconnectModulation(connection);
+}
+
+mopo::ModulationConnection* SynthBase::getConnection(const std::string& source,
+                                                             const std::string& destination) {
+  ScopedLock lock(getCriticalSection());
+  return engine_.getConnection(source, destination);
+}
+
+void SynthBase::connectModulation(mopo::ModulationConnection* connection) {
+  ScopedLock lock(getCriticalSection());
+  engine_.connectModulation(connection);
+}
+
+void SynthBase::disconnectModulation(mopo::ModulationConnection* connection) {
+  ScopedLock lock(getCriticalSection());
+  engine_.disconnectModulation(connection);
+  delete connection;
+}
+
+std::vector<mopo::ModulationConnection*>
+SynthBase::getSourceConnections(const std::string& source) {
+  ScopedLock lock(getCriticalSection());
+  return engine_.getSourceConnections(source);
+}
+
+std::vector<mopo::ModulationConnection*>
+SynthBase::getDestinationConnections(const std::string& destination) {
+  ScopedLock lock(getCriticalSection());
+  return engine_.getDestinationConnections(destination);
+}
+
+mopo::Processor::Output* SynthBase::getModSource(const std::string& name) {
+  ScopedLock lock(getCriticalSection());
+  return engine_.getModulationSource(name);
+}
+
+var SynthBase::saveToVar(String author) {
+  return LoadSave::stateToVar(&engine_, save_info_, getCriticalSection());
+}
+
+void SynthBase::loadFromVar(juce::var state) {
+  getCriticalSection().enter();
+  LoadSave::varToState(&engine_, save_info_, state);
+  getCriticalSection().exit();
+
+  SynthGuiInterface* gui_interface = getGuiInterface();
+  if (gui_interface)
+    gui_interface->updateFullGui();
+}
+
+void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset) {
+  if (engine_.getBufferSize() != samples)
+    engine_.setBufferSize(samples);
+
+  engine_.process();
+
+  const mopo::mopo_float* engine_output_left = engine_.output(0)->buffer;
+  const mopo::mopo_float* engine_output_right = engine_.output(1)->buffer;
+  for (int channel = 0; channel < channels; ++channel) {
+    float* channelData = buffer->getWritePointer(channel, offset);
+    const mopo::mopo_float* synth_output = (channel % 2) ? engine_output_right : engine_output_left;
+
+    #pragma clang loop vectorize(enable) interleave(enable)
+    for (int i = 0; i < samples; ++i)
+      channelData[i] = synth_output[i];
+  }
+
+  int output_inc = engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
+  for (int i = 0; i < samples; i += output_inc)
+    output_memory_->push(engine_output_left[i] + engine_output_right[i]);
+}
+
+void SynthBase::processMidi(MidiBuffer& midi_messages, int start_sample, int end_sample) {
+  MidiBuffer::Iterator midi_iter(midi_messages);
+  MidiMessage midi_message;
+  int midi_sample_position = 0;
+  while (midi_iter.getNextEvent(midi_message, midi_sample_position)) {
+    if (midi_sample_position >= start_sample && midi_sample_position < end_sample)
+      midi_manager_->processMidiMessage(midi_message, midi_sample_position - start_sample);
+  }
+}
+
+void SynthBase::processKeyboardEvents(int num_samples) {
+  MidiBuffer midi_messages;
+  MidiBuffer keyboard_messages;
+  midi_manager_->removeNextBlockOfMessages(midi_messages, num_samples);
+  midi_manager_->replaceKeyboardMessages(keyboard_messages, num_samples);
+
+  processMidi(midi_messages, 0, num_samples);
+  processMidi(keyboard_messages, 0, num_samples);
+
+  midi_manager_->replaceKeyboardMessages(midi_messages, num_samples);
+}
+
+void SynthBase::processControlChanges() {
+  mopo::control_change change;
+  while (getNextControlChange(change))
+    change.first->set(change.second);
+}
+
+void SynthBase::armMidiLearn(const std::string& name,
+                             mopo::mopo_float min, mopo::mopo_float max) {
+  midi_manager_->armMidiLearn(name, min, max);
+}
+
+void SynthBase::cancelMidiLearn() {
+  midi_manager_->cancelMidiLearn();
+}
+
+void SynthBase::clearMidiLearn(const std::string& name) {
+  midi_manager_->clearMidiLearn(name);
+}
+
+bool SynthBase::isMidiMapped(const std::string& name) {
+  return midi_manager_->isMidiMapped(name);
+}
+
+void SynthBase::setAuthor(String author) {
+  save_info_["author"] = author;
+}
+
+void SynthBase::setPatchName(String patch_name) {
+  save_info_["patch_name"] = patch_name;
+}
+
+void SynthBase::setFolderName(String folder_name) {
+  save_info_["folder_name"] = folder_name;
+}
+
+String SynthBase::getAuthor() {
+  return save_info_["author"];
+}
+
+String SynthBase::getPatchName() {
+  return save_info_["patch_name"];
+}
+
+String SynthBase::getFolderName() {
+  return save_info_["folder_name"];
+}

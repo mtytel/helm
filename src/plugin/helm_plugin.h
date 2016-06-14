@@ -18,21 +18,27 @@
 #define HELM_PLUGIN_H
 
 #include "JuceHeader.h"
-#include "memory.h"
-#include "midi_manager.h"
-#include "helm_engine.h"
+
+#include "synth_base.h"
 #include "value_bridge.h"
 
 class ValueBridge;
 
-class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiManager::Listener {
+class HelmPlugin : public SynthBase, public AudioProcessor, public ValueBridge::Listener {
   public:
     HelmPlugin();
     virtual ~HelmPlugin();
 
+    // SynthBase
+    SynthGuiInterface* getGuiInterface() override;
+    void beginChangeGesture(const std::string& name) override;
+    void endChangeGesture(const std::string& name) override;
+    void setValueNotifyHost(const std::string& name, mopo::mopo_float value) override;
+    const CriticalSection& getCriticalSection() override;
+
+    // AudioProcessor
     void prepareToPlay(double sample_rate, int buffer_size) override;
     void releaseResources() override;
-
     void processBlock(AudioSampleBuffer&, MidiBuffer&) override;
 
     AudioProcessorEditor* createEditor() override;
@@ -59,34 +65,10 @@ class HelmPlugin : public AudioProcessor, public ValueBridge::Listener, MidiMana
     void getStateInformation(MemoryBlock& destData) override;
     void setStateInformation(const void* data, int size_in_bytes) override;
 
-    void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
-    void patchChangedThroughMidi(File patch) override;
-
-    void beginChangeGesture(std::string name);
-    void endChangeGesture(std::string name);
-    void setValueNotifyHost(std::string name, mopo::mopo_float value);
-    void processMidi(MidiBuffer&, int start_sample, int end_sample);
-    mopo::HelmEngine* getSynth() { return &synth_; }
-    std::map<std::string, String>* getGuiState() { return &gui_state_; }
-    const mopo::Memory* getOutputMemory() { return output_memory_; }
-    MidiManager* getMidiManager() { return midi_manager_; }
-    MidiKeyboardState* getKeyboardState() { return keyboard_state_; }
-
     // ValueBridge::Listener
     void parameterChanged(std::string name, mopo::mopo_float value) override;
 
   private:
-    void processKeyboardEvents(int num_samples);
-    void processControlChanges();
-
-    mopo::HelmEngine synth_;
-    mopo::control_map controls_;
-    std::map<std::string, String> gui_state_;
-
-    mopo::Memory* output_memory_;
-    ScopedPointer<MidiManager> midi_manager_;
-    ScopedPointer<MidiKeyboardState> keyboard_state_;
-
     uint32 set_state_time_;
 
     int num_programs_;

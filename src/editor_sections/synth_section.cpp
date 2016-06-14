@@ -77,14 +77,14 @@ void SynthSection::sliderValueChanged(Slider* moved_slider) {
   std::string name = moved_slider->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent)
-    parent->valueChangedInternal(name, moved_slider->getValue());
+    parent->getSynth()->valueChangedInternal(name, moved_slider->getValue());
 }
 
 void SynthSection::buttonClicked(juce::Button *clicked_button) {
   std::string name = clicked_button->getName().toStdString();
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent)
-    parent->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
+    parent->getSynth()->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
 
   if (clicked_button == activator_)
     setActive(activator_->getToggleStateValue().getValue());

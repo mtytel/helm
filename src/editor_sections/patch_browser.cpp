@@ -357,12 +357,16 @@ void PatchBrowser::loadFromFile(File& patch) {
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    parent->loadFromVar(parsed_json_state);
-    parent->setPatchName(patch.getFileNameWithoutExtension());
-    parent->setFolderName(patch.getParentDirectory().getFileName());
+    if (parent == nullptr)
+      return;
+
+    SynthBase* synth = parent->getSynth();
+    synth->loadFromVar(parsed_json_state);
+    synth->setPatchName(patch.getFileNameWithoutExtension());
+    synth->setFolderName(patch.getParentDirectory().getFileName());
     author_ = LoadSave::getAuthor(parsed_json_state);
     license_ = LoadSave::getLicense(parsed_json_state);
-    parent->setAuthor(author_);
+    synth->setAuthor(author_);
 
     bool is_cc = license_.contains("creativecommons");
     cc_license_link_->setVisible(is_cc);

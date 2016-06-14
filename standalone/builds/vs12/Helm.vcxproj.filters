@@ -460,6 +460,9 @@
     <ClCompile Include="..\..\..\src\common\startup.cpp">
       <Filter>Helm\src\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\common\synth_base.cpp">
+      <Filter>Helm\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp">
       <Filter>Helm\src\common</Filter>
     </ClCompile>
@@ -2083,6 +2086,9 @@
       <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\startup.h">
+      <Filter>Helm\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\common\synth_base.h">
       <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\synth_gui_interface.h">

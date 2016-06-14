@@ -24,10 +24,12 @@
 #include "midi_manager.h"
 #include "helm_computer_keyboard.h"
 #include "helm_engine.h"
+#include "synth_base.h"
 #include "synth_gui_interface.h"
 
 class HelmStandaloneEditor : public AudioAppComponent,
                              public MessageListener,
+                             public SynthBase,
                              public SynthGuiInterface {
   public:
     HelmStandaloneEditor();
@@ -43,29 +45,16 @@ class HelmStandaloneEditor : public AudioAppComponent,
     // MessageListener
     void handleMessage(const Message& message) override;
 
-    // SynthGuiInterface
+    // SynthBase
     const CriticalSection& getCriticalSection() override { return critical_section_; }
-    MidiManager* getMidiManager() override { return midi_manager_.get(); }
-    void updateFullGui() override;
-    void updateGuiControl(const std::string& name, mopo::mopo_float value) override;
+    SynthGuiInterface* getGuiInterface() override { return this; }
+
+    // SynthGuiInterface
     AudioDeviceManager* getAudioDeviceManager() override { return &deviceManager; }
 
   private:
-    void processMidi(MidiBuffer& midi_messages);
-    void processKeyboardEvents(int num_samples);
-    void processControlChanges();
-
-    mopo::HelmEngine synth_;
-    std::map<std::string, String> gui_state_;
-    CriticalSection critical_section_;
-
-    ScopedPointer<mopo::Memory> output_memory_;
-    int memory_offset_;
-
-    ScopedPointer<FullInterface> gui_;
-    ScopedPointer<MidiManager> midi_manager_;
-    ScopedPointer<MidiKeyboardState> keyboard_state_;
     ScopedPointer<HelmComputerKeyboard> computer_keyboard_;
+    CriticalSection critical_section_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmStandaloneEditor)
 };

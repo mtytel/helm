@@ -287,6 +287,7 @@
     <ClCompile Include="..\..\src\common\load_save.cpp"/>
     <ClCompile Include="..\..\src\common\midi_manager.cpp"/>
     <ClCompile Include="..\..\src\common\startup.cpp"/>
+    <ClCompile Include="..\..\src\common\synth_base.cpp"/>
     <ClCompile Include="..\..\src\common\synth_gui_interface.cpp"/>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\src\editor_components\filter_selector.cpp"/>
@@ -1552,6 +1553,7 @@
     <ClInclude Include="..\..\src\common\load_save.h"/>
     <ClInclude Include="..\..\src\common\midi_manager.h"/>
     <ClInclude Include="..\..\src\common\startup.h"/>
+    <ClInclude Include="..\..\src\common\synth_base.h"/>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h"/>
     <ClInclude Include="..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\src\editor_components\filter_selector.h"/>

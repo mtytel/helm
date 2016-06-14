@@ -35,7 +35,7 @@ void ModulationButton::mouseDown(const MouseEvent& e) {
     if (parent == nullptr)
       return;
 
-    connections = parent->getSourceConnections(getName().toStdString());
+    connections = parent->getSynth()->getSourceConnections(getName().toStdString());
     if (connections.size() == 0)
       return;
 
@@ -77,6 +77,6 @@ void ModulationButton::disconnectModulation(mopo::ModulationConnection* connecti
   for (ModulationDisconnectListener* listener : listeners_)
     listener->modulationDisconnected(connection);
   
-  parent->disconnectModulation(connection);
+  parent->getSynth()->disconnectModulation(connection);
 }
 

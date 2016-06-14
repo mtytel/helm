@@ -16,143 +16,22 @@
 
 #include "synth_gui_interface.h"
 
+#include "default_look_and_feel.h"
 #include "load_save.h"
+#include "synth_base.h"
 
-void SynthGuiInterface::valueChanged(const std::string& name, mopo::mopo_float value) {
-  value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
+SynthGuiInterface::SynthGuiInterface(SynthBase* synth) : synth_(synth) {
+  gui_ = new FullInterface(synth->getControls(),
+                           synth->getEngine()->getModulationSources(),
+                           synth->getEngine()->getMonoModulations(),
+                           synth->getEngine()->getPolyModulations(),
+                           synth->getKeyboardState());
 }
 
-void SynthGuiInterface::valueChangedInternal(const std::string& name, mopo::mopo_float value) {
-  valueChanged(name, value);
-  setValueNotifyHost(name, value);
+void SynthGuiInterface::updateFullGui() {
+  gui_->setAllValues(synth_->getControls());
 }
 
-void SynthGuiInterface::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {
-  valueChangedExternal(name, value);
-}
-
-void SynthGuiInterface::patchChangedThroughMidi(File patch) {
-  updateFullGui();
-}
-
-void SynthGuiInterface::valueChangedExternal(const std::string& name, mopo::mopo_float value) {
-  valueChanged(name, value);
-  updateGuiControl(name, value);
-}
-
-void SynthGuiInterface::changeModulationAmount(const std::string& source,
-                                               const std::string& destination,
-                                               mopo::mopo_float amount) {
-  mopo::ModulationConnection* connection = synth_->getConnection(source, destination);
-  if (connection == nullptr && amount != 0.0) {
-    connection = new mopo::ModulationConnection(source, destination);
-    connectModulation(connection);
-  }
-
-  ScopedLock lock(getCriticalSection());
-  if (amount != 0.0)
-    connection->amount.set(amount);
-  else if (connection)
-    disconnectModulation(connection);
-}
-
-mopo::ModulationConnection* SynthGuiInterface::getConnection(const std::string& source,
-                                                             const std::string& destination) {
-  ScopedLock lock(getCriticalSection());
-  return synth_->getConnection(source, destination);
-}
-
-void SynthGuiInterface::connectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock lock(getCriticalSection());
-  synth_->connectModulation(connection);
-}
-
-void SynthGuiInterface::disconnectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock lock(getCriticalSection());
-  synth_->disconnectModulation(connection);
-  delete connection;
-}
-
-std::vector<mopo::ModulationConnection*>
-SynthGuiInterface::getSourceConnections(const std::string& source) {
-  ScopedLock lock(getCriticalSection());
-  return synth_->getSourceConnections(source);
-}
-
-std::vector<mopo::ModulationConnection*>
-SynthGuiInterface::getDestinationConnections(const std::string& destination) {
-  ScopedLock lock(getCriticalSection());
-  return synth_->getDestinationConnections(destination);
-}
-
-int SynthGuiInterface::getNumActiveVoices() {
-  ScopedTryLock lock(getCriticalSection());
-  if (lock.isLocked())
-    return synth_->getNumActiveVoices();
-  return -1;
-}
-
-void SynthGuiInterface::lockSynth() {
-  getCriticalSection().enter();
-}
-
-void SynthGuiInterface::unlockSynth() {
-  getCriticalSection().exit();
-}
-
-mopo::Processor::Output* SynthGuiInterface::getModSource(const std::string& name) {
-  ScopedLock lock(getCriticalSection());
-  return synth_->getModulationSource(name);
-}
-
-var SynthGuiInterface::saveToVar(String author) {
-  return LoadSave::stateToVar(synth_, *gui_state_, getCriticalSection());
-}
-
-void SynthGuiInterface::loadFromVar(juce::var state) {
-  getCriticalSection().enter();
-  LoadSave::varToState(synth_, *gui_state_, state);
-  getCriticalSection().exit();
-  updateFullGui();
-}
-
-void SynthGuiInterface::armMidiLearn(const std::string& name,
-                                     mopo::mopo_float min, mopo::mopo_float max) {
-  getMidiManager()->armMidiLearn(name, min, max);
-}
-
-void SynthGuiInterface::cancelMidiLearn() {
-  getMidiManager()->cancelMidiLearn();
-}
-
-void SynthGuiInterface::clearMidiLearn(const std::string& name) {
-  getMidiManager()->clearMidiLearn(name);
-}
-
-bool SynthGuiInterface::isMidiMapped(const std::string& name) {
-  return getMidiManager()->isMidiMapped(name);
-}
-
-void SynthGuiInterface::setAuthor(String author) {
-  gui_state_->operator[]("author") = author;
-}
-
-void SynthGuiInterface::setPatchName(String patch_name) {
-  gui_state_->operator[]("patch_name") = patch_name;
-}
-
-void SynthGuiInterface::setFolderName(String folder_name) {
-  gui_state_->operator[]("folder_name") = folder_name;
-}
-
-String SynthGuiInterface::getAuthor() {
-  return gui_state_->operator[]("author");
-}
-
-String SynthGuiInterface::getPatchName() {
-  return gui_state_->operator[]("patch_name");
-}
-
-String SynthGuiInterface::getFolderName() {
-  return gui_state_->operator[]("folder_name");
+void SynthGuiInterface::updateGuiControl(const std::string& name, mopo::mopo_float value) {
+  gui_->setValue(name, value, NotificationType::dontSendNotification);
 }
