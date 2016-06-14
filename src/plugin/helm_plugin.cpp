@@ -177,6 +177,8 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
 
     sample_offset += num_samples;
   }
+
+  midi_manager_->replaceKeyboardMessages(midi_messages, total_samples);
 }
 
 bool HelmPlugin::hasEditor() const {
