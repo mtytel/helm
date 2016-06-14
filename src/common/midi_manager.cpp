@@ -99,7 +99,7 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
 
   if (midi_message.isNoteOn()) {
     synth_->noteOn(midi_message.getNoteNumber(),
-                   midi_message.getVelocity(),
+                   midi_message.getVelocity() / (mopo::MIDI_SIZE - 1.0),
                    0, midi_message.getChannel() - 1);
   }
   else if (midi_message.isNoteOff())
