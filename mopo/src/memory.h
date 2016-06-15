@@ -51,6 +51,8 @@ namespace mopo {
         return INTERPOLATE(from, to, sample_fraction);
       }
 
+      void setOffset(int offset) { offset_ = offset; }
+
       const mopo_float* getPointer(int past) const {
         return memory_ + ((offset_ - past) & bitmask_);
       }

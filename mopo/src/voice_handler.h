@@ -153,6 +153,8 @@ namespace mopo {
       Output* velocity() { return &velocity_; }
       Output* aftertouch() { return &aftertouch_; }
       size_t polyphony() { return polyphony_; }
+    
+      mopo_float getLastActiveNote() const;
 
       virtual ProcessorRouter* getMonoRouter() override { return &global_router_; }
       virtual ProcessorRouter* getPolyRouter() override { return &voice_router_; }

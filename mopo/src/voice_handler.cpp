@@ -330,6 +330,12 @@ namespace mopo {
     polyphony_ = polyphony;
   }
 
+  mopo_float VoiceHandler::getLastActiveNote() const {
+    if (active_voices_.size())
+      return active_voices_.back()->state().note;
+    return 0.0;
+  }
+
   void VoiceHandler::addProcessor(Processor* processor) {
     processor->setBufferSize(getBufferSize());
     processor->setSampleRate(getSampleRate());
