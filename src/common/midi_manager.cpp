@@ -54,17 +54,18 @@ void MidiManager::clearMidiLearn(const std::string& name) {
 }
 
 void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
-  // TODO: this is getting called from audio thread.
   if (control_armed_.length()) {
     midi_learn_map_[midi_id][control_armed_] = armed_range_;
     control_armed_ = "";
+
+    // TODO: Probably shouldn't write this config on the audio thread.
     LoadSave::saveMidiMapConfig(this);
   }
 
   if (midi_learn_map_.count(midi_id)) {
     for (auto control : midi_learn_map_[midi_id]) {
       midi_range range = control.second;
-      mopo::mopo_float percent = value / mopo::MIDI_SIZE;
+      mopo::mopo_float percent = value / (mopo::MIDI_SIZE - 1);
       mopo::mopo_float translated = percent * (range.second - range.first) + range.first;
       listener_->valueChangedThroughMidi(control.first, translated);
     }

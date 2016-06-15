@@ -47,7 +47,9 @@ void SynthBase::valueChangedInternal(const std::string& name, mopo::mopo_float v
 }
 
 void SynthBase::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {
-  valueChangedExternal(name, value);
+  controls_[name]->set(value);
+  ValueChangedCallback* callback = new ValueChangedCallback(this, name, value);
+  callback->post();
 }
 
 void SynthBase::patchChangedThroughMidi(File patch) {
