@@ -53,6 +53,7 @@ namespace mopo {
         mopo_float value = audio + read * feedback;
         memory_->push(value);
         output(0)->buffer[i] = value;
+        MOPO_ASSERT(std::isfinite(value));
       }
 
     protected:
