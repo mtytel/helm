@@ -108,6 +108,7 @@ namespace mopo {
 
         mopo_float mixed = amp1 * oscillator1_total + amp2 * oscillator2_total;
         output(0)->buffer[i] = SCALE_OUT * mixed;
+        MOPO_ASSERT(std::isfinite(output(0)->buffer[i]));
       }
 
       int oscillator1_cross_mod_;
