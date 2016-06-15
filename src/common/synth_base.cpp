@@ -194,13 +194,16 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
   }
 
   for (; memory_input_offset_ < samples; memory_input_offset_ += output_inc) {
+    int input_index = memory_input_offset_;
+    MOPO_ASSERT(input_index >= 0);
+    MOPO_ASSERT(input_index < samples);
+    output_memory_write_[memory_index_++] = left[input_index] + right[input_index];
+
     if (memory_index_ * output_inc >= memory_reset_period_) {
       memory_input_offset_ += memory_reset_period_ - memory_index_ * output_inc;
       memory_index_ = 0;
       memcpy(output_memory_, output_memory_write_, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
     }
-    int index = memory_input_offset_;
-    output_memory_write_[memory_index_++] = left[index] + right[index];
   }
 
   memory_input_offset_ -= samples;
