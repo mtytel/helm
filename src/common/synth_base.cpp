@@ -188,6 +188,7 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
       memory_reset_period_ += memory_reset_period_;
 
     memory_reset_period_ = std::min(memory_reset_period_, 2.0 * window_length);
+    memory_index_ = 0;
   }
 
   for (; memory_input_offset_ < samples; memory_input_offset_ += output_inc) {
