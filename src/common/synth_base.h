@@ -70,7 +70,7 @@ class SynthBase : public MidiManager::Listener {
     mopo::control_map& getControls() { return controls_; }
     mopo::HelmEngine* getEngine() { return &engine_; }
     MidiKeyboardState* getKeyboardState() { return keyboard_state_; }
-    const mopo::Memory* getOutputMemory() { return output_memory_; }
+    const float* getOutputMemory() { return output_memory_; }
 
     struct ValueChangedCallback : public CallbackMessage {
       ValueChangedCallback(SynthBase* listener, std::string name, mopo::mopo_float val) :
@@ -97,11 +97,19 @@ class SynthBase : public MidiManager::Listener {
     void processMidi(MidiBuffer& buffer, int start_sample = 0, int end_sample = 0);
     void processKeyboardEvents(MidiBuffer& buffer, int num_samples);
     void processControlChanges();
+    void updateMemoryOutput(int samples, const mopo::mopo_float* left,
+                                         const mopo::mopo_float* right);
 
     mopo::HelmEngine engine_;
     ScopedPointer<MidiManager> midi_manager_;
     ScopedPointer<MidiKeyboardState> keyboard_state_;
-    mopo::Memory* output_memory_;
+
+    float output_memory_[2 * mopo::MEMORY_RESOLUTION];
+    float output_memory_write_[2 * mopo::MEMORY_RESOLUTION];
+    mopo::mopo_float last_played_note_;
+    mopo::mopo_float memory_reset_period_;
+    mopo::mopo_float memory_input_offset_;
+    int memory_index_;
 
     std::map<std::string, String> save_info_;
     mopo::control_map controls_;

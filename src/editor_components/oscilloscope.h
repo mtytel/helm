@@ -32,11 +32,11 @@ class Oscilloscope : public Component, public Timer {
     void resized() override;
 
     void resetWavePath();
-    void setOutputMemory(const mopo::Memory* memory) { output_memory_ = memory; }
+    void setOutputMemory(const float* memory) { output_memory_ = memory; }
     void showRealtimeFeedback(bool show_feedback = true);
 
   private:
-    const mopo::Memory* output_memory_;
+    const float* output_memory_;
     Path wave_path_;
     Image background_;
 

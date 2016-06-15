@@ -16,15 +16,14 @@
 
 #include "oscilloscope.h"
 
+#include "helm_common.h"
+
 #define FRAMES_PER_SECOND 15
-#define RESOLUTION 54
 #define GRID_CELL_WIDTH 8
 #define PADDING_X -2
 #define PADDING_Y 5
 
-Oscilloscope::Oscilloscope() {
-  output_memory_ = nullptr;
-}
+Oscilloscope::Oscilloscope() : output_memory_(nullptr) { }
 
 Oscilloscope::~Oscilloscope() { }
 
@@ -73,9 +72,9 @@ void Oscilloscope::resetWavePath() {
   float draw_height = getHeight() - 2.0f * PADDING_Y;
 
   wave_path_.startNewSubPath(PADDING_X, getHeight() / 2.0f);
-  for (int i = RESOLUTION - 1; i >= 0; --i) {
-    float t = (RESOLUTION - 1.0f * i) / RESOLUTION;
-    float val = output_memory_->get(i);
+  for (int i = 0; i < mopo::MEMORY_RESOLUTION; ++i) {
+    float t = (1.0f * i) / mopo::MEMORY_RESOLUTION;
+    float val = output_memory_[i];
     if (val != val)
       val = 0.0f;
     wave_path_.lineTo(PADDING_X + t * draw_width, PADDING_Y + draw_height * ((1.0f - val) / 2.0f));

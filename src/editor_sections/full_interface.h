@@ -38,7 +38,7 @@ class FullInterface : public SynthSection {
                   MidiKeyboardState* keyboard_state);
     ~FullInterface();
 
-    void setOutputMemory(const mopo::Memory* output_memory);
+    void setOutputMemory(const float* output_memory);
 
     void createModulationSliders(mopo::output_map modulation_sources,
                                  mopo::output_map mono_modulations,

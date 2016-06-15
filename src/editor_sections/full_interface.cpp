@@ -160,7 +160,7 @@ void FullInterface::resized() {
   SynthSection::resized();
 }
 
-void FullInterface::setOutputMemory(const mopo::Memory *output_memory) {
+void FullInterface::setOutputMemory(const float* output_memory) {
   oscilloscope_->setOutputMemory(output_memory);
 }
 

@@ -46,6 +46,7 @@ namespace mopo {
       std::vector<ModulationConnection*> getDestinationConnections(std::string destination);
       void clearModulations();
       int getNumActiveVoices();
+      mopo_float getLastActiveNote() const;
 
       // Keyboard events.
       void allNotesOff(int sample = 0) override;

@@ -23,9 +23,9 @@
 #define FOLDER_SELECT_NUMBER 32
 #define MOD_WHEEL_CONTROL_NUMBER 1
 
-MidiManager::MidiManager(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state,
+MidiManager::MidiManager(mopo::HelmEngine* engine, MidiKeyboardState* keyboard_state,
                          std::map<std::string, String>* gui_state, Listener* listener) :
-    synth_(synth), keyboard_state_(keyboard_state), gui_state_(gui_state),
+    engine_(engine), keyboard_state_(keyboard_state), gui_state_(gui_state),
     listener_(listener), armed_range_(0.0, 1.0) {
 }
 
@@ -91,40 +91,40 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
   if (midi_message.isProgramChange()) {
     current_patch_ = midi_message.getProgramChangeNumber();
     File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
-                                     synth_, *gui_state_);
+                                     engine_, *gui_state_);
     PatchLoadedCallback* callback = new PatchLoadedCallback(listener_, patch);
     callback->post();
     return;
   }
 
   if (midi_message.isNoteOn()) {
-    synth_->noteOn(midi_message.getNoteNumber(),
+    engine_->noteOn(midi_message.getNoteNumber(),
                    midi_message.getVelocity() / (mopo::MIDI_SIZE - 1.0),
                    0, midi_message.getChannel() - 1);
   }
   else if (midi_message.isNoteOff())
-    synth_->noteOff(midi_message.getNoteNumber());
+    engine_->noteOff(midi_message.getNoteNumber());
   else if (midi_message.isAllNotesOff())
-    synth_->allNotesOff();
+    engine_->allNotesOff();
   else if (midi_message.isSustainPedalOn())
-    synth_->sustainOn();
+    engine_->sustainOn();
   else if (midi_message.isSustainPedalOff())
-    synth_->sustainOff();
+    engine_->sustainOff();
   else if (midi_message.isAftertouch()) {
     mopo::mopo_float note = midi_message.getNoteNumber();
     mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
-    synth_->setAftertouch(note, value);
+    engine_->setAftertouch(note, value);
   }
   else if (midi_message.isPitchWheel()) {
     double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
     double value = 2 * percent - 1.0;
-    synth_->setPitchWheel(value, midi_message.getChannel());
+    engine_->setPitchWheel(value, midi_message.getChannel());
   }
   else if (midi_message.isController()) {
     int controller_number = midi_message.getControllerNumber();
     if (controller_number == MOD_WHEEL_CONTROL_NUMBER) {
       double percent = (1.0 * midi_message.getControllerValue()) / MOD_WHEEL_RESOLUTION;
-      synth_->setModWheel(percent, midi_message.getChannel());
+      engine_->setModWheel(percent, midi_message.getChannel());
     }
     else if (controller_number == BANK_SELECT_NUMBER)
       current_bank_ = midi_message.getControllerValue();

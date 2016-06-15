@@ -338,6 +338,10 @@ namespace mopo {
     return voice_handler_->getNumActiveVoices();
   }
 
+  mopo_float HelmEngine::getLastActiveNote() const {
+    return voice_handler_->getLastActiveNote();
+  }
+
   void HelmEngine::process() {
     bool playing_arp = arp_on_->value();
     if (was_playing_arp_ != playing_arp)

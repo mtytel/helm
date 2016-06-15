@@ -20,14 +20,19 @@
 #include "startup.h"
 #include "synth_gui_interface.h"
 
-#define MAX_MEMORY_SAMPLES 1048576
 
 SynthBase::SynthBase() {
   controls_ = engine_.getControls();
 
   keyboard_state_ = new MidiKeyboardState();
   midi_manager_ = new MidiManager(&engine_, keyboard_state_, &save_info_, this);
-  output_memory_ = new mopo::Memory(MAX_MEMORY_SAMPLES);
+
+  last_played_note_ = 0.0;
+  memset(output_memory_, 0, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
+  memset(output_memory_write_, 0, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
+  memory_reset_period_ = mopo::MEMORY_RESOLUTION;
+  memory_input_offset_ = 0;
+  memory_index_ = 0;
 
   Startup::doStartupChecks(midi_manager_);
 }
@@ -138,9 +143,7 @@ void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int sample
       channelData[i] = synth_output[i];
   }
 
-  int output_inc = engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
-  for (int i = 0; i < samples; i += output_inc)
-    output_memory_->push(engine_output_left[i] + engine_output_right[i]);
+  updateMemoryOutput(samples, engine_output_left, engine_output_right);
 }
 
 void SynthBase::processMidi(MidiBuffer& midi_messages, int start_sample, int end_sample) {
@@ -166,6 +169,38 @@ void SynthBase::processControlChanges() {
   mopo::control_change change;
   while (getNextControlChange(change))
     change.first->set(change.second);
+}
+
+void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
+                                                const mopo::mopo_float* right) {
+  mopo::mopo_float last_played = engine_.getLastActiveNote();
+  int output_inc = engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
+
+  if (last_played && last_played_note_ != last_played) {
+    last_played_note_ = last_played;
+    
+    mopo::mopo_float frequency = mopo::utils::midiNoteToFrequency(last_played_note_);
+    mopo::mopo_float period = engine_.getSampleRate() / frequency;
+    int window_length = output_inc * mopo::MEMORY_RESOLUTION;
+
+    memory_reset_period_ = period;
+    while (memory_reset_period_ < window_length)
+      memory_reset_period_ += memory_reset_period_;
+
+    memory_reset_period_ = std::min(memory_reset_period_, 2.0 * window_length);
+  }
+
+  for (; memory_input_offset_ < samples; memory_input_offset_ += output_inc) {
+    if (memory_index_ * output_inc >= memory_reset_period_) {
+      memory_input_offset_ += memory_reset_period_ - memory_index_ * output_inc;
+      memory_index_ = 0;
+      memcpy(output_memory_, output_memory_write_, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
+    }
+    int index = memory_input_offset_;
+    output_memory_write_[memory_index_++] = left[index] + right[index];
+  }
+
+  memory_input_offset_ -= samples;
 }
 
 void SynthBase::armMidiLearn(const std::string& name,
