@@ -107,11 +107,16 @@ namespace mopo {
         }
       }
       else if (state_ == kKilling) {
-        current_value -= kill_decrement_;
-        if (current_value <= 0) {
-          current_value = 0.0;
-          output(kFinished)->trigger(kVoiceReset, i);
-          state_ = next_life_state_;
+        for (; i < buffer_size_; ++i) {
+          current_value -= kill_decrement_;
+          if (current_value <= 0) {
+            current_value = 0.0;
+            output(kFinished)->trigger(kVoiceReset, i);
+            state_ = next_life_state_;
+            out_buffer[i++] = current_value;
+            break;
+          }
+          out_buffer[i] = current_value;
         }
       }
     }
