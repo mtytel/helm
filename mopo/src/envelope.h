@@ -60,20 +60,11 @@ namespace mopo {
       virtual ~Envelope() { }
 
       virtual Processor* clone() const override { return new Envelope(*this); }
+      void processSection(mopo_float* output_buffer, int start, int end);
       void process() override;
       void trigger(mopo_float event, int offset);
 
-      void tickRelease(int i, mopo_float* out_buffer) {
-        current_value_ *= release_decay_;
-        out_buffer[i] = current_value_;
-      }
-
-      void tickDecay(int i, mopo_float* out_buffer) {
-        current_value_ = INTERPOLATE(input(kSustain)->at(i), current_value_, decay_decay_);
-        out_buffer[i] = current_value_;
-      }
-
-      void tick(int i, mopo_float* out_buffer) {
+      inline void tick(int i, mopo_float* out_buffer) {
         if (state_ == kAttacking) {
           if (input(kAttack)->at(i) <= 0)
             current_value_ = 1;
