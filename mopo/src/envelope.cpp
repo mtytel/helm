@@ -91,6 +91,7 @@ namespace mopo {
         if (attack <= 0.0) {
           current_value = 1.0;
           out_buffer[i++] = current_value;
+          state_ = kDecaying;
         }
         else {
           for (; i < buffer_size_; ++i) {

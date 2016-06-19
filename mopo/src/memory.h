@@ -45,11 +45,12 @@ namespace mopo {
         int index = std::max<int>(past, 1);
         mopo_float sample_fraction = past - index;
 
-        // TODO(mtytel): Quadratic or all-pass interpolation is better.
         mopo_float from = getIndex(index - 1);
         mopo_float to = getIndex(index);
         return INTERPOLATE(from, to, sample_fraction);
       }
+
+      unsigned int getOffset() const { return offset_; }
 
       void setOffset(int offset) { offset_ = offset; }
 
@@ -59,10 +60,6 @@ namespace mopo {
 
       const mopo_float* getBuffer() const {
         return memory_;
-      }
-
-      int getOffset() const {
-        return offset_;
       }
 
       int getSize() const {
