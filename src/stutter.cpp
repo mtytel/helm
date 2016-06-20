@@ -70,12 +70,13 @@ namespace mopo {
     mopo_float softness_diff = (end_softness - last_softness_) / buffer_size_;
 
     if (input(kReset)->source->triggered) {
-      startResampling(sample_period);
-      
-      stutter_period = end_stutter_period;
-      stutter_period_diff = 0.0;
-      softness = end_softness;
-      softness_diff = 0.0;
+    }
+
+    int buffer_size = buffer_size_;
+    int trigger_offset = -1;
+    if (input(kReset)->source->triggered) {
+      trigger_offset = input(kReset)->source->trigger_offset;
+      buffer_size = trigger_offset;
     }
     else if (resample_countdown_ > sample_period)
       resample_countdown_ = sample_period;
@@ -84,7 +85,7 @@ namespace mopo {
     while (i < buffer_size_) {
       if (resampling_) {
         int max_samples = std::ceil(stutter_period - offset_);
-        int samples = std::min(buffer_size_, i + max_samples);
+        int samples = std::min(buffer_size, i + max_samples);
         int num_samples = samples - i;
 
         for (; i < samples; ++i) {
@@ -103,7 +104,7 @@ namespace mopo {
       }
       else {
         int max_samples = std::ceil(std::min(stutter_period - offset_, resample_countdown_));
-        int samples = std::min(buffer_size_, i + max_samples);
+        int samples = std::min(buffer_size, i + max_samples);
 
         if (memory_offset_ < max_memory_write) {
           int mem_samples = std::min<int>(max_memory_write - memory_offset_, samples);
@@ -133,6 +134,16 @@ namespace mopo {
       if (offset_ >= stutter_period) {
         resampling_ = false;
         offset_ = 0.0;
+      }
+
+      if (buffer_size == trigger_offset) {
+        buffer_size = buffer_size_;
+        startResampling(sample_period);
+
+        stutter_period = end_stutter_period;
+        stutter_period_diff = 0.0;
+        softness = end_softness;
+        softness_diff = 0.0;
       }
     }
     last_stutter_period_ = end_stutter_period;
