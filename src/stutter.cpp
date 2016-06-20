@@ -72,11 +72,12 @@ namespace mopo {
     if (input(kReset)->source->triggered) {
       resampling_ = true;
       resample_offset_ = sample_period;
-      offset_ = stutter_period;
+      offset_ = 0.0;
       stutter_period = end_stutter_period;
       stutter_period_diff = 0.0;
       softness = end_softness;
       softness_diff = 0.0;
+      memory_offset_ = 0.0;
     }
     else if (resample_offset_ > sample_period)
       resample_offset_ = sample_period;
@@ -84,12 +85,11 @@ namespace mopo {
     int i = 0;
     while (i < buffer_size_) {
       if (resampling_) {
-        int max_samples = std::ceil(offset_);
+        int max_samples = std::ceil(stutter_period - offset_);
         int samples = std::min(buffer_size_, i + max_samples);
+        int num_samples = samples - i;
 
         for (; i < samples; ++i) {
-          offset_ -= 1.0;
-
           stutter_period += stutter_period_diff;
           softness += softness_diff;
 
@@ -98,12 +98,14 @@ namespace mopo {
 
           mopo_float amp = computeAmplitude(offset_, stutter_period, softness);
           dest[i] = amp * audio;
+          offset_ += 1.0;
         }
-        resample_offset_ -= samples;
+        resample_offset_ -= num_samples;
+        memory_offset_ += num_samples;
       }
 
       if (!resampling_) {
-        int max_samples = std::ceil(std::min(offset_, resample_offset_));
+        int max_samples = std::ceil(std::min(stutter_period - offset_, resample_offset_));
         int samples = std::min(buffer_size_, i + max_samples);
 
         if (memory_offset_ < max_memory_write) {
@@ -114,7 +116,6 @@ namespace mopo {
         }
 
         for (; i < samples; ++i) {
-          offset_ -= 1.0;
           resample_offset_ -= 1.0;
 
           stutter_period += stutter_period_diff;
@@ -124,21 +125,21 @@ namespace mopo {
           offset = std::min(stutter_period - offset_, offset);
           mopo_float amp = computeAmplitude(offset, stutter_period, softness);
 
-          dest[i] = amp * memory_->get(offset_ + memory_offset_);
+          dest[i] = amp * memory_->get(memory_offset_ - offset_);
+          offset_ += 1.0;
         }
 
         if (resample_offset_ <= 0.0) {
           resampling_ = true;
-          resample_offset_ += sample_period;
-          offset_ = stutter_period;
+          resample_offset_ = sample_period;
+          offset_ = 0.0;
+          memory_offset_ = 0.0;
         }
       }
 
-      if (offset_ <= 0.0) {
-        if (resampling_)
-          memory_offset_ = 0.0;
+      if (offset_ >= stutter_period) {
         resampling_ = false;
-        offset_ += stutter_period;
+        offset_ = 0.0;
       }
     }
     last_stutter_period_ = end_stutter_period;
