@@ -45,10 +45,17 @@ namespace mopo {
       virtual void process() override;
 
     protected:
+      void startResampling(mopo_float sample_period) {
+        resampling_ = true;
+        resample_countdown_ = sample_period;
+        offset_ = 0.0;
+        memory_offset_ = 0.0;
+      }
+
       Memory* memory_;
       mopo_float offset_;
       mopo_float memory_offset_;
-      mopo_float resample_offset_;
+      mopo_float resample_countdown_;
       mopo_float last_softness_;
       mopo_float last_stutter_period_;
       bool resampling_;
