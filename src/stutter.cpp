@@ -51,13 +51,14 @@ namespace mopo {
 
   void Stutter::process() {
     mopo_float max_memory_write = memory_->getSize() / 2.0;
+    mopo_float* dest = output()->buffer;
 
     mopo_float sample_period = sample_rate_ / input(kResampleFrequency)->at(0);
     mopo_float end_stutter_period = sample_rate_ / input(kStutterFrequency)->at(0);
     end_stutter_period = std::min(sample_period, end_stutter_period);
     end_stutter_period = std::min(max_memory_write, end_stutter_period);
     mopo_float read_softenss = std::max(input(kWindowSoftness)->at(0), MIN_SOFTNESS);
-    mopo_float softness = PI * std::max(1.0, 1.0 / read_softenss);
+    mopo_float end_softness = PI * std::max(1.0, 1.0 / read_softenss);
 
     mopo_float stutter_period = end_stutter_period;
     if (last_stutter_period_)
@@ -65,10 +66,17 @@ namespace mopo {
 
     mopo_float stutter_period_diff = (end_stutter_period - stutter_period) / buffer_size_;
 
+    mopo_float softness = last_softness_;
+    mopo_float softness_diff = (end_softness - last_softness_) / buffer_size_;
+
     if (input(kReset)->source->triggered) {
       resampling_ = true;
       resample_offset_ = sample_period;
       offset_ = stutter_period;
+      stutter_period = end_stutter_period;
+      stutter_period_diff = 0.0;
+      softness = end_softness;
+      softness_diff = 0.0;
     }
     else if (resample_offset_ > sample_period)
       resample_offset_ = sample_period;
@@ -76,42 +84,47 @@ namespace mopo {
     int i = 0;
     while (i < buffer_size_) {
       if (resampling_) {
-        int max_samples = offset_ + 1;
+        int max_samples = std::ceil(offset_);
         int samples = std::min(buffer_size_, i + max_samples);
 
         for (; i < samples; ++i) {
           offset_ -= 1.0;
+
           stutter_period += stutter_period_diff;
+          softness += softness_diff;
 
           mopo_float audio = input(kAudio)->at(i);
           memory_->push(audio);
 
           mopo_float amp = computeAmplitude(offset_, stutter_period, softness);
-          output()->buffer[i] = amp * audio;
+          dest[i] = amp * audio;
         }
         resample_offset_ -= samples;
       }
 
       if (!resampling_) {
-        int max_samples = std::min(offset_, resample_offset_) + 1;
+        int max_samples = std::ceil(std::min(offset_, resample_offset_));
         int samples = std::min(buffer_size_, i + max_samples);
+
         if (memory_offset_ < max_memory_write) {
-          int mem_samples = std::min<int>(memory_->getSize() - memory_offset_, samples);
+          int mem_samples = std::min<int>(max_memory_write - memory_offset_, samples);
           for (int j = i; j < mem_samples; ++j)
             memory_->push(input(kAudio)->at(j));
-          memory_offset_ += mem_samples;
+          memory_offset_ += (mem_samples - i);
         }
 
         for (; i < samples; ++i) {
           offset_ -= 1.0;
           resample_offset_ -= 1.0;
+
           stutter_period += stutter_period_diff;
+          softness += softness_diff;
 
           mopo_float offset = std::min(offset_, resample_offset_);
           offset = std::min(stutter_period - offset_, offset);
           mopo_float amp = computeAmplitude(offset, stutter_period, softness);
 
-          output()->buffer[i] = amp * memory_->get(offset_ + memory_offset_);
+          dest[i] = amp * memory_->get(offset_ + memory_offset_);
         }
 
         if (resample_offset_ <= 0.0) {
@@ -129,5 +142,6 @@ namespace mopo {
       }
     }
     last_stutter_period_ = end_stutter_period;
+    last_softness_ = end_softness;
   }
 } // namespace mopo
