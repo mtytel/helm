@@ -253,7 +253,7 @@ namespace mopo {
       ValueDetails::kLinear, "Osc 2 Harmonize" },
     { "velocity_track", -1.0, 1.0, 0, 0.0, 100.0,
       ValueDetails::kLinear, "%", "Velocity Track" },
-    { "volume", 0.0, 1.0, 0, 0.75, 1.0,
+    { "volume", 0.0, 1.41421356237, 0, 1.0, 1.0,
       ValueDetails::kQuadratic, "", "Volume" },
   };
 
