@@ -79,10 +79,9 @@ void Startup::copyFactoryPatches() {
         String relative_path = patch.getRelativePathFrom(factory_bank_dir);
         File patch_location = destination.getChildFile(relative_path);
 
-        if (!patch_location.exists()) {
+        if (!patch_location.getParentDirectory().exists())
           patch_location.getParentDirectory().createDirectory();
-          patch.copyFileTo(patch_location);
-        }
+        patch.copyFileTo(patch_location);
       }
     }
   }
