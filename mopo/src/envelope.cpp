@@ -65,24 +65,27 @@ namespace mopo {
     mopo_float release_samples = sample_rate_ * input(kRelease)->at(0);
     release_decay_ = SampleDecayLookup::sampleDecayLookup(release_samples);
 
-    if (input(kTrigger)->source->triggered) {
-      int trigger_offset = input(kRelease)->source->trigger_offset;
-      trigger(input(kTrigger)->source->trigger_value, trigger_offset);
-    }
 
     mopo_float* out_buffer = output(kValue)->buffer;
     mopo_float current_value = current_value_;
-    
+
+    int trigger_offset = -1;
+    int buffer_size = buffer_size_;
+    if (input(kTrigger)->source->triggered) {
+      trigger_offset = input(kRelease)->source->trigger_offset;
+      buffer_size = trigger_offset;
+    }
+
     int i = 0;
     while (i < buffer_size_) {
       if (state_ == kReleasing) {
-        for (; i < buffer_size_; ++i) {
+        for (; i < buffer_size; ++i) {
           current_value *= release_decay_;
           out_buffer[i] = current_value;
         }
       }
       else if (state_ == kDecaying) {
-        for (; i < buffer_size_; ++i) {
+        for (; i < buffer_size; ++i) {
           current_value = INTERPOLATE(input(kSustain)->at(i), current_value, decay_decay_);
           out_buffer[i] = current_value;
         }
@@ -94,7 +97,7 @@ namespace mopo {
           state_ = kDecaying;
         }
         else {
-          for (; i < buffer_size_; ++i) {
+          for (; i < buffer_size; ++i) {
             current_value = current_value + attack_increment;
 
             if (current_value >= ATTACK_DONE) {
@@ -108,7 +111,7 @@ namespace mopo {
         }
       }
       else if (state_ == kKilling) {
-        for (; i < buffer_size_; ++i) {
+        for (; i < buffer_size; ++i) {
           current_value -= kill_decrement_;
           if (current_value <= 0) {
             current_value = 0.0;
@@ -119,6 +122,11 @@ namespace mopo {
           }
           out_buffer[i] = current_value;
         }
+      }
+
+      if (i == trigger_offset) {
+        trigger(input(kTrigger)->source->trigger_value, trigger_offset);
+        buffer_size = buffer_size_;
       }
     }
     current_value_ = current_value;
