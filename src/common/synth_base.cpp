@@ -115,6 +115,7 @@ mopo::Processor::Output* SynthBase::getModSource(const std::string& name) {
 }
 
 var SynthBase::saveToVar(String author) {
+  save_info_["author"] = author;
   return LoadSave::stateToVar(&engine_, save_info_, getCriticalSection());
 }
 

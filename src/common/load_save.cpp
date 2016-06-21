@@ -37,7 +37,7 @@ namespace {
 } // namespace
 
 var LoadSave::stateToVar(mopo::HelmEngine* synth,
-                         std::map<std::string, String>& gui_state,
+                         std::map<std::string, String>& save_info,
                          const CriticalSection& critical_section) {
   mopo::control_map controls = synth->getControls();
   DynamicObject* settings_object = new DynamicObject();
@@ -59,11 +59,11 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
   settings_object->setProperty("modulations", modulation_states);
 
   DynamicObject* state_object = new DynamicObject();
-  String author = gui_state["author"];
+  String author = save_info["author"];
   state_object->setProperty("license", createPatchLicense(author));
   state_object->setProperty("synth_version", ProjectInfo::versionString);
-  state_object->setProperty("patch_name", gui_state["patch_name"]);
-  state_object->setProperty("folder_name", gui_state["folder_name"]);
+  state_object->setProperty("patch_name", save_info["patch_name"]);
+  state_object->setProperty("folder_name", save_info["folder_name"]);
   state_object->setProperty("author", author);
   state_object->setProperty("settings", settings_object);
   return state_object;
@@ -101,8 +101,8 @@ void LoadSave::loadModulations(mopo::HelmEngine* synth,
 }
 
 
-void LoadSave::loadGuiState(std::map<std::string, String>& state,
-                            const NamedValueSet& properties) {
+void LoadSave::loadSaveState(std::map<std::string, String>& state,
+                             const NamedValueSet& properties) {
   if (properties.contains("author"))
     state["author"] = properties["author"];
   if (properties.contains("patch_name"))
@@ -112,7 +112,7 @@ void LoadSave::loadGuiState(std::map<std::string, String>& state,
 }
 
 void LoadSave::varToState(mopo::HelmEngine* synth,
-                          std::map<std::string, String>& gui_state,
+                          std::map<std::string, String>& save_info,
                           var state) {
   if (!state.isObject())
     return;
@@ -184,7 +184,7 @@ void LoadSave::varToState(mopo::HelmEngine* synth,
 
   loadControls(synth, settings_properties);
   loadModulations(synth, modulations);
-  loadGuiState(gui_state, properties);
+  loadSaveState(save_info, properties);
 }
 
 String LoadSave::getAuthor(var state) {
@@ -612,12 +612,12 @@ File LoadSave::getPatchFile(int bank_index, int folder_index, int patch_index) {
 }
 
 File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
-                         mopo::HelmEngine* synth, std::map<std::string, String>& gui_state) {
+                         mopo::HelmEngine* synth, std::map<std::string, String>& save_info) {
   File patch = getPatchFile(bank_index, folder_index, patch_index);
 
   var parsed_json_state;
   if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
-    varToState(synth, gui_state, parsed_json_state);
+    varToState(synth, save_info, parsed_json_state);
 
   return patch;
 }

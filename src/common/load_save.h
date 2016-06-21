@@ -40,7 +40,7 @@ public:
 class LoadSave {
   public:
     static var stateToVar(mopo::HelmEngine* synth,
-                          std::map<std::string, String>& gui_state,
+                          std::map<std::string, String>& save_info,
                           const CriticalSection& critical_section);
 
     static void loadControls(mopo::HelmEngine* synth,
@@ -49,11 +49,11 @@ class LoadSave {
     static void loadModulations(mopo::HelmEngine* synth,
                                 const Array<var>* modulations);
 
-    static void loadGuiState(std::map<std::string, String>& state,
-                             const NamedValueSet& properties);
+    static void loadSaveState(std::map<std::string, String>& save_info,
+                              const NamedValueSet& properties);
 
     static void varToState(mopo::HelmEngine* synth,
-                           std::map<std::string, String>& gui_state,
+                           std::map<std::string, String>& save_info,
                            var state);
 
     static String getAuthor(var state);
