@@ -82,7 +82,7 @@ void DelaySection::resized() {
 
   float space = (getWidth() - (2.0f * KNOB_WIDTH) - TEXT_WIDTH - TEXT_HEIGHT) / 4.0f;
   int knob_y = 36;
-  int text_y = 42;
+  int text_y = 45;
 
   frequency_->setBounds(space, text_y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(space + TEXT_WIDTH, text_y, TEXT_HEIGHT, TEXT_HEIGHT);

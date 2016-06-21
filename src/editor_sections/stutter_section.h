@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "synth_section.h"
 #include "synth_slider.h"
+#include "tempo_selector.h"
 
 class StutterSection : public SynthSection {
   public:
@@ -31,8 +32,14 @@ class StutterSection : public SynthSection {
     void resized() override;
 
   private:
-    ScopedPointer<SynthSlider> resample_rate_;
-    ScopedPointer<SynthSlider> stutter_rate_;
+    ScopedPointer<SynthSlider> stutter_frequency_;
+    ScopedPointer<SynthSlider> stutter_tempo_;
+    ScopedPointer<TempoSelector> stutter_sync_;
+
+    ScopedPointer<SynthSlider> resample_frequency_;
+    ScopedPointer<SynthSlider> resample_tempo_;
+    ScopedPointer<TempoSelector> resample_sync_;
+
     ScopedPointer<SynthSlider> stutter_softness_;
     ScopedPointer<ToggleButton> on_;
 

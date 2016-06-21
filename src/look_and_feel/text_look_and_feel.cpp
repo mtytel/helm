@@ -16,6 +16,7 @@
 
 #include "text_look_and_feel.h"
 #include "fonts.h"
+#include "synth_slider.h"
 
 TextLookAndFeel::TextLookAndFeel() {
   setColour(ComboBox::backgroundColourId, Colour(0xff212121));
@@ -31,12 +32,28 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
                                        float slider_t, float start_angle, float end_angle,
                                        Slider& slider) {
   static const float text_percentage = 0.7f;
-  g.fillAll(Colour(0xff424242));
 
-  g.setColour(Colour(0xff565656));
+  bool active = true;
+  SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
+  if (s_slider)
+    active = s_slider->isActive();
+
+  if (active)
+    g.fillAll(Colour(0xff424242));
+  else
+    g.fillAll(Colour(0xff333333));
+
+  if (active)
+    g.setColour(Colour(0xff565656));
+  else
+    g.setColour(Colour(0xff333333));
   g.drawRect(slider.getLocalBounds());
 
-  g.setColour(Colours::white);
+  if (active)
+    g.setColour(Colours::white);
+  else
+    g.setColour(Colour(0xff555555));
+
   g.setFont(Fonts::instance()->monospace().withPointHeight(height * text_percentage));
   g.drawText(slider.getTextFromValue(slider.getValue()),
              x, y, width, height, Justification::centred, false);

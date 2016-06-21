@@ -511,9 +511,16 @@ namespace mopo {
     stutter_container->plug(filter, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(STUTTER_MAX_SAMPLES);
-    Processor* stutter_frequency = createPolyModControl("stutter_frequency", true);
+    Processor* stutter_free_frequency = createPolyModControl("stutter_frequency", true);
+    Processor* stutter_frequency = createTempoSyncSwitch("stutter", stutter_free_frequency,
+                                                         beats_per_second_, true);
+    Processor* resample_free_frequency = createPolyModControl("stutter_resample_frequency", true);
+    Processor* resample_frequency = createTempoSyncSwitch("stutter_resample",
+                                                          resample_free_frequency,
+                                                          beats_per_second_, true);
+
     Processor* stutter_softness = createPolyModControl("stutter_softness", true);
-    Processor* resample_frequency = createPolyModControl("stutter_resample_frequency", true);
+
     stutter_container->addProcessor(stutter);
     stutter_container->registerOutput(stutter->output());
 

@@ -57,7 +57,10 @@ void TempoSelector::valueChanged() {
 }
 
 void TempoSelector::paint(Graphics& g) {
-  g.setColour(Colour(0xffbbbbbb));
+  if (isActive())
+    g.setColour(Colour(0xffbbbbbb));
+  else
+    g.setColour(Colour(0xff555555));
   g.fillRect(0, 0, getWidth(), getHeight());
 
   g.setColour(Colour(0xff222222));
