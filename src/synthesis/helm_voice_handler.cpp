@@ -347,7 +347,7 @@ namespace mopo {
 
     LinearSmoothBuffer* osc_feedback_samples_audio = new LinearSmoothBuffer();
     osc_feedback_samples_audio->plug(osc_feedback_samples, LinearSmoothBuffer::kValue);
-
+    osc_feedback_samples_audio->plug(reset, LinearSmoothBuffer::kTrigger);
     addProcessor(osc_feedback_transposed);
     addProcessor(osc_feedback_midi);
     addProcessor(osc_feedback_frequency);
@@ -473,6 +473,7 @@ namespace mopo {
 
     LinearSmoothBuffer* smooth_saturation_magnitude = new LinearSmoothBuffer();
     smooth_saturation_magnitude->plug(saturation_magnitude);
+    smooth_saturation_magnitude->plug(reset, LinearSmoothBuffer::kTrigger);
 
     Multiply* saturated_audio = new Multiply();
     saturated_audio->plug(audio, 0);
