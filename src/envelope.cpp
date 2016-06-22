@@ -128,6 +128,7 @@ namespace mopo {
 
       if (i == trigger_offset) {
         trigger(input(kTrigger)->source->trigger_value, trigger_offset);
+        current_value = current_value_;
         buffer_size = buffer_size_;
       }
     }
