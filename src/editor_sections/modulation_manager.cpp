@@ -110,6 +110,7 @@ void ModulationManager::paint(Graphics& g) {
 }
 
 void ModulationManager::resized() {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   polyphonic_destinations_->setBounds(getBounds());
   monophonic_destinations_->setBounds(getBounds());
 
@@ -128,6 +129,10 @@ void ModulationManager::resized() {
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
     meter.second->setBounds(local_top_left.x, local_top_left.y,
                             model->getWidth(), model->getHeight());
+    if (parent) {
+      int num_modulations = parent->getSynth()->getNumModulations(meter.first);
+      meter.second->setModulated(num_modulations);
+    }
   }
 
   // Update modulation highlight overlay locations.
