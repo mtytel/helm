@@ -1,5 +1,5 @@
 {
-  "license": "Patch (c) by Cris Owl Alvarez.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
+  "license": "Patch (c) by Cris Owl Alvarez.  This work is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  This work is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with work.  If not, see <http://www.gnu.org/licenses/>.",
   "synth_version": "0.5.0",
   "author": "Cris Owl Alvarez",
   "settings": {
