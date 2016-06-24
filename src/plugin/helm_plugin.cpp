@@ -126,7 +126,7 @@ void HelmPlugin::setCurrentProgram(int index) {
     return;
 
   current_program_ = index;
-  LoadSave::loadPatch(-1, -1, index, &engine_, save_info_);
+  LoadSave::loadPatch(-1, -1, index, this, save_info_);
   AudioProcessorEditor* editor = getActiveEditor();
   if (editor) {
     HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
@@ -194,7 +194,7 @@ void HelmPlugin::parameterChanged(std::string name, mopo::mopo_float value) {
 }
 
 void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
-  var state = LoadSave::stateToVar(&engine_, save_info_, getCallbackLock());
+  var state = LoadSave::stateToVar(this, save_info_, getCallbackLock());
   String data_string = JSON::toString(state);
   MemoryOutputStream stream;
   stream.writeString(data_string);
@@ -208,7 +208,7 @@ void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
   String data_string = stream.readEntireStreamAsString();
   var state;
   if (JSON::parse(data_string, state).wasOk())
-    LoadSave::varToState(&engine_, save_info_, state);
+    LoadSave::varToState(this, save_info_, state);
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
