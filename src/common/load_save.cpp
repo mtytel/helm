@@ -183,6 +183,14 @@ void LoadSave::varToState(SynthBase* synth,
       modulations->add(modulation);
   }
 
+  if (compareVersionStrings(version, "0.7.2") <= 0) {
+    bool stutter_on = settings_properties["stutter_on"];
+    if (stutter_on) {
+      settings_properties.set("stutter_resample_sync", 0);
+      settings_properties.set("stutter_sync", 0);
+    }
+  }
+
   loadControls(synth, settings_properties);
   loadModulations(synth, modulations);
   loadSaveState(save_info, properties);
