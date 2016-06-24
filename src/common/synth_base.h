@@ -39,11 +39,15 @@ class SynthBase : public MidiManager::Listener {
     void valueChangedExternal(const std::string& name, mopo::mopo_float value);
     void valueChangedInternal(const std::string& name, mopo::mopo_float value);
     void changeModulationAmount(const std::string& source, const std::string& destination,
-                                mopo::mopo_float amount);
-    void connectModulation(mopo::ModulationConnection* connection);
+                               mopo::mopo_float amount);
+    void setModulationAmount(mopo::ModulationConnection* connection, mopo::mopo_float amount);
     void disconnectModulation(mopo::ModulationConnection* connection);
+    void clearModulations();
+    int getNumModulations(const std::string& destination);
+    std::set<mopo::ModulationConnection*> getModulationConnections() { return mod_connections_; }
     std::vector<mopo::ModulationConnection*> getSourceConnections(const std::string& source);
-    std::vector<mopo::ModulationConnection*> getDestinationConnections(const std::string& destination);
+    std::vector<mopo::ModulationConnection*> getDestinationConnections(
+        const std::string& destination);
   
     mopo::Processor::Output* getModSource(const std::string& name);
 
@@ -93,10 +97,15 @@ class SynthBase : public MidiManager::Listener {
       return value_change_queue_.try_dequeue(change);
     }
 
+    inline bool getNextModulationChange(mopo::modulation_change& change) {
+      return modulation_change_queue_.try_dequeue(change);
+    }
+
     void processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset);
     void processMidi(MidiBuffer& buffer, int start_sample = 0, int end_sample = 0);
     void processKeyboardEvents(MidiBuffer& buffer, int num_samples);
     void processControlChanges();
+    void processModulationChanges();
     void updateMemoryOutput(int samples, const mopo::mopo_float* left,
                                          const mopo::mopo_float* right);
 
@@ -113,7 +122,9 @@ class SynthBase : public MidiManager::Listener {
 
     std::map<std::string, String> save_info_;
     mopo::control_map controls_;
+    std::set<mopo::ModulationConnection*> mod_connections_;
     moodycamel::ConcurrentQueue<mopo::control_change> value_change_queue_;
+    moodycamel::ConcurrentQueue<mopo::modulation_change> modulation_change_queue_;
 };
 
 #endif // SYNTH_BASE_H

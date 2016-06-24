@@ -16,6 +16,7 @@
 
 #include "modulation_meter.h"
 #include "mopo.h"
+#include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
 #define ANGLE 2.51327412f
@@ -55,6 +56,13 @@ void ModulationMeter::resized() {
   float stroke_width = 2.0f * full_radius_ * stroke_percent;
   knob_stroke_ = PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
   outer_radius_ = full_radius_ - stroke_width;
+
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent) {
+    std::vector<mopo::ModulationConnection*> connections;
+    connections = parent->getSynth()->getSourceConnections(getName().toStdString());
+    setModulated(connections.size());
+  }
 }
 
 void ModulationMeter::updateValue() {

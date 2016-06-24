@@ -18,6 +18,7 @@
 #include "JuceHeader.h"
 #include "helm_common.h"
 #include "midi_manager.h"
+#include "synth_base.h"
 
 #define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define USER_BANK_NAME "User Patches"
@@ -36,7 +37,7 @@ namespace {
   const String DEFAULT_USER_FOLDERS[] = { "Lead", "Keys", "Pad", "Bass", "SFX" };
 } // namespace
 
-var LoadSave::stateToVar(mopo::HelmEngine* synth,
+var LoadSave::stateToVar(SynthBase* synth,
                          std::map<std::string, String>& save_info,
                          const CriticalSection& critical_section) {
   mopo::control_map controls = synth->getControls();
@@ -69,7 +70,7 @@ var LoadSave::stateToVar(mopo::HelmEngine* synth,
   return state_object;
 }
 
-void LoadSave::loadControls(mopo::HelmEngine* synth,
+void LoadSave::loadControls(SynthBase* synth,
                             const NamedValueSet& properties) {
   mopo::control_map controls = synth->getControls();
   for (auto control : controls) {
@@ -85,7 +86,7 @@ void LoadSave::loadControls(mopo::HelmEngine* synth,
   }
 }
 
-void LoadSave::loadModulations(mopo::HelmEngine* synth,
+void LoadSave::loadModulations(SynthBase* synth,
                                const Array<var>* modulations) {
   synth->clearModulations();
   var* modulation = modulations->begin();
@@ -94,9 +95,9 @@ void LoadSave::loadModulations(mopo::HelmEngine* synth,
     DynamicObject* mod = modulation->getDynamicObject();
     std::string source = mod->getProperty("source").toString().toStdString();
     std::string destination = mod->getProperty("destination").toString().toStdString();
-    mopo::ModulationConnection* connection = new mopo::ModulationConnection(source, destination);
-    connection->amount.set(mod->getProperty("amount"));
-    synth->connectModulation(connection);
+    mopo::ModulationConnection* connection =
+        mopo::ModulationConnectionBank::instance()->get(source, destination);
+    synth->setModulationAmount(connection, mod->getProperty("amount"));
   }
 }
 
@@ -111,7 +112,7 @@ void LoadSave::loadSaveState(std::map<std::string, String>& state,
     state["folder_name"] = properties["folder_name"];
 }
 
-void LoadSave::varToState(mopo::HelmEngine* synth,
+void LoadSave::varToState(SynthBase* synth,
                           std::map<std::string, String>& save_info,
                           var state) {
   if (!state.isObject())
@@ -612,7 +613,7 @@ File LoadSave::getPatchFile(int bank_index, int folder_index, int patch_index) {
 }
 
 File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
-                         mopo::HelmEngine* synth, std::map<std::string, String>& save_info) {
+                         SynthBase* synth, std::map<std::string, String>& save_info) {
   File patch = getPatchFile(bank_index, folder_index, patch_index);
 
   var parsed_json_state;

@@ -280,6 +280,10 @@ namespace mopo {
     mod_connections_.insert(connection);
   }
 
+  bool HelmEngine::isModulationActive(ModulationConnection* connection) {
+    return mod_connections_.count(connection);
+  }
+
   std::list<mopo_float> HelmEngine::getPressedNotes() {
     if (arp_on_->value())
       return arpeggiator_->getPressedNotes();
@@ -294,44 +298,6 @@ namespace mopo {
 
     source->owner->router()->removeProcessor(&connection->modulation_scale);
     mod_connections_.erase(connection);
-  }
-
-  void HelmEngine::clearModulations() {
-    for (auto connection : mod_connections_) {
-      Processor::Output* source = getModulationSource(connection->source);
-      Processor* destination = getModulationDestination(connection->destination,
-                                                        source->owner->isPolyphonic());
-      destination->unplug(&connection->modulation_scale);
-      source->owner->router()->removeProcessor(&connection->modulation_scale);
-    }
-    mod_connections_.clear();
-  }
-
-  ModulationConnection* HelmEngine::getConnection(std::string source, std::string destination) {
-    for (ModulationConnection* connection : mod_connections_) {
-      if (connection->source == source && connection->destination == destination)
-        return connection;
-    }
-    return nullptr;
-  }
-
-  std::vector<ModulationConnection*> HelmEngine::getSourceConnections(std::string source) {
-    std::vector<ModulationConnection*> connections;
-    for (ModulationConnection* connection : mod_connections_) {
-      if (connection->source == source)
-        connections.push_back(connection);
-    }
-    return connections;
-  }
-
-  std::vector<ModulationConnection*>
-  HelmEngine::getDestinationConnections(std::string destination) {
-    std::vector<ModulationConnection*> connections;
-    for (ModulationConnection* connection : mod_connections_) {
-      if (connection->destination == destination)
-        connections.push_back(connection);
-    }
-    return connections;
   }
 
   int HelmEngine::getNumActiveVoices() {

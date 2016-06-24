@@ -29,6 +29,7 @@ class EnvelopeSection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+    void reset() override;
 
   private:
     ScopedPointer<GraphicalEnvelope> envelope_;

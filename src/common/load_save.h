@@ -22,6 +22,7 @@
 #include "helm_engine.h"
 
 class MidiManager;
+class SynthBase;
 
 class FileSorterAscending {
 public:
@@ -39,20 +40,20 @@ public:
 
 class LoadSave {
   public:
-    static var stateToVar(mopo::HelmEngine* synth,
+    static var stateToVar(SynthBase* synth,
                           std::map<std::string, String>& save_info,
                           const CriticalSection& critical_section);
 
-    static void loadControls(mopo::HelmEngine* synth,
+    static void loadControls(SynthBase* synth,
                              const NamedValueSet& properties);
 
-    static void loadModulations(mopo::HelmEngine* synth,
+    static void loadModulations(SynthBase* synth,
                                 const Array<var>* modulations);
 
     static void loadSaveState(std::map<std::string, String>& save_info,
                               const NamedValueSet& properties);
 
-    static void varToState(mopo::HelmEngine* synth,
+    static void varToState(SynthBase* synth,
                            std::map<std::string, String>& save_info,
                            var state);
 
@@ -84,7 +85,7 @@ class LoadSave {
     static int getNumPatches();
     static File getPatchFile(int bank_index, int folder_index, int patch_index);
     static File loadPatch(int bank_index, int folder_index, int patch_index,
-                          mopo::HelmEngine* synth, std::map<std::string, String>& gui_state);
+                          SynthBase* synth, std::map<std::string, String>& gui_state);
 };
 
 #endif  // LOAD_SAVE_H

@@ -24,11 +24,12 @@ class FullInterface;
 
 class SynthSlider : public Slider {
   public:
-    class HoverListener {
+    class SliderListener {
       public:
-        virtual ~HoverListener() { }
+        virtual ~SliderListener() { }
         virtual void hoverStarted(const std::string& name) = 0;
         virtual void hoverEnded(const std::string& name) = 0;
+        virtual void modulationsChanged(const std::string& name) = 0;
     };
 
     SynthSlider(String name);
@@ -65,7 +66,7 @@ class SynthSlider : public Slider {
     void setBipolar(bool bipolar = true);
     void setActive(bool active = true);
 
-    void addHoverListener(HoverListener*);
+    void addSliderListener(SliderListener* listener);
 
     bool isBipolar() const { return bipolar_; }
     bool isFlippedColor() const { return flip_coloring_; }
@@ -85,7 +86,7 @@ class SynthSlider : public Slider {
 
     FullInterface* parent_;
 
-    std::vector<HoverListener*> hover_listeners_;
+    std::vector<SliderListener*> slider_listeners_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSlider)
 };

@@ -32,6 +32,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     SynthSection(String name) : Component(name), activator_(nullptr) { }
 
     // Drawing.
+    virtual void reset();
     virtual void resized() override;
     virtual void paint(Graphics& g) override;
     virtual void paintBackground(Graphics& g);

@@ -38,13 +38,10 @@ namespace mopo {
       void process() override;
 
       std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
+      bool isModulationActive(ModulationConnection* connection);
       std::list<mopo::mopo_float> getPressedNotes();
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
-      ModulationConnection* getConnection(std::string source, std::string destination);
-      std::vector<ModulationConnection*> getSourceConnections(std::string source);
-      std::vector<ModulationConnection*> getDestinationConnections(std::string destination);
-      void clearModulations();
       int getNumActiveVoices();
       mopo_float getLastActiveNote() const;
 

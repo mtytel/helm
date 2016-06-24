@@ -101,3 +101,9 @@ void EnvelopeSection::resized() {
 
   SynthSection::resized();
 }
+
+void EnvelopeSection::reset() {
+  envelope_->resetEnvelopeLine();
+  envelope_->repaint();
+  SynthSection::reset();
+}

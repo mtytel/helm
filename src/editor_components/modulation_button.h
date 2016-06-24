@@ -30,7 +30,7 @@ class ModulationButton : public ToggleButton {
       public:
         virtual ~ModulationDisconnectListener() { }
 
-        virtual void modulationDisconnected(mopo::ModulationConnection* connection) = 0;
+        virtual void modulationDisconnected(mopo::ModulationConnection* connection, bool last) = 0;
     };
   
     ModulationButton(String name);

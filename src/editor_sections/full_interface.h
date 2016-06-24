@@ -50,6 +50,7 @@ class FullInterface : public SynthSection {
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void animate(bool animate = true) override;
+    void resetModulations() { modulation_manager_->reset(); }
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;

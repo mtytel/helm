@@ -32,6 +32,7 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     void setStepSliders(std::vector<Slider*> sliders);
     void sliderValueChanged(Slider* moved_slider) override;
 
+    void resetBackground();
     void showRealtimeFeedback(bool show_feedback = true);
 
     void paint(Graphics& g) override;
@@ -47,7 +48,6 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     void updateHover(int step_index);
     void changeStep(const MouseEvent& e);
     void ensureMinSize();
-    void resetBackground();
 
     int num_steps_;
     mopo::Processor::Output* step_generator_output_;

@@ -25,7 +25,7 @@ SynthBase::SynthBase() {
   controls_ = engine_.getControls();
 
   keyboard_state_ = new MidiKeyboardState();
-  midi_manager_ = new MidiManager(&engine_, keyboard_state_, &save_info_, this);
+  midi_manager_ = new MidiManager(this, keyboard_state_, &save_info_, this);
 
   last_played_note_ = 0.0;
   memset(output_memory_, 0, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
@@ -49,6 +49,7 @@ void SynthBase::valueChangedInternal(const std::string& name, mopo::mopo_float v
 void SynthBase::valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) {
   controls_[name]->set(value);
   ValueChangedCallback* callback = new ValueChangedCallback(this, name, value);
+  setValueNotifyHost(name, value);
   callback->post();
 }
 
@@ -65,48 +66,72 @@ void SynthBase::valueChangedExternal(const std::string& name, mopo::mopo_float v
 }
 
 void SynthBase::changeModulationAmount(const std::string& source,
-                                               const std::string& destination,
-                                               mopo::mopo_float amount) {
-  mopo::ModulationConnection* connection = engine_.getConnection(source, destination);
-  if (connection == nullptr && amount != 0.0) {
-    connection = new mopo::ModulationConnection(source, destination);
-    connectModulation(connection);
-  }
+                                       const std::string& destination,
+                                       mopo::mopo_float amount) {
+  mopo::ModulationConnection* connection = getConnection(source, destination);
+  if (connection == nullptr && amount != 0.0)
+    connection = mopo::ModulationConnectionBank::instance()->get(source, destination);
 
-  ScopedLock lock(getCriticalSection());
-  if (amount != 0.0)
-    connection->amount.set(amount);
-  else if (connection)
-    disconnectModulation(connection);
+  if (connection)
+    setModulationAmount(connection, amount);
 }
 
 mopo::ModulationConnection* SynthBase::getConnection(const std::string& source,
-                                                             const std::string& destination) {
-  ScopedLock lock(getCriticalSection());
-  return engine_.getConnection(source, destination);
+                                                     const std::string& destination) {
+  for (mopo::ModulationConnection* connection : mod_connections_) {
+    if (connection->source == source && connection->destination == destination)
+      return connection;
+  }
+  return nullptr;
 }
 
-void SynthBase::connectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock lock(getCriticalSection());
-  engine_.connectModulation(connection);
+void SynthBase::setModulationAmount(mopo::ModulationConnection* connection,
+                                    mopo::mopo_float amount) {
+  if (amount == 0.0) {
+    mopo::ModulationConnectionBank::instance()->recycle(connection);
+    mod_connections_.erase(connection);
+  }
+  else if (mod_connections_.count(connection) == 0)
+    mod_connections_.insert(connection);
+  modulation_change_queue_.enqueue(mopo::modulation_change(connection, amount));
 }
 
 void SynthBase::disconnectModulation(mopo::ModulationConnection* connection) {
-  ScopedLock lock(getCriticalSection());
-  engine_.disconnectModulation(connection);
-  delete connection;
+  setModulationAmount(connection, 0.0);
+}
+
+void SynthBase::clearModulations() {
+  while (mod_connections_.size())
+    disconnectModulation(*mod_connections_.begin());
+}
+
+int SynthBase::getNumModulations(const std::string& destination) {
+  int connections = 0;
+  for (mopo::ModulationConnection* connection : mod_connections_) {
+    if (connection->destination == destination)
+      connections++;
+  }
+  return connections;
 }
 
 std::vector<mopo::ModulationConnection*>
 SynthBase::getSourceConnections(const std::string& source) {
-  ScopedLock lock(getCriticalSection());
-  return engine_.getSourceConnections(source);
+  std::vector<mopo::ModulationConnection*> connections;
+  for (mopo::ModulationConnection* connection : mod_connections_) {
+    if (connection->source == source)
+      connections.push_back(connection);
+  }
+  return connections;
 }
 
 std::vector<mopo::ModulationConnection*>
 SynthBase::getDestinationConnections(const std::string& destination) {
-  ScopedLock lock(getCriticalSection());
-  return engine_.getDestinationConnections(destination);
+  std::vector<mopo::ModulationConnection*> connections;
+  for (mopo::ModulationConnection* connection : mod_connections_) {
+    if (connection->destination == destination)
+      connections.push_back(connection);
+  }
+  return connections;
 }
 
 mopo::Processor::Output* SynthBase::getModSource(const std::string& name) {
@@ -116,12 +141,12 @@ mopo::Processor::Output* SynthBase::getModSource(const std::string& name) {
 
 var SynthBase::saveToVar(String author) {
   save_info_["author"] = author;
-  return LoadSave::stateToVar(&engine_, save_info_, getCriticalSection());
+  return LoadSave::stateToVar(this, save_info_, getCriticalSection());
 }
 
 void SynthBase::loadFromVar(juce::var state) {
   getCriticalSection().enter();
-  LoadSave::varToState(&engine_, save_info_, state);
+  LoadSave::varToState(this, save_info_, state);
   getCriticalSection().exit();
 
   SynthGuiInterface* gui_interface = getGuiInterface();
@@ -174,6 +199,21 @@ void SynthBase::processControlChanges() {
   mopo::control_change change;
   while (getNextControlChange(change))
     change.first->set(change.second);
+}
+
+void SynthBase::processModulationChanges() {
+  mopo::modulation_change change;
+  while (getNextModulationChange(change)) {
+    mopo::ModulationConnection* connection = change.first;
+    mopo::mopo_float amount = change.second;
+    connection->amount.set(amount);
+
+    bool active = engine_.isModulationActive(connection);
+    if (active && amount == 0.0)
+      engine_.disconnectModulation(connection);
+    else if (!active && amount)
+      engine_.connectModulation(connection);
+  }
 }
 
 void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,

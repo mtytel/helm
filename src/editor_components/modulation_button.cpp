@@ -74,9 +74,10 @@ void ModulationButton::addDisconnectListener(ModulationDisconnectListener* liste
 
 void ModulationButton::disconnectModulation(mopo::ModulationConnection* connection) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  for (ModulationDisconnectListener* listener : listeners_)
-    listener->modulationDisconnected(connection);
-  
   parent->getSynth()->disconnectModulation(connection);
+  int modulations_left = parent->getSynth()->getNumModulations(connection->destination);
+
+  for (ModulationDisconnectListener* listener : listeners_)
+    listener->modulationDisconnected(connection, modulations_left == 0);
 }
 

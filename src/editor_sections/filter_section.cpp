@@ -89,3 +89,9 @@ void FilterSection::resized() {
 
   SynthSection::resized();
 }
+
+void FilterSection::reset() {
+  filter_response_->computeFilterCoefficients();
+  filter_response_->repaint();
+  SynthSection::reset();
+}

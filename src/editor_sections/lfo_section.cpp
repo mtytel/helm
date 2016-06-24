@@ -126,3 +126,9 @@ void LfoSection::animate(bool animate) {
   SynthSection::animate(animate);
   wave_viewer_->showRealtimeFeedback(animate);
 }
+
+void LfoSection::reset() {
+  wave_viewer_->resetWavePath();
+  wave_viewer_->repaint();
+  SynthSection::reset();
+}

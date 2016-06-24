@@ -257,6 +257,43 @@ namespace mopo {
       ValueDetails::kQuadratic, "", "Volume" },
   };
 
+  ModulationConnectionBank::ModulationConnectionBank() {
+    allocateMoreConnections();
+  }
+
+  ModulationConnectionBank::~ModulationConnectionBank() {
+    for (ModulationConnection* connection : all_connections_)
+      delete connection;
+  }
+
+  ModulationConnection* ModulationConnectionBank::get(const std::string& from,
+                                                      const std::string& to) {
+    if (available_connections_.size() == 0)
+      allocateMoreConnections();
+
+    ModulationConnection* connection = available_connections_.front();
+    available_connections_.pop_front();
+    connection->resetConnection(from, to);
+    return connection;
+  }
+
+  void ModulationConnectionBank::recycle(ModulationConnection* connection) {
+    available_connections_.push_back(connection);
+  }
+
+  void ModulationConnectionBank::allocateMoreConnections() {
+    for (int i = 0; i < DEFAULT_MODULATION_CONNECTIONS; ++i) {
+      ModulationConnection* connection = new ModulationConnection();
+      available_connections_.push_back(connection);
+      all_connections_.push_back(connection);
+    }
+  }
+
+  ModulationConnectionBank* ModulationConnectionBank::instance() {
+    static ModulationConnectionBank instance;
+    return &instance;
+  }
+
   ValueDetailsLookup::ValueDetailsLookup() {
     int num_parameters = sizeof(parameter_list) / sizeof(ValueDetails);
     for (int i = 0; i < num_parameters; ++i) {

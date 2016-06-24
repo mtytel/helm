@@ -58,3 +58,9 @@ void SubSection::resized() {
                       KNOB_WIDTH, KNOB_WIDTH);
   SynthSection::resized();
 }
+
+void SubSection::reset() {
+  wave_viewer_->resetWavePath();
+  wave_viewer_->repaint();
+  SynthSection::reset();
+}

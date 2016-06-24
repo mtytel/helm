@@ -23,6 +23,11 @@
 #define TITLE_WIDTH 20
 #define SHADOW_WIDTH 3
 
+void SynthSection::reset() {
+  for (auto sub_section : sub_sections_)
+    sub_section.second->reset();
+}
+
 void SynthSection::resized() {
   Component::resized();
 
@@ -156,7 +161,8 @@ void SynthSection::animate(bool animate) {
 void SynthSection::setAllValues(mopo::control_map& controls) {
   for (auto slider : all_sliders_) {
     if (controls.count(slider.first)) {
-      slider.second->setValue(controls[slider.first]->value());
+      slider.second->setValue(controls[slider.first]->value(),
+                              NotificationType::dontSendNotification);
       slider.second->valueChanged();
     }
   }

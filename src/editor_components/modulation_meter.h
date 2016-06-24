@@ -34,6 +34,9 @@ class ModulationMeter : public Component {
     void updateValue();
     void updateDrawing();
 
+    bool isModulated() { return modulated_; }
+    void setModulated(bool modulated) { modulated_ = modulated; }
+
   private:
     void drawSlider(Graphics& g);
     void drawTextSlider(Graphics& g);
@@ -53,6 +56,7 @@ class ModulationMeter : public Component {
     PathStrokeType knob_stroke_;
     float full_radius_;
     float outer_radius_;
+    bool modulated_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ModulationMeter)
 };

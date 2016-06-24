@@ -33,6 +33,7 @@ class LfoSection : public SynthSection {
     void paintBackground(Graphics& g) override;
     void resized() override;
     void animate(bool animate = true) override;
+    void reset() override;
 
   private:
     ScopedPointer<WaveViewer> wave_viewer_;

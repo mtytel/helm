@@ -31,7 +31,7 @@ class ModulationMeter;
 
 class ModulationManager : public SynthSection, public Timer,
                           public ModulationButton::ModulationDisconnectListener,
-                          public SynthSlider::HoverListener {
+                          public SynthSlider::SliderListener {
   public:
     ModulationManager (mopo::output_map modulation_sources,
                        std::map<std::string, ModulationButton*> modulation_buttons,
@@ -44,6 +44,7 @@ class ModulationManager : public SynthSection, public Timer,
     void changeModulator(std::string new_modulator);
     void forgetModulator();
     std::string getCurrentModulator() { return current_modulator_; }
+    void reset() override;
 
     void timerCallback() override;
     void updateModulationValues();
@@ -51,14 +52,16 @@ class ModulationManager : public SynthSection, public Timer,
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void sliderValueChanged(Slider* moved_slider) override;
-    void modulationDisconnected(mopo::ModulationConnection* connection) override;
+    void modulationDisconnected(mopo::ModulationConnection* connection, bool last) override;
+
+    // SynthSlider::SliderListener
     void hoverStarted(const std::string& name) override;
     void hoverEnded(const std::string& name) override;
+    void modulationsChanged(const std::string& name) override;
 
   private:
     void makeModulationsVisible(std::string destination, bool visible);
     void setSliderValues();
-    void showMeter(std::string name, bool show);
 
     ScopedPointer<Component> polyphonic_destinations_;
     ScopedPointer<Component> monophonic_destinations_;

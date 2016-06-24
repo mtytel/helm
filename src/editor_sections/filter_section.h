@@ -30,6 +30,7 @@ class FilterSection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+    void reset() override;
 
   private:
     ScopedPointer<FilterSelector> filter_type_;

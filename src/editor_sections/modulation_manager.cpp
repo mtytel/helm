@@ -66,13 +66,13 @@ ModulationManager::ModulationManager(
     const mopo::Processor::Output* mono_total = mono_modulations[name];
     const mopo::Processor::Output* poly_total = poly_modulations[name];
 
-    slider.second->addHoverListener(this);
+    slider.second->addSliderListener(this);
 
     // Create modulation meter.
     if (mono_total) {
       std::string name = slider.second->getName().toStdString();
       ModulationMeter* meter = new ModulationMeter(mono_total, poly_total, slider.second);
-      addAndMakeVisible(meter);
+      addChildComponent(meter);
       meter_lookup_[name] = meter;
       meter->setName(name);
       Rectangle<int> local_bounds = slider.second->getBoundsInParent();
@@ -129,7 +129,6 @@ void ModulationManager::resized() {
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
     meter.second->setBounds(local_top_left.x, local_top_left.y,
                             model->getWidth(), model->getHeight());
-    meter.second->setVisible(model->isVisible());
   }
 
   // Update modulation highlight overlay locations.
@@ -165,11 +164,13 @@ void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
   last_value_ = moved_slider->getValue();
 }
 
-void ModulationManager::modulationDisconnected(mopo::ModulationConnection* connection) {
+void ModulationManager::modulationDisconnected(mopo::ModulationConnection* connection, bool last) {
   if (connection->source == current_modulator_) {
     Slider* slider = slider_lookup_[connection->destination];
     slider->setValue(slider->getDoubleClickReturnValue());
   }
+
+  meter_lookup_[connection->destination]->setModulated(!last);
 }
 
 void ModulationManager::hoverStarted(const std::string& name) {
@@ -178,6 +179,26 @@ void ModulationManager::hoverStarted(const std::string& name) {
 
 void ModulationManager::hoverEnded(const std::string& name) {
   makeModulationsVisible(name, false);
+}
+
+void ModulationManager::modulationsChanged(const std::string& destination) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+  
+  int num_modulations = parent->getSynth()->getNumModulations(destination);
+  meter_lookup_[destination]->setModulated(num_modulations);
+}
+
+void ModulationManager::reset() {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+
+  for (auto meter : meter_lookup_) {
+    int num_modulations = parent->getSynth()->getNumModulations(meter.first);
+    meter.second->setModulated(num_modulations);
+  }
 }
 
 void ModulationManager::timerCallback() {
@@ -189,8 +210,10 @@ void ModulationManager::timerCallback() {
   updateModulationValues();
 
   for (auto meter : meter_lookup_) {
-    meter.second->setVisible(slider_model_lookup_[meter.first]->isVisible());
-    meter.second->updateDrawing();
+    bool show = meter.second->isModulated() && slider_model_lookup_[meter.first]->isVisible();
+    meter.second->setVisible(show);
+    if (show)
+      meter.second->updateDrawing();
   }
 }
 
@@ -206,8 +229,11 @@ void ModulationManager::updateModulationValues() {
 void ModulationManager::setModulationAmount(std::string source, std::string destination,
                                             mopo::mopo_float amount) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  if (parent)
-    parent->getSynth()->changeModulationAmount(source, destination, amount);
+  if (parent == nullptr)
+    return;
+
+  parent->getSynth()->changeModulationAmount(source, destination, amount);
+  modulationsChanged(destination);
 }
 
 void ModulationManager::forgetModulator() {
@@ -245,7 +271,7 @@ void ModulationManager::setSliderValues() {
         break;
       }
     }
-    slider.second->setValue(value);
+    slider.second->setValue(value, NotificationType::dontSendNotification);
     slider.second->repaint();
   }
 }
@@ -259,8 +285,4 @@ void ModulationManager::changeModulator(std::string new_modulator) {
   bool source_is_poly = modulation_sources_[current_modulator_]->owner->isPolyphonic();
   monophonic_destinations_->setVisible(!source_is_poly);
   monophonic_destinations_->repaint();
-}
-
-void ModulationManager::showMeter(std::string name, bool show) {
-  meter_lookup_[name]->setVisible(show);
 }

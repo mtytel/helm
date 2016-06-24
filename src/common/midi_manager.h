@@ -18,9 +18,15 @@
 #define MIDI_MANAGER_H
 
 #include "JuceHeader.h"
-#include "helm_engine.h"
+#include "common.h"
 #include <string>
 #include <map>
+
+class SynthBase;
+
+namespace mopo {
+  class HelmEngine;
+} // namespace mopo
 
 class MidiManager : public MidiInputCallback {
   public:
@@ -35,7 +41,7 @@ class MidiManager : public MidiInputCallback {
         virtual void patchChangedThroughMidi(File patch) = 0;
     };
 
-    MidiManager(mopo::HelmEngine* engine, MidiKeyboardState* keyboard_state,
+    MidiManager(SynthBase* synth, MidiKeyboardState* keyboard_state,
                 std::map<std::string, String>* gui_state, Listener* listener = nullptr);
     virtual ~MidiManager();
 
@@ -69,6 +75,7 @@ class MidiManager : public MidiInputCallback {
     };
 
   protected:
+    SynthBase* synth_;
     mopo::HelmEngine* engine_;
     MidiKeyboardState* keyboard_state_;
     MidiMessageCollector midi_collector_;

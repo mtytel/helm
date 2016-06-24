@@ -96,13 +96,18 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
     else if (result == kClearModulations) {
       for (mopo::ModulationConnection* connection : connections) {
         std::string source = connection->source;
-        parent->getSynth()->disconnectModulation(connection);
+        synth->disconnectModulation(connection);
       }
+      for (SynthSlider::SliderListener* listener : slider_listeners_)
+        listener->modulationsChanged(getName().toStdString());
     }
     else if (result >= kModulationList) {
       int connection_index = result - kModulationList;
       std::string source = connections[connection_index]->source;
       synth->disconnectModulation(connections[connection_index]);
+
+      for (SynthSlider::SliderListener* listener : slider_listeners_)
+        listener->modulationsChanged(getName().toStdString());
     }
   }
   else {
@@ -133,13 +138,13 @@ void SynthSlider::mouseUp(const MouseEvent& e) {
 void SynthSlider::mouseEnter(const MouseEvent &e) {
   Slider::mouseEnter(e);
   notifyTooltip();
-  for (SynthSlider::HoverListener* listener : hover_listeners_)
+  for (SynthSlider::SliderListener* listener : slider_listeners_)
     listener->hoverStarted(getName().toStdString());
 }
 
 void SynthSlider::mouseExit(const MouseEvent &e) {
   Slider::mouseExit(e);
-  for (SynthSlider::HoverListener* listener : hover_listeners_)
+  for (SynthSlider::SliderListener* listener : slider_listeners_)
     listener->hoverEnded(getName().toStdString());
 }
 
@@ -218,8 +223,8 @@ void SynthSlider::setActive(bool active) {
   repaint();
 }
 
-void SynthSlider::addHoverListener(SynthSlider::HoverListener* listener) {
-  hover_listeners_.push_back(listener);
+void SynthSlider::addSliderListener(SynthSlider::SliderListener* listener) {
+  slider_listeners_.push_back(listener);
 }
 
 void SynthSlider::notifyTooltip() {

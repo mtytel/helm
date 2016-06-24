@@ -129,3 +129,8 @@ void StepSequencerSection::animate(bool animate) {
   SynthSection::animate(animate);
   step_sequencer_->showRealtimeFeedback(animate);
 }
+
+void StepSequencerSection::reset() {
+  step_sequencer_->resetBackground();
+  SynthSection::reset();
+}

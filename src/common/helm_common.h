@@ -27,6 +27,8 @@
 
 namespace mopo {
 
+  class ModulationConnection;
+
   struct ValueDetails {
     enum DisplaySkew {
       kLinear,
@@ -129,6 +131,7 @@ namespace mopo {
   const int MEMORY_SAMPLE_RATE = 2205;
   const int MEMORY_RESOLUTION = 52;
   const mopo_float STUTTER_MAX_SAMPLES = 192000.0;
+  const int DEFAULT_MODULATION_CONNECTIONS = 256;
 
   const int DEFAULT_KEYBOARD_OFFSET = 48;
   const std::wstring DEFAULT_KEYBOARD = L"awsedftgyhujkolp;'";
@@ -139,6 +142,7 @@ namespace mopo {
 
   typedef std::map<std::string, Value*> control_map;
   typedef std::pair<Value*, mopo_float> control_change;
+  typedef std::pair<ModulationConnection*, mopo_float> modulation_change;
   typedef std::map<std::string, Processor*> input_map;
   typedef std::map<std::string, Processor::Output*> output_map;
 
@@ -158,13 +162,38 @@ namespace mopo {
   };
 
   struct ModulationConnection {
+    ModulationConnection() : ModulationConnection("", "") { }
+
     ModulationConnection(std::string from, std::string to) :
-        source(from), destination(to) { }
+        source(from), destination(to) {
+      amount.setControlRate();
+    }
+
+    void resetConnection(const std::string& from, const std::string& to) {
+      source = from;
+      destination = to;
+      modulation_scale.router(nullptr);
+    }
 
     std::string source;
     std::string destination;
     Value amount;
-    Multiply modulation_scale;
+    cr::Multiply modulation_scale;
+  };
+
+  class ModulationConnectionBank {
+    public:
+      ModulationConnectionBank();
+      ~ModulationConnectionBank();
+      ModulationConnection* get(const std::string& from, const std::string& to);
+      void recycle(ModulationConnection* connection);
+
+      static ModulationConnectionBank* instance();
+
+    private:
+      void allocateMoreConnections();
+      std::list<ModulationConnection*> available_connections_;
+      std::vector<ModulationConnection*> all_connections_;
   };
 
   class StringLayout {

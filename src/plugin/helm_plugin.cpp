@@ -167,6 +167,7 @@ void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messag
     engine_.correctToTime(position_info.timeInSamples);
 
   processControlChanges();
+  processModulationChanges();
   MidiBuffer keyboard_messages = midi_messages;
   processKeyboardEvents(keyboard_messages, total_samples);
 

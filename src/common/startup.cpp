@@ -17,7 +17,7 @@
 #include "startup.h"
 #include "load_save.h"
 #include "JuceHeader.h"
-#include "helm_engine.h"
+#include "synth_base.h"
 
 #define OLD_LINUX_USER_BANK_DIRECTORY "~/.helm/User Patches"
 
@@ -111,7 +111,7 @@ void Startup::fixPatchesFolder() {
   }
 }
 
-void Startup::updateAllPatches(mopo::HelmEngine* synth,
+void Startup::updateAllPatches(SynthBase* synth,
                                std::map<std::string, String>* gui_state,
                                const CriticalSection& critical_section) {
   File user_bank = LoadSave::getBankDirectory();

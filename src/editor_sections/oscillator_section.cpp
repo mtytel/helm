@@ -116,7 +116,7 @@ OscillatorSection::~OscillatorSection() {
 
 void OscillatorSection::paintBackground(Graphics& g) {
   static const float extra_knob_padding = 4.0f;
-  static const DropShadow component_shadow(Colour(0x99000000), 3, Point<int>(0, 1));
+  static const DropShadow component_shadow(Colour(0x99000000), 4, Point<int>(0, 0));
 
   SynthSection::paintBackground(g);
 
@@ -234,4 +234,12 @@ void OscillatorSection::resized() {
                                   cross_percent * cross_height);
 
   SynthSection::resized();
+}
+
+void OscillatorSection::reset() {
+  wave_viewer_1_->resetWavePath();
+  wave_viewer_1_->repaint();
+  wave_viewer_2_->resetWavePath();
+  wave_viewer_2_->repaint();
+  SynthSection::reset();
 }

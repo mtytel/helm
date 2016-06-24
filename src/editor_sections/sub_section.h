@@ -30,6 +30,7 @@ class SubSection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+    void reset() override;
 
   private:
     ScopedPointer<WaveViewer> wave_viewer_;

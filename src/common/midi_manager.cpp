@@ -15,7 +15,9 @@
  */
 
 #include "midi_manager.h"
+#include "helm_engine.h"
 #include "load_save.h"
+#include "synth_base.h"
 
 #define PITCH_WHEEL_RESOLUTION 0x3fff
 #define MOD_WHEEL_RESOLUTION 127
@@ -23,10 +25,11 @@
 #define FOLDER_SELECT_NUMBER 32
 #define MOD_WHEEL_CONTROL_NUMBER 1
 
-MidiManager::MidiManager(mopo::HelmEngine* engine, MidiKeyboardState* keyboard_state,
+MidiManager::MidiManager(SynthBase* synth, MidiKeyboardState* keyboard_state,
                          std::map<std::string, String>* gui_state, Listener* listener) :
-    engine_(engine), keyboard_state_(keyboard_state), gui_state_(gui_state),
+    synth_(synth), keyboard_state_(keyboard_state), gui_state_(gui_state),
     listener_(listener), armed_range_(0.0, 1.0) {
+  engine_ = synth_->getEngine();
 }
 
 MidiManager::~MidiManager() {
@@ -92,7 +95,7 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
   if (midi_message.isProgramChange()) {
     current_patch_ = midi_message.getProgramChangeNumber();
     File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
-                                     engine_, *gui_state_);
+                                     synth_, *gui_state_);
     PatchLoadedCallback* callback = new PatchLoadedCallback(listener_, patch);
     callback->post();
     return;
@@ -100,8 +103,8 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
 
   if (midi_message.isNoteOn()) {
     engine_->noteOn(midi_message.getNoteNumber(),
-                   midi_message.getVelocity() / (mopo::MIDI_SIZE - 1.0),
-                   0, midi_message.getChannel() - 1);
+                    midi_message.getVelocity() / (mopo::MIDI_SIZE - 1.0),
+                    0, midi_message.getChannel() - 1);
   }
   else if (midi_message.isNoteOff())
     engine_->noteOff(midi_message.getNoteNumber());
