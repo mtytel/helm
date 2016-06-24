@@ -80,7 +80,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../concurrentqueue;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;JucePlugin_AAXLibs_path=&quot;c:\\srcs\\AAX\\Libs&quot;;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2015_B927B5AB=1;JUCE_APP_VERSION=0.8.0;JUCE_APP_VERSION_HEX=0x800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -125,7 +125,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../concurrentqueue;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;JucePlugin_AAXLibs_path=&quot;c:\\srcs\\AAX\\Libs&quot;;WIN32;_WINDOWS;DEBUG;_DEBUG;JUCER_VS2015_B927B5AB=1;JUCE_APP_VERSION=0.8.0;JUCE_APP_VERSION_HEX=0x800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -167,7 +167,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../concurrentqueue;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;JucePlugin_AAXLibs_path=&quot;c:\\srcs\\AAX\\Libs&quot;;WIN32;_WINDOWS;NDEBUG;JUCER_VS2015_B927B5AB=1;JUCE_APP_VERSION=0.8.0;JUCE_APP_VERSION_HEX=0x800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -212,7 +212,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>c:\srcs\VST3 SDK;..\..\JuceLibraryCode;..\..\JUCE\modules;c:\srcs\AAX;c:\srcs\AAX\Interfaces;c:\srcs\AAX\Interfaces\ACF;../../concurrentqueue;../../mopo/src;../../src;../../src/common;../../src/editor_components;../../src/editor_sections;../../src/look_and_feel;../../src/standalone;../../src/synthesis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;JucePlugin_AAXLibs_path=&quot;c:\\srcs\\AAX\\Libs&quot;;WIN32;_WINDOWS;NDEBUG;JUCER_VS2015_B927B5AB=1;JUCE_APP_VERSION=0.8.0;JUCE_APP_VERSION_HEX=0x800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
