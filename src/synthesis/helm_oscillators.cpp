@@ -100,15 +100,14 @@ namespace mopo {
                                             const mopo_float* random_offsets,
                                             bool harmonize, mopo_float detune,
                                             int voices) {
+    int harmonize_mult = harmonize ? 1 : 0;
     for (int v = 0; v < MAX_UNISON; ++v) {
       mopo_float amount = (detune * ((v + 1) / 2)) / ((voices + 1) / 2);
 
       if (v % 2)
         amount = -amount;
 
-      mopo_float harmonic = 0.0;
-      if (harmonize)
-        harmonic = v;
+      mopo_float harmonic = harmonize_mult * v;
 
       mopo_float detune_ratio = harmonic + DetuneLookup::detuneLookup(amount) +
                                 amount * random_offsets[v];
