@@ -1,13 +1,13 @@
 {
   "license": "Patch (c) by Ones & Zeros.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
-  "synth_version": "0.6.0",
-  "patch_name": "OZ Bass 1",
-  "folder_name": "Percussion",
+  "synth_version": "0.7.1",
+  "patch_name": "platinum",
+  "folder_name": "Lead",
   "author": "Ones & Zeros",
   "settings": {
     "amp_attack": 0.10000000149011611938,
     "amp_decay": 1.1976565122604370117,
-    "amp_release": 0.39140617847442626953,
+    "amp_release": 0.39140617847442621402,
     "amp_sustain": 0.83417975902557373047,
     "arp_frequency": 2,
     "arp_gate": 0.5,
@@ -124,14 +124,18 @@
     "stutter_frequency": 3.0000002384185791016,
     "stutter_on": 0,
     "stutter_resample_frequency": 1.0000002384185791016,
+    "stutter_resample_sync": 1,
+    "stutter_resample_tempo": 6,
     "stutter_softness": 0,
+    "stutter_sync": 1,
+    "stutter_tempo": 8,
     "sub_shuffle": 0,
     "sub_volume": 0.63398414850234985352,
     "sub_waveform": 1,
     "unison_1_harmonize": 0,
     "unison_2_harmonize": 0,
     "velocity_track": 0,
-    "volume": 0.82792967557907104492,
+    "volume": 0.88696843385696411133,
     "modulations": []
   }
 }

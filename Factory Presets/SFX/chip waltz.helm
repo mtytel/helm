@@ -1,9 +1,11 @@
 {
   "license": "Patch (c) by Matt Tytel.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
-  "synth_version": "0.5.0",
+  "synth_version": "0.7.1",
+  "patch_name": "chip waltz",
+  "folder_name": "SFX",
   "author": "Matt Tytel",
   "settings": {
-    "amp_attack": 0.10000000000000000555,
+    "amp_attack": 0.10000000149011611938,
     "amp_decay": 1.5,
     "amp_release": 1.272895057596567403,
     "amp_sustain": 1,
@@ -14,7 +16,7 @@
     "arp_pattern": 0,
     "arp_sync": 1,
     "arp_tempo": 9,
-    "beats_per_minute": 116.55381944444444287,
+    "beats_per_minute": 120,
     "cross_modulation": 0,
     "cutoff": 127,
     "delay_dry_wet": 0.5,
@@ -28,13 +30,17 @@
     "fil_env_depth": 0,
     "fil_release": 1.5,
     "fil_sustain": 0.5,
-    "filter_saturation": -14.540624999999998579,
+    "filter_saturation": -11.364376068115234375,
     "filter_type": 6,
     "formant_on": 0,
     "formant_x": 0.47142857142857141906,
     "formant_y": 0.52252252252252251452,
     "keytrack": 0,
     "legato": 0,
+    "mod_attack": 0,
+    "mod_decay": 1.5,
+    "mod_release": 1.5,
+    "mod_sustain": 0.5,
     "mono_lfo_1_amplitude": 1,
     "mono_lfo_1_frequency": 1,
     "mono_lfo_1_retrigger": 0,
@@ -53,16 +59,17 @@
     "osc_1_tune": 0.039718750000000246914,
     "osc_1_unison_detune": 0,
     "osc_1_unison_voices": 1,
+    "osc_1_volume": 0.70710678118654757274,
     "osc_1_waveform": 2,
     "osc_2_transpose": 0,
     "osc_2_tune": -0.050124999999999975131,
     "osc_2_unison_detune": 0,
     "osc_2_unison_voices": 1,
+    "osc_2_volume": 0.70710678118654757274,
     "osc_2_waveform": 5,
     "osc_feedback_amount": 0,
     "osc_feedback_transpose": 0,
     "osc_feedback_tune": 0,
-    "osc_mix": 0.5,
     "pitch_bend_range": 2,
     "poly_lfo_amplitude": 1,
     "poly_lfo_frequency": 1,
@@ -117,15 +124,24 @@
     "stutter_frequency": 3,
     "stutter_on": 0,
     "stutter_resample_frequency": 1,
+    "stutter_resample_sync": 1,
+    "stutter_resample_tempo": 6,
     "stutter_softness": 0,
+    "stutter_sync": 1,
+    "stutter_tempo": 8,
     "sub_shuffle": 0,
     "sub_volume": 0,
     "sub_waveform": 2,
     "unison_1_harmonize": 0,
     "unison_2_harmonize": 0,
     "velocity_track": 0,
-    "volume": 0.59140097128378377178,
+    "volume": 1,
     "modulations": [
+      {
+        "source": "mono_lfo_2",
+        "destination": "osc_2_volume",
+        "amount": 0.50079119205474853516
+      },
       {
         "source": "mono_lfo_1",
         "destination": "mono_lfo_2_tempo",
@@ -137,14 +153,14 @@
         "amount": 12.010161399841308594
       },
       {
-        "source": "mono_lfo_2",
-        "destination": "osc_mix",
-        "amount": 0.50079119205474853516
-      },
-      {
         "source": "mono_lfo_1",
         "destination": "osc_1_transpose",
         "amount": 12.009927749633789062
+      },
+      {
+        "source": "mono_lfo_2",
+        "destination": "osc_1_volume",
+        "amount": -0.50079119205474853516
       }
     ]
   }

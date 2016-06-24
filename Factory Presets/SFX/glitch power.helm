@@ -1,6 +1,8 @@
 {
   "license": "Patch (c) by Matt Tytel.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
-  "synth_version": "0.5.1",
+  "synth_version": "0.7.1",
+  "patch_name": "glitch power",
+  "folder_name": "SFX",
   "author": "Matt Tytel",
   "settings": {
     "amp_attack": 0.10000000000000000555,
@@ -14,7 +16,7 @@
     "arp_pattern": 0,
     "arp_sync": 1,
     "arp_tempo": 9,
-    "beats_per_minute": 116.16161616161616621,
+    "beats_per_minute": 120,
     "cross_modulation": 0.056000000000000008105,
     "cutoff": 88.637500000000002842,
     "delay_dry_wet": 0.5,
@@ -28,12 +30,12 @@
     "fil_env_depth": 50.175999999999987722,
     "fil_release": 0.52941176470588235947,
     "fil_sustain": 0.14999999999999999445,
-    "filter_saturation": -10.079999999999994742,
+    "filter_saturation": -1.4831256866455078125,
     "filter_type": 0,
     "formant_on": 0,
     "formant_x": 0.22857142857142856429,
     "formant_y": 0.15315315315315314315,
-    "keytrack": 0.82400000000000006573,
+    "keytrack": 0.8239999999999999547,
     "legato": 0,
     "mod_attack": 0.10000000000000000555,
     "mod_decay": 1.9796196440418900586,
@@ -122,7 +124,11 @@
     "stutter_frequency": 4.0400000000000000355,
     "stutter_on": 1,
     "stutter_resample_frequency": 2.4520000000000017337,
+    "stutter_resample_sync": 0,
+    "stutter_resample_tempo": 6,
     "stutter_softness": 0.26000000000000000888,
+    "stutter_sync": 0,
+    "stutter_tempo": 8,
     "sub_shuffle": 0.7159999999999999698,
     "sub_volume": 0.53225806451612900361,
     "sub_waveform": 2,
@@ -134,7 +140,7 @@
       {
         "source": "mod_envelope",
         "destination": "poly_lfo_amplitude",
-        "amount": -0.99556365214055642099
+        "amount": -0.99556365214055653201
       },
       {
         "source": "mono_lfo_1",

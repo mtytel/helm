@@ -1,8 +1,8 @@
 {
   "license": "Patch (c) by Ones & Zeros.  This patch is licensed under a Creative Commons Attribution 4.0 International License.  You should have received a copy of the license along with this work.  If not, see <http://creativecommons.org/licenses/by/4.0/>.",
-  "synth_version": "0.6.1",
-  "patch_name": "Skewdwithnoise",
-  "folder_name": "HELMpatches",
+  "synth_version": "0.7.1",
+  "patch_name": "portamento one",
+  "folder_name": "Keys",
   "author": "Ones & Zeros",
   "settings": {
     "amp_attack": 0,
@@ -124,14 +124,18 @@
     "stutter_frequency": 1.840000152587890625,
     "stutter_on": 0,
     "stutter_resample_frequency": -7,
+    "stutter_resample_sync": 1,
+    "stutter_resample_tempo": 6,
     "stutter_softness": 0.56800001859664916992,
+    "stutter_sync": 1,
+    "stutter_tempo": 8,
     "sub_shuffle": 0.4120000004768371582,
     "sub_volume": 0,
     "sub_waveform": 1,
     "unison_1_harmonize": 1,
     "unison_2_harmonize": 1,
     "velocity_track": 0,
-    "volume": 0.90909093618392944336,
+    "volume": 1,
     "modulations": [
       {
         "source": "velocity",
@@ -139,14 +143,14 @@
         "amount": 4.4800000000000004263
       },
       {
-        "source": "mono_lfo_1",
-        "destination": "osc_1_tune",
-        "amount": 0.032000000000000028422
-      },
-      {
         "source": "mod_envelope",
         "destination": "osc_1_tune",
         "amount": 0.47199999999999997513
+      },
+      {
+        "source": "mono_lfo_1",
+        "destination": "osc_1_tune",
+        "amount": 0.032000000000000028422
       }
     ]
   }
