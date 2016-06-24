@@ -38,7 +38,6 @@ ModulationManager::ModulationManager(
   startTimerHz(FRAMES_PER_SECOND);
 
   current_modulator_ = "";
-  last_value_ = -1.0;
 
   polyphonic_destinations_ = new Component();
   polyphonic_destinations_->setInterceptsMouseClicks(false, true);
@@ -159,8 +158,7 @@ void ModulationManager::sliderValueChanged(juce::Slider *moved_slider) {
   std::string destination_name = moved_slider->getName().toStdString();
   setModulationAmount(current_modulator_, destination_name, moved_slider->getValue());
 
-  if ((bool)last_value_ != (bool)moved_slider->getValue())
-    modulation_buttons_[current_modulator_]->repaint();
+  modulation_buttons_[current_modulator_]->repaint();
   last_value_ = moved_slider->getValue();
 }
 
