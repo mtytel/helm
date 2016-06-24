@@ -214,11 +214,14 @@ namespace mopo {
   }
 
   void SampleAndHoldBuffer::process() {
-    if (input()->source->buffer[0] == output()->buffer[0])
+    mopo_float value = input()->source->buffer[0];
+    mopo_float* dest = output()->buffer;
+    if (value == dest[0])
       return;
+
 #pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      bufferTick(dest, value, i);
     processTriggers();
   }
 

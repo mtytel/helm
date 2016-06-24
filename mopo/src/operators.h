@@ -479,11 +479,11 @@ namespace mopo {
       void process() override;
 
       inline void tick(int i) override {
-        bufferTick(output()->buffer, input()->source->buffer, i);
+        bufferTick(output()->buffer, input()->source->buffer[0], i);
       }
 
-      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
-        dest[i] = source[0];
+      inline void bufferTick(mopo_float* dest, mopo_float value, int i) {
+        dest[i] = value;
       }
   };
 
