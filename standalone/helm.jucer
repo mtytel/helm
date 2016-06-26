@@ -479,8 +479,7 @@
       </MODULEPATHS>
     </VS2012>
     <LINUX_MAKE targetFolder="builds/linux" bigIcon="JqKIEw" smallIcon="oFf3hH"
-                extraCompilerFlags="$(shell dpkg-buildflags --get CXXFLAGS) -ffast-math -msse2"
-                extraLinkerFlags="$(shell dpkg-buildflags --get LDFLAGS) -lpng -ffast-math -msse2"
+                extraCompilerFlags="$(DEBCXXFLAGS) -ffast-math -msse2" extraLinkerFlags="$(DEBLDFLAGS) -lpng -ffast-math -msse2"
                 extraDefs="JUCE_JACK_CLIENT_NAME=\&quot;Helm\&quot;,&#10;JUCE_ALSA_MIDI_INPUT_NAME=\&quot;Helm\&quot;&#10;JUCE_ALSA_MIDI_OUTPUT_NAME=\&quot;Helm\&quot;&#10;JUCE_USE_XRANDR=0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"

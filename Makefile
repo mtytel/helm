@@ -1,11 +1,21 @@
-export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-
 ifndef CONFIG
 	CONFIG=Release
 endif
 
 ifndef LIBDIR
 	LIBDIR=/usr/lib/
+endif
+
+DPKG := $(shell dpkg-buildflags --version 2> /dev/null)
+
+ifdef DPKG
+	DEB_BUILD_MAINT_OPTIONS = hardening=+all
+	SDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
+	SDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+
+	DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
+	PDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
+	PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 endif
 
 PROGRAM = helm
@@ -22,13 +32,13 @@ CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
 all: standalone lv2
 
 standalone:
-	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG)
+	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)"
 
 lv2:
-	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG) DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
+	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)"
 
 vst:
-	$(MAKE) -C builds/linux/VST CONFIG=$(CONFIG) DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
+	$(MAKE) -C builds/linux/VST CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)"
 
 clean:
 	$(MAKE) clean -C standalone/builds/linux CONFIG=$(CONFIG)

@@ -425,8 +425,7 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="builds/linux/VST" vstFolder="~/srcs/VST3 SDK" vst3Folder="~/srcs/VST3 SDK"
-                extraCompilerFlags="$(shell dpkg-buildflags --get CXXFLAGS) -ffast-math -msse2"
-                extraLinkerFlags="$(shell dpkg-buildflags --get LDFLAGS) -lpng -ffast-math -msse2"
+                extraCompilerFlags="$(DEBCXXFLAGS) -ffast-math -msse2" extraLinkerFlags="$(DEBLDFLAGS) -lpng -ffast-math -msse2"
                 extraDefs="JUCE_USE_XRANDR=0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"

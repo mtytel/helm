@@ -1,7 +1,3 @@
-ifndef DEB_BUILD_MAINT_OPTIONS
-  DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
-endif
-
 ifndef CONFIG
   CONFIG=Release
 endif
@@ -9,7 +5,7 @@ endif
 all: binary ttl_generator lv2
 
 binary:
-	$(MAKE) -f Makefile.binary CONFIG=$(CONFIG) DEB_BUILD_MAINT_OPTIONS=$(DEB_BUILD_MAINT_OPTIONS)
+	$(MAKE) -f Makefile.binary CONFIG=$(CONFIG) DEBCXXFLAGS="$(DEBCXXFLAGS)" DEBLDFLAGS="$(DEBLDFLAGS)"
 
 ttl_generator:
 	$(MAKE) -f Makefile.ttl_generator CONFIG=$(CONFIG)

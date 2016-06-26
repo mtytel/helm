@@ -20,9 +20,9 @@ ifeq ($(CONFIG),Debug)
   endif
 
   CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCE_INCLUDE_PNGLIB_CODE=0" -D "PNG_SKIP_SETJMP_CHECK=1" -D "JUCE_USE_XRANDR=0" -D "JUCER_LINUX_MAKE_1D79FBD2=1" -D "JUCE_APP_VERSION=0.8.0" -D "JUCE_APP_VERSION_HEX=0x800" -D "JucePlugin_Build_LV2=1" -D "JucePlugin_LV2URI=\"http://tytel.org/helm\"" -D "JucePlugin_LV2Category=\"InstrumentPlugin\"" -D "JucePlugin_WantsLV2Presets=1" -D "JucePlugin_WantsLV2State=1" -D "JucePlugin_WantsLV2TimePos=1" -I /usr/include -I /usr/include/freetype2 -I ../../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../mopo/src -I ../../../concurrentqueue -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
-  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0 $(shell dpkg-buildflags --get CXXFLAGS) -ffast-math -msse2
+  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0 $(DEBCXXFLAGS) -ffast-math -msse2
   CXXFLAGS += $(CFLAGS) -std=c++11
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt $(shell dpkg-buildflags --get LDFLAGS) -lpng -ffast-math -msse2
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt $(DEBLDFLAGS) -lpng -ffast-math -msse2
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -40,9 +40,9 @@ ifeq ($(CONFIG),Release)
   endif
 
   CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D "JUCE_INCLUDE_PNGLIB_CODE=0" -D "PNG_SKIP_SETJMP_CHECK=1" -D "JUCE_USE_XRANDR=0" -D "JUCER_LINUX_MAKE_1D79FBD2=1" -D "JUCE_APP_VERSION=0.8.0" -D "JUCE_APP_VERSION_HEX=0x800" -D "JucePlugin_Build_LV2=1" -D "JucePlugin_LV2URI=\"http://tytel.org/helm\"" -D "JucePlugin_LV2Category=\"InstrumentPlugin\"" -D "JucePlugin_WantsLV2Presets=1" -D "JucePlugin_WantsLV2State=1" -D "JucePlugin_WantsLV2TimePos=1" -I /usr/include -I /usr/include/freetype2 -I ../../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../mopo/src -I ../../../concurrentqueue -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
-  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -O3 $(shell dpkg-buildflags --get CXXFLAGS) -ffast-math -msse2
+  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -O3 $(DEBCXXFLAGS) -ffast-math -msse2
   CXXFLAGS += $(CFLAGS) -std=c++11
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt $(shell dpkg-buildflags --get LDFLAGS) -lpng -ffast-math -msse2
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt $(DEBLDFLAGS) -lpng -ffast-math -msse2
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
