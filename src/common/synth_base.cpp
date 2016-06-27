@@ -20,6 +20,7 @@
 #include "startup.h"
 #include "synth_gui_interface.h"
 
+#define OUTPUT_WINDOW_MIN_NOTE 16.0
 
 SynthBase::SynthBase() {
   controls_ = engine_.getControls();
@@ -218,7 +219,7 @@ void SynthBase::processModulationChanges() {
 
 void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
                                                 const mopo::mopo_float* right) {
-  mopo::mopo_float last_played = engine_.getLastActiveNote();
+  mopo::mopo_float last_played = std::max(engine_.getLastActiveNote(), OUTPUT_WINDOW_MIN_NOTE);
   int output_inc = engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
 
   if (last_played && last_played_note_ != last_played) {
@@ -237,9 +238,12 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
   }
 
   for (; memory_input_offset_ < samples; memory_input_offset_ += output_inc) {
-    int input_index = memory_input_offset_;
+    int input_index = mopo::utils::iclamp(memory_input_offset_, 0, samples);
+    memory_index_ = mopo::utils::iclamp(memory_index_, 0, 2 * mopo::MEMORY_RESOLUTION - 1);
     MOPO_ASSERT(input_index >= 0);
     MOPO_ASSERT(input_index < samples);
+    MOPO_ASSERT(memory_index_ >= 0);
+    MOPO_ASSERT(memory_index_ < 2 * mopo::MEMORY_RESOLUTION);
     output_memory_write_[memory_index_++] = left[input_index] + right[input_index];
 
     if (memory_index_ * output_inc >= memory_reset_period_) {
