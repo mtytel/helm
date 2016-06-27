@@ -1,5 +1,5 @@
-helm (0.8.0-1) trusty; urgency=low
+helm (0.8.1-1) trusty; urgency=low
 
-  * New stutter section, and DAW bug fixes.
+  * Fixed crash during rendering.
 
  -- Matt Tytel <matthewtytel@gmail.com>  Tue, 14 Jul 2015 12:31:07 -0700
