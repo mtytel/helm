@@ -31,9 +31,9 @@
     <key>CFBundleSignature</key>
     <string>PTul</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.8.0</string>
+    <string>0.8.1</string>
     <key>CFBundleVersion</key>
-    <string>0.8.0</string>
+    <string>0.8.1</string>
     <key>NSHumanReadableCopyright</key>
     <string>Matt Tytel</string>
     <key>NSHighResolutionCapable</key>
@@ -54,7 +54,7 @@
         <key>subtype</key>
         <string>Helm</string>
         <key>version</key>
-        <integer>2048</integer>
+        <integer>2049</integer>
       </dict>
     </array>
   </dict>
