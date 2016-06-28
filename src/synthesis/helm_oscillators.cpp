@@ -72,8 +72,8 @@ namespace mopo {
     oscillator2_rand_offset_[0] = 0.0;
 
     for (int i = 1; i < MAX_UNISON; ++i) {
-      oscillator1_phases_[i] = rand();
-      oscillator2_phases_[i] = rand();
+      oscillator1_phases_[i] = (UINT_MAX / RAND_MAX) * rand();
+      oscillator2_phases_[i] = (UINT_MAX / RAND_MAX) * rand();
       oscillator1_rand_offset_[i] = 0.0;
       oscillator2_rand_offset_[i] = 0.0;
     }
