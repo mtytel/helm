@@ -160,7 +160,6 @@
         <FILE id="wfhZmW" name="voice_handler.cpp" compile="1" resource="0"
               file="../mopo/src/voice_handler.cpp"/>
         <FILE id="NK5IsM" name="voice_handler.h" compile="0" resource="0" file="../mopo/src/voice_handler.h"/>
-        <FILE id="oTnqIq" name="wave.cpp" compile="1" resource="0" file="../mopo/src/wave.cpp"/>
         <FILE id="jRssuU" name="wave.h" compile="0" resource="0" file="../mopo/src/wave.h"/>
       </GROUP>
     </GROUP>

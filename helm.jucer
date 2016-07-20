@@ -167,7 +167,6 @@
         <FILE id="BryA4y" name="voice_handler.cpp" compile="1" resource="0"
               file="mopo/src/voice_handler.cpp"/>
         <FILE id="ioNiaI" name="voice_handler.h" compile="0" resource="0" file="mopo/src/voice_handler.h"/>
-        <FILE id="CtyuIv" name="wave.cpp" compile="1" resource="0" file="mopo/src/wave.cpp"/>
         <FILE id="sJSR4u" name="wave.h" compile="0" resource="0" file="mopo/src/wave.h"/>
       </GROUP>
     </GROUP>

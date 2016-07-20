@@ -53,7 +53,6 @@
 		29A38B487FB36B74D26B58B2 = {isa = PBXBuildFile; fileRef = 2C3C074C5DFD6A016673CD03; };
 		0AC101072208CB17B8BF7846 = {isa = PBXBuildFile; fileRef = 5DE3706367E3F615FAA72C80; };
 		12F788D844EFB9FD7AF524A5 = {isa = PBXBuildFile; fileRef = 2F84B9AA90541807F01D3866; };
-		777B8F64F349CAEEA8BD53CF = {isa = PBXBuildFile; fileRef = 6AA57FA2C13E036A55FC905C; };
 		688438402F85C5421B9C9A7F = {isa = PBXBuildFile; fileRef = B3802EFC12E65C931E2A99C0; };
 		2D1E58B7A478524AA87449BC = {isa = PBXBuildFile; fileRef = 5AA6534E4E8973315DD40B14; };
 		5460C17E9367CB47174AC324 = {isa = PBXBuildFile; fileRef = 2B2DAF77E529EF609CE07E03; };
@@ -637,7 +636,6 @@
 		697F0A0B3D1211925CBE025E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "bypass_router.h"; path = "../../../mopo/src/bypass_router.h"; sourceTree = "SOURCE_ROOT"; };
 		699EFB0F95B7DF27E6AD736C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_FileTreeComponent.cpp"; path = "../../../JUCE/modules/juce_gui_basics/filebrowser/juce_FileTreeComponent.cpp"; sourceTree = "SOURCE_ROOT"; };
 		6A0C0C96E1B17DACFD70822C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_BigInteger.cpp"; path = "../../../JUCE/modules/juce_core/maths/juce_BigInteger.cpp"; sourceTree = "SOURCE_ROOT"; };
-		6AA57FA2C13E036A55FC905C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = wave.cpp; path = ../../../mopo/src/wave.cpp; sourceTree = "SOURCE_ROOT"; };
 		6AAAE3B64A03499FF16ECDFC = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_JSON.h"; path = "../../../JUCE/modules/juce_core/javascript/juce_JSON.h"; sourceTree = "SOURCE_ROOT"; };
 		6AB49D75266DF7809AB57216 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_StringArray.cpp"; path = "../../../JUCE/modules/juce_core/text/juce_StringArray.cpp"; sourceTree = "SOURCE_ROOT"; };
 		6ABED9F85ECBBAD6786A380D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_ReferenceCountedArray.h"; path = "../../../JUCE/modules/juce_core/containers/juce_ReferenceCountedArray.h"; sourceTree = "SOURCE_ROOT"; };
@@ -1403,7 +1401,6 @@
 					C81B20607C369FB396DB6746,
 					2F84B9AA90541807F01D3866,
 					EF7CFA9E9B8C00361A846963,
-					6AA57FA2C13E036A55FC905C,
 					01195B4D04F473A3877C53DB, ); name = src; sourceTree = "<group>"; };
 		CAB3615425E728EAFAB20561 = {isa = PBXGroup; children = (
 					809444A174B6870B3B5B9630, ); name = mopo; sourceTree = "<group>"; };
@@ -2814,7 +2811,6 @@
 					29A38B487FB36B74D26B58B2,
 					0AC101072208CB17B8BF7846,
 					12F788D844EFB9FD7AF524A5,
-					777B8F64F349CAEEA8BD53CF,
 					688438402F85C5421B9C9A7F,
 					2D1E58B7A478524AA87449BC,
 					5460C17E9367CB47174AC324,

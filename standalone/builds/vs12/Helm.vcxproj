@@ -217,7 +217,6 @@
     <ClCompile Include="..\..\..\mopo\src\trigger_operators.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp"/>
-    <ClCompile Include="..\..\..\mopo\src\wave.cpp"/>
     <ClCompile Include="..\..\..\src\common\file_list_box_model.cpp"/>
     <ClCompile Include="..\..\..\src\common\helm_common.cpp"/>
     <ClCompile Include="..\..\..\src\common\load_save.cpp"/>

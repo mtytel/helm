@@ -436,9 +436,6 @@
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mopo\src\wave.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\common\file_list_box_model.cpp">
       <Filter>HelmPlugin\src\common</Filter>
     </ClCompile>

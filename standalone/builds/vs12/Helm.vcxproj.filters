@@ -442,9 +442,6 @@
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mopo\src\wave.cpp">
-      <Filter>Helm\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\common\file_list_box_model.cpp">
       <Filter>Helm\src\common</Filter>
     </ClCompile>
