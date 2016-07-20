@@ -33,7 +33,7 @@ void SynthSection::resized() {
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
-  Image background = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Image background = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background);
   g.addTransform(AffineTransform::scale(scale, scale));
 
