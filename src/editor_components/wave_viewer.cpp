@@ -93,7 +93,7 @@ void WaveViewer::paintBackground(Graphics& g) {
 void WaveViewer::resized() {
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
-  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  background_ = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
   resetWavePath();
 }
 

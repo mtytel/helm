@@ -71,7 +71,7 @@ void FilterResponse::paint(Graphics& g) {
 void FilterResponse::resized() {
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
-  background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  background_ = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_);
   g.addTransform(AffineTransform::scale(scale, scale));
   paintBackground(g);
