@@ -88,6 +88,11 @@ namespace mopo {
         }
       }
 
+      static inline const WaveLookup* instance() {
+        static const WaveLookup lookup;
+        return &lookup;
+      }
+
       inline mopo_float fullsin(mopo_float t) const {
         mopo_float integral;
         mopo_float fractional = utils::mod(t * LOOKUP_SIZE, &integral);
@@ -173,39 +178,40 @@ namespace mopo {
         kNumWaveforms
       };
 
-      static inline mopo_float blwave(Type waveform, mopo_float t,
+      static inline mopo_float blwave(Wave::Type waveform, mopo_float t,
                                       mopo_float frequency) {
+        const WaveLookup* lookup = WaveLookup::instance();
         if (fabs(frequency) < 1)
-          return wave(waveform, t);
+          return Wave::wave(waveform, t);
         int harmonics = HIGH_FREQUENCY / fabs(frequency) - 1.0;
         if (harmonics >= MAX_HARMONICS)
-          return wave(waveform, t);
+          return Wave::wave(waveform, t);
 
         switch (waveform) {
-          case kSin:
-            return lookup_.fullsin(t);
-          case kTriangle:
-            return lookup_.triangle(t, harmonics);
-          case kSquare:
-            return lookup_.square(t, harmonics);
-          case kDownSaw:
-            return lookup_.downsaw(t, harmonics);
-          case kUpSaw:
-            return lookup_.upsaw(t, harmonics);
-          case kThreeStep:
-            return lookup_.step<3>(t, harmonics);
-          case kFourStep:
-            return lookup_.step<4>(t, harmonics);
-          case kEightStep:
-            return lookup_.step<8>(t, harmonics);
-          case kThreePyramid:
-            return lookup_.pyramid<3>(t, harmonics);
-          case kFivePyramid:
-            return lookup_.pyramid<5>(t, harmonics);
-          case kNinePyramid:
-            return lookup_.pyramid<9>(t, harmonics);
+          case Wave::kSin:
+            return lookup->fullsin(t);
+          case Wave::kTriangle:
+            return lookup->triangle(t, harmonics);
+          case Wave::kSquare:
+            return lookup->square(t, harmonics);
+          case Wave::kDownSaw:
+            return lookup->downsaw(t, harmonics);
+          case Wave::kUpSaw:
+            return lookup->upsaw(t, harmonics);
+          case Wave::kThreeStep:
+            return lookup->step<3>(t, harmonics);
+          case Wave::kFourStep:
+            return lookup->step<4>(t, harmonics);
+          case Wave::kEightStep:
+            return lookup->step<8>(t, harmonics);
+          case Wave::kThreePyramid:
+            return lookup->pyramid<3>(t, harmonics);
+          case Wave::kFivePyramid:
+            return lookup->pyramid<5>(t, harmonics);
+          case Wave::kNinePyramid:
+            return lookup->pyramid<9>(t, harmonics);
           default:
-            return wave(waveform, t);
+            return Wave::wave(waveform, t);
         }
       }
 
@@ -249,7 +255,7 @@ namespace mopo {
       }
 
       static inline mopo_float fullsin(mopo_float t) {
-        return lookup_.fullsin(t);
+        return sin((2.0 * PI) * t);
       }
 
       static inline mopo_float square(mopo_float t) {
@@ -295,9 +301,6 @@ namespace mopo {
         out /= squares;
         return out;
       }
-
-    protected:
-      static const WaveLookup lookup_;
   };
 } // namespace mopo
 
