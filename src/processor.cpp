@@ -21,13 +21,15 @@
 
 namespace mopo {
 
-  const Processor::Output Processor::null_source_;
+  const Output Processor::null_source_;
 
-  Processor::Processor(int num_inputs, int num_outputs) :
+  Processor::Processor(int num_inputs, int num_outputs, bool control_rate) :
       sample_rate_(DEFAULT_SAMPLE_RATE), buffer_size_(DEFAULT_BUFFER_SIZE),
-      control_rate_(false),
+      control_rate_(control_rate),
       inputs_(new std::vector<Input*>()), outputs_(new std::vector<Output*>()),
       router_(0) {
+        
+    setControlRate(control_rate);
     for (int i = 0; i < num_inputs; ++i) {
       Input* input = new Input();
       owned_inputs_.push_back(input);
@@ -38,7 +40,12 @@ namespace mopo {
     }
 
     for (int i = 0; i < num_outputs; ++i) {
-      Output* output = new Output();
+      Output* output = 0;
+      if (control_rate_)
+        output = new cr::Output();
+      else
+        output = new Output();
+      
       owned_outputs_.push_back(output);
 
       // All outputs are owned by this Processor.
@@ -140,7 +147,7 @@ namespace mopo {
       router_->connect(this, input->source, inputs_->size() - 1);
   }
 
-  Processor::Output* Processor::registerOutput(Output* output) {
+  Output* Processor::registerOutput(Output* output) {
     outputs_->push_back(output);
     return output;
   }
@@ -155,7 +162,7 @@ namespace mopo {
       router_->connect(this, input->source, index);
   }
 
-  Processor::Output* Processor::registerOutput(Output* output, int index) {
+  Output* Processor::registerOutput(Output* output, int index) {
     while (outputs_->size() <= index)
       outputs_->push_back(0);
 

@@ -18,8 +18,9 @@
 
 namespace mopo {
 
-  Value::Value(mopo_float value) : Processor(kNumInputs, 1), value_(value) {
-    for (int i = 0; i < MAX_BUFFER_SIZE; ++i)
+  Value::Value(mopo_float value, bool control_rate) :
+      Processor(kNumInputs, 1, control_rate), value_(value) {
+    for (int i = 0; i < output()->buffer_size; ++i)
       output()->buffer[i] = value_;
   }
 
@@ -33,7 +34,7 @@ namespace mopo {
 
     if (input(kSet)->source->triggered) {
       int i = 0;
-      int offset = input(kSet)->source->trigger_offset;
+      int offset = std::min(buffer_size_, input(kSet)->source->trigger_offset);
       for (; i < offset; ++i)
         output()->buffer[i] = value_;
 
@@ -52,7 +53,7 @@ namespace mopo {
 
   void Value::set(mopo_float value) {
     value_ = value;
-    for (int i = 0; i < MAX_BUFFER_SIZE; ++i)
+    for (int i = 0; i < output()->buffer_size; ++i)
       output()->buffer[i] = value_;
   }
 } // namespace mopo

@@ -48,9 +48,8 @@ namespace mopo {
     VariableAdd* left_comb_total = new VariableAdd(NUM_COMB);
     for (int i = 0; i < NUM_COMB; ++i) {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
-      Value* time = new Value(COMB_TUNINGS[i]);
-      TimeToSamples* samples = new TimeToSamples();
-      samples->setControlRate();
+      Value* time = new cr::Value(COMB_TUNINGS[i]);
+      cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
       comb->plug(gained_input, ReverbComb::kAudio);
@@ -65,9 +64,8 @@ namespace mopo {
     VariableAdd* right_comb_total = new VariableAdd(NUM_COMB);
     for (int i = 0; i < NUM_COMB; ++i) {
       ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
-      Value* time = new Value(COMB_TUNINGS[i] + STEREO_SPREAD);
-      TimeToSamples* samples = new TimeToSamples();
-      samples->setControlRate();
+      Value* time = new cr::Value(COMB_TUNINGS[i] + STEREO_SPREAD);
+      cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
       comb->plug(gained_input, ReverbComb::kAudio);
@@ -85,9 +83,8 @@ namespace mopo {
     Processor* left_audio = left_comb_total;
     for (int i = 0; i < NUM_ALL_PASS; ++i) {
       ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
-      Value* time = new Value(ALL_PASS_TUNINGS[i]);
-      TimeToSamples* samples = new TimeToSamples();
-      samples->setControlRate();
+      Value* time = new cr::Value(ALL_PASS_TUNINGS[i]);
+      cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
       all_pass->plug(left_audio, ReverbAllPass::kAudio);
@@ -102,9 +99,8 @@ namespace mopo {
     Processor* right_audio = right_comb_total;
     for (int i = 0; i < NUM_ALL_PASS; ++i) {
       ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
-      Value* time = new Value(ALL_PASS_TUNINGS[i] + STEREO_SPREAD);
-      TimeToSamples* samples = new TimeToSamples();
-      samples->setControlRate();
+      Value* time = new cr::Value(ALL_PASS_TUNINGS[i] + STEREO_SPREAD);
+      cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
       all_pass->plug(right_audio, ReverbAllPass::kAudio);

@@ -35,8 +35,8 @@ namespace mopo {
   // A base class for arithmetic operators.
   class Operator : public Processor {
     public:
-      Operator(int num_inputs, int num_outputs) :
-          Processor(num_inputs, num_outputs) { }
+      Operator(int num_inputs, int num_outputs, bool control_rate = false) :
+          Processor(num_inputs, num_outputs, control_rate) { }
 
       virtual void process() override;
       virtual void tick(int i) = 0;
@@ -515,8 +515,7 @@ namespace mopo {
 
     class Add : public Operator {
       public:
-        Add() : Operator(2, 1) {
-          setControlRate(true);
+        Add() : Operator(2, 1, true) {
         }
 
         virtual Processor* clone() const override { return new Add(*this); }
@@ -532,8 +531,7 @@ namespace mopo {
 
     class Multiply : public Operator {
       public:
-        Multiply() : Operator(2, 1) {
-          setControlRate(true);
+        Multiply() : Operator(2, 1, true) {
         }
 
         virtual Processor* clone() const override { return new Multiply(*this); }
@@ -547,10 +545,54 @@ namespace mopo {
         }
     };
 
+
+    // A processor that will raise a signal to a given power.
+    class Square : public Operator {
+      public:
+        Square() : Operator(1, 1, true) { }
+        virtual Processor* clone() const override { return new Square(*this); }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = source[i] * source[i];
+        }
+    };
+
+    // A processor that will raise a given number to the power of a signal.
+    class ExponentialScale : public Operator {
+      public:
+        ExponentialScale(mopo_float scale = 1) : Operator(1, 1, true), scale_(scale) { }
+
+        virtual Processor* clone() const override {
+          return new ExponentialScale(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = std::pow(scale_, source[i]);
+        }
+
+      private:
+        mopo_float scale_;
+    };
+
     class VariableAdd : public Operator {
       public:
-        VariableAdd(int num_inputs = 0) : Operator(num_inputs, 1) {
-          setControlRate(true);
+        VariableAdd(int num_inputs = 0) : Operator(num_inputs, 1, true) {
         }
 
         virtual Processor* clone() const override {
@@ -567,6 +609,137 @@ namespace mopo {
 
           for (int in = 0; in < num_inputs; ++in)
             output()->buffer[0] += input(in)->at(0);
+        }
+    };
+
+    class FrequencyToPhase : public Operator {
+      public:
+        FrequencyToPhase() : Operator(1, 1, true) { }
+
+        virtual Processor* clone() const override {
+          return new FrequencyToPhase(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = source[i] / sample_rate_;
+        }
+    };
+
+    class FrequencyToSamples : public Operator {
+      public:
+        FrequencyToSamples() : Operator(1, 1, true) { }
+
+        virtual Processor* clone() const override {
+          return new FrequencyToSamples(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = sample_rate_ / source[i];
+        }
+    };
+
+    class TimeToSamples : public Operator {
+      public:
+        TimeToSamples() : Operator(1, 1, true) { }
+
+        virtual Processor* clone() const override {
+          return new TimeToSamples(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = sample_rate_ * source[i];
+        }
+    };
+
+    // A processor that will convert a stream of decibels to a stream of
+    // magnitudes.
+    class MagnitudeScale : public Operator {
+      public:
+        MagnitudeScale() : Operator(1, 1, true) { }
+
+        virtual Processor* clone() const override {
+          return new MagnitudeScale(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = MagnitudeLookup::magnitudeLookup(source[i]);
+        }
+    };
+
+    // A processor that will convert a stream of midi to a stream of frequencies.
+    class MidiScale : public Operator {
+      public:
+        MidiScale() : Operator(1, 1, true) { }
+
+        virtual Processor* clone() const override {
+          return new MidiScale(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = MidiLookup::centsLookup(CENTS_PER_NOTE * source[i]);
+        }
+    };
+
+    // A processor that will convert a stream of magnitudes to a stream of
+    // q resonance values.
+    class ResonanceScale : public Operator {
+      public:
+        ResonanceScale() : Operator(1, 1, true) { }
+
+        virtual Processor* clone() const override {
+          return new ResonanceScale(*this);
+        }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = ResonanceLookup::qLookup(source[i]);
         }
     };
   } // namespace cr

@@ -29,7 +29,7 @@ namespace mopo {
         kNumInputs
       };
 
-      Value(mopo_float value = 0.0);
+      Value(mopo_float value = 0.0, bool conrol_rate = false);
 
       virtual Processor* clone() const override { return new Value(*this); }
       virtual void process() override;
@@ -40,6 +40,14 @@ namespace mopo {
     protected:
       mopo_float value_;
   };
+
+  namespace cr {
+    class Value : public ::mopo::Value {
+      public:
+        Value(mopo_float value = 0.0) : ::mopo::Value(value, true) { }
+        virtual Processor* clone() const override { return new Value(*this); }
+    };
+  } // namespace cr
 } // namespace mopo
 
 #endif // VALUE_H

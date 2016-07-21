@@ -25,58 +25,72 @@
 
 namespace mopo {
 
+  class Processor;
   class ProcessorRouter;
+
+  // An output port from the Processor.
+  struct Output {
+    Output(int size = MAX_BUFFER_SIZE) {
+      owner = 0;
+      buffer = new mopo_float[size];
+      buffer_size = size;
+      clearBuffer();
+      clearTrigger();
+    }
+
+    ~Output() {
+      delete[] buffer;
+    }
+
+    void trigger(mopo_float value, int offset = 0) {
+      triggered = true;
+      trigger_offset = offset;
+      trigger_value = value;
+    }
+
+    void clearTrigger() {
+      triggered = false;
+      trigger_offset = 0;
+      trigger_value = 0.0;
+    }
+
+    void clearBuffer() {
+      memset(buffer, 0, buffer_size * sizeof(mopo_float));
+    }
+
+    mopo_float* buffer;
+    Processor* owner;
+
+    int buffer_size;
+    bool triggered;
+    int trigger_offset;
+    mopo_float trigger_value;
+  };
+
+  // An input port to the Processor. You can plug an Output into one of
+  // these inputs.
+  struct Input {
+    Input() { source = 0; }
+
+    const Output* source;
+
+    inline mopo_float at(int i) const { return source->buffer[i]; }
+    inline const mopo_float& operator[](std::size_t i) {
+      return source->buffer[i];
+    }
+  };
+
+  namespace cr {
+    struct Output : public ::mopo::Output {
+      Output() : ::mopo::Output(1) { }
+    };
+  } // namespace cr
 
   class Processor {
     public:
       virtual ~Processor() { }
 
-      // An output port from the Processor.
-      struct Output {
-        Output() {
-          owner = 0;
-          clearBuffer();
-          clearTrigger();
-        }
-
-        void trigger(mopo_float value, int offset = 0) {
-          triggered = true;
-          trigger_offset = offset;
-          trigger_value = value;
-        }
-
-        void clearTrigger() {
-          triggered = false;
-          trigger_offset = 0;
-          trigger_value = 0.0;
-        }
-
-        void clearBuffer() {
-          memset(buffer, 0, MAX_BUFFER_SIZE * sizeof(mopo_float));
-        }
-
-        Processor* owner;
-        mopo_float buffer[MAX_BUFFER_SIZE];
-
-        bool triggered;
-        int trigger_offset;
-        mopo_float trigger_value;
-      };
-
-      // An input port to the Processor. You can plug an Output into one of
-      // these inputs.
-      struct Input {
-        Input() { source = 0; }
-
-        const Output* source;
-
-        inline mopo_float at(int i) const { return source->buffer[i]; }
-        inline const mopo_float& operator[](std::size_t i) {
-          return source->buffer[i];
-        }
-      };
-
-      Processor(int num_inputs, int num_outputs);
+      Processor(int num_inputs, int num_outputs, bool control_rate = false);
 
       // Currently need to override this boiler plate clone.
       // TODO(mtytel): Should probably make a macro for this.
