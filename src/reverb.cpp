@@ -47,7 +47,7 @@ namespace mopo {
 
     VariableAdd* left_comb_total = new VariableAdd(NUM_COMB);
     for (int i = 0; i < NUM_COMB; ++i) {
-      ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
+      ReverbComb* comb = new ReverbComb(1 + mopo::MAX_SAMPLE_RATE * COMB_TUNINGS[i]);
       Value* time = new cr::Value(COMB_TUNINGS[i]);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
@@ -63,8 +63,9 @@ namespace mopo {
 
     VariableAdd* right_comb_total = new VariableAdd(NUM_COMB);
     for (int i = 0; i < NUM_COMB; ++i) {
-      ReverbComb* comb = new ReverbComb(REVERB_MAX_MEMORY);
-      Value* time = new cr::Value(COMB_TUNINGS[i] + STEREO_SPREAD);
+      mopo_float tuning = COMB_TUNINGS[i] + STEREO_SPREAD;
+      ReverbComb* comb = new ReverbComb(1 + mopo::MAX_SAMPLE_RATE * tuning);
+      Value* time = new cr::Value(tuning);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
@@ -82,7 +83,7 @@ namespace mopo {
 
     Processor* left_audio = left_comb_total;
     for (int i = 0; i < NUM_ALL_PASS; ++i) {
-      ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
+      ReverbAllPass* all_pass = new ReverbAllPass(1 + mopo::MAX_SAMPLE_RATE * ALL_PASS_TUNINGS[i]);
       Value* time = new cr::Value(ALL_PASS_TUNINGS[i]);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
@@ -98,8 +99,9 @@ namespace mopo {
 
     Processor* right_audio = right_comb_total;
     for (int i = 0; i < NUM_ALL_PASS; ++i) {
-      ReverbAllPass* all_pass = new ReverbAllPass(REVERB_MAX_MEMORY);
-      Value* time = new cr::Value(ALL_PASS_TUNINGS[i] + STEREO_SPREAD);
+      mopo_float tuning = ALL_PASS_TUNINGS[i] + STEREO_SPREAD;
+      ReverbAllPass* all_pass = new ReverbAllPass(1 + mopo::MAX_SAMPLE_RATE * tuning);
+      Value* time = new cr::Value(tuning);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
