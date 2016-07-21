@@ -25,7 +25,7 @@
 #include <fenv.h>
 #endif
 
-#define MAX_DELAY_SAMPLES 1000000
+#define MAX_DELAY_SAMPLES 300000
 
 namespace mopo {
 
