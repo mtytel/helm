@@ -46,11 +46,11 @@ namespace mopo {
         kNumFixedPointWaveforms
       };
 
-      static const int FIXED_LOOKUP_BITS = 13;
+      static const int FIXED_LOOKUP_BITS = 12;
       static const int FIXED_LOOKUP_SIZE = 4096;
 
-      static const int FRACTIONAL_BITS = 19;
-      static const int FRACTIONAL_SIZE = 524288;
+      static const int FRACTIONAL_BITS = 20;
+      static const int FRACTIONAL_SIZE = 1048576;
 
       static const int HARMONICS = 63;
 
