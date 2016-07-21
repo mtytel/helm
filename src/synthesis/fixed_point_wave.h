@@ -47,12 +47,12 @@ namespace mopo {
       };
 
       static const int FIXED_LOOKUP_BITS = 13;
-      static const int FIXED_LOOKUP_SIZE = 8192;
+      static const int FIXED_LOOKUP_SIZE = 4096;
 
       static const int FRACTIONAL_BITS = 19;
       static const int FRACTIONAL_SIZE = 524288;
 
-      static const int HARMONICS = 127;
+      static const int HARMONICS = 63;
 
       static const mopo_float SCALE;
 

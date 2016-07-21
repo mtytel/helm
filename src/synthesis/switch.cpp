@@ -20,17 +20,12 @@
 
 namespace mopo {
 
-  Switch::Switch() : Processor(kNumInputs, 1) { }
+  Switch::Switch() : Processor(kNumInputs, 1, true) { }
 
   void Switch::process() {
     int source = static_cast<int>(input(kSource)->at(0));
     source = utils::clamp(source, 0, numInputs() - kNumInputs - 1);
 
-    if (isControlRate())
-      output()->buffer[0] = input(kNumInputs + source)->at(0);
-    else {
-      memcpy(output()->buffer, input(kNumInputs + source)->source->buffer,
-             buffer_size_ * sizeof(mopo_float));
-    }
+    output()->buffer[0] = input(kNumInputs + source)->at(0);
   }
 } // namespace mopo

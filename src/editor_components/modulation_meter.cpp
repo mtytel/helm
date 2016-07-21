@@ -23,8 +23,8 @@
 #define ROTARY_MOD_COLOR 0xff00e676
 #define SLIDER_MOD_COLOR 0xff69f0ae
 
-ModulationMeter::ModulationMeter(const mopo::Processor::Output* mono_total,
-                                 const mopo::Processor::Output* poly_total,
+ModulationMeter::ModulationMeter(const mopo::Output* mono_total,
+                                 const mopo::Output* poly_total,
                                  const SynthSlider* slider) :
         mono_total_(mono_total), poly_total_(poly_total),
         destination_(slider), current_value_(0.0), knob_percent_(0.0), mod_percent_(0.0),

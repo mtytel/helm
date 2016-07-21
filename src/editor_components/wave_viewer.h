@@ -22,7 +22,7 @@
 #include "wave.h"
 #include "helm_common.h"
 
-class WaveViewer  : public Component, public Timer, public SliderListener {
+class WaveViewer : public Component, public Timer, public SliderListener {
   public:
     WaveViewer(int resolution);
     ~WaveViewer();
@@ -47,8 +47,8 @@ class WaveViewer  : public Component, public Timer, public SliderListener {
 
     Slider* wave_slider_;
     Slider* amplitude_slider_;
-    mopo::Processor::Output* wave_phase_;
-    mopo::Processor::Output* wave_amp_;
+    mopo::Output* wave_phase_;
+    mopo::Output* wave_amp_;
     Path wave_path_;
     bool is_control_rate_;
     int resolution_;

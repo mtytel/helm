@@ -31,8 +31,7 @@ namespace mopo {
       getMonoRouter()->addProcessor(val);
     }
     else {
-      val = new Value(default_value);
-      val->setControlRate();
+      val = new cr::Value(default_value);
     }
 
     controls_[name] = val;
@@ -59,15 +58,13 @@ namespace mopo {
     Processor* control_rate_total = base_control;
 
     if (details.display_skew == ValueDetails::kQuadratic) {
-      control_rate_total = new Square();
+      control_rate_total = new cr::Square();
       control_rate_total->plug(base_control);
-      control_rate_total->setControlRate();
       mono_owner->addProcessor(control_rate_total);
     }
     else if (details.display_skew == ValueDetails::kExponential) {
-      control_rate_total = new ExponentialScale(2.0);
+      control_rate_total = new cr::ExponentialScale(2.0);
       control_rate_total->plug(base_control);
-      control_rate_total->setControlRate();
       mono_owner->addProcessor(control_rate_total);
     }
 
@@ -99,14 +96,12 @@ namespace mopo {
 
     Processor* control_rate_total = modulation_total;
     if (details.display_skew == ValueDetails::kQuadratic) {
-      control_rate_total = new Square();
-      control_rate_total->setControlRate(true);
+      control_rate_total = new cr::Square();
       control_rate_total->plug(modulation_total);
       poly_owner->addProcessor(control_rate_total);
     }
     else if (details.display_skew == ValueDetails::kExponential) {
-      control_rate_total = new ExponentialScale(2.0);
-      control_rate_total->setControlRate(true);
+      control_rate_total = new cr::ExponentialScale(2.0);
       control_rate_total->plug(modulation_total);
       poly_owner->addProcessor(control_rate_total);
     }
@@ -133,31 +128,21 @@ namespace mopo {
       tempo = createMonoModControl(name + "_tempo", frequency->isControlRate());
 
     Switch* choose_tempo = new Switch();
-    choose_tempo->setControlRate(frequency->isControlRate());
     choose_tempo->plug(tempo, Switch::kSource);
 
     for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(Value); ++i)
       choose_tempo->plugNext(&synced_freq_ratios[i]);
 
     Switch* choose_modifier = new Switch();
-    choose_modifier->setControlRate(frequency->isControlRate());
-    Value* sync = new Value(1);
+    Value* sync = new cr::Value(1);
     choose_modifier->plug(sync, Switch::kSource);
     choose_modifier->plugNext(&utils::value_one);
     choose_modifier->plugNext(&utils::value_one);
     choose_modifier->plugNext(&dotted_ratio);
     choose_modifier->plugNext(&triplet_ratio);
 
-    Processor* modified_tempo = nullptr;
-    Processor* tempo_frequency = nullptr;
-    if (frequency->isControlRate()) {
-      modified_tempo = new cr::Multiply();
-      tempo_frequency = new cr::Multiply();
-    }
-    else {
-      modified_tempo = new Multiply();
-      tempo_frequency = new Multiply();
-    }
+    Processor* modified_tempo = new cr::Multiply();
+    Processor* tempo_frequency = new cr::Multiply();
 
     modified_tempo->plug(choose_tempo, 0);
     modified_tempo->plug(choose_modifier, 1);
@@ -171,7 +156,6 @@ namespace mopo {
     owner->addProcessor(tempo_frequency);
 
     Switch* choose_frequency = new Switch();
-    choose_frequency->setControlRate(frequency->isControlRate());
     choose_frequency->plug(sync, Switch::kSource);
     choose_frequency->plugNext(frequency);
     choose_frequency->plugNext(tempo_frequency);
@@ -198,12 +182,12 @@ namespace mopo {
     return all_controls;
   }
 
-  Processor::Output* HelmModule::getModulationSource(std::string name) {
+  Output* HelmModule::getModulationSource(std::string name) {
     if (mod_sources_.count(name))
       return mod_sources_[name];
 
     for (HelmModule* sub_module : sub_modules_) {
-      Processor::Output* source = sub_module->getModulationSource(name);
+      Output* source = sub_module->getModulationSource(name);
       if (source)
         return source;
     }

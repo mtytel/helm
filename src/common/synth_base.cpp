@@ -135,7 +135,7 @@ SynthBase::getDestinationConnections(const std::string& destination) {
   return connections;
 }
 
-mopo::Processor::Output* SynthBase::getModSource(const std::string& name) {
+mopo::Output* SynthBase::getModSource(const std::string& name) {
   ScopedLock lock(getCriticalSection());
   return engine_.getModulationSource(name);
 }

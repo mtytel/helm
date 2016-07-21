@@ -34,7 +34,7 @@ namespace mopo {
   }
 
   void HelmEngine::init() {
-    static const Value* minutes_per_second = new Value(1.0 / 60.0);
+    static const Value* minutes_per_second = new cr::Value(1.0 / 60.0);
 
 #ifdef FE_DFL_DISABLE_SSE_DENORMS_ENV
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
@@ -97,7 +97,6 @@ namespace mopo {
     lfo_2_->plug(lfo_2_reset, HelmLfo::kReset);
 
     cr::Multiply* scaled_lfo_2 = new cr::Multiply();
-    scaled_lfo_2->setControlRate();
     scaled_lfo_2->plug(lfo_2_, 0);
     scaled_lfo_2->plug(lfo_2_free_amplitude, 1);
 
@@ -232,8 +231,8 @@ namespace mopo {
 
     // Soft Clipping.
     Distortion* distorted_clamp_left = new Distortion();
-    Value* distortion_type = new Value(Distortion::kTanh);
-    Value* distortion_threshold = new Value(0.7);
+    Value* distortion_type = new cr::Value(Distortion::kTanh);
+    Value* distortion_threshold = new cr::Value(0.7);
     distorted_clamp_left->plug(reverb_container->output(0), Distortion::kAudio);
     distorted_clamp_left->plug(distortion_type, Distortion::kType);
     distorted_clamp_left->plug(distortion_threshold, Distortion::kThreshold);
@@ -264,7 +263,7 @@ namespace mopo {
   }
 
   void HelmEngine::connectModulation(ModulationConnection* connection) {
-    Processor::Output* source = getModulationSource(connection->source);
+    Output* source = getModulationSource(connection->source);
     MOPO_ASSERT(source != 0);
 
     Processor* destination = getModulationDestination(connection->destination,
@@ -273,7 +272,6 @@ namespace mopo {
 
     connection->modulation_scale.plug(source, 0);
     connection->modulation_scale.plug(&connection->amount, 1);
-    connection->modulation_scale.setControlRate(source->owner->isControlRate());
     destination->plugNext(&connection->modulation_scale);
 
     source->owner->router()->addProcessor(&connection->modulation_scale);
@@ -291,7 +289,7 @@ namespace mopo {
   }
 
   void HelmEngine::disconnectModulation(ModulationConnection* connection) {
-    Processor::Output* source = getModulationSource(connection->source);
+    Output* source = getModulationSource(connection->source);
     Processor* destination = getModulationDestination(connection->destination,
                                                       source->owner->isPolyphonic());
     destination->unplug(&connection->modulation_scale);

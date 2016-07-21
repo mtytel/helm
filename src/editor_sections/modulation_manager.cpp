@@ -62,8 +62,8 @@ ModulationManager::ModulationManager(
   slider_model_lookup_ = sliders;
   for (auto slider : slider_model_lookup_) {
     std::string name = slider.first;
-    const mopo::Processor::Output* mono_total = mono_modulations[name];
-    const mopo::Processor::Output* poly_total = poly_modulations[name];
+    const mopo::Output* mono_total = mono_modulations[name];
+    const mopo::Output* poly_total = poly_modulations[name];
 
     slider.second->addSliderListener(this);
 

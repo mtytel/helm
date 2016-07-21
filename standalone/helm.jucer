@@ -163,11 +163,6 @@
         <FILE id="jRssuU" name="wave.h" compile="0" resource="0" file="../mopo/src/wave.h"/>
       </GROUP>
     </GROUP>
-    <GROUP id="{75742A3A-BE93-C563-1C91-0F2DE454B316}" name="readerwriterqueue">
-      <FILE id="oKcu2r" name="atomicops.h" compile="0" resource="0" file="../readerwriterqueue/atomicops.h"/>
-      <FILE id="Jf19jM" name="readerwriterqueue.h" compile="0" resource="0"
-            file="../readerwriterqueue/readerwriterqueue.h"/>
-    </GROUP>
     <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
       <GROUP id="{C469F3D8-F6EF-BDCC-7C07-4B716B9C6577}" name="common">
         <FILE id="G4r0pp" name="file_list_box_model.cpp" compile="1" resource="0"

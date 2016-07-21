@@ -36,57 +36,57 @@ namespace mopo {
 
   namespace {
     struct FormantValues {
-      Value* gain;
-      Value* resonance;
-      Value* midi_cutoff;
+      cr::Value* gain;
+      cr::Value* resonance;
+      cr::Value* midi_cutoff;
     };
 
-    static const Value formant_filter_types[NUM_FORMANTS] = {
-      Value(Filter::kGainedBandPass),
-      Value(Filter::kGainedBandPass),
-      Value(Filter::kGainedBandPass),
-      Value(Filter::kGainedBandPass)
+    static const cr::Value formant_filter_types[NUM_FORMANTS] = {
+      cr::Value(Filter::kGainedBandPass),
+      cr::Value(Filter::kGainedBandPass),
+      cr::Value(Filter::kGainedBandPass),
+      cr::Value(Filter::kGainedBandPass)
     };
 
-    static const Value formant_a_decibels(-4.0f);
-    static const Value formant_e_decibels(-2.0f);
-    static const Value formant_i_decibels(-2.0f);
-    static const Value formant_o_decibels(-4.0f);
-    static const Value formant_u_decibels(-2.0f);
+    static const cr::Value formant_a_decibels(-4.0f);
+    static const cr::Value formant_e_decibels(-2.0f);
+    static const cr::Value formant_i_decibels(-2.0f);
+    static const cr::Value formant_o_decibels(-4.0f);
+    static const cr::Value formant_u_decibels(-2.0f);
 
     static const FormantValues formant_a[NUM_FORMANTS] = {
-      {new Value(24), new Value(10), new Value(75.7552343327)},
-      {new Value(18), new Value(12), new Value(84.5454706023)},
-      {new Value(17), new Value(16), new Value(100.08500317)},
-      {new Value(16), new Value(16), new Value(101.645729657)},
+      {new cr::Value(24), new cr::Value(10), new cr::Value(75.7552343327)},
+      {new cr::Value(18), new cr::Value(12), new cr::Value(84.5454706023)},
+      {new cr::Value(17), new cr::Value(16), new cr::Value(100.08500317)},
+      {new cr::Value(16), new cr::Value(16), new cr::Value(101.645729657)},
     };
 
     static const FormantValues formant_e[NUM_FORMANTS] = {
-      {new Value(24), new Value(10), new Value(67.349957715)},
-      {new Value(10), new Value(12), new Value(92.39951181)},
-      {new Value(12), new Value(16), new Value(99.7552343327)},
-      {new Value(10), new Value(16), new Value(103.349957715)},
+      {new cr::Value(24), new cr::Value(10), new cr::Value(67.349957715)},
+      {new cr::Value(10), new cr::Value(12), new cr::Value(92.39951181)},
+      {new cr::Value(12), new cr::Value(16), new cr::Value(99.7552343327)},
+      {new cr::Value(10), new cr::Value(16), new cr::Value(103.349957715)},
     };
 
     static const FormantValues formant_i[NUM_FORMANTS] = {
-      {new Value(24), new Value(13), new Value(61.7825925179)},
-      {new Value(9), new Value(12), new Value(94.049554095)},
-      {new Value(6), new Value(16), new Value(101.03821678)},
-      {new Value(4), new Value(16), new Value(103.618371471)},
+      {new cr::Value(24), new cr::Value(13), new cr::Value(61.7825925179)},
+      {new cr::Value(9), new cr::Value(12), new cr::Value(94.049554095)},
+      {new cr::Value(6), new cr::Value(16), new cr::Value(101.03821678)},
+      {new cr::Value(4), new cr::Value(16), new cr::Value(103.618371471)},
     };
 
     static const FormantValues formant_o[NUM_FORMANTS] = {
-      {new Value(24), new Value(11), new Value(67.349957715)},
-      {new Value(14), new Value(12), new Value(79.349957715)},
-      {new Value(12), new Value(16), new Value(99.7552343327)},
-      {new Value(12), new Value(16), new Value(101.03821678)},
+      {new cr::Value(24), new cr::Value(11), new cr::Value(67.349957715)},
+      {new cr::Value(14), new cr::Value(12), new cr::Value(79.349957715)},
+      {new cr::Value(12), new cr::Value(16), new cr::Value(99.7552343327)},
+      {new cr::Value(12), new cr::Value(16), new cr::Value(101.03821678)},
     };
 
     static const FormantValues formant_u[NUM_FORMANTS] = {
-      {new Value(24), new Value(11), new Value(65.0382167797)},
-      {new Value(4), new Value(12), new Value(74.3695077237)},
-      {new Value(7), new Value(16), new Value(100.408607741)},
-      {new Value(10), new Value(16), new Value(101.645729657)},
+      {new cr::Value(24), new cr::Value(11), new cr::Value(65.0382167797)},
+      {new cr::Value(4), new cr::Value(12), new cr::Value(74.3695077237)},
+      {new cr::Value(7), new cr::Value(16), new cr::Value(100.408607741)},
+      {new cr::Value(10), new cr::Value(16), new cr::Value(101.645729657)},
     };
   } // namespace
 
@@ -100,20 +100,16 @@ namespace mopo {
   void HelmVoiceHandler::init() {
     // Create modulation and pitch wheels per channel.
     choose_pitch_wheel_ = new Switch();
-    choose_pitch_wheel_->setControlRate();
     choose_pitch_wheel_->plug(channel(), Switch::kSource);
 
     Switch* choose_mod_wheel = new Switch();
-    choose_mod_wheel->setControlRate();
     choose_mod_wheel->plug(channel(), Switch::kSource);
 
     for (int i = 0; i < mopo::NUM_MIDI_CHANNELS; ++i) {
-      pitch_wheel_amounts_[i] = new Value(0);
-      pitch_wheel_amounts_[i]->setControlRate();
+      pitch_wheel_amounts_[i] = new cr::Value(0);
       choose_pitch_wheel_->plugNext(pitch_wheel_amounts_[i]);
 
-      mod_wheel_amounts_[i] = new Value(0);
-      mod_wheel_amounts_[i]->setControlRate();
+      mod_wheel_amounts_[i] = new cr::Value(0);
       choose_mod_wheel->plugNext(mod_wheel_amounts_[i]);
 
       addGlobalProcessor(pitch_wheel_amounts_[i]);
@@ -134,8 +130,7 @@ namespace mopo {
     createFilter(osc_feedback_->output(0), note_from_center_->output(),
                  amplitude_envelope_->output(Envelope::kFinished));
 
-    Value* aftertouch_value = new Value();
-    aftertouch_value->setControlRate();
+    Value* aftertouch_value = new cr::Value();
     aftertouch_value->plug(aftertouch());
 
     addProcessor(aftertouch_value);
@@ -181,12 +176,10 @@ namespace mopo {
     oscillator1_midi->plug(oscillator1_transposed, 0);
     oscillator1_midi->plug(oscillator1_tune, 1);
 
-    MidiScale* oscillator1_frequency = new MidiScale();
+    cr::MidiScale* oscillator1_frequency = new cr::MidiScale();
     oscillator1_frequency->plug(oscillator1_midi);
-    oscillator1_frequency->setControlRate();
-    FrequencyToPhase* oscillator1_phase_inc = new FrequencyToPhase();
+    cr::FrequencyToPhase* oscillator1_phase_inc = new cr::FrequencyToPhase();
     oscillator1_phase_inc->plug(oscillator1_frequency);
-    oscillator1_phase_inc->setControlRate();
 
     LinearSmoothBuffer* oscillator1_phase_inc_smooth = new LinearSmoothBuffer();
     oscillator1_phase_inc_smooth->plug(oscillator1_phase_inc, LinearSmoothBuffer::kValue);
@@ -224,11 +217,9 @@ namespace mopo {
     oscillator2_midi->plug(oscillator2_transposed, 0);
     oscillator2_midi->plug(oscillator2_tune, 1);
 
-    MidiScale* oscillator2_frequency = new MidiScale();
-    oscillator2_frequency->setControlRate();
+    cr::MidiScale* oscillator2_frequency = new cr::MidiScale();
     oscillator2_frequency->plug(oscillator2_midi);
-    FrequencyToPhase* oscillator2_phase_inc = new FrequencyToPhase();
-    oscillator2_phase_inc->setControlRate();
+    cr::FrequencyToPhase* oscillator2_phase_inc = new cr::FrequencyToPhase();
     oscillator2_phase_inc->plug(oscillator2_frequency);
 
     LinearSmoothBuffer* oscillator2_phase_inc_smooth = new LinearSmoothBuffer();
@@ -265,15 +256,13 @@ namespace mopo {
 
     // Sub Oscillator.
     cr::Add* sub_midi = new cr::Add();
-    Value* sub_transpose = new Value(-2 * NOTES_PER_OCTAVE);
+    Value* sub_transpose = new cr::Value(-2 * NOTES_PER_OCTAVE);
     sub_midi->plug(bent_midi, 0);
     sub_midi->plug(sub_transpose, 1);
 
-    MidiScale* sub_frequency = new MidiScale();
-    sub_frequency->setControlRate();
+    cr::MidiScale* sub_frequency = new cr::MidiScale();
     sub_frequency->plug(sub_midi);
-    FrequencyToPhase* sub_phase_inc = new FrequencyToPhase();
-    sub_phase_inc->setControlRate();
+    cr::FrequencyToPhase* sub_phase_inc = new cr::FrequencyToPhase();
     sub_phase_inc->plug(sub_frequency);
 
     Processor* sub_waveform = createPolyModControl("sub_waveform", true);
@@ -337,12 +326,10 @@ namespace mopo {
     osc_feedback_midi->plug(osc_feedback_transposed, 0);
     osc_feedback_midi->plug(osc_feedback_tune, 1);
 
-    MidiScale* osc_feedback_frequency = new MidiScale();
-    osc_feedback_frequency->setControlRate();
+    cr::MidiScale* osc_feedback_frequency = new cr::MidiScale();
     osc_feedback_frequency->plug(osc_feedback_midi);
 
-    FrequencyToSamples* osc_feedback_samples = new FrequencyToSamples();
-    osc_feedback_samples->setControlRate();
+    cr::FrequencyToSamples* osc_feedback_samples = new cr::FrequencyToSamples();
     osc_feedback_samples->plug(osc_feedback_frequency);
 
     LinearSmoothBuffer* osc_feedback_samples_audio = new LinearSmoothBuffer();
@@ -441,34 +428,29 @@ namespace mopo {
     midi_cutoff->plug(keytracked_cutoff, 0);
     midi_cutoff->plug(scaled_envelope, 1);
 
-    MidiScale* frequency_cutoff = new MidiScale();
-    frequency_cutoff->setControlRate();
+    cr::MidiScale* frequency_cutoff = new cr::MidiScale();
     frequency_cutoff->plug(midi_cutoff);
 
     Processor* resonance = createPolyModControl("resonance", true);
-    ResonanceScale* scaled_resonance = new ResonanceScale();
-    scaled_resonance->setControlRate();
+    cr::ResonanceScale* scaled_resonance = new cr::ResonanceScale();
     scaled_resonance->plug(resonance);
 
     ResonanceCancel* final_resonance = new ResonanceCancel();
-    final_resonance->setControlRate();
     final_resonance->plug(scaled_resonance, ResonanceCancel::kResonance);
     final_resonance->plug(filter_type, ResonanceCancel::kFilterType);
 
-    Value* min_db = new Value(MIN_GAIN_DB);
-    Value* max_db = new Value(MAX_GAIN_DB);
+    Value* min_db = new cr::Value(MIN_GAIN_DB);
+    Value* max_db = new cr::Value(MAX_GAIN_DB);
     Interpolate* decibels = new Interpolate();
     decibels->setControlRate();
     decibels->plug(min_db, Interpolate::kFrom);
     decibels->plug(max_db, Interpolate::kTo);
     decibels->plug(resonance, Interpolate::kFractional);
-    MagnitudeScale* final_gain = new MagnitudeScale();
-    final_gain->setControlRate();
+    cr::MagnitudeScale* final_gain = new cr::MagnitudeScale();
     final_gain->plug(decibels);
 
     Processor* filter_saturation = createPolyModControl("filter_saturation", true);
-    MagnitudeScale* saturation_magnitude = new MagnitudeScale();
-    saturation_magnitude->setControlRate();
+    cr::MagnitudeScale* saturation_magnitude = new cr::MagnitudeScale();
     saturation_magnitude->plug(filter_saturation);
 
     LinearSmoothBuffer* smooth_saturation_magnitude = new LinearSmoothBuffer();
@@ -577,13 +559,11 @@ namespace mopo {
       formant_q->plug(formant_y, BilinearInterpolate::kYPosition);
       formant_midi->plug(formant_y, BilinearInterpolate::kYPosition);
 
-      MagnitudeScale* formant_magnitude = new MagnitudeScale();
+      cr::MagnitudeScale* formant_magnitude = new cr::MagnitudeScale();
       formant_magnitude->plug(formant_gain);
-      formant_magnitude->setControlRate();
 
-      MidiScale* formant_frequency = new MidiScale();
+      cr::MidiScale* formant_frequency = new cr::MidiScale();
       formant_frequency->plug(formant_midi);
-      formant_frequency->setControlRate();
 
       formant_filter_->getFormant(i)->plug(&formant_filter_types[i], Filter::kType);
       formant_filter_->getFormant(i)->plug(formant_magnitude, Filter::kGain);
@@ -655,7 +635,7 @@ namespace mopo {
     note_wait->plug(note_change_trigger, TriggerWait::kTrigger);
     current_note->plug(note_wait);
 
-    Value* max_midi_invert = new Value(1.0 / (MIDI_SIZE - 1));
+    Value* max_midi_invert = new cr::Value(1.0 / (MIDI_SIZE - 1));
     cr::Multiply* note_percentage = new cr::Multiply();
     note_percentage->plug(max_midi_invert, 0);
     note_percentage->plug(current_note, 1);
@@ -665,7 +645,7 @@ namespace mopo {
     addProcessor(current_note);
 
     // Key tracking.
-    Value* center_adjust = new Value(-MIDI_SIZE / 2);
+    Value* center_adjust = new cr::Value(-MIDI_SIZE / 2);
     note_from_center_ = new cr::Add();
     note_from_center_->plug(center_adjust, 0);
     note_from_center_->plug(current_note, 1);

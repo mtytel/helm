@@ -50,7 +50,7 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     void ensureMinSize();
 
     int num_steps_;
-    mopo::Processor::Output* step_generator_output_;
+    mopo::Output* step_generator_output_;
     int last_step_;
     Slider* num_steps_slider_;
     int highlighted_step_;

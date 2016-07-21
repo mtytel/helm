@@ -19,18 +19,14 @@
 
 namespace mopo {
 
-  ResonanceCancel::ResonanceCancel() : Processor(kNumInputs, 1) { }
+  ResonanceCancel::ResonanceCancel() : Processor(kNumInputs, 1, true) { }
 
   void ResonanceCancel::process() {
     Filter::Type type = static_cast<Filter::Type>(static_cast<int>(input(kFilterType)->at(0)));
 
-    if (type == Filter::kLowShelf || type == Filter::kHighShelf || type == Filter::kBandShelf) {
-      for (int i = 0; i < buffer_size_; ++i)
-        output()->buffer[i] = 1.0;
-    }
-    else {
-      memcpy(output()->buffer, input(kResonance)->source->buffer,
-             buffer_size_ * sizeof(mopo_float));
-    }
+    if (type == Filter::kLowShelf || type == Filter::kHighShelf || type == Filter::kBandShelf)
+      output()->buffer[0] = 1.0;
+    else
+      output()->buffer[0] = input(kResonance)->source->buffer[0];
   }
 } // namespace mopo

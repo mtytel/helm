@@ -130,7 +130,7 @@ namespace mopo {
   const int NUM_CHANNELS = 2;
   const int MEMORY_SAMPLE_RATE = 2205;
   const int MEMORY_RESOLUTION = 52;
-  const mopo_float STUTTER_MAX_SAMPLES = 192000.0;
+  const mopo_float STUTTER_MAX_SAMPLES = 96000.0;
   const int DEFAULT_MODULATION_CONNECTIONS = 256;
 
   const int DEFAULT_KEYBOARD_OFFSET = 48;
@@ -144,21 +144,21 @@ namespace mopo {
   typedef std::pair<Value*, mopo_float> control_change;
   typedef std::pair<ModulationConnection*, mopo_float> modulation_change;
   typedef std::map<std::string, Processor*> input_map;
-  typedef std::map<std::string, Processor::Output*> output_map;
+  typedef std::map<std::string, Output*> output_map;
 
-  const mopo::Value synced_freq_ratios[] = {
-    Value(1.0 / 128.0),
-    Value(1.0 / 64.0),
-    Value(1.0 / 32.0),
-    Value(1.0 / 16.0),
-    Value(1.0 / 8.0),
-    Value(1.0 / 4.0),
-    Value(1.0 / 2.0),
-    Value(1.0),
-    Value(2.0),
-    Value(4.0),
-    Value(8.0),
-    Value(16.0),
+  const mopo::cr::Value synced_freq_ratios[] = {
+    cr::Value(1.0 / 128.0),
+    cr::Value(1.0 / 64.0),
+    cr::Value(1.0 / 32.0),
+    cr::Value(1.0 / 16.0),
+    cr::Value(1.0 / 8.0),
+    cr::Value(1.0 / 4.0),
+    cr::Value(1.0 / 2.0),
+    cr::Value(1.0),
+    cr::Value(2.0),
+    cr::Value(4.0),
+    cr::Value(8.0),
+    cr::Value(16.0),
   };
 
   struct ModulationConnection {
@@ -166,7 +166,6 @@ namespace mopo {
 
     ModulationConnection(std::string from, std::string to) :
         source(from), destination(to) {
-      amount.setControlRate();
     }
 
     void resetConnection(const std::string& from, const std::string& to) {
@@ -177,7 +176,7 @@ namespace mopo {
 
     std::string source;
     std::string destination;
-    Value amount;
+    cr::Value amount;
     cr::Multiply modulation_scale;
   };
 
@@ -191,6 +190,8 @@ namespace mopo {
       static ModulationConnectionBank* instance();
 
     private:
+      static ModulationConnectionBank instance_;
+
       void allocateMoreConnections();
       std::list<ModulationConnection*> available_connections_;
       std::vector<ModulationConnection*> all_connections_;

@@ -1552,8 +1552,6 @@
     <ClInclude Include="..\..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\..\mopo\src\wave.h"/>
-    <ClInclude Include="..\..\..\readerwriterqueue\atomicops.h"/>
-    <ClInclude Include="..\..\..\readerwriterqueue\readerwriterqueue.h"/>
     <ClInclude Include="..\..\..\src\common\file_list_box_model.h"/>
     <ClInclude Include="..\..\..\src\common\helm_common.h"/>
     <ClInclude Include="..\..\..\src\common\load_save.h"/>

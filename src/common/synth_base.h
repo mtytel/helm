@@ -49,7 +49,7 @@ class SynthBase : public MidiManager::Listener {
     std::vector<mopo::ModulationConnection*> getDestinationConnections(
         const std::string& destination);
   
-    mopo::Processor::Output* getModSource(const std::string& name);
+    mopo::Output* getModSource(const std::string& name);
 
     var saveToVar(String author);
     void loadFromVar(var state);

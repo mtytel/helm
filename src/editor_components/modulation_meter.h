@@ -23,8 +23,8 @@
 
 class ModulationMeter : public Component {
   public:
-    ModulationMeter(const mopo::Processor::Output* mono_total,
-                    const mopo::Processor::Output* poly_total,
+    ModulationMeter(const mopo::Output* mono_total,
+                    const mopo::Output* poly_total,
                     const SynthSlider* slider);
     virtual ~ModulationMeter();
 
@@ -45,8 +45,8 @@ class ModulationMeter : public Component {
     void fillHorizontalRect(Graphics& g, float x1, float x2, float height);
     void fillVerticalRect(Graphics& g, float y1, float y2, float width);
 
-    const mopo::Processor::Output* mono_total_;
-    const mopo::Processor::Output* poly_total_;
+    const mopo::Output* mono_total_;
+    const mopo::Output* poly_total_;
     const SynthSlider* destination_;
 
     double current_value_;

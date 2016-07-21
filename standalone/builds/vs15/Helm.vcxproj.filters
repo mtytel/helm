@@ -20,9 +20,6 @@
     <Filter Include="Helm\mopo\src">
       <UniqueIdentifier>{6F5DFC0E-4390-DA76-1430-E4E987000F8F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helm\readerwriterqueue">
-      <UniqueIdentifier>{5965A105-603F-D8B3-7045-561956763B2E}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helm\src">
       <UniqueIdentifier>{A15CC3E0-F1A7-A3F7-24BF-BB4F165F29FE}</UniqueIdentifier>
     </Filter>
@@ -2063,12 +2060,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\wave.h">
       <Filter>Helm\mopo\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\readerwriterqueue\atomicops.h">
-      <Filter>Helm\readerwriterqueue</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\readerwriterqueue\readerwriterqueue.h">
-      <Filter>Helm\readerwriterqueue</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\file_list_box_model.h">
       <Filter>Helm\src\common</Filter>

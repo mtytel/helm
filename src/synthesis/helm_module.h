@@ -35,7 +35,7 @@ namespace mopo {
       // Returns a map of all controls of this module and all submodules.
       control_map getControls();
 
-      Processor::Output* getModulationSource(std::string name);
+      Output* getModulationSource(std::string name);
       Processor* getModulationDestination(std::string name, bool poly);
       Processor* getMonoModulationDestination(std::string name);
       Processor* getPolyModulationDestination(std::string name);
