@@ -30,9 +30,8 @@ namespace mopo {
   } // namespace
 
   Stutter::Stutter(int size) : Processor(Stutter::kNumInputs, 1),
-      offset_(0.0), memory_offset_(0.0), resample_countdown_(0.0),
+      memory_(nullptr), size_(size), offset_(0.0), memory_offset_(0.0), resample_countdown_(0.0),
       last_softness_(0.0), last_stutter_period_(0.0), resampling_(true) {
-    memory_ = new Memory(size);
   }
 
   Stutter::~Stutter() {
@@ -40,7 +39,8 @@ namespace mopo {
   }
 
   Stutter::Stutter(const Stutter& other) : Processor(other) {
-    this->memory_ = new Memory(*other.memory_);
+    this->memory_ = nullptr;
+    this->size_ = other.size_;
     this->offset_ = other.offset_;
     this->memory_offset_ = 0.0;
     this->resample_countdown_ = other.resample_countdown_;
@@ -50,6 +50,10 @@ namespace mopo {
   }
 
   void Stutter::process() {
+    // A hack to save memory until stutter is used.
+    if (memory_ == nullptr)
+      memory_ = new Memory(size_);
+
     mopo_float max_memory_write = memory_->getSize();
     mopo_float* dest = output()->buffer;
 

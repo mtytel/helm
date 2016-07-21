@@ -354,7 +354,7 @@ namespace mopo {
     global_router_.removeProcessor(processor);
   }
 
-  Processor::Output* VoiceHandler::registerOutput(Output* output) {
+  Output* VoiceHandler::registerOutput(Output* output) {
     Output* new_output = new Output();
     new_output->owner = this;
     ProcessorRouter::registerOutput(new_output);
@@ -362,7 +362,7 @@ namespace mopo {
     return new_output;
   }
 
-  Processor::Output* VoiceHandler::registerOutput(Output* output, int index) {
+  Output* VoiceHandler::registerOutput(Output* output, int index) {
     MOPO_ASSERT(false);
     return output;
   }

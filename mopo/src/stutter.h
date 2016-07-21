@@ -53,6 +53,7 @@ namespace mopo {
       }
 
       Memory* memory_;
+      int size_;
       mopo_float offset_;
       mopo_float memory_offset_;
       mopo_float resample_countdown_;
