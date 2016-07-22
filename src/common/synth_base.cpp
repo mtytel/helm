@@ -71,7 +71,7 @@ void SynthBase::changeModulationAmount(const std::string& source,
                                        mopo::mopo_float amount) {
   mopo::ModulationConnection* connection = getConnection(source, destination);
   if (connection == nullptr && amount != 0.0)
-    connection = mopo::ModulationConnectionBank::instance()->get(source, destination);
+    connection = modulation_bank_.get(source, destination);
 
   if (connection)
     setModulationAmount(connection, amount);
@@ -89,7 +89,7 @@ mopo::ModulationConnection* SynthBase::getConnection(const std::string& source,
 void SynthBase::setModulationAmount(mopo::ModulationConnection* connection,
                                     mopo::mopo_float amount) {
   if (amount == 0.0) {
-    mopo::ModulationConnectionBank::instance()->recycle(connection);
+    modulation_bank_.recycle(connection);
     mod_connections_.erase(connection);
   }
   else if (mod_connections_.count(connection) == 0)

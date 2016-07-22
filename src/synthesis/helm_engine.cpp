@@ -33,8 +33,13 @@ namespace mopo {
     init();
   }
 
+  HelmEngine::~HelmEngine() {
+    while (mod_connections_.size())
+      disconnectModulation(*mod_connections_.begin());
+  }
+
   void HelmEngine::init() {
-    static const Value* minutes_per_second = new cr::Value(1.0 / 60.0);
+    static const cr::Value minutes_per_second(1.0 / 60.0);
 
 #ifdef FE_DFL_DISABLE_SSE_DENORMS_ENV
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
@@ -43,7 +48,7 @@ namespace mopo {
     Processor* beats_per_minute = createMonoModControl("beats_per_minute", true);
     cr::Multiply* beats_per_second = new cr::Multiply();
     beats_per_second->plug(beats_per_minute, 0);
-    beats_per_second->plug(minutes_per_second, 1);
+    beats_per_second->plug(&minutes_per_second, 1);
     addProcessor(beats_per_second);
 
     // Voice Handler.
@@ -231,16 +236,16 @@ namespace mopo {
 
     // Soft Clipping.
     Distortion* distorted_clamp_left = new Distortion();
-    Value* distortion_type = new cr::Value(Distortion::kTanh);
-    Value* distortion_threshold = new cr::Value(0.7);
+    static const cr::Value distortion_type(Distortion::kTanh);
+    static const cr::Value distortion_threshold(0.7);
     distorted_clamp_left->plug(reverb_container->output(0), Distortion::kAudio);
-    distorted_clamp_left->plug(distortion_type, Distortion::kType);
-    distorted_clamp_left->plug(distortion_threshold, Distortion::kThreshold);
+    distorted_clamp_left->plug(&distortion_type, Distortion::kType);
+    distorted_clamp_left->plug(&distortion_threshold, Distortion::kThreshold);
 
     Distortion* distorted_clamp_right = new Distortion();
     distorted_clamp_right->plug(reverb_container->output(1), Distortion::kAudio);
-    distorted_clamp_right->plug(distortion_type, Distortion::kType);
-    distorted_clamp_right->plug(distortion_threshold, Distortion::kThreshold);
+    distorted_clamp_right->plug(&distortion_type, Distortion::kType);
+    distorted_clamp_right->plug(&distortion_threshold, Distortion::kThreshold);
 
     // Volume.
     Processor* volume = createMonoModControl("volume", false, true);

@@ -36,9 +36,9 @@ namespace mopo {
 
   namespace {
     struct FormantValues {
-      cr::Value* gain;
-      cr::Value* resonance;
-      cr::Value* midi_cutoff;
+      cr::Value gain;
+      cr::Value resonance;
+      cr::Value midi_cutoff;
     };
 
     static const cr::Value formant_filter_types[NUM_FORMANTS] = {
@@ -55,38 +55,38 @@ namespace mopo {
     static const cr::Value formant_u_decibels(-2.0f);
 
     static const FormantValues formant_a[NUM_FORMANTS] = {
-      {new cr::Value(24), new cr::Value(10), new cr::Value(75.7552343327)},
-      {new cr::Value(18), new cr::Value(12), new cr::Value(84.5454706023)},
-      {new cr::Value(17), new cr::Value(16), new cr::Value(100.08500317)},
-      {new cr::Value(16), new cr::Value(16), new cr::Value(101.645729657)},
+      {cr::Value(24), cr::Value(10), cr::Value(75.7552343327)},
+      {cr::Value(18), cr::Value(12), cr::Value(84.5454706023)},
+      {cr::Value(17), cr::Value(16), cr::Value(100.08500317)},
+      {cr::Value(16), cr::Value(16), cr::Value(101.645729657)},
     };
 
     static const FormantValues formant_e[NUM_FORMANTS] = {
-      {new cr::Value(24), new cr::Value(10), new cr::Value(67.349957715)},
-      {new cr::Value(10), new cr::Value(12), new cr::Value(92.39951181)},
-      {new cr::Value(12), new cr::Value(16), new cr::Value(99.7552343327)},
-      {new cr::Value(10), new cr::Value(16), new cr::Value(103.349957715)},
+      {cr::Value(24), cr::Value(10), cr::Value(67.349957715)},
+      {cr::Value(10), cr::Value(12), cr::Value(92.39951181)},
+      {cr::Value(12), cr::Value(16), cr::Value(99.7552343327)},
+      {cr::Value(10), cr::Value(16), cr::Value(103.349957715)},
     };
 
     static const FormantValues formant_i[NUM_FORMANTS] = {
-      {new cr::Value(24), new cr::Value(13), new cr::Value(61.7825925179)},
-      {new cr::Value(9), new cr::Value(12), new cr::Value(94.049554095)},
-      {new cr::Value(6), new cr::Value(16), new cr::Value(101.03821678)},
-      {new cr::Value(4), new cr::Value(16), new cr::Value(103.618371471)},
+      {cr::Value(24), cr::Value(13), cr::Value(61.7825925179)},
+      {cr::Value(9), cr::Value(12), cr::Value(94.049554095)},
+      {cr::Value(6), cr::Value(16), cr::Value(101.03821678)},
+      {cr::Value(4), cr::Value(16), cr::Value(103.618371471)},
     };
 
     static const FormantValues formant_o[NUM_FORMANTS] = {
-      {new cr::Value(24), new cr::Value(11), new cr::Value(67.349957715)},
-      {new cr::Value(14), new cr::Value(12), new cr::Value(79.349957715)},
-      {new cr::Value(12), new cr::Value(16), new cr::Value(99.7552343327)},
-      {new cr::Value(12), new cr::Value(16), new cr::Value(101.03821678)},
+      {cr::Value(24), cr::Value(11), cr::Value(67.349957715)},
+      {cr::Value(14), cr::Value(12), cr::Value(79.349957715)},
+      {cr::Value(12), cr::Value(16), cr::Value(99.7552343327)},
+      {cr::Value(12), cr::Value(16), cr::Value(101.03821678)},
     };
 
     static const FormantValues formant_u[NUM_FORMANTS] = {
-      {new cr::Value(24), new cr::Value(11), new cr::Value(65.0382167797)},
-      {new cr::Value(4), new cr::Value(12), new cr::Value(74.3695077237)},
-      {new cr::Value(7), new cr::Value(16), new cr::Value(100.408607741)},
-      {new cr::Value(10), new cr::Value(16), new cr::Value(101.645729657)},
+      {cr::Value(24), cr::Value(11), cr::Value(65.0382167797)},
+      {cr::Value(4), cr::Value(12), cr::Value(74.3695077237)},
+      {cr::Value(7), cr::Value(16), cr::Value(100.408607741)},
+      {cr::Value(10), cr::Value(16), cr::Value(101.645729657)},
     };
   } // namespace
 
@@ -256,9 +256,9 @@ namespace mopo {
 
     // Sub Oscillator.
     cr::Add* sub_midi = new cr::Add();
-    Value* sub_transpose = new cr::Value(-2 * NOTES_PER_OCTAVE);
+    static const cr::Value sub_transpose(-2 * NOTES_PER_OCTAVE);
     sub_midi->plug(bent_midi, 0);
-    sub_midi->plug(sub_transpose, 1);
+    sub_midi->plug(&sub_transpose, 1);
 
     cr::MidiScale* sub_frequency = new cr::MidiScale();
     sub_frequency->plug(sub_midi);
@@ -439,12 +439,12 @@ namespace mopo {
     final_resonance->plug(scaled_resonance, ResonanceCancel::kResonance);
     final_resonance->plug(filter_type, ResonanceCancel::kFilterType);
 
-    Value* min_db = new cr::Value(MIN_GAIN_DB);
-    Value* max_db = new cr::Value(MAX_GAIN_DB);
+    static const cr::Value min_db(MIN_GAIN_DB);
+    static const cr::Value max_db(MAX_GAIN_DB);
     Interpolate* decibels = new Interpolate();
     decibels->setControlRate();
-    decibels->plug(min_db, Interpolate::kFrom);
-    decibels->plug(max_db, Interpolate::kTo);
+    decibels->plug(&min_db, Interpolate::kFrom);
+    decibels->plug(&max_db, Interpolate::kTo);
     decibels->plug(resonance, Interpolate::kFractional);
     cr::MagnitudeScale* final_gain = new cr::MagnitudeScale();
     final_gain->plug(decibels);
@@ -536,20 +536,20 @@ namespace mopo {
       BilinearInterpolate* formant_midi = new BilinearInterpolate();
       formant_midi->setControlRate();
 
-      formant_gain->plug(formant_a[i].gain, BilinearInterpolate::kTopLeft);
-      formant_gain->plug(formant_o[i].gain, BilinearInterpolate::kTopRight);
-      formant_gain->plug(formant_i[i].gain, BilinearInterpolate::kBottomLeft);
-      formant_gain->plug(formant_e[i].gain, BilinearInterpolate::kBottomRight);
+      formant_gain->plug(&formant_a[i].gain, BilinearInterpolate::kTopLeft);
+      formant_gain->plug(&formant_o[i].gain, BilinearInterpolate::kTopRight);
+      formant_gain->plug(&formant_i[i].gain, BilinearInterpolate::kBottomLeft);
+      formant_gain->plug(&formant_e[i].gain, BilinearInterpolate::kBottomRight);
 
-      formant_q->plug(formant_a[i].resonance, BilinearInterpolate::kTopLeft);
-      formant_q->plug(formant_o[i].resonance, BilinearInterpolate::kTopRight);
-      formant_q->plug(formant_i[i].resonance, BilinearInterpolate::kBottomLeft);
-      formant_q->plug(formant_e[i].resonance, BilinearInterpolate::kBottomRight);
+      formant_q->plug(&formant_a[i].resonance, BilinearInterpolate::kTopLeft);
+      formant_q->plug(&formant_o[i].resonance, BilinearInterpolate::kTopRight);
+      formant_q->plug(&formant_i[i].resonance, BilinearInterpolate::kBottomLeft);
+      formant_q->plug(&formant_e[i].resonance, BilinearInterpolate::kBottomRight);
 
-      formant_midi->plug(formant_a[i].midi_cutoff, BilinearInterpolate::kTopLeft);
-      formant_midi->plug(formant_o[i].midi_cutoff, BilinearInterpolate::kTopRight);
-      formant_midi->plug(formant_i[i].midi_cutoff, BilinearInterpolate::kBottomLeft);
-      formant_midi->plug(formant_e[i].midi_cutoff, BilinearInterpolate::kBottomRight);
+      formant_midi->plug(&formant_a[i].midi_cutoff, BilinearInterpolate::kTopLeft);
+      formant_midi->plug(&formant_o[i].midi_cutoff, BilinearInterpolate::kTopRight);
+      formant_midi->plug(&formant_i[i].midi_cutoff, BilinearInterpolate::kBottomLeft);
+      formant_midi->plug(&formant_e[i].midi_cutoff, BilinearInterpolate::kBottomRight);
 
       formant_gain->plug(formant_x, BilinearInterpolate::kXPosition);
       formant_q->plug(formant_x, BilinearInterpolate::kXPosition);
@@ -635,9 +635,9 @@ namespace mopo {
     note_wait->plug(note_change_trigger, TriggerWait::kTrigger);
     current_note->plug(note_wait);
 
-    Value* max_midi_invert = new cr::Value(1.0 / (MIDI_SIZE - 1));
+    static const cr::Value max_midi_invert(1.0 / (MIDI_SIZE - 1));
     cr::Multiply* note_percentage = new cr::Multiply();
-    note_percentage->plug(max_midi_invert, 0);
+    note_percentage->plug(&max_midi_invert, 0);
     note_percentage->plug(current_note, 1);
 
     addProcessor(note_change_trigger);
@@ -645,14 +645,13 @@ namespace mopo {
     addProcessor(current_note);
 
     // Key tracking.
-    Value* center_adjust = new cr::Value(-MIDI_SIZE / 2);
+    static const Value center_adjust(-MIDI_SIZE / 2);
     note_from_center_ = new cr::Add();
-    note_from_center_->plug(center_adjust, 0);
+    note_from_center_->plug(&center_adjust, 0);
     note_from_center_->plug(current_note, 1);
 
     addProcessor(note_from_center_);
     addProcessor(note_percentage);
-    addGlobalProcessor(center_adjust);
 
     // Velocity tracking.
     TriggerWait* velocity_wait = new TriggerWait();

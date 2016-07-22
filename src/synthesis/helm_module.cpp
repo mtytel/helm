@@ -32,6 +32,7 @@ namespace mopo {
     }
     else {
       val = new cr::Value(default_value);
+      getMonoRouter()->addIdleProcessor(val);
     }
 
     controls_[name] = val;
@@ -135,6 +136,7 @@ namespace mopo {
 
     Switch* choose_modifier = new Switch();
     Value* sync = new cr::Value(1);
+    owner->addIdleProcessor(sync);
     choose_modifier->plug(sync, Switch::kSource);
     choose_modifier->plugNext(&utils::value_one);
     choose_modifier->plugNext(&utils::value_one);

@@ -168,6 +168,11 @@ namespace mopo {
         source(from), destination(to) {
     }
 
+    ~ModulationConnection() {
+      amount.destroy();
+      modulation_scale.destroy();
+    }
+
     void resetConnection(const std::string& from, const std::string& to) {
       source = from;
       destination = to;
@@ -187,11 +192,7 @@ namespace mopo {
       ModulationConnection* get(const std::string& from, const std::string& to);
       void recycle(ModulationConnection* connection);
 
-      static ModulationConnectionBank* instance();
-
     private:
-      static ModulationConnectionBank instance_;
-
       void allocateMoreConnections();
       std::list<ModulationConnection*> available_connections_;
       std::vector<ModulationConnection*> all_connections_;

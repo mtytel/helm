@@ -257,8 +257,6 @@ namespace mopo {
       ValueDetails::kQuadratic, "", "Volume" },
   };
 
-  ModulationConnectionBank ModulationConnectionBank::instance_;
-
   ModulationConnectionBank::ModulationConnectionBank() {
     allocateMoreConnections();
   }
@@ -289,10 +287,6 @@ namespace mopo {
       available_connections_.push_back(connection);
       all_connections_.push_back(connection);
     }
-  }
-
-  ModulationConnectionBank* ModulationConnectionBank::instance() {
-    return &instance_;
   }
 
   ValueDetailsLookup::ValueDetailsLookup() {

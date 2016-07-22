@@ -32,6 +32,7 @@ namespace mopo {
   class HelmEngine : public HelmModule, public NoteHandler {
     public:
       HelmEngine();
+      virtual ~HelmEngine();
 
       void init() override;
 

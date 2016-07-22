@@ -95,8 +95,7 @@ void LoadSave::loadModulations(SynthBase* synth,
     DynamicObject* mod = modulation->getDynamicObject();
     std::string source = mod->getProperty("source").toString().toStdString();
     std::string destination = mod->getProperty("destination").toString().toStdString();
-    mopo::ModulationConnection* connection =
-        mopo::ModulationConnectionBank::instance()->get(source, destination);
+    mopo::ModulationConnection* connection = synth->getModulationBank().get(source, destination);
     synth->setModulationAmount(connection, mod->getProperty("amount"));
   }
 }
