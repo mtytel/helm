@@ -52,7 +52,6 @@ namespace mopo {
 
     protected:
       mopo_float buffer_[MAX_BUFFER_SIZE];
-    JUCE_LEAK_DETECTOR (Feedback)
   };
 } // namespace mopo
 

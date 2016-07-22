@@ -18,7 +18,6 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include "JuceHeader.h"
 #include "common.h"
 
 #include <algorithm>
@@ -73,8 +72,6 @@ namespace mopo {
       unsigned int size_;
       unsigned int bitmask_;
       unsigned int offset_;
-
-    JUCE_LEAK_DETECTOR (Memory)
   };
 } // namespace mopo
 
