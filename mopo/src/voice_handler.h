@@ -46,6 +46,7 @@ namespace mopo {
       };
 
       Voice(Processor* voice);
+      virtual ~Voice();
 
       Processor* processor() { return processor_; }
       const VoiceState& state() { return state_; }
@@ -124,6 +125,8 @@ namespace mopo {
       };
 
       VoiceHandler(size_t polyphony = 1);
+
+      virtual ~VoiceHandler();
 
       virtual Processor* clone() const override {
         MOPO_ASSERT(false);
@@ -215,6 +218,7 @@ namespace mopo {
 
       std::list<Voice*> free_voices_;
       std::list<Voice*> active_voices_;
+      std::vector<Output*> accumulated_outputs_;
 
       ProcessorRouter voice_router_;
       ProcessorRouter global_router_;

@@ -31,12 +31,27 @@ namespace mopo {
     key_state_ = kReleased;
   }
 
+  Voice::~Voice() {
+    delete processor_;
+  }
+
   VoiceHandler::VoiceHandler(size_t polyphony) :
       ProcessorRouter(kNumInputs, 0), polyphony_(0), sustain_(false),
       legato_(false), voice_killer_(0), last_played_note_(-1.0) {
     setPolyphony(polyphony);
     voice_router_.router(this);
     global_router_.router(this);
+  }
+
+  VoiceHandler::~VoiceHandler() {
+    voice_router_.destroy();
+    global_router_.destroy();
+    
+    for (Voice* voice : all_voices_)
+      delete voice;
+
+    for (Output* output : accumulated_outputs_)
+      delete output;
   }
 
   void VoiceHandler::prepareVoiceTriggers(Voice* voice) {
@@ -358,6 +373,7 @@ namespace mopo {
     Output* new_output = new Output();
     new_output->owner = this;
     ProcessorRouter::registerOutput(new_output);
+    accumulated_outputs_.push_back(new_output);
     voice_outputs_.push_back(output);
     return new_output;
   }

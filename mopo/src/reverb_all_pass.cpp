@@ -26,6 +26,10 @@ namespace mopo {
     this->memory_ = new Memory(*other.memory_);
   }
 
+  ReverbAllPass::~ReverbAllPass() {
+    delete memory_;
+  }
+
   void ReverbAllPass::process() {
     mopo_float* dest = output()->buffer;
 

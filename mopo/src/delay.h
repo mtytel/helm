@@ -37,7 +37,7 @@ namespace mopo {
 
       Delay(int size);
       Delay(const Delay& other);
-      virtual ~Delay() { }
+      virtual ~Delay();
 
       virtual Processor* clone() const override { return new Delay(*this); }
       virtual void process() override;

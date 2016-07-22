@@ -28,6 +28,10 @@ namespace mopo {
     this->filtered_sample_ = 0.0;
   }
 
+  ReverbComb::~ReverbComb() {
+    delete memory_;
+  }
+
   void ReverbComb::process() {
     mopo_float* dest = output()->buffer;
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;

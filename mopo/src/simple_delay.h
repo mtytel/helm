@@ -36,7 +36,7 @@ namespace mopo {
 
       SimpleDelay(int size);
       SimpleDelay(const SimpleDelay& other);
-      virtual ~SimpleDelay() { }
+      virtual ~SimpleDelay();
 
       virtual Processor* clone() const override {
         return new SimpleDelay(*this);

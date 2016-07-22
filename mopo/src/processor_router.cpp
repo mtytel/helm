@@ -55,6 +55,18 @@ namespace mopo {
     }
   }
 
+  ProcessorRouter::~ProcessorRouter() {
+    for (Processor* processor : local_order_)
+      delete processor;
+    for (Feedback* feedback : local_feedback_order_)
+      delete feedback;
+
+    for (Processor* processor : idle_processors_) {
+      processor->destroy();
+      delete processor;
+    }
+  }
+
   void ProcessorRouter::process() {
     updateAllProcessors();
 
@@ -73,6 +85,16 @@ namespace mopo {
       local_feedback_order_[i]->process();
 
     MOPO_ASSERT(num_processors != 0);
+  }
+
+  void ProcessorRouter::destroy() {
+    for (Processor* processor : local_order_)
+      processor->destroy();
+
+    delete global_order_;
+    delete global_feedback_order_;
+    delete global_changes_;
+    Processor::destroy();
   }
 
   void ProcessorRouter::setSampleRate(int sample_rate) {
@@ -114,6 +136,10 @@ namespace mopo {
 
     for (int i = 0; i < processor->numInputs(); ++i)
       connect(processor, processor->input(i)->source, i);
+  }
+
+  void ProcessorRouter::addIdleProcessor(Processor *processor) {
+    idle_processors_.push_back(processor);
   }
 
   void ProcessorRouter::removeProcessor(const Processor* processor) {

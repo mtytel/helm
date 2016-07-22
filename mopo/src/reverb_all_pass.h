@@ -35,7 +35,7 @@ namespace mopo {
 
       ReverbAllPass(int size);
       ReverbAllPass(const ReverbAllPass& other);
-      virtual ~ReverbAllPass() { }
+      virtual ~ReverbAllPass();
 
       virtual Processor* clone() const override {
         return new ReverbAllPass(*this);

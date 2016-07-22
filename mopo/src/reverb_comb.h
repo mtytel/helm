@@ -36,7 +36,7 @@ namespace mopo {
 
       ReverbComb(int size);
       ReverbComb(const ReverbComb& other);
-      virtual ~ReverbComb() { }
+      virtual ~ReverbComb();
 
       virtual Processor* clone() const override {
         return new ReverbComb(*this);

@@ -54,6 +54,17 @@ namespace mopo {
     }
   }
 
+  void Processor::destroy() {
+    for (Input* input : owned_inputs_)
+      delete input;
+
+    for (Output* output : owned_outputs_)
+      delete output;
+
+    delete inputs_;
+    delete outputs_;
+  }
+
   bool Processor::isPolyphonic() const {
     if (router_)
       return router_->isPolyphonic(this);

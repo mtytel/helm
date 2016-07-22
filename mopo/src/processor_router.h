@@ -32,15 +32,19 @@ namespace mopo {
       ProcessorRouter(int num_inputs = 0, int num_outputs = 0);
       ProcessorRouter(const ProcessorRouter& original);
 
+      virtual ~ProcessorRouter();
+
       virtual Processor* clone() const override {
         return new ProcessorRouter(*this);
       }
 
+      virtual void destroy() override;
       virtual void process() override;
       virtual void setSampleRate(int sample_rate) override;
       virtual void setBufferSize(int buffer_size) override;
 
       virtual void addProcessor(Processor* processor);
+      virtual void addIdleProcessor(Processor* processor);
       virtual void removeProcessor(const Processor* processor);
 
       // Any time new dependencies are added into the ProcessorRouter graph, we
@@ -77,6 +81,7 @@ namespace mopo {
       std::vector<const Processor*>* global_order_;
       std::vector<Processor*> local_order_;
       std::map<const Processor*, Processor*> processors_;
+      std::vector<Processor*> idle_processors_;
 
       std::vector<const Feedback*>* global_feedback_order_;
       std::vector<Feedback*> local_feedback_order_;

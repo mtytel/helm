@@ -16,11 +16,12 @@
 
 #include "operators.h"
 
+/*
 #if defined (__APPLE__)
   #include <Accelerate/Accelerate.h>
   #define USE_APPLE_ACCELERATE
 #endif
-
+*/
 #include <iostream>
 
 namespace mopo {
