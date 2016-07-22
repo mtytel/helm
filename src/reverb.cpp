@@ -24,7 +24,7 @@
 namespace mopo {
 
   Reverb::Reverb() : ProcessorRouter(kNumInputs, 0) {
-    static const Value* gain = new Value(FIXED_GAIN);
+    static const Value gain(FIXED_GAIN);
     Bypass* audio_input = new Bypass();
     Bypass* feedback_input = new Bypass();
     Bypass* damping_input = new Bypass();
@@ -37,7 +37,7 @@ namespace mopo {
 
     Multiply* gained_input = new Multiply();
     gained_input->plug(audio_input, 0);
-    gained_input->plug(gain, 1);
+    gained_input->plug(&gain, 1);
 
     addProcessor(audio_input);
     addProcessor(gained_input);
@@ -49,6 +49,7 @@ namespace mopo {
     for (int i = 0; i < NUM_COMB; ++i) {
       ReverbComb* comb = new ReverbComb(1 + mopo::MAX_SAMPLE_RATE * COMB_TUNINGS[i]);
       Value* time = new cr::Value(COMB_TUNINGS[i]);
+      addIdleProcessor(time);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
@@ -66,6 +67,7 @@ namespace mopo {
       mopo_float tuning = COMB_TUNINGS[i] + STEREO_SPREAD;
       ReverbComb* comb = new ReverbComb(1 + mopo::MAX_SAMPLE_RATE * tuning);
       Value* time = new cr::Value(tuning);
+      addIdleProcessor(time);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
@@ -85,6 +87,7 @@ namespace mopo {
     for (int i = 0; i < NUM_ALL_PASS; ++i) {
       ReverbAllPass* all_pass = new ReverbAllPass(1 + mopo::MAX_SAMPLE_RATE * ALL_PASS_TUNINGS[i]);
       Value* time = new cr::Value(ALL_PASS_TUNINGS[i]);
+      addIdleProcessor(time);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 
@@ -102,6 +105,7 @@ namespace mopo {
       mopo_float tuning = ALL_PASS_TUNINGS[i] + STEREO_SPREAD;
       ReverbAllPass* all_pass = new ReverbAllPass(1 + mopo::MAX_SAMPLE_RATE * tuning);
       Value* time = new cr::Value(tuning);
+      addIdleProcessor(time);
       cr::TimeToSamples* samples = new cr::TimeToSamples();
       samples->plug(time);
 

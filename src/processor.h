@@ -18,6 +18,8 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
+#include "JuceHeader.h"
+
 #include "common.h"
 
 #include <cstring>
@@ -38,7 +40,7 @@ namespace mopo {
       clearTrigger();
     }
 
-    ~Output() {
+    virtual ~Output() {
       delete[] buffer;
     }
 
@@ -65,6 +67,7 @@ namespace mopo {
     bool triggered;
     int trigger_offset;
     mopo_float trigger_value;
+    JUCE_LEAK_DETECTOR (Output)
   };
 
   // An input port to the Processor. You can plug an Output into one of
@@ -78,6 +81,8 @@ namespace mopo {
     inline const mopo_float& operator[](std::size_t i) {
       return source->buffer[i];
     }
+
+    JUCE_LEAK_DETECTOR (Input)
   };
 
   namespace cr {
@@ -88,13 +93,16 @@ namespace mopo {
 
   class Processor {
     public:
-      virtual ~Processor() { }
-
       Processor(int num_inputs, int num_outputs, bool control_rate = false);
+
+      virtual ~Processor() { }
 
       // Currently need to override this boiler plate clone.
       // TODO(mtytel): Should probably make a macro for this.
       virtual Processor* clone() const = 0;
+
+      // Cleanup shared memory.
+      virtual void destroy();
 
       // Subclasses override this for main processing code.
       virtual void process() = 0;
@@ -202,6 +210,8 @@ namespace mopo {
       ProcessorRouter* router_;
 
       static const Output null_source_;
+
+      JUCE_LEAK_DETECTOR (Processor)
   };
 } // namespace mopo
 

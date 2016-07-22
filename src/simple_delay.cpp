@@ -26,6 +26,10 @@ namespace mopo {
     this->memory_ = new Memory(*other.memory_);
   }
 
+  SimpleDelay::~SimpleDelay() {
+    delete memory_;
+  }
+
   void SimpleDelay::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);

@@ -64,6 +64,7 @@ namespace mopo {
     mixer->plug(last_filter, Interpolate::kTo);
     registerInput(mixer->input(Interpolate::kFractional), kMix);
 
+    addIdleProcessor(filter_type);
     addProcessor(oscillator);
     addProcessor(scaled_oscillator);
     addProcessor(midi_cutoff);

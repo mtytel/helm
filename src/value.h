@@ -39,6 +39,9 @@ namespace mopo {
 
     protected:
       mopo_float value_;
+
+    JUCE_LEAK_DETECTOR (Value)
+
   };
 
   namespace cr {
@@ -46,6 +49,9 @@ namespace mopo {
       public:
         Value(mopo_float value = 0.0) : ::mopo::Value(value, true) { }
         virtual Processor* clone() const override { return new Value(*this); }
+
+      JUCE_LEAK_DETECTOR (Value)
+
     };
   } // namespace cr
 } // namespace mopo

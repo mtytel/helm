@@ -26,6 +26,10 @@ namespace mopo {
     this->memory_ = new Memory(*other.memory_);
   }
 
+  Delay::~Delay() {
+    delete memory_;
+  }
+
   void Delay::process() {
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
