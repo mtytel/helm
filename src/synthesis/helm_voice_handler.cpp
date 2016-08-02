@@ -48,11 +48,11 @@ namespace mopo {
       cr::Value(Filter::kGainedBandPass)
     };
 
-    static const cr::Value formant_a_decibels(-4.0f);
-    static const cr::Value formant_e_decibels(-2.0f);
-    static const cr::Value formant_i_decibels(-2.0f);
-    static const cr::Value formant_o_decibels(-4.0f);
-    static const cr::Value formant_u_decibels(-2.0f);
+    static const Value formant_a_decibels(-4.0f);
+    static const Value formant_e_decibels(-2.0f);
+    static const Value formant_i_decibels(-2.0f);
+    static const Value formant_o_decibels(-4.0f);
+    static const Value formant_u_decibels(-2.0f);
 
     static const FormantValues formant_a[NUM_FORMANTS] = {
       {cr::Value(24), cr::Value(10), cr::Value(75.7552343327)},
