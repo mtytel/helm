@@ -1,4 +1,4 @@
-helm (0.8.5-1) trusty; urgency=low
+helm (0.8.6-1) trusty; urgency=low
 
   * Reduced memory usage.
 
