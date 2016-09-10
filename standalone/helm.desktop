@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Helm
+Comment=A free polyphonic synth with a lot of modulation
+Comment[fr]=Un synthétiseur polyphonique libre avec un tas de module
+GenericName=Synth
+GenericName[fr]=Synthétiseur
+Exec=helm
+Icon=helm_debian_icon
+Type=Application
+Categories=Audio;AudioVideo;
