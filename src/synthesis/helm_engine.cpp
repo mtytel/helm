@@ -137,11 +137,15 @@ namespace mopo {
       step_sequencer_->plug(step, StepGenerator::kSteps + i);
     }
 
+    SampleAndHoldBuffer* step_sequencer_audio_rate = new SampleAndHoldBuffer();
+    step_sequencer_audio_rate->plug(step_sequencer_);
+
     SmoothFilter* smoothed_step_sequencer = new SmoothFilter();
-    smoothed_step_sequencer->plug(step_sequencer_, SmoothFilter::kTarget);
+    smoothed_step_sequencer->plug(step_sequencer_audio_rate, SmoothFilter::kTarget);
     smoothed_step_sequencer->plug(step_smoothing, SmoothFilter::kHalfLife);
 
     addProcessor(step_sequencer_);
+    addProcessor(step_sequencer_audio_rate);
     addProcessor(step_sequencer_reset);
     addProcessor(smoothed_step_sequencer);
 
