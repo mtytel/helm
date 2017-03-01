@@ -228,8 +228,9 @@ namespace mopo {
         return details->second;
       }
 
-    private:
       static const ValueDetails parameter_list[];
+
+    private:
       std::map<std::string, ValueDetails> details_lookup_;
   };
 
