@@ -243,7 +243,6 @@ namespace mopo {
         return lookup_.isParameter(name);
       }
 
-    private:
       static ValueDetailsLookup lookup_;
   };
 } // namespace mopo
