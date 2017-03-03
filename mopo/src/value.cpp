@@ -15,6 +15,7 @@
  */
 
 #include "value.h"
+#include <algorithm>
 
 namespace mopo {
 
