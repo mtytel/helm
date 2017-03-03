@@ -50,6 +50,16 @@ public:
       std::cout << getApplicationName() << " " << getApplicationVersion() << newLine;
       quit();
     }
+    else if (commandLine.contains("--help") || commandLine.contains("-h")) {
+      std::cout << "Usage:" << newLine;
+      std::cout << "  " << getApplicationName().toLowerCase() << " [OPTION...]" << newLine << newLine;
+      std::cout << getApplicationName() << " polyphonic, semi-modular synthesizer." << newLine << newLine;
+      std::cout << "Help Options:" << newLine;
+      std::cout << "  -h, --help                          Show help options" << newLine << newLine;
+      std::cout << "Application Options:" << newLine;
+      std::cout << "  -v, --version                       Show version information and exit" << newLine << newLine;
+      quit();
+    }
     else
       mainWindow = new MainWindow (getApplicationName());
   }
