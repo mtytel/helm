@@ -28,7 +28,7 @@
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
-HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
+HelmStandaloneEditor::HelmStandaloneEditor(File patch) : SynthGuiInterface(this) {
   computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_);
 
   setAudioChannels(0, mopo::NUM_CHANNELS);
@@ -66,6 +66,11 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   addKeyListener(computer_keyboard_);
   postMessage(new Message());
   setOpaque(true);
+
+  // Load startup patch
+  var parsed_json_state;
+  if (patch.exists() && JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
+    loadFromVar(parsed_json_state);
 }
 
 HelmStandaloneEditor::~HelmStandaloneEditor() {

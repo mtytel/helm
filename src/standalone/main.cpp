@@ -21,14 +21,15 @@ class HelmApplication  : public JUCEApplication {
 public:
   class MainWindow : public DocumentWindow {
   public:
-    MainWindow(String name) : DocumentWindow(name, Colours::lightgrey,
-                                             DocumentWindow::closeButton) {
+    MainWindow(String name, File patch, bool visible = true) :
+        DocumentWindow(name, Colours::lightgrey, DocumentWindow::closeButton) {
       setUsingNativeTitleBar(true);
-      setContentOwned(new HelmStandaloneEditor(), true);
+      HelmStandaloneEditor* editor = new HelmStandaloneEditor(patch);
+      setContentOwned(editor, true);
       setResizable(true, true);
 
       centreWithSize(getWidth(), getHeight());
-      setVisible(true);
+      setVisible(visible);
     }
 
     void closeButtonPressed() override {
@@ -46,11 +47,11 @@ public:
   bool moreThanOneInstanceAllowed() override { return true; }
 
   void initialise(const String& commandLine) override {
-    if (commandLine.contains("--version") || commandLine.contains("-v")) {
+    if (commandLine.contains(" --version ") || commandLine.contains(" -v ")) {
       std::cout << getApplicationName() << " " << getApplicationVersion() << newLine;
       quit();
     }
-    else if (commandLine.contains("--help") || commandLine.contains("-h")) {
+    else if (commandLine.contains(" --help ") || commandLine.contains(" -h ")) {
       std::cout << "Usage:" << newLine;
       std::cout << "  " << getApplicationName().toLowerCase() << " [OPTION...]" << newLine << newLine;
       std::cout << getApplicationName() << " polyphonic, semi-modular synthesizer." << newLine << newLine;
@@ -60,8 +61,21 @@ public:
       std::cout << "  -v, --version                       Show version information and exit" << newLine << newLine;
       quit();
     }
-    else
-      mainWindow = new MainWindow (getApplicationName());
+    else {
+      StringArray args = getCommandLineParameterArray();
+      File file;
+
+      for (int i = 0; i < args.size(); ++i) {
+        if (args[i] != "" && args[i][0] != '-') {
+          file = File::getCurrentWorkingDirectory().getChildFile(args[i]);
+          if (file.exists())
+            break;
+        }
+      }
+
+      bool visible = !commandLine.contains("--headless");
+      mainWindow = new MainWindow(getApplicationName(), file, visible);
+    }
   }
 
   void shutdown() override {
