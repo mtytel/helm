@@ -98,6 +98,15 @@ void PatchSelector::resized() {
   SynthSection::resized();
 }
 
+void PatchSelector::reset() {
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  Graphics g(background_);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+  repaint();
+}
+
 void PatchSelector::mouseUp(const MouseEvent& event) {
   if (browser_)
     browser_->setVisible(!browser_->isVisible());
@@ -118,16 +127,7 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
 }
 
 void PatchSelector::newPatchSelected(File patch) {
-  File folder = patch.getParentDirectory();
-  folder_text_ = folder.getFileNameWithoutExtension();
-  patch_text_ = patch.getFileNameWithoutExtension();
-
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  Graphics g(background_);
-  g.addTransform(AffineTransform::scale(scale, scale));
-  paintBackground(g);
-  repaint();
+  reset();
 }
 
 void PatchSelector::loadFromFile(File& patch) {

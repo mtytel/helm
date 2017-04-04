@@ -29,6 +29,7 @@ class PatchSelector : public SynthSection, public PatchBrowser::PatchSelectedLis
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+    void reset() override;
     void mouseUp(const MouseEvent& event) override;
     void buttonClicked(Button* buttonThatWasClicked) override;
     void newPatchSelected(File patch) override;
