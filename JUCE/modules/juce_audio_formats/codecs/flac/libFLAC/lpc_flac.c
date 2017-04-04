@@ -50,7 +50,7 @@
 
 #ifndef FLAC__INTEGER_ONLY_LIBRARY
 
-#if (!defined(__GNUC__) && !defined(HAVE_LROUND)) || __cplusplus < 201103L
+#if !defined(HAVE_LROUND)
 #if defined(_MSC_VER)
 #include <float.h>
 #define copysign _copysign

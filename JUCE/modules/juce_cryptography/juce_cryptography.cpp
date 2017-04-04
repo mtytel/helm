@@ -31,6 +31,8 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
+#include "AppConfig.h"
+
 #include "juce_cryptography.h"
 
 namespace juce

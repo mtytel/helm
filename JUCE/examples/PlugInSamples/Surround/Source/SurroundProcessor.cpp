@@ -29,10 +29,15 @@
 /**
  */
 class SurroundProcessor  : public AudioProcessor,
-                           public ChannelClickListener
+                           public ChannelClickListener,
+                           private AsyncUpdater
 {
 public:
-    SurroundProcessor() {}
+    SurroundProcessor()
+        : AudioProcessor(BusesProperties().withInput  ("Input",  AudioChannelSet::stereo())
+                                          .withOutput ("Output", AudioChannelSet::stereo()))
+    {}
+
     ~SurroundProcessor() {}
 
     //==============================================================================
@@ -41,23 +46,48 @@ public:
         channelClicked = 0;
         sampleOffset = static_cast<int> (std::ceil (sampleRate));
 
+        const int numChannels = getChannelCountOfBus (true, 0);
+        channelActive.resize (numChannels);
+        alphaCoeffs.resize (numChannels);
+        reset();
+
+        triggerAsyncUpdate();
+
         ignoreUnused (samplesPerBlock);
     }
 
-    void releaseResources() override {}
+    void releaseResources() override { reset(); }
 
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer&) override
     {
-        buffer.clear();
+        for (int ch = 0; ch < buffer.getNumChannels(); ++ch)
+        {
+            int& channelTime = channelActive.getReference (ch);
+            float& alpha = alphaCoeffs.getReference (ch);
+
+            for (int j = 0; j < buffer.getNumSamples(); ++j)
+            {
+                float sample = buffer.getReadPointer (ch)[j];
+                alpha = (0.8f * alpha) + (0.2f * sample);
+
+                if (fabsf (alpha) >= 0.1f)
+                    channelTime = static_cast<int> (getSampleRate() / 2.0);
+            }
+
+            channelTime = jmax (0, channelTime - buffer.getNumSamples());
+        }
 
         const int fillSamples = jmin (static_cast<int> (std::ceil (getSampleRate())) - sampleOffset,
                                       buffer.getNumSamples());
 
-        float* const channelBuffer = buffer.getWritePointer (channelClicked);
-        const float freq = (float) (440.0 / getSampleRate());
+        if (isPositiveAndBelow (channelClicked, buffer.getNumChannels()))
+        {
+            float* const channelBuffer = buffer.getWritePointer (channelClicked);
+            const float freq = (float) (440.0 / getSampleRate());
 
-        for (int i = 0; i < fillSamples; ++i)
-            channelBuffer[i] = std::sin (2.0f * float_Pi * freq * static_cast<float> (sampleOffset++));
+            for (int i = 0; i < fillSamples; ++i)
+                channelBuffer[i] += std::sin (2.0f * float_Pi * freq * static_cast<float> (sampleOffset++));
+        }
     }
 
     //==============================================================================
@@ -65,36 +95,24 @@ public:
     bool hasEditor() const override               { return true;   }
 
     //==============================================================================
-    bool setPreferredBusArrangement (bool isInputBus, int busIndex,
-                                     const AudioChannelSet& preferred) override
+    bool isBusesLayoutSupported (const BusesLayout& layouts) const override
     {
-        if  (   preferred == AudioChannelSet::mono()
-             || preferred == AudioChannelSet::stereo()
-             || preferred == AudioChannelSet::createLCR()
-             || preferred == AudioChannelSet::createLCRS()
-             || preferred == AudioChannelSet::quadraphonic()
-             || preferred == AudioChannelSet::pentagonal()
-             || preferred == AudioChannelSet::hexagonal()
-             || preferred == AudioChannelSet::octagonal()
-             || preferred == AudioChannelSet::ambisonic()
-             || preferred == AudioChannelSet::create5point0()
-             || preferred == AudioChannelSet::create5point1()
-             || preferred == AudioChannelSet::create6point0()
-             || preferred == AudioChannelSet::create6point1()
-             || preferred == AudioChannelSet::create7point0()
-             || preferred == AudioChannelSet::create7point1()
-             || preferred == AudioChannelSet::createFront7point0()
-             || preferred == AudioChannelSet::createFront7point1())
-            return AudioProcessor::setPreferredBusArrangement (isInputBus, busIndex, preferred);
+        return ((! layouts.getMainInputChannelSet() .isDiscreteLayout())
+             && (! layouts.getMainOutputChannelSet().isDiscreteLayout())
+             && (layouts.getMainInputChannelSet() == layouts.getMainOutputChannelSet())
+             && (! layouts.getMainInputChannelSet().isDisabled()));
+    }
 
-        return false;
+    void reset() override
+    {
+        for (int i = 0; i < channelActive.size(); ++i)
+            channelActive.getReference (i) = 0;
     }
 
     //==============================================================================
     const String getName() const override               { return "Surround PlugIn"; }
     bool acceptsMidi() const override                   { return false; }
     bool producesMidi() const override                  { return false; }
-    bool silenceInProducesSilenceOut() const override   { return true; }
     double getTailLengthSeconds() const override        { return 0; }
 
     //==============================================================================
@@ -114,7 +132,21 @@ public:
         sampleOffset = 0;
     }
 
+    bool isChannelActive (int channelIndex) override
+    {
+        return channelActive [channelIndex] > 0;
+    }
+
+    void handleAsyncUpdate() override
+    {
+        if (AudioProcessorEditor* editor = getActiveEditor())
+            if (SurroundEditor* surroundEditor = dynamic_cast<SurroundEditor*> (editor))
+                surroundEditor->updateGUI();
+    }
+
 private:
+    Array<int> channelActive;
+    Array<float> alphaCoeffs;
     int channelClicked;
     int sampleOffset;
     //==============================================================================

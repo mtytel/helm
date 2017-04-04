@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,7 +22,6 @@
   ==============================================================================
 */
 
-
 /**
     A subclass of AudioProcessorParameter that provides an easy way to create a
     parameter which maps onto a given NormalisableRange.
@@ -35,9 +34,11 @@ public:
     /** Creates a AudioParameterFloat with an ID, name, and range.
         On creation, its value is set to the default value.
     */
-    AudioParameterFloat (String parameterID, String name,
+    AudioParameterFloat (const String& parameterID, const String& name,
                          NormalisableRange<float> normalisableRange,
-                         float defaultValue);
+                         float defaultValue,
+                         const String& label = String(),
+                         Category category = AudioProcessorParameter::genericParameter);
 
     /** Creates a AudioParameterFloat with an ID, name, and range.
         On creation, its value is set to the default value.

@@ -2,22 +2,28 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2016 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   Permission is granted to use this software under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license/
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   Permission to use, copy, modify, and/or distribute this software for any
+   purpose with or without fee is hereby granted, provided that the above
+   copyright notice and this permission notice appear in all copies.
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+   FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT,
+   OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+   USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+   TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+   OF THIS SOFTWARE.
 
-   ------------------------------------------------------------------------------
+   -----------------------------------------------------------------------------
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   To release a closed-source product which uses other parts of JUCE not
+   licensed under the ISC terms, commercial licenses are available: visit
+   www.juce.com for more information.
 
   ==============================================================================
 */
@@ -34,7 +40,8 @@
 
  // The AudioHardwareService stuff was deprecated in 10.11 but there's no replacement yet,
  // so we'll have to silence the warnings here and revisit it in a future OS version..
- #if defined (MAC_OS_X_VERSION_10_11) && MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_11
+ #if ((defined (MAC_OS_X_VERSION_10_12) && MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_12) \
+   || (defined (MAC_OS_X_VERSION_10_11) && MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_11))
   #pragma clang diagnostic ignored "-Wdeprecated-declarations"
  #endif
 #endif
@@ -149,26 +156,18 @@ bool  JUCE_CALLTYPE SystemAudioVolume::setMuted (bool mute)   { return SystemVol
 struct CoreAudioClasses
 {
 
+class CoreAudioIODeviceType;
 class CoreAudioIODevice;
 
 //==============================================================================
 class CoreAudioInternal  : private Timer
 {
 public:
-    CoreAudioInternal (CoreAudioIODevice& d, AudioDeviceID id)
+    CoreAudioInternal (CoreAudioIODevice& d, AudioDeviceID id, bool input, bool output)
        : owner (d),
-         inputLatency (0),
-         outputLatency (0),
-         bitDepth (32),
-         callback (nullptr),
-         audioProcID (0),
          deviceID (id),
-         started (false),
-         sampleRate (0),
-         bufferSize (512),
-         numInputChans (0),
-         numOutputChans (0),
-         callbacksAllowed (true)
+         isInputDevice  (input),
+         isOutputDevice (output)
     {
         jassert (deviceID != 0);
 
@@ -331,7 +330,7 @@ public:
             {
                 newBufferSizes.add ((int) (ranges[0].mMinimum + 15) & ~15);
 
-                for (int i = 32; i < 2048; i += 32)
+                for (int i = 32; i <= 2048; i += 32)
                 {
                     for (int j = size / (int) sizeof (AudioValueRange); --j >= 0;)
                     {
@@ -435,11 +434,11 @@ public:
         const int newOutputLatency = getLatencyFromDevice (kAudioDevicePropertyScopeOutput);
 
         Array<CallbackDetailsForChannel> newInChans, newOutChans;
-        StringArray newInNames  (getChannelInfo (true,  newInChans));
-        StringArray newOutNames (getChannelInfo (false, newOutChans));
+        auto newInNames  = isInputDevice  ? getChannelInfo (true,  newInChans)  : StringArray();
+        auto newOutNames = isOutputDevice ? getChannelInfo (false, newOutChans) : StringArray();
 
-        const int newBitDepth  = jmax (getBitDepthFromDevice (kAudioDevicePropertyScopeInput),
-                                       getBitDepthFromDevice (kAudioDevicePropertyScopeOutput));
+        const int newBitDepth = jmax (getBitDepthFromDevice (kAudioDevicePropertyScopeInput),
+                                      getBitDepthFromDevice (kAudioDevicePropertyScopeOutput));
 
         {
             const ScopedLock sl (callbackLock);
@@ -691,7 +690,7 @@ public:
 
             { const ScopedLock sl (callbackLock); }
 
-            // wait until it's definately stopped calling back..
+            // wait until it's definitely stopped calling back..
             for (int i = 40; --i >= 0;)
             {
                 Thread::sleep (50);
@@ -797,24 +796,27 @@ public:
 
     //==============================================================================
     CoreAudioIODevice& owner;
-    int inputLatency, outputLatency;
-    int bitDepth;
+    int inputLatency  = 0;
+    int outputLatency = 0;
+    int bitDepth = 32;
     BigInteger activeInputChans, activeOutputChans;
     StringArray inChanNames, outChanNames;
     Array<double> sampleRates;
     Array<int> bufferSizes;
-    AudioIODeviceCallback* callback;
-    AudioDeviceIOProcID audioProcID;
+    AudioIODeviceCallback* callback = nullptr;
+    AudioDeviceIOProcID audioProcID = 0;
 
 private:
     CriticalSection callbackLock;
     AudioDeviceID deviceID;
-    bool started;
-    double sampleRate;
-    int bufferSize;
+    bool started = false;
+    double sampleRate = 0;
+    int bufferSize = 512;
     HeapBlock<float> audioBuffer;
-    int numInputChans, numOutputChans;
-    bool callbacksAllowed;
+    int numInputChans  = 0;
+    int numOutputChans = 0;
+    bool callbacksAllowed = true;
+    const bool isInputDevice, isOutputDevice;
 
     Array<CallbackDetailsForChannel> inputChannelInfo, outputChannelInfo;
     HeapBlock<float*> tempInputBuffers, tempOutputBuffers;
@@ -845,6 +847,11 @@ private:
             case kAudioDevicePropertyDeviceIsAlive:
             case kAudioStreamPropertyPhysicalFormat:
                 intern->deviceDetailsChanged();
+                break;
+
+            case kAudioObjectPropertyOwnedObjects:
+                intern->stop (false);
+                intern->owner.deviceType.triggerAsyncAudioDeviceListChange();
                 break;
 
             case kAudioDevicePropertyBufferSizeRange:
@@ -902,10 +909,12 @@ private:
 class CoreAudioIODevice   : public AudioIODevice
 {
 public:
-    CoreAudioIODevice (const String& deviceName,
+    CoreAudioIODevice (CoreAudioIODeviceType& dt,
+                       const String& deviceName,
                        AudioDeviceID inputDeviceId, const int inputIndex_,
                        AudioDeviceID outputDeviceId, const int outputIndex_)
         : AudioIODevice (deviceName, "CoreAudio"),
+          deviceType (dt),
           inputIndex (inputIndex_),
           outputIndex (outputIndex_),
           isOpen_ (false),
@@ -916,11 +925,11 @@ public:
         if (outputDeviceId == 0 || outputDeviceId == inputDeviceId)
         {
             jassert (inputDeviceId != 0);
-            device = new CoreAudioInternal (*this, inputDeviceId);
+            device = new CoreAudioInternal (*this, inputDeviceId, true, outputDeviceId != 0);
         }
         else
         {
-            device = new CoreAudioInternal (*this, outputDeviceId);
+            device = new CoreAudioInternal (*this, outputDeviceId, false, true);
         }
 
         internal = device;
@@ -1060,6 +1069,12 @@ public:
         return lastError;
     }
 
+    void audioDeviceListChanged()
+    {
+        deviceType.audioDeviceListChanged();
+    }
+
+    CoreAudioIODeviceType& deviceType;
     int inputIndex, outputIndex;
 
 private:
@@ -1745,7 +1760,8 @@ private:
 
 
 //==============================================================================
-class CoreAudioIODeviceType  : public AudioIODeviceType
+class CoreAudioIODeviceType  : public AudioIODeviceType,
+                               private AsyncUpdater
 {
 public:
     CoreAudioIODeviceType()
@@ -1771,7 +1787,7 @@ public:
     }
 
     //==============================================================================
-    void scanForDevices()
+    void scanForDevices() override
     {
         hasScanned = true;
 
@@ -1827,7 +1843,7 @@ public:
         outputDeviceNames.appendNumbersToDuplicates (false, true);
     }
 
-    StringArray getDeviceNames (bool wantInputNames) const
+    StringArray getDeviceNames (bool wantInputNames) const override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1835,7 +1851,7 @@ public:
                               : outputDeviceNames;
     }
 
-    int getDefaultDeviceIndex (bool forInput) const
+    int getDefaultDeviceIndex (bool forInput) const override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1870,7 +1886,7 @@ public:
         return 0;
     }
 
-    int getIndexOfDevice (AudioIODevice* device, bool asInput) const
+    int getIndexOfDevice (AudioIODevice* device, bool asInput) const override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1894,10 +1910,10 @@ public:
         return -1;
     }
 
-    bool hasSeparateInputsAndOutputs() const    { return true; }
+    bool hasSeparateInputsAndOutputs() const override    { return true; }
 
     AudioIODevice* createDevice (const String& outputDeviceName,
-                                 const String& inputDeviceName)
+                                 const String& inputDeviceName) override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1913,15 +1929,15 @@ public:
         String combinedName (outputDeviceName.isEmpty() ? inputDeviceName : outputDeviceName);
 
         if (inputDeviceID == outputDeviceID)
-            return new CoreAudioIODevice (combinedName, inputDeviceID, inputIndex, outputDeviceID, outputIndex);
+            return new CoreAudioIODevice (*this, combinedName, inputDeviceID, inputIndex, outputDeviceID, outputIndex);
 
         ScopedPointer<CoreAudioIODevice> in, out;
 
         if (inputDeviceID != 0)
-            in = new CoreAudioIODevice (inputDeviceName, inputDeviceID, inputIndex, 0, -1);
+            in = new CoreAudioIODevice (*this, inputDeviceName, inputDeviceID, inputIndex, 0, -1);
 
         if (outputDeviceID != 0)
-            out = new CoreAudioIODevice (outputDeviceName, 0, -1, outputDeviceID, outputIndex);
+            out = new CoreAudioIODevice (*this, outputDeviceName, 0, -1, outputDeviceID, outputIndex);
 
         if (in == nullptr)   return out.release();
         if (out == nullptr)  return in.release();
@@ -1930,6 +1946,17 @@ public:
         combo->addDevice (in.release(),  true, false);
         combo->addDevice (out.release(), false, true);
         return combo.release();
+    }
+
+    void audioDeviceListChanged()
+    {
+        scanForDevices();
+        callDeviceChangeListeners();
+    }
+
+    void triggerAsyncAudioDeviceListChange()
+    {
+        triggerAsyncUpdate();
     }
 
     //==============================================================================
@@ -1969,16 +1996,15 @@ private:
         return total;
     }
 
-    void audioDeviceListChanged()
-    {
-        scanForDevices();
-        callDeviceChangeListeners();
-    }
-
     static OSStatus hardwareListenerProc (AudioDeviceID, UInt32, const AudioObjectPropertyAddress*, void* clientData)
     {
         static_cast<CoreAudioIODeviceType*> (clientData)->audioDeviceListChanged();
         return noErr;
+    }
+
+    void handleAsyncUpdate() override
+    {
+        audioDeviceListChanged();
     }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CoreAudioIODeviceType)

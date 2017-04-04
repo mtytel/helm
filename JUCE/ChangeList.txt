@@ -1,9 +1,86 @@
 
 ﻿== Major JUCE features and updates ==
 
-This file just lists the more notable headline features. For more detailed info about minor changes and bugfixes, please see the git log.
+This file just lists the more notable headline features. For more detailed info
+about minor changes and bugfixes, please see the git log!
 
-Version 4.1
+Version 4.3.1
+  - Added support for iOS download tasks
+  - Added support for AAX plug-in meters
+  - Added support for dynamically disabling/enabling sidechains in ProTools
+  - Re-introduced support for VST3 plug-ins reporting which VST2 plug-in they can replace
+  - Added withRightX and withBottomY methods to Rectangle
+  - Added support for windows 10 on screen keyboard
+  - Added move semantics to AudioBuffer
+  - Added colour coding scheme to module icons in the Projucer to indicate which type of license a module uses
+  - Removed all deprecation warnings for macOS Sierra
+  - Fixed multiple touch, pen and mouse input related bugs on Windows
+  - Added submenu support to ComboBoxes and simplified the usage of ComboBoxes
+  - Various minor improvements and bug fixes
+  - Various documentation improvements
+
+Version 4.3.0
+  - Added API and examples for ROLI Blocks
+  - Multiple Projucer live-build UI and diagnostics improvements
+  - JUCE now supports hosting multi-bus plug-ins
+  - BufferingAudioSource now supports pre-buffering (useful for offline processing)
+  - Added microphone permissions switch to Projucer for iOS targets
+  - Standalone wrappers now correctly save and restore midi settings
+  - Various performance improvements to BigInteger
+  - Fixed various FlexBox bugs
+  - Added a workaround for the broken “Open Recent…” menu on os x
+  - Various minor improvements and bug fixes
+  - Various documentation improvements
+
+Version 4.2.4
+  - Pre-release of live build engine on Windows
+  - Added FlexBox layout engine
+  - Removed dependency on external Steinberg SDK when building and/or hosting VST2 plug-ins
+  - Added support for MIDI network sessions in the iOS simulator
+  - Added support for symmetric skew to Slider, NormalisableRange and SliderPropertyComponent
+  - Projucer now asks the user what to do when it detects that the .jucer file was modified outside of the Projucer
+  - Improved support for Windows 10 touch devices
+  - Added begin/end iterator methods for ValueTree, for handy range-based-for loops over its children
+  - Added support for recent mingw-w64 compilers
+  - Added useful proportional Rectangle utility methods
+  - Significantly improved the performance of BigInteger
+  - Added support for expiring licenses to juce_tracktion_marketplace
+  - Added support for retina mouse cursors on OS X
+  - Added a new low-quality mode for the CameraDevice
+  - Added pkg-config support for Linux
+  - Projucer will now wrap your AAX plug-in in the bundle format expected Pro Tools on Windows
+  - Multiple bug-fixes for AudioUnit parameter ids
+  - Fixed a bug where AlertWindows weren’t always on top
+  - Multiple fixes for web InputStreams
+  - Various improvements to the live build engine
+  - Various minor improvements and bug fixes
+  - Various documentation improvements
+
+Version 4.2.3
+  - Various VST3 improvements: resizing VST3 windows, plug-in compatibility issues
+  - Use NSURLSession on newer OS X versions
+  - Add compatibility for VST 3 SDK update 3.6.6
+  - Miscellaneous fixes and improvements
+
+Version 4.2.1
+  - New class CachedValue, for providing easy and efficient access to ValueTree properties
+  - Reduced audio plug-in binary sizes on OS X and added symbol-stripping option
+  - Miscellaneous fixes and improvements
+
+Version 4.2
+  - Added support for AudioUnit v3 on OS X and iOS
+  - Simplified the JUCE module format. Removed the json module definition files, and made
+    it easier to manually add modules to projects. The format is fully described in the
+    document juce/modules/JUCE Module Format.txt
+  - iOS project support: added custom resource folders, custom xcassets, app capabilities,
+    and screen orientation settings.
+  - Deleted the Introjucer.. But don't panic! All of its functionality is now supplied by a
+    more open-source version of the Projucer. By refactoring the closed-source LLVM compilation
+    code into a DLL, we've been able to unify the Introjucer and Projucer into a single
+    open-source project. This will allow everyone to compile the Projucer's IDE themselves, and
+    having just one app instead of two will make things a lot less confusing!
+
+Version  4.1
   - Added multi-bus support for audio plug-in clients
   - Added support for MIDI effect plug-ins (AU and AAX).
   - Added new example: Network Graphics Demo
@@ -23,18 +100,18 @@ Version 4.0.1
   - Android Studio exporting from the Introjucer
   - Android-M pro-audio low-latency i/o support
   - Bluetooth MIDI device support on iOS and Android
-  - AudioSampleBuffer refactored into a templated class AudioBuffer, to allow 32 or 64 bit float support
+  - AudioSampleBuffer refactored into a templated class AudioBuffer, to allow
+    32 or 64 bit float support
   - Audio plugin and hosting now supports 64-bit data
   - Support for force-touch and pen pressure on iOS and Windows
   - Added easy sound-file playing methods to AudioDeviceManager
   - Many updates to Introjucer
   - Many new tutorials and examples
 
-
 Version 3.3.0
   - New functions for Base64 conversion
-  - New command-line options in the introjucer for trimming whitespace and replacing tabs in source files
-
+  - New command-line options in the introjucer for trimming whitespace and
+    replacing tabs in source files
 
 Version 3.2.0
   - Major OpenGL performance/stability improvements

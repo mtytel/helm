@@ -45,8 +45,7 @@ void AudioProcessorPlayer::setProcessor (AudioProcessor* const processorToPlay)
     {
         if (processorToPlay != nullptr && sampleRate > 0 && blockSize > 0)
         {
-            processorToPlay->setPlayConfigDetails (numInputChans, numOutputChans, sampleRate, blockSize);
-
+            processorToPlay->setPlayConfigDetails(numInputChans, numOutputChans, sampleRate, blockSize);
             const bool supportsDouble = processorToPlay->supportsDoublePrecisionProcessing() && isDoublePrecision;
             AudioProcessor::ProcessingPrecision precision = supportsDouble ? AudioProcessor::doublePrecision
                                                                            : AudioProcessor::singlePrecision;
@@ -157,9 +156,9 @@ void AudioProcessorPlayer::audioDeviceIOCallback (const float** const inputChann
             {
                 if (processor->isUsingDoublePrecision())
                 {
-                    conversionBuffer.makeCopyOf (buffer);
+                    conversionBuffer.makeCopyOf (buffer, true);
                     processor->processBlock (conversionBuffer, incomingMidi);
-                    buffer.makeCopyOf (conversionBuffer);
+                    buffer.makeCopyOf (conversionBuffer, true);
                 }
                 else
                 {

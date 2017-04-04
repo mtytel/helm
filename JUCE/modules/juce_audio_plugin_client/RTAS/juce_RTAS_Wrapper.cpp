@@ -39,6 +39,13 @@
  #include <Mac2Win.H>
 #endif
 
+#ifdef __clang__
+ #pragma clang diagnostic push
+ #pragma clang diagnostic ignored "-Widiomatic-parentheses"
+ #pragma clang diagnostic ignored "-Wnon-virtual-dtor"
+ #pragma clang diagnostic ignored "-Wcomment"
+#endif
+
 /* Note about include paths
    ------------------------
 
@@ -86,10 +93,14 @@
 #include <FicProcessTokens.h>
 #include <ExternalVersionDefines.h>
 
+#ifdef __clang__
+ #pragma clang diagnostic pop
+#endif
+
 //==============================================================================
 #ifdef _MSC_VER
  #pragma pack (push, 8)
- #pragma warning (disable: 4263 4264)
+ #pragma warning (disable: 4263 4264 4250)
 #endif
 
 #include "../utility/juce_IncludeModuleHeaders.h"
@@ -269,7 +280,7 @@ public:
             }
         }
 
-        void DrawContents (Rect*)
+        void DrawContents (Rect*) override
         {
            #if JUCE_WINDOWS
             if (wrapper != nullptr)
@@ -280,7 +291,7 @@ public:
            #endif
         }
 
-        void DrawBackground (Rect*)  {}
+        void DrawBackground (Rect*) override  {}
 
         //==============================================================================
     private:
@@ -466,8 +477,19 @@ public:
         AddControl (new CPluginControl_OnOff ('bypa', "Master Bypass\nMastrByp\nMByp\nByp", false, true));
         DefineMasterBypassControlIndex (bypassControlIndex);
 
-        for (int i = 0; i < juceFilter->getNumParameters(); ++i)
-            AddControl (new JucePluginControl (*juceFilter, i));
+        const int numParameters = juceFilter->getNumParameters();
+
+       #if JUCE_FORCE_USE_LEGACY_PARAM_IDS
+        const bool usingManagedParameters = false;
+       #else
+        const bool usingManagedParameters = (juceFilter->getParameters().size() == numParameters);
+       #endif
+
+        for (int i = 0; i < numParameters; ++i)
+        {
+            OSType rtasParamID = static_cast<OSType> (usingManagedParameters ? juceFilter->getParameterID (i).hashCode() : i);
+            AddControl (new JucePluginControl (*juceFilter, i, rtasParamID));
+        }
 
         // we need to do this midi log-in to get timecode, regardless of whether
         // the plugin actually uses midi...
@@ -476,14 +498,14 @@ public:
            #if JucePlugin_WantsMidiInput
             if (CEffectType* const type = dynamic_cast<CEffectType*> (this->GetProcessType()))
             {
-                char nodeName [64];
+                char nodeName[80] = { 0 };
                 type->GetProcessTypeName (63, nodeName);
-                p2cstrcpy (nodeName, reinterpret_cast<unsigned char*> (nodeName));
+                nodeName[nodeName[0] + 1] = 0;
 
                 midiBufferNode = new CEffectMIDIOtherBufferedNode (&mMIDIWorld,
                                                                    8192,
                                                                    eLocalNode,
-                                                                   nodeName,
+                                                                   nodeName + 1,
                                                                    midiBuffer);
 
                 midiBufferNode->Initialize (0xffff, true);
@@ -803,14 +825,14 @@ private:
     {
     public:
         //==============================================================================
-        JucePluginControl (AudioProcessor& p, const int i)
-            : processor (p), index (i)
+        JucePluginControl (AudioProcessor& p, const int i, OSType rtasParamID)
+            : processor (p), index (i), paramID (rtasParamID)
         {
             CPluginControl::SetValue (GetDefaultValue());
         }
 
         //==============================================================================
-        OSType GetID() const            { return index + 1; }
+        OSType GetID() const            { return paramID; }
         long GetDefaultValue() const    { return floatToLong (processor.getParameterDefaultValue (index)); }
         void SetDefaultValue (long)     {}
         long GetNumSteps() const        { return processor.getParameterNumSteps (index); }
@@ -855,6 +877,7 @@ private:
         //==============================================================================
         AudioProcessor& processor;
         const int index;
+        const OSType paramID;
 
         JUCE_DECLARE_NON_COPYABLE (JucePluginControl)
     };
@@ -933,7 +956,7 @@ private:
        #if JUCE_WINDOWS
         Process::setCurrentModuleInstanceHandle (gThisModule);
        #endif
-
+        PluginHostType::jucePlugInClientCurrentWrapperType = AudioProcessor::wrapperType_RTAS;
         initialiseJuce_GUI();
 
         return new JucePlugInProcess();

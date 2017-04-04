@@ -1,27 +1,29 @@
 /*
   ==============================================================================
 
-   This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2016 - ROLI Ltd.
 
-   Permission to use, copy, modify, and/or distribute this software for any purpose with
-   or without fee is hereby granted, provided that the above copyright notice and this
-   permission notice appear in all copies.
+   Permission is granted to use this software under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license/
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
-   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
-   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+   Permission to use, copy, modify, and/or distribute this software for any
+   purpose with or without fee is hereby granted, provided that the above
+   copyright notice and this permission notice appear in all copies.
 
-   ------------------------------------------------------------------------------
+   THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+   FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT,
+   OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+   USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+   TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+   OF THIS SOFTWARE.
 
-   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
-   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
-   using any other modules, be sure to check that you also comply with their license.
+   -----------------------------------------------------------------------------
 
-   For more details, visit www.juce.com
+   To release a closed-source product which uses other parts of JUCE not
+   licensed under the ISC terms, commercial licenses are available: visit
+   www.juce.com for more information.
 
   ==============================================================================
 */
@@ -29,7 +31,6 @@
 #ifndef JUCE_LEAKEDOBJECTDETECTOR_H_INCLUDED
 #define JUCE_LEAKEDOBJECTDETECTOR_H_INCLUDED
 
-#define DBG2(dbgtext)  { juce::String str; str << dbgtext; std::cout << str.toRawUTF8() << std::endl; }
 
 //==============================================================================
 /**
@@ -56,7 +57,7 @@ public:
     {
         if (--(getCounter().numObjects) < 0)
         {
-            DBG2 ("*** Dangling pointer deletion! Class: " << getLeakedObjectClassName());
+            DBG ("*** Dangling pointer deletion! Class: " << getLeakedObjectClassName());
 
             /** If you hit this, then you've managed to delete more instances of this class than you've
                 created.. That indicates that you're deleting some dangling pointers.
@@ -69,7 +70,7 @@ public:
                 your object management. Tut, tut. Always, always use ScopedPointers, OwnedArrays,
                 ReferenceCountedObjects, etc, and avoid the 'delete' operator at all costs!
             */
-            //jassertfalse;
+            jassertfalse;
         }
     }
 
@@ -84,7 +85,7 @@ private:
         {
             if (numObjects.value > 0)
             {
-                DBG2 ("*** Leaked objects detected: " << numObjects.value << " instance(s) of class " << getLeakedObjectClassName());
+                DBG ("*** Leaked objects detected: " << numObjects.value << " instance(s) of class " << getLeakedObjectClassName());
 
                 /** If you hit this, then you've leaked one or more objects of the type specified by
                     the 'OwnerClass' template parameter - the name should have been printed by the line above.
@@ -93,7 +94,7 @@ private:
                     your object management. Tut, tut. Always, always use ScopedPointers, OwnedArrays,
                     ReferenceCountedObjects, etc, and avoid the 'delete' operator at all costs!
                 */
-                //jassertfalse;
+                jassertfalse;
             }
         }
 

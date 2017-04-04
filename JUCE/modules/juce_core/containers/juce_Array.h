@@ -1,27 +1,29 @@
 /*
   ==============================================================================
 
-   This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2016 - ROLI Ltd.
 
-   Permission to use, copy, modify, and/or distribute this software for any purpose with
-   or without fee is hereby granted, provided that the above copyright notice and this
-   permission notice appear in all copies.
+   Permission is granted to use this software under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license/
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
-   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
-   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+   Permission to use, copy, modify, and/or distribute this software for any
+   purpose with or without fee is hereby granted, provided that the above
+   copyright notice and this permission notice appear in all copies.
 
-   ------------------------------------------------------------------------------
+   THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+   FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT,
+   OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+   USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+   TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+   OF THIS SOFTWARE.
 
-   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
-   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
-   using any other modules, be sure to check that you also comply with their license.
+   -----------------------------------------------------------------------------
 
-   For more details, visit www.juce.com
+   To release a closed-source product which uses other parts of JUCE not
+   licensed under the ISC terms, commercial licenses are available: visit
+   www.juce.com for more information.
 
   ==============================================================================
 */
@@ -519,7 +521,7 @@ public:
             {
                 insertPos += indexToInsertAt;
                 const int numberToMove = numUsed - indexToInsertAt;
-                memmove (insertPos + numberOfElements, insertPos, numberToMove * sizeof (ElementType));
+                memmove (insertPos + numberOfElements, insertPos, (size_t) numberToMove * sizeof (ElementType));
             }
             else
             {
@@ -540,13 +542,17 @@ public:
         will be done.
 
         @param newElement   the new object to add to the array
+        @return             true if the element was added to the array; false otherwise.
     */
-    void addIfNotAlreadyThere (ParameterType newElement)
+    bool addIfNotAlreadyThere (ParameterType newElement)
     {
         const ScopedLockType lock (getLock());
 
-        if (! contains (newElement))
-            add (newElement);
+        if (contains (newElement))
+            return false;
+
+        add (newElement);
+        return true;
     }
 
     /** Replaces an element with a new value.
@@ -794,10 +800,30 @@ public:
         If the index passed in is out-of-range, nothing will happen.
 
         @param indexToRemove    the index of the element to remove
+        @see removeAndReturn, removeFirstMatchingValue, removeAllInstancesOf, removeRange
+    */
+    void remove (int indexToRemove)
+    {
+        const ScopedLockType lock (getLock());
+
+        if (isPositiveAndBelow (indexToRemove, numUsed))
+        {
+            jassert (data.elements != nullptr);
+            removeInternal (indexToRemove);
+        }
+    }
+
+    /** Removes an element from the array.
+
+        This will remove the element at a given index, and move back
+        all the subsequent elements to close the gap.
+        If the index passed in is out-of-range, nothing will happen.
+
+        @param indexToRemove    the index of the element to remove
         @returns                the element that has been removed
         @see removeFirstMatchingValue, removeAllInstancesOf, removeRange
     */
-    ElementType remove (const int indexToRemove)
+    ElementType removeAndReturn (const int indexToRemove)
     {
         const ScopedLockType lock (getLock());
 
@@ -820,7 +846,7 @@ public:
         array, behaviour is undefined.
 
         @param elementToRemove  a pointer to the element to remove
-        @see removeFirstMatchingValue, removeAllInstancesOf, removeRange
+        @see removeFirstMatchingValue, removeAllInstancesOf, removeRange, removeIf
     */
     void remove (const ElementType* elementToRemove)
     {
@@ -829,7 +855,12 @@ public:
 
         jassert (data.elements != nullptr);
         const int indexToRemove = int (elementToRemove - data.elements);
-        jassert (isPositiveAndBelow (indexToRemove, numUsed));
+
+        if (! isPositiveAndBelow (indexToRemove, numUsed))
+        {
+            jassertfalse;
+            return;
+        }
 
         removeInternal (indexToRemove);
     }
@@ -840,7 +871,7 @@ public:
         If the item isn't found, no action is taken.
 
         @param valueToRemove   the object to try to remove
-        @see remove, removeRange
+        @see remove, removeRange, removeIf
     */
     void removeFirstMatchingValue (ParameterType valueToRemove)
     {
@@ -857,21 +888,59 @@ public:
         }
     }
 
-    /** Removes an item from the array.
+    /** Removes items from the array.
 
         This will remove all occurrences of the given element from the array.
         If no such items are found, no action is taken.
 
         @param valueToRemove   the object to try to remove
-        @see remove, removeRange
+        @return how many objects were removed.
+        @see remove, removeRange, removeIf
     */
-    void removeAllInstancesOf (ParameterType valueToRemove)
+    int removeAllInstancesOf (ParameterType valueToRemove)
     {
+        int numRemoved = 0;
         const ScopedLockType lock (getLock());
 
         for (int i = numUsed; --i >= 0;)
+        {
             if (valueToRemove == data.elements[i])
+            {
                 removeInternal (i);
+                ++numRemoved;
+            }
+        }
+
+        return numRemoved;
+    }
+
+    /** Removes items from the array.
+
+        This will remove all objects from the array that match a condition.
+        If no such items are found, no action is taken.
+
+        @param predicate   the condition when to remove an item. Must be a callable
+                           type that takes an ElementType and returns a bool
+
+        @return how many objects were removed.
+        @see remove, removeRange, removeAllInstancesOf
+    */
+    template <typename PredicateType>
+    int removeIf (PredicateType predicate)
+    {
+        int numRemoved = 0;
+        const ScopedLockType lock (getLock());
+
+        for (int i = numUsed; --i >= 0;)
+        {
+            if (predicate (data.elements[i]) == true)
+            {
+                removeInternal (i);
+                ++numRemoved;
+            }
+        }
+
+        return numRemoved;
     }
 
     /** Removes a range of elements from the array.
@@ -884,7 +953,7 @@ public:
 
         @param startIndex       the index of the first element to remove
         @param numberToRemove   how many elements should be removed
-        @see remove, removeFirstMatchingValue, removeAllInstancesOf
+        @see remove, removeFirstMatchingValue, removeAllInstancesOf, removeIf
     */
     void removeRange (int startIndex, int numberToRemove)
     {

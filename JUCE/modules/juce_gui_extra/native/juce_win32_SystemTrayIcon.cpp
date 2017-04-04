@@ -91,7 +91,7 @@ public:
         if (owner.isCurrentlyBlockedByAnotherModalComponent())
         {
             if (lParam == WM_LBUTTONDOWN || lParam == WM_RBUTTONDOWN
-                 || lParam == WM_LBUTTONDBLCLK || lParam == WM_LBUTTONDBLCLK)
+                 || lParam == WM_LBUTTONDBLCLK || lParam == WM_RBUTTONDBLCLK)
             {
                 if (Component* const current = Component::getCurrentlyModalComponent())
                     current->inputAttemptWhenModal();
@@ -226,7 +226,7 @@ void SystemTrayIconComponent::showInfoBubble (const String& title, const String&
 
 void SystemTrayIconComponent::hideInfoBubble()
 {
-    showInfoBubble (String::empty, String::empty);
+    showInfoBubble (String(), String());
 }
 
 void* SystemTrayIconComponent::getNativeHandle() const

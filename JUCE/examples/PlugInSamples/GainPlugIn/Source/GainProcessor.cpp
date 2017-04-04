@@ -34,6 +34,8 @@ public:
 
     //==============================================================================
     GainProcessor()
+        : AudioProcessor (BusesProperties().withInput  ("Input",  AudioChannelSet::stereo())
+                                           .withOutput ("Output", AudioChannelSet::stereo()))
     {
         addParameter (gain = new AudioParameterFloat ("gain", "Gain", 0.0f, 1.0f, 0.5f));
     }
@@ -41,7 +43,7 @@ public:
     ~GainProcessor() {}
 
     //==============================================================================
-    void prepareToPlay (double sampleRate, int samplesPerBlock) override {}
+    void prepareToPlay (double, int) override {}
     void releaseResources() override {}
 
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer&) override
@@ -74,28 +76,23 @@ public:
 
     void setStateInformation (const void* data, int sizeInBytes) override
     {
-        gain->setValueNotifyingHost (MemoryInputStream (data, sizeInBytes, false).readFloat());
+        gain->setValueNotifyingHost (MemoryInputStream (data, static_cast<size_t> (sizeInBytes), false).readFloat());
     }
 
     //==============================================================================
-    bool setPreferredBusArrangement (bool isInputBus, int busIndex,
-                                     const AudioChannelSet& preferred) override
+    bool isBusesLayoutSupported (const BusesLayout& layouts) const override
     {
-        const int numChannels = preferred.size();
+        const AudioChannelSet& mainInLayout  = layouts.getChannelSet (true,  0);
+        const AudioChannelSet& mainOutLayout = layouts.getChannelSet (false, 0);
 
-        // do not allow disabling channels
-        if (numChannels == 0) return false;
-
-        // always have the same channel layout on both input and output on the main bus
-        if (! AudioProcessor::setPreferredBusArrangement (! isInputBus, busIndex, preferred))
-            return false;
-
-        return AudioProcessor::setPreferredBusArrangement (isInputBus, busIndex, preferred);
+        return (mainInLayout == mainOutLayout && (! mainInLayout.isDisabled()));
     }
 
 private:
     //==============================================================================
     AudioParameterFloat* gain;
+
+    enum { kVST2MaxChannels = 16 };
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GainProcessor)

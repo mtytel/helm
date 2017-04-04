@@ -93,6 +93,8 @@ public:
     };
 
 private:
+    static void runtimePermissionsCallback (bool wasGranted);
+
     ScopedPointer<ContentComponent> contentComponent;
     ScopedPointer<Component> taskbarIcon;
     ScopedPointer<BubbleMessageComponent> currentBubbleMessage;

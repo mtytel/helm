@@ -39,13 +39,15 @@ Array<AppInactivityCallback*> appBecomingInactiveCallbacks;
 {
 }
 
+@property (strong, nonatomic) UIWindow *window;
 - (void) applicationDidFinishLaunching: (UIApplication*) application;
 - (void) applicationWillTerminate: (UIApplication*) application;
 - (void) applicationDidEnterBackground: (UIApplication*) application;
 - (void) applicationWillEnterForeground: (UIApplication*) application;
 - (void) applicationDidBecomeActive: (UIApplication*) application;
 - (void) applicationWillResignActive: (UIApplication*) application;
-
+- (void) application: (UIApplication*) application handleEventsForBackgroundURLSession: (NSString*)identifier
+   completionHandler: (void (^)(void))completionHandler;
 @end
 
 @implementation JuceAppStartupDelegate
@@ -103,22 +105,31 @@ Array<AppInactivityCallback*> appBecomingInactiveCallbacks;
         appBecomingInactiveCallbacks.getReference(i)->appBecomingInactive();
 }
 
+- (void) application: (UIApplication*) application handleEventsForBackgroundURLSession: (NSString*)identifier
+   completionHandler: (void (^)(void))completionHandler
+{
+    ignoreUnused (application);
+    URL::DownloadTask::juce_iosURLSessionNotify (nsStringToJuce (identifier));
+    completionHandler();
+}
+
 @end
 
 namespace juce
 {
 
-int juce_iOSMain (int argc, const char* argv[]);
-int juce_iOSMain (int argc, const char* argv[])
+int juce_iOSMain (int argc, const char* argv[], void* customDelgatePtr);
+int juce_iOSMain (int argc, const char* argv[], void* customDelagetPtr)
 {
-    return UIApplicationMain (argc, const_cast<char**> (argv), nil, @"JuceAppStartupDelegate");
+    Class delegateClass = (customDelagetPtr != nullptr ? reinterpret_cast<Class> (customDelagetPtr) : [JuceAppStartupDelegate class]);
+
+    return UIApplicationMain (argc, const_cast<char**> (argv), nil, NSStringFromClass (delegateClass));
 }
 
 //==============================================================================
 void LookAndFeel::playAlertSound()
 {
-    //xxx
-    //AudioServicesPlaySystemSound ();
+    // TODO
 }
 
 //==============================================================================
@@ -334,11 +345,15 @@ bool DragAndDropContainer::performExternalDragDropOfText (const String&)
 //==============================================================================
 void Desktop::setScreenSaverEnabled (const bool isEnabled)
 {
-    [[UIApplication sharedApplication] setIdleTimerDisabled: ! isEnabled];
+    if (! SystemStats::isRunningInAppExtensionSandbox())
+        [[UIApplication sharedApplication] setIdleTimerDisabled: ! isEnabled];
 }
 
 bool Desktop::isScreenSaverEnabled()
 {
+    if (SystemStats::isRunningInAppExtensionSandbox())
+        return true;
+
     return ! [[UIApplication sharedApplication] isIdleTimerDisabled];
 }
 
@@ -394,7 +409,10 @@ double Desktop::getDefaultMasterScale()
 
 Desktop::DisplayOrientation Desktop::getCurrentOrientation() const
 {
-    return Orientations::convertToJuce ([[UIApplication sharedApplication] statusBarOrientation]);
+    UIInterfaceOrientation orientation = SystemStats::isRunningInAppExtensionSandbox() ? UIInterfaceOrientationPortrait
+                                                                                       : [[UIApplication sharedApplication] statusBarOrientation];
+
+    return Orientations::convertToJuce (orientation);
 }
 
 void Desktop::Displays::findDisplays (float masterScale)

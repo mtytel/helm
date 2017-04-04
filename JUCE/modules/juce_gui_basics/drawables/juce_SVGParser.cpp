@@ -28,7 +28,6 @@ public:
     //==============================================================================
     explicit SVGState (const XmlElement* const topLevel)
         : topLevelXml (topLevel, nullptr),
-          elementX (0), elementY (0),
           width (512), height (512),
           viewBoxW (0), viewBoxH (0)
     {
@@ -67,13 +66,58 @@ public:
     };
 
     //==============================================================================
+    struct UsePathOp
+    {
+      const SVGState* state;
+      Path* targetPath;
+
+      void operator() (const XmlPath& xmlPath)
+      {
+        state->parsePathElement (xmlPath, *targetPath);
+      }
+    };
+
+    struct GetClipPathOp
+    {
+        const SVGState* state;
+        Drawable* target;
+
+        void operator() (const XmlPath& xmlPath)
+        {
+            state->applyClipPath (*target, xmlPath);
+        }
+    };
+
+    struct SetGradientStopsOp
+    {
+        const SVGState* state;
+        ColourGradient* gradient;
+
+        void operator() (const XmlPath& xml)
+        {
+            state->addGradientStopsIn (*gradient, xml);
+        }
+    };
+
+    struct GetFillTypeOp
+    {
+        const SVGState* state;
+        const Path* path;
+        float opacity;
+        FillType fillType;
+
+        void operator() (const XmlPath& xml)
+        {
+            if (xml->hasTagNameIgnoringNamespace ("linearGradient")
+                 || xml->hasTagNameIgnoringNamespace ("radialGradient"))
+                fillType = state->getGradientFillType (xml, *path, opacity);
+        }
+    };
+
+    //==============================================================================
     Drawable* parseSVGElement (const XmlPath& xml)
     {
-        if (! xml->hasTagNameIgnoringNamespace ("svg"))
-            return nullptr;
-
         DrawableComposite* const drawable = new DrawableComposite();
-
         setCommonAttributes (*drawable, xml);
 
         SVGState newState (*this);
@@ -81,10 +125,8 @@ public:
         if (xml->hasAttribute ("transform"))
             newState.addTransform (xml);
 
-        newState.elementX = getCoordLength (xml->getStringAttribute ("x",      String (newState.elementX)), viewBoxW);
-        newState.elementY = getCoordLength (xml->getStringAttribute ("y",      String (newState.elementY)), viewBoxH);
-        newState.width    = getCoordLength (xml->getStringAttribute ("width",  String (newState.width)),    viewBoxW);
-        newState.height   = getCoordLength (xml->getStringAttribute ("height", String (newState.height)),   viewBoxH);
+        newState.width  = getCoordLength (xml->getStringAttribute ("width",  String (newState.width)),  viewBoxW);
+        newState.height = getCoordLength (xml->getStringAttribute ("height", String (newState.height)), viewBoxH);
 
         if (newState.width  <= 0) newState.width  = 100;
         if (newState.height <= 0) newState.height = 100;
@@ -137,21 +179,19 @@ public:
         String::CharPointerType d (pathString.getCharPointer().findEndOfWhitespace());
 
         Point<float> subpathStart, last, last2, p1, p2, p3;
-        juce_wchar lastCommandChar = 0;
+        juce_wchar currentCommand = 0, previousCommand = 0;
         bool isRelative = true;
         bool carryOn = true;
 
-        const CharPointer_ASCII validCommandChars ("MmLlHhVvCcSsQqTtAaZz");
-
         while (! d.isEmpty())
         {
-            if (validCommandChars.indexOf (*d) >= 0)
+            if (CharPointer_ASCII ("MmLlHhVvCcSsQqTtAaZz").indexOf (*d) >= 0)
             {
-                lastCommandChar = d.getAndAdvance();
-                isRelative = (lastCommandChar >= 'a' && lastCommandChar <= 'z');
+                currentCommand = d.getAndAdvance();
+                isRelative = currentCommand >= 'a';
             }
 
-            switch (lastCommandChar)
+            switch (currentCommand)
             {
             case 'M':
             case 'm':
@@ -162,11 +202,11 @@ public:
                     if (isRelative)
                         p1 += last;
 
-                    if (lastCommandChar == 'M' || lastCommandChar == 'm')
+                    if (currentCommand == 'M' || currentCommand == 'm')
                     {
                         subpathStart = p1;
                         path.startNewSubPath (p1);
-                        lastCommandChar = 'l';
+                        currentCommand = 'l';
                     }
                     else
                         path.lineTo (p1);
@@ -276,7 +316,8 @@ public:
                     if (isRelative)
                         p1 += last;
 
-                    p2 = last + (last - last2);
+                    p2 = CharPointer_ASCII ("QqTt").indexOf (previousCommand) >= 0 ? last + (last - last2)
+                                                                                   : p1;
                     path.quadraticTo (p2, p1);
 
                     last2 = p2;
@@ -340,7 +381,7 @@ public:
                 path.closeSubPath();
                 last = last2 = subpathStart;
                 d = d.findEndOfWhitespace();
-                lastCommandChar = 'M';
+                currentCommand = 'M';
                 break;
 
             default:
@@ -350,6 +391,8 @@ public:
 
             if (! carryOn)
                 break;
+
+            previousCommand = currentCommand;
         }
 
         // paths that finish back at their start position often seem to be
@@ -361,7 +404,7 @@ public:
 private:
     //==============================================================================
     const XmlPath topLevelXml;
-    float elementX, elementY, width, height, viewBoxW, viewBoxH;
+    float width, height, viewBoxW, viewBoxH;
     AffineTransform transform;
     String cssStyleText;
 
@@ -436,7 +479,6 @@ private:
         {
             SVGState newState (*this);
             newState.addTransform (xml);
-
             newState.parseSubElements (xml, *drawable);
         }
         else
@@ -553,17 +595,6 @@ private:
         {
             const String linkedID = link.substring (1);
 
-            struct UsePathOp
-            {
-                const SVGState* state;
-                Path* targetPath;
-
-                void operator() (const XmlPath& xmlPath)
-                {
-                    state->parsePathElement (xmlPath, *targetPath);
-                }
-            };
-
             UsePathOp op = { this, &path };
             topLevelXml.applyOperationToChildWithID (linkedID, op);
         }
@@ -597,8 +628,7 @@ private:
         path.applyTransform (transform);
         dp->setPath (path);
 
-        dp->setFill (getPathFillType (path,
-                                      getStyleAttribute (xml, "fill"),
+        dp->setFill (getPathFillType (path, xml, "fill",
                                       getStyleAttribute (xml, "fill-opacity"),
                                       getStyleAttribute (xml, "opacity"),
                                       pathContainsClosedSubPath (path) ? Colours::black
@@ -608,7 +638,7 @@ private:
 
         if (strokeType.isNotEmpty() && ! strokeType.equalsIgnoreCase ("none"))
         {
-            dp->setStrokeFill (getPathFillType (path, strokeType,
+            dp->setStrokeFill (getPathFillType (path, xml, "stroke",
                                                 getStyleAttribute (xml, "stroke-opacity"),
                                                 getStyleAttribute (xml, "opacity"),
                                                 Colours::transparentBlack));
@@ -692,17 +722,6 @@ private:
 
             if (urlID.isNotEmpty())
             {
-                struct GetClipPathOp
-                {
-                    const SVGState* state;
-                    Drawable* target;
-
-                    void operator() (const XmlPath& xmlPath)
-                    {
-                        state->applyClipPath (*target, xmlPath);
-                    }
-                };
-
                 GetClipPathOp op = { this, &d };
                 topLevelXml.applyOperationToChildWithID (urlID, op);
             }
@@ -724,8 +743,7 @@ private:
         {
             forEachXmlChildElementWithTagName (*fillXml, e, "stop")
             {
-                int index = 0;
-                Colour col (parseColour (getStyleAttribute (fillXml.getChild (e), "stop-color"), index, Colours::black));
+                Colour col (parseColour (fillXml.getChild (e), "stop-color", Colours::black));
 
                 const String opacity (getStyleAttribute (fillXml.getChild (e), "stop-opacity", "1"));
                 col = col.withMultipliedAlpha (jlimit (0.0f, 1.0f, opacity.getFloatValue()));
@@ -751,17 +769,6 @@ private:
 
             if (id.startsWithChar ('#'))
             {
-                struct SetGradientStopsOp
-                {
-                    const SVGState* state;
-                    ColourGradient* gradient;
-
-                    void operator() (const XmlPath& xml)
-                    {
-                        state->addGradientStopsIn (*gradient, xml);
-                    }
-                };
-
                 SetGradientStopsOp op = { this, &gradient, };
                 topLevelXml.applyOperationToChildWithID (id.substring (1), op);
             }
@@ -769,10 +776,13 @@ private:
 
         addGradientStopsIn (gradient, fillXml);
 
-        if (gradient.getNumColours() > 0)
+        if (int numColours = gradient.getNumColours())
         {
-            gradient.addColour (0.0, gradient.getColour (0));
-            gradient.addColour (1.0, gradient.getColour (gradient.getNumColours() - 1));
+            if (gradient.getColourPosition (0) > 0)
+                gradient.addColour (0.0, gradient.getColour (0));
+
+            if (gradient.getColourPosition (numColours - 1) < 1.0)
+                gradient.addColour (1.0, gradient.getColour (numColours - 1));
         }
         else
         {
@@ -873,7 +883,8 @@ private:
     }
 
     FillType getPathFillType (const Path& path,
-                              const String& fill,
+                              const XmlPath& xml,
+                              StringRef fillAttribute,
                               const String& fillOpacity,
                               const String& overallOpacity,
                               const Colour defaultColour) const
@@ -886,25 +897,11 @@ private:
         if (fillOpacity.isNotEmpty())
             opacity *= (jlimit (0.0f, 1.0f, fillOpacity.getFloatValue()));
 
+        String fill (getStyleAttribute (xml, fillAttribute));
         String urlID = parseURL (fill);
 
         if (urlID.isNotEmpty())
         {
-            struct GetFillTypeOp
-            {
-                const SVGState* state;
-                const Path* path;
-                float opacity;
-                FillType fillType;
-
-                void operator() (const XmlPath& xml)
-                {
-                    if (xml->hasTagNameIgnoringNamespace ("linearGradient")
-                         || xml->hasTagNameIgnoringNamespace ("radialGradient"))
-                        fillType = state->getGradientFillType (xml, *path, opacity);
-                }
-            };
-
             GetFillTypeOp op = { this, &path, opacity, FillType() };
 
             if (topLevelXml.applyOperationToChildWithID (urlID, op))
@@ -914,8 +911,7 @@ private:
         if (fill.equalsIgnoreCase ("none"))
             return Colours::transparentBlack;
 
-        int i = 0;
-        return parseColour (fill, i, defaultColour).withMultipliedAlpha (opacity);
+        return parseColour (xml, fillAttribute, defaultColour).withMultipliedAlpha (opacity);
     }
 
     static PathStrokeType::JointStyle getJointStyle (const String& join) noexcept
@@ -983,8 +979,7 @@ private:
                 dt->setFont (font, true);
                 dt->setTransform (transform);
 
-                int i = 0;
-                dt->setColour (parseColour (getStyleAttribute (xml, "fill"), i, Colours::black)
+                dt->setColour (parseColour (xml, "fill", Colours::black)
                                  .withMultipliedAlpha (getStyleAttribute (xml, "fill-opacity", "1").getFloatValue()));
 
                 Rectangle<float> bounds (xCoords[0], yCoords[0] - font.getAscent(),
@@ -1163,7 +1158,7 @@ private:
             return xml->getStringAttribute (attributeName);
 
         if (xml.parent != nullptr)
-            return getInheritedAttribute  (*xml.parent, attributeName);
+            return getInheritedAttribute (*xml.parent, attributeName);
 
         return String();
     }
@@ -1281,16 +1276,19 @@ private:
     }
 
     //==============================================================================
-    static Colour parseColour (const String& s, int& index, const Colour defaultColour)
+    Colour parseColour (const XmlPath& xml, StringRef attributeName, const Colour defaultColour) const
     {
-        if (s [index] == '#')
+        const String text (getStyleAttribute (xml, attributeName));
+
+        if (text.startsWithChar ('#'))
         {
             uint32 hex[6] = { 0 };
             int numChars = 0;
+            String::CharPointerType s = text.getCharPointer();
 
-            for (int i = 6; --i >= 0;)
+            while (numChars < 6)
             {
-                const int hexValue = CharacterFunctions::getHexDigitValue (s [++index]);
+                const int hexValue = CharacterFunctions::getHexDigitValue (*++s);
 
                 if (hexValue >= 0)
                     hex [numChars++] = (uint32) hexValue;
@@ -1299,28 +1297,24 @@ private:
             }
 
             if (numChars <= 3)
-                return Colour ((uint8) (hex [0] * 0x11),
-                               (uint8) (hex [1] * 0x11),
-                               (uint8) (hex [2] * 0x11));
+                return Colour ((uint8) (hex[0] * 0x11),
+                               (uint8) (hex[1] * 0x11),
+                               (uint8) (hex[2] * 0x11));
 
-            return Colour ((uint8) ((hex [0] << 4) + hex [1]),
-                           (uint8) ((hex [2] << 4) + hex [3]),
-                           (uint8) ((hex [4] << 4) + hex [5]));
+            return Colour ((uint8) ((hex[0] << 4) + hex[1]),
+                           (uint8) ((hex[2] << 4) + hex[3]),
+                           (uint8) ((hex[4] << 4) + hex[5]));
         }
 
-        if (s [index] == 'r'
-              && s [index + 1] == 'g'
-              && s [index + 2] == 'b')
+        if (text.startsWith ("rgb"))
         {
-            const int openBracket = s.indexOfChar (index, '(');
-            const int closeBracket = s.indexOfChar (openBracket, ')');
+            const int openBracket = text.indexOfChar ('(');
+            const int closeBracket = text.indexOfChar (openBracket, ')');
 
             if (openBracket >= 3 && closeBracket > openBracket)
             {
-                index = closeBracket;
-
                 StringArray tokens;
-                tokens.addTokens (s.substring (openBracket + 1, closeBracket), ",", "");
+                tokens.addTokens (text.substring (openBracket + 1, closeBracket), ",", "");
                 tokens.trim();
                 tokens.removeEmptyStrings();
 
@@ -1328,14 +1322,21 @@ private:
                     return Colour ((uint8) roundToInt (2.55 * tokens[0].getDoubleValue()),
                                    (uint8) roundToInt (2.55 * tokens[1].getDoubleValue()),
                                    (uint8) roundToInt (2.55 * tokens[2].getDoubleValue()));
-                else
-                    return Colour ((uint8) tokens[0].getIntValue(),
-                                   (uint8) tokens[1].getIntValue(),
-                                   (uint8) tokens[2].getIntValue());
+
+                return Colour ((uint8) tokens[0].getIntValue(),
+                               (uint8) tokens[1].getIntValue(),
+                               (uint8) tokens[2].getIntValue());
             }
         }
 
-        return Colours::findColourForName (s, defaultColour);
+        if (text == "inherit")
+        {
+            for (const XmlPath* p = xml.parent; p != nullptr; p = p->parent)
+                if (getStyleAttribute (*p, attributeName).isNotEmpty())
+                    return parseColour (*p, attributeName, defaultColour);
+        }
+
+        return Colours::findColourForName (text, defaultColour);
     }
 
     static AffineTransform parseTransform (String t)
@@ -1478,6 +1479,9 @@ private:
 //==============================================================================
 Drawable* Drawable::createFromSVG (const XmlElement& svgDocument)
 {
+    if (! svgDocument.hasTagNameIgnoringNamespace ("svg"))
+        return nullptr;
+
     SVGState state (&svgDocument);
     return state.parseSVGElement (SVGState::XmlPath (&svgDocument, nullptr));
 }

@@ -1,790 +1,809 @@
-# Automatically generated makefile, created by the Introjucer
-# Don't edit this file! Your changes will be overwritten when you re-save the Introjucer project!
+# Automatically generated makefile, created by the Projucer
+# Don't edit this file! Your changes will be overwritten when you re-save the Projucer project!
+
+# build with "V=1" for verbose builds
+ifeq ($(V), 1)
+V_AT =
+else
+V_AT = @
+endif
 
 # (this disables dependency generation if multiple architectures are set)
 DEPFLAGS := $(if $(word 2, $(TARGET_ARCH)), , -MMD)
+
+ifndef STRIP
+  STRIP=strip
+endif
+
+ifndef AR
+  AR=ar
+endif
 
 ifndef CONFIG
   CONFIG=Debug
 endif
 
 ifeq ($(CONFIG),Debug)
-  BINDIR := build
-  LIBDIR := build
-  OBJDIR := build/intermediate/Debug
-  OUTDIR := build
+  JUCE_BINDIR := build
+  JUCE_LIBDIR := build
+  JUCE_OBJDIR := build/intermediate/Debug
+  JUCE_OUTDIR := build
 
   ifeq ($(TARGET_ARCH),)
     TARGET_ARCH := 
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D JUCE_JACK_CLIENT_NAME=\"Helm\" -D JUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -D JUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -D "JUCE_USE_XRANDR=0" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=0.8.6" -D "JUCE_APP_VERSION_HEX=0x806" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../concurrentqueue -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
-  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 $(DEBCXXFLAGS) -ffast-math -msse2
-  CXXFLAGS += $(CFLAGS) -std=c++11
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2
+  JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DDEBUG=1 -D_DEBUG=1 -DJUCE_JACK_CLIENT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_6B3E762A=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../JuceLibraryCode -I../../../JUCE/modules -I../../../concurrentqueue -I../../../mopo/src -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
+  JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 $(DEBCXXFLAGS) -ffast-math -msse2 $(CFLAGS)
+  JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++11 $(CXXFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -ldl -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2 $(LDFLAGS)
 
   TARGET := helm
-  BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
-  CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
+  BLDCMD = $(CXX) -o $(JUCE_OUTDIR)/$(TARGET) $(OBJECTS) $(JUCE_LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
+  CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(TARGET) $(JUCE_OBJDIR)
 endif
 
 ifeq ($(CONFIG),Release)
-  BINDIR := build
-  LIBDIR := build
-  OBJDIR := build/intermediate/Release
-  OUTDIR := build
+  JUCE_BINDIR := build
+  JUCE_LIBDIR := build
+  JUCE_OBJDIR := build/intermediate/Release
+  JUCE_OUTDIR := build
 
   ifeq ($(TARGET_ARCH),)
     TARGET_ARCH := 
   endif
 
-  CPPFLAGS := $(DEPFLAGS) -D "LINUX=1" -D "NDEBUG=1" -D JUCE_JACK_CLIENT_NAME=\"Helm\" -D JUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -D JUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -D "JUCE_USE_XRANDR=0" -D "JUCER_LINUX_MAKE_6B3E762A=1" -D "JUCE_APP_VERSION=0.8.6" -D "JUCE_APP_VERSION_HEX=0x806" -I /usr/include -I /usr/include/freetype2 -I ../../JuceLibraryCode -I ../../../JUCE/modules -I ../../../concurrentqueue -I ../../../mopo/src -I ../../../src -I ../../../src/common -I ../../../src/editor_components -I ../../../src/editor_sections -I ../../../src/look_and_feel -I ../../../src/standalone -I ../../../src/synthesis
-  CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -O3 $(DEBCXXFLAGS) -ffast-math -msse2
-  CXXFLAGS += $(CFLAGS) -std=c++11
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -fvisibility=hidden -L/usr/X11R6/lib/ -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2
+  JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DNDEBUG=1 -DJUCE_JACK_CLIENT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_6B3E762A=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../JuceLibraryCode -I../../../JUCE/modules -I../../../concurrentqueue -I../../../mopo/src -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
+  JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -O3 $(DEBCXXFLAGS) -ffast-math -msse2 $(CFLAGS)
+  JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++11 $(CXXFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -fvisibility=hidden -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -ldl -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2 $(LDFLAGS)
 
   TARGET := helm
-  BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
-  CLEANCMD = rm -rf $(OUTDIR)/$(TARGET) $(OBJDIR)
+  BLDCMD = $(CXX) -o $(JUCE_OUTDIR)/$(TARGET) $(OBJECTS) $(JUCE_LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
+  CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(TARGET) $(JUCE_OBJDIR)
 endif
 
 OBJECTS := \
-  $(OBJDIR)/alias_3b4a33b.o \
-  $(OBJDIR)/arpeggiator_89770ba4.o \
-  $(OBJDIR)/bit_crush_6b16ce74.o \
-  $(OBJDIR)/bypass_router_40c9316b.o \
-  $(OBJDIR)/delay_8860f4ee.o \
-  $(OBJDIR)/distortion_f480ec5c.o \
-  $(OBJDIR)/envelope_e820148f.o \
-  $(OBJDIR)/feedback_dd650dc4.o \
-  $(OBJDIR)/filter_8bfdb6b7.o \
-  $(OBJDIR)/formant_manager_f436e2fc.o \
-  $(OBJDIR)/linear_slope_44537f50.o \
-  $(OBJDIR)/magnitude_lookup_8a3238c8.o \
-  $(OBJDIR)/memory_5ee1bbc0.o \
-  $(OBJDIR)/midi_lookup_33d3b4c3.o \
-  $(OBJDIR)/mono_panner_cf566c25.o \
-  $(OBJDIR)/operators_8e60d6ba.o \
-  $(OBJDIR)/oscillator_53287adf.o \
-  $(OBJDIR)/phaser_d7048a16.o \
-  $(OBJDIR)/portamento_slope_c638d2fc.o \
-  $(OBJDIR)/processor_c4855d7d.o \
-  $(OBJDIR)/processor_router_80596755.o \
-  $(OBJDIR)/resonance_lookup_6f824fca.o \
-  $(OBJDIR)/reverb_b8f91811.o \
-  $(OBJDIR)/reverb_all_pass_2b685f27.o \
-  $(OBJDIR)/reverb_comb_38882eb9.o \
-  $(OBJDIR)/sample_decay_lookup_eafa367f.o \
-  $(OBJDIR)/simple_delay_53bccd75.o \
-  $(OBJDIR)/smooth_filter_f6a9594.o \
-  $(OBJDIR)/smooth_value_7af0775f.o \
-  $(OBJDIR)/step_generator_7143a5f.o \
-  $(OBJDIR)/stutter_3fda664c.o \
-  $(OBJDIR)/trigger_operators_54fe0673.o \
-  $(OBJDIR)/value_76b325dc.o \
-  $(OBJDIR)/voice_handler_49cbc5a8.o \
-  $(OBJDIR)/file_list_box_model_85bc4022.o \
-  $(OBJDIR)/helm_common_ef933337.o \
-  $(OBJDIR)/load_save_2c95b2e1.o \
-  $(OBJDIR)/midi_manager_80d96a0e.o \
-  $(OBJDIR)/startup_52cb2a28.o \
-  $(OBJDIR)/synth_base_c3ad3b73.o \
-  $(OBJDIR)/synth_gui_interface_6337839d.o \
-  $(OBJDIR)/filter_response_7394009c.o \
-  $(OBJDIR)/filter_selector_c70de13a.o \
-  $(OBJDIR)/global_tool_tip_5f078e04.o \
-  $(OBJDIR)/graphical_envelope_4add3912.o \
-  $(OBJDIR)/graphical_step_sequencer_763b67a0.o \
-  $(OBJDIR)/midi_keyboard_ec3d63f9.o \
-  $(OBJDIR)/modulation_button_8258c889.o \
-  $(OBJDIR)/modulation_highlight_dd34a287.o \
-  $(OBJDIR)/modulation_meter_3f248ddc.o \
-  $(OBJDIR)/modulation_slider_aee8aab8.o \
-  $(OBJDIR)/oscilloscope_48e472e5.o \
-  $(OBJDIR)/patch_selector_fe7c390c.o \
-  $(OBJDIR)/retrigger_selector_9cbab7cf.o \
-  $(OBJDIR)/synth_slider_ab0cf9a.o \
-  $(OBJDIR)/tempo_selector_e5a31119.o \
-  $(OBJDIR)/wave_selector_6d163719.o \
-  $(OBJDIR)/wave_viewer_e4b5610c.o \
-  $(OBJDIR)/xy_pad_77c192eb.o \
-  $(OBJDIR)/about_section_7d82e4ff.o \
-  $(OBJDIR)/arp_section_a0da8a91.o \
-  $(OBJDIR)/delay_section_9df39f5.o \
-  $(OBJDIR)/delete_section_a0453dcf.o \
-  $(OBJDIR)/dynamic_section_846a1cf1.o \
-  $(OBJDIR)/envelope_section_a35a0a34.o \
-  $(OBJDIR)/extra_mod_section_ea9c0745.o \
-  $(OBJDIR)/feedback_section_56c0fe69.o \
-  $(OBJDIR)/filter_section_9094381c.o \
-  $(OBJDIR)/formant_section_51494d55.o \
-  $(OBJDIR)/full_interface_29b5f507.o \
-  $(OBJDIR)/lfo_section_f85fa167.o \
-  $(OBJDIR)/mixer_section_9e4a737b.o \
-  $(OBJDIR)/modulation_manager_a5602c68.o \
-  $(OBJDIR)/noise_section_31fdfd0c.o \
-  $(OBJDIR)/oscillator_section_c90fdcc4.o \
-  $(OBJDIR)/patch_browser_b6fb73fd.o \
-  $(OBJDIR)/reverb_section_a0ad9f76.o \
-  $(OBJDIR)/save_section_1a7d8ce1.o \
-  $(OBJDIR)/step_sequencer_section_13843dc2.o \
-  $(OBJDIR)/stutter_section_943b1913.o \
-  $(OBJDIR)/sub_section_8cb704f2.o \
-  $(OBJDIR)/synth_section_3b1ee2e.o \
-  $(OBJDIR)/synthesis_interface_a75e885a.o \
-  $(OBJDIR)/update_check_section_c57e00f6.o \
-  $(OBJDIR)/voice_section_99705324.o \
-  $(OBJDIR)/volume_section_9cff0be.o \
-  $(OBJDIR)/browser_look_and_feel_d6654391.o \
-  $(OBJDIR)/default_look_and_feel_f168ba6a.o \
-  $(OBJDIR)/fonts_7e4e153e.o \
-  $(OBJDIR)/modulation_look_and_feel_605bddbb.o \
-  $(OBJDIR)/text_look_and_feel_4af8536c.o \
-  $(OBJDIR)/helm_computer_keyboard_15a10faf.o \
-  $(OBJDIR)/helm_standalone_editor_c8ee03cb.o \
-  $(OBJDIR)/main_b7ad981e.o \
-  $(OBJDIR)/dc_filter_3d140d58.o \
-  $(OBJDIR)/detune_lookup_ea628520.o \
-  $(OBJDIR)/fixed_point_oscillator_66a86444.o \
-  $(OBJDIR)/fixed_point_wave_2344895d.o \
-  $(OBJDIR)/helm_engine_2e44f843.o \
-  $(OBJDIR)/helm_lfo_c32ba99e.o \
-  $(OBJDIR)/helm_module_a4927f6d.o \
-  $(OBJDIR)/helm_oscillators_bb02f03c.o \
-  $(OBJDIR)/helm_voice_handler_35395fa6.o \
-  $(OBJDIR)/noise_oscillator_93de254f.o \
-  $(OBJDIR)/resonance_cancel_67415ef5.o \
-  $(OBJDIR)/switch_871b185e.o \
-  $(OBJDIR)/BinaryData_ce4232d4.o \
-  $(OBJDIR)/juce_audio_basics_181b4cb.o \
-  $(OBJDIR)/juce_audio_devices_2d9302c9.o \
-  $(OBJDIR)/juce_audio_formats_5c144c69.o \
-  $(OBJDIR)/juce_audio_processors_a9c69383.o \
-  $(OBJDIR)/juce_audio_utils_f6fe6709.o \
-  $(OBJDIR)/juce_core_9d6b33ad.o \
-  $(OBJDIR)/juce_cryptography_306b807.o \
-  $(OBJDIR)/juce_data_structures_dcd877a9.o \
-  $(OBJDIR)/juce_events_e5b201a1.o \
-  $(OBJDIR)/juce_graphics_a34b2885.o \
-  $(OBJDIR)/juce_gui_basics_3e4cc581.o \
-  $(OBJDIR)/juce_gui_extra_20746349.o \
-  $(OBJDIR)/juce_video_7b52df69.o \
+  $(JUCE_OBJDIR)/alias_3b4a33b.o \
+  $(JUCE_OBJDIR)/arpeggiator_89770ba4.o \
+  $(JUCE_OBJDIR)/bit_crush_6b16ce74.o \
+  $(JUCE_OBJDIR)/bypass_router_40c9316b.o \
+  $(JUCE_OBJDIR)/delay_8860f4ee.o \
+  $(JUCE_OBJDIR)/distortion_f480ec5c.o \
+  $(JUCE_OBJDIR)/envelope_e820148f.o \
+  $(JUCE_OBJDIR)/feedback_dd650dc4.o \
+  $(JUCE_OBJDIR)/filter_8bfdb6b7.o \
+  $(JUCE_OBJDIR)/formant_manager_f436e2fc.o \
+  $(JUCE_OBJDIR)/linear_slope_44537f50.o \
+  $(JUCE_OBJDIR)/magnitude_lookup_8a3238c8.o \
+  $(JUCE_OBJDIR)/memory_5ee1bbc0.o \
+  $(JUCE_OBJDIR)/midi_lookup_33d3b4c3.o \
+  $(JUCE_OBJDIR)/mono_panner_cf566c25.o \
+  $(JUCE_OBJDIR)/operators_8e60d6ba.o \
+  $(JUCE_OBJDIR)/oscillator_53287adf.o \
+  $(JUCE_OBJDIR)/phaser_d7048a16.o \
+  $(JUCE_OBJDIR)/portamento_slope_c638d2fc.o \
+  $(JUCE_OBJDIR)/processor_c4855d7d.o \
+  $(JUCE_OBJDIR)/processor_router_80596755.o \
+  $(JUCE_OBJDIR)/resonance_lookup_6f824fca.o \
+  $(JUCE_OBJDIR)/reverb_b8f91811.o \
+  $(JUCE_OBJDIR)/reverb_all_pass_2b685f27.o \
+  $(JUCE_OBJDIR)/reverb_comb_38882eb9.o \
+  $(JUCE_OBJDIR)/sample_decay_lookup_eafa367f.o \
+  $(JUCE_OBJDIR)/simple_delay_53bccd75.o \
+  $(JUCE_OBJDIR)/smooth_filter_f6a9594.o \
+  $(JUCE_OBJDIR)/smooth_value_7af0775f.o \
+  $(JUCE_OBJDIR)/step_generator_7143a5f.o \
+  $(JUCE_OBJDIR)/stutter_3fda664c.o \
+  $(JUCE_OBJDIR)/trigger_operators_54fe0673.o \
+  $(JUCE_OBJDIR)/value_76b325dc.o \
+  $(JUCE_OBJDIR)/voice_handler_49cbc5a8.o \
+  $(JUCE_OBJDIR)/file_list_box_model_85bc4022.o \
+  $(JUCE_OBJDIR)/helm_common_ef933337.o \
+  $(JUCE_OBJDIR)/load_save_2c95b2e1.o \
+  $(JUCE_OBJDIR)/midi_manager_80d96a0e.o \
+  $(JUCE_OBJDIR)/startup_52cb2a28.o \
+  $(JUCE_OBJDIR)/synth_base_c3ad3b73.o \
+  $(JUCE_OBJDIR)/synth_gui_interface_6337839d.o \
+  $(JUCE_OBJDIR)/filter_response_7394009c.o \
+  $(JUCE_OBJDIR)/filter_selector_c70de13a.o \
+  $(JUCE_OBJDIR)/global_tool_tip_5f078e04.o \
+  $(JUCE_OBJDIR)/graphical_envelope_4add3912.o \
+  $(JUCE_OBJDIR)/graphical_step_sequencer_763b67a0.o \
+  $(JUCE_OBJDIR)/midi_keyboard_ec3d63f9.o \
+  $(JUCE_OBJDIR)/modulation_button_8258c889.o \
+  $(JUCE_OBJDIR)/modulation_highlight_dd34a287.o \
+  $(JUCE_OBJDIR)/modulation_meter_3f248ddc.o \
+  $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o \
+  $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
+  $(JUCE_OBJDIR)/patch_selector_fe7c390c.o \
+  $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o \
+  $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o \
+  $(JUCE_OBJDIR)/tempo_selector_e5a31119.o \
+  $(JUCE_OBJDIR)/wave_selector_6d163719.o \
+  $(JUCE_OBJDIR)/wave_viewer_e4b5610c.o \
+  $(JUCE_OBJDIR)/xy_pad_77c192eb.o \
+  $(JUCE_OBJDIR)/about_section_7d82e4ff.o \
+  $(JUCE_OBJDIR)/arp_section_a0da8a91.o \
+  $(JUCE_OBJDIR)/delay_section_9df39f5.o \
+  $(JUCE_OBJDIR)/delete_section_a0453dcf.o \
+  $(JUCE_OBJDIR)/dynamic_section_846a1cf1.o \
+  $(JUCE_OBJDIR)/envelope_section_a35a0a34.o \
+  $(JUCE_OBJDIR)/extra_mod_section_ea9c0745.o \
+  $(JUCE_OBJDIR)/feedback_section_56c0fe69.o \
+  $(JUCE_OBJDIR)/filter_section_9094381c.o \
+  $(JUCE_OBJDIR)/formant_section_51494d55.o \
+  $(JUCE_OBJDIR)/full_interface_29b5f507.o \
+  $(JUCE_OBJDIR)/lfo_section_f85fa167.o \
+  $(JUCE_OBJDIR)/mixer_section_9e4a737b.o \
+  $(JUCE_OBJDIR)/modulation_manager_a5602c68.o \
+  $(JUCE_OBJDIR)/noise_section_31fdfd0c.o \
+  $(JUCE_OBJDIR)/oscillator_section_c90fdcc4.o \
+  $(JUCE_OBJDIR)/patch_browser_b6fb73fd.o \
+  $(JUCE_OBJDIR)/reverb_section_a0ad9f76.o \
+  $(JUCE_OBJDIR)/save_section_1a7d8ce1.o \
+  $(JUCE_OBJDIR)/step_sequencer_section_13843dc2.o \
+  $(JUCE_OBJDIR)/stutter_section_943b1913.o \
+  $(JUCE_OBJDIR)/sub_section_8cb704f2.o \
+  $(JUCE_OBJDIR)/synth_section_3b1ee2e.o \
+  $(JUCE_OBJDIR)/synthesis_interface_a75e885a.o \
+  $(JUCE_OBJDIR)/update_check_section_c57e00f6.o \
+  $(JUCE_OBJDIR)/voice_section_99705324.o \
+  $(JUCE_OBJDIR)/volume_section_9cff0be.o \
+  $(JUCE_OBJDIR)/browser_look_and_feel_d6654391.o \
+  $(JUCE_OBJDIR)/default_look_and_feel_f168ba6a.o \
+  $(JUCE_OBJDIR)/fonts_7e4e153e.o \
+  $(JUCE_OBJDIR)/modulation_look_and_feel_605bddbb.o \
+  $(JUCE_OBJDIR)/text_look_and_feel_4af8536c.o \
+  $(JUCE_OBJDIR)/helm_computer_keyboard_15a10faf.o \
+  $(JUCE_OBJDIR)/helm_standalone_editor_c8ee03cb.o \
+  $(JUCE_OBJDIR)/main_b7ad981e.o \
+  $(JUCE_OBJDIR)/dc_filter_3d140d58.o \
+  $(JUCE_OBJDIR)/detune_lookup_ea628520.o \
+  $(JUCE_OBJDIR)/fixed_point_oscillator_66a86444.o \
+  $(JUCE_OBJDIR)/fixed_point_wave_2344895d.o \
+  $(JUCE_OBJDIR)/helm_engine_2e44f843.o \
+  $(JUCE_OBJDIR)/helm_lfo_c32ba99e.o \
+  $(JUCE_OBJDIR)/helm_module_a4927f6d.o \
+  $(JUCE_OBJDIR)/helm_oscillators_bb02f03c.o \
+  $(JUCE_OBJDIR)/helm_voice_handler_35395fa6.o \
+  $(JUCE_OBJDIR)/noise_oscillator_93de254f.o \
+  $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o \
+  $(JUCE_OBJDIR)/switch_871b185e.o \
+  $(JUCE_OBJDIR)/BinaryData_ce4232d4.o \
+  $(JUCE_OBJDIR)/juce_audio_basics_6b797ca1.o \
+  $(JUCE_OBJDIR)/juce_audio_devices_a742c38b.o \
+  $(JUCE_OBJDIR)/juce_audio_formats_5a29c68a.o \
+  $(JUCE_OBJDIR)/juce_audio_processors_dea3173d.o \
+  $(JUCE_OBJDIR)/juce_audio_utils_c7eb679f.o \
+  $(JUCE_OBJDIR)/juce_core_75b14332.o \
+  $(JUCE_OBJDIR)/juce_cryptography_6de2ebff.o \
+  $(JUCE_OBJDIR)/juce_data_structures_72d3da2c.o \
+  $(JUCE_OBJDIR)/juce_events_d2be882c.o \
+  $(JUCE_OBJDIR)/juce_graphics_9c18891e.o \
+  $(JUCE_OBJDIR)/juce_gui_basics_8a6da59c.o \
+  $(JUCE_OBJDIR)/juce_gui_extra_4a026f23.o \
+  $(JUCE_OBJDIR)/juce_video_f128c512.o \
 
 .PHONY: clean
 
-$(OUTDIR)/$(TARGET): $(OBJECTS) $(RESOURCES)
+$(JUCE_OUTDIR)/$(TARGET): check-pkg-config $(OBJECTS) $(RESOURCES)
 	@echo Linking Helm
-	-@mkdir -p $(BINDIR)
-	-@mkdir -p $(LIBDIR)
-	-@mkdir -p $(OUTDIR)
-	@$(BLDCMD)
+	-@mkdir -p $(JUCE_BINDIR)
+	-@mkdir -p $(JUCE_LIBDIR)
+	-@mkdir -p $(JUCE_OUTDIR)
+	$(V_AT)$(BLDCMD)
+
+check-pkg-config:
+	@command -v pkg-config >/dev/null 2>&1 || { echo >&2 "pkg-config not installed. Please, install it."; exit 1; }
+	@pkg-config --print-errors alsa freetype2 libcurl x11 xext xinerama
 
 clean:
 	@echo Cleaning Helm
-	@$(CLEANCMD)
+	$(V_AT)$(CLEANCMD)
 
 strip:
 	@echo Stripping Helm
-	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
+	-@$(STRIP) --strip-unneeded $(JUCE_OUTDIR)/$(TARGET)
 
-$(OBJDIR)/alias_3b4a33b.o: ../../../mopo/src/alias.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/alias_3b4a33b.o: ../../../mopo/src/alias.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling alias.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/arpeggiator_89770ba4.o: ../../../mopo/src/arpeggiator.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/arpeggiator_89770ba4.o: ../../../mopo/src/arpeggiator.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling arpeggiator.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/bit_crush_6b16ce74.o: ../../../mopo/src/bit_crush.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/bit_crush_6b16ce74.o: ../../../mopo/src/bit_crush.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling bit_crush.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/bypass_router_40c9316b.o: ../../../mopo/src/bypass_router.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/bypass_router_40c9316b.o: ../../../mopo/src/bypass_router.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling bypass_router.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/delay_8860f4ee.o: ../../../mopo/src/delay.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/delay_8860f4ee.o: ../../../mopo/src/delay.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling delay.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/distortion_f480ec5c.o: ../../../mopo/src/distortion.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/distortion_f480ec5c.o: ../../../mopo/src/distortion.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling distortion.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/envelope_e820148f.o: ../../../mopo/src/envelope.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/envelope_e820148f.o: ../../../mopo/src/envelope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling envelope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/feedback_dd650dc4.o: ../../../mopo/src/feedback.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/feedback_dd650dc4.o: ../../../mopo/src/feedback.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling feedback.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/filter_8bfdb6b7.o: ../../../mopo/src/filter.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/filter_8bfdb6b7.o: ../../../mopo/src/filter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling filter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/formant_manager_f436e2fc.o: ../../../mopo/src/formant_manager.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/formant_manager_f436e2fc.o: ../../../mopo/src/formant_manager.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling formant_manager.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/linear_slope_44537f50.o: ../../../mopo/src/linear_slope.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/linear_slope_44537f50.o: ../../../mopo/src/linear_slope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling linear_slope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/magnitude_lookup_8a3238c8.o: ../../../mopo/src/magnitude_lookup.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/magnitude_lookup_8a3238c8.o: ../../../mopo/src/magnitude_lookup.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling magnitude_lookup.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/memory_5ee1bbc0.o: ../../../mopo/src/memory.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/memory_5ee1bbc0.o: ../../../mopo/src/memory.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling memory.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/midi_lookup_33d3b4c3.o: ../../../mopo/src/midi_lookup.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/midi_lookup_33d3b4c3.o: ../../../mopo/src/midi_lookup.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling midi_lookup.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/mono_panner_cf566c25.o: ../../../mopo/src/mono_panner.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/mono_panner_cf566c25.o: ../../../mopo/src/mono_panner.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling mono_panner.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/operators_8e60d6ba.o: ../../../mopo/src/operators.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/operators_8e60d6ba.o: ../../../mopo/src/operators.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling operators.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/oscillator_53287adf.o: ../../../mopo/src/oscillator.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/oscillator_53287adf.o: ../../../mopo/src/oscillator.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling oscillator.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/phaser_d7048a16.o: ../../../mopo/src/phaser.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/phaser_d7048a16.o: ../../../mopo/src/phaser.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling phaser.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/portamento_slope_c638d2fc.o: ../../../mopo/src/portamento_slope.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/portamento_slope_c638d2fc.o: ../../../mopo/src/portamento_slope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling portamento_slope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/processor_c4855d7d.o: ../../../mopo/src/processor.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/processor_c4855d7d.o: ../../../mopo/src/processor.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling processor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/processor_router_80596755.o: ../../../mopo/src/processor_router.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/processor_router_80596755.o: ../../../mopo/src/processor_router.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling processor_router.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/resonance_lookup_6f824fca.o: ../../../mopo/src/resonance_lookup.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/resonance_lookup_6f824fca.o: ../../../mopo/src/resonance_lookup.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling resonance_lookup.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/reverb_b8f91811.o: ../../../mopo/src/reverb.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/reverb_b8f91811.o: ../../../mopo/src/reverb.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling reverb.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/reverb_all_pass_2b685f27.o: ../../../mopo/src/reverb_all_pass.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/reverb_all_pass_2b685f27.o: ../../../mopo/src/reverb_all_pass.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling reverb_all_pass.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/reverb_comb_38882eb9.o: ../../../mopo/src/reverb_comb.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/reverb_comb_38882eb9.o: ../../../mopo/src/reverb_comb.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling reverb_comb.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/sample_decay_lookup_eafa367f.o: ../../../mopo/src/sample_decay_lookup.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/sample_decay_lookup_eafa367f.o: ../../../mopo/src/sample_decay_lookup.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling sample_decay_lookup.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/simple_delay_53bccd75.o: ../../../mopo/src/simple_delay.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/simple_delay_53bccd75.o: ../../../mopo/src/simple_delay.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling simple_delay.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/smooth_filter_f6a9594.o: ../../../mopo/src/smooth_filter.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/smooth_filter_f6a9594.o: ../../../mopo/src/smooth_filter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling smooth_filter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/smooth_value_7af0775f.o: ../../../mopo/src/smooth_value.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/smooth_value_7af0775f.o: ../../../mopo/src/smooth_value.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling smooth_value.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/step_generator_7143a5f.o: ../../../mopo/src/step_generator.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/step_generator_7143a5f.o: ../../../mopo/src/step_generator.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling step_generator.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/stutter_3fda664c.o: ../../../mopo/src/stutter.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/stutter_3fda664c.o: ../../../mopo/src/stutter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling stutter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/trigger_operators_54fe0673.o: ../../../mopo/src/trigger_operators.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/trigger_operators_54fe0673.o: ../../../mopo/src/trigger_operators.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling trigger_operators.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/value_76b325dc.o: ../../../mopo/src/value.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/value_76b325dc.o: ../../../mopo/src/value.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling value.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/voice_handler_49cbc5a8.o: ../../../mopo/src/voice_handler.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/voice_handler_49cbc5a8.o: ../../../mopo/src/voice_handler.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling voice_handler.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/file_list_box_model_85bc4022.o: ../../../src/common/file_list_box_model.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/file_list_box_model_85bc4022.o: ../../../src/common/file_list_box_model.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling file_list_box_model.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_common_ef933337.o: ../../../src/common/helm_common.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_common_ef933337.o: ../../../src/common/helm_common.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_common.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/load_save_2c95b2e1.o: ../../../src/common/load_save.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/load_save_2c95b2e1.o: ../../../src/common/load_save.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling load_save.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/midi_manager_80d96a0e.o: ../../../src/common/midi_manager.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/midi_manager_80d96a0e.o: ../../../src/common/midi_manager.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling midi_manager.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/startup_52cb2a28.o: ../../../src/common/startup.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/startup_52cb2a28.o: ../../../src/common/startup.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling startup.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synth_base_c3ad3b73.o: ../../../src/common/synth_base.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/synth_base_c3ad3b73.o: ../../../src/common/synth_base.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_base.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_gui_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling filter_response.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/filter_selector_c70de13a.o: ../../../src/editor_components/filter_selector.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/filter_selector_c70de13a.o: ../../../src/editor_components/filter_selector.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling filter_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/global_tool_tip_5f078e04.o: ../../../src/editor_components/global_tool_tip.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/global_tool_tip_5f078e04.o: ../../../src/editor_components/global_tool_tip.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling global_tool_tip.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphical_envelope.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphical_envelope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling graphical_envelope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/midi_keyboard_ec3d63f9.o: ../../../src/editor_components/midi_keyboard.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/midi_keyboard_ec3d63f9.o: ../../../src/editor_components/midi_keyboard.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling midi_keyboard.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/modulation_button_8258c889.o: ../../../src/editor_components/modulation_button.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_button.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_highlight_dd34a287.o: ../../../src/editor_components/modulation_highlight.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/modulation_highlight_dd34a287.o: ../../../src/editor_components/modulation_highlight.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_highlight.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_meter_3f248ddc.o: ../../../src/editor_components/modulation_meter.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/modulation_meter_3f248ddc.o: ../../../src/editor_components/modulation_meter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_meter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_slider_aee8aab8.o: ../../../src/editor_components/modulation_slider.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/modulation_slider_aee8aab8.o: ../../../src/editor_components/modulation_slider.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_slider.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling oscilloscope.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/patch_selector_fe7c390c.o: ../../../src/editor_components/patch_selector.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/patch_selector_fe7c390c.o: ../../../src/editor_components/patch_selector.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling patch_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/retrigger_selector.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/retrigger_selector.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling retrigger_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_slider.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling tempo_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wave_selector_6d163719.o: ../../../src/editor_components/wave_selector.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/wave_selector_6d163719.o: ../../../src/editor_components/wave_selector.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling wave_selector.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/wave_viewer_e4b5610c.o: ../../../src/editor_components/wave_viewer.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/wave_viewer_e4b5610c.o: ../../../src/editor_components/wave_viewer.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling wave_viewer.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/xy_pad_77c192eb.o: ../../../src/editor_components/xy_pad.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling xy_pad.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/about_section_7d82e4ff.o: ../../../src/editor_sections/about_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/about_section_7d82e4ff.o: ../../../src/editor_sections/about_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling about_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling arp_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling delay_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/delete_section_a0453dcf.o: ../../../src/editor_sections/delete_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/delete_section_a0453dcf.o: ../../../src/editor_sections/delete_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling delete_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/dynamic_section_846a1cf1.o: ../../../src/editor_sections/dynamic_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/dynamic_section_846a1cf1.o: ../../../src/editor_sections/dynamic_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling dynamic_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/envelope_section_a35a0a34.o: ../../../src/editor_sections/envelope_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/envelope_section_a35a0a34.o: ../../../src/editor_sections/envelope_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling envelope_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/extra_mod_section_ea9c0745.o: ../../../src/editor_sections/extra_mod_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/extra_mod_section_ea9c0745.o: ../../../src/editor_sections/extra_mod_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling extra_mod_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/feedback_section_56c0fe69.o: ../../../src/editor_sections/feedback_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/feedback_section_56c0fe69.o: ../../../src/editor_sections/feedback_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling feedback_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/filter_section_9094381c.o: ../../../src/editor_sections/filter_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/filter_section_9094381c.o: ../../../src/editor_sections/filter_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling filter_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/formant_section_51494d55.o: ../../../src/editor_sections/formant_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/formant_section_51494d55.o: ../../../src/editor_sections/formant_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling formant_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/full_interface_29b5f507.o: ../../../src/editor_sections/full_interface.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling full_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling lfo_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/mixer_section_9e4a737b.o: ../../../src/editor_sections/mixer_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/mixer_section_9e4a737b.o: ../../../src/editor_sections/mixer_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling mixer_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation_manager.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation_manager.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_manager.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/noise_section_31fdfd0c.o: ../../../src/editor_sections/noise_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/noise_section_31fdfd0c.o: ../../../src/editor_sections/noise_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling noise_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling oscillator_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/patch_browser_b6fb73fd.o: ../../../src/editor_sections/patch_browser.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/patch_browser_b6fb73fd.o: ../../../src/editor_sections/patch_browser.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling patch_browser.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/reverb_section_a0ad9f76.o: ../../../src/editor_sections/reverb_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/reverb_section_a0ad9f76.o: ../../../src/editor_sections/reverb_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling reverb_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/save_section_1a7d8ce1.o: ../../../src/editor_sections/save_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/save_section_1a7d8ce1.o: ../../../src/editor_sections/save_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling save_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/step_sequencer_section_13843dc2.o: ../../../src/editor_sections/step_sequencer_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/step_sequencer_section_13843dc2.o: ../../../src/editor_sections/step_sequencer_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling step_sequencer_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/stutter_section_943b1913.o: ../../../src/editor_sections/stutter_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/stutter_section_943b1913.o: ../../../src/editor_sections/stutter_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling stutter_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/sub_section_8cb704f2.o: ../../../src/editor_sections/sub_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/sub_section_8cb704f2.o: ../../../src/editor_sections/sub_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling sub_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/synth_section_3b1ee2e.o: ../../../src/editor_sections/synth_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/synthesis_interface_a75e885a.o: ../../../src/editor_sections/synthesis_interface.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/synthesis_interface_a75e885a.o: ../../../src/editor_sections/synthesis_interface.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synthesis_interface.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/update_check_section_c57e00f6.o: ../../../src/editor_sections/update_check_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/update_check_section_c57e00f6.o: ../../../src/editor_sections/update_check_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling update_check_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/voice_section_99705324.o: ../../../src/editor_sections/voice_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/voice_section_99705324.o: ../../../src/editor_sections/voice_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling voice_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/volume_section_9cff0be.o: ../../../src/editor_sections/volume_section.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/volume_section_9cff0be.o: ../../../src/editor_sections/volume_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling volume_section.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_look_and_feel.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling browser_look_and_feel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/default_look_and_feel_f168ba6a.o: ../../../src/look_and_feel/default_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/default_look_and_feel_f168ba6a.o: ../../../src/look_and_feel/default_look_and_feel.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling default_look_and_feel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/fonts_7e4e153e.o: ../../../src/look_and_feel/fonts.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/fonts_7e4e153e.o: ../../../src/look_and_feel/fonts.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling fonts.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_look_and_feel.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_look_and_feel.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling text_look_and_feel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_computer_keyboard_15a10faf.o: ../../../src/standalone/helm_computer_keyboard.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_computer_keyboard_15a10faf.o: ../../../src/standalone/helm_computer_keyboard.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_computer_keyboard.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_standalone_editor_c8ee03cb.o: ../../../src/standalone/helm_standalone_editor.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_standalone_editor_c8ee03cb.o: ../../../src/standalone/helm_standalone_editor.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_standalone_editor.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling main.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/dc_filter_3d140d58.o: ../../../src/synthesis/dc_filter.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/dc_filter_3d140d58.o: ../../../src/synthesis/dc_filter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling dc_filter.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/detune_lookup_ea628520.o: ../../../src/synthesis/detune_lookup.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/detune_lookup_ea628520.o: ../../../src/synthesis/detune_lookup.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling detune_lookup.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/fixed_point_oscillator_66a86444.o: ../../../src/synthesis/fixed_point_oscillator.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/fixed_point_oscillator_66a86444.o: ../../../src/synthesis/fixed_point_oscillator.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling fixed_point_oscillator.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_wave.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_wave.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling fixed_point_wave.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_engine_2e44f843.o: ../../../src/synthesis/helm_engine.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_engine_2e44f843.o: ../../../src/synthesis/helm_engine.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_engine.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_lfo_c32ba99e.o: ../../../src/synthesis/helm_lfo.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_lfo_c32ba99e.o: ../../../src/synthesis/helm_lfo.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_lfo.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_module_a4927f6d.o: ../../../src/synthesis/helm_module.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_module_a4927f6d.o: ../../../src/synthesis/helm_module.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_module.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_oscillators_bb02f03c.o: ../../../src/synthesis/helm_oscillators.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_oscillators_bb02f03c.o: ../../../src/synthesis/helm_oscillators.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_oscillators.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/helm_voice_handler_35395fa6.o: ../../../src/synthesis/helm_voice_handler.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/helm_voice_handler_35395fa6.o: ../../../src/synthesis/helm_voice_handler.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_voice_handler.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/noise_oscillator_93de254f.o: ../../../src/synthesis/noise_oscillator.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/noise_oscillator_93de254f.o: ../../../src/synthesis/noise_oscillator.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling noise_oscillator.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling resonance_cancel.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling switch.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/BinaryData_ce4232d4.o: ../../JuceLibraryCode/BinaryData.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling BinaryData.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_audio_basics_181b4cb.o: ../../../JUCE/modules/juce_audio_basics/juce_audio_basics.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_audio_basics_6b797ca1.o: ../../JuceLibraryCode/juce_audio_basics.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_audio_basics.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_audio_devices_2d9302c9.o: ../../../JUCE/modules/juce_audio_devices/juce_audio_devices.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_audio_devices_a742c38b.o: ../../JuceLibraryCode/juce_audio_devices.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_audio_devices.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_audio_formats_5c144c69.o: ../../../JUCE/modules/juce_audio_formats/juce_audio_formats.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_audio_formats_5a29c68a.o: ../../JuceLibraryCode/juce_audio_formats.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_audio_formats.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_audio_processors_a9c69383.o: ../../../JUCE/modules/juce_audio_processors/juce_audio_processors.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_audio_processors_dea3173d.o: ../../JuceLibraryCode/juce_audio_processors.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_audio_processors.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_audio_utils_f6fe6709.o: ../../../JUCE/modules/juce_audio_utils/juce_audio_utils.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_audio_utils_c7eb679f.o: ../../JuceLibraryCode/juce_audio_utils.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_audio_utils.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_core_9d6b33ad.o: ../../../JUCE/modules/juce_core/juce_core.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_core_75b14332.o: ../../JuceLibraryCode/juce_core.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_core.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_cryptography_306b807.o: ../../../JUCE/modules/juce_cryptography/juce_cryptography.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_cryptography_6de2ebff.o: ../../JuceLibraryCode/juce_cryptography.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_cryptography.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_data_structures_dcd877a9.o: ../../../JUCE/modules/juce_data_structures/juce_data_structures.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_data_structures_72d3da2c.o: ../../JuceLibraryCode/juce_data_structures.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_data_structures.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_events_e5b201a1.o: ../../../JUCE/modules/juce_events/juce_events.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_events_d2be882c.o: ../../JuceLibraryCode/juce_events.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_events.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_graphics_a34b2885.o: ../../../JUCE/modules/juce_graphics/juce_graphics.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_graphics_9c18891e.o: ../../JuceLibraryCode/juce_graphics.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_graphics.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_gui_basics_3e4cc581.o: ../../../JUCE/modules/juce_gui_basics/juce_gui_basics.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_gui_basics_8a6da59c.o: ../../JuceLibraryCode/juce_gui_basics.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_gui_basics.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_gui_extra_20746349.o: ../../../JUCE/modules/juce_gui_extra/juce_gui_extra.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_gui_extra_4a026f23.o: ../../JuceLibraryCode/juce_gui_extra.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_gui_extra.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/juce_video_7b52df69.o: ../../../JUCE/modules/juce_video/juce_video.cpp
-	-@mkdir -p $(OBJDIR)
+$(JUCE_OBJDIR)/juce_video_f128c512.o: ../../JuceLibraryCode/juce_video.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_video.cpp"
-	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

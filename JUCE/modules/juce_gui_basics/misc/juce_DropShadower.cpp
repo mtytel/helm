@@ -31,7 +31,7 @@ public:
         setVisible (true);
         setInterceptsMouseClicks (false, false);
 
-        if (! comp->isOnDesktop())
+        if (comp->isOnDesktop())
         {
             setSize (1, 1); // to keep the OS happy by not having zero-size windows
             addToDesktop (ComponentPeer::windowIgnoresMouseClicks
@@ -187,10 +187,12 @@ void DropShadower::updateShadows()
             WeakReference<Component> sw (shadowWindows[i]);
 
             if (sw != nullptr)
+            {
                 sw->setAlwaysOnTop (owner->isAlwaysOnTop());
 
-            if (sw != nullptr)
-            {
+                if (sw == nullptr)
+                    return;
+
                 switch (i)
                 {
                     case 0: sw->setBounds (x - shadowEdge, y, shadowEdge, h); break;
@@ -199,13 +201,12 @@ void DropShadower::updateShadows()
                     case 3: sw->setBounds (x, owner->getBottom(), w, shadowEdge); break;
                     default: break;
                 }
-            }
 
-            if (sw != nullptr)
+                if (sw == nullptr)
+                    return;
+
                 sw->toBehind (i == 3 ? owner : shadowWindows.getUnchecked (i + 1));
-
-            if (sw == nullptr)
-                return;
+            }
         }
     }
     else

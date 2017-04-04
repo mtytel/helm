@@ -21,10 +21,10 @@ class HelmApplication  : public JUCEApplication {
 public:
   class MainWindow : public DocumentWindow {
   public:
-    MainWindow(String name, File patch, bool visible = true) :
+    MainWindow(String name, bool visible = true) :
         DocumentWindow(name, Colours::lightgrey, DocumentWindow::closeButton) {
       setUsingNativeTitleBar(true);
-      HelmStandaloneEditor* editor = new HelmStandaloneEditor(patch);
+      editor = new HelmStandaloneEditor();
       setContentOwned(editor, true);
       setResizable(true, true);
 
@@ -36,8 +36,13 @@ public:
       JUCEApplication::getInstance()->systemRequestedQuit();
     }
 
+    void loadFile(File file) {
+      editor->loadFromFile(file);
+    }
+
   private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
+    HelmStandaloneEditor* editor;
   };
 
   HelmApplication() { }
@@ -46,12 +51,12 @@ public:
   const String getApplicationVersion() override { return ProjectInfo::versionString; }
   bool moreThanOneInstanceAllowed() override { return true; }
 
-  void initialise(const String& commandLine) override {
-    if (commandLine.contains(" --version ") || commandLine.contains(" -v ")) {
+  void initialise(const String& command_line) override {
+    if (command_line.contains(" --version ") || command_line.contains(" -v ")) {
       std::cout << getApplicationName() << " " << getApplicationVersion() << newLine;
       quit();
     }
-    else if (commandLine.contains(" --help ") || commandLine.contains(" -h ")) {
+    else if (command_line.contains(" --help ") || command_line.contains(" -h ")) {
       std::cout << "Usage:" << newLine;
       std::cout << "  " << getApplicationName().toLowerCase() << " [OPTION...]" << newLine << newLine;
       std::cout << getApplicationName() << " polyphonic, semi-modular synthesizer." << newLine << newLine;
@@ -73,8 +78,9 @@ public:
         }
       }
 
-      bool visible = !commandLine.contains("--headless");
-      mainWindow = new MainWindow(getApplicationName(), file, visible);
+      bool visible = !command_line.contains("--headless");
+      mainWindow = new MainWindow(getApplicationName(), visible);
+      mainWindow->loadFile(file);
     }
   }
 
@@ -86,7 +92,11 @@ public:
     quit();
   }
 
-  void anotherInstanceStarted(const String& commandLine) override {
+  void anotherInstanceStarted(const String& command_line) override {
+    String file_path = command_line.substring(1, command_line.length() - 1);
+    File file = File::getCurrentWorkingDirectory().getChildFile(file_path);
+    if (file.exists())
+      mainWindow->loadFile(file);
   }
 
 private:

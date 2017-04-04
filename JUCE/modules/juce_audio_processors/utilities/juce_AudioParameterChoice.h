@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,7 +22,6 @@
   ==============================================================================
 */
 
-
 /**
     Provides a class of AudioProcessorParameter that can be used to select
     an indexed, named choice from a list.
@@ -35,9 +34,10 @@ public:
     /** Creates a AudioParameterChoice with an ID, name, and list of items.
         On creation, its value is set to the default index.
     */
-    AudioParameterChoice (String parameterID, String name,
+    AudioParameterChoice (const String& parameterID, const String& name,
                           const StringArray& choices,
-                          int defaultItemIndex);
+                          int defaultItemIndex,
+                          const String& label = String());
 
     /** Destructor. */
     ~AudioParameterChoice();

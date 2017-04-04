@@ -39,6 +39,10 @@
  #define WM_APPCOMMAND                     0x0319
 #endif
 
+#if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+ #include <juce_audio_plugin_client/AAX/juce_AAX_Modifier_Injector.h>
+#endif
+
 extern void juce_repeatLastProcessPriority();
 extern void juce_checkCurrentlyFocusedTopLevelWindow();  // in juce_TopLevelWindow.cpp
 extern bool juce_isRunningInWine();
@@ -381,7 +385,7 @@ public:
             sendDataChangeMessage();
     }
 
-    ImagePixelData* clone() override
+    ImagePixelData::Ptr clone() override
     {
         WindowsBitmapImage* im = new WindowsBitmapImage (pixelFormat, width, height, false);
 
@@ -560,7 +564,257 @@ namespace IconConverters
 }
 
 //==============================================================================
-class HWNDComponentPeer  : public ComponentPeer
+class
+#if (! JUCE_MINGW)
+  __declspec (uuid ("37c994e7-432b-4834-a2f7-dce1f13b834b"))
+#endif
+    ITipInvocation : public IUnknown
+{
+public:
+    static const CLSID clsid;
+
+    virtual ::HRESULT STDMETHODCALLTYPE Toggle (::HWND wnd) = 0;
+};
+
+#if JUCE_MINGW || (! (defined (_MSC_VER) || defined (__uuidof)))
+template <>
+struct UUIDGetter<ITipInvocation>
+{
+    static CLSID get()
+    {
+        GUID g = {0x37c994e7, 0x432b, 0x4834, {0xa2, 0xf7, 0xdc, 0xe1, 0xf1, 0x3b, 0x83, 0x4b}};
+        return g;
+    }
+};
+#endif
+
+const CLSID ITipInvocation::clsid = {0x4CE576FA, 0x83DC, 0x4f88, {0x95, 0x1C, 0x9D, 0x07, 0x82, 0xB4, 0xE3, 0x76}};
+//==============================================================================
+class OnScreenKeyboard :   public DeletedAtShutdown,
+                           private Timer
+{
+public:
+
+    void activate()
+    {
+        shouldBeActive = true;
+        startTimer (10);
+    }
+
+    void deactivate()
+    {
+        shouldBeActive = false;
+        startTimer (10);
+    }
+
+    juce_DeclareSingleton_SingleThreaded (OnScreenKeyboard, true)
+
+private:
+
+    OnScreenKeyboard()
+        : shouldBeActive (false), reentrant (false)
+    {
+        tipInvocation.CoCreateInstance (ITipInvocation::clsid, CLSCTX_INPROC_HANDLER | CLSCTX_LOCAL_SERVER);
+    }
+
+    void timerCallback() override
+    {
+        stopTimer();
+
+        if (reentrant || tipInvocation == nullptr) return;
+        const ScopedValueSetter<bool> setter (reentrant, true, false);
+
+        const bool isActive = isVisible();
+        if (isActive == shouldBeActive) return;
+
+        if (! isActive)
+        {
+            tipInvocation->Toggle(::GetDesktopWindow());
+        }
+        else
+        {
+            ::HWND hwnd = ::FindWindow (L"IPTip_Main_Window", NULL);
+
+            if (hwnd != nullptr)
+                ::PostMessage(hwnd, WM_SYSCOMMAND, (int) SC_CLOSE, 0);
+        }
+    }
+
+    bool isVisible()
+    {
+        ::HWND hwnd = ::FindWindow (L"IPTip_Main_Window", NULL);
+        if (hwnd != nullptr)
+        {
+            ::LONG style = ::GetWindowLong (hwnd, GWL_STYLE);
+            return ((style & WS_DISABLED) == 0 && (style & WS_VISIBLE) != 0);
+        }
+
+        return false;
+    }
+
+    bool shouldBeActive, reentrant;
+    ComSmartPtr<ITipInvocation> tipInvocation;
+};
+
+juce_ImplementSingleton_SingleThreaded (OnScreenKeyboard)
+
+//==============================================================================
+class UWPUIViewSettings
+{
+public:
+    UWPUIViewSettings()
+    {
+        ComBaseModule dll (L"api-ms-win-core-winrt-l1-1-0");
+
+        if (dll.h != nullptr)
+        {
+            roInitialize           = (RoInitializeFuncPtr)           ::GetProcAddress (dll.h, "RoInitialize");
+            roGetActivationFactory = (RoGetActivationFactoryFuncPtr) ::GetProcAddress (dll.h, "RoGetActivationFactory");
+            createHString          = (WindowsCreateStringFuncPtr)    ::GetProcAddress (dll.h, "WindowsCreateString");
+            deleteHString          = (WindowsDeleteStringFuncPtr)    ::GetProcAddress (dll.h, "WindowsDeleteString");
+
+            if (roInitialize == nullptr || roGetActivationFactory == nullptr
+            || createHString == nullptr || deleteHString == nullptr)
+                return;
+
+            ::HRESULT status = roInitialize (1);
+            if (status != S_OK && status != S_FALSE && status != 0x80010106L)
+                return;
+
+            LPCWSTR uwpClassName = L"Windows.UI.ViewManagement.UIViewSettings";
+            HSTRING uwpClassId;
+
+            if (createHString (uwpClassName, (::UINT32) wcslen (uwpClassName), &uwpClassId) != S_OK
+             || uwpClassId == nullptr)
+                return;
+
+            status = roGetActivationFactory (uwpClassId, __uuidof (IUIViewSettingsInterop), (void**) viewSettingsInterop.resetAndGetPointerAddress());
+            deleteHString (uwpClassId);
+
+            if (status != S_OK || viewSettingsInterop == nullptr)
+                return;
+
+            // move dll into member var
+            comBaseDLL = static_cast<ComBaseModule&&> (dll);
+        }
+    }
+
+    bool isTabletModeActivatedForWindow (::HWND hWnd) const
+    {
+        if (viewSettingsInterop == nullptr)
+            return false;
+
+        ComSmartPtr<IUIViewSettings> viewSettings;
+        if (viewSettingsInterop->GetForWindow(hWnd, __uuidof (IUIViewSettings), (void**) viewSettings.resetAndGetPointerAddress()) == S_OK
+            && viewSettings != nullptr)
+        {
+            IUIViewSettings::UserInteractionMode mode;
+
+            if (viewSettings->GetUserInteractionMode (&mode) == S_OK)
+                return (mode == IUIViewSettings::Touch);
+        }
+
+        return false;
+    }
+
+private:
+    struct HSTRING_PRIVATE;
+    typedef HSTRING_PRIVATE* HSTRING;
+
+    //==============================================================================
+    class IInspectable : public IUnknown
+    {
+    public:
+        virtual ::HRESULT STDMETHODCALLTYPE GetIids (ULONG* ,IID**) = 0;
+        virtual ::HRESULT STDMETHODCALLTYPE GetRuntimeClassName(HSTRING*) = 0;
+        virtual ::HRESULT STDMETHODCALLTYPE GetTrustLevel(void*) = 0;
+    };
+
+    //==============================================================================
+    class
+       #if (! JUCE_MINGW)
+        __declspec (uuid ("3694dbf9-8f68-44be-8ff5-195c98ede8a6"))
+       #endif
+    IUIViewSettingsInterop     : public IInspectable
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE GetForWindow(HWND hwnd, REFIID riid, void **ppv) = 0;
+    };
+
+   #if JUCE_MINGW || (! (defined (_MSC_VER) || defined (__uuidof)))
+    template <>
+    struct UUIDGetter<IUIViewSettingsInterop>
+    {
+        static CLSID get()
+        {
+            GUID g = {0x3694dbf9, 0x8f68, 0x44be, {0x8f, 0xf5, 0x19, 0x5c, 0x98, 0xed, 0xe8, 0xa6}};
+            return g;
+        }
+    };
+   #endif
+
+    //==============================================================================
+    class
+       #if (! JUCE_MINGW)
+        __declspec (uuid ("C63657F6-8850-470D-88F8-455E16EA2C26"))
+       #endif
+    IUIViewSettings     : public IInspectable
+    {
+    public:
+        enum UserInteractionMode
+        {
+          Mouse = 0,
+          Touch = 1
+        };
+
+        virtual HRESULT STDMETHODCALLTYPE GetUserInteractionMode (UserInteractionMode *value) = 0;
+    };
+
+   #if JUCE_MINGW || (! (defined (_MSC_VER) || defined (__uuidof)))
+    template <>
+    struct UUIDGetter<IUIViewSettings>
+    {
+        static CLSID get()
+        {
+            GUID g = {0xC63657F6, 0x8850, 0x470D, {0x88, 0xf8, 0x45, 0x5e, 0x16, 0xea, 0x2c, 0x26}};
+            return g;
+        }
+    };
+   #endif
+
+    //==============================================================================
+    struct ComBaseModule
+    {
+        ::HMODULE h;
+
+        ComBaseModule() : h (nullptr) {}
+        ComBaseModule(LPCWSTR libraryName) : h (::LoadLibrary (libraryName)) {}
+        ComBaseModule(ComBaseModule&& o) : h (o.h) { o.h = nullptr; }
+        ~ComBaseModule() { if (h != nullptr) ::FreeLibrary (h); h = nullptr; }
+
+        ComBaseModule& operator=(ComBaseModule&& o) { h = o.h; o.h = nullptr; return *this; }
+    };
+
+    typedef HRESULT (WINAPI* RoInitializeFuncPtr) (int);
+    typedef HRESULT (WINAPI* RoGetActivationFactoryFuncPtr) (HSTRING, REFIID, void**);
+    typedef HRESULT (WINAPI* WindowsCreateStringFuncPtr) (LPCWSTR,UINT32, HSTRING*);
+    typedef HRESULT (WINAPI* WindowsDeleteStringFuncPtr) (HSTRING);
+
+    ComBaseModule comBaseDLL;
+    ComSmartPtr<IUIViewSettingsInterop> viewSettingsInterop;
+
+    RoInitializeFuncPtr roInitialize;
+    RoGetActivationFactoryFuncPtr roGetActivationFactory;
+    WindowsCreateStringFuncPtr createHString;
+    WindowsDeleteStringFuncPtr deleteHString;
+};
+
+//==============================================================================
+class HWNDComponentPeer  : public ComponentPeer,
+                           private Timer
+   #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+    , public ModifierKeyReceiver
+   #endif
 {
 public:
     enum RenderingEngineType
@@ -585,6 +839,9 @@ public:
           currentWindowIcon (0),
           dropTarget (nullptr),
           updateLayeredWindowAlpha (255)
+         #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+        , modProvider (nullptr)
+         #endif
     {
         callFunctionIfNotLocked (&createWindowCallback, this);
 
@@ -599,6 +856,9 @@ public:
             if (shadower != nullptr)
                 shadower->setOwner (&component);
         }
+
+        // make sure that the on-screen keyboard code is loaded
+        OnScreenKeyboard::getInstance();
     }
 
     ~HWNDComponentPeer()
@@ -772,6 +1032,9 @@ public:
 
         if (isFullScreen() != shouldBeFullScreen)
         {
+            if (constrainer != nullptr)
+                constrainer->resizeStart();
+
             fullScreen = shouldBeFullScreen;
             const WeakReference<Component> deletionChecker (&component);
 
@@ -795,6 +1058,9 @@ public:
 
             if (deletionChecker != nullptr)
                 handleMovedOrResized();
+
+            if (constrainer != nullptr)
+                constrainer->resizeEnd();
         }
     }
 
@@ -858,7 +1124,7 @@ public:
 
         if (! makeActive)
         {
-            // in this case a broughttofront call won't have occured, so do it now..
+            // in this case a broughttofront call won't have occurred, so do it now..
             handleBroughtToFront();
         }
     }
@@ -907,11 +1173,17 @@ public:
 
         ShowCaret (hwnd);
         SetCaretPos (0, 0);
+
+        if (uwpViewSettings.isTabletModeActivatedForWindow (hwnd))
+            OnScreenKeyboard::getInstance()->activate();
     }
 
     void dismissPendingTextInput() override
     {
         imeHandler.handleSetContext (hwnd, false);
+
+        if (uwpViewSettings.isTabletModeActivatedForWindow (hwnd))
+            OnScreenKeyboard::getInstance()->deactivate();
     }
 
     void repaint (const Rectangle<int>& area) override
@@ -957,7 +1229,12 @@ public:
         if (isKeyDown (VK_SHIFT))   keyMods |= ModifierKeys::shiftModifier;
         if (isKeyDown (VK_CONTROL)) keyMods |= ModifierKeys::ctrlModifier;
         if (isKeyDown (VK_MENU))    keyMods |= ModifierKeys::altModifier;
-        if (isKeyDown (VK_RMENU))   keyMods &= ~(ModifierKeys::ctrlModifier | ModifierKeys::altModifier);
+
+        // workaround: Windows maps AltGr to left-Ctrl + right-Alt.
+        if (isKeyDown (VK_RMENU) && !isKeyDown (VK_RCONTROL))
+        {
+            keyMods = (keyMods & ~ModifierKeys::ctrlModifier) | ModifierKeys::altModifier;
+        }
 
         currentModifiers = currentModifiers.withOnlyMouseButtons().withFlags (keyMods);
     }
@@ -1040,8 +1317,9 @@ public:
 
             Point<float> getMousePos (const POINTL& mousePos) const
             {
-                return owner.globalToLocal (Point<float> (static_cast<float> (mousePos.x),
-                                                          static_cast<float> (mousePos.y)));
+                return owner.globalToLocal (ScalingHelpers::unscaledScreenPosToScaled (owner.getComponent().getDesktopScaleFactor(),
+                                                                                       Point<float> (static_cast<float> (mousePos.x),
+                                                                                                     static_cast<float> (mousePos.y))));
             }
 
             template <typename CharType>
@@ -1106,14 +1384,6 @@ public:
 
             ownerInfo->dragInfo.clear();
 
-            DroppedData textData (dataObject, CF_UNICODETEXT);
-
-            if (SUCCEEDED (textData.error))
-            {
-                ownerInfo->dragInfo.text = String (CharPointer_UTF16 ((const WCHAR*) textData.data),
-                                                   CharPointer_UTF16 ((const WCHAR*) addBytesToPointer (textData.data, textData.dataSize)));
-            }
-            else
             {
                 DroppedData fileData (dataObject, CF_HDROP);
 
@@ -1126,14 +1396,21 @@ public:
                         ownerInfo->parseFileList (static_cast<const WCHAR*> (names), fileData.dataSize);
                     else
                         ownerInfo->parseFileList (static_cast<const char*>  (names), fileData.dataSize);
-                }
-                else
-                {
-                    return fileData.error;
+
+                    return S_OK;
                 }
             }
 
-            return S_OK;
+            DroppedData textData (dataObject, CF_UNICODETEXT);
+
+            if (SUCCEEDED (textData.error))
+            {
+                ownerInfo->dragInfo.text = String (CharPointer_UTF16 ((const WCHAR*) textData.data),
+                                                   CharPointer_UTF16 ((const WCHAR*) addBytesToPointer (textData.data, textData.dataSize)));
+                return S_OK;
+            }
+
+            return textData.error;
         }
 
         JUCE_DECLARE_NON_COPYABLE (JuceDropTarget)
@@ -1164,7 +1441,11 @@ private:
     HICON currentWindowIcon;
     JuceDropTarget* dropTarget;
     uint8 updateLayeredWindowAlpha;
+    UWPUIViewSettings uwpViewSettings;
     MultiTouchMapper<DWORD> currentTouches;
+   #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+    ModifierKeyProvider* modProvider;
+   #endif
 
     //==============================================================================
     class TemporaryImage    : public Timer
@@ -1279,8 +1560,12 @@ private:
                 case WM_NCMOUSEHOVER:
                 case WM_MOUSEHOVER:
                 case WM_TOUCH:
+               #ifdef WM_POINTERUPDATE
+                case WM_POINTERUPDATE:
+                case WM_POINTERDOWN:
+                case WM_POINTERUP:
+               #endif
                     return isHWNDBlockedByModalComponents (m.hwnd);
-
                 case WM_NCLBUTTONDOWN:
                 case WM_NCLBUTTONDBLCLK:
                 case WM_NCRBUTTONDOWN:
@@ -1726,7 +2011,7 @@ private:
         if (registerTouchWindow == nullptr)
             return false;
 
-        // Relevent info about touch/pen detection flags:
+        // Relevant info about touch/pen detection flags:
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms703320(v=vs.85).aspx
         // http://www.petertissen.de/?p=4
 
@@ -1750,6 +2035,11 @@ private:
                 ModifierKeys::getCurrentModifiersRealtime();
 
             updateKeyModifiers();
+
+           #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+            if (modProvider != nullptr)
+                currentModifiers = currentModifiers.withFlags (modProvider->getWin32Modifiers());
+           #endif
 
             TRACKMOUSEEVENT tme;
             tme.cbSize = sizeof (tme);
@@ -1793,6 +2083,12 @@ private:
         if (isValidPeer (this))
         {
             updateModifiersFromWParam (wParam);
+
+          #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+            if (modProvider != nullptr)
+                currentModifiers = currentModifiers.withFlags (modProvider->getWin32Modifiers());
+          #endif
+
             isDragging = true;
 
             doMouseEvent (position, MouseInputSource::invalidPressure);
@@ -1806,6 +2102,12 @@ private:
             return;
 
         updateModifiersFromWParam (wParam);
+
+       #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+        if (modProvider != nullptr)
+            currentModifiers = currentModifiers.withFlags (modProvider->getWin32Modifiers());
+       #endif
+
         const bool wasDragging = isDragging;
         isDragging = false;
 
@@ -1936,6 +2238,7 @@ private:
     bool handleTouchInput (const TOUCHINPUT& touch, const bool isDown, const bool isUp)
     {
         bool isCancel = false;
+
         const int touchIndex = currentTouches.getIndexOfTouch (touch.dwID);
         const int64 time = getMouseEventTime();
         const Point<float> pos (globalToLocal (Point<float> (touch.x / 100.0f,
@@ -1988,6 +2291,19 @@ private:
 
         return true;
     }
+
+   #ifdef WM_POINTERUPDATE
+    TOUCHINPUT emulateTouchEventFromPointer (LPARAM lParam, WPARAM wParam)
+    {
+        TOUCHINPUT touchInput;
+
+        touchInput.dwID = GET_POINTERID_WPARAM (wParam);
+        touchInput.x = GET_X_LPARAM (lParam) * 100;
+        touchInput.y = GET_Y_LPARAM (lParam) * 100;
+
+        return touchInput;
+    }
+   #endif
 
     //==============================================================================
     void sendModifierKeyChangeIfNeeded()
@@ -2392,6 +2708,19 @@ private:
     }
 
     //==============================================================================
+  #if JUCE_MODULE_AVAILABLE_juce_audio_plugin_client
+    void setModifierKeyProvider (ModifierKeyProvider* provider) override
+    {
+        modProvider = provider;
+    }
+
+    void removeModifierKeyProvider() override
+    {
+        modProvider = nullptr;
+    }
+   #endif
+
+    //==============================================================================
 public:
     static LRESULT CALLBACK windowProc (HWND h, UINT message, WPARAM wParam, LPARAM lParam)
     {
@@ -2465,6 +2794,12 @@ private:
                 return 1;
 
             //==============================================================================
+           #ifdef WM_POINTERUPDATE
+            case WM_POINTERUPDATE:      handleTouchInput (emulateTouchEventFromPointer (lParam, wParam), false, false); return 0;
+            case WM_POINTERDOWN:        handleTouchInput (emulateTouchEventFromPointer (lParam, wParam), true, false);  return 0;
+            case WM_POINTERUP:          handleTouchInput (emulateTouchEventFromPointer (lParam, wParam), false, true);  return 0;
+           #endif
+
             case WM_MOUSEMOVE:          doMouseMove (getPointFromLParam (lParam), false); return 0;
             case WM_MOUSELEAVE:         doMouseExit(); return 0;
 
@@ -2504,10 +2839,16 @@ private:
             case WM_WINDOWPOSCHANGING:     return handlePositionChanging (*(WINDOWPOS*) lParam);
 
             case WM_WINDOWPOSCHANGED:
-                if (handlePositionChanged())
-                    return 0;
+            {
+                const WINDOWPOS& wPos = *reinterpret_cast<WINDOWPOS*> (lParam);
 
-                break;
+                if ((wPos.flags & SWP_NOMOVE) != 0 && (wPos.flags & SWP_NOSIZE) != 0)
+                    startTimer(100);
+                else
+                    if (handlePositionChanged())
+                        return 0;
+            }
+            break;
 
             //==============================================================================
             case WM_KEYDOWN:
@@ -2653,6 +2994,16 @@ private:
                     break;
 
                 case SC_KEYMENU:
+                   #if ! JUCE_WINDOWS_ALT_KEY_TRIGGERS_MENU
+                    // This test prevents a press of the ALT key from triggering the ancient top-left window menu.
+                    // By default we suppress this behaviour because it's unlikely that more than a tiny subset of
+                    // our users will actually want it, and it causes problems if you're trying to use the ALT key
+                    // as a modifier for mouse actions. If you really need the old behaviour, then just define
+                    // JUCE_WINDOWS_ALT_KEY_TRIGGERS_MENU=1 in your app.
+                    if ((lParam >> 16) <= 0) // Values above zero indicate that a mouse-click triggered the menu
+                        return 0;
+                   #endif
+
                     // (NB mustn't call sendInputAttemptWhenModalMessage() here because of very obscure
                     // situations that can arise if a modal loop is started from an alt-key keypress).
                     if (hasTitleBar() && h == GetCapture())
@@ -2961,6 +3312,12 @@ private:
         JUCE_DECLARE_NON_COPYABLE (IMEHandler)
     };
 
+    void timerCallback() override
+    {
+        handlePositionChanged();
+        stopTimer();
+    }
+
     IMEHandler imeHandler;
 
     //==============================================================================
@@ -2975,7 +3332,7 @@ ComponentPeer* Component::createNewPeer (int styleFlags, void* parentHWND)
     return new HWNDComponentPeer (*this, styleFlags, (HWND) parentHWND, false);
 }
 
-ComponentPeer* createNonRepaintingEmbeddedWindowsPeer (Component& component, void* parentHWND)
+JUCE_API ComponentPeer* createNonRepaintingEmbeddedWindowsPeer (Component& component, void* parentHWND)
 {
     return new HWNDComponentPeer (component, ComponentPeer::windowIgnoresMouseClicks,
                                   (HWND) parentHWND, true);
@@ -3047,17 +3404,10 @@ bool JUCE_CALLTYPE Process::isForegroundProcess()
     if (fg == 0)
         return true;
 
-    // when running as a plugin in IE8, the browser UI runs in a different process to the plugin, so
-    // process ID isn't a reliable way to check if the foreground window belongs to us - instead, we
-    // have to see if any of our windows are children of the foreground window
-    fg = GetAncestor (fg, GA_ROOT);
+    DWORD processID = 0;
+    GetWindowThreadProcessId (fg, &processID);
 
-    for (int i = ComponentPeer::getNumPeers(); --i >= 0;)
-        if (HWNDComponentPeer* const wp = dynamic_cast<HWNDComponentPeer*> (ComponentPeer::getPeer (i)))
-            if (wp->isInside (fg))
-                return true;
-
-    return false;
+    return (processID == GetCurrentProcessId());
 }
 
 // N/A on Windows as far as I know.

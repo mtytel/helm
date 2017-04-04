@@ -1,30 +1,62 @@
 /*
   ==============================================================================
 
-   This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2016 - ROLI Ltd.
 
-   Permission to use, copy, modify, and/or distribute this software for any purpose with
-   or without fee is hereby granted, provided that the above copyright notice and this
-   permission notice appear in all copies.
+   Permission is granted to use this software under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license/
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
-   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
-   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+   Permission to use, copy, modify, and/or distribute this software for any
+   purpose with or without fee is hereby granted, provided that the above
+   copyright notice and this permission notice appear in all copies.
 
-   ------------------------------------------------------------------------------
+   THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+   FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT,
+   OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+   USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+   TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+   OF THIS SOFTWARE.
 
-   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
-   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
-   using any other modules, be sure to check that you also comply with their license.
+   -----------------------------------------------------------------------------
 
-   For more details, visit www.juce.com
+   To release a closed-source product which uses other parts of JUCE not
+   licensed under the ISC terms, commercial licenses are available: visit
+   www.juce.com for more information.
 
   ==============================================================================
 */
+
+
+/*******************************************************************************
+ The block below describes the properties of this module, and is read by
+ the Projucer to automatically generate project code that uses it.
+ For details about the syntax and how to create or use a module, see the
+ JUCE Module Format.txt file.
+
+
+ BEGIN_JUCE_MODULE_DECLARATION
+
+  ID:               juce_core
+  vendor:           juce
+  version:          4.3.1
+  name:             JUCE core classes
+  description:      The essential set of basic JUCE classes, as required by all the other JUCE modules. Includes text, container, memory, threading and i/o functionality.
+  website:          http://www.juce.com/juce
+  license:          ISC
+
+  dependencies:
+  OSXFrameworks:    Cocoa IOKit
+  iOSFrameworks:    Foundation
+  linuxLibs:        rt dl pthread
+  linuxPackages:    libcurl
+  mingwLibs:        uuid wsock32 wininet version ole32 ws2_32 oleaut32 imm32 comdlg32 shlwapi rpcrt4 winmm
+
+ END_JUCE_MODULE_DECLARATION
+
+*******************************************************************************/
+
 
 #ifndef JUCE_CORE_H_INCLUDED
 #define JUCE_CORE_H_INCLUDED
@@ -109,7 +141,7 @@
 
 /** Config: JUCE_USE_CURL
     Enables http/https support via libcurl (Linux only). Enabling this will add an additional
-    run-time dynmic dependency to libcurl.
+    run-time dynamic dependency to libcurl.
 
     If you disable this then https/ssl support will not be available on linux.
 */
@@ -118,13 +150,23 @@
 #endif
 
 
-/*  Config: JUCE_CATCH_UNHANDLED_EXCEPTIONS
+/** Config: JUCE_CATCH_UNHANDLED_EXCEPTIONS
     If enabled, this will add some exception-catching code to forward unhandled exceptions
     to your JUCEApplicationBase::unhandledException() callback.
 */
 #ifndef JUCE_CATCH_UNHANDLED_EXCEPTIONS
  //#define JUCE_CATCH_UNHANDLED_EXCEPTIONS 1
 #endif
+
+/** Config: JUCE_ALLOW_STATIC_NULL_VARIABLES
+    If disabled, this will turn off dangerous static globals like String::empty, var::null, etc
+    which can cause nasty order-of-initialisation problems if they are referenced during static
+    constructor code.
+*/
+#ifndef JUCE_ALLOW_STATIC_NULL_VARIABLES
+ #define JUCE_ALLOW_STATIC_NULL_VARIABLES 1
+#endif
+
 
 #ifndef JUCE_STRING_UTF_TYPE
  #define JUCE_STRING_UTF_TYPE 8
@@ -265,6 +307,7 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
 #include "network/juce_NamedPipe.h"
 #include "network/juce_Socket.h"
 #include "network/juce_URL.h"
+#include "network/juce_WebInputStream.h"
 #include "time/juce_PerformanceCounter.h"
 #include "unit_tests/juce_UnitTest.h"
 #include "xml/juce_XmlDocument.h"
@@ -312,6 +355,11 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
 
 #if JUCE_MSVC
  #pragma warning (pop)
+
+ // In DLL builds, need to disable this warnings for other modules
+ #if defined (JUCE_DLL_BUILD) || defined (JUCE_DLL)
+  #pragma warning (disable: 4251)
+ #endif
 #endif
 
 #endif   // JUCE_CORE_H_INCLUDED

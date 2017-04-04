@@ -31,6 +31,8 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
+#include "AppConfig.h"
+
 #define JUCE_CORE_INCLUDE_COM_SMART_PTR 1
 #define JUCE_CORE_INCLUDE_JNI_HELPERS 1
 #define JUCE_CORE_INCLUDE_NATIVE_HEADERS 1

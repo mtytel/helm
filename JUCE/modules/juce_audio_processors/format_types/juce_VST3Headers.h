@@ -45,14 +45,18 @@
  #pragma clang diagnostic ignored "-Wsign-conversion"
  #pragma clang diagnostic ignored "-Wsign-compare"
  #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
+ #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
+
+#undef DEVELOPMENT
+#define DEVELOPMENT 0  // This avoids a Clang warning in Steinberg code about unused values
 
 /*  These files come with the Steinberg VST3 SDK - to get them, you'll need to
     visit the Steinberg website and agree to whatever is currently required to
     get them.
 
     Then, you'll need to make sure your include path contains your "VST3 SDK"
-    directory (or whatever you've named it on your machine). The Introjucer has
+    directory (or whatever you've named it on your machine). The Projucer has
     a special box for setting this path.
 */
 #if JUCE_VST3HEADERS_INCLUDE_HEADERS_ONLY
@@ -78,6 +82,7 @@
  #include <pluginterfaces/vst/ivstunits.h>
  #include <pluginterfaces/vst/ivstmidicontrollers.h>
  #include <public.sdk/source/common/memorystream.h>
+ #include <public.sdk/source/vst/vsteditcontroller.h>
 #else
  #if JUCE_MINGW
   #define _set_abort_behavior(...)
@@ -126,6 +131,10 @@ namespace Steinberg
  #pragma warning (pop)
 #elif __clang__
  #pragma clang diagnostic pop
+#endif
+
+#if JUCE_WINDOWS
+ #include <windows.h>
 #endif
 
 //==============================================================================

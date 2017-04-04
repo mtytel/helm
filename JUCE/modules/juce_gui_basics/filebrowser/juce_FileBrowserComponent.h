@@ -59,7 +59,7 @@ public:
         canSelectFiles                  = 4,    /**< specifies that the user can select files (can be used in
                                                      conjunction with canSelectDirectories). */
         canSelectDirectories            = 8,    /**< specifies that the user can select directories (can be used in
-                                                     conjuction with canSelectFiles). */
+                                                     conjunction with canSelectFiles). */
         canSelectMultipleItems          = 16,   /**< specifies that the user can select multiple items. */
         useTreeView                     = 32,   /**< specifies that a tree-view should be shown instead of a file list. */
         filenameBoxIsReadOnly           = 64,   /**< specifies that the user can't type directly into the filename box. */
@@ -74,7 +74,7 @@ public:
                                         specify the component's behaviour. The flags must contain either openMode
                                         or saveMode, and canSelectFiles and/or canSelectDirectories.
         @param initialFileOrDirectory   The file or directory that should be selected when the component begins.
-                                        If this is File::nonexistent, a default directory will be chosen.
+                                        If this is File(), a default directory will be chosen.
         @param fileFilter               an optional filter to use to determine which files are shown.
                                         If this is nullptr then all files are displayed. Note that a pointer
                                         is kept internally to this object, so make sure that it is not deleted

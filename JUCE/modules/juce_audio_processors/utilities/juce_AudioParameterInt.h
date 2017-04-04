@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,7 +22,6 @@
   ==============================================================================
 */
 
-
 /**
     Provides a class of AudioProcessorParameter that can be used as an
     integer value with a given range.
@@ -36,9 +35,10 @@ public:
         Note that the min and max range values are inclusive.
         On creation, its value is set to the default value.
     */
-    AudioParameterInt (String parameterID, String name,
+    AudioParameterInt (const String& parameterID, const String& name,
                        int minValue, int maxValue,
-                       int defaultValue);
+                       int defaultValue,
+                       const String& label = String());
 
     /** Destructor. */
     ~AudioParameterInt();

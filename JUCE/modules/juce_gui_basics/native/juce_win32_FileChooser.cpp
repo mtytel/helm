@@ -147,7 +147,7 @@ void FileChooser::showPlatformDialog (Array<File>& results, const String& title_
 
     // use a modal window as the parent for this dialog box
     // to block input from other app windows
-    Component parentWindow (String::empty);
+    Component parentWindow;
     const Rectangle<int> mainMon (Desktop::getInstance().getDisplays().getMainDisplay().userArea);
     parentWindow.setBounds (mainMon.getX() + mainMon.getWidth() / 4,
                             mainMon.getY() + mainMon.getHeight() / 4,
@@ -282,7 +282,7 @@ void FileChooser::showPlatformDialog (Array<File>& results, const String& title_
 
         while (*filename != 0)
         {
-            results.add (File (String (files) + "\\" + String (filename)));
+            results.add (File (String (files)).getChildFile (String (filename)));
             filename += wcslen (filename) + 1;
         }
     }

@@ -27,6 +27,7 @@ class ChannelClickListener
 public:
     virtual ~ChannelClickListener() {}
     virtual void channelButtonClicked (int channelIndex) = 0;
+    virtual bool isChannelActive (int channelIndex) = 0;
 };
 
 class SurroundEditor : public AudioProcessorEditor,
@@ -37,11 +38,16 @@ public:
     SurroundEditor (AudioProcessor& parent)
         : AudioProcessorEditor (parent),
           currentChannelLayout (AudioChannelSet::disabled()),
-          noChannelsLabel ("noChannelsLabel", "Input disabled")
+          noChannelsLabel ("noChannelsLabel", "Input disabled"),
+          layoutTitle ("LayoutTitleLabel", getLayoutName())
     {
+        layoutTitle.setJustificationType (Justification::centred);
+        addAndMakeVisible (layoutTitle);
         addAndMakeVisible (noChannelsLabel);
+
         setSize (640, 64);
 
+        lastSuspended = ! getAudioProcessor()->isSuspended();
         timerCallback();
         startTimer (500);
     }
@@ -53,6 +59,8 @@ public:
     void resized() override
     {
         Rectangle<int> r = getLocalBounds();
+
+        layoutTitle.setBounds (r.removeFromBottom (16));
 
         noChannelsLabel.setBounds (r);
 
@@ -81,15 +89,17 @@ public:
         }
     }
 
-private:
-    void timerCallback() override
+    void updateGUI()
     {
-        const AudioChannelSet& channelSet = getAudioProcessor()->busArrangement.outputBuses.getReference (0).channels;
+        const AudioChannelSet& channelSet = getAudioProcessor()->getChannelLayoutOfBus (false, 0);
 
         if (channelSet != currentChannelLayout)
         {
             currentChannelLayout = channelSet;
+
+            layoutTitle.setText (currentChannelLayout.getDescription(), NotificationType::dontSendNotification);
             channelButtons.clear();
+            activeChannels.resize (currentChannelLayout.size());
 
             if (currentChannelLayout == AudioChannelSet::disabled())
             {
@@ -102,7 +112,7 @@ private:
                 for (int i = 0; i < numChannels; ++i)
                 {
                     const String channelName =
-                        AudioChannelSet::getAbbreviatedChannelTypeName (currentChannelLayout.getTypeOfChannel (i));
+                    AudioChannelSet::getAbbreviatedChannelTypeName (currentChannelLayout.getTypeOfChannel (i));
 
                     TextButton* newButton;
                     channelButtons.add (newButton = new TextButton (channelName, channelName));
@@ -114,10 +124,59 @@ private:
                 noChannelsLabel.setVisible (false);
                 resized();
             }
+
+            if (ChannelClickListener* listener = dynamic_cast<ChannelClickListener*> (getAudioProcessor()))
+            {
+                for (int i = 0; i < activeChannels.size(); ++i)
+                {
+                    bool isActive = listener->isChannelActive (i);
+                    activeChannels.getReference (i) = isActive;
+                    channelButtons [i]->setColour (TextButton::buttonColourId, isActive ? Colours::lightsalmon : Colours::lightgrey);
+                    channelButtons [i]->repaint();
+                }
+            }
+        }
+    }
+
+private:
+    String getLayoutName() const
+    {
+        if (AudioProcessor* p = getAudioProcessor())
+            return p->getChannelLayoutOfBus (false, 0).getDescription();
+
+        return "Unknown";
+    }
+
+    void timerCallback() override
+    {
+        if (getAudioProcessor()->isSuspended() != lastSuspended)
+        {
+            lastSuspended = getAudioProcessor()->isSuspended();
+            updateGUI();
+        }
+
+        if (! lastSuspended)
+        {
+            if (ChannelClickListener* listener = dynamic_cast<ChannelClickListener*> (getAudioProcessor()))
+            {
+                for (int i = 0; i < activeChannels.size(); ++i)
+                {
+                    bool isActive = listener->isChannelActive (i);
+                    if (activeChannels.getReference (i) != isActive)
+                    {
+                        activeChannels.getReference (i) = isActive;
+                        channelButtons [i]->setColour (TextButton::buttonColourId, isActive ? Colours::lightsalmon : Colours::lightgrey);
+                        channelButtons [i]->repaint();
+                    }
+                }
+            }
         }
     }
 
     AudioChannelSet currentChannelLayout;
-    Label noChannelsLabel;
+    Label noChannelsLabel, layoutTitle;
     OwnedArray<TextButton> channelButtons;
+    Array<bool> activeChannels;
+
+    bool lastSuspended;
 };

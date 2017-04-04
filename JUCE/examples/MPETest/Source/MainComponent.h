@@ -33,7 +33,7 @@ class MainComponent : public Component,
                       private MPESetupComponent::Listener
 {
 public:
-    //==========================================================================
+    //==============================================================================
     MainComponent()
         : audioSetupComp (audioDeviceManager, 0, 0, 0, 256, true, true, true, false),
           zoneLayoutComp (colourPicker),
@@ -41,8 +41,8 @@ public:
     {
         setLookAndFeel (&lookAndFeel);
         setSize (880, 720);
-        audioDeviceManager.initialise (0, 2, 0, true, String::empty, 0);
-        audioDeviceManager.addMidiInputCallback(String::empty, this);
+        audioDeviceManager.initialise (0, 2, 0, true, String(), 0);
+        audioDeviceManager.addMidiInputCallback (String(), this);
         audioDeviceManager.addAudioCallback (this);
 
         addAndMakeVisible (audioSetupComp);
@@ -65,10 +65,10 @@ public:
 
     ~MainComponent()
     {
-        audioDeviceManager.removeMidiInputCallback (String::empty, this);
+        audioDeviceManager.removeMidiInputCallback (String(), this);
     }
 
-    //==========================================================================
+    //==============================================================================
     void resized() override
     {
         const int visualiserCompWidth = 2800;
@@ -87,7 +87,7 @@ public:
         MPESetupComp.setBounds (r);
     }
 
-    //==========================================================================
+    //==============================================================================
     void audioDeviceIOCallback (const float** /*inputChannelData*/, int /*numInputChannels*/,
                                 float** outputChannelData, int numOutputChannels,
                                 int numSamples) override
@@ -112,7 +112,7 @@ public:
     }
 
 private:
-    //==========================================================================
+    //==============================================================================
     void handleIncomingMidiMessage (MidiInput* /*source*/,
                                     const MidiMessage& message) override
     {
@@ -120,7 +120,7 @@ private:
         midiCollector.addMessageToQueue (message);
     }
 
-    //==========================================================================
+    //==============================================================================
     void zoneAdded (MPEZone newZone) override
     {
         MidiOutput* midiOutput = audioDeviceManager.getDefaultMidiOutput();
@@ -175,7 +175,7 @@ private:
                 synth.addVoice (new MPEDemoSynthVoice);
     }
 
-    //==========================================================================
+    //==============================================================================
     LookAndFeel_V3 lookAndFeel;
     AudioDeviceManager audioDeviceManager;
 

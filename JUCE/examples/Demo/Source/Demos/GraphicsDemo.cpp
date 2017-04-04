@@ -395,7 +395,7 @@ class ImagesRenderingDemo  : public GraphicsDemoBase
 {
 public:
     ImagesRenderingDemo (ControllersComponent& cc, bool argb_, bool tiled_)
-        : GraphicsDemoBase (cc, String ("Images") + (argb_ ? ": ARGB" : ": RGB") + (tiled_ ? " Tiled" : String::empty )),
+        : GraphicsDemoBase (cc, String ("Images") + (argb_ ? ": ARGB" : ": RGB") + (tiled_ ? " Tiled" : String() )),
           isArgb (argb_), isTiled (tiled_)
     {
         argbImage = ImageFileFormat::loadFrom (BinaryData::juce_icon_png, (size_t) BinaryData::juce_icon_pngSize);
@@ -569,13 +569,13 @@ public:
         setOpaque (true);
     }
 
-    void paint (Graphics& g)
+    void paint (Graphics& g) override
     {
         g.fillCheckerBoard (getLocalBounds(), 48, 48,
                             Colours::lightgrey, Colours::white);
     }
 
-    void timerCallback()
+    void timerCallback() override
     {
         if (currentDemo != nullptr)
             currentDemo->repaint();
@@ -596,7 +596,7 @@ public:
         }
     }
 
-    void resized()
+    void resized() override
     {
         if (currentDemo != nullptr)
             currentDemo->setBounds (getLocalBounds());

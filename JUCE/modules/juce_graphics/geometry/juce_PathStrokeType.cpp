@@ -316,7 +316,7 @@ namespace PathStrokeHelpers
 
             if (style == PathStrokeType::square)
             {
-                // sqaure ends
+                // square ends
                 destPath.lineTo (offx1, offy1);
                 destPath.lineTo (offx2, offy2);
                 destPath.lineTo (x2, y2);
@@ -449,7 +449,7 @@ namespace PathStrokeHelpers
         {
             destPath.startNewSubPath (firstLine.rx2, firstLine.ry2);
 
-            if (arrowhead != nullptr)
+            if (arrowhead != nullptr && arrowhead->startWidth > 0.0f)
                 addArrowhead (destPath, firstLine.rx2, firstLine.ry2, lastX1, lastY1, firstLine.x1, firstLine.y1,
                               width, arrowhead->startWidth);
             else
@@ -491,7 +491,7 @@ namespace PathStrokeHelpers
         {
             destPath.lineTo (lastX2, lastY2);
 
-            if (arrowhead != nullptr)
+            if (arrowhead != nullptr && arrowhead->endWidth > 0.0f)
                 addArrowhead (destPath, lastX2, lastY2, lastLine.rx1, lastLine.ry1, lastLine.x2, lastLine.y2,
                               width, arrowhead->endWidth);
             else
@@ -570,7 +570,7 @@ namespace PathStrokeHelpers
 
         // Iterate the path, creating a list of the
         // left/right-hand lines along either side of it...
-        PathFlatteningIterator it (*sourcePath, transform, PathFlatteningIterator::defaultTolerance / extraAccuracy);
+        PathFlatteningIterator it (*sourcePath, transform, Path::defaultToleranceForMeasurement / extraAccuracy);
 
         Array <LineSection> subPath;
         subPath.ensureStorageAllocated (512);
@@ -668,7 +668,7 @@ void PathStrokeType::createDashedStroke (Path& destPath,
         return;
 
     Path newDestPath;
-    PathFlatteningIterator it (sourcePath, transform, PathFlatteningIterator::defaultTolerance / extraAccuracy);
+    PathFlatteningIterator it (sourcePath, transform, Path::defaultToleranceForMeasurement / extraAccuracy);
 
     bool first = true;
     int dashNum = 0;
@@ -680,9 +680,9 @@ void PathStrokeType::createDashedStroke (Path& destPath,
         const bool isSolid = ((dashNum & 1) == 0);
         const float dashLen = dashLengths [dashNum++ % numDashLengths];
 
-        jassert (dashLen > 0); // must be a positive increment!
+        jassert (dashLen >= 0); // must be a positive increment!
         if (dashLen <= 0)
-            break;
+            continue;
 
         pos += dashLen;
 

@@ -29,34 +29,24 @@ class NoiseGate  : public AudioProcessor
 {
 public:
     //==============================================================================
+    //==============================================================================
     NoiseGate()
+        : AudioProcessor (BusesProperties().withInput  ("Input",     AudioChannelSet::stereo())
+                                             .withOutput ("Output",    AudioChannelSet::stereo())
+                                             .withInput  ("Sidechain", AudioChannelSet::stereo()))
     {
         addParameter (threshold = new AudioParameterFloat ("threshold", "Threshold", 0.0f, 1.0f, 0.5f));
         addParameter (alpha  = new AudioParameterFloat ("alpha",  "Alpha",   0.0f, 1.0f, 0.8f));
-
-        // add single side-chain bus
-        busArrangement.inputBuses. add (AudioProcessorBus ("Sidechain In",  AudioChannelSet::stereo()));
-        busArrangement.outputBuses.add (AudioProcessorBus ("Sidechain Out", AudioChannelSet::stereo()));
     }
 
     ~NoiseGate() {}
 
     //==============================================================================
-    bool setPreferredBusArrangement (bool isInputBus, int busIndex, const AudioChannelSet& preferred) override
+    bool isBusesLayoutSupported (const BusesLayout& layouts) const override
     {
-        const int numChannels = preferred.size();
-
-        // do not allow disabling channels
-        if (numChannels == 0) return false;
-
-        // only allow stereo on the side-chain bus
-        if (busIndex == 1 && numChannels != 2) return false;
-
-        // always have the same channel layout on both input and output on the main bus
-        if (! AudioProcessor::setPreferredBusArrangement (! isInputBus, busIndex, preferred))
-            return false;
-
-        return AudioProcessor::setPreferredBusArrangement (isInputBus, busIndex, preferred);
+        // the sidechain can take any layout, the main bus needs to be the same on the input and output
+        return (layouts.getMainInputChannelSet() == layouts.getMainOutputChannelSet() &&
+                (! layouts.getMainInputChannelSet().isDisabled()));
     }
 
     //==============================================================================
@@ -65,11 +55,8 @@ public:
 
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer&) override
     {
-        for (int i = getTotalNumInputChannels(); i < getTotalNumOutputChannels(); ++i)
-            buffer.clear (i, 0, buffer.getNumSamples());
-
-        AudioSampleBuffer mainInputOutput = busArrangement.getBusBuffer (buffer, true, 0);
-        AudioSampleBuffer sideChainInput  = busArrangement.getBusBuffer (buffer, true, 1);
+        AudioSampleBuffer mainInputOutput = getBusBuffer(buffer, true, 0);
+        AudioSampleBuffer sideChainInput  = getBusBuffer(buffer, true, 1);
 
         float alphaCopy = *alpha;
         float thresholdCopy = *threshold;
@@ -107,6 +94,7 @@ public:
     void setCurrentProgram (int) override                    {}
     const String getProgramName (int) override               { return ""; }
     void changeProgramName (int, const String&) override     {}
+    bool isVST2() const noexcept                             { return (wrapperType == wrapperType_VST); }
 
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override
@@ -124,6 +112,11 @@ public:
         threshold->setValueNotifyingHost (stream.readFloat());
         alpha->setValueNotifyingHost (stream.readFloat());
     }
+
+    enum
+    {
+        kVST2MaxChannels = 8
+    };
 
 private:
     //==============================================================================

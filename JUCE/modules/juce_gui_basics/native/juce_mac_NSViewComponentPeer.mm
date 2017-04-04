@@ -58,9 +58,13 @@ static NSRect flippedScreenRect (NSRect r) noexcept
     return r;
 }
 
+#if JUCE_MODULE_AVAILABLE_juce_opengl
+void componentPeerAboutToBeRemovedFromScreen (ComponentPeer&);
+#endif
+
 //==============================================================================
 class NSViewComponentPeer  : public ComponentPeer,
-                             private AsyncUpdater
+                             private Timer
 {
 public:
     NSViewComponentPeer (Component& comp, const int windowStyleFlags, NSView* viewToAttachTo)
@@ -75,8 +79,11 @@ public:
           usingCoreGraphics (false),
          #endif
           isZooming (false),
+          isFirstLiveResize (false),
           textWasInserted (false),
-          notificationCenter (nil)
+          isStretchingTop (false), isStretchingLeft (false),
+          isStretchingBottom (false), isStretchingRight (false),
+          notificationCenter (nil), lastRepaintTime (Time::getMillisecondCounter())
     {
         appFocusChangeCallback = appFocusChanged;
         isEventBlockedByModalComps = checkEventBlockedByModalComps;
@@ -235,9 +242,9 @@ public:
     void setRepresentedFile (const File& file) override
     {
         if (! isSharedWindow)
-            [window setRepresentedFilename: juceStringToNS (file != File::nonexistent
+            [window setRepresentedFilename: juceStringToNS (file != File()
                                                                 ? file.getFullPathName()
-                                                                : String::empty)];
+                                                                : String())];
     }
 
     void setBounds (const Rectangle<int>& newBounds, bool isNowFullScreen) override
@@ -368,7 +375,7 @@ public:
     bool isKioskMode() const override
     {
        #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
-        if (hasNativeTitleBar() && ([window styleMask] & NSFullScreenWindowMask) != 0)
+        if (hasNativeTitleBar() && ([window styleMask] & NSWindowStyleMaskFullScreen) != 0)
             return true;
        #endif
 
@@ -393,15 +400,19 @@ public:
              && isPositiveAndBelow (localPos.getY(), (int) viewFrame.size.height)))
             return false;
 
-        if (NSWindow* const viewWindow = [view window])
+        if (! SystemStats::isRunningInAppExtensionSandbox())
         {
-            const NSRect windowFrame = [viewWindow frame];
-            const NSPoint windowPoint = [view convertPoint: NSMakePoint (localPos.x, viewFrame.size.height - localPos.y) toView: nil];
-            const NSPoint screenPoint = NSMakePoint (windowFrame.origin.x + windowPoint.x,
-                                                     windowFrame.origin.y + windowPoint.y);
+            if (NSWindow* const viewWindow = [view window])
+            {
+                const NSRect windowFrame = [viewWindow frame];
+                const NSPoint windowPoint = [view convertPoint: NSMakePoint (localPos.x, viewFrame.size.height - localPos.y) toView: nil];
+                const NSPoint screenPoint = NSMakePoint (windowFrame.origin.x + windowPoint.x,
+                                                         windowFrame.origin.y + windowPoint.y);
 
-            if (! isWindowAtPoint (viewWindow, screenPoint))
-                return false;
+                if (! isWindowAtPoint (viewWindow, screenPoint))
+                    return false;
+
+            }
         }
 
         NSView* v = [view hitTest: NSMakePoint (viewFrame.origin.x + localPos.getX(),
@@ -611,7 +622,6 @@ public:
         wheel.isSmooth = false;
         wheel.isInertial = false;
 
-       #if ! JUCE_PPC
         @try
         {
            #if defined (MAC_OS_X_VERSION_10_7) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_7
@@ -640,7 +650,6 @@ public:
         }
         @catch (...)
         {}
-       #endif
 
         if (wheel.deltaX == 0 && wheel.deltaY == 0)
         {
@@ -666,6 +675,16 @@ public:
     void redirectCopy  (NSObject*) { handleKeyPress (KeyPress ('c', ModifierKeys (ModifierKeys::commandModifier), 'c')); }
     void redirectPaste (NSObject*) { handleKeyPress (KeyPress ('v', ModifierKeys (ModifierKeys::commandModifier), 'v')); }
     void redirectCut   (NSObject*) { handleKeyPress (KeyPress ('x', ModifierKeys (ModifierKeys::commandModifier), 'x')); }
+
+    void redirectWillMoveToWindow (NSWindow* newWindow)
+    {
+       #if JUCE_MODULE_AVAILABLE_juce_opengl
+        if ([view window] == window && newWindow == nullptr)
+            componentPeerAboutToBeRemovedFromScreen (*this);
+       #else
+        ignoreUnused (newWindow);
+       #endif
+    }
 
     void sendMouseEvent (NSEvent* ev)
     {
@@ -710,7 +729,7 @@ public:
                             break; // (these all seem to generate unwanted garbage unicode strings)
 
                         default:
-                            if (([ev modifierFlags] & NSCommandKeyMask) != 0
+                            if (([ev modifierFlags] & NSEventModifierFlagCommand) != 0
                                  || (keyCode >= NSF1FunctionKey && keyCode <= NSF35FunctionKey))
                                 textCharacter = 0;
                             break;
@@ -739,7 +758,7 @@ public:
         updateKeysDown (ev, true);
         bool used = handleKeyEvent (ev, true);
 
-        if (([ev modifierFlags] & NSCommandKeyMask) != 0)
+        if (([ev modifierFlags] & NSEventModifierFlagCommand) != 0)
         {
             // for command keys, the key-up event is thrown away, so simulate one..
             updateKeysDown (ev, false);
@@ -870,23 +889,6 @@ public:
         }
     }
 
-    void handleAsyncUpdate() override
-    {
-        // When windows are being resized, artificially throttling high-frequency repaints helps
-        // to stop the event queue getting clogged, and keeps everything working smoothly
-        if (areAnyWindowsInLiveResize()
-              && Time::getCurrentTime() < lastRepaintTime + RelativeTime::milliseconds (1000 / 30))
-        {
-            triggerAsyncUpdate();
-            return;
-        }
-
-        for (const Rectangle<float>* i = deferredRepaints.begin(), *e = deferredRepaints.end(); i != e; ++i)
-            [view setNeedsDisplayInRect: makeNSRect (*i)];
-
-        deferredRepaints.clear();
-    }
-
     void repaint (const Rectangle<int>& area) override
     {
         // In 10.11 changes were made to the way the OS handles repaint regions, and it seems that it can
@@ -896,12 +898,50 @@ public:
         // asynchronously asking the OS to repaint them.
         deferredRepaints.add ((float) area.getX(), (float) ([view frame].size.height - area.getBottom()),
                               (float) area.getWidth(), (float) area.getHeight());
-        triggerAsyncUpdate();
+
+        if (isTimerRunning())
+            return;
+
+        const uint32 now = Time::getMillisecondCounter();
+        uint32 msSinceLastRepaint = (lastRepaintTime >= now) ? now - lastRepaintTime
+                                                             : (std::numeric_limits<uint32>::max() - lastRepaintTime) + now;
+
+        static uint32 minimumRepaintInterval = 1000 / 30; // 30fps
+
+        // When windows are being resized, artificially throttling high-frequency repaints helps
+        // to stop the event queue getting clogged, and keeps everything working smoothly.
+        // For some reason Logic also needs this throttling to recored parameter events correctly.
+        if (msSinceLastRepaint < minimumRepaintInterval && shouldThrottleRepaint())
+        {
+            startTimer (static_cast<int> (minimumRepaintInterval - msSinceLastRepaint));
+            return;
+        }
+
+        setNeedsDisplayRectangles();
     }
+
+    static bool shouldThrottleRepaint()
+    {
+        return areAnyWindowsInLiveResize() || ! JUCEApplication::isStandaloneApp();
+    }
+
+    void timerCallback() override
+    {
+        setNeedsDisplayRectangles();
+        stopTimer();
+    }
+
+    void setNeedsDisplayRectangles()
+    {
+        for (const Rectangle<float>* i = deferredRepaints.begin(), *e = deferredRepaints.end(); i != e; ++i)
+            [view setNeedsDisplayInRect: makeNSRect (*i)];
+
+        lastRepaintTime = Time::getMillisecondCounter();
+        deferredRepaints.clear();
+    };
 
     void invokePaint (LowLevelGraphicsContext& context)
     {
-        lastRepaintTime = Time::getCurrentTime();
         handlePaint (context);
     }
 
@@ -984,7 +1024,10 @@ public:
     void liveResizingStart()
     {
         if (constrainer != nullptr)
+        {
             constrainer->resizeStart();
+            isFirstLiveResize = true;
+        }
     }
 
     void liveResizingEnd()
@@ -997,30 +1040,34 @@ public:
     {
         if (constrainer != nullptr && ! isKioskMode())
         {
-            Rectangle<int> pos      (convertToRectInt (flippedScreenRect (r)));
-            Rectangle<int> original (convertToRectInt (flippedScreenRect ([window frame])));
+            const float scale = getComponent().getDesktopScaleFactor();
+
+            Rectangle<int> pos      = ScalingHelpers::unscaledScreenPosToScaled (scale, convertToRectInt (flippedScreenRect (r)));
+            Rectangle<int> original = ScalingHelpers::unscaledScreenPosToScaled (scale, convertToRectInt (flippedScreenRect ([window frame])));
 
             const Rectangle<int> screenBounds (Desktop::getInstance().getDisplays().getTotalBounds (true));
 
            #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6
-            if ([window inLiveResize])
+            const bool inLiveResize = [window inLiveResize];
            #else
-            if ([window respondsToSelector: @selector (inLiveResize)]
-                 && [window performSelector: @selector (inLiveResize)])
+            const bool inLiveResize = [window respondsToSelector: @selector (inLiveResize)]
+                                   && [window performSelector: @selector (inLiveResize)];
            #endif
+
+            if (! inLiveResize || isFirstLiveResize)
             {
-                constrainer->checkBounds (pos, original, screenBounds,
-                                          false, false, true, true);
-            }
-            else
-            {
-                constrainer->checkBounds (pos, original, screenBounds,
-                                          pos.getY() != original.getY() && pos.getBottom() == original.getBottom(),
-                                          pos.getX() != original.getX() && pos.getRight()  == original.getRight(),
-                                          pos.getY() == original.getY() && pos.getBottom() != original.getBottom(),
-                                          pos.getX() == original.getX() && pos.getRight()  != original.getRight());
+                isFirstLiveResize = false;
+
+                isStretchingTop    = (pos.getY() != original.getY() && pos.getBottom() == original.getBottom());
+                isStretchingLeft   = (pos.getX() != original.getX() && pos.getRight()  == original.getRight());
+                isStretchingBottom = (pos.getY() == original.getY() && pos.getBottom() != original.getBottom());
+                isStretchingRight  = (pos.getX() == original.getX() && pos.getRight()  != original.getRight());
             }
 
+            constrainer->checkBounds (pos, original, screenBounds,
+                                      isStretchingTop, isStretchingLeft, isStretchingBottom, isStretchingRight);
+
+            pos = ScalingHelpers::scaledScreenPosToUnscaled (scale, pos);
             r = flippedScreenRect (makeNSRect (pos));
         }
 
@@ -1048,10 +1095,10 @@ public:
     {
         int m = 0;
 
-        if ((flags & NSShiftKeyMask) != 0)        m |= ModifierKeys::shiftModifier;
-        if ((flags & NSControlKeyMask) != 0)      m |= ModifierKeys::ctrlModifier;
-        if ((flags & NSAlternateKeyMask) != 0)    m |= ModifierKeys::altModifier;
-        if ((flags & NSCommandKeyMask) != 0)      m |= ModifierKeys::commandModifier;
+        if ((flags & NSEventModifierFlagShift) != 0)        m |= ModifierKeys::shiftModifier;
+        if ((flags & NSEventModifierFlagControl) != 0)      m |= ModifierKeys::ctrlModifier;
+        if ((flags & NSEventModifierFlagOption) != 0)       m |= ModifierKeys::altModifier;
+        if ((flags & NSEventModifierFlagCommand) != 0)      m |= ModifierKeys::commandModifier;
 
         currentModifiers = currentModifiers.withOnlyMouseButtons().withFlags (m);
     }
@@ -1124,7 +1171,7 @@ public:
         else
             keyCode = (int) CharacterFunctions::toUpperCase ((juce_wchar) keyCode);
 
-        if (([ev modifierFlags] & NSNumericPadKeyMask) != 0)
+        if (([ev modifierFlags] & NSEventModifierFlagNumericPad) != 0)
         {
             const int numPadConversions[] = { '0', KeyPress::numberPad0, '1', KeyPress::numberPad1,
                                               '2', KeyPress::numberPad2, '3', KeyPress::numberPad3,
@@ -1155,7 +1202,7 @@ public:
     {
         @try
         {
-            if (e.type != NSMouseEntered && e.type != NSMouseExited)
+            if (e.type != NSEventTypeMouseEntered && e.type != NSEventTypeMouseExited)
                 return (float) e.pressure;
         }
         @catch (NSException* e) {}
@@ -1179,12 +1226,12 @@ public:
 
     static unsigned int getNSWindowStyleMask (const int flags) noexcept
     {
-        unsigned int style = (flags & windowHasTitleBar) != 0 ? NSTitledWindowMask
-                                                              : NSBorderlessWindowMask;
+        unsigned int style = (flags & windowHasTitleBar) != 0 ? NSWindowStyleMaskTitled
+                                                              : NSWindowStyleMaskBorderless;
 
-        if ((flags & windowHasMinimiseButton) != 0)  style |= NSMiniaturizableWindowMask;
-        if ((flags & windowHasCloseButton) != 0)     style |= NSClosableWindowMask;
-        if ((flags & windowIsResizable) != 0)        style |= NSResizableWindowMask;
+        if ((flags & windowHasMinimiseButton) != 0)  style |= NSWindowStyleMaskMiniaturizable;
+        if ((flags & windowHasCloseButton) != 0)     style |= NSWindowStyleMaskClosable;
+        if ((flags & windowIsResizable) != 0)        style |= NSWindowStyleMaskResizable;
         return style;
     }
 
@@ -1312,12 +1359,13 @@ public:
     NSWindow* window;
     NSView* view;
     bool isSharedWindow, fullScreen;
-    bool usingCoreGraphics, isZooming, textWasInserted;
+    bool usingCoreGraphics, isZooming, isFirstLiveResize, textWasInserted;
+    bool isStretchingTop, isStretchingLeft, isStretchingBottom, isStretchingRight;
     String stringBeingComposed;
     NSNotificationCenter* notificationCenter;
 
     RectangleList<float> deferredRepaints;
-    Time lastRepaintTime;
+    uint32 lastRepaintTime;
 
     static ModifierKeys currentModifiers;
     static ComponentPeer* currentlyFocusedPeer;
@@ -1382,34 +1430,34 @@ private:
 
         switch ([e type])
         {
-            case NSKeyDown:
-            case NSKeyUp:
+            case NSEventTypeKeyDown:
+            case NSEventTypeKeyUp:
                 isKey = isInputAttempt = true;
                 break;
 
-            case NSLeftMouseDown:
-            case NSRightMouseDown:
-            case NSOtherMouseDown:
+            case NSEventTypeLeftMouseDown:
+            case NSEventTypeRightMouseDown:
+            case NSEventTypeOtherMouseDown:
                 isInputAttempt = true;
                 break;
 
-            case NSLeftMouseDragged:
-            case NSRightMouseDragged:
-            case NSLeftMouseUp:
-            case NSRightMouseUp:
-            case NSOtherMouseUp:
-            case NSOtherMouseDragged:
+            case NSEventTypeLeftMouseDragged:
+            case NSEventTypeRightMouseDragged:
+            case NSEventTypeLeftMouseUp:
+            case NSEventTypeRightMouseUp:
+            case NSEventTypeOtherMouseUp:
+            case NSEventTypeOtherMouseDragged:
                 if (Desktop::getInstance().getDraggingMouseSource(0) != nullptr)
                     return false;
                 break;
 
-            case NSMouseMoved:
-            case NSMouseEntered:
-            case NSMouseExited:
-            case NSCursorUpdate:
-            case NSScrollWheel:
-            case NSTabletPoint:
-            case NSTabletProximity:
+            case NSEventTypeMouseMoved:
+            case NSEventTypeMouseEntered:
+            case NSEventTypeMouseExited:
+            case NSEventTypeCursorUpdate:
+            case NSEventTypeScrollWheel:
+            case NSEventTypeTabletPoint:
+            case NSEventTypeTabletProximity:
                 break;
 
             default:
@@ -1516,6 +1564,8 @@ struct JuceNSViewClass   : public ObjCClass<NSView>
         addMethod (@selector (copy:),                         copy,                       "v@:@");
         addMethod (@selector (cut:),                          cut,                        "v@:@");
 
+        addMethod (@selector (viewWillMoveToWindow:),         willMoveToWindow,           "v@:@");
+
         addProtocol (@protocol (NSTextInput));
 
         registerClass();
@@ -1564,6 +1614,11 @@ private:
     static void copy           (id self, SEL, NSObject* s)   { if (NSViewComponentPeer* p = getOwner (self)) p->redirectCopy       (s);  }
     static void paste          (id self, SEL, NSObject* s)   { if (NSViewComponentPeer* p = getOwner (self)) p->redirectPaste      (s);  }
     static void cut            (id self, SEL, NSObject* s)   { if (NSViewComponentPeer* p = getOwner (self)) p->redirectCut        (s);  }
+
+    static void willMoveToWindow (id self, SEL, NSWindow* window)
+    {
+        if (NSViewComponentPeer* p = getOwner (self)) p->redirectWillMoveToWindow (window);
+    }
 
     static BOOL acceptsFirstMouse (id, SEL, NSEvent*)        { return YES; }
     static BOOL wantsDefaultClipping (id, SEL)               { return YES; } // (this is the default, but may want to customise it in future)
@@ -1810,7 +1865,7 @@ struct JuceNSWindowClass   : public ObjCClass<NSWindow>
         addIvar<NSViewComponentPeer*> ("owner");
 
         addMethod (@selector (canBecomeKeyWindow),            canBecomeKeyWindow,        "c@:");
-        addMethod (@selector (canBecomeMainWindow),           canBecomeMainWindow,        "c@:");
+        addMethod (@selector (canBecomeMainWindow),           canBecomeMainWindow,       "c@:");
         addMethod (@selector (becomeKeyWindow),               becomeKeyWindow,           "v@:");
         addMethod (@selector (windowShouldClose:),            windowShouldClose,         "c@:@");
         addMethod (@selector (constrainFrameRect:toScreen:),  constrainFrameRect,        @encode (NSRect), "@:",  @encode (NSRect), "@");
@@ -2021,7 +2076,7 @@ void Desktop::setKioskComponent (Component* kioskComp, bool shouldBeEnabled, boo
         if (shouldBeEnabled)
         {
             if (peer->hasNativeTitleBar())
-                [peer->window setStyleMask: NSBorderlessWindowMask];
+                [peer->window setStyleMask: NSWindowStyleMaskBorderless];
 
             [NSApp setPresentationOptions: (allowMenusAndBars ? (NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar)
                                                               : (NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar))];
@@ -2092,7 +2147,7 @@ const int KeyPress::F7Key           = NSF7FunctionKey;
 const int KeyPress::F8Key           = NSF8FunctionKey;
 const int KeyPress::F9Key           = NSF9FunctionKey;
 const int KeyPress::F10Key          = NSF10FunctionKey;
-const int KeyPress::F11Key          = NSF1FunctionKey;
+const int KeyPress::F11Key          = NSF11FunctionKey;
 const int KeyPress::F12Key          = NSF12FunctionKey;
 const int KeyPress::F13Key          = NSF13FunctionKey;
 const int KeyPress::F14Key          = NSF14FunctionKey;

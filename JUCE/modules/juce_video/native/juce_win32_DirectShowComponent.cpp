@@ -405,6 +405,8 @@ public:
 
         while (SUCCEEDED (mediaEvent->GetEvent (&ec, &p1, &p2, 0)))
         {
+            mediaEvent->FreeEventParams (ec, p1, p2);
+
             switch (ec)
             {
             case EC_REPAINT:
@@ -427,8 +429,6 @@ public:
             default:
                 break;
             }
-
-            mediaEvent->FreeEventParams (ec, p1, p2);
         }
     }
 
@@ -597,10 +597,10 @@ private:
             if (wc->isRegistered())
             {
                 DWORD exstyle = 0;
-                DWORD type = WS_CHILD;
+                DWORD windowType = WS_CHILD;
 
                 hwnd = CreateWindowEx (exstyle, wc->getWindowClassName(),
-                                       L"", type, 0, 0, 0, 0, parentToAddTo, 0,
+                                       L"", windowType, 0, 0, 0, 0, parentToAddTo, 0,
                                        (HINSTANCE) Process::getCurrentModuleInstanceHandle(), 0);
 
                 if (hwnd != 0)

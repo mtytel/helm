@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -22,7 +22,6 @@
   ==============================================================================
 */
 
-
 /**
     Provides a class of AudioProcessorParameter that can be used as a boolean value.
 
@@ -34,7 +33,8 @@ public:
     /** Creates a AudioParameterBool with an ID and name.
         On creation, its value is set to the default value.
     */
-    AudioParameterBool (String parameterID, String name, bool defaultValue);
+    AudioParameterBool (const String& parameterID, const String& name, bool defaultValue,
+                        const String& label = String());
 
     /** Destructor. */
     ~AudioParameterBool();

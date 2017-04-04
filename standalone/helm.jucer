@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.8.6"
+<JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.9.0"
               bundleIdentifier="org.tytel.helm" includeBinaryInAppConfig="1"
-              jucerVersion="4.1.0" companyName="Matt Tytel" companyWebsite="tytel.org"
+              jucerVersion="4.3.1" companyName="Matt Tytel" companyWebsite="tytel.org"
               companyEmail="matthewtytel@gmail.com" defines="">
   <MAINGROUP id="CeypXq" name="Helm">
     <GROUP id="{F9396290-DE03-305A-7B02-8F0D1833F92B}" name="concurrentqueue">
@@ -421,7 +421,8 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="builds/osx" customPList="&lt;plist&gt;&#10;  &lt;dict&gt;&#10;    &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&#10;    &lt;dict&gt;&#10;      &lt;key&gt;NSExceptionDomains&lt;/key&gt;&#10;      &lt;dict&gt;&#10;        &lt;key&gt;tytel.org&lt;/key&gt;&#10;        &lt;dict&gt;&#10;          &lt;key&gt;NSIncludeSubDomains&lt;/key&gt;&#10;          &lt;false/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;&#10;          &lt;true/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;&#10;          &lt;string&gt;TLSv1.1&lt;/string&gt;&#10;        &lt;/dict&gt;&#10;      &lt;/dict&gt;&#10;    &lt;/dict&gt;&#10;  &lt;/dict&gt;&#10;&lt;/plist&gt;"
-               extraCompilerFlags="" extraLinkerFlags="">
+               extraCompilerFlags="" extraLinkerFlags="" iosDevelopmentTeamID="EFXDM6K3KJ"
+               smallIcon="" bigIcon="PwV9iC">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
                        isDebug="1" optimisation="1" targetName="Helm" headerPath=""

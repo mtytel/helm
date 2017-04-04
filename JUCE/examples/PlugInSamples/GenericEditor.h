@@ -43,6 +43,10 @@ public:
         {
             if (const AudioParameterFloat* param = dynamic_cast<AudioParameterFloat*>(params[i]))
             {
+                const bool isLevelMeter = (((param->category & 0xffff0000) >> 16) == 2);
+                if (isLevelMeter)
+                    continue;
+
                 Slider* aSlider;
 
                 paramSliders.add (aSlider = new Slider (param->name));
@@ -99,7 +103,12 @@ public:
     void sliderValueChanged (Slider* slider) override
     {
         if (AudioProcessorParameter* param = getParameterForSlider (slider))
-            param->setValueNotifyingHost ((float) slider->getValue());
+        {
+            if (slider->isMouseButtonDown())
+                param->setValueNotifyingHost ((float) slider->getValue());
+            else
+                param->setValue ((float) slider->getValue());
+        }
     }
 
     void sliderDragStarted (Slider* slider) override

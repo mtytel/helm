@@ -81,6 +81,7 @@ private:
 
 public:
     class CustomComponent;
+    class CustomCallback;
 
     //==============================================================================
     /** Creates an empty popup menu. */
@@ -133,6 +134,9 @@ public:
 
         /** A custom component for the item to display, or nullptr if there isn't one. */
         ReferenceCountedObjectPtr<CustomComponent> customComponent;
+
+        /** A custom callback for the item to use, or nullptr if there isn't one. */
+        ReferenceCountedObjectPtr<CustomCallback> customCallback;
 
         /** A command manager to use to automatically invoke the command, or nullptr if none is specified. */
         ApplicationCommandManager* commandManager;
@@ -238,7 +242,7 @@ public:
     */
     void addCommandItem (ApplicationCommandManager* commandManager,
                          CommandID commandID,
-                         const String& displayName = String::empty,
+                         const String& displayName = String(),
                          Drawable* iconToUse = nullptr);
 
 
@@ -380,18 +384,31 @@ public:
     public:
         Options();
 
+        //==============================================================================
         Options withTargetComponent (Component* targetComponent) const noexcept;
         Options withTargetScreenArea (const Rectangle<int>& targetArea) const noexcept;
         Options withMinimumWidth (int minWidth) const noexcept;
         Options withMaximumNumColumns (int maxNumColumns) const noexcept;
         Options withStandardItemHeight (int standardHeight) const noexcept;
         Options withItemThatMustBeVisible (int idOfItemToBeVisible) const noexcept;
+        Options withParentComponent (Component* parentComponent) const noexcept;
+
+        //==============================================================================
+        Component* getParentComponent() const noexcept          { return parentComponent; }
+        Component* getTargetComponent() const noexcept          { return targetComponent; }
+        Rectangle<int> getTargetScreenArea() const noexcept     { return targetArea; }
+        int getMinimumWidth() const noexcept                    { return minWidth; }
+        int getMaximumNumColumns() const noexcept               { return maxColumns; }
+        int getStandardItemHeight() const noexcept              { return standardHeight; }
+        int getItemThatMustBeVisible() const noexcept           { return visibleItemID; }
 
     private:
+        //==============================================================================
         friend class PopupMenu;
         friend class PopupMenu::Window;
         Rectangle<int> targetArea;
         Component* targetComponent;
+        Component* parentComponent;
         int visibleItemID, minWidth, maxColumns, standardHeight;
     };
 
@@ -422,12 +439,12 @@ public:
                                         in zero.
         @param standardItemHeight       if this is non-zero, it will be used as the standard
                                         height for menu items (apart from custom items)
-        @param callback                 if this is non-zero, the menu will be launched asynchronously,
-                                        returning immediately, and the callback will receive a
-                                        call when the menu is either dismissed or has an item
-                                        selected. This object will be owned and deleted by the
-                                        system, so make sure that it works safely and that any
-                                        pointers that it uses are safely within scope.
+        @param callback                 if this is not a nullptr, the menu will be launched
+                                        asynchronously, returning immediately, and the callback
+                                        will receive a call when the menu is either dismissed or
+                                        has an item selected. This object will be owned and
+                                        deleted by the system, so make sure that it works safely
+                                        and that any pointers that it uses are safely within scope.
         @see showAt
     */
     int show (int itemIDThatMustBeVisible = 0,
@@ -537,8 +554,13 @@ public:
 
             Be careful not to add any items to a menu while it is being iterated,
             or things could get out of step.
+
+            @param menu                 the menu that needs to be scanned
+
+            @param searchRecursively    if true, all submenus will be recursed into to
+                                        do an exhaustive search
         */
-        MenuItemIterator (const PopupMenu& menu);
+        MenuItemIterator (const PopupMenu& menu, bool searchRecursively = false);
 
         /** Destructor. */
         ~MenuItemIterator();
@@ -551,12 +573,15 @@ public:
         /** Returns a reference to the description of the current item.
             It is only valid to call this after next() has returned true!
         */
-        const Item& getItem() const noexcept;
+        Item& getItem() const noexcept;
 
     private:
         //==============================================================================
-        const PopupMenu& menu;
-        int index;
+        bool searchRecursively;
+
+        Array <int> index;
+        Array <const PopupMenu*> menus;
+        PopupMenu::Item *currentItem;
 
         MenuItemIterator& operator= (const MenuItemIterator&);
         JUCE_LEAK_DETECTOR (MenuItemIterator)
@@ -610,6 +635,26 @@ public:
         bool isHighlighted, triggeredAutomatically;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomComponent)
+    };
+
+    //==============================================================================
+    /** A user-defined callback that can be used for specific items in a popup menu.
+        @see PopupMenu::Item::customCallback
+    */
+    class JUCE_API  CustomCallback  : public SingleThreadedReferenceCountedObject
+    {
+    public:
+        CustomCallback();
+        ~CustomCallback();
+
+        /** Callback to indicate this item has been triggered.
+            @returns true if the itemID should be sent to the exitModalState method, or
+                     false if it should send 0, indicating no further action should be taken
+        */
+        virtual bool menuItemTriggered() = 0;
+
+    private:
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomCallback)
     };
 
     //==============================================================================
@@ -668,6 +713,10 @@ public:
                                       bool isMenuOpen,
                                       bool isMouseOverBar,
                                       MenuBarComponent&) = 0;
+
+        virtual Component* getParentComponentForMenuOptions (const PopupMenu::Options& options) = 0;
+
+        virtual void preparePopupMenuWindow (Component& newWindow) = 0;
     };
 
 private:

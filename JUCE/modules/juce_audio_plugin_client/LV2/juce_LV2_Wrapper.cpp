@@ -13,11 +13,17 @@
 #include "../utility/juce_CheckSettingMacros.h"
 #include "../../juce_core/system/juce_TargetPlatform.h" // for JUCE_LINUX
 
+
 #if JucePlugin_Build_LV2
 
 /** Plugin requires processing with a fixed/constant block size */
 #ifndef JucePlugin_WantsLV2FixedBlockSize
  #define JucePlugin_WantsLV2FixedBlockSize 0
+#endif
+
+/** Enable latency port */
+#ifndef JucePlugin_WantsLV2Latency
+ #define JucePlugin_WantsLV2Latency 1
 #endif
 
 /** Use non-parameter states */
@@ -238,7 +244,7 @@ const String makeManifestFile (AudioProcessor* const filter, const String& binar
 }
 
 /** Create the -plugin-.ttl file contents */
-const String makePluginFile (AudioProcessor* const filter)
+const String makePluginFile (AudioProcessor* const filter, const int maxNumInputChannels, const int maxNumOutputChannels)
 {
     const String& pluginURI(getPluginURI());
     String text;
@@ -312,7 +318,7 @@ const String makePluginFile (AudioProcessor* const filter)
     text += "\n";
 #endif
 
-    // Freewheel and latency ports
+    // Freewheel port
     text += "    lv2:port [\n";
     text += "        a lv2:InputPort, lv2:ControlPort ;\n";
     text += "        lv2:index " + String(portIndex++) + " ;\n";
@@ -323,8 +329,12 @@ const String makePluginFile (AudioProcessor* const filter)
     text += "        lv2:maximum 1.0 ;\n";
     text += "        lv2:designation <" LV2_CORE__freeWheeling "> ;\n";
     text += "        lv2:portProperty lv2:toggled, <" LV2_PORT_PROPS__notOnGUI "> ;\n";
-    text += "    ] ,\n";
-    text += "    [\n";
+    text += "    ] ;\n";
+    text += "\n";
+
+#if JucePlugin_WantsLV2Latency
+    // Latency port
+    text += "    lv2:port [\n";
     text += "        a lv2:OutputPort, lv2:ControlPort ;\n";
     text += "        lv2:index " + String(portIndex++) + " ;\n";
     text += "        lv2:symbol \"lv2_latency\" ;\n";
@@ -333,9 +343,10 @@ const String makePluginFile (AudioProcessor* const filter)
     text += "        lv2:portProperty lv2:reportsLatency, lv2:integer ;\n";
     text += "    ] ;\n";
     text += "\n";
+#endif
 
     // Audio inputs
-    for (int i=0; i < JucePlugin_MaxNumInputChannels; ++i)
+    for (int i=0; i < maxNumInputChannels; ++i)
     {
         if (i == 0)
             text += "    lv2:port [\n";
@@ -347,14 +358,14 @@ const String makePluginFile (AudioProcessor* const filter)
         text += "        lv2:symbol \"lv2_audio_in_" + String(i+1) + "\" ;\n";
         text += "        lv2:name \"Audio Input " + String(i+1) + "\" ;\n";
 
-        if (i+1 == JucePlugin_MaxNumInputChannels)
+        if (i+1 == maxNumInputChannels)
             text += "    ] ;\n\n";
         else
             text += "    ] ,\n";
     }
 
     // Audio outputs
-    for (int i=0; i < JucePlugin_MaxNumOutputChannels; ++i)
+    for (int i=0; i < maxNumOutputChannels; ++i)
     {
         if (i == 0)
             text += "    lv2:port [\n";
@@ -366,7 +377,7 @@ const String makePluginFile (AudioProcessor* const filter)
         text += "        lv2:symbol \"lv2_audio_out_" + String(i+1) + "\" ;\n";
         text += "        lv2:name \"Audio Output " + String(i+1) + "\" ;\n";
 
-        if (i+1 == JucePlugin_MaxNumOutputChannels)
+        if (i+1 == maxNumOutputChannels)
             text += "    ] ;\n\n";
         else
             text += "    ] ,\n";
@@ -509,7 +520,7 @@ void createLv2Files(const char* basename)
 
     std::cout << "Writing " << binary << ".ttl..."; std::cout.flush();
     std::fstream plugin(binaryTTL.toUTF8(), std::ios::out);
-    plugin << makePluginFile(filter) << std::endl;
+    plugin << makePluginFile(filter, JucePlugin_MaxNumInputChannels, JucePlugin_MaxNumOutputChannels) << std::endl;
     plugin.close();
     std::cout << " done!" << std::endl;
 
@@ -855,7 +866,10 @@ public:
 #if JucePlugin_ProducesMidiOutput
         controlPortOffset += 1;
 #endif
-        controlPortOffset += 2; // freewheel and latency
+        controlPortOffset += 1; // freewheel
+#if JucePlugin_WantsLV2Latency
+        controlPortOffset += 1;
+#endif
         controlPortOffset += JucePlugin_MaxNumInputChannels;
         controlPortOffset += JucePlugin_MaxNumOutputChannels;
 
@@ -1136,7 +1150,10 @@ public:
 #endif
 
         portFreewheel = nullptr;
-        portLatency   = nullptr;
+
+#if JucePlugin_WantsLV2Latency
+        portLatency = nullptr;
+#endif
 
         for (int i=0; i < numInChans; ++i)
             portAudioIns[i] = nullptr;
@@ -1267,11 +1284,13 @@ public:
             return;
         }
 
+#if JucePlugin_WantsLV2Latency
         if (portId == index++)
         {
             portLatency = (float*)dataLocation;
             return;
         }
+#endif
 
         for (int i=0; i < numInChans; ++i)
         {
@@ -1329,8 +1348,10 @@ public:
     {
         jassert (filter != nullptr);
 
+#if JucePlugin_WantsLV2Latency
         if (portLatency != nullptr)
             *portLatency = filter->getLatencySamples();
+#endif
 
         if (portFreewheel != nullptr)
             filter->setNonRealtime (*portFreewheel >= 0.5f);
@@ -1609,10 +1630,17 @@ public:
         }
 #endif
 
-        if (! midiEvents.isEmpty())
-        {
 #if JucePlugin_ProducesMidiOutput
-            if (portMidiOut != nullptr)
+        if (portMidiOut != nullptr)
+        {
+            const uint32_t capacity = portMidiOut->atom.size;
+
+            portMidiOut->atom.size = sizeof(LV2_Atom_Sequence_Body);
+            portMidiOut->atom.type = uridAtomSequence;
+            portMidiOut->body.unit = 0;
+            portMidiOut->body.pad  = 0;
+
+            if (! midiEvents.isEmpty())
             {
                 const uint8* midiEventData;
                 int midiEventSize, midiEventPosition;
@@ -1620,13 +1648,6 @@ public:
 
                 uint32_t size, offset = 0;
                 LV2_Atom_Event* aev;
-
-                const uint32_t capacity = portMidiOut->atom.size;
-
-                portMidiOut->atom.size = 0;
-                portMidiOut->atom.type = uridAtomSequence;
-                portMidiOut->body.unit = 0;
-                portMidiOut->body.pad  = 0;
 
                 while (i.getNextEvent (midiEventData, midiEventSize, midiEventPosition))
                 {
@@ -1645,8 +1666,13 @@ public:
                     offset += size;
                     portMidiOut->atom.size += size;
                 }
+
+                midiEvents.clear();
             }
+        } else
 #endif
+        if (! midiEvents.isEmpty())
+        {
             midiEvents.clear();
         }
     }
@@ -1657,6 +1683,8 @@ public:
     uint32_t lv2GetOptions (LV2_Options_Option* options)
     {
         // currently unused
+        ignoreUnused(options);
+
         return LV2_OPTIONS_SUCCESS;
     }
 
@@ -1815,6 +1843,7 @@ public:
         info = curPosInfo;
         return true;
 #else
+        ignoreUnused(info);
         return false;
 #endif
     }
@@ -1853,7 +1882,9 @@ private:
     LV2_Atom_Sequence* portMidiOut;
 #endif
     float* portFreewheel;
+#if JucePlugin_WantsLV2Latency
     float* portLatency;
+#endif
     float* portAudioIns[JucePlugin_MaxNumInputChannels];
     float* portAudioOuts[JucePlugin_MaxNumOutputChannels];
     Array<float*> portControls;

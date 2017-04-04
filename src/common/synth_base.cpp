@@ -155,6 +155,12 @@ void SynthBase::loadFromVar(juce::var state) {
     gui_interface->updateFullGui();
 }
 
+void SynthBase::loadFromFile(File patch_file) {
+  var parsed_json_state;
+  if (patch_file.exists() && JSON::parse(patch_file.loadFileAsString(), parsed_json_state).wasOk())
+    loadFromVar(parsed_json_state);
+}
+
 void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset) {
   if (engine_.getBufferSize() != samples)
     engine_.setBufferSize(samples);

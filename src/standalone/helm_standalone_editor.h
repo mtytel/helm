@@ -32,7 +32,7 @@ class HelmStandaloneEditor : public AudioAppComponent,
                              public SynthBase,
                              public SynthGuiInterface {
   public:
-    HelmStandaloneEditor(File patch);
+    HelmStandaloneEditor();
     ~HelmStandaloneEditor();
 
     // AudioAppComponent

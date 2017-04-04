@@ -4,8 +4,8 @@
     project - if you alter its contents, your changes may be overwritten!
 
     There's a section below where you can add your own custom code safely, and the
-    Introjucer will preserve the contents of that block, but the best way to change
-    any of these definitions is by using the Introjucer's project settings.
+    Projucer will preserve the contents of that block, but the best way to change
+    any of these definitions is by using the Projucer's project settings.
 
     Any commented-out settings will assume their default values.
 
@@ -39,8 +39,14 @@
 
 //==============================================================================
 #ifndef    JUCE_STANDALONE_APPLICATION
- #define   JUCE_STANDALONE_APPLICATION 0
+ #ifdef JucePlugin_Build_Standalone
+  #define  JUCE_STANDALONE_APPLICATION JucePlugin_Build_Standalone
+ #else
+  #define  JUCE_STANDALONE_APPLICATION 0
+ #endif
 #endif
+
+#define JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED 1
 
 //==============================================================================
 // juce_audio_devices flags:
@@ -73,14 +79,6 @@
  //#define JUCE_USE_ANDROID_OPENSLES
 #endif
 
-#ifndef    JUCE_USE_CDREADER
- //#define JUCE_USE_CDREADER
-#endif
-
-#ifndef    JUCE_USE_CDBURNER
- //#define JUCE_USE_CDBURNER
-#endif
-
 //==============================================================================
 // juce_audio_formats flags:
 
@@ -105,6 +103,17 @@
 #endif
 
 //==============================================================================
+// juce_audio_plugin_client flags:
+
+#ifndef    JUCE_FORCE_USE_LEGACY_PARAM_IDS
+ //#define JUCE_FORCE_USE_LEGACY_PARAM_IDS
+#endif
+
+#ifndef    JUCE_USE_STUDIO_ONE_COMPATIBLE_PARAMETERS
+ //#define JUCE_USE_STUDIO_ONE_COMPATIBLE_PARAMETERS
+#endif
+
+//==============================================================================
 // juce_audio_processors flags:
 
 #ifndef    JUCE_PLUGINHOST_VST
@@ -117,6 +126,17 @@
 
 #ifndef    JUCE_PLUGINHOST_AU
  //#define JUCE_PLUGINHOST_AU
+#endif
+
+//==============================================================================
+// juce_audio_utils flags:
+
+#ifndef    JUCE_USE_CDREADER
+ //#define JUCE_USE_CDREADER
+#endif
+
+#ifndef    JUCE_USE_CDBURNER
+ //#define JUCE_USE_CDBURNER
 #endif
 
 //==============================================================================
@@ -144,6 +164,14 @@
 
 #ifndef    JUCE_USE_CURL
  //#define JUCE_USE_CURL
+#endif
+
+#ifndef    JUCE_CATCH_UNHANDLED_EXCEPTIONS
+ //#define JUCE_CATCH_UNHANDLED_EXCEPTIONS
+#endif
+
+#ifndef    JUCE_ALLOW_STATIC_NULL_VARIABLES
+ //#define JUCE_ALLOW_STATIC_NULL_VARIABLES
 #endif
 
 //==============================================================================
@@ -200,11 +228,17 @@
 #ifndef  JucePlugin_Build_AU
  #define JucePlugin_Build_AU               1
 #endif
+#ifndef  JucePlugin_Build_AUv3
+ #define JucePlugin_Build_AUv3             0
+#endif
 #ifndef  JucePlugin_Build_RTAS
  #define JucePlugin_Build_RTAS             0
 #endif
 #ifndef  JucePlugin_Build_AAX
  #define JucePlugin_Build_AAX              1
+#endif
+#ifndef  JucePlugin_Build_STANDALONE
+ #define JucePlugin_Build_STANDALONE       0
 #endif
 #ifndef  JucePlugin_Name
  #define JucePlugin_Name                   "Helm"
@@ -222,10 +256,10 @@
  #define JucePlugin_ManufacturerEmail      "matthewtytel@gmail.com"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       'Tyte'
+ #define JucePlugin_ManufacturerCode       0x54797465 // 'Tyte'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             'Helm'
+ #define JucePlugin_PluginCode             0x48656c6d // 'Helm'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                1
@@ -243,13 +277,13 @@
  #define JucePlugin_EditorRequiresKeyboardFocus  0
 #endif
 #ifndef  JucePlugin_Version
- #define JucePlugin_Version                0.8.6
+ #define JucePlugin_Version                0.9.0
 #endif
 #ifndef  JucePlugin_VersionCode
- #define JucePlugin_VersionCode            0x806
+ #define JucePlugin_VersionCode            0x900
 #endif
 #ifndef  JucePlugin_VersionString
- #define JucePlugin_VersionString          "0.8.6"
+ #define JucePlugin_VersionString          "0.9.0"
 #endif
 #ifndef  JucePlugin_VSTUniqueID
  #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode

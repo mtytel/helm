@@ -1,27 +1,29 @@
 /*
   ==============================================================================
 
-   This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   This file is part of the JUCE library.
+   Copyright (c) 2016 - ROLI Ltd.
 
-   Permission to use, copy, modify, and/or distribute this software for any purpose with
-   or without fee is hereby granted, provided that the above copyright notice and this
-   permission notice appear in all copies.
+   Permission is granted to use this software under the terms of the ISC license
+   http://www.isc.org/downloads/software-support-policy/isc-license/
 
-   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
-   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
-   NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
-   DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-   IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
-   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+   Permission to use, copy, modify, and/or distribute this software for any
+   purpose with or without fee is hereby granted, provided that the above
+   copyright notice and this permission notice appear in all copies.
 
-   ------------------------------------------------------------------------------
+   THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD
+   TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+   FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT,
+   OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF
+   USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+   TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+   OF THIS SOFTWARE.
 
-   NOTE! This permissive ISC license applies ONLY to files within the juce_core module!
-   All other JUCE modules are covered by a dual GPL/commercial license, so if you are
-   using any other modules, be sure to check that you also comply with their license.
+   -----------------------------------------------------------------------------
 
-   For more details, visit www.juce.com
+   To release a closed-source product which uses other parts of JUCE not
+   licensed under the ISC terms, commercial licenses are available: visit
+   www.juce.com for more information.
 
   ==============================================================================
 */
@@ -407,6 +409,11 @@ bool XmlElement::writeToFile (const File& file,
             return false;
 
         writeToStream (out, dtdToUse, false, true, encodingType, lineWrapLength);
+
+        out.flush(); // (called explicitly to force an fsync on posix)
+
+        if (out.getStatus().failed())
+            return false;
     }
 
     return tempFile.overwriteTargetFileWithTemporary();
@@ -455,12 +462,22 @@ int XmlElement::getNumAttributes() const noexcept
     return attributes.size();
 }
 
+static const String& getEmptyStringRef() noexcept
+{
+   #if JUCE_ALLOW_STATIC_NULL_VARIABLES
+    return String::empty;
+   #else
+    static String empty;
+    return empty;
+   #endif
+}
+
 const String& XmlElement::getAttributeName (const int index) const noexcept
 {
     if (const XmlAttributeNode* const att = attributes [index])
         return att->name.toString();
 
-    return String::empty;
+    return getEmptyStringRef();
 }
 
 const String& XmlElement::getAttributeValue (const int index) const noexcept
@@ -468,7 +485,7 @@ const String& XmlElement::getAttributeValue (const int index) const noexcept
     if (const XmlAttributeNode* const att = attributes [index])
         return att->value;
 
-    return String::empty;
+    return getEmptyStringRef();
 }
 
 XmlElement::XmlAttributeNode* XmlElement::getAttribute (StringRef attributeName) const noexcept
@@ -491,7 +508,7 @@ const String& XmlElement::getStringAttribute (StringRef attributeName) const noe
     if (const XmlAttributeNode* att = getAttribute (attributeName))
         return att->value;
 
-    return String::empty;
+    return getEmptyStringRef();
 }
 
 String XmlElement::getStringAttribute (StringRef attributeName, const String& defaultReturnValue) const

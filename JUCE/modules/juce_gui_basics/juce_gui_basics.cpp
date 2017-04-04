@@ -31,6 +31,8 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
+#include "AppConfig.h"
+
 #define NS_FORMAT_FUNCTION(F,A) // To avoid spurious warnings from GCC
 
 #define JUCE_CORE_INCLUDE_OBJC_HELPERS 1
@@ -252,6 +254,11 @@ extern bool juce_areThereAnyAlwaysOnTopWindows();
 #include "application/juce_Application.cpp"
 #include "misc/juce_BubbleComponent.cpp"
 #include "misc/juce_DropShadower.cpp"
+
+// these classes are C++11-only
+#if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS && JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS && JUCE_COMPILER_SUPPORTS_LAMBDAS
+ #include "layout/juce_FlexBox.cpp"
+#endif
 
 #if JUCE_IOS || JUCE_WINDOWS
  #include "native/juce_MultiTouchMapper.h"
