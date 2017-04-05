@@ -28,7 +28,6 @@
 #include "synth_gui_interface.h"
 
 class HelmStandaloneEditor : public AudioAppComponent,
-                             public MessageListener,
                              public SynthBase,
                              public SynthGuiInterface {
   public:
@@ -41,9 +40,6 @@ class HelmStandaloneEditor : public AudioAppComponent,
     void releaseResources() override;
     void paint(Graphics& g) override;
     void resized() override;
-
-    // MessageListener
-    void handleMessage(const Message& message) override;
 
     // SynthBase
     const CriticalSection& getCriticalSection() override { return critical_section_; }

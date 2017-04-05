@@ -47,6 +47,7 @@ class SynthesisInterface  : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+    void setFocus() { grabKeyboardFocus(); }
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;

@@ -30,6 +30,7 @@ class SynthGuiInterface {
     SynthBase* getSynth() { return synth_; }
     virtual void updateFullGui();
     virtual void updateGuiControl(const std::string& name, mopo::mopo_float value);
+    void setFocus() { gui_->setFocus(); }
 
   protected:
     SynthBase* synth_;

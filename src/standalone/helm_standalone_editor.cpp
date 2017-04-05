@@ -64,7 +64,6 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   setWantsKeyboardFocus(true);
   grabKeyboardFocus();
   addKeyListener(computer_keyboard_);
-  postMessage(new Message());
   setOpaque(true);
 }
 
@@ -113,14 +112,4 @@ void HelmStandaloneEditor::resized() {
   double scale = std::min(double(bounds.getWidth()) / WIDTH, double(bounds.getHeight()) / HEIGHT);
   gui_->setTransform(AffineTransform::scale(scale));
   gui_->setBounds(Rectangle<int>(0, 0, bounds.getWidth() / scale, bounds.getHeight() / scale));
-}
-
-void HelmStandaloneEditor::handleMessage(const Message& message) {
-#ifdef JUCE_MAC
-  Thread::sleep(100);
-  if(!hasKeyboardFocus(false)) {
-    postMessage(new Message());
-    grabKeyboardFocus();
-  }
-#endif
 }
