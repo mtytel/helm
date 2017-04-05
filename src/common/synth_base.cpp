@@ -173,6 +173,14 @@ bool SynthBase::saveToFile(File patch) {
   if (patch.getFileExtension() != mopo::PATCH_EXTENSION)
     patch = patch.withFileExtension(String(mopo::PATCH_EXTENSION));
 
+  File parent = patch.getParentDirectory();
+  setFolderName(parent.getFileNameWithoutExtension());
+  setPatchName(patch.getFileNameWithoutExtension());
+
+  SynthGuiInterface* gui_interface = getGuiInterface();
+  if (gui_interface)
+    gui_interface->updateFullGui();
+
   return patch.replaceWithText(JSON::toString(saveToVar(save_info_["author"])));
 }
 
