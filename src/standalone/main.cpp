@@ -93,7 +93,9 @@ public:
   }
 
   void anotherInstanceStarted(const String& command_line) override {
-    String file_path = command_line.substring(1, command_line.length() - 1);
+    String file_path = command_line;
+    if (file_path[0] == '"' && file_path[file_path.length() - 1] == '"')
+        file_path = command_line.substring(1, command_line.length() - 1);
     File file = File::getCurrentWorkingDirectory().getChildFile(file_path);
     if (file.exists())
       mainWindow->loadFile(file);
