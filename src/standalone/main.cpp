@@ -25,6 +25,7 @@ class HelmApplication : public JUCEApplication {
     public:
       enum PatchCommands {
         kSave = 0x5001,
+        kSaveAs,
         kOpen,
       };
 
@@ -54,6 +55,7 @@ class HelmApplication : public JUCEApplication {
 
       void getAllCommands(Array<CommandID>& commands) override {
         commands.add(kSave);
+        commands.add(kSaveAs);
         commands.add(kOpen);
       }
 
@@ -61,6 +63,11 @@ class HelmApplication : public JUCEApplication {
         if (commandID == kSave) {
           result.setInfo(TRANS("Save"), TRANS("Saves the current patch"), "Application", 0);
           result.defaultKeypresses.add(KeyPress('s', ModifierKeys::commandModifier, 0));
+        }
+        else if (commandID == kSaveAs) {
+          result.setInfo(TRANS("Save As"), TRANS("Saves patch to a new file"), "Application", 0);
+          ModifierKeys modifier = ModifierKeys::commandModifier | ModifierKeys::shiftModifier;
+          result.defaultKeypresses.add(KeyPress('s', modifier, 0));
         }
         else if (commandID == kOpen) {
           result.setInfo(TRANS("Open"), TRANS("Opens a patch"), "Application", 0);
@@ -70,6 +77,11 @@ class HelmApplication : public JUCEApplication {
 
       bool perform(const InvocationInfo& info) override {
         if (info.commandID == kSave) {
+          editor->saveToActiveFile();
+          return true;
+        }
+        if (info.commandID == kSaveAs) {
+
           return true;
         }
         if (info.commandID == kOpen) {

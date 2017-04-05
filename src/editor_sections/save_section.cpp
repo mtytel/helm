@@ -202,9 +202,8 @@ void SaveSection::save() {
     return;
 
   File save_file = folder.getChildFile(patch_name);
-  if (save_file.getFileExtension() != mopo::PATCH_EXTENSION)
-    save_file = save_file.withFileExtension(String(mopo::PATCH_EXTENSION));
-  save_file.replaceWithText(JSON::toString(parent->getSynth()->saveToVar(author_->getText())));
+  parent->getSynth()->setAuthor(author_->getText());
+  parent->getSynth()->saveToFile(save_file);
 
   patch_name_->clear();
   setVisible(false);

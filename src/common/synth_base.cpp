@@ -154,6 +154,7 @@ void SynthBase::loadFromVar(juce::var state) {
 bool SynthBase::loadFromFile(File patch) {
   var parsed_json_state;
   if (patch.exists() && JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
+    active_file_ = patch;
     File parent = patch.getParentDirectory();
     loadFromVar(parsed_json_state);
     setFolderName(parent.getFileNameWithoutExtension());
@@ -166,6 +167,20 @@ bool SynthBase::loadFromFile(File patch) {
     return true;
   }
   return false;
+}
+
+bool SynthBase::saveToFile(File patch) {
+  if (patch.getFileExtension() != mopo::PATCH_EXTENSION)
+    patch = patch.withFileExtension(String(mopo::PATCH_EXTENSION));
+
+  return patch.replaceWithText(JSON::toString(saveToVar(save_info_["author"])));
+}
+
+bool SynthBase::saveToActiveFile() {
+  if (!active_file_.exists() || !active_file_.hasWriteAccess())
+    return false;
+
+  return saveToFile(active_file_);
 }
 
 void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset) {
