@@ -93,16 +93,19 @@ class HelmApplication : public JUCEApplication {
         if (info.commandID == kSave) {
           if (!editor->saveToActiveFile())
             saveAs();
+          grabKeyboardFocus();
           editor->setFocus();
           return true;
         }
         if (info.commandID == kSaveAs) {
           saveAs();
+          grabKeyboardFocus();
           editor->setFocus();
           return true;
         }
         if (info.commandID == kOpen) {
           open();
+          grabKeyboardFocus();
           editor->setFocus();
           return true;
         }
