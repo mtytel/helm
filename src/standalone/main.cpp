@@ -45,8 +45,8 @@ class HelmApplication : public JUCEApplication {
         JUCEApplication::getInstance()->systemRequestedQuit();
       }
 
-      void loadFile(File file) {
-        editor->loadFromFile(file);
+      bool loadFile(File file) {
+        return editor->loadFromFile(file);
       }
 
       ApplicationCommandTarget* getNextCommandTarget() override {
@@ -75,13 +75,23 @@ class HelmApplication : public JUCEApplication {
         }
       }
 
+      void saveAs() {
+        File active_file = editor->getActiveFile();
+        FileChooser save_box("Save Patch As", active_file.getParentDirectory());
+        if (save_box.browseForFileToSave(true)) {
+          File selected = save_box.getResult();
+          editor->saveToFile(selected);
+        }
+      }
+
       bool perform(const InvocationInfo& info) override {
         if (info.commandID == kSave) {
-          editor->saveToActiveFile();
+          if (!editor->saveToActiveFile())
+            saveAs();
           return true;
         }
         if (info.commandID == kSaveAs) {
-
+          saveAs();
           return true;
         }
         if (info.commandID == kOpen) {
@@ -126,21 +136,27 @@ class HelmApplication : public JUCEApplication {
         quit();
       }
       else {
+        bool visible = !command_line.contains("--headless");
+        main_window_ = new MainWindow(getApplicationName(), visible);
+
         StringArray args = getCommandLineParameterArray();
         File file;
 
         for (int i = 0; i < args.size(); ++i) {
-          if (args[i] != "" && args[i][0] != '-') {
-            file = File::getCurrentWorkingDirectory().getChildFile(args[i]);
-            if (file.exists())
-              break;
-          }
+          if (args[i] != "" && args[i][0] != '-' && loadFromCommandLine(args[i]))
+            return;
         }
-
-        bool visible = !command_line.contains("--headless");
-        main_window_ = new MainWindow(getApplicationName(), visible);
-        main_window_->loadFile(file);
       }
+    }
+
+    bool loadFromCommandLine(const String& command_line) {
+      String file_path = command_line;
+      if (file_path[0] == '"' && file_path[file_path.length() - 1] == '"')
+        file_path = command_line.substring(1, command_line.length() - 1);
+      File file = File::getCurrentWorkingDirectory().getChildFile(file_path);
+      if (file.exists())
+        return main_window_->loadFile(file);
+      return false;
     }
 
     void shutdown() override {
@@ -152,12 +168,7 @@ class HelmApplication : public JUCEApplication {
     }
 
     void anotherInstanceStarted(const String& command_line) override {
-      String file_path = command_line;
-      if (file_path[0] == '"' && file_path[file_path.length() - 1] == '"')
-        file_path = command_line.substring(1, command_line.length() - 1);
-      File file = File::getCurrentWorkingDirectory().getChildFile(file_path);
-      if (file.exists())
-        main_window_->loadFile(file);
+      loadFromCommandLine(command_line);
     }
     
   private:

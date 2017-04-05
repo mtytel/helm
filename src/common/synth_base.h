@@ -54,6 +54,7 @@ class SynthBase : public MidiManager::Listener {
     bool loadFromFile(File patch);
     bool saveToFile(File patch);
     bool saveToActiveFile();
+    File getActiveFile() { return active_file_; }
 
     virtual void beginChangeGesture(const std::string& name) { }
     virtual void endChangeGesture(const std::string& name) { }
