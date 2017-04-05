@@ -354,23 +354,26 @@ void PatchBrowser::loadNextPatch() {
 }
 
 void PatchBrowser::loadFromFile(File& patch) {
-  var parsed_json_state;
-  if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent == nullptr)
-      return;
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
 
-    SynthBase* synth = parent->getSynth();
-    synth->loadFromVar(parsed_json_state);
+  SynthBase* synth = parent->getSynth();
+
+  if (synth->loadFromFile(patch)) {
     synth->setPatchName(patch.getFileNameWithoutExtension());
     synth->setFolderName(patch.getParentDirectory().getFileName());
-    author_ = LoadSave::getAuthor(parsed_json_state);
-    license_ = LoadSave::getLicense(parsed_json_state);
-    synth->setAuthor(author_);
 
-    bool is_cc = license_.contains("creativecommons");
-    cc_license_link_->setVisible(is_cc);
-    gpl_license_link_->setVisible(!is_cc);
+    var parsed_json_state;
+    if (patch.exists() && JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
+      author_ = LoadSave::getAuthor(parsed_json_state);
+      license_ = LoadSave::getLicense(parsed_json_state);
+      synth->setAuthor(author_);
+
+      bool is_cc = license_.contains("creativecommons");
+      cc_license_link_->setVisible(is_cc);
+      gpl_license_link_->setVisible(!is_cc);
+    }
   }
 }
 

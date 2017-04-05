@@ -149,13 +149,9 @@ void SynthBase::loadFromVar(juce::var state) {
   getCriticalSection().enter();
   LoadSave::varToState(this, save_info_, state);
   getCriticalSection().exit();
-
-  SynthGuiInterface* gui_interface = getGuiInterface();
-  if (gui_interface)
-    gui_interface->updateFullGui();
 }
 
-void SynthBase::loadFromFile(File patch) {
+bool SynthBase::loadFromFile(File patch) {
   var parsed_json_state;
   if (patch.exists() && JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
     File parent = patch.getParentDirectory();
@@ -166,7 +162,10 @@ void SynthBase::loadFromFile(File patch) {
     SynthGuiInterface* gui_interface = getGuiInterface();
     if (gui_interface)
       gui_interface->updateFullGui();
+
+    return true;
   }
+  return false;
 }
 
 void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset) {

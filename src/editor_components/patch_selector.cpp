@@ -131,9 +131,6 @@ void PatchSelector::newPatchSelected(File patch) {
 }
 
 void PatchSelector::loadFromFile(File& patch) {
-  var parsed_json_state;
-  if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    parent->getSynth()->loadFromVar(parsed_json_state);
-  }
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  parent->getSynth()->loadFromFile(patch);
 }

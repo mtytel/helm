@@ -52,8 +52,7 @@ class SynthBase : public MidiManager::Listener {
     mopo::Output* getModSource(const std::string& name);
 
     var saveToVar(String author);
-    void loadFromVar(var state);
-    void loadFromFile(File patch_file);
+    bool loadFromFile(File patch_file);
 
     virtual void beginChangeGesture(const std::string& name) { }
     virtual void endChangeGesture(const std::string& name) { }
@@ -91,6 +90,7 @@ class SynthBase : public MidiManager::Listener {
   protected:
     virtual const CriticalSection& getCriticalSection() = 0;
     virtual SynthGuiInterface* getGuiInterface() = 0;
+    void loadFromVar(var state);
     mopo::ModulationConnection* getConnection(const std::string& source,
                                               const std::string& destination);
 
