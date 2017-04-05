@@ -422,7 +422,7 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="builds/osx" customPList="&lt;plist&gt;&#10;  &lt;dict&gt;&#10;    &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&#10;    &lt;dict&gt;&#10;      &lt;key&gt;NSExceptionDomains&lt;/key&gt;&#10;      &lt;dict&gt;&#10;        &lt;key&gt;tytel.org&lt;/key&gt;&#10;        &lt;dict&gt;&#10;          &lt;key&gt;NSIncludeSubDomains&lt;/key&gt;&#10;          &lt;false/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;&#10;          &lt;true/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;&#10;          &lt;string&gt;TLSv1.1&lt;/string&gt;&#10;        &lt;/dict&gt;&#10;      &lt;/dict&gt;&#10;    &lt;/dict&gt;&#10;  &lt;/dict&gt;&#10;&lt;/plist&gt;"
                extraCompilerFlags="" extraLinkerFlags="" iosDevelopmentTeamID="EFXDM6K3KJ"
-               smallIcon="" bigIcon="PwV9iC">
+               smallIcon="" bigIcon="PwV9iC" documentExtensions="helm">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
                        isDebug="1" optimisation="1" targetName="Helm" headerPath=""
