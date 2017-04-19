@@ -27,6 +27,7 @@
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
 #define BROWSING_HEIGHT 422.0f
 #define BROWSE_PADDING 8.0f
+#define BUTTON_HEIGHT 30.0f
 
 
 namespace {
@@ -118,6 +119,15 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   search_box_->setColour(TextEditor::outlineColourId, Colour(0xff888888));
   search_box_->setColour(TextEditor::focusedOutlineColourId, Colour(0xff888888));
   addAndMakeVisible(search_box_);
+
+  import_bank_button_ = new TextButton(TRANS("Import Bank"));
+  import_bank_button_->addListener(this);
+  addAndMakeVisible(import_bank_button_);
+
+  export_bank_button_ = new TextButton(TRANS("Export Bank"));
+  export_bank_button_->addListener(this);
+  addAndMakeVisible(export_bank_button_);
+  export_bank_button_->setEnabled(false);
 
   selectedFilesChanged(banks_model_);
   selectedFilesChanged(folders_model_);
@@ -214,9 +224,14 @@ void PatchBrowser::resized() {
   float width1 = getNarrowWidth();
   float width2 = getWideWidth();
   float height = BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
+  float bank_height = height - 2.0f * BUTTON_HEIGHT - BROWSE_PADDING;
   float search_box_height = 28.0f;
 
-  banks_view_->setBounds(start_x, BROWSE_PADDING, width1, height);
+  banks_view_->setBounds(start_x, BROWSE_PADDING, width1, bank_height);
+  import_bank_button_->setBounds(start_x, banks_view_->getBottom() + BROWSE_PADDING / 2.0f,
+                                 width1, BUTTON_HEIGHT);
+  export_bank_button_->setBounds(start_x, import_bank_button_->getBottom() + BROWSE_PADDING / 2.0f,
+                                 width1, BUTTON_HEIGHT);
   folders_view_->setBounds(start_x + width1 + BROWSE_PADDING, BROWSE_PADDING, width1, height);
 
   float patches_x = start_x + 2.0f * (width1 + BROWSE_PADDING);
@@ -232,11 +247,11 @@ void PatchBrowser::resized() {
                                200.0f, 20.0f);
 
   float button_width = (width2 - 3.0f * data_widget_buffer_x) / 2.0f;
-  save_as_button_->setBounds(data_x + data_widget_buffer_x, height - 30.0f,
-                             button_width, 30.0f);
+  save_as_button_->setBounds(data_x + data_widget_buffer_x, height - BUTTON_HEIGHT,
+                             button_width, BUTTON_HEIGHT);
   delete_patch_button_->setBounds(data_x + button_width + 2.0f * data_widget_buffer_x,
-                                  height - 30.0f,
-                                  button_width, 30.0f);
+                                  height - BUTTON_HEIGHT,
+                                  button_width, BUTTON_HEIGHT);
 
   hide_button_->setBounds(getWidth() - 21 - BROWSE_PADDING, BROWSE_PADDING, 20, 20);
 }
@@ -254,8 +269,10 @@ void PatchBrowser::visibilityChanged() {
 }
 
 void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
-  if (model == banks_model_)
+  if (model == banks_model_) {
     scanFolders();
+    export_bank_button_->setEnabled(banks_view_->getSelectedRows().size() == 1);
+  }
   if (model == banks_model_ || model == folders_model_)
     scanPatches();
   else if (model == patches_model_) {
@@ -305,6 +322,14 @@ void PatchBrowser::buttonClicked(Button* clicked_button) {
   }
   else if (clicked_button == hide_button_)
     setVisible(false);
+  else if (clicked_button == import_bank_button_) {
+
+  }
+  else if (clicked_button == export_bank_button_) {
+    Array<File> banks = getFoldersToScan(banks_view_, banks_model_);
+    if (banks.size())
+      LoadSave::exportBank(banks[0].getFileName());
+  }
 }
 
 bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
@@ -351,6 +376,10 @@ void PatchBrowser::loadNextPatch() {
   }
   else
     patches_view_->selectRow(0);
+}
+
+void PatchBrowser::externalPatchLoaded(File file) {
+
 }
 
 void PatchBrowser::loadFromFile(File& patch) {

@@ -40,6 +40,9 @@ SynthBase::SynthBase() {
 
 void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
   value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
+  SynthGuiInterface* gui_interface = getGuiInterface();
+  if (gui_interface)
+    gui_interface->notifyChange();
 }
 
 void SynthBase::valueChangedInternal(const std::string& name, mopo::mopo_float value) {
@@ -56,8 +59,10 @@ void SynthBase::valueChangedThroughMidi(const std::string& name, mopo::mopo_floa
 
 void SynthBase::patchChangedThroughMidi(File patch) {
   SynthGuiInterface* gui_interface = getGuiInterface();
-  if (gui_interface)
+  if (gui_interface) {
     gui_interface->updateFullGui();
+    gui_interface->notifyFresh();
+  }
 }
 
 void SynthBase::valueChangedExternal(const std::string& name, mopo::mopo_float value) {
@@ -161,8 +166,10 @@ bool SynthBase::loadFromFile(File patch) {
     setPatchName(patch.getFileNameWithoutExtension());
 
     SynthGuiInterface* gui_interface = getGuiInterface();
-    if (gui_interface)
+    if (gui_interface) {
       gui_interface->updateFullGui();
+      gui_interface->notifyFresh();
+    }
 
     return true;
   }
@@ -178,8 +185,10 @@ bool SynthBase::saveToFile(File patch) {
   setPatchName(patch.getFileNameWithoutExtension());
 
   SynthGuiInterface* gui_interface = getGuiInterface();
-  if (gui_interface)
+  if (gui_interface) {
     gui_interface->updateFullGui();
+    gui_interface->notifyFresh();
+  }
 
   return patch.replaceWithText(JSON::toString(saveToVar(save_info_["author"])));
 }

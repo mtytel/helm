@@ -23,6 +23,7 @@
 #define LINUX_FACTORY_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define USER_BANK_NAME "User Patches"
 #define LINUX_BANK_DIRECTORY "~/.helm/patches"
+#define EXPORTED_BANK_EXTENSION "helmbank"
 
 namespace {
 
@@ -532,6 +533,24 @@ File LoadSave::getUserBankDirectory() {
       folder_dir.getChildFile(patch_folder).createDirectory();
   }
   return folder_dir;
+}
+
+void LoadSave::exportBank(String bank_name) {
+  File banks_dir = getBankDirectory();
+  File bank = banks_dir.getChildFile(bank_name);
+  Array<File> patches;
+  bank.findChildFiles(patches, File::findFiles, true, String("*.") + mopo::PATCH_EXTENSION);
+  ZipFile::Builder zip_builder;
+
+  for (File patch : patches)
+    zip_builder.addFile(patch, 2, patch.getRelativePathFrom(banks_dir));
+
+  FileChooser save_box("Export Bank As", File::getSpecialLocation(File::userHomeDirectory));
+  if (save_box.browseForFileToSave(true)) {
+    FileOutputStream out_stream(save_box.getResult().withFileExtension(EXPORTED_BANK_EXTENSION));
+    double *progress = nullptr;
+    zip_builder.writeToStream(out_stream, progress);
+  }
 }
 
 int LoadSave::compareVersionStrings(String a, String b) {

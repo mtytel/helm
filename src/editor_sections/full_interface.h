@@ -52,6 +52,8 @@ class FullInterface : public SynthSection {
     void animate(bool animate = true) override;
     void resetModulations() { modulation_manager_->reset(); }
     void setFocus() { synthesis_interface_->setFocus(); }
+    void notifyChange() { patch_selector_->setModified(true); }
+    void notifyFresh() { patch_selector_->setModified(false); }
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;

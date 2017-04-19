@@ -221,7 +221,11 @@ void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
                                               const Colour &backgroundColour,
                                               bool isMouseOverButton,
                                               bool isButtonDown) {
-  g.fillAll(Colour(0xff323232));
+  if (button.isEnabled())
+    g.fillAll(Colour(0xff323232));
+  else
+    g.fillAll(Colour(0xff484848));
+
   g.setColour(Colour(0xff505050));
   g.drawRect(button.getLocalBounds());
 
@@ -234,7 +238,11 @@ void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
 void DefaultLookAndFeel::drawButtonText(Graphics& g, TextButton& button,
                                         bool isMouseOverButton, bool isButtonDown) {
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(14.0f));
-  g.setColour(Colour(0xffaaaaaa));
+  if (button.isEnabled())
+    g.setColour(Colour(0xffaaaaaa));
+  else
+    g.setColour(Colour(0xff666666));
+
   g.drawText(button.getName(), button.getLocalBounds(), Justification::centred, false);
 }
 

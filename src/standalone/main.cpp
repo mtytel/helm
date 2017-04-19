@@ -32,8 +32,8 @@ class HelmApplication : public JUCEApplication {
       MainWindow(String name, bool visible = true) :
           DocumentWindow(name, Colours::lightgrey, DocumentWindow::closeButton) {
         setUsingNativeTitleBar(true);
-        editor = new HelmStandaloneEditor();
-        setContentOwned(editor, true);
+        editor_ = new HelmStandaloneEditor();
+        setContentOwned(editor_, true);
         setResizable(true, true);
 
         centreWithSize(getWidth(), getHeight());
@@ -46,7 +46,7 @@ class HelmApplication : public JUCEApplication {
       }
 
       bool loadFile(File file) {
-        return editor->loadFromFile(file);
+        return editor_->loadFromFile(file);
       }
 
       ApplicationCommandTarget* getNextCommandTarget() override {
@@ -76,14 +76,14 @@ class HelmApplication : public JUCEApplication {
       }
 
       void saveAs() {
-        File active_file = editor->getActiveFile();
+        File active_file = editor_->getActiveFile();
         FileChooser save_box("Save Patch As", active_file.getParentDirectory());
         if (save_box.browseForFileToSave(true))
-          editor->saveToFile(save_box.getResult());
+          editor_->saveToFile(save_box.getResult());
       }
 
       void open() {
-        File active_file = editor->getActiveFile();
+        File active_file = editor_->getActiveFile();
         FileChooser open_box("Open Patch", active_file.getParentDirectory());
         if (open_box.browseForFileToOpen())
           loadFile(open_box.getResult());
@@ -91,22 +91,22 @@ class HelmApplication : public JUCEApplication {
 
       bool perform(const InvocationInfo& info) override {
         if (info.commandID == kSave) {
-          if (!editor->saveToActiveFile())
+          if (!editor_->saveToActiveFile())
             saveAs();
           grabKeyboardFocus();
-          editor->setFocus();
+          editor_->setFocus();
           return true;
         }
         if (info.commandID == kSaveAs) {
           saveAs();
           grabKeyboardFocus();
-          editor->setFocus();
+          editor_->setFocus();
           return true;
         }
         if (info.commandID == kOpen) {
           open();
           grabKeyboardFocus();
-          editor->setFocus();
+          editor_->setFocus();
           return true;
         }
 
@@ -118,12 +118,12 @@ class HelmApplication : public JUCEApplication {
         command_manager_->registerAllCommandsForTarget(JUCEApplication::getInstance());
         command_manager_->registerAllCommandsForTarget(this);
         addKeyListener(command_manager_->getKeyMappings());
-        editor->setFocus();
+        editor_->setFocus();
       }
 
     private:
       JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
-      HelmStandaloneEditor* editor;
+      HelmStandaloneEditor* editor_;
       ScopedPointer<ApplicationCommandManager> command_manager_;
     };
 

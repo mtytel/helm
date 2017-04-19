@@ -23,7 +23,7 @@
 #define TEXT_PADDING 4.0f
 
 PatchSelector::PatchSelector() : SynthSection("patch_selector"),
-                                 browser_(nullptr), save_section_(nullptr) {
+                                 browser_(nullptr), save_section_(nullptr), modified_(false) {
   setLookAndFeel(BrowserLookAndFeel::instance());
   addButton(prev_patch_ = new TextButton("prev_patch"));
   prev_patch_->setButtonText(TRANS("<"));
@@ -58,6 +58,11 @@ void PatchSelector::paintBackground(Graphics& g) {
 
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   patch_text_ = parent->getSynth()->getPatchName();
+  if (patch_text_ == "")
+    patch_text_ = TRANS("init");
+
+  if (modified_)
+    patch_text_ = "*" + patch_text_;
   folder_text_ = parent->getSynth()->getFolderName();
 
   g.setColour(Colour(0xff303030));
@@ -127,6 +132,14 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
 }
 
 void PatchSelector::newPatchSelected(File patch) {
+  reset();
+}
+
+void PatchSelector::setModified(bool modified) {
+  if (modified_ == modified)
+    return;
+
+  modified_ = modified;
   reset();
 }
 

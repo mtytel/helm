@@ -60,6 +60,7 @@ class PatchBrowser : public Component,
     File getSelectedPatch();
     void loadNextPatch();
     void loadPrevPatch();
+    void externalPatchLoaded(File file);
 
     void setListener(PatchSelectedListener* listener) { listener_ = listener; }
     void setSaveSection(SaveSection* save_section);
@@ -91,9 +92,12 @@ class PatchBrowser : public Component,
     DeleteSection* delete_section_;
     ScopedPointer<TextButton> save_as_button_;
     ScopedPointer<TextButton> delete_patch_button_;
+    ScopedPointer<TextButton> import_bank_button_;
+    ScopedPointer<TextButton> export_bank_button_;
 
     ScopedPointer<TextButton> hide_button_;
 
+    File external_patch_;
     String author_;
     String license_;
 
