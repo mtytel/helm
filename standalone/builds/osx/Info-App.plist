@@ -46,6 +46,7 @@
         <key>CFBundleTypeExtensions</key>
         <array>
           <string>helm</string>
+          <string>helmbank</string>
         </array>
         <key>CFBundleTypeName</key>
         <string>helm</string>

@@ -545,11 +545,21 @@ void LoadSave::exportBank(String bank_name) {
   for (File patch : patches)
     zip_builder.addFile(patch, 2, patch.getRelativePathFrom(banks_dir));
 
-  FileChooser save_box("Export Bank As", File::getSpecialLocation(File::userHomeDirectory));
+  FileChooser save_box("Export Bank As", File::getSpecialLocation(File::userHomeDirectory),
+                       String("*.") + EXPORTED_BANK_EXTENSION);
   if (save_box.browseForFileToSave(true)) {
     FileOutputStream out_stream(save_box.getResult().withFileExtension(EXPORTED_BANK_EXTENSION));
     double *progress = nullptr;
     zip_builder.writeToStream(out_stream, progress);
+  }
+}
+
+void LoadSave::importBank() {
+  FileChooser open_box("Import Bank", File::getSpecialLocation(File::userHomeDirectory),
+                       String("*.") + EXPORTED_BANK_EXTENSION);
+  if (open_box.browseForFileToOpen()) {
+    ZipFile zip_file(open_box.getResult());
+    zip_file.uncompressTo(getBankDirectory());
   }
 }
 

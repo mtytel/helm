@@ -68,8 +68,10 @@ class PatchBrowser : public Component,
 
   private:
     void loadFromFile(File& patch);
+    void scanBanks();
     void scanFolders();
     void scanPatches();
+    void scanAll();
     float getNarrowWidth();
     float getWideWidth();
 

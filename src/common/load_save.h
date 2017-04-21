@@ -81,6 +81,7 @@ class LoadSave {
     static File getBankDirectory();
     static File getUserBankDirectory();
     static void exportBank(String bank_name);
+    static void importBank();
     static int compareVersionStrings(String a, String b);
 
     static int getNumPatches();

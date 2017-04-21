@@ -81,7 +81,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   banks_model_->rescanFiles(bank_locations);
 
   banks_view_ = new ListBox("banks", banks_model_);
-  banks_view_->setMultipleSelectionEnabled(true);
+  banks_view_->setMultipleSelectionEnabled(false);
   banks_view_->setClickingTogglesRowSelection(true);
   banks_view_->updateContent();
   addAndMakeVisible(banks_view_);
@@ -300,14 +300,13 @@ void PatchBrowser::fileSaved(File saved_file) {
   patches_view_->deselectAllRows();
   folders_view_->deselectAllRows();
   banks_view_->deselectAllRows();
-  scanPatches();
+  scanAll();
   int index = patches_model_->getIndexOfFile(saved_file);
   patches_view_->selectRow(index);
 }
 
 void PatchBrowser::fileDeleted(File saved_file) {
-  scanFolders();
-  scanPatches();
+  scanAll();
 }
 
 void PatchBrowser::buttonClicked(Button* clicked_button) {
@@ -323,7 +322,8 @@ void PatchBrowser::buttonClicked(Button* clicked_button) {
   else if (clicked_button == hide_button_)
     setVisible(false);
   else if (clicked_button == import_bank_button_) {
-
+    LoadSave::importBank();
+    scanAll();
   }
   else if (clicked_button == export_bank_button_) {
     Array<File> banks = getFoldersToScan(banks_view_, banks_model_);
@@ -419,6 +419,15 @@ void PatchBrowser::setDeleteSection(DeleteSection* delete_section) {
   patches_model_->setDeleteSection(delete_section);
 }
 
+void PatchBrowser::scanBanks() {
+  Array<File> top_level;
+  top_level.add(LoadSave::getBankDirectory());
+  Array<File> banks_selected = getSelectedFolders(banks_view_, banks_model_);
+
+  banks_model_->rescanFiles(top_level);
+  banks_view_->updateContent();
+  setSelectedRows(banks_view_, banks_model_, banks_selected);
+}
 
 void PatchBrowser::scanFolders() {
   Array<File> banks = getFoldersToScan(banks_view_, banks_model_);
@@ -437,6 +446,12 @@ void PatchBrowser::scanPatches() {
   patches_model_->rescanFiles(folders, search, true);
   patches_view_->updateContent();
   setSelectedRows(patches_view_, patches_model_, patches_selected);
+}
+
+void PatchBrowser::scanAll() {
+  scanBanks();
+  scanFolders();
+  scanPatches();
 }
 
 float PatchBrowser::getNarrowWidth() {

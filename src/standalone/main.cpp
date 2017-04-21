@@ -77,14 +77,16 @@ class HelmApplication : public JUCEApplication {
 
       void saveAs() {
         File active_file = editor_->getActiveFile();
-        FileChooser save_box("Save Patch As", active_file.getParentDirectory());
+        FileChooser save_box("Save Patch As", active_file.getParentDirectory(),
+                             String("*.") + mopo::PATCH_EXTENSION);
         if (save_box.browseForFileToSave(true))
           editor_->saveToFile(save_box.getResult());
       }
 
       void open() {
         File active_file = editor_->getActiveFile();
-        FileChooser open_box("Open Patch", active_file.getParentDirectory());
+        FileChooser open_box("Open Patch", active_file.getParentDirectory(),
+                             String("*.") + mopo::PATCH_EXTENSION);
         if (open_box.browseForFileToOpen())
           loadFile(open_box.getResult());
       }
