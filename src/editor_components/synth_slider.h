@@ -41,9 +41,12 @@ class SynthSlider : public Slider {
     void valueChanged() override;
     String getTextFromValue(double value) override;
 
+    virtual double snapValue(double attemptedValue, DragMode dragMode) override;
+
     void drawShadow(Graphics& g);
     void drawRotaryShadow(Graphics& g);
     void drawRectangularShadow(Graphics& g);
+    void snapToZero(bool snap) { snap_to_zero_ = snap; }
 
     void setScalingType(mopo::ValueDetails::DisplaySkew scaling_type) {
       scaling_type_ = scaling_type;
@@ -78,6 +81,7 @@ class SynthSlider : public Slider {
     bool bipolar_;
     bool flip_coloring_;
     bool active_;
+    bool snap_to_zero_;
     String units_;
     mopo::ValueDetails::DisplaySkew scaling_type_;
     float post_multiply_;

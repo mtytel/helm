@@ -51,6 +51,7 @@ class SynthBase : public MidiManager::Listener {
   
     mopo::Output* getModSource(const std::string& name);
 
+    void loadInitPatch();
     bool loadFromFile(File patch);
     bool saveToFile(File patch);
     bool saveToActiveFile();

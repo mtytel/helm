@@ -139,6 +139,7 @@ void GraphicalStepSequencer::setStepSliders(std::vector<Slider*> sliders) {
   sequence_ = sliders;
   for (int i = 0; i < sliders.size(); ++i)
     sequence_[i]->addListener(this);
+  ensureMinSize();
   resetBackground();
 }
 
@@ -201,7 +202,9 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
   for (int step = selected_step; step != from_step + direction; step += direction) {
     if (step >= 0 && step < num_steps_) {
       float new_value = -2.0f * y / getHeight() + 1.0f;
-      sequence_[step]->setValue(std::max(std::min(new_value, 1.0f), -1.0f));
+      new_value = std::max(std::min(new_value, 1.0f), -1.0f);
+      new_value = sequence_[step]->snapValue(new_value, Slider::DragMode::absoluteDrag);
+      sequence_[step]->setValue(new_value);
     }
     y += inc_x * slope;
     inc_x = direction * getWidth() * 1.0f / num_steps_;

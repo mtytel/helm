@@ -38,7 +38,7 @@ namespace {
 } // namespace
 
 SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_coloring_(false),
-                                        active_(true),
+                                        active_(true), snap_to_zero_(false),
                                         string_lookup_(nullptr), parent_(nullptr) {
   if (!mopo::Parameters::isParameter(name.toStdString()))
     return;
@@ -173,6 +173,18 @@ String SynthSlider::getTextFromValue(double value) {
   display_value *= post_multiply_;
 
   return String(synthRound(display_value)) + " " + units_;
+}
+
+double SynthSlider::snapValue(double attemptedValue, DragMode dragMode) {
+  const double percent = 0.05;
+  if (!snap_to_zero_ || dragMode != DragMode::absoluteDrag)
+    return attemptedValue;
+
+  double range = getMaximum() - getMinimum();
+  double radius = percent * range;
+  if (attemptedValue <= radius && attemptedValue >= -radius)
+    return 0.0;
+  return attemptedValue;
 }
 
 void SynthSlider::drawShadow(Graphics &g) {

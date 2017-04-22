@@ -150,6 +150,12 @@ var SynthBase::saveToVar(String author) {
   return LoadSave::stateToVar(this, save_info_, getCriticalSection());
 }
 
+void SynthBase::loadInitPatch() {
+  getCriticalSection().enter();
+  LoadSave::initSynth(this, save_info_);
+  getCriticalSection().exit();
+}
+
 void SynthBase::loadFromVar(juce::var state) {
   getCriticalSection().enter();
   LoadSave::varToState(this, save_info_, state);

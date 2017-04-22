@@ -112,6 +112,20 @@ void LoadSave::loadSaveState(std::map<std::string, String>& state,
     state["folder_name"] = properties["folder_name"];
 }
 
+void LoadSave::initSynth(SynthBase* synth, std::map<std::string, String>& save_info) {
+  synth->clearModulations();
+
+  mopo::control_map controls = synth->getControls();
+  for (auto control : controls) {
+    mopo::ValueDetails details = mopo::Parameters::getDetails(control.first);
+    control.second->set(details.default_value);
+  }
+
+  save_info["author"] = "";
+  save_info["patch_name"] = TRANS("init");
+  save_info["folder_name"] = "";
+}
+
 void LoadSave::varToState(SynthBase* synth,
                           std::map<std::string, String>& save_info,
                           var state) {

@@ -113,7 +113,18 @@ void PatchSelector::reset() {
 }
 
 void PatchSelector::mouseUp(const MouseEvent& event) {
-  if (browser_)
+  if (event.mods.isPopupMenu()) {
+    PopupMenu m;
+    m.addItem(1, "Load Init Patch");
+    if (m.show()) {
+      SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+      parent->getSynth()->loadInitPatch();
+      browser_->externalPatchLoaded(File());
+      parent->updateFullGui();
+      parent->notifyFresh();
+    }
+  }
+  else if (browser_)
     browser_->setVisible(!browser_->isVisible());
 }
 

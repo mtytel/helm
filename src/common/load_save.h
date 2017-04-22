@@ -53,6 +53,8 @@ class LoadSave {
     static void loadSaveState(std::map<std::string, String>& save_info,
                               const NamedValueSet& properties);
 
+    static void initSynth(SynthBase* synth, std::map<std::string, String>& save_info);
+  
     static void varToState(SynthBase* synth,
                            std::map<std::string, String>& save_info,
                            var state);
