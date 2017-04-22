@@ -169,6 +169,7 @@ void GraphicalStepSequencer::resetBackground() {
   if (!background_.isValid())
     return;
 
+  ensureMinSize();
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   Graphics g(background_);
