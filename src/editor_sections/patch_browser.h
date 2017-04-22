@@ -56,8 +56,9 @@ class PatchBrowser : public Component,
 
     void buttonClicked(Button* clicked_button) override;
 
-    bool isPatchSelected() { return patches_view_->getSelectedRows().size(); }
+    bool isPatchSelected();
     File getSelectedPatch();
+    void jumpToPatch(int indices);
     void loadNextPatch();
     void loadPrevPatch();
     void externalPatchLoaded(File file);
@@ -68,6 +69,7 @@ class PatchBrowser : public Component,
 
   private:
     void loadFromFile(File& patch);
+    void setPatchInfo(File& patch);
     void scanBanks();
     void scanFolders();
     void scanPatches();

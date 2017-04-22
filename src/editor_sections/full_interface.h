@@ -54,6 +54,7 @@ class FullInterface : public SynthSection {
     void setFocus() { synthesis_interface_->setFocus(); }
     void notifyChange() { patch_selector_->setModified(true); }
     void notifyFresh() { patch_selector_->setModified(false); }
+    void externalPatchLoaded(File patch) { patch_browser_->externalPatchLoaded(patch); }
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;

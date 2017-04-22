@@ -46,7 +46,10 @@ class HelmApplication : public JUCEApplication {
       }
 
       bool loadFile(File file) {
-        return editor_->loadFromFile(file);
+        bool success = editor_->loadFromFile(file);
+        if (success)
+          editor_->externalPatchLoaded(file);
+        return success;
       }
 
       ApplicationCommandTarget* getNextCommandTarget() override {
@@ -77,7 +80,7 @@ class HelmApplication : public JUCEApplication {
 
       void saveAs() {
         File active_file = editor_->getActiveFile();
-        FileChooser save_box("Save Patch As", active_file.getParentDirectory(),
+        FileChooser save_box("Save Patch As", File(),
                              String("*.") + mopo::PATCH_EXTENSION);
         if (save_box.browseForFileToSave(true))
           editor_->saveToFile(save_box.getResult());
@@ -85,7 +88,7 @@ class HelmApplication : public JUCEApplication {
 
       void open() {
         File active_file = editor_->getActiveFile();
-        FileChooser open_box("Open Patch", active_file.getParentDirectory(),
+        FileChooser open_box("Open Patch", File(),
                              String("*.") + mopo::PATCH_EXTENSION);
         if (open_box.browseForFileToOpen())
           loadFile(open_box.getResult());

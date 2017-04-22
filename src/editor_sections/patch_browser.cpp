@@ -278,6 +278,7 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
   else if (model == patches_model_) {
     SparseSet<int> selected_rows = patches_view_->getSelectedRows();
     if (selected_rows.size()) {
+      external_patch_ = File();
       File patch = patches_model_->getFileAtRow(selected_rows[0]);
       loadFromFile(patch);
 
@@ -347,39 +348,59 @@ void PatchBrowser::mouseUp(const MouseEvent& e) {
     setVisible(false);
 }
 
+bool PatchBrowser::isPatchSelected() {
+  return external_patch_.exists() || patches_view_->getSelectedRows().size();
+}
+
 File PatchBrowser::getSelectedPatch() {
+  if (external_patch_.exists())
+    return external_patch_;
+
   SparseSet<int> selected_rows = patches_view_->getSelectedRows();
   if (selected_rows.size())
     return patches_model_->getFileAtRow(selected_rows[0]);
   return File();
 }
 
-void PatchBrowser::loadPrevPatch() {
-  SparseSet<int> selected_rows = patches_view_->getSelectedRows();
-  if (selected_rows.size()) {
-    int row = selected_rows[0] - 1;
-    if (row < 0)
-      row += patches_model_->getNumRows();
-    patches_view_->selectRow(row);
+void PatchBrowser::jumpToPatch(int indices) {
+  static const FileSorterAscending file_sorter;
+
+  File parent = external_patch_.getParentDirectory();
+  if (parent.exists()) {
+    Array<File> patches;
+    parent.findChildFiles(patches, File::findFiles, false, String("*.") + mopo::PATCH_EXTENSION);
+    patches.sort(file_sorter);
+    int index = patches.indexOf(external_patch_);
+    index = (index + indices + patches.size()) % patches.size();
+
+    File new_patch = patches[index];
+    loadFromFile(new_patch);
+    externalPatchLoaded(new_patch);
   }
-  else
-    patches_view_->selectRow(0);
+  else {
+    SparseSet<int> selected_rows = patches_view_->getSelectedRows();
+    if (selected_rows.size()) {
+      int num_rows = patches_model_->getNumRows();
+      int row = (selected_rows[0] + indices + num_rows) % num_rows;
+      patches_view_->selectRow(row);
+    }
+    else
+      patches_view_->selectRow(0);
+  }
+}
+
+void PatchBrowser::loadPrevPatch() {
+  jumpToPatch(-1);
 }
 
 void PatchBrowser::loadNextPatch() {
-  SparseSet<int> selected_rows = patches_view_->getSelectedRows();
-  if (selected_rows.size()) {
-    int row = selected_rows[0] + 1;
-    if (row >= patches_model_->getNumRows())
-      row -= patches_model_->getNumRows();
-    patches_view_->selectRow(row);
-  }
-  else
-    patches_view_->selectRow(0);
+  jumpToPatch(1);
 }
 
 void PatchBrowser::externalPatchLoaded(File file) {
-
+  external_patch_ = file;
+  patches_view_->deselectAllRows();
+  setPatchInfo(file);
 }
 
 void PatchBrowser::loadFromFile(File& patch) {
@@ -388,21 +409,23 @@ void PatchBrowser::loadFromFile(File& patch) {
     return;
 
   SynthBase* synth = parent->getSynth();
-
   if (synth->loadFromFile(patch)) {
+    setPatchInfo(patch);
     synth->setPatchName(patch.getFileNameWithoutExtension());
     synth->setFolderName(patch.getParentDirectory().getFileName());
+    synth->setAuthor(author_);
+  }
+}
 
-    var parsed_json_state;
-    if (patch.exists() && JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
-      author_ = LoadSave::getAuthor(parsed_json_state);
-      license_ = LoadSave::getLicense(parsed_json_state);
-      synth->setAuthor(author_);
+void PatchBrowser::setPatchInfo(File& patch) {
+  var parsed_json_state;
+  if (patch.exists() && JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk()) {
+    author_ = LoadSave::getAuthor(parsed_json_state);
+    license_ = LoadSave::getLicense(parsed_json_state);
 
-      bool is_cc = license_.contains("creativecommons");
-      cc_license_link_->setVisible(is_cc);
-      gpl_license_link_->setVisible(!is_cc);
-    }
+    bool is_cc = license_.contains("creativecommons");
+    cc_license_link_->setVisible(is_cc);
+    gpl_license_link_->setVisible(!is_cc);
   }
 }
 

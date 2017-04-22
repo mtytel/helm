@@ -33,6 +33,7 @@ class SynthGuiInterface {
     void setFocus() { gui_->setFocus(); }
     void notifyChange() { gui_->notifyChange(); }
     void notifyFresh() { gui_->notifyFresh(); }
+    void externalPatchLoaded(File patch) { gui_->externalPatchLoaded(patch); }
 
   protected:
     SynthBase* synth_;
