@@ -105,6 +105,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/startup_52cb2a28.o \
   $(JUCE_OBJDIR)/synth_base_c3ad3b73.o \
   $(JUCE_OBJDIR)/synth_gui_interface_6337839d.o \
+  $(JUCE_OBJDIR)/bpm_slider_64fb0d57.o \
   $(JUCE_OBJDIR)/filter_response_7394009c.o \
   $(JUCE_OBJDIR)/filter_selector_c70de13a.o \
   $(JUCE_OBJDIR)/global_tool_tip_5f078e04.o \
@@ -409,6 +410,11 @@ $(JUCE_OBJDIR)/synth_base_c3ad3b73.o: ../../../src/common/synth_base.cpp
 $(JUCE_OBJDIR)/synth_gui_interface_6337839d.o: ../../../src/common/synth_gui_interface.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_gui_interface.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/bpm_slider_64fb0d57.o: ../../../src/editor_components/bpm_slider.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling bpm_slider.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/filter_response_7394009c.o: ../../../src/editor_components/filter_response.cpp

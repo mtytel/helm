@@ -31,7 +31,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
   addSubSection(arp_section_ = new ArpSection("ARP"));
 
-  addSlider(beats_per_minute_ = new SynthSlider("beats_per_minute"));
+  addSlider(beats_per_minute_ = new BpmSlider("beats_per_minute"));
   beats_per_minute_->setSliderStyle(Slider::LinearBar);
   beats_per_minute_->setTextBoxStyle(Slider::TextBoxAbove, false, 150, 20);
   beats_per_minute_->setColour(Slider::textBoxTextColourId, Colours::white);

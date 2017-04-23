@@ -22,6 +22,7 @@
 
 #include "about_section.h"
 #include "arp_section.h"
+#include "bpm_slider.h"
 #include "global_tool_tip.h"
 #include "modulation_manager.h"
 #include "oscilloscope.h"
@@ -70,7 +71,7 @@ class FullInterface : public SynthSection {
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
     ScopedPointer<Oscilloscope> oscilloscope_;
-    ScopedPointer<SynthSlider> beats_per_minute_;
+    ScopedPointer<BpmSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<PatchSelector> patch_selector_;
     ScopedPointer<PatchBrowser> patch_browser_;

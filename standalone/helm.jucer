@@ -186,6 +186,8 @@
               file="../src/common/synth_gui_interface.h"/>
       </GROUP>
       <GROUP id="{8AAEEDEE-639E-1D43-0722-1CAC55AF1E8E}" name="editor_components">
+        <FILE id="sULNdV" name="bpm_slider.cpp" compile="1" resource="0" file="../src/editor_components/bpm_slider.cpp"/>
+        <FILE id="B4zrNy" name="bpm_slider.h" compile="0" resource="0" file="../src/editor_components/bpm_slider.h"/>
         <FILE id="yQH4BO" name="filter_response.cpp" compile="1" resource="0"
               file="../src/editor_components/filter_response.cpp"/>
         <FILE id="UZZi1m" name="filter_response.h" compile="0" resource="0"

@@ -520,6 +520,9 @@
     <ClCompile Include="..\..\src\common\synth_gui_interface.cpp">
       <Filter>HelmPlugin\src\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\bpm_slider.cpp">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
@@ -2672,6 +2675,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h">
       <Filter>HelmPlugin\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\bpm_slider.h">
+      <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_response.h">
       <Filter>HelmPlugin\src\editor_components</Filter>

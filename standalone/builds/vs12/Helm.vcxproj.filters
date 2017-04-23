@@ -508,6 +508,9 @@
     <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp">
       <Filter>Helm\src\common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\bpm_slider.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
@@ -2555,6 +2558,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\synth_gui_interface.h">
       <Filter>Helm\src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\bpm_slider.h">
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h">
       <Filter>Helm\src\editor_components</Filter>

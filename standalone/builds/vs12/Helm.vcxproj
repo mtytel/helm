@@ -227,6 +227,7 @@
     <ClCompile Include="..\..\..\src\common\startup.cpp"/>
     <ClCompile Include="..\..\..\src\common\synth_base.cpp"/>
     <ClCompile Include="..\..\..\src\common\synth_gui_interface.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\bpm_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\global_tool_tip.cpp"/>
@@ -1897,6 +1898,7 @@
     <ClInclude Include="..\..\..\src\common\startup.h"/>
     <ClInclude Include="..\..\..\src\common\synth_base.h"/>
     <ClInclude Include="..\..\..\src\common\synth_gui_interface.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\bpm_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\global_tool_tip.h"/>
