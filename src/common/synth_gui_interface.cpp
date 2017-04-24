@@ -35,7 +35,7 @@ void SynthGuiInterface::updateFullGui() {
 }
 
 void SynthGuiInterface::updateGuiControl(const std::string& name, mopo::mopo_float value) {
-  gui_->setValue(name, value, NotificationType::dontSendNotification);
+  gui_->setValue(name, value, NotificationType::sendNotificationAsync);
 }
 
 mopo::mopo_float SynthGuiInterface::getControlValue(const std::string& name) {
