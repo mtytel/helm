@@ -23,8 +23,8 @@
 namespace mopo {
 
   /*
-   * This class implements the virtual analog model presented in:
-   * "An Improved Virtual Analog Model of the Moog Ladder Filter"
+   * This ladder filter implementation is based on the version in:
+   * An Improved Virtual Analog Model of the Moog Ladder Filter
    * Authors: Stefano D'Angelo, Vesa Välimäki
    */
 
@@ -58,6 +58,7 @@ namespace mopo {
       double delta_v_[4];
       double tanh_v_[4];
       mopo_float g_;
+      mopo_float resonance_multiple_;
   };
 } // namespace mopo
 

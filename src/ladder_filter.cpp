@@ -23,23 +23,22 @@
 #define MAX_RESONANCE 4.0
 #define MIN_CUTTOFF 1.0
 
-#define TWO_TERMAL_VOLTAGE 0.624
+#define TWO_THERMAL_VOLTAGE 0.624
 
 namespace mopo {
 
   LadderFilter::LadderFilter() : Processor(LadderFilter::kNumInputs, 1) {
-    current_cutoff_ = 0.0;
     current_resonance_ = 0.0;
     reset();
   }
 
   void LadderFilter::process() {
     mopo_float cutoff = utils::clamp(input(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
-    mopo_float resonance = utils::clamp(input(kResonance)->at(0) / 4.0,
-                                        MIN_RESONANCE, MAX_RESONANCE);
 
     mopo_float g = g_;
     computeCoefficients(cutoff);
+    mopo_float resonance = utils::clamp(resonance_multiple_ * input(kResonance)->at(0) / 4.0,
+                                        MIN_RESONANCE, MAX_RESONANCE);
     mopo_float delta_resonance = (resonance - current_resonance_) / buffer_size_;
     mopo_float delta_g = (g_ - g) / buffer_size_;
 
@@ -55,17 +54,21 @@ namespace mopo {
         g += delta_g;
         current_resonance_ += delta_resonance;
         tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
+        tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
       }
 
       reset();
 
-      for (; i < buffer_size_; ++i)
+      for (; i < buffer_size_; ++i) {
         tick(i, dest, audio_buffer, g_, resonance, two_sr);
+        tick(i, dest, audio_buffer, g_, resonance, two_sr);
+      }
     }
     else {
       for (int i = 0; i < buffer_size_; ++i) {
         g += delta_g;
         current_resonance_ += delta_resonance;
+        tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
         tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
       }
     }
@@ -77,25 +80,25 @@ namespace mopo {
                                  mopo_float g, mopo_float resonance, mopo_float two_sr) {
     mopo_float audio = audio_buffer[i];
 
-    mopo_float delta_v0 = -g * (tanh((audio + resonance * v_[3]) / TWO_TERMAL_VOLTAGE) + tanh_v_[0]);
+    mopo_float delta_v0 = -g * (tanh((audio + resonance * v_[3]) / TWO_THERMAL_VOLTAGE) + tanh_v_[0]);
     v_[0] += (delta_v0 + delta_v_[0]) / two_sr;
     delta_v_[0] = delta_v0;
-    tanh_v_[0] = tanh(v_[0] / TWO_TERMAL_VOLTAGE);
+    tanh_v_[0] = tanh(v_[0] / TWO_THERMAL_VOLTAGE);
 
     mopo_float delta_v1 = g * (tanh_v_[0] - tanh_v_[1]);
     v_[1] += (delta_v1 + delta_v_[1]) / two_sr;
     delta_v_[1] = delta_v1;
-    tanh_v_[1] = tanh(v_[1] / TWO_TERMAL_VOLTAGE);
+    tanh_v_[1] = tanh(v_[1] / TWO_THERMAL_VOLTAGE);
 
     mopo_float delta_v2 = g * (tanh_v_[1] - tanh_v_[2]);
     v_[2] += (delta_v2 + delta_v_[2]) / two_sr;
     delta_v_[2] = delta_v2;
-    tanh_v_[2] = tanh(v_[2] / TWO_TERMAL_VOLTAGE);
+    tanh_v_[2] = tanh(v_[2] / TWO_THERMAL_VOLTAGE);
 
     mopo_float delta_v3 = g * (tanh_v_[2] - tanh_v_[3]);
     v_[3] += (delta_v3 + delta_v_[3]) / two_sr;
     delta_v_[3] = delta_v3;
-    tanh_v_[3] = tanh(v_[3] / TWO_TERMAL_VOLTAGE);
+    tanh_v_[3] = tanh(v_[3] / TWO_THERMAL_VOLTAGE);
 
     dest[i] = v_[3];
   }
@@ -103,9 +106,9 @@ namespace mopo {
   void LadderFilter::computeCoefficients(mopo_float cutoff) {
     MOPO_ASSERT(cutoff > 0.0);
 
-    current_cutoff_ = cutoff;
-    mopo_float delta_phase = (mopo::PI * cutoff) / sample_rate_;
-    g_ = 2.0 * mopo::PI * TWO_TERMAL_VOLTAGE * cutoff * (1.0 - delta_phase) / (1.0 + delta_phase);
+    mopo_float delta_phase = (mopo::PI * cutoff * 0.5) / sample_rate_;
+    resonance_multiple_ = 1.0 / (-1.273 * delta_phase * delta_phase + 3.5 * delta_phase + 0.7);
+    g_ = mopo::PI * TWO_THERMAL_VOLTAGE * cutoff * (1.0 - delta_phase) / (1.0 + delta_phase);
   }
 
   void LadderFilter::reset() {
