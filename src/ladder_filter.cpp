@@ -1,0 +1,117 @@
+/* Copyright 2013-2017 Matt Tytel
+ *
+ * mopo is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mopo is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "ladder_filter.h"
+#include "utils.h"
+
+#include <cmath>
+
+#define MIN_RESONANCE 0.0
+#define MAX_RESONANCE 4.0
+#define MIN_CUTTOFF 1.0
+
+#define TWO_TERMAL_VOLTAGE 0.624
+
+namespace mopo {
+
+  LadderFilter::LadderFilter() : Processor(LadderFilter::kNumInputs, 1) {
+    current_cutoff_ = 0.0;
+    current_resonance_ = 0.0;
+    reset();
+  }
+
+  void LadderFilter::process() {
+    mopo_float cutoff = utils::clamp(input(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
+    mopo_float resonance = utils::clamp(input(kResonance)->at(0) / 4.0,
+                                        MIN_RESONANCE, MAX_RESONANCE);
+
+    mopo_float g = g_;
+    computeCoefficients(cutoff);
+    mopo_float delta_resonance = (resonance - current_resonance_) / buffer_size_;
+    mopo_float delta_g = (g_ - g) / buffer_size_;
+
+    const mopo_float* audio_buffer = input(kAudio)->source->buffer;
+    mopo_float* dest = output()->buffer;
+    double two_sr = sample_rate_ * 2.0;
+    if (inputs_->at(kReset)->source->triggered &&
+        inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
+
+      int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
+      int i = 0;
+      for (; i < trigger_offset; ++i) {
+        g += delta_g;
+        current_resonance_ += delta_resonance;
+        tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
+      }
+
+      reset();
+
+      for (; i < buffer_size_; ++i)
+        tick(i, dest, audio_buffer, g_, resonance, two_sr);
+    }
+    else {
+      for (int i = 0; i < buffer_size_; ++i) {
+        g += delta_g;
+        current_resonance_ += delta_resonance;
+        tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
+      }
+    }
+
+    current_resonance_ = resonance;
+  }
+
+  inline void LadderFilter::tick(int i, mopo_float* dest, const mopo_float* audio_buffer,
+                                 mopo_float g, mopo_float resonance, mopo_float two_sr) {
+    mopo_float audio = audio_buffer[i];
+
+    mopo_float delta_v0 = -g * (tanh((audio + resonance * v_[3]) / TWO_TERMAL_VOLTAGE) + tanh_v_[0]);
+    v_[0] += (delta_v0 + delta_v_[0]) / two_sr;
+    delta_v_[0] = delta_v0;
+    tanh_v_[0] = tanh(v_[0] / TWO_TERMAL_VOLTAGE);
+
+    mopo_float delta_v1 = g * (tanh_v_[0] - tanh_v_[1]);
+    v_[1] += (delta_v1 + delta_v_[1]) / two_sr;
+    delta_v_[1] = delta_v1;
+    tanh_v_[1] = tanh(v_[1] / TWO_TERMAL_VOLTAGE);
+
+    mopo_float delta_v2 = g * (tanh_v_[1] - tanh_v_[2]);
+    v_[2] += (delta_v2 + delta_v_[2]) / two_sr;
+    delta_v_[2] = delta_v2;
+    tanh_v_[2] = tanh(v_[2] / TWO_TERMAL_VOLTAGE);
+
+    mopo_float delta_v3 = g * (tanh_v_[2] - tanh_v_[3]);
+    v_[3] += (delta_v3 + delta_v_[3]) / two_sr;
+    delta_v_[3] = delta_v3;
+    tanh_v_[3] = tanh(v_[3] / TWO_TERMAL_VOLTAGE);
+
+    dest[i] = v_[3];
+  }
+
+  void LadderFilter::computeCoefficients(mopo_float cutoff) {
+    MOPO_ASSERT(cutoff > 0.0);
+
+    current_cutoff_ = cutoff;
+    mopo_float delta_phase = (mopo::PI * cutoff) / sample_rate_;
+    g_ = 2.0 * mopo::PI * TWO_TERMAL_VOLTAGE * cutoff * (1.0 - delta_phase) / (1.0 + delta_phase);
+  }
+
+  void LadderFilter::reset() {
+    memset(v_, 0, sizeof(v_));
+    memset(delta_v_, 0, sizeof(delta_v_));
+    memset(tanh_v_, 0, sizeof(tanh_v_));
+  }
+
+} // namespace mopo
