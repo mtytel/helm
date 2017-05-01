@@ -17,6 +17,7 @@
 #include "helm_voice_handler.h"
 
 #include "fixed_point_oscillator.h"
+#include "ladder_filter.h"
 #include "noise_oscillator.h"
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
@@ -42,10 +43,10 @@ namespace mopo {
     };
 
     static const cr::Value formant_filter_types[NUM_FORMANTS] = {
-      cr::Value(Filter::kGainedBandPass),
-      cr::Value(Filter::kGainedBandPass),
-      cr::Value(Filter::kGainedBandPass),
-      cr::Value(Filter::kGainedBandPass)
+      cr::Value(BiquadFilter::kGainedBandPass),
+      cr::Value(BiquadFilter::kGainedBandPass),
+      cr::Value(BiquadFilter::kGainedBandPass),
+      cr::Value(BiquadFilter::kGainedBandPass)
     };
 
     static const Value formant_a_decibels(-4.0f);
@@ -461,13 +462,19 @@ namespace mopo {
     saturated_audio->plug(audio, 0);
     saturated_audio->plug(smooth_saturation_magnitude, 1);
 
-    Filter* filter = new Filter();
-    filter->plug(saturated_audio, Filter::kAudio);
-    filter->plug(filter_type, Filter::kType);
-    filter->plug(reset, Filter::kReset);
-    filter->plug(frequency_cutoff, Filter::kCutoff);
-    filter->plug(final_resonance, Filter::kResonance);
-    filter->plug(final_gain, Filter::kGain);
+    LadderFilter* ladder = new LadderFilter();
+    ladder->plug(saturated_audio, LadderFilter::kAudio);
+    ladder->plug(reset, LadderFilter::kReset);
+    ladder->plug(frequency_cutoff, LadderFilter::kCutoff);
+    ladder->plug(final_resonance, LadderFilter::kResonance);
+
+    StateVariableFilter* filter = new StateVariableFilter();
+    filter->plug(saturated_audio, BiquadFilter::kAudio);
+    filter->plug(filter_type, BiquadFilter::kType);
+    filter->plug(reset, BiquadFilter::kReset);
+    filter->plug(frequency_cutoff, BiquadFilter::kCutoff);
+    filter->plug(final_resonance, BiquadFilter::kResonance);
+    filter->plug(final_gain, BiquadFilter::kGain);
 
     addProcessor(current_keytrack);
     addProcessor(saturated_audio);
@@ -479,6 +486,7 @@ namespace mopo {
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter);
+    addProcessor(ladder);
 
     addProcessor(saturation_magnitude);
     addProcessor(smooth_saturation_magnitude);
@@ -565,10 +573,10 @@ namespace mopo {
       cr::MidiScale* formant_frequency = new cr::MidiScale();
       formant_frequency->plug(formant_midi);
 
-      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], Filter::kType);
-      formant_filter_->getFormant(i)->plug(formant_magnitude, Filter::kGain);
-      formant_filter_->getFormant(i)->plug(formant_q, Filter::kResonance);
-      formant_filter_->getFormant(i)->plug(formant_frequency, Filter::kCutoff);
+      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], BiquadFilter::kType);
+      formant_filter_->getFormant(i)->plug(formant_magnitude, BiquadFilter::kGain);
+      formant_filter_->getFormant(i)->plug(formant_q, BiquadFilter::kResonance);
+      formant_filter_->getFormant(i)->plug(formant_frequency, BiquadFilter::kCutoff);
 
       addProcessor(formant_gain);
       addProcessor(formant_magnitude);

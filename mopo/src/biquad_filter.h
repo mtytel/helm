@@ -15,17 +15,18 @@
  */
 
 #pragma once
-#ifndef FILTER_H
-#define FILTER_H
+#ifndef BIQUAD_FILTER_H
+#define BIQUAD_FILTER_H
 
 #include "processor.h"
+#include "utils.h"
 
 #include <complex>
 
 namespace mopo {
 
   // Implements RBJ biquad filters of different types.
-  class Filter : public Processor {
+  class BiquadFilter : public Processor {
     public:
       enum Inputs {
         kAudio,
@@ -50,8 +51,8 @@ namespace mopo {
         kNumTypes,
       };
 
-      Filter();
-      virtual ~Filter() { }
+      BiquadFilter();
+      virtual ~BiquadFilter() { }
 
       std::complex<mopo_float> getResponse(mopo_float frequency);
 
@@ -63,7 +64,7 @@ namespace mopo {
         return std::arg(getResponse(frequency));
       }
 
-      virtual Processor* clone() const { return new Filter(*this); }
+      virtual Processor* clone() const { return new BiquadFilter(*this); }
       virtual void process();
 
       void computeCoefficients(Type type,
@@ -71,19 +72,7 @@ namespace mopo {
                                mopo_float resonance,
                                mopo_float gain);
 
-      inline void tick(int i, mopo_float* dest, const mopo_float* audio_buffer) {
-        mopo_float audio = audio_buffer[i];
-        mopo_float out = audio * in_0_ +
-                         past_in_1_ * in_1_ +
-                         past_in_2_ * in_2_ -
-                         past_out_1_ * out_1_ -
-                         past_out_2_ * out_2_;
-        past_in_2_ = past_in_1_;
-        past_in_1_ = audio;
-        past_out_2_ = past_out_1_;
-        past_out_1_ = out;
-        dest[i] = out;
-      }
+      inline void tick(int i, mopo_float* dest, const mopo_float* audio_buffer);
 
     private:
       void reset();
@@ -105,4 +94,4 @@ namespace mopo {
   };
 } // namespace mopo
 
-#endif // FILTER_H
+#endif // BIQUAD_FILTER_H

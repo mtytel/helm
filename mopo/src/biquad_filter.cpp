@@ -14,7 +14,7 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "filter.h"
+#include "biquad_filter.h"
 #include "utils.h"
 
 #include <cmath>
@@ -25,7 +25,7 @@
 
 namespace mopo {
 
-  Filter::Filter() : Processor(Filter::kNumInputs, 1) {
+  BiquadFilter::BiquadFilter() : Processor(BiquadFilter::kNumInputs, 1) {
     current_type_ = kNumTypes;
     current_cutoff_ = 0.0;
     current_resonance_ = 0.0;
@@ -41,7 +41,7 @@ namespace mopo {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
   }
 
-  std::complex<mopo_float> Filter::getResponse(mopo_float frequency) {
+  std::complex<mopo_float> BiquadFilter::getResponse(mopo_float frequency) {
     static const std::complex<mopo_float> one(1.0, 0.0);
     const mopo_float phase_delta = 2.0 * PI * frequency / sample_rate_;
     const std::complex<mopo_float> freq_tick1 = std::polar(mopo_float(1.0), -phase_delta);
@@ -51,7 +51,7 @@ namespace mopo {
            (one + target_out_1_ * freq_tick1 + target_out_2_ * freq_tick2);
   }
 
-  void Filter::process() {
+  void BiquadFilter::process() {
     current_type_ = static_cast<Type>(static_cast<int>(input(kType)->at(0)));
     mopo_float cutoff = utils::clamp(input(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
     mopo_float resonance = utils::clamp(input(kResonance)->at(0),
@@ -96,7 +96,7 @@ namespace mopo {
     }
   }
 
-  void Filter::computeCoefficients(Type type,
+  void BiquadFilter::computeCoefficients(Type type,
                                    mopo_float cutoff,
                                    mopo_float resonance,
                                    mopo_float gain) {
@@ -220,7 +220,21 @@ namespace mopo {
     current_resonance_ = resonance;
   }
 
-  void Filter::reset() {
+  inline void BiquadFilter::tick(int i, mopo_float* dest, const mopo_float* audio_buffer) {
+    mopo_float audio = audio_buffer[i];
+    mopo_float out = audio * in_0_ +
+                     past_in_1_ * in_1_ +
+                     past_in_2_ * in_2_ -
+                     past_out_1_ * out_1_ -
+                     past_out_2_ * out_2_;
+    past_in_2_ = past_in_1_;
+    past_in_1_ = audio;
+    past_out_2_ = past_out_1_;
+    past_out_1_ = out;
+    dest[i] = out;
+  }
+
+  void BiquadFilter::reset() {
     past_in_1_ = past_in_2_ = past_out_1_ = past_out_2_ = 0.0;
 
     in_0_ = target_in_0_;

@@ -16,7 +16,7 @@
 
 #include "formant_manager.h"
 
-#include "filter.h"
+#include "biquad_filter.h"
 #include "operators.h"
 
 namespace mopo {
@@ -33,9 +33,9 @@ namespace mopo {
 
     VariableAdd* total = new VariableAdd(num_formants);
     for (int i = 0; i < num_formants; ++i) {
-      Filter* formant = new Filter();
-      formant->plug(audio_input, Filter::kAudio);
-      formant->plug(reset_input, Filter::kReset);
+      BiquadFilter* formant = new BiquadFilter();
+      formant->plug(audio_input, BiquadFilter::kAudio);
+      formant->plug(reset_input, BiquadFilter::kReset);
       formants_.push_back(formant);
 
       addProcessor(formant);

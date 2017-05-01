@@ -241,7 +241,7 @@ namespace mopo {
     // Soft Clipping.
     Distortion* distorted_clamp_left = new Distortion();
     static const cr::Value distortion_type(Distortion::kTanh);
-    static const cr::Value distortion_threshold(0.7);
+    static const cr::Value distortion_threshold(0.0);
     distorted_clamp_left->plug(reverb_container->output(0), Distortion::kAudio);
     distorted_clamp_left->plug(&distortion_type, Distortion::kType);
     distorted_clamp_left->plug(&distortion_threshold, Distortion::kThreshold);

@@ -149,15 +149,15 @@ void FilterResponse::computeFilterCoefficients() {
   if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr || filter_type_slider_ == nullptr)
     return;
 
-  mopo::Filter::Type type = static_cast<mopo::Filter::Type>(
-                            static_cast<int>(filter_type_slider_->getValue()));
+  mopo::BiquadFilter::Type type = static_cast<mopo::BiquadFilter::Type>(
+      static_cast<int>(filter_type_slider_->getValue()));
   double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
   double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
   double decibels = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
   double gain = mopo::utils::dbToGain(decibels);
-  if (type == mopo::Filter::kLowShelf ||
-      type == mopo::Filter::kHighShelf ||
-      type == mopo::Filter::kBandShelf) {
+  if (type == mopo::BiquadFilter::kLowShelf ||
+      type == mopo::BiquadFilter::kHighShelf ||
+      type == mopo::BiquadFilter::kBandShelf) {
     filter_.computeCoefficients(type, frequency, 1.0, gain);
   }
   else {
