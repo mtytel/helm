@@ -34,6 +34,7 @@ namespace mopo {
         kResonance,
         kGain,
         kReset,
+        k24db,
         kNumInputs
       };
 
@@ -71,11 +72,9 @@ namespace mopo {
 
       mopo_float a1_, a2_, a3_;
       mopo_float m0_, m1_, m2_;
+      mopo_float target_m0_, target_m1_, target_m2_;
 
-      mopo_float v0_a_, v1_a_, v2_a_;
       mopo_float ic1eq_a_, ic2eq_a_;
-
-      mopo_float v0_b_, v1_b_, v2_b_;
       mopo_float ic1eq_b_, ic2eq_b_;
 
       mopo_float last_out_a_, last_out_b_;

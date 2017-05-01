@@ -499,7 +499,7 @@ namespace mopo {
 
     Processor* stutter_on = createBaseControl("stutter_on");
     stutter_container->plug(stutter_on, BypassRouter::kOn);
-    stutter_container->plug(filter, BypassRouter::kAudio);
+    stutter_container->plug(ladder, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(STUTTER_MAX_SAMPLES);
     Processor* stutter_free_frequency = createPolyModControl("stutter_frequency", true);
@@ -515,7 +515,7 @@ namespace mopo {
     stutter_container->addProcessor(stutter);
     stutter_container->registerOutput(stutter->output());
 
-    stutter->plug(filter, Stutter::kAudio);
+    stutter->plug(ladder, Stutter::kAudio);
     stutter->plug(stutter_frequency, Stutter::kStutterFrequency);
     stutter->plug(resample_frequency, Stutter::kResampleFrequency);
     stutter->plug(stutter_softness, Stutter::kWindowSoftness);
