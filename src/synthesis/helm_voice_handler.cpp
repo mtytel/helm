@@ -307,7 +307,7 @@ namespace mopo {
 
     // Oscillator feedback.
     Processor* osc_feedback_transpose = createPolyModControl("osc_feedback_transpose", true);
-    Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", false, true);
+    Processor* osc_feedback_amount = createPolyModControl("osc_feedback_amount", true);
     Processor* osc_feedback_tune = createPolyModControl("osc_feedback_tune", true);
 
     cr::Add* osc_feedback_transposed = new cr::Add();
@@ -333,13 +333,17 @@ namespace mopo {
     addProcessor(osc_feedback_samples);
     addProcessor(osc_feedback_samples_audio);
 
-    Clamp* osc_feedback_amount_clamped = new Clamp();
+    cr::Clamp* osc_feedback_amount_clamped = new cr::Clamp();
     osc_feedback_amount_clamped->plug(osc_feedback_amount);
+
+    LinearSmoothBuffer* osc_feedback_amount_audio = new LinearSmoothBuffer();
+    osc_feedback_amount_audio->plug(osc_feedback_amount_clamped, LinearSmoothBuffer::kValue);
+    osc_feedback_amount_audio->plug(reset, LinearSmoothBuffer::kTrigger);
 
     osc_feedback_ = new SimpleDelay(MAX_FEEDBACK_SAMPLES);
     osc_feedback_->plug(oscillator_noise_sum, SimpleDelay::kAudio);
     osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
-    osc_feedback_->plug(osc_feedback_amount_clamped, SimpleDelay::kFeedback);
+    osc_feedback_->plug(osc_feedback_amount_audio, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);
     addProcessor(osc_feedback_amount_clamped);
   }
@@ -433,11 +437,10 @@ namespace mopo {
 
     static const cr::Value min_db(MIN_GAIN_DB);
     static const cr::Value max_db(MAX_GAIN_DB);
-    Interpolate* decibels = new Interpolate();
-    decibels->setControlRate();
-    decibels->plug(&min_db, Interpolate::kFrom);
-    decibels->plug(&max_db, Interpolate::kTo);
-    decibels->plug(resonance, Interpolate::kFractional);
+    cr::Interpolate* decibels = new cr::Interpolate();
+    decibels->plug(&min_db, cr::Interpolate::kFrom);
+    decibels->plug(&max_db, cr::Interpolate::kTo);
+    decibels->plug(resonance, cr::Interpolate::kFractional);
     cr::MagnitudeScale* final_gain = new cr::MagnitudeScale();
     final_gain->plug(decibels);
 

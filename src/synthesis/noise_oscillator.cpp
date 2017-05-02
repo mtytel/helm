@@ -27,7 +27,8 @@ namespace mopo {
     mopo_float* dest = output()->buffer;
 
     if (amplitude[0] == 0.0 && amplitude[buffer_size_ - 1] == 0.0) {
-      memset(dest, 0, sizeof(mopo_float) * buffer_size_);
+      if (dest[0] != 0.0 || dest[buffer_size_ - 1 != 0.0])
+        utils::zeroBuffer(dest, buffer_size_);
       return;
     }
 

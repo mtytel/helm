@@ -19,6 +19,7 @@
 #include "load_save.h"
 #include "startup.h"
 #include "synth_gui_interface.h"
+#include "utils.h"
 
 #define OUTPUT_WINDOW_MIN_NOTE 16.0
 
@@ -300,7 +301,7 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
     if (memory_index_ * output_inc >= memory_reset_period_) {
       memory_input_offset_ += memory_reset_period_ - memory_index_ * output_inc;
       memory_index_ = 0;
-      memcpy(output_memory_, output_memory_write_, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
+      mopo::utils::copyBufferf(output_memory_, output_memory_write_, 2 * mopo::MEMORY_RESOLUTION);
     }
   }
 
