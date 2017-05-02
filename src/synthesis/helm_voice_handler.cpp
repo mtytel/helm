@@ -267,49 +267,41 @@ namespace mopo {
 
     Processor* sub_waveform = createPolyModControl("sub_waveform", true);
     Processor* sub_shuffle = createPolyModControl("sub_shuffle", false, true);
+    Processor* sub_volume = createPolyModControl("sub_volume", true, false);
+    LinearSmoothBuffer* smooth_sub_volume = new LinearSmoothBuffer();
+    smooth_sub_volume->plug(sub_volume, LinearSmoothBuffer::kValue);
+    smooth_sub_volume->plug(reset, LinearSmoothBuffer::kTrigger);
+
     FixedPointOscillator* sub_oscillator = new FixedPointOscillator();
     sub_oscillator->plug(sub_phase_inc, FixedPointOscillator::kPhaseInc);
     sub_oscillator->plug(sub_shuffle, FixedPointOscillator::kShuffle);
     sub_oscillator->plug(sub_waveform, FixedPointOscillator::kWaveform);
     sub_oscillator->plug(reset, FixedPointOscillator::kReset);
-
-    Processor* sub_volume = createPolyModControl("sub_volume", true, false);
-    Multiply* scaled_sub_oscillator = new Multiply();
-
-    LinearSmoothBuffer* smooth_sub_volume = new LinearSmoothBuffer();
-    smooth_sub_volume->plug(sub_volume, LinearSmoothBuffer::kValue);
-    smooth_sub_volume->plug(reset, LinearSmoothBuffer::kTrigger);
-    scaled_sub_oscillator->plug(sub_oscillator, 0);
-    scaled_sub_oscillator->plug(smooth_sub_volume, 1);
+    sub_oscillator->plug(smooth_sub_volume, FixedPointOscillator::kAmplitude);
 
     addProcessor(sub_midi);
     addProcessor(sub_frequency);
     addProcessor(sub_phase_inc);
     addProcessor(sub_oscillator);
     addProcessor(smooth_sub_volume);
-    addProcessor(scaled_sub_oscillator);
 
     Add *oscillator_sum = new Add();
     oscillator_sum->plug(oscillators, 0);
-    oscillator_sum->plug(scaled_sub_oscillator, 1);
+    oscillator_sum->plug(sub_oscillator, 1);
 
     addProcessor(oscillator_sum);
 
     // Noise Oscillator.
+    Processor* noise_volume = createPolyModControl("noise_volume", false);
     NoiseOscillator* noise_oscillator = new NoiseOscillator();
     noise_oscillator->plug(reset, NoiseOscillator::kReset);
-
-    Processor* noise_volume = createPolyModControl("noise_volume", false);
-    Multiply* scaled_noise_oscillator = new Multiply();
-    scaled_noise_oscillator->plug(noise_oscillator, 0);
-    scaled_noise_oscillator->plug(noise_volume, 1);
+    noise_oscillator->plug(noise_volume, NoiseOscillator::kAmplitude);
 
     addProcessor(noise_oscillator);
-    addProcessor(scaled_noise_oscillator);
 
     Add *oscillator_noise_sum = new Add();
     oscillator_noise_sum->plug(oscillator_sum, 0);
-    oscillator_noise_sum->plug(scaled_noise_oscillator, 1);
+    oscillator_noise_sum->plug(noise_oscillator, 1);
 
     addProcessor(oscillator_noise_sum);
 

@@ -23,15 +23,23 @@ namespace mopo {
   }
 
   void NoiseOscillator::process() {
+    const mopo_float* amplitude = input(kAmplitude)->source->buffer;
+    mopo_float* dest = output()->buffer;
+
+    if (amplitude[0] == 0.0 && amplitude[buffer_size_ - 1] == 0.0) {
+      memset(dest, 0, sizeof(mopo_float) * buffer_size_);
+      return;
+    }
+
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
       for (; i < trigger_offset; ++i)
-        tick(i);
+        tick(i, dest, amplitude);
 
       current_noise_value_ = rand() / mopo_float(RAND_MAX);
     }
     for (; i < buffer_size_; ++i)
-      tick(i);
+      tick(i, dest, amplitude);
   }
 } // namespace mopo

@@ -23,10 +23,17 @@ namespace mopo {
   FixedPointOscillator::FixedPointOscillator() : Processor(kNumInputs, 1), phase_(0) { }
 
   void FixedPointOscillator::process() {
-    int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[0];
-    mopo_float shuffle = utils::clamp(1.0 - input(kShuffle)->source->buffer[0], 0.0, 1.0);
+    const mopo_float* amplitude = input(kAmplitude)->source->buffer;
     mopo_float* dest = output()->buffer;
 
+    int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[0];
+    if (amplitude[0] == 0.0 && amplitude[buffer_size_ - 1] == 0.0) {
+      phase_ += phase_inc * buffer_size_;
+      memset(dest, 0, sizeof(mopo_float) * buffer_size_);
+      return;
+    }
+
+    mopo_float shuffle = utils::clamp(1.0 - input(kShuffle)->source->buffer[0], 0.0, 1.0);
     unsigned int shuffle_index = INT_MAX * shuffle;
 
     int waveform = static_cast<int>(input(kWaveform)->source->buffer[0] + 0.5);
@@ -49,7 +56,8 @@ namespace mopo {
         for (; i < samples; ++i) {
           phase_ += phase_inc;
           current_phase = phase_ * first_adjust;
-          dest[i] = SCALE_OUT * wave_buffer[FixedPointWave::getIndex(current_phase)];
+          int wave_read = wave_buffer[FixedPointWave::getIndex(current_phase)];
+          dest[i] = amplitude[i] * (SCALE_OUT * wave_read);
         }
       }
 
@@ -58,7 +66,8 @@ namespace mopo {
       for (; i < samples; ++i) {
         phase_ += phase_inc;
         current_phase = (phase_ - shuffle_index) * second_adjust;
-        dest[i] = SCALE_OUT * wave_buffer[FixedPointWave::getIndex(current_phase)];
+        int wave_read = wave_buffer[FixedPointWave::getIndex(current_phase)];
+        dest[i] = amplitude[i] * (SCALE_OUT * wave_read);
       }
     }
   }
