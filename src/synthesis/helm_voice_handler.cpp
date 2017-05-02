@@ -570,11 +570,11 @@ namespace mopo {
       formant_filter_->getFormant(i)->plug(formant_q, Filter::kResonance);
       formant_filter_->getFormant(i)->plug(formant_frequency, Filter::kCutoff);
 
-      addProcessor(formant_gain);
-      addProcessor(formant_magnitude);
-      addProcessor(formant_q);
-      addProcessor(formant_midi);
-      addProcessor(formant_frequency);
+      formant_container_->addProcessor(formant_gain);
+      formant_container_->addProcessor(formant_magnitude);
+      formant_container_->addProcessor(formant_q);
+      formant_container_->addProcessor(formant_midi);
+      formant_container_->addProcessor(formant_frequency);
     }
 
     BilinearInterpolate* formant_decibels = new BilinearInterpolate();
