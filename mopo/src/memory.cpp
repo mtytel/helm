@@ -15,6 +15,7 @@
  */
 
 #include "memory.h"
+#include "utils.h"
 
 #include <cmath>
 #include <cstring>
@@ -26,12 +27,12 @@ namespace mopo {
     size_ = pow(2.0, ceil(log(size) / log(2)));
     bitmask_ = size_ - 1;
     memory_ = new mopo_float[size_];
-    memset(memory_, 0, size_ * sizeof(mopo_float));
+    utils::zeroBuffer(memory_, size_);
   }
 
   Memory::Memory(const Memory& other) {
     this->memory_ = new mopo_float[other.size_];
-    memset(this->memory_, 0, other.size_ * sizeof(mopo_float));
+    utils::zeroBuffer(this->memory_, other.size_);
     this->size_ = other.size_;
     this->bitmask_ = other.bitmask_;
     this->offset_ = other.offset_;

@@ -55,7 +55,9 @@ namespace mopo {
     }
 
     void clearBuffer() {
-      memset(buffer, 0, buffer_size * sizeof(mopo_float));
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < buffer_size; ++i)
+        buffer[i] = 0.0;
     }
 
     mopo_float* buffer;

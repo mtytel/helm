@@ -138,7 +138,6 @@ namespace mopo {
   }
 
   void BilinearInterpolate::process() {
-#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
     processTriggers();
@@ -155,7 +154,7 @@ namespace mopo {
         dest[0] += input(i)->at(0);
     }
     else {
-      memset(dest, 0, buffer_size_ * sizeof(mopo_float));
+      utils::zeroBuffer(dest, buffer_size_);
 
       int num_inputs = inputs_->size();
       for (int i = 0; i < num_inputs; ++i) {
