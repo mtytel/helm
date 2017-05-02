@@ -227,34 +227,41 @@ namespace mopo {
 
   void LinearSmoothBuffer::process() {
     mopo_float new_value = input(kValue)->source->buffer[0];
+    mopo_float* dest = output()->buffer;
 
     if (input(kTrigger)->source->triggered) {
       int trigger_samples = input(kTrigger)->source->trigger_offset;
       int i = 0;
+
+      mopo_float val = last_value_;
+#pragma clang loop vectorize(enable) interleave(enable)
       for (; i < trigger_samples; ++i)
-        output()->buffer[i] = last_value_;
+        dest[i] = val;
 
-      last_value_ = new_value;
+      val = new_value;
 
+#pragma clang loop vectorize(enable) interleave(enable)
       for (; i < buffer_size_; ++i)
-        output()->buffer[i] = last_value_;
+        dest[i] = val;
     }
     else if (last_value_ == new_value &&
              new_value == output()->buffer[0] &&
              new_value == output()->buffer[buffer_size_ - 1] &&
              (buffer_size_ <= 1 || new_value == output()->buffer[buffer_size_ - 2])) {
+      last_value_ = new_value;
       return;
     }
     else {
       mopo_float inc = (new_value - last_value_) / buffer_size_;
+      mopo_float val = last_value_ + inc;
 
+#pragma clang loop vectorize(enable) interleave(enable)
       for (int i = 0; i < buffer_size_; ++i) {
-        last_value_ += inc;
-        output()->buffer[i] = last_value_;
+        dest[i] = val + i * inc;
       }
-
-      last_value_ = new_value;
     }
+
+    last_value_ = new_value;
     processTriggers();
   }
 } // namespace mopo
