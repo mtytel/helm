@@ -44,15 +44,14 @@ namespace mopo {
 
       virtual void process() override;
 
-      void tick(int i) {
-        mopo_float audio = input(kAudio)->at(i);
-        mopo_float period = input(kSampleDelay)->at(i);
-        mopo_float feedback = input(kFeedback)->at(i);
-
-        mopo_float read = memory_->get(period);
-        mopo_float value = audio + read * feedback;
+      inline void tick(int i, mopo_float* dest,
+                       const mopo_float* audio,
+                       const mopo_float* period,
+                       const mopo_float* feedback) {
+        mopo_float read = memory_->get(period[i]);
+        mopo_float value = audio[i] + read * feedback[i];
         memory_->push(value);
-        output(0)->buffer[i] = value;
+        dest[i] = value;
         MOPO_ASSERT(std::isfinite(value));
       }
 

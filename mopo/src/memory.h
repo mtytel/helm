@@ -37,6 +37,19 @@ namespace mopo {
         memory_[offset_] = sample;
       }
 
+      void pushBlock(const mopo_float* samples, int num) {
+        int next_offset = (offset_ + num) & bitmask_;
+        if (next_offset < offset_) {
+          int block1 = num - next_offset - 1;
+          memcpy(memory_ + offset_ + 1, samples, sizeof(mopo_float) * block1);
+          memcpy(memory_, samples + block1, sizeof(mopo_float) * next_offset);
+        }
+        else
+          memcpy(memory_ + offset_ + 1, samples, sizeof(mopo_float) * num);
+
+        offset_ = next_offset;
+      }
+
       mopo_float getIndex(int index) const {
         return memory_[(offset_ - index) & bitmask_];
       }
