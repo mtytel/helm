@@ -64,7 +64,7 @@ namespace mopo {
 
     mopo_float release_samples = sample_rate_ * input(kRelease)->at(0);
     release_decay_ = SampleDecayLookup::sampleDecayLookup(release_samples);
-
+    const mopo_float* sustain = input(kSustain)->source->buffer;
 
     mopo_float* out_buffer = output(kValue)->buffer;
     mopo_float current_value = current_value_;
@@ -78,15 +78,21 @@ namespace mopo {
 
     int i = 0;
     while (i < buffer_size_) {
-      if (state_ == kReleasing) {
-        for (; i < buffer_size; ++i) {
-          current_value *= release_decay_;
-          out_buffer[i] = current_value;
-        }
+      if (state_ == kReleasing && i < buffer_size) {
+        mopo_float samples = buffer_size - i;
+        mopo_float end = current_value * pow(release_decay_, samples);
+        mopo_float inc = (end - current_value) / samples;
+        current_value = current_value - (i - 1) * inc;
+
+#pragma clang loop vectorize(enable) interleave(enable)
+        for (; i < buffer_size; ++i)
+          out_buffer[i] = current_value + i * inc;
+
+        current_value = end;
       }
       else if (state_ == kDecaying) {
         for (; i < buffer_size; ++i) {
-          current_value = INTERPOLATE(input(kSustain)->at(i), current_value, decay_decay_);
+          current_value = INTERPOLATE(sustain[i], current_value, decay_decay_);
           out_buffer[i] = current_value;
         }
       }
@@ -99,30 +105,41 @@ namespace mopo {
           }
         }
         else {
-          for (; i < buffer_size; ++i) {
-            current_value = current_value + attack_increment;
+          int samples = 1 + (ATTACK_DONE - current_value) / attack_increment;
+          samples = std::min(i + samples, buffer_size);
+          current_value = current_value - (i - 1) * attack_increment;
 
-            if (current_value >= ATTACK_DONE) {
-              state_ = kDecaying;
-              current_value = 1.0;
-              out_buffer[i++] = current_value;
-              break;
-            }
-            out_buffer[i] = current_value;
+#pragma clang loop vectorize(enable) interleave(enable)
+          for (; i < samples; ++i)
+            out_buffer[i] = current_value + i * attack_increment;
+
+          current_value = out_buffer[i - 1];
+
+          if (current_value > ATTACK_DONE) {
+            state_ = kDecaying;
+            current_value = 1.0;
+            out_buffer[i - 1] = current_value;
           }
         }
       }
-      else if (state_ == kKilling) {
-        for (; i < buffer_size; ++i) {
-          current_value -= kill_decrement_;
-          if (current_value <= 0) {
-            current_value = 0.0;
-            output(kFinished)->trigger(kVoiceReset, i);
-            state_ = next_life_state_;
-            out_buffer[i++] = current_value;
-            break;
-          }
-          out_buffer[i] = current_value;
+      else if (state_ == kKilling && i < buffer_size) {
+        mopo_float inc = -kill_decrement_;
+        int samples = 1 + current_value / kill_decrement_;
+        samples = std::min(i + samples, buffer_size);
+        current_value = current_value - (i - 1) * inc;
+
+#pragma clang loop vectorize(enable) interleave(enable)
+        for (; i < samples; ++i)
+          out_buffer[i] = current_value + i * inc;
+
+        MOPO_ASSERT(i > 0);
+        current_value = out_buffer[i - 1];
+
+        if (current_value <= 0) {
+          current_value = 0.0;
+          output(kFinished)->trigger(kVoiceReset, i - 1);
+          state_ = next_life_state_;
+          out_buffer[i - 1] = current_value;
         }
       }
 
