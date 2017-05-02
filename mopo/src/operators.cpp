@@ -138,7 +138,6 @@ namespace mopo {
   }
 
   void BilinearInterpolate::process() {
-#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
     processTriggers();
@@ -247,10 +246,10 @@ namespace mopo {
     }
     else {
       mopo_float inc = (new_value - last_value_) / buffer_size_;
+      last_value_ += inc;
 
       for (int i = 0; i < buffer_size_; ++i) {
-        last_value_ += inc;
-        output()->buffer[i] = last_value_;
+        output()->buffer[i] = last_value_ + i * inc;
       }
 
       last_value_ = new_value;

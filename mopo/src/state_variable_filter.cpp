@@ -37,7 +37,8 @@ namespace mopo {
     mopo_float cutoff = utils::clamp(input(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
     mopo_float resonance = utils::clamp(input(kResonance)->at(0),
                                         MIN_RESONANCE, MAX_RESONANCE);
-    bool db24 = input(k24db)->at(0) != 0.0;
+    bool db24 = input(k24db)->at(0) != 0.0 &&
+                (type == kLowPass || type == kBandPass || type == kHighPass);
     computeCoefficients(type, cutoff, resonance, input(kGain)->at(0), db24);
 
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;
@@ -81,18 +82,16 @@ namespace mopo {
   }
 
   void StateVariableFilter::process24db(const mopo_float* audio_buffer, mopo_float* dest) {
-    mopo_float delta_m0 = (target_m0_ - m0_) / buffer_size_;
     mopo_float delta_m1 = (target_m1_ - m1_) / buffer_size_;
-    mopo_float delta_m2 = (target_m2_ - m2_) / buffer_size_;
+    m0_ = target_m0_;
+    m2_ = target_m2_;
 
     if (inputs_->at(kReset)->source->triggered &&
         inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
       int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
       int i = 0;
       for (; i < trigger_offset; ++i) {
-        m0_ += delta_m0;
         m1_ += delta_m1;
-        m2_ += delta_m2;
         tick24db(i, dest, audio_buffer);
       }
 
@@ -103,12 +102,12 @@ namespace mopo {
     }
     else {
       for (int i = 0; i < buffer_size_; ++i) {
-        m0_ += delta_m0;
         m1_ += delta_m1;
-        m2_ += delta_m2;
         tick24db(i, dest, audio_buffer);
       }
     }
+
+    m1_ = target_m1_;
   }
 
   void StateVariableFilter::computeCoefficients(Type type,
@@ -203,7 +202,8 @@ namespace mopo {
     dest[i] = m0_ * audio + m1_ * v1_a + m2_ * v2_a + distortion;
   }
 
-  inline void StateVariableFilter::tick24db(int i, mopo_float* dest, const mopo_float* audio_buffer) {
+  inline void StateVariableFilter::tick24db(int i, mopo_float* dest,
+                                            const mopo_float* audio_buffer) {
     mopo_float audio = audio_buffer[i];
 
     mopo_float v3_a = audio - ic2eq_a_;

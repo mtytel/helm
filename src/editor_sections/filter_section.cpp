@@ -20,6 +20,7 @@
 #include "filter_selector.h"
 #include "fonts.h"
 #include "synth_slider.h"
+#include "text_look_and_feel.h"
 
 #define KNOB_SECTION_WIDTH 70
 #define KNOB_WIDTH 40
@@ -49,6 +50,10 @@ FilterSection::FilterSection(String name) : SynthSection(name) {
   addSlider(keytrack_ = new SynthSlider("keytrack"));
   keytrack_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   keytrack_->setBipolar();
+
+  addButton(filter_24db_ = new ToggleButton("filter_24db"));
+  filter_24db_->setLookAndFeel(TextLookAndFeel::instance());
+  filter_24db_->setButtonText("24dB");
 }
 
 FilterSection::~FilterSection() {
@@ -86,6 +91,7 @@ void FilterSection::resized() {
                             KNOB_WIDTH, KNOB_WIDTH);
   keytrack_->setBounds(knob_center_x - KNOB_WIDTH / 2, 3 * getHeight() / 5,
                        KNOB_WIDTH, KNOB_WIDTH);
+  filter_24db_->setBounds(keytrack_->getX(), keytrack_->getBottom(), keytrack_->getWidth(), 20);
 
   SynthSection::resized();
 }
@@ -94,4 +100,11 @@ void FilterSection::reset() {
   filter_response_->computeFilterCoefficients();
   filter_response_->repaint();
   SynthSection::reset();
+}
+
+void FilterSection::buttonClicked(Button* clicked_button) {
+  SynthSection::buttonClicked(clicked_button);
+  if (clicked_button == filter_24db_) {
+    filter_response_->set24db(clicked_button->getToggleState());
+  }
 }

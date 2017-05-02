@@ -403,6 +403,9 @@
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\mopo\src\biquad_filter.cpp">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
@@ -421,10 +424,10 @@
     <ClCompile Include="..\..\mopo\src\feedback.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mopo\src\filter.cpp">
+    <ClCompile Include="..\..\mopo\src\formant_manager.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mopo\src\formant_manager.cpp">
+    <ClCompile Include="..\..\mopo\src\ladder_filter.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\linear_slope.cpp">
@@ -482,6 +485,9 @@
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_value.cpp">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mopo\src\state_variable_filter.cpp">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\step_generator.cpp">
@@ -2488,9 +2494,6 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_audio_formats.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_plugin_client_AAX.cpp">
-      <Filter>Juce Library Code</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\juce_audio_plugin_client_utils.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
@@ -2538,6 +2541,9 @@
     <ClInclude Include="..\..\mopo\src\arpeggiator.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\mopo\src\biquad_filter.h">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\mopo\src\bit_crush.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
@@ -2559,10 +2565,10 @@
     <ClInclude Include="..\..\mopo\src\feedback.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\mopo\src\filter.h">
+    <ClInclude Include="..\..\mopo\src\formant_manager.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\mopo\src\formant_manager.h">
+    <ClInclude Include="..\..\mopo\src\ladder_filter.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\linear_slope.h">
@@ -2629,6 +2635,9 @@
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_value.h">
+      <Filter>HelmPlugin\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mopo\src\state_variable_filter.h">
       <Filter>HelmPlugin\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\step_generator.h">

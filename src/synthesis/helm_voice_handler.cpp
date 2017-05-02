@@ -17,7 +17,6 @@
 #include "helm_voice_handler.h"
 
 #include "fixed_point_oscillator.h"
-#include "ladder_filter.h"
 #include "noise_oscillator.h"
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
@@ -450,6 +449,7 @@ namespace mopo {
     cr::MagnitudeScale* final_gain = new cr::MagnitudeScale();
     final_gain->plug(decibels);
 
+    Processor* filter_db24 = createBaseControl("filter_24db");
     Processor* filter_saturation = createPolyModControl("filter_saturation", true);
     cr::MagnitudeScale* saturation_magnitude = new cr::MagnitudeScale();
     saturation_magnitude->plug(filter_saturation);
@@ -462,19 +462,14 @@ namespace mopo {
     saturated_audio->plug(audio, 0);
     saturated_audio->plug(smooth_saturation_magnitude, 1);
 
-    LadderFilter* ladder = new LadderFilter();
-    ladder->plug(saturated_audio, LadderFilter::kAudio);
-    ladder->plug(reset, LadderFilter::kReset);
-    ladder->plug(frequency_cutoff, LadderFilter::kCutoff);
-    ladder->plug(final_resonance, LadderFilter::kResonance);
-
     StateVariableFilter* filter = new StateVariableFilter();
-    filter->plug(saturated_audio, BiquadFilter::kAudio);
-    filter->plug(filter_type, BiquadFilter::kType);
-    filter->plug(reset, BiquadFilter::kReset);
-    filter->plug(frequency_cutoff, BiquadFilter::kCutoff);
-    filter->plug(final_resonance, BiquadFilter::kResonance);
-    filter->plug(final_gain, BiquadFilter::kGain);
+    filter->plug(saturated_audio, StateVariableFilter::kAudio);
+    filter->plug(filter_type, StateVariableFilter::kType);
+    filter->plug(reset, StateVariableFilter::kReset);
+    filter->plug(frequency_cutoff, StateVariableFilter::kCutoff);
+    filter->plug(final_resonance, StateVariableFilter::kResonance);
+    filter->plug(final_gain, StateVariableFilter::kGain);
+    filter->plug(filter_db24, StateVariableFilter::k24db);
 
     addProcessor(current_keytrack);
     addProcessor(saturated_audio);
@@ -486,7 +481,6 @@ namespace mopo {
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter);
-    addProcessor(ladder);
 
     addProcessor(saturation_magnitude);
     addProcessor(smooth_saturation_magnitude);
@@ -499,7 +493,7 @@ namespace mopo {
 
     Processor* stutter_on = createBaseControl("stutter_on");
     stutter_container->plug(stutter_on, BypassRouter::kOn);
-    stutter_container->plug(ladder, BypassRouter::kAudio);
+    stutter_container->plug(filter, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(STUTTER_MAX_SAMPLES);
     Processor* stutter_free_frequency = createPolyModControl("stutter_frequency", true);
@@ -515,7 +509,7 @@ namespace mopo {
     stutter_container->addProcessor(stutter);
     stutter_container->registerOutput(stutter->output());
 
-    stutter->plug(ladder, Stutter::kAudio);
+    stutter->plug(filter, Stutter::kAudio);
     stutter->plug(stutter_frequency, Stutter::kStutterFrequency);
     stutter->plug(resample_frequency, Stutter::kResampleFrequency);
     stutter->plug(stutter_softness, Stutter::kWindowSoftness);

@@ -40,7 +40,7 @@ namespace mopo {
     protected:
       inline void tick(int i) {
         current_noise_value_ *= current_noise_value_;
-        current_noise_value_ = current_noise_value_ - int(current_noise_value_);
+        current_noise_value_ = current_noise_value_ - floor(current_noise_value_);
 
         output()->buffer[i] = 2.0 * current_noise_value_ - 1.0;
 

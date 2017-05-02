@@ -36,6 +36,7 @@ class FilterResponse : public Component, SliderListener {
     void setResonanceSlider(Slider* slider);
     void setCutoffSlider(Slider* slider);
     void setFilterTypeSlider(Slider* slider);
+    void set24db(bool db24);
 
     void paint(Graphics& g) override;
     void paintBackground(Graphics& g);
@@ -46,6 +47,7 @@ class FilterResponse : public Component, SliderListener {
   private:
     Path filter_response_path_;
     int resolution_;
+    bool filter_24db_;
 
     mopo::BiquadFilter filter_;
 
