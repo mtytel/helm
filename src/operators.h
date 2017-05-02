@@ -605,10 +605,12 @@ namespace mopo {
 
         inline void tick(int i) override {
           size_t num_inputs = inputs_->size();
-          output()->buffer[0] = 0.0;
+          mopo_float value = 0.0;
 
           for (int in = 0; in < num_inputs; ++in)
-            output()->buffer[0] += input(in)->at(0);
+            value += input(in)->at(0);
+
+          output()->buffer[0] = value;
         }
     };
 
