@@ -30,7 +30,7 @@ namespace mopo {
   void PortamentoSlope::processBypass(int start) {
     mopo_float* dest = output(0)->buffer;
     const mopo_float* src = input(kTarget)->source->buffer;
-    memcpy(dest + start, src, (buffer_size_ - start) * sizeof(mopo_float));
+    utils::copyBuffer(dest + start, src, (buffer_size_ - start));
     last_value_ = dest[buffer_size_ - 1];
   }
 

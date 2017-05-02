@@ -89,7 +89,7 @@ namespace mopo {
     for (int i = 0; i < numOutputs(); ++i) {
       if (shouldAccumulate(voice_outputs_[i])) {
         int buffer_size = voice_outputs_[i]->owner->getBufferSize();
-        memset(output(i)->buffer, 0, buffer_size * sizeof(mopo_float));
+        utils::zeroBuffer(output(i)->buffer, buffer_size);
       }
     }
   }

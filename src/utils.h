@@ -139,6 +139,24 @@ namespace mopo {
       }
       return true;
     }
+
+    inline void zeroBuffer(mopo_float* buffer, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        buffer[i] = 0.0;
+    }
+
+    inline void copyBuffer(mopo_float* dest, const mopo_float* source, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        dest[i] = source[i];
+    }
+
+    inline void copyBufferf(float* dest, const float* source, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        dest[i] = source[i];
+    }
   } // namespace utils
 } // namespace mopo
 

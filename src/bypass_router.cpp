@@ -26,10 +26,8 @@ namespace mopo {
     if (should_process)
       ProcessorRouter::process();
     else  {
-      for (int i = 0; i < numOutputs(); ++i) {
-        memcpy(output(i)->buffer, input(kAudio)->source->buffer,
-               buffer_size_ * sizeof(mopo_float));
-      }
+      for (int i = 0; i < numOutputs(); ++i)
+        utils::copyBuffer(output(i)->buffer, input(kAudio)->source->buffer, buffer_size_);
     }
   }
 } // namespace mopo

@@ -19,6 +19,7 @@
 #define FEEDBACK_H
 
 #include "processor.h"
+#include "utils.h"
 
 namespace mopo {
 
@@ -28,7 +29,7 @@ namespace mopo {
   class Feedback : public Processor {
     public:
       Feedback() : Processor(1, 1) {
-        memset(buffer_, 0, MAX_BUFFER_SIZE * sizeof(mopo_float));
+        utils::zeroBuffer(buffer_, MAX_BUFFER_SIZE);
       }
 
       virtual ~Feedback() { }
