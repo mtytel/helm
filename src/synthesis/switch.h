@@ -30,10 +30,14 @@ namespace mopo {
       };
 
       Switch();
+      virtual void destroy() override;
 
-      virtual Processor* clone() const { return new Switch(*this); }
+      virtual Processor* clone() const override { return new Switch(*this); }
 
-      void process();
+      void process() override;
+
+    private:
+      mopo_float* original_buffer_;
   };
 } // namespace mopo
 

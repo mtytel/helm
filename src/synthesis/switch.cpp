@@ -20,12 +20,19 @@
 
 namespace mopo {
 
-  Switch::Switch() : Processor(kNumInputs, 1, true) { }
+  Switch::Switch() : Processor(kNumInputs, 1, true) {
+    original_buffer_ = output()->buffer;
+  }
+
+  void Switch::destroy() {
+    output()->buffer = original_buffer_;
+    Processor::destroy();
+  }
 
   void Switch::process() {
     int source = (int)input(kSource)->at(0);
     source = utils::iclamp(source, 0, numInputs() - kNumInputs - 1);
 
-    output()->buffer[0] = input(kNumInputs + source)->at(0);
+    output()->buffer = input(kNumInputs + source)->source->buffer;
   }
 } // namespace mopo

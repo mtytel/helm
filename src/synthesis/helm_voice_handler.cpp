@@ -116,8 +116,8 @@ namespace mopo {
       addGlobalProcessor(mod_wheel_amounts_[i]);
     }
 
-    addProcessor(choose_pitch_wheel_);
-    addProcessor(choose_mod_wheel);
+    getMonoRouter()->addProcessor(choose_pitch_wheel_);
+    getMonoRouter()->addProcessor(choose_mod_wheel);
 
     mod_sources_["pitch_wheel"] = choose_pitch_wheel_->output();
     mod_sources_["mod_wheel"] = choose_mod_wheel->output();

@@ -152,8 +152,8 @@ namespace mopo {
     tempo_frequency->plug(modified_tempo, 0);
     tempo_frequency->plug(bps, 1);
 
-    owner->addProcessor(choose_modifier);
-    owner->addProcessor(choose_tempo);
+    getMonoRouter()->addProcessor(choose_modifier);
+    getMonoRouter()->addProcessor(choose_tempo);
     owner->addProcessor(modified_tempo);
     owner->addProcessor(tempo_frequency);
 
@@ -164,7 +164,7 @@ namespace mopo {
     choose_frequency->plugNext(tempo_frequency);
     choose_frequency->plugNext(tempo_frequency);
 
-    owner->addProcessor(choose_frequency);
+    getMonoRouter()->addProcessor(choose_frequency);
     controls_[name + "_sync"] = sync;
     return choose_frequency;
   }
