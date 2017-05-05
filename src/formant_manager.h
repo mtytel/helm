@@ -24,7 +24,7 @@
 
 namespace mopo {
 
-  class Filter;
+  class BiquadFilter;
 
   class FormantManager : public ProcessorRouter {
     public:
@@ -40,7 +40,7 @@ namespace mopo {
         return new FormantManager(*this);
       }
 
-      Filter* getFormant(int index = 0) { return formants_[index]; }
+      BiquadFilter* getFormant(int index = 0) { return formants_[index]; }
       int num_formants() { return formants_.size(); }
 
       std::complex<mopo_float> getResponse(mopo_float frequency);
@@ -54,7 +54,7 @@ namespace mopo {
       }
 
     protected:
-      std::vector<Filter*> formants_;
+      std::vector<BiquadFilter*> formants_;
   };
 } // namespace mopo
 

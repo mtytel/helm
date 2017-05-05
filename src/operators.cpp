@@ -255,9 +255,8 @@ namespace mopo {
       mopo_float val = last_value_ + inc;
 
 #pragma clang loop vectorize(enable) interleave(enable)
-      for (int i = 0; i < buffer_size_; ++i) {
+      for (int i = 0; i < buffer_size_; ++i)
         dest[i] = val + i * inc;
-      }
     }
 
     last_value_ = new_value;

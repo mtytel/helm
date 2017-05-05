@@ -16,7 +16,7 @@
 
 #include "phaser.h"
 
-#include "filter.h"
+#include "biquad_filter.h"
 #include "operators.h"
 #include "oscillator.h"
 
@@ -39,27 +39,27 @@ namespace mopo {
     MidiScale* frequency_cutoff = new MidiScale();
     frequency_cutoff->plug(midi_cutoff);
 
-    Filter* first_filter = new Filter();
-    Value* filter_type = new Value(Filter::kAllPass);
-    first_filter->plug(filter_type, Filter::kType);
-    first_filter->plug(frequency_cutoff, Filter::kCutoff);
-    registerInput(first_filter->input(Filter::kAudio), kAudio);
-    registerInput(first_filter->input(Filter::kResonance), kFilterResonance);
-    Filter* last_filter = first_filter;
+    BiquadFilter* first_filter = new BiquadFilter();
+    Value* filter_type = new Value(BiquadFilter::kAllPass);
+    first_filter->plug(filter_type, BiquadFilter::kType);
+    first_filter->plug(frequency_cutoff, BiquadFilter::kCutoff);
+    registerInput(first_filter->input(BiquadFilter::kAudio), kAudio);
+    registerInput(first_filter->input(BiquadFilter::kResonance), kFilterResonance);
+    BiquadFilter* last_filter = first_filter;
 
     for (int i = 1; i < num_passes; ++i) {
-      Filter* filter = new Filter();
-      filter->registerInput(first_filter->input(Filter::kResonance),
-                            Filter::kResonance);
-      filter->plug(last_filter, Filter::kAudio);
-      filter->plug(filter_type, Filter::kType);
-      filter->plug(frequency_cutoff, Filter::kCutoff);
+      BiquadFilter* filter = new BiquadFilter();
+      filter->registerInput(first_filter->input(BiquadFilter::kResonance),
+                            BiquadFilter::kResonance);
+      filter->plug(last_filter, BiquadFilter::kAudio);
+      filter->plug(filter_type, BiquadFilter::kType);
+      filter->plug(frequency_cutoff, BiquadFilter::kCutoff);
       addProcessor(filter);
       last_filter = filter;
     }
 
     Interpolate* mixer = new Interpolate();
-    mixer->registerInput(first_filter->input(Filter::kAudio),
+    mixer->registerInput(first_filter->input(BiquadFilter::kAudio),
                          Interpolate::kFrom);
     mixer->plug(last_filter, Interpolate::kTo);
     registerInput(mixer->input(Interpolate::kFractional), kMix);
