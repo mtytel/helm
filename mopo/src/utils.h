@@ -114,11 +114,6 @@ namespace mopo {
       return value > max ? max : (value < min ? min : value);
     }
 
-    inline mopo_float quicktanh(mopo_float value) {
-      mopo_float square = value * value;
-      return value / (1.0 + square / (3.0 + square / 5.0));
-    }
-
     inline bool closeToZero(mopo_float value) {
       return value <= EPSILON && value >= -EPSILON;
     }
@@ -159,12 +154,29 @@ namespace mopo {
       return (pow(0.5, q) - MIN_Q_POW) / (MAX_Q_POW - MIN_Q_POW);
     }
 
+    inline mopo_float quicktanh(mopo_float value) {
+      mopo_float square = value * value;
+      return value / (1.0 + square / (3.0 + square / 5.0));
+    }
+
+    // Version of quick sin where phase is is [-0.5, 0.5]
     inline mopo_float quickerSin(mopo_float phase) {
       return phase * (8.0 - 16.0 * std::abs(phase));
     }
 
     inline mopo_float quickSin(mopo_float phase) {
-      mopo_float approx = phase * (8.0 - 16.0 * std::abs(phase));
+      mopo_float approx = quickerSin(phase);
+      return approx * (0.776 + 0.224 * std::abs(approx));
+    }
+
+    // Version of quick sin where phase is is [0, 1]
+    inline mopo_float quickerSin1(mopo_float phase) {
+      phase = 0.5 - phase;
+      return phase * (8.0 - 16.0 * std::abs(phase));
+    }
+
+    inline mopo_float quickSin1(mopo_float phase) {
+      mopo_float approx = quickerSin1(phase);
       return approx * (0.776 + 0.224 * std::abs(approx));
     }
 
