@@ -55,7 +55,9 @@ namespace mopo {
     }
 
     void clearBuffer() {
-      memset(buffer, 0, buffer_size * sizeof(mopo_float));
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < buffer_size; ++i)
+        buffer[i] = 0.0;
     }
 
     mopo_float* buffer;
@@ -164,8 +166,8 @@ namespace mopo {
       virtual void registerInput(Input* input);
       virtual Output* registerOutput(Output* output);
 
-      virtual int numInputs() const { return inputs_->size(); }
-      virtual int numOutputs() const { return outputs_->size(); }
+      inline int numInputs() const { return inputs_->size(); }
+      inline int numOutputs() const { return outputs_->size(); }
 
       // Input sample access.
       inline mopo_float getInputSample(int input, int sample) {

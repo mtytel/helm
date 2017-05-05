@@ -86,8 +86,7 @@ namespace mopo {
       virtual Processor* clone() const override { return new Bypass(*this); }
 
       void process() override {
-        memcpy(output()->buffer, input()->source->buffer,
-               buffer_size_ * sizeof(mopo_float));
+        utils::copyBuffer(output()->buffer, input()->source->buffer, buffer_size_);
 
         output()->triggered = input()->source->triggered;
         output()->trigger_value = input()->source->trigger_value;
@@ -513,6 +512,30 @@ namespace mopo {
 
   namespace cr {
 
+    // A processor that will clamp a signal output to a given window.
+    class Clamp : public Operator {
+      public:
+        Clamp(mopo_float min = -1, mopo_float max = 1) : Operator(1, 1),
+                                                         min_(min), max_(max) { }
+
+        virtual Processor* clone() const override { return new Clamp(*this); }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = utils::clamp(source[i], min_, max_);
+        }
+
+      private:
+        mopo_float min_, max_;
+    };
+
     class Add : public Operator {
       public:
         Add() : Operator(2, 1, true) {
@@ -545,6 +568,39 @@ namespace mopo {
         }
     };
 
+    // A processor that will interpolate two streams by an interpolation stream.
+    class Interpolate : public Operator {
+    public:
+      enum Inputs {
+        kFrom,
+        kTo,
+        kFractional,
+        kNumInputs
+      };
+
+      Interpolate() : Operator(kNumInputs, 1) { }
+
+      virtual Processor* clone() const override {
+        return new Interpolate(*this);
+      }
+
+      void process() override {
+        tick(0);
+      }
+
+      inline void tick(int i) override {
+        bufferTick(output()->buffer, input(kFrom)->source->buffer,
+                   input(kTo)->source->buffer,
+                   input(kFractional)->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest,
+                             const mopo_float* source_left,
+                             const mopo_float* source_right,
+                             const mopo_float* fraction, int i) {
+        dest[i] = INTERPOLATE(source_left[i], source_right[i], fraction[i]);
+      }
+    };
 
     // A processor that will raise a signal to a given power.
     class Square : public Operator {
@@ -600,15 +656,23 @@ namespace mopo {
         }
 
         void process() override {
-          tick(0);
+          size_t num_inputs = inputs_->size();
+          mopo_float value = 0.0;
+
+          for (int in = 0; in < num_inputs; ++in)
+            value += input(in)->at(0);
+
+          output()->buffer[0] = value;
         }
 
         inline void tick(int i) override {
           size_t num_inputs = inputs_->size();
-          output()->buffer[0] = 0.0;
+          mopo_float value = 0.0;
 
           for (int in = 0; in < num_inputs; ++in)
-            output()->buffer[0] += input(in)->at(0);
+            value += input(in)->at(0);
+
+          output()->buffer[0] = value;
         }
     };
 

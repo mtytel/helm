@@ -54,22 +54,40 @@ namespace mopo {
     const Value value_neg_one(-1.0);
 
 #ifdef __SSE2__
-    inline mopo_float min(mopo_float one, mopo_float two) {
+    inline double min(double one, double two) {
       _mm_store_sd(&one, _mm_min_sd(_mm_set_sd(one),_mm_set_sd(two)));
       return one;
     }
 
-    inline mopo_float max(mopo_float one, mopo_float two) {
+    inline double max(double one, double two) {
       _mm_store_sd(&one, _mm_max_sd(_mm_set_sd(one),_mm_set_sd(two)));
       return one;
     }
 
-    inline mopo_float clamp(mopo_float value, mopo_float min, mopo_float max) {
+    inline double clamp(double value, double min, double max) {
       _mm_store_sd(&value, _mm_min_sd(_mm_max_sd(_mm_set_sd(value),
                                                  _mm_set_sd(min)),
-                                                 _mm_set_sd(max)));
+                                      _mm_set_sd(max)));
       return value;
     }
+
+    inline float min(float one, float two) {
+      _mm_store_ss(&one, _mm_min_ss(_mm_set_ss(one),_mm_set_ss(two)));
+      return one;
+    }
+
+    inline float max(float one, float two) {
+      _mm_store_ss(&one, _mm_max_sd(_mm_set_ss(one),_mm_set_ss(two)));
+      return one;
+    }
+
+    inline float clamp(float value, float min, float max) {
+      _mm_store_ss(&value, _mm_min_ss(_mm_max_ss(_mm_set_ss(value),
+                                                 _mm_set_ss(min)),
+                                      _mm_set_ss(max)));
+      return value;
+    }
+
 #else
     inline mopo_float min(mopo_float one, mopo_float two) {
       return std::min(one, two);
@@ -84,12 +102,21 @@ namespace mopo {
     }
 #endif
 
-    inline mopo_float mod(mopo_float value, mopo_float* integral) {
+    inline mopo_float mod(double value, double* integral) {
       return modf(value, integral);
+    }
+
+    inline float mod(float value, float* integral) {
+      return modff(value, integral);
     }
 
     inline mopo_float iclamp(int value, int min, int max) {
       return value > max ? max : (value < min ? min : value);
+    }
+
+    inline mopo_float quicktanh(mopo_float value) {
+      mopo_float square = value * value;
+      return value / (1.0 + square / (3.0 + square / 5.0));
     }
 
     inline bool closeToZero(mopo_float value) {
@@ -132,12 +159,45 @@ namespace mopo {
       return (pow(0.5, q) - MIN_Q_POW) / (MAX_Q_POW - MIN_Q_POW);
     }
 
+    inline mopo_float quickerSin(mopo_float phase) {
+      return phase * (8.0 - 16.0 * std::abs(phase));
+    }
+
+    inline mopo_float quickSin(mopo_float phase) {
+      mopo_float approx = phase * (8.0 - 16.0 * std::abs(phase));
+      return approx * (0.776 + 0.224 * std::abs(approx));
+    }
+
     inline bool isSilent(const mopo_float* buffer, int length) {
       for (int i = 0; i < length; ++i) {
         if (!closeToZero(buffer[i]))
           return false;
       }
       return true;
+    }
+
+    inline void zeroBuffer(mopo_float* buffer, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        buffer[i] = 0.0;
+    }
+
+    inline void zeroBuffer(int* buffer, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        buffer[i] = 0;
+    }
+
+    inline void copyBuffer(mopo_float* dest, const mopo_float* source, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        dest[i] = source[i];
+    }
+
+    inline void copyBufferf(float* dest, const float* source, int size) {
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < size; ++i)
+        dest[i] = source[i];
     }
   } // namespace utils
 } // namespace mopo

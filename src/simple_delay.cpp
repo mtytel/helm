@@ -31,7 +31,18 @@ namespace mopo {
   }
 
   void SimpleDelay::process() {
+    mopo_float* dest = output()->buffer;
+    const mopo_float* audio = input(kAudio)->source->buffer;
+    const mopo_float* feedback = input(kFeedback)->source->buffer;
+    if (feedback[0] == 0.0 && feedback[buffer_size_ - 1] == 0.0) {
+      memcpy(dest, audio, sizeof(mopo_float) * buffer_size_);
+      memory_->pushBlock(audio, buffer_size_);
+      return;
+    }
+
+    const mopo_float* period = input(kSampleDelay)->source->buffer;
+
     for (int i = 0; i < buffer_size_; ++i)
-      tick(i);
+      tick(i, dest, audio, period, feedback);
   }
 } // namespace mopo

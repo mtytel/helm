@@ -21,13 +21,11 @@
 namespace mopo {
 
   void Feedback::process() {
-    memcpy(buffer_, input(0)->source->buffer,
-           buffer_size_ * sizeof(mopo_float));
+    utils::copyBuffer(buffer_, input(0)->source->buffer, buffer_size_);
     refreshOutput();
   }
 
   void Feedback::refreshOutput() {
-    memcpy(output(0)->buffer, buffer_,
-           MAX_BUFFER_SIZE * sizeof(mopo_float));
+    utils::copyBuffer(output(0)->buffer, buffer_, MAX_BUFFER_SIZE);
   }
 } // namespace mopo
