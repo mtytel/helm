@@ -165,6 +165,7 @@ namespace mopo {
     arpeggiator_->plug(arp_octaves, Arpeggiator::kOctaves);
     arpeggiator_->plug(arp_pattern, Arpeggiator::kPattern);
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
+    arpeggiator_->plug(arp_on_, Arpeggiator::kOn);
 
     addProcessor(arpeggiator_);
     addProcessor(voice_handler_);

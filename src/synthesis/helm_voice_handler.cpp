@@ -346,6 +346,7 @@ namespace mopo {
     osc_feedback_->plug(osc_feedback_amount_audio, SimpleDelay::kFeedback);
     addProcessor(osc_feedback_);
     addProcessor(osc_feedback_amount_clamped);
+    addProcessor(osc_feedback_amount_audio);
   }
 
   void HelmVoiceHandler::createModulators(Output* reset) {
