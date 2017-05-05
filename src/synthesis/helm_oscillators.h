@@ -104,8 +104,7 @@ namespace mopo {
                              unsigned int start_phase, int detune) {
         int phase = oscillator2_cross_mods_[i] + start_phase +
                     i * detune + oscillator2_phase_diffs_[i];
-        int read = wave_buffer[phase];
-        oscillator2_totals_[i] += read;
+        oscillator2_totals_[i] += wave_buffer[FixedPointWave::getIndex(phase)];
       }
 
       inline void tickOut(int i, mopo_float* dest,
