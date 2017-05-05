@@ -114,6 +114,11 @@ namespace mopo {
       return value > max ? max : (value < min ? min : value);
     }
 
+    inline mopo_float quicktanh(mopo_float value) {
+      mopo_float square = value * value;
+      return value / (1.0 + square / (3.0 + square / 5.0));
+    }
+
     inline bool closeToZero(mopo_float value) {
       return value <= EPSILON && value >= -EPSILON;
     }
