@@ -54,9 +54,7 @@ namespace mopo {
 
       static const int HARMONICS = 63;
 
-      static const mopo_float SCALE;
-
-      typedef int (*wave_type)[FIXED_LOOKUP_SIZE];
+      typedef mopo_float (*wave_type)[FIXED_LOOKUP_SIZE];
 
       FixedPointWaveLookup();
 
@@ -70,37 +68,37 @@ namespace mopo {
       template<size_t steps>
       void preprocessPyramid(wave_type buffer);
 
-      int sin_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int triangle_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int square_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int down_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int up_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int three_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int four_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int eight_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int three_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int five_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      int nine_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float sin_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float triangle_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float square_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float down_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float up_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float three_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float four_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float eight_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float three_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float five_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float nine_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
 
       wave_type waves_[kNumFixedPointWaveforms];
   };
 
   class FixedPointWave {
     public:
-      static inline int harmonicWave(int waveform, unsigned int t, int harmonic) {
+      static inline mopo_float harmonicWave(int waveform, unsigned int t, int harmonic) {
         return lookup_.waves_[waveform][harmonic][getIndex(t)];
       }
 
-      static inline int wave(int waveform, unsigned int t, int phase_inc) {
+      static inline mopo_float wave(int waveform, unsigned int t, int phase_inc) {
         return lookup_.waves_[waveform][getHarmonicIndex(phase_inc)][getIndex(t)];
       }
 
-      static inline int wave(int waveform, unsigned int t) {
+      static inline mopo_float wave(int waveform, unsigned int t) {
         unsigned int index = getIndex(t);
         return lookup_.waves_[waveform][0][index];
       }
 
-      static inline int* getBuffer(int waveform, int phase_inc) {
+      static inline mopo_float* getBuffer(int waveform, int phase_inc) {
         int clamped_inc = mopo::utils::iclamp(phase_inc, 1, INT_MAX);
         return lookup_.waves_[waveform][getHarmonicIndex(clamped_inc)];
       }

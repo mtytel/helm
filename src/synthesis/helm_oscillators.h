@@ -25,7 +25,6 @@ namespace mopo {
 
   class HelmOscillators : public Processor {
     public:
-      static const mopo_float SCALE_OUT;
       static const int MAX_UNISON = 15;
 
       enum Inputs {
@@ -56,68 +55,83 @@ namespace mopo {
 
     protected:
       void addRandomPhaseToVoices();
-      void reset();
+      void reset(int i);
       void loadBasePhaseInc();
       void computeDetuneRatios(int* detune_diffs,
                                int oscillator_diff,
                                const mopo_float* random_offsets,
                                bool harmonize, mopo_float detune,
                                int voices);
-      void prepareBuffers(int** wave_buffers,
+      void prepareBuffers(mopo_float** wave_buffers,
                           const int* detune_diffs,
                           const int* oscillator_phase_diffs,
                           int waveform);
 
-      void tickCrossMod(int phase_diff1, int phase_diff2) {
-        int master_phase1 = phase_diff1 + oscillator1_phases_[0];
-        int master_phase2 = phase_diff2 + oscillator2_phases_[0];
-        int sin1 = FixedPointWave::wave(FixedPointWaveLookup::kSin, master_phase1);
-        int sin2 = FixedPointWave::wave(FixedPointWaveLookup::kSin, master_phase2);
-        oscillator1_cross_mod_ = sin1 / FixedPointWaveLookup::SCALE;
-        oscillator2_cross_mod_ = sin2 / FixedPointWaveLookup::SCALE;
+      void processInitial();
+      void processCrossMod();
+      void processVoices();
+      void finishVoices(int voices1, int voices2);
+
+      inline void tickCrossMod(int i, const mopo_float* cross_mod,
+                               int* dest_cross_mod1, int* dest_cross_mod2,
+                               unsigned int phase1, unsigned int phase2) {
+        const static mopo_float mult = (1.0 / UINT_MAX);
+
+        int master_phase1 = dest_cross_mod2[i] + phase1;
+        int master_phase2 = dest_cross_mod1[i] + phase2;
+        mopo_float sin1 = utils::quickerSin(mult * master_phase1);
+        mopo_float sin2 = utils::quickerSin(mult * master_phase2);
+        dest_cross_mod1[i + 1] = sin1 * cross_mod[i] * INT_MAX;
+        dest_cross_mod2[i + 1] = sin2 * cross_mod[i] * INT_MAX;
       }
 
-      inline void tick(int i, int voices1, int voices2, float scale1, float scale2) {
-        mopo_float cross_mod = input(kCrossMod)->source->buffer[i];
-        mopo_float amp1 = input(kOscillator1Amplitude)->source->buffer[i];
-        mopo_float amp2 = input(kOscillator2Amplitude)->source->buffer[i];
+      inline void tickInitialVoices(int i) {
+        int phase1 = oscillator2_cross_mods_[i] + oscillator1_phases_[0] + oscillator1_phase_diffs_[i];
+        int phase2 = oscillator1_cross_mods_[i] + oscillator2_phases_[0] + oscillator2_phase_diffs_[i];
 
-        int phase_diff1 = cross_mod * oscillator2_cross_mod_;
-        int phase_diff2 = cross_mod * oscillator1_cross_mod_;
-
-        int oscillator1_total = 0;
-        int oscillator2_total = 0;
-
-        // Run Voices.
-        for (int v = 0; v < voices1; ++v) {
-          oscillator1_phases_[v] += detune_diffs1_[v] + oscillator1_phase_diffs_[i];
-          int phase = phase_diff1 + oscillator1_phases_[v];
-          oscillator1_total += wave_buffers1_[v][FixedPointWave::getIndex(phase)];
-        }
-
-        tickCrossMod(phase_diff1, phase_diff2);
-
-        for (int v = 0; v < voices2; ++v) {
-          oscillator2_phases_[v] += detune_diffs2_[v] + oscillator2_phase_diffs_[i];
-          int phase = phase_diff2 + oscillator2_phases_[v];
-          oscillator2_total += wave_buffers2_[v][FixedPointWave::getIndex(phase)];
-        }
-
-        oscillator1_total *= scale1;
-        oscillator2_total *= scale2;
-
-        mopo_float mixed = amp1 * oscillator1_total + amp2 * oscillator2_total;
-        output(0)->buffer[i] = SCALE_OUT * mixed;
-        MOPO_ASSERT(std::isfinite(output(0)->buffer[i]));
+        oscillator1_totals_[i] += wave_buffers1_[0][FixedPointWave::getIndex(phase1)];
+        oscillator2_totals_[i] += wave_buffers2_[0][FixedPointWave::getIndex(phase2)];
       }
 
-      int oscillator1_cross_mod_;
-      int oscillator2_cross_mod_;
+      inline void tickVoice1(int i, int voice, const mopo_float* wave_buffer,
+                             unsigned int start_phase, int detune) {
+        int phase = oscillator1_cross_mods_[i] + start_phase +
+                    i * detune + oscillator1_phase_diffs_[i];
+        oscillator1_totals_[i] += wave_buffer[FixedPointWave::getIndex(phase)];
+      }
 
+      inline void tickVoice2(int i, int voice, const mopo_float* wave_buffer,
+                             unsigned int start_phase, int detune) {
+        int phase = oscillator2_cross_mods_[i] + start_phase +
+                    i * detune + oscillator2_phase_diffs_[i];
+        int read = wave_buffer[phase];
+        oscillator2_totals_[i] += read;
+      }
+
+      inline void tickOut(int i, mopo_float* dest,
+                          const mopo_float* amp1, const mopo_float* amp2,
+                          const mopo_float* oscillator1_totals,
+                          const mopo_float* oscillator2_totals,
+                          mopo_float scale1, mopo_float scale2) {
+        mopo_float mixed = amp1[i] * scale1 * oscillator1_totals[i] +
+                           amp2[i] * scale2 * oscillator2_totals[i];
+        dest[i] = mixed;
+        MOPO_ASSERT(std::isfinite(dest[i]));
+      }
+
+      int oscillator1_cross_mods_[MAX_BUFFER_SIZE + 1];
+      int oscillator2_cross_mods_[MAX_BUFFER_SIZE + 1];
+
+      mopo_float oscillator1_totals_[MAX_BUFFER_SIZE];
+      mopo_float oscillator2_totals_[MAX_BUFFER_SIZE];
+
+      unsigned int oscillator1_phase_base_;
+      unsigned int oscillator2_phase_base_;
       unsigned int oscillator1_phases_[MAX_UNISON];
       unsigned int oscillator2_phases_[MAX_UNISON];
-      int* wave_buffers1_[MAX_UNISON];
-      int* wave_buffers2_[MAX_UNISON];
+
+      mopo_float* wave_buffers1_[MAX_UNISON];
+      mopo_float* wave_buffers2_[MAX_UNISON];
       int detune_diffs1_[MAX_UNISON];
       int detune_diffs2_[MAX_UNISON];
       int oscillator1_phase_diffs_[MAX_BUFFER_SIZE];

@@ -18,8 +18,6 @@
 
 namespace mopo {
 
-  const mopo_float FixedPointWaveLookup::SCALE = 0.05;
-
   FixedPointWaveLookup::FixedPointWaveLookup() {
     preprocessSin();
     preprocessTriangle();
@@ -44,13 +42,13 @@ namespace mopo {
   void FixedPointWaveLookup::preprocessSin() {
     for (int h = 0; h < HARMONICS + 1; ++h) {
       for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i)
-        sin_[h][i] = INT_MAX * SCALE * sin((2 * PI * i) / FIXED_LOOKUP_SIZE);
+        sin_[h][i] = 0.5 * sin((2 * PI * i) / FIXED_LOOKUP_SIZE);
     }
   }
 
   void FixedPointWaveLookup::preprocessTriangle() {
     for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-      triangle_[0][i] = INT_MAX * SCALE * Wave::triangle((1.0 * i) / FIXED_LOOKUP_SIZE);
+      triangle_[0][i] = 0.5 * Wave::triangle((1.0 * i) / FIXED_LOOKUP_SIZE);
 
       int p = i;
       mopo_float scale = 8.0 / (PI * PI);
@@ -59,7 +57,7 @@ namespace mopo {
       for (int h = 1; h < HARMONICS; ++h) {
         p = (p + i) % FIXED_LOOKUP_SIZE;
         triangle_[HARMONICS - h][i] = triangle_[HARMONICS - h + 1][i];
-        int harmonic = scale * sin_[0][p] / ((h + 1) * (h + 1));
+        mopo_float harmonic = scale * sin_[0][p] / ((h + 1) * (h + 1));
 
         if (h % 4 == 0)
           triangle_[HARMONICS - h][i] += harmonic;
@@ -71,7 +69,7 @@ namespace mopo {
 
   void FixedPointWaveLookup::preprocessSquare() {
     for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-      square_[0][i] = INT_MAX * SCALE * Wave::square((1.0 * i) / FIXED_LOOKUP_SIZE);
+      square_[0][i] = 0.5 * Wave::square((1.0 * i) / FIXED_LOOKUP_SIZE);
 
       int p = i;
       mopo_float scale = 4.0 / PI;
@@ -96,7 +94,7 @@ namespace mopo {
 
   void FixedPointWaveLookup::preprocessUpSaw() {
     for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-      up_saw_[0][i] = INT_MAX * SCALE * Wave::upsaw((1.0 * i) / FIXED_LOOKUP_SIZE);
+      up_saw_[0][i] = 0.5 * Wave::upsaw((1.0 * i) / FIXED_LOOKUP_SIZE);
 
       int index = (i + (FIXED_LOOKUP_SIZE / 2)) % FIXED_LOOKUP_SIZE;
       int p = i;
@@ -105,7 +103,7 @@ namespace mopo {
 
       for (int h = 1; h < HARMONICS; ++h) {
         p = (p + i) % FIXED_LOOKUP_SIZE;
-        int harmonic = scale * sin_[0][p] / (h + 1);
+        mopo_float harmonic = scale * sin_[0][p] / (h + 1);
 
         if (h % 2 == 0)
           up_saw_[HARMONICS - h][index] = up_saw_[HARMONICS - h + 1][index] + harmonic;

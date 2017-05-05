@@ -25,8 +25,7 @@ namespace mopo {
 
   class FixedPointOscillator : public Processor {
     public:
-      static const mopo_float SCALE_OUT;
-
+    
       enum Inputs {
         kWaveform,
         kPhaseInc,
