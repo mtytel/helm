@@ -255,7 +255,7 @@ namespace mopo {
       }
 
       static inline mopo_float fullsin(mopo_float t) {
-        return sin((2.0 * PI) * t);
+        return utils::quickSin1(t);
       }
 
       static inline mopo_float square(mopo_float t) {

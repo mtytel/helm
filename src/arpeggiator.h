@@ -45,6 +45,7 @@ namespace mopo {
         kGate,
         kPattern,
         kOctaves,
+        kOn,
         kNumInputs
       };
 
