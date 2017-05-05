@@ -36,7 +36,7 @@ namespace mopo {
     unsigned int shuffle_index = INT_MAX * shuffle;
 
     int waveform = static_cast<int>(input(kWaveform)->source->buffer[0] + 0.5);
-    waveform = mopo::utils::clamp(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
+    waveform = mopo::utils::iclamp(waveform, 0, FixedPointWaveLookup::kWhiteNoise - 1);
     mopo_float* wave_buffer = FixedPointWave::getBuffer(waveform, 2.0 * phase_inc);
 
     mopo_float first_adjust = bool(shuffle) * 2.0 / shuffle;
