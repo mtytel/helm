@@ -15,18 +15,23 @@
  */
 
 #include "resonance_cancel.h"
-#include "filter.h"
+#include "biquad_filter.h"
 
 namespace mopo {
 
   ResonanceCancel::ResonanceCancel() : Processor(kNumInputs, 1, true) { }
 
   void ResonanceCancel::process() {
-    Filter::Type type = static_cast<Filter::Type>(static_cast<int>(input(kFilterType)->at(0)));
+    BiquadFilter::Type type = static_cast<BiquadFilter::Type>(
+        static_cast<int>(input(kFilterType)->at(0)));
 
-    if (type == Filter::kLowShelf || type == Filter::kHighShelf || type == Filter::kBandShelf)
+    if (type == BiquadFilter::kLowShelf ||
+        type == BiquadFilter::kHighShelf ||
+        type == BiquadFilter::kBandShelf) {
       output()->buffer[0] = 1.0;
-    else
+    }
+    else {
       output()->buffer[0] = input(kResonance)->source->buffer[0];
+    }
   }
 } // namespace mopo

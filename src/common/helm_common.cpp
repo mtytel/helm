@@ -73,6 +73,8 @@ namespace mopo {
       ValueDetails::kLinear, "dB", "Saturation" },
     { "filter_type", 0.0, 6.0, 7, 6.0, 1.0,
       ValueDetails::kLinear, "", "Filter Type" },
+    { "filter_24db", 0.0, 1.0, 2, 0.0, 1.0,
+      ValueDetails::kLinear, "", "Filter 24dB" },
     { "formant_on", 0.0, 1.0, 2, 0.0, 1.0,
       ValueDetails::kLinear, "", "Formant Switch" },
     { "formant_x", 0.0, 1.0, 0, 0.5, 1.0,

@@ -31,6 +31,7 @@ class FilterSection : public SynthSection {
     void paintBackground(Graphics& g) override;
     void resized() override;
     void reset() override;
+    void buttonClicked(Button* clicked_button) override;
 
   private:
     ScopedPointer<FilterSelector> filter_type_;
@@ -39,6 +40,7 @@ class FilterSection : public SynthSection {
     ScopedPointer<FilterResponse> filter_response_;
     ScopedPointer<SynthSlider> fil_env_depth_;
     ScopedPointer<SynthSlider> keytrack_;
+    ScopedPointer<ToggleButton> filter_24db_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterSection)
 };

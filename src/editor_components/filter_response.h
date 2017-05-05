@@ -20,7 +20,7 @@
 
 #include "JuceHeader.h"
 #include "helm_common.h"
-#include "filter.h"
+#include "biquad_filter.h"
 
 class FilterResponse : public Component, SliderListener {
   public:
@@ -36,6 +36,7 @@ class FilterResponse : public Component, SliderListener {
     void setResonanceSlider(Slider* slider);
     void setCutoffSlider(Slider* slider);
     void setFilterTypeSlider(Slider* slider);
+    void set24db(bool db24);
 
     void paint(Graphics& g) override;
     void paintBackground(Graphics& g);
@@ -46,8 +47,9 @@ class FilterResponse : public Component, SliderListener {
   private:
     Path filter_response_path_;
     int resolution_;
+    bool filter_24db_;
 
-    mopo::Filter filter_;
+    mopo::BiquadFilter filter_;
 
     Slider* filter_type_slider_;
     Slider* cutoff_slider_;

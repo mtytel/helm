@@ -66,6 +66,9 @@
         <FILE id="rfD2YA" name="alias.h" compile="0" resource="0" file="../mopo/src/alias.h"/>
         <FILE id="gSsZeW" name="arpeggiator.cpp" compile="1" resource="0" file="../mopo/src/arpeggiator.cpp"/>
         <FILE id="sUs9IS" name="arpeggiator.h" compile="0" resource="0" file="../mopo/src/arpeggiator.h"/>
+        <FILE id="I04cEW" name="biquad_filter.cpp" compile="1" resource="0"
+              file="../mopo/src/biquad_filter.cpp"/>
+        <FILE id="KCts5P" name="biquad_filter.h" compile="0" resource="0" file="../mopo/src/biquad_filter.h"/>
         <FILE id="rXQ447" name="bit_crush.cpp" compile="1" resource="0" file="../mopo/src/bit_crush.cpp"/>
         <FILE id="YIBNAo" name="bit_crush.h" compile="0" resource="0" file="../mopo/src/bit_crush.h"/>
         <FILE id="UYNKEZ" name="bypass_router.cpp" compile="1" resource="0"
@@ -80,12 +83,13 @@
         <FILE id="pib6Ig" name="envelope.h" compile="0" resource="0" file="../mopo/src/envelope.h"/>
         <FILE id="o8RYzw" name="feedback.cpp" compile="1" resource="0" file="../mopo/src/feedback.cpp"/>
         <FILE id="PAi1Fd" name="feedback.h" compile="0" resource="0" file="../mopo/src/feedback.h"/>
-        <FILE id="NkSEh2" name="filter.cpp" compile="1" resource="0" file="../mopo/src/filter.cpp"/>
-        <FILE id="DEyNse" name="filter.h" compile="0" resource="0" file="../mopo/src/filter.h"/>
         <FILE id="azvuRt" name="formant_manager.cpp" compile="1" resource="0"
               file="../mopo/src/formant_manager.cpp"/>
         <FILE id="dSnIdf" name="formant_manager.h" compile="0" resource="0"
               file="../mopo/src/formant_manager.h"/>
+        <FILE id="OAIo68" name="ladder_filter.cpp" compile="1" resource="0"
+              file="../mopo/src/ladder_filter.cpp"/>
+        <FILE id="MvGheA" name="ladder_filter.h" compile="0" resource="0" file="../mopo/src/ladder_filter.h"/>
         <FILE id="Y2TuOh" name="linear_slope.cpp" compile="1" resource="0"
               file="../mopo/src/linear_slope.cpp"/>
         <FILE id="luOcgR" name="linear_slope.h" compile="0" resource="0" file="../mopo/src/linear_slope.h"/>
@@ -143,6 +147,10 @@
         <FILE id="slb38X" name="smooth_value.cpp" compile="1" resource="0"
               file="../mopo/src/smooth_value.cpp"/>
         <FILE id="pKTIhU" name="smooth_value.h" compile="0" resource="0" file="../mopo/src/smooth_value.h"/>
+        <FILE id="KUccNz" name="state_variable_filter.cpp" compile="1" resource="0"
+              file="../mopo/src/state_variable_filter.cpp"/>
+        <FILE id="cKH0EN" name="state_variable_filter.h" compile="0" resource="0"
+              file="../mopo/src/state_variable_filter.h"/>
         <FILE id="REyikp" name="step_generator.cpp" compile="1" resource="0"
               file="../mopo/src/step_generator.cpp"/>
         <FILE id="jpUYsG" name="step_generator.h" compile="0" resource="0"

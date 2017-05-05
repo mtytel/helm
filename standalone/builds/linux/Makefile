@@ -66,14 +66,15 @@ endif
 OBJECTS := \
   $(JUCE_OBJDIR)/alias_3b4a33b.o \
   $(JUCE_OBJDIR)/arpeggiator_89770ba4.o \
+  $(JUCE_OBJDIR)/biquad_filter_5a44dd34.o \
   $(JUCE_OBJDIR)/bit_crush_6b16ce74.o \
   $(JUCE_OBJDIR)/bypass_router_40c9316b.o \
   $(JUCE_OBJDIR)/delay_8860f4ee.o \
   $(JUCE_OBJDIR)/distortion_f480ec5c.o \
   $(JUCE_OBJDIR)/envelope_e820148f.o \
   $(JUCE_OBJDIR)/feedback_dd650dc4.o \
-  $(JUCE_OBJDIR)/filter_8bfdb6b7.o \
   $(JUCE_OBJDIR)/formant_manager_f436e2fc.o \
+  $(JUCE_OBJDIR)/ladder_filter_a3cf6a0.o \
   $(JUCE_OBJDIR)/linear_slope_44537f50.o \
   $(JUCE_OBJDIR)/magnitude_lookup_8a3238c8.o \
   $(JUCE_OBJDIR)/memory_5ee1bbc0.o \
@@ -93,6 +94,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/simple_delay_53bccd75.o \
   $(JUCE_OBJDIR)/smooth_filter_f6a9594.o \
   $(JUCE_OBJDIR)/smooth_value_7af0775f.o \
+  $(JUCE_OBJDIR)/state_variable_filter_4b869558.o \
   $(JUCE_OBJDIR)/step_generator_7143a5f.o \
   $(JUCE_OBJDIR)/stutter_3fda664c.o \
   $(JUCE_OBJDIR)/trigger_operators_54fe0673.o \
@@ -217,6 +219,11 @@ $(JUCE_OBJDIR)/arpeggiator_89770ba4.o: ../../../mopo/src/arpeggiator.cpp
 	@echo "Compiling arpeggiator.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/biquad_filter_5a44dd34.o: ../../../mopo/src/biquad_filter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling biquad_filter.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/bit_crush_6b16ce74.o: ../../../mopo/src/bit_crush.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling bit_crush.cpp"
@@ -247,14 +254,14 @@ $(JUCE_OBJDIR)/feedback_dd650dc4.o: ../../../mopo/src/feedback.cpp
 	@echo "Compiling feedback.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/filter_8bfdb6b7.o: ../../../mopo/src/filter.cpp
-	-@mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling filter.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
-
 $(JUCE_OBJDIR)/formant_manager_f436e2fc.o: ../../../mopo/src/formant_manager.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling formant_manager.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/ladder_filter_a3cf6a0.o: ../../../mopo/src/ladder_filter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling ladder_filter.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/linear_slope_44537f50.o: ../../../mopo/src/linear_slope.cpp
@@ -350,6 +357,11 @@ $(JUCE_OBJDIR)/smooth_filter_f6a9594.o: ../../../mopo/src/smooth_filter.cpp
 $(JUCE_OBJDIR)/smooth_value_7af0775f.o: ../../../mopo/src/smooth_value.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling smooth_value.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/state_variable_filter_4b869558.o: ../../../mopo/src/state_variable_filter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling state_variable_filter.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/step_generator_7143a5f.o: ../../../mopo/src/step_generator.cpp

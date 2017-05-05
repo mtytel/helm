@@ -42,10 +42,10 @@ namespace mopo {
     };
 
     static const cr::Value formant_filter_types[NUM_FORMANTS] = {
-      cr::Value(Filter::kGainedBandPass),
-      cr::Value(Filter::kGainedBandPass),
-      cr::Value(Filter::kGainedBandPass),
-      cr::Value(Filter::kGainedBandPass)
+      cr::Value(BiquadFilter::kGainedBandPass),
+      cr::Value(BiquadFilter::kGainedBandPass),
+      cr::Value(BiquadFilter::kGainedBandPass),
+      cr::Value(BiquadFilter::kGainedBandPass)
     };
 
     static const Value formant_a_decibels(-4.0f);
@@ -444,6 +444,7 @@ namespace mopo {
     cr::MagnitudeScale* final_gain = new cr::MagnitudeScale();
     final_gain->plug(decibels);
 
+    Processor* filter_db24 = createBaseControl("filter_24db");
     Processor* filter_saturation = createPolyModControl("filter_saturation", true);
     cr::MagnitudeScale* saturation_magnitude = new cr::MagnitudeScale();
     saturation_magnitude->plug(filter_saturation);
@@ -456,13 +457,14 @@ namespace mopo {
     saturated_audio->plug(audio, 0);
     saturated_audio->plug(smooth_saturation_magnitude, 1);
 
-    Filter* filter = new Filter();
-    filter->plug(saturated_audio, Filter::kAudio);
-    filter->plug(filter_type, Filter::kType);
-    filter->plug(reset, Filter::kReset);
-    filter->plug(frequency_cutoff, Filter::kCutoff);
-    filter->plug(final_resonance, Filter::kResonance);
-    filter->plug(final_gain, Filter::kGain);
+    StateVariableFilter* filter = new StateVariableFilter();
+    filter->plug(saturated_audio, StateVariableFilter::kAudio);
+    filter->plug(filter_type, StateVariableFilter::kType);
+    filter->plug(reset, StateVariableFilter::kReset);
+    filter->plug(frequency_cutoff, StateVariableFilter::kCutoff);
+    filter->plug(final_resonance, StateVariableFilter::kResonance);
+    filter->plug(final_gain, StateVariableFilter::kGain);
+    filter->plug(filter_db24, StateVariableFilter::k24db);
 
     addProcessor(current_keytrack);
     addProcessor(saturated_audio);
@@ -560,10 +562,10 @@ namespace mopo {
       cr::MidiScale* formant_frequency = new cr::MidiScale();
       formant_frequency->plug(formant_midi);
 
-      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], Filter::kType);
-      formant_filter_->getFormant(i)->plug(formant_magnitude, Filter::kGain);
-      formant_filter_->getFormant(i)->plug(formant_q, Filter::kResonance);
-      formant_filter_->getFormant(i)->plug(formant_frequency, Filter::kCutoff);
+      formant_filter_->getFormant(i)->plug(&formant_filter_types[i], BiquadFilter::kType);
+      formant_filter_->getFormant(i)->plug(formant_magnitude, BiquadFilter::kGain);
+      formant_filter_->getFormant(i)->plug(formant_q, BiquadFilter::kResonance);
+      formant_filter_->getFormant(i)->plug(formant_frequency, BiquadFilter::kCutoff);
 
       formant_container_->addProcessor(formant_gain);
       formant_container_->addProcessor(formant_magnitude);

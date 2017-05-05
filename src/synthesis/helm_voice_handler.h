@@ -31,6 +31,7 @@ namespace mopo {
   class Envelope;
   class Filter;
   class FormantManager;
+  class LadderFilter;
   class LinearSlope;
   class Oscillator;
   class SmoothValue;

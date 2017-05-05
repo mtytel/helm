@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.9.0"
               bundleIdentifier="org.tytel.helmplugin" includeBinaryInAppConfig="1"
-              buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="1"
+              buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
               pluginName="Helm" pluginDesc="" pluginManufacturer="Matt Tytel"
               pluginManufacturerCode="Tyte" pluginCode="Helm" pluginChannelConfigs="{0, 1}, {0, 2}"
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
@@ -73,6 +73,9 @@
         <FILE id="vgDlZD" name="alias.h" compile="0" resource="0" file="mopo/src/alias.h"/>
         <FILE id="XTF77j" name="arpeggiator.cpp" compile="1" resource="0" file="mopo/src/arpeggiator.cpp"/>
         <FILE id="Nxf74w" name="arpeggiator.h" compile="0" resource="0" file="mopo/src/arpeggiator.h"/>
+        <FILE id="Iw4shK" name="biquad_filter.cpp" compile="1" resource="0"
+              file="mopo/src/biquad_filter.cpp"/>
+        <FILE id="odWulX" name="biquad_filter.h" compile="0" resource="0" file="mopo/src/biquad_filter.h"/>
         <FILE id="pCAsWe" name="bit_crush.cpp" compile="1" resource="0" file="mopo/src/bit_crush.cpp"/>
         <FILE id="jlEkLP" name="bit_crush.h" compile="0" resource="0" file="mopo/src/bit_crush.h"/>
         <FILE id="zTMr2Y" name="bypass_router.cpp" compile="1" resource="0"
@@ -87,12 +90,13 @@
         <FILE id="q7ALND" name="envelope.h" compile="0" resource="0" file="mopo/src/envelope.h"/>
         <FILE id="btwOeq" name="feedback.cpp" compile="1" resource="0" file="mopo/src/feedback.cpp"/>
         <FILE id="ZAlv8o" name="feedback.h" compile="0" resource="0" file="mopo/src/feedback.h"/>
-        <FILE id="nLnW5X" name="filter.cpp" compile="1" resource="0" file="mopo/src/filter.cpp"/>
-        <FILE id="dO8njp" name="filter.h" compile="0" resource="0" file="mopo/src/filter.h"/>
         <FILE id="viIvnV" name="formant_manager.cpp" compile="1" resource="0"
               file="mopo/src/formant_manager.cpp"/>
         <FILE id="ctYFj3" name="formant_manager.h" compile="0" resource="0"
               file="mopo/src/formant_manager.h"/>
+        <FILE id="FUvkgv" name="ladder_filter.cpp" compile="1" resource="0"
+              file="mopo/src/ladder_filter.cpp"/>
+        <FILE id="EZiH4X" name="ladder_filter.h" compile="0" resource="0" file="mopo/src/ladder_filter.h"/>
         <FILE id="r3pqqh" name="linear_slope.cpp" compile="1" resource="0"
               file="mopo/src/linear_slope.cpp"/>
         <FILE id="Ee7FW3" name="linear_slope.h" compile="0" resource="0" file="mopo/src/linear_slope.h"/>
@@ -150,6 +154,10 @@
         <FILE id="axayHO" name="smooth_value.cpp" compile="1" resource="0"
               file="mopo/src/smooth_value.cpp"/>
         <FILE id="jJtWLp" name="smooth_value.h" compile="0" resource="0" file="mopo/src/smooth_value.h"/>
+        <FILE id="ohOR82" name="state_variable_filter.cpp" compile="1" resource="0"
+              file="mopo/src/state_variable_filter.cpp"/>
+        <FILE id="H5ZhCW" name="state_variable_filter.h" compile="0" resource="0"
+              file="mopo/src/state_variable_filter.h"/>
         <FILE id="bRqJGe" name="step_generator.cpp" compile="1" resource="0"
               file="mopo/src/step_generator.cpp"/>
         <FILE id="UxOwp5" name="step_generator.h" compile="0" resource="0"

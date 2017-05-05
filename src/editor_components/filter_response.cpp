@@ -33,6 +33,7 @@ FilterResponse::FilterResponse(int resolution) {
   filter_type_slider_ = nullptr;
 
   filter_.setSampleRate(44100);
+  filter_24db_ = false;
   resetResponsePath();
 
   setOpaque(true);
@@ -103,6 +104,9 @@ void FilterResponse::mouseDrag(const MouseEvent& e) {
 float FilterResponse::getPercentForMidiNote(float midi_note) {
   float frequency = mopo::utils::midiNoteToFrequency(midi_note);
   float response = fabs(filter_.getAmplitudeResponse(frequency));
+  if (filter_24db_)
+    response *= response;
+
   float gain_db = mopo::utils::gainToDb(response);
   return (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
 }
@@ -149,15 +153,21 @@ void FilterResponse::computeFilterCoefficients() {
   if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr || filter_type_slider_ == nullptr)
     return;
 
-  mopo::Filter::Type type = static_cast<mopo::Filter::Type>(
-                            static_cast<int>(filter_type_slider_->getValue()));
+  mopo::BiquadFilter::Type type = static_cast<mopo::BiquadFilter::Type>(
+      static_cast<int>(filter_type_slider_->getValue()));
   double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
   double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
   double decibels = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
   double gain = mopo::utils::dbToGain(decibels);
-  if (type == mopo::Filter::kLowShelf ||
-      type == mopo::Filter::kHighShelf ||
-      type == mopo::Filter::kBandShelf) {
+
+  if (filter_24db_) {
+    resonance = sqrt(resonance);
+    gain = sqrt(gain);
+  }
+  
+  if (type == mopo::BiquadFilter::kLowShelf ||
+      type == mopo::BiquadFilter::kHighShelf ||
+      type == mopo::BiquadFilter::kBandShelf) {
     filter_.computeCoefficients(type, frequency, 1.0, gain);
   }
   else {
@@ -208,6 +218,15 @@ void FilterResponse::setFilterTypeSlider(Slider* slider) {
     filter_type_slider_->removeListener(this);
   filter_type_slider_ = slider;
   filter_type_slider_->addListener(this);
+  computeFilterCoefficients();
+  repaint();
+}
+
+void FilterResponse::set24db(bool db24) {
+  if (filter_24db_ == db24)
+    return;
+
+  filter_24db_ = db24;
   computeFilterCoefficients();
   repaint();
 }

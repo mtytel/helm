@@ -41,7 +41,7 @@ namespace mopo {
     protected:
       inline void tick(int i, mopo_float* dest, const mopo_float* amplitude) {
         current_noise_value_ *= current_noise_value_;
-        current_noise_value_ = current_noise_value_ - int(current_noise_value_);
+        current_noise_value_ = current_noise_value_ - floor(current_noise_value_);
 
         dest[i] = amplitude[i] * (2.0 * current_noise_value_ - 1.0);
 

@@ -391,6 +391,9 @@
     <ClCompile Include="..\..\..\mopo\src\arpeggiator.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\mopo\src\biquad_filter.cpp">
+      <Filter>Helm\mopo\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\bit_crush.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
@@ -409,10 +412,10 @@
     <ClCompile Include="..\..\..\mopo\src\feedback.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mopo\src\filter.cpp">
+    <ClCompile Include="..\..\..\mopo\src\formant_manager.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mopo\src\formant_manager.cpp">
+    <ClCompile Include="..\..\..\mopo\src\ladder_filter.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\linear_slope.cpp">
@@ -470,6 +473,9 @@
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\smooth_value.cpp">
+      <Filter>Helm\mopo\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\mopo\src\state_variable_filter.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\step_generator.cpp">
@@ -2421,6 +2427,9 @@
     <ClInclude Include="..\..\..\mopo\src\arpeggiator.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\biquad_filter.h">
+      <Filter>Helm\mopo\src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\bit_crush.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
@@ -2442,10 +2451,10 @@
     <ClInclude Include="..\..\..\mopo\src\feedback.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\mopo\src\filter.h">
+    <ClInclude Include="..\..\..\mopo\src\formant_manager.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\mopo\src\formant_manager.h">
+    <ClInclude Include="..\..\..\mopo\src\ladder_filter.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\linear_slope.h">
@@ -2512,6 +2521,9 @@
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\smooth_value.h">
+      <Filter>Helm\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\mopo\src\state_variable_filter.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\step_generator.h">

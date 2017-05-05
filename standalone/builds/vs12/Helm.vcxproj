@@ -188,14 +188,15 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\mopo\src\alias.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\arpeggiator.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\biquad_filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\bit_crush.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\bypass_router.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\delay.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\distortion.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\envelope.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\feedback.cpp"/>
-    <ClCompile Include="..\..\..\mopo\src\filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\formant_manager.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\ladder_filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\linear_slope.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\magnitude_lookup.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\memory.cpp"/>
@@ -215,6 +216,7 @@
     <ClCompile Include="..\..\..\mopo\src\simple_delay.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\smooth_filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\smooth_value.cpp"/>
+    <ClCompile Include="..\..\..\mopo\src\state_variable_filter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\step_generator.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\stutter.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\trigger_operators.cpp"/>
@@ -1852,6 +1854,7 @@
     <ClInclude Include="..\..\..\concurrentqueue\concurrentqueue.h"/>
     <ClInclude Include="..\..\..\mopo\src\alias.h"/>
     <ClInclude Include="..\..\..\mopo\src\arpeggiator.h"/>
+    <ClInclude Include="..\..\..\mopo\src\biquad_filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\bit_crush.h"/>
     <ClInclude Include="..\..\..\mopo\src\bypass_router.h"/>
     <ClInclude Include="..\..\..\mopo\src\common.h"/>
@@ -1859,8 +1862,8 @@
     <ClInclude Include="..\..\..\mopo\src\distortion.h"/>
     <ClInclude Include="..\..\..\mopo\src\envelope.h"/>
     <ClInclude Include="..\..\..\mopo\src\feedback.h"/>
-    <ClInclude Include="..\..\..\mopo\src\filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\formant_manager.h"/>
+    <ClInclude Include="..\..\..\mopo\src\ladder_filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\linear_slope.h"/>
     <ClInclude Include="..\..\..\mopo\src\magnitude_lookup.h"/>
     <ClInclude Include="..\..\..\mopo\src\memory.h"/>
@@ -1883,6 +1886,7 @@
     <ClInclude Include="..\..\..\mopo\src\simple_delay.h"/>
     <ClInclude Include="..\..\..\mopo\src\smooth_filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\smooth_value.h"/>
+    <ClInclude Include="..\..\..\mopo\src\state_variable_filter.h"/>
     <ClInclude Include="..\..\..\mopo\src\step_generator.h"/>
     <ClInclude Include="..\..\..\mopo\src\stutter.h"/>
     <ClInclude Include="..\..\..\mopo\src\tick_router.h"/>
