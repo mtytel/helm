@@ -77,12 +77,16 @@ namespace mopo {
 
     // Run all the main processors.
     int num_processors = local_order_.size();
-    for (int i = 0; i < num_processors; ++i)
-      local_order_[i]->process();
+    for (int i = 0; i < num_processors; ++i) {
+      if (global_order_->at(i)->enabled())
+        local_order_[i]->process();
+    }
 
     // Store the outputs into the Feedback objects for next time.
-    for (int i = 0; i < num_feedbacks; ++i)
-      local_feedback_order_[i]->process();
+    for (int i = 0; i < num_feedbacks; ++i) {
+      if (global_feedback_order_->at(i)->enabled())
+        local_feedback_order_[i]->process();
+    }
 
     MOPO_ASSERT(num_processors != 0);
   }

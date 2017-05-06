@@ -29,7 +29,7 @@ namespace mopo {
         kNumInputs
       };
 
-      Value(mopo_float value = 0.0, bool conrol_rate = false);
+      Value(mopo_float value = 0.0, bool control_rate = false);
 
       virtual Processor* clone() const override { return new Value(*this); }
       virtual void process() override;
