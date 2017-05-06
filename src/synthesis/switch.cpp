@@ -20,19 +20,27 @@
 
 namespace mopo {
 
-  Switch::Switch() : Processor(kNumInputs, 1, true) {
+  Switch::Switch(mopo_float value, bool control_rate) : Value(value, control_rate) {
     original_buffer_ = output()->buffer;
   }
 
   void Switch::destroy() {
     output()->buffer = original_buffer_;
-    Processor::destroy();
+    Value::destroy();
   }
 
   void Switch::process() {
-    int source = (int)input(kSource)->at(0);
-    source = utils::iclamp(source, 0, numInputs() - kNumInputs - 1);
+    int source = (int)input(Value::kSet)->at(0);
+    setSource(source);
+  }
 
+  void Switch::set(mopo_float value) {
+    value_ = value;
+    setSource(value);
+  }
+
+  inline void Switch::setSource(int source) {
+    source = utils::iclamp(source, 0, numInputs() - kNumInputs - 1);
     output()->buffer = input(kNumInputs + source)->source->buffer;
   }
 } // namespace mopo

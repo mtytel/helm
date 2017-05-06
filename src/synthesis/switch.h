@@ -18,25 +18,29 @@
 #ifndef SWITCH_H
 #define SWITCH_H
 
-#include "processor.h"
+#include "value.h"
 
 namespace mopo {
 
-  class Switch : public Processor {
+  class Switch : public Value {
     public:
-      enum Inputs {
-        kSource,
-        kNumInputs
+      enum Outputs {
+        kValue,
+        kChosen,
+        kNumOutputs
       };
 
-      Switch();
+      Switch(mopo_float value = 0.0, bool control_rate = false);
       virtual void destroy() override;
 
       virtual Processor* clone() const override { return new Switch(*this); }
 
       void process() override;
+      virtual void set(mopo_float value) override;
 
     private:
+      void setSource(int source);
+
       mopo_float* original_buffer_;
   };
 } // namespace mopo

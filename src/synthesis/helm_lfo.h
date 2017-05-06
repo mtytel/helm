@@ -44,8 +44,8 @@ namespace mopo {
 
       HelmLfo();
 
-      virtual Processor* clone() const { return new HelmLfo(*this); }
-      void process();
+      virtual Processor* clone() const override { return new HelmLfo(*this); }
+      void process() override;
       void correctToTime(mopo_float samples);
 
     protected:

@@ -21,6 +21,25 @@
 
 namespace mopo {
 
+  HelmModule::OutputSwitch::OutputSwitch() : Processor(0, 1) {
+    raw_source_ = nullptr;
+    processed_source_ = nullptr;
+  }
+
+  void HelmModule::OutputSwitch::destroy() {
+    output()->buffer = original_buffer_;
+  }
+
+  void HelmModule::OutputSwitch::enable(bool enable) {
+    for (Processor* processor : processors_)
+      processor->enable(enable);
+
+    if (enable && processed_source_)
+      outputs_->at(0) = processed_source_;
+    else if (raw_source_)
+      outputs_->at(0) = raw_source_;
+  }
+
   HelmModule::HelmModule() { }
 
   Value* HelmModule::createBaseControl(std::string name, bool smooth_value) {
@@ -58,6 +77,14 @@ namespace mopo {
     Processor* base_control = createBaseModControl(name, smooth_value);
     Processor* control_rate_total = base_control;
 
+    OutputSwitch* control_switch = new OutputSwitch();
+    control_switch->setRawSource(controls_[name]->output());
+    control_switch->setProcessedSource(control_rate_total->output());
+    control_switch->addProcessor(base_control);
+    control_switch->enable(true);
+    mono_owner->addIdleProcessor(control_switch);
+
+    control_rate_total = control_switch;
     if (details.display_skew == ValueDetails::kQuadratic) {
       control_rate_total = new cr::Square();
       control_rate_total->plug(base_control);
@@ -70,11 +97,12 @@ namespace mopo {
     }
 
     if (control_rate)
-      return control_rate_total;
+      return control_switch;
 
-    LinearSmoothBuffer* audio_rate = new LinearSmoothBuffer();
-    audio_rate->plug(control_rate_total);
+    SampleAndHoldBuffer* audio_rate = new SampleAndHoldBuffer();
+    audio_rate->plug(control_switch);
     mono_owner->addProcessor(audio_rate);
+
     return audio_rate;
   }
 
@@ -95,7 +123,16 @@ namespace mopo {
 
     poly_modulation_readout_[name] = poly_total->output();
 
-    Processor* control_rate_total = modulation_total;
+    OutputSwitch* control_switch = new OutputSwitch();
+    control_switch->setRawSource(controls_[name]->output());
+    control_switch->setProcessedSource(modulation_total->output());
+    control_switch->addProcessor(base_control);
+    control_switch->addProcessor(poly_total);
+    control_switch->addProcessor(modulation_total);
+    control_switch->enable(true);
+    poly_owner->addIdleProcessor(control_switch);
+
+    Processor* control_rate_total = control_switch;
     if (details.display_skew == ValueDetails::kQuadratic) {
       control_rate_total = new cr::Square();
       control_rate_total->plug(modulation_total);
@@ -129,7 +166,7 @@ namespace mopo {
       tempo = createMonoModControl(name + "_tempo", frequency->isControlRate());
 
     Switch* choose_tempo = new Switch();
-    choose_tempo->plug(tempo, Switch::kSource);
+    choose_tempo->plug(tempo, Switch::kSet);
 
     for (int i = 0; i < sizeof(synced_freq_ratios) / sizeof(Value); ++i)
       choose_tempo->plugNext(&synced_freq_ratios[i]);
@@ -137,7 +174,7 @@ namespace mopo {
     Switch* choose_modifier = new Switch();
     Value* sync = new cr::Value(1);
     owner->addIdleProcessor(sync);
-    choose_modifier->plug(sync, Switch::kSource);
+    choose_modifier->plug(sync, Switch::kSet);
     choose_modifier->plugNext(&utils::value_one);
     choose_modifier->plugNext(&utils::value_one);
     choose_modifier->plugNext(&dotted_ratio);
@@ -158,7 +195,7 @@ namespace mopo {
     owner->addProcessor(tempo_frequency);
 
     Switch* choose_frequency = new Switch();
-    choose_frequency->plug(sync, Switch::kSource);
+    choose_frequency->plug(sync, Switch::kSet);
     choose_frequency->plugNext(frequency);
     choose_frequency->plugNext(tempo_frequency);
     choose_frequency->plugNext(tempo_frequency);

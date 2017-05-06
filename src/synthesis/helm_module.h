@@ -26,6 +26,25 @@
 namespace mopo {
   class HelmModule : public virtual ProcessorRouter {
     public:
+      class OutputSwitch : public Processor {
+        public:
+          OutputSwitch();
+
+          void addProcessor(Processor* processor) { processors_.push_back(processor); }
+          void setRawSource(Output* source) { raw_source_ = source; }
+          void setProcessedSource(Output* source) { processed_source_ = source; }
+          void destroy() override;
+          virtual Processor* clone() const override { return new OutputSwitch(*this); }
+          void process() override { }
+          void enable(bool enable);
+
+        private:
+          std::vector<Processor*> processors_;
+          Output* raw_source_;
+          Output* processed_source_;
+          mopo_float* original_buffer_;
+      };
+
       HelmModule();
       virtual ~HelmModule() { } // Should probably delete things.
 

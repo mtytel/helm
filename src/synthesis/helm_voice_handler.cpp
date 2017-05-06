@@ -100,10 +100,10 @@ namespace mopo {
   void HelmVoiceHandler::init() {
     // Create modulation and pitch wheels per channel.
     choose_pitch_wheel_ = new Switch();
-    choose_pitch_wheel_->plug(channel(), Switch::kSource);
+    choose_pitch_wheel_->plug(channel(), Switch::kSet);
 
     Switch* choose_mod_wheel = new Switch();
-    choose_mod_wheel->plug(channel(), Switch::kSource);
+    choose_mod_wheel->plug(channel(), Switch::kSet);
 
     for (int i = 0; i < mopo::NUM_MIDI_CHANNELS; ++i) {
       pitch_wheel_amounts_[i] = new cr::Value(0);
@@ -568,11 +568,11 @@ namespace mopo {
       formant_filter_->getFormant(i)->plug(formant_q, BiquadFilter::kResonance);
       formant_filter_->getFormant(i)->plug(formant_frequency, BiquadFilter::kCutoff);
 
-      formant_container_->addProcessor(formant_gain);
-      formant_container_->addProcessor(formant_magnitude);
-      formant_container_->addProcessor(formant_q);
-      formant_container_->addProcessor(formant_midi);
-      formant_container_->addProcessor(formant_frequency);
+      addProcessor(formant_gain);
+      addProcessor(formant_magnitude);
+      addProcessor(formant_q);
+      addProcessor(formant_midi);
+      addProcessor(formant_frequency);
     }
 
     BilinearInterpolate* formant_decibels = new BilinearInterpolate();
