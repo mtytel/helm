@@ -163,7 +163,7 @@ namespace mopo {
   }
 
   void HelmOscillators::processCrossMod() {
-    const mopo_float* cross_mod = input(kCrossMod)->source->buffer;
+    mopo_float cross_mod = input(kCrossMod)->at(0);
     const int* phase_diffs1 = oscillator1_phase_diffs_;
     const int* phase_diffs2 = oscillator2_phase_diffs_;
     int* dest_cross_mod2 = oscillator2_cross_mods_;

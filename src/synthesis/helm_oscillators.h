@@ -72,7 +72,7 @@ namespace mopo {
       void processVoices();
       void finishVoices(int voices1, int voices2);
 
-      inline void tickCrossMod(int i, const mopo_float* cross_mod,
+      inline void tickCrossMod(int i, const mopo_float cross_mod,
                                int* dest_cross_mod1, int* dest_cross_mod2,
                                unsigned int phase1, unsigned int phase2) {
         const static mopo_float mult = (1.0 / UINT_MAX);
@@ -81,8 +81,8 @@ namespace mopo {
         int master_phase2 = dest_cross_mod1[i] + phase2;
         mopo_float sin1 = utils::quickerSin(mult * master_phase1);
         mopo_float sin2 = utils::quickerSin(mult * master_phase2);
-        dest_cross_mod1[i + 1] = sin1 * cross_mod[i] * INT_MAX;
-        dest_cross_mod2[i + 1] = sin2 * cross_mod[i] * INT_MAX;
+        dest_cross_mod1[i + 1] = sin1 * cross_mod * INT_MAX;
+        dest_cross_mod2[i + 1] = sin2 * cross_mod * INT_MAX;
       }
 
       inline void tickInitialVoices(int i) {

@@ -39,11 +39,11 @@ namespace mopo {
       virtual Processor* clone() const { return new NoiseOscillator(*this); }
 
     protected:
-      inline void tick(int i, mopo_float* dest, const mopo_float* amplitude) {
+      inline void tick(int i, mopo_float* dest, mopo_float amplitude) {
         current_noise_value_ *= current_noise_value_;
         current_noise_value_ = current_noise_value_ - floor(current_noise_value_);
 
-        dest[i] = amplitude[i] * (2.0 * current_noise_value_ - 1.0);
+        dest[i] = amplitude * (2.0 * current_noise_value_ - 1.0);
 
         current_noise_value_ += NOISE_INT_CONSTANT;
       }

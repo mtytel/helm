@@ -23,10 +23,10 @@ namespace mopo {
   }
 
   void NoiseOscillator::process() {
-    const mopo_float* amplitude = input(kAmplitude)->source->buffer;
+    mopo_float amplitude = input(kAmplitude)->source->buffer[0];
     mopo_float* dest = output()->buffer;
 
-    if (amplitude[0] == 0.0 && amplitude[buffer_size_ - 1] == 0.0) {
+    if (amplitude == 0.0) {
       if (dest[0] != 0.0 || dest[buffer_size_ - 1 != 0.0])
         utils::zeroBuffer(dest, buffer_size_);
       return;

@@ -192,7 +192,7 @@ namespace mopo {
     oscillators->plug(oscillator1_unison_voices, HelmOscillators::kUnisonVoices1);
     oscillators->plug(oscillator1_unison_harmonize, HelmOscillators::kHarmonize1);
 
-    Processor* cross_mod = createPolyModControl("cross_modulation", false, true);
+    Processor* cross_mod = createPolyModControl("cross_modulation", true);
     oscillators->plug(cross_mod, HelmOscillators::kCrossMod);
 
     addProcessor(oscillator1_transposed);
@@ -239,13 +239,13 @@ namespace mopo {
     addProcessor(oscillator2_phase_inc_smooth);
 
     // Oscillator mix.
-    Processor* osc_1_amplitude = createPolyModControl("osc_1_volume", true, false);
+    Processor* osc_1_amplitude = createPolyModControl("osc_1_volume", true);
     LinearSmoothBuffer* smooth_osc_1_amp = new LinearSmoothBuffer();
     smooth_osc_1_amp->plug(osc_1_amplitude, LinearSmoothBuffer::kValue);
     smooth_osc_1_amp->plug(reset, LinearSmoothBuffer::kTrigger);
     oscillators->plug(smooth_osc_1_amp, HelmOscillators::kOscillator1Amplitude);
 
-    Processor* osc_2_amplitude = createPolyModControl("osc_2_volume", true, false);
+    Processor* osc_2_amplitude = createPolyModControl("osc_2_volume", true);
     LinearSmoothBuffer* smooth_osc_2_amp = new LinearSmoothBuffer();
     smooth_osc_2_amp->plug(osc_2_amplitude, LinearSmoothBuffer::kValue);
     smooth_osc_2_amp->plug(reset, LinearSmoothBuffer::kTrigger);
@@ -266,8 +266,8 @@ namespace mopo {
     sub_phase_inc->plug(sub_frequency);
 
     Processor* sub_waveform = createPolyModControl("sub_waveform", true);
-    Processor* sub_shuffle = createPolyModControl("sub_shuffle", false, true);
-    Processor* sub_volume = createPolyModControl("sub_volume", true, false);
+    Processor* sub_shuffle = createPolyModControl("sub_shuffle", true);
+    Processor* sub_volume = createPolyModControl("sub_volume", true);
     LinearSmoothBuffer* smooth_sub_volume = new LinearSmoothBuffer();
     smooth_sub_volume->plug(sub_volume, LinearSmoothBuffer::kValue);
     smooth_sub_volume->plug(reset, LinearSmoothBuffer::kTrigger);
@@ -292,7 +292,7 @@ namespace mopo {
     addProcessor(oscillator_sum);
 
     // Noise Oscillator.
-    Processor* noise_volume = createPolyModControl("noise_volume", false);
+    Processor* noise_volume = createPolyModControl("noise_volume", true);
     NoiseOscillator* noise_oscillator = new NoiseOscillator();
     noise_oscillator->plug(reset, NoiseOscillator::kReset);
     noise_oscillator->plug(noise_volume, NoiseOscillator::kAmplitude);
@@ -352,7 +352,7 @@ namespace mopo {
   void HelmVoiceHandler::createModulators(Output* reset) {
     // Poly LFO.
     Processor* lfo_waveform = createPolyModControl("poly_lfo_waveform", true);
-    Processor* lfo_free_frequency = createPolyModControl("poly_lfo_frequency", true, false);
+    Processor* lfo_free_frequency = createPolyModControl("poly_lfo_frequency", true);
     Processor* lfo_free_amplitude = createPolyModControl("poly_lfo_amplitude", true);
     Processor* lfo_frequency = createTempoSyncSwitch("poly_lfo", lfo_free_frequency,
                                                      beats_per_second_, true);
@@ -370,10 +370,10 @@ namespace mopo {
     mod_sources_["poly_lfo"] = scaled_lfo->output();
 
     // Extra Envelope.
-    Processor* mod_attack = createPolyModControl("mod_attack", false, false);
-    Processor* mod_decay = createPolyModControl("mod_decay", true, false);
-    Processor* mod_sustain = createPolyModControl("mod_sustain", false);
-    Processor* mod_release = createPolyModControl("mod_release", true, false);
+    Processor* mod_attack = createPolyModControl("mod_attack", true);
+    Processor* mod_decay = createPolyModControl("mod_decay", true);
+    Processor* mod_sustain = createPolyModControl("mod_sustain", true);
+    Processor* mod_release = createPolyModControl("mod_release", true);
 
     extra_envelope_ = new Envelope();
     extra_envelope_->plug(mod_attack, Envelope::kAttack);
@@ -389,10 +389,10 @@ namespace mopo {
   void HelmVoiceHandler::createFilter(
       Output* audio, Output* keytrack, Output* reset) {
     // Filter envelope.
-    Processor* filter_attack = createPolyModControl("fil_attack", false, false);
-    Processor* filter_decay = createPolyModControl("fil_decay", true, false);
-    Processor* filter_sustain = createPolyModControl("fil_sustain", false);
-    Processor* filter_release = createPolyModControl("fil_release", true, false);
+    Processor* filter_attack = createPolyModControl("fil_attack", true);
+    Processor* filter_decay = createPolyModControl("fil_decay", true);
+    Processor* filter_sustain = createPolyModControl("fil_sustain", true);
+    Processor* filter_release = createPolyModControl("fil_release", true);
 
     filter_envelope_ = new Envelope();
     filter_envelope_->plug(filter_attack, Envelope::kAttack);
@@ -401,7 +401,7 @@ namespace mopo {
     filter_envelope_->plug(filter_release, Envelope::kRelease);
     filter_envelope_->plug(env_trigger_, Envelope::kTrigger);
 
-    Processor* filter_envelope_depth = createPolyModControl("fil_env_depth", false);
+    Processor* filter_envelope_depth = createPolyModControl("fil_env_depth", true);
     cr::Multiply* scaled_envelope = new cr::Multiply();
     scaled_envelope->plug(filter_envelope_, 0);
     scaled_envelope->plug(filter_envelope_depth, 1);
@@ -608,10 +608,10 @@ namespace mopo {
     addProcessor(legato_filter);
 
     // Amplitude envelope.
-    Processor* amplitude_attack = createPolyModControl("amp_attack", false, false);
-    Processor* amplitude_decay = createPolyModControl("amp_decay", true, false);
-    Processor* amplitude_sustain = createPolyModControl("amp_sustain", false);
-    Processor* amplitude_release = createPolyModControl("amp_release", true, false);
+    Processor* amplitude_attack = createPolyModControl("amp_attack", true);
+    Processor* amplitude_decay = createPolyModControl("amp_decay", true);
+    Processor* amplitude_sustain = createPolyModControl("amp_sustain", true);
+    Processor* amplitude_release = createPolyModControl("amp_release", true);
 
     amplitude_envelope_ = new Envelope();
     amplitude_envelope_->plug(legato_filter->output(LegatoFilter::kRetrigger),
@@ -676,7 +676,7 @@ namespace mopo {
     addProcessor(amplitude_);
 
     // Portamento.
-    Processor* portamento = createPolyModControl("portamento", false, false);
+    Processor* portamento = createPolyModControl("portamento", true);
     Processor* portamento_type = createBaseControl("portamento_type");
 
     current_frequency_ = new PortamentoSlope();
