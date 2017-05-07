@@ -78,6 +78,7 @@ HelmStandaloneEditor::~HelmStandaloneEditor() {
 void HelmStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
   engine_.setSampleRate(sample_rate);
   engine_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));
+  engine_.updateAllModulationSwitches();
   midi_manager_->setSampleRate(sample_rate);
 }
 

@@ -24,27 +24,10 @@
 #include <vector>
 
 namespace mopo {
+  class ValueSwitch;
+
   class HelmModule : public virtual ProcessorRouter {
     public:
-      class OutputSwitch : public Processor {
-        public:
-          OutputSwitch();
-
-          void addProcessor(Processor* processor) { processors_.push_back(processor); }
-          void setRawSource(Output* source) { raw_source_ = source; }
-          void setProcessedSource(Output* source) { processed_source_ = source; }
-          void destroy() override;
-          virtual Processor* clone() const override { return new OutputSwitch(*this); }
-          void process() override { }
-          void enable(bool enable);
-
-        private:
-          std::vector<Processor*> processors_;
-          Output* raw_source_;
-          Output* processed_source_;
-          mopo_float* original_buffer_;
-      };
-
       HelmModule();
       virtual ~HelmModule() { } // Should probably delete things.
 
@@ -58,6 +41,11 @@ namespace mopo {
       Processor* getModulationDestination(std::string name, bool poly);
       Processor* getMonoModulationDestination(std::string name);
       Processor* getPolyModulationDestination(std::string name);
+
+      ValueSwitch* getModulationSwitch(std::string name, bool poly);
+      ValueSwitch* getMonoModulationSwitch(std::string name);
+      ValueSwitch* getPolyModulationSwitch(std::string name);
+      void updateAllModulationSwitches();
 
       output_map getModulationSources();
       virtual output_map getMonoModulations();
@@ -93,6 +81,8 @@ namespace mopo {
       input_map poly_mod_destinations_;
       output_map mono_modulation_readout_;
       output_map poly_modulation_readout_;
+      std::map<std::string, ValueSwitch*> mono_modulation_switches_;
+      std::map<std::string, ValueSwitch*> poly_modulation_switches_;
   };
 } // namespace mopo
 

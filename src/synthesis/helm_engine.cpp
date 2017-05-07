@@ -19,7 +19,7 @@
 #include "dc_filter.h"
 #include "helm_lfo.h"
 #include "helm_voice_handler.h"
-#include "switch.h"
+#include "value_switch.h"
 
 #ifdef __APPLE__
 #include <fenv.h>
@@ -66,7 +66,7 @@ namespace mopo {
     lfo_1_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* lfo_1_waveform = createMonoModControl("mono_lfo_1_waveform", true);
     Processor* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true);
-    Processor* lfo_1_free_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
+    Processor* lfo_1_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
     Processor* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency,
                                                        beats_per_second, false);
 
@@ -77,7 +77,7 @@ namespace mopo {
 
     cr::Multiply* scaled_lfo_1 = new cr::Multiply();
     scaled_lfo_1->plug(lfo_1_, 0);
-    scaled_lfo_1->plug(lfo_1_free_amplitude, 1);
+    scaled_lfo_1->plug(lfo_1_amplitude, 1);
 
     addProcessor(lfo_1_);
     addProcessor(lfo_1_reset);
@@ -92,7 +92,7 @@ namespace mopo {
     lfo_2_reset->plug(voice_handler_->note_retrigger(), TriggerEquals::kTrigger);
     Processor* lfo_2_waveform = createMonoModControl("mono_lfo_2_waveform", true);
     Processor* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true);
-    Processor* lfo_2_free_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
+    Processor* lfo_2_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
     Processor* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency,
                                                        beats_per_second, false);
 
@@ -103,7 +103,7 @@ namespace mopo {
 
     cr::Multiply* scaled_lfo_2 = new cr::Multiply();
     scaled_lfo_2->plug(lfo_2_, 0);
-    scaled_lfo_2->plug(lfo_2_free_amplitude, 1);
+    scaled_lfo_2->plug(lfo_2_amplitude, 1);
 
     addProcessor(lfo_2_);
     addProcessor(lfo_2_reset);
@@ -274,15 +274,23 @@ namespace mopo {
 
   void HelmEngine::connectModulation(ModulationConnection* connection) {
     Output* source = getModulationSource(connection->source);
-    MOPO_ASSERT(source != 0);
+    bool source_poly = source->owner->isPolyphonic();
+    MOPO_ASSERT(source != nullptr);
 
-    Processor* destination = getModulationDestination(connection->destination,
-                                                      source->owner->isPolyphonic());
-    MOPO_ASSERT(destination != 0);
+    Processor* destination = getModulationDestination(connection->destination, source_poly);
+    MOPO_ASSERT(destination != nullptr);
+
+    ValueSwitch* mono_mod_switch = getMonoModulationSwitch(connection->destination);
+    MOPO_ASSERT(mono_mod_switch != nullptr);
 
     connection->modulation_scale.plug(source, 0);
     connection->modulation_scale.plug(&connection->amount, 1);
     destination->plugNext(&connection->modulation_scale);
+
+    mono_mod_switch->set(1);
+    ValueSwitch* poly_mod_switch = getPolyModulationSwitch(connection->destination);
+    if (poly_mod_switch)
+      poly_mod_switch->set(1);
 
     source->owner->router()->addProcessor(&connection->modulation_scale);
     mod_connections_.insert(connection);
@@ -300,9 +308,24 @@ namespace mopo {
 
   void HelmEngine::disconnectModulation(ModulationConnection* connection) {
     Output* source = getModulationSource(connection->source);
-    Processor* destination = getModulationDestination(connection->destination,
-                                                      source->owner->isPolyphonic());
+    bool source_poly = source->owner->isPolyphonic();
+
+    Processor* destination = getModulationDestination(connection->destination, source_poly);
+    Processor* mono_destination = getMonoModulationDestination(connection->destination);
+    Processor* poly_destination = getPolyModulationDestination(connection->destination);
+    MOPO_ASSERT(destination != nullptr);
+
     destination->unplug(&connection->modulation_scale);
+
+    if (mono_destination->connectedInputs() == 1 &&
+        (poly_destination == nullptr || poly_destination->connectedInputs() == 0)) {
+      ValueSwitch* mono_mod_switch = getMonoModulationSwitch(connection->destination);
+      mono_mod_switch->set(0);
+
+      ValueSwitch* poly_mod_switch = getPolyModulationSwitch(connection->destination);
+      if (poly_mod_switch)
+        poly_mod_switch->set(0);
+    }
 
     source->owner->router()->removeProcessor(&connection->modulation_scale);
     mod_connections_.erase(connection);

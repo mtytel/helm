@@ -17,11 +17,11 @@
 #include "helm_voice_handler.h"
 
 #include "fixed_point_oscillator.h"
+#include "gate.h"
 #include "noise_oscillator.h"
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
 #include "helm_oscillators.h"
-#include "switch.h"
 
 #include <sstream>
 
@@ -99,11 +99,11 @@ namespace mopo {
 
   void HelmVoiceHandler::init() {
     // Create modulation and pitch wheels per channel.
-    choose_pitch_wheel_ = new Switch();
-    choose_pitch_wheel_->plug(channel(), Switch::kSet);
+    choose_pitch_wheel_ = new Gate();
+    choose_pitch_wheel_->plug(channel(), Gate::kChoice);
 
-    Switch* choose_mod_wheel = new Switch();
-    choose_mod_wheel->plug(channel(), Switch::kSet);
+    Gate* choose_mod_wheel = new Gate();
+    choose_mod_wheel->plug(channel(), Gate::kChoice);
 
     for (int i = 0; i < mopo::NUM_MIDI_CHANNELS; ++i) {
       pitch_wheel_amounts_[i] = new cr::Value(0);

@@ -14,35 +14,28 @@
  * along with mopo.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#ifndef SWITCH_H
-#define SWITCH_H
-
-#include "value.h"
+#include "gate.h"
+#include "utils.h"
+#include <cmath>
 
 namespace mopo {
 
-  class Switch : public Value {
-    public:
-      enum Outputs {
-        kValue,
-        kChosen,
-        kNumOutputs
-      };
+  Gate::Gate() : Processor(kNumInputs, 1) {
+    original_buffer_ = output()->buffer;
+  }
 
-      Switch(mopo_float value = 0.0, bool control_rate = false);
-      virtual void destroy() override;
+  void Gate::destroy() {
+    output()->buffer = original_buffer_;
+    Processor::destroy();
+  }
 
-      virtual Processor* clone() const override { return new Switch(*this); }
+  void Gate::process() {
+    int source = (int)input()->at(0);
+    setSource(source);
+  }
 
-      void process() override;
-      virtual void set(mopo_float value) override;
-
-    private:
-      void setSource(int source);
-
-      mopo_float* original_buffer_;
-  };
+  inline void Gate::setSource(int source) {
+    source = utils::iclamp(source, 0, numInputs() - kNumInputs - 1);
+    output()->buffer = input(kNumInputs + source)->source->buffer;
+  }
 } // namespace mopo
-
-#endif // SWITCH_H

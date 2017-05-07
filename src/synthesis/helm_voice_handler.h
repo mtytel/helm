@@ -31,6 +31,7 @@ namespace mopo {
   class Envelope;
   class Filter;
   class FormantManager;
+  class Gate;
   class LadderFilter;
   class LinearSlope;
   class Oscillator;
@@ -38,7 +39,6 @@ namespace mopo {
   class StepGenerator;
   class TriggerCombiner;
   class HelmOscillators;
-  class Switch;
 
   // The voice handler duplicates processors to produce polyphony.
   // Everything in the synthesizer we want per-voice instances of must be
@@ -80,7 +80,7 @@ namespace mopo {
       Processor* beats_per_second_;
 
       Processor* note_from_center_;
-      Switch* choose_pitch_wheel_;
+      Gate* choose_pitch_wheel_;
       Value* mod_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
       Value* pitch_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
       Processor* current_frequency_;
