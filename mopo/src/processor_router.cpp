@@ -78,7 +78,7 @@ namespace mopo {
     // Run all the main processors.
     int num_processors = local_order_.size();
     for (int i = 0; i < num_processors; ++i) {
-      if (global_order_->at(i)->enabled())
+      if (local_order_[i]->enabled())
         local_order_[i]->process();
     }
 

@@ -124,11 +124,11 @@ namespace mopo {
       }
 
       inline bool enabled() const {
-        return enabled_;
+        return *enabled_;
       }
 
       inline void enable(bool enable) {
-        enabled_ = enable;
+        *enabled_ = enable;
       }
 
       int getSampleRate() const {
@@ -154,6 +154,9 @@ namespace mopo {
       // Attaches an output to the first available input in this processor.
       void plugNext(const Output* source);
       void plugNext(const Processor* source);
+
+      // Count how many inputs are connected to processors
+      int connectedInputs();
 
       // Remove a connection between two processors.
       virtual void unplugIndex(unsigned int input_index);
@@ -205,7 +208,7 @@ namespace mopo {
       int sample_rate_;
       int buffer_size_;
       bool control_rate_;
-      bool enabled_;
+      bool* enabled_;
 
       std::vector<Input*> owned_inputs_;
       std::vector<Output*> owned_outputs_;
