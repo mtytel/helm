@@ -30,28 +30,11 @@ namespace mopo {
       router_(0) {
         
     setControlRate(control_rate);
-    for (int i = 0; i < num_inputs; ++i) {
-      Input* input = new Input();
-      owned_inputs_.push_back(input);
+    for (int i = 0; i < num_inputs; ++i)
+      addInput();
 
-      // All inputs start off with null input.
-      input->source = &Processor::null_source_;
-      registerInput(input);
-    }
-
-    for (int i = 0; i < num_outputs; ++i) {
-      Output* output = 0;
-      if (control_rate_)
-        output = new cr::Output();
-      else
-        output = new Output();
-      
-      owned_outputs_.push_back(output);
-
-      // All outputs are owned by this Processor.
-      output->owner = this;
-      registerOutput(output);
-    }
+    for (int i = 0; i < num_outputs; ++i)
+      addOutput();
   }
 
   void Processor::destroy() {
@@ -191,5 +174,30 @@ namespace mopo {
 
     outputs_->at(index) = output;
     return output;
+  }
+
+  Output* Processor::addOutput() {
+    Output* output = 0;
+    if (control_rate_)
+      output = new cr::Output();
+    else
+      output = new Output();
+
+    owned_outputs_.push_back(output);
+
+    // All outputs are owned by this Processor.
+    output->owner = this;
+    registerOutput(output);
+    return output;
+  }
+
+  Input* Processor::addInput() {
+    Input* input = new Input();
+    owned_inputs_.push_back(input);
+
+    // All inputs start off with null input.
+    input->source = &Processor::null_source_;
+    registerInput(input);
+    return input;
   }
 } // namespace mopo

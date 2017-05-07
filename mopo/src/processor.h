@@ -205,6 +205,9 @@ namespace mopo {
       }
 
     protected:
+      Output* addOutput();
+      Input* addInput();
+    
       int sample_rate_;
       int buffer_size_;
       bool control_rate_;
