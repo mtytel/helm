@@ -62,9 +62,10 @@ namespace mopo {
     mopo_float decay_samples = sample_rate_ * input(kDecay)->at(0);
     decay_decay_ = SampleDecayLookup::sampleDecayLookup(decay_samples);
 
+    mopo_float sustain = input(kSustain)->at(0);
+
     mopo_float release_samples = sample_rate_ * input(kRelease)->at(0);
     release_decay_ = SampleDecayLookup::sampleDecayLookup(release_samples);
-    const mopo_float* sustain = input(kSustain)->source->buffer;
 
     mopo_float* out_buffer = output(kValue)->buffer;
     mopo_float current_value = current_value_;
@@ -92,7 +93,7 @@ namespace mopo {
       }
       else if (state_ == kDecaying) {
         for (; i < buffer_size; ++i) {
-          current_value = INTERPOLATE(sustain[i], current_value, decay_decay_);
+          current_value = INTERPOLATE(sustain, current_value, decay_decay_);
           out_buffer[i] = current_value;
         }
       }
