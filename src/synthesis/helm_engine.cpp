@@ -174,11 +174,11 @@ namespace mopo {
     Processor* delay_free_frequency = createMonoModControl("delay_frequency", true);
     Processor* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency,
                                                        beats_per_second, false);
-    Processor* delay_feedback = createMonoModControl("delay_feedback", false, true);
-    Processor* delay_wet = createMonoModControl("delay_dry_wet", false, true);
+    Processor* delay_feedback = createMonoModControl("delay_feedback", true);
+    Processor* delay_wet = createMonoModControl("delay_dry_wet", true);
     Value* delay_on = createBaseControl("delay_on");
 
-    Clamp* delay_feedback_clamped = new Clamp(-1, 1);
+    cr::Clamp* delay_feedback_clamped = new cr::Clamp(-1, 1);
     delay_feedback_clamped->plug(delay_feedback);
 
     SampleAndHoldBuffer* delay_frequency_audio_rate = new SampleAndHoldBuffer();
@@ -215,12 +215,12 @@ namespace mopo {
     addProcessor(dc_filter);
 
     // Reverb Effect.
-    Processor* reverb_feedback = createMonoModControl("reverb_feedback", false, true);
-    Processor* reverb_damping = createMonoModControl("reverb_damping", false, true);
-    Processor* reverb_wet = createMonoModControl("reverb_dry_wet", false, true);
+    Processor* reverb_feedback = createMonoModControl("reverb_feedback", true);
+    Processor* reverb_damping = createMonoModControl("reverb_damping", true);
+    Processor* reverb_wet = createMonoModControl("reverb_dry_wet", true);
     Value* reverb_on = createBaseControl("reverb_on");
 
-    Clamp* reverb_feedback_clamped = new Clamp(-1, 1);
+    cr::Clamp* reverb_feedback_clamped = new cr::Clamp(-1, 1);
     reverb_feedback_clamped->plug(reverb_feedback);
 
     Reverb* reverb = new Reverb();
@@ -253,15 +253,19 @@ namespace mopo {
     distorted_clamp_right->plug(&distortion_threshold, Distortion::kThreshold);
 
     // Volume.
-    Processor* volume = createMonoModControl("volume", false, true);
+    Processor* volume = createMonoModControl("volume", true);
+    LinearSmoothBuffer* smooth_volume = new LinearSmoothBuffer();
+    smooth_volume->plug(volume);
+
     Multiply* scaled_audio_left = new Multiply();
     scaled_audio_left->plug(distorted_clamp_left, 0);
-    scaled_audio_left->plug(volume, 1);
+    scaled_audio_left->plug(smooth_volume, 1);
 
     Multiply* scaled_audio_right = new Multiply();
     scaled_audio_right->plug(distorted_clamp_right, 0);
-    scaled_audio_right->plug(volume, 1);
+    scaled_audio_right->plug(smooth_volume, 1);
 
+    addProcessor(smooth_volume);
     addProcessor(distorted_clamp_left);
     addProcessor(distorted_clamp_right);
     addProcessor(scaled_audio_left);

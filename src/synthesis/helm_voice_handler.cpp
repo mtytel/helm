@@ -411,7 +411,7 @@ namespace mopo {
 
     // Filter.
     Processor* filter_type = createBaseControl("filter_type");
-    Processor* keytrack_amount = createPolyModControl("keytrack", false);
+    Processor* keytrack_amount = createPolyModControl("keytrack", true);
     cr::Multiply* current_keytrack = new cr::Multiply();
     current_keytrack->plug(keytrack, 0);
     current_keytrack->plug(keytrack_amount, 1);
@@ -523,8 +523,8 @@ namespace mopo {
     formant_filter_->plug(stutter_container, FormantManager::kAudio);
     formant_filter_->plug(reset, FormantManager::kReset);
 
-    Processor* formant_x = createPolyModControl("formant_x", false, true);
-    Processor* formant_y = createPolyModControl("formant_y", false, true);
+    Processor* formant_x = createPolyModControl("formant_x", true);
+    Processor* formant_y = createPolyModControl("formant_y", true);
 
     for (int i = 0; i < NUM_FORMANTS; ++i) {
       BilinearInterpolate* formant_gain = new BilinearInterpolate();
@@ -576,6 +576,7 @@ namespace mopo {
     }
 
     BilinearInterpolate* formant_decibels = new BilinearInterpolate();
+    formant_decibels->setControlRate();
     formant_decibels->plug(&formant_a_decibels, BilinearInterpolate::kTopLeft);
     formant_decibels->plug(&formant_o_decibels, BilinearInterpolate::kTopRight);
     formant_decibels->plug(&formant_i_decibels, BilinearInterpolate::kBottomLeft);
@@ -583,15 +584,19 @@ namespace mopo {
     formant_decibels->plug(formant_x, BilinearInterpolate::kXPosition);
     formant_decibels->plug(formant_y, BilinearInterpolate::kYPosition);
 
-    MagnitudeScale* formant_total_gain = new MagnitudeScale();
+    cr::MagnitudeScale* formant_total_gain = new cr::MagnitudeScale();
     formant_total_gain->plug(formant_decibels);
 
+    LinearSmoothBuffer* formant_gain_smooth = new LinearSmoothBuffer();
+    formant_gain_smooth->plug(formant_total_gain);
+
     Multiply* formant_output = new Multiply();
-    formant_output->plug(formant_total_gain, 0);
+    formant_output->plug(formant_gain_smooth, 0);
     formant_output->plug(formant_filter_, 1);
 
     formant_container_->addProcessor(formant_decibels);
     formant_container_->addProcessor(formant_total_gain);
+    formant_container_->addProcessor(formant_gain_smooth);
     formant_container_->addProcessor(formant_filter_);
     formant_container_->addProcessor(formant_output);
     formant_container_->registerOutput(formant_output->output());
