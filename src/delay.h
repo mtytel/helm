@@ -44,17 +44,17 @@ namespace mopo {
 
       void tick(int i) {
         mopo_float audio = input(kAudio)->at(i);
-        mopo_float wet = input(kWet)->at(i);
         mopo_float period = input(kSampleDelay)->at(i);
-        mopo_float feedback = input(kFeedback)->at(i);
 
         mopo_float read = memory_->get(period);
-        memory_->push(audio + read * feedback);
-        output(0)->buffer[i] = INTERPOLATE(audio, read, wet);
+        memory_->push(audio + read * current_feedback_);
+        output(0)->buffer[i] = INTERPOLATE(audio, read, current_wet_);
       }
 
     protected:
       Memory* memory_;
+      mopo_float current_feedback_;
+      mopo_float current_wet_;
   };
 } // namespace mopo
 
