@@ -20,25 +20,29 @@
 
 namespace mopo {
 
-  ValueSwitch::ValueSwitch(mopo_float value, bool control_rate) : Value(value, control_rate) {
-    original_buffer_ = output()->buffer;
+  ValueSwitch::ValueSwitch(mopo_float value) : cr::Value(value) {
+    while (numOutputs() < kNumOutputs)
+      addOutput();
+
+    original_buffer_ = output(kSwitch)->buffer;
+    enable(false);
   }
 
   void ValueSwitch::destroy() {
-    output()->buffer = original_buffer_;
-    Value::destroy();
+    output(kSwitch)->buffer = original_buffer_;
+    cr::Value::destroy();
   }
 
   void ValueSwitch::set(mopo_float value) {
-    value_ = value;
+    cr::Value::set(value);
     setSource(value);
   }
 
   inline void ValueSwitch::setSource(int source) {
-    source = utils::iclamp(source, 0, numInputs() - 1);
-    output()->buffer = input(source)->source->buffer;
-
     bool enable_processors = source != 0;
+    source = utils::iclamp(source, 0, numInputs() - 1);
+    output(kSwitch)->buffer = input(source)->source->buffer;
+
     for (Processor* processor : processors_)
       processor->enable(enable_processors);
   }

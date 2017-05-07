@@ -22,9 +22,15 @@
 
 namespace mopo {
 
-  class ValueSwitch : public Value {
+  class ValueSwitch : public cr::Value {
     public:
-      ValueSwitch(mopo_float value = 0.0, bool control_rate = false);
+      enum Outputs {
+        kValue = Value::kSet,
+        kSwitch,
+        kNumOutputs
+      };
+
+      ValueSwitch(mopo_float value = 0.0);
       virtual void destroy() override;
 
       virtual Processor* clone() const override { return new ValueSwitch(*this); }

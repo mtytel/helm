@@ -56,20 +56,23 @@ namespace mopo {
       // Creates a basic linear non-scaled control.
       Value* createBaseControl(std::string name, bool smooth_value = false);
 
+      // Creates a basic control for switching something on and off.
+      ValueSwitch* createBaseSwitchControl(std::string name);
+
       // Creates a basic non-scaled linear control that you can modulate monophonically
-      Processor* createBaseModControl(std::string name, bool smooth_value = false);
+      Output* createBaseModControl(std::string name, bool smooth_value = false);
 
       // Creates any control that you can modulate monophonically.
-      Processor* createMonoModControl(std::string name, bool control_rate,
-                                      bool smooth_value = false);
+      Output* createMonoModControl(std::string name, bool control_rate,
+                                   bool smooth_value = false);
 
       // Creates any control that you can modulate polyphonically and monophonically.
-      Processor* createPolyModControl(std::string name, bool control_rate,
-                                      bool smooth_value = false);
+      Output* createPolyModControl(std::string name, bool control_rate,
+                                   bool smooth_value = false);
 
       // Creates a switch from free running frequencies to tempo synced frequencies.
-      Processor* createTempoSyncSwitch(std::string name, Processor* frequency,
-                                       Processor* bps, bool poly = false);
+      Output* createTempoSyncSwitch(std::string name, Processor* frequency,
+                                    Processor* bps, bool poly = false);
 
       void addSubmodule(HelmModule* module) { sub_modules_.push_back(module); }
 
