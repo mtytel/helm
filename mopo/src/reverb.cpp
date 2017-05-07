@@ -25,10 +25,11 @@ namespace mopo {
 
   Reverb::Reverb() : ProcessorRouter(kNumInputs, 0) {
     static const Value gain(FIXED_GAIN);
+    
     Bypass* audio_input = new Bypass();
-    Bypass* feedback_input = new Bypass();
-    Bypass* damping_input = new Bypass();
-    Bypass* wet_input = new Bypass();
+    LinearSmoothBuffer* feedback_input = new LinearSmoothBuffer();
+    LinearSmoothBuffer* damping_input = new LinearSmoothBuffer();
+    LinearSmoothBuffer* wet_input = new LinearSmoothBuffer();
 
     registerInput(audio_input->input(), kAudio);
     registerInput(feedback_input->input(), kFeedback);
