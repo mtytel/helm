@@ -351,6 +351,7 @@
     <ClCompile Include="..\..\src\synthesis\detune_lookup.cpp"/>
     <ClCompile Include="..\..\src\synthesis\fixed_point_oscillator.cpp"/>
     <ClCompile Include="..\..\src\synthesis\fixed_point_wave.cpp"/>
+    <ClCompile Include="..\..\src\synthesis\gate.cpp"/>
     <ClCompile Include="..\..\src\synthesis\helm_engine.cpp"/>
     <ClCompile Include="..\..\src\synthesis\helm_lfo.cpp"/>
     <ClCompile Include="..\..\src\synthesis\helm_module.cpp"/>
@@ -358,7 +359,7 @@
     <ClCompile Include="..\..\src\synthesis\helm_voice_handler.cpp"/>
     <ClCompile Include="..\..\src\synthesis\noise_oscillator.cpp"/>
     <ClCompile Include="..\..\src\synthesis\resonance_cancel.cpp"/>
-    <ClCompile Include="..\..\src\synthesis\switch.cpp"/>
+    <ClCompile Include="..\..\src\synthesis\value_switch.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
@@ -2114,6 +2115,7 @@
     <ClInclude Include="..\..\src\synthesis\detune_lookup.h"/>
     <ClInclude Include="..\..\src\synthesis\fixed_point_oscillator.h"/>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h"/>
+    <ClInclude Include="..\..\src\synthesis\gate.h"/>
     <ClInclude Include="..\..\src\synthesis\helm_engine.h"/>
     <ClInclude Include="..\..\src\synthesis\helm_lfo.h"/>
     <ClInclude Include="..\..\src\synthesis\helm_module.h"/>
@@ -2121,7 +2123,7 @@
     <ClInclude Include="..\..\src\synthesis\helm_voice_handler.h"/>
     <ClInclude Include="..\..\src\synthesis\noise_oscillator.h"/>
     <ClInclude Include="..\..\src\synthesis\resonance_cancel.h"/>
-    <ClInclude Include="..\..\src\synthesis\switch.h"/>
+    <ClInclude Include="..\..\src\synthesis\value_switch.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioSampleBuffer.h"/>

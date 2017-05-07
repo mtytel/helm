@@ -402,6 +402,8 @@
               file="../src/synthesis/fixed_point_wave.cpp"/>
         <FILE id="BXZTzs" name="fixed_point_wave.h" compile="0" resource="0"
               file="../src/synthesis/fixed_point_wave.h"/>
+        <FILE id="XyYaWx" name="gate.cpp" compile="1" resource="0" file="../src/synthesis/gate.cpp"/>
+        <FILE id="LfdoR8" name="gate.h" compile="0" resource="0" file="../src/synthesis/gate.h"/>
         <FILE id="YYrPdt" name="helm_engine.cpp" compile="1" resource="0" file="../src/synthesis/helm_engine.cpp"/>
         <FILE id="Ymy9pR" name="helm_engine.h" compile="0" resource="0" file="../src/synthesis/helm_engine.h"/>
         <FILE id="XMBIS9" name="helm_lfo.cpp" compile="1" resource="0" file="../src/synthesis/helm_lfo.cpp"/>
@@ -424,8 +426,9 @@
               file="../src/synthesis/resonance_cancel.cpp"/>
         <FILE id="yuS1i4" name="resonance_cancel.h" compile="0" resource="0"
               file="../src/synthesis/resonance_cancel.h"/>
-        <FILE id="z4hCnY" name="switch.cpp" compile="1" resource="0" file="../src/synthesis/switch.cpp"/>
-        <FILE id="QXiktv" name="switch.h" compile="0" resource="0" file="../src/synthesis/switch.h"/>
+        <FILE id="CLLCQ4" name="value_switch.cpp" compile="1" resource="0"
+              file="../src/synthesis/value_switch.cpp"/>
+        <FILE id="N1I7I8" name="value_switch.h" compile="0" resource="0" file="../src/synthesis/value_switch.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

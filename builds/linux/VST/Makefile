@@ -164,6 +164,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/detune_lookup_ea628520.o \
   $(JUCE_OBJDIR)/fixed_point_oscillator_66a86444.o \
   $(JUCE_OBJDIR)/fixed_point_wave_2344895d.o \
+  $(JUCE_OBJDIR)/gate_73f8a3b5.o \
   $(JUCE_OBJDIR)/helm_engine_2e44f843.o \
   $(JUCE_OBJDIR)/helm_lfo_c32ba99e.o \
   $(JUCE_OBJDIR)/helm_module_a4927f6d.o \
@@ -171,7 +172,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/helm_voice_handler_35395fa6.o \
   $(JUCE_OBJDIR)/noise_oscillator_93de254f.o \
   $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o \
-  $(JUCE_OBJDIR)/switch_871b185e.o \
+  $(JUCE_OBJDIR)/value_switch_f497502c.o \
   $(JUCE_OBJDIR)/BinaryData_51699c3.o \
   $(JUCE_OBJDIR)/juce_audio_basics_513f3ad2.o \
   $(JUCE_OBJDIR)/juce_audio_devices_7a34cb7a.o \
@@ -708,6 +709,11 @@ $(JUCE_OBJDIR)/fixed_point_wave_2344895d.o: ../../../src/synthesis/fixed_point_w
 	@echo "Compiling fixed_point_wave.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/gate_73f8a3b5.o: ../../../src/synthesis/gate.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling gate.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/helm_engine_2e44f843.o: ../../../src/synthesis/helm_engine.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_engine.cpp"
@@ -743,9 +749,9 @@ $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_can
 	@echo "Compiling resonance_cancel.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/switch_871b185e.o: ../../../src/synthesis/switch.cpp
+$(JUCE_OBJDIR)/value_switch_f497502c.o: ../../../src/synthesis/value_switch.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling switch.cpp"
+	@echo "Compiling value_switch.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/BinaryData_51699c3.o: ../../../JuceLibraryCode/BinaryData.cpp

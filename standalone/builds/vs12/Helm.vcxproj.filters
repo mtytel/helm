@@ -688,6 +688,9 @@
     <ClCompile Include="..\..\..\src\synthesis\fixed_point_wave.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\gate.cpp">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\helm_engine.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
@@ -709,7 +712,7 @@
     <ClCompile Include="..\..\..\src\synthesis\resonance_cancel.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\synthesis\switch.cpp">
+    <ClCompile Include="..\..\..\src\synthesis\value_switch.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -2742,6 +2745,9 @@
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_wave.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\gate.h">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\helm_engine.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
@@ -2763,7 +2769,7 @@
     <ClInclude Include="..\..\..\src\synthesis\resonance_cancel.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\synthesis\switch.h">
+    <ClInclude Include="..\..\..\src\synthesis\value_switch.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h">
