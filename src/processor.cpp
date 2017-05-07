@@ -25,7 +25,7 @@ namespace mopo {
 
   Processor::Processor(int num_inputs, int num_outputs, bool control_rate) :
       sample_rate_(DEFAULT_SAMPLE_RATE), buffer_size_(DEFAULT_BUFFER_SIZE),
-      control_rate_(control_rate), enabled_(true),
+      control_rate_(control_rate), enabled_(new bool(true)),
       inputs_(new std::vector<Input*>()), outputs_(new std::vector<Output*>()),
       router_(0) {
         
@@ -63,6 +63,7 @@ namespace mopo {
 
     delete inputs_;
     delete outputs_;
+    delete enabled_;
   }
 
   bool Processor::isPolyphonic() const {
@@ -112,6 +113,17 @@ namespace mopo {
 
   void Processor::plugNext(const Processor* source) {
     plugNext(source->output());
+  }
+
+  int Processor::connectedInputs() {
+    int count = 0;
+    for (size_t i = 0; i < inputs_->size(); ++i) {
+      Input* input = inputs_->at(i);
+      if (input && input->source != &Processor::null_source_)
+        count++;
+    }
+
+    return count;
   }
 
   void Processor::unplugIndex(unsigned int input_index) {
