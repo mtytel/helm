@@ -69,7 +69,7 @@ class PatchBrowser : public Component,
     void setDeleteSection(DeleteSection* delete_section);
 
   private:
-    void loadFromFile(File& patch);
+    bool loadFromFile(File& patch);
     void setPatchInfo(File& patch);
     void scanBanks();
     void scanFolders();

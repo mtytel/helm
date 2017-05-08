@@ -152,6 +152,7 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
 
     SynthBase* synth = parent->getSynth();
     synth->exportToFile();
+    parent->externalPatchLoaded(synth->getActiveFile());
   }
   else if (clicked_button == prev_patch_)
     browser_->loadPrevPatch();

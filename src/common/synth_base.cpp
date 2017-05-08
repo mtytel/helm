@@ -207,7 +207,11 @@ bool SynthBase::saveToFile(File patch) {
     gui_interface->notifyFresh();
   }
 
-  return patch.replaceWithText(JSON::toString(saveToVar(save_info_["author"])));
+  if (patch.replaceWithText(JSON::toString(saveToVar(save_info_["author"])))) {
+    active_file_ = patch;
+    return true;
+  }
+  return false;
 }
 
 bool SynthBase::saveToActiveFile() {

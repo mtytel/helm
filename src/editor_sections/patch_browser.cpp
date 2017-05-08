@@ -434,10 +434,10 @@ void PatchBrowser::externalPatchLoaded(File file) {
   setPatchInfo(file);
 }
 
-void PatchBrowser::loadFromFile(File& patch) {
+bool PatchBrowser::loadFromFile(File& patch) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent == nullptr)
-    return;
+    return false;
 
   SynthBase* synth = parent->getSynth();
   if (synth->loadFromFile(patch)) {
@@ -445,7 +445,9 @@ void PatchBrowser::loadFromFile(File& patch) {
     synth->setPatchName(patch.getFileNameWithoutExtension());
     synth->setFolderName(patch.getParentDirectory().getFileName());
     synth->setAuthor(author_);
+    return true;
   }
+  return false;
 }
 
 void PatchBrowser::setPatchInfo(File& patch) {
