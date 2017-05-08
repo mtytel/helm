@@ -50,6 +50,7 @@ class PatchBrowser : public Component,
 
     void selectedFilesChanged(FileListBoxModel* model) override;
     void textEditorTextChanged(TextEditor& editor) override;
+    void textEditorEscapeKeyPressed(TextEditor& editor) override;
 
     void fileSaved(File saved_file) override;
     void fileDeleted(File deleted_file) override;
@@ -74,8 +75,10 @@ class PatchBrowser : public Component,
     void scanFolders();
     void scanPatches();
     void scanAll();
-    float getNarrowWidth();
-    float getWideWidth();
+    float getBanksWidth();
+    float getFoldersWidth();
+    float getPatchesWidth();
+    float getPatchInfoWidth();
 
     ScopedPointer<ListBox> banks_view_;
     ScopedPointer<FileListBoxModel> banks_model_;
@@ -100,6 +103,7 @@ class PatchBrowser : public Component,
     ScopedPointer<TextButton> export_bank_button_;
 
     ScopedPointer<TextButton> hide_button_;
+    ScopedPointer<TextButton> done_button_;
 
     File external_patch_;
     String author_;

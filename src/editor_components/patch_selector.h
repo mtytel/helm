@@ -49,6 +49,7 @@ class PatchSelector : public SynthSection, public PatchBrowser::PatchSelectedLis
     ScopedPointer<TextButton> prev_patch_;
     ScopedPointer<TextButton> next_patch_;
     ScopedPointer<TextButton> save_;
+    ScopedPointer<TextButton> export_;
     ScopedPointer<TextButton> browse_;
     PatchBrowser* browser_;
     SaveSection* save_section_;

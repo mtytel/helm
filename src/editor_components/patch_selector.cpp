@@ -21,6 +21,7 @@
 #include "synth_gui_interface.h"
 
 #define TEXT_PADDING 4.0f
+#define BROWSE_PERCENT 0.35f
 
 PatchSelector::PatchSelector() : SynthSection("patch_selector"),
                                  browser_(nullptr), save_section_(nullptr), modified_(false) {
@@ -40,6 +41,11 @@ PatchSelector::PatchSelector() : SynthSection("patch_selector"),
   save_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   save_->setColour(TextButton::textColourOffId, Colours::white);
 
+  addButton(export_ = new TextButton("export"));
+  export_->setButtonText(TRANS("EXPORT"));
+  export_->setColour(TextButton::buttonColourId, Colour(0xff303030));
+  export_->setColour(TextButton::textColourOffId, Colours::white);
+
   addButton(browse_ = new TextButton("browse"));
   browse_->setButtonText(TRANS("BROWSE"));
   browse_->setColour(TextButton::buttonColourId, Colour(0xff303030));
@@ -50,6 +56,7 @@ PatchSelector::~PatchSelector() {
   prev_patch_ = nullptr;
   next_patch_ = nullptr;
   save_ = nullptr;
+  export_ = nullptr;
   browse_ = nullptr;
 }
 
@@ -65,23 +72,23 @@ void PatchSelector::paintBackground(Graphics& g) {
     patch_text_ = "*" + patch_text_;
   folder_text_ = parent->getSynth()->getFolderName();
 
-  g.setColour(Colour(0xff303030));
-  g.fillRect(0, 0, getWidth(), proportionOfHeight(0.5));
+  g.setColour(Colour(0xff383838));
+  g.fillRect(0, 0, getWidth(), proportionOfHeight(BROWSE_PERCENT));
 
-  g.setColour(Colour(0xff464646));
-  g.fillRect(0, proportionOfHeight(0.5), getWidth(), proportionOfHeight(0.5));
+  g.setColour(Colour(0xff444444));
+  g.fillRect(0, proportionOfHeight(BROWSE_PERCENT), getWidth(), proportionOfHeight(BROWSE_PERCENT));
 
-  Rectangle<int> left(proportionOfWidth(0.2), 0,
-                      proportionOfWidth(0.1), proportionOfHeight(1.0));
-  Rectangle<int> right(proportionOfWidth(0.9), 0,
-                       proportionOfWidth(0.1), proportionOfHeight(1.0));
+  int browse_height = proportionOfHeight(BROWSE_PERCENT);
+
+  Rectangle<int> left(0, 0, proportionOfWidth(0.1), 2 * browse_height);
+  Rectangle<int> right(proportionOfWidth(0.9), 0, proportionOfWidth(0.1), 2 * browse_height);
   shadow.drawForRectangle(g, left);
   shadow.drawForRectangle(g, right);
 
-  Rectangle<int> top(proportionOfWidth(0.3) + TEXT_PADDING, 0,
-                     proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
-  Rectangle<int> bottom(proportionOfWidth(0.3) + TEXT_PADDING, proportionOfHeight(0.5),
-                        proportionOfWidth(0.6) - TEXT_PADDING, proportionOfHeight(0.5));
+  Rectangle<int> top(proportionOfWidth(0.1) + TEXT_PADDING, 0,
+                     proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
+  Rectangle<int> bottom(proportionOfWidth(0.1) + TEXT_PADDING, browse_height,
+                        proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
 
   g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
   g.setColour(Colour(0xffbbbbbb));
@@ -91,15 +98,17 @@ void PatchSelector::paintBackground(Graphics& g) {
 }
 
 void PatchSelector::resized() {
-  prev_patch_->setBounds(proportionOfWidth(0.2f), 0,
-                         proportionOfWidth(0.1f), proportionOfHeight (1.0f));
+  int full_browse_height = 2 * proportionOfHeight(BROWSE_PERCENT);
+  prev_patch_->setBounds(0, 0, proportionOfWidth(0.1f), full_browse_height);
   next_patch_->setBounds(getWidth() - proportionOfWidth(0.1f), 0,
-                         proportionOfWidth(0.1f), proportionOfHeight(1.0f));
-  save_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.0f),
-                   proportionOfWidth(0.2f), proportionOfHeight (0.5f));
-  browse_->setBounds(proportionOfWidth(0.0f), proportionOfHeight(0.5f),
-                     proportionOfWidth(0.2f), proportionOfHeight (0.5f));
+                         proportionOfWidth(0.1f), full_browse_height);
 
+  int button_width = (getWidth() - 2.0) / 3.0 - 1;
+  int button_height = getHeight() - full_browse_height;
+  int last_button_width = getWidth() - 2 * button_width - 2;
+  save_->setBounds(0, full_browse_height, button_width, button_height);
+  export_->setBounds(button_width + 1, full_browse_height, button_width, button_height);
+  browse_->setBounds(2 * button_width + 2, full_browse_height, last_button_width, button_height);
   SynthSection::resized();
 }
 
@@ -136,6 +145,14 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
     save_section_->setVisible(true);
   else if (clicked_button == browse_)
     browser_->setVisible(!browser_->isVisible());
+  else if (clicked_button == export_) {
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    if (parent == nullptr)
+      return;
+
+    SynthBase* synth = parent->getSynth();
+    synth->exportToFile();
+  }
   else if (clicked_button == prev_patch_)
     browser_->loadPrevPatch();
   else if (clicked_button == next_patch_)

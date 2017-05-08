@@ -26,10 +26,10 @@ GlobalToolTip::GlobalToolTip() {
 GlobalToolTip::~GlobalToolTip() { }
 
 void GlobalToolTip::paint(Graphics& g) {
-  g.setColour(Colour(0xff444444));
+  g.setColour(Colour(0xff383838));
   g.fillRect(0, 0, getWidth(), getHeight() / 2);
 
-  g.setColour(Colour(0xff383838));
+  g.setColour(Colour(0xff444444));
   g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
   g.setColour(Colour(0xffffffff));

@@ -32,7 +32,7 @@ void FileListBoxModel::paintListBoxItem(int row_number, Graphics& g,
   }
 
   g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
-  g.drawText(files_[row_number].getFileName(),
+  g.drawText(files_[row_number].getFileNameWithoutExtension(),
              5, 0, width, height,
              Justification::centredLeft, true);
 

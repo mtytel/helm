@@ -78,14 +78,6 @@ class HelmApplication : public JUCEApplication {
         }
       }
 
-      void saveAs() {
-        File active_file = editor_->getActiveFile();
-        FileChooser save_box("Save Patch As", File(),
-                             String("*.") + mopo::PATCH_EXTENSION);
-        if (save_box.browseForFileToSave(true))
-          editor_->saveToFile(save_box.getResult());
-      }
-
       void open() {
         File active_file = editor_->getActiveFile();
         FileChooser open_box("Open Patch", File(),
@@ -97,13 +89,13 @@ class HelmApplication : public JUCEApplication {
       bool perform(const InvocationInfo& info) override {
         if (info.commandID == kSave) {
           if (!editor_->saveToActiveFile())
-            saveAs();
+            editor_->exportToFile();
           grabKeyboardFocus();
           editor_->setFocus();
           return true;
         }
         if (info.commandID == kSaveAs) {
-          saveAs();
+          editor_->exportToFile();
           grabKeyboardFocus();
           editor_->setFocus();
           return true;

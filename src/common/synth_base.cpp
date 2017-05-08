@@ -183,6 +183,16 @@ bool SynthBase::loadFromFile(File patch) {
   return false;
 }
 
+bool SynthBase::exportToFile() {
+  File active_file = getActiveFile();
+  FileChooser save_box("Save Patch As", File(), String("*.") + mopo::PATCH_EXTENSION);
+  if (!save_box.browseForFileToSave(true))
+    return false;
+
+  saveToFile(save_box.getResult());
+  return true;
+}
+
 bool SynthBase::saveToFile(File patch) {
   if (patch.getFileExtension() != mopo::PATCH_EXTENSION)
     patch = patch.withFileExtension(String(mopo::PATCH_EXTENSION));

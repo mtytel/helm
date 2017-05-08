@@ -53,6 +53,7 @@ class SynthBase : public MidiManager::Listener {
 
     void loadInitPatch();
     bool loadFromFile(File patch);
+    bool exportToFile();
     bool saveToFile(File patch);
     bool saveToActiveFile();
     File getActiveFile() { return active_file_; }

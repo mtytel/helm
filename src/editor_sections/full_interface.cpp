@@ -137,7 +137,7 @@ void FullInterface::paintBackground(Graphics& g) {
 
 void FullInterface::resized() {
   logo_button_->setBounds(10, 8, 64, 64);
-  patch_selector_->setBounds(84, 8, 244, 2 * TOP_HEIGHT / 3);
+  patch_selector_->setBounds(84, 8, 244, TOP_HEIGHT);
   global_tool_tip_->setBounds(patch_selector_->getRight() + 8, 8, 200, TOP_HEIGHT);
   oscilloscope_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
   arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 320, TOP_HEIGHT);
@@ -145,8 +145,8 @@ void FullInterface::resized() {
   synthesis_interface_->setBounds(0, TOP_HEIGHT + 12,
                                   getWidth(), getHeight() - TOP_HEIGHT - 8);
 
-  beats_per_minute_->setBounds(133, patch_selector_->getBottom(),
-                               200, TOP_HEIGHT - patch_selector_->getHeight());
+  // beats_per_minute_->setBounds(133, patch_selector_->getBottom(),
+  //                              200, TOP_HEIGHT - patch_selector_->getHeight());
   modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
   update_check_section_->setBounds(getBounds());

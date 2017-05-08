@@ -21,7 +21,10 @@
 #include "load_save.h"
 #include "patch_browser.h"
 
-#define WIDTH1_PERCENT 0.2
+#define BANKS_WIDTH_PERCENT 0.23
+#define FOLDERS_WIDTH_PERCENT 0.2
+#define PATCHES_WIDTH_PERCENT 0.285
+#define PATCH_INFO_WIDTH_PERCENT 0.285
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
@@ -146,7 +149,7 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   gpl_license_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(gpl_license_link_);
 
-  save_as_button_ = new TextButton(TRANS("Save As"));
+  save_as_button_ = new TextButton(TRANS("Save Patch As"));
   save_as_button_->addListener(this);
   addAndMakeVisible(save_as_button_);
 
@@ -157,6 +160,10 @@ PatchBrowser::PatchBrowser() : Component("patch_browser") {
   hide_button_ = new TextButton("X");
   hide_button_->addListener(this);
   addAndMakeVisible(hide_button_);
+
+  done_button_ = new TextButton("Done");
+  done_button_->addListener(this);
+  addAndMakeVisible(done_button_);
 
   addKeyListener(this);
 }
@@ -170,14 +177,13 @@ void PatchBrowser::paint(Graphics& g) {
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 
   g.setColour(Colour(0xff212121));
-  float info_width = getWideWidth();
+  float info_width = getPatchInfoWidth();
   Rectangle<int> data_rect(getWidth() - info_width - BROWSE_PADDING, BROWSE_PADDING,
                            info_width, BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
   g.fillRect(data_rect);
 
   if (isPatchSelected()) {
-    float data_x = BROWSE_PADDING + 2.0f * getNarrowWidth() +
-                   getWideWidth() + 3.0f * BROWSE_PADDING;
+    float data_x = data_rect.getX();
     float division = 90.0f;
     float buffer = 20.0f;
 
@@ -221,40 +227,53 @@ void PatchBrowser::paint(Graphics& g) {
 
 void PatchBrowser::resized() {
   float start_x = BROWSE_PADDING;
-  float width1 = getNarrowWidth();
-  float width2 = getWideWidth();
+  int button_padding = BROWSE_PADDING / 2;
+
+  int banks_width = getBanksWidth();
+  int folders_width = getFoldersWidth();
+  int patches_width = getPatchesWidth();
+  int patch_info_width = getPatchInfoWidth();
   float height = BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
-  float bank_height = height - 2.0f * BUTTON_HEIGHT - BROWSE_PADDING;
+  float height_with_buttons = height - BUTTON_HEIGHT - button_padding;
   float search_box_height = 28.0f;
 
-  banks_view_->setBounds(start_x, BROWSE_PADDING, width1, bank_height);
-  import_bank_button_->setBounds(start_x, banks_view_->getBottom() + BROWSE_PADDING / 2.0f,
-                                 width1, BUTTON_HEIGHT);
-  export_bank_button_->setBounds(start_x, import_bank_button_->getBottom() + BROWSE_PADDING / 2.0f,
-                                 width1, BUTTON_HEIGHT);
-  folders_view_->setBounds(start_x + width1 + BROWSE_PADDING, BROWSE_PADDING, width1, height);
+  int import_export_width = (banks_width - button_padding) / 2.0f;
+  banks_view_->setBounds(start_x, BROWSE_PADDING, banks_width, height_with_buttons);
+  import_bank_button_->setBounds(start_x, banks_view_->getBottom() + button_padding,
+                                 import_export_width, BUTTON_HEIGHT);
+  export_bank_button_->setBounds(start_x + banks_width - import_export_width,
+                                 banks_view_->getBottom() + button_padding,
+                                 import_export_width, BUTTON_HEIGHT);
+  folders_view_->setBounds(banks_view_->getRight() + BROWSE_PADDING,
+                           BROWSE_PADDING, folders_width, height);
 
-  float patches_x = start_x + 2.0f * (width1 + BROWSE_PADDING);
-  search_box_->setBounds(patches_x, BROWSE_PADDING, width2, search_box_height);
+  float patches_x = folders_view_->getRight() + BROWSE_PADDING;
+  search_box_->setBounds(patches_x, BROWSE_PADDING, patches_width, search_box_height);
   patches_view_->setBounds(patches_x, search_box_height + BROWSE_PADDING,
-                           width2, height - search_box_height);
+                           patches_width, height_with_buttons - search_box_height);
 
-  float data_x = start_x + 2.0f * width1 + width2 + 3.0f * BROWSE_PADDING;
-  float data_widget_buffer_x = 12.0f;
+  float button_width = (patches_width - button_padding) / 2.0f;
+  save_as_button_->setBounds(patches_view_->getX(), patches_view_->getBottom() + button_padding,
+                             button_width, BUTTON_HEIGHT);
+  delete_patch_button_->setBounds(patches_view_->getRight() - button_width,
+                                  patches_view_->getBottom() + button_padding,
+                                  button_width, BUTTON_HEIGHT);
+  delete_patch_button_->setEnabled(false);
+
+  float data_x = patches_view_->getRight() + BROWSE_PADDING;
   cc_license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
                               200.0f, 20.0f);
   gpl_license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
                                200.0f, 20.0f);
 
-  float button_width = (width2 - 3.0f * data_widget_buffer_x) / 2.0f;
-  save_as_button_->setBounds(data_x + data_widget_buffer_x, height - BUTTON_HEIGHT,
-                             button_width, BUTTON_HEIGHT);
-  delete_patch_button_->setBounds(data_x + button_width + 2.0f * data_widget_buffer_x,
-                                  height - BUTTON_HEIGHT,
-                                  button_width, BUTTON_HEIGHT);
-  delete_patch_button_->setEnabled(false);
-
   hide_button_->setBounds(getWidth() - 21 - BROWSE_PADDING, BROWSE_PADDING, 20, 20);
+  int done_width = 200;
+  int done_height = 1.5 * BUTTON_HEIGHT;
+  int padding = (patch_info_width - done_width) / 2;
+
+  done_button_->setBounds(data_x + padding,
+                          save_as_button_->getBottom() - BROWSE_PADDING - done_height,
+                          done_width, done_height);
 }
 
 void PatchBrowser::visibilityChanged() {
@@ -300,6 +319,11 @@ void PatchBrowser::textEditorTextChanged(TextEditor& editor) {
   scanPatches();
 }
 
+void PatchBrowser::textEditorEscapeKeyPressed(TextEditor& editor) {
+  if (isVisible())
+    setVisible(false);
+}
+
 void PatchBrowser::fileSaved(File saved_file) {
   patches_view_->deselectAllRows();
   folders_view_->deselectAllRows();
@@ -323,7 +347,7 @@ void PatchBrowser::buttonClicked(Button* clicked_button) {
       delete_section_->setVisible(true);
     }
   }
-  else if (clicked_button == hide_button_)
+  else if (clicked_button == hide_button_ || clicked_button == done_button_)
     setVisible(false);
   else if (clicked_button == import_bank_button_) {
     LoadSave::importBank();
@@ -337,6 +361,10 @@ void PatchBrowser::buttonClicked(Button* clicked_button) {
 }
 
 bool PatchBrowser::keyPressed(const KeyPress &key, Component *origin) {
+  if (key.getKeyCode() == KeyPress::escapeKey && isVisible()) {
+    setVisible(false);
+    return true;
+  }
   return search_box_->hasKeyboardFocus(true);
 }
 
@@ -480,10 +508,18 @@ void PatchBrowser::scanAll() {
   scanPatches();
 }
 
-float PatchBrowser::getNarrowWidth() {
-  return (getWidth() - 5.0f * BROWSE_PADDING) * WIDTH1_PERCENT;
+float PatchBrowser::getBanksWidth() {
+  return (getWidth() - 5.0f * BROWSE_PADDING) * BANKS_WIDTH_PERCENT;
 }
 
-float PatchBrowser::getWideWidth() {
-  return (getWidth() - 5.0f * BROWSE_PADDING) * (0.5f - WIDTH1_PERCENT);
+float PatchBrowser::getFoldersWidth() {
+  return (getWidth() - 5.0f * BROWSE_PADDING) * FOLDERS_WIDTH_PERCENT;
+}
+
+float PatchBrowser::getPatchesWidth() {
+  return (getWidth() - 5.0f * BROWSE_PADDING) * PATCHES_WIDTH_PERCENT;
+}
+
+float PatchBrowser::getPatchInfoWidth() {
+  return (getWidth() - 5.0f * BROWSE_PADDING) * PATCH_INFO_WIDTH_PERCENT;
 }
