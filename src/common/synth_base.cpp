@@ -185,7 +185,7 @@ bool SynthBase::loadFromFile(File patch) {
 
 bool SynthBase::exportToFile() {
   File active_file = getActiveFile();
-  FileChooser save_box("Save Patch As", File(), String("*.") + mopo::PATCH_EXTENSION);
+  FileChooser save_box("Export Patch", File(), String("*.") + mopo::PATCH_EXTENSION);
   if (!save_box.browseForFileToSave(true))
     return false;
 
