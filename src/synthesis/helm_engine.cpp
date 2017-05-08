@@ -167,7 +167,6 @@ namespace mopo {
     arpeggiator_->plug(arp_gate, Arpeggiator::kGate);
     arpeggiator_->plug(arp_on_, Arpeggiator::kOn);
 
-    addProcessor(arpeggiator_);
     addProcessor(voice_handler_);
 
     // Delay effect.
@@ -349,6 +348,7 @@ namespace mopo {
       arpeggiator_->allNotesOff();
 
     was_playing_arp_ = playing_arp;
+    arpeggiator_->process();
     ProcessorRouter::process();
   }
 
