@@ -252,6 +252,7 @@ void PatchBrowser::resized() {
   delete_patch_button_->setBounds(data_x + button_width + 2.0f * data_widget_buffer_x,
                                   height - BUTTON_HEIGHT,
                                   button_width, BUTTON_HEIGHT);
+  delete_patch_button_->setEnabled(false);
 
   hide_button_->setBounds(getWidth() - 21 - BROWSE_PADDING, BROWSE_PADDING, 20, 20);
 }
@@ -277,6 +278,8 @@ void PatchBrowser::selectedFilesChanged(FileListBoxModel* model) {
     scanPatches();
   else if (model == patches_model_) {
     SparseSet<int> selected_rows = patches_view_->getSelectedRows();
+    delete_patch_button_->setEnabled(selected_rows.size());
+
     if (selected_rows.size()) {
       external_patch_ = File();
       File patch = patches_model_->getFileAtRow(selected_rows[0]);
