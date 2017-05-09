@@ -36,7 +36,7 @@ ifeq ($(CONFIG),Debug)
   JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DDEBUG=1 -D_DEBUG=1 -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_1D79FBD2=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../../JuceLibraryCode -I../../../JUCE/modules -I../../../mopo/src -I../../../concurrentqueue -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
   JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0 $(DEBCXXFLAGS) -ffast-math -msse2 $(CFLAGS)
   JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++11 $(CXXFLAGS)
-  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -ldl -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2 $(LDFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -Wl,--no-undefined -shared -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -lGL -ldl -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2 $(LDFLAGS)
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(JUCE_OUTDIR)/$(TARGET) $(OBJECTS) $(JUCE_LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -56,7 +56,7 @@ ifeq ($(CONFIG),Release)
   JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DNDEBUG=1 -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_1D79FBD2=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../../JuceLibraryCode -I../../../JUCE/modules -I../../../mopo/src -I../../../concurrentqueue -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
   JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -fPIC -O3 $(DEBCXXFLAGS) -ffast-math -msse2 $(CFLAGS)
   JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++11 $(CXXFLAGS)
-  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -ldl -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2 $(LDFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -Wl,--no-undefined -shared -fvisibility=hidden -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -lGL -ldl -lpthread -lrt $(DEBLDFLAGS) -ffast-math -msse2 $(LDFLAGS)
 
   TARGET := helm.so
   BLDCMD = $(CXX) -o $(JUCE_OUTDIR)/$(TARGET) $(OBJECTS) $(JUCE_LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -118,9 +118,12 @@ OBJECTS := \
   $(JUCE_OBJDIR)/modulation_highlight_dd34a287.o \
   $(JUCE_OBJDIR)/modulation_meter_3f248ddc.o \
   $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o \
+  $(JUCE_OBJDIR)/open_gl_component_d67359ac.o \
+  $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o \
   $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
   $(JUCE_OBJDIR)/patch_selector_fe7c390c.o \
   $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o \
+  $(JUCE_OBJDIR)/shaders_984460a2.o \
   $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o \
   $(JUCE_OBJDIR)/tempo_selector_e5a31119.o \
   $(JUCE_OBJDIR)/wave_selector_6d163719.o \
@@ -187,6 +190,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/juce_graphics_338f07cf.o \
   $(JUCE_OBJDIR)/juce_gui_basics_1e3f3c0d.o \
   $(JUCE_OBJDIR)/juce_gui_extra_a15bc692.o \
+  $(JUCE_OBJDIR)/juce_opengl_71292bb3.o \
 
 .PHONY: clean
 
@@ -479,6 +483,16 @@ $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o: ../../../src/editor_components/modu
 	@echo "Compiling modulation_slider.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/open_gl_component_d67359ac.o: ../../../src/editor_components/open_gl_component.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_component.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o: ../../../src/editor_components/open_gl_oscilloscope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_oscilloscope.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling oscilloscope.cpp"
@@ -492,6 +506,11 @@ $(JUCE_OBJDIR)/patch_selector_fe7c390c.o: ../../../src/editor_components/patch_s
 $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/retrigger_selector.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling retrigger_selector.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/shaders_984460a2.o: ../../../src/editor_components/shaders.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling shaders.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
@@ -822,6 +841,11 @@ $(JUCE_OBJDIR)/juce_gui_basics_1e3f3c0d.o: ../../../JuceLibraryCode/juce_gui_bas
 $(JUCE_OBJDIR)/juce_gui_extra_a15bc692.o: ../../../JuceLibraryCode/juce_gui_extra.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling juce_gui_extra.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/juce_opengl_71292bb3.o: ../../../JuceLibraryCode/juce_opengl.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling juce_opengl.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)

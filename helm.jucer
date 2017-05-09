@@ -242,6 +242,14 @@
               file="src/editor_components/modulation_slider.cpp"/>
         <FILE id="GH14RG" name="modulation_slider.h" compile="0" resource="0"
               file="src/editor_components/modulation_slider.h"/>
+        <FILE id="o1rxUC" name="open_gl_component.cpp" compile="1" resource="0"
+              file="src/editor_components/open_gl_component.cpp"/>
+        <FILE id="souzQ5" name="open_gl_component.h" compile="0" resource="0"
+              file="src/editor_components/open_gl_component.h"/>
+        <FILE id="RM2Qom" name="open_gl_oscilloscope.cpp" compile="1" resource="0"
+              file="src/editor_components/open_gl_oscilloscope.cpp"/>
+        <FILE id="Lnnyka" name="open_gl_oscilloscope.h" compile="0" resource="0"
+              file="src/editor_components/open_gl_oscilloscope.h"/>
         <FILE id="URYKxf" name="oscilloscope.cpp" compile="1" resource="0"
               file="src/editor_components/oscilloscope.cpp"/>
         <FILE id="l4xi1E" name="oscilloscope.h" compile="0" resource="0" file="src/editor_components/oscilloscope.h"/>
@@ -253,6 +261,8 @@
               file="src/editor_components/retrigger_selector.cpp"/>
         <FILE id="quGHxW" name="retrigger_selector.h" compile="0" resource="0"
               file="src/editor_components/retrigger_selector.h"/>
+        <FILE id="GLXeO4" name="shaders.cpp" compile="1" resource="0" file="src/editor_components/shaders.cpp"/>
+        <FILE id="WyhuJw" name="shaders.h" compile="0" resource="0" file="src/editor_components/shaders.h"/>
         <FILE id="tHEkmu" name="synth_slider.cpp" compile="1" resource="0"
               file="src/editor_components/synth_slider.cpp"/>
         <FILE id="Rt0JAO" name="synth_slider.h" compile="0" resource="0" file="src/editor_components/synth_slider.h"/>
@@ -460,6 +470,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
     <XCODE_MAC targetFolder="builds/osx" vstFolder="~/srcs/VST3 SDK" postbuildCommand=""
@@ -488,6 +499,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2012 targetFolder="builds/vs12" vstFolder="c:\srcs\VST3 SDK" vst3Folder="c:\srcs\VST3 SDK"
@@ -513,6 +525,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </VS2012>
     <VS2015 targetFolder="builds/vs15" vstFolder="c:\srcs\VST3 SDK" vst3Folder="c:\srcs\VST3 SDK"
@@ -540,6 +553,7 @@
         <MODULEPATH id="juce_audio_devices" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </VS2015>
   </EXPORTFORMATS>
@@ -556,6 +570,7 @@
     <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
   <LIVE_SETTINGS>

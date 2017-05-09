@@ -305,9 +305,12 @@
     <ClCompile Include="..\..\src\editor_components\modulation_highlight.cpp"/>
     <ClCompile Include="..\..\src\editor_components\modulation_meter.cpp"/>
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\open_gl_oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\patch_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\retrigger_selector.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\shaders.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp"/>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp"/>
@@ -1988,6 +1991,36 @@
     <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLContext.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLFrameBuffer.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLGraphicsContext.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLHelpers.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLImage.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLPixelFormat.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLShaderProgram.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLTexture.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\utils\juce_OpenGLAppComponent.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_opengl\juce_opengl.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\juce_audio_basics.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\juce_audio_devices.cpp"/>
@@ -2003,6 +2036,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_graphics.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\juce_gui_basics.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\juce_gui_extra.cpp"/>
+    <ClCompile Include="..\..\JuceLibraryCode\juce_opengl.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\concurrentqueue\blockingconcurrentqueue.h"/>
@@ -2068,9 +2102,12 @@
     <ClInclude Include="..\..\src\editor_components\modulation_highlight.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_meter.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h"/>
+    <ClInclude Include="..\..\src\editor_components\open_gl_component.h"/>
+    <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\patch_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\retrigger_selector.h"/>
+    <ClInclude Include="..\..\src\editor_components\shaders.h"/>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h"/>
@@ -2763,6 +2800,29 @@
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\native\juce_mac_CarbonViewWrapperComponent.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\geometry\juce_Draggable3DOrientation.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\geometry\juce_Matrix3D.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\geometry\juce_Quaternion.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\geometry\juce_Vector3D.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_MissingGLDefinitions.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_android.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_ios.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_linux.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_osx.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_win32.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGLExtensions.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLContext.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLFrameBuffer.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLGraphicsContext.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLHelpers.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLImage.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLPixelFormat.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLRenderer.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLShaderProgram.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLTexture.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\utils\juce_OpenGLAppComponent.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\juce_opengl.h"/>
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\juce_opengl.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\BinaryData.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>

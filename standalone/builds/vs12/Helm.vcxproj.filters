@@ -368,17 +368,20 @@
     <Filter Include="Juce Modules\juce_gui_extra\native">
       <UniqueIdentifier>{C413328B-5D81-89EE-F4F3-75752E700DE4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_video">
-      <UniqueIdentifier>{72A923E2-C729-DB92-D7BF-A9D4AFAE5896}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_opengl">
+      <UniqueIdentifier>{639E16C5-DA8B-ADBA-6E24-7B596378EAB2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_video\capture">
-      <UniqueIdentifier>{7F11E7D2-54C0-2A36-5F15-BEC0A5374A08}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_opengl\geometry">
+      <UniqueIdentifier>{B3141847-8F13-F67D-45B2-E3ECF6E09088}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_video\native">
-      <UniqueIdentifier>{EE985DEA-CD83-8132-7219-542BB1DAD560}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_opengl\native">
+      <UniqueIdentifier>{151B49D8-6102-F802-1C07-D59931BC0574}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_video\playback">
-      <UniqueIdentifier>{0E43EA8A-95EE-4253-E1B7-160F38ACBB00}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_opengl\opengl">
+      <UniqueIdentifier>{2D8D0E19-E676-83EB-38D9-F73500DD6B79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_opengl\utils">
+      <UniqueIdentifier>{9E586194-C056-101C-5311-F2AF5191AC80}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
@@ -547,6 +550,12 @@
     <ClCompile Include="..\..\..\src\editor_components\modulation_slider.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\open_gl_component.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\open_gl_oscilloscope.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\oscilloscope.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
@@ -554,6 +563,9 @@
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\retrigger_selector.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\shaders.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp">
@@ -2347,32 +2359,38 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.mm">
       <Filter>Juce Modules\juce_gui_extra</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.cpp">
-      <Filter>Juce Modules\juce_video\capture</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLContext.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\native\juce_android_CameraDevice.cpp">
-      <Filter>Juce Modules\juce_video\native</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLFrameBuffer.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\native\juce_mac_CameraDevice.mm">
-      <Filter>Juce Modules\juce_video\native</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLGraphicsContext.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\native\juce_mac_QuickTimeMovieComponent.mm">
-      <Filter>Juce Modules\juce_video\native</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLHelpers.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\native\juce_win32_CameraDevice.cpp">
-      <Filter>Juce Modules\juce_video\native</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLImage.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\native\juce_win32_DirectShowComponent.cpp">
-      <Filter>Juce Modules\juce_video\native</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLPixelFormat.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\native\juce_win32_QuickTimeMovieComponent.cpp">
-      <Filter>Juce Modules\juce_video\native</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLShaderProgram.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\juce_video.cpp">
-      <Filter>Juce Modules\juce_video</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLTexture.cpp">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_video\juce_video.mm">
-      <Filter>Juce Modules\juce_video</Filter>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\utils\juce_OpenGLAppComponent.cpp">
+      <Filter>Juce Modules\juce_opengl\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.cpp">
+      <Filter>Juce Modules\juce_opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.mm">
+      <Filter>Juce Modules\juce_opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp">
       <Filter>Juce Library Code</Filter>
@@ -2413,7 +2431,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_gui_extra.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_video.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\juce_opengl.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2607,6 +2625,12 @@
     <ClInclude Include="..\..\..\src\editor_components\modulation_slider.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\open_gl_component.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\open_gl_oscilloscope.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\oscilloscope.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
@@ -2614,6 +2638,9 @@
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\retrigger_selector.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\shaders.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h">
@@ -4521,20 +4548,74 @@
     <ClInclude Include="..\..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h">
       <Filter>Juce Modules\juce_gui_extra</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\capture\juce_CameraDevice.h">
-      <Filter>Juce Modules\juce_video\capture</Filter>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\geometry\juce_Draggable3DOrientation.h">
+      <Filter>Juce Modules\juce_opengl\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\playback\juce_DirectShowComponent.h">
-      <Filter>Juce Modules\juce_video\playback</Filter>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\geometry\juce_Matrix3D.h">
+      <Filter>Juce Modules\juce_opengl\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\playback\juce_QuickTimeMovieComponent.h">
-      <Filter>Juce Modules\juce_video\playback</Filter>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\geometry\juce_Quaternion.h">
+      <Filter>Juce Modules\juce_opengl\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\juce_video.h">
-      <Filter>Juce Modules\juce_video</Filter>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\geometry\juce_Vector3D.h">
+      <Filter>Juce Modules\juce_opengl\geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_video\juce_video.h">
-      <Filter>Juce Modules\juce_video</Filter>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_MissingGLDefinitions.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_android.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_ios.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_linux.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_osx.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_win32.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\native\juce_OpenGLExtensions.h">
+      <Filter>Juce Modules\juce_opengl\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLContext.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLFrameBuffer.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLGraphicsContext.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLHelpers.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLImage.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLPixelFormat.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLRenderer.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLShaderProgram.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\opengl\juce_OpenGLTexture.h">
+      <Filter>Juce Modules\juce_opengl\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\utils\juce_OpenGLAppComponent.h">
+      <Filter>Juce Modules\juce_opengl\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.h">
+      <Filter>Juce Modules\juce_opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.h">
+      <Filter>Juce Modules\juce_opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h">
       <Filter>Juce Library Code</Filter>
