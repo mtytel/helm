@@ -127,11 +127,9 @@ void HelmPlugin::setCurrentProgram(int index) {
 
   current_program_ = index;
   LoadSave::loadPatch(-1, -1, index, this, save_info_);
-  AudioProcessorEditor* editor = getActiveEditor();
-  if (editor) {
-    HelmEditor* t_editor = dynamic_cast<HelmEditor*>(editor);
-    t_editor->updateFullGui();
-  }
+  SynthGuiInterface* editor = getGuiInterface();
+  if (editor)
+    editor->updateFullGui();
 }
 
 const String HelmPlugin::getProgramName(int index) {
@@ -209,6 +207,10 @@ void HelmPlugin::setStateInformation(const void* data, int size_in_bytes) {
   var state;
   if (JSON::parse(data_string, state).wasOk())
     LoadSave::varToState(this, save_info_, state);
+
+  SynthGuiInterface* editor = getGuiInterface();
+  if (editor)
+    editor->updateFullGui();
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
