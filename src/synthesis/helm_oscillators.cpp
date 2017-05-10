@@ -169,6 +169,12 @@ namespace mopo {
     int* dest_cross_mod2 = oscillator2_cross_mods_;
     int* dest_cross_mod1 = oscillator1_cross_mods_;
 
+    if (cross_mod == 0.0) {
+      utils::zeroBuffer(dest_cross_mod1, buffer_size_);
+      utils::zeroBuffer(dest_cross_mod2, buffer_size_);
+      return;
+    }
+
     int i = 0;
     if (input(kReset)->source->triggered) {
       int trigger_offset = input(kReset)->source->trigger_offset;
