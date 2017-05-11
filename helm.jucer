@@ -261,8 +261,6 @@
               file="src/editor_components/retrigger_selector.cpp"/>
         <FILE id="quGHxW" name="retrigger_selector.h" compile="0" resource="0"
               file="src/editor_components/retrigger_selector.h"/>
-        <FILE id="GLXeO4" name="shaders.cpp" compile="1" resource="0" file="src/editor_components/shaders.cpp"/>
-        <FILE id="WyhuJw" name="shaders.h" compile="0" resource="0" file="src/editor_components/shaders.h"/>
         <FILE id="tHEkmu" name="synth_slider.cpp" compile="1" resource="0"
               file="src/editor_components/synth_slider.cpp"/>
         <FILE id="Rt0JAO" name="synth_slider.h" compile="0" resource="0" file="src/editor_components/synth_slider.h"/>
@@ -389,6 +387,8 @@
               file="src/look_and_feel/modulation_look_and_feel.cpp"/>
         <FILE id="KO0t5N" name="modulation_look_and_feel.h" compile="0" resource="0"
               file="src/look_and_feel/modulation_look_and_feel.h"/>
+        <FILE id="ZA2Js1" name="shaders.cpp" compile="1" resource="0" file="src/look_and_feel/shaders.cpp"/>
+        <FILE id="SHhkps" name="shaders.h" compile="0" resource="0" file="src/look_and_feel/shaders.h"/>
         <FILE id="UIzZNu" name="text_look_and_feel.cpp" compile="1" resource="0"
               file="src/look_and_feel/text_look_and_feel.cpp"/>
         <FILE id="WbxLI7" name="text_look_and_feel.h" compile="0" resource="0"

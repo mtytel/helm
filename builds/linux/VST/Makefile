@@ -123,7 +123,6 @@ OBJECTS := \
   $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
   $(JUCE_OBJDIR)/patch_selector_fe7c390c.o \
   $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o \
-  $(JUCE_OBJDIR)/shaders_984460a2.o \
   $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o \
   $(JUCE_OBJDIR)/tempo_selector_e5a31119.o \
   $(JUCE_OBJDIR)/wave_selector_6d163719.o \
@@ -160,6 +159,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/default_look_and_feel_f168ba6a.o \
   $(JUCE_OBJDIR)/fonts_7e4e153e.o \
   $(JUCE_OBJDIR)/modulation_look_and_feel_605bddbb.o \
+  $(JUCE_OBJDIR)/shaders_8f61ea28.o \
   $(JUCE_OBJDIR)/text_look_and_feel_4af8536c.o \
   $(JUCE_OBJDIR)/helm_editor_cad94f01.o \
   $(JUCE_OBJDIR)/helm_plugin_108c49c7.o \
@@ -508,11 +508,6 @@ $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/ret
 	@echo "Compiling retrigger_selector.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/shaders_984460a2.o: ../../../src/editor_components/shaders.cpp
-	-@mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling shaders.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
-
 $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_slider.cpp"
@@ -691,6 +686,11 @@ $(JUCE_OBJDIR)/fonts_7e4e153e.o: ../../../src/look_and_feel/fonts.cpp
 $(JUCE_OBJDIR)/modulation_look_and_feel_605bddbb.o: ../../../src/look_and_feel/modulation_look_and_feel.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_look_and_feel.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/shaders_8f61ea28.o: ../../../src/look_and_feel/shaders.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling shaders.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_look_and_feel.cpp

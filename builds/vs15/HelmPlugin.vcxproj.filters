@@ -589,9 +589,6 @@
     <ClCompile Include="..\..\src\editor_components\retrigger_selector.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\editor_components\shaders.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
@@ -698,6 +695,9 @@
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp">
+      <Filter>HelmPlugin\src\look_and_feel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\look_and_feel\shaders.cpp">
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\text_look_and_feel.cpp">
@@ -2796,9 +2796,6 @@
     <ClInclude Include="..\..\src\editor_components\retrigger_selector.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\editor_components\shaders.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
@@ -2905,6 +2902,9 @@
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h">
+      <Filter>HelmPlugin\src\look_and_feel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\look_and_feel\shaders.h">
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h">

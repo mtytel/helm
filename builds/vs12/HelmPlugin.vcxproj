@@ -254,7 +254,6 @@
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\patch_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\retrigger_selector.cpp"/>
-    <ClCompile Include="..\..\src\editor_components\shaders.cpp"/>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp"/>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp"/>
@@ -291,6 +290,7 @@
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\fonts.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\src\look_and_feel\shaders.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\text_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\plugin\helm_editor.cpp"/>
     <ClCompile Include="..\..\src\plugin\helm_plugin.cpp"/>
@@ -2051,7 +2051,6 @@
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\patch_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\retrigger_selector.h"/>
-    <ClInclude Include="..\..\src\editor_components\shaders.h"/>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h"/>
@@ -2088,6 +2087,7 @@
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\fonts.h"/>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h"/>
+    <ClInclude Include="..\..\src\look_and_feel\shaders.h"/>
     <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h"/>
     <ClInclude Include="..\..\src\plugin\helm_editor.h"/>
     <ClInclude Include="..\..\src\plugin\helm_plugin.h"/>
