@@ -233,6 +233,8 @@ namespace mopo {
     m0_ = target_m0_;
     m1_ = target_m1_;
     m2_ = target_m2_;
+    last_out_a_ = 0.0;
+    last_out_b_ = 0.0;
   }
 
 } // namespace mopo
