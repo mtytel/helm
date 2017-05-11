@@ -26,6 +26,7 @@
 #include "global_tool_tip.h"
 #include "modulation_manager.h"
 #include "oscilloscope.h"
+#include "open_gl_oscilloscope.h"
 #include "patch_browser.h"
 #include "patch_selector.h"
 #include "synthesis_interface.h"
@@ -70,7 +71,7 @@ class FullInterface : public SynthSection {
     ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<Oscilloscope> oscilloscope_;
+    ScopedPointer<OpenGlOscilloscope> oscilloscope_;
     ScopedPointer<BpmSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<PatchSelector> patch_selector_;

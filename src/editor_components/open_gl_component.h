@@ -34,23 +34,35 @@ class OpenGlComponent : public Component, public OpenGLRenderer {
     void openGLContextClosing() override;
 
   protected:
-    void createAttributes(OpenGLShaderProgram& program);
-    void draw();
+    OpenGLShaderProgram::Uniform* createUniform(OpenGLShaderProgram& program, const char* name);
+    OpenGLShaderProgram::Attribute* createAttribute(OpenGLShaderProgram& program, const char* name);
+
+    void drawBackground();
+
+    void bind();
+    void enableAttributes();
+    void disableAttributes();
+    void updateBackgroundImage(Image background);
 
     virtual void init() { }
     virtual void render() { }
     virtual void destroy() { }
 
     OpenGLContext openGLContext;
-    GLuint vertex_buffer_;
-    GLuint triangle_buffer_;
-
-    ScopedPointer<OpenGLShaderProgram::Attribute> position;
 
   private:
-    void bind();
-    void enableAttributes();
-    void disableAttributes();
+    ScopedPointer<OpenGLShaderProgram> shader_;
+
+    ScopedPointer<OpenGLShaderProgram::Attribute> position_;
+    ScopedPointer<OpenGLShaderProgram::Attribute> texture_coordinates_;
+
+    ScopedPointer<OpenGLShaderProgram::Uniform> texture_;
+
+    OpenGLTexture background_;
+    Image background_image_;
+
+    GLuint vertex_buffer_;
+    GLuint triangle_buffer_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlComponent)
 };

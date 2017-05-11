@@ -128,8 +128,8 @@ namespace mopo {
   const mopo_float MAX_STEPS = 32;
   const int NUM_FORMANTS = 4;
   const int NUM_CHANNELS = 2;
-  const int MEMORY_SAMPLE_RATE = 2205;
-  const int MEMORY_RESOLUTION = 52;
+  const int MEMORY_SAMPLE_RATE = 22000;
+  const int MEMORY_RESOLUTION = 512;
   const mopo_float STUTTER_MAX_SAMPLES = 96000.0;
   const int DEFAULT_MODULATION_CONNECTIONS = 256;
 

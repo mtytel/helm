@@ -39,7 +39,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
 
   addSubSection(patch_selector_ = new PatchSelector());
-  addAndMakeVisible(oscilloscope_ = new Oscilloscope());
+  addAndMakeVisible(oscilloscope_ = new OpenGlOscilloscope());
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
@@ -197,5 +197,5 @@ void FullInterface::buttonClicked(Button* clicked_button) {
 
 void FullInterface::animate(bool animate) {
   SynthSection::animate(animate);
-  oscilloscope_->showRealtimeFeedback(animate);
+  // oscilloscope_->showRealtimeFeedback(animate);
 }

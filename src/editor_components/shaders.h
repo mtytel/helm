@@ -21,8 +21,10 @@
 class Shaders {
   public:
     enum Shader {
-      kVertexPassthrough,
-      kGreenFragment,
+      kBackgroundImageVertex,
+      kBackgroundImageFragment,
+      kOscilloscopeVertex,
+      kOscilloscopeFragment,
       kOscilloscope,
       kLfo,
       kNumShaders

@@ -23,15 +23,35 @@ const char* Shaders::getShader(Shader shader) {
 
 const char* Shaders::shaders_[] = {
   "attribute vec4 position;\n"
+  "attribute vec2 tex_coord_in;\n"
+  "\n"
+  "varying vec2 tex_coord_out;\n"
+  "\n"
+  "void main()\n"
+  "{\n"
+  "    tex_coord_out = tex_coord_in;\n"
+  "    gl_Position = position;\n"
+  "}\n",
+
+  "varying " JUCE_MEDIUMP " vec2 tex_coord_out;\n"
+  "\n"
+  "uniform sampler2D texture;\n"
+  "\n"
+  "void main()\n"
+  "{\n"
+  "    gl_FragColor = texture2D(texture, tex_coord_out);\n"
+  "}\n",
+
+  "attribute vec4 position;\n"
   "\n"
   "void main()\n"
   "{\n"
   "    gl_Position = position;\n"
   "}\n",
-
+  
   "void main()\n"
   "{\n"
-  "    " JUCE_LOWP " vec4 colour = vec4(0.0, 1.0, 0.0, 1.0);\n"
+  "    " JUCE_LOWP " vec4 colour = vec4(0.9, 0.9, 0.9, 1.0);\n"
   "    gl_FragColor = colour;\n"
   "}\n",
 

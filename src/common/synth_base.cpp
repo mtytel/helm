@@ -286,7 +286,7 @@ void SynthBase::processModulationChanges() {
 void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
                                                 const mopo::mopo_float* right) {
   mopo::mopo_float last_played = std::max(engine_.getLastActiveNote(), OUTPUT_WINDOW_MIN_NOTE);
-  int output_inc = engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE;
+  int output_inc = std::max<int>(1, engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE);
 
   if (last_played && last_played_note_ != last_played) {
     last_played_note_ = last_played;
@@ -310,7 +310,7 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
     MOPO_ASSERT(input_index < samples);
     MOPO_ASSERT(memory_index_ >= 0);
     MOPO_ASSERT(memory_index_ < 2 * mopo::MEMORY_RESOLUTION);
-    output_memory_write_[memory_index_++] = left[input_index] + right[input_index];
+    output_memory_write_[memory_index_++] = (left[input_index] + right[input_index]) / 2.0;
 
     if (memory_index_ * output_inc >= memory_reset_period_) {
       memory_input_offset_ += memory_reset_period_ - memory_index_ * output_inc;

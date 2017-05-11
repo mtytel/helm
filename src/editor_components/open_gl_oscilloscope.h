@@ -34,12 +34,18 @@ class OpenGlOscilloscope : public OpenGlComponent {
     void init() override;
     void render() override;
     void destroy() override;
+
+    void drawLines();
   
   private:
-    const float* output_memory_;
-    const char* vertex_shader_;
-    const char* fragment_shader_;
     ScopedPointer<OpenGLShaderProgram> shader_;
+    ScopedPointer<OpenGLShaderProgram::Attribute> position_;
+
+    const float* output_memory_;
+    float* line_data_;
+    int* line_indices_;
+    GLuint line_buffer_;
+    GLuint line_indices_buffer_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlOscilloscope)
 };
