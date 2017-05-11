@@ -163,10 +163,10 @@ namespace mopo {
       mopo_float abs_value = fabs(value);
       mopo_float square = value * value;
 
-      mopo_float num = value * (2.45550750702956f + 2.45550750702956f * abs_value +
-                                square * (0.893229853513558f + 0.821226666969744f * abs_value));
-      mopo_float den = 2.44506634652299f + (2.44506634652299f + square) *
-                       fabs(value + 0.814642734961073f * value * abs_value);
+      mopo_float num = value * (2.45550750702956 + 2.45550750702956 * abs_value +
+                                square * (0.893229853513558 + 0.821226666969744 * abs_value));
+      mopo_float den = 2.44506634652299 + (2.44506634652299 + square) *
+                       fabs(value + 0.814642734961073 * value * abs_value);
       return num / den;
     }
 
