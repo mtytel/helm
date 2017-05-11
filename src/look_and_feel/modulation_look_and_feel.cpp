@@ -15,6 +15,8 @@
  */
 
 #include "modulation_look_and_feel.h"
+
+#include "colors.h"
 #include "modulation_slider.h"
 #include "mopo.h"
 #include "synth_gui_interface.h"
@@ -40,7 +42,7 @@ void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int widt
   else {
     g.setColour(Colour(0x1100e676));
     g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
-    g.setColour(Colour(0xff00e676));
+    g.setColour(Colors::modulation);
     g.drawRect(0.0f, 0.0f, float(slider.getWidth()), float(slider.getHeight()), 2.5f);
   }
 
@@ -83,7 +85,7 @@ void ModulationLookAndFeel::drawTextModulation(Graphics& g, Slider& slider, floa
   else {
     g.setColour(Colour(0x1100e676));
     g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
-    g.setColour(Colour(0xff00e676));
+    g.setColour(Colors::modulation);
     g.drawRect(0.0f, 0.0f, float(slider.getWidth()), float(slider.getHeight()), 2.5f);
   }
 
@@ -127,7 +129,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
     g.setColour(Colour(0x33b9f6ca));
     g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                   2.0 * knob_radius, 2.0 * knob_radius);
-    g.setColour(Colour(0xff00e676));
+    g.setColour(Colors::modulation);
     g.drawEllipse(width / 2.0f - knob_radius + 0.5f, height / 2.0f - knob_radius + 0.5f,
                   2.0f * knob_radius - 1.0f, 2.0f * knob_radius - 1.0f, 1.0f);
   }
@@ -135,7 +137,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
     g.setColour(Colour(0xaa00e676));
     g.fillEllipse(width / 2.0f - knob_radius, height / 2.0f - knob_radius,
                   2.0 * knob_radius, 2.0 * knob_radius);
-    g.setColour(Colour(0xff00e676));
+    g.setColour(Colors::modulation);
     g.drawEllipse(width / 2.0f - knob_radius + 1.5f, height / 2.0f - knob_radius + 1.5f,
                   2.0f * knob_radius - 3.0f, 2.0f * knob_radius - 3.0f, 3.0f);
   }

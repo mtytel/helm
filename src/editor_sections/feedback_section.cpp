@@ -15,6 +15,8 @@
  */
 
 #include "feedback_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 
 #define KNOB_WIDTH 40
@@ -49,9 +51,9 @@ FeedbackSection::~FeedbackSection() {
 void FeedbackSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xffbbbbbb));
-
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextForComponent(g, TRANS("TRANSPOSE"), transpose_);
   drawTextForComponent(g, TRANS("TUNE"), tune_);
   drawTextForComponent(g, TRANS("AMOUNT"), amount_);

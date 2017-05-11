@@ -16,6 +16,7 @@
 
 #include "full_interface.h"
 
+#include "colors.h"
 #include "fonts.h"
 #include "text_look_and_feel.h"
 #include "helm_engine.h"
@@ -103,7 +104,7 @@ void FullInterface::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
   Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                BinaryData::helm_icon_32_2x_pngSize);
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   g.fillRect(getLocalBounds());
 
   shadow.drawForRectangle(g, arp_section_->getBounds());
@@ -124,8 +125,9 @@ void FullInterface::paintBackground(Graphics& g) {
   g.setColour(Colour(0xff303030));
   g.fillRect(84, 8, 244, TOP_HEIGHT);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   g.drawText(TRANS("BPM"), patch_selector_->getX(), beats_per_minute_->getY(),
              44, beats_per_minute_->getHeight(),
              Justification::centred, false);

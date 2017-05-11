@@ -15,6 +15,8 @@
  */
 
 #include "sub_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 
 #define WAVE_VIEWER_RESOLUTION 80
@@ -42,7 +44,7 @@ SubSection::~SubSection() {
 void SubSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("SHUFFLE"), shuffle_);
 }

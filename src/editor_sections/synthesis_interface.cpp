@@ -16,6 +16,7 @@
 
 #include "synthesis_interface.h"
 
+#include "colors.h"
 #include "fonts.h"
 #include "midi_keyboard.h"
 #include "modulation_look_and_feel.h"
@@ -62,7 +63,7 @@ SynthesisInterface::SynthesisInterface(
   keyboard_->setColour(MidiKeyboardComponent::keySeparatorLineColourId, Colour(0x00000000));
   keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0x00000000));
   keyboard_->setColour(MidiKeyboardComponent::upDownButtonBackgroundColourId, Colour(0xff222222));
-  keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colour(0xff03a9f4));
+  keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colors::audio);
   keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x4403a9f4));
   keyboard_->setLowestVisibleKey(36);
 
@@ -98,7 +99,7 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   static const DropShadow section_shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
 
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   g.fillRect(getLocalBounds());
 
   section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());

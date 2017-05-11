@@ -15,16 +15,18 @@
  */
 
 #include "text_look_and_feel.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "synth_slider.h"
 
 TextLookAndFeel::TextLookAndFeel() {
-  setColour(ComboBox::backgroundColourId, Colour(0xff212121));
+  setColour(ComboBox::backgroundColourId, Colors::background);
   setColour(ComboBox::arrowColourId, Colour(0xff888888));
   setColour(ComboBox::outlineColourId, Colour(0xff888888));
-  setColour(ComboBox::textColourId, Colour(0xffbbbbbb));
+  setColour(ComboBox::textColourId, Colors::controlLabelText);
   setColour(Label::textColourId, Colour(0xffaaaaaa));
-  setColour(ListBox::backgroundColourId, Colour(0xff212121));
+  setColour(ListBox::backgroundColourId, Colors::background);
   setColour(ListBox::textColourId, Colour(0xffaaaaaa));
 }
 

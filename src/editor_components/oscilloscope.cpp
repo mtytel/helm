@@ -16,6 +16,7 @@
 
 #include "oscilloscope.h"
 
+#include "colors.h"
 #include "helm_common.h"
 
 #define FRAMES_PER_SECOND 15
@@ -34,7 +35,7 @@ void Oscilloscope::paint(Graphics& g) {
 
   shadow.drawForPath(g, wave_path_);
 
-  g.setColour(Colour(0xff565656));
+  g.setColour(Colors::graphFill);
   g.fillPath(wave_path_);
   g.setColour(Colour(0xffaaaaaa));
   g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));

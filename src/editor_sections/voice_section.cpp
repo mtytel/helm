@@ -15,6 +15,8 @@
  */
 
 #include "voice_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "text_look_and_feel.h"
 
@@ -46,7 +48,7 @@ VoiceSection::~VoiceSection() {
 void VoiceSection::paintBackground(Graphics& g) {
   SynthSection::paintContainer(g);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("VOICES"), polyphony_);
   drawTextForComponent(g, TRANS("PITCH BEND"), pitch_bend_);

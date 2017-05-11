@@ -14,12 +14,14 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "synth_gui_interface.h"
-#include "fonts.h"
+#include "patch_browser.h"
+
+#include "colors.h"
 #include "browser_look_and_feel.h"
+#include "fonts.h"
 #include "helm_common.h"
 #include "load_save.h"
-#include "patch_browser.h"
+#include "synth_gui_interface.h"
 
 #define BANKS_WIDTH_PERCENT 0.23
 #define FOLDERS_WIDTH_PERCENT 0.2
@@ -176,7 +178,7 @@ void PatchBrowser::paint(Graphics& g) {
   g.setColour(Colour(0xff111111));
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   float info_width = getPatchInfoWidth();
   Rectangle<int> data_rect(getWidth() - info_width - BROWSE_PADDING, BROWSE_PADDING,
                            info_width, BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
@@ -204,7 +206,7 @@ void PatchBrowser::paint(Graphics& g) {
                Justification::centredRight, false);
 
     g.setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
-    g.setColour(Colour(0xff03a9f4));
+    g.setColour(Colors::audio);
 
     File selected_patch = getSelectedPatch();
     g.drawFittedText(selected_patch.getFileNameWithoutExtension(),
@@ -213,7 +215,7 @@ void PatchBrowser::paint(Graphics& g) {
                      Justification::centred, true);
 
     g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
-    g.setColour(Colour(0xffbbbbbb));
+    g.setColour(Colors::controlLabelText);
 
     float data_width = info_width - division - buffer - 2.0f * BROWSE_PADDING;
     g.drawText(author_,

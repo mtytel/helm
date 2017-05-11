@@ -15,6 +15,7 @@
  */
 
 #include "tempo_selector.h"
+
 #include "synth_gui_interface.h"
 
 namespace {

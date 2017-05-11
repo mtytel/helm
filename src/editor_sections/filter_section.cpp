@@ -16,6 +16,7 @@
 
 #include "filter_section.h"
 
+#include "colors.h"
 #include "filter_response.h"
 #include "filter_selector.h"
 #include "fonts.h"
@@ -69,9 +70,9 @@ void FilterSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xffbbbbbb));
-
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);
   drawTextForComponent(g, TRANS("KEY TRACK"), keytrack_);
 

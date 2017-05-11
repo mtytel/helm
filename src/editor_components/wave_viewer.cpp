@@ -16,6 +16,7 @@
 
 #include "wave_viewer.h"
 
+#include "colors.h"
 #include "synth_gui_interface.h"
 
 #define GRID_CELL_WIDTH 8
@@ -54,10 +55,7 @@ void WaveViewer::paint(juce::Graphics &g) {
 
       float y = PADDING + (getHeight() - 2 * PADDING) * (1.0f - amp_) / 2.0f;
 
-      if (is_control_rate_)
-        g.setColour(Colour(0xff00e676));
-      else
-        g.setColour(Colour(0xff03a9f4));
+      g.setColour(Colors::modulation);
       g.fillEllipse(x - MARKER_WIDTH / 2.0f, y - MARKER_WIDTH / 2.0f,
                     MARKER_WIDTH, MARKER_WIDTH);
       g.setColour(Colour(0xff000000));
@@ -80,13 +78,13 @@ void WaveViewer::paintBackground(Graphics& g) {
 
   shadow.drawForPath(g, wave_path_);
 
-  g.setColour(Colour(0xff565656));
+  g.setColour(Colors::graphFill);
   g.fillPath(wave_path_);
 
   if (is_control_rate_)
-    g.setColour(Colour(0xff00e676));
+    g.setColour(Colors::modulation);
   else
-    g.setColour(Colour(0xff03a9f4));
+    g.setColour(Colors::audio);
   g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
 }
 

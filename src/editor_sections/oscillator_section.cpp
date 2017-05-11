@@ -16,6 +16,7 @@
 
 #include "oscillator_section.h"
 
+#include "colors.h"
 #include "fonts.h"
 #include "synth_slider.h"
 #include "tempo_selector.h"
@@ -120,7 +121,7 @@ void OscillatorSection::paintBackground(Graphics& g) {
 
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   g.fillEllipse(transpose_1_->getBounds().toFloat().expanded(extra_knob_padding));
   g.fillEllipse(tune_1_->getBounds().toFloat().expanded(extra_knob_padding));
   g.fillEllipse(transpose_2_->getBounds().toFloat().expanded(extra_knob_padding));
@@ -141,8 +142,9 @@ void OscillatorSection::paintBackground(Graphics& g) {
   g.setColour(Colour(0xff4fc3f7));
   g.strokePath(bottom_right_cross_path_, PathStrokeType(1.0f));
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
   drawTextForComponent(g, TRANS("TRANS"), transpose_2_);

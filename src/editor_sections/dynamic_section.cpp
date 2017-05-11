@@ -15,6 +15,8 @@
  */
 
 #include "dynamic_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "text_look_and_feel.h"
 
@@ -44,8 +46,9 @@ DynamicSection::~DynamicSection() {
 void DynamicSection::paintBackground(Graphics& g) {
   SynthSection::paintContainer(g);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextForComponent(g, TRANS("PORTA"), portamento_);
   drawTextForComponent(g, TRANS("PORTA TYPE"), portamento_type_,
                        4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);

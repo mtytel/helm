@@ -688,6 +688,9 @@
     <ClCompile Include="..\..\src\look_and_feel\browser_look_and_feel.cpp">
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\look_and_feel\colors.cpp">
+      <Filter>HelmPlugin\src\look_and_feel</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp">
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClCompile>
@@ -2893,6 +2896,9 @@
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\browser_look_and_feel.h">
+      <Filter>HelmPlugin\src\look_and_feel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\look_and_feel\colors.h">
       <Filter>HelmPlugin\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h">

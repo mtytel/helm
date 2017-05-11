@@ -16,6 +16,7 @@
 
 #include "envelope_section.h"
 
+#include "colors.h"
 #include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "synth_slider.h"
@@ -64,10 +65,10 @@ void EnvelopeSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
   component_shadow.drawForRectangle(g, envelope_->getBounds());
 
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   g.fillRect(getWidth() - TEXT_WIDTH - SLIDER_SECTION_WIDTH, 20, TEXT_WIDTH, getHeight() - 20);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
 
   g.drawText(TRANS("A"), attack_->getX() - TEXT_WIDTH, attack_->getY(),

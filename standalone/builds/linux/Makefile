@@ -156,6 +156,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/voice_section_99705324.o \
   $(JUCE_OBJDIR)/volume_section_9cff0be.o \
   $(JUCE_OBJDIR)/browser_look_and_feel_d6654391.o \
+  $(JUCE_OBJDIR)/colors_9855f240.o \
   $(JUCE_OBJDIR)/default_look_and_feel_f168ba6a.o \
   $(JUCE_OBJDIR)/fonts_7e4e153e.o \
   $(JUCE_OBJDIR)/modulation_look_and_feel_605bddbb.o \
@@ -671,6 +672,11 @@ $(JUCE_OBJDIR)/volume_section_9cff0be.o: ../../../src/editor_sections/volume_sec
 $(JUCE_OBJDIR)/browser_look_and_feel_d6654391.o: ../../../src/look_and_feel/browser_look_and_feel.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling browser_look_and_feel.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/colors_9855f240.o: ../../../src/look_and_feel/colors.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling colors.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/default_look_and_feel_f168ba6a.o: ../../../src/look_and_feel/default_look_and_feel.cpp

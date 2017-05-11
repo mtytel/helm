@@ -15,6 +15,8 @@
  */
 
 #include "stutter_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "text_look_and_feel.h"
 
@@ -82,8 +84,9 @@ StutterSection::~StutterSection() {
 void StutterSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   g.drawText(TRANS("FREQUENCY"),
              stutter_frequency_->getBounds().getX() - 5,
              stutter_frequency_->getBounds().getY() + TEXT_HEIGHT + 6,

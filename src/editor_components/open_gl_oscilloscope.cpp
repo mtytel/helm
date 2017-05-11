@@ -35,8 +35,6 @@ OpenGlOscilloscope::OpenGlOscilloscope() : output_memory_(nullptr) {
   }
 
   line_indices_[2 * RESOLUTION - 1] = RESOLUTION - 1;
-
-  // openGLContext.setSwapInterval(0);
 }
 
 OpenGlOscilloscope::~OpenGlOscilloscope() {
@@ -76,7 +74,7 @@ void OpenGlOscilloscope::drawLines() {
   glEnable(GL_LINE_SMOOTH);
   glDisable(GL_DEPTH);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  glLineWidth(4);
+  glLineWidth(3);
 
   if (output_memory_) {
     for (int i = 0; i < RESOLUTION; ++i) {

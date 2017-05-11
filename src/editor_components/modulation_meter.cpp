@@ -15,12 +15,13 @@
  */
 
 #include "modulation_meter.h"
+
+#include "colors.h"
 #include "mopo.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
 #define ANGLE 2.51327412f
-#define ROTARY_MOD_COLOR 0xff00e676
 #define SLIDER_MOD_COLOR 0xff69f0ae
 
 ModulationMeter::ModulationMeter(const mopo::Output* mono_total,
@@ -134,7 +135,7 @@ void ModulationMeter::drawKnob(Graphics& g) {
     Path mod_section;
     mod_section.addCentredArc(full_radius_, full_radius_, outer_radius_, outer_radius_,
                               0.0f, current_mod_angle, current_knob_angle, true);
-    g.setColour(Colour(ROTARY_MOD_COLOR));
+    g.setColour(Colors::modulation);
     g.strokePath(mod_section, knob_stroke_);
   }
 }

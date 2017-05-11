@@ -377,6 +377,8 @@
               file="src/look_and_feel/browser_look_and_feel.cpp"/>
         <FILE id="dwnNIn" name="browser_look_and_feel.h" compile="0" resource="0"
               file="src/look_and_feel/browser_look_and_feel.h"/>
+        <FILE id="hm4dXQ" name="colors.cpp" compile="1" resource="0" file="src/look_and_feel/colors.cpp"/>
+        <FILE id="PickFv" name="colors.h" compile="0" resource="0" file="src/look_and_feel/colors.h"/>
         <FILE id="xhRPjc" name="default_look_and_feel.cpp" compile="1" resource="0"
               file="src/look_and_feel/default_look_and_feel.cpp"/>
         <FILE id="v8k9Zi" name="default_look_and_feel.h" compile="0" resource="0"

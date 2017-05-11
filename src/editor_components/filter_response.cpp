@@ -15,6 +15,8 @@
  */
 
 #include "filter_response.h"
+
+#include "colors.h"
 #include "midi_lookup.h"
 #include "utils.h"
 
@@ -62,10 +64,10 @@ void FilterResponse::paint(Graphics& g) {
 
   shadow.drawForPath(g, filter_response_path_);
 
-  g.setColour(Colour(0xff565656));
+  g.setColour(Colors::graphFill);
   g.fillPath(filter_response_path_);
 
-  g.setColour(Colour(0xff03a9f4));
+  g.setColour(Colors::audio);
   g.strokePath(filter_response_path_, stroke);
 }
 

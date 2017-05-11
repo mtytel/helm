@@ -15,7 +15,9 @@
  */
 
 #include "patch_selector.h"
+
 #include "browser_look_and_feel.h"
+#include "colors.h"
 #include "fonts.h"
 #include "load_save.h"
 #include "synth_gui_interface.h"
@@ -91,7 +93,7 @@ void PatchSelector::paintBackground(Graphics& g) {
                         proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
 
   g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));
   g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);

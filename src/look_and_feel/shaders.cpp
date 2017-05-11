@@ -51,7 +51,7 @@ const char* Shaders::shaders_[] = {
   
   "void main()\n"
   "{\n"
-  "    " JUCE_LOWP " vec4 colour = vec4(0.9, 0.9, 0.9, 1.0);\n"
+  "    " JUCE_LOWP " vec4 colour = vec4(0.04, 0.8, 1.0, 1.0);\n"
   "    gl_FragColor = colour;\n"
   "}\n",
 

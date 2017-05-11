@@ -15,6 +15,8 @@
  */
 
 #include "save_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "helm_common.h"
 #include "load_save.h"
@@ -48,7 +50,7 @@ SaveSection::SaveSection(String name) : Component(name) {
   patch_name_->setTextToShowWhenEmpty(TRANS("Patch Name"), Colour(0xff777777));
   patch_name_->setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
   patch_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
-  patch_name_->setColour(TextEditor::textColourId, Colour(0xff03a9f4));
+  patch_name_->setColour(TextEditor::textColourId, Colors::audio);
   patch_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xff03a9f4));
   patch_name_->setColour(TextEditor::highlightColourId, Colour(0xff888888));
   patch_name_->setColour(TextEditor::backgroundColourId, Colour(0xff323232));
@@ -120,7 +122,7 @@ void SaveSection::paint(Graphics& g) {
 
   Rectangle<int> save_rect = getSaveRect();
   shadow.drawForRectangle(g, save_rect);
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   g.fillRect(save_rect);
 
   g.saveState();

@@ -15,6 +15,7 @@
  */
 
 #include "retrigger_selector.h"
+
 #include "fonts.h"
 #include "synth_gui_interface.h"
 

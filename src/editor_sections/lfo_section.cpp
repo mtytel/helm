@@ -16,6 +16,7 @@
 
 #include "lfo_section.h"
 
+#include "colors.h"
 #include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "text_look_and_feel.h"
@@ -85,7 +86,7 @@ void LfoSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
 
   SynthSection::paintBackground(g);
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
 
   if (retrigger_->isVisible()) {

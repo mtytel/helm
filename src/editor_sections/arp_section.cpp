@@ -15,6 +15,8 @@
  */
 
 #include "arp_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "text_look_and_feel.h"
 
@@ -74,8 +76,9 @@ void ArpSection::paintBackground(Graphics& g) {
                                    false));
   g.fillRoundedRectangle(0, 0, TITLE_WIDTH, getHeight(), 1.0f);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextForComponent(g, TRANS("GATE"), gate_);
   drawTextForComponent(g, TRANS("OCTAVES"), octaves_);
   drawTextForComponent(g, TRANS("PATTERN"), pattern_);

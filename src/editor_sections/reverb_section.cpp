@@ -15,6 +15,8 @@
  */
 
 #include "reverb_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 
 #define KNOB_WIDTH 40
@@ -44,9 +46,9 @@ ReverbSection::~ReverbSection() {
 void ReverbSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xffbbbbbb));
-
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
   drawTextForComponent(g, TRANS("DAMP"), damping_);
   drawTextForComponent(g, TRANS("WET"), dry_wet_);

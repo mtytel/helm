@@ -15,6 +15,8 @@
  */
 
 #include "extra_mod_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "modulation_look_and_feel.h"
 
@@ -54,8 +56,9 @@ void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* compone
 void ExtraModSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  
   drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));
   drawTextToRightOfComponent(g, note_mod_, TRANS("NOTE"));
   drawTextToRightOfComponent(g, velocity_mod_, TRANS("VELOCITY"));

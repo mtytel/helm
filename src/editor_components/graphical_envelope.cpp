@@ -16,6 +16,8 @@
 
 #include "graphical_envelope.h"
 
+#include "colors.h"
+
 namespace {
   const float ATTACK_RANGE_PERCENT = 0.33f;
   const float DECAY_RANGE_PERCENT = 0.33f;
@@ -53,14 +55,14 @@ void GraphicalEnvelope::paint(Graphics& g) {
     g.drawLine(0, y, getWidth(), y);
 
   shadow.drawForPath(g, envelope_line_);
-  g.setColour(Colour(0xff565656));
+  g.setColour(Colors::graphFill);
   g.fillPath(envelope_line_);
 
   g.setColour(Colour(0xff505050));
   g.drawLine(getAttackX(), 0.0f, getAttackX(), getHeight());
   g.drawLine(getDecayX(), getSustainY(), getDecayX(), getHeight());
 
-  g.setColour(Colour(0xff00e676));
+  g.setColour(Colors::modulation);
   g.strokePath(envelope_line_, stroke);
 
   float hover_line_x = -20;
@@ -88,7 +90,7 @@ void GraphicalEnvelope::paint(Graphics& g) {
     g.fillRect(hover_line_x - 10.0f, 0.0f, 20.0f, 1.0f * getHeight());
   }
 
-  g.setColour(Colour(0xff00e676));
+  g.setColour(Colors::modulation);
   g.fillEllipse(getDecayX() - MARKER_WIDTH / 2.0f, getSustainY() - MARKER_WIDTH / 2.0f,
                 MARKER_WIDTH, MARKER_WIDTH);
   g.setColour(Colour(0xff000000));

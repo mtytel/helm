@@ -16,6 +16,7 @@
 
 #include "mixer_section.h"
 
+#include "colors.h"
 #include "fonts.h"
 #include "modulation_look_and_feel.h"
 #include "synth_slider.h"
@@ -53,11 +54,11 @@ void MixerSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   float text_y = getHeight() - TEXT_SECTION_WIDTH;
-  g.setColour(Colour(0xff212121));
+  g.setColour(Colors::background);
   g.fillRect(0.0f, text_y, 1.0f * getWidth(), 1.0f * TEXT_SECTION_WIDTH);
 
   float buffer = (getWidth() - 4 * SLIDER_WIDTH) / 3.0f;
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
 
   g.drawText(TRANS("OSC 1"), 0, text_y,

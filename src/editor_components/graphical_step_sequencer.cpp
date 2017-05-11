@@ -15,6 +15,8 @@
  */
 
 #include "graphical_step_sequencer.h"
+
+#include "colors.h"
 #include "synth_gui_interface.h"
 
 #define FRAMES_PER_SECOND 60
@@ -58,17 +60,16 @@ void GraphicalStepSequencer::paintBackground(Graphics& g) {
   for (int i = 0; i < num_steps_; ++i) {
     float val = sequence_[i]->getValue();
     float bar_position = (getHeight() - 1.0f) * ((1.0f - val) / 2.0f);
-    if (val >= 0) {
-      g.setColour(Colour(0xff565656));
+    g.setColour(Colors::graphFill);
+
+    if (val >= 0)
       g.fillRect(x, bar_position, x_inc, proportionOfHeight(0.5f) - bar_position);
-    }
     else {
       float half_height = proportionOfHeight(0.5f);
-      g.setColour(Colour(0xff565656));
       g.fillRect(x, half_height, x_inc, bar_position - half_height);
     }
 
-    g.setColour(Colour(0xff00e676));
+    g.setColour(Colors::modulation);
     g.fillRect(x, bar_position, x_inc, 1.5f);
 
     x += x_inc;

@@ -15,6 +15,8 @@
  */
 
 #include "delete_section.h"
+
+#include "colors.h"
 #include "fonts.h"
 #include "helm_common.h"
 #include "text_look_and_feel.h"
@@ -62,7 +64,7 @@ void DeleteSection::paint(Graphics& g) {
              Justification::centred, false);
 
   g.setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
-  g.setColour(Colour(0xff03a9f4));
+  g.setColour(Colors::audio);
   g.drawText(file_.getFileNameWithoutExtension(),
              0, 20.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);

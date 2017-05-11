@@ -287,6 +287,7 @@
     <ClCompile Include="..\..\src\editor_sections\voice_section.cpp"/>
     <ClCompile Include="..\..\src\editor_sections\volume_section.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\browser_look_and_feel.cpp"/>
+    <ClCompile Include="..\..\src\look_and_feel\colors.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\fonts.cpp"/>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp"/>
@@ -2084,6 +2085,7 @@
     <ClInclude Include="..\..\src\editor_sections\voice_section.h"/>
     <ClInclude Include="..\..\src\editor_sections\volume_section.h"/>
     <ClInclude Include="..\..\src\look_and_feel\browser_look_and_feel.h"/>
+    <ClInclude Include="..\..\src\look_and_feel\colors.h"/>
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h"/>
     <ClInclude Include="..\..\src\look_and_feel\fonts.h"/>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h"/>
