@@ -154,9 +154,20 @@ namespace mopo {
       return (pow(0.5, q) - MIN_Q_POW) / (MAX_Q_POW - MIN_Q_POW);
     }
 
-    inline mopo_float quicktanh(mopo_float value) {
+    inline mopo_float quickertanh(mopo_float value) {
       mopo_float square = value * value;
       return value / (1.0 + square / (3.0 + square / 5.0));
+    }
+
+    inline mopo_float quicktanh(mopo_float value) {
+      mopo_float abs_value = fabs(value);
+      mopo_float square = value * value;
+
+      mopo_float num = value * (2.45550750702956f + 2.45550750702956f * abs_value +
+                                square * (0.893229853513558f + 0.821226666969744f * abs_value));
+      mopo_float den = 2.44506634652299f + (2.44506634652299f + square) *
+                       fabs(value + 0.814642734961073f * value * abs_value);
+      return num / den;
     }
 
     // Version of quick sin where phase is is [-0.5, 0.5]
