@@ -154,12 +154,12 @@ namespace mopo {
       return (pow(0.5, q) - MIN_Q_POW) / (MAX_Q_POW - MIN_Q_POW);
     }
 
-    inline mopo_float quickertanh(mopo_float value) {
+    inline mopo_float quickerTanh(mopo_float value) {
       mopo_float square = value * value;
       return value / (1.0 + square / (3.0 + square / 5.0));
     }
 
-    inline mopo_float quicktanh(mopo_float value) {
+    inline mopo_float quickTanh(mopo_float value) {
       mopo_float abs_value = fabs(value);
       mopo_float square = value * value;
 

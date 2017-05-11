@@ -198,7 +198,7 @@ namespace mopo {
     ic1eq_a_ = 2.0 * v1_a - ic1eq_a_;
     ic2eq_a_ = 2.0 * v2_a - ic2eq_a_;
 
-    mopo_float distortion = utils::quicktanh(last_out_a_) - last_out_a_;
+    mopo_float distortion = utils::quickTanh(last_out_a_) - last_out_a_;
     dest[i] = m0_ * audio + m1_ * v1_a + m2_ * v2_a + distortion;
   }
 
@@ -211,7 +211,7 @@ namespace mopo {
     mopo_float v2_a = ic2eq_a_ + a2_ * ic1eq_a_ + a3_ * v3_a;
     ic1eq_a_ = 2.0 * v1_a - ic1eq_a_;
     ic2eq_a_ = 2.0 * v2_a - ic2eq_a_;
-    mopo_float distortion_a = utils::quicktanh(last_out_a_) - last_out_a_;
+    mopo_float distortion_a = utils::quickTanh(last_out_a_) - last_out_a_;
     last_out_a_ = m0_ * audio + m1_ * v1_a + m2_ * v2_a + distortion_a;
 
     mopo_float v3_b = last_out_a_ - ic2eq_b_;
@@ -220,7 +220,7 @@ namespace mopo {
     ic1eq_b_ = 2.0 * v1_b - ic1eq_b_;
     ic2eq_b_ = 2.0 * v2_b - ic2eq_b_;
 
-    mopo_float distortion_b = utils::quicktanh(last_out_b_) - last_out_b_;
+    mopo_float distortion_b = utils::quickTanh(last_out_b_) - last_out_b_;
     last_out_b_ = m0_ * last_out_a_ + m1_ * v1_b + m2_ * v2_b + distortion_b;
     dest[i] = last_out_b_;
   }
