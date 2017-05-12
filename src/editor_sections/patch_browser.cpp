@@ -73,7 +73,7 @@ namespace {
   }
 } // namespace
 
-PatchBrowser::PatchBrowser() : Component("patch_browser") {
+PatchBrowser::PatchBrowser() : Overlay("patch_browser") {
   listener_ = nullptr;
   save_section_ = nullptr;
   delete_section_ = nullptr;
@@ -279,7 +279,7 @@ void PatchBrowser::resized() {
 }
 
 void PatchBrowser::visibilityChanged() {
-  Component::visibilityChanged();
+  Overlay::visibilityChanged();
   if (isVisible()) {
     search_box_->setText("");
     search_box_->grabKeyboardFocus();
@@ -471,7 +471,7 @@ void PatchBrowser::setSaveSection(SaveSection* save_section) {
 
 void PatchBrowser::setDeleteSection(DeleteSection* delete_section) {
   delete_section_ = delete_section;
-  delete_section_->addListener(this);
+  delete_section_->addDeleteListener(this);
   banks_model_->setDeleteSection(delete_section);
   folders_model_->setDeleteSection(delete_section);
   patches_model_->setDeleteSection(delete_section);

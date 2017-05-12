@@ -19,8 +19,9 @@
 #define DELETE_SECTION_H
 
 #include "JuceHeader.h"
+#include "overlay.h"
 
-class DeleteSection : public Component, public ButtonListener {
+class DeleteSection : public Overlay, public ButtonListener {
   public:
     class Listener {
       public:
@@ -41,8 +42,8 @@ class DeleteSection : public Component, public ButtonListener {
 
     Rectangle<int> getDeleteRect();
 
-    void addListener(Listener* listener) { listeners_.add(listener); }
-    void removeListener(Listener* listener) { listeners_.removeAllInstancesOf(listener); }
+    void addDeleteListener(Listener* listener) { listeners_.add(listener); }
+    void removeDeleteListener(Listener* listener) { listeners_.removeAllInstancesOf(listener); }
 
   private:
     File file_;

@@ -32,7 +32,7 @@
 #define PADDING_X 25
 #define PADDING_Y 15
 
-SaveSection::SaveSection(String name) : Component(name) {
+SaveSection::SaveSection(String name) : Overlay(name) {
   listener_ = nullptr;
   banks_model_ = new FileListBoxModel();
   banks_model_->setListener(this);

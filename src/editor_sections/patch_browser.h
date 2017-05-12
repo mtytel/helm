@@ -21,9 +21,10 @@
 #include "JuceHeader.h"
 #include "delete_section.h"
 #include "file_list_box_model.h"
+#include "overlay.h"
 #include "save_section.h"
 
-class PatchBrowser : public Component,
+class PatchBrowser : public Overlay,
                      public FileListBoxModel::Listener,
                      public TextEditor::Listener,
                      public KeyListener,

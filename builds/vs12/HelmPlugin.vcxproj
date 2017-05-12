@@ -2052,6 +2052,7 @@
     <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_wave_viewer.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
+    <ClInclude Include="..\..\src\editor_components\overlay.h"/>
     <ClInclude Include="..\..\src\editor_components\patch_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\retrigger_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h"/>

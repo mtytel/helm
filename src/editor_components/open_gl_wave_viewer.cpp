@@ -25,7 +25,7 @@
 #define MARKER_WIDTH 12.0f
 #define NOISE_RESOLUTION 6
 #define IMAGE_WIDTH 256
-#define IMAGE_HEIGHT 256
+#define IMAGE_HEIGHT 128
 
 namespace {
   static const float random_values[NOISE_RESOLUTION] = {0.3, 0.9, -0.9, -0.2, -0.5, 0.7 };
@@ -78,17 +78,15 @@ void OpenGlWaveViewer::paintBackground() {
 }
 
 void OpenGlWaveViewer::paintPositionImage() {
-  float scale = openGLContext.getRenderingScale();
-
-  int min_image_width = roundToInt(2 * scale * MARKER_WIDTH);
+  int min_image_width = roundToInt(2 * MARKER_WIDTH);
   int image_width = roundToInt(powf(2.0f, (int)(log2f(min_image_width))));
-  int marker_width = scale * MARKER_WIDTH;
-  int image_height = roundToInt(4 * scale * IMAGE_HEIGHT);
+  int marker_width = MARKER_WIDTH;
+  int image_height = roundToInt(2 * IMAGE_HEIGHT);
   position_image_ = Image(Image::ARGB, image_width, image_height, true);
   Graphics g(position_image_);
 
-  g.setColour(Colour(0x33ffffff));
-  g.fillRect(image_width / 2.0f - 0.5f * scale, 0.0f, 1.0f * scale, 1.0f * image_height);
+  g.setColour(Colour(0x77ffffff));
+  g.fillRect(image_width / 2.0f - 0.5f, 0.0f, 1.0f, 1.0f * image_height);
 
   g.setColour(Colors::modulation);
   g.fillEllipse(image_width / 2 - marker_width / 2, image_height / 2 - marker_width / 2,
@@ -312,10 +310,8 @@ void OpenGlWaveViewer::drawPosition() {
 }
 
 void OpenGlWaveViewer::render() {
-  if (position_texture_.getWidth() == 0)
+  if (position_texture_.getWidth() != position_image_.getWidth())
     position_texture_.loadImage(position_image_);
-
-  OpenGLHelpers::clear(Colours::red);
 
   drawBackground();
   if (animating_)

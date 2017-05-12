@@ -20,9 +20,12 @@
 #include "shaders.h"
 
 OpenGlComponent::OpenGlComponent() {
+  static OpenGLPixelFormat pixelFormat;
+  pixelFormat.multisamplingLevel = 4;
+  openGLContext.setPixelFormat(pixelFormat);
+
   setOpaque(true);
   openGLContext.setContinuousRepainting(true);
-
   openGLContext.setRenderer(this);
   openGLContext.attachTo(*this);
   new_background_ = false;
@@ -148,10 +151,12 @@ void OpenGlComponent::disableAttributes() {
 }
 
 void OpenGlComponent::drawBackground() {
+  OpenGLHelpers::clear(Colours::grey);
+
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  if (new_background_) {
+  if (new_background_ || background_.getWidth() != background_image_.getWidth()) {
     new_background_ = false;
     background_.loadImage(background_image_);
   }

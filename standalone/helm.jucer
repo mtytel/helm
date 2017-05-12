@@ -250,6 +250,7 @@
         <FILE id="GKIniw" name="oscilloscope.cpp" compile="1" resource="0"
               file="../src/editor_components/oscilloscope.cpp"/>
         <FILE id="AMolKW" name="oscilloscope.h" compile="0" resource="0" file="../src/editor_components/oscilloscope.h"/>
+        <FILE id="I2sjJE" name="overlay.h" compile="0" resource="0" file="../src/editor_components/overlay.h"/>
         <FILE id="B2FWz6" name="patch_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/patch_selector.cpp"/>
         <FILE id="FJ4l17" name="patch_selector.h" compile="0" resource="0"

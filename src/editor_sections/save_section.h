@@ -20,8 +20,9 @@
 
 #include "JuceHeader.h"
 #include "file_list_box_model.h"
+#include "overlay.h"
 
-class SaveSection : public Component, public TextEditorListener,
+class SaveSection : public Overlay, public TextEditorListener,
                     public FileListBoxModel::Listener, public ButtonListener {
   public:
     class Listener {

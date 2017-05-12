@@ -27,13 +27,14 @@
 #include "modulation_manager.h"
 #include "oscilloscope.h"
 #include "open_gl_oscilloscope.h"
+#include "overlay.h"
 #include "patch_browser.h"
 #include "patch_selector.h"
 #include "synthesis_interface.h"
 #include "synth_section.h"
 #include "update_check_section.h"
 
-class FullInterface : public SynthSection {
+class FullInterface : public SynthSection, public Overlay::Listener {
   public:
     FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
                   mopo::output_map mono_modulations, mopo::output_map poly_modulations,
@@ -52,6 +53,10 @@ class FullInterface : public SynthSection {
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void animate(bool animate = true) override;
+
+    void overlayShown(Overlay* component) override;
+    void overlayHidden(Overlay* component) override;
+
     void resetModulations() { modulation_manager_->reset(); }
     void setFocus() { synthesis_interface_->setFocus(); }
     void notifyChange() { patch_selector_->setModified(true); }
@@ -71,13 +76,16 @@ class FullInterface : public SynthSection {
     ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<OpenGlOscilloscope> oscilloscope_;
+    ScopedPointer<Oscilloscope> oscilloscope_;
+    ScopedPointer<OpenGlOscilloscope> oscilloscope_gl_;
     ScopedPointer<BpmSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<PatchSelector> patch_selector_;
     ScopedPointer<PatchBrowser> patch_browser_;
     ScopedPointer<SaveSection> save_section_;
     ScopedPointer<DeleteSection> delete_section_;
+
+    std::set<Component*> current_overlays_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FullInterface)
 };

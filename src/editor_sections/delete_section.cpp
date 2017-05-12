@@ -27,7 +27,7 @@
 #define PADDING_Y 20
 #define BUTTON_HEIGHT 30
 
-DeleteSection::DeleteSection(String name) : Component(name) {
+DeleteSection::DeleteSection(String name) : Overlay(name) {
   delete_button_ = new TextButton(TRANS("Delete"));
   delete_button_->addListener(this);
   addAndMakeVisible(delete_button_);

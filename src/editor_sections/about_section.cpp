@@ -30,7 +30,7 @@
 #define PADDING_Y 15
 #define BUTTON_WIDTH 16
 
-AboutSection::AboutSection(String name) : Component(name) {
+AboutSection::AboutSection(String name) : Overlay(name) {
   developer_link_ = new HyperlinkButton("Matt Tytel", URL("http://tytel.org"));
   developer_link_->setFont(Fonts::instance()->proportional_light().withPointHeight(16.0f),
                            false, Justification::right);
@@ -171,7 +171,7 @@ void AboutSection::setVisible(bool should_be_visible) {
     }
   }
 
-  Component::setVisible(should_be_visible);
+  Overlay::setVisible(should_be_visible);
 }
 
 void AboutSection::buttonClicked(Button* clicked_button) {

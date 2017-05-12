@@ -40,7 +40,6 @@ class LfoSection : public SynthSection {
     bool can_animate_;
     ScopedPointer<WaveViewer> static_wave_viewer_;
     ScopedPointer<OpenGlWaveViewer> dynamic_wave_viewer_;
-    Component* wave_viewer_;
     ScopedPointer<WaveSelector> wave_selector_;
 
     ScopedPointer<RetriggerSelector> retrigger_;

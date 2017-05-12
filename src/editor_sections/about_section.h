@@ -19,8 +19,9 @@
 #define ABOUT_SECTION_H
 
 #include "JuceHeader.h"
+#include "overlay.h"
 
-class AboutSection : public Component, public ButtonListener {
+class AboutSection : public Overlay, public ButtonListener {
   public:
     AboutSection(String name);
     ~AboutSection() { }

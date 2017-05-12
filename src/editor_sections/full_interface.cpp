@@ -40,7 +40,9 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
 
   addSubSection(patch_selector_ = new PatchSelector());
-  addAndMakeVisible(oscilloscope_ = new OpenGlOscilloscope());
+  addAndMakeVisible(oscilloscope_ = new Oscilloscope());
+  addAndMakeVisible(oscilloscope_gl_ = new OpenGlOscilloscope());
+  oscilloscope_->setVisible(false);
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
@@ -70,14 +72,20 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   patch_selector_->setBrowser(patch_browser_);
 
   addChildComponent(save_section_ = new SaveSection("save_section"));
+  save_section_->addListener(this);
+
   patch_browser_->setSaveSection(save_section_);
   patch_selector_->setSaveSection(save_section_);
 
   addChildComponent(delete_section_ = new DeleteSection("delete_section"));
+  delete_section_->addListener(this);
+
   patch_browser_->setDeleteSection(delete_section_);
+  patch_browser_->addListener(this);
 
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
+  about_section_->addListener(this);
 
   update_check_section_ = new UpdateCheckSection("update_check");
   addChildComponent(update_check_section_);
@@ -90,6 +98,7 @@ FullInterface::~FullInterface() {
   update_check_section_ = nullptr;
   arp_section_ = nullptr;
   oscilloscope_ = nullptr;
+  oscilloscope_gl_ = nullptr;
   synthesis_interface_ = nullptr;
   beats_per_minute_ = nullptr;
   global_tool_tip_ = nullptr;
@@ -142,6 +151,7 @@ void FullInterface::resized() {
   patch_selector_->setBounds(84, 8, 244, TOP_HEIGHT);
   global_tool_tip_->setBounds(patch_selector_->getRight() + 8, 8, 200, TOP_HEIGHT);
   oscilloscope_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
+  oscilloscope_gl_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
   arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 320, TOP_HEIGHT);
 
   synthesis_interface_->setBounds(0, TOP_HEIGHT + 12,
@@ -163,7 +173,7 @@ void FullInterface::resized() {
 }
 
 void FullInterface::setOutputMemory(const float* output_memory) {
-  oscilloscope_->setOutputMemory(output_memory);
+  oscilloscope_gl_->setOutputMemory(output_memory);
 }
 
 void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
@@ -191,13 +201,40 @@ void FullInterface::setToolTipText(String parameter, String value) {
 }
 
 void FullInterface::buttonClicked(Button* clicked_button) {
-  if (clicked_button == logo_button_)
+  if (clicked_button == logo_button_) {
     about_section_->setVisible(true);
+  }
   else
     SynthSection::buttonClicked(clicked_button);
 }
 
 void FullInterface::animate(bool animate) {
   SynthSection::animate(animate);
-  oscilloscope_->showRealtimeFeedback(animate);
+  oscilloscope_gl_->showRealtimeFeedback(animate);
+}
+
+void FullInterface::overlayShown(Overlay* component) {
+  current_overlays_.insert(component);
+
+  if (component != patch_browser_) {
+    oscilloscope_gl_->setVisible(false);
+    oscilloscope_->setVisible(true);
+  }
+  if (current_overlays_.size() == 1)
+    synthesis_interface_->animate(false);
+}
+
+void FullInterface::overlayHidden(Overlay* component) {
+  current_overlays_.erase(component);
+
+  if (current_overlays_.size() == 0) {
+    synthesis_interface_->animate(true);
+
+    oscilloscope_gl_->setVisible(true);
+    oscilloscope_->setVisible(false);
+  }
+  else if (current_overlays_.size() == 1 && current_overlays_.count(patch_browser_)) {
+    oscilloscope_gl_->setVisible(true);
+    oscilloscope_->setVisible(false);
+  }
 }

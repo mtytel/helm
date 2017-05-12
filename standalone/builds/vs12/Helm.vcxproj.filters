@@ -2643,6 +2643,9 @@
     <ClInclude Include="..\..\..\src\editor_components\oscilloscope.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\overlay.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\patch_selector.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>

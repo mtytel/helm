@@ -67,17 +67,14 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger, b
     addAndMakeVisible(dynamic_wave_viewer_ = new OpenGlWaveViewer(WAVE_VIEWER_RESOLUTION));
     dynamic_wave_viewer_->setAmplitudeSlider(amplitude_);
     dynamic_wave_viewer_->setWaveSlider(wave_selector_);
-    wave_viewer_ = dynamic_wave_viewer_;
-  }
-  else {
-    addAndMakeVisible(static_wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
-    static_wave_viewer_->setAmplitudeSlider(amplitude_);
-    static_wave_viewer_->setWaveSlider(wave_selector_);
-    static_wave_viewer_->setControlRate();
-    wave_viewer_ = static_wave_viewer_;
+    dynamic_wave_viewer_->setName(value_prepend);
   }
 
-  wave_viewer_->setName(value_prepend);
+  addAndMakeVisible(static_wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
+  static_wave_viewer_->setAmplitudeSlider(amplitude_);
+  static_wave_viewer_->setWaveSlider(wave_selector_);
+  static_wave_viewer_->setControlRate();
+  static_wave_viewer_->setName(value_prepend);
 
   addModulationButton(modulation_button_ = new ModulationButton(value_prepend));
   modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());
@@ -87,7 +84,6 @@ LfoSection::~LfoSection() {
   retrigger_ = nullptr;
   dynamic_wave_viewer_ = nullptr;
   static_wave_viewer_ = nullptr;
-  wave_viewer_ = nullptr;
   wave_selector_ = nullptr;
   frequency_ = nullptr;
   tempo_ = nullptr;
@@ -114,13 +110,18 @@ void LfoSection::paintBackground(Graphics& g) {
                Justification::centred, false);
   }
 
-  component_shadow.drawForRectangle(g, wave_viewer_->getBounds());
+  component_shadow.drawForRectangle(g, static_wave_viewer_->getBounds());
 }
 
 void LfoSection::resized() {
   int wave_height = getHeight() - 20 - KNOB_SECTION_WIDTH - SLIDER_WIDTH;
   wave_selector_->setBounds(SLIDER_WIDTH, 20, getWidth() - SLIDER_WIDTH, SLIDER_WIDTH);
-  wave_viewer_->setBounds(SLIDER_WIDTH, 20 + SLIDER_WIDTH, getWidth() - SLIDER_WIDTH, wave_height);
+  static_wave_viewer_->setBounds(SLIDER_WIDTH, 20 + SLIDER_WIDTH,
+                                 getWidth() - SLIDER_WIDTH, wave_height);
+  if (dynamic_wave_viewer_) {
+    dynamic_wave_viewer_->setBounds(SLIDER_WIDTH, 20 + SLIDER_WIDTH,
+                                    getWidth() - SLIDER_WIDTH, wave_height);
+  }
   amplitude_->setBounds(0, 20 + SLIDER_WIDTH, SLIDER_WIDTH, wave_height);
 
   int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
@@ -138,15 +139,21 @@ void LfoSection::resized() {
 
 void LfoSection::animate(bool animate) {
   SynthSection::animate(animate);
-  if (dynamic_wave_viewer_)
+
+  if (dynamic_wave_viewer_) {
+    dynamic_wave_viewer_->setVisible(animate);
+    static_wave_viewer_->setVisible(!animate);
     dynamic_wave_viewer_->showRealtimeFeedback(animate);
+  }
 }
 
 void LfoSection::reset() {
   if (dynamic_wave_viewer_)
     dynamic_wave_viewer_->resetWavePath();
-  if (static_wave_viewer_)
+  if (static_wave_viewer_) {
     static_wave_viewer_->resetWavePath();
-  wave_viewer_->repaint();
+    static_wave_viewer_->repaint();
+  }
+
   SynthSection::reset();
 }
