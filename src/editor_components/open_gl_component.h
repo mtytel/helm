@@ -19,19 +19,19 @@
 #define OPEN_GL_COMPONENT_H
 
 #include "JuceHeader.h"
-#include "memory.h"
 
 class OpenGlComponent : public Component, public OpenGLRenderer {
   public:
     OpenGlComponent();
-    ~OpenGlComponent();
+    virtual ~OpenGlComponent();
 
-    void paint(Graphics& g) override { }
-    void resized() override;
+    void paint(Graphics& g) override;
 
     void newOpenGLContextCreated() override;
     void renderOpenGL() override;
     void openGLContextClosing() override;
+
+    virtual void showRealtimeFeedback(bool show_feedback);
 
   protected:
     OpenGLShaderProgram::Uniform* createUniform(OpenGLShaderProgram& program, const char* name);
@@ -49,16 +49,16 @@ class OpenGlComponent : public Component, public OpenGLRenderer {
     virtual void destroy() { }
 
     OpenGLContext openGLContext;
+    ScopedPointer<OpenGLShaderProgram> image_shader_;
+    ScopedPointer<OpenGLShaderProgram::Uniform> texture_uniform_;
+    bool animating_;
 
   private:
-    ScopedPointer<OpenGLShaderProgram> shader_;
-
     ScopedPointer<OpenGLShaderProgram::Attribute> position_;
     ScopedPointer<OpenGLShaderProgram::Attribute> texture_coordinates_;
 
-    ScopedPointer<OpenGLShaderProgram::Uniform> texture_;
-
     OpenGLTexture background_;
+    bool new_background_;
     Image background_image_;
 
     GLuint vertex_buffer_;

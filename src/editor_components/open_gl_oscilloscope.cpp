@@ -20,6 +20,9 @@
 #include "shaders.h"
 
 #define RESOLUTION 256
+#define GRID_CELL_WIDTH 8
+#define IMAGE_WIDTH 256
+#define IMAGE_HEIGHT 128
 
 OpenGlOscilloscope::OpenGlOscilloscope() : output_memory_(nullptr) {
   line_data_ = new float[2 * RESOLUTION];
@@ -38,8 +41,29 @@ OpenGlOscilloscope::OpenGlOscilloscope() : output_memory_(nullptr) {
 }
 
 OpenGlOscilloscope::~OpenGlOscilloscope() {
-  openGLContext.extensions.glDeleteBuffers(1, &line_buffer_);
-  openGLContext.extensions.glDeleteBuffers(1, &line_indices_buffer_);
+  openGLContext.detach();
+}
+
+void OpenGlOscilloscope::resized() {
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  float image_width = scale * IMAGE_WIDTH;
+  float image_height = scale * IMAGE_HEIGHT;
+  Image background = Image(Image::ARGB, scale * IMAGE_WIDTH, scale * IMAGE_HEIGHT, true);
+  Graphics g(background);
+  g.addTransform(AffineTransform::scale(image_width / getWidth(), image_height / getHeight()));
+
+  g.fillAll(Colour(0xff424242));
+
+  g.setColour(Colour(0xff4a4a4a));
+  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
+    g.drawLine(x, 0, x, getHeight());
+  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
+    g.drawLine(0, y, getWidth(), y);
+
+  updateBackgroundImage(background);
+
+  OpenGlComponent::resized();
 }
 
 void OpenGlOscilloscope::init() {
@@ -71,6 +95,7 @@ void OpenGlOscilloscope::init() {
 }
 
 void OpenGlOscilloscope::drawLines() {
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_LINE_SMOOTH);
   glDisable(GL_DEPTH);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
@@ -107,19 +132,18 @@ void OpenGlOscilloscope::drawLines() {
   openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void OpenGlOscilloscope::render() {
-  const float desktopScale = openGLContext.getRenderingScale();
-  OpenGLHelpers::clear(Colours::red);
-
+void OpenGlOscilloscope::render() {  
   glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glViewport(0, 0, roundToInt(desktopScale * getWidth()), roundToInt(desktopScale * getHeight()));
+  glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
   drawBackground();
-  drawLines();
+  if (animating_)
+    drawLines();
 }
 
 void OpenGlOscilloscope::destroy() {
-
+  shader_ = nullptr;
+  position_ = nullptr;
+  openGLContext.extensions.glDeleteBuffers(1, &line_buffer_);
+  openGLContext.extensions.glDeleteBuffers(1, &line_indices_buffer_);
 }

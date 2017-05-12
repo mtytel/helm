@@ -28,8 +28,8 @@
 #define TEXT_HEIGHT 16
 #define TEXT_WIDTH 42
 
-LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
-    SynthSection(name) {
+LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger, bool can_animate) :
+    SynthSection(name), can_animate_(can_animate) {
   static const int TEMPO_DRAG_SENSITIVITY = 150;
 
   retrigger_ = new RetriggerSelector(value_prepend + "_retrigger");
@@ -63,11 +63,21 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
   wave_selector_->setSliderStyle(Slider::LinearBar);
   wave_selector_->setStringLookup(mopo::strings::waveforms);
 
-  addAndMakeVisible(wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
+  if (can_animate) {
+    addAndMakeVisible(dynamic_wave_viewer_ = new OpenGlWaveViewer(WAVE_VIEWER_RESOLUTION));
+    dynamic_wave_viewer_->setAmplitudeSlider(amplitude_);
+    dynamic_wave_viewer_->setWaveSlider(wave_selector_);
+    wave_viewer_ = dynamic_wave_viewer_;
+  }
+  else {
+    addAndMakeVisible(static_wave_viewer_ = new WaveViewer(WAVE_VIEWER_RESOLUTION));
+    static_wave_viewer_->setAmplitudeSlider(amplitude_);
+    static_wave_viewer_->setWaveSlider(wave_selector_);
+    static_wave_viewer_->setControlRate();
+    wave_viewer_ = static_wave_viewer_;
+  }
+
   wave_viewer_->setName(value_prepend);
-  wave_viewer_->setAmplitudeSlider(amplitude_);
-  wave_viewer_->setWaveSlider(wave_selector_);
-  wave_viewer_->setControlRate();
 
   addModulationButton(modulation_button_ = new ModulationButton(value_prepend));
   modulation_button_->setLookAndFeel(ModulationLookAndFeel::instance());
@@ -75,6 +85,8 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger) :
 
 LfoSection::~LfoSection() {
   retrigger_ = nullptr;
+  dynamic_wave_viewer_ = nullptr;
+  static_wave_viewer_ = nullptr;
   wave_viewer_ = nullptr;
   wave_selector_ = nullptr;
   frequency_ = nullptr;
@@ -126,11 +138,15 @@ void LfoSection::resized() {
 
 void LfoSection::animate(bool animate) {
   SynthSection::animate(animate);
-  wave_viewer_->showRealtimeFeedback(animate);
+  if (dynamic_wave_viewer_)
+    dynamic_wave_viewer_->showRealtimeFeedback(animate);
 }
 
 void LfoSection::reset() {
-  wave_viewer_->resetWavePath();
+  if (dynamic_wave_viewer_)
+    dynamic_wave_viewer_->resetWavePath();
+  if (static_wave_viewer_)
+    static_wave_viewer_->resetWavePath();
   wave_viewer_->repaint();
   SynthSection::reset();
 }

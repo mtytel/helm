@@ -307,6 +307,7 @@
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_oscilloscope.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\open_gl_wave_viewer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\patch_selector.cpp"/>
     <ClCompile Include="..\..\src\editor_components\retrigger_selector.cpp"/>
@@ -2105,6 +2106,7 @@
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_component.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h"/>
+    <ClInclude Include="..\..\src\editor_components\open_gl_wave_viewer.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\patch_selector.h"/>
     <ClInclude Include="..\..\src\editor_components\retrigger_selector.h"/>

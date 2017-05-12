@@ -89,8 +89,8 @@ FullInterface::~FullInterface() {
   about_section_ = nullptr;
   update_check_section_ = nullptr;
   arp_section_ = nullptr;
-  synthesis_interface_ = nullptr;
   oscilloscope_ = nullptr;
+  synthesis_interface_ = nullptr;
   beats_per_minute_ = nullptr;
   global_tool_tip_ = nullptr;
   patch_selector_ = nullptr;
@@ -199,5 +199,5 @@ void FullInterface::buttonClicked(Button* clicked_button) {
 
 void FullInterface::animate(bool animate) {
   SynthSection::animate(animate);
-  // oscilloscope_->showRealtimeFeedback(animate);
+  oscilloscope_->showRealtimeFeedback(animate);
 }

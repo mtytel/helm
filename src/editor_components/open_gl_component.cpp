@@ -16,46 +16,24 @@
 
 #include "open_gl_component.h"
 
+#include "common.h"
 #include "shaders.h"
-
-#define GRID_CELL_WIDTH 8
-
-#define IMAGE_WIDTH 256
-#define IMAGE_HEIGHT 256
 
 OpenGlComponent::OpenGlComponent() {
   setOpaque(true);
+  openGLContext.setContinuousRepainting(true);
+
   openGLContext.setRenderer(this);
   openGLContext.attachTo(*this);
-  openGLContext.setContinuousRepainting(true);
+  new_background_ = false;
+  animating_ = true;
 }
 
 OpenGlComponent::~OpenGlComponent() {
-  openGLContext.extensions.glDeleteBuffers(1, &vertex_buffer_);
-  openGLContext.extensions.glDeleteBuffers(1, &triangle_buffer_);
-
   openGLContext.detach();
 }
 
-void OpenGlComponent::resized() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  float image_width = scale * IMAGE_WIDTH;
-  float image_height = scale * IMAGE_HEIGHT;
-  Image background = Image(Image::RGB, scale * IMAGE_WIDTH, scale * IMAGE_HEIGHT, true);
-  Graphics g(background);
-  g.addTransform(AffineTransform::scale(image_width / getWidth(), image_height / getHeight()));
-
-  g.fillAll(Colour(0xff424242));
-
-  g.setColour(Colour(0xff4a4a4a));
-  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
-    g.drawLine(x, 0, x, getHeight());
-  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
-    g.drawLine(0, y, getWidth(), y);
-
-  updateBackgroundImage(background);
-}
+void OpenGlComponent::paint(Graphics& g) { }
 
 void OpenGlComponent::newOpenGLContextCreated() {
   static const float vertices[] = {
@@ -87,33 +65,49 @@ void OpenGlComponent::newOpenGLContextCreated() {
   const char* vertex_shader = Shaders::getShader(Shaders::kBackgroundImageVertex);
   const char* fragment_shader = Shaders::getShader(Shaders::kBackgroundImageFragment);
 
-  shader_ = new OpenGLShaderProgram(openGLContext);
+  image_shader_ = new OpenGLShaderProgram(openGLContext);
 
-  if (shader_->addVertexShader(OpenGLHelpers::translateVertexShaderToV3(vertex_shader)) &&
-      shader_->addFragmentShader(OpenGLHelpers::translateFragmentShaderToV3(fragment_shader)) &&
-      shader_->link()) {
-    shader_->use();
-    position_ = createAttribute(*shader_, "position");
-    texture_coordinates_ = createAttribute(*shader_, "tex_coord_in");
-    texture_ = createUniform(*shader_, "texture");
+  if (image_shader_->addVertexShader(OpenGLHelpers::translateVertexShaderToV3(vertex_shader)) &&
+      image_shader_->addFragmentShader(OpenGLHelpers::translateFragmentShaderToV3(fragment_shader)) &&
+      image_shader_->link()) {
+    image_shader_->use();
+    position_ = createAttribute(*image_shader_, "position");
+    texture_coordinates_ = createAttribute(*image_shader_, "tex_coord_in");
+    texture_uniform_ = createUniform(*image_shader_, "texture");
   }
   
   init();
 }
 
 void OpenGlComponent::renderOpenGL() {
+  MOPO_ASSERT(OpenGLHelpers::isContextActive());
+
   render();
 }
 
 void OpenGlComponent::openGLContextClosing() {
   if (background_.getWidth())
     background_.release();
+
+  image_shader_ = nullptr;
+  position_ = nullptr;
+  texture_coordinates_ = nullptr;
+  texture_uniform_ = nullptr;
+  openGLContext.extensions.glDeleteBuffers(1, &vertex_buffer_);
+  openGLContext.extensions.glDeleteBuffers(1, &triangle_buffer_);
+
   destroy();
+}
+
+void OpenGlComponent::showRealtimeFeedback(bool show_feedback) {
+  openGLContext.setContinuousRepainting(show_feedback);
+  animating_ = show_feedback;
 }
 
 void OpenGlComponent::bind() {
   openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);
   openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangle_buffer_);
+  background_.bind();
 }
 
 OpenGLShaderProgram::Uniform* OpenGlComponent::createUniform(OpenGLShaderProgram& program,
@@ -154,28 +148,30 @@ void OpenGlComponent::disableAttributes() {
 }
 
 void OpenGlComponent::drawBackground() {
-  if (background_.getWidth() != background_image_.getWidth() ||
-      background_.getHeight() != background_image_.getHeight())
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+  if (new_background_) {
+    new_background_ = false;
     background_.loadImage(background_image_);
+  }
 
   bind();
+
   openGLContext.extensions.glActiveTexture(GL_TEXTURE0);
   glEnable(GL_TEXTURE_2D);
   glDisable(GL_DEPTH);
 
-  background_.bind();
-  if (texture_ != nullptr)
-    texture_->set(0);
+  if (texture_uniform_ != nullptr)
+    texture_uniform_->set(0);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-  shader_->use();
+  image_shader_->use();
   enableAttributes();
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   disableAttributes();
 
   background_.unbind();
+
   glDisable(GL_TEXTURE_2D);
 
   openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -184,4 +180,5 @@ void OpenGlComponent::drawBackground() {
 
 void OpenGlComponent::updateBackgroundImage(Image background) {
   background_image_ = background;
+  new_background_ = true;
 }

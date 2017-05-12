@@ -26,9 +26,10 @@
 class OpenGlOscilloscope : public OpenGlComponent {
   public:
     OpenGlOscilloscope();
-    ~OpenGlOscilloscope();
+    virtual ~OpenGlOscilloscope();
 
     void setOutputMemory(const float* memory) { output_memory_ = memory; }
+    void resized() override;
 
   protected:
     void init() override;

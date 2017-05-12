@@ -120,6 +120,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o \
   $(JUCE_OBJDIR)/open_gl_component_d67359ac.o \
   $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o \
+  $(JUCE_OBJDIR)/open_gl_wave_viewer_bb6a02c7.o \
   $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
   $(JUCE_OBJDIR)/patch_selector_fe7c390c.o \
   $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o \
@@ -492,6 +493,11 @@ $(JUCE_OBJDIR)/open_gl_component_d67359ac.o: ../../../src/editor_components/open
 $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o: ../../../src/editor_components/open_gl_oscilloscope.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling open_gl_oscilloscope.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/open_gl_wave_viewer_bb6a02c7.o: ../../../src/editor_components/open_gl_wave_viewer.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_wave_viewer.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/oscilloscope_48e472e5.o: ../../../src/editor_components/oscilloscope.cpp

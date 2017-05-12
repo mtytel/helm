@@ -19,6 +19,7 @@
 #define LFO_SECTION_H
 
 #include "JuceHeader.h"
+#include "open_gl_wave_viewer.h"
 #include "synth_section.h"
 #include "retrigger_selector.h"
 #include "tempo_selector.h"
@@ -27,7 +28,7 @@
 
 class LfoSection : public SynthSection {
   public:
-    LfoSection(String name, std::string value_preprend, bool retrigger);
+    LfoSection(String name, std::string value_preprend, bool retrigger, bool can_animate = false);
     ~LfoSection();
 
     void paintBackground(Graphics& g) override;
@@ -36,7 +37,10 @@ class LfoSection : public SynthSection {
     void reset() override;
 
   private:
-    ScopedPointer<WaveViewer> wave_viewer_;
+    bool can_animate_;
+    ScopedPointer<WaveViewer> static_wave_viewer_;
+    ScopedPointer<OpenGlWaveViewer> dynamic_wave_viewer_;
+    Component* wave_viewer_;
     ScopedPointer<WaveSelector> wave_selector_;
 
     ScopedPointer<RetriggerSelector> retrigger_;

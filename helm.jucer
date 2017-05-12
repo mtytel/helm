@@ -250,6 +250,10 @@
               file="src/editor_components/open_gl_oscilloscope.cpp"/>
         <FILE id="Lnnyka" name="open_gl_oscilloscope.h" compile="0" resource="0"
               file="src/editor_components/open_gl_oscilloscope.h"/>
+        <FILE id="cpRUod" name="open_gl_wave_viewer.cpp" compile="1" resource="0"
+              file="src/editor_components/open_gl_wave_viewer.cpp"/>
+        <FILE id="ukoucc" name="open_gl_wave_viewer.h" compile="0" resource="0"
+              file="src/editor_components/open_gl_wave_viewer.h"/>
         <FILE id="URYKxf" name="oscilloscope.cpp" compile="1" resource="0"
               file="src/editor_components/oscilloscope.cpp"/>
         <FILE id="l4xi1E" name="oscilloscope.h" compile="0" resource="0" file="src/editor_components/oscilloscope.h"/>
