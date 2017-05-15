@@ -35,7 +35,7 @@ ModulationManager::ModulationManager(
   modulation_buttons_ = modulation_buttons;
   modulation_sources_ = modulation_sources;
   setInterceptsMouseClicks(false, true);
-  startTimerHz(FRAMES_PER_SECOND);
+  // startTimerHz(FRAMES_PER_SECOND);
 
   current_modulator_ = "";
 

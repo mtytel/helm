@@ -21,10 +21,8 @@
 
 #define RESOLUTION 256
 #define GRID_CELL_WIDTH 8
-#define IMAGE_WIDTH 256
-#define IMAGE_HEIGHT 128
 
-OpenGlOscilloscope::OpenGlOscilloscope() : output_memory_(nullptr) {
+OpenGLOscilloscope::OpenGLOscilloscope() : output_memory_(nullptr) {
   line_data_ = new float[2 * RESOLUTION];
   line_indices_ = new int[2 * RESOLUTION];
 
@@ -40,66 +38,56 @@ OpenGlOscilloscope::OpenGlOscilloscope() : output_memory_(nullptr) {
   line_indices_[2 * RESOLUTION - 1] = RESOLUTION - 1;
 }
 
-OpenGlOscilloscope::~OpenGlOscilloscope() {
-  openGLContext.detach();
+OpenGLOscilloscope::~OpenGLOscilloscope() {
 }
 
-void OpenGlOscilloscope::resized() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  float image_width = scale * IMAGE_WIDTH;
-  float image_height = scale * IMAGE_HEIGHT;
-  Image background = Image(Image::ARGB, scale * IMAGE_WIDTH, scale * IMAGE_HEIGHT, true);
-  Graphics g(background);
-  g.addTransform(AffineTransform::scale(image_width / getWidth(), image_height / getHeight()));
-
+void OpenGLOscilloscope::paintBackground(Graphics& g) {
   g.fillAll(Colour(0xff424242));
 
+  int width = getWidth();
+  int height = getHeight();
+
   g.setColour(Colour(0xff4a4a4a));
-  for (int x = 0; x < getWidth(); x += GRID_CELL_WIDTH)
-    g.drawLine(x, 0, x, getHeight());
-  for (int y = 0; y < getHeight(); y += GRID_CELL_WIDTH)
-    g.drawLine(0, y, getWidth(), y);
-
-  updateBackgroundImage(background);
-
-  OpenGlComponent::resized();
+  for (int x = 0; x < width; x += GRID_CELL_WIDTH)
+    g.drawLine(x, 0, x, height);
+  for (int y = 0; y < height; y += GRID_CELL_WIDTH)
+    g.drawLine(0, y, width, y);
 }
 
-void OpenGlOscilloscope::init() {
-  openGLContext.extensions.glGenBuffers(1, &line_buffer_);
-  openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);
+void OpenGLOscilloscope::init(OpenGLContext& open_gl_context) {
+  open_gl_context.extensions.glGenBuffers(1, &line_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);
 
   GLsizeiptr vert_size = static_cast<GLsizeiptr>(2 * RESOLUTION * sizeof(float));
-  openGLContext.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
-                                        line_data_, GL_STATIC_DRAW);
+  open_gl_context.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
+                                          line_data_, GL_STATIC_DRAW);
 
-  openGLContext.extensions.glGenBuffers(1, &line_indices_buffer_);
-  openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, line_indices_buffer_);
+  open_gl_context.extensions.glGenBuffers(1, &line_indices_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, line_indices_buffer_);
 
   GLsizeiptr line_size = static_cast<GLsizeiptr>(2 * RESOLUTION * sizeof(int));
-  openGLContext.extensions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, line_size,
-                                        line_indices_, GL_STATIC_DRAW);
+  open_gl_context.extensions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, line_size,
+                                          line_indices_, GL_STATIC_DRAW);
 
   const char* vertex_shader = Shaders::getShader(Shaders::kOscilloscopeVertex);
   const char* fragment_shader = Shaders::getShader(Shaders::kOscilloscopeFragment);
 
-  shader_ = new OpenGLShaderProgram(openGLContext);
+  shader_ = new OpenGLShaderProgram(open_gl_context);
 
   if (shader_->addVertexShader(OpenGLHelpers::translateVertexShaderToV3(vertex_shader)) &&
       shader_->addFragmentShader(OpenGLHelpers::translateFragmentShaderToV3(fragment_shader)) &&
       shader_->link()) {
     shader_->use();
-    position_ = createAttribute(*shader_, "position");
+    position_ = new OpenGLShaderProgram::Attribute(*shader_, "position");
   }
 }
 
-void OpenGlOscilloscope::drawLines() {
+void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_LINE_SMOOTH);
-  glDisable(GL_DEPTH);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
   glLineWidth(3);
+  setViewPort(open_gl_context);
 
   if (output_memory_) {
     for (int i = 0; i < RESOLUTION; ++i) {
@@ -111,39 +99,41 @@ void OpenGlOscilloscope::drawLines() {
                                           remainder);
     }
 
-    openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);
+    open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);
 
     GLsizeiptr vert_size = static_cast<GLsizeiptr>(2 * RESOLUTION * sizeof(float));
-    openGLContext.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
-                                          line_data_, GL_STATIC_DRAW);
+    open_gl_context.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
+                                            line_data_, GL_STATIC_DRAW);
+
+    open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   }
 
   shader_->use();
-  openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);
-  openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, line_indices_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, line_indices_buffer_);
 
-  openGLContext.extensions.glVertexAttribPointer(position_->attributeID, 2, GL_FLOAT,
-                                                 GL_FALSE, 2 * sizeof(float), 0);
-  openGLContext.extensions.glEnableVertexAttribArray(position_->attributeID);
+  open_gl_context.extensions.glVertexAttribPointer(position_->attributeID, 2, GL_FLOAT,
+                                                   GL_FALSE, 2 * sizeof(float), 0);
+  open_gl_context.extensions.glEnableVertexAttribArray(position_->attributeID);
   glDrawElements(GL_LINES, 2 * RESOLUTION, GL_UNSIGNED_INT, 0);
-  openGLContext.extensions.glDisableVertexAttribArray(position_->attributeID);
+  open_gl_context.extensions.glDisableVertexAttribArray(position_->attributeID);
 
-  openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
-  openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
+  open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  glDisable(GL_LINE_SMOOTH);
+
+  GLenum e = glGetError();
+  if (e != GL_NO_ERROR)
+    MOPO_ASSERT(false);
 }
 
-void OpenGlOscilloscope::render() {  
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-  drawBackground();
-  if (animating_)
-    drawLines();
+void OpenGLOscilloscope::render(OpenGLContext& open_gl_context) {
+  drawLines(open_gl_context);
 }
 
-void OpenGlOscilloscope::destroy() {
+void OpenGLOscilloscope::destroy(OpenGLContext& open_gl_context) {
   shader_ = nullptr;
   position_ = nullptr;
-  openGLContext.extensions.glDeleteBuffers(1, &line_buffer_);
-  openGLContext.extensions.glDeleteBuffers(1, &line_indices_buffer_);
+  open_gl_context.extensions.glDeleteBuffers(1, &line_buffer_);
+  open_gl_context.extensions.glDeleteBuffers(1, &line_indices_buffer_);
 }

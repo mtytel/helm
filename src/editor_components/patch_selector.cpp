@@ -62,8 +62,8 @@ PatchSelector::~PatchSelector() {
   browse_ = nullptr;
 }
 
-void PatchSelector::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
+void PatchSelector::paint(Graphics& g) {
+  SynthSection::paint(g);
 
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   patch_text_ = parent->getSynth()->getPatchName();
@@ -73,6 +73,23 @@ void PatchSelector::paintBackground(Graphics& g) {
   if (modified_)
     patch_text_ = "*" + patch_text_;
   folder_text_ = parent->getSynth()->getFolderName();
+
+  int browse_height = proportionOfHeight(BROWSE_PERCENT);
+  Rectangle<int> top(proportionOfWidth(0.1) + TEXT_PADDING, 0,
+                     proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
+  Rectangle<int> bottom(proportionOfWidth(0.1) + TEXT_PADDING, browse_height,
+                        proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
+
+  g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
+  g.setColour(Colors::controlLabelText);
+  g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
+  g.setColour(Colour(0xffffffff));
+  g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);
+}
+
+
+void PatchSelector::paintBackground(Graphics& g) {
+  static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
 
   g.setColour(Colour(0xff383838));
   g.fillRect(0, 0, getWidth(), proportionOfHeight(BROWSE_PERCENT));
@@ -86,17 +103,6 @@ void PatchSelector::paintBackground(Graphics& g) {
   Rectangle<int> right(proportionOfWidth(0.9), 0, proportionOfWidth(0.1), 2 * browse_height);
   shadow.drawForRectangle(g, left);
   shadow.drawForRectangle(g, right);
-
-  Rectangle<int> top(proportionOfWidth(0.1) + TEXT_PADDING, 0,
-                     proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
-  Rectangle<int> bottom(proportionOfWidth(0.1) + TEXT_PADDING, browse_height,
-                        proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
-
-  g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
-  g.setColour(Colors::controlLabelText);
-  g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
-  g.setColour(Colour(0xffffffff));
-  g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);
 }
 
 void PatchSelector::resized() {
@@ -112,15 +118,6 @@ void PatchSelector::resized() {
   export_->setBounds(button_width + 1, full_browse_height, button_width, button_height);
   browse_->setBounds(2 * button_width + 2, full_browse_height, last_button_width, button_height);
   SynthSection::resized();
-}
-
-void PatchSelector::reset() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  Graphics g(background_);
-  g.addTransform(AffineTransform::scale(scale, scale));
-  paintBackground(g);
-  repaint();
 }
 
 void PatchSelector::mouseUp(const MouseEvent& event) {
@@ -163,7 +160,7 @@ void PatchSelector::buttonClicked(Button* clicked_button) {
 }
 
 void PatchSelector::newPatchSelected(File patch) {
-  reset();
+  repaint();
 }
 
 void PatchSelector::setModified(bool modified) {
@@ -171,7 +168,7 @@ void PatchSelector::setModified(bool modified) {
     return;
 
   modified_ = modified;
-  reset();
+  repaint();
 }
 
 void PatchSelector::loadFromFile(File& patch) {

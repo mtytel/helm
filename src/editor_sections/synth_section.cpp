@@ -17,6 +17,7 @@
 #include "synth_section.h"
 #include "fonts.h"
 
+#include "open_gl_component.h"
 #include "synth_gui_interface.h"
 #include "synth_slider.h"
 
@@ -30,22 +31,9 @@ void SynthSection::reset() {
 
 void SynthSection::resized() {
   Component::resized();
-
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  Image background = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
-  Graphics g(background);
-  g.addTransform(AffineTransform::scale(scale, scale));
-
-  paintBackground(g);
-  background_ = background;
 }
 
-void SynthSection::paint(Graphics& g) {
-  g.drawImage(background_,
-              0, 0, getWidth(), getHeight(),
-              0, 0, background_.getWidth(), background_.getHeight());
-}
+void SynthSection::paint(Graphics& g) { }
 
 void SynthSection::paintBackground(Graphics& g) {
   static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
@@ -76,6 +64,54 @@ void SynthSection::paintContainer(Graphics& g) {
 void SynthSection::paintKnobShadows(Graphics& g) {
   for (auto slider : slider_lookup_)
     slider.second->drawShadow(g);
+}
+
+void SynthSection::paintChildrenBackgrounds(Graphics& g) {
+  for (auto sub_section : sub_sections_)
+    paintChildBackground(g, sub_section.second);
+
+  for (auto open_gl_component : open_gl_components_)
+    paintOpenGLBackground(g, open_gl_component);
+}
+
+void SynthSection::paintChildBackground(Graphics& g, SynthSection* child) {
+  g.saveState();
+  g.reduceClipRegion(child->getBounds());
+  g.setOrigin(child->getPosition());
+  child->paintBackground(g);
+  g.restoreState();
+}
+
+void SynthSection::paintOpenGLBackground(Graphics &g, OpenGLComponent* open_gl_component) {
+  g.saveState();
+  g.reduceClipRegion(open_gl_component->getBounds());
+  g.setOrigin(open_gl_component->getPosition());
+  open_gl_component->paintBackground(g);
+  g.restoreState();
+}
+
+void SynthSection::initOpenGLComponents(OpenGLContext& open_gl_context) {
+  for (auto open_gl_component : open_gl_components_)
+    open_gl_component->init(open_gl_context);
+
+  for (auto sub_section : sub_sections_)
+    sub_section.second->initOpenGLComponents(open_gl_context);
+}
+
+void SynthSection::renderOpenGLComponents(OpenGLContext& open_gl_context) {
+  for (auto open_gl_component : open_gl_components_)
+    open_gl_component->render(open_gl_context);
+
+  for (auto sub_section : sub_sections_)
+    sub_section.second->renderOpenGLComponents(open_gl_context);
+}
+
+void SynthSection::destroyOpenGLComponents(OpenGLContext& open_gl_context) {
+  for (auto open_gl_component : open_gl_components_)
+    open_gl_component->destroy(open_gl_context);
+
+  for (auto sub_section : sub_sections_)
+    sub_section.second->destroyOpenGLComponents(open_gl_context);
 }
 
 void SynthSection::sliderValueChanged(Slider* moved_slider) {
@@ -132,6 +168,11 @@ void SynthSection::addSubSection(SynthSection* sub_section, bool show) {
 
   if (show)
     addAndMakeVisible(sub_section);
+}
+
+void SynthSection::addOpenGLComponent(OpenGLComponent* open_gl_component) {
+  open_gl_components_.insert(open_gl_component);
+  addAndMakeVisible(open_gl_component);
 }
 
 void SynthSection::setActivator(ToggleButton* activator) {

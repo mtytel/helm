@@ -20,51 +20,22 @@
 
 #include "JuceHeader.h"
 
-class OpenGlComponent : public Component, public OpenGLRenderer {
+class OpenGLComponent : public Component {
   public:
-    OpenGlComponent();
-    virtual ~OpenGlComponent();
+    OpenGLComponent() { }
+    virtual ~OpenGLComponent() { }
 
-    void paint(Graphics& g) override;
+    void paint(Graphics& g) override { }
 
-    void newOpenGLContextCreated() override;
-    void renderOpenGL() override;
-    void openGLContextClosing() override;
-
-    virtual void showRealtimeFeedback(bool show_feedback);
+    virtual void init(OpenGLContext& open_gl_context) = 0;
+    virtual void render(OpenGLContext& open_gl_context) = 0;
+    virtual void destroy(OpenGLContext& open_gl_context) = 0;
+    virtual void paintBackground(Graphics& g) = 0;
 
   protected:
-    OpenGLShaderProgram::Uniform* createUniform(OpenGLShaderProgram& program, const char* name);
-    OpenGLShaderProgram::Attribute* createAttribute(OpenGLShaderProgram& program, const char* name);
+    void setViewPort(OpenGLContext& open_gl_context);
 
-    void drawBackground();
-
-    void bind();
-    void enableAttributes();
-    void disableAttributes();
-    void updateBackgroundImage(Image background);
-
-    virtual void init() { }
-    virtual void render() { }
-    virtual void destroy() { }
-
-    OpenGLContext openGLContext;
-    ScopedPointer<OpenGLShaderProgram> image_shader_;
-    ScopedPointer<OpenGLShaderProgram::Uniform> texture_uniform_;
-    bool animating_;
-
-  private:
-    ScopedPointer<OpenGLShaderProgram::Attribute> position_;
-    ScopedPointer<OpenGLShaderProgram::Attribute> texture_coordinates_;
-
-    OpenGLTexture background_;
-    bool new_background_;
-    Image background_image_;
-
-    GLuint vertex_buffer_;
-    GLuint triangle_buffer_;
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGLComponent)
 };
 
 #endif // OPEN_GL_COMPONENT_H

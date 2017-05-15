@@ -27,6 +27,7 @@
 #include "modulation_manager.h"
 #include "oscilloscope.h"
 #include "open_gl_oscilloscope.h"
+#include "open_gl_background.h"
 #include "overlay.h"
 #include "patch_browser.h"
 #include "patch_selector.h"
@@ -34,7 +35,7 @@
 #include "synth_section.h"
 #include "update_check_section.h"
 
-class FullInterface : public SynthSection, public Overlay::Listener {
+class FullInterface : public SynthSection, public OpenGLRenderer {
   public:
     FullInterface(mopo::control_map controls, mopo::output_map modulation_sources,
                   mopo::output_map mono_modulations, mopo::output_map poly_modulations,
@@ -49,13 +50,15 @@ class FullInterface : public SynthSection, public Overlay::Listener {
 
     void setToolTipText(String parameter, String value);
 
+    void paint(Graphics& g) override;
     void paintBackground(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void animate(bool animate = true) override;
 
-    void overlayShown(Overlay* component) override;
-    void overlayHidden(Overlay* component) override;
+    void newOpenGLContextCreated() override;
+    void renderOpenGL() override;
+    void openGLContextClosing() override;
 
     void resetModulations() { modulation_manager_->reset(); }
     void setFocus() { synthesis_interface_->setFocus(); }
@@ -76,8 +79,7 @@ class FullInterface : public SynthSection, public Overlay::Listener {
     ScopedPointer<ImageButton> logo_button_;
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
-    ScopedPointer<Oscilloscope> oscilloscope_;
-    ScopedPointer<OpenGlOscilloscope> oscilloscope_gl_;
+    ScopedPointer<OpenGLOscilloscope> oscilloscope_;
     ScopedPointer<BpmSlider> beats_per_minute_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<PatchSelector> patch_selector_;
@@ -86,6 +88,9 @@ class FullInterface : public SynthSection, public Overlay::Listener {
     ScopedPointer<DeleteSection> delete_section_;
 
     std::set<Component*> current_overlays_;
+
+    OpenGLContext open_gl_context;
+    OpenGLBackground background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FullInterface)
 };

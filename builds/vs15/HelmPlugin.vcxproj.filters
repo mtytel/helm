@@ -574,6 +574,9 @@
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\open_gl_background.cpp">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
@@ -2785,6 +2788,9 @@
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\open_gl_background.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_component.h">

@@ -123,6 +123,8 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   section_shadow.drawForRectangle(g, sub_section_->getBounds());
   section_shadow.drawForRectangle(g, voice_section_->getBounds());
   section_shadow.drawForRectangle(g, volume_section_->getBounds());
+
+  paintChildrenBackgrounds(g);
 }
 
 void SynthesisInterface::resized() {

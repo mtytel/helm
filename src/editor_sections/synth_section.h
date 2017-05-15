@@ -25,6 +25,7 @@
 
 #define MODULATION_BUTTON_WIDTH 32
 
+class OpenGLComponent;
 class SynthSlider;
 
 class SynthSection : public Component, public SliderListener, public ButtonListener {
@@ -39,7 +40,13 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void paintContainer(Graphics& g);
     void paintKnobShadows(Graphics& g);
     void drawTextForComponent(Graphics& g, String text, Component* component, int space = 4);
-    Graphics getBackgroundGraphics();
+
+    void paintChildrenBackgrounds(Graphics& g);
+    void paintChildBackground(Graphics& g, SynthSection* child);
+    void paintOpenGLBackground(Graphics& g, OpenGLComponent* child);
+    void initOpenGLComponents(OpenGLContext& open_gl_context);
+    void renderOpenGLComponents(OpenGLContext& open_gl_context);
+    void destroyOpenGLComponents(OpenGLContext& open_gl_context);
 
     // Widget Listeners.
     virtual void sliderValueChanged(Slider* moved_slider) override;
@@ -62,9 +69,11 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void addModulationButton(ModulationButton* button, bool show = true);
     void addSlider(SynthSlider* slider, bool show = true);
     void addSubSection(SynthSection* section, bool show = true);
+    void addOpenGLComponent(OpenGLComponent* open_gl_component);
     void setActivator(ToggleButton* activator);
 
     std::map<std::string, SynthSection*> sub_sections_;
+    std::set<OpenGLComponent*> open_gl_components_;
 
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;

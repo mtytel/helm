@@ -242,6 +242,10 @@
               file="src/editor_components/modulation_slider.cpp"/>
         <FILE id="GH14RG" name="modulation_slider.h" compile="0" resource="0"
               file="src/editor_components/modulation_slider.h"/>
+        <FILE id="AIpEpj" name="open_gl_background.cpp" compile="1" resource="0"
+              file="src/editor_components/open_gl_background.cpp"/>
+        <FILE id="PDC2vv" name="open_gl_background.h" compile="0" resource="0"
+              file="src/editor_components/open_gl_background.h"/>
         <FILE id="o1rxUC" name="open_gl_component.cpp" compile="1" resource="0"
               file="src/editor_components/open_gl_component.cpp"/>
         <FILE id="souzQ5" name="open_gl_component.h" compile="0" resource="0"

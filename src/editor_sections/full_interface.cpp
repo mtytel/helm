@@ -29,6 +29,10 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
                              mopo::output_map mono_modulations,
                              mopo::output_map poly_modulations,
                              MidiKeyboardState* keyboard_state) : SynthSection("full_interface") {
+  open_gl_context.setContinuousRepainting(true);
+  open_gl_context.setRenderer(this);
+  open_gl_context.attachTo(*this);
+
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
   addSubSection(arp_section_ = new ArpSection("ARP"));
 
@@ -40,9 +44,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
 
   addSubSection(patch_selector_ = new PatchSelector());
-  addAndMakeVisible(oscilloscope_ = new Oscilloscope());
-  addAndMakeVisible(oscilloscope_gl_ = new OpenGlOscilloscope());
-  oscilloscope_->setVisible(false);
+  addOpenGLComponent(oscilloscope_ = new OpenGLOscilloscope());
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
@@ -72,20 +74,14 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   patch_selector_->setBrowser(patch_browser_);
 
   addChildComponent(save_section_ = new SaveSection("save_section"));
-  save_section_->addListener(this);
-
   patch_browser_->setSaveSection(save_section_);
   patch_selector_->setSaveSection(save_section_);
 
   addChildComponent(delete_section_ = new DeleteSection("delete_section"));
-  delete_section_->addListener(this);
-
   patch_browser_->setDeleteSection(delete_section_);
-  patch_browser_->addListener(this);
 
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
-  about_section_->addListener(this);
 
   update_check_section_ = new UpdateCheckSection("update_check");
   addChildComponent(update_check_section_);
@@ -94,11 +90,11 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 }
 
 FullInterface::~FullInterface() {
+  open_gl_context.detach();
   about_section_ = nullptr;
   update_check_section_ = nullptr;
   arp_section_ = nullptr;
   oscilloscope_ = nullptr;
-  oscilloscope_gl_ = nullptr;
   synthesis_interface_ = nullptr;
   beats_per_minute_ = nullptr;
   global_tool_tip_ = nullptr;
@@ -106,6 +102,8 @@ FullInterface::~FullInterface() {
   save_section_ = nullptr;
   delete_section_ = nullptr;
 }
+
+void FullInterface::paint(Graphics& g) { }
 
 void FullInterface::paintBackground(Graphics& g) {
   static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
@@ -144,6 +142,7 @@ void FullInterface::paintBackground(Graphics& g) {
   component_shadow.drawForRectangle(g, patch_selector_->getBounds());
 
   paintKnobShadows(g);
+  paintChildrenBackgrounds(g);
 }
 
 void FullInterface::resized() {
@@ -151,7 +150,6 @@ void FullInterface::resized() {
   patch_selector_->setBounds(84, 8, 244, TOP_HEIGHT);
   global_tool_tip_->setBounds(patch_selector_->getRight() + 8, 8, 200, TOP_HEIGHT);
   oscilloscope_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
-  oscilloscope_gl_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
   arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 320, TOP_HEIGHT);
 
   synthesis_interface_->setBounds(0, TOP_HEIGHT + 12,
@@ -169,11 +167,19 @@ void FullInterface::resized() {
                             arp_section_->getRight() - synthesis_interface_->getX() - 8.0f,
                             synthesis_interface_->getHeight() - 8.0f);
 
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  Image background = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background);
+  g.addTransform(AffineTransform::scale(scale, scale));
+  paintBackground(g);
+  background_.updateBackgroundImage(background);
+
   SynthSection::resized();
 }
 
 void FullInterface::setOutputMemory(const float* output_memory) {
-  oscilloscope_gl_->setOutputMemory(output_memory);
+  oscilloscope_->setOutputMemory(output_memory);
 }
 
 void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
@@ -210,31 +216,19 @@ void FullInterface::buttonClicked(Button* clicked_button) {
 
 void FullInterface::animate(bool animate) {
   SynthSection::animate(animate);
-  oscilloscope_gl_->showRealtimeFeedback(animate);
 }
 
-void FullInterface::overlayShown(Overlay* component) {
-  current_overlays_.insert(component);
-
-  if (component != patch_browser_) {
-    oscilloscope_gl_->setVisible(false);
-    oscilloscope_->setVisible(true);
-  }
-  if (current_overlays_.size() == 1)
-    synthesis_interface_->animate(false);
+void FullInterface::newOpenGLContextCreated() {
+  background_.init(open_gl_context);
+  initOpenGLComponents(open_gl_context);
 }
 
-void FullInterface::overlayHidden(Overlay* component) {
-  current_overlays_.erase(component);
+void FullInterface::renderOpenGL() {
+  background_.render(open_gl_context);
+  renderOpenGLComponents(open_gl_context);
+}
 
-  if (current_overlays_.size() == 0) {
-    synthesis_interface_->animate(true);
-
-    oscilloscope_gl_->setVisible(true);
-    oscilloscope_->setVisible(false);
-  }
-  else if (current_overlays_.size() == 1 && current_overlays_.count(patch_browser_)) {
-    oscilloscope_gl_->setVisible(true);
-    oscilloscope_->setVisible(false);
-  }
+void FullInterface::openGLContextClosing() {
+  background_.destroy(open_gl_context);
+  destroyOpenGLComponents(open_gl_context);
 }

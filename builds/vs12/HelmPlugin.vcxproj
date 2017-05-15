@@ -249,6 +249,7 @@
     <ClCompile Include="..\..\src\editor_components\modulation_highlight.cpp"/>
     <ClCompile Include="..\..\src\editor_components\modulation_meter.cpp"/>
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\open_gl_background.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_wave_viewer.cpp"/>
@@ -2048,6 +2049,7 @@
     <ClInclude Include="..\..\src\editor_components\modulation_highlight.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_meter.h"/>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h"/>
+    <ClInclude Include="..\..\src\editor_components\open_gl_background.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_component.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_wave_viewer.h"/>

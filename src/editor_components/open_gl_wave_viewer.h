@@ -21,12 +21,13 @@
 #include "JuceHeader.h"
 
 #include "helm_common.h"
+#include "open_gl_background.h"
 #include "open_gl_component.h"
 
-class OpenGlWaveViewer : public OpenGlComponent, public SliderListener {
+class OpenGLWaveViewer : public OpenGLComponent, public SliderListener {
   public:
-    OpenGlWaveViewer(int resolution);
-    virtual ~OpenGlWaveViewer();
+    OpenGLWaveViewer(int resolution);
+    virtual ~OpenGLWaveViewer();
 
     void setWaveSlider(Slider* slider);
     void setAmplitudeSlider(Slider* slider);
@@ -35,21 +36,18 @@ class OpenGlWaveViewer : public OpenGlComponent, public SliderListener {
     void resetWavePath();
     void sliderValueChanged(Slider* sliderThatWasMoved) override;
 
-    void paintBackground();
-    void paintPositionImage();
-    void resized() override;
     void mouseDown(const MouseEvent& e) override;
+    void resized() override;
 
-    void showRealtimeFeedback(bool show_feedback) override;
+    void init(OpenGLContext& open_gl_context) override;
+    void render(OpenGLContext& open_gl_context) override;
+    void destroy(OpenGLContext& open_gl_context) override;
+    void paintBackground(Graphics& g) override { }
 
-  protected:
-    void init() override;
-    void render() override;
-    void destroy() override;
-
-    void drawPosition();
-  
   private:
+    void drawPosition(OpenGLContext& open_gl_context);
+    void paintPositionImage();
+    void paintBackground();
     float phaseToX(float phase);
 
     Slider* wave_slider_;
@@ -59,7 +57,10 @@ class OpenGlWaveViewer : public OpenGlComponent, public SliderListener {
     Path wave_path_;
     int resolution_;
 
+    OpenGLBackground background_;
+  
     Image position_image_;
+    Image background_image_;
     OpenGLTexture position_texture_;
     ScopedPointer<OpenGLShaderProgram::Uniform> texture_;
 
@@ -68,7 +69,7 @@ class OpenGlWaveViewer : public OpenGlComponent, public SliderListener {
     GLuint vertex_buffer_;
     GLuint triangle_buffer_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlWaveViewer)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGLWaveViewer)
 };
 
 #endif // OPEN_GL_WAVE_VIEWER_H

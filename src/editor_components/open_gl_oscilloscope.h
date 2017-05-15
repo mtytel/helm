@@ -23,22 +23,21 @@
 #include "memory.h"
 #include "open_gl_component.h"
 
-class OpenGlOscilloscope : public OpenGlComponent {
+class OpenGLOscilloscope : public OpenGLComponent {
   public:
-    OpenGlOscilloscope();
-    virtual ~OpenGlOscilloscope();
+    OpenGLOscilloscope();
+    virtual ~OpenGLOscilloscope();
 
     void setOutputMemory(const float* memory) { output_memory_ = memory; }
-    void resized() override;
 
-  protected:
-    void init() override;
-    void render() override;
-    void destroy() override;
+    void init(OpenGLContext& open_gl_context) override;
+    void render(OpenGLContext& open_gl_context) override;
+    void destroy(OpenGLContext& open_gl_context) override;
+    void paintBackground(Graphics& g) override;
 
-    void drawLines();
-  
   private:
+    void drawLines(OpenGLContext& open_gl_context);
+
     ScopedPointer<OpenGLShaderProgram> shader_;
     ScopedPointer<OpenGLShaderProgram::Attribute> position_;
 
@@ -48,7 +47,7 @@ class OpenGlOscilloscope : public OpenGlComponent {
     GLuint line_buffer_;
     GLuint line_indices_buffer_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlOscilloscope)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGLOscilloscope)
 };
 
 #endif // OPEN_GL_OSCILLOSCOPE_H

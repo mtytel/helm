@@ -18,6 +18,7 @@
 
 #include "colors.h"
 #include "synth_gui_interface.h"
+#include "utils.h"
 
 #define GRID_CELL_WIDTH 8
 #define FRAMES_PER_SECOND 30
@@ -31,7 +32,7 @@ namespace {
   static const float random_values[NOISE_RESOLUTION] = {0.3, 0.9, -0.9, -0.2, -0.5, 0.7 };
 } // namespace
 
-OpenGlWaveViewer::OpenGlWaveViewer(int resolution) {
+OpenGLWaveViewer::OpenGLWaveViewer(int resolution) {
   wave_slider_ = nullptr;
   amplitude_slider_ = nullptr;
   resolution_ = resolution;
@@ -39,24 +40,19 @@ OpenGlWaveViewer::OpenGlWaveViewer(int resolution) {
   wave_amp_ = nullptr;
 }
 
-OpenGlWaveViewer::~OpenGlWaveViewer() {
-  openGLContext.detach();
-}
+OpenGLWaveViewer::~OpenGLWaveViewer() { }
 
-void OpenGlWaveViewer::paintBackground() {
+void OpenGLWaveViewer::paintBackground() {
+  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+
   if (getWidth() <= 0 || getHeight() <= 0)
     return;
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
-
-  float image_width = scale * IMAGE_WIDTH;
-  float image_height = scale * IMAGE_HEIGHT;
-  Image background = Image(Image::ARGB, image_width, image_height, true);
-  Graphics g(background);
-  g.addTransform(AffineTransform::scale(image_width / getWidth(), image_height / getHeight()));
-
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  background_image_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_image_);
+  g.addTransform(AffineTransform::scale(scale, scale));
 
   g.fillAll(Colour(0xff424242));
 
@@ -74,12 +70,12 @@ void OpenGlWaveViewer::paintBackground() {
   g.setColour(Colors::modulation);
   g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
 
-  updateBackgroundImage(background);
+  background_.updateBackgroundImage(background_image_);
 }
 
-void OpenGlWaveViewer::paintPositionImage() {
+void OpenGLWaveViewer::paintPositionImage() {
   int min_image_width = roundToInt(2 * MARKER_WIDTH);
-  int image_width = roundToInt(powf(2.0f, (int)(log2f(min_image_width))));
+  int image_width = mopo::utils::nextPowerOfTwo(min_image_width);
   int marker_width = MARKER_WIDTH;
   int image_height = roundToInt(2 * IMAGE_HEIGHT);
   position_image_ = Image(Image::ARGB, image_width, image_height, true);
@@ -96,11 +92,7 @@ void OpenGlWaveViewer::paintPositionImage() {
                 marker_width / 2, marker_width / 2);
 }
 
-void OpenGlWaveViewer::resized() {
-  resetWavePath();
-}
-
-void OpenGlWaveViewer::mouseDown(const MouseEvent& e) {
+void OpenGLWaveViewer::mouseDown(const MouseEvent& e) {
   if (wave_slider_) {
     int current_value = wave_slider_->getValue();
     if (e.mods.isRightButtonDown())
@@ -113,7 +105,18 @@ void OpenGlWaveViewer::mouseDown(const MouseEvent& e) {
   }
 }
 
-void OpenGlWaveViewer::setWaveSlider(Slider* slider) {
+void OpenGLWaveViewer::resized() {
+  resetWavePath();
+
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (wave_amp_ == nullptr && parent)
+    wave_amp_ = parent->getSynth()->getModSource(getName().toStdString());
+
+  if (wave_phase_ == nullptr && parent)
+    wave_phase_ = parent->getSynth()->getModSource(getName().toStdString() + "_phase");
+}
+
+void OpenGLWaveViewer::setWaveSlider(Slider* slider) {
   if (wave_slider_)
     wave_slider_->removeListener(this);
   wave_slider_ = slider;
@@ -121,7 +124,7 @@ void OpenGlWaveViewer::setWaveSlider(Slider* slider) {
   resetWavePath();
 }
 
-void OpenGlWaveViewer::setAmplitudeSlider(Slider* slider) {
+void OpenGLWaveViewer::setAmplitudeSlider(Slider* slider) {
   if (amplitude_slider_)
     amplitude_slider_->removeListener(this);
   amplitude_slider_ = slider;
@@ -129,7 +132,7 @@ void OpenGlWaveViewer::setAmplitudeSlider(Slider* slider) {
   resetWavePath();
 }
 
-void OpenGlWaveViewer::drawRandom() {
+void OpenGLWaveViewer::drawRandom() {
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
   float draw_height = getHeight() - 2.0f * PADDING;
@@ -146,7 +149,7 @@ void OpenGlWaveViewer::drawRandom() {
   wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
 }
 
-void OpenGlWaveViewer::drawSmoothRandom() {
+void OpenGLWaveViewer::drawSmoothRandom() {
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
   float draw_height = getHeight() - 2.0f * PADDING;
@@ -171,7 +174,7 @@ void OpenGlWaveViewer::drawSmoothRandom() {
 
 }
 
-void OpenGlWaveViewer::resetWavePath() {
+void OpenGLWaveViewer::resetWavePath() {
   wave_path_.clear();
 
   if (wave_slider_ == nullptr)
@@ -201,29 +204,15 @@ void OpenGlWaveViewer::resetWavePath() {
   paintBackground();
 }
 
-void OpenGlWaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
+void OpenGLWaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
   resetWavePath();
 }
 
-void OpenGlWaveViewer::showRealtimeFeedback(bool show_feedback) {
-  OpenGlComponent::showRealtimeFeedback(show_feedback);
-
-  if (show_feedback) {
-    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-    if (parent) {
-      wave_amp_ = parent->getSynth()->getModSource(getName().toStdString());
-      wave_phase_ = parent->getSynth()->getModSource(getName().toStdString() + "_phase");
-    }
-  }
-  else
-    wave_phase_ = nullptr;
-}
-
-float OpenGlWaveViewer::phaseToX(float phase) {
+float OpenGLWaveViewer::phaseToX(float phase) {
   return phase * getWidth();
 }
 
-void OpenGlWaveViewer::init() {
+void OpenGLWaveViewer::init(OpenGLContext& open_gl_context) {
   paintPositionImage();
 
   position_vertices_ = new float[16] {
@@ -238,27 +227,34 @@ void OpenGlWaveViewer::init() {
     2, 3, 0
   };
 
-  openGLContext.extensions.glGenBuffers(1, &vertex_buffer_);
-  openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);
+  open_gl_context.extensions.glGenBuffers(1, &vertex_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);
 
   GLsizeiptr vert_size = static_cast<GLsizeiptr>(static_cast<size_t>(16 * sizeof(float)));
-  openGLContext.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
-                                        position_vertices_, GL_STATIC_DRAW);
+  open_gl_context.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
+                                          position_vertices_, GL_STATIC_DRAW);
 
-  openGLContext.extensions.glGenBuffers(1, &triangle_buffer_);
-  openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangle_buffer_);
+  open_gl_context.extensions.glGenBuffers(1, &triangle_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangle_buffer_);
 
   GLsizeiptr tri_size = static_cast<GLsizeiptr>(static_cast<size_t>(6 * sizeof(float)));
-  openGLContext.extensions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, tri_size,
-                                        position_triangles_, GL_STATIC_DRAW);
+  open_gl_context.extensions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, tri_size,
+                                          position_triangles_, GL_STATIC_DRAW);
 
+  background_.init(open_gl_context);
 }
 
-void OpenGlWaveViewer::drawPosition() {
+void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
+  if (position_texture_.getWidth() != position_image_.getWidth())
+    position_texture_.loadImage(position_image_);
+
+  if (wave_phase_ == nullptr || wave_amp_ == nullptr)
+    return;
+
   float x = 2.0f * wave_phase_->buffer[0] - 1.0f;
   float y = (getHeight() - 2 * PADDING) * wave_amp_->buffer[0] / getHeight();
 
-  float desktop_scale = openGLContext.getRenderingScale();
+  float desktop_scale = open_gl_context.getRenderingScale();
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -280,48 +276,46 @@ void OpenGlWaveViewer::drawPosition() {
   position_vertices_[12] = x + position_width;
   position_vertices_[13] = y + position_height;
 
-  openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);
   GLsizeiptr vert_size = static_cast<GLsizeiptr>(static_cast<size_t>(16 * sizeof(float)));
-  openGLContext.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
-                                        position_vertices_, GL_STATIC_DRAW);
+  open_gl_context.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
+                                          position_vertices_, GL_STATIC_DRAW);
 
-  openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangle_buffer_);
+  open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangle_buffer_);
   position_texture_.bind();
 
-  openGLContext.extensions.glActiveTexture(GL_TEXTURE0);
+  open_gl_context.extensions.glActiveTexture(GL_TEXTURE0);
   glEnable(GL_TEXTURE_2D);
-  glDisable(GL_DEPTH);
 
-  if (texture_uniform_ != nullptr)
-    texture_uniform_->set(0);
+  if (background_.texture_uniform() != nullptr)
+    background_.texture_uniform()->set(0);
 
-  image_shader_->use();
+  background_.shader()->use();
 
-  enableAttributes();
+  background_.enableAttributes(open_gl_context);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-  disableAttributes();
+  background_.disableAttributes(open_gl_context);
 
   position_texture_.unbind();
 
   glDisable(GL_TEXTURE_2D);
 
-  openGLContext.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
-  openGLContext.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
+  open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void OpenGlWaveViewer::render() {
-  if (position_texture_.getWidth() != position_image_.getWidth())
-    position_texture_.loadImage(position_image_);
+void OpenGLWaveViewer::render(OpenGLContext& open_gl_context) {
+  setViewPort(open_gl_context);
 
-  drawBackground();
-  if (animating_)
-    drawPosition();
+  background_.render(open_gl_context);
+  drawPosition(open_gl_context);
 }
 
-void OpenGlWaveViewer::destroy() {
+void OpenGLWaveViewer::destroy(OpenGLContext& open_gl_context) {
   position_texture_.release();
 
   texture_ = nullptr;
-  openGLContext.extensions.glDeleteBuffers(1, &vertex_buffer_);
-  openGLContext.extensions.glDeleteBuffers(1, &triangle_buffer_);
+  open_gl_context.extensions.glDeleteBuffers(1, &vertex_buffer_);
+  open_gl_context.extensions.glDeleteBuffers(1, &triangle_buffer_);
+  background_.destroy(open_gl_context);
 }

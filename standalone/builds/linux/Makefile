@@ -118,6 +118,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/modulation_highlight_dd34a287.o \
   $(JUCE_OBJDIR)/modulation_meter_3f248ddc.o \
   $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o \
+  $(JUCE_OBJDIR)/open_gl_background_fe08efa9.o \
   $(JUCE_OBJDIR)/open_gl_component_d67359ac.o \
   $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o \
   $(JUCE_OBJDIR)/open_gl_wave_viewer_bb6a02c7.o \
@@ -483,6 +484,11 @@ $(JUCE_OBJDIR)/modulation_meter_3f248ddc.o: ../../../src/editor_components/modul
 $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o: ../../../src/editor_components/modulation_slider.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling modulation_slider.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/open_gl_background_fe08efa9.o: ../../../src/editor_components/open_gl_background.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_background.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/open_gl_component_d67359ac.o: ../../../src/editor_components/open_gl_component.cpp

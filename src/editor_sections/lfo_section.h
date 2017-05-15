@@ -33,13 +33,11 @@ class LfoSection : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
-    void animate(bool animate = true) override;
     void reset() override;
 
   private:
     bool can_animate_;
-    ScopedPointer<WaveViewer> static_wave_viewer_;
-    ScopedPointer<OpenGlWaveViewer> dynamic_wave_viewer_;
+    ScopedPointer<OpenGLWaveViewer> wave_viewer_;
     ScopedPointer<WaveSelector> wave_selector_;
 
     ScopedPointer<RetriggerSelector> retrigger_;
