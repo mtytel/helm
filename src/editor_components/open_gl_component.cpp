@@ -23,5 +23,5 @@ void OpenGLComponent::setViewPort(OpenGLContext& open_gl_context) {
 
   glViewport(scale * (local.getX() - top_level.getX()),
              scale * (top_level.getBottom() - local.getBottom()),
-             scale * getWidth(), scale * getHeight());
+             scale * local.getWidth(), scale * local.getHeight());
 }
