@@ -109,8 +109,5 @@ void HelmStandaloneEditor::paint(Graphics& g) {
 }
 
 void HelmStandaloneEditor::resized() {
-  Rectangle<int> bounds = getBounds();
-  double scale = std::min(double(bounds.getWidth()) / WIDTH, double(bounds.getHeight()) / HEIGHT);
-  gui_->setTransform(AffineTransform::scale(scale));
-  gui_->setBounds(Rectangle<int>(0, 0, bounds.getWidth() / scale, bounds.getHeight() / scale));
+  gui_->setBounds(getBounds());
 }
