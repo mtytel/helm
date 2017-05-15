@@ -44,7 +44,9 @@ namespace mopo {
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;
     mopo_float* dest = output()->buffer;
 
-    if (db24)
+    if (type == kAllPass)
+      processAllPass(audio_buffer, dest);
+    else if (db24)
       process24db(audio_buffer, dest);
     else
       process12db(audio_buffer, dest);
@@ -110,6 +112,15 @@ namespace mopo {
     m1_ = target_m1_;
   }
 
+  void StateVariableFilter::processAllPass(const mopo_float* audio_buffer, mopo_float* dest) {
+    reset();
+    const int buffer_size = buffer_size_;
+
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (int i = 0; i < buffer_size; ++i)
+      dest[i] = utils::quickTanh(audio_buffer[i]);
+  }
+
   void StateVariableFilter::computeCoefficients(Type type,
                                                 mopo_float cutoff,
                                                 mopo_float resonance,
@@ -147,12 +158,6 @@ namespace mopo {
         target_m2_ = 0.0;
         break;
       }
-      case kAllPass: {
-        target_m0_ = 1.0;
-        target_m1_ = -2.0 * k;
-        target_m2_ = 0.0;
-        break;
-      }
       case kLowShelf: {
         g /= sqrt(gain);
         target_m0_ = 1.0;
@@ -172,9 +177,6 @@ namespace mopo {
         target_m0_ = 1.0;
         target_m1_ = k * (gain * gain - 1);
         target_m2_ = 0.0;
-        break;
-      }
-      case kNotch: {
         break;
       }
       default: {

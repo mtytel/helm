@@ -57,6 +57,7 @@ namespace mopo {
       virtual void process();
       void process12db(const mopo_float* audio_buffer, mopo_float* dest);
       void process24db(const mopo_float* audio_buffer, mopo_float* dest);
+      void processAllPass(const mopo_float* audio_buffer, mopo_float* dest);
 
       void computeCoefficients(Type type,
                                mopo_float cutoff,
