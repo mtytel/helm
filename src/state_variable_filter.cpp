@@ -29,6 +29,7 @@ namespace mopo {
     a1_ = a2_ = a3_ = 0.0;
     m0_ = m1_ = m2_ = 0.0;
     last_out_a_ = last_out_b_ = 0.0;
+    last_type_ = kNumTypes;
     reset();
   }
 
@@ -189,6 +190,11 @@ namespace mopo {
     a1_ = 1.0 / (1.0 + g * (g + k));
     a2_ = g * a1_;
     a3_ = g * a2_;
+
+    if (type != last_type_) {
+      reset();
+      last_type_ = type;
+    }
   }
 
   inline void StateVariableFilter::tick(int i, mopo_float* dest, const mopo_float* audio_buffer) {
