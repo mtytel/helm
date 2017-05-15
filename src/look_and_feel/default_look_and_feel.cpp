@@ -93,10 +93,10 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
                                           float slider_t, float start_angle, float end_angle,
                                           Slider& slider) {
   static const float stroke_percent = 0.12f;
-
+  
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float stroke_width = 2.0f * full_radius * stroke_percent;
-  float outer_radius = full_radius - stroke_width;
+  float small_outer_radius = full_radius - 4.0f * stroke_width / 3.0f;
   PathStrokeType outer_stroke =
       PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
 
@@ -129,7 +129,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   }
 
   Path rail;
-  rail.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+  rail.addCentredArc(full_radius, full_radius, small_outer_radius, small_outer_radius,
                      0.0f, start_angle, end_angle, true);
 
   if (active)
@@ -140,11 +140,11 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   g.strokePath(rail, outer_stroke);
 
   if (bipolar) {
-    active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
-                                 0.0f, 0.0f, current_angle - 2.0f * mopo::PI, true);
+    active_section.addCentredArc(full_radius, full_radius, small_outer_radius, small_outer_radius,
+                                 0.0f, 0.0f, current_angle, true);
   }
   else {
-    active_section.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+    active_section.addCentredArc(full_radius, full_radius, small_outer_radius, small_outer_radius,
                                  0.0f, start_angle, current_angle, true);
   }
 

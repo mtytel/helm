@@ -20,6 +20,8 @@
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
+#define ROTARY_ANGLE (0.8 * mopo::PI)
+
 namespace {
   enum MenuIds {
     kCancel = 0,
@@ -43,6 +45,7 @@ SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_colo
   if (!mopo::Parameters::isParameter(name.toStdString()))
     return;
 
+  setRotaryParameters(-ROTARY_ANGLE, ROTARY_ANGLE, true);
   mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
   if (details.steps)
     setRange(details.min, details.max, (details.max - details.min) / (details.steps - 1));
@@ -195,18 +198,31 @@ void SynthSlider::drawShadow(Graphics &g) {
 }
 
 void SynthSlider::drawRotaryShadow(Graphics &g) {
-  static const DropShadow shadow(Colour(0xbb000000), 3, Point<int>(0, 0));
-  static const float shadow_angle = mopo::PI / 1.3f;
+  static const DropShadow shadow(Colour(0xee000000), 3, Point<int>(0, 0));
+  static const float stroke_percent = 0.12f;
 
   g.saveState();
   g.setOrigin(getX(), getY());
 
   float full_radius = std::min(getWidth() / 2.0f, getHeight() / 2.0f);
+  float stroke_width = 2.0f * full_radius * stroke_percent;
   Path shadow_path;
+  float outer_radius = full_radius - stroke_width;
   shadow_path.addCentredArc(full_radius, full_radius,
-                            0.87f * full_radius, 0.85f * full_radius,
-                            0, -shadow_angle, shadow_angle, true);
+                            0.89f * full_radius, 0.87f * full_radius,
+                            0, -ROTARY_ANGLE, ROTARY_ANGLE, true);
   shadow.drawForPath(g, shadow_path);
+
+  Path rail_outer;
+  rail_outer.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
+                           0.0f, -ROTARY_ANGLE, ROTARY_ANGLE, true);
+
+  g.setColour(Colour(0xff333333));
+
+  PathStrokeType outer_stroke =
+      PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
+  g.strokePath(rail_outer, outer_stroke);
+
   g.restoreState();
 }
 
