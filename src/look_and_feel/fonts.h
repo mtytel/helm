@@ -21,7 +21,6 @@
 
 class Fonts {
   public:
-    Fonts();
     virtual ~Fonts() { }
 
     Font& proportional_regular() { return proportional_regular_; }
@@ -34,6 +33,8 @@ class Fonts {
     }
 
   private:
+    Fonts();
+
     static ScopedPointer<Fonts> instance_;
 
     Font proportional_regular_;
