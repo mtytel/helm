@@ -170,7 +170,7 @@ float GraphicalEnvelope::getAttackX() {
     return 0.0;
 
   double percent = attack_slider_->valueToProportionOfLength(attack_slider_->getValue());
-  return getWidth() * percent * ATTACK_RANGE_PERCENT;
+  return 1 + (getWidth() - 1) * percent * ATTACK_RANGE_PERCENT;
 }
 
 float GraphicalEnvelope::getDecayX() {
@@ -267,7 +267,7 @@ void GraphicalEnvelope::setReleaseSlider(Slider* release_slider) {
 
 void GraphicalEnvelope::resetEnvelopeLine() {
   envelope_line_.clear();
-  envelope_line_.startNewSubPath(0, getHeight());
+  envelope_line_.startNewSubPath(1, getHeight());
   envelope_line_.lineTo(getAttackX(), 0.0f);
   envelope_line_.quadraticTo(0.5f * (getAttackX() + getDecayX()), getSustainY(),
                              getDecayX(), getSustainY());
