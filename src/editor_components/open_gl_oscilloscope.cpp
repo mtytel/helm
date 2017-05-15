@@ -127,8 +127,9 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
     MOPO_ASSERT(false);
 }
 
-void OpenGLOscilloscope::render(OpenGLContext& open_gl_context) {
-  drawLines(open_gl_context);
+void OpenGLOscilloscope::render(OpenGLContext& open_gl_context, bool animate) {
+  if (animate)
+    drawLines(open_gl_context);
 }
 
 void OpenGLOscilloscope::destroy(OpenGLContext& open_gl_context) {

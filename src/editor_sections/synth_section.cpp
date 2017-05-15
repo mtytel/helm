@@ -98,12 +98,12 @@ void SynthSection::initOpenGLComponents(OpenGLContext& open_gl_context) {
     sub_section.second->initOpenGLComponents(open_gl_context);
 }
 
-void SynthSection::renderOpenGLComponents(OpenGLContext& open_gl_context) {
+void SynthSection::renderOpenGLComponents(OpenGLContext& open_gl_context, bool animate) {
   for (auto open_gl_component : open_gl_components_)
-    open_gl_component->render(open_gl_context);
+    open_gl_component->render(open_gl_context, animate);
 
   for (auto sub_section : sub_sections_)
-    sub_section.second->renderOpenGLComponents(open_gl_context);
+    sub_section.second->renderOpenGLComponents(open_gl_context, animate);
 }
 
 void SynthSection::destroyOpenGLComponents(OpenGLContext& open_gl_context) {

@@ -31,7 +31,7 @@ class OpenGLOscilloscope : public OpenGLComponent {
     void setOutputMemory(const float* memory) { output_memory_ = memory; }
 
     void init(OpenGLContext& open_gl_context) override;
-    void render(OpenGLContext& open_gl_context) override;
+    void render(OpenGLContext& open_gl_context, bool animate = true) override;
     void destroy(OpenGLContext& open_gl_context) override;
     void paintBackground(Graphics& g) override;
 

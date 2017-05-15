@@ -45,7 +45,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void paintChildBackground(Graphics& g, SynthSection* child);
     void paintOpenGLBackground(Graphics& g, OpenGLComponent* child);
     void initOpenGLComponents(OpenGLContext& open_gl_context);
-    void renderOpenGLComponents(OpenGLContext& open_gl_context);
+    void renderOpenGLComponents(OpenGLContext& open_gl_context, bool animate);
     void destroyOpenGLComponents(OpenGLContext& open_gl_context);
 
     // Widget Listeners.

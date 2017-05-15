@@ -29,6 +29,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
                              mopo::output_map mono_modulations,
                              mopo::output_map poly_modulations,
                              MidiKeyboardState* keyboard_state) : SynthSection("full_interface") {
+  animate_ = true;
   open_gl_context.setContinuousRepainting(true);
   open_gl_context.setRenderer(this);
   open_gl_context.attachTo(*this);
@@ -215,7 +216,10 @@ void FullInterface::buttonClicked(Button* clicked_button) {
 }
 
 void FullInterface::animate(bool animate) {
+  animate_ = animate;
   SynthSection::animate(animate);
+  open_gl_context.setContinuousRepainting(animate);
+  repaint();
 }
 
 void FullInterface::newOpenGLContextCreated() {
@@ -225,7 +229,7 @@ void FullInterface::newOpenGLContextCreated() {
 
 void FullInterface::renderOpenGL() {
   background_.render(open_gl_context);
-  renderOpenGLComponents(open_gl_context);
+  renderOpenGLComponents(open_gl_context, animate_);
 }
 
 void FullInterface::openGLContextClosing() {

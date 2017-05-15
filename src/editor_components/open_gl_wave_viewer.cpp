@@ -304,11 +304,13 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void OpenGLWaveViewer::render(OpenGLContext& open_gl_context) {
+void OpenGLWaveViewer::render(OpenGLContext& open_gl_context, bool animate) {
   setViewPort(open_gl_context);
 
   background_.render(open_gl_context);
-  drawPosition(open_gl_context);
+
+  if (animate)
+    drawPosition(open_gl_context);
 }
 
 void OpenGLWaveViewer::destroy(OpenGLContext& open_gl_context) {

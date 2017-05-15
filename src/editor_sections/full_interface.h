@@ -87,8 +87,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     ScopedPointer<SaveSection> save_section_;
     ScopedPointer<DeleteSection> delete_section_;
 
-    std::set<Component*> current_overlays_;
-
+    bool animate_;
     OpenGLContext open_gl_context;
     OpenGLBackground background_;
 

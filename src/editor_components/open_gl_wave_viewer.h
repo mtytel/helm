@@ -40,7 +40,7 @@ class OpenGLWaveViewer : public OpenGLComponent, public SliderListener {
     void resized() override;
 
     void init(OpenGLContext& open_gl_context) override;
-    void render(OpenGLContext& open_gl_context) override;
+    void render(OpenGLContext& open_gl_context, bool animate = true) override;
     void destroy(OpenGLContext& open_gl_context) override;
     void paintBackground(Graphics& g) override { }
 

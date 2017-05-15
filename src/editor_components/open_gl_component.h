@@ -28,7 +28,7 @@ class OpenGLComponent : public Component {
     void paint(Graphics& g) override { }
 
     virtual void init(OpenGLContext& open_gl_context) = 0;
-    virtual void render(OpenGLContext& open_gl_context) = 0;
+    virtual void render(OpenGLContext& open_gl_context, bool animate = true) = 0;
     virtual void destroy(OpenGLContext& open_gl_context) = 0;
     virtual void paintBackground(Graphics& g) = 0;
 
