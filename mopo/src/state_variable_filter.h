@@ -79,6 +79,7 @@ namespace mopo {
       mopo_float ic1eq_b_, ic2eq_b_;
 
       mopo_float last_out_a_, last_out_b_;
+      Type last_type_;
   };
 } // namespace mopo
 
