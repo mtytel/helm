@@ -154,6 +154,10 @@ namespace mopo {
       return (pow(0.5, q) - MIN_Q_POW) / (MAX_Q_POW - MIN_Q_POW);
     }
 
+    inline int nextPowerOfTwo(mopo_float value) {
+      return round(pow(2.0f, ceil(log2(value))));
+    }
+
     inline mopo_float quickerTanh(mopo_float value) {
       mopo_float square = value * value;
       return value / (1.0 + square / (3.0 + square / 5.0));
