@@ -25,8 +25,8 @@ class Shaders {
       kBackgroundImageFragment,
       kOscilloscopeVertex,
       kOscilloscopeFragment,
-      kOscilloscope,
-      kLfo,
+      kModulationVertex,
+      kModulationFragment,
       kNumShaders
     };
 

@@ -24,10 +24,11 @@
 #include "arp_section.h"
 #include "bpm_slider.h"
 #include "global_tool_tip.h"
-#include "modulation_manager.h"
+#include "open_gl_modulation_manager.h"
 #include "oscilloscope.h"
-#include "open_gl_oscilloscope.h"
 #include "open_gl_background.h"
+#include "open_gl_oscilloscope.h"
+#include "open_gl_modulation_meter.h"
 #include "overlay.h"
 #include "patch_browser.h"
 #include "patch_selector.h"
@@ -69,7 +70,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
-    ScopedPointer<ModulationManager> modulation_manager_;
+    ScopedPointer<OpenGLModulationManager> modulation_manager_;
     TooltipWindow tooltip_;
     ScopedPointer<SynthSlider> arp_tempo_;
 

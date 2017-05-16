@@ -19,8 +19,6 @@
 #include "common.h"
 #include "shaders.h"
 
-#define CHECK_GL_ERROR if (glGetError() != GL_NO_ERROR) MOPO_ASSERT(false);
-
 OpenGLBackground::OpenGLBackground() {
   new_background_ = false;
 }
@@ -91,40 +89,31 @@ void OpenGLBackground::bind(OpenGLContext& open_gl_context) {
 }
 
 void OpenGLBackground::enableAttributes(OpenGLContext& open_gl_context) {
-  CHECK_GL_ERROR
   if (position_ != nullptr) {
     open_gl_context.extensions.glVertexAttribPointer(position_->attributeID, 2, GL_FLOAT,
                                                      GL_FALSE, 4 * sizeof(float), 0);
     open_gl_context.extensions.glEnableVertexAttribArray(position_->attributeID);
   }
-  CHECK_GL_ERROR
   if (texture_coordinates_ != nullptr) {
     open_gl_context.extensions.glVertexAttribPointer(texture_coordinates_->attributeID, 2, GL_FLOAT,
                                                      GL_FALSE, 4 * sizeof(float),
                                                      (GLvoid*)(2 * sizeof(float)));
     open_gl_context.extensions.glEnableVertexAttribArray(texture_coordinates_->attributeID);
   }
-  CHECK_GL_ERROR
 }
 
 void OpenGLBackground::disableAttributes(OpenGLContext& open_gl_context) {
-  CHECK_GL_ERROR
   if (position_ != nullptr)
     open_gl_context.extensions.glDisableVertexAttribArray(position_->attributeID);
-  CHECK_GL_ERROR
+
   if (texture_coordinates_ != nullptr)
     open_gl_context.extensions.glDisableVertexAttribArray(texture_coordinates_->attributeID);
-  CHECK_GL_ERROR
 }
 
 void OpenGLBackground::render(OpenGLContext& open_gl_context) {
-  CHECK_GL_ERROR
-
   if (new_background_ && background_image_.getWidth() > 0) {
     new_background_ = false;
     background_.loadImage(background_image_);
-
-    CHECK_GL_ERROR
 
     float width_ratio = (1.0f * background_.getWidth()) / background_image_.getWidth();
     float height_ratio = (1.0f * background_.getHeight()) / background_image_.getHeight();
@@ -138,39 +127,25 @@ void OpenGLBackground::render(OpenGLContext& open_gl_context) {
     GLsizeiptr vert_size = static_cast<GLsizeiptr>(static_cast<size_t>(16 * sizeof(float)));
     open_gl_context.extensions.glBufferData(GL_ARRAY_BUFFER, vert_size,
                                             vertices_, GL_STATIC_DRAW);
-
-    CHECK_GL_ERROR
   }
-
-  CHECK_GL_ERROR
 
   glEnable(GL_TEXTURE_2D);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  CHECK_GL_ERROR
-
   image_shader_->use();
   bind(open_gl_context);
   open_gl_context.extensions.glActiveTexture(GL_TEXTURE0);
-  background_.bind();
-
-  CHECK_GL_ERROR
 
   if (texture_uniform_ != nullptr && background_.getWidth())
     texture_uniform_->set(0);
 
-  CHECK_GL_ERROR
   enableAttributes(open_gl_context);
-
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   disableAttributes(open_gl_context);
-
-  CHECK_GL_ERROR
-
   background_.unbind();
 
-  CHECK_GL_ERROR
+  glDisable(GL_TEXTURE_2D);
 
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

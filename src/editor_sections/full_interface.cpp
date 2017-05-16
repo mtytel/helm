@@ -194,12 +194,12 @@ void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
       modulatable_sliders[destination.first] = all_sliders[destination.first];
   }
 
-  modulation_manager_ = new ModulationManager(modulation_sources,
-                                              getAllModulationButtons(),
-                                              modulatable_sliders,
-                                              mono_modulations, poly_modulations);
+  modulation_manager_ = new OpenGLModulationManager(modulation_sources,
+                                                    getAllModulationButtons(),
+                                                    modulatable_sliders,
+                                                    mono_modulations, poly_modulations);
   modulation_manager_->setOpaque(false);
-  addAndMakeVisible(modulation_manager_);
+  addOpenGLComponent(modulation_manager_);
 }
 
 void FullInterface::setToolTipText(String parameter, String value) {

@@ -22,10 +22,10 @@ const char* Shaders::getShader(Shader shader) {
 }
 
 const char* Shaders::shaders_[] = {
-  "attribute vec4 position;\n"
-  "attribute vec2 tex_coord_in;\n"
+  "attribute " JUCE_MEDIUMP " vec4 position;\n"
+  "attribute " JUCE_MEDIUMP " vec2 tex_coord_in;\n"
   "\n"
-  "varying vec2 tex_coord_out;\n"
+  "varying " JUCE_MEDIUMP " vec2 tex_coord_out;\n"
   "\n"
   "void main()\n"
   "{\n"
@@ -42,7 +42,7 @@ const char* Shaders::shaders_[] = {
   "    gl_FragColor = texture2D(texture, tex_coord_out);\n"
   "}\n",
 
-  "attribute vec4 position;\n"
+  "attribute " JUCE_MEDIUMP " vec4 position;\n"
   "\n"
   "void main()\n"
   "{\n"
@@ -51,22 +51,36 @@ const char* Shaders::shaders_[] = {
   
   "void main()\n"
   "{\n"
-  "    " JUCE_LOWP " vec4 colour = vec4(0.04, 0.8, 1.0, 1.0);\n"
+  "    " JUCE_MEDIUMP " vec4 colour = vec4(0.04, 0.8, 1.0, 1.0);\n"
   "    gl_FragColor = colour;\n"
   "}\n",
 
+  "attribute " JUCE_MEDIUMP " vec4 position;\n"
+  "attribute " JUCE_MEDIUMP " vec2 coordinates;\n"
+  "attribute " JUCE_MEDIUMP " vec2 range;\n"
+  "\n"
+  "varying " JUCE_MEDIUMP " vec2 coordinates_out;\n"
+  "varying " JUCE_MEDIUMP " vec2 range_out;\n"
+  "\n"
   "void main()\n"
   "{\n"
-  "    " JUCE_MEDIUMP " vec4 colour1 = vec4 (1.0, 0.4, 0.6, 1.0);\n"
-  "    " JUCE_MEDIUMP " vec4 colour2 = vec4 (0.0, 0.8, 0.6, 1.0);\n"
-  "    " JUCE_MEDIUMP " float alpha = pixelPos.x / 1000.0;\n"
-  "    gl_FragColor = pixelAlpha * mix (colour1, colour2, alpha);\n"
+  "    coordinates_out = coordinates;\n"
+  "    range_out = range;\n"
+  "    gl_Position = position;\n"
   "}\n",
 
+  "varying " JUCE_MEDIUMP " vec2 coordinates_out;\n"
+  "varying " JUCE_MEDIUMP " vec2 range_out;\n"
+  "\n"
+  "uniform float radius;\n"
+  "\n"
   "void main()\n"
   "{\n"
-  "    " JUCE_MEDIUMP " vec4 colour1 = vec4 (1.0, 0.4, 0.6, 1.0);\n"
-  "    " JUCE_MEDIUMP " vec4 colour2 = vec4 (0.0, 0.8, 0.6, 1.0);\n"
-  "    " JUCE_MEDIUMP " float alpha = pixelPos.x / 1000.0;\n"
-  "    gl_FragColor = pixelAlpha * mix (colour1, colour2, alpha);\n"
-  "}\n"};
+  "    float dist = length(coordinates_out);\n"
+  "    float dist_amp = clamp(20.0 * (radius - dist), 0.0, 1.0);"
+  "    float rads = atan(coordinates_out.x, coordinates_out.y);\n"
+  "    float rads_amp_low = clamp(20.0 * (rads - range_out.x), 0.0, 1.0);"
+  "    float rads_amp_high = clamp(20.0 * (range_out.y - rads), 0.0, 1.0);"
+  "    gl_FragColor = vec4(0.2, 0.941, 0.45, dist_amp * rads_amp_low * rads_amp_high);\n"
+  "}\n"
+};

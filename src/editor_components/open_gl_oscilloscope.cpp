@@ -39,6 +39,8 @@ OpenGLOscilloscope::OpenGLOscilloscope() : output_memory_(nullptr) {
 }
 
 OpenGLOscilloscope::~OpenGLOscilloscope() {
+  delete[] line_data_;
+  delete[] line_indices_;
 }
 
 void OpenGLOscilloscope::paintBackground(Graphics& g) {

@@ -20,8 +20,6 @@
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
-#define ROTARY_ANGLE (0.8 * mopo::PI)
-
 namespace {
   enum MenuIds {
     kCancel = 0,
@@ -39,13 +37,15 @@ namespace {
   }
 } // namespace
 
+const float SynthSlider::rotary_angle = 0.8 * mopo::PI;
+
 SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_coloring_(false),
                                         active_(true), snap_to_zero_(false),
                                         string_lookup_(nullptr), parent_(nullptr) {
   if (!mopo::Parameters::isParameter(name.toStdString()))
     return;
 
-  setRotaryParameters(-ROTARY_ANGLE, ROTARY_ANGLE, true);
+  setRotaryParameters(2.0f * mopo::PI - rotary_angle, 2.0f * mopo::PI + rotary_angle, true);
   mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
   if (details.steps)
     setRange(details.min, details.max, (details.max - details.min) / (details.steps - 1));
@@ -210,12 +210,12 @@ void SynthSlider::drawRotaryShadow(Graphics &g) {
   float outer_radius = full_radius - stroke_width;
   shadow_path.addCentredArc(full_radius, full_radius,
                             0.89f * full_radius, 0.87f * full_radius,
-                            0, -ROTARY_ANGLE, ROTARY_ANGLE, true);
+                            0, -rotary_angle, rotary_angle, true);
   shadow.drawForPath(g, shadow_path);
 
   Path rail_outer;
   rail_outer.addCentredArc(full_radius, full_radius, outer_radius, outer_radius,
-                           0.0f, -ROTARY_ANGLE, ROTARY_ANGLE, true);
+                           0.0f, -rotary_angle, rotary_angle, true);
 
   g.setColour(Colour(0xff333333));
 

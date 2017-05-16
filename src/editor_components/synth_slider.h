@@ -75,6 +75,8 @@ class SynthSlider : public Slider {
     bool isFlippedColor() const { return flip_coloring_; }
     bool isActive() const { return active_; }
 
+    static const float rotary_angle;
+
   private:
     void notifyTooltip();
 
