@@ -46,8 +46,9 @@ class DefaultLookAndFeel : public juce::LookAndFeel_V3 {
                         bool isMouseOverButton, bool isButtonDown) override;
 
     void fillHorizontalRect(Graphics& g, float x1, float x2, float height);
-
     void fillVerticalRect(Graphics& g, float y1, float y2, float width);
+    void fillSplitHorizontalRect(Graphics& g, float x1, float x2, float height, Colour fill_color);
+    void fillSplitVerticalRect(Graphics& g, float y1, float y2, float width, Colour fill_color);
 
     static DefaultLookAndFeel* instance() {
       static DefaultLookAndFeel instance;

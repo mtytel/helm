@@ -46,7 +46,8 @@ VoiceSection::~VoiceSection() {
 }
 
 void VoiceSection::paintBackground(Graphics& g) {
-  SynthSection::paintContainer(g);
+  paintContainer(g);
+  paintKnobShadows(g);
 
   g.setColour(Colors::controlLabelText);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));

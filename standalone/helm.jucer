@@ -243,6 +243,10 @@
               file="../src/editor_components/open_gl_component.cpp"/>
         <FILE id="kmphrs" name="open_gl_component.h" compile="0" resource="0"
               file="../src/editor_components/open_gl_component.h"/>
+        <FILE id="xbZlO4" name="open_gl_modulation_meter.cpp" compile="1" resource="0"
+              file="../src/editor_components/open_gl_modulation_meter.cpp"/>
+        <FILE id="kJrcA5" name="open_gl_modulation_meter.h" compile="0" resource="0"
+              file="../src/editor_components/open_gl_modulation_meter.h"/>
         <FILE id="O6OLUt" name="open_gl_oscilloscope.cpp" compile="1" resource="0"
               file="../src/editor_components/open_gl_oscilloscope.cpp"/>
         <FILE id="s1PLNx" name="open_gl_oscilloscope.h" compile="0" resource="0"
@@ -331,6 +335,10 @@
         <FILE id="L31Qlt" name="noise_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/noise_section.cpp"/>
         <FILE id="sUTz4c" name="noise_section.h" compile="0" resource="0" file="../src/editor_sections/noise_section.h"/>
+        <FILE id="FMNlh9" name="open_gl_modulation_manager.cpp" compile="1"
+              resource="0" file="../src/editor_sections/open_gl_modulation_manager.cpp"/>
+        <FILE id="icoFfb" name="open_gl_modulation_manager.h" compile="0" resource="0"
+              file="../src/editor_sections/open_gl_modulation_manager.h"/>
         <FILE id="dUS4i9" name="oscillator_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/oscillator_section.cpp"/>
         <FILE id="DtjxUU" name="oscillator_section.h" compile="0" resource="0"

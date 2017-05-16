@@ -250,6 +250,10 @@
               file="src/editor_components/open_gl_component.cpp"/>
         <FILE id="souzQ5" name="open_gl_component.h" compile="0" resource="0"
               file="src/editor_components/open_gl_component.h"/>
+        <FILE id="AUjyTV" name="open_gl_modulation_meter.cpp" compile="1" resource="0"
+              file="src/editor_components/open_gl_modulation_meter.cpp"/>
+        <FILE id="IZx5qo" name="open_gl_modulation_meter.h" compile="0" resource="0"
+              file="src/editor_components/open_gl_modulation_meter.h"/>
         <FILE id="RM2Qom" name="open_gl_oscilloscope.cpp" compile="1" resource="0"
               file="src/editor_components/open_gl_oscilloscope.cpp"/>
         <FILE id="Lnnyka" name="open_gl_oscilloscope.h" compile="0" resource="0"
@@ -338,6 +342,10 @@
         <FILE id="SI00KL" name="noise_section.cpp" compile="1" resource="0"
               file="src/editor_sections/noise_section.cpp"/>
         <FILE id="kno5Wl" name="noise_section.h" compile="0" resource="0" file="src/editor_sections/noise_section.h"/>
+        <FILE id="da9QAh" name="open_gl_modulation_manager.cpp" compile="1"
+              resource="0" file="src/editor_sections/open_gl_modulation_manager.cpp"/>
+        <FILE id="gg2iyC" name="open_gl_modulation_manager.h" compile="0" resource="0"
+              file="src/editor_sections/open_gl_modulation_manager.h"/>
         <FILE id="miINFU" name="oscillator_section.cpp" compile="1" resource="0"
               file="src/editor_sections/oscillator_section.cpp"/>
         <FILE id="zVswj0" name="oscillator_section.h" compile="0" resource="0"

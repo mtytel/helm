@@ -34,7 +34,6 @@ class OpenGLModulationMeter : public Component {
     void resized() override;
     void setVisible(bool should_be_visible) override;
 
-    void updateValue();
     void updateDrawing();
 
     bool isModulated() { return modulated_; }
@@ -56,6 +55,8 @@ class OpenGLModulationMeter : public Component {
     float full_radius_;
     float outer_radius_;
     bool modulated_;
+
+    float left_, right_, top_, bottom_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGLModulationMeter)
 };

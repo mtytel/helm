@@ -120,6 +120,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o \
   $(JUCE_OBJDIR)/open_gl_background_fe08efa9.o \
   $(JUCE_OBJDIR)/open_gl_component_d67359ac.o \
+  $(JUCE_OBJDIR)/open_gl_modulation_meter_7446c901.o \
   $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o \
   $(JUCE_OBJDIR)/open_gl_wave_viewer_bb6a02c7.o \
   $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
@@ -145,6 +146,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/mixer_section_9e4a737b.o \
   $(JUCE_OBJDIR)/modulation_manager_a5602c68.o \
   $(JUCE_OBJDIR)/noise_section_31fdfd0c.o \
+  $(JUCE_OBJDIR)/open_gl_modulation_manager_939ca4d.o \
   $(JUCE_OBJDIR)/oscillator_section_c90fdcc4.o \
   $(JUCE_OBJDIR)/patch_browser_b6fb73fd.o \
   $(JUCE_OBJDIR)/reverb_section_a0ad9f76.o \
@@ -496,6 +498,11 @@ $(JUCE_OBJDIR)/open_gl_component_d67359ac.o: ../../../src/editor_components/open
 	@echo "Compiling open_gl_component.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/open_gl_modulation_meter_7446c901.o: ../../../src/editor_components/open_gl_modulation_meter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_modulation_meter.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o: ../../../src/editor_components/open_gl_oscilloscope.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling open_gl_oscilloscope.cpp"
@@ -619,6 +626,11 @@ $(JUCE_OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modul
 $(JUCE_OBJDIR)/noise_section_31fdfd0c.o: ../../../src/editor_sections/noise_section.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling noise_section.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/open_gl_modulation_manager_939ca4d.o: ../../../src/editor_sections/open_gl_modulation_manager.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_modulation_manager.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/oscillator_section_c90fdcc4.o: ../../../src/editor_sections/oscillator_section.cpp

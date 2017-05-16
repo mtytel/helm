@@ -37,26 +37,32 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
   }
 
   Colour slider_color(0xff888888);
+  Colour lighten_color(0x55ffffff);
   Colour thumb_color(0xffffffff);
 
   if (!active) {
     slider_color = Colour(0xff424242);
     thumb_color = Colour(0xff888888);
+    lighten_color = Colour(0x22ffffff);
   }
 
   float pos = slider_pos - 1.0f;
   if (style == Slider::SliderStyle::LinearBar) {
     g.setColour(Colour(0x22000000));
-    g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
+    float w = slider.getWidth();
     float h = slider.getHeight();
+    g.fillRect(0.0f, 0.0f, w, h);
+
+    g.setColour(Colour(0xff2a2a2a));
+    fillSplitHorizontalRect(g, 0.0f, w, h, Colours::transparentBlack);
 
     g.setColour(slider_color);
     if (bipolar)
-      fillHorizontalRect(g, width / 2.0f, pos, h);
+      fillSplitHorizontalRect(g, w / 2.0f, pos, h, lighten_color);
     else if (flip_coloring)
-      fillHorizontalRect(g, pos, width - pos, h);
+      fillSplitHorizontalRect(g, pos, w - pos, h, lighten_color);
     else
-      fillHorizontalRect(g, 0.0f, pos, h);
+      fillSplitHorizontalRect(g, 0.0f, pos, h, lighten_color);
 
     thumb_shadow.drawForRectangle(g, Rectangle<int>(pos + 0.5f, 0, 2, h));
     g.setColour(thumb_color);
@@ -64,17 +70,20 @@ void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, 
   }
   else if (style == Slider::SliderStyle::LinearBarVertical) {
     g.setColour(Colour(0x22000000));
-    g.fillRect(0, 0, slider.getWidth(), slider.getHeight());
     float w = slider.getWidth();
+    float h = slider.getHeight();
+    g.fillRect(0.0f, 0.0f, w, h);
+
+    g.setColour(Colour(0xff2a2a2a));
+    fillSplitVerticalRect(g, 0.0f, h, w, Colours::transparentBlack);
 
     g.setColour(slider_color);
-
     if (bipolar)
-      fillVerticalRect(g, height / 2.0f, pos, w);
+      fillSplitVerticalRect(g, h / 2.0f, pos, w, lighten_color);
     else if (flip_coloring)
-      fillVerticalRect(g, height + 1, pos, w);
+      fillSplitVerticalRect(g, h + 1, pos, w, lighten_color);
     else
-      fillVerticalRect(g, 0, pos, w);
+      fillSplitVerticalRect(g, 0, pos, w, lighten_color);
 
     thumb_shadow.drawForRectangle(g, Rectangle<int>(0, pos + 0.5f, w, 2));
     g.setColour(thumb_color);
@@ -97,7 +106,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   float full_radius = std::min(width / 2.0f, height / 2.0f);
   float stroke_width = 2.0f * full_radius * stroke_percent;
   float knob_radius = 0.63f * full_radius;
-  float small_outer_radius = knob_radius + stroke_width / 4.0f;
+  float small_outer_radius = knob_radius + stroke_width / 6.0f;
   PathStrokeType outer_stroke =
       PathStrokeType(stroke_width, PathStrokeType::beveled, PathStrokeType::butt);
 
@@ -258,4 +267,35 @@ void DefaultLookAndFeel::fillVerticalRect(Graphics& g, float y1, float y2, float
   float y = std::min(y1, y2);
   float height = fabsf(y1 - y2);
   g.fillRect(0.0f, y, width, height);
+}
+
+void DefaultLookAndFeel::fillSplitHorizontalRect(Graphics& g, float x1, float x2, float height,
+                                                 Colour fill_color) {
+  float h = (height - SynthSlider::linear_rail_width) / 2.0f;
+  float x = std::min(x1, x2);
+  float width = fabsf(x1 - x2);
+
+  g.saveState();
+  g.setColour(fill_color);
+  g.fillRect(x, 0.0f, width, height);
+  g.restoreState();
+
+  g.fillRect(x, 0.0f, width, h);
+  g.fillRect(x, h + SynthSlider::linear_rail_width, width, h);
+}
+
+void DefaultLookAndFeel::fillSplitVerticalRect(Graphics& g, float y1, float y2, float width,
+                                               Colour fill_color) {
+  float w = (width - SynthSlider::linear_rail_width) / 2.0f;
+  float y = std::min(y1, y2);
+  float height = fabsf(y1 - y2);
+
+  g.saveState();
+  g.setColour(fill_color);
+  g.fillRect(0.0f, y, width, height);
+  g.restoreState();
+
+  g.fillRect(0.0f, y, w, height);
+  float x2 = w + SynthSlider::linear_rail_width;
+  g.fillRect(x2, y, width - x2, height);
 }

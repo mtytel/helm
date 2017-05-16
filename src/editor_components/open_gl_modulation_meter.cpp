@@ -26,18 +26,37 @@ OpenGLModulationMeter::OpenGLModulationMeter(const mopo::Output* mono_total,
                                              float* vertices) :
         mono_total_(mono_total), poly_total_(poly_total), destination_(slider), vertices_(vertices),
         current_value_(0.0), knob_percent_(0.0), mod_percent_(0.0),
-        full_radius_(0.0), outer_radius_(0.0) {
-  static const float initial_vertices[24] {
-    -1.0f, 1.0f, -1.0f, 1.0f, -2.0f, 1.0f,
-    -1.0f, -1.0f, -1.0f, -1.0f, -2.0f, 1.0f,
-    1.0f, -1.0f, 1.0f, -1.0f, -2.0f, 1.0f,
-    1.0f, 1.0f, 1.0f, 1.0f, -2.0f, 1.0f
+        full_radius_(0.0), outer_radius_(0.0),
+        left_(0.0f), right_(0.0), top_(0.0), bottom_(0.0) {
+  static const float initial_rotary_vertices[24] {
+    0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, -1.0f, -1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f
   };
 
-  memcpy(vertices_, initial_vertices, 24 * sizeof(float));
+  static const float initial_horizontal_vertices[24] {
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f
+  };
+
+  static const float initial_vertical_vertices[24] {
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f,
+    0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f
+  };
+
+  if (destination_->isRotary())
+    memcpy(vertices_, initial_rotary_vertices, sizeof(initial_rotary_vertices));
+  else if (destination_->isHorizontal())
+    memcpy(vertices_, initial_horizontal_vertices, sizeof(initial_horizontal_vertices));
+  else
+    memcpy(vertices_, initial_vertical_vertices, sizeof(initial_vertical_vertices));
 
   setInterceptsMouseClicks(false, false);
-  updateValue();
   updateDrawing();
 }
 
@@ -73,28 +92,39 @@ void OpenGLModulationMeter::setVertices() {
   float right = local.getRight() - top_level.getX();
   float top = top_level.getHeight() - (local.getY() - top_level.getY());
   float bottom = top_level.getHeight() - (local.getBottom() - top_level.getY());
-  vertices_[0] = vertices_[6] = 2.0f * left / top_level.getWidth() - 1.0f;
-  vertices_[12] = vertices_[18] = 2.0f * right / top_level.getWidth() - 1.0f;
-  vertices_[1] = vertices_[19] = 2.0f * top / top_level.getHeight() - 1.0f;
-  vertices_[7] = vertices_[13] = 2.0f * bottom / top_level.getHeight() - 1.0f;
+
+  if (!destination_->isRotary()) {
+    if (destination_->isHorizontal()) {
+      bottom += local.getHeight() / 2.0f - SynthSlider::linear_rail_width;
+      top -= local.getHeight() / 2.0f - SynthSlider::linear_rail_width;
+    }
+    else {
+      left += local.getWidth() / 2.0f - SynthSlider::linear_rail_width;
+      right -= local.getWidth() / 2.0f - SynthSlider::linear_rail_width;
+    }
+  }
+
+  left_ = 2.0f * left / top_level.getWidth() - 1.0f;
+  right_ = 2.0f * right / top_level.getWidth() - 1.0f;
+  top_ = 2.0f * top / top_level.getHeight() - 1.0f;
+  bottom_ = 2.0f * bottom / top_level.getHeight() - 1.0f;
 }
 
 void OpenGLModulationMeter::collapseVertices() {
+  left_ = right_ = top_ = bottom_= 0.0f;
   vertices_[0] = vertices_[6] = 0.0f;
   vertices_[12] = vertices_[18] = 0.0f;
   vertices_[1] = vertices_[19] = 0.0f;
   vertices_[7] = vertices_[13] = 0.0f;
 }
 
-void OpenGLModulationMeter::updateValue() {
+void OpenGLModulationMeter::updateDrawing() {
   if (mono_total_) {
     current_value_ = mono_total_->buffer[0];
     if (poly_total_)
       current_value_ += poly_total_->buffer[0];
   }
-}
 
-void OpenGLModulationMeter::updateDrawing() {
   double range = destination_->getMaximum() - destination_->getMinimum();
   double value = (current_value_ - destination_->getMinimum()) / range;
   double new_mod_percent = mopo::utils::clamp(value , 0.0, 1.0);
@@ -106,14 +136,42 @@ void OpenGLModulationMeter::updateDrawing() {
 
     float min_percent = std::min(mod_percent_, knob_percent_);
     float max_percent = std::max(mod_percent_, knob_percent_);
-    float angle = SynthSlider::rotary_angle;
 
-    float min_radians = INTERPOLATE(-angle, angle, min_percent);
-    float max_radians = INTERPOLATE(-angle, angle, max_percent);
+    if (destination_->isRotary()) {
+      float angle = SynthSlider::rotary_angle;
 
-    for (int i = 0; i < 4; ++i) {
-      vertices_[4 + 6 * i] = min_radians;
-      vertices_[5 + 6 * i] = max_radians;
+      float min_radians = INTERPOLATE(-angle, angle, min_percent);
+      float max_radians = INTERPOLATE(-angle, angle, max_percent);
+
+      vertices_[0] = vertices_[6] = left_;
+      vertices_[12] = vertices_[18] = right_;
+      vertices_[1] = vertices_[19] = top_;
+      vertices_[7] = vertices_[13] = bottom_;
+
+      for (int i = 0; i < 4; ++i) {
+        vertices_[4 + 6 * i] = min_radians;
+        vertices_[5 + 6 * i] = max_radians;
+      }
+    }
+    else if (destination_->isHorizontal()) {
+      float start = INTERPOLATE(left_, right_, min_percent);
+      vertices_[0] = vertices_[6] = start;
+
+      float end = INTERPOLATE(left_, right_, max_percent);
+      vertices_[12] = vertices_[18] = end;
+
+      vertices_[1] = vertices_[19] = top_;
+      vertices_[7] = vertices_[13] = bottom_;
+    }
+    else {
+      float start = INTERPOLATE(bottom_, top_, min_percent);
+      vertices_[7] = vertices_[13] = start;
+
+      float end = INTERPOLATE(bottom_, top_, max_percent);
+      vertices_[1] = vertices_[19] = end;
+
+      vertices_[0] = vertices_[6] = left_;
+      vertices_[12] = vertices_[18] = right_;
     }
   }
 }

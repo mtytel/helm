@@ -238,8 +238,6 @@ void OpenGLModulationManager::render(OpenGLContext& open_gl_context, bool animat
     slider.second->setVisible(model->isVisible());
   }
 
-  updateModulationValues();
-
   for (auto meter : meter_lookup_) {
     bool show = meter.second->isModulated() && slider_model_lookup_[meter.first]->isVisible();
     meter.second->setVisible(show);
@@ -325,17 +323,8 @@ void OpenGLModulationManager::modulationsChanged(const std::string& destination)
   meter_lookup_[destination]->setModulated(num_modulations);
 }
 
-void OpenGLModulationManager::updateModulationValues() {
-  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  if (parent == nullptr)
-    return;
-
-  for (auto meter : meter_lookup_)
-    meter.second->updateValue();
-}
-
 void OpenGLModulationManager::setModulationAmount(std::string source, std::string destination,
-                                            mopo::mopo_float amount) {
+                                                  mopo::mopo_float amount) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent == nullptr)
     return;

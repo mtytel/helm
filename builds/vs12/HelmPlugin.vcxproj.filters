@@ -580,6 +580,9 @@
     <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_components\open_gl_modulation_meter.cpp">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_oscilloscope.cpp">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClCompile>
@@ -653,6 +656,9 @@
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\noise_section.cpp">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\editor_sections\open_gl_modulation_manager.cpp">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\oscillator_section.cpp">
@@ -2796,6 +2802,9 @@
     <ClInclude Include="..\..\src\editor_components\open_gl_component.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\editor_components\open_gl_modulation_meter.h">
+      <Filter>HelmPlugin\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h">
       <Filter>HelmPlugin\src\editor_components</Filter>
     </ClInclude>
@@ -2872,6 +2881,9 @@
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\noise_section.h">
+      <Filter>HelmPlugin\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_sections\open_gl_modulation_manager.h">
       <Filter>HelmPlugin\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\oscillator_section.h">

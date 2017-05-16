@@ -24,6 +24,9 @@ class FullInterface;
 
 class SynthSlider : public Slider {
   public:
+    static const float rotary_angle;
+    static const float linear_rail_width;
+
     class SliderListener {
       public:
         virtual ~SliderListener() { }
@@ -74,8 +77,6 @@ class SynthSlider : public Slider {
     bool isBipolar() const { return bipolar_; }
     bool isFlippedColor() const { return flip_coloring_; }
     bool isActive() const { return active_; }
-
-    static const float rotary_angle;
 
   private:
     void notifyTooltip();

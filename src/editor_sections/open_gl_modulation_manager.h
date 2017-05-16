@@ -47,7 +47,6 @@ class OpenGLModulationManager : public OpenGLComponent,
     std::string getCurrentModulator() { return current_modulator_; }
     void reset();
 
-    void updateModulationValues();
     void paint(Graphics& g) override;
     void resized() override;
     void buttonClicked(Button* clicked_button) override;

@@ -19,7 +19,7 @@
 #include "colors.h"
 #include "synth_gui_interface.h"
 
-#define FRAMES_PER_SECOND 60
+#define FRAMES_PER_SECOND 24
 
 GraphicalStepSequencer::GraphicalStepSequencer() {
   num_steps_slider_ = nullptr;
