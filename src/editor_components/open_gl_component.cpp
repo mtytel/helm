@@ -18,10 +18,10 @@
 
 void OpenGLComponent::setViewPort(OpenGLContext& open_gl_context) {
   float scale = open_gl_context.getRenderingScale();
-  Rectangle<int> top_level = getTopLevelComponent()->getScreenBounds();
-  Rectangle<int> local = getScreenBounds();
+  Rectangle<int> top_level_bounds = getTopLevelComponent()->getBounds();
+  Rectangle<int> global_bounds = getTopLevelComponent()->getLocalArea(this, getLocalBounds());
 
-  glViewport(scale * (local.getX() - top_level.getX()),
-             scale * (top_level.getBottom() - local.getBottom()),
-             scale * local.getWidth(), scale * local.getHeight());
+  glViewport(scale * global_bounds.getX(),
+             scale * (top_level_bounds.getHeight() - global_bounds.getBottom()),
+             scale * global_bounds.getWidth(), scale * global_bounds.getHeight());
 }

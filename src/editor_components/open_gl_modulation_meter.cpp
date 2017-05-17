@@ -86,28 +86,28 @@ void OpenGLModulationMeter::setVisible(bool should_be_visible) {
 }
 
 void OpenGLModulationMeter::setVertices() {
-  Rectangle<int> top_level = getTopLevelComponent()->getScreenBounds();
-  Rectangle<int> local = getScreenBounds();
-  float left = local.getX() - top_level.getX();
-  float right = local.getRight() - top_level.getX();
-  float top = top_level.getHeight() - (local.getY() - top_level.getY());
-  float bottom = top_level.getHeight() - (local.getBottom() - top_level.getY());
+  Rectangle<int> top_level_bounds = getTopLevelComponent()->getBounds();
+  Rectangle<int> global_bounds = getTopLevelComponent()->getLocalArea(this, getLocalBounds());
+  float left = global_bounds.getX();
+  float right = global_bounds.getRight();
+  float top = top_level_bounds.getHeight() - global_bounds.getY();
+  float bottom = top_level_bounds.getHeight() - global_bounds.getBottom();
 
   if (!destination_->isRotary()) {
     if (destination_->isHorizontal()) {
-      bottom += local.getHeight() / 2.0f - SynthSlider::linear_rail_width;
-      top -= local.getHeight() / 2.0f - SynthSlider::linear_rail_width;
+      bottom += getHeight() / 2.0f - SynthSlider::linear_rail_width;
+      top -= getHeight() / 2.0f - SynthSlider::linear_rail_width;
     }
     else {
-      left += local.getWidth() / 2.0f - SynthSlider::linear_rail_width;
-      right -= local.getWidth() / 2.0f - SynthSlider::linear_rail_width;
+      left += getWidth() / 2.0f - SynthSlider::linear_rail_width;
+      right -= getWidth() / 2.0f - SynthSlider::linear_rail_width;
     }
   }
 
-  left_ = 2.0f * left / top_level.getWidth() - 1.0f;
-  right_ = 2.0f * right / top_level.getWidth() - 1.0f;
-  top_ = 2.0f * top / top_level.getHeight() - 1.0f;
-  bottom_ = 2.0f * bottom / top_level.getHeight() - 1.0f;
+  left_ = 2.0f * left / top_level_bounds.getWidth() - 1.0f;
+  right_ = 2.0f * right / top_level_bounds.getWidth() - 1.0f;
+  top_ = 2.0f * top / top_level_bounds.getHeight() - 1.0f;
+  bottom_ = 2.0f * bottom / top_level_bounds.getHeight() - 1.0f;
 }
 
 void OpenGLModulationMeter::collapseVertices() {
