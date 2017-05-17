@@ -35,6 +35,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   open_gl_context.attachTo(*this);
 
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
+  synthesis_interface_->setAlwaysOnTop(true);
   addSubSection(arp_section_ = new ArpSection("ARP"));
 
   addSlider(beats_per_minute_ = new BpmSlider("beats_per_minute"));

@@ -66,6 +66,7 @@ SynthesisInterface::SynthesisInterface(
   keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colors::audio);
   keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x4403a9f4));
   keyboard_->setLowestVisibleKey(36);
+  keyboard_->setAlwaysOnTop(true);
 
   setAllValues(controls);
   setOpaque(true);
