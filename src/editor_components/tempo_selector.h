@@ -29,8 +29,8 @@ class TempoSelector : public SynthSlider {
     void valueChanged() override;
     void resized() override;
 
-    void setFreeSlider(Slider* slider) { free_slider_ = slider; }
-    void setTempoSlider(Slider* slider) { tempo_slider_ = slider; }
+    void setFreeSlider(Slider* slider);
+    void setTempoSlider(Slider* slider);
 
   private:
     Slider* free_slider_;

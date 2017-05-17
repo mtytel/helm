@@ -54,10 +54,8 @@ void TempoSelector::mouseDown(const MouseEvent& e) {
 void TempoSelector::valueChanged() {
   bool free_slider = getValue() == (kHertz - 1);
 
-  if (free_slider_)
-    free_slider_->setVisible(free_slider);
-  if (tempo_slider_)
-    tempo_slider_->setVisible(!free_slider);
+  free_slider_->setVisible(free_slider);
+  tempo_slider_->setVisible(!free_slider);
 }
 
 void TempoSelector::paint(Graphics& g) {
@@ -116,4 +114,18 @@ void TempoSelector::resized() {
   clock_.addPieSegment(7.0f * getWidth() / 24.0f, getHeight() / 4.0f,
                        getWidth() / 2.0f, getHeight() / 2.0f,
                        0.0f, clock_angle - 2.0f * mopo::PI, 0.0f);
+}
+
+void TempoSelector::setFreeSlider(Slider* slider) {
+  bool free_slider = getValue() == (kHertz - 1);
+
+  free_slider_ = slider;
+  free_slider_->setVisible(free_slider);
+}
+
+void TempoSelector::setTempoSlider(Slider* slider) {
+  bool free_slider = getValue() == (kHertz - 1);
+
+  tempo_slider_ = slider;
+  tempo_slider_->setVisible(!free_slider);
 }
