@@ -15,6 +15,8 @@
  */
 
 #include "modulation_button.h"
+
+#include "default_look_and_feel.h"
 #include "synth_gui_interface.h"
 
 namespace {
@@ -40,6 +42,8 @@ void ModulationButton::mouseDown(const MouseEvent& e) {
       return;
 
     PopupMenu m;
+    m.setLookAndFeel(DefaultLookAndFeel::instance());
+
     String disconnect("Disconnect from ");
     for (int i = 0; i < connections.size(); ++i)
       m.addItem(kModulationList + i, disconnect + connections[i]->destination);

@@ -16,6 +16,7 @@
 
 #include "tempo_selector.h"
 
+#include "default_look_and_feel.h"
 #include "synth_gui_interface.h"
 
 namespace {
@@ -38,6 +39,8 @@ void TempoSelector::mouseDown(const MouseEvent& e) {
     return;
   }
   PopupMenu m;
+  m.setLookAndFeel(DefaultLookAndFeel::instance());
+
   m.addItem(kHertz, "Hertz");
   m.addItem(kTempo, "Tempo");
   m.addItem(kTempoDotted, "Tempo Dotted");

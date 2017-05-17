@@ -21,6 +21,14 @@
 
 #define POWER_ARC_ANGLE 2.5
 
+DefaultLookAndFeel::DefaultLookAndFeel() {
+  setColour(PopupMenu::backgroundColourId, Colour(0xff333333));
+  setColour(PopupMenu::textColourId, Colour(0xffcccccc));
+  setColour(PopupMenu::headerTextColourId, Colour(0xff333333));
+  setColour(PopupMenu::highlightedBackgroundColourId, Colour(0xff111111));
+  setColour(PopupMenu::highlightedTextColourId, Colour(0xffcccccc));
+}
+                                                
 void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                           float slider_pos, float min, float max,
                                           const Slider::SliderStyle style, Slider& slider) {

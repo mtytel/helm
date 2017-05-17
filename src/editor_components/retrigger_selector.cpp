@@ -16,6 +16,7 @@
 
 #include "retrigger_selector.h"
 
+#include "default_look_and_feel.h"
 #include "fonts.h"
 #include "synth_gui_interface.h"
 
@@ -37,6 +38,8 @@ void RetriggerSelector::mouseDown(const MouseEvent& e) {
     return;
   }
   PopupMenu m;
+  m.setLookAndFeel(DefaultLookAndFeel::instance());
+
   m.addItem(kFree, TRANS("Free"));
   m.addItem(kRetrigger, TRANS("Retrigger"));
   m.addItem(kSyncToPlayhead, TRANS("Sync to Playhead"));

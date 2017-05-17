@@ -18,6 +18,7 @@
 
 #include "browser_look_and_feel.h"
 #include "colors.h"
+#include "default_look_and_feel.h"
 #include "fonts.h"
 #include "load_save.h"
 #include "synth_gui_interface.h"
@@ -123,6 +124,8 @@ void PatchSelector::resized() {
 void PatchSelector::mouseUp(const MouseEvent& event) {
   if (event.mods.isPopupMenu()) {
     PopupMenu m;
+    m.setLookAndFeel(DefaultLookAndFeel::instance());
+
     m.addItem(1, "Load Init Patch");
     if (m.show()) {
       SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();

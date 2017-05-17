@@ -15,6 +15,8 @@
  */
 
 #include "synth_slider.h"
+
+#include "default_look_and_feel.h"
 #include "full_interface.h"
 #include "helm_common.h"
 #include "synth_gui_interface.h"
@@ -72,6 +74,7 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
 
   if (e.mods.isPopupMenu()) {
     PopupMenu m;
+    m.setLookAndFeel(DefaultLookAndFeel::instance());
 
     if (isDoubleClickReturnEnabled())
       m.addItem(kDefaultValue, "Set to Default Value");
