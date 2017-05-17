@@ -35,7 +35,6 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   open_gl_context.attachTo(*this);
 
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
-  synthesis_interface_->setAlwaysOnTop(true);
   addSubSection(arp_section_ = new ArpSection("ARP"));
 
   addSlider(beats_per_minute_ = new BpmSlider("beats_per_minute"));
@@ -87,6 +86,9 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   update_check_section_ = new UpdateCheckSection("update_check");
   addChildComponent(update_check_section_);
+
+  synthesis_interface_->toFront(true);
+  modulation_manager_->toFront(false);
 
   setOpaque(true);
 }
