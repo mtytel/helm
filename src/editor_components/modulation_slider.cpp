@@ -31,6 +31,8 @@ ModulationSlider::ModulationSlider(SynthSlider* destination) : SynthSlider(desti
   setUnits(destination->getUnits());
   setScalingType(destination->getScalingType());
 
+  destination->addListener(this);
+
   if (destination->isRotary())
     setMouseDragSensitivity(2.0f * getMouseDragSensitivity());
   else
@@ -39,6 +41,11 @@ ModulationSlider::ModulationSlider(SynthSlider* destination) : SynthSlider(desti
 }
 
 ModulationSlider::~ModulationSlider() {
+}
+
+void ModulationSlider::sliderValueChanged(Slider* moved_slider) {
+  if (isVisible())
+    repaint();
 }
 
 void ModulationSlider::mouseDown(const juce::MouseEvent &e) {
