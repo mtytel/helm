@@ -348,6 +348,8 @@ void OpenGLModulationManager::reset() {
     int num_modulations = parent->getSynth()->getNumModulations(meter.first);
     meter.second->setModulated(num_modulations);
   }
+
+  setSliderValues();
 }
 
 void OpenGLModulationManager::makeModulationsVisible(std::string destination, bool visible) {

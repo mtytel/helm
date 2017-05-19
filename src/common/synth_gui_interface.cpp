@@ -30,8 +30,8 @@ SynthGuiInterface::SynthGuiInterface(SynthBase* synth) : synth_(synth) {
 
 void SynthGuiInterface::updateFullGui() {
   gui_->setAllValues(synth_->getControls());
-  gui_->resetModulations();
   gui_->reset();
+  gui_->resetModulations();
 }
 
 void SynthGuiInterface::updateGuiControl(const std::string& name, mopo::mopo_float value) {
