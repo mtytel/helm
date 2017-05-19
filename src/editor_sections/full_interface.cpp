@@ -89,6 +89,9 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   synthesis_interface_->toFront(true);
   modulation_manager_->toFront(false);
+  patch_browser_->toFront(false);
+  about_section_->toFront(false);
+  delete_section_->toFront(false);
 
   setOpaque(true);
 }
