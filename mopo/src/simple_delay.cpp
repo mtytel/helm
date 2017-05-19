@@ -16,6 +16,8 @@
 
 #include "simple_delay.h"
 
+#define MAX_CLEAR_SAMPLES 5000
+
 namespace mopo {
 
   SimpleDelay::SimpleDelay(int size) : Processor(SimpleDelay::kNumInputs, 1) {
@@ -41,6 +43,17 @@ namespace mopo {
     }
 
     const mopo_float* period = input(kSampleDelay)->source->buffer;
+
+    int i = 0;
+    if (input(kReset)->source->triggered) {
+      int trigger_offset = input(kReset)->source->trigger_offset;
+
+      for (; i < trigger_offset; ++i)
+        tick(i, dest, audio, period, feedback);
+
+      int clear_samples = std::min(MAX_CLEAR_SAMPLES, ((int)period[i]) + 1);
+      memory_->pushZero(clear_samples);
+    }
 
     for (int i = 0; i < buffer_size_; ++i)
       tick(i, dest, audio, period, feedback);

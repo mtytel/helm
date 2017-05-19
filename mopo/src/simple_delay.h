@@ -31,6 +31,7 @@ namespace mopo {
         kAudio,
         kSampleDelay,
         kFeedback,
+        kReset,
         kNumInputs
       };
 
