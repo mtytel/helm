@@ -80,26 +80,26 @@ namespace mopo {
                                  mopo_float g, mopo_float resonance, mopo_float two_sr) {
     mopo_float audio = audio_buffer[i];
 
-    mopo_float new_tan = utils::quicktanh((audio + resonance * v_[3]) / TWO_THERMAL_VOLTAGE);
+    mopo_float new_tan = utils::quickTanh((audio + resonance * v_[3]) / TWO_THERMAL_VOLTAGE);
     mopo_float delta_v0 = -g * (new_tan + tanh_v_[0]);
     v_[0] += (delta_v0 + delta_v_[0]) / two_sr;
     delta_v_[0] = delta_v0;
-    tanh_v_[0] = utils::quicktanh(v_[0] / TWO_THERMAL_VOLTAGE);
+    tanh_v_[0] = utils::quickTanh(v_[0] / TWO_THERMAL_VOLTAGE);
 
     mopo_float delta_v1 = g * (tanh_v_[0] - tanh_v_[1]);
     v_[1] += (delta_v1 + delta_v_[1]) / two_sr;
     delta_v_[1] = delta_v1;
-    tanh_v_[1] = utils::quicktanh(v_[1] / TWO_THERMAL_VOLTAGE);
+    tanh_v_[1] = utils::quickTanh(v_[1] / TWO_THERMAL_VOLTAGE);
 
     mopo_float delta_v2 = g * (tanh_v_[1] - tanh_v_[2]);
     v_[2] += (delta_v2 + delta_v_[2]) / two_sr;
     delta_v_[2] = delta_v2;
-    tanh_v_[2] = utils::quicktanh(v_[2] / TWO_THERMAL_VOLTAGE);
+    tanh_v_[2] = utils::quickTanh(v_[2] / TWO_THERMAL_VOLTAGE);
 
     mopo_float delta_v3 = g * (tanh_v_[2] - tanh_v_[3]);
     v_[3] += (delta_v3 + delta_v_[3]) / two_sr;
     delta_v_[3] = delta_v3;
-    tanh_v_[3] = utils::quicktanh(v_[3] / TWO_THERMAL_VOLTAGE);
+    tanh_v_[3] = utils::quickTanh(v_[3] / TWO_THERMAL_VOLTAGE);
 
     dest[i] = v_[3];
   }

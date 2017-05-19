@@ -40,7 +40,7 @@ namespace mopo {
     #pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < samples; ++i) {
       mopo_float val = audio[i];
-      mopo_float compressed = utils::quicktanh(val);
+      mopo_float compressed = utils::quickTanh(val);
 
       dest[i] = INTERPOLATE(val, compressed, tmp_buffer_[i]);
     }
