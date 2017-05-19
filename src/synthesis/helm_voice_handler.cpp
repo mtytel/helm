@@ -345,6 +345,8 @@ namespace mopo {
     osc_feedback_->plug(oscillator_noise_sum, SimpleDelay::kAudio);
     osc_feedback_->plug(osc_feedback_samples_audio, SimpleDelay::kSampleDelay);
     osc_feedback_->plug(osc_feedback_amount_audio, SimpleDelay::kFeedback);
+    osc_feedback_->plug(reset, SimpleDelay::kReset);
+
     addProcessor(osc_feedback_);
     addProcessor(osc_feedback_amount_clamped);
     addProcessor(osc_feedback_amount_audio);
