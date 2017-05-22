@@ -251,6 +251,10 @@
               file="../src/editor_components/open_gl_oscilloscope.cpp"/>
         <FILE id="s1PLNx" name="open_gl_oscilloscope.h" compile="0" resource="0"
               file="../src/editor_components/open_gl_oscilloscope.h"/>
+        <FILE id="c86DVv" name="open_gl_peak_meter.cpp" compile="1" resource="0"
+              file="../src/editor_components/open_gl_peak_meter.cpp"/>
+        <FILE id="xcHCbI" name="open_gl_peak_meter.h" compile="0" resource="0"
+              file="../src/editor_components/open_gl_peak_meter.h"/>
         <FILE id="QD60JK" name="open_gl_wave_viewer.cpp" compile="1" resource="0"
               file="../src/editor_components/open_gl_wave_viewer.cpp"/>
         <FILE id="N77gzd" name="open_gl_wave_viewer.h" compile="0" resource="0"
@@ -451,6 +455,8 @@
               file="../src/synthesis/noise_oscillator.cpp"/>
         <FILE id="Q7j5lo" name="noise_oscillator.h" compile="0" resource="0"
               file="../src/synthesis/noise_oscillator.h"/>
+        <FILE id="w1Gznn" name="peak_meter.cpp" compile="1" resource="0" file="../src/synthesis/peak_meter.cpp"/>
+        <FILE id="CinQ3P" name="peak_meter.h" compile="0" resource="0" file="../src/synthesis/peak_meter.h"/>
         <FILE id="rWOeWW" name="resonance_cancel.cpp" compile="1" resource="0"
               file="../src/synthesis/resonance_cancel.cpp"/>
         <FILE id="yuS1i4" name="resonance_cancel.h" compile="0" resource="0"

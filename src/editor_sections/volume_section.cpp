@@ -19,6 +19,7 @@
 
 VolumeSection::VolumeSection(String name) : SynthSection(name) {
   addSlider(volume_ = new SynthSlider("volume"));
+  addOpenGLComponent(peak_meter_ = new OpenGLPeakMeter());
   volume_->setSliderStyle(Slider::LinearBar);
 }
 
@@ -27,7 +28,9 @@ VolumeSection::~VolumeSection() {
 }
 
 void VolumeSection::resized() {
-  volume_->setBounds(0, 20, getWidth(), getHeight() - 20);
+  int height = getHeight() - 20;
+  peak_meter_->setBounds(0, 20, getWidth(), height / 2);
+  volume_->setBounds(0, 20 + height / 2, getWidth(), height / 2);
 
   SynthSection::resized();
 }

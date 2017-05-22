@@ -21,11 +21,9 @@
 #include "utils.h"
 
 #define GRID_CELL_WIDTH 8
-#define FRAMES_PER_SECOND 30
 #define PADDING 5.0f
 #define MARKER_WIDTH 12.0f
 #define NOISE_RESOLUTION 6
-#define IMAGE_WIDTH 256
 #define IMAGE_HEIGHT 128
 
 namespace {
@@ -38,9 +36,24 @@ OpenGLWaveViewer::OpenGLWaveViewer(int resolution) {
   resolution_ = resolution;
   wave_phase_ = nullptr;
   wave_amp_ = nullptr;
+
+  position_vertices_ = new float[16] {
+    0.0f, 1.0f, 0.0f, 1.0f,
+    0.0f, -1.0f, 0.0f, 0.0f,
+    0.1f, -1.0f, 1.0f, 0.0f,
+    0.1f, 1.0f, 1.0f, 1.0f
+  };
+
+  position_triangles_ = new int[6] {
+    0, 1, 2,
+    2, 3, 0
+  };
 }
 
-OpenGLWaveViewer::~OpenGLWaveViewer() { }
+OpenGLWaveViewer::~OpenGLWaveViewer() {
+  delete[] position_vertices_;
+  delete[] position_triangles_;
+}
 
 void OpenGLWaveViewer::paintBackground() {
   static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
@@ -214,18 +227,6 @@ float OpenGLWaveViewer::phaseToX(float phase) {
 
 void OpenGLWaveViewer::init(OpenGLContext& open_gl_context) {
   paintPositionImage();
-
-  position_vertices_ = new float[16] {
-    0.0f, 1.0f, 0.0f, 1.0f,
-    0.0f, -1.0f, 0.0f, 0.0f,
-    0.1f, -1.0f, 1.0f, 0.0f,
-    0.1f, 1.0f, 1.0f, 1.0f
-  };
-
-  position_triangles_ = new int[6] {
-    0, 1, 2,
-    2, 3, 0
-  };
 
   open_gl_context.extensions.glGenBuffers(1, &vertex_buffer_);
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_);

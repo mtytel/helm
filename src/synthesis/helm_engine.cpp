@@ -19,6 +19,7 @@
 #include "dc_filter.h"
 #include "helm_lfo.h"
 #include "helm_voice_handler.h"
+#include "peak_meter.h"
 #include "value_switch.h"
 
 #ifdef __APPLE__
@@ -264,6 +265,11 @@ namespace mopo {
     scaled_audio_right->plug(distorted_clamp_right, 0);
     scaled_audio_right->plug(smooth_volume, 1);
 
+    peak_meter_ = new PeakMeter();
+    peak_meter_->plug(scaled_audio_left);
+    mod_sources_["peak_meter"] = peak_meter_->output();
+    
+    addProcessor(peak_meter_);
     addProcessor(smooth_volume);
     addProcessor(distorted_clamp_left);
     addProcessor(distorted_clamp_right);

@@ -26,6 +26,7 @@ namespace mopo {
   class Arpeggiator;
   class HelmVoiceHandler;
   class HelmLfo;
+  class PeakMeter;
   class Value;
 
   // The overall helm engine. All audio processing is contained in here.
@@ -72,6 +73,7 @@ namespace mopo {
       Value* step_sequencer_retrigger_;
       HelmLfo* lfo_1_;
       HelmLfo* lfo_2_;
+      PeakMeter* peak_meter_;
       StepGenerator* step_sequencer_;
 
       std::set<ModulationConnection*> mod_connections_;

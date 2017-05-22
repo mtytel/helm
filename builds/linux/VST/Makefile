@@ -122,6 +122,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/open_gl_component_d67359ac.o \
   $(JUCE_OBJDIR)/open_gl_modulation_meter_7446c901.o \
   $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o \
+  $(JUCE_OBJDIR)/open_gl_peak_meter_28e8c124.o \
   $(JUCE_OBJDIR)/open_gl_wave_viewer_bb6a02c7.o \
   $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
   $(JUCE_OBJDIR)/patch_selector_fe7c390c.o \
@@ -179,6 +180,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/helm_oscillators_bb02f03c.o \
   $(JUCE_OBJDIR)/helm_voice_handler_35395fa6.o \
   $(JUCE_OBJDIR)/noise_oscillator_93de254f.o \
+  $(JUCE_OBJDIR)/peak_meter_cadcb853.o \
   $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o \
   $(JUCE_OBJDIR)/value_switch_f497502c.o \
   $(JUCE_OBJDIR)/BinaryData_51699c3.o \
@@ -508,6 +510,11 @@ $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o: ../../../src/editor_components/o
 	@echo "Compiling open_gl_oscilloscope.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/open_gl_peak_meter_28e8c124.o: ../../../src/editor_components/open_gl_peak_meter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_peak_meter.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/open_gl_wave_viewer_bb6a02c7.o: ../../../src/editor_components/open_gl_wave_viewer.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling open_gl_wave_viewer.cpp"
@@ -791,6 +798,11 @@ $(JUCE_OBJDIR)/helm_voice_handler_35395fa6.o: ../../../src/synthesis/helm_voice_
 $(JUCE_OBJDIR)/noise_oscillator_93de254f.o: ../../../src/synthesis/noise_oscillator.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling noise_oscillator.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/peak_meter_cadcb853.o: ../../../src/synthesis/peak_meter.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling peak_meter.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp

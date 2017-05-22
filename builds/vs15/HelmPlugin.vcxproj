@@ -309,6 +309,7 @@
     <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_modulation_meter.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_oscilloscope.cpp"/>
+    <ClCompile Include="..\..\src\editor_components\open_gl_peak_meter.cpp"/>
     <ClCompile Include="..\..\src\editor_components\open_gl_wave_viewer.cpp"/>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\src\editor_components\patch_selector.cpp"/>
@@ -366,6 +367,7 @@
     <ClCompile Include="..\..\src\synthesis\helm_oscillators.cpp"/>
     <ClCompile Include="..\..\src\synthesis\helm_voice_handler.cpp"/>
     <ClCompile Include="..\..\src\synthesis\noise_oscillator.cpp"/>
+    <ClCompile Include="..\..\src\synthesis\peak_meter.cpp"/>
     <ClCompile Include="..\..\src\synthesis\resonance_cancel.cpp"/>
     <ClCompile Include="..\..\src\synthesis\value_switch.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -2111,6 +2113,7 @@
     <ClInclude Include="..\..\src\editor_components\open_gl_component.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_modulation_meter.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h"/>
+    <ClInclude Include="..\..\src\editor_components\open_gl_peak_meter.h"/>
     <ClInclude Include="..\..\src\editor_components\open_gl_wave_viewer.h"/>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h"/>
     <ClInclude Include="..\..\src\editor_components\overlay.h"/>
@@ -2170,6 +2173,7 @@
     <ClInclude Include="..\..\src\synthesis\helm_oscillators.h"/>
     <ClInclude Include="..\..\src\synthesis\helm_voice_handler.h"/>
     <ClInclude Include="..\..\src\synthesis\noise_oscillator.h"/>
+    <ClInclude Include="..\..\src\synthesis\peak_meter.h"/>
     <ClInclude Include="..\..\src\synthesis\resonance_cancel.h"/>
     <ClInclude Include="..\..\src\synthesis\value_switch.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>

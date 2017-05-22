@@ -27,6 +27,8 @@ class Shaders {
       kOscilloscopeFragment,
       kModulationVertex,
       kModulationFragment,
+      kGainMeterVertex,
+      kGainMeterFragment,
       kNumShaders
     };
 

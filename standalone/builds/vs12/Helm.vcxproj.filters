@@ -562,6 +562,9 @@
     <ClCompile Include="..\..\..\src\editor_components\open_gl_oscilloscope.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\open_gl_peak_meter.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_wave_viewer.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
@@ -734,6 +737,9 @@
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\noise_oscillator.cpp">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\peak_meter.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\resonance_cancel.cpp">
@@ -2652,6 +2658,9 @@
     <ClInclude Include="..\..\..\src\editor_components\open_gl_oscilloscope.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\open_gl_peak_meter.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_wave_viewer.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
@@ -2824,6 +2833,9 @@
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\noise_oscillator.h">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\peak_meter.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\resonance_cancel.h">

@@ -20,6 +20,7 @@
 
 #include "JuceHeader.h"
 #include "synth_section.h"
+#include "open_gl_peak_meter.h"
 
 class VolumeSection : public SynthSection {
   public:
@@ -30,6 +31,7 @@ class VolumeSection : public SynthSection {
 
   private:
     ScopedPointer<SynthSlider> volume_;
+    ScopedPointer<OpenGLPeakMeter> peak_meter_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(VolumeSection)
 };

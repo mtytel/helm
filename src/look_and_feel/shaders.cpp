@@ -82,5 +82,18 @@ const char* Shaders::shaders_[] = {
   "    float rads_amp_low = clamp(20.0 * (rads - range_out.x), 0.0, 1.0);"
   "    float rads_amp_high = clamp(20.0 * (range_out.y - rads), 0.0, 1.0);"
   "    gl_FragColor = vec4(0.2, 0.941, 0.45, dist_amp * rads_amp_low * rads_amp_high);\n"
-  "}\n"
+  "}\n",
+
+  "attribute " JUCE_MEDIUMP " vec4 position;\n"
+  "\n"
+  "void main()\n"
+  "{\n"
+  "    gl_Position = position;\n"
+  "}\n",
+
+  "void main()\n"
+  "{\n"
+  "    " JUCE_MEDIUMP " vec4 colour = vec4(1.0, 0.8, 1.0, 1.0);\n"
+  "    gl_FragColor = colour;\n"
+  "}\n",
 };

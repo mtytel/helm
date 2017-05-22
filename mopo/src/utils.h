@@ -203,6 +203,24 @@ namespace mopo {
       return true;
     }
 
+    inline mopo_float rms(const mopo_float* buffer, int num) {
+      mopo_float square_total = 0.0;
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < num; ++i)
+        square_total += buffer[i] * buffer[i];
+
+      return sqrt(square_total / num);
+    }
+
+    inline mopo_float peak(const mopo_float* buffer, int num) {
+      mopo_float peak = 0.0;
+#pragma clang loop vectorize(enable) interleave(enable)
+      for (int i = 0; i < num; ++i)
+        peak = std::max<mopo_float>(peak, fabs(buffer[i]));
+
+      return peak;
+    }
+
     inline void zeroBuffer(mopo_float* buffer, int size) {
 #pragma clang loop vectorize(enable) interleave(enable)
       for (int i = 0; i < size; ++i)
