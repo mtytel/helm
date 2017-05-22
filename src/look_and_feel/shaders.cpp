@@ -51,8 +51,8 @@ const char* Shaders::shaders_[] = {
   
   "void main()\n"
   "{\n"
-  "    " JUCE_MEDIUMP " vec4 colour = vec4(0.04, 0.8, 1.0, 1.0);\n"
-  "    gl_FragColor = colour;\n"
+  "    " JUCE_MEDIUMP " vec4 color = vec4(0.04, 0.8, 1.0, 1.0);\n"
+  "    gl_FragColor = color;\n"
   "}\n",
 
   "attribute " JUCE_MEDIUMP " vec4 position;\n"
@@ -86,14 +86,24 @@ const char* Shaders::shaders_[] = {
 
   "attribute " JUCE_MEDIUMP " vec4 position;\n"
   "\n"
+  "varying " JUCE_MEDIUMP " vec2 position_out;\n"
+  "\n"
   "void main()\n"
   "{\n"
   "    gl_Position = position;\n"
+  "    position_out = position.xz;\n"
   "}\n",
 
+  "varying " JUCE_MEDIUMP " vec2 position_out;\n"
   "void main()\n"
   "{\n"
-  "    " JUCE_MEDIUMP " vec4 colour = vec4(1.0, 0.8, 1.0, 1.0);\n"
-  "    gl_FragColor = colour;\n"
+  "    const float bars = 20.0;\n"
+  "    float boost = bars * position_out.x;\n"
+  "    float fraction = boost - floor(boost);\n"
+  "    float amp = clamp(3.0 * fraction, 0.0, 1.0) * clamp(3.0 * (0.95 - fraction), 0.0, 1.0);\n"
+  "    " JUCE_MEDIUMP " vec4 color = amp * vec4(0.5 * position_out.x + 0.5, 1.0, 0.4, 1.0);\n"
+  "    if (position_out.x > 0.6)\n"
+  "        color = amp * vec4(1.0, 1.0 - 0.7 * position_out.x, 0.2, 1.0);\n"
+  "    gl_FragColor = color;\n"
   "}\n",
 };

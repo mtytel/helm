@@ -25,7 +25,7 @@
 
 class OpenGLPeakMeter : public OpenGLComponent {
   public:
-    OpenGLPeakMeter();
+    OpenGLPeakMeter(bool left);
     virtual ~OpenGLPeakMeter();
 
     void resized() override;
@@ -47,6 +47,7 @@ class OpenGLPeakMeter : public OpenGLComponent {
     int* position_triangles_;
     GLuint vertex_buffer_;
     GLuint triangle_buffer_;
+    bool left_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGLPeakMeter)
 };

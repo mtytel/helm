@@ -21,9 +21,10 @@
 #include "synth_gui_interface.h"
 #include "utils.h"
 
-#define MIN_DISPLAY_DB (-60)
+#define MAX_DISPLAY_DB (7.082)
+#define MIN_DISPLAY_DB (-60.0)
 
-OpenGLPeakMeter::OpenGLPeakMeter() {
+OpenGLPeakMeter::OpenGLPeakMeter(bool left) : left_(left) {
   peak_output_ = nullptr;
   position_vertices_ = new float[8] {
     -1.0f, 1.0f,
@@ -83,8 +84,9 @@ void OpenGLPeakMeter::updateVertices() {
   if (peak_output_ == nullptr)
     return;
 
-  float db = std::max<float>(MIN_DISPLAY_DB, peak_output_->buffer[0]);
-  float t = 1.0f + db / (-MIN_DISPLAY_DB);
+  float val = peak_output_->buffer[left_ ? 0 : 1];
+  float db = std::max<float>(MIN_DISPLAY_DB, val);
+  float t = (db - MIN_DISPLAY_DB) / (MAX_DISPLAY_DB - MIN_DISPLAY_DB);
   float position = INTERPOLATE(-1.0f, 1.0f, t * t);
   position_vertices_[4] = position;
   position_vertices_[6] = position;
