@@ -22,6 +22,7 @@
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
 #include "helm_oscillators.h"
+#include "trigger_random.h"
 #include "value_switch.h"
 
 #include <sstream>
@@ -387,6 +388,12 @@ namespace mopo {
 
     addProcessor(extra_envelope_);
     mod_sources_["mod_envelope"] = extra_envelope_->output();
+
+    // Random Modulation
+    TriggerRandom* random_mod = new TriggerRandom();
+    random_mod->plug(reset);
+    addProcessor(random_mod);
+    mod_sources_["random"] = random_mod->output();
   }
 
   void HelmVoiceHandler::createFilter(

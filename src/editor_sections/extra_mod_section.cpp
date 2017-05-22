@@ -37,6 +37,9 @@ ExtraModSection::ExtraModSection(String name) : SynthSection(name) {
 
   addModulationButton(pitch_wheel_mod_ = new ModulationButton("pitch_wheel"));
   pitch_wheel_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
+
+  addModulationButton(random_mod_ = new ModulationButton("random"));
+  random_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
 }
 
 ExtraModSection::~ExtraModSection() {
@@ -45,6 +48,7 @@ ExtraModSection::~ExtraModSection() {
   velocity_mod_ = nullptr;
   mod_wheel_mod_ = nullptr;
   pitch_wheel_mod_ = nullptr;
+  random_mod_ = nullptr;
 }
 
 void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* component, String text) {
@@ -64,6 +68,7 @@ void ExtraModSection::paintBackground(Graphics& g) {
   drawTextToRightOfComponent(g, velocity_mod_, TRANS("VELOCITY"));
   drawTextToRightOfComponent(g, mod_wheel_mod_, TRANS("MOD WHEEL"));
   drawTextToRightOfComponent(g, pitch_wheel_mod_, TRANS("PITCH WHEEL"));
+  drawTextToRightOfComponent(g, random_mod_, TRANS("RANDOM"));
 }
 
 void ExtraModSection::resized() {
@@ -76,6 +81,7 @@ void ExtraModSection::resized() {
   velocity_mod_->setBounds(x, note_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
   mod_wheel_mod_->setBounds(x2, 20 + space, BUTTON_WIDTH, BUTTON_WIDTH);
   pitch_wheel_mod_->setBounds(x2, mod_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
+  random_mod_->setBounds(x2, pitch_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
 
   SynthSection::resized();
 }

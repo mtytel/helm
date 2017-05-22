@@ -183,6 +183,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/noise_oscillator_93de254f.o \
   $(JUCE_OBJDIR)/peak_meter_cadcb853.o \
   $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o \
+  $(JUCE_OBJDIR)/trigger_random_750c5e54.o \
   $(JUCE_OBJDIR)/value_switch_f497502c.o \
   $(JUCE_OBJDIR)/BinaryData_ce4232d4.o \
   $(JUCE_OBJDIR)/juce_audio_basics_6b797ca1.o \
@@ -813,6 +814,11 @@ $(JUCE_OBJDIR)/peak_meter_cadcb853.o: ../../../src/synthesis/peak_meter.cpp
 $(JUCE_OBJDIR)/resonance_cancel_67415ef5.o: ../../../src/synthesis/resonance_cancel.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling resonance_cancel.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/trigger_random_750c5e54.o: ../../../src/synthesis/trigger_random.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling trigger_random.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/value_switch_f497502c.o: ../../../src/synthesis/value_switch.cpp

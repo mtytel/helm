@@ -745,6 +745,9 @@
     <ClCompile Include="..\..\..\src\synthesis\resonance_cancel.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\synthesis\trigger_random.cpp">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\synthesis\value_switch.cpp">
       <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
@@ -2839,6 +2842,9 @@
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\resonance_cancel.h">
+      <Filter>Helm\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\synthesis\trigger_random.h">
       <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\value_switch.h">

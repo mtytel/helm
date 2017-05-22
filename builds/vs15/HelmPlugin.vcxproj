@@ -369,6 +369,7 @@
     <ClCompile Include="..\..\src\synthesis\noise_oscillator.cpp"/>
     <ClCompile Include="..\..\src\synthesis\peak_meter.cpp"/>
     <ClCompile Include="..\..\src\synthesis\resonance_cancel.cpp"/>
+    <ClCompile Include="..\..\src\synthesis\trigger_random.cpp"/>
     <ClCompile Include="..\..\src\synthesis\value_switch.cpp"/>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
@@ -2175,6 +2176,7 @@
     <ClInclude Include="..\..\src\synthesis\noise_oscillator.h"/>
     <ClInclude Include="..\..\src\synthesis\peak_meter.h"/>
     <ClInclude Include="..\..\src\synthesis\resonance_cancel.h"/>
+    <ClInclude Include="..\..\src\synthesis\trigger_random.h"/>
     <ClInclude Include="..\..\src\synthesis\value_switch.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h"/>

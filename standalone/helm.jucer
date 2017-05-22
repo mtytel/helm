@@ -461,6 +461,10 @@
               file="../src/synthesis/resonance_cancel.cpp"/>
         <FILE id="yuS1i4" name="resonance_cancel.h" compile="0" resource="0"
               file="../src/synthesis/resonance_cancel.h"/>
+        <FILE id="bFz3ly" name="trigger_random.cpp" compile="1" resource="0"
+              file="../src/synthesis/trigger_random.cpp"/>
+        <FILE id="RJcZ53" name="trigger_random.h" compile="0" resource="0"
+              file="../src/synthesis/trigger_random.h"/>
         <FILE id="CLLCQ4" name="value_switch.cpp" compile="1" resource="0"
               file="../src/synthesis/value_switch.cpp"/>
         <FILE id="N1I7I8" name="value_switch.h" compile="0" resource="0" file="../src/synthesis/value_switch.h"/>
