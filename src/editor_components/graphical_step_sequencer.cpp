@@ -91,7 +91,7 @@ void GraphicalStepSequencer::paint(Graphics& g) {
     g.fillRect(highlighted_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
   }
 
-  if (last_step_ >= 0) {
+  if (last_step_ >= 0 && Process::isForegroundProcess()) {
     g.setColour(Colour(0x08ffffff));
     g.fillRect(last_step_ * step_width, 0.0f, step_width, 1.0f * getHeight());
   }

@@ -235,7 +235,7 @@ void FullInterface::newOpenGLContextCreated() {
 
 void FullInterface::renderOpenGL() {
   background_.render(open_gl_context);
-  renderOpenGLComponents(open_gl_context, animate_);
+  renderOpenGLComponents(open_gl_context, animate_ && Process::isForegroundProcess());
 }
 
 void FullInterface::openGLContextClosing() {
