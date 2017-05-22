@@ -54,12 +54,10 @@ namespace mopo {
       Output* getOscillator2Output() { return output(1); }
 
     protected:
-      void addRandomPhaseToVoices();
       void reset(int i);
       void loadBasePhaseInc();
       void computeDetuneRatios(int* detune_diffs,
                                int oscillator_diff,
-                               const mopo_float* random_offsets,
                                bool harmonize, mopo_float detune,
                                int voices);
       void prepareBuffers(mopo_float** wave_buffers,
@@ -135,8 +133,6 @@ namespace mopo {
       int detune_diffs2_[MAX_UNISON];
       int oscillator1_phase_diffs_[MAX_BUFFER_SIZE];
       int oscillator2_phase_diffs_[MAX_BUFFER_SIZE];
-      mopo_float oscillator1_rand_offset_[MAX_UNISON];
-      mopo_float oscillator2_rand_offset_[MAX_UNISON];
   };
 } // namespace mopo
 

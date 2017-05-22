@@ -21,15 +21,6 @@
 #define RAND_DECAY 0.999
 
 namespace mopo {
-  namespace {
-    inline mopo_float getRandomPitchChange() {
-      static const int RESOLUTION = 10000;
-      static const mopo_float RAND_RATIO = 0.00001;
-
-      return (RAND_RATIO * (rand() % RESOLUTION)) / RESOLUTION - RAND_RATIO / 2.0;
-    }
-  } // namespace
-
   HelmOscillators::HelmOscillators() : Processor(kNumInputs, 1) {
     utils::zeroBuffer(oscillator1_cross_mods_, MAX_BUFFER_SIZE + 1);
     utils::zeroBuffer(oscillator2_cross_mods_, MAX_BUFFER_SIZE + 1);
@@ -40,8 +31,6 @@ namespace mopo {
     for (int v = 0; v < MAX_UNISON; ++v) {
       oscillator1_phases_[v] = 0;
       oscillator2_phases_[v] = 0;
-      oscillator1_rand_offset_[v] = 0.0;
-      oscillator2_rand_offset_[v] = 0.0;
       wave_buffers1_[v] = nullptr;
       wave_buffers2_[v] = nullptr;
       detune_diffs1_[v] = 0;
@@ -51,15 +40,6 @@ namespace mopo {
     for (int i = 0; i < MAX_BUFFER_SIZE; ++i) {
       oscillator1_phase_diffs_[i] = 0;
       oscillator2_phase_diffs_[i] = 0;
-    }
-  }
-
-  void HelmOscillators::addRandomPhaseToVoices() {
-    for (int i = 0; i < MAX_UNISON; ++i) {
-      oscillator1_rand_offset_[i] += getRandomPitchChange();
-      oscillator2_rand_offset_[i] += getRandomPitchChange();
-      oscillator1_rand_offset_[i] *= RAND_DECAY;
-      oscillator2_rand_offset_[i] *= RAND_DECAY;
     }
   }
 
@@ -73,14 +53,10 @@ namespace mopo {
     oscillator2_phase_base_ = 0.0;
     oscillator1_phases_[0] = 0;
     oscillator2_phases_[0] = 0;
-    oscillator1_rand_offset_[0] = 0.0;
-    oscillator2_rand_offset_[0] = 0.0;
 
     for (int u = 1; u < MAX_UNISON; ++u) {
       oscillator1_phases_[u] = (UINT_MAX / RAND_MAX) * rand();
       oscillator2_phases_[u] = (UINT_MAX / RAND_MAX) * rand();
-      oscillator1_rand_offset_[u] = 0.0;
-      oscillator2_rand_offset_[u] = 0.0;
     }
   }
 
@@ -107,7 +83,6 @@ namespace mopo {
 
   void HelmOscillators::computeDetuneRatios(int* detune_diffs,
                                             int oscillator_diff,
-                                            const mopo_float* random_offsets,
                                             bool harmonize, mopo_float detune,
                                             int voices) {
     int harmonize_mult = harmonize ? 1 : 0;
@@ -119,8 +94,7 @@ namespace mopo {
 
       mopo_float harmonic = harmonize_mult * v;
 
-      mopo_float detune_ratio = harmonic + DetuneLookup::detuneLookup(amount) +
-                                amount * random_offsets[v];
+      mopo_float detune_ratio = harmonic + DetuneLookup::detuneLookup(amount);
       detune_diffs[v] = detune_ratio * oscillator_diff - oscillator_diff;
     }
   }
@@ -145,12 +119,9 @@ namespace mopo {
     mopo_float harmonize1 = input(kHarmonize1)->source->buffer[0];
     mopo_float harmonize2 = input(kHarmonize2)->source->buffer[0];
 
-    addRandomPhaseToVoices();
     computeDetuneRatios(detune_diffs1_, oscillator1_phase_diffs_[0],
-                        oscillator1_rand_offset_,
                         harmonize1, detune1, voices1);
     computeDetuneRatios(detune_diffs2_, oscillator2_phase_diffs_[0],
-                        oscillator2_rand_offset_,
                         harmonize2, detune2, voices2);
 
     int wave1 = static_cast<int>(input(kOscillator1Waveform)->source->buffer[0] + 0.5);
@@ -214,8 +185,6 @@ namespace mopo {
 
       oscillator1_phases_[0] = 0;
       oscillator2_phases_[0] = 0;
-      oscillator1_rand_offset_[0] = 0.0;
-      oscillator2_rand_offset_[0] = 0.0;
     }
 
     for (; j < buffer_size_; ++j)
@@ -233,7 +202,6 @@ namespace mopo {
           tickVoice1(i, v, wave_buffer, start_phase, detune);
 
         oscillator1_phases_[v] = (UINT_MAX / RAND_MAX) * rand();
-        oscillator1_rand_offset_[v] = 0.0;
       }
 
       for (; i < buffer_size_; ++i)
