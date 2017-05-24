@@ -17,8 +17,9 @@
 #include "peak_meter.h"
 #include "utils.h"
 
-#define PEAK_DECAY 0.0002
-#define DELTA_SCALE 1.0
+#define PEAK_DECAY 0.00003
+#define DELTA_SCALE 20.0
+#define MIN_MOVEMENT 0.00002
 
 namespace mopo {
 
@@ -30,6 +31,7 @@ namespace mopo {
     mopo_float peak_right = utils::peak(input(1)->source->buffer, buffer_size_);
 
     mopo_float exponent = buffer_size_ * (1.0 * mopo::DEFAULT_SAMPLE_RATE) / sample_rate_;
+    mopo_float movement = MIN_MOVEMENT * exponent;
 
     mopo_float delta_left = fabs(peak_left - current_peak_left_);
     mopo_float delta_right = fabs(peak_right - current_peak_right_);
@@ -38,8 +40,8 @@ namespace mopo {
     current_peak_left_ *= decay_left;
     current_peak_right_ *= decay_right;
 
-    current_peak_left_ = std::max(current_peak_left_, peak_left);
-    current_peak_right_ = std::max(current_peak_right_, peak_right);
+    current_peak_left_ = std::max(current_peak_left_ - movement, peak_left);
+    current_peak_right_ = std::max(current_peak_right_ - movement, peak_right);
     output()->buffer[0] = current_peak_left_;
     output()->buffer[1] = current_peak_right_;
   }
