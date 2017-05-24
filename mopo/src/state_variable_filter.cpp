@@ -28,8 +28,11 @@ namespace mopo {
   StateVariableFilter::StateVariableFilter() : Processor(StateVariableFilter::kNumInputs, 1) {
     a1_ = a2_ = a3_ = 0.0;
     m0_ = m1_ = m2_ = 0.0;
-    last_out_a_ = last_out_b_ = 0.0;
+    target_m0_ = target_m1_ = target_m2_ = 0.0;
+
+    drive_ = target_drive_ = 0.0;
     last_type_ = kNumTypes;
+    last_24db_ = false;
     reset();
   }
 
@@ -38,6 +41,7 @@ namespace mopo {
     mopo_float cutoff = utils::clamp(input(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
     mopo_float resonance = utils::clamp(input(kResonance)->at(0),
                                         MIN_RESONANCE, MAX_RESONANCE);
+    target_drive_ = input(kDrive)->at(0);
     bool db24 = input(k24db)->at(0) != 0.0 &&
                 (type == kLowPass || type == kBandPass || type == kHighPass);
     computeCoefficients(type, cutoff, resonance, input(kGain)->at(0), db24);
@@ -57,6 +61,7 @@ namespace mopo {
     mopo_float delta_m0 = (target_m0_ - m0_) / buffer_size_;
     mopo_float delta_m1 = (target_m1_ - m1_) / buffer_size_;
     mopo_float delta_m2 = (target_m2_ - m2_) / buffer_size_;
+    mopo_float delta_drive = (target_drive_ - drive_) / buffer_size_;
 
     if (inputs_->at(kReset)->source->triggered &&
         inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
@@ -66,6 +71,7 @@ namespace mopo {
         m0_ += delta_m0;
         m1_ += delta_m1;
         m2_ += delta_m2;
+        drive_ += delta_drive;
         tick(i, dest, audio_buffer);
       }
 
@@ -79,6 +85,7 @@ namespace mopo {
         m0_ += delta_m0;
         m1_ += delta_m1;
         m2_ += delta_m2;
+        drive_ += delta_drive;
         tick(i, dest, audio_buffer);
       }
     }
@@ -86,6 +93,7 @@ namespace mopo {
 
   void StateVariableFilter::process24db(const mopo_float* audio_buffer, mopo_float* dest) {
     mopo_float delta_m1 = (target_m1_ - m1_) / buffer_size_;
+    mopo_float delta_drive = (target_drive_ - drive_) / buffer_size_;
     m0_ = target_m0_;
     m2_ = target_m2_;
 
@@ -95,6 +103,7 @@ namespace mopo {
       int i = 0;
       for (; i < trigger_offset; ++i) {
         m1_ += delta_m1;
+        drive_ += delta_drive;
         tick24db(i, dest, audio_buffer);
       }
 
@@ -106,6 +115,7 @@ namespace mopo {
     else {
       for (int i = 0; i < buffer_size_; ++i) {
         m1_ += delta_m1;
+        drive_ += delta_drive;
         tick24db(i, dest, audio_buffer);
       }
     }
@@ -191,14 +201,15 @@ namespace mopo {
     a2_ = g * a1_;
     a3_ = g * a2_;
 
-    if (type != last_type_) {
+    if (type != last_type_ || last_24db_ != db24) {
       reset();
       last_type_ = type;
+      last_24db_ = db24;
     }
   }
 
   inline void StateVariableFilter::tick(int i, mopo_float* dest, const mopo_float* audio_buffer) {
-    mopo_float audio = audio_buffer[i];
+    mopo_float audio = 0.5 * utils::quickTanh(2.0 * drive_ * audio_buffer[i]);
 
     mopo_float v3_a = audio - ic2eq_a_;
     mopo_float v1_a = a1_ * ic1eq_a_ + a2_ * v3_a;
@@ -206,31 +217,27 @@ namespace mopo {
     ic1eq_a_ = 2.0 * v1_a - ic1eq_a_;
     ic2eq_a_ = 2.0 * v2_a - ic2eq_a_;
 
-    mopo_float distortion = utils::quickTanh(last_out_a_) - last_out_a_;
-    dest[i] = m0_ * audio + m1_ * v1_a + m2_ * v2_a + distortion;
+    dest[i] = m0_ * audio + m1_ * v1_a + m2_ * v2_a;
   }
 
   inline void StateVariableFilter::tick24db(int i, mopo_float* dest,
                                             const mopo_float* audio_buffer) {
-    mopo_float audio = audio_buffer[i];
+    mopo_float audio = drive_ * audio_buffer[i];
 
     mopo_float v3_a = audio - ic2eq_a_;
     mopo_float v1_a = a1_ * ic1eq_a_ + a2_ * v3_a;
     mopo_float v2_a = ic2eq_a_ + a2_ * ic1eq_a_ + a3_ * v3_a;
     ic1eq_a_ = 2.0 * v1_a - ic1eq_a_;
     ic2eq_a_ = 2.0 * v2_a - ic2eq_a_;
-    mopo_float distortion_a = utils::quickTanh(last_out_a_) - last_out_a_;
-    last_out_a_ = m0_ * audio + m1_ * v1_a + m2_ * v2_a + distortion_a;
+    mopo_float out_a = m0_ * audio + m1_ * v1_a + m2_ * v2_a;
 
-    mopo_float v3_b = last_out_a_ - ic2eq_b_;
+    mopo_float v3_b = 0.5 * utils::quickTanh(2.0 * out_a) - ic2eq_b_;
     mopo_float v1_b = a1_ * ic1eq_b_ + a2_ * v3_b;
     mopo_float v2_b = ic2eq_b_ + a2_ * ic1eq_b_ + a3_ * v3_b;
     ic1eq_b_ = 2.0 * v1_b - ic1eq_b_;
     ic2eq_b_ = 2.0 * v2_b - ic2eq_b_;
 
-    mopo_float distortion_b = utils::quickTanh(last_out_b_) - last_out_b_;
-    last_out_b_ = m0_ * last_out_a_ + m1_ * v1_b + m2_ * v2_b + distortion_b;
-    dest[i] = last_out_b_;
+    dest[i] = m0_ * out_a + m1_ * v1_b + m2_ * v2_b;
   }
 
   void StateVariableFilter::reset() {
@@ -241,8 +248,7 @@ namespace mopo {
     m0_ = target_m0_;
     m1_ = target_m1_;
     m2_ = target_m2_;
-    last_out_a_ = 0.0;
-    last_out_b_ = 0.0;
+    drive_ = target_drive_;
   }
 
 } // namespace mopo

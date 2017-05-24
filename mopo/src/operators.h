@@ -160,7 +160,7 @@ namespace mopo {
       mopo_float scale_;
   };
 
-  // A processor that will raise a signal to a given power.
+  // A processor that will square a signal.
   class Square : public Operator {
     public:
       Square() : Operator(1, 1) { }
@@ -602,11 +602,30 @@ namespace mopo {
       }
     };
 
-    // A processor that will raise a signal to a given power.
+    // A processor that will square a signal.
     class Square : public Operator {
+    public:
+      Square() : Operator(1, 1, true) { }
+      virtual Processor* clone() const override { return new Square(*this); }
+
+      void process() override {
+        tick(0);
+      }
+
+      inline void tick(int i) override {
+        bufferTick(output()->buffer, input()->source->buffer, i);
+      }
+
+      inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+        dest[i] = source[i] * source[i];
+      }
+    };
+
+    // A processor that will quadratically scale a signal
+    class Quadratic : public Operator {
       public:
-        Square() : Operator(1, 1, true) { }
-        virtual Processor* clone() const override { return new Square(*this); }
+        Quadratic(mopo_float offset) : Operator(1, 1, true), offset_(offset) { }
+        virtual Processor* clone() const override { return new Quadratic(*this); }
 
         void process() override {
           tick(0);
@@ -617,14 +636,41 @@ namespace mopo {
         }
 
         inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
-          dest[i] = source[i] * source[i];
+          dest[i] = source[i] * source[i] + offset_;
         }
+
+      private:
+        mopo_float offset_;
+    };
+
+
+    // A processor that will square root and scale a signal
+    class Root : public Operator {
+      public:
+        Root(mopo_float offset) : Operator(1, 1, true), offset_(offset) { }
+        virtual Processor* clone() const override { return new Root(*this); }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = sqrt(source[i]) + offset_;
+        }
+        
+      private:
+        mopo_float offset_;
     };
 
     // A processor that will raise a given number to the power of a signal.
     class ExponentialScale : public Operator {
       public:
-        ExponentialScale(mopo_float scale = 1) : Operator(1, 1, true), scale_(scale) { }
+        ExponentialScale(mopo_float scale = 1, mopo_float offset = 0.0) :
+            Operator(1, 1, true), scale_(scale), offset_(offset) { }
 
         virtual Processor* clone() const override {
           return new ExponentialScale(*this);
@@ -639,11 +685,12 @@ namespace mopo {
         }
 
         inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
-          dest[i] = std::pow(scale_, source[i]);
+          dest[i] = std::pow(scale_, source[i]) + offset_;
         }
 
       private:
         mopo_float scale_;
+        mopo_float offset_;
     };
 
     class VariableAdd : public Operator {
