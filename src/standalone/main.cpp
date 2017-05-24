@@ -32,10 +32,10 @@ class HelmApplication : public JUCEApplication {
 
       MainWindow(String name, bool visible = true) :
           DocumentWindow(name, Colours::lightgrey, DocumentWindow::closeButton) {
-        setUsingNativeTitleBar(true);
         editor_ = new HelmStandaloneEditor();
         editor_->animate(LoadSave::shouldAnimateWidgets());
 
+        setUsingNativeTitleBar(true);
         setContentOwned(editor_, true);
         setResizable(true, true);
 
