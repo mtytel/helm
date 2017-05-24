@@ -90,6 +90,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
 
     bool animate_;
     OpenGLContext open_gl_context;
+    Image background_image_;
     OpenGLBackground background_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FullInterface)

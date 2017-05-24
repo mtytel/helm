@@ -69,7 +69,7 @@ SynthesisInterface::SynthesisInterface(
   keyboard_->setAlwaysOnTop(true);
 
   setAllValues(controls);
-  setOpaque(true);
+  setOpaque(false);
 }
 
 SynthesisInterface::~SynthesisInterface() {

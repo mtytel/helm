@@ -48,6 +48,8 @@ class HelmStandaloneEditor : public AudioAppComponent,
     // SynthGuiInterface
     AudioDeviceManager* getAudioDeviceManager() override { return &deviceManager; }
 
+    void animate(bool animate);
+
   private:
     ScopedPointer<HelmComputerKeyboard> computer_keyboard_;
     CriticalSection critical_section_;

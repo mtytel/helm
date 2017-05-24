@@ -58,7 +58,6 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   setLookAndFeel(DefaultLookAndFeel::instance());
   addAndMakeVisible(gui_);
   gui_->setOutputMemory(getOutputMemory());
-  gui_->animate(LoadSave::shouldAnimateWidgets());
   setSize(WIDTH, HEIGHT);
 
   setWantsKeyboardFocus(true);
@@ -110,4 +109,8 @@ void HelmStandaloneEditor::paint(Graphics& g) {
 
 void HelmStandaloneEditor::resized() {
   gui_->setBounds(getBounds());
+}
+
+void HelmStandaloneEditor::animate(bool animate) {
+  gui_->animate(animate);
 }

@@ -16,6 +16,7 @@
 
 #include "JuceHeader.h"
 #include "helm_standalone_editor.h"
+#include "load_save.h"
 
 class HelmApplication : public JUCEApplication {
   public:
@@ -33,6 +34,8 @@ class HelmApplication : public JUCEApplication {
           DocumentWindow(name, Colours::lightgrey, DocumentWindow::closeButton) {
         setUsingNativeTitleBar(true);
         editor_ = new HelmStandaloneEditor();
+        editor_->animate(LoadSave::shouldAnimateWidgets());
+
         setContentOwned(editor_, true);
         setResizable(true, true);
 
@@ -116,6 +119,11 @@ class HelmApplication : public JUCEApplication {
         command_manager_->registerAllCommandsForTarget(this);
         addKeyListener(command_manager_->getKeyMappings());
         editor_->setFocus();
+      }
+
+      void activeWindowStatusChanged() override {
+        if (editor_)
+          editor_->animate(LoadSave::shouldAnimateWidgets() && isActiveWindow());
       }
 
     private:

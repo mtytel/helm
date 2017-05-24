@@ -93,7 +93,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   about_section_->toFront(false);
   delete_section_->toFront(false);
 
-  setOpaque(true);
+  setOpaque(false);
 }
 
 FullInterface::~FullInterface() {
@@ -176,11 +176,11 @@ void FullInterface::resized() {
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
-  Image background = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
-  Graphics g(background);
+  background_image_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
+  Graphics g(background_image_);
   g.addTransform(AffineTransform::scale(scale, scale));
   paintBackground(g);
-  background_.updateBackgroundImage(background);
+  background_.updateBackgroundImage(background_image_);
 
   SynthSection::resized();
 }
@@ -235,7 +235,7 @@ void FullInterface::newOpenGLContextCreated() {
 
 void FullInterface::renderOpenGL() {
   background_.render(open_gl_context);
-  renderOpenGLComponents(open_gl_context, animate_ && Process::isForegroundProcess());
+  renderOpenGLComponents(open_gl_context, animate_);
 }
 
 void FullInterface::openGLContextClosing() {
