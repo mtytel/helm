@@ -76,16 +76,27 @@ namespace mopo {
     Output* control_rate_total = createBaseModControl(name, smooth_value);
 
     if (details.display_skew == ValueDetails::kQuadratic) {
-      cr::Square* square = new cr::Square();
-      square->plug(control_rate_total);
-      mono_owner->addProcessor(square);
-      control_rate_total = square->output();
+      Processor* scale = nullptr;
+      if (details.post_offset)
+        scale = new cr::Quadratic(details.post_offset);
+      else
+        scale = new cr::Square();
+      
+      scale->plug(control_rate_total);
+      mono_owner->addProcessor(scale);
+      control_rate_total = scale->output();
     }
     else if (details.display_skew == ValueDetails::kExponential) {
       cr::ExponentialScale* exponential = new cr::ExponentialScale(2.0);
       exponential->plug(control_rate_total);
       mono_owner->addProcessor(exponential);
       control_rate_total = exponential->output();
+    }
+    else if (details.display_skew == ValueDetails::kSquareRoot) {
+      cr::Root* root = new cr::Root(details.post_offset);
+      root->plug(control_rate_total);
+      mono_owner->addProcessor(root);
+      control_rate_total = root->output();
     }
 
     if (control_rate)
@@ -126,16 +137,27 @@ namespace mopo {
 
     Output* control_rate_total = control_switch->output(ValueSwitch::kSwitch);
     if (details.display_skew == ValueDetails::kQuadratic) {
-      cr::Square* square = new cr::Square();
-      square->plug(control_rate_total);
-      poly_owner->addProcessor(square);
-      control_rate_total = square->output();
+      Processor* scale = nullptr;
+      if (details.post_offset)
+        scale = new cr::Quadratic(details.post_offset);
+      else
+        scale = new cr::Square();
+      
+      scale->plug(control_rate_total);
+      poly_owner->addProcessor(scale);
+      control_rate_total = scale->output();
     }
     else if (details.display_skew == ValueDetails::kExponential) {
-      cr::ExponentialScale* exponential = new cr::ExponentialScale(2.0);
+      cr::ExponentialScale* exponential = new cr::ExponentialScale(2.0, details.post_offset);
       exponential->plug(control_rate_total);
       poly_owner->addProcessor(exponential);
       control_rate_total = exponential->output();
+    }
+    else if (details.display_skew == ValueDetails::kSquareRoot) {
+      cr::Root* root = new cr::Root(details.post_offset);
+      root->plug(control_rate_total);
+      poly_owner->addProcessor(root);
+      control_rate_total = root->output();
     }
 
     if (control_rate)

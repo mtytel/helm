@@ -21,8 +21,7 @@
 #include "synth_gui_interface.h"
 #include "utils.h"
 
-#define MAX_DISPLAY_DB (7.082)
-#define MIN_DISPLAY_DB (-60.0)
+#define MAX_GAIN 2.0
 
 OpenGLPeakMeter::OpenGLPeakMeter(bool left) : left_(left) {
   peak_output_ = nullptr;
@@ -85,9 +84,8 @@ void OpenGLPeakMeter::updateVertices() {
     return;
 
   float val = peak_output_->buffer[left_ ? 0 : 1];
-  float db = std::max<float>(MIN_DISPLAY_DB, val);
-  float t = (db - MIN_DISPLAY_DB) / (MAX_DISPLAY_DB - MIN_DISPLAY_DB);
-  float position = INTERPOLATE(-1.0f, 1.0f, t * t);
+  float t = val / MAX_GAIN;
+  float position = INTERPOLATE(-1.0f, 1.0f, sqrt(t));
   position_vertices_[4] = position;
   position_vertices_[6] = position;
 }
@@ -126,4 +124,13 @@ void OpenGLPeakMeter::destroy(OpenGLContext& open_gl_context) {
   position_ = nullptr;
   open_gl_context.extensions.glDeleteBuffers(1, &vertex_buffer_);
   open_gl_context.extensions.glDeleteBuffers(1, &triangle_buffer_);
+}
+
+void OpenGLPeakMeter::paintBackground(Graphics& g) {
+  float x = getWidth() / sqrt(MAX_GAIN);
+  g.setColour(Colour(0xff222222));
+  g.fillRect(x, 0.0f, getWidth() - x, 1.0f * getHeight());
+
+  g.setColour(Colour(0xff888888));
+  g.fillRect(x - 1.0f, 0.0f, 2.0f, 1.0f * getHeight());
 }

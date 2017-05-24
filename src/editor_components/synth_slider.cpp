@@ -55,7 +55,9 @@ SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_colo
   else
     setRange(details.min, details.max);
 
+  post_offset_ = details.post_offset;
   post_multiply_ = details.display_multiply;
+
   scaling_type_ = details.display_skew;
   units_ = details.display_units;
   setDoubleClickReturnValue(true, details.default_value);
@@ -174,9 +176,13 @@ String SynthSlider::getTextFromValue(double value) {
     case mopo::ValueDetails::kExponential:
       display_value = powf(2.0f, display_value);
       break;
+    case mopo::ValueDetails::kSquareRoot:
+      display_value = sqrt(display_value);
+      break;
     default:
       break;
   }
+  display_value += post_offset_;
   display_value *= post_multiply_;
 
   return String(synthRound(display_value)) + " " + units_;

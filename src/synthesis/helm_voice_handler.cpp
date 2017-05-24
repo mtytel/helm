@@ -460,25 +460,17 @@ namespace mopo {
     cr::MagnitudeScale* saturation_magnitude = new cr::MagnitudeScale();
     saturation_magnitude->plug(filter_saturation);
 
-    LinearSmoothBuffer* smooth_saturation_magnitude = new LinearSmoothBuffer();
-    smooth_saturation_magnitude->plug(saturation_magnitude);
-    smooth_saturation_magnitude->plug(reset, LinearSmoothBuffer::kTrigger);
-
-    Multiply* saturated_audio = new Multiply();
-    saturated_audio->plug(audio, 0);
-    saturated_audio->plug(smooth_saturation_magnitude, 1);
-
     StateVariableFilter* filter = new StateVariableFilter();
-    filter->plug(saturated_audio, StateVariableFilter::kAudio);
+    filter->plug(audio, StateVariableFilter::kAudio);
     filter->plug(filter_type, StateVariableFilter::kType);
     filter->plug(reset, StateVariableFilter::kReset);
     filter->plug(frequency_cutoff, StateVariableFilter::kCutoff);
     filter->plug(final_resonance, StateVariableFilter::kResonance);
     filter->plug(final_gain, StateVariableFilter::kGain);
+    filter->plug(saturation_magnitude, StateVariableFilter::kDrive);
     filter->plug(filter_db24, StateVariableFilter::k24db);
 
     addProcessor(current_keytrack);
-    addProcessor(saturated_audio);
     addProcessor(keytracked_cutoff);
     addProcessor(midi_cutoff);
     addProcessor(scaled_resonance);
@@ -489,7 +481,6 @@ namespace mopo {
     addProcessor(filter);
 
     addProcessor(saturation_magnitude);
-    addProcessor(smooth_saturation_magnitude);
 
     mod_sources_["fil_envelope"] = filter_envelope_->output();
 

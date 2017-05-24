@@ -33,7 +33,7 @@ class OpenGLPeakMeter : public OpenGLComponent {
     void init(OpenGLContext& open_gl_context) override;
     void render(OpenGLContext& open_gl_context, bool animate = true) override;
     void destroy(OpenGLContext& open_gl_context) override;
-    void paintBackground(Graphics& g) override { }
+    void paintBackground(Graphics& g) override;
 
   private:
     void updateVertices();

@@ -33,6 +33,7 @@ namespace mopo {
     enum DisplaySkew {
       kLinear,
       kQuadratic,
+      kSquareRoot,
       kExponential
     };
 
@@ -41,6 +42,9 @@ namespace mopo {
     mopo_float max;
     int steps;
     mopo_float default_value;
+
+    // post_offset used to offset quadratic and exponential scaling.
+    mopo_float post_offset;
 
     mopo_float display_multiply;
     DisplaySkew display_skew;

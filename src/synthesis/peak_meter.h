@@ -30,9 +30,8 @@ namespace mopo {
       void process() override;
 
     protected:
-      mopo_float current_db_left_;
-      mopo_float current_db_right_;
-      mopo_float min_gain_;
+      mopo_float current_peak_left_;
+      mopo_float current_peak_right_;
   };
 } // namespace mopo
 

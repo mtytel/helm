@@ -54,6 +54,7 @@ void SynthSection::paintBackground(Graphics& g) {
              Justification::centred, true);
 
   paintKnobShadows(g);
+  paintChildrenBackgrounds(g);
 }
 
 void SynthSection::paintContainer(Graphics& g) {

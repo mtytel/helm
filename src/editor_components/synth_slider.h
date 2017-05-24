@@ -88,6 +88,7 @@ class SynthSlider : public Slider {
     String units_;
     mopo::ValueDetails::DisplaySkew scaling_type_;
     float post_multiply_;
+    float post_offset_;
     const std::string* string_lookup_;
     Point<float> click_position_;
 

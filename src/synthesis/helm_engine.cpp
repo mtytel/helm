@@ -239,45 +239,39 @@ namespace mopo {
 
     addProcessor(reverb_container);
 
-    // Soft Clipping.
-    Distortion* distorted_clamp_left = new Distortion();
-    static const cr::Value distortion_type(Distortion::kTanh);
-    static const cr::Value distortion_threshold(0.0);
-    distorted_clamp_left->plug(reverb_container->output(0), Distortion::kAudio);
-    distorted_clamp_left->plug(&distortion_type, Distortion::kType);
-    distorted_clamp_left->plug(&distortion_threshold, Distortion::kThreshold);
-
-    Distortion* distorted_clamp_right = new Distortion();
-    distorted_clamp_right->plug(reverb_container->output(1), Distortion::kAudio);
-    distorted_clamp_right->plug(&distortion_type, Distortion::kType);
-    distorted_clamp_right->plug(&distortion_threshold, Distortion::kThreshold);
-
     // Volume.
     Output* volume = createMonoModControl("volume", true);
     LinearSmoothBuffer* smooth_volume = new LinearSmoothBuffer();
     smooth_volume->plug(volume);
 
     Multiply* scaled_audio_left = new Multiply();
-    scaled_audio_left->plug(distorted_clamp_left, 0);
+    scaled_audio_left->plug(reverb_container->output(0), 0);
     scaled_audio_left->plug(smooth_volume, 1);
 
     Multiply* scaled_audio_right = new Multiply();
-    scaled_audio_right->plug(distorted_clamp_right, 0);
+    scaled_audio_right->plug(reverb_container->output(1), 0);
     scaled_audio_right->plug(smooth_volume, 1);
 
     peak_meter_ = new PeakMeter();
     peak_meter_->plug(scaled_audio_left, 0);
     peak_meter_->plug(scaled_audio_right, 1);
     mod_sources_["peak_meter"] = peak_meter_->output();
+
+    // Hard Clip.
+    Clamp* clamp_left = new Clamp(-2.1, 2.1);
+    clamp_left->plug(scaled_audio_left);
+
+    Clamp* clamp_right = new Clamp(-2.1, 2.1);
+    clamp_right->plug(scaled_audio_right);
     
     addProcessor(peak_meter_);
     addProcessor(smooth_volume);
-    addProcessor(distorted_clamp_left);
-    addProcessor(distorted_clamp_right);
+    addProcessor(clamp_left);
+    addProcessor(clamp_right);
     addProcessor(scaled_audio_left);
     addProcessor(scaled_audio_right);
-    registerOutput(scaled_audio_left->output());
-    registerOutput(scaled_audio_right->output());
+    registerOutput(clamp_left->output());
+    registerOutput(clamp_right->output());
 
     HelmModule::init();
   }
