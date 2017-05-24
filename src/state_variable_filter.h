@@ -33,6 +33,7 @@ namespace mopo {
         kCutoff,
         kResonance,
         kGain,
+        kDrive,
         kReset,
         k24db,
         kNumInputs
@@ -74,12 +75,13 @@ namespace mopo {
       mopo_float a1_, a2_, a3_;
       mopo_float m0_, m1_, m2_;
       mopo_float target_m0_, target_m1_, target_m2_;
+      mopo_float drive_, target_drive_;
 
       mopo_float ic1eq_a_, ic2eq_a_;
       mopo_float ic1eq_b_, ic2eq_b_;
 
-      mopo_float last_out_a_, last_out_b_;
       Type last_type_;
+      bool last_24db_;
   };
 } // namespace mopo
 
