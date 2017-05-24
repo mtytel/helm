@@ -103,7 +103,7 @@ const char* Shaders::shaders_[] = {
   "    float amp = clamp(3.0 * fraction, 0.0, 1.0) * clamp(3.0 * (0.95 - fraction), 0.0, 1.0);\n"
   "    " JUCE_MEDIUMP " vec4 color = amp * vec4(0.5 * position_out.x + 0.5, 1.0, 0.4, 1.0);\n"
   "    if (position_out.x > 0.4142)\n"
-  "        color = amp * vec4(1.0, 1.0 - 0.7 * position_out.x, 0.2, 1.0);\n"
+  "        color = amp * vec4(1.0, 1.0 - 0.85 * position_out.x, 0.2, 1.0);\n"
   "    gl_FragColor = color;\n"
   "}\n",
 };
