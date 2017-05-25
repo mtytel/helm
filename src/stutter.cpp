@@ -15,6 +15,7 @@
  */
 
 #include "stutter.h"
+#include "utils.h"
 
 #define MIN_SOFTNESS 0.00001
 
@@ -23,7 +24,7 @@ namespace mopo {
   namespace {
     inline mopo_float computeAmplitude(mopo_float offset, mopo_float period, mopo_float softness) {
       mopo_float progress = offset / period;
-      mopo_float phase_setup = std::fabs(INTERPOLATE(-softness, softness, progress));
+      mopo_float phase_setup = std::fabs(utils::interpolate(-softness, softness, progress));
       mopo_float phase = utils::clamp(phase_setup - softness + PI, 0.0, PI);
       return 0.5 * cos(phase) + 0.5;
     }

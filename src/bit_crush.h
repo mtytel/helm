@@ -20,6 +20,7 @@
 
 #include "processor.h"
 #include <cmath>
+#include "utils.h"
 
 namespace mopo {
 
@@ -44,7 +45,7 @@ namespace mopo {
 
         mopo_float out = floor(magnification_ * (1.0 + audio) + 0.5) / magnification_ - 1.0;
 
-        output(0)->buffer[i] = INTERPOLATE(audio, out, wet);
+        output(0)->buffer[i] = utils::interpolate(audio, out, wet);
       }
 
     protected:

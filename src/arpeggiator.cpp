@@ -39,8 +39,8 @@ namespace mopo {
       return;
     
     mopo_float frequency = input(kFrequency)->at(0);
-    float min_gate = (MIN_VOICE_TIME + VOICE_KILL_TIME) * frequency;
-    mopo_float gate = INTERPOLATE(min_gate, 1.0, input(kGate)->at(0));
+    mopo_float min_gate = (MIN_VOICE_TIME + VOICE_KILL_TIME) * frequency;
+    mopo_float gate = utils::interpolate(min_gate, 1.0, input(kGate)->at(0));
 
     mopo_float delta_phase = frequency / sample_rate_;
     mopo_float new_phase = phase_ + buffer_size_ * delta_phase;

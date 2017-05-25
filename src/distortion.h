@@ -24,21 +24,23 @@
 
 namespace mopo {
 
-  // Implements RBJ biquad filters of different types.
   class Distortion : public Processor {
     public:
       enum Inputs {
         kAudio,
         kType,
         kThreshold,
+        kDrive,
+        kMix,
         kNumInputs
       };
 
       enum Type {
-        kTanh,
+        kSoftClip,
         kHardClip,
-        kVelTanh,
-        kNumTypes,
+        kLinearFold,
+        kSinFold,
+        kNumTypes
       };
 
       Distortion();
@@ -50,12 +52,10 @@ namespace mopo {
 
       virtual void process() override;
 
-      void processTanh();
+      void processSoftClip();
       void processHardClip();
-      void processVelTanh();
-
-      void tick(int i) {
-      }
+      void processLinearFold();
+      void processSinFold();
 
     private:
       void reset();

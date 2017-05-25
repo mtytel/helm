@@ -20,7 +20,6 @@
 
 // Utilities.
 #define UNUSED(x) (void)(x)
-#define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
 
 // Debugging.
 #if DEBUG

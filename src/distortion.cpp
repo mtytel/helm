@@ -19,55 +19,66 @@
 
 namespace mopo {
 
-  void Distortion::processTanh() {
-    mopo_float threshold = input(kThreshold)->at(0);
-    mopo_float compression_scale = 1.0 / threshold;
-
-    const mopo_float* audio = input(kAudio)->source->buffer;
-    mopo_float* dest = output()->buffer;
-
-    int samples = buffer_size_;
-    #pragma clang loop vectorize(enable) interleave(enable)
-    for (int i = 0; i < samples; ++i) {
-      mopo_float val = audio[i];
-      mopo_float magnitude = fabs(val);
-      tmp_buffer_[i] = compression_scale * magnitude - 1.0;
+  namespace {
+    inline mopo_float linearFold(mopo_float t) {
+      mopo_float adjust = 0.25 * t + 0.75;
+      mopo_float range = adjust - trunc(adjust);
+      return fabs(2.0 - 4.0 * range) - 1.0;
     }
+  } // namespace
 
-    for (int i = 0; i < samples; ++i)
-      tmp_buffer_[i] = utils::clamp(tmp_buffer_[i], 0.0, 1.0);
+  void Distortion::processSoftClip() {
+    const mopo_float* audio = input(kAudio)->source->buffer;
+    const mopo_float* drive = input(kDrive)->source->buffer;
+    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float* dest = output()->buffer;
+    int buffer_size = buffer_size_;
 
     #pragma clang loop vectorize(enable) interleave(enable)
-    for (int i = 0; i < samples; ++i) {
-      mopo_float val = audio[i];
-      mopo_float compressed = utils::quickTanh(val);
-
-      dest[i] = INTERPOLATE(val, compressed, tmp_buffer_[i]);
+    for (int i = 0; i < buffer_size; ++i) {
+      mopo_float distort = drive[i] * audio[i];
+      dest[i] = utils::interpolate(audio[i], utils::quickTanh(distort), mix[i]);
     }
   }
 
   void Distortion::processHardClip() {
-    for (int i = 0; i < buffer_size_; ++i) {
-      mopo_float val = input(kAudio)->at(i);
-      output()->buffer[i] = utils::clamp(val, -1.0, 1.0);
+    const mopo_float* audio = input(kAudio)->source->buffer;
+    const mopo_float* drive = input(kDrive)->source->buffer;
+    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float* dest = output()->buffer;
+    int buffer_size = buffer_size_;
+
+    for (int i = 0; i < buffer_size; ++i) {
+      mopo_float distort = utils::clamp(drive[i] * audio[i], -1.0, 1.0);
+      dest[i] = utils::interpolate(audio[i], distort, mix[i]);
     }
   }
 
-  void Distortion::processVelTanh() {
-    mopo_float threshold = input(kThreshold)->at(0);
-    mopo_float compression_size = 1.0 - threshold;
-    mopo_float compression_scale = 1.0 / compression_size;
+  void Distortion::processLinearFold() {
+    const mopo_float* audio = input(kAudio)->source->buffer;
+    const mopo_float* drive = input(kDrive)->source->buffer;
+    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float* dest = output()->buffer;
+    int buffer_size = buffer_size_;
 
-    for (int i = 0; i < buffer_size_; ++i) {
-      mopo_float val = input(kAudio)->at(i);
-      mopo_float delta_in = val - past_in_;
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (int i = 0; i < buffer_size; ++i) {
+      mopo_float distort = linearFold(drive[i] * audio[i]);
+      dest[i] = utils::interpolate(audio[i], distort, mix[i]);
+    }
+  }
 
-      mopo_float normal_out = past_out_ + delta_in;
-      mopo_float magnitude = fabs(normal_out);
-      float drive = utils::clamp(compression_scale * magnitude - 1.0, 0.0, 1.0);
-      past_out_ = INTERPOLATE(normal_out, tanh(normal_out), drive);
-      output()->buffer[i] = past_out_;
-      past_in_ = val;
+  void Distortion::processSinFold() {
+    const mopo_float* audio = input(kAudio)->source->buffer;
+    const mopo_float* drive = input(kDrive)->source->buffer;
+    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float* dest = output()->buffer;
+    int buffer_size = buffer_size_;
+
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (int i = 0; i < buffer_size; ++i) {
+      mopo_float distort = linearFold(drive[i] * audio[i]);
+      dest[i] = utils::interpolate(audio[i], distort, mix[i]);
     }
   }
 
@@ -80,14 +91,17 @@ namespace mopo {
     current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
 
     switch(current_type_) {
-      case kTanh:
-        processTanh();
+      case kSoftClip:
+        processSoftClip();
         break;
       case kHardClip:
         processHardClip();
         break;
-      case kVelTanh:
-        processVelTanh();
+      case kLinearFold:
+        processLinearFold();
+        break;
+      case kSinFold:
+        processSinFold();
         break;
       default:
         output()->clearBuffer();

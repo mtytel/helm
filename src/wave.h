@@ -97,23 +97,23 @@ namespace mopo {
         mopo_float integral;
         mopo_float fractional = utils::mod(t * LOOKUP_SIZE, &integral);
         int index = integral;
-        return INTERPOLATE(sin_[index], sin_[index + 1], fractional);
+        return utils::interpolate(sin_[index], sin_[index + 1], fractional);
       }
 
       inline mopo_float square(mopo_float t, int harmonics) const {
         mopo_float integral;
         mopo_float fractional = utils::mod(t * LOOKUP_SIZE, &integral);
         int index = integral;
-        return INTERPOLATE(square_[harmonics][index],
-                           square_[harmonics][index + 1], fractional);
+        return utils::interpolate(square_[harmonics][index],
+                                  square_[harmonics][index + 1], fractional);
       }
 
       inline mopo_float upsaw(mopo_float t, int harmonics) const {
         mopo_float integral;
         mopo_float fractional = utils::mod(t * LOOKUP_SIZE, &integral);
         int index = integral;
-        return INTERPOLATE(saw_[harmonics][index],
-                           saw_[harmonics][index + 1], fractional);
+        return utils::interpolate(saw_[harmonics][index],
+                                  saw_[harmonics][index + 1], fractional);
       }
 
       inline mopo_float downsaw(mopo_float t, int harmonics) const {
@@ -124,8 +124,8 @@ namespace mopo {
         mopo_float integral;
         mopo_float fractional = utils::mod(t * LOOKUP_SIZE, &integral);
         int index = integral;
-        return INTERPOLATE(triangle_[harmonics][index],
-                           triangle_[harmonics][index + 1], fractional);
+        return utils::interpolate(triangle_[harmonics][index],
+                                  triangle_[harmonics][index + 1], fractional);
       }
 
       template<size_t steps>

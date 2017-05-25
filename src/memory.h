@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include "utils.h"
+
 namespace mopo {
 
   // A processor utility to store a stream of data for later lookup.
@@ -74,7 +76,7 @@ namespace mopo {
 
         mopo_float from = getIndex(index - 1);
         mopo_float to = getIndex(index);
-        return INTERPOLATE(from, to, sample_fraction);
+        return utils::interpolate(from, to, sample_fraction);
       }
 
       unsigned int getOffset() const { return offset_; }

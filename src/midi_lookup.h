@@ -38,8 +38,8 @@ namespace mopo {
         int full_cents = clamped_cents;
         mopo_float fraction_cents = clamped_cents - full_cents;
 
-        return INTERPOLATE(frequency_lookup_[full_cents],
-                           frequency_lookup_[full_cents + 1], fraction_cents);
+        return utils::interpolate(frequency_lookup_[full_cents],
+                                  frequency_lookup_[full_cents + 1], fraction_cents);
       }
 
     private:

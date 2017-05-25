@@ -20,6 +20,7 @@
 
 #include "memory.h"
 #include "processor.h"
+#include "utils.h"
 
 namespace mopo {
 
@@ -48,7 +49,7 @@ namespace mopo {
 
         mopo_float read = memory_->get(period);
         memory_->push(audio + read * current_feedback_);
-        output(0)->buffer[i] = INTERPOLATE(audio, read, current_wet_);
+        output(0)->buffer[i] = utils::interpolate(audio, read, current_wet_);
       }
 
     protected:
