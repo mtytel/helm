@@ -17,6 +17,8 @@
 #include "smooth_filter.h"
 #include <cmath>
 
+#include "utils.h"
+
 namespace mopo {
 
   SmoothFilter::SmoothFilter() : Processor(SmoothFilter::kNumInputs, 1) {
@@ -31,7 +33,7 @@ namespace mopo {
 
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float target = input(kTarget)->at(i);
-      last_value_ = INTERPOLATE(target, last_value_, decay);
+      last_value_ = utils::interpolate(target, last_value_, decay);
       output(0)->buffer[i] = last_value_;
     }
   }

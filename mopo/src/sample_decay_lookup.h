@@ -48,8 +48,8 @@ namespace mopo {
         int int_index = index;
         mopo_float fraction = index - int_index;
 
-        return INTERPOLATE(sample_decay_lookup_[int_index],
-                           sample_decay_lookup_[int_index + 1], fraction);
+        return utils::interpolate(sample_decay_lookup_[int_index],
+                                  sample_decay_lookup_[int_index + 1], fraction);
       }
 
     private:

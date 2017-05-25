@@ -42,8 +42,8 @@ namespace mopo {
         int int_index = index;
         mopo_float fraction = index - int_index;
 
-        return INTERPOLATE(q_lookup_[int_index],
-                           q_lookup_[int_index + 1], fraction);
+        return utils::interpolate(q_lookup_[int_index],
+                                  q_lookup_[int_index + 1], fraction);
       }
 
     private:

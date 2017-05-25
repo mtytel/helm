@@ -19,6 +19,7 @@
 #define ALIAS_H
 
 #include "processor.h"
+#include "utils.h"
 
 namespace mopo {
 
@@ -49,7 +50,7 @@ namespace mopo {
           current_sample_ = audio;
         }
 
-        output(0)->buffer[i] = INTERPOLATE(audio, current_sample_, wet);
+        output(0)->buffer[i] = utils::interpolate(audio, current_sample_, wet);
       }
 
     protected:

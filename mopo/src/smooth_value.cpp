@@ -18,6 +18,8 @@
 
 #include <cmath>
 
+#include "utils.h"
+
 #define SMOOTH_CUTOFF 3.0
 
 namespace mopo {
@@ -40,7 +42,7 @@ namespace mopo {
   }
 
   inline void SmoothValue::tick(int i) {
-    value_ = INTERPOLATE(value_, target_value_, decay_);
+    value_ = utils::interpolate(value_, target_value_, decay_);
     output()->buffer[i] = value_;
   }
 
@@ -63,7 +65,7 @@ namespace mopo {
     }
 
     void SmoothValue::process() {
-      value_ = INTERPOLATE(value_, target_value_, decay_);
+      value_ = utils::interpolate(value_, target_value_, decay_);
       output()->buffer[0] = value_;
     }
 

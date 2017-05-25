@@ -124,7 +124,6 @@ namespace mopo {
                output()->buffer, 1,
                output()->buffer, 1, buffer_size_);
 #else
-#define INTERPOLATE(s, e, f) ((s) + (f) * ((e) - (s)))
     mopo_float* dest = output()->buffer;
     const mopo_float* from = input(kFrom)->source->buffer;
     const mopo_float* to = input(kTo)->source->buffer;

@@ -93,7 +93,7 @@ namespace mopo {
       }
       else if (state_ == kDecaying) {
         for (; i < buffer_size; ++i) {
-          current_value = INTERPOLATE(sustain, current_value, decay_decay_);
+          current_value = utils::interpolate(sustain, current_value, decay_decay_);
           out_buffer[i] = current_value;
         }
       }

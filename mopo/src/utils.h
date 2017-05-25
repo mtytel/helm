@@ -90,17 +90,25 @@ namespace mopo {
 
 #else
     inline mopo_float min(mopo_float one, mopo_float two) {
-      return std::min(one, two);
+      return fmin(one, two);
     }
 
     inline mopo_float max(mopo_float one, mopo_float two) {
-      return std::max(one, two);
+      return fmax(one, two);
     }
 
     inline mopo_float clamp(mopo_float value, mopo_float min, mopo_float max) {
-      return std::min(max, std::max(value, min));
+      return fmin(max, fmax(value, min));
     }
 #endif
+
+    inline double interpolate(double from, double to, double t) {
+      return fma(t, to - from, from);
+    }
+
+    inline float interpolate(float from, float to, float t) {
+      return fmaf(t, to - from, from);
+    }
 
     inline mopo_float mod(double value, double* integral) {
       return modf(value, integral);
@@ -123,7 +131,7 @@ namespace mopo {
     }
 
     inline mopo_float dbToGain(mopo_float decibels) {
-      return std::pow(10.0, decibels / DB_GAIN_CONVERSION_MULT);
+      return pow(10.0, decibels / DB_GAIN_CONVERSION_MULT);
     }
 
     inline mopo_float centsToRatio(mopo_float cents) {
@@ -147,7 +155,7 @@ namespace mopo {
     }
 
     inline mopo_float magnitudeToQ(mopo_float magnitude) {
-      return pow(2.0, INTERPOLATE(MIN_Q_POW, MAX_Q_POW, magnitude));
+      return pow(2.0, interpolate(MIN_Q_POW, MAX_Q_POW, magnitude));
     }
 
     inline mopo_float qToMagnitude(mopo_float q) {
@@ -176,23 +184,23 @@ namespace mopo {
 
     // Version of quick sin where phase is is [-0.5, 0.5]
     inline mopo_float quickerSin(mopo_float phase) {
-      return phase * (8.0 - 16.0 * std::abs(phase));
+      return phase * (8.0 - 16.0 * fabs(phase));
     }
 
     inline mopo_float quickSin(mopo_float phase) {
       mopo_float approx = quickerSin(phase);
-      return approx * (0.776 + 0.224 * std::abs(approx));
+      return approx * (0.776 + 0.224 * fabs(approx));
     }
 
     // Version of quick sin where phase is is [0, 1]
     inline mopo_float quickerSin1(mopo_float phase) {
       phase = 0.5 - phase;
-      return phase * (8.0 - 16.0 * std::abs(phase));
+      return phase * (8.0 - 16.0 * fabs(phase));
     }
 
     inline mopo_float quickSin1(mopo_float phase) {
       mopo_float approx = quickerSin1(phase);
-      return approx * (0.776 + 0.224 * std::abs(approx));
+      return approx * (0.776 + 0.224 * fabs(approx));
     }
 
     inline bool isSilent(const mopo_float* buffer, int length) {
@@ -212,11 +220,10 @@ namespace mopo {
       return sqrt(square_total / num);
     }
 
-    inline mopo_float peak(const mopo_float* buffer, int num) {
+    inline mopo_float peak(const mopo_float* buffer, int num, int skip) {
       mopo_float peak = 0.0;
-#pragma clang loop vectorize(enable) interleave(enable)
-      for (int i = 0; i < num; ++i)
-        peak = std::max<mopo_float>(peak, fabs(buffer[i]));
+      for (int i = 0; i < num; i += skip)
+        peak = fmax(peak, fabs(buffer[i]));
 
       return peak;
     }

@@ -373,7 +373,7 @@ namespace mopo {
                              const mopo_float* source_left,
                              const mopo_float* source_right,
                              const mopo_float* fraction, int i) {
-        dest[i] = INTERPOLATE(source_left[i], source_right[i], fraction[i]);
+        dest[i] = utils::interpolate(source_left[i], source_right[i], fraction[i]);
       }
   };
 
@@ -399,14 +399,14 @@ namespace mopo {
       void process() override;
 
       inline void tick(int i) override {
-        float top = INTERPOLATE(input(kTopLeft)->at(i),
-                                input(kTopRight)->at(i),
-                                input(kXPosition)->at(i));
-        float bottom = INTERPOLATE(input(kBottomLeft)->at(i),
-                                   input(kBottomRight)->at(i),
-                                   input(kXPosition)->at(i));
-        output()->buffer[i] = INTERPOLATE(top, bottom,
-                                          input(kYPosition)->at(i));
+        mopo_float top = utils::interpolate(input(kTopLeft)->at(i),
+                                            input(kTopRight)->at(i),
+                                            input(kXPosition)->at(i));
+        mopo_float bottom = utils::interpolate(input(kBottomLeft)->at(i),
+                                               input(kBottomRight)->at(i),
+                                               input(kXPosition)->at(i));
+        output()->buffer[i] = utils::interpolate(top, bottom,
+                                                 input(kYPosition)->at(i));
       }
   };
 
@@ -598,7 +598,7 @@ namespace mopo {
                              const mopo_float* source_left,
                              const mopo_float* source_right,
                              const mopo_float* fraction, int i) {
-        dest[i] = INTERPOLATE(source_left[i], source_right[i], fraction[i]);
+        dest[i] = utils::interpolate(source_left[i], source_right[i], fraction[i]);
       }
     };
 
