@@ -124,6 +124,9 @@ class HelmApplication : public JUCEApplication {
       void activeWindowStatusChanged() override {
         if (editor_)
           editor_->animate(LoadSave::shouldAnimateWidgets() && isActiveWindow());
+
+        if (isActiveWindow())
+          editor_->grabKeyboardFocus();
       }
 
     private:
