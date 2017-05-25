@@ -144,9 +144,9 @@ void SynthesisInterface::resized() {
   amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + CELL_PADDING,
                                          COLUMN_WIDTH_1, 120.0f);
 
-  feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 92.0f);
+  feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 86.0f);
   filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + CELL_PADDING,
-                             COLUMN_WIDTH_2, 190.0f);
+                             COLUMN_WIDTH_2, 196.0f);
   filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + CELL_PADDING,
                                       COLUMN_WIDTH_2, 120.0f);
 

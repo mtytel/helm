@@ -49,7 +49,10 @@ class SynthSlider : public Slider {
     void drawShadow(Graphics& g);
     void drawRotaryShadow(Graphics& g);
     void drawRectangularShadow(Graphics& g);
-    void snapToZero(bool snap) { snap_to_zero_ = snap; }
+    void snapToValue(bool snap, float value = 0.0) {
+      snap_to_value_ = snap;
+      snap_value_ = value;
+    }
 
     void setScalingType(mopo::ValueDetails::DisplaySkew scaling_type) {
       scaling_type_ = scaling_type;
@@ -78,13 +81,14 @@ class SynthSlider : public Slider {
     bool isFlippedColor() const { return flip_coloring_; }
     bool isActive() const { return active_; }
 
-  private:
+  protected:
     void notifyTooltip();
 
     bool bipolar_;
     bool flip_coloring_;
     bool active_;
-    bool snap_to_zero_;
+    bool snap_to_value_;
+    float snap_value_;
     String units_;
     mopo::ValueDetails::DisplaySkew scaling_type_;
     float post_multiply_;

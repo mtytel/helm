@@ -43,7 +43,7 @@ const float SynthSlider::rotary_angle = 0.8 * mopo::PI;
 const float SynthSlider::linear_rail_width = 2.0f;
 
 SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_coloring_(false),
-                                        active_(true), snap_to_zero_(false),
+                                        active_(true), snap_to_value_(false), snap_value_(0.0),
                                         string_lookup_(nullptr), parent_(nullptr) {
   if (!mopo::Parameters::isParameter(name.toStdString()))
     return;
@@ -188,16 +188,16 @@ String SynthSlider::getTextFromValue(double value) {
   return String(synthRound(display_value)) + " " + units_;
 }
 
-double SynthSlider::snapValue(double attemptedValue, DragMode dragMode) {
+double SynthSlider::snapValue(double attempted_value, DragMode drag_mode) {
   const double percent = 0.05;
-  if (!snap_to_zero_ || dragMode != DragMode::absoluteDrag)
-    return attemptedValue;
+  if (!snap_to_value_ || drag_mode != DragMode::absoluteDrag)
+    return attempted_value;
 
   double range = getMaximum() - getMinimum();
   double radius = percent * range;
-  if (attemptedValue <= radius && attemptedValue >= -radius)
-    return 0.0;
-  return attemptedValue;
+  if (attempted_value - snap_value_ <= radius && attempted_value - snap_value_ >= -radius)
+    return snap_value_;
+  return attempted_value;
 }
 
 void SynthSlider::drawShadow(Graphics &g) {
@@ -284,7 +284,7 @@ void SynthSlider::addSliderListener(SynthSlider::SliderListener* listener) {
 }
 
 void SynthSlider::notifyTooltip() {
-  if (!parent_)
+  if (parent_ == nullptr)
     parent_ = findParentComponentOfClass<FullInterface>();
   if (parent_) {
     std::string name = getName().toStdString();

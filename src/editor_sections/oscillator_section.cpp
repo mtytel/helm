@@ -18,6 +18,7 @@
 
 #include "colors.h"
 #include "fonts.h"
+#include "synth_button.h"
 #include "synth_slider.h"
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
@@ -88,11 +89,11 @@ OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
   unison_voices_2_->setLookAndFeel(TextLookAndFeel::instance());
   unison_voices_2_->setMouseDragSensitivity(UNISON_DRAG_SENSITIVITY);
 
-  addButton(unison_harmonize_1_ = new ToggleButton("unison_1_harmonize"));
+  addButton(unison_harmonize_1_ = new SynthButton("unison_1_harmonize"));
   unison_harmonize_1_->setLookAndFeel(TextLookAndFeel::instance());
   unison_harmonize_1_->setButtonText("H");
 
-  addButton(unison_harmonize_2_ = new ToggleButton("unison_2_harmonize"));
+  addButton(unison_harmonize_2_ = new SynthButton("unison_2_harmonize"));
   unison_harmonize_2_->setLookAndFeel(TextLookAndFeel::instance());
   unison_harmonize_2_->setButtonText("H");
 }

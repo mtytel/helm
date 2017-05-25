@@ -31,16 +31,27 @@ class FilterSection : public SynthSection {
     void paintBackground(Graphics& g) override;
     void resized() override;
     void reset() override;
-    void buttonClicked(Button* clicked_button) override;
+    void sliderValueChanged(Slider* changed_slider) override;
+
+    void resizeLowPass(float x, float y, float width, float height);
+    void resizeHighPass(float x, float y, float width, float height);
+
+    void setActive(bool active) override;
 
   private:
-    ScopedPointer<FilterSelector> filter_type_;
+    ScopedPointer<ToggleButton> filter_on_;
+    ScopedPointer<FilterSelector> filter_shelf_;
     ScopedPointer<SynthSlider> cutoff_;
     ScopedPointer<SynthSlider> resonance_;
+    ScopedPointer<SynthSlider> blend_;
     ScopedPointer<FilterResponse> filter_response_;
     ScopedPointer<SynthSlider> fil_env_depth_;
     ScopedPointer<SynthSlider> keytrack_;
-    ScopedPointer<ToggleButton> filter_24db_;
+    ScopedPointer<SynthSlider> filter_style_;
+    ScopedPointer<SynthSlider> drive_;
+
+    Path low_pass_;
+    Path high_pass_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FilterSection)
 };

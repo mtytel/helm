@@ -32,10 +32,15 @@ FilterResponse::FilterResponse(int resolution) {
   resolution_ = resolution;
   cutoff_slider_ = nullptr;
   resonance_slider_ = nullptr;
-  filter_type_slider_ = nullptr;
+  filter_blend_slider_ = nullptr;
+  filter_shelf_slider_ = nullptr;
 
-  filter_.setSampleRate(44100);
-  filter_24db_ = false;
+  filter_low_.setSampleRate(44100);
+  filter_band_.setSampleRate(44100);
+  filter_high_.setSampleRate(44100);
+  filter_shelf_.setSampleRate(44100);
+  style_ = mopo::StateVariableFilter::kNumStyles;
+  active_ = false;
   resetResponsePath();
 
   setOpaque(true);
@@ -67,7 +72,10 @@ void FilterResponse::paint(Graphics& g) {
   g.setColour(Colors::graphFill);
   g.fillPath(filter_response_path_);
 
-  g.setColour(Colors::audio);
+  if (active_)
+    g.setColour(Colors::audio);
+  else
+    g.setColour(Colors::graphDisable);
   g.strokePath(filter_response_path_, stroke);
 }
 
@@ -84,30 +92,35 @@ void FilterResponse::resized() {
 }
 
 void FilterResponse::mouseDown(const MouseEvent& e) {
-  if (e.mods.isRightButtonDown() && filter_type_slider_) {
-    int max = filter_type_slider_->getMaximum();
-    int current_value = filter_type_slider_->getValue();
-    filter_type_slider_->setValue((current_value + 1) % (max + 1));
-
-    computeFilterCoefficients();
-  }
-  else
-    setFilterSettingsFromPosition(e.getPosition());
+  setFilterSettingsFromPosition(e.getPosition());
   repaint();
 }
 
 void FilterResponse::mouseDrag(const MouseEvent& e) {
-  if (!e.mods.isRightButtonDown()) {
-    setFilterSettingsFromPosition(e.getPosition());
-    repaint();
-  }
+  setFilterSettingsFromPosition(e.getPosition());
+  repaint();
 }
 
 float FilterResponse::getPercentForMidiNote(float midi_note) {
   float frequency = mopo::utils::midiNoteToFrequency(midi_note);
-  float response = fabs(filter_.getAmplitudeResponse(frequency));
-  if (filter_24db_)
-    response *= response;
+
+  float response = 0.0f;
+  if (style_ == mopo::StateVariableFilter::kShelf)
+    response = fabs(filter_shelf_.getAmplitudeResponse(frequency));
+  else {
+    float blend = filter_blend_slider_->getValue();
+    float low_pass_amount = mopo::utils::clamp(1.0 - blend, 0.0, 1.0);
+    float band_pass_amount = mopo::utils::clamp(1.0 - fabs(blend - 1.0), 0.0, 1.0);
+    float high_pass_amount = mopo::utils::clamp(blend - 1.0, 0.0, 1.0);
+
+    response = low_pass_amount * filter_low_.getAmplitudeResponse(frequency) +
+               band_pass_amount * filter_band_.getAmplitudeResponse(frequency) +
+               high_pass_amount * filter_high_.getAmplitudeResponse(frequency);
+
+    response = fabs(response);
+    if (style_ == mopo::StateVariableFilter::k24dB)
+      response *= response;
+  }
 
   float gain_db = mopo::utils::gainToDb(response);
   return (gain_db - MIN_GAIN_DB) / (MAX_GAIN_DB - MIN_GAIN_DB);
@@ -152,28 +165,35 @@ void FilterResponse::resetResponsePath() {
 }
 
 void FilterResponse::computeFilterCoefficients() {
-  if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr || filter_type_slider_ == nullptr)
+  if (cutoff_slider_ == nullptr || resonance_slider_ == nullptr ||
+      filter_blend_slider_ == nullptr || filter_shelf_slider_ == nullptr) {
     return;
+  }
 
-  mopo::BiquadFilter::Type type = static_cast<mopo::BiquadFilter::Type>(
-      static_cast<int>(filter_type_slider_->getValue()));
+  mopo::StateVariableFilter::Shelves shelf = static_cast<mopo::StateVariableFilter::Shelves>(
+      static_cast<int>(filter_shelf_slider_->getValue()));
   double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
   double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
   double decibels = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
   double gain = mopo::utils::dbToGain(decibels);
 
-  if (filter_24db_) {
+  if (style_ == mopo::StateVariableFilter::k24dB) {
     resonance = sqrt(resonance);
     gain = sqrt(gain);
   }
   
-  if (type == mopo::BiquadFilter::kLowShelf ||
-      type == mopo::BiquadFilter::kHighShelf ||
-      type == mopo::BiquadFilter::kBandShelf) {
-    filter_.computeCoefficients(type, frequency, 1.0, gain);
+  if (style_ == mopo::StateVariableFilter::kShelf) {
+    mopo::BiquadFilter::Type type = mopo::BiquadFilter::kLowShelf;
+    if (shelf == mopo::StateVariableFilter::kBandShelf)
+      type = mopo::BiquadFilter::kBandShelf;
+    else if (shelf == mopo::StateVariableFilter::kHighShelf)
+      type = mopo::BiquadFilter::kHighShelf;
+    filter_shelf_.computeCoefficients(type, frequency, 1.0, gain);
   }
   else {
-    filter_.computeCoefficients(type, frequency, resonance, 1.0);
+    filter_low_.computeCoefficients(mopo::BiquadFilter::kLowPass, frequency, resonance, 1.0);
+    filter_band_.computeCoefficients(mopo::BiquadFilter::kBandPass, frequency, resonance, 1.0);
+    filter_high_.computeCoefficients(mopo::BiquadFilter::kHighPass, frequency, resonance, 1.0);
   }
   resetResponsePath();
 }
@@ -215,20 +235,34 @@ void FilterResponse::setCutoffSlider(Slider* slider) {
   repaint();
 }
 
-void FilterResponse::setFilterTypeSlider(Slider* slider) {
-  if (filter_type_slider_)
-    filter_type_slider_->removeListener(this);
-  filter_type_slider_ = slider;
-  filter_type_slider_->addListener(this);
+void FilterResponse::setFilterBlendSlider(Slider* slider) {
+  if (filter_blend_slider_)
+    filter_blend_slider_->removeListener(this);
+  filter_blend_slider_ = slider;
+  filter_blend_slider_->addListener(this);
   computeFilterCoefficients();
   repaint();
 }
 
-void FilterResponse::set24db(bool db24) {
-  if (filter_24db_ == db24)
+void FilterResponse::setFilterShelfSlider(Slider* slider) {
+  if (filter_shelf_slider_)
+    filter_shelf_slider_->removeListener(this);
+  filter_shelf_slider_ = slider;
+  filter_shelf_slider_->addListener(this);
+  computeFilterCoefficients();
+  repaint();
+}
+
+void FilterResponse::setStyle(mopo::StateVariableFilter::Styles style) {
+  if (style_ == style)
     return;
 
-  filter_24db_ = db24;
+  style_ = style;
   computeFilterCoefficients();
+  repaint();
+}
+
+void FilterResponse::setActive(bool active) {
+  active_ = active;
   repaint();
 }

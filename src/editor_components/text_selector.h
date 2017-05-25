@@ -14,28 +14,29 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#ifndef FEEDBACK_SECTION_H
-#define FEEDBACK_SECTION_H
+#ifndef TEXT_SELECTOR_H
+#define TEXT_SELECTOR_H
 
 #include "JuceHeader.h"
-#include "synth_section.h"
 #include "synth_slider.h"
 
-class FeedbackSection : public SynthSection {
+class TextSelector : public SynthSlider {
   public:
-    FeedbackSection(String name);
-    ~FeedbackSection();
+    TextSelector(String name);
 
-    void paintBackground(Graphics& g) override;
+    void paint(Graphics& g) override;
     void resized() override;
 
-  private:
-    ScopedPointer<SynthSlider> transpose_;
-    ScopedPointer<SynthSlider> tune_;
-    ScopedPointer<SynthSlider> amount_;
+    void mouseEvent(const MouseEvent& e);
+    void mouseDown(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeedbackSection)
+    void setShortStringLookup(const std::string* lookup) { short_lookup_ = lookup; }
+
+  private:
+    const std::string* short_lookup_;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextSelector)
 };
 
-#endif // FEEDBACK_SECTION_H
+#endif // TEXT_SELECTOR_H

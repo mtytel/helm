@@ -65,6 +65,24 @@ namespace mopo {
       "on"
     };
 
+    const std::string off_auto_on_slider[] = {
+      "OFF",
+      "AUT",
+      "ON"
+    };
+
+    const std::string filter_style[] = {
+      "12dB",
+      "24dB",
+      "Shelf"
+    };
+
+    const std::string filter_style_short[] = {
+      "12",
+      "24",
+      "SH"
+    };
+
     const std::string arp_patterns[] = {
       "up",
       "down",
@@ -85,6 +103,12 @@ namespace mopo {
       "Free",
       "Retrigger",
       "Sync to Playhead"
+    };
+
+    const std::string filter_shelves[] = {
+      "low shelf",
+      "band shelf",
+      "high shelf"
     };
 
     const std::string filter_types[] = {

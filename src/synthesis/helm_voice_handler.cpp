@@ -420,7 +420,6 @@ namespace mopo {
     addProcessor(scaled_envelope);
 
     // Filter.
-    Value* filter_type = createBaseControl("filter_type");
     Output* keytrack_amount = createPolyModControl("keytrack", true);
     cr::Multiply* current_keytrack = new cr::Multiply();
     current_keytrack->plug(keytrack, 0);
@@ -442,10 +441,6 @@ namespace mopo {
     cr::ResonanceScale* scaled_resonance = new cr::ResonanceScale();
     scaled_resonance->plug(resonance);
 
-    ResonanceCancel* final_resonance = new ResonanceCancel();
-    final_resonance->plug(scaled_resonance, ResonanceCancel::kResonance);
-    final_resonance->plug(filter_type, ResonanceCancel::kFilterType);
-
     static const cr::Value min_db(MIN_GAIN_DB);
     static const cr::Value max_db(MAX_GAIN_DB);
     cr::Interpolate* decibels = new cr::Interpolate();
@@ -455,32 +450,36 @@ namespace mopo {
     cr::MagnitudeScale* final_gain = new cr::MagnitudeScale();
     final_gain->plug(decibels);
 
-    Value* filter_db24 = createBaseControl("filter_24db");
-    Output* filter_saturation = createPolyModControl("filter_saturation", true);
-    cr::MagnitudeScale* saturation_magnitude = new cr::MagnitudeScale();
-    saturation_magnitude->plug(filter_saturation);
+    Value* filter_style = createBaseControl("filter_style");
+    Value* filter_shelf = createBaseControl("filter_shelf");
+    Value* filter_on = createBaseControl("filter_on");
+    Output* filter_drive = createPolyModControl("filter_drive", true);
+    Output* filter_blend = createPolyModControl("filter_blend", true);
+    cr::MagnitudeScale* drive_magnitude = new cr::MagnitudeScale();
+    drive_magnitude->plug(filter_drive);
 
     StateVariableFilter* filter = new StateVariableFilter();
+    filter->plug(filter_on, StateVariableFilter::kOn);
+    filter->plug(filter_style, StateVariableFilter::kStyle);
+    filter->plug(filter_shelf, StateVariableFilter::kShelfChoice);
     filter->plug(audio, StateVariableFilter::kAudio);
-    filter->plug(filter_type, StateVariableFilter::kType);
+    filter->plug(filter_blend, StateVariableFilter::kPassBlend);
     filter->plug(reset, StateVariableFilter::kReset);
     filter->plug(frequency_cutoff, StateVariableFilter::kCutoff);
-    filter->plug(final_resonance, StateVariableFilter::kResonance);
+    filter->plug(scaled_resonance, StateVariableFilter::kResonance);
     filter->plug(final_gain, StateVariableFilter::kGain);
-    filter->plug(saturation_magnitude, StateVariableFilter::kDrive);
-    filter->plug(filter_db24, StateVariableFilter::k24db);
+    filter->plug(drive_magnitude, StateVariableFilter::kDrive);
 
     addProcessor(current_keytrack);
     addProcessor(keytracked_cutoff);
     addProcessor(midi_cutoff);
     addProcessor(scaled_resonance);
-    addProcessor(final_resonance);
     addProcessor(decibels);
     addProcessor(final_gain);
     addProcessor(frequency_cutoff);
     addProcessor(filter);
 
-    addProcessor(saturation_magnitude);
+    addProcessor(drive_magnitude);
 
     mod_sources_["fil_envelope"] = filter_envelope_->output();
 

@@ -118,7 +118,7 @@ void StepSequencerSection::createStepSequencerSliders() {
       num = String("0") + num;
 
     SynthSlider* step = new SynthSlider(String("step_seq_") + num);
-    step->snapToZero(true);
+    step->snapToValue(true, 0.0);
     addSlider(step);
     sequencer_sliders_.push_back(step);
   }

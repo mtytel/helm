@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "helm_common.h"
 #include "biquad_filter.h"
+#include "state_variable_filter.h"
 
 class FilterResponse : public Component, SliderListener {
   public:
@@ -35,8 +36,9 @@ class FilterResponse : public Component, SliderListener {
 
     void setResonanceSlider(Slider* slider);
     void setCutoffSlider(Slider* slider);
-    void setFilterTypeSlider(Slider* slider);
-    void set24db(bool db24);
+    void setFilterBlendSlider(Slider* slider);
+    void setFilterShelfSlider(Slider* slider);
+    void setStyle(mopo::StateVariableFilter::Styles style);
 
     void paint(Graphics& g) override;
     void paintBackground(Graphics& g);
@@ -44,14 +46,21 @@ class FilterResponse : public Component, SliderListener {
     void mouseDown(const MouseEvent& e) override;
     void mouseDrag(const MouseEvent& e) override;
 
+    void setActive(bool active);
+
   private:
     Path filter_response_path_;
     int resolution_;
-    bool filter_24db_;
+    mopo::StateVariableFilter::Styles style_;
+    bool active_;
 
-    mopo::BiquadFilter filter_;
+    mopo::BiquadFilter filter_low_;
+    mopo::BiquadFilter filter_band_;
+    mopo::BiquadFilter filter_high_;
+    mopo::BiquadFilter filter_shelf_;
 
-    Slider* filter_type_slider_;
+    Slider* filter_blend_slider_;
+    Slider* filter_shelf_slider_;
     Slider* cutoff_slider_;
     Slider* resonance_slider_;
 

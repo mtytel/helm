@@ -16,6 +16,7 @@
 
 #include "formant_section.h"
 
+#include "synth_button.h"
 #include "synth_slider.h"
 
 #define SLIDER_WIDTH 10
@@ -31,7 +32,7 @@ FormantSection::FormantSection(String name) : SynthSection(name) {
   xy_pad_->setXSlider(x_);
   xy_pad_->setYSlider(y_);
 
-  addButton(on_ = new ToggleButton("formant_on"));
+  addButton(on_ = new SynthButton("formant_on"));
   setActivator(on_);
 }
 

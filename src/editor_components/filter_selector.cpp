@@ -16,7 +16,7 @@
 
 #include "filter_selector.h"
 
-#define TYPE_PADDING_X 7.0f
+#define TYPE_WIDTH 18.0f
 #define TYPE_PADDING_Y 3.0f
 
 FilterSelector::FilterSelector(String name) : SynthSlider(name) { }
@@ -27,45 +27,33 @@ void FilterSelector::paint(Graphics& g) {
   int selected = getValue();
   int num_types = getMaximum() - getMinimum() + 1;
   float cell_width = float(getWidth()) / num_types;
+
+  g.setColour(Colour(0xff222222));
+  g.fillRect(getLocalBounds());
+
   g.setColour(Colour(0xff424242));
   g.fillRect(selected * cell_width, 0.0f, cell_width, float(getHeight()));
 
   g.setColour(selected == 0 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
-  g.strokePath(low_pass_, stroke);
-
-  g.setColour(selected == 1 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
-  g.strokePath(high_pass_, stroke);
-
-  g.setColour(selected == 2 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
-  g.strokePath(band_pass_, stroke);
-
-  g.setColour(selected == 3 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
   g.strokePath(low_shelf_, stroke);
 
-  g.setColour(selected == 4 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
-  g.strokePath(high_shelf_, stroke);
-
-  g.setColour(selected == 5 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
+  g.setColour(selected == 1 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
   g.strokePath(band_shelf_, stroke);
 
-  g.setColour(selected == 6 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
-  g.strokePath(all_pass_, stroke);
+  g.setColour(selected == 2 ? Colour(0xffffffff) : Colour(0xffaaaaaa));
+  g.strokePath(high_shelf_, stroke);
 }
 
 void FilterSelector::resized() {
   SynthSlider::resized();
   int num_types = getMaximum() - getMinimum() + 1;
   float cell_width = float(getWidth()) / num_types;
-  float type_width = cell_width - 2 * TYPE_PADDING_X;
+  float padding_x = (cell_width - TYPE_WIDTH) / 2.0f;
   float type_height = getHeight() - 2 * TYPE_PADDING_Y;
 
-  resizeLowPass(0.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-  resizeHighPass(1.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-  resizeBandPass(2.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-  resizeLowShelf(3.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-  resizeHighShelf(4.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-  resizeBandShelf(5.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
-  resizeAllPass(6.0f * cell_width + TYPE_PADDING_X, TYPE_PADDING_Y, type_width, type_height);
+  resizeLowShelf(0.0f * cell_width + padding_x, TYPE_PADDING_Y, TYPE_WIDTH, type_height);
+  resizeBandShelf(1.0f * cell_width + padding_x, TYPE_PADDING_Y, TYPE_WIDTH, type_height);
+  resizeHighShelf(2.0f * cell_width + padding_x, TYPE_PADDING_Y, TYPE_WIDTH, type_height);
 }
 
 void FilterSelector::mouseEvent(const juce::MouseEvent &e) {

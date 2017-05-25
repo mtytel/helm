@@ -14,28 +14,36 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
-#ifndef FEEDBACK_SECTION_H
-#define FEEDBACK_SECTION_H
+#ifndef SYNTH_BUTTON_H
+#define SYNTH_BUTTON_H
 
 #include "JuceHeader.h"
-#include "synth_section.h"
-#include "synth_slider.h"
+#include "helm_common.h"
 
-class FeedbackSection : public SynthSection {
+class FullInterface;
+
+class SynthButton : public ToggleButton {
   public:
-    FeedbackSection(String name);
-    ~FeedbackSection();
+    SynthButton(String name);
 
-    void paintBackground(Graphics& g) override;
-    void resized() override;
+    void setStringLookup(const std::string* lookup) {
+      string_lookup_ = lookup;
+    }
+    const std::string* getStringLookup() const { return string_lookup_; }
+    String getTextFromValue(bool value);
+
+    void setActive(bool active = true);
+    bool isActive() const { return active_; }
 
   private:
-    ScopedPointer<SynthSlider> transpose_;
-    ScopedPointer<SynthSlider> tune_;
-    ScopedPointer<SynthSlider> amount_;
+    void buttonStateChanged() override;
+    void notifyTooltip();
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FeedbackSection)
+    bool active_;
+    const std::string* string_lookup_;
+    FullInterface* parent_;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthButton)
 };
 
-#endif // FEEDBACK_SECTION_H
+#endif // SYNTH_BUTTON_H

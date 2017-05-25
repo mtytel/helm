@@ -18,21 +18,26 @@
 
 #include "colors.h"
 #include "fonts.h"
+#include "synth_button.h"
+#include "text_selector.h"
 #include "text_look_and_feel.h"
 
 #define KNOB_WIDTH 40
 #define TEXT_WIDTH 40
+#define SELECTOR_WIDTH 75
 #define TEXT_HEIGHT 16
 
 DynamicSection::DynamicSection(String name) : SynthSection(name) {
   addSlider(portamento_ = new SynthSlider("portamento"));
   portamento_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  addSlider(portamento_type_ = new SynthSlider("portamento_type"));
+  TextSelector* port_type = new TextSelector("portamento_type");
+  addSlider(portamento_type_ = port_type);
   portamento_type_->setSliderStyle(Slider::LinearBar);
   portamento_type_->setStringLookup(mopo::strings::off_auto_on);
+  port_type->setShortStringLookup(mopo::strings::off_auto_on_slider);
 
-  addButton(legato_ = new ToggleButton("legato"));
+  addButton(legato_ = new SynthButton("legato"));
   legato_->setLookAndFeel(TextLookAndFeel::instance());
   legato_->setButtonText("");
 }
@@ -55,27 +60,17 @@ void DynamicSection::paintBackground(Graphics& g) {
                        4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);
   drawTextForComponent(g, TRANS("LEGATO"), legato_,
                        4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);
-
-  static const int ROOM = 20;
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(8.0f));
-  int type_y = portamento_type_->getY() - 12;
-  g.drawText(TRANS("OFF"), portamento_type_->getX() - ROOM,
-             type_y, 2 * ROOM, 10, Justification::centred, false);
-  g.drawText(TRANS("AUTO"), portamento_type_->getX() - ROOM + portamento_type_->getWidth() / 2,
-             type_y, 2 * ROOM, 10, Justification::centred, false);
-  g.drawText(TRANS("ON"), portamento_type_->getRight() - ROOM,
-             type_y, 2 * ROOM, 10, Justification::centred, false);
 }
 
 void DynamicSection::resized() {
-  float space_x = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
+  float space_x = (getWidth() - (KNOB_WIDTH + SELECTOR_WIDTH + TEXT_WIDTH)) / 4.0f;
   float space_y = (getHeight() - (KNOB_WIDTH + TEXT_HEIGHT)) / 2.0f;
   float extra_text_space = 2 * (KNOB_WIDTH - TEXT_HEIGHT) / 3;
 
   portamento_->setBounds(space_x, space_y, KNOB_WIDTH, KNOB_WIDTH);
   portamento_type_->setBounds(KNOB_WIDTH + 2 * space_x, space_y + extra_text_space,
-                              TEXT_WIDTH, TEXT_HEIGHT);
-  legato_->setBounds(2 * KNOB_WIDTH + 3 * space_x, space_y + extra_text_space,
+                              SELECTOR_WIDTH, TEXT_HEIGHT);
+  legato_->setBounds(KNOB_WIDTH + SELECTOR_WIDTH + 3 * space_x, space_y + extra_text_space,
                      TEXT_WIDTH, TEXT_HEIGHT);
 
   SynthSection::resized();

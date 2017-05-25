@@ -18,6 +18,7 @@
 
 #include "colors.h"
 #include "fonts.h"
+#include "synth_button.h"
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
@@ -50,7 +51,7 @@ DelaySection::DelaySection(String name) : SynthSection(name) {
   addSlider(dry_wet_ = new SynthSlider("delay_dry_wet"));
   dry_wet_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  addButton(on_ = new ToggleButton("delay_on"));
+  addButton(on_ = new SynthButton("delay_on"));
   setActivator(on_);
 }
 

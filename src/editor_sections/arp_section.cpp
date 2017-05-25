@@ -18,6 +18,7 @@
 
 #include "colors.h"
 #include "fonts.h"
+#include "synth_button.h"
 #include "text_look_and_feel.h"
 
 #define KNOB_WIDTH 40
@@ -52,7 +53,7 @@ ArpSection::ArpSection(String name) : SynthSection(name) {
   pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
   pattern_->setStringLookup(mopo::strings::arp_patterns);
 
-  addButton(on_ = new ToggleButton("arp_on"));
+  addButton(on_ = new SynthButton("arp_on"));
   setActivator(on_);
 }
 

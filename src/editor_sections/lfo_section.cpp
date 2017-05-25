@@ -41,7 +41,7 @@ LfoSection::LfoSection(String name, std::string value_prepend, bool retrigger, b
   addSlider(amplitude_ = new SynthSlider(value_prepend + "_amplitude"));
   amplitude_->setSliderStyle(Slider::LinearBarVertical);
   amplitude_->setBipolar();
-  amplitude_->snapToZero(true);
+  amplitude_->snapToValue(true, 0.0);
 
   addSlider(frequency_ = new SynthSlider(value_prepend + "_frequency"));
   frequency_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);

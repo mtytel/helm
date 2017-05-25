@@ -16,7 +16,7 @@
 
 #include "colors.h"
 
-const Colour Colors::background(0xff212121);
+const Colour Colors::background(0xff181818);
 const Colour Colors::tabHeading;
 const Colour Colors::tabBody;
 const Colour Colors::audio(0xff03a9f4);

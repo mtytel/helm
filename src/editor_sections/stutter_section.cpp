@@ -19,6 +19,7 @@
 #include "colors.h"
 #include "fonts.h"
 #include "text_look_and_feel.h"
+#include "synth_button.h"
 
 #define TEXT_Y 45
 #define TEXT_HEIGHT 16
@@ -63,7 +64,7 @@ StutterSection::StutterSection(String name) : SynthSection(name) {
   addSlider(stutter_softness_ = new SynthSlider("stutter_softness"));
   stutter_softness_->setSliderStyle(Slider::LinearBar);
 
-  addButton(on_ = new ToggleButton("stutter_on"));
+  addButton(on_ = new SynthButton("stutter_on"));
   setActivator(on_);
 }
 

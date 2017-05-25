@@ -18,6 +18,7 @@
 
 #include "colors.h"
 #include "fonts.h"
+#include "synth_button.h"
 
 #define KNOB_WIDTH 40
 
@@ -32,7 +33,7 @@ ReverbSection::ReverbSection(String name) : SynthSection(name) {
   addSlider(dry_wet_ = new SynthSlider("reverb_dry_wet"));
   dry_wet_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  addButton(on_ = new ToggleButton("reverb_on"));
+  addButton(on_ = new SynthButton("reverb_on"));
   setActivator(on_);
 }
 

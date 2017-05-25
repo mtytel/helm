@@ -36,16 +36,12 @@ FeedbackSection::FeedbackSection(String name) : SynthSection(name) {
   addSlider(tune_ = new SynthSlider("osc_feedback_tune"));
   tune_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   tune_->setBipolar();
-
-  addSlider(saturation_ = new SynthSlider("filter_saturation"));
-  saturation_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 }
 
 FeedbackSection::~FeedbackSection() {
   transpose_ = nullptr;
   amount_ = nullptr;
   tune_ = nullptr;
-  saturation_ = nullptr;
 }
 
 void FeedbackSection::paintBackground(Graphics& g) {
@@ -57,17 +53,15 @@ void FeedbackSection::paintBackground(Graphics& g) {
   drawTextForComponent(g, TRANS("TRANSPOSE"), transpose_);
   drawTextForComponent(g, TRANS("TUNE"), tune_);
   drawTextForComponent(g, TRANS("AMOUNT"), amount_);
-  drawTextForComponent(g, TRANS("SATURATION"), saturation_);
 }
 
 void FeedbackSection::resized() {
-  float space = (getWidth() - (4.0f * KNOB_WIDTH)) / 5.0f;
-  int y = 30;
+  float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
+  int y = 26;
 
   transpose_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   tune_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
   amount_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  saturation_->setBounds(3 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
 
   SynthSection::resized();
 }
