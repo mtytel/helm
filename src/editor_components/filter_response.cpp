@@ -20,8 +20,8 @@
 #include "midi_lookup.h"
 #include "utils.h"
 
-#define MIN_GAIN_DB -30.0f
-#define MAX_GAIN_DB 24.0f
+#define MIN_GAIN_DB -30.0
+#define MAX_GAIN_DB 24.0
 #define MIN_RESONANCE 0.5
 #define MAX_RESONANCE 16.0
 #define GRID_CELL_WIDTH 8
@@ -174,7 +174,8 @@ void FilterResponse::computeFilterCoefficients() {
       static_cast<int>(filter_shelf_slider_->getValue()));
   double frequency = mopo::utils::midiNoteToFrequency(cutoff_slider_->getValue());
   double resonance = mopo::utils::magnitudeToQ(resonance_slider_->getValue());
-  double decibels = INTERPOLATE(MIN_GAIN_DB, MAX_GAIN_DB, resonance_slider_->getValue());
+  double decibels = mopo::utils::interpolate(MIN_GAIN_DB, MAX_GAIN_DB,
+                                             resonance_slider_->getValue());
   double gain = mopo::utils::dbToGain(decibels);
 
   if (style_ == mopo::StateVariableFilter::k24dB) {

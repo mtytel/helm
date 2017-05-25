@@ -37,7 +37,7 @@ namespace mopo {
       DetuneLookupSingleton() {
         for (int i = 0; i < DETUNE_LOOKUP_RESOLUTION + 2; ++i) {
           mopo_float t = (1.0 * i) / DETUNE_LOOKUP_RESOLUTION;
-          mopo_float cents = INTERPOLATE(MIN_LOOKUP_CENTS, MAX_LOOKUP_CENTS, t);
+          mopo_float cents = utils::interpolate(MIN_LOOKUP_CENTS, MAX_LOOKUP_CENTS, t);
           detune_lookup_[i] = utils::centsToRatio(cents);
         }
       }
@@ -48,8 +48,8 @@ namespace mopo {
         int int_index = index;
         mopo_float fraction = index - int_index;
 
-        return INTERPOLATE(detune_lookup_[int_index],
-                           detune_lookup_[int_index + 1], fraction);
+        return utils::interpolate(detune_lookup_[int_index],
+                                  detune_lookup_[int_index + 1], fraction);
       }
 
     private:

@@ -20,6 +20,7 @@
 #include "mopo.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
+#include "utils.h"
 
 #define ANGLE 2.51327412f
 #define SLIDER_MOD_COLOR 0xff69f0ae
@@ -128,8 +129,8 @@ void ModulationMeter::drawSlider(Graphics& g) {
 }
 
 void ModulationMeter::drawKnob(Graphics& g) {
-  float current_mod_angle = INTERPOLATE(-ANGLE, ANGLE, mod_percent_);
-  float current_knob_angle = INTERPOLATE(-ANGLE, ANGLE, knob_percent_);
+  float current_mod_angle = mopo::utils::interpolate(-ANGLE, ANGLE, mod_percent_);
+  float current_knob_angle = mopo::utils::interpolate(-ANGLE, ANGLE, knob_percent_);
 
   if (current_mod_angle != current_knob_angle) {
     Path mod_section;

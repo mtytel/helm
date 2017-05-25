@@ -140,8 +140,8 @@ void OpenGLModulationMeter::updateDrawing() {
     if (destination_->isRotary()) {
       float angle = SynthSlider::rotary_angle;
 
-      float min_radians = INTERPOLATE(-angle, angle, min_percent);
-      float max_radians = INTERPOLATE(-angle, angle, max_percent);
+      float min_radians = mopo::utils::interpolate(-angle, angle, min_percent);
+      float max_radians = mopo::utils::interpolate(-angle, angle, max_percent);
 
       vertices_[0] = vertices_[6] = left_;
       vertices_[12] = vertices_[18] = right_;
@@ -154,20 +154,20 @@ void OpenGLModulationMeter::updateDrawing() {
       }
     }
     else if (destination_->isHorizontal()) {
-      float start = INTERPOLATE(left_, right_, min_percent);
+      float start = mopo::utils::interpolate(left_, right_, min_percent);
       vertices_[0] = vertices_[6] = start;
 
-      float end = INTERPOLATE(left_, right_, max_percent);
+      float end = mopo::utils::interpolate(left_, right_, max_percent);
       vertices_[12] = vertices_[18] = end;
 
       vertices_[1] = vertices_[19] = top_;
       vertices_[7] = vertices_[13] = bottom_;
     }
     else {
-      float start = INTERPOLATE(bottom_, top_, min_percent);
+      float start = mopo::utils::interpolate(bottom_, top_, min_percent);
       vertices_[7] = vertices_[13] = start;
 
-      float end = INTERPOLATE(bottom_, top_, max_percent);
+      float end = mopo::utils::interpolate(bottom_, top_, max_percent);
       vertices_[1] = vertices_[19] = end;
 
       vertices_[0] = vertices_[6] = left_;

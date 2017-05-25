@@ -85,7 +85,7 @@ void OpenGLPeakMeter::updateVertices() {
 
   float val = peak_output_->buffer[left_ ? 0 : 1];
   float t = val / MAX_GAIN;
-  float position = INTERPOLATE(-1.0f, 1.0f, sqrt(t));
+  float position = mopo::utils::interpolate(-1.0f, 1.0f, sqrtf(t));
   position_vertices_[4] = position;
   position_vertices_[6] = position;
 }

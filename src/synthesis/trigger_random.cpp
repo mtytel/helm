@@ -16,6 +16,8 @@
 
 #include "trigger_random.h"
 
+#include <cstdlib>
+
 namespace mopo {
 
   TriggerRandom::TriggerRandom() : Processor(1, 1), value_(0.0) { }

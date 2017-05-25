@@ -175,9 +175,9 @@ void OpenGLWaveViewer::drawSmoothRandom() {
     float phase = t * (NOISE_RESOLUTION - 1);
     int index = (int)phase;
     phase = mopo::PI * (phase - index);
-    float val = amplitude * INTERPOLATE(random_values[index],
-                                        random_values[index + 1],
-                                        0.5 - cos(phase) / 2.0);
+    float val = amplitude * mopo::utils::interpolate(random_values[index],
+                                                     random_values[index + 1],
+                                                     0.5f - cosf(phase) / 2.0f);
     wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
   }
 

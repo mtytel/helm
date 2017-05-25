@@ -18,6 +18,7 @@
 
 #include "helm_common.h"
 #include "shaders.h"
+#include "utils.h"
 
 #define RESOLUTION 256
 #define GRID_CELL_WIDTH 8
@@ -96,9 +97,9 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
       float memory_spot = (1.0f * i * mopo::MEMORY_RESOLUTION) / RESOLUTION;
       int memory_index = memory_spot;
       float remainder = memory_spot - memory_index;
-      line_data_[2 * i + 1] = INTERPOLATE(output_memory_[memory_index],
-                                          output_memory_[memory_index + 1],
-                                          remainder);
+      line_data_[2 * i + 1] = mopo::utils::interpolate(output_memory_[memory_index],
+                                                       output_memory_[memory_index + 1],
+                                                       remainder);
     }
 
     open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, line_buffer_);

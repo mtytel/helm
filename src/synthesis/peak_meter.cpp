@@ -27,8 +27,8 @@ namespace mopo {
   }
 
   void PeakMeter::process() {
-    mopo_float peak_left = utils::peak(input(0)->source->buffer, buffer_size_);
-    mopo_float peak_right = utils::peak(input(1)->source->buffer, buffer_size_);
+    mopo_float peak_left = utils::peak(input(0)->source->buffer, buffer_size_, 8);
+    mopo_float peak_right = utils::peak(input(1)->source->buffer, buffer_size_, 8);
 
     mopo_float exponent = buffer_size_ * (1.0 * mopo::DEFAULT_SAMPLE_RATE) / sample_rate_;
     mopo_float movement = MIN_MOVEMENT * exponent;

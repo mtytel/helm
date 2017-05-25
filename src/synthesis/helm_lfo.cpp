@@ -16,6 +16,7 @@
 
 #include "helm_lfo.h"
 #include "common.h"
+#include "utils.h"
 
 #include <cmath>
 
@@ -66,8 +67,9 @@ namespace mopo {
         output(kValue)->buffer[0] = current_random_value_;
       else {
         // Smooth random value.
-        float t = (1.0 - cos(PI * phased_offset)) / 2.0;
-        output(kValue)->buffer[0] = INTERPOLATE(last_random_value_, current_random_value_, t);
+        mopo_float t = (1.0 - cos(PI * phased_offset)) / 2.0;
+        output(kValue)->buffer[0] = utils::interpolate(last_random_value_,
+                                                       current_random_value_, t);
       }
     }
   }
