@@ -29,26 +29,30 @@ namespace mopo {
     public:
       enum Inputs {
         kAudio,
-        kType,
+        kOn,
+        kStyle,
+        kPassBlend,
+        kShelfChoice,
         kCutoff,
         kResonance,
         kGain,
         kDrive,
         kReset,
-        k24db,
         kNumInputs
       };
 
-      enum Type {
-        kLowPass,
-        kHighPass,
-        kBandPass,
+      enum Styles {
+        k12dB,
+        k24dB,
+        kShelf,
+        kNumStyles
+      };
+
+      enum Shelves {
         kLowShelf,
-        kHighShelf,
         kBandShelf,
-        kAllPass,
-        kNotch,
-        kNumTypes,
+        kHighShelf,
+        kNumShelves
       };
 
       StateVariableFilter();
@@ -60,11 +64,14 @@ namespace mopo {
       void process24db(const mopo_float* audio_buffer, mopo_float* dest);
       void processAllPass(const mopo_float* audio_buffer, mopo_float* dest);
 
-      void computeCoefficients(Type type,
-                               mopo_float cutoff,
-                               mopo_float resonance,
-                               mopo_float gain,
-                               bool db24);
+      void computePassCoefficients(mopo_float blend,
+                                   mopo_float cutoff,
+                                   mopo_float resonance,
+                                   bool db24);
+
+      void computeShelfCoefficients(Shelves choice,
+                                    mopo_float cutoff,
+                                    mopo_float gain);
 
       inline void tick(int i, mopo_float* dest, const mopo_float* audio_buffer);
       inline void tick24db(int i, mopo_float* dest, const mopo_float* audio_buffer);
@@ -80,8 +87,9 @@ namespace mopo {
       mopo_float ic1eq_a_, ic2eq_a_;
       mopo_float ic1eq_b_, ic2eq_b_;
 
-      Type last_type_;
-      bool last_24db_;
+      mopo_float last_in_, last_distort_;
+      Styles last_style_;
+      Shelves last_shelf_;
   };
 } // namespace mopo
 
