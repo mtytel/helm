@@ -218,6 +218,8 @@ namespace mopo {
         int trigger_offset = input(kReset)->source->trigger_offset;
         for (; i < trigger_offset; ++i)
           tickVoice2(i, v, wave_buffer, start_phase, detune);
+
+        oscillator2_phases_[v] = (UINT_MAX / RAND_MAX) * rand();
       }
       for (; i < buffer_size_; ++i)
         tickVoice2(i, v, wave_buffer, start_phase, detune);
