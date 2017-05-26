@@ -29,13 +29,13 @@ namespace mopo {
       enum Inputs {
         kAudio,
         kType,
-        kThreshold,
         kDrive,
         kMix,
         kNumInputs
       };
 
       enum Type {
+        kNone,
         kSoftClip,
         kHardClip,
         kLinearFold,
@@ -58,13 +58,8 @@ namespace mopo {
       void processSinFold();
 
     private:
-      void reset();
-
-      Type current_type_;
-
-      mopo_float past_in_;
-      mopo_float past_out_;
-      mopo_float tmp_buffer_[MAX_BUFFER_SIZE];
+      mopo_float last_mix_;
+      mopo_float last_drive_;
   };
 } // namespace mopo
 

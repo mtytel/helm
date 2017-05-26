@@ -71,7 +71,7 @@ namespace mopo {
 
       mopo_float get(mopo_float past) const {
         MOPO_ASSERT(past >= 0.0);
-        int index = std::max<int>(past, 1);
+        int index = utils::imax(past, 1);
         mopo_float sample_fraction = past - index;
 
         mopo_float from = getIndex(index - 1);
