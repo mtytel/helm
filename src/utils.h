@@ -102,6 +102,14 @@ namespace mopo {
     }
 #endif
 
+    inline int imax(int one, int two) {
+      return (one > two) ? one : two;
+    }
+
+    inline int imin(int one, int two) {
+      return (one > two) ? two : one;
+    }
+
     inline double interpolate(double from, double to, double t) {
       return fma(t, to - from, from);
     }

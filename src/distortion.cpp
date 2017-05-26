@@ -22,75 +22,111 @@ namespace mopo {
   namespace {
     inline mopo_float linearFold(mopo_float t) {
       mopo_float adjust = 0.25 * t + 0.75;
-      mopo_float range = adjust - trunc(adjust);
+      mopo_float range = adjust - floor(adjust);
       return fabs(2.0 - 4.0 * range) - 1.0;
+    }
+
+    inline mopo_float sinFold(mopo_float t) {
+      mopo_float adjust = 0.25 * t + 0.75;
+      mopo_float range = adjust - floor(adjust);
+      return utils::quickSin1(range);
     }
   } // namespace
 
+
+  Distortion::Distortion() : Processor(Distortion::kNumInputs, 1) { }
+
   void Distortion::processSoftClip() {
     const mopo_float* audio = input(kAudio)->source->buffer;
-    const mopo_float* drive = input(kDrive)->source->buffer;
-    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float next_drive = input(kDrive)->at(0);
+    mopo_float mult_drive = (next_drive - last_drive_) / buffer_size_;
+    mopo_float next_mix = input(kMix)->at(0);
+    mopo_float mult_mix = (next_mix - last_mix_) / buffer_size_;
+
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
-    #pragma clang loop vectorize(enable) interleave(enable)
+#pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size; ++i) {
-      mopo_float distort = drive[i] * audio[i];
-      dest[i] = utils::interpolate(audio[i], utils::quickTanh(distort), mix[i]);
+      mopo_float mix = last_mix_ + i * mult_mix;
+      mopo_float drive = last_drive_ + i * mult_drive;
+      mopo_float distort = drive * audio[i];
+      dest[i] = utils::interpolate(audio[i], utils::quickTanh(distort), mix);
     }
+
+    last_mix_ = next_mix;
+    last_drive_ = next_drive;
   }
 
   void Distortion::processHardClip() {
     const mopo_float* audio = input(kAudio)->source->buffer;
-    const mopo_float* drive = input(kDrive)->source->buffer;
-    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float next_drive = input(kDrive)->at(0);
+    mopo_float mult_drive = (next_drive - last_drive_) / buffer_size_;
+    mopo_float next_mix = input(kMix)->at(0);
+    mopo_float mult_mix = (next_mix - last_mix_) / buffer_size_;
+
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
     for (int i = 0; i < buffer_size; ++i) {
-      mopo_float distort = utils::clamp(drive[i] * audio[i], -1.0, 1.0);
-      dest[i] = utils::interpolate(audio[i], distort, mix[i]);
+      mopo_float mix = last_mix_ + i * mult_mix;
+      mopo_float drive = last_drive_ + i * mult_drive;
+      mopo_float distort = utils::clamp(drive * audio[i], -1.0, 1.0);
+      dest[i] = utils::interpolate(audio[i], distort, mix);
     }
+
+    last_mix_ = next_mix;
+    last_drive_ = next_drive;
   }
 
   void Distortion::processLinearFold() {
     const mopo_float* audio = input(kAudio)->source->buffer;
-    const mopo_float* drive = input(kDrive)->source->buffer;
-    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float next_drive = input(kDrive)->at(0);
+    mopo_float mult_drive = (next_drive - last_drive_) / buffer_size_;
+    mopo_float next_mix = input(kMix)->at(0);
+    mopo_float mult_mix = (next_mix - last_mix_) / buffer_size_;
+
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
 #pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size; ++i) {
-      mopo_float distort = linearFold(drive[i] * audio[i]);
-      dest[i] = utils::interpolate(audio[i], distort, mix[i]);
+      mopo_float mix = last_mix_ + i * mult_mix;
+      mopo_float drive = last_drive_ + i * mult_drive;
+      mopo_float distort = linearFold(drive * audio[i]);
+      dest[i] = utils::interpolate(audio[i], distort, mix);
     }
+
+    last_mix_ = next_mix;
+    last_drive_ = next_drive;
   }
 
   void Distortion::processSinFold() {
     const mopo_float* audio = input(kAudio)->source->buffer;
-    const mopo_float* drive = input(kDrive)->source->buffer;
-    const mopo_float* mix = input(kMix)->source->buffer;
+    mopo_float next_drive = input(kDrive)->at(0);
+    mopo_float mult_drive = (next_drive - last_drive_) / buffer_size_;
+    mopo_float next_mix = input(kMix)->at(0);
+    mopo_float mult_mix = (next_mix - last_mix_) / buffer_size_;
+
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
 #pragma clang loop vectorize(enable) interleave(enable)
     for (int i = 0; i < buffer_size; ++i) {
-      mopo_float distort = linearFold(drive[i] * audio[i]);
-      dest[i] = utils::interpolate(audio[i], distort, mix[i]);
+      mopo_float mix = last_mix_ + i * mult_mix;
+      mopo_float drive = last_drive_ + i * mult_drive;
+      mopo_float distort = sinFold(drive * audio[i]);
+      dest[i] = utils::interpolate(audio[i], distort, mix);
     }
-  }
 
-  Distortion::Distortion() : Processor(Distortion::kNumInputs, 1) {
-    current_type_ = kNumTypes;
-    reset();
+    last_mix_ = next_mix;
+    last_drive_ = next_drive;
   }
 
   void Distortion::process() {
-    current_type_ = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
+    Type type = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
 
-    switch(current_type_) {
+    switch(type) {
       case kSoftClip:
         processSoftClip();
         break;
@@ -104,12 +140,7 @@ namespace mopo {
         processSinFold();
         break;
       default:
-        output()->clearBuffer();
+        utils::copyBuffer(output()->buffer, input(kAudio)->source->buffer, buffer_size_);
     }
-  }
-
-  void Distortion::reset() {
-    past_in_ = 0.0;
-    past_out_ = 0.0;
   }
 } // namespace mopo

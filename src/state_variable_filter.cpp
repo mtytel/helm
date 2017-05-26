@@ -164,9 +164,9 @@ namespace mopo {
     mopo_float g = tan(PI * utils::min(cutoff / sample_rate_, 0.5));
     mopo_float k = 1.0 / resonance;
 
-    mopo_float low_pass_amount = utils::clamp(1.0 - blend, 0.0, 1.0);
-    mopo_float band_pass_amount = utils::clamp(1.0 - fabs(blend - 1.0), 0.0, 1.0);
-    mopo_float high_pass_amount = utils::clamp(blend - 1.0, 0.0, 1.0);
+    mopo_float low_pass_amount = sqrt(utils::clamp(1.0 - blend, 0.0, 1.0));
+    mopo_float band_pass_amount = sqrt(utils::clamp(1.0 - fabs(blend - 1.0), 0.0, 1.0));
+    mopo_float high_pass_amount = sqrt(utils::clamp(blend - 1.0, 0.0, 1.0));
 
     target_m0_ = 0.0;
     target_m1_ = band_pass_amount;

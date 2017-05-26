@@ -60,10 +60,10 @@ namespace mopo {
 
     mopo_float sample_period = sample_rate_ / input(kResampleFrequency)->at(0);
     mopo_float end_stutter_period = sample_rate_ / input(kStutterFrequency)->at(0);
-    end_stutter_period = std::min(sample_period, end_stutter_period);
-    end_stutter_period = std::min(max_memory_write, end_stutter_period);
-    mopo_float read_softenss = std::max(input(kWindowSoftness)->at(0), MIN_SOFTNESS);
-    mopo_float end_softness = PI * std::max(1.0, 1.0 / read_softenss);
+    end_stutter_period = utils::min(sample_period, end_stutter_period);
+    end_stutter_period = utils::min(max_memory_write, end_stutter_period);
+    mopo_float read_softenss = utils::max(input(kWindowSoftness)->at(0), MIN_SOFTNESS);
+    mopo_float end_softness = PI * utils::max(1.0, 1.0 / read_softenss);
 
     mopo_float stutter_period = end_stutter_period;
     if (last_stutter_period_)
