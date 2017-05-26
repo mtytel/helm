@@ -22,6 +22,7 @@
 #include "helm_engine.h"
 
 #include "delay_section.h"
+#include "distortion_section.h"
 #include "dynamic_section.h"
 #include "envelope_section.h"
 #include "extra_mod_section.h"
@@ -66,6 +67,7 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<OscillatorSection> oscillator_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;
     ScopedPointer<ReverbSection> reverb_section_;
+    ScopedPointer<DistortionSection> distortion_section_;
     ScopedPointer<StepSequencerSection> step_sequencer_section_;
     ScopedPointer<StutterSection> stutter_section_;
     ScopedPointer<SubSection> sub_section_;

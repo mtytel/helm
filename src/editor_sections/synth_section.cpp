@@ -48,7 +48,7 @@ void SynthSection::paintBackground(Graphics& g) {
   g.fillRoundedRectangle(0, 0, getWidth(), TITLE_WIDTH, 1.0f);
 
   // Draw text title.
-  g.setColour(Colour(0xff999999));
+  g.setColour(Colour(0xffbbbbbb));
   g.setFont(Fonts::instance()->proportional_light().withPointHeight(14.0f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
              Justification::centred, true);

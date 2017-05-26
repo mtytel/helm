@@ -134,6 +134,7 @@
 		CBDEF0B7ACD825C1ACFC3687 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA170B8B6946E4F4B51585CC /* QuartzCore.framework */; };
 		D1948DCD1ED75450001D4725 /* synth_button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1948DCB1ED75450001D4725 /* synth_button.cpp */; };
 		D1948DD01ED75F31001D4725 /* text_selector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1948DCE1ED75F31001D4725 /* text_selector.cpp */; };
+		D1948DD31ED79ED1001D4725 /* distortion_section.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1948DD11ED79ED1001D4725 /* distortion_section.cpp */; };
 		D33B878F0A7EBAE0E7BB2E30 /* phaser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 431F67091922F7BD0109A828 /* phaser.cpp */; };
 		D562CDFE66DF2CD372C19DCE /* patch_selector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46626E47D3A373BACDCD5144 /* patch_selector.cpp */; };
 		D5C1B8FB22BE482D16D30041 /* fonts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F4B2B9D30EBFB201CA94989 /* fonts.cpp */; };
@@ -1360,6 +1361,8 @@
 		D1948DCC1ED75450001D4725 /* synth_button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = synth_button.h; path = ../../../src/editor_components/synth_button.h; sourceTree = "<group>"; };
 		D1948DCE1ED75F31001D4725 /* text_selector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = text_selector.cpp; path = ../../../src/editor_components/text_selector.cpp; sourceTree = "<group>"; };
 		D1948DCF1ED75F31001D4725 /* text_selector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = text_selector.h; path = ../../../src/editor_components/text_selector.h; sourceTree = "<group>"; };
+		D1948DD11ED79ED1001D4725 /* distortion_section.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = distortion_section.cpp; path = ../../../src/editor_sections/distortion_section.cpp; sourceTree = "<group>"; };
+		D1948DD21ED79ED1001D4725 /* distortion_section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = distortion_section.h; path = ../../../src/editor_sections/distortion_section.h; sourceTree = "<group>"; };
 		D1D453BE13BA62BB78EA3FC2 /* juce_LuaCodeTokeniser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LuaCodeTokeniser.h; path = ../../../JUCE/modules/juce_gui_extra/code_editor/juce_LuaCodeTokeniser.h; sourceTree = SOURCE_ROOT; };
 		D2194F176DD979D13CD5C635 /* oscillator_section.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = oscillator_section.cpp; path = ../../../src/editor_sections/oscillator_section.cpp; sourceTree = SOURCE_ROOT; };
 		D23DAB91D491228D740AA92C /* sample_decay_lookup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = sample_decay_lookup.cpp; path = ../../../mopo/src/sample_decay_lookup.cpp; sourceTree = SOURCE_ROOT; };
@@ -2965,6 +2968,8 @@
 		90454FC49E1CF1991CE70BB7 /* editor_sections */ = {
 			isa = PBXGroup;
 			children = (
+				D1948DD11ED79ED1001D4725 /* distortion_section.cpp */,
+				D1948DD21ED79ED1001D4725 /* distortion_section.h */,
 				C7550594C7A61E383666EE0A /* about_section.cpp */,
 				5D0DA4CBD7A3428F29339186 /* about_section.h */,
 				4416E848ACA1FC962DEA131D /* arp_section.cpp */,
@@ -4281,6 +4286,7 @@
 				56100466C368D965FC38E73E /* synth_base.cpp in Sources */,
 				1362658F311F79DD5D372E7C /* synth_gui_interface.cpp in Sources */,
 				63780BC73998AF310CA57D53 /* bpm_slider.cpp in Sources */,
+				D1948DD31ED79ED1001D4725 /* distortion_section.cpp in Sources */,
 				F899359DAB7673BD37CA8E79 /* filter_response.cpp in Sources */,
 				71086D0AF8FEC143EE9A115E /* filter_selector.cpp in Sources */,
 				B2AFABF78A86B9E736855665 /* global_tool_tip.cpp in Sources */,

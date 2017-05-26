@@ -40,8 +40,8 @@ namespace mopo {
     current_peak_left_ *= decay_left;
     current_peak_right_ *= decay_right;
 
-    current_peak_left_ = std::max(current_peak_left_ - movement, peak_left);
-    current_peak_right_ = std::max(current_peak_right_ - movement, peak_right);
+    current_peak_left_ = utils::max(current_peak_left_ - movement, peak_left);
+    current_peak_right_ = utils::max(current_peak_right_ - movement, peak_right);
     output()->buffer[0] = current_peak_left_;
     output()->buffer[1] = current_peak_right_;
   }

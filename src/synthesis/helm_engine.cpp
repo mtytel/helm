@@ -170,6 +170,18 @@ namespace mopo {
 
     addProcessor(voice_handler_);
 
+    // Distortion
+    Distortion* distortion = new Distortion();
+    Value* distortion_type = createBaseControl("distortion_type");
+    Output* distortion_drive = createMonoModControl("distortion_drive", true);
+    Output* distortion_mix = createMonoModControl("distortion_mix", true);
+
+    distortion->plug(voice_handler_, Distortion::kAudio);
+    distortion->plug(distortion_type, Distortion::kType);
+    distortion->plug(distortion_drive, Distortion::kDrive);
+    distortion->plug(distortion_mix, Distortion::kMix);
+    addProcessor(distortion);
+
     // Delay effect.
     Output* delay_free_frequency = createMonoModControl("delay_frequency", true);
     Output* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency->owner,
@@ -191,14 +203,14 @@ namespace mopo {
     delay_samples->plug(delay_frequency_smoothed);
 
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
-    delay->plug(voice_handler_, Delay::kAudio);
+    delay->plug(distortion, Delay::kAudio);
     delay->plug(delay_samples, Delay::kSampleDelay);
     delay->plug(delay_feedback_clamped, Delay::kFeedback);
     delay->plug(delay_wet, Delay::kWet);
 
     BypassRouter* delay_container = new BypassRouter();
     delay_container->plug(delay_on, BypassRouter::kOn);
-    delay_container->plug(voice_handler_, BypassRouter::kAudio);
+    delay_container->plug(distortion, BypassRouter::kAudio);
     delay_container->addProcessor(delay_feedback_clamped);
     delay_container->addProcessor(delay_frequency_audio_rate);
     delay_container->addProcessor(delay_frequency_smoothed);
