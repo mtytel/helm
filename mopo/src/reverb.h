@@ -37,7 +37,16 @@ namespace mopo {
       Reverb();
       virtual ~Reverb() { }
 
+      void process() override;
+
       virtual Processor* clone() const override { return new Reverb(*this); }
+
+    protected:
+      Processor* reverb_wet_left_;
+      Processor* reverb_wet_right_;
+
+      mopo_float current_dry_;
+      mopo_float current_wet_;
   };
 } // namespace mopo
 

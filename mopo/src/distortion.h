@@ -28,6 +28,7 @@ namespace mopo {
     public:
       enum Inputs {
         kAudio,
+        kOn,
         kType,
         kDrive,
         kMix,
@@ -35,7 +36,6 @@ namespace mopo {
       };
 
       enum Type {
-        kNone,
         kSoftClip,
         kHardClip,
         kLinearFold,
