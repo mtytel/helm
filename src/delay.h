@@ -49,13 +49,14 @@ namespace mopo {
 
         mopo_float read = memory_->get(period);
         memory_->push(audio + read * current_feedback_);
-        output(0)->buffer[i] = utils::interpolate(audio, read, current_wet_);
+        output(0)->buffer[i] = current_dry_ * audio + current_wet_ * read;
       }
 
     protected:
       Memory* memory_;
       mopo_float current_feedback_;
       mopo_float current_wet_;
+      mopo_float current_dry_;
   };
 } // namespace mopo
 

@@ -27,7 +27,7 @@ namespace mopo {
     }
 
     inline mopo_float sinFold(mopo_float t) {
-      mopo_float adjust = 0.25 * t + 0.75;
+      mopo_float adjust = -0.25 * t + 0.5;
       mopo_float range = adjust - floor(adjust);
       return utils::quickSin1(range);
     }
@@ -124,7 +124,11 @@ namespace mopo {
   }
 
   void Distortion::process() {
-    Type type = static_cast<Type>(static_cast<int>(inputs_->at(kType)->at(0)));
+    Type type = static_cast<Type>(static_cast<int>(input(kType)->at(0)));
+    if (input(kOn)->at(0) == 0.0) {
+      utils::copyBuffer(output()->buffer, input(kAudio)->source->buffer, buffer_size_);
+      return;
+    }
 
     switch(type) {
       case kSoftClip:
