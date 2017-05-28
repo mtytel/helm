@@ -67,7 +67,7 @@ DelaySection::~DelaySection() {
 void DelaySection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
@@ -83,8 +83,8 @@ void DelaySection::resized() {
   on_->setBounds(2, 0, 20, 20);
 
   float space = (getWidth() - (2.0f * KNOB_WIDTH) - TEXT_WIDTH - TEXT_HEIGHT) / 4.0f;
-  int knob_y = 36;
-  int text_y = 45;
+  int knob_y = 30;
+  int text_y = 39;
 
   frequency_->setBounds(space, text_y, TEXT_WIDTH, TEXT_HEIGHT);
   sync_->setBounds(space + TEXT_WIDTH, text_y, TEXT_HEIGHT, TEXT_HEIGHT);

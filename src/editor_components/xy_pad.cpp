@@ -57,13 +57,13 @@ void XYPad::paint(Graphics& g) {
   target.addEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f);
   shadow.drawForPath(g, target);
 
-  g.setColour(Colors::graphFill);
+  g.setColour(Colors::graph_fill);
   g.fillPath(target);
 
   if (active_)
     g.setColour(Colors::audio);
   else
-    g.setColour(Colors::graphDisable);
+    g.setColour(Colors::graph_disable);
   g.strokePath(target, stroke);
   g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
 

@@ -35,7 +35,7 @@ void Oscilloscope::paint(Graphics& g) {
 
   shadow.drawForPath(g, wave_path_);
 
-  g.setColour(Colors::graphFill);
+  g.setColour(Colors::graph_fill);
   g.fillPath(wave_path_);
   g.setColour(Colour(0xffaaaaaa));
   g.strokePath(wave_path_, PathStrokeType(1.0f, PathStrokeType::beveled, PathStrokeType::rounded));

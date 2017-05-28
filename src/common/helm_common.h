@@ -105,6 +105,13 @@ namespace mopo {
       "Sync to Playhead"
     };
 
+    const std::string distortion_types[] = {
+      "soft clip",
+      "hard clip",
+      "linear fold",
+      "sin fold"
+    };
+
     const std::string filter_shelves[] = {
       "low shelf",
       "band shelf",

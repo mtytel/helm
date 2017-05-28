@@ -91,6 +91,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   modulation_manager_->toFront(false);
   patch_browser_->toFront(false);
   about_section_->toFront(false);
+  save_section_->toFront(false);
   delete_section_->toFront(false);
 
   setOpaque(false);
@@ -139,7 +140,7 @@ void FullInterface::paintBackground(Graphics& g) {
   g.setColour(Colour(0xff303030));
   g.fillRect(84, 8, 244, TOP_HEIGHT);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   g.drawText(TRANS("BPM"), patch_selector_->getX(), beats_per_minute_->getY(),

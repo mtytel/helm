@@ -172,11 +172,13 @@ namespace mopo {
 
     // Distortion
     Distortion* distortion = new Distortion();
+    Value* distortion_on = createBaseControl("distortion_on");
     Value* distortion_type = createBaseControl("distortion_type");
     Output* distortion_drive = createMonoModControl("distortion_drive", true);
     Output* distortion_mix = createMonoModControl("distortion_mix", true);
 
     distortion->plug(voice_handler_, Distortion::kAudio);
+    distortion->plug(distortion_on, Distortion::kOn);
     distortion->plug(distortion_type, Distortion::kType);
     distortion->plug(distortion_drive, Distortion::kDrive);
     distortion->plug(distortion_mix, Distortion::kMix);

@@ -47,7 +47,7 @@ FeedbackSection::~FeedbackSection() {
 void FeedbackSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextForComponent(g, TRANS("TRANSPOSE"), transpose_);

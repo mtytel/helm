@@ -174,7 +174,7 @@ PatchBrowser::~PatchBrowser() {
 }
 
 void PatchBrowser::paint(Graphics& g) {
-  g.fillAll(Colour(0xbb212121));
+  g.fillAll(Colors::overlay_screen);
   g.setColour(Colour(0xff111111));
   g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
 
@@ -215,7 +215,7 @@ void PatchBrowser::paint(Graphics& g) {
                      Justification::centred, true);
 
     g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
-    g.setColour(Colors::controlLabelText);
+    g.setColour(Colors::control_label_text);
 
     float data_width = info_width - division - buffer - 2.0f * BROWSE_PADDING;
     g.drawText(author_,

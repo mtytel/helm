@@ -82,7 +82,7 @@ void PatchSelector::paint(Graphics& g) {
                         proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
 
   g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));
   g.drawFittedText(patch_text_, bottom, Justification::centredLeft, 1);

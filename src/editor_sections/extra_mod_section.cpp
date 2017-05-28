@@ -60,7 +60,7 @@ void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* compone
 void ExtraModSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));

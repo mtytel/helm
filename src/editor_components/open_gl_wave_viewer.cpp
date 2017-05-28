@@ -77,7 +77,7 @@ void OpenGLWaveViewer::paintBackground() {
 
   shadow.drawForPath(g, wave_path_);
 
-  g.setColour(Colors::graphFill);
+  g.setColour(Colors::graph_fill);
   g.fillPath(wave_path_);
 
   g.setColour(Colors::modulation);

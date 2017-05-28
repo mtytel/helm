@@ -117,12 +117,12 @@ SaveSection::SaveSection(String name) : Overlay(name) {
 void SaveSection::paint(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
-  g.setColour(Colour(0xbb111111));
+  g.setColour(Colors::overlay_screen);
   g.fillAll();
 
   Rectangle<int> save_rect = getSaveRect();
   shadow.drawForRectangle(g, save_rect);
-  g.setColour(Colors::background);
+  g.setColour(Colour(0xff303030));
   g.fillRect(save_rect);
 
   g.saveState();

@@ -24,7 +24,7 @@ TextLookAndFeel::TextLookAndFeel() {
   setColour(ComboBox::backgroundColourId, Colors::background);
   setColour(ComboBox::arrowColourId, Colour(0xff888888));
   setColour(ComboBox::outlineColourId, Colour(0xff888888));
-  setColour(ComboBox::textColourId, Colors::controlLabelText);
+  setColour(ComboBox::textColourId, Colors::control_label_text);
   setColour(Label::textColourId, Colour(0xffaaaaaa));
   setColour(ListBox::backgroundColourId, Colors::background);
   setColour(ListBox::textColourId, Colour(0xffaaaaaa));

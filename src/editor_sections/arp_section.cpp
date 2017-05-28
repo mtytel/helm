@@ -77,7 +77,7 @@ void ArpSection::paintBackground(Graphics& g) {
                                    false));
   g.fillRoundedRectangle(0, 0, TITLE_WIDTH, getHeight(), 1.0f);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextForComponent(g, TRANS("GATE"), gate_);

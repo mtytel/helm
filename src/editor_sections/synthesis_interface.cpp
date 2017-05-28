@@ -176,13 +176,13 @@ void SynthesisInterface::resized() {
   extra_mod_section_->setBounds(column_3_x, extra_envelope_section_->getBottom() + CELL_PADDING,
                                 extra_envelope_section_->getWidth(), step_lfo_height);
 
-  delay_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 105.0f);
-  // reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
-  //                            COLUMN_WIDTH_4, 105.0f);
-  distortion_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
-                                 COLUMN_WIDTH_4, 105.0f);
-  volume_section_->setBounds(column_4_x, distortion_section_->getBottom() + CELL_PADDING,
-                             COLUMN_WIDTH_4, 64.0f);
+  distortion_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 92.0f);
+  delay_section_->setBounds(column_4_x, distortion_section_->getBottom() + CELL_PADDING,
+                            COLUMN_WIDTH_4, 91.0f);
+  reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
+                             COLUMN_WIDTH_4, 91.0f);
+  // volume_section_->setBounds(column_4_x, distortion_section_->getBottom() + CELL_PADDING,
+  //                            COLUMN_WIDTH_4, 50.0f);
   voice_section_->setBounds(column_1_x, step_sequencer_section_->getBottom() + CELL_PADDING,
                             DYNAMIC_WIDTH, 64.0f);
   dynamic_section_->setBounds(extra_envelope_section_->getRight() - DYNAMIC_WIDTH,

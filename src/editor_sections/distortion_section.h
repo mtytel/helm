@@ -20,6 +20,7 @@
 
 #include "JuceHeader.h"
 #include "synth_section.h"
+#include "synth_button.h"
 #include "synth_slider.h"
 
 class DistortionSection : public SynthSection {
@@ -31,6 +32,7 @@ class DistortionSection : public SynthSection {
     void resized() override;
 
   private:
+    ScopedPointer<SynthButton> on_;
     ScopedPointer<SynthSlider> type_;
     ScopedPointer<SynthSlider> drive_;
     ScopedPointer<SynthSlider> mix_;

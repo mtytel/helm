@@ -15,6 +15,7 @@
  */
 
 #include "about_section.h"
+#include "colors.h"
 #include "fonts.h"
 #include "helm_common.h"
 #include "load_save.h"
@@ -62,7 +63,7 @@ AboutSection::AboutSection(String name) : Overlay(name) {
 void AboutSection::paint(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
-  g.setColour(Colour(0xbb212121));
+  g.setColour(Colors::overlay_screen);
   g.fillAll();
 
   Rectangle<int> info_rect = getInfoRect();

@@ -49,7 +49,7 @@ void VoiceSection::paintBackground(Graphics& g) {
   paintContainer(g);
   paintKnobShadows(g);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   drawTextForComponent(g, TRANS("VOICES"), polyphony_);
   drawTextForComponent(g, TRANS("PITCH BEND"), pitch_bend_);

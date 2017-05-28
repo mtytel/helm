@@ -143,7 +143,7 @@ void OscillatorSection::paintBackground(Graphics& g) {
   g.setColour(Colour(0xff4fc3f7));
   g.strokePath(bottom_right_cross_path_, PathStrokeType(1.0f));
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextForComponent(g, TRANS("MOD"), cross_modulation_);

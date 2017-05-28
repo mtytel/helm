@@ -69,13 +69,13 @@ void FilterResponse::paint(Graphics& g) {
 
   shadow.drawForPath(g, filter_response_path_);
 
-  g.setColour(Colors::graphFill);
+  g.setColour(Colors::graph_fill);
   g.fillPath(filter_response_path_);
 
   if (active_)
     g.setColour(Colors::audio);
   else
-    g.setColour(Colors::graphDisable);
+    g.setColour(Colors::graph_disable);
   g.strokePath(filter_response_path_, stroke);
 }
 

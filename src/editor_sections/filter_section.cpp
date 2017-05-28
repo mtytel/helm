@@ -100,7 +100,7 @@ void FilterSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
   SynthSection::paintBackground(g);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);

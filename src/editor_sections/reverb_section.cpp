@@ -47,7 +47,7 @@ ReverbSection::~ReverbSection() {
 void ReverbSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
-  g.setColour(Colors::controlLabelText);
+  g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
@@ -59,7 +59,7 @@ void ReverbSection::resized() {
   on_->setBounds(2, 0, 20, 20);
 
   float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
-  int y = 36;
+  int y = 30;
 
   feedback_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
   damping_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);

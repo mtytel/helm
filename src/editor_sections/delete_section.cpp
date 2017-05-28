@@ -40,7 +40,7 @@ DeleteSection::DeleteSection(String name) : Overlay(name) {
 void DeleteSection::paint(Graphics& g) {
   static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
 
-  g.setColour(Colour(0xbb212121));
+  g.setColour(Colors::overlay_screen);
   g.fillAll();
 
   Rectangle<int> delete_rect = getDeleteRect();

@@ -55,7 +55,7 @@ void GraphicalEnvelope::paint(Graphics& g) {
     g.drawLine(0, y, getWidth(), y);
 
   shadow.drawForPath(g, envelope_line_);
-  g.setColour(Colors::graphFill);
+  g.setColour(Colors::graph_fill);
   g.fillPath(envelope_line_);
 
   g.setColour(Colour(0xff505050));
