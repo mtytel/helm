@@ -57,7 +57,6 @@ SynthesisInterface::SynthesisInterface(
   addSubSection(stutter_section_ = new StutterSection("STUTTER"));
   addSubSection(sub_section_ = new SubSection("SUB"));
   addSubSection(voice_section_ = new VoiceSection("VOICE"));
-  addSubSection(volume_section_ = new VolumeSection("VOLUME"));
 
   keyboard_->setColour(MidiKeyboardComponent::whiteNoteColourId, Colour(0xff444444));
   keyboard_->setColour(MidiKeyboardComponent::blackNoteColourId, Colour(0xff222222));
@@ -94,7 +93,6 @@ SynthesisInterface::~SynthesisInterface() {
   step_sequencer_section_ = nullptr;
   stutter_section_ = nullptr;
   sub_section_ = nullptr;
-  volume_section_ = nullptr;
   voice_section_ = nullptr;
 }
 
@@ -126,7 +124,6 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   section_shadow.drawForRectangle(g, stutter_section_->getBounds());
   section_shadow.drawForRectangle(g, sub_section_->getBounds());
   section_shadow.drawForRectangle(g, voice_section_->getBounds());
-  section_shadow.drawForRectangle(g, volume_section_->getBounds());
 
   paintChildrenBackgrounds(g);
 }
@@ -181,8 +178,7 @@ void SynthesisInterface::resized() {
                             COLUMN_WIDTH_4, 91.0f);
   reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
                              COLUMN_WIDTH_4, 91.0f);
-  // volume_section_->setBounds(column_4_x, distortion_section_->getBottom() + CELL_PADDING,
-  //                            COLUMN_WIDTH_4, 50.0f);
+  
   voice_section_->setBounds(column_1_x, step_sequencer_section_->getBottom() + CELL_PADDING,
                             DYNAMIC_WIDTH, 64.0f);
   dynamic_section_->setBounds(extra_envelope_section_->getRight() - DYNAMIC_WIDTH,

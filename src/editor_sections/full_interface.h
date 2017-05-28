@@ -64,7 +64,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     void resetModulations() { modulation_manager_->reset(); }
     void setFocus() { synthesis_interface_->setFocus(); }
     void notifyChange() { patch_selector_->setModified(true); }
-    void notifyFresh() { patch_selector_->setModified(false); }
+    void notifyFresh();
     void externalPatchLoaded(File patch) { patch_browser_->externalPatchLoaded(patch); }
 
   private:
@@ -87,6 +87,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     ScopedPointer<PatchBrowser> patch_browser_;
     ScopedPointer<SaveSection> save_section_;
     ScopedPointer<DeleteSection> delete_section_;
+    ScopedPointer<VolumeSection> volume_section_;
 
     bool animate_;
     OpenGLContext open_gl_context;

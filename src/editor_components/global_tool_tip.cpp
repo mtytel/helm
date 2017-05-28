@@ -18,9 +18,11 @@
 #include "fonts.h"
 
 #define FRAMES_PER_SECOND 20
+#define TIME_TO_STAY_VISIBLE 2000.0
 
 GlobalToolTip::GlobalToolTip() {
   startTimerHz(FRAMES_PER_SECOND);
+  time_updated_ = 0;
 }
 
 GlobalToolTip::~GlobalToolTip() { }
@@ -43,6 +45,8 @@ void GlobalToolTip::paint(Graphics& g) {
 void GlobalToolTip::setText(String parameter, String value) {
   parameter_text_ = parameter;
   value_text_ = value;
+  time_updated_ = Time::currentTimeMillis();
+  setVisible(true);
 }
 
 void GlobalToolTip::timerCallback() {
@@ -51,4 +55,6 @@ void GlobalToolTip::timerCallback() {
     shown_parameter_text_ = parameter_text_;
     repaint();
   }
+  else if (isVisible() && Time::currentTimeMillis() - time_updated_ > TIME_TO_STAY_VISIBLE)
+    setVisible(false);
 }

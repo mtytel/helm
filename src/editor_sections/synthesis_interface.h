@@ -72,7 +72,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<StutterSection> stutter_section_;
     ScopedPointer<SubSection> sub_section_;
     ScopedPointer<VoiceSection> voice_section_;
-    ScopedPointer<VolumeSection> volume_section_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesisInterface)
 };

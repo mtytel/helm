@@ -42,9 +42,9 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   beats_per_minute_->setTextBoxStyle(Slider::TextBoxAbove, false, 150, 20);
   beats_per_minute_->setColour(Slider::textBoxTextColourId, Colours::white);
 
-  addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
-
   addSubSection(patch_selector_ = new PatchSelector());
+  addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
+  addSubSection(volume_section_ = new VolumeSection("VOLUME"));
   addOpenGLComponent(oscilloscope_ = new OpenGLOscilloscope());
 
   setAllValues(controls);
@@ -109,6 +109,7 @@ FullInterface::~FullInterface() {
   patch_selector_ = nullptr;
   save_section_ = nullptr;
   delete_section_ = nullptr;
+  volume_section_ = nullptr;
 }
 
 void FullInterface::paint(Graphics& g) { }
@@ -123,7 +124,6 @@ void FullInterface::paintBackground(Graphics& g) {
   g.fillRect(getLocalBounds());
 
   shadow.drawForRectangle(g, arp_section_->getBounds());
-  shadow.drawForRectangle(g, global_tool_tip_->getBounds());
   shadow.drawForRectangle(g, oscilloscope_->getBounds());
   shadow.drawForRectangle(g, Rectangle<int>(84, 8, 244, TOP_HEIGHT));
 
@@ -148,6 +148,7 @@ void FullInterface::paintBackground(Graphics& g) {
              Justification::centred, false);
 
   component_shadow.drawForRectangle(g, patch_selector_->getBounds());
+  component_shadow.drawForRectangle(g, volume_section_->getBounds());
 
   paintKnobShadows(g);
   paintChildrenBackgrounds(g);
@@ -156,8 +157,13 @@ void FullInterface::paintBackground(Graphics& g) {
 void FullInterface::resized() {
   logo_button_->setBounds(10, 8, 64, 64);
   patch_selector_->setBounds(84, 8, 244, TOP_HEIGHT);
-  global_tool_tip_->setBounds(patch_selector_->getRight() + 8, 8, 200, TOP_HEIGHT);
-  oscilloscope_->setBounds(global_tool_tip_->getRight() + 8, 8, 112, TOP_HEIGHT);
+  global_tool_tip_->setBounds(patch_selector_->getX() + 0.11 * patch_selector_->getWidth(),
+                              patch_selector_->getY(),
+                              0.78 * patch_selector_->getWidth(),
+                              0.67 * patch_selector_->getHeight());
+  volume_section_->setBounds(patch_selector_->getRight() + 8, 8, 156, TOP_HEIGHT);
+
+  oscilloscope_->setBounds(volume_section_->getRight() + 8, 8, 156, TOP_HEIGHT);
   arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 320, TOP_HEIGHT);
 
   synthesis_interface_->setBounds(0, TOP_HEIGHT + 12,
@@ -242,4 +248,9 @@ void FullInterface::renderOpenGL() {
 void FullInterface::openGLContextClosing() {
   background_.destroy(open_gl_context);
   destroyOpenGLComponents(open_gl_context);
+}
+
+void FullInterface::notifyFresh() {
+  global_tool_tip_->setVisible(false);
+  patch_selector_->setModified(false);
 }
