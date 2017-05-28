@@ -285,7 +285,6 @@ void ModulationManager::changeModulator(std::string new_modulator) {
 
   polyphonic_destinations_->setVisible(true);
   polyphonic_destinations_->repaint();
-  bool source_is_poly = modulation_sources_[current_modulator_]->owner->isPolyphonic();
-  monophonic_destinations_->setVisible(!source_is_poly);
+  monophonic_destinations_->setVisible(true);
   monophonic_destinations_->repaint();
 }

@@ -251,8 +251,11 @@ namespace mopo {
   }
 
   Processor* HelmModule::getModulationDestination(std::string name, bool poly) {
-    if (poly)
-      return getPolyModulationDestination(name);
+    Processor* poly_destination = getPolyModulationDestination(name);
+
+    if (poly && poly_destination)
+      return poly_destination;
+
     return getMonoModulationDestination(name);
   }
 

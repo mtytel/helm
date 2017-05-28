@@ -365,6 +365,11 @@ namespace mopo {
     was_playing_arp_ = playing_arp;
     arpeggiator_->process();
     ProcessorRouter::process();
+
+    if (getNumActiveVoices() == 0) {
+      for (auto modulation : mod_connections_)
+        modulation->modulation_scale.process();
+    }
   }
 
   void HelmEngine::allNotesOff(int sample) {

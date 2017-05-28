@@ -720,6 +720,11 @@ namespace mopo {
     setLegato(legato_->output()->buffer[0]);
     VoiceHandler::process();
     note_retriggered_.clearTrigger();
+
+    if (getNumActiveVoices() == 0) {
+      for (auto mod_source : mod_sources_)
+        mod_source.second->buffer[0] = 0.0;
+    }
   }
 
   void HelmVoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
