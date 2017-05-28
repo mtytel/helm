@@ -32,6 +32,7 @@ namespace mopo {
   class Filter;
   class FormantManager;
   class Gate;
+  class HelmLfo;
   class LadderFilter;
   class LinearSlope;
   class Oscillator;
@@ -54,6 +55,7 @@ namespace mopo {
       void noteOn(mopo_float note, mopo_float velocity = 1,
                   int sample = 0, int channel = 0) override;
       VoiceEvent noteOff(mopo_float note, int sample = 0) override;
+      bool shouldAccumulate(Output* output) override;
       void setModWheel(mopo_float value, int channel = 0);
       void setPitchWheel(mopo_float value, int channel = 0);
       Output* note_retrigger() { return &note_retriggered_; }
@@ -97,6 +99,7 @@ namespace mopo {
       Envelope* filter_envelope_;
       BypassRouter* formant_container_;
       Output note_retriggered_;
+      HelmLfo* poly_lfo_;
 
       Multiply* output_;
 

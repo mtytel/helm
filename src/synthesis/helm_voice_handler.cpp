@@ -360,18 +360,20 @@ namespace mopo {
     Output* lfo_free_amplitude = createPolyModControl("poly_lfo_amplitude", true);
     Output* lfo_frequency = createTempoSyncSwitch("poly_lfo", lfo_free_frequency->owner,
                                                   beats_per_second_, true);
-    HelmLfo* lfo = new HelmLfo();
-    lfo->plug(reset, HelmLfo::kReset);
-    lfo->plug(lfo_waveform, HelmLfo::kWaveform);
-    lfo->plug(lfo_frequency, HelmLfo::kFrequency);
+    poly_lfo_ = new HelmLfo();
+    poly_lfo_->plug(reset, HelmLfo::kReset);
+    poly_lfo_->plug(lfo_waveform, HelmLfo::kWaveform);
+    poly_lfo_->plug(lfo_frequency, HelmLfo::kFrequency);
 
     cr::Multiply* scaled_lfo = new cr::Multiply();
-    scaled_lfo->plug(lfo, 0);
+    scaled_lfo->plug(poly_lfo_, 0);
     scaled_lfo->plug(lfo_free_amplitude, 1);
 
-    addProcessor(lfo);
+    addProcessor(poly_lfo_);
     addProcessor(scaled_lfo);
     mod_sources_["poly_lfo"] = scaled_lfo->output();
+    mod_sources_["poly_lfo_amp"] = registerOutput(scaled_lfo->output());
+    mod_sources_["poly_lfo_phase"] = registerOutput(poly_lfo_->output(Oscillator::kPhase));
 
     // Extra Envelope.
     Output* mod_attack = createPolyModControl("mod_attack", true);
@@ -739,6 +741,12 @@ namespace mopo {
         legato_->value() == 0.0)
       note_retriggered_.trigger(note, sample);
     return VoiceHandler::noteOff(note, sample);
+  }
+
+  bool HelmVoiceHandler::shouldAccumulate(Output* output) {
+    if (output->owner == poly_lfo_)
+      return false;
+    return VoiceHandler::shouldAccumulate(output);
   }
 
   void HelmVoiceHandler::setupPolyModulationReadouts() {

@@ -122,8 +122,12 @@ void OpenGLWaveViewer::resized() {
   resetWavePath();
 
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  if (wave_amp_ == nullptr && parent)
-    wave_amp_ = parent->getSynth()->getModSource(getName().toStdString());
+  if (wave_amp_ == nullptr && parent) {
+    wave_amp_ = parent->getSynth()->getModSource(getName().toStdString() + "_amp");
+
+    if (wave_amp_ == nullptr)
+      wave_amp_ = parent->getSynth()->getModSource(getName().toStdString());
+  }
 
   if (wave_phase_ == nullptr && parent)
     wave_phase_ = parent->getSynth()->getModSource(getName().toStdString() + "_phase");
@@ -249,7 +253,7 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
   if (position_texture_.getWidth() != position_image_.getWidth())
     position_texture_.loadImage(position_image_);
 
-  if (wave_phase_ == nullptr || wave_amp_ == nullptr)
+  if (wave_phase_ == nullptr || wave_amp_ == nullptr || wave_phase_->buffer[0] <= 0.0)
     return;
 
   float x = 2.0f * wave_phase_->buffer[0] - 1.0f;
