@@ -185,6 +185,9 @@ namespace mopo {
 
       bool isPolyphonic(const Processor* processor) const override;
 
+    protected:
+      virtual bool shouldAccumulate(Output* output);
+
     private:
       VoiceHandler() { }
 
@@ -197,7 +200,6 @@ namespace mopo {
       void clearNonaccumulatedOutputs();
       void accumulateOutputs();
       void writeNonaccumulatedOutputs();
-      bool shouldAccumulate(Output* output);
 
       size_t polyphony_;
       bool sustain_;
