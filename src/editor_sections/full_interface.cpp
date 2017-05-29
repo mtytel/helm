@@ -94,7 +94,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   save_section_->toFront(false);
   delete_section_->toFront(false);
 
-  setOpaque(false);
+  setOpaque(true);
 }
 
 FullInterface::~FullInterface() {
