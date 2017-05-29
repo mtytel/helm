@@ -249,8 +249,10 @@
     <ClCompile Include="..\..\..\src\editor_components\oscilloscope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\patch_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\retrigger_selector.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\synth_button.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\tempo_selector.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\text_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_viewer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
@@ -258,6 +260,7 @@
     <ClCompile Include="..\..\..\src\editor_sections\arp_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delay_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delete_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\distortion_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\dynamic_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\envelope_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\extra_mod_section.cpp"/>
@@ -1947,8 +1950,10 @@
     <ClInclude Include="..\..\..\src\editor_components\overlay.h"/>
     <ClInclude Include="..\..\..\src\editor_components\patch_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\retrigger_selector.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\synth_button.h"/>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\tempo_selector.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\text_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_viewer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
@@ -1956,6 +1961,7 @@
     <ClInclude Include="..\..\..\src\editor_sections\arp_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delay_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delete_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\distortion_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\dynamic_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\envelope_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\extra_mod_section.h"/>

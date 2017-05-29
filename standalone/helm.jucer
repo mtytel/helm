@@ -271,6 +271,9 @@
               file="../src/editor_components/retrigger_selector.cpp"/>
         <FILE id="WBMhsV" name="retrigger_selector.h" compile="0" resource="0"
               file="../src/editor_components/retrigger_selector.h"/>
+        <FILE id="XKnxTE" name="synth_button.cpp" compile="1" resource="0"
+              file="../src/editor_components/synth_button.cpp"/>
+        <FILE id="SeF2yp" name="synth_button.h" compile="0" resource="0" file="../src/editor_components/synth_button.h"/>
         <FILE id="k0I8xO" name="synth_slider.cpp" compile="1" resource="0"
               file="../src/editor_components/synth_slider.cpp"/>
         <FILE id="R8YCWa" name="synth_slider.h" compile="0" resource="0" file="../src/editor_components/synth_slider.h"/>
@@ -278,6 +281,9 @@
               file="../src/editor_components/tempo_selector.cpp"/>
         <FILE id="gRo5XB" name="tempo_selector.h" compile="0" resource="0"
               file="../src/editor_components/tempo_selector.h"/>
+        <FILE id="IlqwzX" name="text_selector.cpp" compile="1" resource="0"
+              file="../src/editor_components/text_selector.cpp"/>
+        <FILE id="iYN73z" name="text_selector.h" compile="0" resource="0" file="../src/editor_components/text_selector.h"/>
         <FILE id="VXbiff" name="wave_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/wave_selector.cpp"/>
         <FILE id="oXlMYR" name="wave_selector.h" compile="0" resource="0" file="../src/editor_components/wave_selector.h"/>
@@ -299,6 +305,10 @@
               file="../src/editor_sections/delete_section.cpp"/>
         <FILE id="zfJYDq" name="delete_section.h" compile="0" resource="0"
               file="../src/editor_sections/delete_section.h"/>
+        <FILE id="BHZHRU" name="distortion_section.cpp" compile="1" resource="0"
+              file="../src/editor_sections/distortion_section.cpp"/>
+        <FILE id="K1TmT7" name="distortion_section.h" compile="0" resource="0"
+              file="../src/editor_sections/distortion_section.h"/>
         <FILE id="mAoFxY" name="dynamic_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/dynamic_section.cpp"/>
         <FILE id="qhLvsI" name="dynamic_section.h" compile="0" resource="0"

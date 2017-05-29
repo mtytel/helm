@@ -127,8 +127,10 @@ OBJECTS := \
   $(JUCE_OBJDIR)/oscilloscope_48e472e5.o \
   $(JUCE_OBJDIR)/patch_selector_fe7c390c.o \
   $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o \
+  $(JUCE_OBJDIR)/synth_button_de20ed6b.o \
   $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o \
   $(JUCE_OBJDIR)/tempo_selector_e5a31119.o \
+  $(JUCE_OBJDIR)/text_selector_f115b965.o \
   $(JUCE_OBJDIR)/wave_selector_6d163719.o \
   $(JUCE_OBJDIR)/wave_viewer_e4b5610c.o \
   $(JUCE_OBJDIR)/xy_pad_77c192eb.o \
@@ -136,6 +138,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/arp_section_a0da8a91.o \
   $(JUCE_OBJDIR)/delay_section_9df39f5.o \
   $(JUCE_OBJDIR)/delete_section_a0453dcf.o \
+  $(JUCE_OBJDIR)/distortion_section_2cd18141.o \
   $(JUCE_OBJDIR)/dynamic_section_846a1cf1.o \
   $(JUCE_OBJDIR)/envelope_section_a35a0a34.o \
   $(JUCE_OBJDIR)/extra_mod_section_ea9c0745.o \
@@ -536,6 +539,11 @@ $(JUCE_OBJDIR)/retrigger_selector_9cbab7cf.o: ../../../src/editor_components/ret
 	@echo "Compiling retrigger_selector.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
+$(JUCE_OBJDIR)/synth_button_de20ed6b.o: ../../../src/editor_components/synth_button.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling synth_button.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
 $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slider.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling synth_slider.cpp"
@@ -544,6 +552,11 @@ $(JUCE_OBJDIR)/synth_slider_ab0cf9a.o: ../../../src/editor_components/synth_slid
 $(JUCE_OBJDIR)/tempo_selector_e5a31119.o: ../../../src/editor_components/tempo_selector.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling tempo_selector.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/text_selector_f115b965.o: ../../../src/editor_components/text_selector.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling text_selector.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/wave_selector_6d163719.o: ../../../src/editor_components/wave_selector.cpp
@@ -579,6 +592,11 @@ $(JUCE_OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_secti
 $(JUCE_OBJDIR)/delete_section_a0453dcf.o: ../../../src/editor_sections/delete_section.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling delete_section.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/distortion_section_2cd18141.o: ../../../src/editor_sections/distortion_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling distortion_section.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/dynamic_section_846a1cf1.o: ../../../src/editor_sections/dynamic_section.cpp

@@ -577,10 +577,16 @@
     <ClCompile Include="..\..\..\src\editor_components\retrigger_selector.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\synth_button.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\tempo_selector.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\text_selector.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\wave_selector.cpp">
@@ -602,6 +608,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\delete_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_sections\distortion_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\editor_sections\dynamic_section.cpp">
@@ -2679,10 +2688,16 @@
     <ClInclude Include="..\..\..\src\editor_components\retrigger_selector.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\synth_button.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\tempo_selector.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\text_selector.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\wave_selector.h">
@@ -2704,6 +2719,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\delete_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_sections\distortion_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_sections\dynamic_section.h">
