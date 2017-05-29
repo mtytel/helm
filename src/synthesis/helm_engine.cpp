@@ -282,6 +282,7 @@ namespace mopo {
     addProcessor(smooth_volume);
     addProcessor(scaled_audio_left);
     addProcessor(scaled_audio_right);
+
     addProcessor(clamp_left);
     addProcessor(clamp_right);
     registerOutput(clamp_left->output());
