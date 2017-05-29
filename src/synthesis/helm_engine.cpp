@@ -280,10 +280,10 @@ namespace mopo {
     
     addProcessor(peak_meter_);
     addProcessor(smooth_volume);
-    addProcessor(clamp_left);
-    addProcessor(clamp_right);
     addProcessor(scaled_audio_left);
     addProcessor(scaled_audio_right);
+    addProcessor(clamp_left);
+    addProcessor(clamp_right);
     registerOutput(clamp_left->output());
     registerOutput(clamp_right->output());
 
