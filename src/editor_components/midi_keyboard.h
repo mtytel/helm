@@ -22,8 +22,7 @@
 
 class MidiKeyboard : public MidiKeyboardComponent {
   public:
-    MidiKeyboard(MidiKeyboardState& state, Orientation orientation) :
-        MidiKeyboardComponent(state, orientation) { }
+    MidiKeyboard(MidiKeyboardState& state, Orientation orientation);
 
     virtual void drawBlackNote(int midiNoteNumber, Graphics& g,
                                int x, int y, int w, int h,

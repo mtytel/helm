@@ -16,6 +16,16 @@
 
 #include "midi_keyboard.h"
 
+MidiKeyboard::MidiKeyboard(MidiKeyboardState& state, Orientation orientation) :
+    MidiKeyboardComponent(state, orientation) {
+  int num_children = getNumChildComponents();
+
+  for (int i = 0; i < num_children; ++i) {
+    Component* child = getChildComponent(i);
+    child->setWantsKeyboardFocus(false);
+  }
+}
+
 void MidiKeyboard::drawBlackNote(int midiNoteNumber, Graphics& g,
                                  int x, int y, int w, int h,
                                  bool isDown, bool isOver,

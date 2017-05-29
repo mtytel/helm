@@ -45,9 +45,10 @@ SynthesisInterface::SynthesisInterface(
   addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true, true));
   addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true, true));
   keyboard_ = new MidiKeyboard(*keyboard_state, MidiKeyboardComponent::horizontalKeyboard);
+  addAndMakeVisible(keyboard_);
   keyboard_->setWantsKeyboardFocus(false);
   keyboard_->setMouseClickGrabsKeyboardFocus(false);
-  addAndMakeVisible(keyboard_);
+
   addSubSection(mixer_section_ = new MixerSection("MIXER"));
   addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
   addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo", false));
@@ -66,7 +67,6 @@ SynthesisInterface::SynthesisInterface(
   keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colors::audio);
   keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x4403a9f4));
   keyboard_->setLowestVisibleKey(36);
-  keyboard_->setAlwaysOnTop(true);
 
   setAllValues(controls);
   setOpaque(false);
