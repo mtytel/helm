@@ -264,14 +264,14 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-  int draw_width = roundToInt(desktop_scale * getWidth());
-  int draw_height = roundToInt(desktop_scale * getHeight());
+  int draw_width = getWidth();
+  int draw_height = getHeight();
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  float position_height = (1.0f * position_texture_.getHeight()) / draw_height;
-  float position_width = (1.0f * position_texture_.getWidth()) / draw_width;
+  float position_height = (0.5f * position_texture_.getHeight()) / draw_height;
+  float position_width = (0.5f * position_texture_.getWidth()) / draw_width;
   position_vertices_[0] = x - position_width;
   position_vertices_[1] = y + position_height;
   position_vertices_[4] = x - position_width;

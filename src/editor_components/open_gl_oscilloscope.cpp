@@ -89,7 +89,8 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_LINE_SMOOTH);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  glLineWidth(3);
+  int desktop_scale = roundToInt(open_gl_context.getRenderingScale());
+  glLineWidth(2 * desktop_scale);
   setViewPort(open_gl_context);
 
   if (output_memory_) {
