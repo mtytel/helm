@@ -26,6 +26,7 @@ namespace mopo {
   class HelmOscillators : public Processor {
     public:
       static const int MAX_UNISON = 15;
+      static const mopo_float scales[];
 
       enum Inputs {
         kOscillator1Waveform,

@@ -21,6 +21,17 @@
 #define RAND_DECAY 0.999
 
 namespace mopo {
+  const mopo_float HelmOscillators::scales[] = {
+      1.0, 1.0,
+      sqrt(1.0 / 2.0), sqrt(1.0 / 2.0),
+      sqrt(1.0 / 3.0), sqrt(1.0 / 3.0),
+      sqrt(1.0 / 4.0), sqrt(1.0 / 4.0),
+      sqrt(1.0 / 5.0), sqrt(1.0 / 5.0),
+      sqrt(1.0 / 6.0), sqrt(1.0 / 6.0),
+      sqrt(1.0 / 7.0), sqrt(1.0 / 7.0),
+      sqrt(1.0 / 8.0), sqrt(1.0 / 8.0),
+  };
+
   HelmOscillators::HelmOscillators() : Processor(kNumInputs, 1) {
     utils::zeroBuffer(oscillator1_cross_mods_, MAX_BUFFER_SIZE + 1);
     utils::zeroBuffer(oscillator2_cross_mods_, MAX_BUFFER_SIZE + 1);
@@ -229,8 +240,8 @@ namespace mopo {
   }
 
   void HelmOscillators::finishVoices(int voices1, int voices2) {
-    mopo_float scale1 = 1.0 / ((voices1 >> 1) + 1);
-    mopo_float scale2 = 1.0 / ((voices2 >> 1) + 1);
+    mopo_float scale1 = scales[voices1];
+    mopo_float scale2 = scales[voices2];
 
     mopo_float* dest = output()->buffer;
     const mopo_float* amp1 = input(kOscillator1Amplitude)->source->buffer;
