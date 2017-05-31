@@ -232,7 +232,7 @@ namespace mopo {
   }
 
   inline void StateVariableFilter::tick(int i, mopo_float* dest, const mopo_float* audio_buffer) {
-    mopo_float audio = 0.5 * utils::quickTanh(2.0 * drive_ * audio_buffer[i]);
+    mopo_float audio = utils::quickTanh(drive_ * audio_buffer[i]);
 
     mopo_float v3_a = audio - ic2eq_a_;
     mopo_float v1_a = a1_ * ic1eq_a_ + a2_ * v3_a;
@@ -254,7 +254,7 @@ namespace mopo {
     ic2eq_a_ = 2.0 * v2_a - ic2eq_a_;
     mopo_float out_a = m0_ * audio + m1_ * v1_a + m2_ * v2_a;
 
-    mopo_float distort = 0.5 * utils::quickTanh(2.0 * out_a);
+    mopo_float distort = utils::quickTanh(out_a);
 
     mopo_float v3_b = distort - ic2eq_b_;
     mopo_float v1_b = a1_ * ic1eq_b_ + a2_ * v3_b;
