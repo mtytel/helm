@@ -250,6 +250,10 @@
               file="src/editor_components/open_gl_component.cpp"/>
         <FILE id="souzQ5" name="open_gl_component.h" compile="0" resource="0"
               file="src/editor_components/open_gl_component.h"/>
+        <FILE id="Saa0kX" name="open_gl_envelope.cpp" compile="1" resource="0"
+              file="src/editor_components/open_gl_envelope.cpp"/>
+        <FILE id="cwMpyW" name="open_gl_envelope.h" compile="0" resource="0"
+              file="src/editor_components/open_gl_envelope.h"/>
         <FILE id="AUjyTV" name="open_gl_modulation_meter.cpp" compile="1" resource="0"
               file="src/editor_components/open_gl_modulation_meter.cpp"/>
         <FILE id="IZx5qo" name="open_gl_modulation_meter.h" compile="0" resource="0"

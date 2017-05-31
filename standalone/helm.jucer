@@ -243,6 +243,10 @@
               file="../src/editor_components/open_gl_component.cpp"/>
         <FILE id="kmphrs" name="open_gl_component.h" compile="0" resource="0"
               file="../src/editor_components/open_gl_component.h"/>
+        <FILE id="rvBysf" name="open_gl_envelope.cpp" compile="1" resource="0"
+              file="../src/editor_components/open_gl_envelope.cpp"/>
+        <FILE id="GiKBcy" name="open_gl_envelope.h" compile="0" resource="0"
+              file="../src/editor_components/open_gl_envelope.h"/>
         <FILE id="xbZlO4" name="open_gl_modulation_meter.cpp" compile="1" resource="0"
               file="../src/editor_components/open_gl_modulation_meter.cpp"/>
         <FILE id="kJrcA5" name="open_gl_modulation_meter.h" compile="0" resource="0"

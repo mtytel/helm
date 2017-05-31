@@ -242,6 +242,7 @@
     <ClCompile Include="..\..\..\src\editor_components\modulation_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_background.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_component.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\open_gl_envelope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_modulation_meter.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_oscilloscope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_peak_meter.cpp"/>
@@ -1942,6 +1943,7 @@
     <ClInclude Include="..\..\..\src\editor_components\modulation_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_background.h"/>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_component.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\open_gl_envelope.h"/>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_modulation_meter.h"/>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_oscilloscope.h"/>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_peak_meter.h"/>

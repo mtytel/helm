@@ -556,6 +556,9 @@
     <ClCompile Include="..\..\..\src\editor_components\open_gl_component.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\editor_components\open_gl_envelope.cpp">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\editor_components\open_gl_modulation_meter.cpp">
       <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
@@ -2662,6 +2665,9 @@
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_component.h">
+      <Filter>Helm\src\editor_components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\editor_components\open_gl_envelope.h">
       <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\editor_components\open_gl_modulation_meter.h">

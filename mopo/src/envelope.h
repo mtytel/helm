@@ -45,6 +45,7 @@ namespace mopo {
 
       enum Outputs {
         kValue,
+        kPhase,
         kFinished,
         kNumOutputs
       };

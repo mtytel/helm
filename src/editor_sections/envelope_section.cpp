@@ -41,7 +41,8 @@ EnvelopeSection::EnvelopeSection(String name, std::string value_prepend) : Synth
   addSlider(sustain_ = new SynthSlider(value_prepend + "_sustain"));
   sustain_->setSliderStyle(Slider::LinearBar);
 
-  addAndMakeVisible(envelope_ = new GraphicalEnvelope());
+  addOpenGLComponent(envelope_ = new OpenGLEnvelope());
+  envelope_->setName(value_prepend + "_envelope");
   envelope_->setAttackSlider(attack_);
   envelope_->setDecaySlider(decay_);
   envelope_->setSustainSlider(sustain_);

@@ -390,6 +390,8 @@ namespace mopo {
 
     addProcessor(extra_envelope_);
     mod_sources_["mod_envelope"] = extra_envelope_->output();
+    mod_sources_["mod_envelope_amp"] = registerOutput(extra_envelope_->output());
+    mod_sources_["mod_envelope_phase"] = registerOutput(extra_envelope_->output(Envelope::kPhase));
 
     // Random Modulation
     TriggerRandom* random_mod = new TriggerRandom();
@@ -484,6 +486,8 @@ namespace mopo {
     addProcessor(drive_magnitude);
 
     mod_sources_["fil_envelope"] = filter_envelope_->output();
+    mod_sources_["fil_envelope_amp"] = registerOutput(filter_envelope_->output());
+    mod_sources_["fil_envelope_phase"] = registerOutput(filter_envelope_->output(Envelope::kPhase));
 
     // Stutter.
     BypassRouter* stutter_container = new BypassRouter();
@@ -704,6 +708,9 @@ namespace mopo {
     addProcessor(current_frequency_);
 
     mod_sources_["amp_envelope"] = amplitude_envelope_->output();
+    mod_sources_["amp_envelope_amp"] = registerOutput(amplitude_envelope_->output());
+    mod_sources_["amp_envelope_phase"] =
+        registerOutput(amplitude_envelope_->output(Envelope::kPhase));
     mod_sources_["note"] = note_percentage->output();
     mod_sources_["velocity"] = current_velocity->output();
 
@@ -744,8 +751,10 @@ namespace mopo {
   }
 
   bool HelmVoiceHandler::shouldAccumulate(Output* output) {
-    if (output->owner == poly_lfo_)
+    if (output->owner == poly_lfo_ || output->owner == amplitude_envelope_ ||
+        output->owner == filter_envelope_ || output->owner == extra_envelope_) {
       return false;
+    }
     return VoiceHandler::shouldAccumulate(output);
   }
 

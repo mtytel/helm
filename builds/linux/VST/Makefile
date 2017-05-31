@@ -120,6 +120,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/modulation_slider_aee8aab8.o \
   $(JUCE_OBJDIR)/open_gl_background_fe08efa9.o \
   $(JUCE_OBJDIR)/open_gl_component_d67359ac.o \
+  $(JUCE_OBJDIR)/open_gl_envelope_96eb82cb.o \
   $(JUCE_OBJDIR)/open_gl_modulation_meter_7446c901.o \
   $(JUCE_OBJDIR)/open_gl_oscilloscope_48c4088a.o \
   $(JUCE_OBJDIR)/open_gl_peak_meter_28e8c124.o \
@@ -502,6 +503,11 @@ $(JUCE_OBJDIR)/open_gl_background_fe08efa9.o: ../../../src/editor_components/ope
 $(JUCE_OBJDIR)/open_gl_component_d67359ac.o: ../../../src/editor_components/open_gl_component.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling open_gl_component.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/open_gl_envelope_96eb82cb.o: ../../../src/editor_components/open_gl_envelope.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling open_gl_envelope.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/open_gl_modulation_meter_7446c901.o: ../../../src/editor_components/open_gl_modulation_meter.cpp
