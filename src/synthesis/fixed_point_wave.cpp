@@ -42,13 +42,13 @@ namespace mopo {
   void FixedPointWaveLookup::preprocessSin() {
     for (int h = 0; h < HARMONICS + 1; ++h) {
       for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i)
-        sin_[h][i] = 0.5 * sin((2 * PI * i) / FIXED_LOOKUP_SIZE);
+        sin_[h][i] = sin((2 * PI * i) / FIXED_LOOKUP_SIZE);
     }
   }
 
   void FixedPointWaveLookup::preprocessTriangle() {
     for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-      triangle_[0][i] = 0.5 * Wave::triangle((1.0 * i) / FIXED_LOOKUP_SIZE);
+      triangle_[0][i] = Wave::triangle((1.0 * i) / FIXED_LOOKUP_SIZE);
 
       int p = i;
       mopo_float scale = 8.0 / (PI * PI);
@@ -69,7 +69,7 @@ namespace mopo {
 
   void FixedPointWaveLookup::preprocessSquare() {
     for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-      square_[0][i] = 0.5 * Wave::square((1.0 * i) / FIXED_LOOKUP_SIZE);
+      square_[0][i] = Wave::square((1.0 * i) / FIXED_LOOKUP_SIZE);
 
       int p = i;
       mopo_float scale = 4.0 / PI;
@@ -94,7 +94,7 @@ namespace mopo {
 
   void FixedPointWaveLookup::preprocessUpSaw() {
     for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i) {
-      up_saw_[0][i] = 0.5 * Wave::upsaw((1.0 * i) / FIXED_LOOKUP_SIZE);
+      up_saw_[0][i] = Wave::upsaw((1.0 * i) / FIXED_LOOKUP_SIZE);
 
       int index = (i + (FIXED_LOOKUP_SIZE / 2)) % FIXED_LOOKUP_SIZE;
       int p = i;

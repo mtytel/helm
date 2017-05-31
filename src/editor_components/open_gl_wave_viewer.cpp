@@ -259,8 +259,6 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
   float x = 2.0f * wave_phase_->buffer[0] - 1.0f;
   float y = (getHeight() - 2 * PADDING) * wave_amp_->buffer[0] / getHeight();
 
-  float desktop_scale = open_gl_context.getRenderingScale();
-
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
