@@ -151,5 +151,8 @@ namespace mopo {
       }
     }
     current_value_ = current_value;
+    
+    output(kPhase)->buffer[0] = state_;
+    output(kAmp)->buffer[0] = current_value_;
   }
 } // namespace mopo
