@@ -63,7 +63,7 @@ namespace mopo {
       ValueDetails::kLinear, "", "Distortion Switch" },
     { "distortion_type", 0.0, 3.0, 4, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "", "Distortion Type" },
-    { "distortion_drive", 0.0, 20.0, 0, 5.0, 0.0, 1.0,
+    { "distortion_drive", -5.0, 30.0, 0, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "", "Distortion Drive" },
     { "distortion_mix", 0.0, 1.0, 0, 1.0, 0.0, 1.0,
       ValueDetails::kLinear, "", "Distortion Mix" },
