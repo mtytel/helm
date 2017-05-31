@@ -336,7 +336,7 @@ Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
   float y = (1.0 - amp) * getHeight();
   float x = 0.0;
 
-  if (phase < 0.0 || phase > 3.0)
+  if (phase < 0.0 || phase > 2.5)
     return Point<float>(-2.0, -2.0);
 
   float attack_x = getAttackX();
@@ -364,7 +364,7 @@ Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
 
   Point<float> closest;
   envelope_line_.getNearestPoint(Point<float>(x, y), closest);
-  if (phase > 1.5f && closest.x < decay_x) {
+  if (phase > 1.5f && phase < 2.5f && closest.x < decay_x) {
     closest.x = decay_x;
     closest.y = (1.0 - amp) * getHeight();
   }
