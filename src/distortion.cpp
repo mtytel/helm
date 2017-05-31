@@ -34,7 +34,8 @@ namespace mopo {
   } // namespace
 
 
-  Distortion::Distortion() : Processor(Distortion::kNumInputs, 1) { }
+  Distortion::Distortion() :
+      Processor(Distortion::kNumInputs, 1), last_mix_(0.0), last_drive_(0.0) { }
 
   void Distortion::processSoftClip() {
     const mopo_float* audio = input(kAudio)->source->buffer;
