@@ -55,7 +55,7 @@ namespace mopo {
     }
 
     void clearBuffer() {
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < buffer_size; ++i)
         buffer[i] = 0.0;
     }
