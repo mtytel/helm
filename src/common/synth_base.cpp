@@ -233,7 +233,7 @@ void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int sample
     float* channelData = buffer->getWritePointer(channel, offset);
     const mopo::mopo_float* synth_output = (channel % 2) ? engine_output_right : engine_output_left;
 
-    #pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < samples; ++i) {
       channelData[i] = synth_output[i];
       MOPO_ASSERT(std::isfinite(synth_output[i]));

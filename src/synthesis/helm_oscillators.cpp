@@ -80,7 +80,7 @@ namespace mopo {
     const mopo_float* src1 = input(kOscillator1PhaseInc)->source->buffer;
     const mopo_float* src2 = input(kOscillator2PhaseInc)->source->buffer;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < samples; ++i) {
       dest1[i] = UINT_MAX * src1[i];
       dest2[i] = UINT_MAX * src2[i];
@@ -249,7 +249,7 @@ namespace mopo {
     const mopo_float* oscillator1_totals = oscillator1_totals_;
     const mopo_float* oscillator2_totals = oscillator2_totals_;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int j = 0; j < buffer_size_; ++j)
       tickOut(j, dest, amp1, amp2, oscillator1_totals, oscillator2_totals, scale1, scale2);
 
