@@ -29,12 +29,13 @@ VolumeSection::~VolumeSection() {
 }
 
 void VolumeSection::resized() {
-  int height = getHeight() - 20;
+  int title_width = getTitleWidth();
+  int height = getHeight() - title_width;
   int meter_height = height / 4;
   int volume_height = height - 2 * meter_height;
-  peak_meter_left_->setBounds(0, 20, getWidth(), meter_height);
-  peak_meter_right_->setBounds(0, 20 + meter_height, getWidth(), meter_height);
-  volume_->setBounds(0, 20 + 2 * meter_height, getWidth(), volume_height);
+  peak_meter_left_->setBounds(0, title_width, getWidth(), meter_height);
+  peak_meter_right_->setBounds(0, title_width + meter_height, getWidth(), meter_height);
+  volume_->setBounds(0, title_width + 2 * meter_height, getWidth(), volume_height);
 
   SynthSection::resized();
 }

@@ -24,7 +24,7 @@
 #define PADDING 5.0f
 #define MARKER_WIDTH 12.0f
 #define NOISE_RESOLUTION 6
-#define IMAGE_HEIGHT 128
+#define IMAGE_HEIGHT 256
 
 namespace {
   static const float random_values[NOISE_RESOLUTION] = {0.3, 0.9, -0.9, -0.2, -0.5, 0.7 };
@@ -81,7 +81,9 @@ void OpenGLWaveViewer::paintBackground() {
   g.fillPath(wave_path_);
 
   g.setColour(Colors::modulation);
-  g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
+  float line_width = 1.5f * getHeight() / 75.0f;
+  PathStrokeType stroke(line_width, PathStrokeType::beveled, PathStrokeType::rounded);
+  g.strokePath(wave_path_, stroke);
 
   background_.updateBackgroundImage(background_image_);
 }
@@ -152,15 +154,16 @@ void OpenGLWaveViewer::setAmplitudeSlider(Slider* slider) {
 void OpenGLWaveViewer::drawRandom() {
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float padding = getRatio() * PADDING;
+  float draw_height = getHeight() - 2.0f * padding;
 
   wave_path_.startNewSubPath(0, getHeight() / 2.0f);
   for (int i = 0; i < NOISE_RESOLUTION; ++i) {
     float t1 = (1.0f * i) / NOISE_RESOLUTION;
     float t2 = (1.0f + i) / NOISE_RESOLUTION;
     float val = amplitude * random_values[i];
-    wave_path_.lineTo(t1 * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
-    wave_path_.lineTo(t2 * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t1 * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t2 * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
   }
 
   wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
@@ -169,7 +172,8 @@ void OpenGLWaveViewer::drawRandom() {
 void OpenGLWaveViewer::drawSmoothRandom() {
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float padding = getRatio() * PADDING;
+  float draw_height = getHeight() - 2.0f * padding;
 
   float start_val = amplitude * random_values[0];
   wave_path_.startNewSubPath(-50, getHeight() / 2.0f);
@@ -182,11 +186,11 @@ void OpenGLWaveViewer::drawSmoothRandom() {
     float val = amplitude * mopo::utils::interpolate(random_values[index],
                                                      random_values[index + 1],
                                                      0.5f - cosf(phase) / 2.0f);
-    wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
   }
 
   float end_val = amplitude * random_values[NOISE_RESOLUTION - 1];
-  wave_path_.lineTo(getWidth(), PADDING + draw_height * ((1.0f - end_val) / 2.0f));
+  wave_path_.lineTo(getWidth(), padding + draw_height * ((1.0f - end_val) / 2.0f));
   wave_path_.lineTo(getWidth() + 50, getHeight() / 2.0f);
 
 }
@@ -199,7 +203,8 @@ void OpenGLWaveViewer::resetWavePath() {
 
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float padding = getRatio() * PADDING;
+  float draw_height = getHeight() - 2.0f * padding;
 
   mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
 
@@ -208,7 +213,7 @@ void OpenGLWaveViewer::resetWavePath() {
     for (int i = 1; i < resolution_ - 1; ++i) {
       float t = (1.0f * i) / resolution_;
       float val = amplitude * mopo::Wave::wave(type, t);
-      wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+      wave_path_.lineTo(t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
     }
 
     wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
@@ -257,7 +262,8 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
     return;
 
   float x = 2.0f * wave_phase_->buffer[0] - 1.0f;
-  float y = (getHeight() - 2 * PADDING) * wave_amp_->buffer[0] / getHeight();
+  float padding = getRatio() * PADDING;
+  float y = (getHeight() - 2 * padding) * wave_amp_->buffer[0] / getHeight();
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -268,8 +274,10 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  float position_height = (0.5f * position_texture_.getHeight()) / draw_height;
-  float position_width = (0.5f * position_texture_.getWidth()) / draw_width;
+  float ratio = getHeight() / 75.0f;
+
+  float position_height = ratio * (0.5f * position_texture_.getHeight()) / draw_height;
+  float position_width = ratio * (0.5f * position_texture_.getWidth()) / draw_width;
   position_vertices_[0] = x - position_width;
   position_vertices_[1] = y + position_height;
   position_vertices_[4] = x - position_width;
@@ -323,4 +331,8 @@ void OpenGLWaveViewer::destroy(OpenGLContext& open_gl_context) {
   open_gl_context.extensions.glDeleteBuffers(1, &vertex_buffer_);
   open_gl_context.extensions.glDeleteBuffers(1, &triangle_buffer_);
   background_.destroy(open_gl_context);
+}
+
+float OpenGLWaveViewer::getRatio() {
+  return getHeight() / 80.0f;
 }

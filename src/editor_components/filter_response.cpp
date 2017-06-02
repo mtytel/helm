@@ -60,7 +60,6 @@ void FilterResponse::paintBackground(Graphics& g) {
 }
 
 void FilterResponse::paint(Graphics& g) {
-  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
   static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
 
   g.drawImage(background_,
@@ -76,6 +75,9 @@ void FilterResponse::paint(Graphics& g) {
     g.setColour(Colors::audio);
   else
     g.setColour(Colors::graph_disable);
+
+  float line_width = 1.5f * getHeight() / 150.0f;
+  PathStrokeType stroke(line_width, PathStrokeType::beveled, PathStrokeType::rounded);
   g.strokePath(filter_response_path_, stroke);
 }
 

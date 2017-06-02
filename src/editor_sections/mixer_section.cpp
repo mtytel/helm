@@ -53,35 +53,40 @@ void MixerSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
   SynthSection::paintBackground(g);
 
-  float text_y = getHeight() - TEXT_SECTION_WIDTH;
-  float buffer = (getWidth() - 4 * SLIDER_WIDTH) / 3.0f;
+  int text_section_width = size_ratio_ * TEXT_SECTION_WIDTH;
+  int text_y = getHeight() - text_section_width;
+  int slider_width = size_ratio_ * SLIDER_WIDTH;
+  float buffer = (getWidth() - 4 * slider_width) / 3.0f;
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
 
   g.drawText(TRANS("OSC 1"), 0, text_y,
-             SLIDER_WIDTH, TEXT_SECTION_WIDTH,
+             slider_width, text_section_width,
              Justification::centred, false);
 
-  g.drawText(TRANS("OSC 2"), SLIDER_WIDTH + buffer, text_y,
-             SLIDER_WIDTH, TEXT_SECTION_WIDTH,
+  g.drawText(TRANS("OSC 2"), slider_width + buffer, text_y,
+             slider_width, text_section_width,
              Justification::centred, false);
 
-  g.drawText(TRANS("SUB"), 2 * (SLIDER_WIDTH + buffer), text_y,
-             SLIDER_WIDTH, TEXT_SECTION_WIDTH,
+  g.drawText(TRANS("SUB"), 2 * (slider_width + buffer), text_y,
+             slider_width, text_section_width,
              Justification::centred, false);
 
-  g.drawText(TRANS("NOISE"), 3 * (SLIDER_WIDTH + buffer), text_y,
-             SLIDER_WIDTH, TEXT_SECTION_WIDTH,
+  g.drawText(TRANS("NOISE"), 3 * (slider_width + buffer), text_y,
+             slider_width, text_section_width,
              Justification::centred, false);
 }
 
 void MixerSection::resized() {
-  float buffer = (getWidth() - 4 * SLIDER_WIDTH) / 3.0f;
-  float slider_height = getHeight() - TEXT_SECTION_WIDTH - 20;
+  int slider_width = size_ratio_ * SLIDER_WIDTH;
+  float buffer = (getWidth() - 4 * slider_width) / 3.0f;
+  int title_width = getTitleWidth();
+  int text_section_width = size_ratio_ * TEXT_SECTION_WIDTH;
+  float slider_height = getHeight() - text_section_width - title_width;
 
-  osc_1_->setBounds(0, 20, SLIDER_WIDTH, slider_height);
-  osc_2_->setBounds(SLIDER_WIDTH + buffer, 20, SLIDER_WIDTH, slider_height);
-  sub_->setBounds(2 * (SLIDER_WIDTH + buffer), 20, SLIDER_WIDTH, slider_height);
-  noise_->setBounds(3 * (SLIDER_WIDTH + buffer), 20, SLIDER_WIDTH, slider_height);
+  osc_1_->setBounds(0, title_width, slider_width, slider_height);
+  osc_2_->setBounds(slider_width + buffer, title_width, slider_width, slider_height);
+  sub_->setBounds(2 * (slider_width + buffer), title_width, slider_width, slider_height);
+  noise_->setBounds(3 * (slider_width + buffer), title_width, slider_width, slider_height);
   SynthSection::resized();
 }

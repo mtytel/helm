@@ -86,37 +86,50 @@ void StutterSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
-  
+  float font_size = size_ratio_ * 10.0f;
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(font_size));
+
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+
+  int extra_bump = size_ratio_ * 5;
+  int text_buffer = size_ratio_ * 6;
   g.drawText(TRANS("FREQUENCY"),
-             stutter_frequency_->getBounds().getX() - 5,
-             stutter_frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
-             stutter_frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10,
-             10, Justification::centred, false);
+             stutter_frequency_->getBounds().getX() - extra_bump,
+             stutter_frequency_->getBounds().getBottom() + text_buffer,
+             stutter_frequency_->getBounds().getWidth() + text_height + 2 * extra_bump,
+             font_size + 1, Justification::centred, false);
   g.drawText(TRANS("RESAMPLE"),
-             resample_frequency_->getBounds().getX() - 5,
-             resample_frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
-             resample_frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10,
-             10, Justification::centred, false);
+             resample_frequency_->getBounds().getX() - extra_bump,
+             resample_frequency_->getBounds().getBottom() + text_buffer,
+             resample_frequency_->getBounds().getWidth() + text_height + 2 * extra_bump,
+             font_size + 1, Justification::centred, false);
   drawTextForComponent(g, TRANS("SOFTNESS"), stutter_softness_);
 }
 
 void StutterSection::resized() {
-  float space = (getWidth() - 2.0f * (TEXT_WIDTH + TEXT_HEIGHT)) / 3.0f;
+  int text_width = size_ratio_ * TEXT_WIDTH;
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+  int text_y = size_ratio_ * TEXT_Y;
+  int slider_height = size_ratio_ * SLIDER_HEIGHT;
 
-  on_->setBounds(2, 0, 20, 20);
+  float space = (getWidth() - 2.0f * (text_width + text_height)) / 3.0f;
 
-  stutter_frequency_->setBounds(space, TEXT_Y, TEXT_WIDTH, TEXT_HEIGHT);
+  float title_width = getTitleWidth();
+  on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
+
+  stutter_frequency_->setBounds(space, text_y, text_width, text_height);
   stutter_tempo_->setBounds(stutter_frequency_->getBounds());
-  stutter_sync_->setBounds(stutter_frequency_->getBounds().getRight(), TEXT_Y,
-                           TEXT_HEIGHT, TEXT_HEIGHT);
+  stutter_sync_->setBounds(stutter_frequency_->getBounds().getRight(), text_y,
+                           text_height, text_height);
 
-  resample_frequency_->setBounds(stutter_sync_->getBounds().getRight() + space, TEXT_Y,
-                                 TEXT_WIDTH, TEXT_HEIGHT);
+  resample_frequency_->setBounds(stutter_sync_->getBounds().getRight() + space, text_y,
+                                 text_width, text_height);
   resample_tempo_->setBounds(resample_frequency_->getBounds());
-  resample_sync_->setBounds(resample_frequency_->getBounds().getRight(), TEXT_Y,
-                            TEXT_HEIGHT, TEXT_HEIGHT);
+  resample_sync_->setBounds(resample_frequency_->getBounds().getRight(), text_y,
+                            text_height, text_height);
 
-  stutter_softness_->setBounds(0, getHeight() - SLIDER_HEIGHT - 32, getWidth(), SLIDER_HEIGHT);
+  int lower_buffer = size_ratio_ * 32;
+  stutter_softness_->setBounds(0, getHeight() - slider_height - lower_buffer,
+                               getWidth(), slider_height);
   SynthSection::resized();
 }

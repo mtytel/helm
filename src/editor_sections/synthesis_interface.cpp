@@ -24,11 +24,6 @@
 #include "text_look_and_feel.h"
 #include <iomanip>
 
-#define COLUMN_WIDTH_1 320.0f
-#define COLUMN_WIDTH_2 320.0f
-#define COLUMN_WIDTH_3 156.0f
-#define COLUMN_WIDTH_4 156.0f
-#define CELL_PADDING 8.0f
 #define DYNAMIC_WIDTH 220.0f
 
 SynthesisInterface::SynthesisInterface(
@@ -100,9 +95,6 @@ void SynthesisInterface::paintBackground(Graphics& g) {
   static const DropShadow section_shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
   static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
 
-  g.setColour(Colors::background);
-  g.fillRect(getLocalBounds());
-
   section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, delay_section_->getBounds());
   section_shadow.drawForRectangle(g, distortion_section_->getBounds());
@@ -129,64 +121,86 @@ void SynthesisInterface::paintBackground(Graphics& g) {
 }
 
 void SynthesisInterface::resized() {
-  float column_1_x = CELL_PADDING;
-  float column_2_x = column_1_x + CELL_PADDING + COLUMN_WIDTH_1;
-  float column_3_x = column_2_x + CELL_PADDING + COLUMN_WIDTH_2;
-  float column_4_x = column_3_x + CELL_PADDING + COLUMN_WIDTH_3;
+  int column_1_x = padding_;
+  int column_2_x = column_1_x + padding_ + section_one_width_;
+  int column_3_x = column_2_x + padding_ + section_two_width_;
+  int section_three_left_width = (section_three_width_ - padding_) / 2;
+  int section_three_right_width = section_three_width_ - padding_ - section_three_left_width;
+  int column_4_x = column_3_x + padding_ + section_three_left_width;
 
-  oscillator_section_->setBounds(column_1_x, 4.0f, COLUMN_WIDTH_1, 180.0f);
-  sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + CELL_PADDING,
-                          170.0f, 102.0f);
-  mixer_section_->setBounds(sub_section_->getRight() + CELL_PADDING, sub_section_->getY(),
-                            oscillator_section_->getWidth() -
-                            CELL_PADDING - sub_section_->getWidth(),
-                            sub_section_->getHeight());
-  amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + CELL_PADDING,
-                                         COLUMN_WIDTH_1, 120.0f);
+  int sub_width = 0.53125f * section_one_width_;
+  int mixer_width = section_one_width_ - padding_ - sub_width;
 
-  feedback_section_->setBounds(column_2_x, 4.0f, COLUMN_WIDTH_2, 86.0f);
-  filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + CELL_PADDING,
-                             COLUMN_WIDTH_2, 196.0f);
-  filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + CELL_PADDING,
-                                      COLUMN_WIDTH_2, 120.0f);
+  int audio_height = size_ratio_ * 290.0f;
+  int oscillators_height = size_ratio_ * 180.0f;
+  int sub_mixer_height = audio_height - oscillators_height - padding_;
+  int filter_height = size_ratio_ * 196.0f;
+  int feedback_height = audio_height - filter_height - padding_;
+  int envelopes_height = size_ratio_ * 120.0f;
+  int step_lfo_height = size_ratio_ * 148.0f;
+  int dynamics_height = size_ratio_ * 64.0f;
+  int keyboard_padding = size_ratio_ * 5.0f;
+  int stutter_height = size_ratio_ * 141.0f;
+  int formant_height = audio_height - stutter_height - padding_;
+  int delay_height = size_ratio_ * 91.0f;
+  int reverb_height = size_ratio_ * 91.0f;
+  int distortion_height = audio_height - delay_height - reverb_height - 2.0f * padding_;
 
-  float lfo_width = 135.0f;
-  float step_sequencer_width = COLUMN_WIDTH_1 + COLUMN_WIDTH_2 + CELL_PADDING -
-                               3 * (lfo_width + CELL_PADDING);
+  oscillator_section_->setBounds(column_1_x, padding_, section_one_width_, oscillators_height);
+  sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + padding_,
+                          sub_width, sub_mixer_height);
+  mixer_section_->setBounds(sub_section_->getRight() + padding_, sub_section_->getY(),
+                            mixer_width, sub_mixer_height);
+  amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + padding_,
+                                         section_one_width_, envelopes_height);
 
-  float step_lfo_y = amplitude_envelope_section_->getBottom() + CELL_PADDING;
-  float step_lfo_height = 148.0f;
+  feedback_section_->setBounds(column_2_x, padding_, section_two_width_, feedback_height);
+  filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + padding_,
+                             section_two_width_, filter_height);
+  filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + padding_,
+                                      section_two_width_, envelopes_height);
+
+  int lfo_width = 0.421875f * section_one_width_;
+  int step_sequencer_width = section_one_width_ + section_two_width_ + padding_ -
+                             3 * (lfo_width + padding_);
+
+  int step_lfo_y = amplitude_envelope_section_->getBottom() + padding_;
   mono_lfo_1_section_->setBounds(column_1_x, step_lfo_y,
                                  lfo_width, step_lfo_height);
-  mono_lfo_2_section_->setBounds(mono_lfo_1_section_->getRight() + CELL_PADDING, step_lfo_y,
+  mono_lfo_2_section_->setBounds(mono_lfo_1_section_->getRight() + padding_, step_lfo_y,
                                  lfo_width, step_lfo_height);
-  poly_lfo_section_->setBounds(mono_lfo_2_section_->getRight() + CELL_PADDING, step_lfo_y,
+  poly_lfo_section_->setBounds(mono_lfo_2_section_->getRight() + padding_, step_lfo_y,
                                lfo_width, step_lfo_height);
-  step_sequencer_section_->setBounds(poly_lfo_section_->getRight() + CELL_PADDING, step_lfo_y,
+  step_sequencer_section_->setBounds(poly_lfo_section_->getRight() + padding_, step_lfo_y,
                                      step_sequencer_width, step_lfo_height);
 
-  stutter_section_->setBounds(column_3_x, 4.0f, COLUMN_WIDTH_3, 141.0f);
-  formant_section_->setBounds(column_3_x, stutter_section_->getBottom() + CELL_PADDING,
-                              COLUMN_WIDTH_3, 141.0f);
-  extra_envelope_section_->setBounds(column_3_x, formant_section_->getBottom() + CELL_PADDING,
-                                     COLUMN_WIDTH_3 + COLUMN_WIDTH_3 + CELL_PADDING, 120.0f);
-  extra_mod_section_->setBounds(column_3_x, extra_envelope_section_->getBottom() + CELL_PADDING,
+  stutter_section_->setBounds(column_3_x, padding_, section_three_left_width, stutter_height);
+  formant_section_->setBounds(column_3_x, stutter_section_->getBottom() + padding_,
+                              section_three_left_width, formant_height);
+  extra_envelope_section_->setBounds(column_3_x, formant_section_->getBottom() + padding_,
+                                     section_three_width_, envelopes_height);
+  extra_mod_section_->setBounds(column_3_x, extra_envelope_section_->getBottom() + padding_,
                                 extra_envelope_section_->getWidth(), step_lfo_height);
 
-  distortion_section_->setBounds(column_4_x, 4.0f, COLUMN_WIDTH_4, 92.0f);
-  delay_section_->setBounds(column_4_x, distortion_section_->getBottom() + CELL_PADDING,
-                            COLUMN_WIDTH_4, 91.0f);
-  reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + CELL_PADDING,
-                             COLUMN_WIDTH_4, 91.0f);
+  distortion_section_->setBounds(column_4_x, padding_,
+                                 section_three_right_width, distortion_height);
+  delay_section_->setBounds(column_4_x, distortion_section_->getBottom() + padding_,
+                            section_three_right_width, delay_height);
+  reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + padding_,
+                             section_three_right_width, reverb_height);
+
+  int dynamic_width = size_ratio_ * DYNAMIC_WIDTH;
   
-  voice_section_->setBounds(column_1_x, step_sequencer_section_->getBottom() + CELL_PADDING,
-                            DYNAMIC_WIDTH, 64.0f);
-  dynamic_section_->setBounds(extra_envelope_section_->getRight() - DYNAMIC_WIDTH,
-                              step_sequencer_section_->getBottom() + CELL_PADDING,
-                              DYNAMIC_WIDTH, 64.0f);
-  keyboard_->setBounds(voice_section_->getRight() + CELL_PADDING, voice_section_->getY() + 5,
-                       dynamic_section_->getX() - voice_section_->getRight() - 2 * CELL_PADDING,
-                       54.0f);
+  voice_section_->setBounds(column_1_x, step_sequencer_section_->getBottom() + padding_,
+                            dynamic_width, dynamics_height);
+  dynamic_section_->setBounds(extra_envelope_section_->getRight() - dynamic_width,
+                              step_sequencer_section_->getBottom() + padding_,
+                              dynamic_width, dynamics_height);
+  keyboard_->setBounds(voice_section_->getRight() + padding_,
+                       voice_section_->getY() + keyboard_padding,
+                       dynamic_section_->getX() - voice_section_->getRight() - 2 * padding_,
+                       dynamics_height - 2 * keyboard_padding);
+  keyboard_->setKeyWidth(size_ratio_ * 16.0f);
 
   SynthSection::resized();
 }

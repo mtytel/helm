@@ -81,7 +81,7 @@ void PatchSelector::paint(Graphics& g) {
   Rectangle<int> bottom(proportionOfWidth(0.1) + TEXT_PADDING, browse_height,
                         proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
 
-  g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
+  g.setFont(Fonts::instance()->monospace().withPointHeight(size_ratio_ * 12.0f));
   g.setColour(Colors::control_label_text);
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));
@@ -177,4 +177,8 @@ void PatchSelector::setModified(bool modified) {
 void PatchSelector::loadFromFile(File& patch) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   parent->getSynth()->loadFromFile(patch);
+}
+
+int PatchSelector::getBrowseHeight() {
+  return 2 * proportionOfHeight(BROWSE_PERCENT);
 }

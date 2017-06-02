@@ -34,15 +34,15 @@ class DefaultLookAndFeel : public juce::LookAndFeel_V3 {
                                   Slider& slider) override;
 
     virtual void drawToggleButton(Graphics& g, ToggleButton& button,
-                                  bool isMouseOverButton, bool isButtonDown) override;
+                                  bool hover, bool is_down) override;
 
     void drawButtonBackground(Graphics& g, Button& button,
                               const Colour &backgroundColour,
-                              bool mouse_over,
-                              bool isButtonDown) override;
+                              bool hover,
+                              bool is_down) override;
 
     void drawButtonText(Graphics& g, TextButton& button,
-                        bool isMouseOverButton, bool isButtonDown) override;
+                        bool hover, bool is_down) override;
 
     void fillHorizontalRect(Graphics& g, float x1, float x2, float height);
     void fillVerticalRect(Graphics& g, float y1, float y2, float width);

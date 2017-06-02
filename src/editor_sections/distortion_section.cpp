@@ -20,8 +20,6 @@
 #include "fonts.h"
 #include "synth_button.h"
 
-#define KNOB_WIDTH 40
-
 DistortionSection::DistortionSection(String name) : SynthSection(name) {
   addSlider(type_ = new SynthSlider("distortion_type"));
   type_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -48,7 +46,7 @@ void DistortionSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
 
   drawTextForComponent(g, TRANS("TYPE"), type_);
   drawTextForComponent(g, TRANS("DRIVE"), drive_);
@@ -56,14 +54,16 @@ void DistortionSection::paintBackground(Graphics& g) {
 }
 
 void DistortionSection::resized() {
-  on_->setBounds(2, 0, 20, 20);
+  int title_width = getTitleWidth();
+  int knob_width = getStandardKnobSize();
+  on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
 
-  float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
-  int y = 30;
+  float space = (getWidth() - (3.0f * knob_width)) / 4.0f;
+  int y = size_ratio_ * 30;
 
-  type_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
-  drive_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  mix_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+  type_->setBounds(space, y, knob_width, knob_width);
+  drive_->setBounds((knob_width + space) + space, y, knob_width, knob_width);
+  mix_->setBounds(2 * (knob_width + space) + space, y, knob_width, knob_width);
 
   SynthSection::resized();
 }

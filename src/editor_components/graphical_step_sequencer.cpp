@@ -41,6 +41,7 @@ void GraphicalStepSequencer::paintBackground(Graphics& g) {
   g.fillAll(Colour(0xff424242));
 
   float x_inc = getWidth() / (1.0f * num_steps_);
+  float line_width = 1.5f * getHeight() / 80.0f;
   g.setColour(Colour(0xff545454));
   for (int i = 1; i * x_inc < getWidth(); ++i)
     g.drawLine(i * x_inc, 0, i * x_inc, getHeight());
@@ -70,7 +71,7 @@ void GraphicalStepSequencer::paintBackground(Graphics& g) {
     }
 
     g.setColour(Colors::modulation);
-    g.fillRect(x, bar_position, x_inc, 1.5f);
+    g.fillRect(x, bar_position, x_inc, line_width);
 
     x += x_inc;
   }

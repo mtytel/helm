@@ -22,10 +22,10 @@
 #include "tempo_selector.h"
 #include "text_look_and_feel.h"
 
-#define KNOB_SECTION_WIDTH 45
-#define KNOB_WIDTH 36
+#define CONTROL_SECTION_WIDTH 45
 #define TEXT_HEIGHT 16
 #define TEXT_WIDTH 42
+#define SLIDER_WIDTH 36
 
 StepSequencerSection::StepSequencerSection(String name) : SynthSection(name) {
   static const int TEMPO_DRAG_SENSITIVITY = 150;
@@ -79,33 +79,44 @@ StepSequencerSection::~StepSequencerSection() {
 
 void StepSequencerSection::paintBackground(Graphics& g) {
   static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+  float font_size = size_ratio_ * 10.0f;
+  int text_buffer = 6;
 
   SynthSection::paintBackground(g);
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
-  drawTextForComponent(g, TRANS("STEPS"), num_steps_);
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(font_size));
+  drawTextForComponent(g, TRANS("STEPS"), num_steps_, text_buffer);
   g.drawText(TRANS("FREQUENCY"),
-             retrigger_->getBounds().getX(), frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
-             frequency_->getBounds().getWidth() + 2 * TEXT_HEIGHT, 10,
+             retrigger_->getBounds().getX(), frequency_->getBounds().getBottom() + text_buffer,
+             frequency_->getBounds().getWidth() + 2 * text_height, font_size,
              Justification::centred, false);
 
-  drawTextForComponent(g, TRANS("SLIDE"), smoothing_);
+  drawTextForComponent(g, TRANS("SLIDE"), smoothing_, text_buffer);
 
   component_shadow.drawForRectangle(g, step_sequencer_->getBounds());
 }
 
 void StepSequencerSection::resized() {
-  step_sequencer_->setBounds(0, 20, getWidth(), getHeight() - 20 - KNOB_SECTION_WIDTH);
-  int y = getHeight() - (KNOB_SECTION_WIDTH + KNOB_WIDTH) / 2;
+  int mod_button_width = getModButtonWidth();
+  int title_width = getTitleWidth();
+  int text_width = size_ratio_ * TEXT_WIDTH;
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+  int control_section_width = size_ratio_ * CONTROL_SECTION_WIDTH;
+  int slider_width = size_ratio_* SLIDER_WIDTH;
 
-  modulation_button_->setBounds(10.0f, y, MODULATION_BUTTON_WIDTH, MODULATION_BUTTON_WIDTH);
-  num_steps_->setBounds(proportionOfWidth(0.22f), y, TEXT_WIDTH, TEXT_HEIGHT);
-  retrigger_->setBounds(proportionOfWidth(0.51f) - TEXT_HEIGHT, y, TEXT_HEIGHT, TEXT_HEIGHT);
-  frequency_->setBounds(proportionOfWidth(0.51f), y, TEXT_WIDTH, TEXT_HEIGHT);
-  sync_->setBounds(frequency_->getBounds().getX() + TEXT_WIDTH, frequency_->getBounds().getY(),
-                   TEXT_HEIGHT, TEXT_HEIGHT);
+  step_sequencer_->setBounds(0, title_width, getWidth(),
+                             getHeight() - title_width - control_section_width);
+  int y = getHeight() - control_section_width + size_ratio_ * 6.0f;
 
-  smoothing_->setBounds(proportionOfWidth(0.81f), y, KNOB_WIDTH, TEXT_HEIGHT);
+  modulation_button_->setBounds(size_ratio_ * 10.0f, y, mod_button_width, mod_button_width);
+  num_steps_->setBounds(proportionOfWidth(0.22f), y, text_width, text_height);
+  retrigger_->setBounds(proportionOfWidth(0.51f) - text_height, y, text_height, text_height);
+  frequency_->setBounds(proportionOfWidth(0.51f), y, text_width, text_height);
+  sync_->setBounds(frequency_->getBounds().getX() + text_width, frequency_->getBounds().getY(),
+                   text_height, text_height);
+
+  smoothing_->setBounds(proportionOfWidth(0.81f), y, slider_width, text_height);
   tempo_->setBounds(frequency_->getBounds());
 
   SynthSection::resized();

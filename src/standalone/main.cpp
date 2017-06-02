@@ -18,6 +18,8 @@
 #include "helm_standalone_editor.h"
 #include "load_save.h"
 
+#define TITLE_BAR 22
+
 class HelmApplication : public JUCEApplication {
   public:
     class MainWindow : public DocumentWindow,
@@ -38,6 +40,12 @@ class HelmApplication : public JUCEApplication {
         setUsingNativeTitleBar(true);
         setContentOwned(editor_, true);
         setResizable(true, true);
+        constrainer.setMinimumSize(mopo::DEFAULT_WINDOW_WIDTH / 2, mopo::DEFAULT_WINDOW_HEIGHT / 2);
+
+        int height = TITLE_BAR + mopo::DEFAULT_WINDOW_HEIGHT;
+        double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / height;
+        constrainer.setFixedAspectRatio(ratio);
+        setConstrainer(&constrainer);
 
         centreWithSize(getWidth(), getHeight());
         setVisible(visible);
@@ -133,6 +141,7 @@ class HelmApplication : public JUCEApplication {
       JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
       HelmStandaloneEditor* editor_;
       ScopedPointer<ApplicationCommandManager> command_manager_;
+      ComponentBoundsConstrainer constrainer;
     };
 
     HelmApplication() { }

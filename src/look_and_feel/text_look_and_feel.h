@@ -28,7 +28,7 @@ class TextLookAndFeel : public DefaultLookAndFeel {
                           Slider& slider) override;
 
     void drawToggleButton(Graphics& g, ToggleButton& button,
-                          bool isMouseOverButton, bool isButtonDown) override;
+                          bool hover, bool is_down) override;
 
     void drawTickBox(Graphics &, Component &, float x, float y, float w, float h, bool ticked,
                      bool enabled, bool mouse_over, bool button_down) override;

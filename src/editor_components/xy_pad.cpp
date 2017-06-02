@@ -43,7 +43,6 @@ void XYPad::paintBackground(Graphics& g) {
 }
 
 void XYPad::paint(Graphics& g) {
-  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
   static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
 
   g.drawImage(background_,
@@ -54,7 +53,10 @@ void XYPad::paint(Graphics& g) {
   float y = (1.0f - y_slider_->getValue()) * getHeight();
 
   Path target;
-  target.addEllipse(x - 6.0f, y - 6.0f, 12.0f, 12.0f);
+  float handle_radius = 0.05f * getWidth();
+  target.addEllipse(x - handle_radius, y - handle_radius,
+                    2.0f * handle_radius, 2.0f * handle_radius);
+
   shadow.drawForPath(g, target);
 
   g.setColour(Colors::graph_fill);
@@ -64,12 +66,17 @@ void XYPad::paint(Graphics& g) {
     g.setColour(Colors::audio);
   else
     g.setColour(Colors::graph_disable);
+
+  PathStrokeType stroke(0.01f * getWidth(), PathStrokeType::beveled, PathStrokeType::rounded);
   g.strokePath(target, stroke);
-  g.fillEllipse(x - 1.0f, y - 1.0f, 2.0f, 2.0f);
+  float dot_radius = 0.01f * getWidth();
+
+  g.fillEllipse(x - dot_radius, y - dot_radius, 2.0f * dot_radius, 2.0f * dot_radius);
 
   if (mouse_down_) {
     g.setColour(Colour(0x11ffffff));
-    g.fillEllipse(x - 20.0, y - 20.0, 40.0, 40.0);
+    float hover_radius = 0.2 * getWidth();
+    g.fillEllipse(x - hover_radius, y - hover_radius, 2.0f * hover_radius, 2.0f * hover_radius);
   }
 }
 

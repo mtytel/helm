@@ -44,6 +44,7 @@ class WaveViewer : public Component, public Timer, public SliderListener {
 
   private:
     float phaseToX(float phase);
+    float getRatio();
 
     Slider* wave_slider_;
     Slider* amplitude_slider_;

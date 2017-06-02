@@ -23,6 +23,9 @@
 
 #define TITLE_WIDTH 20
 #define SHADOW_WIDTH 3
+#define KNOB_SIZE 40
+#define SMALL_KNOB_SIZE 32
+#define MODULATION_BUTTON_WIDTH 32
 
 void SynthSection::reset() {
   for (auto sub_section : sub_sections_)
@@ -36,21 +39,21 @@ void SynthSection::resized() {
 void SynthSection::paint(Graphics& g) { }
 
 void SynthSection::paintBackground(Graphics& g) {
-  static const DropShadow button_shadow(Colour(0xff000000), 3, Point<int>(0, 0));
+  static const DropShadow button_shadow(Colour(0xff000000), size_ratio_ * 3.0f, Point<int>(0, 0));
 
   paintContainer(g);
   // Draw shadow divider.
-  float shadow_top = TITLE_WIDTH - SHADOW_WIDTH;
-  float shadow_bottom = TITLE_WIDTH;
+  float shadow_top = size_ratio_ * (TITLE_WIDTH - SHADOW_WIDTH);
+  int title_width = getTitleWidth();
   g.setGradientFill(ColourGradient(Colour(0x22000000), 0.0f, shadow_top,
-                                   Colour(0x66000000), 0.0f, shadow_bottom,
+                                   Colour(0x66000000), 0.0f, title_width,
                                    false));
-  g.fillRoundedRectangle(0, 0, getWidth(), TITLE_WIDTH, 1.0f);
+  g.fillRoundedRectangle(0, 0, getWidth(), title_width, 1.0f);
 
   // Draw text title.
   g.setColour(Colour(0xffbbbbbb));
-  g.setFont(Fonts::instance()->proportional_light().withPointHeight(14.0f));
-  g.drawText(TRANS(getName()), 0, 0, getWidth(), TITLE_WIDTH,
+  g.setFont(Fonts::instance()->proportional_light().withPointHeight(size_ratio_ * 14.0f));
+  g.drawText(TRANS(getName()), 0, 0, getWidth(), title_width,
              Justification::centred, true);
 
   paintKnobShadows(g);
@@ -59,7 +62,14 @@ void SynthSection::paintBackground(Graphics& g) {
 
 void SynthSection::paintContainer(Graphics& g) {
   g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 3.000f);
+  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), size_ratio_ * 3.0f);
+}
+
+void SynthSection::setSizeRatio(float ratio) {
+  size_ratio_ = ratio;
+
+  for (auto sub_section : sub_sections_)
+    sub_section.second->setSizeRatio(ratio);
 }
 
 void SynthSection::paintKnobShadows(Graphics& g) {
@@ -181,11 +191,29 @@ void SynthSection::setActivator(ToggleButton* activator) {
   setActive(activator_->getToggleStateValue().getValue());
 }
 
+float SynthSection::getTitleWidth() {
+  return size_ratio_ * TITLE_WIDTH;
+}
+
+float SynthSection::getStandardKnobSize() {
+  return size_ratio_ * KNOB_SIZE;
+}
+
+float SynthSection::getSmallKnobSize() {
+  return size_ratio_ * SMALL_KNOB_SIZE;
+}
+
+float SynthSection::getModButtonWidth() {
+  return size_ratio_ * MODULATION_BUTTON_WIDTH;
+}
+
 void SynthSection::drawTextForComponent(Graphics &g, String text, Component *component, int space) {
-  static const int ROOM = 30;
-  static const int HEIGHT = 10;
-  g.drawText(text, component->getX() - ROOM, component->getY() + component->getHeight() + space,
-             component->getWidth() + 2 * ROOM, HEIGHT, Justification::centred, false);
+  float room = size_ratio_ * 30.0f;
+  float height = size_ratio_ * 10.0f;
+  float adjust_space = size_ratio_ * space;
+  g.drawText(text, component->getX() - room,
+             component->getY() + component->getHeight() + adjust_space,
+             component->getWidth() + 2 * room, height, Justification::centred, false);
 }
 
 void SynthSection::setActive(bool active) {

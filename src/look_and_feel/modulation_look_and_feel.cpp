@@ -161,7 +161,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
 }
 
 void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
-                                             bool isMouseOverButton, bool isButtonDown) {
+                                             bool hover, bool is_down) {
   static const DropShadow shadow(Colour(0x88000000), 2, Point<int>(0, 0));
 
   static const Image on_active_2x =
@@ -189,7 +189,13 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
       ImageCache::getFromMemory(BinaryData::modulation_unselected_inactive_1x_png,
                                 BinaryData::modulation_unselected_inactive_1x_pngSize);
 
+
+  g.saveState();
+  float ratio = (1.0f * button.getWidth()) / on_active_1x.getWidth();
+  g.addTransform(AffineTransform::scale(ratio, ratio));
   shadow.drawForImage(g, on_active_1x);
+  g.restoreState();
+  
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
 
   bool is_2x = display.scale > 1.5;
@@ -213,11 +219,11 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
               0, 0, button.getWidth(), button.getHeight(),
               0, 0, button_image.getWidth(), button_image.getHeight());
 
-  if (isButtonDown) {
+  if (is_down) {
     g.setColour(Colour(0x11000000));
     g.fillEllipse(1, 2, button.getWidth() - 2, button.getHeight() - 2);
   }
-  else if (isMouseOverButton) {
+  else if (hover) {
     g.setColour(Colour(0x11ffffff));
     g.fillEllipse(1, 2, button.getWidth() - 2, button.getHeight() - 2);
   }

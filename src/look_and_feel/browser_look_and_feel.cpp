@@ -15,15 +15,22 @@
  */
 
 #include "browser_look_and_feel.h"
+#include "fonts.h"
 
 void BrowserLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
-                                              const Colour &backgroundColour,
-                                              bool isMouseOverButton, bool isButtonDown) {
+                                              const Colour &background_colour,
+                                              bool hover, bool is_down) {
   g.setColour(button.findColour(TextButton::buttonColourId));
   g.fillAll();
 
-  if (isButtonDown)
+  if (is_down)
     g.fillAll(Colour(0x11000000));
-  else if (isMouseOverButton)
+  else if (hover)
     g.fillAll(Colour(0x11ffffff));
+}
+
+Font BrowserLookAndFeel::getTextButtonFont(TextButton& button, int button_height) {
+  static const float percent = 0.55f;
+  int min = std::min(button_height, button.getWidth());
+  return Fonts::instance()->monospace().withPointHeight(min * percent);
 }

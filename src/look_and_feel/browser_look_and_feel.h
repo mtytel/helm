@@ -22,7 +22,9 @@
 class BrowserLookAndFeel : public juce::LookAndFeel_V3 {
   public:
     void drawButtonBackground(Graphics& g, Button& button, const Colour &backgroundColour,
-                              bool isMouseOverButton, bool isButtonDown) override;
+                              bool hover, bool is_down) override;
+
+    Font getTextButtonFont(TextButton&, int buttonHeight) override;
 
     static BrowserLookAndFeel* instance() {
       static BrowserLookAndFeel instance;

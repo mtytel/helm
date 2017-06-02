@@ -48,7 +48,13 @@ class SynthesisInterface  : public SynthSection {
 
     void paintBackground(Graphics& g) override;
     void resized() override;
+
     void setFocus() { grabKeyboardFocus(); }
+  
+    void setPadding(int padding) { padding_ = padding; }
+    void setSectionOneWidth(int width) { section_one_width_ = width; }
+    void setSectionTwoWidth(int width) { section_two_width_ = width; }
+    void setSectionThreeWidth(int width) { section_three_width_ = width; }
 
   private:
     ScopedPointer<EnvelopeSection> amplitude_envelope_section_;
@@ -72,6 +78,11 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<StutterSection> stutter_section_;
     ScopedPointer<SubSection> sub_section_;
     ScopedPointer<VoiceSection> voice_section_;
+
+    int padding_;
+    int section_one_width_;
+    int section_two_width_;
+    int section_three_width_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthesisInterface)
 };

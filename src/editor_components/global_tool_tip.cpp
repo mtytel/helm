@@ -35,7 +35,7 @@ void GlobalToolTip::paint(Graphics& g) {
   g.fillRect(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
   g.setColour(Colour(0xffffffff));
-  g.setFont(Fonts::instance()->monospace().withPointHeight(13.0f));
+  g.setFont(Fonts::instance()->monospace().withPointHeight(proportionOfHeight(0.3f)));
   g.drawText(parameter_text_, 0.0, 0.0,
              getWidth(), proportionOfHeight(0.5), Justification::centred, false);
   g.drawText(value_text_, 0.0, proportionOfHeight(0.5),

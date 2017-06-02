@@ -85,7 +85,10 @@ void WaveViewer::paintBackground(Graphics& g) {
     g.setColour(Colors::modulation);
   else
     g.setColour(Colors::audio);
-  g.strokePath(wave_path_, PathStrokeType(1.5f, PathStrokeType::beveled, PathStrokeType::rounded));
+
+  float line_width = 1.5f * getRatio();
+  PathStrokeType stroke(line_width, PathStrokeType::beveled, PathStrokeType::rounded);
+  g.strokePath(wave_path_, stroke);
 }
 
 void WaveViewer::resized() {
@@ -141,15 +144,16 @@ void WaveViewer::setAmplitudeSlider(Slider* slider) {
 void WaveViewer::drawRandom() {
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float padding = getRatio() * PADDING;
+  float draw_height = getHeight() - 2.0f * padding;
 
   wave_path_.startNewSubPath(0, getHeight() / 2.0f);
   for (int i = 0; i < NOISE_RESOLUTION; ++i) {
     float t1 = (1.0f * i) / NOISE_RESOLUTION;
     float t2 = (1.0f + i) / NOISE_RESOLUTION;
     float val = amplitude * random_values[i];
-    wave_path_.lineTo(t1 * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
-    wave_path_.lineTo(t2 * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t1 * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t2 * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
   }
 
   wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
@@ -158,11 +162,12 @@ void WaveViewer::drawRandom() {
 void WaveViewer::drawSmoothRandom() {
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float padding = getRatio() * PADDING;
+  float draw_height = getHeight() - 2.0f * padding;
 
   float start_val = amplitude * random_values[0];
   wave_path_.startNewSubPath(-50, getHeight() / 2.0f);
-  wave_path_.lineTo(0, PADDING + draw_height * ((1.0f - start_val) / 2.0f));
+  wave_path_.lineTo(0, padding + draw_height * ((1.0f - start_val) / 2.0f));
   for (int i = 1; i < resolution_ - 1; ++i) {
     float t = (1.0f * i) / resolution_;
     float phase = t * (NOISE_RESOLUTION - 1);
@@ -171,11 +176,11 @@ void WaveViewer::drawSmoothRandom() {
     float val = amplitude * mopo::utils::interpolate(random_values[index],
                                                      random_values[index + 1],
                                                      0.5f - cosf(phase) / 2.0f);
-    wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+    wave_path_.lineTo(t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
   }
 
   float end_val = amplitude * random_values[NOISE_RESOLUTION - 1];
-  wave_path_.lineTo(getWidth(), PADDING + draw_height * ((1.0f - end_val) / 2.0f));
+  wave_path_.lineTo(getWidth(), padding + draw_height * ((1.0f - end_val) / 2.0f));
   wave_path_.lineTo(getWidth() + 50, getHeight() / 2.0f);
 
 }
@@ -191,7 +196,8 @@ void WaveViewer::resetWavePath() {
 
   float amplitude = amplitude_slider_ ? amplitude_slider_->getValue() : 1.0f;
   float draw_width = getWidth();
-  float draw_height = getHeight() - 2.0f * PADDING;
+  float padding = getRatio() * PADDING;
+  float draw_height = getHeight() - 2.0f * padding;
 
   mopo::Wave::Type type = static_cast<mopo::Wave::Type>(static_cast<int>(wave_slider_->getValue()));
 
@@ -200,7 +206,7 @@ void WaveViewer::resetWavePath() {
     for (int i = 1; i < resolution_ - 1; ++i) {
       float t = (1.0f * i) / resolution_;
       float val = amplitude * mopo::Wave::wave(type, t);
-      wave_path_.lineTo(t * draw_width, PADDING + draw_height * ((1.0f - val) / 2.0f));
+      wave_path_.lineTo(t * draw_width, padding + draw_height * ((1.0f - val) / 2.0f));
     }
 
     wave_path_.lineTo(getWidth(), getHeight() / 2.0f);
@@ -243,4 +249,8 @@ void WaveViewer::showRealtimeFeedback(bool show_feedback) {
 
 float WaveViewer::phaseToX(float phase) {
   return phase * getWidth();
+}
+
+float WaveViewer::getRatio() {
+  return getHeight() / 80.0f;
 }

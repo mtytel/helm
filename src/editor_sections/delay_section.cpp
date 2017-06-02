@@ -67,31 +67,41 @@ DelaySection::~DelaySection() {
 void DelaySection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+  float font_size = size_ratio_ * 10.0f;
+
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(font_size));
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
   drawTextForComponent(g, TRANS("WET"), dry_wet_);
 
+  float text_buffer = size_ratio_ * 6.0f;
+  float extra_bump = size_ratio_ * 5.0f;
   g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX() - 5, frequency_->getBounds().getY() + TEXT_HEIGHT + 6,
-             frequency_->getBounds().getWidth() + TEXT_HEIGHT + 10,
-             10, Justification::centred, false);
+             frequency_->getBounds().getX() - extra_bump,
+             frequency_->getBounds().getBottom() + text_buffer,
+             frequency_->getBounds().getWidth() + text_height + 2 * extra_bump,
+             font_size + 1, Justification::centred, false);
 }
 
 void DelaySection::resized() {
-  on_->setBounds(2, 0, 20, 20);
+  int title_width = getTitleWidth();
+  on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
+  int knob_width = getStandardKnobSize();
+  int text_width = size_ratio_ * TEXT_WIDTH;
+  int text_height = size_ratio_ * TEXT_HEIGHT;
 
-  float space = (getWidth() - (2.0f * KNOB_WIDTH) - TEXT_WIDTH - TEXT_HEIGHT) / 4.0f;
-  int knob_y = 30;
-  int text_y = 39;
+  float space = (getWidth() - (2.0f * knob_width) - text_width - text_height) / 4.0f;
+  int knob_y = size_ratio_ * 30;
+  int text_y = size_ratio_ * 39;
 
-  frequency_->setBounds(space, text_y, TEXT_WIDTH, TEXT_HEIGHT);
-  sync_->setBounds(space + TEXT_WIDTH, text_y, TEXT_HEIGHT, TEXT_HEIGHT);
+  frequency_->setBounds(space, text_y, text_width, text_height);
+  sync_->setBounds(space + text_width, text_y, text_height, text_height);
   tempo_->setBounds(frequency_->getBounds());
-  feedback_->setBounds(TEXT_WIDTH + TEXT_HEIGHT + 2 * space, knob_y, KNOB_WIDTH, KNOB_WIDTH);
-  dry_wet_->setBounds(TEXT_WIDTH + TEXT_HEIGHT + KNOB_WIDTH + 3 * space, knob_y,
-                        KNOB_WIDTH, KNOB_WIDTH);
+  feedback_->setBounds(text_width + text_height + 2 * space, knob_y, knob_width, knob_width);
+  dry_wet_->setBounds(text_width + text_height + knob_width + 3 * space, knob_y,
+                      knob_width, knob_width);
 
   SynthSection::resized();
 }

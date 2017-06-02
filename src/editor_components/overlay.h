@@ -33,7 +33,7 @@ class Overlay : public Component {
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Listener)
     };
 
-    Overlay(String name) : Component(name) { }
+    Overlay(String name) : Component(name), size_ratio_(1.0f) { }
     virtual ~Overlay() { }
 
     void setVisible(bool should_be_visible) override {
@@ -48,8 +48,10 @@ class Overlay : public Component {
 
     void addListener(Listener* listener) { listeners_.insert(listener); }
     void removeListener(Listener* listener) { listeners_.erase(listener); }
+    void setSizeRatio(float ratio) { size_ratio_ = ratio;}
 
-  private:
+  protected:
+    float size_ratio_;
     std::set<Listener*> listeners_;
 };
 

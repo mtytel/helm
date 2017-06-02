@@ -26,7 +26,6 @@
 #include "text_look_and_feel.h"
 
 #define KNOB_SECTION_WIDTH 70
-#define KNOB_WIDTH 40
 #define SLIDER_WIDTH 10
 #define FILTER_TYPE_WIDTH 16
 #define STYLE_SLIDER_WIDTH 60
@@ -97,11 +96,11 @@ FilterSection::~FilterSection() {
 
 void FilterSection::paintBackground(Graphics& g) {
   static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
-  static const DropShadow component_shadow(Colour(0xbb000000), 4, Point<int>(0, 0));
+  static const DropShadow component_shadow(Colour(0xbb000000), size_ratio_ * 4, Point<int>(0, 0));
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
   drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);
   drawTextForComponent(g, TRANS("KEY TRACK"), keytrack_);
@@ -115,43 +114,58 @@ void FilterSection::paintBackground(Graphics& g) {
 }
 
 void FilterSection::resized() {
-  filter_on_->setBounds(2, 0, 20, 20);
-  int response_width = getWidth() - KNOB_SECTION_WIDTH - SLIDER_WIDTH;
-  int response_height = getHeight() - SLIDER_WIDTH - FILTER_TYPE_WIDTH - 20;
-  int knob_center_x = getWidth() - KNOB_SECTION_WIDTH / 2;
+  int title_width = getTitleWidth();
+  int knob_width = getStandardKnobSize();
+  int knob_section_width = size_ratio_ * KNOB_SECTION_WIDTH;
+  int slider_width = size_ratio_ * SLIDER_WIDTH;
+  int style_slider_width = size_ratio_ * STYLE_SLIDER_WIDTH;
+  int style_label_width = size_ratio_ * STYLE_LABEL_WIDTH;
+  int style_slider_padding = size_ratio_ * STYLE_SLIDER_PADDING;
+  int filter_type_width = size_ratio_ * FILTER_TYPE_WIDTH;
+  int keytrack_top_padding = size_ratio_ * KEYTRACK_TOP_PADDING;
+  int keytrack_width = size_ratio_ * KEYTRACK_WIDTH;
+  int keytrack_height = size_ratio_ * KEYTRACK_HEIGHT;
+  filter_on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
 
-  int style_slider_remove = STYLE_SLIDER_WIDTH + STYLE_SLIDER_PADDING;
-  blend_->setBounds(STYLE_LABEL_WIDTH, 22,
-                    getWidth() - KNOB_SECTION_WIDTH - 2 * STYLE_LABEL_WIDTH - style_slider_remove,
-                    FILTER_TYPE_WIDTH - 4);
-  filter_shelf_->setBounds(0, 20, getWidth() - KNOB_SECTION_WIDTH - style_slider_remove,
-                           FILTER_TYPE_WIDTH);
+  int response_width = getWidth() - knob_section_width - slider_width;
+  int response_height = getHeight() - slider_width - filter_type_width - title_width;
+  int knob_center_x = getWidth() - knob_section_width / 2;
 
-  cutoff_->setBounds(0, getHeight() - SLIDER_WIDTH, response_width, SLIDER_WIDTH);
-  resonance_->setBounds(response_width, 20 + FILTER_TYPE_WIDTH, SLIDER_WIDTH, response_height);
-  filter_response_->setBounds(0, 20 + FILTER_TYPE_WIDTH, response_width, response_height);
+  int style_slider_remove = style_slider_width + style_slider_padding;
+  int blend_buffer = size_ratio_ * 2;
+  blend_->setBounds(style_label_width, title_width + blend_buffer,
+                    getWidth() - knob_section_width - 2 * style_label_width - style_slider_remove,
+                    filter_type_width - 2 * blend_buffer);
+  filter_shelf_->setBounds(0, title_width, getWidth() - knob_section_width - style_slider_remove,
+                           filter_type_width);
 
-  int knob_vertical = KNOB_WIDTH + 14;
-  int keytrack_vertical =  KEYTRACK_TOP_PADDING + KEYTRACK_HEIGHT + 14;
-  int space = (getHeight() - 20 - 2 * knob_vertical - keytrack_vertical) / 4;
+  cutoff_->setBounds(0, getHeight() - slider_width, response_width, slider_width);
+  resonance_->setBounds(response_width, title_width + filter_type_width, slider_width, response_height);
+  filter_response_->setBounds(0, title_width + filter_type_width, response_width, response_height);
 
-  drive_->setBounds(knob_center_x - KNOB_WIDTH / 2, 20 + space,
-                    KNOB_WIDTH, KNOB_WIDTH);
-  fil_env_depth_->setBounds(knob_center_x - KNOB_WIDTH / 2,
-                            20 + knob_vertical + 2 * space,
-                            KNOB_WIDTH, KNOB_WIDTH);
-  keytrack_->setBounds(knob_center_x - KEYTRACK_WIDTH / 2,
-                       20 + 2 * knob_vertical + 3 * space + KEYTRACK_TOP_PADDING,
-                       KEYTRACK_WIDTH, KEYTRACK_HEIGHT);
-  filter_style_->setBounds(filter_shelf_->getRight() + STYLE_SLIDER_PADDING, 20,
-                           STYLE_SLIDER_WIDTH, FILTER_TYPE_WIDTH);
+  int knob_vertical = knob_width + size_ratio_ * 14;
+  int keytrack_vertical =  keytrack_top_padding + keytrack_height + size_ratio_ * 14;
+  int space = (getHeight() - title_width - 2 * knob_vertical - keytrack_vertical) / 4;
 
-  resizeLowPass(STYLE_LABEL_PADDING_X, 20 + STYLE_LABEL_PADDING_Y,
-                STYLE_LABEL_WIDTH - 2 * STYLE_LABEL_PADDING_X,
-                FILTER_TYPE_WIDTH - 2 * STYLE_LABEL_PADDING_Y);
-  resizeHighPass(blend_->getRight() + STYLE_LABEL_PADDING_X, 20 + STYLE_LABEL_PADDING_Y,
-                 STYLE_LABEL_WIDTH - 2 * STYLE_LABEL_PADDING_X,
-                 FILTER_TYPE_WIDTH - 2 * STYLE_LABEL_PADDING_Y);
+  drive_->setBounds(knob_center_x - knob_width / 2, title_width + space,
+                    knob_width, knob_width);
+  fil_env_depth_->setBounds(knob_center_x - knob_width / 2,
+                            title_width + knob_vertical + 2 * space,
+                            knob_width, knob_width);
+  keytrack_->setBounds(knob_center_x - keytrack_width / 2,
+                       title_width + 2 * knob_vertical + 3 * space + keytrack_top_padding,
+                       keytrack_width, keytrack_height);
+  filter_style_->setBounds(filter_shelf_->getRight() + style_slider_padding, title_width,
+                           style_slider_width, filter_type_width);
+
+  int style_label_padding_x = size_ratio_ * STYLE_LABEL_PADDING_X;
+  int style_label_padding_y = size_ratio_ * STYLE_LABEL_PADDING_Y;
+  resizeLowPass(style_label_padding_x, title_width + style_label_padding_y,
+                style_label_width - 2 * style_label_padding_x,
+                filter_type_width - 2 * style_label_padding_y);
+  resizeHighPass(blend_->getRight() + style_label_padding_x, title_width + style_label_padding_y,
+                 style_label_width - 2 * style_label_padding_x,
+                 filter_type_width - 2 * style_label_padding_y);
 
   SynthSection::resized();
 }

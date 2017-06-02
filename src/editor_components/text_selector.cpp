@@ -22,6 +22,8 @@ TextSelector::TextSelector(String name) : SynthSlider(name), short_lookup_(nullp
 
 void TextSelector::paint(Graphics& g) {
   static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
+  static const float text_percentage = 0.7f;
+
   int num_types = getMaximum() - getMinimum() + 1;
   float cell_width = float(getWidth()) / num_types;
   float height = getHeight();
@@ -30,7 +32,7 @@ void TextSelector::paint(Graphics& g) {
   g.setColour(Colour(0xff424242));
   g.fillRect(selected * cell_width, 0.0f, cell_width, height);
 
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(height * text_percentage));
 
   const std::string* lookup = short_lookup_;
   if (lookup == nullptr)

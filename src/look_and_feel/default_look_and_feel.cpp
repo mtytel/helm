@@ -197,11 +197,12 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
 }
 
 void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
-                                          bool isMouseOverButton, bool isButtonDown) {
+                                          bool hover, bool is_down) {
   static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
   static float stroke_percent = 0.1;
-  static float padding = 3.0f;
-  static float hover_padding = 1.0f;
+  float ratio = button.getWidth() / 20.0f;
+  float padding = ratio * 3.0f;
+  float hover_padding = ratio;
 
   float full_radius = std::min(button.getWidth(), button.getHeight()) / 2.0;
   float stroke_width = 2.0f * full_radius * stroke_percent;
@@ -225,12 +226,12 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.strokePath(outer, stroke_type);
   g.fillRoundedRectangle(full_radius - 1.0f, padding, 2.0f, full_radius - padding, 1.0f);
 
-  if (isButtonDown) {
+  if (is_down) {
     g.setColour(Colour(0x11000000));
     g.fillEllipse(hover_padding, hover_padding,
                   button.getWidth() - 2 * hover_padding, button.getHeight() - 2 * hover_padding);
   }
-  else if (isMouseOverButton) {
+  else if (hover) {
     g.setColour(Colour(0x11ffffff));
     g.fillEllipse(hover_padding, hover_padding,
                   button.getWidth() - 2 * hover_padding, button.getHeight() - 2 * hover_padding);  }
@@ -238,8 +239,8 @@ void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
 
 void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
                                               const Colour &backgroundColour,
-                                              bool isMouseOverButton,
-                                              bool isButtonDown) {
+                                              bool hover,
+                                              bool is_down) {
   if (button.isEnabled())
     g.fillAll(Colour(0xff323232));
   else
@@ -248,21 +249,21 @@ void DefaultLookAndFeel::drawButtonBackground(Graphics& g, Button& button,
   g.setColour(Colour(0xff505050));
   g.drawRect(button.getLocalBounds());
 
-  if (isButtonDown)
+  if (is_down)
     g.fillAll(Colour(0x11000000));
-  else if (isMouseOverButton)
+  else if (hover)
     g.fillAll(Colour(0x11ffffff));
 }
 
 void DefaultLookAndFeel::drawButtonText(Graphics& g, TextButton& button,
-                                        bool isMouseOverButton, bool isButtonDown) {
+                                        bool hover, bool is_down) {
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(14.0f));
   if (button.isEnabled())
     g.setColour(Colour(0xffaaaaaa));
   else
     g.setColour(Colour(0xff666666));
 
-  g.drawText(button.getName(), button.getLocalBounds(), Justification::centred, false);
+  g.drawFittedText(button.getName(), button.getLocalBounds(), Justification::centred, false);
 }
 
 void DefaultLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {

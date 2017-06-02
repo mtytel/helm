@@ -167,6 +167,8 @@ namespace mopo {
   const int MEMORY_RESOLUTION = 512;
   const mopo_float STUTTER_MAX_SAMPLES = 96000.0;
   const int DEFAULT_MODULATION_CONNECTIONS = 256;
+  const int DEFAULT_WINDOW_WIDTH = 992;
+  const int DEFAULT_WINDOW_HEIGHT = 734;
 
   const int DEFAULT_KEYBOARD_OFFSET = 48;
   const std::wstring DEFAULT_KEYBOARD = L"awsedftgyhujkolp;'";

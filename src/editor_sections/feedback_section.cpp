@@ -19,8 +19,6 @@
 #include "colors.h"
 #include "fonts.h"
 
-#define KNOB_WIDTH 40
-
 FeedbackSection::FeedbackSection(String name) : SynthSection(name) {
   static const int TRANSPOSE_MOUSE_SENSITIVITY = 800;
 
@@ -48,7 +46,7 @@ void FeedbackSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
   drawTextForComponent(g, TRANS("TRANSPOSE"), transpose_);
   drawTextForComponent(g, TRANS("TUNE"), tune_);
@@ -56,12 +54,13 @@ void FeedbackSection::paintBackground(Graphics& g) {
 }
 
 void FeedbackSection::resized() {
-  float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
-  int y = 26;
+  int knob_width = getStandardKnobSize();
+  float space = (getWidth() - (3.0f * knob_width)) / 4.0f;
+  int y = size_ratio_ * 26;
 
-  transpose_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
-  tune_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  amount_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+  transpose_->setBounds(space, y, knob_width, knob_width);
+  tune_->setBounds((knob_width + space) + space, y, knob_width, knob_width);
+  amount_->setBounds(2 * (knob_width + space) + space, y, knob_width, knob_width);
 
   SynthSection::resized();
 }

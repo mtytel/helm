@@ -50,10 +50,15 @@ void FormantSection::paintBackground(Graphics& g) {
 }
 
 void FormantSection::resized() {
-  on_->setBounds(2, 0, 20, 20);
-  x_->setBounds(0, getHeight() - SLIDER_WIDTH, getWidth() - SLIDER_WIDTH, SLIDER_WIDTH);
-  y_->setBounds(getWidth() - SLIDER_WIDTH, 20, SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
-  xy_pad_->setBounds(0, 20, getWidth() - SLIDER_WIDTH, getHeight() - 20 - SLIDER_WIDTH);
+  int title_width = getTitleWidth();
+  on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
+
+  int slider_width = size_ratio_ * SLIDER_WIDTH;
+  x_->setBounds(0, getHeight() - slider_width, getWidth() - slider_width, slider_width);
+  y_->setBounds(getWidth() - slider_width, title_width, slider_width,
+                getHeight() - title_width - slider_width);
+  xy_pad_->setBounds(0, title_width, getWidth() - slider_width,
+                     getHeight() - title_width - slider_width);
 
   SynthSection::resized();
 }

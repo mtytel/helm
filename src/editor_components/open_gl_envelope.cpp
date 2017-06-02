@@ -64,11 +64,12 @@ OpenGLEnvelope::~OpenGLEnvelope() {
 }
 
 void OpenGLEnvelope::paintBackground() {
-  static const PathStrokeType stroke(1.5f, PathStrokeType::beveled, PathStrokeType::rounded);
   static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
 
   if (getWidth() <= 0 || getHeight() <= 0)
     return;
+
+  float ratio = getHeight() / 100.0f;
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
@@ -93,6 +94,8 @@ void OpenGLEnvelope::paintBackground() {
   g.drawLine(getDecayX(), getSustainY(), getDecayX(), getHeight());
 
   g.setColour(Colors::modulation);
+  float line_width = 1.5f * ratio;
+  PathStrokeType stroke(line_width, PathStrokeType::beveled, PathStrokeType::rounded);
   g.strokePath(envelope_line_, stroke);
 
   float hover_line_x = -20;
@@ -106,14 +109,18 @@ void OpenGLEnvelope::paintBackground() {
   g.setColour(Colour(0xbbffffff));
   g.fillRect(hover_line_x - 0.5f, 0.0f, 1.0f, 1.0f * getHeight());
 
+  float grab_radius = 20.0f * ratio;
+  float hover_radius = 7.0f * ratio;
   if (sustain_hover_) {
     if (mouse_down_) {
       g.setColour(Colour(0x11ffffff));
-      g.fillEllipse(getDecayX() - 20.0, getSustainY() - 20.0, 40.0, 40.0);
+      g.fillEllipse(getDecayX() - grab_radius, getSustainY() - grab_radius,
+                    2.0f * grab_radius, 2.0f * grab_radius);
     }
 
     g.setColour(Colour(0xbbffffff));
-    g.drawEllipse(getDecayX() - 7.0, getSustainY() - 7.0, 14.0, 14.0, 1.0);
+    g.drawEllipse(getDecayX() - hover_radius, getSustainY() - hover_radius,
+                  2.0f * hover_radius, 2.0f * hover_radius, 1.0);
   }
   else if (mouse_down_) {
     g.setColour(Colour(0x11ffffff));
@@ -121,11 +128,12 @@ void OpenGLEnvelope::paintBackground() {
   }
 
   g.setColour(Colors::modulation);
-  g.fillEllipse(getDecayX() - MARKER_WIDTH / 2.0f, getSustainY() - MARKER_WIDTH / 2.0f,
-                MARKER_WIDTH, MARKER_WIDTH);
+  float marker_radius = ratio * MARKER_WIDTH / 2.0f;
+  g.fillEllipse(getDecayX() - marker_radius, getSustainY() - marker_radius,
+                2.0f * marker_radius, 2.0f * marker_radius);
   g.setColour(Colour(0xff000000));
-  g.fillEllipse(getDecayX() - MARKER_WIDTH / 4.0f, getSustainY() - MARKER_WIDTH / 4.0f,
-                MARKER_WIDTH / 2.0f, MARKER_WIDTH / 2.0f);
+  g.fillEllipse(getDecayX() - marker_radius / 2.0f, getSustainY() - marker_radius / 2.0f,
+                marker_radius, marker_radius);
 
   background_.updateBackgroundImage(background_image_);
 }
@@ -368,6 +376,10 @@ Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
     closest.x = decay_x;
     closest.y = (1.0 - amp) * getHeight();
   }
+  if (phase > 0.5f && phase < 1.5f && closest.x > decay_x) {
+    closest.x = decay_x;
+    closest.y = (1.0 - amp) * getHeight();
+  }
   return Point<float>(2.0f * closest.x / getWidth() - 1.0f, 1.0f - 2.0f * closest.y / getHeight());
 }
 
@@ -411,8 +423,10 @@ void OpenGLEnvelope::drawPosition(OpenGLContext& open_gl_context) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-  float position_height = (0.5f * position_texture_.getHeight()) / draw_height;
-  float position_width = (0.5f * position_texture_.getWidth()) / draw_width;
+  float ratio = getHeight() / 100.0f;
+
+  float position_height = ratio * (0.5f * position_texture_.getHeight()) / draw_height;
+  float position_width = ratio * (0.5f * position_texture_.getWidth()) / draw_width;
   position_vertices_[0] = x - position_width;
   position_vertices_[1] = y + position_height;
   position_vertices_[4] = x - position_width;

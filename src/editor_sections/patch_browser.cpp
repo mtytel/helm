@@ -30,7 +30,7 @@
 #define TEXT_PADDING 4.0f
 #define LINUX_SYSTEM_PATCH_DIRECTORY "/usr/share/helm/patches"
 #define LINUX_USER_PATCH_DIRECTORY "~/.helm/User Patches"
-#define BROWSING_HEIGHT 422.0f
+#define BROWSING_HEIGHT 430.0f
 #define BROWSE_PADDING 8.0f
 #define BUTTON_HEIGHT 30.0f
 
@@ -176,17 +176,17 @@ PatchBrowser::~PatchBrowser() {
 void PatchBrowser::paint(Graphics& g) {
   g.fillAll(Colors::overlay_screen);
   g.setColour(Colour(0xff111111));
-  g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), BROWSING_HEIGHT);
+  g.fillRect(0.0f, 0.0f, 1.0f * getWidth(), size_ratio_ * BROWSING_HEIGHT);
 
   g.setColour(Colors::background);
   float info_width = getPatchInfoWidth();
   Rectangle<int> data_rect(getWidth() - info_width - BROWSE_PADDING, BROWSE_PADDING,
-                           info_width, BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
+                           info_width, size_ratio_ * BROWSING_HEIGHT - 2.0f * BROWSE_PADDING);
   g.fillRect(data_rect);
 
   if (isPatchSelected()) {
     float data_x = data_rect.getX();
-    float division = 90.0f;
+    float division = size_ratio_ * 90.0f;
     float buffer = 20.0f;
 
     g.setFont(Fonts::instance()->proportional_light().withPointHeight(14.0f));
@@ -235,7 +235,7 @@ void PatchBrowser::resized() {
   int folders_width = getFoldersWidth();
   int patches_width = getPatchesWidth();
   int patch_info_width = getPatchInfoWidth();
-  float height = BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
+  float height = size_ratio_ * BROWSING_HEIGHT - 2.0f * BROWSE_PADDING;
   float height_with_buttons = height - BUTTON_HEIGHT - button_padding;
   float search_box_height = 28.0f;
 
@@ -269,9 +269,9 @@ void PatchBrowser::resized() {
                                200.0f, 20.0f);
 
   hide_button_->setBounds(getWidth() - 21 - BROWSE_PADDING, BROWSE_PADDING, 20, 20);
-  int done_width = 200;
-  int done_height = 1.5 * BUTTON_HEIGHT;
-  int padding = (patch_info_width - done_width) / 2;
+  int done_width = size_ratio_ * 200;
+  int done_height = size_ratio_ * 1.5 * BUTTON_HEIGHT;
+  int padding = size_ratio_ * (patch_info_width - done_width) / 2;
 
   done_button_->setBounds(data_x + padding,
                           save_as_button_->getBottom() - BROWSE_PADDING - done_height,
@@ -377,7 +377,7 @@ bool PatchBrowser::keyStateChanged(bool is_key_down, Component *origin) {
 }
 
 void PatchBrowser::mouseUp(const MouseEvent& e) {
-  if (e.getPosition().y > BROWSING_HEIGHT)
+  if (e.getPosition().y > size_ratio_ * BROWSING_HEIGHT)
     setVisible(false);
 }
 

@@ -23,8 +23,6 @@
 #include "startup.h"
 #include "utils.h"
 
-#define WIDTH 992
-#define HEIGHT 734
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
@@ -58,7 +56,7 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   setLookAndFeel(DefaultLookAndFeel::instance());
   addAndMakeVisible(gui_);
   gui_->setOutputMemory(getOutputMemory());
-  setSize(WIDTH, HEIGHT);
+  setSize(mopo::DEFAULT_WINDOW_WIDTH, mopo::DEFAULT_WINDOW_HEIGHT);
 
   setWantsKeyboardFocus(true);
   grabKeyboardFocus();

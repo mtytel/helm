@@ -62,7 +62,9 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
 }
 
 void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
-                                       bool isMouseOverButton, bool isButtonDown) {
+                                       bool hover, bool is_down) {
+  static const float text_percentage = 0.7f;
+
   if (button.getToggleState())
     g.setColour(Colour(0xffffc400));
   else
@@ -70,18 +72,19 @@ void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.fillRect(button.getLocalBounds());
 
   g.setColour(Colours::white);
-  g.setFont(Fonts::instance()->monospace());
+  int height = button.getHeight();
+  g.setFont(Fonts::instance()->monospace().withPointHeight(height * text_percentage));
   g.drawText(button.getButtonText(), 0, 0,
              button.getWidth(), button.getHeight(), Justification::centred);
 
   g.setColour(Colour(0xff565656));
   g.drawRect(button.getLocalBounds());
 
-  if (isButtonDown) {
+  if (is_down) {
     g.setColour(Colour(0x11000000));
     g.fillRect(button.getLocalBounds());
   }
-  else if (isMouseOverButton) {
+  else if (hover) {
     g.setColour(Colour(0x11ffffff));
     g.fillRect(button.getLocalBounds());
   }

@@ -49,6 +49,7 @@ class OpenGLWaveViewer : public OpenGLComponent, public SliderListener {
     void paintPositionImage();
     void paintBackground();
     float phaseToX(float phase);
+    float getRatio();
 
     Slider* wave_slider_;
     Slider* amplitude_slider_;

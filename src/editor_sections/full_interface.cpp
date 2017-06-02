@@ -125,27 +125,23 @@ void FullInterface::paintBackground(Graphics& g) {
 
   shadow.drawForRectangle(g, arp_section_->getBounds());
   shadow.drawForRectangle(g, oscilloscope_->getBounds());
-  shadow.drawForRectangle(g, Rectangle<int>(84, 8, 244, TOP_HEIGHT));
+  shadow.drawForRectangle(g, patch_selector_->getBounds());
 
-  shadow.drawForRectangle(g, Rectangle<int>(8, 8, 68, 64));
+  int logo_padding = 2 * size_ratio_;
+  int x = logo_button_->getX() - logo_padding;
+  int width = logo_button_->getWidth() + 2 * logo_padding;
+
+  shadow.drawForRectangle(g, Rectangle<int>(x, logo_button_->getY(),
+                                            width, logo_button_->getHeight()));
   g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(8.0f, 8.0f, 68.0f, 64.0f, 3.0f);
+  g.fillRoundedRectangle(x, logo_button_->getY(), width, logo_button_->getHeight(), 3.0f);
 
   g.saveState();
-  g.setOrigin(10, 8);
+  g.setOrigin(logo_button_->getX(), logo_button_->getY());
+  g.addTransform(AffineTransform::scale(size_ratio_, size_ratio_));
 
   logo_shadow.drawForImage(g, helm_small);
   g.restoreState();
-
-  g.setColour(Colour(0xff303030));
-  g.fillRect(84, 8, 244, TOP_HEIGHT);
-
-  g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
-  
-  g.drawText(TRANS("BPM"), patch_selector_->getX(), beats_per_minute_->getY(),
-             44, beats_per_minute_->getHeight(),
-             Justification::centred, false);
 
   component_shadow.drawForRectangle(g, patch_selector_->getBounds());
   component_shadow.drawForRectangle(g, volume_section_->getBounds());
@@ -155,19 +151,65 @@ void FullInterface::paintBackground(Graphics& g) {
 }
 
 void FullInterface::resized() {
-  logo_button_->setBounds(10, 8, 64, 64);
-  patch_selector_->setBounds(84, 8, 244, TOP_HEIGHT);
+  int left = 0;
+  int width = getWidth();
+  int height = getHeight();
+  float ratio = 1.0f;
+  float width_ratio = getWidth() / (1.0f * mopo::DEFAULT_WINDOW_WIDTH);
+  float height_ratio = getHeight() / (1.0f * mopo::DEFAULT_WINDOW_HEIGHT);
+  if (width_ratio > height_ratio) {
+    ratio = height_ratio;
+    width = height_ratio * mopo::DEFAULT_WINDOW_WIDTH;
+    left = (getWidth() - width) / 2;
+  }
+  else {
+    ratio = width_ratio;
+    height = width_ratio * mopo::DEFAULT_WINDOW_HEIGHT;
+  }
+
+  setSizeRatio(ratio);
+  save_section_->setSizeRatio(ratio);
+  delete_section_->setSizeRatio(ratio);
+  patch_browser_->setSizeRatio(ratio);
+  about_section_->setSizeRatio(ratio);
+  int padding = 8 * ratio;
+  int top_height = TOP_HEIGHT * ratio;
+
+  int section_one_width = 320 * ratio;
+  int section_two_width = section_one_width;
+  int section_three_width = width - section_one_width - section_two_width - 4 * padding;
+
+  synthesis_interface_->setPadding(padding);
+  synthesis_interface_->setSectionOneWidth(section_one_width);
+  synthesis_interface_->setSectionTwoWidth(section_two_width);
+  synthesis_interface_->setSectionThreeWidth(section_three_width);
+
+  int logo_padding = 2 * ratio;
+  int logo_width = top_height + 2 * logo_padding;
+
+  int patch_selector_width = section_one_width - logo_width - padding;
+
+  logo_button_->setBounds(left + padding + logo_padding, padding, top_height, top_height);
+  patch_selector_->setBounds(logo_button_->getRight() + padding + logo_padding, padding,
+                             patch_selector_width, top_height);
   global_tool_tip_->setBounds(patch_selector_->getX() + 0.11 * patch_selector_->getWidth(),
                               patch_selector_->getY(),
                               0.78 * patch_selector_->getWidth(),
-                              0.67 * patch_selector_->getHeight());
-  volume_section_->setBounds(patch_selector_->getRight() + 8, 8, 156, TOP_HEIGHT);
+                              patch_selector_->getBrowseHeight());
 
-  oscilloscope_->setBounds(volume_section_->getRight() + 8, 8, 156, TOP_HEIGHT);
-  arp_section_->setBounds(oscilloscope_->getRight() + 8, 8, 320, TOP_HEIGHT);
+  int volume_width = (section_two_width - padding) / 2;
+  int oscilloscope_width = section_two_width - padding - volume_width;
+  volume_section_->setBounds(patch_selector_->getRight() + padding, padding,
+                             volume_width, top_height);
 
-  synthesis_interface_->setBounds(0, TOP_HEIGHT + 12,
-                                  getWidth(), getHeight() - TOP_HEIGHT - 8);
+  oscilloscope_->setBounds(volume_section_->getRight() + padding, padding,
+                           oscilloscope_width, top_height);
+
+  arp_section_->setBounds(oscilloscope_->getRight() + padding, padding,
+                          section_three_width, top_height);
+
+  synthesis_interface_->setBounds(left, top_height + padding,
+                                  width, height - top_height - padding);
 
   // beats_per_minute_->setBounds(133, patch_selector_->getBottom(),
   //                              200, TOP_HEIGHT - patch_selector_->getHeight());
@@ -177,9 +219,11 @@ void FullInterface::resized() {
   save_section_->setBounds(getBounds());
   delete_section_->setBounds(getBounds());
 
-  patch_browser_->setBounds(synthesis_interface_->getX() + 8.0f, synthesis_interface_->getY(),
-                            arp_section_->getRight() - synthesis_interface_->getX() - 8.0f,
-                            synthesis_interface_->getHeight() - 8.0f);
+  patch_browser_->setBounds(synthesis_interface_->getX() + padding, synthesis_interface_->getY(),
+                            arp_section_->getRight() - synthesis_interface_->getX() - padding,
+                            synthesis_interface_->getHeight() - padding);
+
+  SynthSection::resized();
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
@@ -188,8 +232,6 @@ void FullInterface::resized() {
   g.addTransform(AffineTransform::scale(scale, scale));
   paintBackground(g);
   background_.updateBackgroundImage(background_image_);
-
-  SynthSection::resized();
 }
 
 void FullInterface::setOutputMemory(const float* output_memory) {

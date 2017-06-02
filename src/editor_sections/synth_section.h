@@ -23,14 +23,12 @@
 #include "helm_common.h"
 #include <map>
 
-#define MODULATION_BUTTON_WIDTH 32
-
 class OpenGLComponent;
 class SynthSlider;
 
 class SynthSection : public Component, public SliderListener, public ButtonListener {
   public:
-    SynthSection(String name) : Component(name), activator_(nullptr) { }
+    SynthSection(String name) : Component(name), activator_(nullptr), size_ratio_(1.0f) { }
 
     // Drawing.
     virtual void reset();
@@ -38,6 +36,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void paint(Graphics& g) override;
     virtual void paintBackground(Graphics& g);
     virtual void paintContainer(Graphics& g);
+    virtual void setSizeRatio(float ratio);
     void paintKnobShadows(Graphics& g);
     void drawTextForComponent(Graphics& g, String text, Component* component, int space = 4);
 
@@ -71,6 +70,10 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void addSubSection(SynthSection* section, bool show = true);
     void addOpenGLComponent(OpenGLComponent* open_gl_component);
     void setActivator(ToggleButton* activator);
+    float getTitleWidth();
+    float getStandardKnobSize();
+    float getSmallKnobSize();
+    float getModButtonWidth();
 
     std::map<std::string, SynthSection*> sub_sections_;
     std::set<OpenGLComponent*> open_gl_components_;
@@ -85,6 +88,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     ToggleButton* activator_;
 
     Image background_;
+    float size_ratio_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSection)
 };

@@ -22,7 +22,6 @@
 #include "text_selector.h"
 #include "text_look_and_feel.h"
 
-#define KNOB_WIDTH 40
 #define TEXT_WIDTH 40
 #define SELECTOR_WIDTH 75
 #define TEXT_HEIGHT 16
@@ -52,26 +51,34 @@ void DynamicSection::paintBackground(Graphics& g) {
   paintContainer(g);
   paintKnobShadows(g);
 
+  int knob_width = getStandardKnobSize();
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
   drawTextForComponent(g, TRANS("PORTA"), portamento_);
   drawTextForComponent(g, TRANS("PORTA TYPE"), portamento_type_,
-                       4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);
+                       size_ratio_ * 4.0f + (knob_width - text_height) / 3.0f);
   drawTextForComponent(g, TRANS("LEGATO"), legato_,
-                       4 + (KNOB_WIDTH - TEXT_HEIGHT) / 3);
+                       size_ratio_ * 4.0f + (knob_width - text_height) / 3.0f);
 }
 
 void DynamicSection::resized() {
-  float space_x = (getWidth() - (KNOB_WIDTH + SELECTOR_WIDTH + TEXT_WIDTH)) / 4.0f;
-  float space_y = (getHeight() - (KNOB_WIDTH + TEXT_HEIGHT)) / 2.0f;
-  float extra_text_space = 2 * (KNOB_WIDTH - TEXT_HEIGHT) / 3;
+  int knob_width = getStandardKnobSize();
+  int text_width = size_ratio_ * TEXT_WIDTH;
+  int text_height = size_ratio_ * TEXT_HEIGHT;
+  int selector_width = size_ratio_ * SELECTOR_WIDTH;
 
-  portamento_->setBounds(space_x, space_y, KNOB_WIDTH, KNOB_WIDTH);
-  portamento_type_->setBounds(KNOB_WIDTH + 2 * space_x, space_y + extra_text_space,
-                              SELECTOR_WIDTH, TEXT_HEIGHT);
-  legato_->setBounds(KNOB_WIDTH + SELECTOR_WIDTH + 3 * space_x, space_y + extra_text_space,
-                     TEXT_WIDTH, TEXT_HEIGHT);
+  float space_x = (getWidth() - (knob_width + selector_width + text_width)) / 4.0f;
+  float space_y = (getHeight() - (knob_width + text_height)) / 2.0f;
+  float extra_text_space = 2 * (knob_width - text_height) / 3;
+
+  portamento_->setBounds(space_x, space_y, knob_width, knob_width);
+  portamento_type_->setBounds(knob_width + 2 * space_x, space_y + extra_text_space,
+                              selector_width, text_height);
+  legato_->setBounds(knob_width + selector_width + 3 * space_x, space_y + extra_text_space,
+                     text_width, text_height);
 
   SynthSection::resized();
 }

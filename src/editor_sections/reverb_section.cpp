@@ -20,8 +20,6 @@
 #include "fonts.h"
 #include "synth_button.h"
 
-#define KNOB_WIDTH 40
-
 ReverbSection::ReverbSection(String name) : SynthSection(name) {
 
   addSlider(feedback_ = new SynthSlider("reverb_feedback"));
@@ -48,7 +46,7 @@ void ReverbSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
   drawTextForComponent(g, TRANS("DAMP"), damping_);
@@ -56,14 +54,16 @@ void ReverbSection::paintBackground(Graphics& g) {
 }
 
 void ReverbSection::resized() {
-  on_->setBounds(2, 0, 20, 20);
+  int title_width = getTitleWidth();
+  on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
 
-  float space = (getWidth() - (3.0f * KNOB_WIDTH)) / 4.0f;
-  int y = 30;
+  int knob_width = getStandardKnobSize();
+  float space = (getWidth() - (3.0f * knob_width)) / 4.0f;
+  int y = size_ratio_ * 30;
 
-  feedback_->setBounds(space, y, KNOB_WIDTH, KNOB_WIDTH);
-  damping_->setBounds((KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
-  dry_wet_->setBounds(2 * (KNOB_WIDTH + space) + space, y, KNOB_WIDTH, KNOB_WIDTH);
+  feedback_->setBounds(space, y, knob_width, knob_width);
+  damping_->setBounds((knob_width + space) + space, y, knob_width, knob_width);
+  dry_wet_->setBounds(2 * (knob_width + space) + space, y, knob_width, knob_width);
 
   SynthSection::resized();
 }

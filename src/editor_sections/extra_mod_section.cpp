@@ -20,8 +20,6 @@
 #include "fonts.h"
 #include "modulation_look_and_feel.h"
 
-#define BUTTON_WIDTH 32
-
 ExtraModSection::ExtraModSection(String name) : SynthSection(name) {
   addModulationButton(aftertouch_mod_ = new ModulationButton("aftertouch"));
   aftertouch_mod_->setLookAndFeel(ModulationLookAndFeel::instance());
@@ -52,8 +50,8 @@ ExtraModSection::~ExtraModSection() {
 }
 
 void ExtraModSection::drawTextToRightOfComponent(Graphics& g, Component* component, String text) {
-  static const int SPACE = 6;
-  g.drawText(text, component->getRight() + SPACE, component->getY(), getWidth() / 2,
+  float space = size_ratio_ * 6.0f;
+  g.drawText(text, component->getRight() + space, component->getY(), getWidth() / 2,
              component->getHeight(), Justification::centredLeft, false);
 }
 
@@ -61,7 +59,7 @@ void ExtraModSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
   drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));
   drawTextToRightOfComponent(g, note_mod_, TRANS("NOTE"));
@@ -72,16 +70,18 @@ void ExtraModSection::paintBackground(Graphics& g) {
 }
 
 void ExtraModSection::resized() {
-  int x = 30;
-  int x2 = getWidth() / 2 + 15;
-  float space = (getHeight() - 20 - (3.0f * BUTTON_WIDTH)) / 4.0f;
+  int button_width = getModButtonWidth();
+  int title_width = getTitleWidth();
+  int x = size_ratio_ * 30;
+  int x2 = getWidth() / 2 + size_ratio_ * 15.0f;
+  float space = (getHeight() - title_width - (3.0f * button_width)) / 4.0f;
 
-  aftertouch_mod_->setBounds(x, 20 + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  note_mod_->setBounds(x, aftertouch_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  velocity_mod_->setBounds(x, note_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  mod_wheel_mod_->setBounds(x2, 20 + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  pitch_wheel_mod_->setBounds(x2, mod_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
-  random_mod_->setBounds(x2, pitch_wheel_mod_->getBottom() + space, BUTTON_WIDTH, BUTTON_WIDTH);
+  aftertouch_mod_->setBounds(x, title_width + space, button_width, button_width);
+  note_mod_->setBounds(x, aftertouch_mod_->getBottom() + space, button_width, button_width);
+  velocity_mod_->setBounds(x, note_mod_->getBottom() + space, button_width, button_width);
+  mod_wheel_mod_->setBounds(x2, title_width + space, button_width, button_width);
+  pitch_wheel_mod_->setBounds(x2, mod_wheel_mod_->getBottom() + space, button_width, button_width);
+  random_mod_->setBounds(x2, pitch_wheel_mod_->getBottom() + space, button_width, button_width);
 
   SynthSection::resized();
 }
