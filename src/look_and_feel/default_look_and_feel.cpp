@@ -187,10 +187,10 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   else
     g.setColour(Colour(0xff555555));
 
-  g.drawEllipse(full_radius - knob_radius + stroke_width / 4.0f,
-                full_radius - knob_radius + stroke_width / 4.0f,
-                2.0f * knob_radius - stroke_width / 2.0f,
-                2.0f * knob_radius - stroke_width / 2.0f, 1.0f);
+  g.drawEllipse(full_radius - knob_radius + stroke_width / 4.0f + 0.5f,
+                full_radius - knob_radius + stroke_width / 4.0f + 0.5f,
+                2.0f * knob_radius - stroke_width / 2.0f - 1.0f,
+                2.0f * knob_radius - stroke_width / 2.0f - 1.0f, 1.5f);
 
   g.setColour(Colour(0xff999999));
   g.drawLine(full_radius, full_radius, end_x, end_y, 1.0f);
