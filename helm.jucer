@@ -180,6 +180,10 @@
     </GROUP>
     <GROUP id="{CD3AF639-147F-56F6-D982-32ED8F55C174}" name="src">
       <GROUP id="{DE787BB4-594A-AA21-F217-66E56838C81E}" name="common">
+        <FILE id="Hv7GiR" name="border_bounds_constrainer.cpp" compile="1"
+              resource="0" file="src/common/border_bounds_constrainer.cpp"/>
+        <FILE id="hGgbKI" name="border_bounds_constrainer.h" compile="0" resource="0"
+              file="src/common/border_bounds_constrainer.h"/>
         <FILE id="JJu7K4" name="file_list_box_model.cpp" compile="1" resource="0"
               file="src/common/file_list_box_model.cpp"/>
         <FILE id="hLinOI" name="file_list_box_model.h" compile="0" resource="0"

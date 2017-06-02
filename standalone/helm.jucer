@@ -173,6 +173,10 @@
     </GROUP>
     <GROUP id="{5E20F1A0-5E75-7060-2F6C-FA57FB1890B9}" name="src">
       <GROUP id="{C469F3D8-F6EF-BDCC-7C07-4B716B9C6577}" name="common">
+        <FILE id="KJg0vX" name="border_bounds_constrainer.cpp" compile="1"
+              resource="0" file="../src/common/border_bounds_constrainer.cpp"/>
+        <FILE id="LeSMMQ" name="border_bounds_constrainer.h" compile="0" resource="0"
+              file="../src/common/border_bounds_constrainer.h"/>
         <FILE id="G4r0pp" name="file_list_box_model.cpp" compile="1" resource="0"
               file="../src/common/file_list_box_model.cpp"/>
         <FILE id="SFCc4O" name="file_list_box_model.h" compile="0" resource="0"

@@ -496,6 +496,9 @@
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\common\border_bounds_constrainer.cpp">
+      <Filter>Helm\src\common</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\common\file_list_box_model.cpp">
       <Filter>Helm\src\common</Filter>
     </ClCompile>
@@ -2606,6 +2609,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\wave.h">
       <Filter>Helm\mopo\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\common\border_bounds_constrainer.h">
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\common\file_list_box_model.h">
       <Filter>Helm\src\common</Filter>

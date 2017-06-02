@@ -15,10 +15,9 @@
  */
 
 #include "JuceHeader.h"
+#include "border_bounds_constrainer.h"
 #include "helm_standalone_editor.h"
 #include "load_save.h"
-
-#define TITLE_BAR 22
 
 class HelmApplication : public JUCEApplication {
   public:
@@ -41,14 +40,13 @@ class HelmApplication : public JUCEApplication {
         setContentOwned(editor_, true);
         setResizable(true, true);
 
-        constrainer.setMinimumSize(mopo::DEFAULT_WINDOW_WIDTH / 2, mopo::DEFAULT_WINDOW_HEIGHT / 2);
-        BorderSize<int> border = getPeer()->getFrameSize();
-        int height = getHeight() + border.getTopAndBottom();
-        int width = getWidth() + border.getLeftAndRight();
-        double ratio = (1.0 * width) / height;
+        constrainer_.setMinimumSize(mopo::DEFAULT_WINDOW_WIDTH / 2,
+                                    mopo::DEFAULT_WINDOW_HEIGHT / 2);
+        constrainer_.setBorder(getPeer()->getFrameSize());
+        double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / mopo::DEFAULT_WINDOW_HEIGHT;
 
-        constrainer.setFixedAspectRatio(ratio);
-        setConstrainer(&constrainer);
+        constrainer_.setFixedAspectRatio(ratio);
+        setConstrainer(&constrainer_);
 
         centreWithSize(getWidth(), getHeight());
         setVisible(visible);
@@ -144,7 +142,7 @@ class HelmApplication : public JUCEApplication {
       JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
       HelmStandaloneEditor* editor_;
       ScopedPointer<ApplicationCommandManager> command_manager_;
-      ComponentBoundsConstrainer constrainer;
+      BorderBoundsConstrainer constrainer_;
     };
 
     HelmApplication() { }

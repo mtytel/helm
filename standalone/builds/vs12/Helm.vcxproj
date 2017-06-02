@@ -222,6 +222,7 @@
     <ClCompile Include="..\..\..\mopo\src\trigger_operators.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\value.cpp"/>
     <ClCompile Include="..\..\..\mopo\src\voice_handler.cpp"/>
+    <ClCompile Include="..\..\..\src\common\border_bounds_constrainer.cpp"/>
     <ClCompile Include="..\..\..\src\common\file_list_box_model.cpp"/>
     <ClCompile Include="..\..\..\src\common\helm_common.cpp"/>
     <ClCompile Include="..\..\..\src\common\load_save.cpp"/>
@@ -1923,6 +1924,7 @@
     <ClInclude Include="..\..\..\mopo\src\value.h"/>
     <ClInclude Include="..\..\..\mopo\src\voice_handler.h"/>
     <ClInclude Include="..\..\..\mopo\src\wave.h"/>
+    <ClInclude Include="..\..\..\src\common\border_bounds_constrainer.h"/>
     <ClInclude Include="..\..\..\src\common\file_list_box_model.h"/>
     <ClInclude Include="..\..\..\src\common\helm_common.h"/>
     <ClInclude Include="..\..\..\src\common\load_save.h"/>

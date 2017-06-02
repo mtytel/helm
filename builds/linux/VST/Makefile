@@ -100,6 +100,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/trigger_operators_54fe0673.o \
   $(JUCE_OBJDIR)/value_76b325dc.o \
   $(JUCE_OBJDIR)/voice_handler_49cbc5a8.o \
+  $(JUCE_OBJDIR)/border_bounds_constrainer_b5a34af8.o \
   $(JUCE_OBJDIR)/file_list_box_model_85bc4022.o \
   $(JUCE_OBJDIR)/helm_common_ef933337.o \
   $(JUCE_OBJDIR)/load_save_2c95b2e1.o \
@@ -403,6 +404,11 @@ $(JUCE_OBJDIR)/value_76b325dc.o: ../../../mopo/src/value.cpp
 $(JUCE_OBJDIR)/voice_handler_49cbc5a8.o: ../../../mopo/src/voice_handler.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling voice_handler.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/border_bounds_constrainer_b5a34af8.o: ../../../src/common/border_bounds_constrainer.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling border_bounds_constrainer.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/file_list_box_model_85bc4022.o: ../../../src/common/file_list_box_model.cpp

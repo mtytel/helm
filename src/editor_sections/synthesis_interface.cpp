@@ -190,11 +190,11 @@ void SynthesisInterface::resized() {
                              section_three_right_width, reverb_height);
 
   int dynamic_width = size_ratio_ * DYNAMIC_WIDTH;
+  int dynamics_y = getHeight() - padding_ - dynamics_height;
   
-  voice_section_->setBounds(column_1_x, step_sequencer_section_->getBottom() + padding_,
+  voice_section_->setBounds(column_1_x, dynamics_y,
                             dynamic_width, dynamics_height);
-  dynamic_section_->setBounds(extra_envelope_section_->getRight() - dynamic_width,
-                              step_sequencer_section_->getBottom() + padding_,
+  dynamic_section_->setBounds(extra_envelope_section_->getRight() - dynamic_width, dynamics_y,
                               dynamic_width, dynamics_height);
   keyboard_->setBounds(voice_section_->getRight() + padding_,
                        voice_section_->getY() + keyboard_padding,
