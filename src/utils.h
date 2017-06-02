@@ -77,7 +77,7 @@ namespace mopo {
     }
 
     inline float max(float one, float two) {
-      _mm_store_ss(&one, _mm_max_sd(_mm_set_ss(one),_mm_set_ss(two)));
+      _mm_store_ss(&one, _mm_max_ss(_mm_set_ss(one),_mm_set_ss(two)));
       return one;
     }
 
