@@ -77,7 +77,7 @@ namespace mopo {
     const mopo_float* source_left = input(0)->source->buffer;
     const mopo_float* source_right = input(1)->source->buffer;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source_left, source_right, i);
 #endif
@@ -106,7 +106,7 @@ namespace mopo {
     const mopo_float* source_left = input(0)->source->buffer;
     const mopo_float* source_right = input(1)->source->buffer;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source_left, source_right, i);
 #endif
@@ -129,7 +129,7 @@ namespace mopo {
     const mopo_float* to = input(kTo)->source->buffer;
     const mopo_float* fractional = input(kFractional)->source->buffer;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, from, to, fractional, i);
 #endif
@@ -165,7 +165,7 @@ namespace mopo {
 #else
           const mopo_float* source = input(i)->source->buffer;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+          VECTORIZE_LOOP
           for (int s = 0; s < buffer_size_; ++s)
             dest[s] += source[s];
 #endif
@@ -217,7 +217,7 @@ namespace mopo {
     if (value == dest[0])
       return;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, value, i);
     processTriggers();
@@ -232,13 +232,13 @@ namespace mopo {
       int i = 0;
 
       mopo_float val = last_value_;
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (; i < trigger_samples; ++i)
         dest[i] = val;
 
       val = new_value;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (; i < buffer_size_; ++i)
         dest[i] = val;
     }
@@ -253,7 +253,7 @@ namespace mopo {
       mopo_float inc = (new_value - last_value_) / buffer_size_;
       mopo_float val = last_value_ + inc;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < buffer_size_; ++i)
         dest[i] = val + i * inc;
     }

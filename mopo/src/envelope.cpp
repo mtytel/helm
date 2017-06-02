@@ -85,7 +85,7 @@ namespace mopo {
         mopo_float inc = (end - current_value) / samples;
         current_value = current_value - (i - 1) * inc;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+        VECTORIZE_LOOP
         for (; i < buffer_size; ++i)
           out_buffer[i] = current_value + i * inc;
 
@@ -110,7 +110,7 @@ namespace mopo {
           samples = std::min(i + samples, buffer_size);
           current_value = current_value - (i - 1) * attack_increment;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+          VECTORIZE_LOOP
           for (; i < samples; ++i)
             out_buffer[i] = current_value + i * attack_increment;
 
@@ -129,7 +129,7 @@ namespace mopo {
         samples = std::min(i + samples, buffer_size);
         current_value = current_value - (i - 1) * inc;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+        VECTORIZE_LOOP
         for (; i < samples; ++i)
           out_buffer[i] = current_value + i * inc;
 
