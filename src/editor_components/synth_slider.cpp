@@ -39,7 +39,7 @@ namespace {
   }
 } // namespace
 
-const float SynthSlider::rotary_angle = 0.8 * mopo::PI;
+const float SynthSlider::rotary_angle = 0.8f * static_cast<float>(mopo::PI);
 const float SynthSlider::linear_rail_width = 2.0f;
 
 SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_coloring_(false),

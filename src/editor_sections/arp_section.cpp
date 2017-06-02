@@ -97,7 +97,7 @@ void ArpSection::paintBackground(Graphics& g) {
              size_ratio_ * 10, Justification::centred, false);
 
   g.saveState();
-  g.addTransform(AffineTransform::rotation(-mopo::PI / 2.0f, 0, 0));
+  g.addTransform(AffineTransform::rotation(-static_cast<float>(mopo::PI) / 2.0f, 0, 0));
   g.setColour(Colour(0xff999999));
   g.setFont(Fonts::instance()->proportional_light().withPointHeight(size_ratio_ * 13.40f));
   g.drawText(TRANS("ARP"), -getHeight(), 0, getHeight() - title_width, title_width,

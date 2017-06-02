@@ -199,7 +199,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
 void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                           bool hover, bool is_down) {
   static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
-  static float stroke_percent = 0.1;
+  static float stroke_percent = 0.1f;
   float ratio = button.getWidth() / 20.0f;
   float padding = ratio * 3.0f;
   float hover_padding = ratio;

@@ -147,7 +147,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   float center_x = x + draw_radius;
   float center_y = y + draw_radius;
   if (destination_angle > mopo::PI)
-    destination_angle -= 2.0 * mopo::PI;
+    destination_angle -= 2.0f * static_cast<float>(mopo::PI);
   active_section.addCentredArc(center_x, center_y, knob_radius / 2.0, knob_radius / 2.0,
                                destination_angle, mod_diff, 0, true);
 

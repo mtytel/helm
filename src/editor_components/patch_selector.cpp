@@ -76,10 +76,10 @@ void PatchSelector::paint(Graphics& g) {
   folder_text_ = parent->getSynth()->getFolderName();
 
   int browse_height = proportionOfHeight(BROWSE_PERCENT);
-  Rectangle<int> top(proportionOfWidth(0.1) + TEXT_PADDING, 0,
-                     proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
-  Rectangle<int> bottom(proportionOfWidth(0.1) + TEXT_PADDING, browse_height,
-                        proportionOfWidth(0.8) - TEXT_PADDING, browse_height);
+  Rectangle<int> top(proportionOfWidth(0.1f) + TEXT_PADDING, 0,
+                     proportionOfWidth(0.8f) - TEXT_PADDING, browse_height);
+  Rectangle<int> bottom(proportionOfWidth(0.1f) + TEXT_PADDING, browse_height,
+                        proportionOfWidth(0.8f) - TEXT_PADDING, browse_height);
 
   g.setFont(Fonts::instance()->monospace().withPointHeight(size_ratio_ * 12.0f));
   g.setColour(Colors::control_label_text);
@@ -100,8 +100,8 @@ void PatchSelector::paintBackground(Graphics& g) {
 
   int browse_height = proportionOfHeight(BROWSE_PERCENT);
 
-  Rectangle<int> left(0, 0, proportionOfWidth(0.1), 2 * browse_height);
-  Rectangle<int> right(proportionOfWidth(0.9), 0, proportionOfWidth(0.1), 2 * browse_height);
+  Rectangle<int> left(0, 0, proportionOfWidth(0.1f), 2 * browse_height);
+  Rectangle<int> right(proportionOfWidth(0.9f), 0, proportionOfWidth(0.1f), 2 * browse_height);
   shadow.drawForRectangle(g, left);
   shadow.drawForRectangle(g, right);
 }

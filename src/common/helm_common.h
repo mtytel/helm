@@ -27,7 +27,7 @@
 
 namespace mopo {
 
-  class ModulationConnection;
+  struct ModulationConnection;
 
   struct ValueDetails {
     enum DisplaySkew {

@@ -26,7 +26,7 @@
 #define NOISE_RESOLUTION 6
 
 namespace {
-  static const float random_values[NOISE_RESOLUTION] = {0.3, 0.9, -0.9, -0.2, -0.5, 0.7 };
+  static const float random_values[NOISE_RESOLUTION] = {0.3f, 0.9f, -0.9f, -0.2f, -0.5f, 0.7f };
 } // namespace
 
 WaveViewer::WaveViewer(int resolution) {

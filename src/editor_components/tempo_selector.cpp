@@ -113,7 +113,7 @@ void TempoSelector::resized() {
   clock_.clear();
   clock_.addPieSegment(7.0f * getWidth() / 24.0f, getHeight() / 4.0f,
                        getWidth() / 2.0f, getHeight() / 2.0f,
-                       0.0f, clock_angle - 2.0f * mopo::PI, 0.0f);
+                       0.0f, clock_angle - 2.0f * static_cast<float>(mopo::PI), 0.0f);
 }
 
 void TempoSelector::setFreeSlider(Slider* slider) {

@@ -21,7 +21,7 @@
 #include "JuceHeader.h"
 
 namespace mopo {
-  class ModulationConnection;
+  struct ModulationConnection;
 } // namespace mopo
 
 class ModulationButton : public ToggleButton {
