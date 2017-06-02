@@ -38,6 +38,7 @@ namespace mopo {
       void init() override;
 
       void process() override;
+      void setBufferSize(int buffer_size) override;
 
       std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
       bool isModulationActive(ModulationConnection* connection);

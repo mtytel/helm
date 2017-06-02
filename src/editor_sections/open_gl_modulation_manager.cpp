@@ -233,14 +233,8 @@ void OpenGLModulationManager::render(OpenGLContext& open_gl_context, bool animat
   if (!animate)
     return;
 
-  for (auto slider : slider_lookup_) {
-    SynthSlider* model = slider_model_lookup_[slider.first];
-    slider.second->setVisible(model->isVisible());
-  }
-
   for (auto meter : meter_lookup_) {
     bool show = meter.second->isModulated() && slider_model_lookup_[meter.first]->isVisible();
-    meter.second->setVisible(show);
     if (show)
       meter.second->updateDrawing();
   }
@@ -389,6 +383,16 @@ void OpenGLModulationManager::setSliderValues() {
 void OpenGLModulationManager::changeModulator(std::string new_modulator) {
   current_modulator_ = new_modulator;
   setSliderValues();
+
+  for (auto slider : slider_lookup_) {
+    SynthSlider* model = slider_model_lookup_[slider.first];
+    slider.second->setVisible(model->isVisible());
+  }
+
+  for (auto meter : meter_lookup_) {
+    bool show = meter.second->isModulated() && slider_model_lookup_[meter.first]->isVisible();
+    meter.second->setVisible(show);
+  }
 
   polyphonic_destinations_->setVisible(true);
   polyphonic_destinations_->repaint();

@@ -376,6 +376,11 @@ namespace mopo {
     }
   }
 
+  void HelmEngine::setBufferSize(int buffer_size) {
+    ProcessorRouter::setBufferSize(buffer_size);
+    arpeggiator_->setBufferSize(buffer_size);
+  }
+
   void HelmEngine::allNotesOff(int sample) {
     arpeggiator_->allNotesOff(sample);
   }

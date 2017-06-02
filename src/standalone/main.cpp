@@ -33,17 +33,20 @@ class HelmApplication : public JUCEApplication {
       };
 
       MainWindow(String name, bool visible = true) :
-          DocumentWindow(name, Colours::lightgrey, DocumentWindow::closeButton) {
+          DocumentWindow(name, Colours::lightgrey, DocumentWindow::allButtons) {
         editor_ = new HelmStandaloneEditor();
         editor_->animate(LoadSave::shouldAnimateWidgets());
 
         setUsingNativeTitleBar(true);
         setContentOwned(editor_, true);
         setResizable(true, true);
-        constrainer.setMinimumSize(mopo::DEFAULT_WINDOW_WIDTH / 2, mopo::DEFAULT_WINDOW_HEIGHT / 2);
 
-        int height = TITLE_BAR + mopo::DEFAULT_WINDOW_HEIGHT;
-        double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / height;
+        constrainer.setMinimumSize(mopo::DEFAULT_WINDOW_WIDTH / 2, mopo::DEFAULT_WINDOW_HEIGHT / 2);
+        BorderSize<int> border = getPeer()->getFrameSize();
+        int height = getHeight() + border.getTopAndBottom();
+        int width = getWidth() + border.getLeftAndRight();
+        double ratio = (1.0 * width) / height;
+
         constrainer.setFixedAspectRatio(ratio);
         setConstrainer(&constrainer);
 
