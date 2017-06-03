@@ -32,16 +32,17 @@ HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), SynthGui
   gui_->setOutputMemory(helm.getOutputMemory());
   gui_->animate(LoadSave::shouldAnimateWidgets());
   setSize(WIDTH, HEIGHT);
+  setResizable(true, true);
+
   repaint();
 }
 
 void HelmEditor::paint(Graphics& g) {
-  setSize(WIDTH, HEIGHT);
   g.fillAll(Colours::white);
 }
 
 void HelmEditor::resized() {
-  gui_->setBounds(0, 0, getWidth(), getHeight());
+  gui_->setBounds(getLocalBounds());
 }
 
 void HelmEditor::updateFullGui() {

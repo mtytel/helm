@@ -35,6 +35,7 @@ class SynthGuiInterface {
     void notifyChange() { gui_->notifyChange(); }
     void notifyFresh() { gui_->notifyFresh(); }
     void externalPatchLoaded(File patch) { gui_->externalPatchLoaded(patch); }
+    void setGuiSize(int width, int height);
 
   protected:
     SynthBase* synth_;

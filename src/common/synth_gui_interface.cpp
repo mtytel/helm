@@ -41,3 +41,11 @@ void SynthGuiInterface::updateGuiControl(const std::string& name, mopo::mopo_flo
 mopo::mopo_float SynthGuiInterface::getControlValue(const std::string& name) {
   return synth_->getControls()[name]->value();
 }
+
+void SynthGuiInterface::setGuiSize(int width, int height) {
+  Rectangle<int> bounds = gui_->getBounds();
+  bounds.setWidth(width);
+  bounds.setHeight(height);
+  bounds.setX(bounds.getX() + (bounds.getWidth() - width) / 2);
+  gui_->getParentComponent()->setBounds(bounds);
+}
