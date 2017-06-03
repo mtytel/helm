@@ -315,6 +315,7 @@ void OpenGLModulationManager::modulationsChanged(const std::string& destination)
   
   int num_modulations = parent->getSynth()->getNumModulations(destination);
   meter_lookup_[destination]->setModulated(num_modulations);
+  meter_lookup_[destination]->setVisible(num_modulations);
 }
 
 void OpenGLModulationManager::setModulationAmount(std::string source, std::string destination,
@@ -341,6 +342,7 @@ void OpenGLModulationManager::reset() {
   for (auto meter : meter_lookup_) {
     int num_modulations = parent->getSynth()->getNumModulations(meter.first);
     meter.second->setModulated(num_modulations);
+    meter.second->setVisible(num_modulations);
   }
 
   setSliderValues();
@@ -387,11 +389,6 @@ void OpenGLModulationManager::changeModulator(std::string new_modulator) {
   for (auto slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
     slider.second->setVisible(model->isVisible());
-  }
-
-  for (auto meter : meter_lookup_) {
-    bool show = meter.second->isModulated() && slider_model_lookup_[meter.first]->isVisible();
-    meter.second->setVisible(show);
   }
 
   polyphonic_destinations_->setVisible(true);
