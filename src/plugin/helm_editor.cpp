@@ -21,9 +21,6 @@
 #include "helm_plugin.h"
 #include "load_save.h"
 
-#define WIDTH 992
-#define HEIGHT 734
-
 HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), SynthGuiInterface(&helm),
                                            helm_(helm) {
   setLookAndFeel(DefaultLookAndFeel::instance());
@@ -31,7 +28,9 @@ HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), SynthGui
   addAndMakeVisible(gui_);
   gui_->setOutputMemory(helm.getOutputMemory());
   gui_->animate(LoadSave::shouldAnimateWidgets());
-  setSize(WIDTH, HEIGHT);
+
+  float window_size = LoadSave::loadWindowSize();
+  setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
   setResizable(true, true);
 
   repaint();

@@ -301,6 +301,16 @@ void LoadSave::saveAnimateWidgets(bool animate_widgets) {
   saveVarToConfig(config_object);
 }
 
+void LoadSave::saveWindowSize(float window_size) {
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("window_size", window_size);
+  saveVarToConfig(config_object);
+}
+
 void LoadSave::saveLayoutConfig(mopo::StringLayout* layout) {
   if (layout == nullptr)
     return;
@@ -459,6 +469,18 @@ bool LoadSave::shouldAnimateWidgets() {
     return true;
 
   return config_object->getProperty("animate_widgets");
+}
+
+float LoadSave::loadWindowSize() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return 1.0f;
+
+  if (!config_object->hasProperty("window_size"))
+    return 1.0f;
+
+  return config_object->getProperty("window_size");
 }
 
 std::wstring LoadSave::getComputerKeyboardLayout() {

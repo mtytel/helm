@@ -35,11 +35,18 @@ class AboutSection : public Overlay, public ButtonListener {
     void buttonClicked(Button* clicked_button) override;
 
   private:
+    void setGuiSize(float multiplier);
+
     ScopedPointer<HyperlinkButton> developer_link_;
     ScopedPointer<HyperlinkButton> free_software_link_;
     ScopedPointer<AudioDeviceSelectorComponent> device_selector_;
     ScopedPointer<Button> check_for_updates_;
     ScopedPointer<Button> animate_;
+
+    ScopedPointer<Button> size_button_small_;
+    ScopedPointer<Button> size_button_normal_;
+    ScopedPointer<Button> size_button_large_;
+    ScopedPointer<Button> size_button_extra_large_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AboutSection)
 };

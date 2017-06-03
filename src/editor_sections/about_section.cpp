@@ -26,10 +26,14 @@
 #define LOGO_WIDTH 128
 #define INFO_WIDTH 470
 #define STANDALONE_INFO_HEIGHT 550
-#define PLUGIN_INFO_HEIGHT 180
+#define PLUGIN_INFO_HEIGHT 227
 #define PADDING_X 25
 #define PADDING_Y 15
 #define BUTTON_WIDTH 16
+
+#define MULT_SMALL 0.75f
+#define MULT_LARGE 1.35f
+#define MULT_EXTRA_LARGE 2.0f
 
 AboutSection::AboutSection(String name) : Overlay(name) {
   developer_link_ = new HyperlinkButton("Matt Tytel", URL("http://tytel.org"));
@@ -58,6 +62,24 @@ AboutSection::AboutSection(String name) : Overlay(name) {
   animate_->setLookAndFeel(TextLookAndFeel::instance());
   animate_->addListener(this);
   addAndMakeVisible(animate_);
+
+  size_button_small_ = new TextButton(String(100 * MULT_SMALL) + "%");
+  addAndMakeVisible(size_button_small_);
+  size_button_small_->addListener(this);
+
+  size_button_normal_ = new TextButton(String("100") + "%");
+  addAndMakeVisible(size_button_normal_);
+  size_button_normal_->addListener(this);
+
+  size_button_large_ = new TextButton(String(100 * MULT_LARGE) + "%");
+  addAndMakeVisible(size_button_large_);
+  size_button_large_->addListener(this);
+
+  size_button_extra_large_ = new TextButton(String(100 * MULT_EXTRA_LARGE) + "%");
+  addAndMakeVisible(size_button_extra_large_);
+  size_button_extra_large_->addListener(this);
+
+  size_button_extra_large_->setLookAndFeel(DefaultLookAndFeel::instance());
 }
 
 void AboutSection::paint(Graphics& g) {
@@ -121,6 +143,10 @@ void AboutSection::paint(Graphics& g) {
              0.0f, 141.0f,
              273.0f - PADDING_X - 0.5 * BUTTON_WIDTH,
              20.0f, Justification::topRight);
+  g.drawText(TRANS("Window size"),
+             0.0f, 180.0f,
+             155.0f,
+             20.0f, Justification::topRight);
 
   g.restoreState();
 }
@@ -142,8 +168,21 @@ void AboutSection::resized() {
   animate_->setBounds(info_rect.getX() + 273.0f,
                       info_rect.getY() + PADDING_Y + 140.0f, BUTTON_WIDTH, BUTTON_WIDTH);
 
+  int size_y = animate_->getBottom() + PADDING_Y;
+  int size_height = 2 * BUTTON_WIDTH;
+  int size_width = 60;
+  int size_padding = 5;
+  size_button_extra_large_->setBounds(info_rect.getRight() - PADDING_X - size_width, size_y,
+                                      size_width, size_height);
+  size_button_large_->setBounds(size_button_extra_large_->getX() - size_padding - size_width,
+                                size_y, size_width, size_height);
+  size_button_normal_->setBounds(size_button_large_->getX() - size_padding - size_width, size_y,
+                                 size_width, size_height);
+  size_button_small_->setBounds(size_button_normal_->getX() - size_padding - size_width, size_y,
+                                size_width, size_height);
+
   if (device_selector_) {
-    int y = check_for_updates_->getY() + PADDING_Y + BUTTON_WIDTH;
+    int y = size_button_extra_large_->getBottom() + PADDING_Y;
     device_selector_->setBounds(info_rect.getX(), y,
                                 info_rect.getWidth(), info_rect.getBottom() - y);
   }
@@ -178,7 +217,7 @@ void AboutSection::setVisible(bool should_be_visible) {
 void AboutSection::buttonClicked(Button* clicked_button) {
   if (clicked_button == check_for_updates_)
     LoadSave::saveUpdateCheckConfig(check_for_updates_->getToggleState());
-  if (clicked_button == animate_) {
+  else if (clicked_button == animate_) {
     LoadSave::saveAnimateWidgets(animate_->getToggleState());
 
     SynthSection* parent = findParentComponentOfClass<SynthSection>();
@@ -187,6 +226,14 @@ void AboutSection::buttonClicked(Button* clicked_button) {
 
     parent->animate(animate_->getToggleState());
   }
+  else if (clicked_button == size_button_small_)
+    setGuiSize(MULT_SMALL);
+  else if (clicked_button == size_button_normal_)
+    setGuiSize(1.0);
+  else if (clicked_button == size_button_large_)
+    setGuiSize(MULT_LARGE);
+  else if (clicked_button == size_button_extra_large_)
+    setGuiSize(MULT_EXTRA_LARGE);
 }
 
 Rectangle<int> AboutSection::getInfoRect() {
@@ -195,3 +242,15 @@ Rectangle<int> AboutSection::getInfoRect() {
   int y = (getHeight() - info_height) / 2;
   return Rectangle<int>(x, y, INFO_WIDTH, info_height);
 }
+
+void AboutSection::setGuiSize(float multiplier) {
+  float percent = sqrtf(multiplier);
+  LoadSave::saveWindowSize(percent);
+
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent) {
+    parent->setGuiSize(percent * mopo::DEFAULT_WINDOW_WIDTH,
+                       percent * mopo::DEFAULT_WINDOW_HEIGHT);
+  }
+}
+

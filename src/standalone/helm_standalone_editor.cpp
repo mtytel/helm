@@ -56,7 +56,8 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   setLookAndFeel(DefaultLookAndFeel::instance());
   addAndMakeVisible(gui_);
   gui_->setOutputMemory(getOutputMemory());
-  setSize(mopo::DEFAULT_WINDOW_WIDTH, mopo::DEFAULT_WINDOW_HEIGHT);
+  float window_size = LoadSave::loadWindowSize();
+  setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
 
   setWantsKeyboardFocus(true);
   grabKeyboardFocus();
