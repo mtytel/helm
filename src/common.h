@@ -47,6 +47,8 @@ namespace mopo {
   const int DEFAULT_SAMPLE_RATE = 44100;
   const int MAX_SAMPLE_RATE = 192000;
   const int MIDI_SIZE = 128;
+  const int MAX_POLYPHONY = 33;
+
   const int PPQ = 960; // Pulses per quarter note.
   const mopo_float VOICE_KILL_TIME = 0.02;
   const int NUM_MIDI_CHANNELS = 16;

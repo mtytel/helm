@@ -18,6 +18,7 @@
 #ifndef VOICE_HANDLER_H
 #define VOICE_HANDLER_H
 
+#include "circular_queue.h"
 #include "note_handler.h"
 #include "processor_router.h"
 #include "value.h"
@@ -137,7 +138,7 @@ namespace mopo {
       virtual void setSampleRate(int sample_rate) override;
       virtual void setBufferSize(int buffer_size) override;
       int getNumActiveVoices();
-      std::list<mopo_float> getPressedNotes() { return pressed_notes_; }
+      CircularQueue<mopo_float>& getPressedNotes() { return pressed_notes_; }
       bool isNotePlaying(mopo_float note);
 
       void allNotesOff(int sample = 0) override;
@@ -216,11 +217,11 @@ namespace mopo {
       Output velocity_;
       Output aftertouch_;
 
-      std::list<mopo_float> pressed_notes_;
-      std::vector<Voice*> all_voices_;
+      CircularQueue<mopo_float> pressed_notes_;
+      CircularQueue<Voice*> all_voices_;
 
-      std::list<Voice*> free_voices_;
-      std::list<Voice*> active_voices_;
+      CircularQueue<Voice*> free_voices_;
+      CircularQueue<Voice*> active_voices_;
 
       ProcessorRouter voice_router_;
       ProcessorRouter global_router_;
