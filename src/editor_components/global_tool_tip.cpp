@@ -23,6 +23,7 @@
 GlobalToolTip::GlobalToolTip() {
   startTimerHz(FRAMES_PER_SECOND);
   time_updated_ = 0;
+  setInterceptsMouseClicks(false, false);
 }
 
 GlobalToolTip::~GlobalToolTip() { }
