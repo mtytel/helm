@@ -43,7 +43,7 @@ namespace mopo {
 
       std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
       bool isModulationActive(ModulationConnection* connection);
-      std::list<mopo::mopo_float> getPressedNotes();
+      CircularQueue<mopo::mopo_float> getPressedNotes();
       void connectModulation(ModulationConnection* connection);
       void disconnectModulation(ModulationConnection* connection);
       int getNumActiveVoices();
