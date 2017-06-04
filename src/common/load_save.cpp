@@ -205,6 +205,50 @@ void LoadSave::varToState(SynthBase* synth,
     }
   }
 
+  if (compareVersionStrings(version, "0.9.0") <= 0) {
+    // Fix unison volume change.
+    mopo::mopo_float voices1 = settings_properties["osc_1_unison_voices"];
+    mopo::mopo_float voices2 = settings_properties["osc_2_unison_voices"];
+
+    mopo::mopo_float old_volume1 = settings_properties["osc_1_volume"];
+    mopo::mopo_float old_volume2 = settings_properties["osc_2_volume"];
+    old_volume1 *= old_volume1;
+    old_volume2 *= old_volume2;
+
+    mopo::mopo_float ratio1 = (voices1 + 1.0) / 2.0;
+    mopo::mopo_float ratio2 = (voices2 + 1.0) / 2.0;
+    mopo::mopo_float new_volume1 = 0.5 * old_volume1 * sqrt(1.0 / ratio1);
+    mopo::mopo_float new_volume2 = 0.5 * old_volume2 * sqrt(1.0 / ratio2);
+    settings_properties.set("osc_1_volume", sqrt(new_volume1));
+    settings_properties.set("osc_2_volume", sqrt(new_volume2));
+
+    // Map to new filter styles.
+    mopo::mopo_float filter_type = settings_properties["filter_type"];
+    if (filter_type >= 6.0)
+      settings_properties.set("filter_on", 0.0);
+    else if (filter_type >= 3.0) {
+      settings_properties.set("filter_shelf", filter_type - 3.0);
+      settings_properties.set("filter_on", 1.0);
+      settings_properties.set("filter_style", 2.0);
+    }
+    else {
+      if (filter_type >= 2.0)
+        settings_properties.set("filter_blend", 1.0);
+      else if (filter_type >= 1.0)
+        settings_properties.set("filter_blend", 2.0);
+
+      settings_properties.set("filter_on", 1.0);
+      settings_properties.set("filter_style", 0.0);
+    }
+
+    // Move saturation to distortion.
+    settings_properties.set("distortion_on", 1.0);
+    settings_properties.set("distortion_type", 0.0);
+    settings_properties.set("distortion_mix", 1.0);
+    mopo::mopo_float saturation = settings_properties["filter_saturation"];
+    settings_properties.set("distortion_drive", saturation);
+  }
+
   loadControls(synth, settings_properties);
   loadModulations(synth, modulations);
   loadSaveState(save_info, properties);

@@ -77,13 +77,13 @@ namespace mopo {
       ValueDetails::kQuadratic, "secs", "Filter Release" },
     { "fil_sustain", 0.0, 1.0, 0, 0.5, 0.0, 1.0,
       ValueDetails::kLinear, "", "Filter Sustain" },
-    { "filter_saturation", -60.0, 60.0, 0, 0.0, 0.0, 1.0,
+    { "filter_saturation", -60.0, 60.0, 0, 0.0, 0.0, 1.0, // DEPRECATED
       ValueDetails::kLinear, "dB", "Saturation" },
     { "filter_drive", 0.0, 20.0, 0, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "dB", "Filter Drive" },
     { "filter_blend", 0.0, 2.0, 0, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "", "Filter Blend" },
-    { "filter_type", 0.0, 6.0, 7, 6.0, 0.0, 1.0,
+    { "filter_type", 0.0, 6.0, 7, 6.0, 0.0, 1.0, // DEPRECATED
       ValueDetails::kLinear, "", "Filter Type" },
     { "filter_style", 0.0, 2.0, 3, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "", "Filter Style" },
@@ -167,7 +167,7 @@ namespace mopo {
       ValueDetails::kLinear, "semitones", "Osc Feedback Transpose" },
     { "osc_feedback_tune", -1.0, 1.0, 0, 0.0, 0.0, 100.0,
       ValueDetails::kLinear, "cents", "Osc Feedback Tune" },
-    { "osc_mix", 0.0, 1.0, 0, 0.5, 0.0, 1.0,
+    { "osc_mix", 0.0, 1.0, 0, 0.5, 0.0, 1.0, // DEPRECATED
       ValueDetails::kLinear, "", "Osc Mix" },
     { "pitch_bend_range", 0.0, 24.0, 25, 2.0, 0.0, 1.0,
       ValueDetails::kLinear, "semitones", "Pitch Bend Range" },
