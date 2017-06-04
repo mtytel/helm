@@ -252,7 +252,13 @@ void LoadSave::varToState(SynthBase* synth,
     settings_properties.set("distortion_type", 0.0);
     settings_properties.set("distortion_mix", 1.0);
     mopo::mopo_float saturation = settings_properties["filter_saturation"];
-    settings_properties.set("distortion_drive", saturation);
+
+    if (filter_type >= 6.0)
+      settings_properties.set("distortion_drive", saturation);
+    else {
+      settings_properties.set("distortion_drive", saturation + 6.0);
+      settings_properties.set("filter_drive", -6.0);
+    }
 
     // Move modulating saturation to distortion.
     var* modulation = modulations->begin();

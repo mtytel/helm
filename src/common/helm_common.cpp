@@ -79,7 +79,7 @@ namespace mopo {
       ValueDetails::kLinear, "", "Filter Sustain" },
     { "filter_saturation", -60.0, 60.0, 0, 0.0, 0.0, 1.0, // DEPRECATED
       ValueDetails::kLinear, "dB", "Saturation" },
-    { "filter_drive", 0.0, 20.0, 0, 0.0, 0.0, 1.0,
+    { "filter_drive", -6, 20.0, 0, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "dB", "Filter Drive" },
     { "filter_blend", 0.0, 2.0, 0, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, "", "Filter Blend" },
