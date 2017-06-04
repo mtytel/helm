@@ -19,6 +19,7 @@
 #include "mopo.h"
 #include "synth_gui_interface.h"
 #include "shaders.h"
+#include "text_look_and_feel.h"
 
 OpenGLModulationMeter::OpenGLModulationMeter(const mopo::Output* mono_total,
                                              const mopo::Output* poly_total,
@@ -49,7 +50,10 @@ OpenGLModulationMeter::OpenGLModulationMeter(const mopo::Output* mono_total,
     0.0f, 0.0f, 0.0f, 0.0f, -10.0f, 10.0f
   };
 
-  if (destination_->isRotary())
+  rotary_ = destination_->isRotary() &&
+            &destination_->getLookAndFeel() != TextLookAndFeel::instance();
+
+  if (rotary_)
     memcpy(vertices_, initial_rotary_vertices, sizeof(initial_rotary_vertices));
   else if (destination_->isHorizontal())
     memcpy(vertices_, initial_horizontal_vertices, sizeof(initial_horizontal_vertices));
@@ -83,15 +87,17 @@ void OpenGLModulationMeter::setVisible(bool should_be_visible) {
     setVertices();
   else
     collapseVertices();
+
+  Component::setVisible(should_be_visible);
 }
 
 void OpenGLModulationMeter::setVertices() {
-  Rectangle<int> top_level_bounds = getTopLevelComponent()->getBounds();
-  Rectangle<int> global_bounds = getTopLevelComponent()->getLocalArea(this, getLocalBounds());
-  float left = global_bounds.getX();
-  float right = global_bounds.getRight();
-  float top = top_level_bounds.getHeight() - global_bounds.getY();
-  float bottom = top_level_bounds.getHeight() - global_bounds.getBottom();
+  Rectangle<int> parent_bounds = getParentComponent()->getBounds();
+  Rectangle<int> bounds = getBounds();
+  float left = bounds.getX();
+  float right = bounds.getRight();
+  float top = parent_bounds.getHeight() - bounds.getY();
+  float bottom = parent_bounds.getHeight() - bounds.getBottom();
 
   if (!destination_->isRotary()) {
     if (destination_->isHorizontal()) {
@@ -104,10 +110,10 @@ void OpenGLModulationMeter::setVertices() {
     }
   }
 
-  left_ = 2.0f * left / top_level_bounds.getWidth() - 1.0f;
-  right_ = 2.0f * right / top_level_bounds.getWidth() - 1.0f;
-  top_ = 2.0f * top / top_level_bounds.getHeight() - 1.0f;
-  bottom_ = 2.0f * bottom / top_level_bounds.getHeight() - 1.0f;
+  left_ = 2.0f * left / parent_bounds.getWidth() - 1.0f;
+  right_ = 2.0f * right / parent_bounds.getWidth() - 1.0f;
+  top_ = 2.0f * top / parent_bounds.getHeight() - 1.0f;
+  bottom_ = 2.0f * bottom / parent_bounds.getHeight() - 1.0f;
 }
 
 void OpenGLModulationMeter::collapseVertices() {
@@ -137,7 +143,7 @@ void OpenGLModulationMeter::updateDrawing() {
     float min_percent = std::min(mod_percent_, knob_percent_);
     float max_percent = std::max(mod_percent_, knob_percent_);
 
-    if (destination_->isRotary()) {
+    if (rotary_) {
       float angle = SynthSlider::rotary_angle;
 
       float min_radians = mopo::utils::interpolate(-angle, angle, min_percent);
@@ -162,6 +168,22 @@ void OpenGLModulationMeter::updateDrawing() {
 
       vertices_[1] = vertices_[19] = top_;
       vertices_[7] = vertices_[13] = bottom_;
+    }
+    else if (&destination_->getLookAndFeel() == TextLookAndFeel::instance()) {
+      float start = bottom_;
+      float end = top_;
+      float diff_percent = mod_percent_ - knob_percent_;
+
+      if (diff_percent > 0.0)
+        end = mopo::utils::interpolate(bottom_, top_, diff_percent);
+      else
+        start = mopo::utils::interpolate(top_, bottom_, -diff_percent);
+
+      vertices_[7] = vertices_[13] = start;
+      vertices_[1] = vertices_[19] = end;
+
+      vertices_[0] = vertices_[6] = left_;
+      vertices_[12] = vertices_[18] = right_;
     }
     else {
       float start = mopo::utils::interpolate(bottom_, top_, min_percent);

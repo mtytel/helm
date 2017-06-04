@@ -55,6 +55,7 @@ class OpenGLModulationMeter : public Component {
     float full_radius_;
     float outer_radius_;
     bool modulated_;
+    bool rotary_;
 
     float left_, right_, top_, bottom_;
 

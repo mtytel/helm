@@ -213,7 +213,6 @@ void FullInterface::resized() {
 
   // beats_per_minute_->setBounds(133, patch_selector_->getBottom(),
   //                              200, TOP_HEIGHT - patch_selector_->getHeight());
-  modulation_manager_->setBounds(getBounds());
   about_section_->setBounds(getBounds());
   update_check_section_->setBounds(getBounds());
   save_section_->setBounds(getBounds());
@@ -224,6 +223,7 @@ void FullInterface::resized() {
                             synthesis_interface_->getHeight() - padding);
 
   SynthSection::resized();
+  modulation_manager_->setBounds(getBounds());
 
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;

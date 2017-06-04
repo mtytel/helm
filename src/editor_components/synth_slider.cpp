@@ -246,20 +246,8 @@ void SynthSlider::drawRectangularShadow(Graphics &g) {
   g.saveState();
   g.setOrigin(getX(), getY());
   shadow.drawForRectangle(g, getLocalBounds());
-
-  g.setColour(Colours::white);
-  if (isHorizontal()) {
-    float y1 = (getHeight() - linear_rail_width) / 2.0f;
-    int y2 = y1 + linear_rail_width;
-    g.fillRect(0, (int)y1, getWidth(), 1);
-    g.fillRect(0, y2, getWidth(), 1);
-  }
-  else {
-    float x1 = (getWidth() - linear_rail_width) / 2.0f;
-    int x2 = x1 + linear_rail_width;
-    g.fillRect((int)x1, 0, 1, getHeight());
-    g.fillRect(x2, 0, 1, getHeight());
-  }
+  g.setColour(Colour(0xff333333));
+  g.fillRect(getLocalBounds());
 
   g.restoreState();
 }

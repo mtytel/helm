@@ -15,11 +15,13 @@
  */
 
 #include "open_gl_component.h"
+#include "full_interface.h"
 
 void OpenGLComponent::setViewPort(OpenGLContext& open_gl_context) {
   float scale = open_gl_context.getRenderingScale();
-  Rectangle<int> top_level_bounds = getTopLevelComponent()->getBounds();
-  Rectangle<int> global_bounds = getTopLevelComponent()->getLocalArea(this, getLocalBounds());
+  FullInterface* parent = findParentComponentOfClass<FullInterface>();
+  Rectangle<int> top_level_bounds = parent->getBounds();
+  Rectangle<int> global_bounds = parent->getLocalArea(this, getLocalBounds());
 
   glViewport(scale * global_bounds.getX(),
              scale * (top_level_bounds.getHeight() - global_bounds.getBottom()),

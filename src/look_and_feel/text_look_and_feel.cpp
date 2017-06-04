@@ -34,16 +34,15 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
                                        float slider_t, float start_angle, float end_angle,
                                        Slider& slider) {
   static const float text_percentage = 0.7f;
+  static const int mod_buffer = 5;
 
   bool active = true;
   SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
   if (s_slider)
     active = s_slider->isActive();
 
-  if (active)
-    g.fillAll(Colour(0xff424242));
-  else
-    g.fillAll(Colour(0xff333333));
+  g.setColour(Colour(0xff333333));
+  g.fillRect(x + mod_buffer, y, width - 2 * mod_buffer, height);
 
   if (active)
     g.setColour(Colour(0xff565656));

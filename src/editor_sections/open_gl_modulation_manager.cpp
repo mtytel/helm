@@ -153,6 +153,7 @@ void OpenGLModulationManager::resized() {
     if (parent) {
       int num_modulations = parent->getSynth()->getNumModulations(meter.first);
       meter.second->setModulated(num_modulations);
+      meter.second->setVisible(num_modulations);
     }
   }
 
