@@ -68,11 +68,6 @@ namespace mopo {
   }
 
   void Add::process() {
-#ifdef USE_APPLE_ACCELERATE
-    vDSP_vaddD(input(0)->source->buffer, 1,
-               input(1)->source->buffer, 1,
-               output()->buffer, 1, buffer_size_);
-#else
     mopo_float* dest = output()->buffer;
     const mopo_float* source_left = input(0)->source->buffer;
     const mopo_float* source_right = input(1)->source->buffer;
@@ -80,7 +75,7 @@ namespace mopo {
     VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source_left, source_right, i);
-#endif
+
     processTriggers();
   }
 
@@ -97,11 +92,6 @@ namespace mopo {
   }
 
   void Multiply::process() {
-#ifdef USE_APPLE_ACCELERATE
-    vDSP_vmulD(input(0)->source->buffer, 1,
-               input(1)->source->buffer, 1,
-               output()->buffer, 1, buffer_size_);
-#else
     mopo_float* dest = output()->buffer;
     const mopo_float* source_left = input(0)->source->buffer;
     const mopo_float* source_right = input(1)->source->buffer;
@@ -109,21 +99,11 @@ namespace mopo {
     VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, source_left, source_right, i);
-#endif
+
     processTriggers();
   }
 
   void Interpolate::process() {
-#ifdef USE_APPLE_ACCELERATE
-    vDSP_vsbmD(input(kTo)->source->buffer, 1,
-               input(kFrom)->source->buffer, 1,
-               input(kFractional)->source->buffer, 1,
-               output()->buffer, 1, buffer_size_);
-
-    vDSP_vaddD(input(kFrom)->source->buffer, 1,
-               output()->buffer, 1,
-               output()->buffer, 1, buffer_size_);
-#else
     mopo_float* dest = output()->buffer;
     const mopo_float* from = input(kFrom)->source->buffer;
     const mopo_float* to = input(kTo)->source->buffer;
@@ -132,7 +112,7 @@ namespace mopo {
     VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i)
       bufferTick(dest, from, to, fractional, i);
-#endif
+
     processTriggers();
   }
 

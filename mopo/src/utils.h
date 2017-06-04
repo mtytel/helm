@@ -111,7 +111,7 @@ namespace mopo {
     }
 
     inline double interpolate(double from, double to, double t) {
-      return fma(t, to - from, from);
+      return t * (to - from) + from;
     }
 
     inline float interpolate(float from, float to, float t) {

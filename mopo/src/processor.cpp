@@ -25,6 +25,7 @@ namespace mopo {
 
   Processor::Processor(int num_inputs, int num_outputs, bool control_rate) :
       sample_rate_(DEFAULT_SAMPLE_RATE), buffer_size_(DEFAULT_BUFFER_SIZE),
+      samples_to_process_(DEFAULT_BUFFER_SIZE),
       control_rate_(control_rate), enabled_(new bool(true)),
       inputs_(new std::vector<Input*>()), outputs_(new std::vector<Output*>()),
       router_(0) {

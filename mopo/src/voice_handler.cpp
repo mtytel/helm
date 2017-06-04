@@ -50,8 +50,11 @@ namespace mopo {
     for (Voice* voice : all_voices_)
       delete voice;
 
-    for (Output* output : accumulated_outputs_)
-      delete output;
+    for (auto output : accumulated_outputs_)
+      delete output.second;
+
+    for (auto output : last_voice_outputs_)
+      delete output.second;
   }
 
   void VoiceHandler::prepareVoiceTriggers(Voice* voice) {
@@ -86,37 +89,38 @@ namespace mopo {
   }
 
   void VoiceHandler::clearAccumulatedOutputs() {
-    for (int i = 0; i < numOutputs(); ++i) {
-      if (shouldAccumulate(voice_outputs_[i])) {
-        int buffer_size = voice_outputs_[i]->owner->getBufferSize();
-        utils::zeroBuffer(output(i)->buffer, buffer_size);
-      }
+    for (auto output : accumulated_outputs_) {
+      int buffer_size = output.first->owner->getBufferSize();
+      utils::zeroBuffer(output.second->buffer, buffer_size);
     }
   }
 
   void VoiceHandler::clearNonaccumulatedOutputs() {
-    for (int i = 0; i < numOutputs(); ++i) {
-      if (!shouldAccumulate(voice_outputs_[i]))
-        output(i)->buffer[0] = 0.0;
+    for (auto output : last_voice_outputs_) {
+      int buffer_size = output.first->owner->getBufferSize();
+      utils::zeroBuffer(output.second->buffer, buffer_size);
     }
   }
 
   void VoiceHandler::accumulateOutputs() {
-    for (int out = 0; out < numOutputs(); ++out) {
-      if (shouldAccumulate(voice_outputs_[out])) {
-        int buffer_size = voice_outputs_[out]->owner->getBufferSize();
-        for (int i = 0; i < buffer_size; ++i)
-          output(out)->buffer[i] += voice_outputs_[out]->buffer[i];
-      }
+    for (auto output : accumulated_outputs_) {
+      int buffer_size = output.first->owner->getBufferSize();
+      mopo_float* dest = output.second->buffer;
+      const mopo_float* source = output.first->buffer;
+
+      VECTORIZE_LOOP
+      for (int i = 0; i < buffer_size; ++i)
+        dest[i] += source[i];
     }
   }
 
   void VoiceHandler::writeNonaccumulatedOutputs() {
-    for (int i = 0; i < numOutputs(); ++i) {
-      if (!shouldAccumulate(voice_outputs_[i])) {
-        if (active_voices_.size())
-          output(i)->buffer[0] = voice_outputs_[i]->buffer[0];
-      }
+    for (auto output : last_voice_outputs_) {
+      int buffer_size = output.first->owner->getBufferSize();
+      mopo_float* dest = output.second->buffer;
+      const mopo_float* source = output.first->buffer;
+
+      utils::copyBuffer(dest, source, buffer_size);
     }
   }
 
@@ -206,7 +210,7 @@ namespace mopo {
 
     // First check free voices.
     if (free_voices_.size() &&
-       (!legato_ || pressed_notes_.size() == 0 || active_voices_.size() < polyphony_)) {
+       (!legato_ || pressed_notes_.size() < polyphony_ || active_voices_.size() < polyphony_)) {
       voice = free_voices_.front();
       free_voices_.pop_front();
       return voice;
@@ -373,8 +377,10 @@ namespace mopo {
     Output* new_output = new Output();
     new_output->owner = this;
     ProcessorRouter::registerOutput(new_output);
-    accumulated_outputs_.push_back(new_output);
-    voice_outputs_.push_back(output);
+    if (shouldAccumulate(output))
+      accumulated_outputs_[output] = new_output;
+    else
+      last_voice_outputs_[output] = new_output;
     return new_output;
   }
 
