@@ -227,7 +227,13 @@ void LoadSave::varToState(SynthBase* synth,
     if (filter_type >= 6.0)
       settings_properties.set("filter_on", 0.0);
     else if (filter_type >= 3.0) {
-      settings_properties.set("filter_shelf", filter_type - 3.0);
+      if (filter_type >= 5.0)
+        settings_properties.set("filter_shelf", 1.0);
+      else if (filter_type >= 4.0)
+        settings_properties.set("filter_shelf", 2.0);
+      else
+        settings_properties.set("filter_shelf", 0.0);
+
       settings_properties.set("filter_on", 1.0);
       settings_properties.set("filter_style", 2.0);
     }
@@ -247,6 +253,46 @@ void LoadSave::varToState(SynthBase* synth,
     settings_properties.set("distortion_mix", 1.0);
     mopo::mopo_float saturation = settings_properties["filter_saturation"];
     settings_properties.set("distortion_drive", saturation);
+
+    // Move modulating saturation to distortion.
+    var* modulation = modulations->begin();
+    for (; modulation != modulations->end(); ++modulation) {
+      DynamicObject* mod = modulation->getDynamicObject();
+      String destination = mod->getProperty("destination").toString();
+
+      if (destination == "filter_saturation") {
+        String source = mod->getProperty("source").toString();
+        mod->setProperty("destination", "distortion_drive");
+      }
+    }
+
+    // Fixing reverb and delay mixing ratios.
+    mopo::mopo_float volume = settings_properties["volume"];
+    mopo::mopo_float delay_wet = settings_properties["delay_dry_wet"];
+    mopo::mopo_float delay_on = settings_properties["delay_on"];
+
+    if (delay_on && delay_wet != 0.0 && delay_wet != 1.0) {
+      mopo::mopo_float ratio = delay_wet / (1.0 - delay_wet);
+      mopo::mopo_float new_ratio = ratio * ratio;
+      mopo::mopo_float new_wet = 1.0 - 1.0 / (1.0 + new_ratio);
+      settings_properties.set("delay_dry_wet", new_wet);
+
+      volume *= sqrt(delay_wet / sqrt(new_wet));
+    }
+
+    mopo::mopo_float reverb_wet = settings_properties["reverb_dry_wet"];
+    mopo::mopo_float reverb_on = settings_properties["reverb_on"];
+
+    if (reverb_on && reverb_wet != 0.0 && reverb_wet != 1.0) {
+      mopo::mopo_float ratio = reverb_wet / (1.0 - reverb_wet);
+      mopo::mopo_float new_ratio = ratio * ratio;
+      mopo::mopo_float new_wet = 1.0 - 1.0 / (1.0 + new_ratio);
+      settings_properties.set("reverb_dry_wet", new_wet);
+
+      volume *= sqrt(reverb_wet / sqrt(new_wet));
+    }
+
+    settings_properties.set("volume", volume);
   }
 
   loadControls(synth, settings_properties);
