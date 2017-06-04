@@ -170,11 +170,11 @@ namespace mopo {
   }
 
   Output* HelmModule::createTempoSyncSwitch(std::string name, Processor* frequency,
-                                            Processor* bps, bool poly) {
+                                            Processor* bps, bool poly, ValueSwitch* owner) {
     static const Value dotted_ratio(2.0 / 3.0);
     static const Value triplet_ratio(3.0 / 2.0);
 
-    ProcessorRouter* owner = poly ? getPolyRouter() : getMonoRouter();
+    ProcessorRouter* router = poly ? getPolyRouter() : getMonoRouter();
     Output* tempo = nullptr;
     if (poly)
       tempo = createPolyModControl(name + "_tempo", frequency->isControlRate());
@@ -189,7 +189,7 @@ namespace mopo {
 
     Gate* choose_modifier = new Gate();
     Value* sync = new cr::Value(1);
-    owner->addIdleProcessor(sync);
+    router->addIdleProcessor(sync);
     choose_modifier->plug(sync, Gate::kChoice);
     choose_modifier->plugNext(&utils::value_one);
     choose_modifier->plugNext(&utils::value_one);
@@ -207,8 +207,8 @@ namespace mopo {
 
     getMonoRouter()->addProcessor(choose_modifier);
     getMonoRouter()->addProcessor(choose_tempo);
-    owner->addProcessor(modified_tempo);
-    owner->addProcessor(tempo_frequency);
+    router->addProcessor(modified_tempo);
+    router->addProcessor(tempo_frequency);
 
     Gate* choose_frequency = new Gate();
     choose_frequency->plug(sync, Gate::kChoice);
@@ -216,6 +216,15 @@ namespace mopo {
     choose_frequency->plugNext(tempo_frequency);
     choose_frequency->plugNext(tempo_frequency);
     choose_frequency->plugNext(tempo_frequency);
+
+    if (owner) {
+      owner->addProcessor(choose_tempo);
+      owner->addProcessor(choose_modifier);
+      owner->addProcessor(modified_tempo);
+      owner->addProcessor(tempo_frequency);
+      owner->addProcessor(choose_frequency);
+      owner->set(owner->value());
+    }
 
     getMonoRouter()->addProcessor(choose_frequency);
     controls_[name + "_sync"] = sync;

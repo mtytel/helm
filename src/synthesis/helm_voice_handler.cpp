@@ -143,7 +143,7 @@ namespace mopo {
 
     addProcessor(output_);
 
-    setVoiceKiller(amplitude_envelope_->output(Envelope::kValue));
+    setVoiceKiller(amplitude_->output());
 
     HelmModule::init();
     setupPolyModulationReadouts();
@@ -390,7 +390,7 @@ namespace mopo {
 
     addProcessor(extra_envelope_);
     mod_sources_["mod_envelope"] = extra_envelope_->output();
-    mod_sources_["mod_envelope_amp"] = registerOutput(extra_envelope_->output(Envelope::kAmp));
+    mod_sources_["mod_envelope_amp"] = registerOutput(extra_envelope_->output(Envelope::kValue));
     mod_sources_["mod_envelope_phase"] = registerOutput(extra_envelope_->output(Envelope::kPhase));
 
     // Random Modulation
@@ -486,25 +486,25 @@ namespace mopo {
     addProcessor(drive_magnitude);
 
     mod_sources_["fil_envelope"] = filter_envelope_->output();
-    mod_sources_["fil_envelope_amp"] = registerOutput(filter_envelope_->output(Envelope::kAmp));
+    mod_sources_["fil_envelope_amp"] = registerOutput(filter_envelope_->output(Envelope::kValue));
     mod_sources_["fil_envelope_phase"] = registerOutput(filter_envelope_->output(Envelope::kPhase));
 
     // Stutter.
     BypassRouter* stutter_container = new BypassRouter();
     addProcessor(stutter_container);
 
-    Processor* stutter_on = createBaseControl("stutter_on");
+    ValueSwitch* stutter_on = createBaseSwitchControl("stutter_on");
     stutter_container->plug(stutter_on, BypassRouter::kOn);
     stutter_container->plug(filter, BypassRouter::kAudio);
 
     Stutter* stutter = new Stutter(STUTTER_MAX_SAMPLES);
     Output* stutter_free_frequency = createPolyModControl("stutter_frequency", true);
     Output* stutter_frequency = createTempoSyncSwitch("stutter", stutter_free_frequency->owner,
-                                                      beats_per_second_, true);
+                                                      beats_per_second_, true, stutter_on);
     Output* resample_free_frequency = createPolyModControl("stutter_resample_frequency", true);
     Output* resample_frequency = createTempoSyncSwitch("stutter_resample",
                                                        resample_free_frequency->owner,
-                                                       beats_per_second_, true);
+                                                       beats_per_second_, true, stutter_on);
 
     Output* stutter_softness = createPolyModControl("stutter_softness", true);
 
@@ -671,7 +671,7 @@ namespace mopo {
 
     // Velocity tracking.
     TriggerWait* velocity_wait = new TriggerWait();
-    Value* current_velocity = new Value();
+    cr::Value* current_velocity = new cr::Value();
     velocity_wait->plug(velocity, TriggerWait::kWait);
     velocity_wait->plug(note_change_trigger, TriggerWait::kTrigger);
     current_velocity->plug(velocity_wait);
@@ -679,18 +679,24 @@ namespace mopo {
     addProcessor(velocity_wait);
     addProcessor(current_velocity);
 
-    Output* velocity_track_amount = createPolyModControl("velocity_track", false);
-    Interpolate* velocity_track_mult = new Interpolate();
+    Output* velocity_track_amount = createPolyModControl("velocity_track", true);
+    cr::Interpolate* velocity_track_mult = new cr::Interpolate();
     velocity_track_mult->plug(&utils::value_one, Interpolate::kFrom);
     velocity_track_mult->plug(current_velocity, Interpolate::kTo);
     velocity_track_mult->plug(velocity_track_amount, Interpolate::kFractional);
     addProcessor(velocity_track_mult);
 
     // Current amplitude using envelope and velocity.
-    amplitude_ = new Multiply();
-    amplitude_->plug(amplitude_envelope_->output(Envelope::kValue), 0);
-    amplitude_->plug(velocity_track_mult, 1);
+    Processor* control_amplitude = new cr::Multiply();
+    control_amplitude->plug(amplitude_envelope_->output(Envelope::kValue), 0);
+    control_amplitude->plug(velocity_track_mult, 1);
 
+    amplitude_ = new LinearSmoothBuffer();
+    amplitude_->plug(control_amplitude, LinearSmoothBuffer::kValue);
+    amplitude_->plug(amplitude_envelope_->output(Envelope::kFinished),
+                     LinearSmoothBuffer::kTrigger);
+
+    addProcessor(control_amplitude);
     addProcessor(amplitude_);
 
     // Portamento.
@@ -708,7 +714,8 @@ namespace mopo {
     addProcessor(current_frequency_);
 
     mod_sources_["amp_envelope"] = amplitude_envelope_->output();
-    mod_sources_["amp_envelope_amp"] = registerOutput(amplitude_envelope_->output(Envelope::kAmp));
+    mod_sources_["amp_envelope_amp"] =
+        registerOutput(amplitude_envelope_->output(Envelope::kValue));
     mod_sources_["amp_envelope_phase"] =
         registerOutput(amplitude_envelope_->output(Envelope::kPhase));
     mod_sources_["note"] = note_percentage->output();

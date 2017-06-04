@@ -19,7 +19,7 @@
 namespace mopo {
 
   const ValueDetails ValueDetailsLookup::parameter_list[] = {
-    { "amp_attack", 0.0, 4.0, 0, 0.1, 0.0, 1.0,
+    { "amp_attack", 0.0, 4.0, 0, 0.109545, 0.0, 1.0,
       ValueDetails::kQuadratic, "secs", "Amp Attack" },
     { "amp_decay", 0.0, 4.0, 0, 1.5, 0.0, 1.0,
       ValueDetails::kQuadratic, "secs", "Amp Decay" },
@@ -271,7 +271,7 @@ namespace mopo {
       ValueDetails::kLinear, "", "Osc 2 Harmonize" },
     { "velocity_track", -1.0, 1.0, 0, 0.0, 0.0, 100.0,
       ValueDetails::kLinear, "%", "Velocity Track" },
-    { "volume", 0.0, 1.4145, 0, 0.70710678118, 0.0, 1.0,
+    { "volume", 0.0, 1.4145, 0, 0.7071068, 0.0, 1.0,
       ValueDetails::kQuadratic, "", "Volume" },
   };
 

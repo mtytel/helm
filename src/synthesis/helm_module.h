@@ -72,7 +72,8 @@ namespace mopo {
 
       // Creates a switch from free running frequencies to tempo synced frequencies.
       Output* createTempoSyncSwitch(std::string name, Processor* frequency,
-                                    Processor* bps, bool poly = false);
+                                    Processor* bps, bool poly = false,
+                                    ValueSwitch* owner = nullptr);
 
       void addSubmodule(HelmModule* module) { sub_modules_.push_back(module); }
 

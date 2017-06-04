@@ -20,7 +20,7 @@
 
 namespace mopo {
 
-  TriggerRandom::TriggerRandom() : Processor(1, 1), value_(0.0) { }
+  TriggerRandom::TriggerRandom() : Processor(1, 1, true), value_(0.0) { }
 
   void TriggerRandom::process() {
     if (input()->source->triggered)

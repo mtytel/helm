@@ -28,6 +28,7 @@ namespace mopo {
   class HelmLfo;
   class PeakMeter;
   class Value;
+  class ValueSwitch;
 
   // The overall helm engine. All audio processing is contained in here.
   class HelmEngine : public HelmModule, public NoteHandler {
@@ -66,7 +67,7 @@ namespace mopo {
     private:
       HelmVoiceHandler* voice_handler_;
       Arpeggiator* arpeggiator_;
-      Value* arp_on_;
+      ValueSwitch* arp_on_;
       bool was_playing_arp_;
 
       Value* lfo_1_retrigger_;

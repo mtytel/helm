@@ -87,7 +87,7 @@ namespace mopo {
       Value* pitch_wheel_amounts_[mopo::NUM_MIDI_CHANNELS];
       Processor* current_frequency_;
       Envelope* amplitude_envelope_;
-      Multiply* amplitude_;
+      Processor* amplitude_;
       SimpleDelay* osc_feedback_;
 
       TriggerCombiner* env_trigger_;

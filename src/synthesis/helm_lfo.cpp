@@ -29,14 +29,14 @@ namespace mopo {
   } // namespace
 
 
-  HelmLfo::HelmLfo() : Processor(kNumInputs, kNumOutputs), offset_(0.0),
+  HelmLfo::HelmLfo() : Processor(kNumInputs, kNumOutputs, true), offset_(0.0),
                        last_random_value_(0.0), current_random_value_(0.0) { }
 
   void HelmLfo::process() {
-    int num_samples = buffer_size_;
+    int num_samples = samples_to_process_;
 
     if (input(kReset)->source->triggered) {
-      num_samples = buffer_size_ - input(kReset)->source->trigger_offset;
+      num_samples = samples_to_process_ - input(kReset)->source->trigger_offset;
       offset_ = 0.0;
       last_random_value_ = current_random_value_;
       current_random_value_ = randomLfoValue();

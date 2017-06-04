@@ -154,13 +154,13 @@ namespace mopo {
     mod_sources_["step_sequencer_step"] = step_sequencer_->output(StepGenerator::kStep);
 
     // Arpeggiator.
+    arp_on_ = createBaseSwitchControl("arp_on");
     Output* arp_free_frequency = createMonoModControl("arp_frequency", true);
     Output* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency->owner,
-                                                  beats_per_second, false);
+                                                  beats_per_second, false, arp_on_);
     Output* arp_octaves = createMonoModControl("arp_octaves", true);
     Output* arp_pattern = createMonoModControl("arp_pattern", true);
     Output* arp_gate = createMonoModControl("arp_gate", true);
-    arp_on_ = createBaseControl("arp_on");
     arpeggiator_ = new Arpeggiator(voice_handler_);
     arpeggiator_->plug(arp_frequency, Arpeggiator::kFrequency);
     arpeggiator_->plug(arp_octaves, Arpeggiator::kOctaves);
