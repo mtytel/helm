@@ -40,8 +40,8 @@ class HelmApplication : public JUCEApplication {
         setContentOwned(editor_, true);
         setResizable(true, true);
 
-        constrainer_.setMinimumSize(mopo::DEFAULT_WINDOW_WIDTH / 2,
-                                    mopo::DEFAULT_WINDOW_HEIGHT / 2);
+        constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
+                                    2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
         constrainer_.setBorder(getPeer()->getFrameSize());
         double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / mopo::DEFAULT_WINDOW_HEIGHT;
 
