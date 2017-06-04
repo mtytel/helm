@@ -263,9 +263,11 @@ void PatchBrowser::resized() {
   delete_patch_button_->setEnabled(false);
 
   float data_x = patches_view_->getRight() + BROWSE_PADDING;
-  cc_license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
+  float division = size_ratio_ * 90.0f;
+  float buffer = 20.0f;
+  cc_license_link_->setBounds(data_x + division + buffer, BROWSE_PADDING + 160.0f,
                               200.0f, 20.0f);
-  gpl_license_link_->setBounds(data_x + 108.0f, BROWSE_PADDING + 160.0f,
+  gpl_license_link_->setBounds(data_x + division + buffer, BROWSE_PADDING + 160.0f,
                                200.0f, 20.0f);
 
   hide_button_->setBounds(getWidth() - 21 - BROWSE_PADDING, BROWSE_PADDING, 20, 20);
