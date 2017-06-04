@@ -18,6 +18,7 @@
 #ifndef ARPEGGIATOR_H
 #define ARPEGGIATOR_H
 
+#include "circular_queue.h"
 #include "note_handler.h"
 #include "processor.h"
 #include "value.h"
@@ -59,7 +60,7 @@ namespace mopo {
       virtual void process() override;
 
       int getNumNotes() { return pressed_notes_.size(); }
-      std::list<mopo_float> getPressedNotes();
+      CircularQueue<mopo_float>& getPressedNotes();
       std::pair<mopo_float, mopo_float> getNextNote();
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
@@ -88,8 +89,8 @@ namespace mopo {
       std::vector<mopo_float> decending_;
 
       std::map<mopo_float, mopo_float> active_notes_;
-      std::set<mopo_float> pressed_notes_;
-      std::set<mopo_float> sustained_notes_;
+      CircularQueue<mopo_float> pressed_notes_;
+      CircularQueue<mopo_float> sustained_notes_;
   };
 } // namespace mopo
 

@@ -23,6 +23,7 @@
 #include "bit_crush.h"
 #include "biquad_filter.h"
 #include "bypass_router.h"
+#include "circular_queue.h"
 #include "common.h"
 #include "delay.h"
 #include "distortion.h"

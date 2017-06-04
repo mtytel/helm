@@ -38,10 +38,15 @@ namespace mopo {
   VoiceHandler::VoiceHandler(size_t polyphony) :
       ProcessorRouter(kNumInputs, 0), polyphony_(0), sustain_(false),
       legato_(false), voice_killer_(0), last_played_note_(-1.0) {
+    pressed_notes_.reserve(MIDI_SIZE);
+    all_voices_.reserve(MAX_POLYPHONY);
+    free_voices_.reserve(MAX_POLYPHONY);
+    active_voices_.reserve(MAX_POLYPHONY);
+
     setPolyphony(polyphony);
     voice_router_.router(this);
     global_router_.router(this);
-  }
+}
 
   VoiceHandler::~VoiceHandler() {
     voice_router_.destroy();
@@ -135,7 +140,7 @@ namespace mopo {
     setPolyphony(utils::iclamp(polyphony, 1, polyphony));
     clearAccumulatedOutputs();
 
-    std::list<Voice*>::iterator iter = active_voices_.begin();
+    auto iter = active_voices_.begin();
     while (iter != active_voices_.end()) {
       Voice* voice = *iter;
       prepareVoiceTriggers(voice);
@@ -217,8 +222,7 @@ namespace mopo {
     }
 
     // Next check released voices.
-    std::list<Voice*>::iterator iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
+    for (auto iter = active_voices_.begin(); iter != active_voices_.end(); ++iter) {
       voice = *iter;
       if (voice->key_state() == Voice::kReleased) {
         active_voices_.erase(iter);
@@ -227,8 +231,7 @@ namespace mopo {
     }
 
     // Then check sustained voices.
-    iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
+    for (auto iter = active_voices_.begin(); iter != active_voices_.end(); ++iter) {
       voice = *iter;
       if (voice->key_state() == Voice::kSustained) {
         active_voices_.erase(iter);
@@ -249,8 +252,7 @@ namespace mopo {
     Voice* oldest_sustained = 0;
     Voice* oldest_held = 0;
 
-    std::list<Voice*>::iterator iter = active_voices_.begin();
-    for (; iter != active_voices_.end(); ++iter) {
+    for (auto iter = active_voices_.begin(); iter != active_voices_.end(); ++iter) {
       Voice* voice = *iter;
       if (voice->state().event == kVoiceKill)
         excess_voices--;
