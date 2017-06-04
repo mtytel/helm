@@ -171,6 +171,8 @@ void FilterSection::resized() {
 }
 
 void FilterSection::reset() {
+  resetResponse();
+
   filter_response_->computeFilterCoefficients();
   filter_response_->repaint();
   SynthSection::reset();
@@ -178,21 +180,24 @@ void FilterSection::reset() {
 
 void FilterSection::sliderValueChanged(Slider* changed_slider) {
   SynthSection::sliderValueChanged(changed_slider);
-  if (changed_slider == filter_style_) {
-    float value = changed_slider->getValue();
-    mopo::StateVariableFilter::Styles style =
-        static_cast<mopo::StateVariableFilter::Styles>(static_cast<int>(value));
-    filter_response_->setStyle(style);
-
-    bool shelf = style == mopo::StateVariableFilter::kShelf;
-    blend_->setVisible(!shelf);
-    filter_shelf_->setVisible(shelf);
-  }
+  if (changed_slider == filter_style_)
+    resetResponse();
 }
 
 void FilterSection::setActive(bool active) {
   SynthSection::setActive(active);
   filter_response_->setActive(active);
+}
+
+void FilterSection::resetResponse() {
+  float value = filter_style_->getValue();
+  mopo::StateVariableFilter::Styles style =
+  static_cast<mopo::StateVariableFilter::Styles>(static_cast<int>(value));
+  filter_response_->setStyle(style);
+
+  bool shelf = style == mopo::StateVariableFilter::kShelf;
+  blend_->setVisible(!shelf);
+  filter_shelf_->setVisible(shelf);
 }
 
 void FilterSection::resizeLowPass(float x, float y, float width, float height) {

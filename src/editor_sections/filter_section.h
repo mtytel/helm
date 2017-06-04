@@ -37,6 +37,7 @@ class FilterSection : public SynthSection {
     void resizeHighPass(float x, float y, float width, float height);
 
     void setActive(bool active) override;
+    void resetResponse();
 
   private:
     ScopedPointer<ToggleButton> filter_on_;
