@@ -29,6 +29,14 @@
 #define MOPO_ASSERT(x) ((void)0)
 #endif // DEBUG
 
+#ifdef __clang__
+#define VECTORIZE_LOOP _Pragma("clang loop vectorize(enable) interleave(enable)")
+#elif _MSC_VER
+#define VECTORIZE_LOOP __pragma(loop(hint_parallel(8)))
+#else
+#define VECTORIZE_LOOP
+#endif
+
 namespace mopo {
 
   typedef double mopo_float;

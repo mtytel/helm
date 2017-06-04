@@ -55,7 +55,7 @@ namespace mopo {
     }
 
     void clearBuffer() {
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < buffer_size; ++i)
         buffer[i] = 0.0;
     }
@@ -115,6 +115,7 @@ namespace mopo {
           buffer_size_ = 1;
         else
           buffer_size_ = buffer_size;
+        samples_to_process_ = buffer_size;
       }
 
       virtual void setControlRate(bool control_rate = true) {
@@ -137,6 +138,10 @@ namespace mopo {
 
       int getBufferSize() const {
         return buffer_size_;
+      }
+
+      int getSamplesToProcess() const {
+        return samples_to_process_;
       }
 
       bool isControlRate() const {
@@ -210,6 +215,7 @@ namespace mopo {
     
       int sample_rate_;
       int buffer_size_;
+      int samples_to_process_;
       bool control_rate_;
       bool* enabled_;
 

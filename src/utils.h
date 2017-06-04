@@ -111,7 +111,7 @@ namespace mopo {
     }
 
     inline double interpolate(double from, double to, double t) {
-      return fma(t, to - from, from);
+      return t * (to - from) + from;
     }
 
     inline float interpolate(float from, float to, float t) {
@@ -221,7 +221,7 @@ namespace mopo {
 
     inline mopo_float rms(const mopo_float* buffer, int num) {
       mopo_float square_total = 0.0;
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < num; ++i)
         square_total += buffer[i] * buffer[i];
 
@@ -237,25 +237,25 @@ namespace mopo {
     }
 
     inline void zeroBuffer(mopo_float* buffer, int size) {
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < size; ++i)
         buffer[i] = 0.0;
     }
 
     inline void zeroBuffer(int* buffer, int size) {
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < size; ++i)
         buffer[i] = 0;
     }
 
     inline void copyBuffer(mopo_float* dest, const mopo_float* source, int size) {
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < size; ++i)
         dest[i] = source[i];
     }
 
     inline void copyBufferf(float* dest, const float* source, int size) {
-#pragma clang loop vectorize(enable) interleave(enable)
+      VECTORIZE_LOOP
       for (int i = 0; i < size; ++i)
         dest[i] = source[i];
     }

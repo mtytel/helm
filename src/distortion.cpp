@@ -47,7 +47,7 @@ namespace mopo {
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size; ++i) {
       mopo_float mix = last_mix_ + i * mult_mix;
       mopo_float drive = last_drive_ + i * mult_drive;
@@ -90,7 +90,7 @@ namespace mopo {
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size; ++i) {
       mopo_float mix = last_mix_ + i * mult_mix;
       mopo_float drive = last_drive_ + i * mult_drive;
@@ -112,7 +112,7 @@ namespace mopo {
     mopo_float* dest = output()->buffer;
     int buffer_size = buffer_size_;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size; ++i) {
       mopo_float mix = last_mix_ + i * mult_mix;
       mopo_float drive = last_drive_ + i * mult_drive;

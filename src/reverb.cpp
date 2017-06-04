@@ -131,7 +131,7 @@ namespace mopo {
     mopo_float wet_inc = (next_wet - current_wet_) / buffer_size_;
     mopo_float dry_inc = (next_dry - current_dry_) / buffer_size_;
 
-#pragma clang loop vectorize(enable) interleave(enable)
+    VECTORIZE_LOOP
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float dry = current_dry_ + i * dry_inc;
       mopo_float wet = current_wet_ + i * wet_inc;

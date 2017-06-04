@@ -204,7 +204,8 @@ namespace mopo {
       size_t polyphony_;
       bool sustain_;
       bool legato_;
-      std::vector<Output*> voice_outputs_;
+      std::map<Output*, Output*> last_voice_outputs_;
+      std::map<Output*, Output*> accumulated_outputs_;
       const Output* voice_killer_;
       mopo_float last_played_note_;
       Output voice_event_;
@@ -220,7 +221,6 @@ namespace mopo {
 
       std::list<Voice*> free_voices_;
       std::list<Voice*> active_voices_;
-      std::vector<Output*> accumulated_outputs_;
 
       ProcessorRouter voice_router_;
       ProcessorRouter global_router_;

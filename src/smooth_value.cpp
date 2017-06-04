@@ -49,9 +49,7 @@ namespace mopo {
   namespace cr {
 
     SmoothValue::SmoothValue(mopo_float value) :
-        Value(value), target_value_(value), decay_(1.0), num_samples_(1) {
-      setControlRate(true);
-    }
+        Value(value), target_value_(value), decay_(1.0), num_samples_(1) { }
 
     void SmoothValue::setSampleRate(int sample_rate) {
       Value::setSampleRate(sample_rate);

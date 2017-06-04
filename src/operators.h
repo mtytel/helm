@@ -494,7 +494,7 @@ namespace mopo {
         kNumInputs
       };
 
-      LinearSmoothBuffer() : Operator(kNumInputs, 1), last_value_(1.0) { }
+      LinearSmoothBuffer() : Operator(kNumInputs, 1), last_value_(0.0) { }
 
       virtual Processor* clone() const override {
         return new LinearSmoothBuffer(*this);

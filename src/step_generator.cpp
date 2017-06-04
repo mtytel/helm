@@ -22,7 +22,7 @@
 namespace mopo {
 
   StepGenerator::StepGenerator(int max_steps) :
-      Processor(kNumInputs + max_steps, kNumOutputs), max_steps_(max_steps),
+      Processor(kNumInputs + max_steps, kNumOutputs, true), max_steps_(max_steps),
       offset_(0.0), current_step_(0) { }
 
   void StepGenerator::process() {
@@ -37,7 +37,7 @@ namespace mopo {
       i = input(kReset)->source->trigger_offset;
     }
 
-    offset_ += buffer_size_ * input(kFrequency)->at(0) / sample_rate_;
+    offset_ += samples_to_process_ * input(kFrequency)->at(0) / sample_rate_;
     offset_ = utils::mod(offset_, &integral);
     current_step_ += integral;
     current_step_ = (current_step_ + num_steps) % num_steps;
