@@ -25,4 +25,5 @@ void BorderBoundsConstrainer::checkBounds(Rectangle<int>& bounds, const Rectangl
                                           stretching_top, stretching_left,
                                           stretching_bottom, stretching_right);
   border_.addTo(bounds);
+  bounds.setY(std::max(0, bounds.getY())); 
 }
