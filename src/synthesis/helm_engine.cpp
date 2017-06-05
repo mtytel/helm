@@ -322,7 +322,7 @@ namespace mopo {
     return mod_connections_.count(connection);
   }
 
-  CircularQueue<mopo_float> HelmEngine::getPressedNotes() {
+  CircularQueue<mopo_float>& HelmEngine::getPressedNotes() {
     if (arp_on_->value())
       return arpeggiator_->getPressedNotes();
     return voice_handler_->getPressedNotes();

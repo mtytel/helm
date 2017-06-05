@@ -30,6 +30,7 @@ SynthBase::SynthBase() {
   midi_manager_ = new MidiManager(this, keyboard_state_, &save_info_, this);
 
   last_played_note_ = 0.0;
+  last_num_pressed_ = 0;
   memset(output_memory_, 0, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
   memset(output_memory_write_, 0, 2 * mopo::MEMORY_RESOLUTION * sizeof(float));
   memory_reset_period_ = mopo::MEMORY_RESOLUTION;
@@ -286,9 +287,10 @@ void SynthBase::processModulationChanges() {
 void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
                                                 const mopo::mopo_float* right) {
   mopo::mopo_float last_played = std::max(engine_.getLastActiveNote(), OUTPUT_WINDOW_MIN_NOTE);
+  int num_pressed = engine_.getPressedNotes().size();
   int output_inc = std::max<int>(1, engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE);
 
-  if (last_played && last_played_note_ != last_played) {
+  if (last_played && last_played_note_ != last_played || num_pressed > last_num_pressed_) {
     last_played_note_ = last_played;
     
     mopo::mopo_float frequency = mopo::utils::midiNoteToFrequency(last_played_note_);
@@ -301,7 +303,9 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
 
     memory_reset_period_ = std::min(memory_reset_period_, 2.0 * window_length);
     memory_index_ = 0;
+    mopo::utils::copyBufferf(output_memory_, output_memory_write_, 2 * mopo::MEMORY_RESOLUTION);
   }
+  last_num_pressed_ = num_pressed;
 
   for (; memory_input_offset_ < samples; memory_input_offset_ += output_inc) {
     int input_index = mopo::utils::iclamp(memory_input_offset_, 0, samples);

@@ -124,6 +124,7 @@ class SynthBase : public MidiManager::Listener {
     float output_memory_[2 * mopo::MEMORY_RESOLUTION];
     float output_memory_write_[2 * mopo::MEMORY_RESOLUTION];
     mopo::mopo_float last_played_note_;
+    int last_num_pressed_;
     mopo::mopo_float memory_reset_period_;
     mopo::mopo_float memory_input_offset_;
     int memory_index_;
