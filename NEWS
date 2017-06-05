@@ -1,14 +1,66 @@
-0.5.1 (unreleased)
+0.9.0 (unreleased)
 
-  * Replaced oscillator "Mix" parameter with a full mixer.
-  * Added patch changing through MIDI so you can use one instance of Helm with multiple patches throughout a song
-  * Fixed some problems with presets in different DAWs
-  * Added update checking
+
+0.8.6 (1 August 2016)
+
+  * Smaller memory footprint
+  * Better initial unison phase for oscillators
+  * Fixed crash during rendering
+
+0.8.0 (24 June 2016)
+
+  * Fixed crash/loud noise/silence when opening a project back up in some DAWs
+  * Normalized all factory patches!
+  * Better volume range to reduce distortion
+  * Fixed audio "blipping" that occurred sometimes when playing low notes, then high notes
+  * Fixed polyphonic modulation bugs in formant filter and stutter
+  * Modulation meters show last note played instead of (jumpy) average
+  * New stutter format with tempo syncing
+  * Stutter responds better to modulation and changing parameters
+  * Helm now responds to midi learn when GUI is closed
+  * Prioritized audio thread reduces the possibility of glitches at high CPU usage
+  * Fixed author not saving to patch
+  * Added modulation highlighting so you can see what sources are modulating a control
+  * Performance improvements for some features
+  * Oscilloscope now is note aligned for better viewing
+  * Fixed audio glitch when loading a patch with lots of saturation then one with little saturation
+
+0.7.0 (30 May 2016)
+
+  * Performance improvements!
+  * Fixed crash when deleting and recreating a plugin
+  * Fixed saved state not loading correctly when opening project in DAW
+  * Fixed some Windows installation problems that caused patches not to appear
+  * Fixed some buffer size issues that caused audio glitches in some DAWs
+  * Way better sounding Formant Filter
+  * Per channel pitch bend
+  * Microtonal pitch bend support
+  * Added randomized waveforms to LFO sections
+  * Better oscilloscope scale in plugin version
+  * Added enable/disable animation flag
+
+0.6.0 (27 December 2015)
+
+  * Performance improvements!
+  * Added a graphical keyboard!
   * Added third envelope
-  * JACK MIDI input is now labeled "Helm"
+  * Reorganized layout and new colors, what do you think?
+  * Replaced oscillator "Mix" parameter with a full oscillator mixer
+  * Added update checking
+  * Added patch changing through MIDI
   * Added some more patches
+  * Fixed 'zippering' and 'buzzing' with weird buffer sizes and bouncing audio
+  * Fixed portamento still affecting sound when off
+  * Fixed some problems with presets in different DAWs
+  * Fixed automation issues on tempo parameters
+  * Fixed unison phasing at beginning of note
+  * Fixed latency when reverb was enabled
+  * Fixed some Windows 64bit patch loading/saving problems
+  * Fixed Windows missing MSVCP110.dll problem
   * When reopening the plugin GUI, Helm now shows the current patch and folder
+  * JACK MIDI input is now labeled "Helm"
   * Better starting phases for unison voices
+  * Fixed some other small bugs no one probably (hopefully) noticed
 
 0.5.0 (10 September 2015)
 
