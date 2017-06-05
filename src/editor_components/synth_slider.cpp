@@ -31,12 +31,6 @@ namespace {
     kClearModulations,
     kModulationList
   };
-
-  mopo::mopo_float synthRound(mopo::mopo_float value) {
-    static const mopo::mopo_float round_scale = 1000.0;
-    int scaled_rounded = round_scale * value;
-    return scaled_rounded / round_scale;
-  }
 } // namespace
 
 const float SynthSlider::rotary_angle = 0.8f * static_cast<float>(mopo::PI);
@@ -49,18 +43,14 @@ SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_colo
     return;
 
   setRotaryParameters(2.0f * mopo::PI - rotary_angle, 2.0f * mopo::PI + rotary_angle, true);
-  mopo::ValueDetails details = mopo::Parameters::getDetails(name.toStdString());
-  if (details.steps)
-    setRange(details.min, details.max, (details.max - details.min) / (details.steps - 1));
+  details_ = mopo::Parameters::getDetails(name.toStdString());
+  if (details_.steps)
+    setRange(details_.min, details_.max, (details_.max - details_.min) / (details_.steps - 1));
   else
-    setRange(details.min, details.max);
+    setRange(details_.min, details_.max);
 
-  post_offset_ = details.post_offset;
-  post_multiply_ = details.display_multiply;
 
-  scaling_type_ = details.display_skew;
-  units_ = details.display_units;
-  setDoubleClickReturnValue(true, details.default_value);
+  setDoubleClickReturnValue(true, details_.default_value);
   setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 
   setBufferedToImage(true);
@@ -169,7 +159,7 @@ String SynthSlider::getTextFromValue(double value) {
   }
 
   float display_value = value;
-  switch (scaling_type_) {
+  switch (details_.display_skew) {
     case mopo::ValueDetails::kQuadratic:
       display_value = powf(display_value, 2.0f);
       break;
@@ -182,10 +172,12 @@ String SynthSlider::getTextFromValue(double value) {
     default:
       break;
   }
-  display_value += post_offset_;
-  display_value *= post_multiply_;
+  display_value += details_.post_offset;
+  if (details_.display_invert)
+    display_value = 1.0 / display_value;
+  display_value *= details_.display_multiply;
 
-  return String(synthRound(display_value)) + " " + units_;
+  return formatValue(display_value);
 }
 
 double SynthSlider::snapValue(double attempted_value, DragMode drag_mode) {
@@ -269,6 +261,23 @@ void SynthSlider::setActive(bool active) {
 
 void SynthSlider::addSliderListener(SynthSlider::SliderListener* listener) {
   slider_listeners_.push_back(listener);
+}
+
+String SynthSlider::formatValue(float value) {
+  static const int number_length = 5;
+  static const int max_decimals = 3;
+
+  if (details_.steps)
+    return String(value) + " " + details_.display_units;
+
+  String format = String(value, max_decimals);
+  format = format.substring(0, number_length);
+  int spaces = number_length - format.length();
+  
+  for (int i = 0; i < spaces; ++i)
+    format = " " + format;
+  
+  return format + " " + details_.display_units;
 }
 
 void SynthSlider::notifyTooltip() {

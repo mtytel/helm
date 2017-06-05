@@ -203,7 +203,7 @@ namespace mopo {
 
     SmoothFilter* delay_frequency_smoothed = new SmoothFilter();
     delay_frequency_smoothed->plug(delay_frequency_audio_rate, SmoothFilter::kTarget);
-    delay_frequency_smoothed->plug(&utils::value_half, SmoothFilter::kHalfLife);
+    delay_frequency_smoothed->plug(&utils::value_fifth, SmoothFilter::kHalfLife);
     FrequencyToSamples* delay_samples = new FrequencyToSamples();
     delay_samples->plug(delay_frequency_smoothed);
 

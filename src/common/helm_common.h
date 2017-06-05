@@ -48,6 +48,7 @@ namespace mopo {
 
     mopo_float display_multiply;
     DisplaySkew display_skew;
+    bool display_invert;
     std::string display_units;
     std::string display_name;
   } typedef ValueDetails;

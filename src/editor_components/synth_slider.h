@@ -55,21 +55,22 @@ class SynthSlider : public Slider {
     }
 
     void setScalingType(mopo::ValueDetails::DisplaySkew scaling_type) {
-      scaling_type_ = scaling_type;
+      details_.display_skew = scaling_type;
     }
 
-    mopo::ValueDetails::DisplaySkew getScalingType() const { return scaling_type_; }
+    mopo::ValueDetails::DisplaySkew getScalingType() const { return details_.display_skew; }
 
     void setStringLookup(const std::string* lookup) {
       string_lookup_ = lookup;
     }
     const std::string* getStringLookup() const { return string_lookup_; }
 
-    void setPostMultiply(float post_multiply) { post_multiply_ = post_multiply; }
-    float getPostMultiply() const { return post_multiply_; }
+    void setPostMultiply(float post_multiply) { details_.display_multiply = post_multiply; }
+    float getPostMultiply() const { return details_.display_multiply; }
 
-    void setUnits(String units) { units_ = units; }
-    String getUnits() const { return units_; }
+    void setUnits(String units) { details_.display_units = units.toStdString(); }
+    String getUnits() const { return details_.display_units; }
+    String formatValue(float value);
 
     void flipColoring(bool flip_coloring = true);
     void setBipolar(bool bipolar = true);
@@ -89,10 +90,9 @@ class SynthSlider : public Slider {
     bool active_;
     bool snap_to_value_;
     float snap_value_;
-    String units_;
-    mopo::ValueDetails::DisplaySkew scaling_type_;
-    float post_multiply_;
-    float post_offset_;
+
+    mopo::ValueDetails details_;
+
     const std::string* string_lookup_;
     Point<float> click_position_;
 
