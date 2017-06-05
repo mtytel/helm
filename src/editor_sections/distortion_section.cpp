@@ -19,11 +19,17 @@
 #include "colors.h"
 #include "fonts.h"
 #include "synth_button.h"
+#include "text_look_and_feel.h"
+
+#define TEXT_WIDTH 58
+#define TEXT_HEIGHT 16
 
 DistortionSection::DistortionSection(String name) : SynthSection(name) {
-  addSlider(type_ = new SynthSlider("distortion_type"));
+  addSlider(type_ = new TextSelector("distortion_type"));
   type_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-  type_->setStringLookup(mopo::strings::distortion_types);
+  type_->setStringLookup(mopo::strings::distortion_types_short);
+  type_->setLookAndFeel(TextLookAndFeel::instance());
+  type_->setLongStringLookup(mopo::strings::distortion_types_long);
 
   addSlider(drive_ = new SynthSlider("distortion_drive"));
   drive_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -56,14 +62,17 @@ void DistortionSection::paintBackground(Graphics& g) {
 void DistortionSection::resized() {
   int title_width = getTitleWidth();
   int knob_width = getStandardKnobSize();
+  int text_width = size_ratio_ * TEXT_WIDTH;
+  int text_y = size_ratio_ * 40;
+
   on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
 
-  float space = (getWidth() - (3.0f * knob_width)) / 4.0f;
+  float space = (getWidth() - (2.0f * knob_width + text_width)) / 4.0f;
   int y = size_ratio_ * 30;
 
-  type_->setBounds(space, y, knob_width, knob_width);
-  drive_->setBounds((knob_width + space) + space, y, knob_width, knob_width);
-  mix_->setBounds(2 * (knob_width + space) + space, y, knob_width, knob_width);
+  type_->setBounds(space, text_y, text_width, size_ratio_ * TEXT_HEIGHT);
+  drive_->setBounds(text_width + 2 * space, y, knob_width, knob_width);
+  mix_->setBounds(text_width + knob_width + 3 * space, y, knob_width, knob_width);
 
   SynthSection::resized();
 }

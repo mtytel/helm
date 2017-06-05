@@ -51,6 +51,13 @@ void TempoSelector::mouseDown(const MouseEvent& e) {
     setValue(result - 1);
 }
 
+void TempoSelector::mouseUp(const MouseEvent& e) {
+  if (e.mods.isPopupMenu()) {
+    SynthSlider::mouseDown(e);
+    return;
+  }
+}
+
 void TempoSelector::valueChanged() {
   bool free_slider = getValue() == (kHertz - 1);
 

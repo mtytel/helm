@@ -292,6 +292,8 @@
         <FILE id="IlqwzX" name="text_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/text_selector.cpp"/>
         <FILE id="iYN73z" name="text_selector.h" compile="0" resource="0" file="../src/editor_components/text_selector.h"/>
+        <FILE id="iXlGVS" name="text_slider.cpp" compile="1" resource="0" file="../src/editor_components/text_slider.cpp"/>
+        <FILE id="aUAY5O" name="text_slider.h" compile="0" resource="0" file="../src/editor_components/text_slider.h"/>
         <FILE id="VXbiff" name="wave_selector.cpp" compile="1" resource="0"
               file="../src/editor_components/wave_selector.cpp"/>
         <FILE id="oXlMYR" name="wave_selector.h" compile="0" resource="0" file="../src/editor_components/wave_selector.h"/>

@@ -22,6 +22,7 @@
 #include "synth_section.h"
 #include "synth_button.h"
 #include "synth_slider.h"
+#include "text_selector.h"
 
 class DistortionSection : public SynthSection {
   public:
@@ -33,7 +34,7 @@ class DistortionSection : public SynthSection {
 
   private:
     ScopedPointer<SynthButton> on_;
-    ScopedPointer<SynthSlider> type_;
+    ScopedPointer<TextSelector> type_;
     ScopedPointer<SynthSlider> drive_;
     ScopedPointer<SynthSlider> mix_;
 

@@ -25,6 +25,7 @@ class TempoSelector : public SynthSlider {
     TempoSelector(String name);
 
     void mouseDown(const MouseEvent& e) override;
+    void mouseUp(const MouseEvent& e) override;
     void paint(Graphics& g) override;
     void valueChanged() override;
     void resized() override;

@@ -22,7 +22,7 @@
 #include "fonts.h"
 #include "synth_button.h"
 #include "synth_slider.h"
-#include "text_selector.h"
+#include "text_slider.h"
 #include "text_look_and_feel.h"
 
 #define KNOB_SECTION_WIDTH 70
@@ -72,7 +72,7 @@ FilterSection::FilterSection(String name) : SynthSection(name) {
   keytrack_->snapToValue(true, 0.0);
   keytrack_->setBipolar();
 
-  TextSelector* style = new TextSelector("filter_style");
+  TextSlider* style = new TextSlider("filter_style");
   addSlider(filter_style_ = style);
   filter_style_->setSliderStyle(Slider::LinearBar);
   filter_style_->setStringLookup(mopo::strings::filter_style);

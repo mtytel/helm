@@ -290,7 +290,7 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
   int num_pressed = engine_.getPressedNotes().size();
   int output_inc = std::max<int>(1, engine_.getSampleRate() / mopo::MEMORY_SAMPLE_RATE);
 
-  if (last_played && last_played_note_ != last_played || num_pressed > last_num_pressed_) {
+  if (last_played && (last_played_note_ != last_played || num_pressed > last_num_pressed_)) {
     last_played_note_ = last_played;
     
     mopo::mopo_float frequency = mopo::utils::midiNoteToFrequency(last_played_note_);

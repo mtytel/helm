@@ -94,6 +94,7 @@
 		BB12B0B4B2863FD65DDEC67C = {isa = PBXBuildFile; fileRef = 27733F4FF41D92262C134027; };
 		1E395A1A9C1EE130C8D0ABAF = {isa = PBXBuildFile; fileRef = F2E532F447B0EBD622E82AA7; };
 		405DF8B9F0908369370E5213 = {isa = PBXBuildFile; fileRef = 6458F007A8341B5F1A487977; };
+		A71E9F682512EF8871C0D2C7 = {isa = PBXBuildFile; fileRef = 859DD6769BC5D516D5C01B3D; };
 		96EFDEA6B2E51DA795CB0F6C = {isa = PBXBuildFile; fileRef = 76209FD81FAFE528A75E414C; };
 		B7106E76080FD947CABAD72F = {isa = PBXBuildFile; fileRef = 5D5113089E353448A8EE471D; };
 		4B7D843D17679C2A4C280528 = {isa = PBXBuildFile; fileRef = 17E1DEF73599947B36158A72; };
@@ -990,6 +991,7 @@
 		85457B3953A583BE2EC9D027 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = alias.h; path = ../../mopo/src/alias.h; sourceTree = "SOURCE_ROOT"; };
 		854BE187C79DC73DA728C286 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_PixelFormats.h"; path = "../../JUCE/modules/juce_graphics/colour/juce_PixelFormats.h"; sourceTree = "SOURCE_ROOT"; };
 		858E013E5E804C7A44360DCA = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_Typeface.cpp"; path = "../../JUCE/modules/juce_graphics/fonts/juce_Typeface.cpp"; sourceTree = "SOURCE_ROOT"; };
+		859DD6769BC5D516D5C01B3D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "text_slider.cpp"; path = "../../src/editor_components/text_slider.cpp"; sourceTree = "SOURCE_ROOT"; };
 		85C25B77F9F0596823EB53C2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_ScopedValueSetter.h"; path = "../../JUCE/modules/juce_core/containers/juce_ScopedValueSetter.h"; sourceTree = "SOURCE_ROOT"; };
 		85EAC6511E5E92097579B9D6 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_KeyListener.cpp"; path = "../../JUCE/modules/juce_gui_basics/keyboard/juce_KeyListener.cpp"; sourceTree = "SOURCE_ROOT"; };
 		85F29C63DBF3E606B4805F7E = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "juce_osx_MessageQueue.h"; path = "../../JUCE/modules/juce_events/native/juce_osx_MessageQueue.h"; sourceTree = "SOURCE_ROOT"; };
@@ -1520,6 +1522,7 @@
 		D8F8A6EFE2DE2F083FA26868 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "graphical_envelope.h"; path = "../../src/editor_components/graphical_envelope.h"; sourceTree = "SOURCE_ROOT"; };
 		D96C99F1F5C7AFA87AAF7185 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = jquant1.c; path = "../../JUCE/modules/juce_graphics/image_formats/jpglib/jquant1.c"; sourceTree = "SOURCE_ROOT"; };
 		D9CEC4898869E672FA65A9D4 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "tick_router.h"; path = "../../mopo/src/tick_router.h"; sourceTree = "SOURCE_ROOT"; };
+		D9D017809B4880A138CF2C24 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "text_slider.h"; path = "../../src/editor_components/text_slider.h"; sourceTree = "SOURCE_ROOT"; };
 		D9F15EEAEBAFDE95E5AA10B5 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = DroidSansMono.ttf; path = ../../fonts/DroidSansMono.ttf; sourceTree = "SOURCE_ROOT"; };
 		DA3D07249A4BBE2984DE25FB = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = jerror.c; path = "../../JUCE/modules/juce_graphics/image_formats/jpglib/jerror.c"; sourceTree = "SOURCE_ROOT"; };
 		DA5A56B932539300E2B852FF = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "juce_ChannelRemappingAudioSource.cpp"; path = "../../JUCE/modules/juce_audio_basics/sources/juce_ChannelRemappingAudioSource.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -1933,6 +1936,8 @@
 					33DFC6B8B44BD289A8A972F4,
 					6458F007A8341B5F1A487977,
 					12378D240E7F802CA6BF8469,
+					859DD6769BC5D516D5C01B3D,
+					D9D017809B4880A138CF2C24,
 					76209FD81FAFE528A75E414C,
 					FADB1297001B27B64D745C42,
 					5D5113089E353448A8EE471D,
@@ -4125,6 +4130,7 @@
 					BB12B0B4B2863FD65DDEC67C,
 					1E395A1A9C1EE130C8D0ABAF,
 					405DF8B9F0908369370E5213,
+					A71E9F682512EF8871C0D2C7,
 					96EFDEA6B2E51DA795CB0F6C,
 					B7106E76080FD947CABAD72F,
 					4B7D843D17679C2A4C280528,

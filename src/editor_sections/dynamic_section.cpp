@@ -19,7 +19,7 @@
 #include "colors.h"
 #include "fonts.h"
 #include "synth_button.h"
-#include "text_selector.h"
+#include "text_slider.h"
 #include "text_look_and_feel.h"
 
 #define TEXT_WIDTH 40
@@ -30,7 +30,7 @@ DynamicSection::DynamicSection(String name) : SynthSection(name) {
   addSlider(portamento_ = new SynthSlider("portamento"));
   portamento_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 
-  TextSelector* port_type = new TextSelector("portamento_type");
+  TextSlider* port_type = new TextSlider("portamento_type");
   addSlider(portamento_type_ = port_type);
   portamento_type_->setSliderStyle(Slider::LinearBar);
   portamento_type_->setStringLookup(mopo::strings::off_auto_on);

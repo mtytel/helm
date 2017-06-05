@@ -16,52 +16,35 @@
 
 #include "text_selector.h"
 
+#include "default_look_and_feel.h"
 #include "fonts.h"
 
-TextSelector::TextSelector(String name) : SynthSlider(name), short_lookup_(nullptr) { }
-
-void TextSelector::paint(Graphics& g) {
-  static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
-  static const float text_percentage = 0.7f;
-
-  int num_types = getMaximum() - getMinimum() + 1;
-  float cell_width = float(getWidth()) / num_types;
-  float height = getHeight();
-
-  int selected = getValue();
-  g.setColour(Colour(0xff424242));
-  g.fillRect(selected * cell_width, 0.0f, cell_width, height);
-
-  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(height * text_percentage));
-
-  const std::string* lookup = short_lookup_;
-  if (lookup == nullptr)
-    lookup = string_lookup_;
-
-  for (int i = 0; i < num_types; ++i) {
-    if (selected == i)
-      g.setColour(Colour(0xffffffff));
-    else
-      g.setColour(Colour(0xffaaaaaa));
-
-    g.drawText(lookup[i], i * cell_width, 0.0f, cell_width, height, Justification::centred);
-  }
-}
-
-void TextSelector::resized() {
-  SynthSlider::resized();
-}
-
-void TextSelector::mouseEvent(const juce::MouseEvent &e) {
-  float x = e.getPosition().getX();
-  int index = x * (getMaximum() + 1) / getWidth();
-  setValue(index);
-}
+TextSelector::TextSelector(String name) : SynthSlider(name), long_lookup_(nullptr) { }
 
 void TextSelector::mouseDown(const juce::MouseEvent &e) {
-  mouseEvent(e);
+  if (e.mods.isPopupMenu()) {
+    SynthSlider::mouseDown(e);
+    return;
+  }
+
+  const std::string* lookup = string_lookup_;
+  if (long_lookup_)
+    lookup = long_lookup_;
+
+  PopupMenu m;
+  m.setLookAndFeel(DefaultLookAndFeel::instance());
+
+  for (int i = 0; i <= getMaximum(); ++i)
+    m.addItem(i + 1, lookup[i]);
+
+  int result = m.showAt(this);
+  if (result > 0)
+    setValue(result - 1);
 }
 
-void TextSelector::mouseDrag(const juce::MouseEvent &e) {
-  mouseEvent(e);
+void TextSelector::mouseUp(const MouseEvent& e) {
+  if (e.mods.isPopupMenu()) {
+    SynthSlider::mouseDown(e);
+    return;
+  }
 }

@@ -308,6 +308,7 @@
     <ClCompile Include="..\..\..\src\editor_components\synth_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\tempo_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\text_selector.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_components\text_slider.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\wave_viewer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
@@ -2011,6 +2012,7 @@
     <ClInclude Include="..\..\..\src\editor_components\synth_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\tempo_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\text_selector.h"/>
+    <ClInclude Include="..\..\..\src\editor_components\text_slider.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\wave_viewer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>

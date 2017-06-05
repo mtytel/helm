@@ -14,25 +14,29 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TEXT_SELECTOR_H
-#define TEXT_SELECTOR_H
+#ifndef TEXT_SLIDER_H
+#define TEXT_SLIDER_H
 
 #include "JuceHeader.h"
 #include "synth_slider.h"
 
-class TextSelector : public SynthSlider {
+class TextSlider : public SynthSlider {
   public:
-    TextSelector(String name);
+    TextSlider(String name);
 
+    void paint(Graphics& g) override;
+    void resized() override;
+
+    void mouseEvent(const MouseEvent& e);
     void mouseDown(const MouseEvent& e) override;
-    void mouseUp(const MouseEvent& e) override;
+    void mouseDrag(const MouseEvent& e) override;
 
-    void setLongStringLookup(const std::string* lookup) { long_lookup_ = lookup; }
+    void setShortStringLookup(const std::string* lookup) { short_lookup_ = lookup; }
 
   private:
-    const std::string* long_lookup_;
+    const std::string* short_lookup_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextSelector)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextSlider)
 };
 
-#endif // TEXT_SELECTOR_H
+#endif // TEXT_SLIDER_H
