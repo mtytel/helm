@@ -69,20 +69,18 @@ void DelaySection::paintBackground(Graphics& g) {
 
   int text_height = size_ratio_ * TEXT_HEIGHT;
   float font_size = size_ratio_ * 10.0f;
+  int knob_width = getStandardKnobSize();
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(font_size));
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
   drawTextForComponent(g, TRANS("WET"), dry_wet_);
-
-  float text_buffer = size_ratio_ * 6.0f;
-  float extra_bump = size_ratio_ * 5.0f;
   g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX() - extra_bump,
-             frequency_->getBounds().getBottom() + text_buffer,
-             frequency_->getBounds().getWidth() + text_height + 2 * extra_bump,
-             font_size + 1, Justification::centred, false);
+             frequency_->getBounds().getX() - size_ratio_ * 5.0f,
+             feedback_->getBounds().getY() + knob_width + size_ratio_ * 4,
+             frequency_->getBounds().getWidth() + text_height + size_ratio_ * 10,
+             size_ratio_ * 10.0f, Justification::centred, false);
 }
 
 void DelaySection::resized() {
@@ -94,7 +92,7 @@ void DelaySection::resized() {
 
   float space = (getWidth() - (2.0f * knob_width) - text_width - text_height) / 4.0f;
   int knob_y = size_ratio_ * 30;
-  int text_y = size_ratio_ * 39;
+  int text_y = size_ratio_ * 44;
 
   frequency_->setBounds(space, text_y, text_width, text_height);
   sync_->setBounds(space + text_width, text_y, text_height, text_height);

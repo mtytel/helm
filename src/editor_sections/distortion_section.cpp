@@ -50,11 +50,16 @@ DistortionSection::~DistortionSection() {
 
 void DistortionSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
+  int knob_width = getStandardKnobSize();
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
 
-  drawTextForComponent(g, TRANS("TYPE"), type_);
+  g.drawText(TRANS("TYPE"),
+             type_->getBounds().getX() - size_ratio_ * 5.0f,
+             drive_->getBounds().getY() + knob_width + size_ratio_ * 4,
+             type_->getBounds().getWidth() + size_ratio_ * 10.0f,
+             size_ratio_ * 10.0f, Justification::centred, false);
   drawTextForComponent(g, TRANS("DRIVE"), drive_);
   drawTextForComponent(g, TRANS("MIX"), mix_);
 }
@@ -63,7 +68,7 @@ void DistortionSection::resized() {
   int title_width = getTitleWidth();
   int knob_width = getStandardKnobSize();
   int text_width = size_ratio_ * TEXT_WIDTH;
-  int text_y = size_ratio_ * 40;
+  int text_y = size_ratio_ * 44;
 
   on_->setBounds(size_ratio_ * 2.0f, 0, title_width, title_width);
 

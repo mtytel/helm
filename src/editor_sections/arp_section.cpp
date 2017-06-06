@@ -20,6 +20,7 @@
 #include "fonts.h"
 #include "synth_button.h"
 #include "text_look_and_feel.h"
+#include "text_selector.h"
 
 #define KNOB_WIDTH 40
 #define TEXT_WIDTH 42
@@ -51,10 +52,11 @@ ArpSection::ArpSection(String name) : SynthSection(name) {
   octaves_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   octaves_->setMouseDragSensitivity(INDEX_DRAG_SENSITIVITY);
 
-  addSlider(pattern_ = new SynthSlider("arp_pattern"));
-  pattern_->setSliderStyle (Slider::RotaryHorizontalVerticalDrag);
+  addSlider(pattern_ = new TextSelector("arp_pattern"));
+  pattern_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   pattern_->setStringLookup(mopo::strings::arp_patterns);
   pattern_->setMouseDragSensitivity(INDEX_DRAG_SENSITIVITY);
+  pattern_->setLookAndFeel(TextLookAndFeel::instance());
 
   addButton(on_ = new SynthButton("arp_on"));
   setActivator(on_);
@@ -88,11 +90,15 @@ void ArpSection::paintBackground(Graphics& g) {
   
   drawTextForComponent(g, TRANS("GATE"), gate_);
   drawTextForComponent(g, TRANS("OCTAVES"), octaves_);
-  drawTextForComponent(g, TRANS("PATTERN"), pattern_);
+  
+  int font_y = gate_->getBounds().getY() + knob_width + size_ratio_ * 4;
   g.drawText(TRANS("FREQUENCY"),
-             frequency_->getBounds().getX() - size_ratio_ * 5,
-             gate_->getBounds().getY() + knob_width + size_ratio_ * 4,
+             frequency_->getBounds().getX() - size_ratio_ * 5, font_y,
              frequency_->getBounds().getWidth() + text_height + size_ratio_ * 10,
+             size_ratio_ * 10, Justification::centred, false);
+  g.drawText(TRANS("PATTERN"),
+             pattern_->getBounds().getX() - size_ratio_ * 5, font_y,
+             pattern_->getBounds().getWidth() + size_ratio_ * 10,
              size_ratio_ * 10, Justification::centred, false);
 
   g.saveState();
@@ -112,17 +118,17 @@ void ArpSection::resized() {
   int text_width = size_ratio_ * TEXT_WIDTH;
   int text_height = size_ratio_ * TEXT_HEIGHT;
 
-  float space = (getWidth() - text_width - text_height - (3.0f * knob_width) - title_width) / 5.0f;
+  float space = (getWidth() - 2 * (text_width + text_height + knob_width) - title_width) / 5.0f;
   int y = size_ratio_ * 4;
 
-  int text_y = y + (knob_width - text_height) / 2;
+  int text_y = y + size_ratio_ * 12;
   frequency_->setBounds(title_width + space, text_y, text_width, text_height);
   sync_->setBounds(title_width + space + text_width, text_y, text_height, text_height);
   gate_->setBounds(title_width + 2 * space + text_height + text_width, y, knob_width, knob_width);
   octaves_->setBounds(title_width + 3 * space + text_height + text_width + knob_width, y,
                       knob_width, knob_width);
-  pattern_->setBounds(title_width + 4 * space + text_height + text_width + 2 * knob_width, y,
-                      knob_width, knob_width);
+  pattern_->setBounds(title_width + 4 * space + text_height + text_width + 2 * knob_width, text_y,
+                      text_width + text_height, text_height);
   tempo_->setBounds(frequency_->getBounds());
   on_->setBounds(0, size_ratio_ * 2, title_width, title_width);
 
