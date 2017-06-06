@@ -314,6 +314,7 @@
     <ClCompile Include="..\..\..\src\editor_components\xy_pad.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\about_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\arp_section.cpp"/>
+    <ClCompile Include="..\..\..\src\editor_sections\bpm_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delay_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\delete_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\distortion_section.cpp"/>
@@ -2018,6 +2019,7 @@
     <ClInclude Include="..\..\..\src\editor_components\xy_pad.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\about_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\arp_section.h"/>
+    <ClInclude Include="..\..\..\src\editor_sections\bpm_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delay_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\delete_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\distortion_section.h"/>

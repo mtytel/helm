@@ -49,6 +49,11 @@ class DefaultLookAndFeel : public juce::LookAndFeel_V3 {
     void fillSplitHorizontalRect(Graphics& g, float x1, float x2, float height, Colour fill_color);
     void fillSplitVerticalRect(Graphics& g, float y1, float y2, float width, Colour fill_color);
 
+    int getSliderPopupPlacement(Slider& slider) override;
+
+    Font getPopupMenuFont() override;
+    Font getSliderPopupFont(Slider& slider) override;
+
     static DefaultLookAndFeel* instance() {
       static DefaultLookAndFeel instance;
       return &instance;

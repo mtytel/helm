@@ -15,8 +15,9 @@
  */
 
 #include "synth_section.h"
-#include "fonts.h"
 
+#include "colors.h"
+#include "fonts.h"
 #include "open_gl_component.h"
 #include "synth_gui_interface.h"
 #include "synth_slider.h"
@@ -51,7 +52,7 @@ void SynthSection::paintBackground(Graphics& g) {
   g.fillRoundedRectangle(0, 0, getWidth(), title_width, 1.0f);
 
   // Draw text title.
-  g.setColour(Colour(0xffbbbbbb));
+  g.setColour(Colors::tab_heading_text);
   g.setFont(Fonts::instance()->proportional_light().withPointHeight(size_ratio_ * 14.0f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), title_width,
              Justification::centred, true);

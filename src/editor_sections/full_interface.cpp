@@ -35,12 +35,8 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   open_gl_context.attachTo(*this);
 
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
-  addSubSection(arp_section_ = new ArpSection("ARP"));
-
-  addSlider(beats_per_minute_ = new BpmSlider("beats_per_minute"));
-  beats_per_minute_->setSliderStyle(Slider::LinearBar);
-  beats_per_minute_->setTextBoxStyle(Slider::TextBoxAbove, false, 150, 20);
-  beats_per_minute_->setColour(Slider::textBoxTextColourId, Colours::white);
+  addSubSection(arp_section_ = new ArpSection(TRANS("ARP")));
+  addSubSection(bpm_section_ = new BpmSection(TRANS("BPM")));
 
   addSubSection(patch_selector_ = new PatchSelector());
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
@@ -104,7 +100,7 @@ FullInterface::~FullInterface() {
   arp_section_ = nullptr;
   oscilloscope_ = nullptr;
   synthesis_interface_ = nullptr;
-  beats_per_minute_ = nullptr;
+  bpm_section_ = nullptr;
   global_tool_tip_ = nullptr;
   patch_selector_ = nullptr;
   save_section_ = nullptr;
@@ -205,14 +201,17 @@ void FullInterface::resized() {
   oscilloscope_->setBounds(volume_section_->getRight() + padding, padding,
                            oscilloscope_width, top_height);
 
-  arp_section_->setBounds(oscilloscope_->getRight() + padding, padding,
-                          section_three_width, top_height);
+  int bpm_width = 40 * ratio;
+  int arp_width = section_three_width - bpm_width - padding;
+  bpm_section_->setBounds(oscilloscope_->getRight() + padding, padding,
+                          bpm_width, top_height);
+
+  arp_section_->setBounds(bpm_section_->getRight() + padding, padding,
+                          arp_width, top_height);
 
   synthesis_interface_->setBounds(left, top_height + padding,
                                   width, height - top_height - padding);
 
-  // beats_per_minute_->setBounds(133, patch_selector_->getBottom(),
-  //                              200, TOP_HEIGHT - patch_selector_->getHeight());
   about_section_->setBounds(getBounds());
   update_check_section_->setBounds(getBounds());
   save_section_->setBounds(getBounds());

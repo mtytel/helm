@@ -42,17 +42,21 @@ FilterSection::FilterSection(String name) : SynthSection(name) {
   filter_shelf_->setSliderStyle(Slider::LinearBar);
   filter_shelf_->setStringLookup(mopo::strings::filter_shelves);
   filter_shelf_->setVisible(false);
+  filter_shelf_->setPopupPlacement(BubbleComponent::above);
 
   addSlider(cutoff_ = new SynthSlider("cutoff"));
   cutoff_->setSliderStyle(Slider::LinearBar);
+  cutoff_->setPopupPlacement(BubbleComponent::below, 0);
 
   addSlider(blend_ = new SynthSlider("filter_blend"));
   blend_->snapToValue(true, 1.0);
   blend_->setBipolar(true);
   blend_->setSliderStyle(Slider::LinearBar);
+  blend_->setPopupPlacement(BubbleComponent::above);
 
   addSlider(resonance_ = new SynthSlider("resonance"));
   resonance_->setSliderStyle(Slider::LinearBarVertical);
+  resonance_->setPopupPlacement(BubbleComponent::right, 0);
 
   addAndMakeVisible(filter_response_ = new FilterResponse(300));
   filter_response_->setCutoffSlider(cutoff_);
@@ -77,6 +81,7 @@ FilterSection::FilterSection(String name) : SynthSection(name) {
   filter_style_->setSliderStyle(Slider::LinearBar);
   filter_style_->setStringLookup(mopo::strings::filter_style);
   style->setShortStringLookup(mopo::strings::filter_style_short);
+  style->setPopupPlacement(BubbleComponent::above);
 
   addButton(filter_on_ = new SynthButton("filter_on"));
   setActivator(filter_on_);

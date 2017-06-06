@@ -25,7 +25,6 @@
 #define TEXT_WIDTH 42
 #define TEXT_HEIGHT 16
 
-#define TITLE_WIDTH 20
 #define SHADOW_WIDTH 3
 
 ArpSection::ArpSection(String name) : SynthSection(name) {
@@ -76,8 +75,8 @@ void ArpSection::paintBackground(Graphics& g) {
   float knob_width = getStandardKnobSize();
   float text_height = size_ratio_ * TEXT_HEIGHT;
 
-  float shadow_left = size_ratio_ * (TITLE_WIDTH - SHADOW_WIDTH);
-  float title_width = getTitleWidth();
+  int title_width = getTitleWidth();
+  float shadow_left = getTitleWidth() - size_ratio_ * SHADOW_WIDTH;
 
   g.setGradientFill(ColourGradient(Colour(0x22000000), shadow_left, 0.0f,
                                    Colour(0x66000000), title_width, 0.0f,
@@ -98,9 +97,9 @@ void ArpSection::paintBackground(Graphics& g) {
 
   g.saveState();
   g.addTransform(AffineTransform::rotation(-static_cast<float>(mopo::PI) / 2.0f, 0, 0));
-  g.setColour(Colour(0xff999999));
+  g.setColour(Colors::tab_heading_text);
   g.setFont(Fonts::instance()->proportional_light().withPointHeight(size_ratio_ * 13.40f));
-  g.drawText(TRANS("ARP"), -getHeight(), 0, getHeight() - title_width, title_width,
+  g.drawText(getName(), -getHeight(), 0, getHeight() - title_width, title_width,
              Justification::centred, false);
   g.restoreState();
 
@@ -108,10 +107,10 @@ void ArpSection::paintBackground(Graphics& g) {
 }
 
 void ArpSection::resized() {
-  float knob_width = getStandardKnobSize();
-  float title_width = getTitleWidth();
-  float text_width = size_ratio_ * TEXT_WIDTH;
-  float text_height = size_ratio_ * TEXT_HEIGHT;
+  int knob_width = getStandardKnobSize();
+  int title_width = getTitleWidth();
+  int text_width = size_ratio_ * TEXT_WIDTH;
+  int text_height = size_ratio_ * TEXT_HEIGHT;
 
   float space = (getWidth() - text_width - text_height - (3.0f * knob_width) - title_width) / 5.0f;
   int y = size_ratio_ * 4;
@@ -128,4 +127,7 @@ void ArpSection::resized() {
   on_->setBounds(0, size_ratio_ * 2, title_width, title_width);
 
   SynthSection::resized();
+
+  frequency_->setPopupDisplayEnabled(false, nullptr);
+  tempo_->setPopupDisplayEnabled(false, nullptr);
 }

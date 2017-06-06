@@ -104,4 +104,7 @@ void DelaySection::resized() {
                       knob_width, knob_width);
 
   SynthSection::resized();
+
+  frequency_->setPopupDisplayEnabled(false, nullptr);
+  tempo_->setPopupDisplayEnabled(false, nullptr);
 }

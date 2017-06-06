@@ -15,6 +15,7 @@
  */
 
 #include "default_look_and_feel.h"
+#include "colors.h"
 #include "fonts.h"
 #include "synth_slider.h"
 #include "utils.h"
@@ -27,6 +28,8 @@ DefaultLookAndFeel::DefaultLookAndFeel() {
   setColour(PopupMenu::headerTextColourId, Colour(0xff333333));
   setColour(PopupMenu::highlightedBackgroundColourId, Colour(0xff111111));
   setColour(PopupMenu::highlightedTextColourId, Colour(0xffcccccc));
+  setColour(BubbleComponent::backgroundColourId, Colour(0xff222222));
+  setColour(TooltipWindow::textColourId, Colour(0xffdddddd));
 }
                                                 
 void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
@@ -263,7 +266,7 @@ void DefaultLookAndFeel::drawButtonText(Graphics& g, TextButton& button,
   else
     g.setColour(Colour(0xff666666));
 
-  g.drawFittedText(button.getName(), button.getLocalBounds(), Justification::centred, false);
+  g.drawFittedText(button.getName(), button.getLocalBounds(), Justification::centred, 1);
 }
 
 void DefaultLookAndFeel::fillHorizontalRect(Graphics& g, float x1, float x2, float height) {
@@ -307,4 +310,20 @@ void DefaultLookAndFeel::fillSplitVerticalRect(Graphics& g, float y1, float y2, 
   g.fillRect(0.0f, y, w, height);
   float x2 = w + SynthSlider::linear_rail_width;
   g.fillRect(x2, y, width - x2, height);
+}
+
+int DefaultLookAndFeel::getSliderPopupPlacement(Slider& slider) {
+  SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
+  if (s_slider)
+    return s_slider->getPopupPlacement();
+
+  return LookAndFeel_V3::getSliderPopupPlacement(slider);
+}
+
+Font DefaultLookAndFeel::getPopupMenuFont() {
+  return Fonts::instance()->proportional_regular().withPointHeight(14.0f);
+}
+
+Font DefaultLookAndFeel::getSliderPopupFont(Slider& slider) {
+  return Fonts::instance()->proportional_regular().withPointHeight(14.0f);
 }

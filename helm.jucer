@@ -315,6 +315,8 @@
         <FILE id="tCvisq" name="about_section.h" compile="0" resource="0" file="src/editor_sections/about_section.h"/>
         <FILE id="D7gj80" name="arp_section.cpp" compile="1" resource="0" file="src/editor_sections/arp_section.cpp"/>
         <FILE id="QYzslR" name="arp_section.h" compile="0" resource="0" file="src/editor_sections/arp_section.h"/>
+        <FILE id="ubTRHv" name="bpm_section.cpp" compile="1" resource="0" file="src/editor_sections/bpm_section.cpp"/>
+        <FILE id="ULoppH" name="bpm_section.h" compile="0" resource="0" file="src/editor_sections/bpm_section.h"/>
         <FILE id="CnOWyK" name="delay_section.cpp" compile="1" resource="0"
               file="src/editor_sections/delay_section.cpp"/>
         <FILE id="Y1r52Y" name="delay_section.h" compile="0" resource="0" file="src/editor_sections/delay_section.h"/>

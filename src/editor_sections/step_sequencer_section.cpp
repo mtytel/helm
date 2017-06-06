@@ -120,6 +120,9 @@ void StepSequencerSection::resized() {
   tempo_->setBounds(frequency_->getBounds());
 
   SynthSection::resized();
+
+  frequency_->setPopupDisplayEnabled(false, nullptr);
+  tempo_->setPopupDisplayEnabled(false, nullptr);
 }
 
 void StepSequencerSection::createStepSequencerSliders() {

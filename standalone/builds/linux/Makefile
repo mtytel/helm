@@ -139,6 +139,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/xy_pad_77c192eb.o \
   $(JUCE_OBJDIR)/about_section_7d82e4ff.o \
   $(JUCE_OBJDIR)/arp_section_a0da8a91.o \
+  $(JUCE_OBJDIR)/bpm_section_6b714e11.o \
   $(JUCE_OBJDIR)/delay_section_9df39f5.o \
   $(JUCE_OBJDIR)/delete_section_a0453dcf.o \
   $(JUCE_OBJDIR)/distortion_section_2cd18141.o \
@@ -600,6 +601,11 @@ $(JUCE_OBJDIR)/about_section_7d82e4ff.o: ../../../src/editor_sections/about_sect
 $(JUCE_OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling arp_section.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/bpm_section_6b714e11.o: ../../../src/editor_sections/bpm_section.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling bpm_section.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp

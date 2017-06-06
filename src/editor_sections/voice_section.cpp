@@ -29,13 +29,16 @@ VoiceSection::VoiceSection(String name) : SynthSection(name) {
   addSlider(polyphony_ = new SynthSlider("polyphony"));
   polyphony_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   polyphony_->setMouseDragSensitivity(KNOB_SENSITIVITY);
+  polyphony_->setPopupPlacement(BubbleComponent::above, 0);
 
   addSlider(velocity_track_ = new SynthSlider("velocity_track"));
   velocity_track_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  velocity_track_->setPopupPlacement(BubbleComponent::above, 0);
 
   addSlider(pitch_bend_ = new SynthSlider("pitch_bend_range"));
   pitch_bend_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
   pitch_bend_->setMouseDragSensitivity(KNOB_SENSITIVITY);
+  pitch_bend_->setPopupPlacement(BubbleComponent::above, 0);
 }
 
 VoiceSection::~VoiceSection() {

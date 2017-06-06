@@ -30,15 +30,19 @@ EnvelopeSection::EnvelopeSection(String name, std::string value_prepend) : Synth
 
   addSlider(attack_ = new SynthSlider(value_prepend + "_attack"));
   attack_->setSliderStyle(Slider::LinearBar);
+  attack_->setPopupPlacement(BubbleComponent::below);
 
   addSlider(decay_ = new SynthSlider(value_prepend + "_decay"));
   decay_->setSliderStyle(Slider::LinearBar);
+  decay_->setPopupPlacement(BubbleComponent::below);
 
   addSlider(release_ = new SynthSlider(value_prepend + "_release"));
   release_->setSliderStyle(Slider::LinearBar);
+  release_->setPopupPlacement(BubbleComponent::below);
 
   addSlider(sustain_ = new SynthSlider(value_prepend + "_sustain"));
   sustain_->setSliderStyle(Slider::LinearBar);
+  sustain_->setPopupPlacement(BubbleComponent::below);
 
   addOpenGLComponent(envelope_ = new OpenGLEnvelope());
   envelope_->setName(value_prepend + "_envelope");

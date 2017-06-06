@@ -22,7 +22,7 @@
 
 #include "about_section.h"
 #include "arp_section.h"
-#include "bpm_slider.h"
+#include "bpm_section.h"
 #include "global_tool_tip.h"
 #include "open_gl_modulation_manager.h"
 #include "oscilloscope.h"
@@ -81,7 +81,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     ScopedPointer<ArpSection> arp_section_;
     ScopedPointer<SynthesisInterface> synthesis_interface_;
     ScopedPointer<OpenGLOscilloscope> oscilloscope_;
-    ScopedPointer<BpmSlider> beats_per_minute_;
+    ScopedPointer<BpmSection> bpm_section_;
     ScopedPointer<GlobalToolTip> global_tool_tip_;
     ScopedPointer<PatchSelector> patch_selector_;
     ScopedPointer<PatchBrowser> patch_browser_;

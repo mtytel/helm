@@ -22,6 +22,8 @@
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
+#define DEFAULT_POPUP_BUFFER 10
+
 namespace {
   enum MenuIds {
     kCancel = 0,
@@ -39,6 +41,9 @@ const float SynthSlider::linear_rail_width = 2.0f;
 SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_coloring_(false),
                                         active_(true), snap_to_value_(false), snap_value_(0.0),
                                         string_lookup_(nullptr), parent_(nullptr) {
+  popup_placement_ = BubbleComponent::below;
+  popup_buffer_ = DEFAULT_POPUP_BUFFER;
+
   if (!mopo::Parameters::isParameter(name.toStdString()))
     return;
 
@@ -49,13 +54,20 @@ SynthSlider::SynthSlider(String name) : Slider(name), bipolar_(false), flip_colo
   else
     setRange(details_.min, details_.max);
 
-
   setDoubleClickReturnValue(true, details_.default_value);
   setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 
   setBufferedToImage(true);
   setColour(Slider::backgroundColourId, Colour(0xff303030));
   setColour(Slider::textBoxOutlineColourId, Colour(0x00000000));
+}
+
+void SynthSlider::resized() {
+  if (parent_ == nullptr)
+    parent_ = findParentComponentOfClass<FullInterface>();
+
+  setPopupDisplayEnabled(true, parent_);
+  Slider::resized();
 }
 
 void SynthSlider::mouseDown(const MouseEvent& e) {
@@ -150,6 +162,18 @@ void SynthSlider::mouseExit(const MouseEvent &e) {
 void SynthSlider::valueChanged() {
   Slider::valueChanged();
   notifyTooltip();
+
+  if (popup_placement_ == BubbleComponent::below && popup_buffer_) {
+    Component* popup = getCurrentPopupDisplay();
+    if (popup) {
+      Rectangle<int> bounds = popup->getBounds();
+      Rectangle<int> local_bounds = getLocalArea(popup, popup->getLocalBounds());
+
+      int y_diff = getHeight() + popup_buffer_ - local_bounds.getY();
+      bounds.setY(bounds.getY() + y_diff);
+      popup->setBounds(bounds);
+    }
+  }
 }
 
 String SynthSlider::getTextFromValue(double value) {

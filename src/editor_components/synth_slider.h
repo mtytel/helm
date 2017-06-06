@@ -37,6 +37,7 @@ class SynthSlider : public Slider {
 
     SynthSlider(String name);
 
+    virtual void resized() override;
     virtual void mouseDown(const MouseEvent& e) override;
     virtual void mouseEnter(const MouseEvent& e) override;
     virtual void mouseExit(const MouseEvent& e) override;
@@ -81,6 +82,11 @@ class SynthSlider : public Slider {
     bool isBipolar() const { return bipolar_; }
     bool isFlippedColor() const { return flip_coloring_; }
     bool isActive() const { return active_; }
+    void setPopupPlacement(int placement, int buffer = 0) {
+      popup_placement_ = placement;
+      popup_buffer_ = buffer;
+    }
+    int getPopupPlacement() { return popup_placement_; }
 
   protected:
     void notifyTooltip();
@@ -90,8 +96,10 @@ class SynthSlider : public Slider {
     bool active_;
     bool snap_to_value_;
     float snap_value_;
+    int popup_placement_;
+    int popup_buffer_;
 
-    mopo::ValueDetails details_;
+  mopo::ValueDetails details_;
 
     const std::string* string_lookup_;
     Point<float> click_position_;

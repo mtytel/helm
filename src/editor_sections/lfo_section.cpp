@@ -136,6 +136,9 @@ void LfoSection::resized() {
   tempo_->setBounds(frequency_->getBounds());
 
   SynthSection::resized();
+
+  frequency_->setPopupDisplayEnabled(false, nullptr);
+  tempo_->setPopupDisplayEnabled(false, nullptr);
 }
 
 void LfoSection::reset() {

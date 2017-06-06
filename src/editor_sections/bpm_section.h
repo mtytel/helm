@@ -14,16 +14,26 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "colors.h"
+#pragma once
+#ifndef BPM_SECTION_H
+#define BPM_SECTION_H
 
-const Colour Colors::background(0xff181818);
-const Colour Colors::tab_heading(0xff303030);
-const Colour Colors::tab_body(0xff303030);
-const Colour Colors::tab_heading_text(0xffbbbbbb);
-const Colour Colors::audio(0xff03a9f4);
-const Colour Colors::modulation(0xff00e676);
-const Colour Colors::graph_disable(0xff777777);
-const Colour Colors::graph_fill(0xff565656);
-const Colour Colors::control_label_text(0xffbbbbbb);
-const Colour Colors::info_background(0xff303030);
-const Colour Colors::overlay_screen(0xbb212121);
+#include "JuceHeader.h"
+#include "synth_section.h"
+#include "synth_slider.h"
+
+class BpmSection : public SynthSection {
+  public:
+    BpmSection(String name);
+    ~BpmSection();
+
+    void paintBackground(Graphics& g) override;
+    void resized() override;
+
+  private:
+    ScopedPointer<SynthSlider> bpm_;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BpmSection)
+};
+
+#endif // BPM_SECTION_H

@@ -38,10 +38,12 @@ OscillatorSection::OscillatorSection(String name) : SynthSection(name) {
   addSlider(wave_selector_1_ = new WaveSelector("osc_1_waveform"));
   wave_selector_1_->setSliderStyle(Slider::LinearBar);
   wave_selector_1_->setStringLookup(mopo::strings::waveforms);
+  wave_selector_1_->setPopupPlacement(BubbleComponent::above);
 
   addSlider(wave_selector_2_ = new WaveSelector("osc_2_waveform"));
   wave_selector_2_->setSliderStyle(Slider::LinearBar);
   wave_selector_2_->setStringLookup(mopo::strings::waveforms);
+  wave_selector_2_->setPopupPlacement(BubbleComponent::above);
 
   addAndMakeVisible(wave_viewer_1_ = new WaveViewer(WAVE_RESOLUTION));
   wave_viewer_1_->setWaveSlider(wave_selector_1_);
@@ -245,6 +247,11 @@ void OscillatorSection::resized() {
                                   cross_percent * cross_height);
 
   SynthSection::resized();
+
+  unison_detune_1_->setPopupDisplayEnabled(false, nullptr);
+  unison_detune_2_->setPopupDisplayEnabled(false, nullptr);
+  unison_voices_1_->setPopupDisplayEnabled(false, nullptr);
+  unison_voices_2_->setPopupDisplayEnabled(false, nullptr);
 }
 
 void OscillatorSection::reset() {

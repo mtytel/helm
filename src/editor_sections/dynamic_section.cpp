@@ -29,11 +29,13 @@
 DynamicSection::DynamicSection(String name) : SynthSection(name) {
   addSlider(portamento_ = new SynthSlider("portamento"));
   portamento_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+  portamento_->setPopupPlacement(BubbleComponent::above, 0);
 
   TextSlider* port_type = new TextSlider("portamento_type");
   addSlider(portamento_type_ = port_type);
   portamento_type_->setSliderStyle(Slider::LinearBar);
   portamento_type_->setStringLookup(mopo::strings::off_auto_on);
+  portamento_type_->setPopupPlacement(BubbleComponent::above, 0);
   port_type->setShortStringLookup(mopo::strings::off_auto_on_slider);
 
   addButton(legato_ = new SynthButton("legato"));

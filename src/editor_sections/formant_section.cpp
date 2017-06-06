@@ -24,9 +24,11 @@
 FormantSection::FormantSection(String name) : SynthSection(name) {
   addSlider(x_ = new SynthSlider("formant_x"));
   x_->setSliderStyle(Slider::LinearBar);
+  x_->setPopupPlacement(BubbleComponent::below, 0);
 
   addSlider(y_ = new SynthSlider("formant_y"));
   y_->setSliderStyle(Slider::LinearBarVertical);
+  y_->setPopupPlacement(BubbleComponent::right, 0);
 
   addAndMakeVisible(xy_pad_ = new XYPad());
   xy_pad_->setXSlider(x_);
