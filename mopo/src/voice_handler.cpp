@@ -134,6 +134,10 @@ namespace mopo {
   }
 
   void VoiceHandler::process() {
+    int num_voices = active_voices_.size();
+    if (num_voices == 0)
+      return;
+
     global_router_.process();
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
