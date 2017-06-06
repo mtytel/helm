@@ -45,7 +45,7 @@ var LoadSave::stateToVar(SynthBase* synth,
   DynamicObject* settings_object = new DynamicObject();
 
   ScopedLock lock(critical_section);
-  for (auto control : controls)
+  for (auto& control : controls)
     settings_object->setProperty(String(control.first), control.second->value());
 
   std::set<mopo::ModulationConnection*> modulations = synth->getModulationConnections();
@@ -74,7 +74,7 @@ var LoadSave::stateToVar(SynthBase* synth,
 void LoadSave::loadControls(SynthBase* synth,
                             const NamedValueSet& properties) {
   mopo::control_map controls = synth->getControls();
-  for (auto control : controls) {
+  for (auto& control : controls) {
     String name = control.first;
     if (properties.contains(name)) {
       mopo::mopo_float value = properties[name];
@@ -116,7 +116,7 @@ void LoadSave::initSynth(SynthBase* synth, std::map<std::string, String>& save_i
   synth->clearModulations();
 
   mopo::control_map controls = synth->getControls();
-  for (auto control : controls) {
+  for (auto& control : controls) {
     mopo::ValueDetails details = mopo::Parameters::getDetails(control.first);
     control.second->set(details.default_value);
   }
@@ -449,13 +449,13 @@ void LoadSave::saveMidiMapConfig(MidiManager* midi_manager) {
   DynamicObject* config_object = config_var.getDynamicObject();
 
   Array<var> midi_learn_object;
-  for (auto midi_mapping : midi_learn_map) {
+  for (auto& midi_mapping : midi_learn_map) {
     DynamicObject* midi_map_object = new DynamicObject();
     Array<var> midi_destinations_object;
 
     midi_map_object->setProperty("source", midi_mapping.first);
 
-    for (auto midi_destination : midi_mapping.second) {
+    for (auto& midi_destination : midi_mapping.second) {
       DynamicObject* midi_destination_object = new DynamicObject();
 
       midi_destination_object->setProperty("destination", String(midi_destination.first));

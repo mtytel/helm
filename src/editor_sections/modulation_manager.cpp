@@ -45,7 +45,7 @@ ModulationManager::ModulationManager(
   monophonic_destinations_ = new Component();
   monophonic_destinations_->setInterceptsMouseClicks(false, true);
 
-  for (auto mod_button : modulation_buttons_) {
+  for (auto& mod_button : modulation_buttons_) {
     mod_button.second->addListener(this);
     mod_button.second->addDisconnectListener(this);
 
@@ -60,7 +60,7 @@ ModulationManager::ModulationManager(
   }
 
   slider_model_lookup_ = sliders;
-  for (auto slider : slider_model_lookup_) {
+  for (auto& slider : slider_model_lookup_) {
     std::string name = slider.first;
     const mopo::Output* mono_total = mono_modulations[name];
     const mopo::Output* poly_total = poly_modulations[name];

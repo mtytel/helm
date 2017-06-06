@@ -327,14 +327,14 @@ namespace mopo {
   }
 
   void HelmModule::updateAllModulationSwitches() {
-    for (auto mod_switch : mono_modulation_switches_) {
+    for (auto& mod_switch : mono_modulation_switches_) {
       bool enable = mono_mod_destinations_[mod_switch.first]->connectedInputs() > 1;
       if (poly_mod_destinations_.count(mod_switch.first))
         enable = enable || poly_mod_destinations_[mod_switch.first]->connectedInputs() > 0;
       mod_switch.second->set(enable);
     }
 
-    for (auto mod_switch : poly_modulation_switches_)
+    for (auto& mod_switch : poly_modulation_switches_)
       mod_switch.second->set(poly_mod_destinations_[mod_switch.first]->connectedInputs() > 0);
 
     for (HelmModule* sub_module : sub_modules_)

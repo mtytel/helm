@@ -371,7 +371,7 @@ namespace mopo {
     ProcessorRouter::process();
 
     if (getNumActiveVoices() == 0) {
-      for (auto modulation : mod_connections_)
+      for (auto& modulation : mod_connections_)
         modulation->modulation_scale.process();
     }
   }

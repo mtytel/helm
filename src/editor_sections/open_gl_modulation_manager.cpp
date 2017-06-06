@@ -52,7 +52,7 @@ OpenGLModulationManager::OpenGLModulationManager(
   monophonic_destinations_ = new Component();
   monophonic_destinations_->setInterceptsMouseClicks(false, true);
 
-  for (auto mod_button : modulation_buttons_) {
+  for (auto& mod_button : modulation_buttons_) {
     mod_button.second->addListener(this);
     mod_button.second->addDisconnectListener(this);
 
@@ -71,7 +71,7 @@ OpenGLModulationManager::OpenGLModulationManager(
   triangles_ = new int[INDICES_PER_METER * slider_model_lookup_.size()];
 
   int i = 0;
-  for (auto slider : slider_model_lookup_) {
+  for (auto& slider : slider_model_lookup_) {
     std::string name = slider.first;
     const mopo::Output* mono_total = mono_modulations[name];
     const mopo::Output* poly_total = poly_modulations[name];
@@ -119,9 +119,9 @@ OpenGLModulationManager::OpenGLModulationManager(
 }
 
 OpenGLModulationManager::~OpenGLModulationManager() {
-  for (auto meter : meter_lookup_)
+  for (auto& meter : meter_lookup_)
     delete meter.second;
-  for (auto overlay : overlay_lookup_)
+  for (auto& overlay : overlay_lookup_)
     delete overlay.second;
   for (Slider* slider : owned_sliders_)
     delete slider;
@@ -136,7 +136,7 @@ void OpenGLModulationManager::resized() {
   monophonic_destinations_->setBounds(getBounds());
 
   // Update modulation slider locations.
-  for (auto slider : slider_lookup_) {
+  for (auto& slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
     slider.second->setVisible(model->isVisible());
@@ -145,7 +145,7 @@ void OpenGLModulationManager::resized() {
   }
 
   // Update modulation meter locations.
-  for (auto meter : meter_lookup_) {
+  for (auto& meter : meter_lookup_) {
     Slider* model = slider_model_lookup_[meter.first];
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
     meter.second->setBounds(local_top_left.x, local_top_left.y,
@@ -158,7 +158,7 @@ void OpenGLModulationManager::resized() {
   }
 
   // Update modulation highlight overlay locations.
-  for (auto overlay : overlay_lookup_) {
+  for (auto& overlay : overlay_lookup_) {
     ModulationButton* model = modulation_buttons_[overlay.first];
     Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
     overlay.second->setBounds(local_top_left.x, local_top_left.y,
@@ -234,7 +234,7 @@ void OpenGLModulationManager::render(OpenGLContext& open_gl_context, bool animat
   if (!animate)
     return;
 
-  for (auto meter : meter_lookup_) {
+  for (auto& meter : meter_lookup_) {
     bool show = meter.second->isModulated() && slider_model_lookup_[meter.first]->isVisible();
     if (show)
       meter.second->updateDrawing();
@@ -340,7 +340,7 @@ void OpenGLModulationManager::reset() {
   if (parent == nullptr)
     return;
 
-  for (auto meter : meter_lookup_) {
+  for (auto& meter : meter_lookup_) {
     int num_modulations = parent->getSynth()->getNumModulations(meter.first);
     meter.second->setModulated(num_modulations);
     meter.second->setVisible(num_modulations);
@@ -368,7 +368,7 @@ void OpenGLModulationManager::setSliderValues() {
 
   std::vector<mopo::ModulationConnection*> connections =
       parent->getSynth()->getSourceConnections(current_modulator_);
-  for (auto slider : slider_lookup_) {
+  for (auto& slider : slider_lookup_) {
     std::string destination_name = slider.second->getName().toStdString();
     float value = 0.0f;
 
@@ -387,7 +387,7 @@ void OpenGLModulationManager::changeModulator(std::string new_modulator) {
   current_modulator_ = new_modulator;
   setSliderValues();
 
-  for (auto slider : slider_lookup_) {
+  for (auto& slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
     slider.second->setVisible(model->isVisible());
   }

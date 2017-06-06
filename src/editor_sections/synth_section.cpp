@@ -29,7 +29,7 @@
 #define MODULATION_BUTTON_WIDTH 32
 
 void SynthSection::reset() {
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->reset();
 }
 
@@ -69,20 +69,20 @@ void SynthSection::paintContainer(Graphics& g) {
 void SynthSection::setSizeRatio(float ratio) {
   size_ratio_ = ratio;
 
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->setSizeRatio(ratio);
 }
 
 void SynthSection::paintKnobShadows(Graphics& g) {
-  for (auto slider : slider_lookup_)
+  for (auto& slider : slider_lookup_)
     slider.second->drawShadow(g);
 }
 
 void SynthSection::paintChildrenBackgrounds(Graphics& g) {
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     paintChildBackground(g, sub_section.second);
 
-  for (auto open_gl_component : open_gl_components_)
+  for (auto& open_gl_component : open_gl_components_)
     paintOpenGLBackground(g, open_gl_component);
 }
 
@@ -103,26 +103,26 @@ void SynthSection::paintOpenGLBackground(Graphics &g, OpenGLComponent* open_gl_c
 }
 
 void SynthSection::initOpenGLComponents(OpenGLContext& open_gl_context) {
-  for (auto open_gl_component : open_gl_components_)
+  for (auto& open_gl_component : open_gl_components_)
     open_gl_component->init(open_gl_context);
 
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->initOpenGLComponents(open_gl_context);
 }
 
 void SynthSection::renderOpenGLComponents(OpenGLContext& open_gl_context, bool animate) {
-  for (auto open_gl_component : open_gl_components_)
+  for (auto& open_gl_component : open_gl_components_)
     open_gl_component->render(open_gl_context, animate);
 
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->renderOpenGLComponents(open_gl_context, animate);
 }
 
 void SynthSection::destroyOpenGLComponents(OpenGLContext& open_gl_context) {
-  for (auto open_gl_component : open_gl_components_)
+  for (auto& open_gl_component : open_gl_components_)
     open_gl_component->destroy(open_gl_context);
 
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->destroyOpenGLComponents(open_gl_context);
 }
 
@@ -218,19 +218,19 @@ void SynthSection::drawTextForComponent(Graphics &g, String text, Component *com
 }
 
 void SynthSection::setActive(bool active) {
-  for (auto slider : slider_lookup_)
+  for (auto& slider : slider_lookup_)
     slider.second->setActive(active);
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->setActive(active);
 }
 
 void SynthSection::animate(bool animate) {
-  for (auto sub_section : sub_sections_)
+  for (auto& sub_section : sub_sections_)
     sub_section.second->animate(animate);
 }
 
 void SynthSection::setAllValues(mopo::control_map& controls) {
-  for (auto slider : all_sliders_) {
+  for (auto& slider : all_sliders_) {
     if (controls.count(slider.first)) {
       slider.second->setValue(controls[slider.first]->value(),
                               NotificationType::dontSendNotification);
@@ -238,7 +238,7 @@ void SynthSection::setAllValues(mopo::control_map& controls) {
     }
   }
 
-  for (auto button : all_buttons_) {
+  for (auto& button : all_buttons_) {
     if (controls.count(button.first)) {
       bool toggle = controls[button.first]->value();
       button.second->setToggleState(toggle, NotificationType::sendNotificationSync);

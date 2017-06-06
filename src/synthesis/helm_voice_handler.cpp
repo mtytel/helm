@@ -737,7 +737,7 @@ namespace mopo {
     note_retriggered_.clearTrigger();
 
     if (getNumActiveVoices() == 0) {
-      for (auto mod_source : mod_sources_)
+      for (auto& mod_source : mod_sources_)
         mod_source.second->buffer[0] = 0.0;
     }
   }
@@ -767,7 +767,7 @@ namespace mopo {
   void HelmVoiceHandler::setupPolyModulationReadouts() {
     output_map poly_mods = HelmModule::getPolyModulations();
 
-    for (auto mod : poly_mods)
+    for (auto& mod : poly_mods)
       poly_readouts_[mod.first] = registerOutput(mod.second);
   }
 

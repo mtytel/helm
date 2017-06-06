@@ -243,7 +243,7 @@ void FullInterface::createModulationSliders(mopo::output_map modulation_sources,
   std::map<std::string, SynthSlider*> all_sliders = getAllSliders();
   std::map<std::string, SynthSlider*> modulatable_sliders;
 
-  for (auto destination : mono_modulations) {
+  for (auto& destination : mono_modulations) {
     if (all_sliders.count(destination.first))
       modulatable_sliders[destination.first] = all_sliders[destination.first];
   }
