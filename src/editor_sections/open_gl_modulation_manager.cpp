@@ -196,6 +196,7 @@ void OpenGLModulationManager::modulationDisconnected(mopo::ModulationConnection*
   }
 
   meter_lookup_[connection->destination]->setModulated(!last);
+  meter_lookup_[connection->destination]->setVisible(!last);
 }
 
 void OpenGLModulationManager::init(OpenGLContext& open_gl_context) {

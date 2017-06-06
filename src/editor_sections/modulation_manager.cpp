@@ -174,6 +174,7 @@ void ModulationManager::modulationDisconnected(mopo::ModulationConnection* conne
   }
 
   meter_lookup_[connection->destination]->setModulated(!last);
+  meter_lookup_[connection->destination]->setVisible(!last);
 }
 
 void ModulationManager::hoverStarted(const std::string& name) {
