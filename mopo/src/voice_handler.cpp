@@ -55,10 +55,10 @@ namespace mopo {
     for (Voice* voice : all_voices_)
       delete voice;
 
-    for (auto output : accumulated_outputs_)
+    for (auto& output : accumulated_outputs_)
       delete output.second;
 
-    for (auto output : last_voice_outputs_)
+    for (auto& output : last_voice_outputs_)
       delete output.second;
   }
 
@@ -94,21 +94,21 @@ namespace mopo {
   }
 
   void VoiceHandler::clearAccumulatedOutputs() {
-    for (auto output : accumulated_outputs_) {
+    for (auto& output : accumulated_outputs_) {
       int buffer_size = output.first->owner->getBufferSize();
       utils::zeroBuffer(output.second->buffer, buffer_size);
     }
   }
 
   void VoiceHandler::clearNonaccumulatedOutputs() {
-    for (auto output : last_voice_outputs_) {
+    for (auto& output : last_voice_outputs_) {
       int buffer_size = output.first->owner->getBufferSize();
       utils::zeroBuffer(output.second->buffer, buffer_size);
     }
   }
 
   void VoiceHandler::accumulateOutputs() {
-    for (auto output : accumulated_outputs_) {
+    for (auto& output : accumulated_outputs_) {
       int buffer_size = output.first->owner->getBufferSize();
       mopo_float* dest = output.second->buffer;
       const mopo_float* source = output.first->buffer;
@@ -120,7 +120,7 @@ namespace mopo {
   }
 
   void VoiceHandler::writeNonaccumulatedOutputs() {
-    for (auto output : last_voice_outputs_) {
+    for (auto& output : last_voice_outputs_) {
       int buffer_size = output.first->owner->getBufferSize();
       mopo_float* dest = output.second->buffer;
       const mopo_float* source = output.first->buffer;
@@ -163,8 +163,6 @@ namespace mopo {
 
     if (active_voices_.size())
       writeNonaccumulatedOutputs();
-    else
-      clearNonaccumulatedOutputs();
   }
 
   void VoiceHandler::setSampleRate(int sample_rate) {
