@@ -173,21 +173,12 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   static const Image off_active_2x =
       ImageCache::getFromMemory(BinaryData::modulation_unselected_active_2x_png,
                                 BinaryData::modulation_unselected_active_2x_pngSize);
-  static const Image off_active_1x =
-      ImageCache::getFromMemory(BinaryData::modulation_unselected_active_1x_png,
-                                BinaryData::modulation_unselected_active_1x_pngSize);
   static const Image on_inactive_2x =
       ImageCache::getFromMemory(BinaryData::modulation_selected_inactive_2x_png,
                                 BinaryData::modulation_selected_inactive_2x_pngSize);
-  static const Image on_inactive_1x =
-      ImageCache::getFromMemory(BinaryData::modulation_selected_inactive_1x_png,
-                                BinaryData::modulation_selected_inactive_1x_pngSize);
   static const Image off_inactive_2x =
       ImageCache::getFromMemory(BinaryData::modulation_unselected_inactive_2x_png,
                                 BinaryData::modulation_unselected_inactive_2x_pngSize);
-  static const Image off_inactive_1x =
-      ImageCache::getFromMemory(BinaryData::modulation_unselected_inactive_1x_png,
-                                BinaryData::modulation_unselected_inactive_1x_pngSize);
 
 
   g.saveState();
@@ -195,23 +186,20 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   g.addTransform(AffineTransform::scale(ratio, ratio));
   shadow.drawForImage(g, on_active_1x);
   g.restoreState();
-  
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
 
-  bool is_2x = display.scale > 1.5;
   Image button_image;
   SynthGuiInterface* parent = button.findParentComponentOfClass<SynthGuiInterface>();
   if (parent && parent->getSynth()->getSourceConnections(button.getName().toStdString()).size()) {
     if (button.getToggleState())
-      button_image = is_2x ? on_active_2x : on_active_1x;
+      button_image = on_active_2x;
     else
-      button_image = is_2x ? off_active_2x : off_active_1x;
+      button_image = off_active_2x;
   }
   else {
     if (button.getToggleState())
-      button_image = is_2x ? on_inactive_2x : on_inactive_1x;
+      button_image = on_inactive_2x;
     else
-      button_image = is_2x ? off_inactive_2x : off_inactive_1x;
+      button_image = off_inactive_2x;
   }
 
   g.setColour(Colours::white);

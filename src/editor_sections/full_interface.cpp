@@ -51,15 +51,15 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   if (display.scale > 1.5) {
     Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
                                            BinaryData::helm_icon_128_2x_pngSize);
-    logo_button_->setImages(false, true, false,
+    logo_button_->setImages(true, true, false,
                             helm, 1.0, Colours::transparentBlack,
                             helm, 1.0, Colour(0x11ffffff),
                             helm, 1.0, Colour(0x11000000));
   }
   else {
-    Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
-                                                 BinaryData::helm_icon_32_2x_pngSize);
-    logo_button_->setImages(false, true, false,
+    Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_128_1x_png,
+                                                 BinaryData::helm_icon_128_1x_pngSize);
+    logo_button_->setImages(true, true, false,
                             helm_small, 1.0, Colours::transparentBlack,
                             helm_small, 1.0, Colour(0x11ffffff),
                             helm_small, 1.0, Colour(0x11000000));
