@@ -22,7 +22,8 @@ PROGRAM = helm
 BIN     = $(DESTDIR)/usr/bin
 BINFILE = $(BIN)/$(PROGRAM)
 LV2     = $(DESTDIR)/$(LIBDIR)/lv2/$(PROGRAM).lv2
-VST     = $(DESTDIR)/$(LIBDIR)/lxvst/$(PROGRAM).so
+VSTDIR  = $(DESTDIR)/$(LIBDIR)/lxvst
+VST     = $(VSTDIR)/$(PROGRAM).so
 SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
 ICONS   = $(SYSDATA)/icons
 PATCHES = $(SYSDATA)/patches
@@ -56,6 +57,7 @@ install: all
 	cp -rf patches/* $(PATCHES)
 
 install_vst: vst
+	install -d $(VSTDIR)
 	install builds/linux/VST/build/helm.so $(VST)
 
 dist:
@@ -78,6 +80,7 @@ dist:
 
 uninstall:
 	rm -rf $(LV2)
+	rm -rf $(VST)
 	rm -rf $(SYSDATA)
 	rm -rf $(BINFILE)
 
