@@ -295,23 +295,20 @@ namespace LinuxErrorHandling
 //==============================================================================
 void MessageManager::doPlatformSpecificInitialisation()
 {
-    if (JUCEApplicationBase::isStandaloneApp())
+    // Initialise xlib for multiple thread support
+    static bool standaloneInitThreadCalled = false;
+
+    if (!JUCEApplicationBase::isStandaloneApp() || !standaloneInitThreadCalled)
     {
-        // Initialise xlib for multiple thread support
-        static bool initThreadCalled = false;
-
-        if (! initThreadCalled)
+        if (! XInitThreads())
         {
-            if (! XInitThreads())
-            {
-                // This is fatal!  Print error and closedown
-                Logger::outputDebugString ("Failed to initialise xlib thread support.");
-                Process::terminate();
-                return;
-            }
-
-            initThreadCalled = true;
+            // This is fatal!  Print error and closedown
+            Logger::outputDebugString ("Failed to initialise xlib thread support.");
+            Process::terminate();
+            return;
         }
+
+        standaloneInitThreadCalled = true;
 
         LinuxErrorHandling::installXErrorHandlers();
         LinuxErrorHandling::installKeyboardBreakHandler();
