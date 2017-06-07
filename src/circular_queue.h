@@ -21,6 +21,8 @@
 #include "processor.h"
 #include "utils.h"
 
+#include <cstddef>
+
 namespace mopo {
 
   template <class T>
@@ -93,11 +95,11 @@ namespace mopo {
       }
 
       T& operator[](std::size_t index) {
-        return data_[(start_ + index) % capacity_];
+        return data_[(start_ + static_cast<int>(index)) % capacity_];
       }
 
       const T& operator[](std::size_t idx) const {
-        return data_[(start_ + index) % capacity_];
+        return data_[(start_ + static_cast<int>(index)) % capacity_];
       }
 
       void push_back(T entry) {
