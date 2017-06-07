@@ -56,9 +56,15 @@ install: all
 	cp docs/helm.1.gz $(MAN)
 	cp -rf patches/* $(PATCHES)
 
+install_lv2: lv2
+	install -d $(PATCHES) $(LV2)
+	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
+	cp -rf patches/* $(PATCHES)
+
 install_vst: vst
-	install -d $(VSTDIR)
+	install -d $(PATCHES) $(VSTDIR)
 	install builds/linux/VST/build/helm.so $(VST)
+	cp -rf patches/* $(PATCHES)
 
 dist:
 	rm -rf $(PROGRAM)
