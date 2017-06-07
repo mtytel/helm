@@ -71,7 +71,6 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     std::map<std::string, SynthSlider*> slider_lookup_;
     std::map<std::string, Button*> button_lookup_;
     ScopedPointer<OpenGLModulationManager> modulation_manager_;
-    TooltipWindow tooltip_;
     ScopedPointer<SynthSlider> arp_tempo_;
 
     ScopedPointer<AboutSection> about_section_;
