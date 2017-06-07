@@ -17,6 +17,7 @@ lv2: ttl_generator binary
 	mv *.ttl helm.lv2
 
 clean:
-	$(MAKE) clean -f Makefile.binary
-	$(MAKE) clean -f Makefile.ttl_generator
+	$(MAKE) clean CONFIG=$(CONFIG) -f Makefile.binary
+	$(MAKE) clean CONFIG=$(CONFIG) -f Makefile.ttl_generator
+	rm -rf build
 	rm -rf helm.lv2
