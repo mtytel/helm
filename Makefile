@@ -30,7 +30,7 @@ PATCHES = $(SYSDATA)/patches
 MAN     = $(DESTDIR)/usr/share/man/man1/
 CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
 
-all: standalone lv2
+all: standalone lv2 vst
 
 standalone:
 	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)"
@@ -46,19 +46,29 @@ clean:
 	$(MAKE) clean -C builds/linux/LV2 CONFIG=$(CONFIG)
 	$(MAKE) clean -C builds/linux/VST CONFIG=$(CONFIG)
 
-install: all
-	install -d $(PATCHES) $(BIN) $(ICONS) $(LV2) $(MAN) $(CHANGES)
+install_patches:
+	install -d $(PATCHES)
+	cp -rf patches/* $(PATCHES)
+
+install_standalone: standalone install_patches
+	install -d $(BIN) $(ICONS) $(MAN) $(CHANGES)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
-	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
 	gzip -k -n -9 ChangeLog
 	mv ChangeLog.gz $(CHANGES)/changelog.gz
 	cp docs/helm.1.gz $(MAN)
+
+install_lv2: lv2 install_patches
+	install -d $(PATCHES) $(LV2)
+	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
 	cp -rf patches/* $(PATCHES)
 
 install_vst: vst
-	install -d $(VSTDIR)
+	install -d $(PATCHES) $(VSTDIR)
 	install builds/linux/VST/build/helm.so $(VST)
+	cp -rf patches/* $(PATCHES)
+
+install: install_standalone install_lv2
 
 dist:
 	rm -rf $(PROGRAM)
