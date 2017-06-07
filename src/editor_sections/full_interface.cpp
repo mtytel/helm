@@ -95,6 +95,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
 FullInterface::~FullInterface() {
   open_gl_context.detach();
+  open_gl_context.setRenderer(nullptr);
   about_section_ = nullptr;
   update_check_section_ = nullptr;
   arp_section_ = nullptr;
