@@ -98,7 +98,7 @@ namespace mopo {
         return data_[(start_ + static_cast<int>(index)) % capacity_];
       }
 
-      const T& operator[](std::size_t idx) const {
+      const T& operator[](std::size_t index) const {
         return data_[(start_ + static_cast<int>(index)) % capacity_];
       }
 
