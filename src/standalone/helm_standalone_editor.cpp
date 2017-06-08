@@ -60,7 +60,6 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
 
   setWantsKeyboardFocus(true);
-  grabKeyboardFocus();
   addKeyListener(computer_keyboard_);
   setOpaque(true);
 }
