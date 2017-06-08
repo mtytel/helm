@@ -5,21 +5,35 @@ Helm is a free, cross-platform, polyphonic synthesizer that runs on GNU/Linux, M
 Go to [tytel.org/helm](http://tytel.org/helm) for builds.
 
 ### Building:
-If you want to build VST/AAX plugins You'll need their SDKs located in ~/srcs  
+If you want to build AAX plugins You'll need its SDK located in ~/srcs  
 For AU on the Mac you'll want to put the CoreAudio SDK in /Applications/Xcode.app/Contents/Developer/Extras/CoreAudio  
-Nothing extra is needed for building LV2 plugins
+Nothing extra is needed for building VST/LV2 plugins
 
-#### GNU/Linux
+#### Linux
+To build and install the stanalone, lv2 and vst plugin:
 ```bash
 make
+sudo make install
 ```
+
+Other make commands:
+```bash
+\# Build just the Linux standalone executable:
+make standalone
+\# Build just the Linux LV2 plugin:
+make lv2
+\# Build just the Linux VST plugin
+make vst
+\# Install just the Linux standalone executable:
+sudo make install_standalone
+\# Install just the Linux LV2 plugin:
+sudo make install_lv2
+\# Install just the Linux VST plugin
+sudo make install_vst
+```
+
 The standalone executable is located in standalone/builds/linux/build  
 The LV2 plugin is located in builds/linux/LV2  
-
-To build a GNU/Linux VST plugin:
-```bash
-make vst
-```
 The VST plugin is located in builds/linux/VST as an .so file.
 
 #### OSX
