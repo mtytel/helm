@@ -79,13 +79,6 @@
 
 #include "../utility/juce_IncludeModuleHeaders.h"
 
-namespace juce
-{
- #if JUCE_LINUX
-  extern Display* display;
- #endif
-}
-
 #define JUCE_LV2_STATE_STRING_URI "urn:juce:stateString"
 #define JUCE_LV2_STATE_BINARY_URI "urn:juce:stateBinary"
 
@@ -759,11 +752,7 @@ public:
         const int cw = child->getWidth();
         const int ch = child->getHeight();
 
-#if JUCE_LINUX
-        XResizeWindow (display, (Window) getWindowHandle(), cw, ch);
-#else
         setSize (cw, ch);
-#endif
 
         if (uiResize != nullptr)
             uiResize->ui_resize (uiResize->handle, cw, ch);
@@ -1022,6 +1011,10 @@ private:
     uint32 controlPortOffset;
     int lastProgramCount;
 
+   #if JUCE_LINUX
+    ScopedXDisplay display;
+   #endif
+
     const LV2UI_Touch* uiTouch;
     const LV2_Programs_Host* programsHost;
 
@@ -1090,7 +1083,7 @@ private:
 #if JUCE_LINUX
             Window hostWindow = (Window) parent;
             Window editorWnd  = (Window) parentContainer->getWindowHandle();
-            XReparentWindow (display, editorWnd, hostWindow, 0, 0);
+            XReparentWindow (display.display, editorWnd, hostWindow, 0, 0);
 #endif
 
             parentContainer->reset (uiResize);
