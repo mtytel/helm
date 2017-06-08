@@ -369,6 +369,7 @@
     <ClCompile Include="..\..\..\src\look_and_feel\shaders.cpp"/>
     <ClCompile Include="..\..\..\src\look_and_feel\text_look_and_feel.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\helm_computer_keyboard.cpp"/>
+    <ClCompile Include="..\..\..\src\standalone\helm_editor.cpp"/>
     <ClCompile Include="..\..\..\src\standalone\main.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\dc_filter.cpp"/>
     <ClCompile Include="..\..\..\src\synthesis\detune_lookup.cpp"/>
@@ -2103,6 +2104,7 @@
     <ClInclude Include="..\..\..\src\look_and_feel\shaders.h"/>
     <ClInclude Include="..\..\..\src\look_and_feel\text_look_and_feel.h"/>
     <ClInclude Include="..\..\..\src\standalone\helm_computer_keyboard.h"/>
+    <ClInclude Include="..\..\..\src\standalone\helm_editor.h"/>
     <ClInclude Include="..\..\..\src\synthesis\dc_filter.h"/>
     <ClInclude Include="..\..\..\src\synthesis\detune_lookup.h"/>
     <ClInclude Include="..\..\..\src\synthesis\fixed_point_oscillator.h"/>

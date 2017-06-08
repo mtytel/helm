@@ -14,8 +14,8 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HELM_STANDALONE_EDITOR_H
-#define HELM_STANDALONE_EDITOR_H
+#ifndef HELM_EDITOR_H
+#define HELM_EDITOR_H
 
 #include "JuceHeader.h"
 
@@ -27,12 +27,12 @@
 #include "synth_base.h"
 #include "synth_gui_interface.h"
 
-class HelmStandaloneEditor : public AudioAppComponent,
-                             public SynthBase,
-                             public SynthGuiInterface {
+class HelmEditor : public AudioAppComponent,
+                   public SynthBase,
+                   public SynthGuiInterface {
   public:
-    HelmStandaloneEditor();
-    ~HelmStandaloneEditor();
+    HelmEditor();
+    ~HelmEditor();
 
     // AudioAppComponent
     void prepareToPlay(int buffer_size, double sample_rate) override;
@@ -54,7 +54,7 @@ class HelmStandaloneEditor : public AudioAppComponent,
     ScopedPointer<HelmComputerKeyboard> computer_keyboard_;
     CriticalSection critical_section_;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmStandaloneEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmEditor)
 };
 
-#endif  // HELM_STANDALONE_EDITOR_H
+#endif  // HELM_EDITOR_H

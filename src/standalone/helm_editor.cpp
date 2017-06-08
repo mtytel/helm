@@ -14,7 +14,7 @@
  * along with helm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "helm_standalone_editor.h"
+#include "helm_editor.h"
 
 #include "default_look_and_feel.h"
 #include "helm_common.h"
@@ -26,7 +26,7 @@
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
-HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
+HelmEditor::HelmEditor() : SynthGuiInterface(this) {
   computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_);
 
   setAudioChannels(0, mopo::NUM_CHANNELS);
@@ -64,7 +64,7 @@ HelmStandaloneEditor::HelmStandaloneEditor() : SynthGuiInterface(this) {
   setOpaque(true);
 }
 
-HelmStandaloneEditor::~HelmStandaloneEditor() {
+HelmEditor::~HelmEditor() {
   shutdownAudio();
   midi_manager_ = nullptr;
   computer_keyboard_ = nullptr;
@@ -72,14 +72,14 @@ HelmStandaloneEditor::~HelmStandaloneEditor() {
   keyboard_state_ = nullptr;
 }
 
-void HelmStandaloneEditor::prepareToPlay(int buffer_size, double sample_rate) {
+void HelmEditor::prepareToPlay(int buffer_size, double sample_rate) {
   engine_.setSampleRate(sample_rate);
   engine_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));
   engine_.updateAllModulationSwitches();
   midi_manager_->setSampleRate(sample_rate);
 }
 
-void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffer) {
+void HelmEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffer) {
   ScopedLock lock(getCriticalSection());
 
   int num_samples = buffer.buffer->getNumSamples();
@@ -99,16 +99,16 @@ void HelmStandaloneEditor::getNextAudioBlock(const AudioSourceChannelInfo& buffe
   }
 }
 
-void HelmStandaloneEditor::releaseResources() {
+void HelmEditor::releaseResources() {
 }
 
-void HelmStandaloneEditor::paint(Graphics& g) {
+void HelmEditor::paint(Graphics& g) {
 }
 
-void HelmStandaloneEditor::resized() {
+void HelmEditor::resized() {
   gui_->setBounds(getBounds());
 }
 
-void HelmStandaloneEditor::animate(bool animate) {
+void HelmEditor::animate(bool animate) {
   gui_->animate(animate);
 }

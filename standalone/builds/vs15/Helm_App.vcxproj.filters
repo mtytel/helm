@@ -724,6 +724,9 @@
     <ClCompile Include="..\..\..\src\standalone\helm_computer_keyboard.cpp">
       <Filter>Helm\src\standalone</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\standalone\helm_editor.cpp">
+      <Filter>Helm\src\standalone</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\standalone\main.cpp">
       <Filter>Helm\src\standalone</Filter>
     </ClCompile>
@@ -2872,6 +2875,9 @@
       <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\standalone\helm_computer_keyboard.h">
+      <Filter>Helm\src\standalone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\standalone\helm_editor.h">
       <Filter>Helm\src\standalone</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\synthesis\dc_filter.h">
