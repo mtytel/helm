@@ -10,7 +10,7 @@ For AU on the Mac you'll want to put the CoreAudio SDK in /Applications/Xcode.ap
 Nothing extra is needed for building VST/LV2 plugins
 
 #### Linux
-To build and install the stanalone, lv2 and vst plugin:
+To build and install the standalone, lv2 and vst plugin:
 ```bash
 make
 sudo make install
@@ -53,16 +53,16 @@ Open /builds/vs15/Helm.sln for plugin versions
  - 32 voice polyphony
  - Interactive visual interface
  - Powerful modulation system with live visual feedback
- - Dual oscillators with cross modulation and up to 15 oscillators each
- - Unison and Harmony mode for oscillators
+ - Dual oscillators with cross modulation and up to 15 unison oscillators each
+ - Sub oscillator with shuffle waveshaping
  - Oscillator feedback and saturation for waveshaping
  - 12 different waveforms
- - 7 filter types with keytracking
+ - Blending between 12 or 24dB low/band/high pass filter
+ - Low/Band/High Shelf filters
  - 2 monophonic and 1 polyphonic LFO
  - Step sequencer
  - Lots of modulation sources including polyphonic aftertouch
  - Simple arpeggiator
- - Effects: Formant filter, stutter, delay
- - Still more...
+ - Effects: Formant filter, stutter, delay, distortion, reverb
 
 ![alt tag](http://tytel.org/static/images/helm_screenshot.png)
