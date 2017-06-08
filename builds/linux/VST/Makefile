@@ -225,9 +225,12 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/include_juce_gui_extra_e7ac9489.o \
   $(JUCE_OBJDIR)/include_juce_opengl_95d8f91c.o \
 
-.PHONY: clean all
+.PHONY: clean all VST
 
-all : $(JUCE_OUTDIR)/$(JUCE_TARGET_VST)
+all : VST
+
+VST : $(JUCE_OUTDIR)/$(JUCE_TARGET_VST)
+
 
 $(JUCE_OUTDIR)/$(JUCE_TARGET_VST) : check-pkg-config $(OBJECTS_VST) $(RESOURCES) $(JUCE_OUTDIR)/$(JUCE_TARGET_SHARED_CODE)
 	@echo Linking "HelmPlugin - VST"

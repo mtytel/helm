@@ -890,7 +890,7 @@
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "~/JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-App.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -924,7 +924,7 @@
 					"JucePlugin_Build_Standalone=0", );
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "~/JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-App.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;

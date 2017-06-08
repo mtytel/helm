@@ -258,7 +258,7 @@ void ProjucerLookAndFeel::drawFileBrowserRow (Graphics& g, int width, int height
                                  findColour (isItemSelected ? defaultHighlightedTextColourId : defaultTextColourId));
 
         fileListComp->setColour (DirectoryContentsDisplayComponent::highlightColourId,
-                                 findColour (defaultHighlightColourId));
+                                 findColour (defaultHighlightColourId).withAlpha (0.75f));
     }
 
 
@@ -303,7 +303,7 @@ void ProjucerLookAndFeel::drawMenuBarItem (Graphics& g, int width, int height,
     }
     else if (isMenuOpen || isMouseOverItem)
     {
-        g.fillAll   (menuBar.findColour (defaultHighlightColourId));
+        g.fillAll   (menuBar.findColour (defaultHighlightColourId).withAlpha (0.75f));
         g.setColour (menuBar.findColour (defaultHighlightedTextColourId));
     }
     else
@@ -532,7 +532,7 @@ void ProjucerLookAndFeel::setupColours()
         setColour (widgetTextColourId,                   Colours::black);
         setColour (defaultButtonBackgroundColourId,      Colour (0xff42a2c8));
         setColour (secondaryButtonBackgroundColourId,    Colour (0xffa1c677));
-        setColour (userButtonBackgroundColourId,         Colour (0xffff5b5b));
+        setColour (userButtonBackgroundColourId,         Colour (0xff42a2c8));
         setColour (defaultIconColourId,                  Colours::white);
         setColour (treeIconColourId,                     Colour (0xffa9a9a9));
         setColour (defaultHighlightColourId,             Colour (0xffffd05b));
@@ -548,7 +548,7 @@ void ProjucerLookAndFeel::setupColours()
 
     setColour (Label::textColourId,                             findColour (defaultTextColourId));
     setColour (Label::textWhenEditingColourId,                  findColour (widgetTextColourId));
-    setColour (TextEditor::highlightColourId,                   findColour (defaultHighlightColourId));
+    setColour (TextEditor::highlightColourId,                   findColour (defaultHighlightColourId).withAlpha (0.75f));
     setColour (TextEditor::highlightedTextColourId,             findColour (defaultHighlightedTextColourId));
     setColour (TextEditor::outlineColourId,                     Colours::transparentBlack);
     setColour (TextEditor::focusedOutlineColourId,              Colours::transparentBlack);
@@ -569,4 +569,6 @@ void ProjucerLookAndFeel::setupColours()
     setColour (CodeEditorComponent::highlightColourId,          findColour (defaultHighlightColourId).withAlpha (0.5f));
     setColour (CaretComponent::caretColourId,                   findColour (defaultButtonBackgroundColourId));
     setColour (TreeView::selectedItemBackgroundColourId,        findColour (defaultHighlightColourId));
+    setColour (PopupMenu::highlightedBackgroundColourId,        findColour (defaultHighlightColourId).withAlpha (0.75f));
+    setColour (PopupMenu::highlightedTextColourId,              findColour (defaultHighlightedTextColourId));
 }

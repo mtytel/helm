@@ -307,20 +307,28 @@ static bool isAnyModuleNewerThanProjucer (const OwnedArray<ModuleDescription>& m
 void Project::warnAboutOldProjucerVersion()
 {
     ModuleList available;
-    available.scanAllKnownFolders (*this);
 
-    if (isAnyModuleNewerThanProjucer (available.modules))
-    {
-        if (ProjucerApplication::getApp().isRunningCommandLine)
-            std::cout <<  "WARNING! This version of the Projucer is out-of-date!" << std::endl;
-        else
-            AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
-                                              "Projucer",
-                                              "This version of the Projucer is out-of-date!"
-                                              "\n\n"
-                                              "Always make sure that you're running the very latest version, "
-                                              "preferably compiled directly from the JUCE repository that you're working with!");
-    }
+    available.scanGlobalJuceModulePath();
+
+    if (! isAnyModuleNewerThanProjucer (available.modules))
+        available.scanGlobalUserModulePath();
+
+    if (! isAnyModuleNewerThanProjucer (available.modules))
+        available.scanProjectExporterModulePaths (*this);
+
+    if (! isAnyModuleNewerThanProjucer (available.modules))
+        return;
+
+    // Projucer is out of date!
+    if (ProjucerApplication::getApp().isRunningCommandLine)
+        std::cout <<  "WARNING! This version of the Projucer is out-of-date!" << std::endl;
+    else
+        AlertWindow::showMessageBoxAsync (AlertWindow::WarningIcon,
+                                          "Projucer",
+                                          "This version of the Projucer is out-of-date!"
+                                          "\n\n"
+                                          "Always make sure that you're running the very latest version, "
+                                          "preferably compiled directly from the JUCE repository that you're working with!");
 }
 
 //==============================================================================
@@ -422,6 +430,11 @@ File Project::resolveFilename (String filename) const
         return {};
 
     filename = replacePreprocessorDefs (getPreprocessorDefs(), filename);
+
+   #if ! JUCE_WINDOWS
+    if (filename.startsWith ("~"))
+        return File::getSpecialLocation (File::userHomeDirectory).getChildFile (filename.trimCharactersAtStart ("~/"));
+   #endif
 
     if (FileHelpers::isAbsolutePath (filename))
         return File::createFileWithoutCheckingPath (FileHelpers::currentOSStylePath (filename)); // (avoid assertions for windows-style paths)
@@ -718,7 +731,7 @@ void Project::createAudioPluginPropertyEditors (PropertyListBuilder& props)
                "This list is a comma-separated set list in the form {numIns, numOuts} and each pair indicates a valid plug-in "
                "configuration. For example {1, 1}, {2, 2} means that the plugin can be used either with 1 input and 1 output, "
                "or with 2 inputs and 2 outputs. If your plug-in requires side-chains, aux output buses etc., then you must leave "
-               "this field empty and override the setPreferredBusArrangement method in your AudioProcessor.");
+               "this field empty and override the isBusesLayoutSupported callback in your AudioProcessor.");
 
     props.add (new BooleanPropertyComponent (getPluginIsSynth(), "Plugin is a Synth", "Is a Synth"),
                "Enable this if you want your plugin to be treated as a synth or generator. It doesn't make much difference to the plugin itself, but some hosts treat synths differently to other plugins.");

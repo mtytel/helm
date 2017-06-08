@@ -81,12 +81,16 @@ public:
 
     virtual StandaloneFilterWindow* createWindow()
     {
+       #ifdef JucePlugin_PreferredChannelConfigurations
+        StandalonePluginHolder::PluginInOuts channels[] = { JucePlugin_PreferredChannelConfigurations };
+       #endif
+
         return new StandaloneFilterWindow (getApplicationName(),
                                            LookAndFeel::getDefaultLookAndFeel().findColour (ResizableWindow::backgroundColourId),
                                            appProperties.getUserSettings(),
                                            false, {}, nullptr
                                           #ifdef JucePlugin_PreferredChannelConfigurations
-                                           , { JucePlugin_PreferredChannelConfigurations }
+                                           , juce::Array<StandalonePluginHolder::PluginInOuts> (channels, juce::numElementsInArray (channels))
                                           #endif
                                            );
     }
@@ -120,7 +124,7 @@ protected:
     ScopedPointer<StandaloneFilterWindow> mainWindow;
 };
 
-#if JucePlugin_Build_STANDALONE && JUCE_IOS
+#if JucePlugin_Build_Standalone && JUCE_IOS
 
 bool JUCE_CALLTYPE juce_isInterAppAudioConnected()
 {

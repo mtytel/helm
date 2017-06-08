@@ -40,6 +40,10 @@ class StandalonePluginHolder    : private AudioIODeviceCallback
                                #endif
 {
 public:
+    //==============================================================================
+    struct PluginInOuts   { short numIns, numOuts; };
+
+    //==============================================================================
     /** Creates an instance of the default plugin.
 
         The settings object can be a PropertySet that the class should use to store its
@@ -58,14 +62,31 @@ public:
                             bool takeOwnershipOfSettings = true,
                             const String& preferredDefaultDeviceName = String(),
                             const AudioDeviceManager::AudioDeviceSetup* preferredSetupOptions = nullptr,
-                            const std::initializer_list<const short[2]>& constrainToConfiguration = {})
+                            const Array<PluginInOuts>& channels = Array<PluginInOuts>())
 
         : settings (settingsToUse, takeOwnershipOfSettings),
-          channelConfiguration (constrainToConfiguration),
+          channelConfiguration (channels),
           shouldMuteInput (! isInterAppAudioConnected())
     {
         createPlugin();
-        setupAudioDevices (preferredDefaultDeviceName, preferredSetupOptions);
+
+        auto inChannels = (channelConfiguration.size() > 0 ? channelConfiguration[0].numIns
+                                                           : processor->getMainBusNumInputChannels());
+
+        if (preferredSetupOptions != nullptr)
+            options = new AudioDeviceManager::AudioDeviceSetup (*preferredSetupOptions);
+
+        if (inChannels > 0 && RuntimePermissions::isRequired (RuntimePermissions::recordAudio)
+            && ! RuntimePermissions::isGranted (RuntimePermissions::recordAudio))
+            RuntimePermissions::request (RuntimePermissions::recordAudio,
+                                         [this, preferredDefaultDeviceName] (bool granted) { init (granted, preferredDefaultDeviceName); });
+        else
+            init (true, preferredDefaultDeviceName);
+    }
+
+    void init (bool enableAudioInput, const String& preferredDefaultDeviceName)
+    {
+        setupAudioDevices (enableAudioInput, preferredDefaultDeviceName, options);
         reloadPluginState();
         startPlaying();
 
@@ -100,10 +121,10 @@ public:
         processor->disableNonMainBuses();
         processor->setRateAndBufferSizeDetails (44100, 512);
 
-        int inChannels = (channelConfiguration.size() > 0 ? (*channelConfiguration.begin())[0]
+        int inChannels = (channelConfiguration.size() > 0 ? channelConfiguration[0].numIns
                                                           : processor->getMainBusNumInputChannels());
 
-        int outChannels = (channelConfiguration.size() > 0 ? (*channelConfiguration.begin())[1]
+        int outChannels = (channelConfiguration.size() > 0 ? channelConfiguration[0].numOuts
                                                            : processor->getMainBusNumOutputChannels());
 
         processorHasPotentialFeedbackLoop = (inChannels > 0 && outChannels > 0);
@@ -224,9 +245,9 @@ public:
 
         if (channelConfiguration.size() > 0)
         {
-            auto defaultConfig = *channelConfiguration.begin();
-            totalInChannels  = defaultConfig[0];
-            totalOutChannels = defaultConfig[1];
+            auto defaultConfig = channelConfiguration.getReference (0);
+            totalInChannels  = defaultConfig.numIns;
+            totalOutChannels = defaultConfig.numOuts;
         }
 
         o.content.setOwned (new SettingsComponent (*this, deviceManager,
@@ -259,7 +280,8 @@ public:
         }
     }
 
-    void reloadAudioDeviceState (const String& preferredDefaultDeviceName,
+    void reloadAudioDeviceState (bool enableAudioInput,
+                                 const String& preferredDefaultDeviceName,
                                  const AudioDeviceManager::AudioDeviceSetup* preferredSetupOptions)
     {
         ScopedPointer<XmlElement> savedState;
@@ -278,12 +300,12 @@ public:
 
         if (channelConfiguration.size() > 0)
         {
-            auto defaultConfig = *channelConfiguration.begin();
-            totalInChannels  = defaultConfig[0];
-            totalOutChannels = defaultConfig[1];
+            auto defaultConfig = channelConfiguration.getReference (0);
+            totalInChannels  = defaultConfig.numIns;
+            totalOutChannels = defaultConfig.numOuts;
         }
 
-        deviceManager.initialise (totalInChannels,
+        deviceManager.initialise (enableAudioInput ? totalInChannels : 0,
                                   totalOutChannels,
                                   savedState,
                                   true,
@@ -354,12 +376,14 @@ public:
     ScopedPointer<AudioProcessor> processor;
     AudioDeviceManager deviceManager;
     AudioProcessorPlayer player;
-    std::initializer_list<const short[2]> channelConfiguration;
+    Array<PluginInOuts> channelConfiguration;
 
     // avoid feedback loop by default
     bool processorHasPotentialFeedbackLoop = true;
     Value shouldMuteInput;
     AudioSampleBuffer emptyBuffer;
+
+    ScopedPointer<AudioDeviceManager::AudioDeviceSetup> options;
 
    #if JUCE_IOS || JUCE_ANDROID
     StringArray lastMidiDevices;
@@ -472,13 +496,14 @@ private:
     }
 
     //==============================================================================
-    void setupAudioDevices (const String& preferredDefaultDeviceName,
+    void setupAudioDevices (bool enableAudioInput,
+                            const String& preferredDefaultDeviceName,
                             const AudioDeviceManager::AudioDeviceSetup* preferredSetupOptions)
     {
         deviceManager.addAudioCallback (this);
         deviceManager.addMidiInputCallback ({}, &player);
 
-        reloadAudioDeviceState (preferredDefaultDeviceName, preferredSetupOptions);
+        reloadAudioDeviceState (enableAudioInput, preferredDefaultDeviceName, preferredSetupOptions);
     }
 
     void shutDownAudioDevices()
@@ -533,6 +558,9 @@ class StandaloneFilterWindow    : public DocumentWindow,
 {
 public:
     //==============================================================================
+    typedef StandalonePluginHolder::PluginInOuts PluginInOuts;
+
+    //==============================================================================
     /** Creates a window with a given title and colour.
         The settings object can be a PropertySet that the class should use to
         store its settings (it can also be null). If takeOwnershipOfSettings is
@@ -544,7 +572,7 @@ public:
                             bool takeOwnershipOfSettings,
                             const String& preferredDefaultDeviceName = String(),
                             const AudioDeviceManager::AudioDeviceSetup* preferredSetupOptions = nullptr,
-                            const std::initializer_list<const short[2]>& constrainToConfiguration = {})
+                            const Array<PluginInOuts>& constrainToConfiguration = Array<PluginInOuts> ())
         : DocumentWindow (title, backgroundColour, DocumentWindow::minimiseButton | DocumentWindow::closeButton),
           optionsButton ("Options")
     {
@@ -666,7 +694,9 @@ public:
 
 private:
     //==============================================================================
-    class MainContentComponent : public Component, private Value::Listener, Button::Listener
+    class MainContentComponent : public Component, private Value::Listener,
+                                                           Button::Listener,
+                                                           ComponentListener
     {
     public:
         MainContentComponent (StandaloneFilterWindow& filterWindow)
@@ -676,7 +706,14 @@ private:
         {
             Value& inputMutedValue = owner.pluginHolder->getMuteInputValue();
 
-            addAndMakeVisible (editor);
+            if (editor != nullptr)
+            {
+                editor->addComponentListener (this);
+                componentMovedOrResized (*editor, false, true);
+
+                addAndMakeVisible (editor);
+            }
+
             addChildComponent (notification);
 
             if (owner.pluginHolder->getProcessorHasPotentialFeedbackLoop())
@@ -692,6 +729,7 @@ private:
         {
             if (editor != nullptr)
             {
+                editor->removeComponentListener (this);
                 owner.pluginHolder->processor->editorBeingDeleted (editor);
                 editor = nullptr;
             }
@@ -777,6 +815,14 @@ private:
         }
 
         //==============================================================================
+        void componentMovedOrResized (Component&, bool, bool wasResized) override
+        {
+            if (wasResized && editor != nullptr)
+                setSize (editor->getWidth(),
+                         editor->getHeight() + (shouldShowNotification ? NotificationArea::height : 0));
+        }
+
+        //==============================================================================
         StandaloneFilterWindow& owner;
         NotificationArea notification;
         ScopedPointer<AudioProcessorEditor> editor;
@@ -793,7 +839,7 @@ private:
 
 StandalonePluginHolder* StandalonePluginHolder::getInstance()
 {
-   #if JucePlugin_Enable_IAA || JucePlugin_Build_STANDALONE
+   #if JucePlugin_Enable_IAA || JucePlugin_Build_Standalone
     if (PluginHostType::getPluginLoadedAs() == AudioProcessor::wrapperType_Standalone)
     {
         auto& desktop = Desktop::getInstance();

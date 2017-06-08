@@ -90,6 +90,9 @@ AudioProcessor::~AudioProcessor()
 }
 
 //==============================================================================
+StringArray AudioProcessor::getAlternateDisplayNames() const     { return StringArray (getName()); }
+
+//==============================================================================
 bool AudioProcessor::addBus (bool isInput)
 {
     if (! canAddBus (isInput))
@@ -690,7 +693,9 @@ void AudioProcessor::addParameter (AudioProcessorParameter* p)
     auto paramId = getParameterID (p->parameterIndex);
 
     for (auto q : managedParameters)
+    {
         jassert (q == nullptr || q == p || paramId != getParameterID (q->parameterIndex));
+    }
    #endif
 }
 
