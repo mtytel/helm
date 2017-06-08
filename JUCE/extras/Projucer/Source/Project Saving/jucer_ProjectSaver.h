@@ -2,28 +2,29 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
+   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
+   27th April 2017).
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   End User License Agreement: www.juce.com/juce-5-licence
+   Privacy Policy: www.juce.com/juce-5-privacy-policy
 
-   ------------------------------------------------------------------------------
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCER_PROJECTSAVER_H_INCLUDED
-#define JUCER_PROJECTSAVER_H_INCLUDED
+#pragma once
 
 #include "jucer_ResourceFile.h"
 #include "../Project/jucer_Module.h"
@@ -47,28 +48,32 @@ public:
     struct SaveThread  : public ThreadWithProgressWindow
     {
     public:
-        SaveThread (ProjectSaver& ps)
+        SaveThread (ProjectSaver& ps, bool wait, const String& exp)
             : ThreadWithProgressWindow ("Saving...", true, false),
-              saver (ps), result (Result::ok())
+              saver (ps), result (Result::ok()),
+              shouldWaitAfterSaving (wait),
+              specifiedExporterToSave (exp)
         {}
 
         void run() override
         {
             setProgress (-1);
-            result = saver.save (false);
+            result = saver.save (false, shouldWaitAfterSaving, specifiedExporterToSave);
         }
 
         ProjectSaver& saver;
         Result result;
+        bool shouldWaitAfterSaving;
+        String specifiedExporterToSave;
 
         JUCE_DECLARE_NON_COPYABLE (SaveThread)
     };
 
-    Result save (bool showProgressBox)
+    Result save (bool showProgressBox, bool waitAfterSaving, const String& specifiedExporterToSave)
     {
         if (showProgressBox)
         {
-            SaveThread thread (*this);
+            SaveThread thread (*this, waitAfterSaving, specifiedExporterToSave);
             thread.runThread();
             return thread.result;
         }
@@ -78,22 +83,26 @@ public:
         const File oldFile (project.getFile());
         project.setFile (projectFile);
 
-        writeMainProjectFile();
-
         OwnedArray<LibraryModule> modules;
         project.getModules().createRequiredModules (modules);
 
         checkModuleValidity (modules);
 
-        if (errors.size() == 0) writeAppConfigFile (modules, appConfigUserContent);
-        if (errors.size() == 0) writeBinaryDataFiles();
-        if (errors.size() == 0) writeAppHeader (modules);
-        if (errors.size() == 0) writeModuleCppWrappers (modules);
-        if (errors.size() == 0) writeProjects (modules);
-        if (errors.size() == 0) writeAppConfigFile (modules, appConfigUserContent); // (this is repeated in case the projects added anything to it)
+        if (errors.size() == 0)
+        {
+            writeMainProjectFile();
+            project.updateModificationTime();
 
-        if (errors.size() == 0 && generatedCodeFolder.exists())
-            writeReadmeFile();
+            writeAppConfigFile (modules, appConfigUserContent);
+            writeBinaryDataFiles();
+            writeAppHeader (modules);
+            writeModuleCppWrappers (modules);
+            writeProjects (modules, specifiedExporterToSave);
+            writeAppConfigFile (modules, appConfigUserContent); // (this is repeated in case the projects added anything to it)
+
+            if (generatedCodeFolder.exists())
+                writeReadmeFile();
+        }
 
         if (generatedCodeFolder.exists())
             deleteUnwantedFilesIn (generatedCodeFolder);
@@ -104,7 +113,10 @@ public:
             return Result::fail (errors[0]);
         }
 
-        project.updateModificationTime();
+        // Workaround for a bug where Xcode thinks the project is invalid if opened immedietely
+        // after writing
+        if (waitAfterSaving)
+            Thread::sleep (2000);
 
         return Result::ok();
     }
@@ -334,6 +346,13 @@ private:
 
     void checkModuleValidity (OwnedArray<LibraryModule>& modules)
     {
+        if (project.getNumExporters() == 0)
+        {
+            addError ("No exporters found!\n"
+                      "Please add an exporter before saving.");
+            return;
+        }
+
         for (LibraryModule** moduleIter = modules.begin(); moduleIter != modules.end(); ++moduleIter)
         {
             if (const LibraryModule* const module = *moduleIter)
@@ -341,7 +360,7 @@ private:
                 if (! module->isValid())
                 {
                     addError ("At least one of your JUCE module paths is invalid!\n"
-                              "Please go to Config -> Modules and ensure each path points to the correct JUCE modules folder.");
+                              "Please go to the Modules settings page and ensure each path points to the correct JUCE modules folder.");
                     return;
                 }
             }
@@ -365,15 +384,36 @@ private:
             << "*/" << newLine
             << newLine;
 
-        const String headerGuard ("__JUCE_APPCONFIG_" + project.getProjectUID().toUpperCase() + "__");
-        out << "#ifndef " << headerGuard << newLine
-            << "#define " << headerGuard << newLine
+        out << "#pragma once" << newLine
             << newLine
             << "//==============================================================================" << newLine
             << "// [BEGIN_USER_CODE_SECTION]" << newLine
             << userContent
-            << "// [END_USER_CODE_SECTION]" << newLine
+            << "// [END_USER_CODE_SECTION]" << newLine;
+
+        out << newLine
+            << "/*" << newLine
+            << "  ==============================================================================" << newLine
             << newLine
+            << "   In accordance with the terms of the JUCE 5 End-Use License Agreement, the" << newLine
+            << "   JUCE Code in SECTION A cannot be removed, changed or otherwise rendered" << newLine
+            << "   ineffective unless you have a JUCE Indie or Pro license, or are using JUCE" << newLine
+            << "   under the GPL v3 license." << newLine
+            << newLine
+            << "   End User License Agreement: www.juce.com/juce-5-licence" << newLine
+            << "  ==============================================================================" << newLine
+            << "*/" << newLine
+            << newLine
+            << "// BEGIN SECTION A" << newLine
+            << newLine
+            << "#define JUCE_DISPLAY_SPLASH_SCREEN "   << (project.shouldDisplaySplashScreen().getValue() ? "1" : "0") << newLine
+            << "#define JUCE_REPORT_APP_USAGE "        << (project.shouldReportAppUsage().getValue()      ? "1" : "0") << newLine
+            << newLine
+            << "// END SECTION A" << newLine
+            << newLine
+            << "#define JUCE_USE_DARK_SPLASH_SCREEN "  << (project.splashScreenColour().toString() == "Dark" ? "1" : "0") << newLine;
+
+        out << newLine
             << "//==============================================================================" << newLine;
 
         const int longestName = findLongestModuleName (modules);
@@ -397,7 +437,7 @@ private:
             // Fabian TODO
             out << "//==============================================================================" << newLine
                 << "#ifndef    JUCE_STANDALONE_APPLICATION" << newLine
-                << " #ifdef JucePlugin_Build_Standalone" << newLine
+                << " #if defined(JucePlugin_Name) && defined(JucePlugin_Build_Standalone)" << newLine
                 << "  #define  JUCE_STANDALONE_APPLICATION JucePlugin_Build_Standalone" << newLine
                 << " #else" << newLine
                 << "  #define  JUCE_STANDALONE_APPLICATION " << isStandaloneApplication << newLine
@@ -407,8 +447,6 @@ private:
                 << "#define JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED 1" << newLine;
         }
 
-        out << newLine;
-
         for (int j = 0; j < modules.size(); ++j)
         {
             LibraryModule* const m = modules.getUnchecked(j);
@@ -417,9 +455,9 @@ private:
 
             if (flags.size() > 0)
             {
-                out << "//==============================================================================" << newLine
-                    << "// " << m->getID() << " flags:" << newLine
-                    << newLine;
+                out << newLine
+                    << "//==============================================================================" << newLine
+                    << "// " << m->getID() << " flags:" << newLine;
 
                 for (int i = 0; i < flags.size(); ++i)
                 {
@@ -428,7 +466,8 @@ private:
                     const Project::ConfigFlag* const f = flags[i];
                     const String value (project.getConfigFlag (f->symbol).toString());
 
-                    out << "#ifndef    " << f->symbol << newLine;
+                    out << newLine
+                        << "#ifndef    " << f->symbol << newLine;
 
                     if (value == Project::configFlagEnabled)
                         out << " #define   " << f->symbol << " 1";
@@ -441,17 +480,13 @@ private:
 
 
                     out << newLine
-                        << "#endif" << newLine
-                        << newLine;
+                        << "#endif" << newLine;
                 }
             }
         }
 
         if (extraAppConfigContent.isNotEmpty())
             out << newLine << extraAppConfigContent.trimEnd() << newLine;
-
-        out << newLine
-            << "#endif  // " << headerGuard << newLine;
     }
 
     void writeAppConfigFile (const OwnedArray<LibraryModule>& modules, const String& userContent)
@@ -474,9 +509,7 @@ private:
             << newLine
             << "*/" << newLine << newLine;
 
-        String headerGuard ("__APPHEADERFILE_" + project.getProjectUID().toUpperCase() + "__");
-        out << "#ifndef " << headerGuard << newLine
-            << "#define " << headerGuard << newLine << newLine;
+        out << "#pragma once" << newLine << newLine;
 
         if (appConfigFile.exists())
             out << CodeHelpers::createIncludeStatement (project.getAppConfigFilename()) << newLine;
@@ -508,9 +541,7 @@ private:
             << "    const char* const  versionString  = " << CppTokeniserFunctions::addEscapeChars (project.getVersionString()).quoted() << ";" << newLine
             << "    const int          versionNumber  = " << project.getVersionAsHex() << ";" << newLine
             << "}" << newLine
-            << "#endif" << newLine
-            << newLine
-            << "#endif   // " << headerGuard << newLine;
+            << "#endif" << newLine;
     }
 
     void writeAppHeader (const OwnedArray<LibraryModule>& modules)
@@ -522,16 +553,10 @@ private:
 
     void writeModuleCppWrappers (const OwnedArray<LibraryModule>& modules)
     {
-        for (int j = 0; j < modules.size(); ++j)
+        for (auto* module : modules)
         {
-            const LibraryModule& module = *modules.getUnchecked(j);
-
-            Array<LibraryModule::CompileUnit> units = module.getAllCompileUnits();
-
-            for (int i = 0; i < units.size(); ++i)
+            for (auto& cu : module->getAllCompileUnits())
             {
-                const LibraryModule::CompileUnit& cu = units.getReference(i);
-
                 MemoryOutputStream mem;
 
                 writeAutoGenWarningComment (mem);
@@ -539,9 +564,14 @@ private:
                 mem << "*/" << newLine
                     << newLine
                     << "#include " << project.getAppConfigFilename().quoted() << newLine
-                    << "#include <" << module.getID() << "/" << cu.file.getFileName() << ">" << newLine;
+                    << "#include <";
 
-                replaceFileIfDifferent (generatedCodeFolder.getChildFile (cu.file.getFileName()), mem);
+                if (cu.file.getFileExtension() != ".r")   // .r files are included without the path
+                    mem << module->getID() << "/";
+
+                mem << cu.file.getFileName() << ">" << newLine;
+
+                replaceFileIfDifferent (generatedCodeFolder.getChildFile (cu.getFilenameForProxyFile()), mem);
             }
         }
     }
@@ -621,7 +651,7 @@ private:
 
     void writePluginCharacteristicsFile();
 
-    void writeProjects (const OwnedArray<LibraryModule>& modules)
+    void writeProjects (const OwnedArray<LibraryModule>& modules, const String& specifiedExporterToSave)
     {
         ThreadPool threadPool;
 
@@ -632,6 +662,9 @@ private:
         {
             for (Project::ExporterIterator exporter (project); exporter.next();)
             {
+                if (specifiedExporterToSave.isNotEmpty() && exporter->getName() != specifiedExporterToSave)
+                    continue;
+
                 if (exporter->getTargetFolder().createDirectory())
                 {
                     exporter->copyMainGroupFromProject();
@@ -704,6 +737,3 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ProjectSaver)
 };
-
-
-#endif   // JUCER_PROJECTSAVER_H_INCLUDED

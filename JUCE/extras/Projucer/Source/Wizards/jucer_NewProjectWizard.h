@@ -2,60 +2,32 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2015 - ROLI Ltd.
+   Copyright (c) 2017 - ROLI Ltd.
 
-   Permission is granted to use this software under the terms of either:
-   a) the GPL v2 (or any later version)
-   b) the Affero GPL v3
+   JUCE is an open source library subject to commercial or open-source
+   licensing.
 
-   Details of these licenses can be found at: www.gnu.org/licenses
+   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
+   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
+   27th April 2017).
 
-   JUCE is distributed in the hope that it will be useful, but WITHOUT ANY
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-   A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+   End User License Agreement: www.juce.com/juce-5-licence
+   Privacy Policy: www.juce.com/juce-5-privacy-policy
 
-   ------------------------------------------------------------------------------
+   Or: You may also use this code under the terms of the GPL v3 (see
+   www.gnu.org/licenses).
 
-   To release a closed-source product which uses JUCE, commercial licenses are
-   available: visit www.juce.com for more information.
+   JUCE IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+   EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+   DISCLAIMED.
 
   ==============================================================================
 */
 
-#ifndef JUCER_NEWPROJECTWIZARD_H_INCLUDED
-#define JUCER_NEWPROJECTWIZARD_H_INCLUDED
+#pragma once
 
 
 //==============================================================================
-static ComboBox& createFileCreationOptionComboBox (Component& setupComp,
-                                              OwnedArray<Component>& itemsCreated,
-                                              const StringArray& fileOptions)
-{
-    ComboBox* c = new ComboBox();
-    itemsCreated.add (c);
-    setupComp.addChildAndSetID (c, "filesToCreate");
-
-    c->addItemList (fileOptions, 1);
-    c->setSelectedId (1, dontSendNotification);
-
-    Label* l = new Label (String(), TRANS("Files to Auto-Generate") + ":");
-    l->attachToComponent (c, true);
-    itemsCreated.add (l);
-
-    c->setBounds ("parent.width / 2 + 160, 30, parent.width - 30, top + 22");
-
-    return *c;
-}
-
-static int getFileCreationComboResult (WizardComp& setupComp)
-{
-    if (ComboBox* cb = dynamic_cast<ComboBox*> (setupComp.findChildWithID ("filesToCreate")))
-        return cb->getSelectedItemIndex();
-
-    jassertfalse;
-    return 0;
-}
-
 static void setExecutableNameForAllTargets (Project& project, const String& exeName)
 {
     for (Project::ExporterIterator exporter (project); exporter.next();)
@@ -90,7 +62,7 @@ struct NewProjectWizard
     virtual String getDescription() const = 0;
     virtual const char* getIcon() const = 0;
 
-    virtual void addSetupItems (Component&, OwnedArray<Component>&)     {}
+    virtual StringArray getFileCreationOptions()                        { return {}; }
     virtual Result processResultsFromSetupItems (WizardComp&)           { return Result::ok(); }
 
     virtual bool initialiseProject (Project& project) = 0;
@@ -224,6 +196,3 @@ struct NewProjectWizard
             project.createExporterForCurrentPlatform();
     }
 };
-
-
-#endif   // JUCER_NEWPROJECTWIZARD_H_INCLUDED

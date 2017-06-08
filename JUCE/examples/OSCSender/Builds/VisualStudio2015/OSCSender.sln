@@ -1,6 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2015
-Project("{69947305-5206-EC15-E3B8-BF4DAEEF42CC}") = "OSCSender", "OSCSender.vcxproj", "{2227B7BB-2DDA-8B39-5483-E9B28A360328}"
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSCSender - App", "OSCSender_App.vcxproj", "{5B0FE56E-266D-A62C-D8A9-D1F5E7905AF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2227B7BB-2DDA-8B39-5483-E9B28A360328}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2227B7BB-2DDA-8B39-5483-E9B28A360328}.Debug|Win32.Build.0 = Debug|Win32
-		{2227B7BB-2DDA-8B39-5483-E9B28A360328}.Release|Win32.ActiveCfg = Release|Win32
-		{2227B7BB-2DDA-8B39-5483-E9B28A360328}.Release|Win32.Build.0 = Release|Win32
+		{5B0FE56E-266D-A62C-D8A9-D1F5E7905AF2}.Debug|Win32.Build.0 = Debug|Win32
+		{5B0FE56E-266D-A62C-D8A9-D1F5E7905AF2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5B0FE56E-266D-A62C-D8A9-D1F5E7905AF2}.Release|Win32.Build.0 = Release|Win32
+		{5B0FE56E-266D-A62C-D8A9-D1F5E7905AF2}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

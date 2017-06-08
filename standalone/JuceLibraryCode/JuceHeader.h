@@ -10,8 +10,7 @@
 
 */
 
-#ifndef __APPHEADERFILE_GFSDNK__
-#define __APPHEADERFILE_GFSDNK__
+#pragma once
 
 #include "AppConfig.h"
 
@@ -45,5 +44,3 @@ namespace ProjectInfo
     const int          versionNumber  = 0x900;
 }
 #endif
-
-#endif   // __APPHEADERFILE_GFSDNK__

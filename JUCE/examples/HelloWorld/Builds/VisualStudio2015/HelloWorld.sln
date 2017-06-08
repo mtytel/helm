@@ -1,17 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2015
-Project("{5FF0139D-D865-F437-0399-F3B8D04FF3DC}") = "HelloWorld", "HelloWorld.vcxproj", "{DE45EB49-4787-51B4-1A66-9F94E58BE282}"
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld - App", "HelloWorld_App.vcxproj", "{D0620B06-01BA-BA19-C625-CE28F4174EC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		Release|Win32 = Release|Win32
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DE45EB49-4787-51B4-1A66-9F94E58BE282}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DE45EB49-4787-51B4-1A66-9F94E58BE282}.Debug|Win32.Build.0 = Debug|Win32
-		{DE45EB49-4787-51B4-1A66-9F94E58BE282}.Release|Win32.ActiveCfg = Release|Win32
-		{DE45EB49-4787-51B4-1A66-9F94E58BE282}.Release|Win32.Build.0 = Release|Win32
+		{D0620B06-01BA-BA19-C625-CE28F4174EC7}.Debug|x64.Build.0 = Debug|x64
+		{D0620B06-01BA-BA19-C625-CE28F4174EC7}.Debug|x64.ActiveCfg = Debug|x64
+		{D0620B06-01BA-BA19-C625-CE28F4174EC7}.Release|x64.Build.0 = Release|x64
+		{D0620B06-01BA-BA19-C625-CE28F4174EC7}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

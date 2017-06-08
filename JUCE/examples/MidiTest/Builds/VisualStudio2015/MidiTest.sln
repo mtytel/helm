@@ -1,6 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2015
-Project("{6FB140E6-9A4C-826A-B1FF-68BC7A580630}") = "MidiTest", "MidiTest.vcxproj", "{E4A0537A-4F06-DC9E-944E-48CA0A0E2CCA}"
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MidiTest - App", "MidiTest_App.vcxproj", "{EB720316-22FE-A3C9-7871-F2C2B2FC7A45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E4A0537A-4F06-DC9E-944E-48CA0A0E2CCA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E4A0537A-4F06-DC9E-944E-48CA0A0E2CCA}.Debug|Win32.Build.0 = Debug|Win32
-		{E4A0537A-4F06-DC9E-944E-48CA0A0E2CCA}.Release|Win32.ActiveCfg = Release|Win32
-		{E4A0537A-4F06-DC9E-944E-48CA0A0E2CCA}.Release|Win32.Build.0 = Release|Win32
+		{EB720316-22FE-A3C9-7871-F2C2B2FC7A45}.Debug|Win32.Build.0 = Debug|Win32
+		{EB720316-22FE-A3C9-7871-F2C2B2FC7A45}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EB720316-22FE-A3C9-7871-F2C2B2FC7A45}.Release|Win32.Build.0 = Release|Win32
+		{EB720316-22FE-A3C9-7871-F2C2B2FC7A45}.Release|Win32.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
