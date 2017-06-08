@@ -91,26 +91,22 @@ namespace X11ErrorHandling
 XWindowSystem::XWindowSystem() noexcept
     : display (nullptr)
 {
-    if (JUCEApplicationBase::isStandaloneApp())
-    {
-        // Initialise xlib for multiple thread support
-        static bool initThreadCalled = false;
+    // Initialise xlib for multiple thread support
+		static bool standaloneInitThreadCalled = false;
+		if (!JUCEApplicationBase::isStandaloneApp() || !standaloneInitThreadCalled)
+		{
+				if (! XInitThreads())
+				{
+						// This is fatal!  Print error and closedown
+						Logger::outputDebugString ("Failed to initialise xlib thread support.");
+						Process::terminate();
+						return;
+				}
 
-        if (! initThreadCalled)
-        {
-            if (! XInitThreads())
-            {
-                // This is fatal!  Print error and closedown
-                Logger::outputDebugString ("Failed to initialise xlib thread support.");
-                Process::terminate();
-                return;
-            }
-
-            initThreadCalled = true;
-        }
+				standaloneInitThreadCalled = true;
 
         X11ErrorHandling::installXErrorHandlers();
-    }
+		}
 }
 
 XWindowSystem::~XWindowSystem() noexcept
