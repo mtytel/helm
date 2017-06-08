@@ -126,10 +126,6 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glDisable(GL_LINE_SMOOTH);
-
-  GLenum e = glGetError();
-  if (e != GL_NO_ERROR)
-    MOPO_ASSERT(false);
 }
 
 void OpenGLOscilloscope::render(OpenGLContext& open_gl_context, bool animate) {
