@@ -18,31 +18,36 @@ sudo make install
 
 Other make commands:
 ```bash
-\# Build just the Linux standalone executable:
+# Build just the Linux standalone executable:
 make standalone
-\# Build just the Linux LV2 plugin:
+
+# Build just the Linux LV2 plugin:
 make lv2
-\# Build just the Linux VST plugin
+
+# Build just the Linux VST plugin
 make vst
-\# Install just the Linux standalone executable:
+
+# Install just the Linux standalone executable:
 sudo make install_standalone
-\# Install just the Linux LV2 plugin:
+
+# Install just the Linux LV2 plugin:
 sudo make install_lv2
-\# Install just the Linux VST plugin
+
+# Install just the Linux VST plugin
 sudo make install_vst
 ```
 
-The standalone executable is located in standalone/builds/linux/build  
-The LV2 plugin is located in builds/linux/LV2  
-The VST plugin is located in builds/linux/VST as an .so file.
+The standalone executable is built to standalone/builds/linux/build and installed to /usr/bin
+The LV2 plugin is built to builds/linux/LV2 and installed to /usr/lib/lv2
+The VST plugin is built to builds/linux/VST and installed to /usr/lib/lxvst
 
 #### OSX
 Open /standalone/builds/osx/Helm.xcodeproj for standalone version  
-Open /builds/osx/HelmPlugin.xcodeproj for plugin versions
+Open /builds/osx/Helm.xcodeproj for plugin versions
 
 #### Windows
-Open /standalone/builds/vs12/Helm.sln for standalone version  
-Open /builds/vs12/HelmPlugin.sln for plugin versions
+Open /standalone/builds/vs15/Helm.sln for standalone version  
+Open /builds/vs15/Helm.sln for plugin versions
 
 ### Features:
  - 32 voice polyphony
