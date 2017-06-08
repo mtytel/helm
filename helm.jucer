@@ -527,8 +527,8 @@
       </MODULEPATHS>
     </LINUX_MAKE>
     <XCODE_MAC targetFolder="builds/osx" vstFolder="~/srcs/VST3 SDK" postbuildCommand=""
-               vst3Folder="~/srcs/VST_SDK/VST3_SDK" rtasFolder="~/SDKs/PT_80_SDK"
-               aaxFolder="~/srcs/AAX" extraDefs="" customPList="&lt;plist&gt;&#10;  &lt;dict&gt;&#10;    &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&#10;    &lt;dict&gt;&#10;      &lt;key&gt;NSExceptionDomains&lt;/key&gt;&#10;      &lt;dict&gt;&#10;        &lt;key&gt;tytel.org&lt;/key&gt;&#10;        &lt;dict&gt;&#10;          &lt;key&gt;NSIncludeSubDomains&lt;/key&gt;&#10;          &lt;false/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;&#10;          &lt;true/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;&#10;          &lt;string&gt;TLSv1.1&lt;/string&gt;&#10;        &lt;/dict&gt;&#10;      &lt;/dict&gt;&#10;    &lt;/dict&gt;&#10;  &lt;/dict&gt;&#10;&lt;/plist&gt;"
+               vst3Folder="VST3_SDK" rtasFolder="~/SDKs/PT_80_SDK" aaxFolder="~/srcs/AAX"
+               extraDefs="" customPList="&lt;plist&gt;&#10;  &lt;dict&gt;&#10;    &lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&#10;    &lt;dict&gt;&#10;      &lt;key&gt;NSExceptionDomains&lt;/key&gt;&#10;      &lt;dict&gt;&#10;        &lt;key&gt;tytel.org&lt;/key&gt;&#10;        &lt;dict&gt;&#10;          &lt;key&gt;NSIncludeSubDomains&lt;/key&gt;&#10;          &lt;false/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionAllowsInsecureHTTPLoads&lt;/key&gt;&#10;          &lt;true/&gt;&#10;          &lt;key&gt;NSTemporaryExceptionMinimumTLSVersion&lt;/key&gt;&#10;          &lt;string&gt;TLSv1.1&lt;/string&gt;&#10;        &lt;/dict&gt;&#10;      &lt;/dict&gt;&#10;    &lt;/dict&gt;&#10;  &lt;/dict&gt;&#10;&lt;/plist&gt;"
                extraCompilerFlags="" extraLinkerFlags="" iosDevelopmentTeamID="EFXDM6K3KJ"
                bigIcon="XC7smo">
       <CONFIGURATIONS>
@@ -555,7 +555,7 @@
         <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2015 targetFolder="builds/vs15" vstFolder="c:\srcs\VST3 SDK" vst3Folder="c:\srcs\VST_SDK\VST3_SDK"
+    <VS2015 targetFolder="builds/vs15" vstFolder="c:\srcs\VST3 SDK" vst3Folder="VST3_SDK"
             aaxFolder="c:\srcs\AAX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"

@@ -1,0 +1,51 @@
+//------------------------------------------------------------------------
+// Project     : VST SDK
+//
+// Category    : Helpers
+// Filename    : again.xcconfig
+// Created by  : Steinberg, 5/24/12
+// Description : Xcode configuration file, VST 3 -> AU Wrapper
+//
+//-----------------------------------------------------------------------------
+// LICENSE
+// (c) 2017, Steinberg Media Technologies GmbH, All Rights Reserved
+//-----------------------------------------------------------------------------
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
+// 
+//   * Redistributions of source code must retain the above copyright notice, 
+//     this list of conditions and the following disclaimer.
+//   * Redistributions in binary form must reproduce the above copyright notice,
+//     this list of conditions and the following disclaimer in the documentation 
+//     and/or other materials provided with the distribution.
+//   * Neither the name of the Steinberg Media Technologies nor the names of its
+//     contributors may be used to endorse or promote products derived from this 
+//     software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  OF THIS SOFTWARE, EVEN IF ADVISED
+// OF THE POSSIBILITY OF SUCH DAMAGE.
+//-----------------------------------------------------------------------------
+
+#include "../../config/ausdkpath"	// AUWRAPPER_CHANGE
+
+PRODUCT_NAME = again				// AUWRAPPER_CHANGE
+WRAPPER_EXTENSION = component
+
+STRIP_STYLE = non-global
+OTHER_LDFLAGS = -all_load
+GENERATE_MASTER_OBJECT_FILE = YES
+KEEP_PRIVATE_EXTERNS = YES
+SEPARATE_SYMBOL_EDIT = YES
+OTHER_REZFLAGS = -d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I /$DEVELOPER_DIR/Examples/CoreAudio/AudioUnits/AUPublic/AUBase -I /$DEVELOPER_DIR/Extras/CoreAudio/AudioUnits/AUPublic/AUBase -I $(CUSTOM_AU_SDK_PATH)/AudioUnits/AUPublic/AUBase
+INFOPLIST_PREPROCESS = YES
+PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+INSTALL_PATH = /Library/Audio/Plug-Ins/Components/
