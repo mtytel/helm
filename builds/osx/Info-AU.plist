@@ -25,9 +25,9 @@
     <key>CFBundleIdentifier</key>
     <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleName</key>
-    <string>HelmPlugin</string>
+    <string>Helm</string>
     <key>CFBundleDisplayName</key>
-    <string>HelmPlugin</string>
+    <string>Helm</string>
     <key>CFBundlePackageType</key>
     <string>BNDL</string>
     <key>CFBundleSignature</key>

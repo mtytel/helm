@@ -1,17 +1,17 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2015
 
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelmPlugin - VST", "HelmPlugin_VST.vcxproj", "{D6834A6D-CB9A-62A8-A1C1-2F52A9E52636}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Helm - VST", "Helm_VST.vcxproj", "{D6834A6D-CB9A-62A8-A1C1-2F52A9E52636}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9F34C515-A6D0-6B34-28E8-3F6256757BE8} = {9F34C515-A6D0-6B34-28E8-3F6256757BE8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelmPlugin - VST3", "HelmPlugin_VST3.vcxproj", "{D6BFF91B-8307-9FCA-EAD1-57D1E3F145F5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Helm - VST3", "Helm_VST3.vcxproj", "{D6BFF91B-8307-9FCA-EAD1-57D1E3F145F5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9F34C515-A6D0-6B34-28E8-3F6256757BE8} = {9F34C515-A6D0-6B34-28E8-3F6256757BE8}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelmPlugin - Shared Code", "HelmPlugin_SharedCode.vcxproj", "{9F34C515-A6D0-6B34-28E8-3F6256757BE8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Helm - Shared Code", "Helm_SharedCode.vcxproj", "{9F34C515-A6D0-6B34-28E8-3F6256757BE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

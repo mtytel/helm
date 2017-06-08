@@ -1,51 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="HelmPlugin">
-      <UniqueIdentifier>{4AEB9D60-F3C5-9A61-341D-6F1537C8B36E}</UniqueIdentifier>
+    <Filter Include="Helm\concurrentqueue">
+      <UniqueIdentifier>{7800A441-EDFF-61ED-0F6B-DD37C1E04F97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\concurrentqueue">
-      <UniqueIdentifier>{E69C4652-F482-7DE3-AA7E-C622D4728FBF}</UniqueIdentifier>
+    <Filter Include="Helm\fonts">
+      <UniqueIdentifier>{AB4F77F5-BC4D-11D1-EE2C-6B495D9D25B3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\fonts">
-      <UniqueIdentifier>{C467F65A-3E79-61AB-D092-116289BCD52E}</UniqueIdentifier>
+    <Filter Include="Helm\images">
+      <UniqueIdentifier>{F420C6D4-39B7-A330-2CA2-EA4545D3FF94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\images">
-      <UniqueIdentifier>{B7BD6767-920F-FC99-63EE-D49A0E60B712}</UniqueIdentifier>
+    <Filter Include="Helm\mopo\src">
+      <UniqueIdentifier>{6F5DFC0E-4390-DA76-1430-E4E987000F8F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\mopo">
-      <UniqueIdentifier>{99321500-068F-7AC3-8992-A6F7BC9B573E}</UniqueIdentifier>
+    <Filter Include="Helm\mopo">
+      <UniqueIdentifier>{6A305D94-5E08-AF50-EE5B-6B881B1996CE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\mopo\src">
-      <UniqueIdentifier>{033261DA-658A-49F1-4B47-46E93EFF1BC1}</UniqueIdentifier>
+    <Filter Include="Helm\src\common">
+      <UniqueIdentifier>{95672B1F-05E4-4EB7-3A51-DF131C96CF63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src">
-      <UniqueIdentifier>{10F3564D-60BB-10E8-803A-8C4609D18DA4}</UniqueIdentifier>
+    <Filter Include="Helm\src\editor_components">
+      <UniqueIdentifier>{09B07B88-E0B4-1F52-60E1-9F5C56EFD7C9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src\common">
-      <UniqueIdentifier>{F3A0B69D-E71E-B5C7-3DAE-9D8ED48145FE}</UniqueIdentifier>
+    <Filter Include="Helm\src\editor_sections">
+      <UniqueIdentifier>{F3D11A55-10E3-640E-1D42-A9D6306BBE39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src\editor_components">
-      <UniqueIdentifier>{9763C809-BD55-A364-95D8-9C5ACFF0A4D0}</UniqueIdentifier>
+    <Filter Include="Helm\src\look_and_feel">
+      <UniqueIdentifier>{DC478517-A5E9-582D-39E0-5C0FC208ADEA}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src\editor_sections">
-      <UniqueIdentifier>{F8A1BE33-4E27-B9D5-05A2-645EAF7546C5}</UniqueIdentifier>
+    <Filter Include="Helm\src\plugin">
+      <UniqueIdentifier>{5784B8EB-2425-A2AC-4A16-A916E92F00DD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src\look_and_feel">
-      <UniqueIdentifier>{0628386B-34F0-8184-56C5-20B72C823895}</UniqueIdentifier>
+    <Filter Include="Helm\src\synthesis">
+      <UniqueIdentifier>{6612327A-061F-D053-C2CA-9C3B51B55A72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src\plugin">
-      <UniqueIdentifier>{6432F64B-04B9-3C1A-4EB8-37B2133DC737}</UniqueIdentifier>
+    <Filter Include="Helm\src">
+      <UniqueIdentifier>{A15CC3E0-F1A7-A3F7-24BF-BB4F165F29FE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HelmPlugin\src\synthesis">
-      <UniqueIdentifier>{48605B3D-B254-F277-E61C-20053EEAD988}</UniqueIdentifier>
+    <Filter Include="Helm">
+      <UniqueIdentifier>{AD1DAC9A-C926-E7A0-653C-9D06162360AD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules">
-      <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_basics">
-      <UniqueIdentifier>{3247ED97-A75A-F50B-8CCC-46155E895806}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_basics\audio_play_head">
+      <UniqueIdentifier>{52045BA8-DF89-5074-688D-A0977F25B09C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_basics\buffers">
       <UniqueIdentifier>{A33A1E1D-AC2C-6382-8681-48B0FC374C60}</UniqueIdentifier>
@@ -65,8 +62,8 @@
     <Filter Include="Juce Modules\juce_audio_basics\synthesisers">
       <UniqueIdentifier>{8F7EC212-3168-AD81-5064-C45BA838C408}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_devices">
-      <UniqueIdentifier>{CACD7B50-4DB3-76AF-A6E8-90DF94F8F594}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_basics">
+      <UniqueIdentifier>{3247ED97-A75A-F50B-8CCC-46155E895806}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_devices\audio_io">
       <UniqueIdentifier>{9D270B31-2425-8FDB-84A4-6A2288FF5B2F}</UniqueIdentifier>
@@ -80,20 +77,8 @@
     <Filter Include="Juce Modules\juce_audio_devices\sources">
       <UniqueIdentifier>{D64942B4-6984-3623-3347-45D472AE1C61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats">
-      <UniqueIdentifier>{65CB28F8-0422-A8F3-9A17-959E12A1F8E2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs">
-      <UniqueIdentifier>{0CD9E281-DDD0-91EC-6F77-EA9D9D5E0E1A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\flac">
-      <UniqueIdentifier>{AB8611DF-8161-A9DF-DBAD-77A87DE37331}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\flac\libFLAC">
-      <UniqueIdentifier>{9DFA63C1-4EE6-1FAB-D563-41FCF84988F2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\flac\libFLAC\include">
-      <UniqueIdentifier>{FEF33480-117C-23A6-D12C-7C299F26C9DB}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_devices">
+      <UniqueIdentifier>{CACD7B50-4DB3-76AF-A6E8-90DF94F8F594}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_formats\codecs\flac\libFLAC\include\private">
       <UniqueIdentifier>{C9640E58-4493-7EEC-6F58-603AD184956E}</UniqueIdentifier>
@@ -101,17 +86,14 @@
     <Filter Include="Juce Modules\juce_audio_formats\codecs\flac\libFLAC\include\protected">
       <UniqueIdentifier>{D8EE4AD1-61E3-21C2-6640-6684F4CF77DC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis">
-      <UniqueIdentifier>{76391436-F92A-7602-4073-E446B5FAA859}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\flac\libFLAC\include">
+      <UniqueIdentifier>{FEF33480-117C-23A6-D12C-7C299F26C9DB}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2">
-      <UniqueIdentifier>{9971A63C-5B75-039F-95C2-7474D7DB16B0}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\flac\libFLAC">
+      <UniqueIdentifier>{9DFA63C1-4EE6-1FAB-D563-41FCF84988F2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib">
-      <UniqueIdentifier>{DC58E9B7-2710-F45C-B718-75EACDF53F47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib\books">
-      <UniqueIdentifier>{B8087E92-19F7-552F-9E85-16153D7191B0}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\flac">
+      <UniqueIdentifier>{AB8611DF-8161-A9DF-DBAD-77A87DE37331}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib\books\coupled">
       <UniqueIdentifier>{25C8FB00-334A-6E0F-F203-E988758B708A}</UniqueIdentifier>
@@ -122,8 +104,23 @@
     <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib\books\uncoupled">
       <UniqueIdentifier>{450B8177-6F41-B902-761B-BF68D55102DA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib\books">
+      <UniqueIdentifier>{B8087E92-19F7-552F-9E85-16153D7191B0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib\modes">
       <UniqueIdentifier>{B7221885-1731-611D-FDD9-EA968FA8D858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2\lib">
+      <UniqueIdentifier>{DC58E9B7-2710-F45C-B718-75EACDF53F47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis\libvorbis-1.3.2">
+      <UniqueIdentifier>{9971A63C-5B75-039F-95C2-7474D7DB16B0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs\oggvorbis">
+      <UniqueIdentifier>{76391436-F92A-7602-4073-E446B5FAA859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_audio_formats\codecs">
+      <UniqueIdentifier>{0CD9E281-DDD0-91EC-6F77-EA9D9D5E0E1A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_formats\format">
       <UniqueIdentifier>{2FE25F4C-E9DF-04A5-CAED-6E4B7CF28C59}</UniqueIdentifier>
@@ -131,26 +128,20 @@
     <Filter Include="Juce Modules\juce_audio_formats\sampler">
       <UniqueIdentifier>{40C5CA7C-AEBB-05B1-11CE-AE41D87B5CCB}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_plugin_client">
-      <UniqueIdentifier>{EE36D8B9-408C-AEC9-66E7-BEA9E407F27F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_plugin_client\AAX">
-      <UniqueIdentifier>{F0C10808-8C36-BCD0-D25F-523774B0ADA2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_plugin_client\AU">
-      <UniqueIdentifier>{1ED92A41-D496-5397-A4B0-9FA52DBA9215}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_formats">
+      <UniqueIdentifier>{65CB28F8-0422-A8F3-9A17-959E12A1F8E2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses">
       <UniqueIdentifier>{2FB30532-4EF3-EFA3-E57C-F7DDE9DB1297}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_plugin_client\LV2">
-      <UniqueIdentifier>{80AFDFB5-61EC-260B-8608-87803345243F}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_plugin_client\AU">
+      <UniqueIdentifier>{1ED92A41-D496-5397-A4B0-9FA52DBA9215}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_plugin_client\LV2\includes">
       <UniqueIdentifier>{DB767B2C-C066-CADE-4215-9453AE191C46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_plugin_client\RTAS">
-      <UniqueIdentifier>{50F044B3-0D39-198B-CA5F-BE5E6C078D04}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_plugin_client\LV2">
+      <UniqueIdentifier>{80AFDFB5-61EC-260B-8608-87803345243F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_plugin_client\Standalone">
       <UniqueIdentifier>{25DD3A16-4BC7-35BD-F32E-0310D1887564}</UniqueIdentifier>
@@ -161,11 +152,8 @@
     <Filter Include="Juce Modules\juce_audio_plugin_client\VST">
       <UniqueIdentifier>{AF5F4789-D607-BFD8-D853-09473C27449C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_plugin_client\VST3">
-      <UniqueIdentifier>{22689F25-8C5C-52CF-09E4-4308D1521B9B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Juce Modules\juce_audio_processors">
-      <UniqueIdentifier>{0B0E7392-324B-088C-FBEB-5FE999D61782}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_plugin_client">
+      <UniqueIdentifier>{EE36D8B9-408C-AEC9-66E7-BEA9E407F27F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_processors\format">
       <UniqueIdentifier>{20254EFE-6CBD-31A7-2119-92B1E0E0E311}</UniqueIdentifier>
@@ -182,8 +170,8 @@
     <Filter Include="Juce Modules\juce_audio_processors\utilities">
       <UniqueIdentifier>{8F91DFC0-7A71-1BA8-D8D9-6B4CF49151A4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_audio_utils">
-      <UniqueIdentifier>{B63F69FD-8A40-8E1E-E7ED-419B8DC1C12B}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_processors">
+      <UniqueIdentifier>{0B0E7392-324B-088C-FBEB-5FE999D61782}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_audio_utils\audio_cd">
       <UniqueIdentifier>{C396369E-8C55-88E9-5D19-5D3772B773D3}</UniqueIdentifier>
@@ -197,8 +185,8 @@
     <Filter Include="Juce Modules\juce_audio_utils\players">
       <UniqueIdentifier>{AEDCB7F7-7A36-5392-8E9A-715F5BDE35CB}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_core">
-      <UniqueIdentifier>{95CA1506-2B94-0DEE-0C8D-85EDEBBC4E88}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_audio_utils">
+      <UniqueIdentifier>{B63F69FD-8A40-8E1E-E7ED-419B8DC1C12B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_core\containers">
       <UniqueIdentifier>{0608ADE9-66EF-1A19-6D57-12D07F76EB53}</UniqueIdentifier>
@@ -248,14 +236,14 @@
     <Filter Include="Juce Modules\juce_core\xml">
       <UniqueIdentifier>{F2B2F310-F30F-7166-42A9-9BF9C230DA78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_core\zip">
-      <UniqueIdentifier>{F03654BC-34D8-F975-BEA3-750CC2783D23}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Juce Modules\juce_core\zip\zlib">
       <UniqueIdentifier>{585D6A72-C5E7-BCF1-A168-63A40C6B6313}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_data_structures">
-      <UniqueIdentifier>{928D8FCC-5E00-174B-6538-93E8D75AB396}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_core\zip">
+      <UniqueIdentifier>{F03654BC-34D8-F975-BEA3-750CC2783D23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_core">
+      <UniqueIdentifier>{95CA1506-2B94-0DEE-0C8D-85EDEBBC4E88}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_data_structures\app_properties">
       <UniqueIdentifier>{358AEA11-3F96-36AE-7B32-71373B5C5396}</UniqueIdentifier>
@@ -266,8 +254,8 @@
     <Filter Include="Juce Modules\juce_data_structures\values">
       <UniqueIdentifier>{1988E68A-A964-64CA-0E0C-26FF9BC5176C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_events">
-      <UniqueIdentifier>{F2A38F45-6E55-E147-2E52-64A89FDD9D59}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_data_structures">
+      <UniqueIdentifier>{928D8FCC-5E00-174B-6538-93E8D75AB396}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_events\broadcasters">
       <UniqueIdentifier>{B098BC87-3298-7E6B-12DC-D26C09CDCAED}</UniqueIdentifier>
@@ -284,8 +272,8 @@
     <Filter Include="Juce Modules\juce_events\timers">
       <UniqueIdentifier>{41DC3BE3-D629-8A17-C32B-F5B4008B5FAD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_graphics">
-      <UniqueIdentifier>{EE1AE8C3-0908-8F53-A4E5-D930C7C97C26}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_events">
+      <UniqueIdentifier>{F2A38F45-6E55-E147-2E52-64A89FDD9D59}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_graphics\colour">
       <UniqueIdentifier>{4926B3FF-E797-F586-857A-69D9703FA2D1}</UniqueIdentifier>
@@ -302,14 +290,14 @@
     <Filter Include="Juce Modules\juce_graphics\geometry">
       <UniqueIdentifier>{C1A1A236-AB01-173E-96C3-0706BFF93B1E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_graphics\image_formats">
-      <UniqueIdentifier>{69E1179D-76EC-26DC-C3E6-6602ED26D783}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Juce Modules\juce_graphics\image_formats\jpglib">
       <UniqueIdentifier>{F27C42E6-CF39-9B72-8CD7-C29CA4ADD43B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_graphics\image_formats\pnglib">
       <UniqueIdentifier>{12D20EC8-139C-C2B1-1A66-AC436C48C0A7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules\juce_graphics\image_formats">
+      <UniqueIdentifier>{69E1179D-76EC-26DC-C3E6-6602ED26D783}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_graphics\images">
       <UniqueIdentifier>{413F481F-075C-2958-115C-D8268682FCB7}</UniqueIdentifier>
@@ -320,8 +308,8 @@
     <Filter Include="Juce Modules\juce_graphics\placement">
       <UniqueIdentifier>{1182303F-ECA3-166D-AC0C-92C5E762CB93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_gui_basics">
-      <UniqueIdentifier>{8E43579F-C185-266D-DD67-F8B95BD80F2F}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_graphics">
+      <UniqueIdentifier>{EE1AE8C3-0908-8F53-A4E5-D930C7C97C26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_gui_basics\application">
       <UniqueIdentifier>{61712B09-5783-ADFA-2001-5A0C3D7764EB}</UniqueIdentifier>
@@ -374,8 +362,8 @@
     <Filter Include="Juce Modules\juce_gui_basics\windows">
       <UniqueIdentifier>{DB6E3D09-66DA-12DA-BAE8-A5BFFA7A14AC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_gui_extra">
-      <UniqueIdentifier>{8EC9572F-3CCA-E930-74B6-CB6139DE0E17}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_gui_basics">
+      <UniqueIdentifier>{8E43579F-C185-266D-DD67-F8B95BD80F2F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_gui_extra\code_editor">
       <UniqueIdentifier>{C60A6FCA-9462-922E-AD8D-69F10C9049AF}</UniqueIdentifier>
@@ -392,8 +380,8 @@
     <Filter Include="Juce Modules\juce_gui_extra\native">
       <UniqueIdentifier>{C413328B-5D81-89EE-F4F3-75752E700DE4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Juce Modules\juce_opengl">
-      <UniqueIdentifier>{639E16C5-DA8B-ADBA-6E24-7B596378EAB2}</UniqueIdentifier>
+    <Filter Include="Juce Modules\juce_gui_extra">
+      <UniqueIdentifier>{8EC9572F-3CCA-E930-74B6-CB6139DE0E17}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules\juce_opengl\geometry">
       <UniqueIdentifier>{B3141847-8F13-F67D-45B2-E3ECF6E09088}</UniqueIdentifier>
@@ -407,391 +395,397 @@
     <Filter Include="Juce Modules\juce_opengl\utils">
       <UniqueIdentifier>{9E586194-C056-101C-5311-F2AF5191AC80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Juce Modules\juce_opengl">
+      <UniqueIdentifier>{639E16C5-DA8B-ADBA-6E24-7B596378EAB2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Juce Modules">
+      <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\mopo\src\alias.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\arpeggiator.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\biquad_filter.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\bit_crush.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\bypass_router.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\delay.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\distortion.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\envelope.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\feedback.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\formant_manager.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\ladder_filter.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\linear_slope.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\magnitude_lookup.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\memory.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\midi_lookup.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\mono_panner.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\operators.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\oscillator.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\phaser.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\portamento_slope.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\processor_router.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\resonance_lookup.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\reverb.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\reverb_all_pass.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\reverb_comb.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\sample_decay_lookup.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\simple_delay.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_filter.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\smooth_value.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\state_variable_filter.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\step_generator.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\stutter.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\trigger_operators.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\value.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mopo\src\voice_handler.cpp">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\border_bounds_constrainer.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\file_list_box_model.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\helm_common.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\load_save.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\midi_manager.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\startup.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\synth_base.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\common\synth_gui_interface.cpp">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\bpm_slider.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_response.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\filter_selector.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\global_tool_tip.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\graphical_envelope.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\graphical_step_sequencer.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\midi_keyboard.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_button.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_highlight.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_meter.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\modulation_slider.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_background.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_component.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_envelope.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_modulation_meter.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_oscilloscope.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_peak_meter.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\open_gl_wave_viewer.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\oscilloscope.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\patch_selector.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\retrigger_selector.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\synth_button.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\synth_slider.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\tempo_selector.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\text_selector.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\text_slider.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\wave_selector.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\wave_viewer.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_components\xy_pad.cpp">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\about_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\arp_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\bpm_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\delay_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\delete_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\distortion_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\dynamic_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\envelope_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\extra_mod_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\feedback_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\filter_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\formant_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\full_interface.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\lfo_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\mixer_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\modulation_manager.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\noise_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\open_gl_modulation_manager.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\oscillator_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\patch_browser.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\reverb_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\save_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\step_sequencer_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\stutter_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\sub_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\synth_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\synthesis_interface.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\update_check_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\voice_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\volume_section.cpp">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\browser_look_and_feel.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\colors.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\default_look_and_feel.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\fonts.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\modulation_look_and_feel.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\shaders.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\look_and_feel\text_look_and_feel.cpp">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\plugin\helm_editor.cpp">
-      <Filter>HelmPlugin\src\plugin</Filter>
+      <Filter>Helm\src\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\plugin\helm_plugin.cpp">
-      <Filter>HelmPlugin\src\plugin</Filter>
+      <Filter>Helm\src\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\dc_filter.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\detune_lookup.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\fixed_point_oscillator.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\fixed_point_wave.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\gate.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_engine.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_lfo.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_module.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_oscillators.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\helm_voice_handler.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\noise_oscillator.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\peak_meter.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\resonance_cancel.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\trigger_random.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\synthesis\value_switch.cpp">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -1132,9 +1126,6 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_formats\juce_audio_formats.mm">
       <Filter>Juce Modules\juce_audio_formats</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Wrapper.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\AAX</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\AUBase.cpp">
       <Filter>Juce Modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses</Filter>
     </ClCompile>
@@ -1195,32 +1186,8 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\MusicDeviceBase.cpp">
       <Filter>Juce Modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AU\juce_AU_Wrapper.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client\AU</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\AU\juce_AUv3_Wrapper.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client\AU</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\LV2\juce_LV2_Wrapper.cpp">
       <Filter>Juce Modules\juce_audio_plugin_client\LV2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_DigiCode1.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_DigiCode2.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_DigiCode3.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_MacUtilities.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_WinUtilities.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_Wrapper.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\Standalone\juce_StandaloneFilterApp.cpp">
       <Filter>Juce Modules\juce_audio_plugin_client\Standalone</Filter>
@@ -1234,55 +1201,10 @@
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\VST\juce_VST_Wrapper.mm">
       <Filter>Juce Modules\juce_audio_plugin_client\VST</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client\VST3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_AAX.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_AAX.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_AU_1.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_AU_2.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_AUv3.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS_1.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS_2.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS_3.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS_4.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS_utils.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS_utils.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_Standalone.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_utils.cpp">
       <Filter>Juce Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST_utils.mm">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST2.cpp">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
       <Filter>Juce Modules\juce_audio_plugin_client</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormat.cpp">
@@ -1472,6 +1394,9 @@
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_core\misc\juce_RuntimePermissions.cpp">
+      <Filter>Juce Modules\juce_core\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_core\misc\juce_StdFunctionCompat.cpp">
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_core\misc\juce_Uuid.cpp">
@@ -1771,6 +1696,9 @@
     <ClCompile Include="..\..\JUCE\modules\juce_events\native\juce_win32_Messaging.cpp">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_events\native\juce_win32_WinRTWrapper.cpp">
+      <Filter>Juce Modules\juce_events\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_events\timers\juce_MultiTimer.cpp">
       <Filter>Juce Modules\juce_events\timers</Filter>
     </ClCompile>
@@ -2053,16 +1981,25 @@
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_android_GraphicsContext.cpp">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_android_IconHelpers.cpp">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_freetype_Fonts.cpp">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_linux_Fonts.cpp">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_linux_IconHelpers.cpp">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.mm">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_mac_Fonts.mm">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_mac_IconHelpers.cpp">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_win32_Direct2DGraphicsContext.cpp">
@@ -2075,6 +2012,9 @@
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_win32_Fonts.cpp">
+      <Filter>Juce Modules\juce_graphics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_graphics\native\juce_win32_IconHelpers.cpp">
       <Filter>Juce Modules\juce_graphics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_graphics\placement\juce_RectanglePlacement.cpp">
@@ -2275,6 +2215,9 @@
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.cpp">
       <Filter>Juce Modules\juce_gui_basics\lookandfeel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V4.cpp">
+      <Filter>Juce Modules\juce_gui_basics\lookandfeel</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\menus\juce_MenuBarComponent.cpp">
       <Filter>Juce Modules\juce_gui_basics\menus</Filter>
     </ClCompile>
@@ -2288,6 +2231,9 @@
       <Filter>Juce Modules\juce_gui_basics\misc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\misc\juce_DropShadower.cpp">
+      <Filter>Juce Modules\juce_gui_basics\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\misc\juce_JUCESplashScreen.cpp">
       <Filter>Juce Modules\juce_gui_basics\misc</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\mouse\juce_ComponentDragger.cpp">
@@ -2323,13 +2269,16 @@
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_ios_Windowing.mm">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_Clipboard.cpp">
-      <Filter>Juce Modules\juce_gui_basics\native</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_FileChooser.cpp">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_Windowing.cpp">
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_X11.cpp">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_X11_Clipboard.cpp">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_X11_Windowing.cpp">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_basics\native\juce_mac_FileChooser.mm">
@@ -2521,10 +2470,13 @@
     <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_ios_UIViewComponent.mm">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_linux_SystemTrayIcon.cpp">
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_linux_X11_SystemTrayIcon.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_linux_WebBrowserComponent.cpp">
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_linux_X11_WebBrowserComponent.cpp">
+      <Filter>Juce Modules\juce_gui_extra\native</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_linux_XEmbedComponent.cpp">
       <Filter>Juce Modules\juce_gui_extra\native</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JUCE\modules\juce_gui_extra\native\juce_mac_AppleRemote.mm">
@@ -2590,466 +2542,463 @@
     <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_basics.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_basics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_devices.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_devices.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_formats.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_formats.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_plugin_client_utils.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_utils.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_plugin_client_VST2.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_processors.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_plugin_client_VST3.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_utils.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_processors.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_core.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_audio_utils.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_data_structures.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_core.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_events.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_data_structures.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_graphics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_events.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_basics.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_graphics.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_gui_basics.cpp">
-      <Filter>Juce Library Code</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_gui_extra.cpp">
-      <Filter>Juce Library Code</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\JuceLibraryCode\juce_opengl.cpp">
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\concurrentqueue\blockingconcurrentqueue.h">
-      <Filter>HelmPlugin\concurrentqueue</Filter>
+      <Filter>Helm\concurrentqueue</Filter>
     </ClInclude>
     <ClInclude Include="..\..\concurrentqueue\concurrentqueue.h">
-      <Filter>HelmPlugin\concurrentqueue</Filter>
+      <Filter>Helm\concurrentqueue</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\alias.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\arpeggiator.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\biquad_filter.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\bit_crush.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\bypass_router.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\common.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\delay.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\distortion.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\envelope.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\feedback.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\formant_manager.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\ladder_filter.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\linear_slope.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\magnitude_lookup.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\memory.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\midi_lookup.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\mono_panner.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\mopo.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\note_handler.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\operators.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\oscillator.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\phaser.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\portamento_slope.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\processor_router.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\resonance_lookup.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\reverb.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\reverb_all_pass.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\reverb_comb.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\reverb_tuning.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\sample_decay_lookup.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\simple_delay.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_filter.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\smooth_value.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\state_variable_filter.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\step_generator.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\stutter.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\tick_router.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\trigger_operators.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\utils.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\value.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\voice_handler.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\mopo\src\wave.h">
-      <Filter>HelmPlugin\mopo\src</Filter>
+      <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\border_bounds_constrainer.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\file_list_box_model.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\helm_common.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\load_save.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\midi_manager.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\startup.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\synth_base.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\common\synth_gui_interface.h">
-      <Filter>HelmPlugin\src\common</Filter>
+      <Filter>Helm\src\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\bpm_slider.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_response.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\filter_selector.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\global_tool_tip.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\graphical_envelope.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\graphical_step_sequencer.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\midi_keyboard.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_button.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_highlight.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_meter.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\modulation_slider.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_background.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_component.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_envelope.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_modulation_meter.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_oscilloscope.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_peak_meter.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\open_gl_wave_viewer.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\oscilloscope.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\overlay.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\patch_selector.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\retrigger_selector.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synth_button.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\synth_slider.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\tempo_selector.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\text_selector.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\text_slider.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_selector.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\wave_viewer.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_components\xy_pad.h">
-      <Filter>HelmPlugin\src\editor_components</Filter>
+      <Filter>Helm\src\editor_components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\about_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\arp_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\bpm_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\delay_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\delete_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\distortion_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\dynamic_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\envelope_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\extra_mod_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\feedback_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\filter_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\formant_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\full_interface.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\lfo_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\mixer_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\modulation_manager.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\noise_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\open_gl_modulation_manager.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\oscillator_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\patch_browser.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\reverb_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\save_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\step_sequencer_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\stutter_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\sub_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\synth_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\synthesis_interface.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\update_check_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\voice_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\volume_section.h">
-      <Filter>HelmPlugin\src\editor_sections</Filter>
+      <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\browser_look_and_feel.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\colors.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\default_look_and_feel.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\fonts.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\modulation_look_and_feel.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\shaders.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\look_and_feel\text_look_and_feel.h">
-      <Filter>HelmPlugin\src\look_and_feel</Filter>
+      <Filter>Helm\src\look_and_feel</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\helm_editor.h">
-      <Filter>HelmPlugin\src\plugin</Filter>
+      <Filter>Helm\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\helm_plugin.h">
-      <Filter>HelmPlugin\src\plugin</Filter>
+      <Filter>Helm\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\plugin\value_bridge.h">
-      <Filter>HelmPlugin\src\plugin</Filter>
+      <Filter>Helm\src\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\dc_filter.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\detune_lookup.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\fixed_point_oscillator.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\fixed_point_wave.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\gate.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_engine.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_lfo.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_module.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_oscillators.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\helm_voice_handler.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\noise_oscillator.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\peak_meter.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\resonance_cancel.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\trigger_random.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\synthesis\value_switch.h">
-      <Filter>HelmPlugin\src\synthesis</Filter>
+      <Filter>Helm\src\synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">
+      <Filter>Juce Modules\juce_audio_basics\audio_play_head</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h">
       <Filter>Juce Modules\juce_audio_basics\buffers</Filter>
@@ -3165,9 +3114,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.h">
       <Filter>Juce Modules\juce_audio_basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_basics\juce_audio_basics.h">
-      <Filter>Juce Modules\juce_audio_basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\audio_io\juce_AudioDeviceManager.h">
       <Filter>Juce Modules\juce_audio_devices\audio_io</Filter>
     </ClInclude>
@@ -3189,6 +3135,9 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\midi_io\juce_MidiOutput.h">
       <Filter>Juce Modules\juce_audio_devices\midi_io</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\native\juce_ios_Audio.h">
+      <Filter>Juce Modules\juce_audio_devices\native</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\native\juce_MidiDataConcatenator.h">
       <Filter>Juce Modules\juce_audio_devices\native</Filter>
     </ClInclude>
@@ -3197,9 +3146,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\sources\juce_AudioTransportSource.h">
       <Filter>Juce Modules\juce_audio_devices\sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\juce_audio_devices.h">
-      <Filter>Juce Modules\juce_audio_devices</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_devices\juce_audio_devices.h">
       <Filter>Juce Modules\juce_audio_devices</Filter>
@@ -3501,12 +3447,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_formats\juce_audio_formats.h">
       <Filter>Juce Modules\juce_audio_formats</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_formats\juce_audio_formats.h">
-      <Filter>Juce Modules\juce_audio_formats</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\AAX\juce_AAX_Modifier_Injector.h">
-      <Filter>Juce Modules\juce_audio_plugin_client\AAX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses\AUBase.h">
       <Filter>Juce Modules\juce_audio_plugin_client\AU\CoreAudioUtilityClasses</Filter>
     </ClInclude>
@@ -3663,9 +3603,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\LV2\includes\urid.h">
       <Filter>Juce Modules\juce_audio_plugin_client\LV2\includes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\RTAS\juce_RTAS_DigiCode_Header.h">
-      <Filter>Juce Modules\juce_audio_plugin_client\RTAS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\Standalone\juce_StandaloneFilterWindow.h">
       <Filter>Juce Modules\juce_audio_plugin_client\Standalone</Filter>
     </ClInclude>
@@ -3690,8 +3627,8 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\utility\juce_WindowsHooks.h">
       <Filter>Juce Modules\juce_audio_plugin_client\utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
+    <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\VST\juce_VSTCallbackHandler.h">
+      <Filter>Juce Modules\juce_audio_plugin_client\VST</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h">
       <Filter>Juce Modules\juce_audio_plugin_client</Filter>
@@ -3701,9 +3638,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\format\juce_AudioPluginFormatManager.h">
       <Filter>Juce Modules\juce_audio_processors\format</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\format_types\juce_AU_Shared.h">
-      <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\format_types\juce_AudioUnitPluginFormat.h">
       <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
@@ -3731,9 +3665,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\format_types\juce_VSTPluginFormat.h">
       <Filter>Juce Modules\juce_audio_processors\format_types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioPlayHead.h">
-      <Filter>Juce Modules\juce_audio_processors\processors</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\processors\juce_AudioPluginInstance.h">
       <Filter>Juce Modules\juce_audio_processors\processors</Filter>
@@ -3789,9 +3720,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.h">
       <Filter>Juce Modules\juce_audio_processors</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_processors\juce_audio_processors.h">
-      <Filter>Juce Modules\juce_audio_processors</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_utils\audio_cd\juce_AudioCDBurner.h">
       <Filter>Juce Modules\juce_audio_utils\audio_cd</Filter>
     </ClInclude>
@@ -3827,9 +3755,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_utils\players\juce_SoundPlayer.h">
       <Filter>Juce Modules\juce_audio_utils\players</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_audio_utils\juce_audio_utils.h">
-      <Filter>Juce Modules\juce_audio_utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_audio_utils\juce_audio_utils.h">
       <Filter>Juce Modules\juce_audio_utils</Filter>
@@ -3985,6 +3910,9 @@
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_RuntimePermissions.h">
+      <Filter>Juce Modules\juce_core\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_StdFunctionCompat.h">
       <Filter>Juce Modules\juce_core\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_core\misc\juce_Uuid.h">
@@ -4224,9 +4152,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_core\juce_core.h">
       <Filter>Juce Modules\juce_core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_core\juce_core.h">
-      <Filter>Juce Modules\juce_core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_data_structures\app_properties\juce_ApplicationProperties.h">
       <Filter>Juce Modules\juce_data_structures\app_properties</Filter>
     </ClInclude>
@@ -4250,9 +4175,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_data_structures\values\juce_ValueTreeSynchroniser.h">
       <Filter>Juce Modules\juce_data_structures\values</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_data_structures\juce_data_structures.h">
-      <Filter>Juce Modules\juce_data_structures</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_data_structures\juce_data_structures.h">
       <Filter>Juce Modules\juce_data_structures</Filter>
@@ -4308,13 +4230,16 @@
     <ClInclude Include="..\..\JUCE\modules\juce_events\messages\juce_NotificationType.h">
       <Filter>Juce Modules\juce_events\messages</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_events\native\juce_linux_EventLoop.h">
+      <Filter>Juce Modules\juce_events\native</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_events\native\juce_osx_MessageQueue.h">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_events\native\juce_ScopedXLock.h">
+    <ClInclude Include="..\..\JUCE\modules\juce_events\native\juce_win32_HiddenMessageWindow.h">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_events\native\juce_win32_HiddenMessageWindow.h">
+    <ClInclude Include="..\..\JUCE\modules\juce_events\native\juce_win32_WinRTWrapper.h">
       <Filter>Juce Modules\juce_events\native</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_events\timers\juce_MultiTimer.h">
@@ -4322,9 +4247,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_events\timers\juce_Timer.h">
       <Filter>Juce Modules\juce_events\timers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_events\juce_events.h">
-      <Filter>Juce Modules\juce_events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_events\juce_events.h">
       <Filter>Juce Modules\juce_events</Filter>
@@ -4493,9 +4415,6 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_graphics\placement\juce_RectanglePlacement.h">
       <Filter>Juce Modules\juce_graphics\placement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_graphics\juce_graphics.h">
-      <Filter>Juce Modules\juce_graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_graphics\juce_graphics.h">
       <Filter>Juce Modules\juce_graphics</Filter>
@@ -4716,6 +4635,9 @@
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V3.h">
       <Filter>Juce Modules\juce_gui_basics\lookandfeel</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\lookandfeel\juce_LookAndFeel_V4.h">
+      <Filter>Juce Modules\juce_gui_basics\lookandfeel</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\menus\juce_MenuBarComponent.h">
       <Filter>Juce Modules\juce_gui_basics\menus</Filter>
     </ClInclude>
@@ -4729,6 +4651,9 @@
       <Filter>Juce Modules\juce_gui_basics\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\misc\juce_DropShadower.h">
+      <Filter>Juce Modules\juce_gui_basics\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\misc\juce_JUCESplashScreen.h">
       <Filter>Juce Modules\juce_gui_basics\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\mouse\juce_ComponentDragger.h">
@@ -4769,6 +4694,9 @@
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\mouse\juce_TooltipClient.h">
       <Filter>Juce Modules\juce_gui_basics\mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\native\juce_linux_X11.h">
+      <Filter>Juce Modules\juce_gui_basics\native</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\native\juce_MultiTouchMapper.h">
       <Filter>Juce Modules\juce_gui_basics\native</Filter>
@@ -4890,9 +4818,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h">
       <Filter>Juce Modules\juce_gui_basics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_gui_basics\juce_gui_basics.h">
-      <Filter>Juce Modules\juce_gui_basics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\code_editor\juce_CodeDocument.h">
       <Filter>Juce Modules\juce_gui_extra\code_editor</Filter>
     </ClInclude>
@@ -4924,6 +4849,9 @@
       <Filter>Juce Modules\juce_gui_extra\embedding</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\embedding\juce_UIViewComponent.h">
+      <Filter>Juce Modules\juce_gui_extra\embedding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\embedding\juce_XEmbedComponent.h">
       <Filter>Juce Modules\juce_gui_extra\embedding</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\misc\juce_AnimatedAppComponent.h">
@@ -4965,9 +4893,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h">
       <Filter>Juce Modules\juce_gui_extra</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_gui_extra\juce_gui_extra.h">
-      <Filter>Juce Modules\juce_gui_extra</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_opengl\geometry\juce_Draggable3DOrientation.h">
       <Filter>Juce Modules\juce_opengl\geometry</Filter>
     </ClInclude>
@@ -4989,7 +4914,7 @@
     <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_ios.h">
       <Filter>Juce Modules\juce_opengl\native</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_linux.h">
+    <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_linux_X11.h">
       <Filter>Juce Modules\juce_opengl\native</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JUCE\modules\juce_opengl\native\juce_OpenGL_osx.h">
@@ -5034,9 +4959,6 @@
     <ClInclude Include="..\..\JUCE\modules\juce_opengl\juce_opengl.h">
       <Filter>Juce Modules\juce_opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\JUCE\modules\juce_opengl\juce_opengl.h">
-      <Filter>Juce Modules\juce_opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h">
       <Filter>Juce Library Code</Filter>
     </ClInclude>
@@ -5049,91 +4971,79 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\fonts\DroidSansMono.ttf">
-      <Filter>HelmPlugin\fonts</Filter>
+      <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\fonts\Roboto-Light.ttf">
-      <Filter>HelmPlugin\fonts</Filter>
+      <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\fonts\Roboto-Regular.ttf">
-      <Filter>HelmPlugin\fonts</Filter>
+      <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\fonts\Roboto-Thin.ttf">
-      <Filter>HelmPlugin\fonts</Filter>
+      <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\images\helm_debian_icon.xpm">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_16_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_16_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_32_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_32_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_128_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_128_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_256_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_256_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_512_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\helm_icon_512_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_selected_active_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_selected_active_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_selected_inactive_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_selected_inactive_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_unselected_active_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_unselected_active_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_unselected_inactive_1x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\images\modulation_unselected_inactive_2x.png">
-      <Filter>HelmPlugin\images</Filter>
+      <Filter>Helm\images</Filter>
     </None>
     <None Include="..\..\JUCE\modules\juce_audio_formats\codecs\flac\Flac Licence.txt">
       <Filter>Juce Modules\juce_audio_formats\codecs\flac</Filter>
     </None>
     <None Include="..\..\JUCE\modules\juce_audio_formats\codecs\oggvorbis\Ogg Vorbis Licence.txt">
       <Filter>Juce Modules\juce_audio_formats\codecs\oggvorbis</Filter>
-    </None>
-    <None Include="..\..\JUCE\modules\juce_audio_plugin_client\AU\AUResources.r">
-      <Filter>Juce Modules\juce_audio_plugin_client\AU</Filter>
-    </None>
-    <None Include="..\..\JUCE\modules\juce_audio_plugin_client\AUResources.r">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </None>
-    <None Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_AU.r">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
-    </None>
-    <None Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_RTAS.r">
-      <Filter>Juce Modules\juce_audio_plugin_client</Filter>
     </None>
     <None Include="..\..\JUCE\modules\juce_graphics\image_formats\jpglib\changes to libjpeg for JUCE.txt">
       <Filter>Juce Modules\juce_graphics\image_formats\jpglib</Filter>

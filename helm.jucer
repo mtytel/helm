@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="C9WuMW" name="HelmPlugin" projectType="audioplug" version="0.9.0"
+<JUCERPROJECT id="C9WuMW" name="Helm" projectType="audioplug" version="0.9.0"
               bundleIdentifier="org.tytel.helmplugin" includeBinaryInAppConfig="1"
               buildVST="1" buildVST3="1" buildAU="1" buildRTAS="0" buildAAX="0"
               pluginName="Helm" pluginDesc="" pluginManufacturer="Matt Tytel"
@@ -13,7 +13,7 @@
               companyWebsite="tytel.org" pluginIsMidiEffectPlugin="0" buildAUv3="0"
               displaySplashScreen="1" reportAppUsage="1" splashScreenColour="Dark"
               buildStandalone="0" enableIAA="0">
-  <MAINGROUP id="OwcEM5" name="HelmPlugin">
+  <MAINGROUP id="OwcEM5" name="Helm">
     <GROUP id="{600DADF0-4925-DDC4-81CF-48B3BAC03E18}" name="concurrentqueue">
       <FILE id="eNsxUt" name="blockingconcurrentqueue.h" compile="0" resource="0"
             file="concurrentqueue/blockingconcurrentqueue.h"/>
