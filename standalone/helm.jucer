@@ -433,16 +433,14 @@
         <FILE id="f5ab7N" name="text_look_and_feel.h" compile="0" resource="0"
               file="../src/look_and_feel/text_look_and_feel.h"/>
       </GROUP>
-      <GROUP id="{D4677D42-F890-3A26-1BC9-D1034FBAB3B6}" name="standalone">
-        <FILE id="YSpPaK" name="helm_computer_keyboard.cpp" compile="1" resource="0"
+      <GROUP id="{5EFF4A92-F16A-124A-8AD0-271A6464C5CC}" name="standalone">
+        <FILE id="kQb91Y" name="helm_computer_keyboard.cpp" compile="1" resource="0"
               file="../src/standalone/helm_computer_keyboard.cpp"/>
-        <FILE id="LF1hEM" name="helm_computer_keyboard.h" compile="0" resource="0"
+        <FILE id="FiqrVQ" name="helm_computer_keyboard.h" compile="0" resource="0"
               file="../src/standalone/helm_computer_keyboard.h"/>
-        <FILE id="JL75Rm" name="helm_standalone_editor.cpp" compile="1" resource="0"
-              file="../src/standalone/helm_standalone_editor.cpp"/>
-        <FILE id="oQOEZ9" name="helm_standalone_editor.h" compile="0" resource="0"
-              file="../src/standalone/helm_standalone_editor.h"/>
-        <FILE id="hxYpJD" name="main.cpp" compile="1" resource="0" file="../src/standalone/main.cpp"/>
+        <FILE id="q1KDWg" name="helm_editor.cpp" compile="1" resource="0" file="../src/standalone/helm_editor.cpp"/>
+        <FILE id="L7krQA" name="helm_editor.h" compile="0" resource="0" file="../src/standalone/helm_editor.h"/>
+        <FILE id="uwNSlJ" name="main.cpp" compile="1" resource="0" file="../src/standalone/main.cpp"/>
       </GROUP>
       <GROUP id="{8CD89F15-3EE7-F179-F84F-049F31596941}" name="synthesis">
         <FILE id="TzGjvz" name="dc_filter.cpp" compile="1" resource="0" file="../src/synthesis/dc_filter.cpp"/>

@@ -177,6 +177,7 @@ OBJECTS_APP := \
   $(JUCE_OBJDIR)/shaders_8f61ea28.o \
   $(JUCE_OBJDIR)/text_look_and_feel_4af8536c.o \
   $(JUCE_OBJDIR)/helm_computer_keyboard_15a10faf.o \
+  $(JUCE_OBJDIR)/helm_editor_7ed57f13.o \
   $(JUCE_OBJDIR)/main_b7ad981e.o \
   $(JUCE_OBJDIR)/dc_filter_3d140d58.o \
   $(JUCE_OBJDIR)/detune_lookup_ea628520.o \
@@ -772,6 +773,11 @@ $(JUCE_OBJDIR)/text_look_and_feel_4af8536c.o: ../../../src/look_and_feel/text_lo
 $(JUCE_OBJDIR)/helm_computer_keyboard_15a10faf.o: ../../../src/standalone/helm_computer_keyboard.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling helm_computer_keyboard.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/helm_editor_7ed57f13.o: ../../../src/standalone/helm_editor.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling helm_editor.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/main_b7ad981e.o: ../../../src/standalone/main.cpp

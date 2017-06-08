@@ -16,7 +16,7 @@
 
 #include "JuceHeader.h"
 #include "border_bounds_constrainer.h"
-#include "helm_standalone_editor.h"
+#include "helm_editor.h"
 #include "load_save.h"
 
 class HelmApplication : public JUCEApplication {
@@ -33,7 +33,7 @@ class HelmApplication : public JUCEApplication {
 
       MainWindow(String name, bool visible = true) :
           DocumentWindow(name, Colours::lightgrey, DocumentWindow::allButtons) {
-        editor_ = new HelmStandaloneEditor();
+        editor_ = new HelmEditor();
         editor_->animate(LoadSave::shouldAnimateWidgets());
 
         setUsingNativeTitleBar(true);
@@ -140,7 +140,7 @@ class HelmApplication : public JUCEApplication {
 
     private:
       JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
-      HelmStandaloneEditor* editor_;
+      HelmEditor* editor_;
       ScopedPointer<ApplicationCommandManager> command_manager_;
       BorderBoundsConstrainer constrainer_;
     };
