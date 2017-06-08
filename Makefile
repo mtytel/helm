@@ -63,12 +63,12 @@ install_lv2: lv2 install_patches
 	install -m644 builds/linux/LV2/helm.lv2/* $(LV2)
 	cp -rf patches/* $(PATCHES)
 
-install_vst: vst
+install_vst: vst install_patches
 	install -d $(PATCHES) $(VSTDIR)
 	install builds/linux/VST/build/helm.so $(VST)
 	cp -rf patches/* $(PATCHES)
 
-install: install_standalone install_lv2
+install: install_standalone install_vst install_lv2
 
 dist:
 	rm -rf $(PROGRAM)
