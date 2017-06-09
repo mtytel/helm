@@ -536,6 +536,52 @@ namespace mopo {
         mopo_float min_, max_;
     };
 
+    // A processor that will clamp a signal to a lower bound.
+    class LowerBound : public Operator {
+      public:
+        LowerBound(mopo_float min = 0.0) : Operator(1, 1), min_(min) { }
+
+        virtual Processor* clone() const override { return new LowerBound(*this); }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = utils::max(source[i], min_);
+        }
+        
+      private:
+        mopo_float min_;
+    };
+
+    // A processor that will clamp a signal to an upper bound.
+    class UpperBound : public Operator {
+      public:
+        UpperBound(mopo_float max = 0.0) : Operator(1, 1), max_(max) { }
+
+        virtual Processor* clone() const override { return new UpperBound(*this); }
+
+        void process() override {
+          tick(0);
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = utils::min(source[i], max_);
+        }
+        
+      private:
+        mopo_float max_;
+    };
+
     class Add : public Operator {
       public:
         Add() : Operator(2, 1, true) {

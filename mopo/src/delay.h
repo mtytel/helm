@@ -43,20 +43,14 @@ namespace mopo {
       virtual Processor* clone() const override { return new Delay(*this); }
       virtual void process() override;
 
-      void tick(int i) {
-        mopo_float audio = input(kAudio)->at(i);
-        mopo_float period = input(kSampleDelay)->at(i);
-
-        mopo_float read = memory_->get(period);
-        memory_->push(audio + read * current_feedback_);
-        output(0)->buffer[i] = current_dry_ * audio + current_wet_ * read;
-      }
+      inline void tick(int i, const mopo_float* audio, mopo_float* dest);
 
     protected:
       Memory* memory_;
       mopo_float current_feedback_;
       mopo_float current_wet_;
       mopo_float current_dry_;
+      mopo_float current_period_;
   };
 } // namespace mopo
 

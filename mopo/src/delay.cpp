@@ -16,6 +16,8 @@
 
 #include "delay.h"
 
+#define DEFAULT_PERIOD 100.0
+
 namespace mopo {
 
   Delay::Delay(int size) : Processor(Delay::kNumInputs, 1) {
@@ -23,6 +25,7 @@ namespace mopo {
     current_feedback_ = 0.0;
     current_wet_ = 0.0;
     current_dry_ = 0.0;
+    current_period_ = DEFAULT_PERIOD;
   }
 
   Delay::Delay(const Delay& other) : Processor(other) {
@@ -30,6 +33,7 @@ namespace mopo {
     this->current_feedback_ = 0.0;
     this->current_wet_ = 0.0;
     this->current_dry_ = 0.0;
+    this->current_period_ = DEFAULT_PERIOD;
   }
 
   Delay::~Delay() {
@@ -37,20 +41,34 @@ namespace mopo {
   }
 
   void Delay::process() {
-    mopo_float new_feedback = input(kFeedback)->at(0);
+    const mopo_float* audio = input(kAudio)->source->buffer;
+    mopo_float* dest = output()->buffer;
+
     mopo_float wet = utils::clamp(input(kWet)->at(0), 0.0, 1.0);
     mopo_float new_wet = sqrt(wet);
     mopo_float new_dry = sqrt(1.0 - wet);
-
-    mopo_float feedback_inc = (new_feedback - current_feedback_) / buffer_size_;
     mopo_float wet_inc = (new_wet - current_wet_) / buffer_size_;
     mopo_float dry_inc = (new_dry - current_dry_) / buffer_size_;
+
+    mopo_float new_feedback = input(kFeedback)->at(0);
+    mopo_float feedback_inc = (new_feedback - current_feedback_) / buffer_size_;
+
+    mopo_float new_period = utils::clamp(input(kSampleDelay)->at(0), 2.0, memory_->getSize() - 1.0);
+    mopo_float period_inc = (new_period - current_period_) / buffer_size_;
 
     for (int i = 0; i < buffer_size_; ++i) {
       current_feedback_ += feedback_inc;
       current_wet_ += wet_inc;
       current_dry_ += dry_inc;
-      tick(i);
+      current_period_ += period_inc;
+      tick(i, audio, dest);
     }
+  }
+
+  inline void Delay::tick(int i, const mopo_float* audio, mopo_float* dest) {
+    mopo_float read = memory_->get(current_period_);
+    memory_->push(audio[i] + read * current_feedback_);
+    dest[i] = current_dry_ * audio[i] + current_wet_ * read;
+    MOPO_ASSERT(std::isfinite(dest[i]));
   }
 } // namespace mopo
