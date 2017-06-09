@@ -73,6 +73,7 @@ namespace mopo {
       Value* lfo_1_retrigger_;
       Value* lfo_2_retrigger_;
       Value* step_sequencer_retrigger_;
+      Value* bps_;
       HelmLfo* lfo_1_;
       HelmLfo* lfo_2_;
       PeakMeter* peak_meter_;

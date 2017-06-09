@@ -32,6 +32,7 @@ namespace mopo {
 
   HelmEngine::HelmEngine() : was_playing_arp_(false) {
     init();
+    bps_ = controls_["beats_per_minute"];
   }
 
   HelmEngine::~HelmEngine() {
@@ -401,8 +402,9 @@ namespace mopo {
   }
 
   void HelmEngine::setBpm(mopo_float bpm) {
-    if (controls_["beats_per_minute"]->value() != bpm)
-      controls_["beats_per_minute"]->set(bpm);
+    mopo_float bps = bpm / 60.0;
+    if (bps_->value() != bps)
+      bps_->set(bps);
   }
 
   void HelmEngine::correctToTime(mopo_float samples) {
