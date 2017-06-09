@@ -21,9 +21,8 @@
 
 namespace mopo {
 
-  SmoothFilter::SmoothFilter() : Processor(SmoothFilter::kNumInputs, 1) {
-    last_value_ = 0.0;
-  }
+  SmoothFilter::SmoothFilter(mopo_float start_value) :
+      Processor(SmoothFilter::kNumInputs, 1), last_value_(start_value) { }
 
   void SmoothFilter::process() {
     mopo_float half_life = input(kHalfLife)->at(0);
@@ -35,6 +34,22 @@ namespace mopo {
       mopo_float target = input(kTarget)->at(i);
       last_value_ = utils::interpolate(target, last_value_, decay);
       output(0)->buffer[i] = last_value_;
+    }
+  }
+
+  namespace cr {
+    SmoothFilter::SmoothFilter(mopo_float start_value) :
+        Processor(SmoothFilter::kNumInputs, 1, true), last_value_(start_value) { }
+
+    void SmoothFilter::process() {
+      mopo_float half_life = input(kHalfLife)->at(0);
+      mopo_float decay = 0.0;
+      if (half_life > 0.0)
+        decay = std::pow(0.5, samples_to_process_ / (half_life * sample_rate_));
+
+      mopo_float target = input(kTarget)->at(0);
+      last_value_ = utils::interpolate(target, last_value_, decay);
+      output(0)->buffer[0] = last_value_;
     }
   }
 } // namespace mopo

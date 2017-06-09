@@ -27,11 +27,10 @@ namespace mopo {
       enum Inputs {
         kTarget,
         kHalfLife,
-        kTriggerJump,
         kNumInputs
       };
 
-      SmoothFilter();
+      SmoothFilter(mopo_float start_value = 0.0);
 
       virtual Processor* clone() const override {
         return new SmoothFilter(*this);
@@ -42,6 +41,28 @@ namespace mopo {
     private:
       mopo_float last_value_;
   };
+
+  namespace cr {
+    class SmoothFilter : public Processor {
+      public:
+        enum Inputs {
+          kTarget,
+          kHalfLife,
+          kNumInputs
+        };
+
+        SmoothFilter(mopo_float start_value = 0.0);
+
+        virtual Processor* clone() const override {
+          return new SmoothFilter(*this);
+        }
+
+        virtual void process() override;
+        
+      private:
+        mopo_float last_value_;
+    };
+  } // namespace cr
 } // namespace mopo
 
 #endif // FILTER_H
