@@ -61,7 +61,7 @@ void HelmPlugin::endChangeGesture(const std::string& name) {
 
 void HelmPlugin::setValueNotifyHost(const std::string& name, mopo::mopo_float value) {
   mopo::mopo_float plugin_value =  bridge_lookup_[name]->convertToPluginValue(value);
-  bridge_lookup_[name]->setValueNotifyingHost(plugin_value);
+  bridge_lookup_[name]->setValueNotifyHost(plugin_value);
 }
 
 const CriticalSection& HelmPlugin::getCriticalSection() {

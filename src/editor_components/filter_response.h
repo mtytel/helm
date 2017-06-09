@@ -22,8 +22,9 @@
 #include "helm_common.h"
 #include "biquad_filter.h"
 #include "state_variable_filter.h"
+#include "synth_slider.h"
 
-class FilterResponse : public Component, SliderListener {
+class FilterResponse : public Component, SynthSlider::SliderListener {
   public:
     FilterResponse(int resolution);
     ~FilterResponse();
@@ -32,12 +33,12 @@ class FilterResponse : public Component, SliderListener {
     void resetResponsePath();
     void computeFilterCoefficients();
     void setFilterSettingsFromPosition(Point<int> position);
-    void sliderValueChanged(Slider* moved_slider) override;
+    void guiChanged(SynthSlider* slider) override;
 
-    void setResonanceSlider(Slider* slider);
-    void setCutoffSlider(Slider* slider);
-    void setFilterBlendSlider(Slider* slider);
-    void setFilterShelfSlider(Slider* slider);
+    void setResonanceSlider(SynthSlider* slider);
+    void setCutoffSlider(SynthSlider* slider);
+    void setFilterBlendSlider(SynthSlider* slider);
+    void setFilterShelfSlider(SynthSlider* slider);
     void setStyle(mopo::StateVariableFilter::Styles style);
 
     void paint(Graphics& g) override;
@@ -59,10 +60,10 @@ class FilterResponse : public Component, SliderListener {
     mopo::BiquadFilter filter_high_;
     mopo::BiquadFilter filter_shelf_;
 
-    Slider* filter_blend_slider_;
-    Slider* filter_shelf_slider_;
-    Slider* cutoff_slider_;
-    Slider* resonance_slider_;
+    SynthSlider* filter_blend_slider_;
+    SynthSlider* filter_shelf_slider_;
+    SynthSlider* cutoff_slider_;
+    SynthSlider* resonance_slider_;
 
     Image background_;
 

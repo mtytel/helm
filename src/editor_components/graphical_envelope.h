@@ -20,19 +20,20 @@
 
 #include "JuceHeader.h"
 #include "helm_common.h"
+#include "synth_slider.h"
 
-class GraphicalEnvelope  : public Component, public SliderListener {
+class GraphicalEnvelope : public Component, SynthSlider::SliderListener {
   public:
     GraphicalEnvelope();
     ~GraphicalEnvelope();
 
     void resetEnvelopeLine();
-    void sliderValueChanged(Slider* sliderThatWasMoved) override;
+    void guiChanged(SynthSlider* slider) override;
 
-    void setAttackSlider(Slider* attack_slider);
-    void setDecaySlider(Slider* decay_slider);
-    void setSustainSlider(Slider* sustain_slider);
-    void setReleaseSlider(Slider* release_slider);
+    void setAttackSlider(SynthSlider* attack_slider);
+    void setDecaySlider(SynthSlider* decay_slider);
+    void setSustainSlider(SynthSlider* sustain_slider);
+    void setReleaseSlider(SynthSlider* release_slider);
 
     void paint(Graphics& g) override;
     void resized() override;
@@ -60,10 +61,10 @@ class GraphicalEnvelope  : public Component, public SliderListener {
     bool mouse_down_;
     Path envelope_line_;
 
-    Slider* attack_slider_;
-    Slider* decay_slider_;
-    Slider* sustain_slider_;
-    Slider* release_slider_;
+    SynthSlider* attack_slider_;
+    SynthSlider* decay_slider_;
+    SynthSlider* sustain_slider_;
+    SynthSlider* release_slider_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GraphicalEnvelope)
 };

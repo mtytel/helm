@@ -160,7 +160,7 @@ void GraphicalEnvelope::mouseUp(const MouseEvent& e) {
   repaint();
 }
 
-void GraphicalEnvelope::sliderValueChanged(Slider* sliderThatWasMoved) {
+void GraphicalEnvelope::guiChanged(SynthSlider* slider) {
   resetEnvelopeLine();
   repaint();
 }
@@ -229,38 +229,30 @@ void GraphicalEnvelope::setReleaseX(double x) {
   release_slider_->setValue(release_slider_->proportionOfLengthToValue(percent));
 }
 
-void GraphicalEnvelope::setAttackSlider(Slider* attack_slider) {
-  if (attack_slider_)
-    attack_slider_->removeListener(this);
+void GraphicalEnvelope::setAttackSlider(SynthSlider* attack_slider) {
   attack_slider_ = attack_slider;
-  attack_slider_->addListener(this);
+  attack_slider_->addSliderListener(this);
   resetEnvelopeLine();
   repaint();
 }
 
-void GraphicalEnvelope::setDecaySlider(Slider* decay_slider) {
-  if (decay_slider_)
-    decay_slider_->removeListener(this);
+void GraphicalEnvelope::setDecaySlider(SynthSlider* decay_slider) {
   decay_slider_ = decay_slider;
-  decay_slider_->addListener(this);
+  decay_slider_->addSliderListener(this);
   resetEnvelopeLine();
   repaint();
 }
 
-void GraphicalEnvelope::setSustainSlider(Slider* sustain_slider) {
-  if (sustain_slider_)
-    sustain_slider_->removeListener(this);
+void GraphicalEnvelope::setSustainSlider(SynthSlider* sustain_slider) {
   sustain_slider_ = sustain_slider;
-  sustain_slider_->addListener(this);
+  sustain_slider_->addSliderListener(this);
   resetEnvelopeLine();
   repaint();
 }
 
-void GraphicalEnvelope::setReleaseSlider(Slider* release_slider) {
-  if (release_slider_)
-    release_slider_->removeListener(this);
+void GraphicalEnvelope::setReleaseSlider(SynthSlider* release_slider) {
   release_slider_ = release_slider;
-  release_slider_->addListener(this);
+  release_slider_->addSliderListener(this);
   resetEnvelopeLine();
   repaint();
 }

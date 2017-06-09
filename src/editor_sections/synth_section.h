@@ -60,8 +60,8 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     virtual void setActive(bool active = true);
     virtual void animate(bool animate = true);
     virtual void setAllValues(mopo::control_map& controls);
-    void setValue(std::string name, mopo::mopo_float value,
-                  NotificationType notification = sendNotificationAsync);
+    virtual void setValue(const std::string& name, mopo::mopo_float value,
+                          NotificationType notification = sendNotification);
 
   protected:
     void addButton(Button* button, bool show = true);

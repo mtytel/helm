@@ -30,7 +30,8 @@ class ValueBridge : public AudioProcessorParameter {
     };
 
     ValueBridge(std::string name, mopo::Value* value) :
-        AudioProcessorParameter(), name_(name), value_(value), listener_(nullptr) {
+        AudioProcessorParameter(), name_(name), value_(value), listener_(nullptr),
+        source_changed_(false) {
       details_ = mopo::Parameters::getDetails(name);
       span_ = details_.max - details_.min;
     }
@@ -40,9 +41,12 @@ class ValueBridge : public AudioProcessorParameter {
     }
 
     void setValue(float value) override {
-      mopo::mopo_float synth_value = convertToSynthValue(value);
-      if (listener_)
+      if (listener_ && !source_changed_) {
+        source_changed_ = true;
+        mopo::mopo_float synth_value = convertToSynthValue(value);
         listener_->parameterChanged(name_.toStdString(), synth_value);
+        source_changed_ = false;
+      }
     }
 
     void setListener(Listener* listener) {
@@ -86,6 +90,14 @@ class ValueBridge : public AudioProcessorParameter {
       return raw_value;
     }
 
+    void setValueNotifyHost(float new_value) {
+      if (!source_changed_) {
+        source_changed_ = true;
+        setValueNotifyingHost(new_value);
+        source_changed_ = false;
+      }
+    }
+
   private:
     float getSkewedValue() const {
       switch (details_.display_skew) {
@@ -103,6 +115,7 @@ class ValueBridge : public AudioProcessorParameter {
     mopo::mopo_float span_;
     mopo::Value* value_;
     Listener* listener_;
+    bool source_changed_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ValueBridge)
 };

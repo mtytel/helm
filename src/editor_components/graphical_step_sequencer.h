@@ -20,17 +20,20 @@
 
 #include "JuceHeader.h"
 #include "mopo.h"
+#include "synth_slider.h"
 #include <vector>
 
-class GraphicalStepSequencer : public Component, public Timer, public SliderListener {
+class GraphicalStepSequencer : public Component, public Timer, public SliderListener,
+                               public SynthSlider::SliderListener {
   public:
     GraphicalStepSequencer();
     ~GraphicalStepSequencer();
 
     void timerCallback() override;
-    void setNumStepsSlider(Slider* num_steps_slider);
+    void setNumStepsSlider(SynthSlider* num_steps_slider);
     void setStepSliders(std::vector<Slider*> sliders);
     void sliderValueChanged(Slider* moved_slider) override;
+    void guiChanged(SynthSlider* slider) override;
 
     void resetBackground();
     void showRealtimeFeedback(bool show_feedback = true);
@@ -52,7 +55,7 @@ class GraphicalStepSequencer : public Component, public Timer, public SliderList
     int num_steps_;
     mopo::Output* step_generator_output_;
     int last_step_;
-    Slider* num_steps_slider_;
+    SynthSlider* num_steps_slider_;
     int highlighted_step_;
     std::vector<Slider*> sequence_;
     Point<int> last_edit_position_;

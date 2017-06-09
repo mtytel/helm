@@ -248,10 +248,12 @@ void SynthSection::setAllValues(mopo::control_map& controls) {
   repaint();
 }
 
-void SynthSection::setValue(std::string name, mopo::mopo_float value,
+void SynthSection::setValue(const std::string& name, mopo::mopo_float value,
                             NotificationType notification) {
-  if (all_sliders_.count(name))
+  if (all_sliders_.count(name)) {
     all_sliders_[name]->setValue(value, notification);
-  else if (all_buttons_.count(name))
+    all_sliders_[name]->notifyGuis();
+  }
+  if (all_buttons_.count(name))
     all_buttons_[name]->setToggleState(value, notification);
 }

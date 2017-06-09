@@ -226,7 +226,7 @@ void OpenGLEnvelope::mouseUp(const MouseEvent& e) {
   paintBackground();
 }
 
-void OpenGLEnvelope::sliderValueChanged(Slider* sliderThatWasMoved) {
+void OpenGLEnvelope::guiChanged(SynthSlider* slider) {
   resetEnvelopeLine();
   paintBackground();
 }
@@ -295,35 +295,27 @@ void OpenGLEnvelope::setReleaseX(double x) {
   release_slider_->setValue(release_slider_->proportionOfLengthToValue(percent));
 }
 
-void OpenGLEnvelope::setAttackSlider(Slider* attack_slider) {
-  if (attack_slider_)
-    attack_slider_->removeListener(this);
+void OpenGLEnvelope::setAttackSlider(SynthSlider* attack_slider) {
   attack_slider_ = attack_slider;
-  attack_slider_->addListener(this);
+  attack_slider_->addSliderListener(this);
   resetEnvelopeLine();
 }
 
-void OpenGLEnvelope::setDecaySlider(Slider* decay_slider) {
-  if (decay_slider_)
-    decay_slider_->removeListener(this);
+void OpenGLEnvelope::setDecaySlider(SynthSlider* decay_slider) {
   decay_slider_ = decay_slider;
-  decay_slider_->addListener(this);
+  decay_slider_->addSliderListener(this);
   resetEnvelopeLine();
 }
 
-void OpenGLEnvelope::setSustainSlider(Slider* sustain_slider) {
-  if (sustain_slider_)
-    sustain_slider_->removeListener(this);
+void OpenGLEnvelope::setSustainSlider(SynthSlider* sustain_slider) {
   sustain_slider_ = sustain_slider;
-  sustain_slider_->addListener(this);
+  sustain_slider_->addSliderListener(this);
   resetEnvelopeLine();
 }
 
-void OpenGLEnvelope::setReleaseSlider(Slider* release_slider) {
-  if (release_slider_)
-    release_slider_->removeListener(this);
+void OpenGLEnvelope::setReleaseSlider(SynthSlider* release_slider) {
   release_slider_ = release_slider;
-  release_slider_->addListener(this);
+  release_slider_->addSliderListener(this);
   resetEnvelopeLine();
 }
 

@@ -306,7 +306,6 @@
     <ClCompile Include="..\..\..\src\editor_components\filter_response.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\filter_selector.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\global_tool_tip.cpp"/>
-    <ClCompile Include="..\..\..\src\editor_components\graphical_envelope.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\graphical_step_sequencer.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\midi_keyboard.cpp"/>
     <ClCompile Include="..\..\..\src\editor_components\modulation_button.cpp"/>
@@ -346,7 +345,6 @@
     <ClCompile Include="..\..\..\src\editor_sections\full_interface.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\lfo_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\mixer_section.cpp"/>
-    <ClCompile Include="..\..\..\src\editor_sections\modulation_manager.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\noise_section.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\open_gl_modulation_manager.cpp"/>
     <ClCompile Include="..\..\..\src\editor_sections\oscillator_section.cpp"/>
@@ -2040,7 +2038,6 @@
     <ClInclude Include="..\..\..\src\editor_components\filter_response.h"/>
     <ClInclude Include="..\..\..\src\editor_components\filter_selector.h"/>
     <ClInclude Include="..\..\..\src\editor_components\global_tool_tip.h"/>
-    <ClInclude Include="..\..\..\src\editor_components\graphical_envelope.h"/>
     <ClInclude Include="..\..\..\src\editor_components\graphical_step_sequencer.h"/>
     <ClInclude Include="..\..\..\src\editor_components\midi_keyboard.h"/>
     <ClInclude Include="..\..\..\src\editor_components\modulation_button.h"/>
@@ -2081,7 +2078,6 @@
     <ClInclude Include="..\..\..\src\editor_sections\full_interface.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\lfo_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\mixer_section.h"/>
-    <ClInclude Include="..\..\..\src\editor_sections\modulation_manager.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\noise_section.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\open_gl_modulation_manager.h"/>
     <ClInclude Include="..\..\..\src\editor_sections\oscillator_section.h"/>

@@ -22,19 +22,20 @@
 #include "helm_common.h"
 #include "open_gl_background.h"
 #include "open_gl_component.h"
+#include "synth_slider.h"
 
-class OpenGLEnvelope  : public OpenGLComponent, public SliderListener {
+class OpenGLEnvelope : public OpenGLComponent, public SynthSlider::SliderListener {
   public:
     OpenGLEnvelope();
     ~OpenGLEnvelope();
 
     void resetEnvelopeLine();
-    void sliderValueChanged(Slider* sliderThatWasMoved) override;
+    void guiChanged(SynthSlider* slider) override;
 
-    void setAttackSlider(Slider* attack_slider);
-    void setDecaySlider(Slider* decay_slider);
-    void setSustainSlider(Slider* sustain_slider);
-    void setReleaseSlider(Slider* release_slider);
+    void setAttackSlider(SynthSlider* attack_slider);
+    void setDecaySlider(SynthSlider* decay_slider);
+    void setSustainSlider(SynthSlider* sustain_slider);
+    void setReleaseSlider(SynthSlider* release_slider);
 
     void resized() override;
     void mouseMove(const MouseEvent& e) override;
@@ -74,10 +75,10 @@ class OpenGLEnvelope  : public OpenGLComponent, public SliderListener {
     mopo::Output* envelope_phase_;
     mopo::Output* envelope_amp_;
 
-    Slider* attack_slider_;
-    Slider* decay_slider_;
-    Slider* sustain_slider_;
-    Slider* release_slider_;
+    SynthSlider* attack_slider_;
+    SynthSlider* decay_slider_;
+    SynthSlider* sustain_slider_;
+    SynthSlider* release_slider_;
 
     OpenGLBackground background_;
 

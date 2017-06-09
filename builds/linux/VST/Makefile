@@ -131,7 +131,6 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/filter_response_7394009c.o \
   $(JUCE_OBJDIR)/filter_selector_c70de13a.o \
   $(JUCE_OBJDIR)/global_tool_tip_5f078e04.o \
-  $(JUCE_OBJDIR)/graphical_envelope_4add3912.o \
   $(JUCE_OBJDIR)/graphical_step_sequencer_763b67a0.o \
   $(JUCE_OBJDIR)/midi_keyboard_ec3d63f9.o \
   $(JUCE_OBJDIR)/modulation_button_8258c889.o \
@@ -171,7 +170,6 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/full_interface_29b5f507.o \
   $(JUCE_OBJDIR)/lfo_section_f85fa167.o \
   $(JUCE_OBJDIR)/mixer_section_9e4a737b.o \
-  $(JUCE_OBJDIR)/modulation_manager_a5602c68.o \
   $(JUCE_OBJDIR)/noise_section_31fdfd0c.o \
   $(JUCE_OBJDIR)/open_gl_modulation_manager_939ca4d.o \
   $(JUCE_OBJDIR)/oscillator_section_c90fdcc4.o \
@@ -491,11 +489,6 @@ $(JUCE_OBJDIR)/global_tool_tip_5f078e04.o: ../../../src/editor_components/global
 	@echo "Compiling global_tool_tip.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
-$(JUCE_OBJDIR)/graphical_envelope_4add3912.o: ../../../src/editor_components/graphical_envelope.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling graphical_envelope.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
-
 $(JUCE_OBJDIR)/graphical_step_sequencer_763b67a0.o: ../../../src/editor_components/graphical_step_sequencer.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling graphical_step_sequencer.cpp"
@@ -689,11 +682,6 @@ $(JUCE_OBJDIR)/lfo_section_f85fa167.o: ../../../src/editor_sections/lfo_section.
 $(JUCE_OBJDIR)/mixer_section_9e4a737b.o: ../../../src/editor_sections/mixer_section.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling mixer_section.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
-
-$(JUCE_OBJDIR)/modulation_manager_a5602c68.o: ../../../src/editor_sections/modulation_manager.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling modulation_manager.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/noise_section_31fdfd0c.o: ../../../src/editor_sections/noise_section.cpp

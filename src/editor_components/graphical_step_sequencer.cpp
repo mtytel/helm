@@ -150,11 +150,16 @@ void GraphicalStepSequencer::sliderValueChanged(Slider* moved_slider) {
   resetBackground();
 }
 
-void GraphicalStepSequencer::setNumStepsSlider(Slider* num_steps_slider) {
+void GraphicalStepSequencer::guiChanged(SynthSlider* moved_slider) {
+  ensureMinSize();
+  resetBackground();
+}
+
+void GraphicalStepSequencer::setNumStepsSlider(SynthSlider* num_steps_slider) {
   if (num_steps_slider_)
     num_steps_slider_->removeListener(this);
   num_steps_slider_ = num_steps_slider;
-  num_steps_slider_->addListener(this);
+  num_steps_slider_->addSliderListener(this);
 
   ensureMinSize();
   resetBackground();

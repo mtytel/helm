@@ -19,17 +19,18 @@
 #define XY_PAD_H
 
 #include "JuceHeader.h"
+#include "synth_slider.h"
 
-class XYPad : public Component, public SliderListener {
+class XYPad : public Component, public SynthSlider::SliderListener {
   public:
     XYPad();
     ~XYPad();
 
-    void sliderValueChanged(Slider* moved_slider) override;
+    void guiChanged(SynthSlider* moved_slider) override;
     void setSlidersFromPosition(Point<int> position);
 
-    void setXSlider(Slider* slider);
-    void setYSlider(Slider* slider);
+    void setXSlider(SynthSlider* slider);
+    void setYSlider(SynthSlider* slider);
 
     void paint(Graphics& g) override;
     void paintBackground(Graphics& g);
@@ -41,8 +42,8 @@ class XYPad : public Component, public SliderListener {
     void setActive(bool active = true);
 
   private:
-    Slider* x_slider_;
-    Slider* y_slider_;
+    SynthSlider* x_slider_;
+    SynthSlider* y_slider_;
     bool mouse_down_;
     bool active_;
 

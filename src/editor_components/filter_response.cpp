@@ -215,43 +215,35 @@ void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
   computeFilterCoefficients();
 }
 
-void FilterResponse::sliderValueChanged(Slider* moved_slider) {
+void FilterResponse::guiChanged(SynthSlider* slider) {
   computeFilterCoefficients();
   repaint();
 }
 
-void FilterResponse::setResonanceSlider(Slider* slider) {
-  if (resonance_slider_)
-    resonance_slider_->removeListener(this);
+void FilterResponse::setResonanceSlider(SynthSlider* slider) {
   resonance_slider_ = slider;
-  resonance_slider_->addListener(this);
+  resonance_slider_->addSliderListener(this);
   computeFilterCoefficients();
   repaint();
 }
 
-void FilterResponse::setCutoffSlider(Slider* slider) {
-  if (cutoff_slider_)
-    cutoff_slider_->removeListener(this);
+void FilterResponse::setCutoffSlider(SynthSlider* slider) {
   cutoff_slider_ = slider;
-  cutoff_slider_->addListener(this);
+  cutoff_slider_->addSliderListener(this);
   computeFilterCoefficients();
   repaint();
 }
 
-void FilterResponse::setFilterBlendSlider(Slider* slider) {
-  if (filter_blend_slider_)
-    filter_blend_slider_->removeListener(this);
+void FilterResponse::setFilterBlendSlider(SynthSlider* slider) {
   filter_blend_slider_ = slider;
-  filter_blend_slider_->addListener(this);
+  filter_blend_slider_->addSliderListener(this);
   computeFilterCoefficients();
   repaint();
 }
 
-void FilterResponse::setFilterShelfSlider(Slider* slider) {
-  if (filter_shelf_slider_)
-    filter_shelf_slider_->removeListener(this);
+void FilterResponse::setFilterShelfSlider(SynthSlider* slider) {
   filter_shelf_slider_ = slider;
-  filter_shelf_slider_->addListener(this);
+  filter_shelf_slider_->addSliderListener(this);
   computeFilterCoefficients();
   repaint();
 }

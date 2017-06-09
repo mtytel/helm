@@ -42,9 +42,6 @@ SynthBase::SynthBase() {
 
 void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
   value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
-  SynthGuiInterface* gui_interface = getGuiInterface();
-  if (gui_interface)
-    gui_interface->notifyChange();
 }
 
 void SynthBase::valueChangedInternal(const std::string& name, mopo::mopo_float value) {
@@ -370,7 +367,9 @@ String SynthBase::getFolderName() {
 void SynthBase::ValueChangedCallback::messageCallback() {
   if (listener) {
     SynthGuiInterface* gui_interface = listener->getGuiInterface();
-    if (gui_interface)
+    if (gui_interface) {
       gui_interface->updateGuiControl(control_name, value);
+      gui_interface->notifyChange();
+    }
   }
 }

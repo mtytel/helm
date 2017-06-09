@@ -115,24 +115,19 @@ void XYPad::setSlidersFromPosition(Point<int> position) {
   }
 }
 
-void XYPad::sliderValueChanged(Slider* moved_slider) {
+void XYPad::guiChanged(SynthSlider* moved_slider) {
   repaint();
 }
 
-void XYPad::setXSlider(Slider* slider) {
-  if (x_slider_)
-    x_slider_->removeListener(this);
-
+void XYPad::setXSlider(SynthSlider* slider) {
   x_slider_ = slider;
-  x_slider_->addListener(this);
+  x_slider_->addSliderListener(this);
   repaint();
 }
 
-void XYPad::setYSlider(Slider* slider) {
-  if (y_slider_)
-    y_slider_->removeListener(this);
+void XYPad::setYSlider(SynthSlider* slider) {
   y_slider_ = slider;
-  y_slider_->addListener(this);
+  y_slider_->addSliderListener(this);
   repaint();
 }
 

@@ -23,18 +23,19 @@
 #include "helm_common.h"
 #include "open_gl_background.h"
 #include "open_gl_component.h"
+#include "synth_slider.h"
 
-class OpenGLWaveViewer : public OpenGLComponent, public SliderListener {
+class OpenGLWaveViewer : public OpenGLComponent, public SynthSlider::SliderListener {
   public:
     OpenGLWaveViewer(int resolution);
     virtual ~OpenGLWaveViewer();
 
-    void setWaveSlider(Slider* slider);
-    void setAmplitudeSlider(Slider* slider);
+    void setWaveSlider(SynthSlider* slider);
+    void setAmplitudeSlider(SynthSlider* slider);
     void drawRandom();
     void drawSmoothRandom();
     void resetWavePath();
-    void sliderValueChanged(Slider* sliderThatWasMoved) override;
+    void guiChanged(SynthSlider* slider) override;
 
     void mouseDown(const MouseEvent& e) override;
     void resized() override;
@@ -51,8 +52,8 @@ class OpenGLWaveViewer : public OpenGLComponent, public SliderListener {
     float phaseToX(float phase);
     float getRatio();
 
-    Slider* wave_slider_;
-    Slider* amplitude_slider_;
+    SynthSlider* wave_slider_;
+    SynthSlider* amplitude_slider_;
     mopo::Output* wave_phase_;
     mopo::Output* wave_amp_;
     Path wave_path_;

@@ -136,13 +136,15 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
 void SynthSlider::mouseUp(const MouseEvent& e) {
   Slider::mouseUp(e);
 
-  if (isRotary() && !e.mods.isPopupMenu()) {
+  if (!e.mods.isPopupMenu()) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     if (parent)
       parent->getSynth()->endChangeGesture(getName().toStdString());
 
-    setMouseCursor(MouseCursor::ParentCursor);
-    Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
+    if (isRotary()) {
+      setMouseCursor(MouseCursor::ParentCursor);
+      Desktop::getInstance().getMainMouseSource().setScreenPosition(click_position_);
+    }
   }
 }
 
@@ -162,6 +164,7 @@ void SynthSlider::mouseExit(const MouseEvent &e) {
 void SynthSlider::valueChanged() {
   Slider::valueChanged();
   notifyTooltip();
+  notifyGuis();
 
   if (popup_placement_ == BubbleComponent::below && popup_buffer_) {
     Component* popup = getCurrentPopupDisplay();
@@ -302,6 +305,11 @@ String SynthSlider::formatValue(float value) {
     format = " " + format;
   
   return format + " " + details_.display_units;
+}
+
+void SynthSlider::notifyGuis() {
+  for (SynthSlider::SliderListener* listener : slider_listeners_)
+    listener->guiChanged(this);
 }
 
 void SynthSlider::notifyTooltip() {

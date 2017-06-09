@@ -213,10 +213,6 @@
               file="../src/editor_components/global_tool_tip.cpp"/>
         <FILE id="CtvkUD" name="global_tool_tip.h" compile="0" resource="0"
               file="../src/editor_components/global_tool_tip.h"/>
-        <FILE id="LenDmM" name="graphical_envelope.cpp" compile="1" resource="0"
-              file="../src/editor_components/graphical_envelope.cpp"/>
-        <FILE id="g8iXWR" name="graphical_envelope.h" compile="0" resource="0"
-              file="../src/editor_components/graphical_envelope.h"/>
         <FILE id="LHSN74" name="graphical_step_sequencer.cpp" compile="1" resource="0"
               file="../src/editor_components/graphical_step_sequencer.cpp"/>
         <FILE id="I0Msfq" name="graphical_step_sequencer.h" compile="0" resource="0"
@@ -355,10 +351,6 @@
         <FILE id="SfrWqo" name="mixer_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/mixer_section.cpp"/>
         <FILE id="TtSTMu" name="mixer_section.h" compile="0" resource="0" file="../src/editor_sections/mixer_section.h"/>
-        <FILE id="twzAJN" name="modulation_manager.cpp" compile="1" resource="0"
-              file="../src/editor_sections/modulation_manager.cpp"/>
-        <FILE id="ozVonc" name="modulation_manager.h" compile="0" resource="0"
-              file="../src/editor_sections/modulation_manager.h"/>
         <FILE id="L31Qlt" name="noise_section.cpp" compile="1" resource="0"
               file="../src/editor_sections/noise_section.cpp"/>
         <FILE id="sUTz4c" name="noise_section.h" compile="0" resource="0" file="../src/editor_sections/noise_section.h"/>

@@ -135,19 +135,15 @@ void OpenGLWaveViewer::resized() {
     wave_phase_ = parent->getSynth()->getModSource(getName().toStdString() + "_phase");
 }
 
-void OpenGLWaveViewer::setWaveSlider(Slider* slider) {
-  if (wave_slider_)
-    wave_slider_->removeListener(this);
+void OpenGLWaveViewer::setWaveSlider(SynthSlider* slider) {
   wave_slider_ = slider;
-  wave_slider_->addListener(this);
+  wave_slider_->addSliderListener(this);
   resetWavePath();
 }
 
-void OpenGLWaveViewer::setAmplitudeSlider(Slider* slider) {
-  if (amplitude_slider_)
-    amplitude_slider_->removeListener(this);
+void OpenGLWaveViewer::setAmplitudeSlider(SynthSlider* slider) {
   amplitude_slider_ = slider;
-  amplitude_slider_->addListener(this);
+  amplitude_slider_->addSliderListener(this);
   resetWavePath();
 }
 
@@ -226,7 +222,7 @@ void OpenGLWaveViewer::resetWavePath() {
   paintBackground();
 }
 
-void OpenGLWaveViewer::sliderValueChanged(Slider* sliderThatWasMoved) {
+void OpenGLWaveViewer::guiChanged(SynthSlider* slider) {
   resetWavePath();
 }
 

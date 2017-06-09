@@ -30,9 +30,10 @@ class SynthSlider : public Slider {
     class SliderListener {
       public:
         virtual ~SliderListener() { }
-        virtual void hoverStarted(const std::string& name) = 0;
-        virtual void hoverEnded(const std::string& name) = 0;
-        virtual void modulationsChanged(const std::string& name) = 0;
+        virtual void hoverStarted(const std::string& name) { }
+        virtual void hoverEnded(const std::string& name) { }
+        virtual void modulationsChanged(const std::string& name) { }
+        virtual void guiChanged(SynthSlider* slider) { }
     };
 
     SynthSlider(String name);
@@ -88,6 +89,8 @@ class SynthSlider : public Slider {
     }
     int getPopupPlacement() { return popup_placement_; }
     int getPopupBuffer() { return popup_buffer_; }
+
+    void notifyGuis();
 
   protected:
     void notifyTooltip();
