@@ -91,7 +91,7 @@ namespace mopo {
     };
   } // namespace
 
-  HelmVoiceHandler::HelmVoiceHandler(Processor* beats_per_second) :
+  HelmVoiceHandler::HelmVoiceHandler(Output* beats_per_second) :
       ProcessorRouter(VoiceHandler::kNumInputs, 0), VoiceHandler(MAX_POLYPHONY),
       beats_per_second_(beats_per_second) {
     output_ = new Multiply();

@@ -25,8 +25,10 @@ BpmSlider::BpmSlider(String name) : SynthSlider(name) {
 
 void BpmSlider::timerCallback() {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-  if (parent == nullptr)
+  if (parent == nullptr || parent->getAudioDeviceManager()) {
+    stopTimer();
     return;
+  }
   
   double bpm = parent->getControlValue(getName().toStdString());
   if (getValue() != bpm)

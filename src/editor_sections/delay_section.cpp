@@ -75,7 +75,7 @@ void DelaySection::paintBackground(Graphics& g) {
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(font_size));
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
-  drawTextForComponent(g, TRANS("WET"), dry_wet_);
+  drawTextForComponent(g, TRANS("MIX"), dry_wet_);
   g.drawText(TRANS("FREQUENCY"),
              frequency_->getBounds().getX() - size_ratio_ * 5.0f,
              feedback_->getBounds().getY() + knob_width + size_ratio_ * 4,

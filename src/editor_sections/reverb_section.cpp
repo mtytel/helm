@@ -50,7 +50,7 @@ void ReverbSection::paintBackground(Graphics& g) {
   
   drawTextForComponent(g, TRANS("FEEDB"), feedback_);
   drawTextForComponent(g, TRANS("DAMP"), damping_);
-  drawTextForComponent(g, TRANS("WET"), dry_wet_);
+  drawTextForComponent(g, TRANS("MIX"), dry_wet_);
 }
 
 void ReverbSection::resized() {

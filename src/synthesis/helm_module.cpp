@@ -170,7 +170,7 @@ namespace mopo {
   }
 
   Output* HelmModule::createTempoSyncSwitch(std::string name, Processor* frequency,
-                                            Processor* bps, bool poly, ValueSwitch* owner) {
+                                            Output* bps, bool poly, ValueSwitch* owner) {
     static const Value dotted_ratio(2.0 / 3.0);
     static const Value triplet_ratio(3.0 / 2.0);
 

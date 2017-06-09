@@ -40,22 +40,19 @@ namespace mopo {
   }
 
   void HelmEngine::init() {
-    static const cr::Value minutes_per_second(1.0 / 60.0);
-
 #ifdef FE_DFL_DISABLE_SSE_DENORMS_ENV
     fesetenv(FE_DFL_DISABLE_SSE_DENORMS_ENV);
 #endif
 
-    Output* beats_per_minute = createMonoModControl("beats_per_minute", true);
-    cr::Multiply* beats_per_second = new cr::Multiply();
-    beats_per_second->plug(beats_per_minute, 0);
-    beats_per_second->plug(&minutes_per_second, 1);
-    addProcessor(beats_per_second);
+    Output* beats_per_second = createMonoModControl("beats_per_minute", true);
+    cr::LowerBound* beats_per_second_clamped = new cr::LowerBound(0.0);
+    beats_per_second_clamped->plug(beats_per_second);
+    addProcessor(beats_per_second_clamped);
 
     // Voice Handler.
     Output* polyphony = createMonoModControl("polyphony", true);
 
-    voice_handler_ = new HelmVoiceHandler(beats_per_second);
+    voice_handler_ = new HelmVoiceHandler(beats_per_second_clamped->output());
     addSubmodule(voice_handler_);
     voice_handler_->setPolyphony(32);
     voice_handler_->plug(polyphony, VoiceHandler::kPolyphony);
@@ -69,7 +66,7 @@ namespace mopo {
     Output* lfo_1_free_frequency = createMonoModControl("mono_lfo_1_frequency", true);
     Output* lfo_1_amplitude = createMonoModControl("mono_lfo_1_amplitude", true);
     Output* lfo_1_frequency = createTempoSyncSwitch("mono_lfo_1", lfo_1_free_frequency->owner,
-                                                    beats_per_second, false);
+                                                    beats_per_second_clamped->output(), false);
 
     lfo_1_ = new HelmLfo();
     lfo_1_->plug(lfo_1_waveform, HelmLfo::kWaveform);
@@ -95,7 +92,7 @@ namespace mopo {
     Output* lfo_2_free_frequency = createMonoModControl("mono_lfo_2_frequency", true);
     Output* lfo_2_amplitude = createMonoModControl("mono_lfo_2_amplitude", true);
     Output* lfo_2_frequency = createTempoSyncSwitch("mono_lfo_2", lfo_2_free_frequency->owner,
-                                                    beats_per_second, false);
+                                                    beats_per_second_clamped->output(), false);
 
     lfo_2_ = new HelmLfo();
     lfo_2_->plug(lfo_2_waveform, HelmLfo::kWaveform);
@@ -121,7 +118,7 @@ namespace mopo {
     Output* step_smoothing = createMonoModControl("step_smoothing", true);
     Output* step_free_frequency = createMonoModControl("step_frequency", true);
     Output* step_frequency = createTempoSyncSwitch("step_sequencer", step_free_frequency->owner,
-                                                   beats_per_second, false);
+                                                   beats_per_second_clamped->output(), false);
 
     step_sequencer_ = new StepGenerator(MAX_STEPS);
     step_sequencer_->plug(step_sequencer_reset, StepGenerator::kReset);
@@ -138,15 +135,11 @@ namespace mopo {
       step_sequencer_->plug(step, StepGenerator::kSteps + i);
     }
 
-    SampleAndHoldBuffer* step_sequencer_audio_rate = new SampleAndHoldBuffer();
-    step_sequencer_audio_rate->plug(step_sequencer_);
-
-    SmoothFilter* smoothed_step_sequencer = new SmoothFilter();
-    smoothed_step_sequencer->plug(step_sequencer_audio_rate, SmoothFilter::kTarget);
-    smoothed_step_sequencer->plug(step_smoothing, SmoothFilter::kHalfLife);
+    cr::SmoothFilter* smoothed_step_sequencer = new cr::SmoothFilter(0.0);
+    smoothed_step_sequencer->plug(step_sequencer_, cr::SmoothFilter::kTarget);
+    smoothed_step_sequencer->plug(step_smoothing, cr::SmoothFilter::kHalfLife);
 
     addProcessor(step_sequencer_);
-    addProcessor(step_sequencer_audio_rate);
     addProcessor(step_sequencer_reset);
     addProcessor(smoothed_step_sequencer);
 
@@ -157,7 +150,8 @@ namespace mopo {
     arp_on_ = createBaseSwitchControl("arp_on");
     Output* arp_free_frequency = createMonoModControl("arp_frequency", true);
     Output* arp_frequency = createTempoSyncSwitch("arp", arp_free_frequency->owner,
-                                                  beats_per_second, false, arp_on_);
+                                                  beats_per_second_clamped->output(),
+                                                  false, arp_on_);
     Output* arp_octaves = createMonoModControl("arp_octaves", true);
     Output* arp_pattern = createMonoModControl("arp_pattern", true);
     Output* arp_gate = createMonoModControl("arp_gate", true);
@@ -190,7 +184,7 @@ namespace mopo {
     // Delay effect.
     Output* delay_free_frequency = createMonoModControl("delay_frequency", true);
     Output* delay_frequency = createTempoSyncSwitch("delay", delay_free_frequency->owner,
-                                                    beats_per_second, false);
+                                                    beats_per_second_clamped->output(), false);
     Output* delay_feedback = createMonoModControl("delay_feedback", true);
     Output* delay_wet = createMonoModControl("delay_dry_wet", true);
     Value* delay_on = createBaseControl("delay_on");
@@ -198,13 +192,10 @@ namespace mopo {
     cr::Clamp* delay_feedback_clamped = new cr::Clamp(-1, 1);
     delay_feedback_clamped->plug(delay_feedback);
 
-    SampleAndHoldBuffer* delay_frequency_audio_rate = new SampleAndHoldBuffer();
-    delay_frequency_audio_rate->plug(delay_frequency);
-
-    SmoothFilter* delay_frequency_smoothed = new SmoothFilter();
-    delay_frequency_smoothed->plug(delay_frequency_audio_rate, SmoothFilter::kTarget);
-    delay_frequency_smoothed->plug(&utils::value_fifth, SmoothFilter::kHalfLife);
-    FrequencyToSamples* delay_samples = new FrequencyToSamples();
+    cr::SmoothFilter* delay_frequency_smoothed = new cr::SmoothFilter(1.0);
+    delay_frequency_smoothed->plug(delay_frequency, cr::SmoothFilter::kTarget);
+    delay_frequency_smoothed->plug(&utils::value_fifth, cr::SmoothFilter::kHalfLife);
+    cr::FrequencyToSamples* delay_samples = new cr::FrequencyToSamples();
     delay_samples->plug(delay_frequency_smoothed);
 
     Delay* delay = new Delay(MAX_DELAY_SAMPLES);
@@ -217,7 +208,6 @@ namespace mopo {
     delay_container->plug(delay_on, BypassRouter::kOn);
     delay_container->plug(distortion, BypassRouter::kAudio);
     delay_container->addProcessor(delay_feedback_clamped);
-    delay_container->addProcessor(delay_frequency_audio_rate);
     delay_container->addProcessor(delay_frequency_smoothed);
     delay_container->addProcessor(delay_samples);
     delay_container->addProcessor(delay);

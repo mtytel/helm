@@ -46,7 +46,7 @@ namespace mopo {
   // contained in here.
   class HelmVoiceHandler : public virtual VoiceHandler, public virtual HelmModule {
     public:
-      HelmVoiceHandler(Processor* beats_per_second);
+      HelmVoiceHandler(Output* beats_per_second);
       virtual ~HelmVoiceHandler() { } // Should probably delete things.
 
       void init() override;
@@ -79,7 +79,7 @@ namespace mopo {
 
       void setupPolyModulationReadouts();
 
-      Processor* beats_per_second_;
+      Output* beats_per_second_;
 
       Processor* note_from_center_;
       Gate* choose_pitch_wheel_;
