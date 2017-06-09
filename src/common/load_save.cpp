@@ -299,6 +299,10 @@ void LoadSave::varToState(SynthBase* synth,
     }
 
     settings_properties.set("volume", volume);
+
+    // Fixing bpm.
+    mopo::mopo_float old_bpm = settings_properties["beats_per_minute"];
+    settings_properties.set("beats_per_minute", old_bpm / 60.0);
   }
 
   loadControls(synth, settings_properties);
