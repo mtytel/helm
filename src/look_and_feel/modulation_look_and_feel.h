@@ -40,10 +40,18 @@ class ModulationLookAndFeel : public LookAndFeel_V3 {
     void drawToggleButton(Graphics& g, ToggleButton& button,
                           bool hover, bool is_down) override;
 
+    int getSliderPopupPlacement(Slider& slider) override;
+
+    Font getPopupMenuFont() override;
+    Font getSliderPopupFont(Slider& slider) override;
+
     static ModulationLookAndFeel* instance() {
       static ModulationLookAndFeel instance;
       return &instance;
     }
+
+  protected:
+    ModulationLookAndFeel();
 };
 
 #endif // MODULATION_LOOK_AND_FEEL_H

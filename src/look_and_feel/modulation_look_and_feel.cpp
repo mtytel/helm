@@ -17,10 +17,16 @@
 #include "modulation_look_and_feel.h"
 
 #include "colors.h"
+#include "fonts.h"
 #include "modulation_slider.h"
 #include "mopo.h"
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
+
+ModulationLookAndFeel::ModulationLookAndFeel() {
+  setColour(BubbleComponent::backgroundColourId, Colour(0xff222222));
+  setColour(TooltipWindow::textColourId, Colour(0xffdddddd));
+}
 
 void ModulationLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                              float slider_pos, float min, float max,
@@ -215,4 +221,20 @@ void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
     g.setColour(Colour(0x11ffffff));
     g.fillEllipse(1, 2, button.getWidth() - 2, button.getHeight() - 2);
   }
+}
+
+int ModulationLookAndFeel::getSliderPopupPlacement(Slider& slider) {
+  SynthSlider* s_slider = dynamic_cast<SynthSlider*>(&slider);
+  if (s_slider)
+    return s_slider->getPopupPlacement();
+
+  return LookAndFeel_V3::getSliderPopupPlacement(slider);
+}
+
+Font ModulationLookAndFeel::getPopupMenuFont() {
+  return Fonts::instance()->proportional_regular().withPointHeight(14.0f);
+}
+
+Font ModulationLookAndFeel::getSliderPopupFont(Slider& slider) {
+  return Fonts::instance()->proportional_regular().withPointHeight(14.0f);
 }

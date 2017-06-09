@@ -30,6 +30,7 @@ ModulationSlider::ModulationSlider(SynthSlider* destination) : SynthSlider(desti
   setPostMultiply(destination->getPostMultiply());
   setUnits(destination->getUnits());
   setScalingType(destination->getScalingType());
+  setPopupPlacement(destination->getPopupPlacement(), destination->getPopupBuffer());
 
   destination->addListener(this);
 
