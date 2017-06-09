@@ -100,7 +100,7 @@ class SynthSlider : public Slider {
     int popup_placement_;
     int popup_buffer_;
 
-  mopo::ValueDetails details_;
+    mopo::ValueDetails details_;
 
     const std::string* string_lookup_;
     Point<float> click_position_;

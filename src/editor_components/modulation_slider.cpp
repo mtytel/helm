@@ -22,11 +22,14 @@ ModulationSlider::ModulationSlider(SynthSlider* destination) : SynthSlider(desti
 
   float destination_range = destination->getMaximum() - destination->getMinimum();
   setName(destination->getName());
-  setRange(-destination_range, destination_range);
+  if (details_.steps)
+    setRange(-destination_range, destination_range,
+             destination_range / (details_.steps - 1));
+  else
+    setRange(-destination_range, destination_range);
   setDoubleClickReturnValue(true, 0.0f);
   setSliderStyle(destination->getSliderStyle());
   setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-  setStringLookup(destination->getStringLookup());
   setPostMultiply(destination->getPostMultiply());
   setUnits(destination->getUnits());
   setScalingType(destination->getScalingType());

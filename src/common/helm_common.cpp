@@ -46,7 +46,7 @@ namespace mopo {
     { "cross_modulation", 0.0, 0.5, 0, 0.0, 0.0, 1.0,
       ValueDetails::kLinear, false, "", "Cross Mod" },
     { "cutoff", 28.0, 127.0, 0, 80.0, 0.0, 1.0,
-      ValueDetails::kLinear, false, "", "Filter Cutoff" },
+      ValueDetails::kLinear, false, "semitones", "Filter Cutoff" },
     { "delay_dry_wet", 0.0, 1.0, 0, 0.5, 0.0, 1.0,
       ValueDetails::kLinear, false, "", "Delay Wetness" },
     { "delay_feedback", -1.0, 1.0, 0, 0.4, 0.0, 100.0,

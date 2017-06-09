@@ -289,7 +289,7 @@ void SynthSlider::addSliderListener(SynthSlider::SliderListener* listener) {
 
 String SynthSlider::formatValue(float value) {
   static const int number_length = 5;
-  static const int max_decimals = 3;
+  static const int max_decimals = 10;
 
   if (details_.steps)
     return String(value) + " " + details_.display_units;
