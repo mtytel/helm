@@ -111,7 +111,7 @@ void OpenGLBackground::disableAttributes(OpenGLContext& open_gl_context) {
 }
 
 void OpenGLBackground::render(OpenGLContext& open_gl_context) {
-  if (new_background_ && background_image_.getWidth() > 0) {
+  if ((new_background_ || background_.getWidth() == 0) && background_image_.getWidth() > 0) {
     new_background_ = false;
     background_.loadImage(background_image_);
 
