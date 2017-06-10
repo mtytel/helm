@@ -1090,7 +1090,6 @@ private:
 
             parentContainer->reset (uiResize);
             parentContainer->setVisible (true);
-            editor->resized();
         }
     }
 
