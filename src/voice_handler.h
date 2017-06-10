@@ -209,6 +209,8 @@ namespace mopo {
       std::map<Output*, Output*> accumulated_outputs_;
       const Output* voice_killer_;
       mopo_float last_played_note_;
+      int last_num_voices_;
+
       Output voice_event_;
       Output note_;
       Output last_note_;
