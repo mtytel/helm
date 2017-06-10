@@ -56,6 +56,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     void resized() override;
     void buttonClicked(Button* clicked_button) override;
     void animate(bool animate = true) override;
+    void checkBackground();
 
     void newOpenGLContextCreated() override;
     void renderOpenGL() override;

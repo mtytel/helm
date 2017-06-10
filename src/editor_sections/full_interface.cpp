@@ -32,7 +32,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   animate_ = true;
   open_gl_context.setContinuousRepainting(true);
   open_gl_context.setRenderer(this);
-  open_gl_context.attachTo(*getTopLevelComponent());
+  open_gl_context.attachTo(*this);
 
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
   addSubSection(arp_section_ = new ArpSection(TRANS("ARP")));
@@ -225,13 +225,7 @@ void FullInterface::resized() {
   SynthSection::resized();
   modulation_manager_->setBounds(getBounds());
 
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
-  float scale = display.scale;
-  background_image_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
-  Graphics g(background_image_);
-  g.addTransform(AffineTransform::scale(scale, scale));
-  paintBackground(g);
-  background_.updateBackgroundImage(background_image_);
+  checkBackground();
 }
 
 void FullInterface::setOutputMemory(const float* output_memory) {
@@ -275,6 +269,21 @@ void FullInterface::animate(bool animate) {
   SynthSection::animate(animate);
   open_gl_context.setContinuousRepainting(animate);
   repaint();
+}
+
+void FullInterface::checkBackground() {
+  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  float scale = display.scale;
+  int width = scale * getWidth();
+  int height = scale * getHeight();
+
+  if (background_image_.getWidth() != width || background_image_.getHeight() != height) {
+    background_image_ = Image(Image::ARGB, width, height, true);
+    Graphics g(background_image_);
+    g.addTransform(AffineTransform::scale(scale, scale));
+    paintBackground(g);
+    background_.updateBackgroundImage(background_image_);
+  }
 }
 
 void FullInterface::newOpenGLContextCreated() {
