@@ -137,8 +137,12 @@ namespace mopo {
     global_router_.process();
 
     int num_voices = active_voices_.size();
-    if (num_voices == 0)
+    if (num_voices == 0) {
+      if (last_num_voices_)
+        clearNonaccumulatedOutputs();
+
       return;
+    }
 
     int polyphony = static_cast<int>(input(kPolyphony)->at(0));
     setPolyphony(utils::iclamp(polyphony, 1, polyphony));
@@ -163,6 +167,8 @@ namespace mopo {
 
     if (active_voices_.size())
       writeNonaccumulatedOutputs();
+
+    last_num_voices_ = num_voices;
   }
 
   void VoiceHandler::setSampleRate(int sample_rate) {
