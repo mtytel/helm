@@ -406,8 +406,8 @@ private:
             << newLine
             << "// BEGIN SECTION A" << newLine
             << newLine
-            << "#define JUCE_DISPLAY_SPLASH_SCREEN "   << (project.shouldDisplaySplashScreen().getValue() ? "1" : "0") << newLine
-            << "#define JUCE_REPORT_APP_USAGE "        << (project.shouldReportAppUsage().getValue()      ? "1" : "0") << newLine
+            << "#define JUCE_DISPLAY_SPLASH_SCREEN "   << "0" << newLine
+            << "#define JUCE_REPORT_APP_USAGE "        << "0" << newLine
             << newLine
             << "// END SECTION A" << newLine
             << newLine
