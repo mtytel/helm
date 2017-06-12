@@ -146,6 +146,15 @@ public:
             renderThread->addJob (this, false);
     }
 
+   #if JUCE_MAC
+    static CVReturn displayLinkCallback (CVDisplayLinkRef, const CVTimeStamp*, const CVTimeStamp*, CVOptionFlags, CVOptionFlags*, void* displayLinkContext)
+    {
+        CachedImage* self = (CachedImage*) displayLinkContext;
+        self->renderFrame();
+        return kCVReturnSuccess;
+    }
+   #endif
+
     //==============================================================================
     void paint (Graphics&) override {}
 
@@ -215,6 +224,13 @@ public:
     bool renderFrame()
     {
         ScopedPointer<MessageManagerLock> mmLock;
+
+       #if JUCE_MAC
+        if (CVDisplayLinkIsRunning (displayLink) && !context.continuousRepaint)
+            CVDisplayLinkStop (displayLink);
+        else if (!CVDisplayLinkIsRunning (displayLink) && context.continuousRepaint)
+            CVDisplayLinkStart (displayLink);
+       #endif
 
         const bool isUpdating = needsUpdate.compareAndSetBool (0, 1);
 
@@ -450,6 +466,11 @@ public:
             if (shouldExit())
                 break;
 
+           #if JUCE_MAC
+            if (CVDisplayLinkIsRunning (displayLink))
+                repaintEvent.wait (1000);
+            else
+           #endif
             if (! renderFrame())
                 repaintEvent.wait (5); // failed to render, so avoid a tight fail-loop.
             else if (! context.continuousRepaint && ! shouldExit())
@@ -502,10 +523,20 @@ public:
 
         if (context.renderer != nullptr)
             context.renderer->newOpenGLContextCreated();
+
+       #if JUCE_MAC
+        CVDisplayLinkCreateWithActiveCGDisplays (&displayLink);
+        CVDisplayLinkSetOutputCallback (displayLink, &displayLinkCallback, this);
+       #endif
     }
 
     void shutdownOnThread()
     {
+       #if JUCE_MAC
+        CVDisplayLinkStop (displayLink);
+        CVDisplayLinkRelease (displayLink);
+       #endif
+
         if (context.renderer != nullptr)
             context.renderer->openGLContextClosing();
 
@@ -635,6 +666,9 @@ public:
     Atomic<int> needsUpdate, destroying;
     uint32 lastMMLockReleaseTime;
 
+   #if JUCE_MAC
+    CVDisplayLinkRef displayLink;
+   #endif
     ScopedPointer<ThreadPool> renderThread;
     ReferenceCountedArray<OpenGLContext::AsyncWorker, CriticalSection> workQueue;
 
