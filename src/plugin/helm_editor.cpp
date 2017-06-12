@@ -22,7 +22,7 @@
 #include "load_save.h"
 
 HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), SynthGuiInterface(&helm),
-                                           helm_(helm) {
+                                           helm_(helm), was_animating_(true) {
   setLookAndFeel(DefaultLookAndFeel::instance());
 
   addAndMakeVisible(gui_);
@@ -44,7 +44,41 @@ void HelmEditor::resized() {
   gui_->setBounds(getLocalBounds());
 }
 
+void HelmEditor::visibilityChanged() {
+  checkAnimate();
+  AudioProcessorEditor::visibilityChanged();
+}
+
+void HelmEditor::focusGained(FocusChangeType cause) {
+  checkAnimate();
+  AudioProcessorEditor::focusGained(cause);
+}
+
+void HelmEditor::focusLost(FocusChangeType cause) {
+  checkAnimate();
+  AudioProcessorEditor::focusLost(cause);
+}
+
+void HelmEditor::focusOfChildComponentChanged(FocusChangeType cause) {
+  checkAnimate();
+  AudioProcessorEditor::focusOfChildComponentChanged(cause);
+}
+
+void HelmEditor::parentHierarchyChanged() {
+  checkAnimate();
+  AudioProcessorEditor::parentHierarchyChanged();
+}
+
 void HelmEditor::updateFullGui() {
   SynthGuiInterface::updateFullGui();
   helm_.updateHostDisplay();
+}
+
+void HelmEditor::checkAnimate() {
+  Component* top_level = getTopLevelComponent();
+  bool should_animate = top_level->hasKeyboardFocus(true) && top_level->isShowing();
+  if (was_animating_ != should_animate) {
+    gui_->animate(should_animate && LoadSave::shouldAnimateWidgets());
+    was_animating_ = should_animate;
+  }
 }
