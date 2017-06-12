@@ -20,10 +20,16 @@ void BorderBoundsConstrainer::checkBounds(Rectangle<int>& bounds, const Rectangl
                                           const Rectangle<int>& limits,
                                           bool stretching_top, bool stretching_left,
                                           bool stretching_bottom, bool stretching_right) {
+#if JUCE_MAC
+  static const int screen_top = 23;
+#else
+  static const int screen_top = 0;
+#endif
+
   border_.subtractFrom(bounds);
   ComponentBoundsConstrainer::checkBounds(bounds, previous, limits,
                                           stretching_top, stretching_left,
                                           stretching_bottom, stretching_right);
   border_.addTo(bounds);
-  bounds.setY(std::max(0, bounds.getY())); 
+  bounds.setY(std::max(screen_top, bounds.getY())); 
 }
