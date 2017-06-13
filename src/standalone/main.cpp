@@ -152,11 +152,12 @@ class HelmApplication : public JUCEApplication {
     bool moreThanOneInstanceAllowed() override { return true; }
 
     void initialise(const String& command_line) override {
-      if (command_line.contains(" --version ") || command_line.contains(" -v ")) {
+      String command = " " + command_line + " ";
+      if (command.contains(" --version ") || command.contains(" -v ")) {
         std::cout << getApplicationName() << " " << getApplicationVersion() << newLine;
         quit();
       }
-      else if (command_line.contains(" --help ") || command_line.contains(" -h ")) {
+      else if (command.contains(" --help ") || command.contains(" -h ")) {
         std::cout << "Usage:" << newLine;
         std::cout << "  " << getApplicationName().toLowerCase() << " [OPTION...]" << newLine << newLine;
         std::cout << getApplicationName() << " polyphonic, semi-modular synthesizer." << newLine << newLine;
@@ -164,10 +165,11 @@ class HelmApplication : public JUCEApplication {
         std::cout << "  -h, --help                          Show help options" << newLine << newLine;
         std::cout << "Application Options:" << newLine;
         std::cout << "  -v, --version                       Show version information and exit" << newLine << newLine;
+        std::cout << "  --headless                          Run without graphical interface." << newLine << newLine;
         quit();
       }
       else {
-        bool visible = !command_line.contains("--headless");
+        bool visible = !command.contains(" --headless ");
         main_window_ = new MainWindow(getApplicationName(), visible);
 
         StringArray args = getCommandLineParameterArray();
