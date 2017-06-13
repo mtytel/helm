@@ -91,6 +91,7 @@ class SynthSlider : public Slider {
     int getPopupBuffer() { return popup_buffer_; }
 
     void notifyGuis();
+    void handlePopupResult(int result);
 
   protected:
     void notifyTooltip();

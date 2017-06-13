@@ -41,6 +41,8 @@ class PatchSelector : public SynthSection, public PatchBrowser::PatchSelectedLis
     }
     int getBrowseHeight();
 
+    void initPatch();
+
   private:
     void loadFromFile(File& patch);
 

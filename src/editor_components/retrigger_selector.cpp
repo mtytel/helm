@@ -28,6 +28,10 @@ namespace {
     kSyncToPlayhead
   };
 
+  static void retriggerTypeSelectedCallback(int result, RetriggerSelector* retrigger_selector) {
+    if (retrigger_selector != nullptr && result != kCancel)
+      retrigger_selector->setValue(result - 1);
+  }
 } // namespace
 
 RetriggerSelector::RetriggerSelector(String name) : SynthSlider(name) { }
@@ -44,9 +48,8 @@ void RetriggerSelector::mouseDown(const MouseEvent& e) {
   m.addItem(kRetrigger, TRANS("Retrigger"));
   m.addItem(kSyncToPlayhead, TRANS("Sync to Playhead"));
 
-  int result = m.showAt(this);
-  if (result > 0)
-    setValue(result - 1);
+  m.showMenuAsync(PopupMenu::Options().withTargetComponent(this),
+                  ModalCallbackFunction::forComponent(retriggerTypeSelectedCallback, this));
 }
 
 void RetriggerSelector::paint(Graphics& g) {

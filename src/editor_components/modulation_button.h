@@ -38,6 +38,7 @@ class ModulationButton : public ToggleButton {
     void mouseDown(const MouseEvent& e) override;
     void mouseUp(const MouseEvent& e) override;
     void addDisconnectListener(ModulationDisconnectListener* listener);
+    void disconnectIndex(int index);
 
   private:
     void disconnectModulation(mopo::ModulationConnection* connection);

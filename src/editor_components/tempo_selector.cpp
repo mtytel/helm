@@ -28,6 +28,10 @@ namespace {
     kTempoTriplet
   };
 
+  static void tempoTypeSelectedCallback(int result, TempoSelector* tempo_selector) {
+    if (tempo_selector != nullptr && result != kCancel)
+      tempo_selector->setValue(result - 1);
+  }
 } // namespace
 
 TempoSelector::TempoSelector(String name) : SynthSlider(name),
@@ -46,9 +50,8 @@ void TempoSelector::mouseDown(const MouseEvent& e) {
   m.addItem(kTempoDotted, "Tempo Dotted");
   m.addItem(kTempoTriplet, "Tempo Triplet");
 
-  int result = m.showAt(this);
-  if (result > 0)
-    setValue(result - 1);
+  m.showMenuAsync(PopupMenu::Options().withTargetComponent(this),
+                  ModalCallbackFunction::forComponent(tempoTypeSelectedCallback, this));
 }
 
 void TempoSelector::mouseUp(const MouseEvent& e) {

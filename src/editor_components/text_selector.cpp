@@ -19,6 +19,13 @@
 #include "default_look_and_feel.h"
 #include "fonts.h"
 
+namespace {
+  static void textSelectedCallback(int result, TextSelector* text_selector) {
+    if (text_selector != nullptr && result != 0)
+      text_selector->setValue(result - 1);
+  }
+} // namespace
+
 TextSelector::TextSelector(String name) : SynthSlider(name), long_lookup_(nullptr) { }
 
 void TextSelector::mouseDown(const juce::MouseEvent &e) {
@@ -37,9 +44,9 @@ void TextSelector::mouseDown(const juce::MouseEvent &e) {
   for (int i = 0; i <= getMaximum(); ++i)
     m.addItem(i + 1, lookup[i]);
 
-  int result = m.showAt(this);
-  if (result > 0)
-    setValue(result - 1);
+
+  m.showMenuAsync(PopupMenu::Options().withTargetComponent(this),
+                  ModalCallbackFunction::forComponent(textSelectedCallback, this));
 }
 
 void TextSelector::mouseUp(const MouseEvent& e) {

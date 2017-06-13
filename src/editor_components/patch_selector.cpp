@@ -26,6 +26,13 @@
 #define TEXT_PADDING 4.0f
 #define BROWSE_PERCENT 0.35f
 
+namespace {
+  static void initPatchCallback(int result, PatchSelector* patch_selector) {
+    if (patch_selector != nullptr && result != 0)
+      patch_selector->initPatch();
+  }
+}
+
 PatchSelector::PatchSelector() : SynthSection("patch_selector"),
                                  browser_(nullptr), save_section_(nullptr), modified_(false) {
   setLookAndFeel(BrowserLookAndFeel::instance());
@@ -127,13 +134,8 @@ void PatchSelector::mouseUp(const MouseEvent& event) {
     m.setLookAndFeel(DefaultLookAndFeel::instance());
 
     m.addItem(1, "Load Init Patch");
-    if (m.show()) {
-      SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
-      parent->getSynth()->loadInitPatch();
-      browser_->externalPatchLoaded(File());
-      parent->updateFullGui();
-      parent->notifyFresh();
-    }
+    m.showMenuAsync(PopupMenu::Options(),
+                    ModalCallbackFunction::forComponent(initPatchCallback, this));
   }
   else if (browser_)
     browser_->setVisible(!browser_->isVisible());
@@ -181,4 +183,12 @@ void PatchSelector::loadFromFile(File& patch) {
 
 int PatchSelector::getBrowseHeight() {
   return 2 * proportionOfHeight(BROWSE_PERCENT);
+}
+
+void PatchSelector::initPatch() {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  parent->getSynth()->loadInitPatch();
+  browser_->externalPatchLoaded(File());
+  parent->updateFullGui();
+  parent->notifyFresh();
 }

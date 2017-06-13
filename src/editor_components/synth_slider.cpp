@@ -33,6 +33,11 @@ namespace {
     kClearModulations,
     kModulationList
   };
+
+  static void sliderPopupCallback(int result, SynthSlider* slider) {
+    if (slider != nullptr && result != kCancel)
+      slider->handlePopupResult(result);
+  }
 } // namespace
 
 const float SynthSlider::rotary_angle = 0.8f * static_cast<float>(mopo::PI);
@@ -97,29 +102,8 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
     if (connections.size() > 1)
       m.addItem(kClearModulations, "Disconnect all modulations");
 
-    int result = m.show();
-    if (result == kArmMidiLearn)
-      synth->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
-    else if (result == kClearMidiLearn)
-      synth->clearMidiLearn(getName().toStdString());
-    else if (result == kDefaultValue)
-      setValue(getDoubleClickReturnValue());
-    else if (result == kClearModulations) {
-      for (mopo::ModulationConnection* connection : connections) {
-        std::string source = connection->source;
-        synth->disconnectModulation(connection);
-      }
-      for (SynthSlider::SliderListener* listener : slider_listeners_)
-        listener->modulationsChanged(getName().toStdString());
-    }
-    else if (result >= kModulationList) {
-      int connection_index = result - kModulationList;
-      std::string source = connections[connection_index]->source;
-      synth->disconnectModulation(connections[connection_index]);
-
-      for (SynthSlider::SliderListener* listener : slider_listeners_)
-        listener->modulationsChanged(getName().toStdString());
-    }
+    m.showMenuAsync(PopupMenu::Options(),
+                    ModalCallbackFunction::forComponent(sliderPopupCallback, this));
   }
   else {
     Slider::mouseDown(e);
@@ -310,6 +294,39 @@ String SynthSlider::formatValue(float value) {
 void SynthSlider::notifyGuis() {
   for (SynthSlider::SliderListener* listener : slider_listeners_)
     listener->guiChanged(this);
+}
+
+void SynthSlider::handlePopupResult(int result) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+
+  SynthBase* synth = parent->getSynth();
+  std::vector<mopo::ModulationConnection*> connections =
+      parent->getSynth()->getDestinationConnections(getName().toStdString());
+
+  if (result == kArmMidiLearn)
+    synth->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
+  else if (result == kClearMidiLearn)
+    synth->clearMidiLearn(getName().toStdString());
+  else if (result == kDefaultValue)
+    setValue(getDoubleClickReturnValue());
+  else if (result == kClearModulations) {
+    for (mopo::ModulationConnection* connection : connections) {
+      std::string source = connection->source;
+      synth->disconnectModulation(connection);
+    }
+    for (SynthSlider::SliderListener* listener : slider_listeners_)
+      listener->modulationsChanged(getName().toStdString());
+  }
+  else if (result >= kModulationList) {
+    int connection_index = result - kModulationList;
+    std::string source = connections[connection_index]->source;
+    synth->disconnectModulation(connections[connection_index]);
+
+    for (SynthSlider::SliderListener* listener : slider_listeners_)
+      listener->modulationsChanged(getName().toStdString());
+  }
 }
 
 void SynthSlider::notifyTooltip() {
