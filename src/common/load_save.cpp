@@ -784,6 +784,34 @@ File LoadSave::getPatchFile(int bank_index, int folder_index, int patch_index) {
   return patches[std::min(patch_index, patches.size() - 1)];
 }
 
+Array<File> LoadSave::getAllPatches() {
+  static const FileSorterAscending file_sorter;
+
+  File bank_directory = getBankDirectory();
+  Array<File> banks;
+  bank_directory.findChildFiles(banks, File::findDirectories, false);
+  banks.sort(file_sorter);
+
+  Array<File> folders;
+  for (File bank : banks) {
+    Array<File> bank_folders;
+    bank.findChildFiles(bank_folders, File::findDirectories, false);
+    bank_folders.sort(file_sorter);
+    folders.addArray(bank_folders);
+  }
+
+  Array<File> patches;
+  for (File folder : folders) {
+    Array<File> folder_patches;
+    folder.findChildFiles(folder_patches, File::findFiles, false,
+                          String("*.") + mopo::PATCH_EXTENSION);
+    folder_patches.sort(file_sorter);
+    patches.addArray(folder_patches);
+  }
+
+  return patches;
+}
+
 File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
                          SynthBase* synth, std::map<std::string, String>& save_info) {
   File patch = getPatchFile(bank_index, folder_index, patch_index);

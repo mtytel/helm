@@ -68,11 +68,13 @@ class HelmPlugin : public SynthBase, public AudioProcessor, public ValueBridge::
     // ValueBridge::Listener
     void parameterChanged(std::string name, mopo::mopo_float value) override;
 
+    void loadPatches();
+
   private:
     uint32 set_state_time_;
 
-    int num_programs_;
     int current_program_;
+    Array<File> all_patches_;
 
     std::map<std::string, ValueBridge*> bridge_lookup_;
 

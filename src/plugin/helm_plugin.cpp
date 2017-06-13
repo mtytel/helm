@@ -27,9 +27,8 @@ HelmPlugin::HelmPlugin() {
   set_state_time_ = 0;
 
   current_program_ = 0;
-  num_programs_ = LoadSave::getNumPatches();
-  if (num_programs_ <= 0)
-    num_programs_ = 1;
+
+  loadPatches();
 
   for (auto control : controls_) {
     ValueBridge* bridge = new ValueBridge(control.first, control.second);
@@ -113,7 +112,7 @@ double HelmPlugin::getTailLengthSeconds() const {
 }
 
 int HelmPlugin::getNumPrograms() {
-  return num_programs_;
+  return std::max(1, all_patches_.size());
 }
 
 int HelmPlugin::getCurrentProgram() {
@@ -133,7 +132,10 @@ void HelmPlugin::setCurrentProgram(int index) {
 }
 
 const String HelmPlugin::getProgramName(int index) {
-  return LoadSave::getPatchFile(-1, -1, index).getFileNameWithoutExtension();
+  if (all_patches_.size() <= index)
+    return "";
+
+  return all_patches_[index].getFileNameWithoutExtension();
 }
 
 void HelmPlugin::changeProgramName(int index, const String& new_name) {
@@ -190,6 +192,10 @@ AudioProcessorEditor* HelmPlugin::createEditor() {
 
 void HelmPlugin::parameterChanged(std::string name, mopo::mopo_float value) {
   valueChangedExternal(name, value);
+}
+
+void HelmPlugin::loadPatches() {
+  all_patches_ = LoadSave::getAllPatches();
 }
 
 void HelmPlugin::getStateInformation(MemoryBlock& dest_data) {
