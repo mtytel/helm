@@ -205,7 +205,7 @@ void LoadSave::varToState(SynthBase* synth,
     }
   }
 
-  if (compareVersionStrings(version, "0.9.0") <= 0) {
+  if (compareVersionStrings(version, "0.8.6") <= 0) {
     // Fix unison volume change.
     mopo::mopo_float voices1 = settings_properties["osc_1_unison_voices"];
     mopo::mopo_float voices2 = settings_properties["osc_2_unison_voices"];
