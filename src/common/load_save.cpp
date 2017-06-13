@@ -815,10 +815,13 @@ Array<File> LoadSave::getAllPatches() {
 File LoadSave::loadPatch(int bank_index, int folder_index, int patch_index,
                          SynthBase* synth, std::map<std::string, String>& save_info) {
   File patch = getPatchFile(bank_index, folder_index, patch_index);
-
-  var parsed_json_state;
-  if (JSON::parse(patch.loadFileAsString(), parsed_json_state).wasOk())
-    varToState(synth, save_info, parsed_json_state);
-
+  loadPatchFile(patch, synth, save_info);
   return patch;
+}
+
+void LoadSave::loadPatchFile(File file, SynthBase* synth,
+                             std::map<std::string, String>& save_info) {
+  var parsed_json_state;
+  if (JSON::parse(file.loadFileAsString(), parsed_json_state).wasOk())
+    varToState(synth, save_info, parsed_json_state);
 }

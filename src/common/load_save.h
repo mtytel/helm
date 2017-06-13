@@ -93,6 +93,8 @@ class LoadSave {
     static Array<File> getAllPatches();
     static File loadPatch(int bank_index, int folder_index, int patch_index,
                           SynthBase* synth, std::map<std::string, String>& gui_state);
+    static void loadPatchFile(File file, SynthBase* synth,
+                              std::map<std::string, String>& gui_state);
 };
 
 #endif  // LOAD_SAVE_H

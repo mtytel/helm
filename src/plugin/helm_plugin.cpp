@@ -124,11 +124,13 @@ void HelmPlugin::setCurrentProgram(int index) {
   if (Time::getMillisecondCounter() - set_state_time_ < SET_PROGRAM_WAIT_MILLISECONDS)
     return;
 
-  current_program_ = index;
-  LoadSave::loadPatch(-1, -1, index, this, save_info_);
-  SynthGuiInterface* editor = getGuiInterface();
-  if (editor)
-    editor->updateFullGui();
+  if (all_patches_.size() <= index) {
+    current_program_ = index;
+    LoadSave::loadPatchFile(all_patches_[current_program_], this, save_info_);
+    SynthGuiInterface* editor = getGuiInterface();
+    if (editor)
+      editor->updateFullGui();
+  }
 }
 
 const String HelmPlugin::getProgramName(int index) {
@@ -139,10 +141,12 @@ const String HelmPlugin::getProgramName(int index) {
 }
 
 void HelmPlugin::changeProgramName(int index, const String& new_name) {
-  File patch = LoadSave::getPatchFile(-1, -1, index);
-  File parent = patch.getParentDirectory();
-  File new_patch_location = parent.getChildFile(new_name + "." + mopo::PATCH_EXTENSION);
-  patch.moveFileTo(new_patch_location);
+  if (all_patches_.size() <= index) {
+    File patch = all_patches_[index];
+    File parent = patch.getParentDirectory();
+    File new_patch_location = parent.getChildFile(new_name + "." + mopo::PATCH_EXTENSION);
+    patch.moveFileTo(new_patch_location);
+  }
 }
 
 void HelmPlugin::prepareToPlay(double sample_rate, int buffer_size) {
