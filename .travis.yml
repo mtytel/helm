@@ -23,34 +23,32 @@ before_install:
                             libcurl4-gnutls-dev g++-4.8 gcc-4.8 gzip
   - gem install --no-rdoc --no-ri fpm package_cloud
   - mkdir dest
-script:
-  - >
-    export COMMONFLAGS='
-      --name          "helm"
-      --description   "Polyphonic synthesizer"
-      --version       $VERSION
-      --package       helm_VERSION_ARCH.deb
-      --license       "GPLv3"
-      --maintainer    "matthewtytel@gmail.com"
-      --vendor        "Matt Tytel"
-      --url           "http://tytel.org/helm"
-      --depends       "mesa-common"
-      --depends       "libasound2"
-      --depends       "libfreetype6"
-      --depends       "libx11"
-      --depends       "libxrandr"
-      --depends       "libxinerama"
-      --depends       "libxcursor"
-      --depends       "freeglut3"
-      --depends       "libxcomposite"
-      --depends       "libjack"
-      --depends       "libcurl4-gnutls"
-      --category      "sound"'
-  - >
-    make CONFIG=Release install_standalone DESTDIR=dest                            &&
-      fpm -s dir -t deb --name helm $COMMONFLAGS                                    \
-      --deb-changelog debian/changelog                                              \
-      --deb-priority  'optional'                                                    \
+script:         >
+  export COMMONFLAGS='
+    --name          "helm"
+    --description   "Polyphonic synthesizer"
+    --version       $VERSION
+    --package       helm_VERSION_ARCH.deb
+    --license       "GPLv3"
+    --maintainer    "matthewtytel@gmail.com"
+    --vendor        "Matt Tytel"
+    --url           "http://tytel.org/helm"
+    --depends       "mesa-common"
+    --depends       "libasound2"
+    --depends       "libfreetype6"
+    --depends       "libx11"
+    --depends       "libxrandr"
+    --depends       "libxinerama"
+    --depends       "libxcursor"
+    --depends       "freeglut3"
+    --depends       "libxcomposite"
+    --depends       "libjack"
+    --depends       "libcurl4-gnutls"
+    --category      "sound"'                                                       &&
+  make CONFIG=Release install_standalone DESTDIR=dest                              &&
+  fpm -s dir -t deb --name helm $COMMONFLAGS                                        \
+    --deb-changelog debian/changelog                                                \
+    --deb-priority  'optional'                                                      \
     dest/                                                                          &&
   echo "deb package built successfully"
 after_success:
