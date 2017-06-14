@@ -54,10 +54,10 @@ install_standalone: standalone install_patches
 	install -d $(BIN) $(ICONS) $(MAN) $(CHANGES)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
 	install -m644 images/* $(ICONS)
-	cp ChangeLog changes
-	gzip -n -9 ChangeLog
-	mv changes ChangeLog
-	mv ChangeLog.gz $(CHANGES)/changelog.gz
+	cp changelog changes
+	gzip -n -9 changelog
+	mv changes changelog
+	mv changelog.gz $(CHANGES)/changelog.gz
 	cp docs/helm.1.gz $(MAN)
 
 install_lv2: lv2 install_patches
