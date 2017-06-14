@@ -94,17 +94,13 @@ namespace mopo {
   }
 
   void VoiceHandler::clearAccumulatedOutputs() {
-    for (auto& output : accumulated_outputs_) {
-      int buffer_size = output.first->owner->getBufferSize();
-      utils::zeroBuffer(output.second->buffer, buffer_size);
-    }
+    for (auto& output : accumulated_outputs_)
+      utils::zeroBuffer(output.second->buffer, MAX_BUFFER_SIZE);
   }
 
   void VoiceHandler::clearNonaccumulatedOutputs() {
-    for (auto& output : last_voice_outputs_) {
-      int buffer_size = output.first->owner->getBufferSize();
-      utils::zeroBuffer(output.second->buffer, buffer_size);
-    }
+    for (auto& output : last_voice_outputs_)
+      utils::zeroBuffer(output.second->buffer, MAX_BUFFER_SIZE);
   }
 
   void VoiceHandler::accumulateOutputs() {
@@ -138,9 +134,12 @@ namespace mopo {
 
     int num_voices = active_voices_.size();
     if (num_voices == 0) {
-      if (last_num_voices_)
+      if (last_num_voices_) {
         clearNonaccumulatedOutputs();
+        clearAccumulatedOutputs();
+      }
 
+      last_num_voices_ = num_voices;
       return;
     }
 
