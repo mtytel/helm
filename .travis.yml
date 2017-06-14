@@ -15,7 +15,7 @@ matrix:
 before_install:
   - VERSION=0.9.0
   - >
-    COMMONFLAGS=
+    COMMONFLAGS="
     --name          'helm'
     --description   'Polyphonic synthesizer'
     --version       $VERSION
@@ -35,7 +35,7 @@ before_install:
     --depends       'libxcomposite'
     --depends       'libjack'
     --depends       'libcurl4-gnutls'
-    --category      'sound'
+    --category      'sound'"
   - sudo apt-get update -qq
   - eval "${MATRIX_EVAL}"
   - sudo apt-get install -y mesa-common-dev libasound2-dev libfreetype6-dev
