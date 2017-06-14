@@ -31,7 +31,7 @@ class HelmEditor : public AudioAppComponent,
                    public SynthBase,
                    public SynthGuiInterface {
   public:
-    HelmEditor();
+    HelmEditor(bool use_gui = true);
     ~HelmEditor();
 
     // AudioAppComponent

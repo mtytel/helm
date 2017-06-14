@@ -26,7 +26,7 @@
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
-HelmEditor::HelmEditor() : SynthGuiInterface(this) {
+HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
   computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_);
 
   setAudioChannels(0, mopo::NUM_CHANNELS);
@@ -53,15 +53,17 @@ HelmEditor::HelmEditor() : SynthGuiInterface(this) {
 
   deviceManager.addMidiInputCallback("", midi_manager_);
 
-  setLookAndFeel(DefaultLookAndFeel::instance());
-  addAndMakeVisible(gui_);
-  gui_->setOutputMemory(getOutputMemory());
-  float window_size = LoadSave::loadWindowSize();
-  setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
+  if (use_gui) {
+    setLookAndFeel(DefaultLookAndFeel::instance());
+    addAndMakeVisible(gui_);
+    gui_->setOutputMemory(getOutputMemory());
+    float window_size = LoadSave::loadWindowSize();
+    setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
 
-  setWantsKeyboardFocus(true);
-  addKeyListener(computer_keyboard_);
-  setOpaque(true);
+    setWantsKeyboardFocus(true);
+    addKeyListener(computer_keyboard_);
+    setOpaque(true);
+  }
 }
 
 HelmEditor::~HelmEditor() {
@@ -106,9 +108,11 @@ void HelmEditor::paint(Graphics& g) {
 }
 
 void HelmEditor::resized() {
-  gui_->setBounds(getBounds());
+  if (gui_)
+    gui_->setBounds(getBounds());
 }
 
 void HelmEditor::animate(bool animate) {
-  gui_->animate(animate);
+  if (gui_)
+    gui_->animate(animate);
 }

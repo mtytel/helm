@@ -22,7 +22,7 @@
 
 class SynthGuiInterface {
   public:
-    SynthGuiInterface(SynthBase* synth);
+    SynthGuiInterface(SynthBase* synth, bool use_gui = true);
     virtual ~SynthGuiInterface() { }
 
     virtual AudioDeviceManager* getAudioDeviceManager() { return nullptr; }
@@ -31,10 +31,10 @@ class SynthGuiInterface {
     virtual void updateFullGui();
     virtual void updateGuiControl(const std::string& name, mopo::mopo_float value);
     mopo::mopo_float getControlValue(const std::string& name);
-    void setFocus() { gui_->setFocus(); }
-    void notifyChange() { gui_->notifyChange(); }
-    void notifyFresh() { gui_->notifyFresh(); }
-    void externalPatchLoaded(File patch) { gui_->externalPatchLoaded(patch); }
+    void setFocus();
+    void notifyChange();
+    void notifyFresh();
+    void externalPatchLoaded(File patch);
     void setGuiSize(int width, int height);
 
   protected:

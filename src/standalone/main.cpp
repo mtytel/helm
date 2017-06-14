@@ -32,25 +32,29 @@ class HelmApplication : public JUCEApplication {
       };
 
       MainWindow(String name, bool visible = true) :
-          DocumentWindow(name, Colours::lightgrey, DocumentWindow::allButtons) {
-        editor_ = new HelmEditor();
-        editor_->animate(LoadSave::shouldAnimateWidgets());
+          DocumentWindow(name, Colours::lightgrey, DocumentWindow::allButtons, visible) {
+        editor_ = new HelmEditor(visible);
+        if (visible) {
+          editor_->animate(LoadSave::shouldAnimateWidgets());
 
-        setUsingNativeTitleBar(true);
-        setContentOwned(editor_, true);
-        setResizable(true, true);
+          setUsingNativeTitleBar(true);
+          setContentOwned(editor_, true);
+          setResizable(true, true);
 
-        constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
-                                    2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
-        constrainer_.setBorder(getPeer()->getFrameSize());
-        double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / mopo::DEFAULT_WINDOW_HEIGHT;
+          constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
+                                      2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
+          constrainer_.setBorder(getPeer()->getFrameSize());
+          double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / mopo::DEFAULT_WINDOW_HEIGHT;
 
-        constrainer_.setFixedAspectRatio(ratio);
-        setConstrainer(&constrainer_);
+          constrainer_.setFixedAspectRatio(ratio);
+          setConstrainer(&constrainer_);
 
-        centreWithSize(getWidth(), getHeight());
-        setVisible(visible);
-        triggerAsyncUpdate();
+          centreWithSize(getWidth(), getHeight());
+          setVisible(visible);
+          triggerAsyncUpdate();
+        }
+        else
+          editor_->animate(false);
       }
 
       void closeButtonPressed() override {
@@ -164,7 +168,7 @@ class HelmApplication : public JUCEApplication {
         std::cout << "Help Options:" << newLine;
         std::cout << "  -h, --help                          Show help options" << newLine << newLine;
         std::cout << "Application Options:" << newLine;
-        std::cout << "  -v, --version                       Show version information and exit" << newLine << newLine;
+        std::cout << "  -v, --version                       Show version information and exit" << newLine;
         std::cout << "  --headless                          Run without graphical interface." << newLine << newLine;
         quit();
       }
@@ -203,7 +207,7 @@ class HelmApplication : public JUCEApplication {
     void anotherInstanceStarted(const String& command_line) override {
       loadFromCommandLine(command_line);
     }
-    
+
   private:
     ScopedPointer<MainWindow> main_window_;
 };
