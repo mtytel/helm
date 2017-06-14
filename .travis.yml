@@ -1,12 +1,12 @@
 language:       cpp
-compiler:       clang++
+compiler:       g++
 before_install:
   - VERSION=0.9.0
   - sudo apt-get update -qq
   - sudo apt-get install -y mesa-common-dev libasound2-dev libfreetype6-dev
                             libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev
                             freeglut3-dev libxcomposite-dev libjack-dev
-                            libcurl4-gnutls-dev libc++-dev
+                            libcurl4-gnutls-dev
   - gem install --no-rdoc --no-ri fpm
 script:         >
   make CONFIG=Release                                                              &&
