@@ -26,12 +26,12 @@ before_install:
 script:         >
   export COMMONFLAGS='
     --name          "helm"
-    --description   "Polyphonic synthesizer"
+    --description   "Polyphonic\ synthesizer"
     --version       $VERSION
     --package       helm_VERSION_ARCH.deb
     --license       "GPLv3"
     --maintainer    "matthewtytel@gmail.com"
-    --vendor        "Matt Tytel"
+    --vendor        "Matt\ Tytel"
     --url           "http://tytel.org/helm"
     --depends       "mesa-common"
     --depends       "libasound2"
