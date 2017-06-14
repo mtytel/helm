@@ -44,7 +44,7 @@ before_install:
   - gem install --no-rdoc --no-ri fpm package_cloud
   - mkdir dest
 script:         >
-  make CONFIG=Release install DESTDIR=dest                                         &&
+  make CONFIG=Release install_standalong DESTDIR=dest                              &&
   fpm -s dir -t deb --name helm $COMMONFLAGS                                        \
     --deb-changelog debian/changelog                                                \
     --deb-priority  'optional'                                                      \
