@@ -29,6 +29,7 @@ IMAGES  = $(SYSDATA)/icons
 PATCHES = $(SYSDATA)/patches
 MAN     = $(DESTDIR)/usr/share/man/man1/
 CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
+DESKTOP = $(DESTDIR)/usr/share/applications/
 
 ICONS   = $(DESTDIR)/usr/share/icons/hicolor/
 ICON16  = images/helm_icon_16_1x.png
@@ -82,8 +83,9 @@ install_patches:
 	cp -rf patches/* $(PATCHES)
 
 install_standalone: standalone install_patches install_icons
-	install -d $(BIN) $(IMAGES) $(MAN) $(CHANGES)
+	install -d $(BIN) $(IMAGES) $(MAN) $(CHANGES) $(DESKTOP)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
+	install -m644 standalone/helm.desktop $(DESKTOP)/helm.desktop
 	install -m644 images/* $(IMAGES)
 	cp changelog changes
 	gzip -n -9 changelog
@@ -126,5 +128,13 @@ uninstall:
 	rm -rf $(VST)
 	rm -rf $(SYSDATA)
 	rm -rf $(BINFILE)
+	rm $(ICONDEST16)/$(PROGRAM).png
+	rm $(ICONDEST22)/$(PROGRAM).png
+	rm $(ICONDEST24)/$(PROGRAM).png
+	rm $(ICONDEST32)/$(PROGRAM).png
+	rm $(ICONDEST48)/$(PROGRAM).png
+	rm $(ICONDEST64)/$(PROGRAM).png
+	rm $(ICONDEST128)/$(PROGRAM).png
+	rm $(ICONDEST256)/$(PROGRAM).png
 
 .PHONY: standalone
