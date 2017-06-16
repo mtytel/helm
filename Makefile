@@ -25,12 +25,43 @@ LV2     = $(DESTDIR)/$(LIBDIR)/lv2/$(PROGRAM).lv2
 VSTDIR  = $(DESTDIR)/$(LIBDIR)/lxvst
 VST     = $(VSTDIR)/$(PROGRAM).so
 SYSDATA = $(DESTDIR)/usr/share/$(PROGRAM)
-ICONS   = $(SYSDATA)/icons
+IMAGES  = $(SYSDATA)/icons
 PATCHES = $(SYSDATA)/patches
 MAN     = $(DESTDIR)/usr/share/man/man1/
 CHANGES = $(DESTDIR)/usr/share/doc/$(PROGRAM)/
 
+ICONS   = $(DESTDIR)/usr/share/icons/hicolor/
+ICON16  = images/helm_icon_16_1x.png
+ICON22  = images/helm_icon_22_1x.png
+ICON24  = images/helm_icon_24_1x.png
+ICON32  = images/helm_icon_32_1x.png
+ICON48  = images/helm_icon_48_1x.png
+ICON64  = images/helm_icon_32_2x.png
+ICON128 = images/helm_icon_128_1x.png
+ICON256 = images/helm_icon_256_1x.png
+
+ICONDEST16 = $(ICONS)/16x16/apps
+ICONDEST22 = $(ICONS)/22x22/apps
+ICONDEST24 = $(ICONS)/24x24/apps
+ICONDEST32 = $(ICONS)/32x32/apps
+ICONDEST48 = $(ICONS)/48x48/apps
+ICONDEST64 = $(ICONS)/64x64/apps
+ICONDEST128 = $(ICONS)/128x128/apps
+ICONDEST256 = $(ICONS)/256x256/apps
+
 all: standalone lv2 vst
+
+install_icons:
+	install -d $(ICONDEST16) $(ICONDEST22) $(ICONDEST24) $(ICONDEST32)
+	install -d $(ICONDEST48) $(ICONDEST64) $(ICONDEST128) $(ICONDEST256)
+	cp $(ICON16) $(ICONDEST16)/$(PROGRAM).png
+	cp $(ICON22) $(ICONDEST22)/$(PROGRAM).png
+	cp $(ICON24) $(ICONDEST24)/$(PROGRAM).png
+	cp $(ICON32) $(ICONDEST32)/$(PROGRAM).png
+	cp $(ICON48) $(ICONDEST48)/$(PROGRAM).png
+	cp $(ICON64) $(ICONDEST64)/$(PROGRAM).png
+	cp $(ICON128) $(ICONDEST128)/$(PROGRAM).png
+	cp $(ICON256) $(ICONDEST256)/$(PROGRAM).png
 
 standalone:
 	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)"
@@ -50,10 +81,10 @@ install_patches:
 	install -d $(PATCHES)
 	cp -rf patches/* $(PATCHES)
 
-install_standalone: standalone install_patches
-	install -d $(BIN) $(ICONS) $(MAN) $(CHANGES)
+install_standalone: standalone install_patches install_icons
+	install -d $(BIN) $(IMAGES) $(MAN) $(CHANGES)
 	install standalone/builds/linux/build/$(PROGRAM) $(BIN)
-	install -m644 images/* $(ICONS)
+	install -m644 images/* $(IMAGES)
 	cp changelog changes
 	gzip -n -9 changelog
 	mv changes changelog
