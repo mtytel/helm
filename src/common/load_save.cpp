@@ -266,8 +266,8 @@ void LoadSave::varToState(SynthBase* synth,
     if (filter_type >= 6.0)
       settings_properties.set("distortion_drive", saturation);
     else {
-      settings_properties.set("distortion_drive", saturation + 6.0);
-      settings_properties.set("filter_drive", -6.0);
+      settings_properties.set("distortion_drive", saturation + 12.0);
+      settings_properties.set("filter_drive", -12.0);
     }
 
     // Move modulating saturation to distortion.
