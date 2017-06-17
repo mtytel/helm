@@ -258,6 +258,8 @@ namespace mopo {
     // Sub Oscillator.
     cr::Add* sub_midi = new cr::Add();
     static const cr::Value sub_transpose(-2 * NOTES_PER_OCTAVE);
+    Value* sub_octave = createBaseControl("sub_octave");
+
     sub_midi->plug(bent_midi, 0);
     sub_midi->plug(&sub_transpose, 1);
 
@@ -278,6 +280,7 @@ namespace mopo {
     sub_oscillator->plug(sub_shuffle, FixedPointOscillator::kShuffle);
     sub_oscillator->plug(sub_waveform, FixedPointOscillator::kWaveform);
     sub_oscillator->plug(reset, FixedPointOscillator::kReset);
+    sub_oscillator->plug(sub_octave, FixedPointOscillator::kLowOctave);
     sub_oscillator->plug(smooth_sub_volume, FixedPointOscillator::kAmplitude);
 
     addProcessor(sub_midi);

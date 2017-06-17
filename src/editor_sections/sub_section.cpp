@@ -18,6 +18,8 @@
 
 #include "colors.h"
 #include "fonts.h"
+#include "synth_button.h"
+#include "text_look_and_feel.h"
 
 #define WAVE_VIEWER_RESOLUTION 80
 #define WAVE_SELECTOR_WIDTH 10
@@ -33,6 +35,10 @@ SubSection::SubSection(String name) : SynthSection(name) {
 
   addSlider(shuffle_ = new SynthSlider("sub_shuffle"));
   shuffle_->setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+
+  addButton(sub_octave_ = new SynthButton("sub_octave"));
+  sub_octave_->setLookAndFeel(TextLookAndFeel::instance());
+  sub_octave_->setButtonText("-OCT");
 }
 
 SubSection::~SubSection() {
@@ -49,7 +55,7 @@ void SubSection::paintBackground(Graphics& g) {
 }
 
 void SubSection::resized() {
-  int knob_y = size_ratio_ * 34;
+  int knob_y = size_ratio_ * 24;
   int knob_width = getStandardKnobSize();
   int title_width = getTitleWidth();
   int wave_section_width = size_ratio_ * WAVE_SECTION_WIDTH;
@@ -62,6 +68,10 @@ void SubSection::resized() {
 
   shuffle_->setBounds(wave_section_width + space, knob_y,
                       knob_width, knob_width);
+
+  int button_y = size_ratio_ * 82;
+  sub_octave_->setBounds(wave_section_width + space, button_y, knob_width, 16);
+
   SynthSection::resized();
 }
 

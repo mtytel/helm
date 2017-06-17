@@ -24,7 +24,10 @@ namespace mopo {
     const mopo_float* amplitude = input(kAmplitude)->source->buffer;
     mopo_float* dest = output()->buffer;
 
-    int phase_inc = UINT_MAX * input(kPhaseInc)->source->buffer[0];
+    int phase_inc = UINT_MAX * input(kPhaseInc)->at(0);
+    if (input(kLowOctave)->at(0))
+      phase_inc /= 2.0;
+
     if (amplitude[0] == 0.0 && amplitude[buffer_size_ - 1] == 0.0) {
       phase_ += phase_inc * buffer_size_;
       utils::zeroBuffer(dest, buffer_size_);

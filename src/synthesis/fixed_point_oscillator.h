@@ -32,6 +32,7 @@ namespace mopo {
         kReset,
         kShuffle,
         kAmplitude,
+        kLowOctave,
         kNumInputs
       };
 

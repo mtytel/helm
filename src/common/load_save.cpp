@@ -206,7 +206,7 @@ void LoadSave::varToState(SynthBase* synth,
   }
 
   if (compareVersionStrings(version, "0.8.6") <= 0) {
-    // Fix unison volume change.
+    // Fix unison and volume change.
     mopo::mopo_float voices1 = settings_properties["osc_1_unison_voices"];
     mopo::mopo_float voices2 = settings_properties["osc_2_unison_voices"];
 
@@ -217,10 +217,20 @@ void LoadSave::varToState(SynthBase* synth,
 
     mopo::mopo_float ratio1 = (voices1 + 1.0) / 2.0;
     mopo::mopo_float ratio2 = (voices2 + 1.0) / 2.0;
-    mopo::mopo_float new_volume1 = 0.5 * old_volume1 * sqrt(1.0 / ratio1);
-    mopo::mopo_float new_volume2 = 0.5 * old_volume2 * sqrt(1.0 / ratio2);
+    mopo::mopo_float new_volume1 = old_volume1 * sqrt(0.5 / ratio1);
+    mopo::mopo_float new_volume2 = old_volume2 * sqrt(0.5 / ratio2);
     settings_properties.set("osc_1_volume", sqrt(new_volume1));
     settings_properties.set("osc_2_volume", sqrt(new_volume2));
+
+    mopo::mopo_float sub_volume = settings_properties["sub_volume"];
+    settings_properties.set("sub_volume", sqrt(0.5) * sub_volume);
+
+    if (compareVersionStrings(version, "0.5.0") <= 0) {
+      settings_properties.set("sub_octave", 1.0);
+      mopo::mopo_float cutoff = settings_properties["cutoff"];
+      mopo::mopo_float keytrack = settings_properties["keytrack"];
+      settings_properties.set("cutoff", cutoff - keytrack * mopo::NOTES_PER_OCTAVE);
+    }
 
     // Map to new filter styles.
     mopo::mopo_float filter_type = settings_properties["filter_type"];

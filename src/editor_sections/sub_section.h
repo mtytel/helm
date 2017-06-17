@@ -36,6 +36,7 @@ class SubSection : public SynthSection {
     ScopedPointer<WaveViewer> wave_viewer_;
     ScopedPointer<WaveSelector> wave_selector_;
     ScopedPointer<SynthSlider> shuffle_;
+    ScopedPointer<ToggleButton> sub_octave_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SubSection)
 };
