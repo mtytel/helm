@@ -18,6 +18,7 @@
 
 #include "fixed_point_oscillator.h"
 #include "gate.h"
+#include "ladder_filter.h"
 #include "noise_oscillator.h"
 #include "resonance_cancel.h"
 #include "helm_lfo.h"
@@ -463,6 +464,16 @@ namespace mopo {
     Output* filter_blend = createPolyModControl("filter_blend", true);
     cr::MagnitudeScale* drive_magnitude = new cr::MagnitudeScale();
     drive_magnitude->plug(filter_drive);
+
+    /*
+    LadderFilter* ladder_filter = new LadderFilter();
+    ladder_filter->plug(audio, LadderFilter::kAudio);
+    ladder_filter->plug(reset, LadderFilter::kReset);
+    ladder_filter->plug(scaled_resonance, LadderFilter::kResonance);
+    ladder_filter->plug(frequency_cutoff, LadderFilter::kCutoff);
+    ladder_filter->plug(drive_magnitude, LadderFilter::kDrive);
+    addProcessor(ladder_filter);
+     */
 
     StateVariableFilter* filter = new StateVariableFilter();
     filter->plug(filter_on, StateVariableFilter::kOn);
