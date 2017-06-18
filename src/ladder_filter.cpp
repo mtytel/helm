@@ -40,7 +40,7 @@ namespace mopo {
     computeCoefficients(cutoff);
     mopo_float resonance = utils::clamp(resonance_multiple_ * input(kResonance)->at(0) / 4.0,
                                         MIN_RESONANCE, MAX_RESONANCE);
-    mopo_float drive = input(kDrive)->at(0);
+    mopo_float drive = -input(kDrive)->at(0);
     mopo_float delta_drive = (drive - current_drive_) / buffer_size_;
 
     mopo_float delta_resonance = (resonance - current_resonance_) / buffer_size_;
