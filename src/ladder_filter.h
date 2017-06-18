@@ -34,6 +34,7 @@ namespace mopo {
         kAudio,
         kCutoff,
         kResonance,
+        kDrive,
         kReset,
         kNumInputs
       };
@@ -52,7 +53,7 @@ namespace mopo {
     private:
       void reset();
 
-      mopo_float current_cutoff_, current_resonance_;
+      mopo_float current_resonance_, current_drive_;
 
       double v_[4];
       double delta_v_[4];
