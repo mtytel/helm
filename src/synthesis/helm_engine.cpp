@@ -298,6 +298,7 @@ namespace mopo {
 
     connection->modulation_scale.plug(source, 0);
     connection->modulation_scale.plug(&connection->amount, 1);
+    source->owner->router()->addProcessor(&connection->modulation_scale);
     destination->plugNext(&connection->modulation_scale);
 
     mono_mod_switch->set(1);
@@ -305,7 +306,6 @@ namespace mopo {
     if (poly_mod_switch)
       poly_mod_switch->set(1);
 
-    source->owner->router()->addProcessor(&connection->modulation_scale);
     mod_connections_.insert(connection);
   }
 
