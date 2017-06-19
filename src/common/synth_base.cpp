@@ -255,9 +255,9 @@ void SynthBase::processMidi(MidiBuffer& midi_messages, int start_sample, int end
 void SynthBase::processKeyboardEvents(MidiBuffer& buffer, int num_samples) {
   MidiBuffer keyboard_messages;
   midi_manager_->replaceKeyboardMessages(keyboard_messages, num_samples);
-  processMidi(keyboard_messages);
-
   midi_manager_->replaceKeyboardMessages(buffer, num_samples);
+
+  processMidi(keyboard_messages);
 }
 
 void SynthBase::processControlChanges() {
