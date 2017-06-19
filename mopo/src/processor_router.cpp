@@ -170,7 +170,11 @@ namespace mopo {
                                 const Output* source, int index) {
     if (isDownstream(destination, source->owner)) {
       // We are introducing a cycle so insert a Feedback node.
-      Feedback* feedback = new Feedback();
+      Feedback* feedback = nullptr;
+      if (source->owner->isControlRate() || destination->isControlRate())
+        feedback = new cr::Feedback();
+      else
+        feedback = new Feedback();
       feedback->plug(source);
       destination->plug(feedback, index);
       addFeedback(feedback);
