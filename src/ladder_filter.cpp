@@ -29,6 +29,7 @@ namespace mopo {
 
   LadderFilter::LadderFilter() : Processor(LadderFilter::kNumInputs, 1) {
     current_resonance_ = 0.0;
+    current_drive_ = 1.0f;
     reset();
   }
 
@@ -41,8 +42,12 @@ namespace mopo {
     computeCoefficients(cutoff);
     mopo_float resonance = utils::clamp(resonance_multiple_ * input(kResonance)->at(0) / 4.0,
                                         MIN_RESONANCE, MAX_RESONANCE);
+    mopo_float drive = -input(kDrive)->at(0);
+    mopo_float delta_drive = (drive - current_drive_) / buffer_size_;
+
     mopo_float delta_resonance = (resonance - current_resonance_) / buffer_size_;
     mopo_float delta_g = (g_ - g) / buffer_size_;
+
 
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;
     mopo_float* dest = output()->buffer;
@@ -55,11 +60,14 @@ namespace mopo {
       for (; i < trigger_offset; ++i) {
         g += delta_g;
         current_resonance_ += delta_resonance;
+        current_drive_ += delta_drive;
         tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
         tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
       }
 
       reset();
+      current_resonance_ = resonance;
+      current_drive_ = drive;
 
       for (; i < buffer_size_; ++i) {
         tick(i, dest, audio_buffer, g_, resonance, two_sr);
@@ -70,17 +78,19 @@ namespace mopo {
       for (int i = 0; i < buffer_size_; ++i) {
         g += delta_g;
         current_resonance_ += delta_resonance;
+        current_drive_ += delta_drive;
         tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
         tick(i, dest, audio_buffer, g, current_resonance_, two_sr);
       }
     }
 
     current_resonance_ = resonance;
+    current_drive_ = drive;
   }
 
   inline void LadderFilter::tick(int i, mopo_float* dest, const mopo_float* audio_buffer,
                                  mopo_float g, mopo_float resonance, mopo_float two_sr) {
-    mopo_float audio = audio_buffer[i];
+    mopo_float audio = audio_buffer[i] * current_drive_;
 
     mopo_float new_tan = utils::quickTanh((audio + resonance * v_[3]) / TWO_THERMAL_VOLTAGE);
     mopo_float delta_v0 = -g * (new_tan + tanh_v_[0]);
