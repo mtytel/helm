@@ -23,11 +23,18 @@ namespace mopo {
   void Feedback::process() {
     MOPO_ASSERT(inputMatchesBufferSize());
 
-    utils::copyBuffer(buffer_, input(0)->source->buffer, buffer_size_);
     refreshOutput();
+
+    if (control_rate_)
+      buffer_[0] = input(0)->at(0);
+    else
+      utils::copyBuffer(buffer_, input(0)->source->buffer, buffer_size_);
   }
 
   void Feedback::refreshOutput() {
-    utils::copyBuffer(output(0)->buffer, buffer_, MAX_BUFFER_SIZE);
+    if (control_rate_)
+      output(0)->buffer[0] = buffer_[0];
+    else
+      utils::copyBuffer(output(0)->buffer, buffer_, MAX_BUFFER_SIZE);
   }
 } // namespace mopo

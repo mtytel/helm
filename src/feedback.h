@@ -28,7 +28,7 @@ namespace mopo {
   // sample feedback processing.
   class Feedback : public Processor {
     public:
-      Feedback() : Processor(1, 1) {
+      Feedback(bool control_rate = false) : Processor(1, 1, control_rate) {
         utils::zeroBuffer(buffer_, MAX_BUFFER_SIZE);
       }
 
@@ -54,6 +54,13 @@ namespace mopo {
     protected:
       mopo_float buffer_[MAX_BUFFER_SIZE];
   };
+
+  namespace cr {
+    class Feedback : public ::mopo::Feedback {
+      public:
+        Feedback() : ::mopo::Feedback(true) { }
+    };
+  } // namespace cr
 } // namespace mopo
 
 #endif // FEEDBACK_H
