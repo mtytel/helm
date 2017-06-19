@@ -43,7 +43,6 @@
 		DE31B8215341063EDDB02C36 = {isa = PBXBuildFile; fileRef = FB3EEDB167694A369C490171; };
 		129F86230AE6565FD254DC33 = {isa = PBXBuildFile; fileRef = FBD40B3FBA590937EE835769; };
 		40C01DA356D1576FF5CFF57A = {isa = PBXBuildFile; fileRef = 44E13CAB15B1A247C36F16D9; };
-		E50CDEC88F0CE918FC0C48A5 = {isa = PBXBuildFile; fileRef = 03CD6F36F9B9A096DD743C43; };
 		65A741BE06FC1970F1392698 = {isa = PBXBuildFile; fileRef = 4DBFDDC57F692A26490E5051; };
 		183B1863EC215F2C8F4D88AB = {isa = PBXBuildFile; fileRef = 2B561BCB8E02B205A0DC6F9F; };
 		27B007CD0F35B4B32398A1B8 = {isa = PBXBuildFile; fileRef = 1E2DB287C0CB71FFB89BB037; };
@@ -174,7 +173,6 @@
 		01A38085ADDD6C37E027C73C = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "modulation_look_and_feel.h"; path = "../../src/look_and_feel/modulation_look_and_feel.h"; sourceTree = "SOURCE_ROOT"; };
 		01D6CE9774428D25EE10EE9E = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-VST3.plist"; path = "Info-VST3.plist"; sourceTree = "SOURCE_ROOT"; };
 		036522E619DC5761850BDC31 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "default_look_and_feel.h"; path = "../../src/look_and_feel/default_look_and_feel.h"; sourceTree = "SOURCE_ROOT"; };
-		03CD6F36F9B9A096DD743C43 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = phaser.cpp; path = ../../mopo/src/phaser.cpp; sourceTree = "SOURCE_ROOT"; };
 		04973A95DD52439F3A873176 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "resonance_lookup.cpp"; path = "../../mopo/src/resonance_lookup.cpp"; sourceTree = "SOURCE_ROOT"; };
 		056C8E1A1461CDE963935169 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = feedback.cpp; path = ../../mopo/src/feedback.cpp; sourceTree = "SOURCE_ROOT"; };
 		057C4D2192A8327AEF0AD45E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "save_section.cpp"; path = "../../src/editor_sections/save_section.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -343,18 +341,18 @@
 		851B6D156FA12CB3F83E9781 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "formant_manager.cpp"; path = "../../mopo/src/formant_manager.cpp"; sourceTree = "SOURCE_ROOT"; };
 		85457B3953A583BE2EC9D027 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = alias.h; path = ../../mopo/src/alias.h; sourceTree = "SOURCE_ROOT"; };
 		859DD6769BC5D516D5C01B3D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "text_slider.cpp"; path = "../../src/editor_components/text_slider.cpp"; sourceTree = "SOURCE_ROOT"; };
-		86C69F199F0C0871EBBB012D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = phaser.h; path = ../../mopo/src/phaser.h; sourceTree = "SOURCE_ROOT"; };
 		87F682F0C11CE2C602B7B571 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "open_gl_wave_viewer.h"; path = "../../src/editor_components/open_gl_wave_viewer.h"; sourceTree = "SOURCE_ROOT"; };
 		88CF21CAFE4B79644DE6677F = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helm_icon_256_1x.png"; path = "../../images/helm_icon_256_1x.png"; sourceTree = "SOURCE_ROOT"; };
 		8907E9EDCA8C1418EAAF1A5C = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = distortion.cpp; path = ../../mopo/src/distortion.cpp; sourceTree = "SOURCE_ROOT"; };
 		894B050EB184362162D93B70 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mopo.h; path = ../../mopo/src/mopo.h; sourceTree = "SOURCE_ROOT"; };
 		8DB4C1AA50782F1178B0EF13 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "step_generator.cpp"; path = "../../mopo/src/step_generator.cpp"; sourceTree = "SOURCE_ROOT"; };
-		8E13D065FDA866ECC87C5F73 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "modulation_slider.cpp"; path = "../../src/editor_components/modulation_slider.cpp"; sourceTree = "SOURCE_ROOT"; };
 		90ED1C2BADB034071C510556 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helm_icon_32_2x.png"; path = "../../images/helm_icon_32_2x.png"; sourceTree = "SOURCE_ROOT"; };
 		9367E784B540F3E1FEF05D1D = {isa = PBXFileReference; lastKnownFileType = image.png; name = "modulation_unselected_inactive_1x.png"; path = "../../images/modulation_unselected_inactive_1x.png"; sourceTree = "SOURCE_ROOT"; };
 		936D97881EC98BD83864CA96 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "biquad_filter.h"; path = "../../mopo/src/biquad_filter.h"; sourceTree = "SOURCE_ROOT"; };
+		940BCC09CAEA48D9E2D787FF = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "save_section.h"; path = "../../src/editor_sections/save_section.h"; sourceTree = "SOURCE_ROOT"; };
 		95C8E86C80B8E4EE12152146 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "default_look_and_feel.cpp"; path = "../../src/look_and_feel/default_look_and_feel.cpp"; sourceTree = "SOURCE_ROOT"; };
 		963617938BDDAEFB056698CD = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "bypass_router.h"; path = "../../mopo/src/bypass_router.h"; sourceTree = "SOURCE_ROOT"; };
+		97385420C6C595C6FA25CC57 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "distortion_section.h"; path = "../../src/editor_sections/distortion_section.h"; sourceTree = "SOURCE_ROOT"; };
 		A9A621517BC017AC268BFD79 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helm_icon_32_1x.png"; path = "../../images/helm_icon_32_1x.png"; sourceTree = "SOURCE_ROOT"; };
 		E23701A8A5F0ABAFA2C3CC9A = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = helm.vst3; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		2801D896A423C24FB939EBE6 = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = helm.component; sourceTree = "BUILT_PRODUCTS_DIR"; };
@@ -363,15 +361,14 @@
 		85012146C32D77A88BBCB299 = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-VST.plist"; path = "Info-VST.plist"; sourceTree = "SOURCE_ROOT"; };
 		86A848AA3537F1FFABEDB67F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_audio_plugin_client_AU_1.mm"; path = "../../JuceLibraryCode/include_juce_audio_plugin_client_AU_1.mm"; sourceTree = "SOURCE_ROOT"; };
 		88B501F3951C324CCCEAC8D3 = {isa = PBXFileReference; lastKnownFileType = file.xpm; name = "helm_debian_icon.xpm"; path = "../../images/helm_debian_icon.xpm"; sourceTree = "SOURCE_ROOT"; };
+		8E13D065FDA866ECC87C5F73 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "modulation_slider.cpp"; path = "../../src/editor_components/modulation_slider.cpp"; sourceTree = "SOURCE_ROOT"; };
 		8E527D3748F876E6C0562F34 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_plugin_client"; path = "../../JUCE/modules/juce_audio_plugin_client"; sourceTree = "SOURCE_ROOT"; };
 		8EC5BB145E8441F232F15341 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = reverb.cpp; path = ../../mopo/src/reverb.cpp; sourceTree = "SOURCE_ROOT"; };
 		8FEE6E7DB6B04FF026E76D58 = {isa = PBXFileReference; lastKnownFileType = file; name = "juce_audio_basics"; path = "../../JUCE/modules/juce_audio_basics"; sourceTree = "SOURCE_ROOT"; };
 		900D0F3C49D8FDE1B07AF957 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "reverb_comb.cpp"; path = "../../mopo/src/reverb_comb.cpp"; sourceTree = "SOURCE_ROOT"; };
 		90D48FC0E1C5F71DCDA375E2 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_data_structures.mm"; path = "../../JuceLibraryCode/include_juce_data_structures.mm"; sourceTree = "SOURCE_ROOT"; };
-		940BCC09CAEA48D9E2D787FF = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "save_section.h"; path = "../../src/editor_sections/save_section.h"; sourceTree = "SOURCE_ROOT"; };
 		95B83277172DA3FBE7180F21 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "load_save.h"; path = "../../src/common/load_save.h"; sourceTree = "SOURCE_ROOT"; };
 		9672D96B517B06166D12033D = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "simple_delay.h"; path = "../../mopo/src/simple_delay.h"; sourceTree = "SOURCE_ROOT"; };
-		97385420C6C595C6FA25CC57 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "distortion_section.h"; path = "../../src/editor_sections/distortion_section.h"; sourceTree = "SOURCE_ROOT"; };
 		97D06A4F91E0F9B40B1BFB18 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "sample_decay_lookup.cpp"; path = "../../mopo/src/sample_decay_lookup.cpp"; sourceTree = "SOURCE_ROOT"; };
 		9A132C40EBAC4A24E35955D8 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "include_juce_audio_processors.mm"; path = "../../JuceLibraryCode/include_juce_audio_processors.mm"; sourceTree = "SOURCE_ROOT"; };
 		9BB723DFA4C3C84214B48C1B = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "bpm_slider.cpp"; path = "../../src/editor_components/bpm_slider.cpp"; sourceTree = "SOURCE_ROOT"; };
@@ -581,8 +578,6 @@
 					54B9C0FCBE122E8F1E96734D,
 					44E13CAB15B1A247C36F16D9,
 					11CFCFB927886EBE8554555C,
-					03CD6F36F9B9A096DD743C43,
-					86C69F199F0C0871EBBB012D,
 					4DBFDDC57F692A26490E5051,
 					1DCDA062A5FBB2F99D9A9BF5,
 					2B561BCB8E02B205A0DC6F9F,
@@ -1348,7 +1343,6 @@
 					DE31B8215341063EDDB02C36,
 					129F86230AE6565FD254DC33,
 					40C01DA356D1576FF5CFF57A,
-					E50CDEC88F0CE918FC0C48A5,
 					65A741BE06FC1970F1392698,
 					183B1863EC215F2C8F4D88AB,
 					27B007CD0F35B4B32398A1B8,

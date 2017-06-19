@@ -445,9 +445,6 @@
     <ClCompile Include="..\..\..\mopo\src\oscillator.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mopo\src\phaser.cpp">
-      <Filter>Helm\mopo\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mopo\src\portamento_slope.cpp">
       <Filter>Helm\mopo\src</Filter>
     </ClCompile>
@@ -2575,9 +2572,6 @@
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\oscillator.h">
-      <Filter>Helm\mopo\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\mopo\src\phaser.h">
       <Filter>Helm\mopo\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\mopo\src\portamento_slope.h">

@@ -84,7 +84,6 @@ OBJECTS_APP := \
   $(JUCE_OBJDIR)/mono_panner_cf566c25.o \
   $(JUCE_OBJDIR)/operators_8e60d6ba.o \
   $(JUCE_OBJDIR)/oscillator_53287adf.o \
-  $(JUCE_OBJDIR)/phaser_d7048a16.o \
   $(JUCE_OBJDIR)/portamento_slope_c638d2fc.o \
   $(JUCE_OBJDIR)/processor_c4855d7d.o \
   $(JUCE_OBJDIR)/processor_router_80596755.o \
@@ -306,11 +305,6 @@ $(JUCE_OBJDIR)/operators_8e60d6ba.o: ../../../mopo/src/operators.cpp
 $(JUCE_OBJDIR)/oscillator_53287adf.o: ../../../mopo/src/oscillator.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling oscillator.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
-
-$(JUCE_OBJDIR)/phaser_d7048a16.o: ../../../mopo/src/phaser.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling phaser.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/portamento_slope_c638d2fc.o: ../../../mopo/src/portamento_slope.cpp
