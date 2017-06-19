@@ -31,6 +31,9 @@ namespace mopo {
   }
 
   void ReverbAllPass::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+    MOPO_ASSERT(inputMatchesBufferSize(kFeedback));
+
     mopo_float* dest = output()->buffer;
 
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;

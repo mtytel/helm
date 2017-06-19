@@ -33,6 +33,10 @@ namespace mopo {
   }
 
   void SimpleDelay::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+    MOPO_ASSERT(inputMatchesBufferSize(kFeedback));
+    MOPO_ASSERT(inputMatchesBufferSize(kSampleDelay));
+
     mopo_float* dest = output()->buffer;
     const mopo_float* audio = input(kAudio)->source->buffer;
     const mopo_float* feedback = input(kFeedback)->source->buffer;

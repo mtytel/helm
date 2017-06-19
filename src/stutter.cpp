@@ -51,6 +51,8 @@ namespace mopo {
   }
 
   void Stutter::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     // A hack to save memory until stutter is used.
     if (memory_ == nullptr)
       memory_ = new Memory(size_);

@@ -29,6 +29,9 @@ namespace mopo {
       Processor(MonoPanner::kNumInputs, MonoPanner::kNumOutputs) { }
 
   void MonoPanner::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+    MOPO_ASSERT(inputMatchesBufferSize(kPan));
+
     mopo_float integral;
     for (int i = 0; i < buffer_size_; ++i) {
       mopo_float audio = input(kAudio)->at(i);

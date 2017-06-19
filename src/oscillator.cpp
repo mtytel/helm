@@ -29,6 +29,9 @@ namespace mopo {
   }
 
   void Oscillator::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kFrequency));
+    MOPO_ASSERT(inputMatchesBufferSize(kPhase));
+
     preprocess();
 
     int i = 0;

@@ -39,6 +39,8 @@ namespace mopo {
   }
 
   void StateVariableFilter::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;
     mopo_float* dest = output()->buffer;
 
@@ -81,9 +83,9 @@ namespace mopo {
     mopo_float delta_m2 = (target_m2_ - m2_) / buffer_size_;
     mopo_float delta_drive = (target_drive_ - drive_) / buffer_size_;
 
-    if (inputs_->at(kReset)->source->triggered &&
-        inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
-      int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
+    if (input(kReset)->source->triggered &&
+        input(kReset)->source->trigger_value == kVoiceReset) {
+      int trigger_offset = input(kReset)->source->trigger_offset;
       int i = 0;
       for (; i < trigger_offset; ++i) {
         m0_ += delta_m0;

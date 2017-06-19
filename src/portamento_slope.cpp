@@ -48,6 +48,8 @@ namespace mopo {
   }
 
   void PortamentoSlope::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kTarget));
+
     processTriggers();
     int state = static_cast<int>(input(kPortamentoType)->at(0));
     mopo_float run_seconds = input(kRunSeconds)->at(0);

@@ -27,6 +27,9 @@ namespace mopo {
   }
 
   void LinearSlope::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kTarget));
+    MOPO_ASSERT(inputMatchesBufferSize(kRunSeconds));
+
     int i = 0;
     if (input(kTriggerJump)->source->triggered) {
       int trigger_offset = input(kTriggerJump)->source->trigger_offset;

@@ -148,6 +148,8 @@ namespace mopo {
         return control_rate_;
       }
 
+      bool inputMatchesBufferSize(int input = 0);
+
       virtual bool isPolyphonic() const;
 
       // Attaches an output to an input in this processor.

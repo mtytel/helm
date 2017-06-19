@@ -25,6 +25,8 @@ namespace mopo {
       Processor(SmoothFilter::kNumInputs, 1), last_value_(start_value) { }
 
   void SmoothFilter::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kTarget));
+
     mopo_float half_life = input(kHalfLife)->at(0);
     mopo_float decay = 0.0;
     if (half_life > 0.0)

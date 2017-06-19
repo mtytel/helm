@@ -21,6 +21,8 @@
 namespace mopo {
 
   void Feedback::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
     utils::copyBuffer(buffer_, input(0)->source->buffer, buffer_size_);
     refreshOutput();
   }

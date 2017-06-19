@@ -22,6 +22,10 @@ namespace mopo {
                    current_sample_(0.0), static_samples_(0.0) { }
 
   void Alias::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+    MOPO_ASSERT(inputMatchesBufferSize(kWet));
+    MOPO_ASSERT(inputMatchesBufferSize(kFrequency));
+
     for (int i = 0; i < buffer_size_; ++i)
       tick(i);
   }

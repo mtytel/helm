@@ -33,6 +33,8 @@ namespace mopo {
   }
 
   void LadderFilter::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     mopo_float cutoff = utils::clamp(input(kCutoff)->at(0), MIN_CUTTOFF, sample_rate_);
 
     mopo_float g = g_;
@@ -45,10 +47,10 @@ namespace mopo {
     const mopo_float* audio_buffer = input(kAudio)->source->buffer;
     mopo_float* dest = output()->buffer;
     double two_sr = sample_rate_ * 2.0;
-    if (inputs_->at(kReset)->source->triggered &&
-        inputs_->at(kReset)->source->trigger_value == kVoiceReset) {
+    if (input(kReset)->source->triggered &&
+        input(kReset)->source->trigger_value == kVoiceReset) {
 
-      int trigger_offset = inputs_->at(kReset)->source->trigger_offset;
+      int trigger_offset = input(kReset)->source->trigger_offset;
       int i = 0;
       for (; i < trigger_offset; ++i) {
         g += delta_g;

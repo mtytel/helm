@@ -125,6 +125,8 @@ namespace mopo {
   }
 
   void Distortion::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     Type type = static_cast<Type>(static_cast<int>(input(kType)->at(0)));
     if (input(kOn)->at(0) == 0.0) {
       utils::copyBuffer(output()->buffer, input(kAudio)->source->buffer, buffer_size_);

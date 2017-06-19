@@ -30,7 +30,19 @@ namespace mopo {
       tick(i);
   }
 
+  void Bypass::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
+    utils::copyBuffer(output()->buffer, input()->source->buffer, buffer_size_);
+
+    output()->triggered = input()->source->triggered;
+    output()->trigger_value = input()->source->trigger_value;
+    output()->trigger_offset = input()->source->trigger_offset;
+  }
+
   void Clamp::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vclipD(input()->source->buffer, 1,
                 &min_, &max_,
@@ -46,6 +58,8 @@ namespace mopo {
   }
 
   void Negate::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vnegD(input()->source->buffer, 1,
                output()->buffer, 1, buffer_size_);
@@ -57,6 +71,8 @@ namespace mopo {
   }
 
   void LinearScale::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vsmulD(input()->source->buffer, 1, &scale_,
                 output()->buffer, 1, buffer_size_);
@@ -68,6 +84,9 @@ namespace mopo {
   }
 
   void Add::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(0));
+    MOPO_ASSERT(inputMatchesBufferSize(1));
+
     mopo_float* dest = output()->buffer;
     const mopo_float* source_left = input(0)->source->buffer;
     const mopo_float* source_right = input(1)->source->buffer;
@@ -80,6 +99,9 @@ namespace mopo {
   }
 
   void Subtract::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(0));
+    MOPO_ASSERT(inputMatchesBufferSize(1));
+
 #ifdef USE_APPLE_ACCELERATE
     vDSP_vsubD(input(0)->source->buffer, 1,
                input(1)->source->buffer, 1,
@@ -92,6 +114,9 @@ namespace mopo {
   }
 
   void Multiply::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(0));
+    MOPO_ASSERT(inputMatchesBufferSize(1));
+
     mopo_float* dest = output()->buffer;
     const mopo_float* source_left = input(0)->source->buffer;
     const mopo_float* source_right = input(1)->source->buffer;
@@ -104,6 +129,10 @@ namespace mopo {
   }
 
   void Interpolate::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(0));
+    MOPO_ASSERT(inputMatchesBufferSize(1));
+    MOPO_ASSERT(inputMatchesBufferSize(2));
+
     mopo_float* dest = output()->buffer;
     const mopo_float* from = input(kFrom)->source->buffer;
     const mopo_float* to = input(kTo)->source->buffer;
@@ -123,6 +152,11 @@ namespace mopo {
   }
 
   void VariableAdd::process() {
+#if DEBUG
+    for (int i = 0; i < inputs_->size(); ++i)
+      MOPO_ASSERT(inputMatchesBufferSize(i));
+#endif
+
     mopo_float* dest = output()->buffer;
 
     if (isControlRate()) {
@@ -168,6 +202,8 @@ namespace mopo {
   }
 
   void FrequencyToSamples::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
 #ifdef USE_APPLE_ACCELERATE
     mopo_float sample_rate = sample_rate_;
     vDSP_svdivD(&sample_rate, input()->source->buffer, 1,
@@ -180,6 +216,8 @@ namespace mopo {
   }
 
   void TimeToSamples::process() {
+    MOPO_ASSERT(inputMatchesBufferSize());
+
 #ifdef USE_APPLE_ACCELERATE
     mopo_float sample_rate = sample_rate_;
     vDSP_vsmulD(input()->source->buffer, 1, &sample_rate,

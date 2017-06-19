@@ -41,6 +41,8 @@ namespace mopo {
   }
 
   void Delay::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     const mopo_float* audio = input(kAudio)->source->buffer;
     mopo_float* dest = output()->buffer;
 
