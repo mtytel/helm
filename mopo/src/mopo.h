@@ -38,7 +38,6 @@
 #include "note_handler.h"
 #include "operators.h"
 #include "oscillator.h"
-#include "phaser.h"
 #include "portamento_slope.h"
 #include "processor.h"
 #include "processor_router.h"

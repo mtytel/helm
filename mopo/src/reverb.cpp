@@ -118,6 +118,8 @@ namespace mopo {
   }
 
   void Reverb::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     ProcessorRouter::process();
     const mopo_float* audio = input(kAudio)->source->buffer;
     const mopo_float* left_wet_audio = reverb_wet_left_->output()->buffer;

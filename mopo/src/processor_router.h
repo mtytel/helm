@@ -50,7 +50,7 @@ namespace mopo {
       // Any time new dependencies are added into the ProcessorRouter graph, we
       // should call _connect_ on the destination Processor and source Output.
       void connect(Processor* destination, const Output* source, int index);
-      void disconnect(Processor* destination, const Output* source);
+      void disconnect(const Processor* destination, const Output* source);
       bool isDownstream(const Processor* first, const Processor* second) const;
       bool areOrdered(const Processor* first, const Processor* second) const;
 

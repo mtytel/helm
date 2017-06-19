@@ -50,6 +50,13 @@ namespace mopo {
     delete enabled_;
   }
 
+  bool Processor::inputMatchesBufferSize(int input) {
+    if (input >= inputs_->size())
+      return false;
+
+    return inputs_->at(input)->source->buffer_size >= buffer_size_;
+  }
+
   bool Processor::isPolyphonic() const {
     if (router_)
       return router_->isPolyphonic(this);

@@ -23,7 +23,7 @@ namespace mopo {
 
   FormantManager::FormantManager(int num_formants) : ProcessorRouter(0, 0) {
     Bypass* audio_input = new Bypass();
-    Bypass* reset_input = new Bypass();
+    cr::Bypass* reset_input = new cr::Bypass();
 
     registerInput(audio_input->input(), kAudio);
     registerInput(reset_input->input(), kReset);

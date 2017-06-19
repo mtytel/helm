@@ -147,6 +147,9 @@ namespace mopo {
   }
 
   void ProcessorRouter::removeProcessor(const Processor* processor) {
+    for (int i = 0; i < processor->numInputs(); ++i)
+      disconnect(processor, processor->input(i)->source);
+
     MOPO_ASSERT(processor->router() == this);
     (*global_changes_)++;
     local_changes_++;
@@ -178,7 +181,7 @@ namespace mopo {
     }
   }
 
-  void ProcessorRouter::disconnect(Processor* destination,
+  void ProcessorRouter::disconnect(const Processor* destination,
                                    const Output* source) {
     if (isDownstream(destination, source->owner)) {
       // We're fine unless there is a cycle and need to delete a Feedback node.

@@ -85,13 +85,7 @@ namespace mopo {
 
       virtual Processor* clone() const override { return new Bypass(*this); }
 
-      void process() override {
-        utils::copyBuffer(output()->buffer, input()->source->buffer, buffer_size_);
-
-        output()->triggered = input()->source->triggered;
-        output()->trigger_value = input()->source->trigger_value;
-        output()->trigger_offset = input()->source->trigger_offset;
-      }
+      void process() override;
 
       inline void tick(int i) override {
         bufferTick(output()->buffer, input()->source->buffer, i);
@@ -511,6 +505,30 @@ namespace mopo {
   };
 
   namespace cr {
+
+    // A processor that passes input to output.
+    class Bypass : public Operator {
+      public:
+        Bypass() : Operator(1, 1) { }
+
+        virtual Processor* clone() const override { return new Bypass(*this); }
+
+        void process() override {
+          output()->buffer[0] = input()->at(0);
+
+          output()->triggered = input()->source->triggered;
+          output()->trigger_value = input()->source->trigger_value;
+          output()->trigger_offset = input()->source->trigger_offset;
+        }
+
+        inline void tick(int i) override {
+          bufferTick(output()->buffer, input()->source->buffer, i);
+        }
+
+        inline void bufferTick(mopo_float* dest, const mopo_float* source, int i) {
+          dest[i] = source[i];
+        }
+    };
 
     // A processor that will clamp a signal output to a given window.
     class Clamp : public Operator {

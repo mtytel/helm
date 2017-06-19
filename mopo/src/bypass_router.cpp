@@ -22,6 +22,8 @@ namespace mopo {
       ProcessorRouter(num_inputs, num_outputs) { }
 
   void BypassRouter::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+
     mopo_float should_process = input(kOn)->at(0);
     if (should_process)
       ProcessorRouter::process();

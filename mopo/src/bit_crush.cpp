@@ -24,6 +24,9 @@ namespace mopo {
                          magnification_(0.0) { }
 
   void BitCrush::process() {
+    MOPO_ASSERT(inputMatchesBufferSize(kAudio));
+    MOPO_ASSERT(inputMatchesBufferSize(kWet));
+
     mopo_float bits = input(kBits)->at(0);
     magnification_ = pow(2.0, bits / 2.0);
 
