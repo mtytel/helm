@@ -547,16 +547,18 @@
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2015 targetFolder="builds/vs15" vstFolder="c:\srcs\VST3 SDK" vst3Folder="VST3_SDK"
-            aaxFolder="c:\srcs\AAX">
+            aaxFolder="c:\srcs\AAX" windowsTargetPlatformVersion="8.1">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
                        isDebug="1" optimisation="1" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
         <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
                        isDebug="1" optimisation="1" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
         <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
+                       isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
+                       fastMath="1"/>
         <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
+                       isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
+                       fastMath="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_basics" path="JUCE/modules"/>
