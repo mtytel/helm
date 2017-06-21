@@ -23,6 +23,7 @@
 #include "about_section.h"
 #include "arp_section.h"
 #include "bpm_section.h"
+#include "contribute_section.h"
 #include "global_tool_tip.h"
 #include "open_gl_modulation_manager.h"
 #include "oscilloscope.h"
@@ -75,6 +76,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     ScopedPointer<SynthSlider> arp_tempo_;
 
     ScopedPointer<AboutSection> about_section_;
+    ScopedPointer<ContributeSection> contribute_section_;
     ScopedPointer<UpdateCheckSection> update_check_section_;
     ScopedPointer<Component> standalone_settings_section_;
     ScopedPointer<ImageButton> logo_button_;

@@ -75,6 +75,7 @@ class HelmPlugin : public SynthBase, public AudioProcessor, public ValueBridge::
 
     int current_program_;
     Array<File> all_patches_;
+    AudioPlayHead::CurrentPositionInfo position_info_;
 
     std::map<std::string, ValueBridge*> bridge_lookup_;
 

@@ -99,6 +99,7 @@
 		EDAA0BEF46E9C5979EFD5FFB = {isa = PBXBuildFile; fileRef = 121B46F5DDCCF31911E5CAB4; };
 		19C33CEF178C776F076B0177 = {isa = PBXBuildFile; fileRef = 43FA097C88B5333B84AEC57C; };
 		CFD4A95B90E0F64F91E51400 = {isa = PBXBuildFile; fileRef = 1DBED9C9D9979EE7390FE4B9; };
+		279E2E24021B42127D792D92 = {isa = PBXBuildFile; fileRef = A5FC42F66B13C28D7AE002DB; };
 		37945D07A6BA18A323039663 = {isa = PBXBuildFile; fileRef = 6E4B84817E3088F503321710; };
 		3243DFB12372641E59D08AB2 = {isa = PBXBuildFile; fileRef = 7003A620FBD394F7F2A37623; };
 		A2C12BC10CADCAD976638382 = {isa = PBXBuildFile; fileRef = 109907FE77F9110A10C90C74; };
@@ -281,6 +282,7 @@
 		4D8A838542D61C7AC42FA75A = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "midi_lookup.h"; path = "../../mopo/src/midi_lookup.h"; sourceTree = "SOURCE_ROOT"; };
 		4DBFDDC57F692A26490E5051 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "portamento_slope.cpp"; path = "../../mopo/src/portamento_slope.cpp"; sourceTree = "SOURCE_ROOT"; };
 		4DCF7D1C35D7808E4B31E450 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "synthesis_interface.cpp"; path = "../../src/editor_sections/synthesis_interface.cpp"; sourceTree = "SOURCE_ROOT"; };
+		4DDD3E571712090A072B28DB = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "contribute_section.h"; path = "../../src/editor_sections/contribute_section.h"; sourceTree = "SOURCE_ROOT"; };
 		4DE9F7DD56A6A047F2CF264F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "linear_slope.cpp"; path = "../../mopo/src/linear_slope.cpp"; sourceTree = "SOURCE_ROOT"; };
 		4E8A25627AEF6B318DB1ABDC = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "helm_voice_handler.cpp"; path = "../../src/synthesis/helm_voice_handler.cpp"; sourceTree = "SOURCE_ROOT"; };
 		4F68884C1729261C618CCD79 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "volume_section.h"; path = "../../src/editor_sections/volume_section.h"; sourceTree = "SOURCE_ROOT"; };
@@ -381,6 +383,7 @@
 		A2545F2BC7482E55796936FA = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "browser_look_and_feel.cpp"; path = "../../src/look_and_feel/browser_look_and_feel.cpp"; sourceTree = "SOURCE_ROOT"; };
 		A3A33ED63C604CE2E93E4084 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "text_look_and_feel.h"; path = "../../src/look_and_feel/text_look_and_feel.h"; sourceTree = "SOURCE_ROOT"; };
 		A4EE4562C83B552BD05A57B1 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helm_icon_16_2x.png"; path = "../../images/helm_icon_16_2x.png"; sourceTree = "SOURCE_ROOT"; };
+		A5FC42F66B13C28D7AE002DB = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "contribute_section.cpp"; path = "../../src/editor_sections/contribute_section.cpp"; sourceTree = "SOURCE_ROOT"; };
 		A6894BA8C1E038D246416555 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "helm_lfo.cpp"; path = "../../src/synthesis/helm_lfo.cpp"; sourceTree = "SOURCE_ROOT"; };
 		A696505C35C1DD2446018F00 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "synth_button.h"; path = "../../src/editor_components/synth_button.h"; sourceTree = "SOURCE_ROOT"; };
 		A6B25BEE44F66BF421287AD4 = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "Roboto-Thin.ttf"; path = "../../fonts/Roboto-Thin.ttf"; sourceTree = "SOURCE_ROOT"; };
@@ -700,6 +703,8 @@
 					B0A24C9951B143CCA7C62069,
 					1DBED9C9D9979EE7390FE4B9,
 					1F043D1A3D23CCD2F72B57EF,
+					A5FC42F66B13C28D7AE002DB,
+					4DDD3E571712090A072B28DB,
 					6E4B84817E3088F503321710,
 					D8CDAE4774D99246AA6FE349,
 					7003A620FBD394F7F2A37623,
@@ -919,6 +924,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("../../VST3_SDK", "../../JuceLibraryCode", "../../JUCE/modules", "../../concurrentqueue", "../../mopo/src", "../../src", "../../src/common", "../../src/editor_components", "../../src/editor_sections", "../../src/look_and_feel", "../../src/standalone", "../../src/synthesis", "../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -959,6 +965,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("../../VST3_SDK", "../../JuceLibraryCode", "../../JUCE/modules", "../../concurrentqueue", "../../mopo/src", "../../src", "../../src/common", "../../src/editor_components", "../../src/editor_sections", "../../src/look_and_feel", "../../src/standalone", "../../src/synthesis", "../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -997,6 +1004,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("../../VST3_SDK", "../../JuceLibraryCode", "../../JUCE/modules", "../../concurrentqueue", "../../mopo/src", "../../src", "../../src/common", "../../src/editor_components", "../../src/editor_sections", "../../src/look_and_feel", "../../src/standalone", "../../src/synthesis", "../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST3.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1037,6 +1045,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("../../VST3_SDK", "../../JuceLibraryCode", "../../JUCE/modules", "../../concurrentqueue", "../../mopo/src", "../../src", "../../src/common", "../../src/editor_components", "../../src/editor_sections", "../../src/look_and_feel", "../../src/standalone", "../../src/synthesis", "../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-VST3.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST3/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1075,6 +1084,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("../../VST3_SDK", "../../JuceLibraryCode", "../../JUCE/modules", "../../concurrentqueue", "../../mopo/src", "../../src", "../../src/common", "../../src/editor_components", "../../src/editor_sections", "../../src/look_and_feel", "../../src/standalone", "../../src/synthesis", "../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-AU.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1116,6 +1126,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = ("../../VST3_SDK", "../../JuceLibraryCode", "../../JUCE/modules", "../../concurrentqueue", "../../mopo/src", "../../src", "../../src/common", "../../src/editor_components", "../../src/editor_sections", "../../src/look_and_feel", "../../src/standalone", "../../src/synthesis", "../../JUCE/modules/juce_audio_plugin_client", "$(inherited)");
 				INFOPLIST_FILE = Info-AU.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1399,6 +1410,7 @@
 					EDAA0BEF46E9C5979EFD5FFB,
 					19C33CEF178C776F076B0177,
 					CFD4A95B90E0F64F91E51400,
+					279E2E24021B42127D792D92,
 					37945D07A6BA18A323039663,
 					3243DFB12372641E59D08AB2,
 					A2C12BC10CADCAD976638382,

@@ -32,7 +32,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   animate_ = true;
   open_gl_context.setContinuousRepainting(true);
   open_gl_context.setRenderer(this);
-  open_gl_context.attachTo(*this);
+  open_gl_context.attachTo(*getTopLevelComponent());
 
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
   addSubSection(arp_section_ = new ArpSection(TRANS("ARP")));
@@ -80,6 +80,9 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   about_section_ = new AboutSection("about");
   addChildComponent(about_section_);
 
+  contribute_section_ = new ContributeSection("contribute");
+  addAndMakeVisible(contribute_section_);
+
   update_check_section_ = new UpdateCheckSection("update_check");
   addChildComponent(update_check_section_);
 
@@ -87,6 +90,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   modulation_manager_->toFront(false);
   patch_browser_->toFront(false);
   about_section_->toFront(false);
+  contribute_section_->toFront(false);
   save_section_->toFront(false);
   delete_section_->toFront(false);
 
@@ -169,6 +173,7 @@ void FullInterface::resized() {
   delete_section_->setSizeRatio(ratio);
   patch_browser_->setSizeRatio(ratio);
   about_section_->setSizeRatio(ratio);
+  contribute_section_->setSizeRatio(ratio);
   int padding = 8 * ratio;
   int top_height = TOP_HEIGHT * ratio;
 
@@ -214,6 +219,7 @@ void FullInterface::resized() {
                                   width, height - top_height - padding);
 
   about_section_->setBounds(getBounds());
+  contribute_section_->setBounds(getBounds());
   update_check_section_->setBounds(getBounds());
   save_section_->setBounds(getBounds());
   delete_section_->setBounds(getBounds());

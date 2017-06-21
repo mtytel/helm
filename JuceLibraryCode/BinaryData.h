@@ -21,7 +21,7 @@ namespace BinaryData
     const int            RobotoThin_ttfSize = 127584;
 
     extern const char*   helm_debian_icon_xpm;
-    const int            helm_debian_icon_xpmSize = 6879;
+    const int            helm_debian_icon_xpmSize = 7204;
 
     extern const char*   helm_icon_16_1x_png;
     const int            helm_icon_16_1x_pngSize = 1230;

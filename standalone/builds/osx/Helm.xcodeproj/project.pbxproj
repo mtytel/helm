@@ -94,6 +94,7 @@
 		ED53383E704556871B6099EA = {isa = PBXBuildFile; fileRef = C7550594C7A61E383666EE0A; };
 		356F81231EB1349D546BB429 = {isa = PBXBuildFile; fileRef = 4416E848ACA1FC962DEA131D; };
 		4BFA181F3862D983C2403194 = {isa = PBXBuildFile; fileRef = E62EBD2019E40B20114071C7; };
+		609CABF5309927A32C5F9BAD = {isa = PBXBuildFile; fileRef = 013CB825DD7007AA2478336F; };
 		AF0025F606BC8D3E6361C340 = {isa = PBXBuildFile; fileRef = BDD365BF45EA2EE1FB8521A3; };
 		123F67E2CE6EA55D2400510C = {isa = PBXBuildFile; fileRef = 447A7582B05D1D6DA04553AA; };
 		B3C7BDE256E033339D3BB474 = {isa = PBXBuildFile; fileRef = C7F35F5F2E67914EBE1AE87D; };
@@ -160,6 +161,7 @@
 		70937681CB61FE423244F46D = {isa = PBXBuildFile; fileRef = C446C4E337CACDDBD1334AC1; };
 		37436F34ED46B62CD83A6DC8 = {isa = PBXBuildFile; fileRef = 6A04ACAC8DCE2DAA439352FE; };
 		01195B4D04F473A3877C53DB = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wave.h; path = ../../../mopo/src/wave.h; sourceTree = "SOURCE_ROOT"; };
+		013CB825DD7007AA2478336F = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "contribute_section.cpp"; path = "../../../src/editor_sections/contribute_section.cpp"; sourceTree = "SOURCE_ROOT"; };
 		01C23CE6397409B38672AC6E = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "open_gl_background.cpp"; path = "../../../src/editor_components/open_gl_background.cpp"; sourceTree = "SOURCE_ROOT"; };
 		025EF1601A7D050B084ECDD4 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "modulation_selected_inactive_2x.png"; path = "../../../images/modulation_selected_inactive_2x.png"; sourceTree = "SOURCE_ROOT"; };
 		02D615BE8A1E786B83E2E8D1 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = reverb.cpp; path = ../../../mopo/src/reverb.cpp; sourceTree = "SOURCE_ROOT"; };
@@ -385,6 +387,7 @@
 		A4C666188605899F7723482D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "smooth_filter.cpp"; path = "../../../mopo/src/smooth_filter.cpp"; sourceTree = "SOURCE_ROOT"; };
 		A52C7DECB2E40C62DB8D76BF = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = alias.cpp; path = ../../../mopo/src/alias.cpp; sourceTree = "SOURCE_ROOT"; };
 		A550A45862DA631F6846333D = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "helm_oscillators.cpp"; path = "../../../src/synthesis/helm_oscillators.cpp"; sourceTree = "SOURCE_ROOT"; };
+		A6379E7654F0ED03B34FB551 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "contribute_section.h"; path = "../../../src/editor_sections/contribute_section.h"; sourceTree = "SOURCE_ROOT"; };
 		A6B719912E3E8EE59B3F6784 = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "peak_meter.cpp"; path = "../../../src/synthesis/peak_meter.cpp"; sourceTree = "SOURCE_ROOT"; };
 		A80FC2DCFF00324B3E215B08 = {isa = PBXFileReference; lastKnownFileType = image.png; name = "helm_icon_256_2x.png"; path = "../../../images/helm_icon_256_2x.png"; sourceTree = "SOURCE_ROOT"; };
 		AB079907889060B891C4E778 = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "load_save.h"; path = "../../../src/common/load_save.h"; sourceTree = "SOURCE_ROOT"; };
@@ -676,6 +679,8 @@
 					61C104D5D636E64E0E7683D2,
 					E62EBD2019E40B20114071C7,
 					1ED9185D99B25E69E0CEE22D,
+					013CB825DD7007AA2478336F,
+					A6379E7654F0ED03B34FB551,
 					BDD365BF45EA2EE1FB8521A3,
 					0A8F3B6C172E0838569ED142,
 					447A7582B05D1D6DA04553AA,
@@ -875,8 +880,9 @@
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0", );
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "~/JUCE/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "$(inherited)");
 				INFOPLIST_FILE = Info-App.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
@@ -909,8 +915,9 @@
 					"JucePlugin_Build_Standalone=0", );
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "~/JUCE/modules/juce_audio_plugin_client", "$(inherited)");
+				HEADER_SEARCH_PATHS = ("../../JuceLibraryCode", "../../../JUCE/modules", "../../../concurrentqueue", "../../../mopo/src", "../../../src", "../../../src/common", "../../../src/editor_components", "../../../src/editor_sections", "../../../src/look_and_feel", "../../../src/standalone", "../../../src/synthesis", "$(inherited)");
 				INFOPLIST_FILE = Info-App.plist;
+				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
@@ -1035,6 +1042,7 @@
 					ED53383E704556871B6099EA,
 					356F81231EB1349D546BB429,
 					4BFA181F3862D983C2403194,
+					609CABF5309927A32C5F9BAD,
 					AF0025F606BC8D3E6361C340,
 					123F67E2CE6EA55D2400510C,
 					B3C7BDE256E033339D3BB474,

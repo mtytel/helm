@@ -6,7 +6,7 @@
               pluginName="Helm" pluginDesc="" pluginManufacturer="Matt Tytel"
               pluginManufacturerCode="Tyte" pluginCode="Helm" pluginChannelConfigs="{0, 1}, {0, 2}"
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
-              pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
+              pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
               pluginAAXCategory="AAX_ePlugInCategory_SWGenerators" jucerVersion="5.0.2"
               companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
@@ -313,6 +313,10 @@
         <FILE id="QYzslR" name="arp_section.h" compile="0" resource="0" file="src/editor_sections/arp_section.h"/>
         <FILE id="ubTRHv" name="bpm_section.cpp" compile="1" resource="0" file="src/editor_sections/bpm_section.cpp"/>
         <FILE id="ULoppH" name="bpm_section.h" compile="0" resource="0" file="src/editor_sections/bpm_section.h"/>
+        <FILE id="TRAgBj" name="contribute_section.cpp" compile="1" resource="0"
+              file="src/editor_sections/contribute_section.cpp"/>
+        <FILE id="YRPCpa" name="contribute_section.h" compile="0" resource="0"
+              file="src/editor_sections/contribute_section.h"/>
         <FILE id="CnOWyK" name="delay_section.cpp" compile="1" resource="0"
               file="src/editor_sections/delay_section.cpp"/>
         <FILE id="Y1r52Y" name="delay_section.h" compile="0" resource="0" file="src/editor_sections/delay_section.h"/>

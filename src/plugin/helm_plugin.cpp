@@ -163,16 +163,16 @@ void HelmPlugin::releaseResources() {
 void HelmPlugin::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midi_messages) {
   int total_samples = buffer.getNumSamples();
   int num_channels = getTotalNumOutputChannels();
-  AudioPlayHead::CurrentPositionInfo position_info;
-  getPlayHead()->getCurrentPosition(position_info);
-  if (position_info.bpm)
-    engine_.setBpm(position_info.bpm);
+  getPlayHead()->getCurrentPosition(position_info_);
+  if (position_info_.bpm)
+    engine_.setBpm(position_info_.bpm);
 
-  if (position_info.isPlaying || position_info.isLooping || position_info.isRecording)
-    engine_.correctToTime(position_info.timeInSamples);
+  if (position_info_.isPlaying || position_info_.isLooping || position_info_.isRecording)
+    engine_.correctToTime(position_info_.timeInSamples);
 
   processControlChanges();
   processModulationChanges();
+
   MidiBuffer keyboard_messages = midi_messages;
   processKeyboardEvents(keyboard_messages, total_samples);
 

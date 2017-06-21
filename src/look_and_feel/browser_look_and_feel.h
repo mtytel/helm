@@ -18,11 +18,15 @@
 #define BROWSER_LOOK_AND_FEEL_H
 
 #include "JuceHeader.h"
+#include "text_look_and_feel.h"
 
 class BrowserLookAndFeel : public juce::LookAndFeel_V3 {
   public:
     void drawButtonBackground(Graphics& g, Button& button, const Colour &backgroundColour,
                               bool hover, bool is_down) override;
+
+    void drawToggleButton(Graphics& g, ToggleButton& button,
+                          bool hover, bool is_down) override;
 
     Font getTextButtonFont(TextButton&, int buttonHeight) override;
 

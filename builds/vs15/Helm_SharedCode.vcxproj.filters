@@ -628,6 +628,9 @@
     <ClCompile Include="..\..\src\editor_sections\bpm_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\editor_sections\contribute_section.cpp">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\editor_sections\delay_section.cpp">
       <Filter>Helm\src\editor_sections</Filter>
     </ClCompile>
@@ -2824,6 +2827,9 @@
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\bpm_section.h">
+      <Filter>Helm\src\editor_sections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\editor_sections\contribute_section.h">
       <Filter>Helm\src\editor_sections</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\editor_sections\delay_section.h">

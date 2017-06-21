@@ -157,6 +157,7 @@ OBJECTS_SHARED_CODE := \
   $(JUCE_OBJDIR)/about_section_7d82e4ff.o \
   $(JUCE_OBJDIR)/arp_section_a0da8a91.o \
   $(JUCE_OBJDIR)/bpm_section_6b714e11.o \
+  $(JUCE_OBJDIR)/contribute_section_44364711.o \
   $(JUCE_OBJDIR)/delay_section_9df39f5.o \
   $(JUCE_OBJDIR)/delete_section_a0453dcf.o \
   $(JUCE_OBJDIR)/distortion_section_2cd18141.o \
@@ -616,6 +617,11 @@ $(JUCE_OBJDIR)/arp_section_a0da8a91.o: ../../../src/editor_sections/arp_section.
 $(JUCE_OBJDIR)/bpm_section_6b714e11.o: ../../../src/editor_sections/bpm_section.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling bpm_section.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/contribute_section_44364711.o: ../../../src/editor_sections/contribute_section.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling contribute_section.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_SHARED_CODE) $(JUCE_CFLAGS_SHARED_CODE) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/delay_section_9df39f5.o: ../../../src/editor_sections/delay_section.cpp

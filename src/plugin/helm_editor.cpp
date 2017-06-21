@@ -29,9 +29,15 @@ HelmEditor::HelmEditor(HelmPlugin& helm) : AudioProcessorEditor(&helm), SynthGui
   gui_->setOutputMemory(helm.getOutputMemory());
   gui_->animate(LoadSave::shouldAnimateWidgets());
 
+  constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
+                              2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
+  double ratio = (1.0 * mopo::DEFAULT_WINDOW_WIDTH) / mopo::DEFAULT_WINDOW_HEIGHT;
+  constrainer_.setFixedAspectRatio(ratio);
+  setConstrainer(&constrainer_);
+
   float window_size = LoadSave::loadWindowSize();
-  setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
   setResizable(true, true);
+  setSize(window_size * mopo::DEFAULT_WINDOW_WIDTH, window_size * mopo::DEFAULT_WINDOW_HEIGHT);
 
   repaint();
 }
@@ -42,6 +48,7 @@ void HelmEditor::paint(Graphics& g) {
 
 void HelmEditor::resized() {
   gui_->setBounds(getLocalBounds());
+  AudioProcessorEditor::resized();
 }
 
 void HelmEditor::visibilityChanged() {

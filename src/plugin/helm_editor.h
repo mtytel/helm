@@ -43,6 +43,7 @@ class HelmEditor : public AudioProcessorEditor, public SynthGuiInterface {
 
     HelmPlugin& helm_;
     bool was_animating_;
+    ComponentBoundsConstrainer constrainer_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmEditor)
 };
