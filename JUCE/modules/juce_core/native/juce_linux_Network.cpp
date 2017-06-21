@@ -47,7 +47,7 @@ void MACAddress::findAllAddresses (Array<MACAddress>& result)
             freeifaddrs (addrs);
         }
 
-        close (s);
+        ::close (s);
     }
 }
 
@@ -116,6 +116,13 @@ public:
 
     bool connect (WebInputStream::Listener* listener)
     {
+        {
+            const ScopedLock lock (createSocketLock);
+
+            if (hasBeenCancelled)
+                return false;
+        }
+
         address = url.toString (! isPost);
         statusCode = createConnection (listener, numRedirectsToFollow);
 
@@ -124,13 +131,17 @@ public:
 
     void cancel()
     {
+        const ScopedLock lock (createSocketLock);
+
+        hasBeenCancelled = true;
+
         statusCode = -1;
         finished = true;
 
         closeSocket();
     }
 
-    //==============================================================================w
+    //==============================================================================
     bool isError() const                 { return socketHandle < 0; }
     bool isExhausted()                   { return finished; }
     int64 getPosition()                  { return position; }
@@ -253,13 +264,21 @@ private:
     String httpRequestCmd;
     int64 chunkEnd = 0;
     bool isChunked = false, readingChunk = false;
+    CriticalSection closeSocketLock, createSocketLock;
+    bool hasBeenCancelled = false;
 
     void closeSocket (bool resetLevelsOfRedirection = true)
     {
+        const ScopedLock lock (closeSocketLock);
+
         if (socketHandle >= 0)
-            close (socketHandle);
+        {
+            ::shutdown (socketHandle, SHUT_RDWR);
+            ::close (socketHandle);
+        }
 
         socketHandle = -1;
+
         if (resetLevelsOfRedirection)
             levelsOfRedirection = 0;
     }
@@ -316,7 +335,12 @@ private:
         if (getaddrinfo (serverName.toUTF8(), String (port).toUTF8(), &hints, &result) != 0 || result == 0)
             return 0;
 
-        socketHandle = socket (result->ai_family, result->ai_socktype, 0);
+        {
+            const ScopedLock lock (createSocketLock);
+
+            socketHandle = hasBeenCancelled ? -1
+                                            : socket (result->ai_family, result->ai_socktype, 0);
+        }
 
         if (socketHandle == -1)
         {

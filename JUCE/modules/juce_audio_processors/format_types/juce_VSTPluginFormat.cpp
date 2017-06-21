@@ -864,7 +864,15 @@ struct VSTPluginInstance     : public AudioPluginInstance,
                 dispatch (plugInOpcodeSetSampleFloatType, 0, (pointer_sized_int) vstPrecision, 0, 0);
             }
 
-            tempBuffer.setSize (jmax (1, vstEffect->numInputChannels), samplesPerBlockExpected);
+            auto maxChannels = jmax (1, jmax (vstEffect->numInputChannels, vstEffect->numOutputChannels));
+
+            tmpBufferFloat .setSize (maxChannels, samplesPerBlockExpected);
+            tmpBufferDouble.setSize (maxChannels, samplesPerBlockExpected);
+
+            channelBufferFloat .calloc (static_cast<size_t> (maxChannels));
+            channelBufferDouble.calloc (static_cast<size_t> (maxChannels));
+
+            outOfPlaceBuffer.setSize (jmax (1, vstEffect->numOutputChannels), samplesPerBlockExpected);
 
             if (! isPowerOn)
                 setPower (true);
@@ -891,7 +899,13 @@ struct VSTPluginInstance     : public AudioPluginInstance,
             setPower (false);
         }
 
-        tempBuffer.setSize (1, 1);
+        channelBufferFloat.free();
+        tmpBufferFloat.setSize (0, 0);
+
+        channelBufferDouble.free();
+        tmpBufferDouble.setSize (0, 0);
+
+        outOfPlaceBuffer.setSize (1, 1);
         incomingMidi.clear();
 
         midiEventsToSend.freeEvents();
@@ -909,13 +923,13 @@ struct VSTPluginInstance     : public AudioPluginInstance,
     void processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages) override
     {
         jassert (! isUsingDoublePrecision());
-        processAudio (buffer, midiMessages);
+        processAudio (buffer, midiMessages, tmpBufferFloat, channelBufferFloat);
     }
 
     void processBlock (AudioBuffer<double>& buffer, MidiBuffer& midiMessages) override
     {
         jassert (isUsingDoublePrecision());
-        processAudio (buffer, midiMessages);
+        processAudio (buffer, midiMessages, tmpBufferDouble, channelBufferDouble);
     }
 
     bool supportsDoublePrecisionProcessing() const override
@@ -1462,11 +1476,18 @@ private:
     CriticalSection lock;
     bool wantsMidiMessages = false, initialised = false, isPowerOn = false;
     mutable StringArray programNames;
-    AudioBuffer<float> tempBuffer;
+    AudioBuffer<float> outOfPlaceBuffer;
+
     CriticalSection midiInLock;
     MidiBuffer incomingMidi;
     VSTMidiEventList midiEventsToSend;
     VstTimingInformation vstHostTime;
+
+    AudioBuffer<float> tmpBufferFloat;
+    HeapBlock<float*> channelBufferFloat;
+
+    AudioBuffer<double> tmpBufferDouble;
+    HeapBlock<double*> channelBufferDouble;
 
     static pointer_sized_int handleCanDo (const char* name)
     {
@@ -1585,14 +1606,30 @@ private:
     {
         BusesProperties returnValue;
 
+        if (effect->numInputChannels == 0 && effect->numOutputChannels == 0)
+            return returnValue;
+
+        // Workaround for old broken JUCE plug-ins which would return an invalid
+        // speaker arrangement if the host didn't ask for a specific arrangement
+        // beforehand.
+        // Check if the plug-in reports any default layouts. If it doesn't, then
+        // try setting a default layout compatible with the number of pins this
+        // plug-in is reporting.
+        if (! pluginHasDefaultChannelLayouts (effect))
+        {
+            SpeakerMappings::VstSpeakerConfigurationHolder canonicalIn  (AudioChannelSet::canonicalChannelSet (effect->numInputChannels));
+            SpeakerMappings::VstSpeakerConfigurationHolder canonicalOut (AudioChannelSet::canonicalChannelSet (effect->numOutputChannels));
+
+            effect->dispatchFunction (effect, plugInOpcodeSetSpeakerConfiguration, 0,
+                                      (pointer_sized_int) &canonicalIn.get(), (void*) &canonicalOut.get(), 0.0f);
+        }
+
         HeapBlock<VstSpeakerConfiguration> inArrBlock (1, true), outArrBlock (1, true);
 
         auto* inArr  = inArrBlock.getData();
         auto* outArr = outArrBlock.getData();
 
-        if (effect->numInputChannels == 0
-             || effect->dispatchFunction (effect, plugInOpcodeGetSpeakerArrangement, 0,
-                                          reinterpret_cast<pointer_sized_int> (&inArr), &outArr, 0.0f) == 0)
+        if (! getSpeakerArrangementWrapper (effect, inArr, outArr))
             inArr = outArr = nullptr;
 
         for (int dir = 0; dir < 2; ++dir)
@@ -1614,13 +1651,16 @@ private:
                 if ((pinProps.flags & vstPinInfoFlagValid) != 0)
                 {
                     layout = SpeakerMappings::vstArrangementTypeToChannelSet (pinProps.configurationType, 0);
+
                     if (layout.isDisabled())
                         break;
                 }
-                else
+                else if (arr == nullptr)
                 {
                     layout = ((pinProps.flags & vstPinInfoFlagIsStereo) != 0 ? AudioChannelSet::stereo() : AudioChannelSet::mono());
                 }
+                else
+                    break;
 
                 busAdded = true;
                 returnValue.addBus (isInput, pinProps.text, layout, true);
@@ -1646,11 +1686,64 @@ private:
         return returnValue;
     }
 
+    static bool pluginHasDefaultChannelLayouts (VstEffectInterface* effect)
+    {
+        HeapBlock<VstSpeakerConfiguration> inArrBlock (1, true), outArrBlock (1, true);
+
+        auto* inArr  = inArrBlock.getData();
+        auto* outArr = outArrBlock.getData();
+
+        if (getSpeakerArrangementWrapper (effect, inArr, outArr))
+            return true;
+
+        for (int dir = 0; dir < 2; ++dir)
+        {
+            const bool isInput = (dir == 0);
+            const int opcode = (isInput ? plugInOpcodeGetInputPinProperties : plugInOpcodeGetOutputPinProperties);
+            const int maxChannels = (isInput ? effect->numInputChannels : effect->numOutputChannels);
+
+            int channels = 1;
+
+            for (int ch = 0; ch < maxChannels; ch += channels)
+            {
+                VstPinInfo pinProps;
+
+                if (effect->dispatchFunction (effect, opcode, ch, 0, &pinProps, 0.0f) == 0)
+                    return false;
+
+                if ((pinProps.flags & vstPinInfoFlagValid) != 0)
+                    return true;
+
+                channels = (pinProps.flags & vstPinInfoFlagIsStereo) != 0 ? 2 : 1;
+            }
+        }
+
+        return false;
+    }
+
+    static bool getSpeakerArrangementWrapper (VstEffectInterface* effect,
+                                              VstSpeakerConfiguration* inArr,
+                                              VstSpeakerConfiguration* outArr)
+    {
+        // Workaround: unfortunately old JUCE VST-2 plug-ins had a bug and would crash if
+        // you try to get the speaker arrangement when there are no input channels present.
+        // Hopefully, one day (when there are no more old JUCE plug-ins around), we can
+        // commment out the next two lines.
+        if (effect->numInputChannels == 0)
+            return false;
+
+        return (effect->dispatchFunction (effect, plugInOpcodeGetSpeakerArrangement, 0,
+                                          reinterpret_cast<pointer_sized_int> (&inArr), &outArr, 0.0f) != 0);
+    }
+
     //==============================================================================
     template <typename FloatType>
-    void processAudio (AudioBuffer<FloatType>& buffer, MidiBuffer& midiMessages)
+    void processAudio (AudioBuffer<FloatType>& buffer, MidiBuffer& midiMessages,
+                       AudioBuffer<FloatType>& tmpBuffer,
+                       HeapBlock<FloatType*>& channelBuffer)
     {
-        auto numSamples = buffer.getNumSamples();
+        auto numSamples  = buffer.getNumSamples();
+        auto numChannels = buffer.getNumChannels();
 
         if (initialised)
         {
@@ -1729,7 +1822,26 @@ private:
 
             _clearfp();
 
-            invokeProcessFunction (buffer, numSamples);
+            // always ensure that the buffer is at least as large as the maximum number of channels
+            auto maxChannels = jmax (vstEffect->numInputChannels, vstEffect->numOutputChannels);
+            auto channels = channelBuffer.getData();
+
+            if (numChannels < maxChannels)
+            {
+                if (numSamples > tmpBuffer.getNumSamples())
+                    tmpBuffer.setSize (tmpBuffer.getNumChannels(), numSamples);
+
+                tmpBuffer.clear();
+            }
+
+            for (int ch = 0; ch < maxChannels; ++ch)
+                channels[ch] = (ch < numChannels ? buffer.getWritePointer (ch) : tmpBuffer.getWritePointer (ch));
+
+            {
+                AudioBuffer<FloatType> processBuffer (channels, maxChannels, numSamples);
+
+                invokeProcessFunction (processBuffer, numSamples);
+            }
         }
         else
         {
@@ -1757,14 +1869,14 @@ private:
         }
         else
         {
-            tempBuffer.setSize (vstEffect->numOutputChannels, sampleFrames);
-            tempBuffer.clear();
+            outOfPlaceBuffer.setSize (vstEffect->numOutputChannels, sampleFrames);
+            outOfPlaceBuffer.clear();
 
             vstEffect->processAudioFunction (vstEffect, buffer.getArrayOfWritePointers(),
-                                             tempBuffer.getArrayOfWritePointers(), sampleFrames);
+                                             outOfPlaceBuffer.getArrayOfWritePointers(), sampleFrames);
 
             for (int i = vstEffect->numOutputChannels; --i >= 0;)
-                buffer.copyFrom (i, 0, tempBuffer.getReadPointer (i), sampleFrames);
+                buffer.copyFrom (i, 0, outOfPlaceBuffer.getReadPointer (i), sampleFrames);
         }
     }
 

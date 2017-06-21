@@ -159,7 +159,8 @@ namespace
 
 struct SharedMessageThread  : public Thread
 {
-    SharedMessageThread()  : Thread ("VstMessageThread")
+    SharedMessageThread ()
+        : Thread ("VstMessageThread")
     {
         startThread (7);
 
@@ -181,6 +182,8 @@ struct SharedMessageThread  : public Thread
 
         MessageManager::getInstance()->setCurrentThreadAsMessageThread();
         initialised = true;
+
+        ScopedXDisplay xDisplay;
 
         while ((! threadShouldExit()) && MessageManager::getInstance()->runDispatchLoopUntil (250))
         {}
