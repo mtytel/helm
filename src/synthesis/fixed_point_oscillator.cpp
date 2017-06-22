@@ -57,7 +57,7 @@ namespace mopo {
         for (; i < samples; ++i) {
           phase_ += phase_inc;
           current_phase = phase_ * first_adjust;
-          mopo_float wave_read = wave_buffer[FixedPointWave::getIndex(current_phase)];
+          mopo_float wave_read = FixedPointWave::interpretWave(wave_buffer, current_phase);
           dest[i] = amplitude[i] * wave_read;
         }
       }
@@ -67,7 +67,7 @@ namespace mopo {
       for (; i < samples; ++i) {
         phase_ += phase_inc;
         current_phase = (phase_ - shuffle_index) * second_adjust;
-        mopo_float wave_read = wave_buffer[FixedPointWave::getIndex(current_phase)];
+        mopo_float wave_read = FixedPointWave::interpretWave(wave_buffer, current_phase);
         dest[i] = amplitude[i] * wave_read;
       }
     }

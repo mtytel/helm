@@ -44,6 +44,8 @@ namespace mopo {
       for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i)
         sin_[h][i] = sin((2 * PI * i) / FIXED_LOOKUP_SIZE);
     }
+
+    preprocessDiffs(sin_);
   }
 
   void FixedPointWaveLookup::preprocessTriangle() {
@@ -65,6 +67,8 @@ namespace mopo {
           triangle_[HARMONICS - h][i] -= harmonic;
       }
     }
+
+    preprocessDiffs(triangle_);
   }
 
   void FixedPointWaveLookup::preprocessSquare() {
@@ -83,6 +87,8 @@ namespace mopo {
           square_[HARMONICS - h][i] += scale * sin_[0][p] / (h + 1);
       }
     }
+
+    preprocessDiffs(square_);
   }
 
   void FixedPointWaveLookup::preprocessDownSaw() {
@@ -90,6 +96,8 @@ namespace mopo {
       for (int i = 0; i < FIXED_LOOKUP_SIZE; ++i)
         down_saw_[h][i] = -up_saw_[h][i];
     }
+
+    preprocessDiffs(down_saw_);
   }
 
   void FixedPointWaveLookup::preprocessUpSaw() {
@@ -111,6 +119,8 @@ namespace mopo {
           up_saw_[HARMONICS - h][index] = up_saw_[HARMONICS - h + 1][index] - harmonic;
       }
     }
+
+    preprocessDiffs(up_saw_);
   }
 
   template<size_t steps>
@@ -132,6 +142,8 @@ namespace mopo {
         }
       }
     }
+
+    preprocessDiffs(buffer);
   }
 
   template<size_t steps>
@@ -149,6 +161,18 @@ namespace mopo {
           buffer[h][i] += square_[h][phase] / squares;
         }
       }
+    }
+
+    preprocessDiffs(buffer);
+  }
+
+  void FixedPointWaveLookup::preprocessDiffs(wave_type wave) {
+    for (int h = 0; h < HARMONICS + 1; ++h) {
+      for (int i = 0; i < FIXED_LOOKUP_SIZE - 1; ++i)
+        wave[h][i + FIXED_LOOKUP_SIZE] = FRACTIONAL_MULT * (wave[h][i + 1] - wave[h][i]);
+
+      mopo_float last_delta = wave[h][0] - wave[h][FIXED_LOOKUP_SIZE - 1];
+      wave[h][2 * FIXED_LOOKUP_SIZE - 1] = FRACTIONAL_MULT * last_delta;
     }
   }
 

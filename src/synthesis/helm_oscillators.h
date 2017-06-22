@@ -88,22 +88,22 @@ namespace mopo {
         int phase1 = oscillator2_cross_mods_[i] + oscillator1_phases_[0] + oscillator1_phase_diffs_[i];
         int phase2 = oscillator1_cross_mods_[i] + oscillator2_phases_[0] + oscillator2_phase_diffs_[i];
 
-        oscillator1_totals_[i] += wave_buffers1_[0][FixedPointWave::getIndex(phase1)];
-        oscillator2_totals_[i] += wave_buffers2_[0][FixedPointWave::getIndex(phase2)];
+        oscillator1_totals_[i] += FixedPointWave::interpretWave(wave_buffers1_[0], phase1);
+        oscillator2_totals_[i] += FixedPointWave::interpretWave(wave_buffers2_[0], phase2);
       }
 
       inline void tickVoice1(int i, int voice, const mopo_float* wave_buffer,
                              unsigned int start_phase, int detune) {
         int phase = oscillator1_cross_mods_[i] + start_phase +
                     i * detune + oscillator1_phase_diffs_[i];
-        oscillator1_totals_[i] += wave_buffer[FixedPointWave::getIndex(phase)];
+        oscillator1_totals_[i] += FixedPointWave::interpretWave(wave_buffer, phase);
       }
 
       inline void tickVoice2(int i, int voice, const mopo_float* wave_buffer,
                              unsigned int start_phase, int detune) {
         int phase = oscillator2_cross_mods_[i] + start_phase +
                     i * detune + oscillator2_phase_diffs_[i];
-        oscillator2_totals_[i] += wave_buffer[FixedPointWave::getIndex(phase)];
+        oscillator2_totals_[i] += FixedPointWave::interpretWave(wave_buffer, phase);
       }
 
       inline void tickOut(int i, mopo_float* dest,

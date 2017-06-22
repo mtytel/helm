@@ -46,15 +46,17 @@ namespace mopo {
         kNumFixedPointWaveforms
       };
 
-      static const int FIXED_LOOKUP_BITS = 12;
-      static const int FIXED_LOOKUP_SIZE = 4096;
+      static const int FIXED_LOOKUP_BITS = 10;
+      static const int FIXED_LOOKUP_SIZE = 1024;
 
-      static const int FRACTIONAL_BITS = 20;
-      static const int FRACTIONAL_SIZE = 1048576;
+      static const int FRACTIONAL_BITS = 22;
+      static const int FRACTIONAL_SIZE = 4194304;
+      constexpr static const int FRACTIONAL_MASK = FRACTIONAL_SIZE - 1;
+      constexpr static const mopo_float FRACTIONAL_MULT = 1.0 / FRACTIONAL_SIZE;
 
       static const int HARMONICS = 63;
 
-      typedef mopo_float (*wave_type)[FIXED_LOOKUP_SIZE];
+      typedef mopo_float (*wave_type)[2 * FIXED_LOOKUP_SIZE];
 
       FixedPointWaveLookup();
 
@@ -67,18 +69,19 @@ namespace mopo {
       void preprocessStep(wave_type buffer);
       template<size_t steps>
       void preprocessPyramid(wave_type buffer);
+      void preprocessDiffs(wave_type wave);
 
-      mopo_float sin_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float triangle_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float square_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float down_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float up_saw_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float three_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float four_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float eight_step_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float three_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float five_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
-      mopo_float nine_pyramid_[HARMONICS + 1][FIXED_LOOKUP_SIZE];
+      mopo_float sin_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float triangle_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float square_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float down_saw_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float up_saw_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float three_step_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float four_step_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float eight_step_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float three_pyramid_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float five_pyramid_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
+      mopo_float nine_pyramid_[HARMONICS + 1][2 * FIXED_LOOKUP_SIZE];
 
       wave_type waves_[kNumFixedPointWaveforms];
   };
@@ -109,12 +112,19 @@ namespace mopo {
                                    0, FixedPointWaveLookup::HARMONICS - 1);
       }
 
+      static inline mopo_float interpretWave(const mopo_float* buffer, unsigned int t) {
+        int index = getIndex(t);
+        mopo_float mult = getFractional(t);
+        mopo_float inc = mult * buffer[index + FixedPointWaveLookup::FIXED_LOOKUP_SIZE];
+        return buffer[index] + inc;
+      }
+
       static inline unsigned int getIndex(unsigned int t) {
         return t >> FixedPointWaveLookup::FRACTIONAL_BITS;
       }
 
       static inline unsigned int getFractional(unsigned int t) {
-        return t & FixedPointWaveLookup::FRACTIONAL_BITS;
+        return t & FixedPointWaveLookup::FRACTIONAL_MASK;
       }
 
     protected:
