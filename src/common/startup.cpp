@@ -54,6 +54,7 @@ void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* lay
   if (LoadSave::wasUpgraded()) {
     copyFactoryPatches();
     LoadSave::saveVersionConfig();
+    LoadSave::saveLastAskedForMoney();
   }
   else
     LoadSave::loadConfig(midi_manager, layout);

@@ -24,6 +24,7 @@
 #define USER_BANK_NAME "User Patches"
 #define LINUX_BANK_DIRECTORY "~/.helm/patches"
 #define EXPORTED_BANK_EXTENSION "helmbank"
+#define PAY_WAIT_DAYS 4
 
 namespace {
 
@@ -36,6 +37,13 @@ namespace {
   }
 
   const String DEFAULT_USER_FOLDERS[] = { "Lead", "Keys", "Pad", "Bass", "SFX" };
+
+  static const int MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+  int getDaysSinceEpoch() {
+    int64 ms_since_epoch = Time::currentTimeMillis();
+    return ms_since_epoch / MS_PER_DAY;
+  }
 } // namespace
 
 var LoadSave::stateToVar(SynthBase* synth,
@@ -391,6 +399,26 @@ void LoadSave::saveVersionConfig() {
   saveVarToConfig(config_object);
 }
 
+void LoadSave::saveLastAskedForMoney() {
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("day_asked_for_payment", getDaysSinceEpoch());
+  saveVarToConfig(config_object);
+}
+
+void LoadSave::saveShouldAskedForMoney(bool should_ask) {
+  var config_var = getConfigVar();
+  if (!config_var.isObject())
+    config_var = new DynamicObject();
+
+  DynamicObject* config_object = config_var.getDynamicObject();
+  config_object->setProperty("should_ask_for_payment", should_ask);
+  saveVarToConfig(config_object);
+}
+
 void LoadSave::saveUpdateCheckConfig(bool check_for_updates) {
   var config_var = getConfigVar();
   if (!config_var.isObject())
@@ -591,6 +619,27 @@ float LoadSave::loadWindowSize() {
     return 1.0f;
 
   return config_object->getProperty("window_size");
+}
+
+bool LoadSave::shouldAskForPayment() {
+  static const int days_to_wait = 3;
+
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return false;
+
+  if (config_object->hasProperty("should_ask_for_payment")) {
+    bool should_ask = config_object->getProperty("should_ask_for_payment");
+    if (!should_ask)
+      return false;
+  }
+
+  if (!config_object->hasProperty("day_asked_for_payment"))
+    return false;
+
+  int day_last_asked = config_object->getProperty("day_asked_for_payment");
+  return getDaysSinceEpoch() - day_last_asked > days_to_wait;
 }
 
 std::wstring LoadSave::getComputerKeyboardLayout() {
