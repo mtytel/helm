@@ -57,8 +57,8 @@ namespace mopo {
       mopo_float offset_;
       mopo_float memory_offset_;
       mopo_float resample_countdown_;
-      mopo_float last_softness_;
       mopo_float last_stutter_period_;
+      mopo_float last_amplitude_;
       bool resampling_;
   };
 } // namespace mopo
