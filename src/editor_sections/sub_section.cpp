@@ -70,7 +70,7 @@ void SubSection::resized() {
                       knob_width, knob_width);
 
   int button_y = size_ratio_ * 82;
-  sub_octave_->setBounds(wave_section_width + space, button_y, knob_width, 16);
+  sub_octave_->setBounds(wave_section_width + space, button_y, knob_width, size_ratio_ * 16);
 
   SynthSection::resized();
 }
