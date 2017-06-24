@@ -69,6 +69,7 @@ class LoadSave {
     static bool shouldCheckForUpdates();
     static bool shouldAnimateWidgets();
     static float loadWindowSize();
+    static String loadVersion();
     static bool shouldAskForPayment();
     static void saveVarToConfig(var config_state);
     static void saveLayoutConfig(mopo::StringLayout* layout);

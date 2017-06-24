@@ -621,6 +621,18 @@ float LoadSave::loadWindowSize() {
   return config_object->getProperty("window_size");
 }
 
+String LoadSave::loadVersion() {
+  var config_state = getConfigVar();
+  DynamicObject* config_object = config_state.getDynamicObject();
+  if (!config_state.isObject())
+    return "";
+
+  if (!config_object->hasProperty("synth_version"))
+    return "0.4.1";
+
+  return config_object->getProperty("synth_version");
+}
+
 bool LoadSave::shouldAskForPayment() {
   static const int days_to_wait = 3;
 

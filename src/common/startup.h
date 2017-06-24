@@ -34,6 +34,7 @@ class Startup {
     static void doStartupChecks(MidiManager* midi_manager,
                                 mopo::StringLayout* layout = nullptr);
     static bool isFirstStartup();
+    static void storeOldFactoryPatches();
     static void copyFactoryPatches();
     static void fixPatchesFolder();
     static void updateAllPatches(SynthBase* synth,

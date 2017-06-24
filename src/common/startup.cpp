@@ -39,7 +39,7 @@ namespace {
 
   bool isBankDirectory(File bank) {
     Array<File> patches;
-    bank.findChildFiles(patches, File::findFiles, true);
+    bank.findChildFiles(patches, File::findFiles, true, String("*.") + mopo::PATCH_EXTENSION);
 
     return patches.size() && patches[0].getParentDirectory().getParentDirectory() == bank;
   }
@@ -52,6 +52,7 @@ void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* lay
   fixPatchesFolder();
 
   if (LoadSave::wasUpgraded()) {
+    storeOldFactoryPatches();
     copyFactoryPatches();
     LoadSave::saveVersionConfig();
     LoadSave::saveLastAskedForMoney();
@@ -62,6 +63,47 @@ void Startup::doStartupChecks(MidiManager* midi_manager, mopo::StringLayout* lay
 
 bool Startup::isFirstStartup() {
   return !LoadSave::getConfigFile().exists();
+}
+
+void Startup::storeOldFactoryPatches() {
+  String old_version = LoadSave::loadVersion();
+
+  if (LoadSave::isInstalled() && LoadSave::compareVersionStrings(old_version, "0.9.0") < 0) {
+    File bank_directory = LoadSave::getBankDirectory();
+    File old_presets_dest = bank_directory.getChildFile("Old Factory Presets");
+
+    if (old_presets_dest.exists() || old_presets_dest.createDirectory().ok()) {
+      File factory_directory = bank_directory.getChildFile("Factory Presets");
+      File factory_dest = old_presets_dest.getChildFile("Factory Presets");
+      if (factory_dest.exists() || factory_dest.createDirectory().ok()) {
+        Array<File> factory_presets;
+        factory_directory.findChildFiles(factory_presets, File::findFiles, true,
+                                         String("*.") + mopo::PATCH_EXTENSION);
+
+        for (File factory_preset : factory_presets) {
+          File new_dest = factory_dest.getChildFile(factory_preset.getFileName());
+          factory_preset.moveFileTo(new_dest);
+        }
+
+        factory_directory.deleteRecursively();
+      }
+
+      File cris_directory = bank_directory.getChildFile("Cris Owl Alvarez");
+      File cris_dest = old_presets_dest.getChildFile("Cris Owl Alvarez");
+      if (cris_dest.exists() || cris_dest.createDirectory().ok()) {
+        Array<File> cris_presets;
+        cris_directory.findChildFiles(cris_presets, File::findFiles, true,
+                                      String("*.") + mopo::PATCH_EXTENSION);
+
+        for (File cris_preset : cris_presets) {
+          File new_dest = cris_dest.getChildFile(cris_preset.getFileName());
+          cris_preset.moveFileTo(new_dest);
+        }
+
+        cris_directory.deleteRecursively();
+      }
+    }
+  }
 }
 
 void Startup::copyFactoryPatches() {
