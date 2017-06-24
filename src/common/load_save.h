@@ -34,6 +34,11 @@ public:
     else if (b.getFileName() == "Factory Presets")
       return 1;
 
+    if (a.getFileName() == "Old Factory Presets")
+      return 1;
+    else if (b.getFileName() == "Old Factory Presets")
+      return -1;
+
     return a.getFullPathName().toLowerCase().compare(b.getFullPathName().toLowerCase());
   }
 };
