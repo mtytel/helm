@@ -65,11 +65,13 @@ namespace mopo {
         offset_ = next_offset;
       }
 
-      mopo_float getIndex(int index) const {
-        return memory_[(offset_ - index) & bitmask_];
+      inline mopo_float getIndex(int index) const {
+        int spot = (offset_ - index) & bitmask_;
+        MOPO_ASSERT(spot < size_);
+        return memory_[spot];
       }
 
-      mopo_float get(mopo_float past) const {
+      inline mopo_float get(mopo_float past) const {
         MOPO_ASSERT(past >= 0.0);
         int index = utils::imax(past, 1);
         mopo_float sample_fraction = past - index;
