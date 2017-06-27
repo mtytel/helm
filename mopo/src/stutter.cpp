@@ -58,101 +58,94 @@ namespace mopo {
       memory_ = new Memory(size_);
 
     mopo_float max_memory_write = memory_->getSize();
-    mopo_float* dest = output()->buffer;
     const mopo_float* audio = input(kAudio)->source->buffer;
+    mopo_float* dest = output()->buffer;
 
     mopo_float sample_period = sample_rate_ / input(kResampleFrequency)->at(0);
     mopo_float end_stutter_period = sample_rate_ / input(kStutterFrequency)->at(0);
     end_stutter_period = utils::min(sample_period, end_stutter_period);
     end_stutter_period = utils::min(max_memory_write, end_stutter_period);
-    mopo_float read_softness = utils::max(input(kWindowSoftness)->at(0), MIN_SOFTNESS);
-    mopo_float end_softness = PI * utils::max(1.0, 1.0 / read_softness);
-
     mopo_float stutter_period = end_stutter_period;
     if (last_stutter_period_)
       stutter_period = last_stutter_period_;
-
     mopo_float stutter_period_diff = (end_stutter_period - stutter_period) / buffer_size_;
 
+    mopo_float read_softness = utils::max(input(kWindowSoftness)->at(0), MIN_SOFTNESS);
+    mopo_float end_softness = PI * utils::max(1.0, 1.0 / read_softness);
+
     int buffer_size = buffer_size_;
-    int trigger_offset = -1;
     if (input(kReset)->source->triggered) {
-      trigger_offset = input(kReset)->source->trigger_offset;
-      buffer_size = trigger_offset;
+      startResampling(sample_period);
+
+      stutter_period = end_stutter_period;
+      stutter_period_diff = 0.0;
     }
     else if (resample_countdown_ > sample_period)
       resample_countdown_ = sample_period;
 
     int i = 0;
     while (i < buffer_size_) {
+      MOPO_ASSERT(stutter_period >= 0);
+      int max_samples = std::ceil(stutter_period - offset_);
+
+      if (!resampling_)
+        max_samples = std::ceil(std::min(stutter_period - offset_, resample_countdown_));
+
+      MOPO_ASSERT(max_samples >= 0);
+
+      int samples = std::min(buffer_size, i + max_samples);
+      int num_samples = samples - i;
+
+      MOPO_ASSERT(samples >= 0);
+      MOPO_ASSERT(num_samples >= 0);
+
+      if (memory_offset_ < max_memory_write) {
+        int mem_samples = std::min<int>(max_memory_write - memory_offset_, num_samples);
+        MOPO_ASSERT(buffer_size_ - i >= mem_samples);
+        memory_->pushBlock(audio + i, std::max<int>(0, mem_samples));
+        memory_offset_ += mem_samples;
+      }
+
+      stutter_period += num_samples * stutter_period_diff;
+      resample_countdown_ -= num_samples;
+      mopo_float next_offset = offset_ + num_samples;
+
+      mopo_float softness_offset = std::min(stutter_period - next_offset, next_offset);
+      softness_offset = std::min(softness_offset, resample_countdown_);
+
+      mopo_float end_amplitude = computeAmplitude(softness_offset, stutter_period, end_softness);
+      mopo_float amplitude = last_amplitude_;
+      mopo_float amplitude_diff = (end_amplitude - amplitude) / num_samples;
+
       if (resampling_) {
-        int max_samples = std::ceil(stutter_period - offset_);
-        int samples = std::min(buffer_size, i + max_samples);
-        int num_samples = samples - i;
-        stutter_period += num_samples * stutter_period_diff;
-        offset_ += num_samples;
-        mopo_float end_amplitude = computeAmplitude(offset_, stutter_period, end_softness);
-        mopo_float amplitude = last_amplitude_;
-        mopo_float amplitude_diff = (end_amplitude - amplitude) / num_samples;
-
         for (; i < samples; ++i) {
-          mopo_float audio_in = audio[i];
-          memory_->push(audio_in);
-
           amplitude += amplitude_diff;
-          dest[i] = amplitude * audio_in;
+          dest[i] = amplitude * audio[i];
         }
-
-        resample_countdown_ -= num_samples;
-        memory_offset_ += num_samples;
-        last_amplitude_ = end_amplitude;
       }
       else {
-        int max_samples = std::ceil(std::min(stutter_period - offset_, resample_countdown_));
-        int samples = std::min(buffer_size, i + max_samples);
-        int num_samples = samples - i;
-        if (memory_offset_ < max_memory_write) {
-          int mem_samples = std::min<int>(max_memory_write - memory_offset_, samples);
-          memory_->pushBlock(audio + i, std::max<int>(0, mem_samples - i));
-          memory_offset_ += (mem_samples - i);
-        }
-
-        resample_countdown_ -= num_samples;
-        mopo_float next_offset = offset_ + num_samples;
-
-        stutter_period += num_samples * stutter_period_diff;
-        mopo_float end_offset = std::min(stutter_period - next_offset, next_offset);
-        end_offset = std::min(end_offset, resample_countdown_);
-        mopo_float end_amplitude = computeAmplitude(end_offset, stutter_period, end_softness);
-        mopo_float amplitude = last_amplitude_;
-        mopo_float amplitude_diff = (end_amplitude - amplitude) / num_samples;
-
         mopo_float* playback_dest = dest + i;
         for (int s = 0; s < num_samples; ++s) {
           amplitude += amplitude_diff;
           playback_dest[s] = amplitude * memory_->get(memory_offset_ - offset_ - s);
         }
-
-        i = samples;
-        offset_ = next_offset;
-        last_amplitude_ = end_amplitude;
-
-        if (resample_countdown_ <= 0.0)
-          startResampling(sample_period);
       }
+
+      i = samples;
+      offset_ = next_offset;
+      last_amplitude_ = end_amplitude;
 
       if (offset_ >= stutter_period) {
         resampling_ = false;
         offset_ = 0.0;
       }
 
-      if (buffer_size == trigger_offset) {
-        buffer_size = buffer_size_;
+      if (resample_countdown_ <= 0.0)
         startResampling(sample_period);
 
-        stutter_period = end_stutter_period;
-        stutter_period_diff = 0.0;
-      }
+      MOPO_ASSERT(stutter_period > 0);
+      MOPO_ASSERT(offset_ >= 0);
+      MOPO_ASSERT(samples >= 0 && samples <= buffer_size_);
     }
     last_stutter_period_ = end_stutter_period;
   }
