@@ -9,13 +9,13 @@ endif
 DPKG := $(shell dpkg-buildflags --version 2> /dev/null)
 
 ifdef DPKG
-DEB_BUILD_MAINT_OPTIONS = hardening=+all
-SDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
-SDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+	DEB_BUILD_MAINT_OPTIONS = hardening=+all
+	SDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
+	SDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
-DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
-PDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
-PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+	DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
+	PDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
+	PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 endif
 
 ifndef ARM
