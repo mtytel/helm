@@ -20,7 +20,7 @@ endif
 
 ifndef ARM
 	MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
-	ifneq (,$(findstring arm,$(MACHINE)))
+	ifneq (,$(findstring ar,$(MACHINE)))
 		ARM := 1
 	else
 		ARM := 0
