@@ -18,6 +18,16 @@ ifdef DPKG
 	PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 endif
 
+ifndef ARM
+	ARM := 0
+endif
+
+ifeq ($(ARM), 1)
+	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -funsafe-math-optimizations
+else
+	SIMDFLAGS := -msse2
+endif
+
 PROGRAM = helm
 BIN     = $(DESTDIR)/usr/bin
 BINFILE = $(BIN)/$(PROGRAM)
@@ -65,13 +75,14 @@ install_icons:
 	cp $(ICON256) $(ICONDEST256)/$(PROGRAM).png
 
 standalone:
-	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)"
+	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"
+
 
 lv2:
-	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)"
+	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"
 
 vst:
-	$(MAKE) -C builds/linux/VST CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)"
+	$(MAKE) -C builds/linux/VST CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"
 
 clean:
 	$(MAKE) clean -C standalone/builds/linux CONFIG=$(CONFIG)

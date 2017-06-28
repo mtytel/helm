@@ -494,8 +494,8 @@
   </MAINGROUP>
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="builds/linux/VST" vstFolder="~/srcs/VST3 SDK" vst3Folder="~/srcs/VST3 SDK"
-                extraCompilerFlags="$(DEBCXXFLAGS) -ffast-math -msse2 -ftree-vectorize -ftree-slp-vectorize "
-                extraLinkerFlags="$(DEBLDFLAGS) -ffast-math -msse2 -ftree-vectorize -ftree-slp-vectorize "
+                extraCompilerFlags="$(DEBCXXFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize "
+                extraLinkerFlags="$(DEBLDFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize "
                 extraDefs="JUCE_USE_XRANDR=0">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
