@@ -779,7 +779,7 @@ namespace mopo {
   }
 
   void HelmVoiceHandler::setupPolyModulationReadouts() {
-    output_map poly_mods = HelmModule::getPolyModulations();
+    output_map& poly_mods = HelmModule::getPolyModulations();
 
     for (auto& mod : poly_mods)
       poly_readouts_[mod.first] = registerOutput(mod.second);
@@ -795,7 +795,7 @@ namespace mopo {
     pitch_wheel_amounts_[channel - 1]->set(value);
   }
 
-  output_map HelmVoiceHandler::getPolyModulations() {
+  output_map& HelmVoiceHandler::getPolyModulations() {
     return poly_readouts_;
   }
 } // namespace mopo

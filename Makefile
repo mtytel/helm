@@ -9,17 +9,22 @@ endif
 DPKG := $(shell dpkg-buildflags --version 2> /dev/null)
 
 ifdef DPKG
-	DEB_BUILD_MAINT_OPTIONS = hardening=+all
-	SDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
-	SDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+DEB_BUILD_MAINT_OPTIONS = hardening=+all
+SDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
+SDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
-	DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
-	PDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
-	PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
+PDEBCXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS)
+PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 endif
 
 ifndef ARM
-	ARM := 0
+	MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
+	ifneq (,$(findstring arm,$(MACHINE)))
+		ARM := 1
+	else
+		ARM := 0
+	endif
 endif
 
 ifeq ($(ARM), 1)
@@ -76,7 +81,6 @@ install_icons:
 
 standalone:
 	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"
-
 
 lv2:
 	$(MAKE) -C builds/linux/LV2 CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"

@@ -341,30 +341,30 @@ namespace mopo {
       sub_module->updateAllModulationSwitches();
   }
 
-  output_map HelmModule::getModulationSources() {
-    output_map all_sources = mod_sources_;
+  output_map& HelmModule::getModulationSources() {
+    output_map& all_sources = mod_sources_;
     for (HelmModule* sub_module : sub_modules_) {
-      output_map sub_sources = sub_module->getModulationSources();
+      output_map& sub_sources = sub_module->getModulationSources();
       all_sources.insert(sub_sources.begin(), sub_sources.end());
     }
 
     return all_sources;
   }
 
-  output_map HelmModule::getMonoModulations() {
-    output_map all_readouts = mono_modulation_readout_;
+  output_map& HelmModule::getMonoModulations() {
+    output_map& all_readouts = mono_modulation_readout_;
     for (HelmModule* sub_module : sub_modules_) {
-      output_map sub_readouts = sub_module->getMonoModulations();
+      output_map& sub_readouts = sub_module->getMonoModulations();
       all_readouts.insert(sub_readouts.begin(), sub_readouts.end());
     }
 
     return all_readouts;
   }
 
-  output_map HelmModule::getPolyModulations() {
-    output_map all_readouts = poly_modulation_readout_;
+  output_map& HelmModule::getPolyModulations() {
+    output_map& all_readouts = poly_modulation_readout_;
     for (HelmModule* sub_module : sub_modules_) {
-      output_map sub_readouts = sub_module->getPolyModulations();
+      output_map& sub_readouts = sub_module->getPolyModulations();
       all_readouts.insert(sub_readouts.begin(), sub_readouts.end());
     }
 

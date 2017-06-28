@@ -47,9 +47,9 @@ namespace mopo {
       ValueSwitch* getPolyModulationSwitch(std::string name);
       void updateAllModulationSwitches();
 
-      output_map getModulationSources();
-      virtual output_map getMonoModulations();
-      virtual output_map getPolyModulations();
+      output_map& getModulationSources();
+      virtual output_map& getMonoModulations();
+      virtual output_map& getPolyModulations();
       virtual void correctToTime(mopo_float samples);
 
     protected:

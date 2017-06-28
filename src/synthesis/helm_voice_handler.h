@@ -61,7 +61,7 @@ namespace mopo {
       Output* note_retrigger() { return &note_retriggered_; }
 
       // HelmModule
-      output_map getPolyModulations() override;
+      output_map& getPolyModulations() override;
 
     private:
       // Create the portamento, legato, amplifier envelope and other processors
