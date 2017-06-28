@@ -80,7 +80,6 @@ install_icons:
 	cp $(ICON256) $(ICONDEST256)/$(PROGRAM).png
 
 standalone:
-	echo $(MACHINE)
 	$(MAKE) -C standalone/builds/linux CONFIG=$(CONFIG) DEBCXXFLAGS="$(SDEBCXXFLAGS)" DEBLDFLAGS="$(SDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"
 
 lv2:
@@ -90,7 +89,6 @@ vst:
 	$(MAKE) -C builds/linux/VST CONFIG=$(CONFIG) DEBCXXFLAGS="$(PDEBCXXFLAGS)" DEBLDFLAGS="$(PDEBLDFLAGS)" SIMDFLAGS="$(SIMDFLAGS)"
 
 clean:
-	echo $(MACHINE)
 	$(MAKE) clean -C standalone/builds/linux CONFIG=$(CONFIG)
 	$(MAKE) clean -C builds/linux/LV2 CONFIG=$(CONFIG)
 	$(MAKE) clean -C builds/linux/VST CONFIG=$(CONFIG)
