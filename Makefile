@@ -114,7 +114,7 @@ install_vst: vst install_patches
 	install builds/linux/VST/build/helm.so $(VST)
 	cp -rf patches/* $(PATCHES)
 
-install: install_standalone install_vst install_lv2
+install: install_standalone
 
 dist:
 	rm -rf $(PROGRAM)
