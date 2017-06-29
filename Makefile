@@ -28,7 +28,8 @@ ifndef ARM
 endif
 
 ifeq ($(ARM), 1)
-	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -funsafe-math-optimizations
+	OTHERSIMDFLAGS := -mfpu=neon-fp-armv8 -mfloat-abi=hard
+	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53 -funsafe-math-optimizations
 else
 	SIMDFLAGS := -msse2
 endif
