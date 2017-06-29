@@ -18,20 +18,15 @@ ifdef DPKG
 	PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 endif
 
-ifndef ARM
-	MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
-	ifneq (,$(findstring ar,$(MACHINE)))
-		ARM := 1
-	else
-		ARM := 0
-	endif
-endif
-
-ifeq ($(ARM), 1)
-	OTHERSIMDFLAGS := -mfpu=neon-fp-armv8 -mfloat-abi=hard
-	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53 -funsafe-math-optimizations
+MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
+ifneq (,$(findstring aarch,$(MACHINE)))
+	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53
+else
+ifneq (,$(findstring arm,$(MACHINE)))
+	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
 else
 	SIMDFLAGS := -msse2
+endif
 endif
 
 PROGRAM = helm
