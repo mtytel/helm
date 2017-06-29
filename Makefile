@@ -61,7 +61,7 @@ ICONDEST64 = $(ICONS)/64x64/apps
 ICONDEST128 = $(ICONS)/128x128/apps
 ICONDEST256 = $(ICONS)/256x256/apps
 
-all: standalone
+all: standalone lv2 vst
 
 install_icons:
 	install -d $(ICONDEST16) $(ICONDEST22) $(ICONDEST24) $(ICONDEST32)
@@ -114,7 +114,7 @@ install_vst: vst install_patches
 	install builds/linux/VST/build/helm.so $(VST)
 	cp -rf patches/* $(PATCHES)
 
-install: install_standalone
+install: install_standalone install_vst install_lv2
 
 dist:
 	rm -rf $(PROGRAM)
