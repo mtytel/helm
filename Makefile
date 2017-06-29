@@ -61,7 +61,7 @@ ICONDEST64 = $(ICONS)/64x64/apps
 ICONDEST128 = $(ICONS)/128x128/apps
 ICONDEST256 = $(ICONS)/256x256/apps
 
-all: standalone lv2 vst
+all: standalone
 
 install_icons:
 	install -d $(ICONDEST16) $(ICONDEST22) $(ICONDEST24) $(ICONDEST32)
