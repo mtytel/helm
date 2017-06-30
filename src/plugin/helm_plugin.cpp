@@ -124,7 +124,7 @@ void HelmPlugin::setCurrentProgram(int index) {
   if (Time::getMillisecondCounter() - set_state_time_ < SET_PROGRAM_WAIT_MILLISECONDS)
     return;
 
-  if (all_patches_.size() <= index) {
+  if (all_patches_.size() > index) {
     current_program_ = index;
     LoadSave::loadPatchFile(all_patches_[current_program_], this, save_info_);
     SynthGuiInterface* editor = getGuiInterface();
