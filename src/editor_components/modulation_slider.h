@@ -26,6 +26,7 @@ class ModulationSlider : public SynthSlider, public Slider::Listener {
     ~ModulationSlider();
 
     virtual void mouseDown(const MouseEvent& e) override;
+    virtual void mouseUp(const MouseEvent& e) override;
     void sliderValueChanged(Slider* moved_slider) override;
 
     SynthSlider* getDestinationSlider() { return destination_slider_; }

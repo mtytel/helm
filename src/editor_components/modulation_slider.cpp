@@ -15,7 +15,22 @@
  */
 
 #include "modulation_slider.h"
+
+#include "default_look_and_feel.h"
 #include "mopo.h"
+
+namespace {
+  enum MenuIds {
+    kCancel = 0,
+    kClearModulation,
+  };
+
+  static void sliderPopupCallback(int result, ModulationSlider* slider) {
+    if (slider != nullptr && result == kClearModulation)
+      slider->setValue(0.0);
+  }
+} // namespace
+
 
 ModulationSlider::ModulationSlider(SynthSlider* destination) : SynthSlider(destination->getName()) {
   destination_slider_ = destination;
@@ -53,7 +68,20 @@ void ModulationSlider::sliderValueChanged(Slider* moved_slider) {
 }
 
 void ModulationSlider::mouseDown(const juce::MouseEvent &e) {
-  // We'll ignore right clicks.
-  if (!e.mods.isPopupMenu())
+  if (e.mods.isPopupMenu()) {
+    if (getValue() != 0.0) {
+      PopupMenu m;
+      m.setLookAndFeel(DefaultLookAndFeel::instance());
+      m.addItem(kClearModulation, "Clear Modulation");
+      m.showMenuAsync(PopupMenu::Options(),
+                      ModalCallbackFunction::forComponent(sliderPopupCallback, this));
+    }
+  }
+  else
     SynthSlider::mouseDown(e);
+}
+
+void ModulationSlider::mouseUp(const juce::MouseEvent &e) {
+  if (!e.mods.isPopupMenu())
+    SynthSlider::mouseUp(e);
 }
