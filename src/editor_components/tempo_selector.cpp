@@ -22,7 +22,7 @@
 namespace {
   enum MenuIds {
     kCancel = 0,
-    kHertz,
+    kSeconds,
     kTempo,
     kTempoDotted,
     kTempoTriplet
@@ -45,10 +45,10 @@ void TempoSelector::mouseDown(const MouseEvent& e) {
   PopupMenu m;
   m.setLookAndFeel(DefaultLookAndFeel::instance());
 
-  m.addItem(kHertz, "Hertz");
+  m.addItem(kSeconds, "Seconds");
   m.addItem(kTempo, "Tempo");
   m.addItem(kTempoDotted, "Tempo Dotted");
-  m.addItem(kTempoTriplet, "Tempo Triplet");
+  m.addItem(kTempoTriplet, "Tempo Triplets");
 
   m.showMenuAsync(PopupMenu::Options().withTargetComponent(this),
                   ModalCallbackFunction::forComponent(tempoTypeSelectedCallback, this));
@@ -62,7 +62,7 @@ void TempoSelector::mouseUp(const MouseEvent& e) {
 }
 
 void TempoSelector::valueChanged() {
-  bool free_slider = getValue() == (kHertz - 1);
+  bool free_slider = getValue() == (kSeconds - 1);
 
   free_slider_->setVisible(free_slider);
   tempo_slider_->setVisible(!free_slider);
@@ -79,7 +79,7 @@ void TempoSelector::paint(Graphics& g) {
   g.fillPath(arrow_);
 
   int value = getValue() + 1;
-  if (value == kHertz)
+  if (value == kSeconds)
     g.fillPath(clock_);
   else if (value == kTempo || value == kTempoDotted) {
     g.fillEllipse(getWidth() / 3.0f, getHeight() / 2.0f,
@@ -127,14 +127,14 @@ void TempoSelector::resized() {
 }
 
 void TempoSelector::setFreeSlider(Slider* slider) {
-  bool free_slider = getValue() == (kHertz - 1);
+  bool free_slider = getValue() == (kSeconds - 1);
 
   free_slider_ = slider;
   free_slider_->setVisible(free_slider);
 }
 
 void TempoSelector::setTempoSlider(Slider* slider) {
-  bool free_slider = getValue() == (kHertz - 1);
+  bool free_slider = getValue() == (kSeconds - 1);
 
   tempo_slider_ = slider;
   tempo_slider_->setVisible(!free_slider);

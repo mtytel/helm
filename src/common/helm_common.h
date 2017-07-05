@@ -93,7 +93,7 @@ namespace mopo {
     };
 
     const std::string freq_sync_styles[] = {
-      "Hertz",
+      "Seconds",
       "Tempo",
       "Tempo Dotted",
       "Tempo Triplets"
