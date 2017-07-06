@@ -7,6 +7,7 @@ ifndef LIBDIR
 endif
 
 DPKG := $(shell dpkg-buildflags --version 2> /dev/null)
+PAID := 1
 
 ifdef DPKG
 	DEB_BUILD_MAINT_OPTIONS = hardening=+all
@@ -90,6 +91,7 @@ clean:
 	$(MAKE) clean -C builds/linux/VST CONFIG=$(CONFIG)
 
 install_patches:
+	rm -rf $(PATCHES)
 	install -d $(PATCHES)
 	cp -rf patches/* $(PATCHES)
 
@@ -114,7 +116,13 @@ install_vst: vst install_patches
 	install builds/linux/VST/build/helm.so $(VST)
 	cp -rf patches/* $(PATCHES)
 
-install: install_standalone install_vst install_lv2
+thank_you:
+ifdef PAID
+	install -d $(PATCHES)
+	cp docs/thank_you.txt $(PATCHES)
+endif
+
+install: install_standalone install_vst install_lv2 thank_you
 
 dist:
 	rm -rf $(PROGRAM)
