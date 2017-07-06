@@ -24,6 +24,7 @@
 #define USER_BANK_NAME "User Patches"
 #define LINUX_BANK_DIRECTORY "~/.helm/patches"
 #define EXPORTED_BANK_EXTENSION "helmbank"
+#define DID_PAY_FILE "thank_you.txt"
 #define PAY_WAIT_DAYS 4
 
 namespace {
@@ -634,7 +635,10 @@ String LoadSave::loadVersion() {
 }
 
 bool LoadSave::shouldAskForPayment() {
-  static const int days_to_wait = 3;
+  static const int days_to_wait = 2;
+
+  if (getDidPayInitiallyFile().exists())
+    return false;
 
   var config_state = getConfigVar();
   DynamicObject* config_object = config_state.getDynamicObject();
@@ -740,6 +744,11 @@ File LoadSave::getUserBankDirectory() {
       folder_dir.getChildFile(patch_folder).createDirectory();
   }
   return folder_dir;
+}
+
+File LoadSave::getDidPayInitiallyFile() {
+  File bank_dir = getFactoryBankDirectory();
+  return bank_dir.getChildFile(DID_PAY_FILE);
 }
 
 void LoadSave::exportBank(String bank_name) {

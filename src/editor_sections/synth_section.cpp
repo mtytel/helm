@@ -138,7 +138,6 @@ void SynthSection::buttonClicked(juce::Button *clicked_button) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   if (parent)
     parent->getSynth()->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
-
 }
 
 void SynthSection::guiChanged(SynthButton* button) {
