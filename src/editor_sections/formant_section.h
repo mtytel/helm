@@ -19,6 +19,7 @@
 #define FORMANT_SECTION_H
 
 #include "JuceHeader.h"
+#include "synth_button.h"
 #include "synth_section.h"
 #include "xy_pad.h"
 
@@ -32,7 +33,7 @@ class FormantSection : public SynthSection {
     void setActive(bool active = true) override;
 
   private:
-    ScopedPointer<ToggleButton> on_;
+    ScopedPointer<SynthButton> on_;
     ScopedPointer<SynthSlider> x_;
     ScopedPointer<SynthSlider> y_;
     ScopedPointer<XYPad> xy_pad_;

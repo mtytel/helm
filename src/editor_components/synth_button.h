@@ -24,6 +24,12 @@ class FullInterface;
 
 class SynthButton : public ToggleButton {
   public:
+    class ButtonListener {
+      public:
+        virtual ~ButtonListener() { }
+        virtual void guiChanged(SynthButton* button) { }
+    };
+
     SynthButton(String name);
 
     void setStringLookup(const std::string* lookup) {
@@ -35,6 +41,14 @@ class SynthButton : public ToggleButton {
     void setActive(bool active = true);
     bool isActive() const { return active_; }
 
+    void handlePopupResult(int result);
+
+    virtual void mouseDown(const MouseEvent& e) override;
+    virtual void mouseUp(const MouseEvent& e) override;
+    virtual void mouseEnter(const MouseEvent& e) override;
+
+    void addButtonListener(ButtonListener* listener);
+
   private:
     void buttonStateChanged() override;
     void notifyTooltip();
@@ -42,6 +56,8 @@ class SynthButton : public ToggleButton {
     bool active_;
     const std::string* string_lookup_;
     FullInterface* parent_;
+
+    std::vector<ButtonListener*> button_listeners_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthButton)
 };

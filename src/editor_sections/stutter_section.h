@@ -19,6 +19,7 @@
 #define STUTTER_SECTION_H
 
 #include "JuceHeader.h"
+#include "synth_button.h"
 #include "synth_section.h"
 #include "synth_slider.h"
 #include "tempo_selector.h"
@@ -41,7 +42,7 @@ class StutterSection : public SynthSection {
     ScopedPointer<TempoSelector> resample_sync_;
 
     ScopedPointer<SynthSlider> stutter_softness_;
-    ScopedPointer<ToggleButton> on_;
+    ScopedPointer<SynthButton> on_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(StutterSection)
 };

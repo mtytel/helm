@@ -22,6 +22,19 @@
 #include "synth_gui_interface.h"
 #include "text_look_and_feel.h"
 
+namespace {
+  enum MenuIds {
+    kCancel = 0,
+    kArmMidiLearn,
+    kClearMidiLearn
+  };
+
+  static void sliderPopupCallback(int result, SynthButton* button) {
+    if (button != nullptr && result != kCancel)
+      button->handlePopupResult(result);
+  }
+} // namespace
+
 SynthButton::SynthButton(String name) : ToggleButton(name), active_(true),
                                         string_lookup_(nullptr), parent_(nullptr) {
   if (!mopo::Parameters::isParameter(name.toStdString()))
@@ -32,6 +45,8 @@ SynthButton::SynthButton(String name) : ToggleButton(name), active_(true),
 
 void SynthButton::buttonStateChanged() {
   ToggleButton::buttonStateChanged();
+  for (SynthButton::ButtonListener* listener : button_listeners_)
+    listener->guiChanged(this);
   notifyTooltip();
 }
 
@@ -47,6 +62,63 @@ String SynthButton::getTextFromValue(bool on) {
 void SynthButton::setActive(bool active) {
   active_ = active;
   repaint();
+}
+
+void SynthButton::handlePopupResult(int result) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+
+  SynthBase* synth = parent->getSynth();
+
+  if (result == kArmMidiLearn)
+    synth->armMidiLearn(getName().toStdString(), 0.0, 1.0);
+  else if (result == kClearMidiLearn)
+    synth->clearMidiLearn(getName().toStdString());
+}
+
+void SynthButton::mouseDown(const MouseEvent& e) {
+  SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+  if (parent == nullptr)
+    return;
+  SynthBase* synth = parent->getSynth();
+
+  if (e.mods.isPopupMenu()) {
+    PopupMenu m;
+    m.setLookAndFeel(DefaultLookAndFeel::instance());
+
+    m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
+    if (parent->getSynth()->isMidiMapped(getName().toStdString()))
+      m.addItem(kClearMidiLearn, "Clear MIDI Assignment");
+
+    m.showMenuAsync(PopupMenu::Options(),
+                    ModalCallbackFunction::forComponent(sliderPopupCallback, this));
+  }
+  else {
+    ToggleButton::mouseDown(e);
+
+    if (parent)
+      synth->beginChangeGesture(getName().toStdString());
+  }
+}
+
+void SynthButton::mouseUp(const MouseEvent& e) {
+  if (!e.mods.isPopupMenu()) {
+    ToggleButton::mouseUp(e);
+
+    SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
+    if (parent)
+      parent->getSynth()->endChangeGesture(getName().toStdString());
+  }
+}
+
+void SynthButton::mouseEnter(const MouseEvent &e) {
+  ToggleButton::mouseEnter(e);
+  notifyTooltip();
+}
+
+void SynthButton::addButtonListener(SynthButton::ButtonListener* listener) {
+  button_listeners_.push_back(listener);
 }
 
 void SynthButton::notifyTooltip() {

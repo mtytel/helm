@@ -139,7 +139,10 @@ void SynthSection::buttonClicked(juce::Button *clicked_button) {
   if (parent)
     parent->getSynth()->valueChangedInternal(name, clicked_button->getToggleState() ? 1.0 : 0.0);
 
-  if (clicked_button == activator_)
+}
+
+void SynthSection::guiChanged(SynthButton* button) {
+  if (button == activator_)
     setActive(activator_->getToggleStateValue().getValue());
 }
 
@@ -187,9 +190,10 @@ void SynthSection::addOpenGLComponent(OpenGLComponent* open_gl_component) {
   addAndMakeVisible(open_gl_component);
 }
 
-void SynthSection::setActivator(ToggleButton* activator) {
+void SynthSection::setActivator(SynthButton* activator) {
   activator_ = activator;
   setActive(activator_->getToggleStateValue().getValue());
+  activator->addButtonListener(this);
 }
 
 float SynthSection::getTitleWidth() {

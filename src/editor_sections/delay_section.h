@@ -19,6 +19,7 @@
 #define DELAY_SECTION_H
 
 #include "JuceHeader.h"
+#include "synth_button.h"
 #include "synth_section.h"
 #include "synth_slider.h"
 #include "tempo_selector.h"
@@ -32,7 +33,7 @@ class DelaySection : public SynthSection {
     void resized() override;
 
   private:
-    ScopedPointer<ToggleButton> on_;
+    ScopedPointer<SynthButton> on_;
     ScopedPointer<SynthSlider> frequency_;
     ScopedPointer<SynthSlider> tempo_;
     ScopedPointer<TempoSelector> sync_;

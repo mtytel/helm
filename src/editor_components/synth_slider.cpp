@@ -118,9 +118,9 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
 }
 
 void SynthSlider::mouseUp(const MouseEvent& e) {
-  Slider::mouseUp(e);
-
   if (!e.mods.isPopupMenu()) {
+    Slider::mouseUp(e);
+
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     if (parent)
       parent->getSynth()->endChangeGesture(getName().toStdString());

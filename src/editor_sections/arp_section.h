@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "synth_section.h"
 #include "synth_slider.h"
+#include "synth_button.h"
 #include "tempo_selector.h"
 
 class ArpSection : public SynthSection {
@@ -38,7 +39,7 @@ class ArpSection : public SynthSection {
     ScopedPointer<SynthSlider> gate_;
     ScopedPointer<SynthSlider> octaves_;
     ScopedPointer<SynthSlider> pattern_;
-    ScopedPointer<ToggleButton> on_;
+    ScopedPointer<SynthButton> on_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ArpSection)
 };

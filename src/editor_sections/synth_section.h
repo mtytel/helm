@@ -21,12 +21,14 @@
 #include "JuceHeader.h"
 #include "modulation_button.h"
 #include "helm_common.h"
+#include "synth_button.h"
 #include <map>
 
 class OpenGLComponent;
 class SynthSlider;
 
-class SynthSection : public Component, public SliderListener, public ButtonListener {
+class SynthSection : public Component, public SliderListener,
+                     public ButtonListener, public SynthButton::ButtonListener {
   public:
     SynthSection(String name) : Component(name), activator_(nullptr), size_ratio_(1.0f) { }
 
@@ -50,6 +52,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     // Widget Listeners.
     virtual void sliderValueChanged(Slider* moved_slider) override;
     virtual void buttonClicked(Button* clicked_button) override;
+    virtual void guiChanged(SynthButton* button) override;
 
     std::map<std::string, SynthSlider*> getAllSliders() { return all_sliders_; }
     std::map<std::string, Button*> getAllButtons() { return all_buttons_; }
@@ -69,7 +72,7 @@ class SynthSection : public Component, public SliderListener, public ButtonListe
     void addSlider(SynthSlider* slider, bool show = true);
     void addSubSection(SynthSection* section, bool show = true);
     void addOpenGLComponent(OpenGLComponent* open_gl_component);
-    void setActivator(ToggleButton* activator);
+    void setActivator(SynthButton* activator);
     float getTitleWidth();
     float getStandardKnobSize();
     float getSmallKnobSize();

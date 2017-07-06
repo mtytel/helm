@@ -19,6 +19,7 @@
 #define REVERB_SECTION_H
 
 #include "JuceHeader.h"
+#include "synth_button.h"
 #include "synth_section.h"
 #include "synth_slider.h"
 
@@ -31,7 +32,7 @@ class ReverbSection : public SynthSection {
     void resized() override;
 
   private:
-    ScopedPointer<ToggleButton> on_;
+    ScopedPointer<SynthButton> on_;
     ScopedPointer<SynthSlider> feedback_;
     ScopedPointer<SynthSlider> damping_;
     ScopedPointer<SynthSlider> dry_wet_;

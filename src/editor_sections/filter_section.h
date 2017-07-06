@@ -21,6 +21,7 @@
 #include "JuceHeader.h"
 #include "filter_selector.h"
 #include "filter_response.h"
+#include "synth_button.h"
 #include "synth_section.h"
 
 class FilterSection : public SynthSection {
@@ -40,7 +41,7 @@ class FilterSection : public SynthSection {
     void resetResponse();
 
   private:
-    ScopedPointer<ToggleButton> filter_on_;
+    ScopedPointer<SynthButton> filter_on_;
     ScopedPointer<FilterSelector> filter_shelf_;
     ScopedPointer<SynthSlider> cutoff_;
     ScopedPointer<SynthSlider> resonance_;
