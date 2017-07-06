@@ -42,8 +42,7 @@ class PayLookAndFeel : public DefaultLookAndFeel {
 
     void drawButtonText(Graphics& g, TextButton& button,
                         bool hover, bool is_down) override {
-      Font font = Fonts::instance()->proportional_regular().withPointHeight(16.0f)
-                                                           .withStyle(Font::bold);
+      Font font = Fonts::instance()->proportional_regular().withPointHeight(16.0f);
 
       g.setFont(font);
       g.setColour(button.findColour(TextButton::textColourOffId));
@@ -66,11 +65,11 @@ class NeverAgainLookAndFeel : public DefaultLookAndFeel {
     void drawButtonText(Graphics& g, TextButton& button,
                         bool hover, bool is_down) override {
       Font font = Fonts::instance()->proportional_regular().withPointHeight(11.0f);
-      if (hover)
-        font = font.withStyle(Font::underlined);
-
       g.setFont(font);
+
       g.setColour(Colour(0xff666666));
+      if (hover)
+        g.setColour(Colour(0xff777777));
       g.drawFittedText(button.getName(), button.getLocalBounds(), Justification::centredRight, 1);
     }
 
