@@ -249,7 +249,7 @@ void ContributeSection::buttonClicked(Button* clicked_button) {
   else if (clicked_button == pay_button_) {
     URL url = getUrl();
     url.launchInDefaultBrowser();
-    LoadSave::saveShouldAskedForMoney(false);
+    LoadSave::saveShouldAskForMoney(false);
   }
   else if (clicked_button == remind_button_) {
     setVisible(false);
@@ -257,7 +257,7 @@ void ContributeSection::buttonClicked(Button* clicked_button) {
   }
   else if (clicked_button == never_again_button_) {
     setVisible(false);
-    LoadSave::saveShouldAskedForMoney(false);
+    LoadSave::saveShouldAskForMoney(false);
   }
 }
 

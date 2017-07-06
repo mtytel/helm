@@ -410,7 +410,7 @@ void LoadSave::saveLastAskedForMoney() {
   saveVarToConfig(config_object);
 }
 
-void LoadSave::saveShouldAskedForMoney(bool should_ask) {
+void LoadSave::saveShouldAskForMoney(bool should_ask) {
   var config_var = getConfigVar();
   if (!config_var.isObject())
     config_var = new DynamicObject();
@@ -651,8 +651,10 @@ bool LoadSave::shouldAskForPayment() {
       return false;
   }
 
-  if (!config_object->hasProperty("day_asked_for_payment"))
+  if (!config_object->hasProperty("day_asked_for_payment")) {
+    saveLastAskedForMoney();
     return false;
+  }
 
   int day_last_asked = config_object->getProperty("day_asked_for_payment");
   return getDaysSinceEpoch() - day_last_asked > days_to_wait;

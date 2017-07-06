@@ -80,7 +80,7 @@ class LoadSave {
     static void saveLayoutConfig(mopo::StringLayout* layout);
     static void saveVersionConfig();
     static void saveLastAskedForMoney();
-    static void saveShouldAskedForMoney(bool should_ask);
+    static void saveShouldAskForMoney(bool should_ask);
     static void savePaid();
     static void saveUpdateCheckConfig(bool check_for_updates);
     static void saveAnimateWidgets(bool check_for_updates);
