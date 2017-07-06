@@ -7,7 +7,6 @@ ifndef LIBDIR
 endif
 
 DPKG := $(shell dpkg-buildflags --version 2> /dev/null)
-PAID := 1
 
 ifdef DPKG
 	DEB_BUILD_MAINT_OPTIONS = hardening=+all
