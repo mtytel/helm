@@ -1,3 +1,39 @@
+helm (0.9.0-1) trusty; urgency=low
+
+  * New OpenGL interface for lower CPU usage and faster frame rate
+  * New slider/knob style
+  * Better oscilloscope
+  * Added peak meter
+  * Added graphical feedback for envelopes and poly lfo
+  * Added tooltip popup when changing value
+  * Distributing VST for Linux build
+  * Better performance (~50%!)
+  * Fixed some crashing bugs for format/stutter/delay
+  * Fixed some crashing bugs for dynamic buffer sizes
+  * Fixed some realtime hazards
+  * Created a manual (work in progress)
+  * Added DAW/MIDI automation to buttons
+  * New patches
+  * ARM Support
+  * Raspberry (armhf) support
+  * Fully resizable GUI
+  * Better waveform interpolation
+  * Easy import/export for patch banks
+  * Added patch exporting
+  * More filter types!
+  * Added low/band/high pass filter blending
+  * Added distortion section
+  * Faster launching for VST and LV2 plugins
+  * Normalized unison volume
+  * Allow poly modulation sources to modulate global settings!
+  * Fixed effect wet/dry mixing levels
+  * Added random modulation source
+  * Added 'Init Patch' option
+  * Can open raw .helm files now
+  * Added "headless" standalone option
+
+ -- Matt Tytel <matthewtytel@gmail.com>  Sat, 08 Jul 2017 12:00:00 -0400
+
 helm (0.8.6-1) trusty; urgency=low
 
   * Smaller memory footprint
