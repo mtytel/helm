@@ -30,7 +30,6 @@ else
 endif
 endif
 
-
 PROGRAM = helm
 BIN     = $(DESTDIR)/usr/bin
 BINFILE = $(BIN)/$(PROGRAM)
