@@ -1,30 +1,95 @@
-#ifdef JUCE_USER_DEFINED_RC_FILE
- #include JUCE_USER_DEFINED_RC_FILE
-#else
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
 
-#undef  WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION  0,9,0,0
+ FILEVERSION 0,9,0,0
+ PRODUCTVERSION 0,0,0,0
+ FILEFLAGSMASK 0x0L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x0L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
 BEGIN
-  BLOCK "StringFileInfo"
-  BEGIN
-    BLOCK "040904E4"
+    BLOCK "StringFileInfo"
     BEGIN
-      VALUE "CompanyName",  "Matt Tytel\0"
-      VALUE "FileDescription",  "Helm\0"
-      VALUE "FileVersion",  "0.9.0\0"
-      VALUE "ProductName",  "Helm\0"
-      VALUE "ProductVersion",  "0.9.0\0"
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "Matt Tytel"
+            VALUE "FileDescription", "Helm"
+            VALUE "FileVersion", "0.9.0"
+            VALUE "ProductName", "Helm"
+            VALUE "ProductVersion", "0.9.0"
+        END
     END
-  END
-
-  BLOCK "VarFileInfo"
-  BEGIN
-    VALUE "Translation", 0x409, 1252
-  END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
 END
 
-#endif
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "C:\\dev\\helm\\images\\helm_icon_128_1x.ico"
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
