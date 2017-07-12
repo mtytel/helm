@@ -23,8 +23,7 @@
 namespace mopo {
 
   Memory::Memory(int size) : offset_(0) {
-    // Get the next largest power of two for optimization.
-    size_ = pow(2.0, ceil(log(size) / log(2)));
+    size_ = utils::nextPowerOfTwo(size);
     bitmask_ = size_ - 1;
     memory_ = new mopo_float[size_];
     utils::zeroBuffer(memory_, size_);

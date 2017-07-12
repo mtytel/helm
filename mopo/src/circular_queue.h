@@ -142,6 +142,15 @@ namespace mopo {
         }
       }
 
+      void removeAll(T entry) {
+        for (int i = start_; i != end_; i = (i + 1) % capacity_) {
+          if (data_[i] == entry) {
+            removeAt((i - start_ + capacity_) % capacity_);
+            i--;
+          }
+        }
+      }
+
       iterator erase(iterator& iter) {
         int index = iter.get() - data_;
         removeAt((index - start_ + capacity_) % capacity_);
