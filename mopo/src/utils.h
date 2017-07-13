@@ -173,7 +173,7 @@ namespace mopo {
     }
 
     inline int nextPowerOfTwo(mopo_float value) {
-      return round(pow(2.0f, ceil(log2(value))));
+      return round(pow(2.0, ceil(log(value) / log(2.0))));
     }
 
     inline mopo_float quickerTanh(mopo_float value) {
