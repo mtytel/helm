@@ -1233,6 +1233,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = "";
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_FAST_MATH = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
@@ -1248,6 +1249,7 @@
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0",
 				);
+				GCC_UNROLL_LOOPS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../JuceLibraryCode,
@@ -1266,6 +1268,7 @@
 				INFOPLIST_FILE = "Info-App.plist";
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tytel.helm;
@@ -1330,6 +1333,7 @@
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
+				GCC_FAST_MATH = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1347,6 +1351,7 @@
 					"JucePlugin_Build_Standalone=0",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					../../JuceLibraryCode,
@@ -1365,6 +1370,7 @@
 				INFOPLIST_FILE = "Info-App.plist";
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tytel.helm;

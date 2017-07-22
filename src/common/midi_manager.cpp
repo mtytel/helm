@@ -28,23 +28,22 @@
 MidiManager::MidiManager(SynthBase* synth, MidiKeyboardState* keyboard_state,
                          std::map<std::string, String>* gui_state, Listener* listener) :
     synth_(synth), keyboard_state_(keyboard_state), gui_state_(gui_state),
-    listener_(listener), armed_range_(0.0, 1.0) {
+    listener_(listener), armed_value_(nullptr) {
   engine_ = synth_->getEngine();
 }
 
 MidiManager::~MidiManager() {
 }
 
-void MidiManager::armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max) {
+void MidiManager::armMidiLearn(std::string name) {
   current_bank_ = -1;
   current_folder_ = -1;
   current_patch_ = -1;
-  control_armed_ = name;
-  armed_range_ = std::pair<mopo::mopo_float, mopo::mopo_float>(min, max);
+  armed_value_ = &mopo::Parameters::getDetails(name);
 }
 
 void MidiManager::cancelMidiLearn() {
-  control_armed_ = "";
+  armed_value_ = nullptr;
 }
 
 void MidiManager::clearMidiLearn(const std::string& name) {
@@ -57,9 +56,9 @@ void MidiManager::clearMidiLearn(const std::string& name) {
 }
 
 void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
-  if (control_armed_.length()) {
-    midi_learn_map_[midi_id][control_armed_] = armed_range_;
-    control_armed_ = "";
+  if (armed_value_) {
+    midi_learn_map_[midi_id][armed_value_->name] = armed_value_;
+    armed_value_ = nullptr;
 
     // TODO: Probably shouldn't write this config on the audio thread.
     LoadSave::saveMidiMapConfig(this);
@@ -67,9 +66,14 @@ void MidiManager::midiInput(int midi_id, mopo::mopo_float value) {
 
   if (midi_learn_map_.count(midi_id)) {
     for (auto& control : midi_learn_map_[midi_id]) {
-      midi_range range = control.second;
+      const mopo::ValueDetails* details = control.second;
       mopo::mopo_float percent = value / (mopo::MIDI_SIZE - 1);
-      mopo::mopo_float translated = percent * (range.second - range.first) + range.first;
+      if (details->steps) {
+        mopo::mopo_float max_step = details->steps - 1;
+        percent = floor(percent * max_step + 0.5) / max_step;
+      }
+
+      mopo::mopo_float translated = percent * (details->max - details->min) + details->min;
       listener_->valueChangedThroughMidi(control.first, translated);
     }
   }

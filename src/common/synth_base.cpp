@@ -323,9 +323,8 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
   memory_input_offset_ -= samples;
 }
 
-void SynthBase::armMidiLearn(const std::string& name,
-                             mopo::mopo_float min, mopo::mopo_float max) {
-  midi_manager_->armMidiLearn(name, min, max);
+void SynthBase::armMidiLearn(const std::string& name) {
+  midi_manager_->armMidiLearn(name);
 }
 
 void SynthBase::cancelMidiLearn() {

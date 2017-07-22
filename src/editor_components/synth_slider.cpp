@@ -306,7 +306,7 @@ void SynthSlider::handlePopupResult(int result) {
       parent->getSynth()->getDestinationConnections(getName().toStdString());
 
   if (result == kArmMidiLearn)
-    synth->armMidiLearn(getName().toStdString(), getMinimum(), getMaximum());
+    synth->armMidiLearn(getName().toStdString());
   else if (result == kClearMidiLearn)
     synth->clearMidiLearn(getName().toStdString());
   else if (result == kDefaultValue)

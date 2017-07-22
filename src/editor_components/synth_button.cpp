@@ -72,7 +72,7 @@ void SynthButton::handlePopupResult(int result) {
   SynthBase* synth = parent->getSynth();
 
   if (result == kArmMidiLearn)
-    synth->armMidiLearn(getName().toStdString(), 0.0, 1.0);
+    synth->armMidiLearn(getName().toStdString());
   else if (result == kClearMidiLearn)
     synth->clearMidiLearn(getName().toStdString());
 }
