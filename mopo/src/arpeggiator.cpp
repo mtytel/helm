@@ -117,6 +117,7 @@ namespace mopo {
     mopo_float base_note = pattern->at(note_index_);
     mopo_float note = base_note + mopo::NOTES_PER_OCTAVE * current_octave_;
     mopo_float velocity = active_notes_[base_note];
+    std::cout << "nextnote. note_index " << note_index_ << ", base note: " << base_note << "\n";
     mopo_float aftertouch = aftertouch_[base_note];
     return std::tuple<mopo_float, mopo_float, mopo_float>(note, velocity, aftertouch);
   }
@@ -194,5 +195,26 @@ namespace mopo {
 
     pressed_notes_.remove(note);
     return kVoiceOff;
+  }
+  
+  void Arpeggiator::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {
+    for (const auto &n : pressed_notes_) {
+      std::cout << "note: " << n << "\n";
+      if (n == note) {
+        aftertouch_[n] = aftertouch;
+      }
+    }  
+  }
+  
+  void Arpeggiator::setPressure(mopo_float pressure, int channel, int sample) {
+    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
+
+    std::cout << "arp setpress, nb pressed: " << getNumNotes() << "\n";
+      
+    // FIXME: check for channel
+    for (const auto &n : pressed_notes_) {
+      std::cout << "note: " << n << "\n";
+      aftertouch_[n] = pressure;
+    }  
   }
 } // namespace mopo

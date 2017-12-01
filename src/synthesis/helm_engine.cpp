@@ -400,10 +400,14 @@ namespace mopo {
   }
   
   void HelmEngine::setPressure(mopo_float value, int channel, int sample) {
+    if (arp_on_->value())
+      arpeggiator_->setPressure(value, channel, sample);
     voice_handler_->setPressure(value, channel, sample);
   }
 
   void HelmEngine::setAftertouch(mopo_float note, mopo_float value, int sample) {
+    if (arp_on_->value())
+      arpeggiator_->setAftertouch(note, value, sample);
     voice_handler_->setAftertouch(note, value, sample);
   }
 

@@ -71,6 +71,10 @@ namespace mopo {
       VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void sustainOn();
       void sustainOff();
+      
+      void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
+      void setPressure(mopo_float pressure, int channel = 0, int sample = 0);
+      
 
     private:
       Arpeggiator() : Processor(0, 0) { }
@@ -93,6 +97,7 @@ namespace mopo {
 
       CircularQueue<mopo_float> pressed_notes_;
       CircularQueue<mopo_float> sustained_notes_;
+      
   };
 } // namespace mopo
 
