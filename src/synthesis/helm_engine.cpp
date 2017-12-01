@@ -26,6 +26,8 @@
 #include <fenv.h>
 #endif
 
+#include <iostream>
+
 #define MAX_DELAY_SAMPLES 300000
 
 namespace mopo {
@@ -395,6 +397,10 @@ namespace mopo {
 
   void HelmEngine::setPitchWheel(mopo_float value, int channel) {
     voice_handler_->setPitchWheel(value, channel);
+  }
+  
+  void HelmEngine::setPressure(mopo_float value, int channel, int sample) {
+    voice_handler_->setPressure(value, channel, sample);
   }
 
   void HelmEngine::setAftertouch(mopo_float note, mopo_float value, int sample) {

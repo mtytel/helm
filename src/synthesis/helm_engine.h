@@ -59,6 +59,8 @@ namespace mopo {
       void setBpm(mopo_float bpm);
       void correctToTime(mopo_float samples) override;
       void setAftertouch(mopo_float note, mopo_float value, int sample = 0);
+      void setPressure(mopo_float value, int channel = 0, int sample = 0);
+
 
       // Sustain pedal events.
       void sustainOn();

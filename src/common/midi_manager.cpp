@@ -92,6 +92,10 @@ void MidiManager::removeNextBlockOfMessages(MidiBuffer& buffer, int num_samples)
 }
 
 void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample_position) {
+    
+              std::cout << "midi message: " << midi_message.getTimeStamp() << " -- " << midi_message.getDescription() << ", sample position: " << sample_position << "\n";
+
+              
   if (midi_message.isProgramChange()) {
     current_patch_ = midi_message.getProgramChangeNumber();
     File patch = LoadSave::loadPatch(current_bank_, current_folder_, current_patch_,
@@ -102,6 +106,7 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
   }
 
   if (midi_message.isNoteOn()) {
+          std::cout << "note on velocity: " << (int)midi_message.getVelocity() << "\n";
     engine_->noteOn(midi_message.getNoteNumber(),
                     midi_message.getVelocity() / (mopo::MIDI_SIZE - 1.0),
                     0, midi_message.getChannel() - 1);
@@ -114,10 +119,22 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
     engine_->sustainOn();
   else if (midi_message.isSustainPedalOff())
     engine_->sustainOff();
+  // "aftertouch" is pressure per note
   else if (midi_message.isAftertouch()) {
+    std::cout << "aftertouch\n";
     mopo::mopo_float note = midi_message.getNoteNumber();
     mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
     engine_->setAftertouch(note, value);
+  }
+  // "pressure" is aftertouch for a whole channel (e.g. keyboard send only one value even if several keys are pressed)
+  else if (midi_message.isChannelPressure()) {
+    std::cout << "pressure: " << midi_message.getChannelPressureValue() <<  "\n";
+
+    mopo::mopo_float note = midi_message.getNoteNumber();
+    mopo::mopo_float value = (1.0 * midi_message.getChannelPressureValue()) / (mopo::MIDI_SIZE - 1.0);
+    std::cout << "channel: " << midi_message.getChannel() << ", MIDI_SIZE:" << mopo::MIDI_SIZE << ", value: " << value << "\n";
+    // channel - 1 as with NoteOn above
+    engine_->setPressure(value, midi_message.getChannel() - 1, sample_position);
   }
   else if (midi_message.isPitchWheel()) {
     double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;

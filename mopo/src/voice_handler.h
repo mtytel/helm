@@ -67,7 +67,7 @@ namespace mopo {
         state_.last_note = last_note;
         state_.note_pressed = note_pressed;
         state_.channel = channel;
-        aftertouch_ = velocity;
+        aftertouch_ = 0;
         aftertouch_sample_ = sample;
         key_state_ = kHeld;
       }
@@ -146,6 +146,7 @@ namespace mopo {
                           int sample = 0, int channel = 0) override;
       virtual VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
+      void setPressure(mopo_float pressure, int channel = 0, int sample = 0);
       void sustainOn();
       void sustainOff(int sample = 0);
 
