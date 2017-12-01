@@ -406,6 +406,7 @@ namespace mopo {
   }
 
   void HelmEngine::setAftertouch(mopo_float note, mopo_float value, int sample) {
+    // TODO: take channel into account
     if (arp_on_->value())
       arpeggiator_->setAftertouch(note, value, sample);
     voice_handler_->setAftertouch(note, value, sample);

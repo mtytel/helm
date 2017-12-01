@@ -61,7 +61,8 @@ namespace mopo {
 
       int getNumNotes() { return pressed_notes_.size(); }
       CircularQueue<mopo_float>& getPressedNotes();
-      std::tuple<mopo_float, mopo_float, mopo_float> getNextNote();
+      // tuple: note, velocity, channel, aftertouch
+      std::tuple<mopo_float, mopo_float, int, mopo_float> getNextNote();
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
 
@@ -93,6 +94,7 @@ namespace mopo {
       std::vector<mopo_float> decending_;
 
       std::map<mopo_float, mopo_float> active_notes_;
+      std::map<mopo_float, int> channel_;
       std::map<mopo_float, mopo_float> aftertouch_;
 
       CircularQueue<mopo_float> pressed_notes_;
