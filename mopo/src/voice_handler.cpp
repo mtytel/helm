@@ -18,8 +18,6 @@
 
 #include "utils.h"
 
-#include <iostream>
-
 namespace mopo {
 
   Voice::Voice(Processor* processor) : event_sample_(-1),
@@ -293,8 +291,6 @@ namespace mopo {
   }
 
   void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel, mopo_float aftertouch) {
-      
-      std::cout << "noteOn, note: " << note << ", sample: " << sample << ", channel: " << channel << "aftertouch: " << aftertouch << "\n";
     MOPO_ASSERT(sample >= 0 && sample < buffer_size_);
     MOPO_ASSERT(channel >= 0 && channel < NUM_MIDI_CHANNELS);
 
@@ -349,14 +345,7 @@ namespace mopo {
   
   void VoiceHandler::setPressure(mopo_float pressure, int channel, int sample) {
     MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
-    
-    std::cout << "helm handler pressure, channel: " << channel << "\n";
-    for (Voice* voice : active_voices_) {
-       std::cout << "voice active note:" << voice->state().note << "\n";
-       
-              std::cout << "voice active channel:" << voice->state().channel << "\n";
-
-              
+    for (Voice* voice : active_voices_) {              
       if (voice->state().channel == channel)
         voice->setAftertouch(pressure, sample);
     }    

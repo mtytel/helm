@@ -20,7 +20,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <iostream>
 
 namespace mopo {
 
@@ -117,7 +116,6 @@ namespace mopo {
     mopo_float base_note = pattern->at(note_index_);
     mopo_float note = base_note + mopo::NOTES_PER_OCTAVE * current_octave_;
     mopo_float velocity = active_notes_[base_note];
-    std::cout << "nextnote. note_index " << note_index_ << ", base note: " << base_note << "\n";
     int channel = channel_[base_note];
     mopo_float aftertouch = aftertouch_[base_note];
 
@@ -169,8 +167,6 @@ namespace mopo {
   }
 
   void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample, int channel, mopo_float aftertouch) {
-      
-      std::cout << "arp noton, velocity: " << velocity << ", channel: " << channel << ", aftertouch: " << aftertouch << "\n";
     if (active_notes_.count(note))
       return;
     if (pressed_notes_.size() == 0) {
@@ -205,7 +201,6 @@ namespace mopo {
   void Arpeggiator::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {
     // TODO: take channel into account
     for (const auto &n : pressed_notes_) {
-      std::cout << "note: " << n << "\n";
       if (n == note) {
         aftertouch_[n] = aftertouch;
       }
@@ -213,12 +208,8 @@ namespace mopo {
   }
   
   void Arpeggiator::setPressure(mopo_float pressure, int channel, int sample) {
-    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
-
-    std::cout << "arp setpress, nb pressed: " << getNumNotes() << "\n";
-      
+    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);      
     for (const auto &n : pressed_notes_) {
-      std::cout << "note: " << n << " in channel: " << channel_[n] << "\n";
       if (channel_[n] == channel) {
           aftertouch_[n] = pressure;
       }
