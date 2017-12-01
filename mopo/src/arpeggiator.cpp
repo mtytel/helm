@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <iostream>
 
 namespace mopo {
 
@@ -55,18 +56,19 @@ namespace mopo {
     }
 
     // Check if it's time to play the next note.
+    // FIXME: handle channel
     if (getNumNotes() && new_phase >= 1) {
       int offset = utils::iclamp((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
-      std::pair<mopo_float, mopo_float> note = getNextNote();
-      note_handler_->noteOn(note.first, note.second, offset);
-      last_played_note_ = note.first;
+      std::tuple<mopo_float, mopo_float, mopo_float> note = getNextNote();
+      note_handler_->noteOn(std::get<0>(note), std::get<1>(note), offset, 0, std::get<2>(note));
+      last_played_note_ = std::get<0>(note);
       phase_ = new_phase - 1.0;
     }
     else
       phase_ = new_phase;
   }
 
-  std::pair<mopo_float, mopo_float> Arpeggiator::getNextNote() {
+  std::tuple<mopo_float, mopo_float, mopo_float> Arpeggiator::getNextNote() {
     int octaves = utils::imax(1, input(kOctaves)->at(0));
     Pattern type =
         static_cast<Pattern>(static_cast<int>(input(kPattern)->at(0)));
@@ -115,7 +117,8 @@ namespace mopo {
     mopo_float base_note = pattern->at(note_index_);
     mopo_float note = base_note + mopo::NOTES_PER_OCTAVE * current_octave_;
     mopo_float velocity = active_notes_[base_note];
-    return std::pair<mopo_float, mopo_float>(note, velocity);
+    mopo_float aftertouch = aftertouch_[base_note];
+    return std::tuple<mopo_float, mopo_float, mopo_float>(note, velocity, aftertouch);
   }
 
   CircularQueue<mopo_float>& Arpeggiator::getPressedNotes() {
@@ -152,6 +155,7 @@ namespace mopo {
 
   void Arpeggiator::allNotesOff(int sample) {
     active_notes_.clear();
+    aftertouch_.clear();
     pressed_notes_.clear();
     sustained_notes_.clear();
     ascending_.clear();
@@ -160,7 +164,9 @@ namespace mopo {
     note_handler_->allNotesOff();
   }
 
-  void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
+  void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample, int channel, mopo_float aftertouch) {
+      
+      std::cout << "arp noton, velocity: " << velocity << ", channel: " << channel << ", aftertouch: " << aftertouch << "\n";
     if (active_notes_.count(note))
       return;
     if (pressed_notes_.size() == 0) {
@@ -169,6 +175,7 @@ namespace mopo {
       phase_ = 1.0;
     }
     active_notes_[note] = velocity;
+    aftertouch_[note] = aftertouch;
     pressed_notes_.push_back(note);
     addNoteToPatterns(note);
   }
@@ -181,6 +188,7 @@ namespace mopo {
       sustained_notes_.push_back(note);
     else {
       active_notes_.erase(note);
+      aftertouch_.erase(note);
       removeNoteFromPatterns(note);
     }
 

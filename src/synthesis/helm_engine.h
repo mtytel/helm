@@ -52,7 +52,7 @@ namespace mopo {
       // Keyboard events.
       void allNotesOff(int sample = 0) override;
       void noteOn(mopo_float note, mopo_float velocity = 1.0,
-                  int sample = 0, int channel = 0) override;
+                  int sample = 0, int channel = 0, mopo_float aftertouch = 0) override;
       VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setModWheel(mopo_float value, int channel = 0);
       void setPitchWheel(mopo_float value, int channel = 0);

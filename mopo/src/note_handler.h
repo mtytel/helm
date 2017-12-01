@@ -27,7 +27,7 @@ namespace mopo {
       virtual ~NoteHandler() { }
       virtual void allNotesOff(int sample = 0) = 0;
       virtual void noteOn(mopo_float note, mopo_float velocity = 1,
-                          int sample = 0, int channel = 0) = 0;
+                          int sample = 0, int channel = 0, mopo_float aftertouch = 0) = 0;
       virtual VoiceEvent noteOff(mopo_float note, int sample = 0) = 0;
   };
 } // namespace mopo
