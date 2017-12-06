@@ -28,11 +28,13 @@ namespace mopo {
     
     Bypass* audio_input = new Bypass();
     LinearSmoothBuffer* feedback_input = new LinearSmoothBuffer();
+    cr::Clamp* damping_clamp = new cr::Clamp(0.0f, 1.0f);
     LinearSmoothBuffer* damping_input = new LinearSmoothBuffer();
 
     registerInput(audio_input->input(), kAudio);
     registerInput(feedback_input->input(), kFeedback);
-    registerInput(damping_input->input(), kDamping);
+    registerInput(damping_clamp->input(0), kDamping);
+    damping_input->plug(damping_clamp);
 
     Multiply* gained_input = new Multiply();
     gained_input->plug(audio_input, 0);
@@ -41,6 +43,7 @@ namespace mopo {
     addProcessor(audio_input);
     addProcessor(gained_input);
     addProcessor(feedback_input);
+    addProcessor(damping_clamp);
     addProcessor(damping_input);
 
     VariableAdd* left_comb_total = new VariableAdd(NUM_COMB);
