@@ -372,6 +372,11 @@ namespace mopo {
     arpeggiator_->setBufferSize(buffer_size);
   }
 
+  void HelmEngine::setSampleRate(int sample_rate) {
+    ProcessorRouter::setSampleRate(sample_rate);
+    arpeggiator_->setSampleRate(sample_rate);
+  }
+
   void HelmEngine::allNotesOff(int sample) {
     arpeggiator_->allNotesOff(sample);
   }
