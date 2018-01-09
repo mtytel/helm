@@ -208,7 +208,7 @@ namespace mopo {
   }
   
   void Arpeggiator::setPressure(mopo_float pressure, int channel, int sample) {
-    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);      
+    MOPO_ASSERT(channel >= 0 && channel <= mopo::NUM_MIDI_CHANNELS);      
     for (const auto &n : pressed_notes_) {
       if (channel_[n] == channel) {
           aftertouch_[n] = pressure;

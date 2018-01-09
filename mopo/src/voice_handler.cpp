@@ -344,7 +344,7 @@ namespace mopo {
   }
   
   void VoiceHandler::setPressure(mopo_float pressure, int channel, int sample) {
-    MOPO_ASSERT(channel >= 1 && channel <= mopo::NUM_MIDI_CHANNELS);
+    MOPO_ASSERT(channel >= 0 && channel <= mopo::NUM_MIDI_CHANNELS);
     for (Voice* voice : active_voices_) {              
       if (voice->state().channel == channel)
         voice->setAftertouch(pressure, sample);
