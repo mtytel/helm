@@ -38,6 +38,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   open_gl_context.setContinuousRepainting(true);
   open_gl_context.setRenderer(this);
   open_gl_context.attachTo(*getTopLevelComponent());
+  open_gl_context.setOpenGLVersionRequired(OpenGLContext::openGL3_2);
 
   addSubSection(synthesis_interface_ = new SynthesisInterface(controls, keyboard_state));
   addSubSection(arp_section_ = new ArpSection(TRANS("ARP")));

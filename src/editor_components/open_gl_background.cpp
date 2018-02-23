@@ -65,7 +65,7 @@ void OpenGLBackground::init(OpenGLContext& open_gl_context) {
     image_shader_->use();
     position_ = new OpenGLShaderProgram::Attribute(*image_shader_, "position");
     texture_coordinates_ = new OpenGLShaderProgram::Attribute(*image_shader_, "tex_coord_in");
-    texture_uniform_ = new OpenGLShaderProgram::Uniform(*image_shader_, "texture");
+    texture_uniform_ = new OpenGLShaderProgram::Uniform(*image_shader_, "image");
   }
 }
 
@@ -111,6 +111,8 @@ void OpenGLBackground::disableAttributes(OpenGLContext& open_gl_context) {
 }
 
 void OpenGLBackground::render(OpenGLContext& open_gl_context) {
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
+
   if ((new_background_ || background_.getWidth() == 0) && background_image_.getWidth() > 0) {
     new_background_ = false;
     background_.loadImage(background_image_);
@@ -129,7 +131,6 @@ void OpenGLBackground::render(OpenGLContext& open_gl_context) {
                                             vertices_, GL_STATIC_DRAW);
   }
 
-  glEnable(GL_TEXTURE_2D);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -145,10 +146,9 @@ void OpenGLBackground::render(OpenGLContext& open_gl_context) {
   disableAttributes(open_gl_context);
   background_.unbind();
 
-  glDisable(GL_TEXTURE_2D);
-
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 void OpenGLBackground::updateBackgroundImage(Image background) {

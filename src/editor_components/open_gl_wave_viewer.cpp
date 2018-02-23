@@ -292,7 +292,6 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
   position_texture_.bind();
 
   open_gl_context.extensions.glActiveTexture(GL_TEXTURE0);
-  glEnable(GL_TEXTURE_2D);
 
   if (background_.texture_uniform() != nullptr)
     background_.texture_uniform()->set(0);
@@ -305,19 +304,21 @@ void OpenGLWaveViewer::drawPosition(OpenGLContext& open_gl_context) {
 
   position_texture_.unbind();
 
-  glDisable(GL_TEXTURE_2D);
-
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void OpenGLWaveViewer::render(OpenGLContext& open_gl_context, bool animate) {
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
+
   setViewPort(open_gl_context);
 
   background_.render(open_gl_context);
 
   if (animate)
     drawPosition(open_gl_context);
+
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 void OpenGLWaveViewer::destroy(OpenGLContext& open_gl_context) {
