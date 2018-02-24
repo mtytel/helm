@@ -220,6 +220,8 @@ bool SynthBase::saveToActiveFile() {
 }
 
 void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset) {
+  mopo::utils::enableDenormalFlushing(true);
+
   if (engine_.getBufferSize() != samples)
     engine_.setBufferSize(samples);
 

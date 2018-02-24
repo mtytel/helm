@@ -35,11 +35,11 @@ const char* Shaders::shaders_[] = {
 
   "varying " JUCE_MEDIUMP " vec2 tex_coord_out;\n"
   "\n"
-  "uniform sampler2D texture;\n"
+  "uniform sampler2D image;\n"
   "\n"
   "void main()\n"
   "{\n"
-  "    gl_FragColor = texture2D(texture, tex_coord_out);\n"
+  "    gl_FragColor = texture2D(image, tex_coord_out);\n"
   "}\n",
 
   "attribute " JUCE_MEDIUMP " vec4 position;\n"

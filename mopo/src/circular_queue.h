@@ -85,8 +85,7 @@ namespace mopo {
       CircularQueue() : data_(nullptr), capacity_(0), start_(0), end_(0) { }
 
       void reserve(int capcity) {
-        if (data_)
-          delete data_;
+        delete data_;
 
         capacity_ = capcity + 1;
         data_ = new T[capacity_];

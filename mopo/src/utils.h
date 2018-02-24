@@ -23,9 +23,11 @@
 #include <cmath>
 #include <cstdlib>
 
-#ifdef __SSE2__
-#include <emmintrin.h>
-#else
+#if defined(_MSC_VER)
+#include <intrin.h>
+#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
+#include <x86intrin.h>
+#elif defined(__GNUC__) && defined(__ARM_NEON__)
 #include <algorithm>
 #endif
 
@@ -90,6 +92,17 @@ namespace mopo {
       return value;
     }
 
+    inline void enableDenormalFlushing(bool enable) {
+      if (enable) {
+        _MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
+        _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
+      }
+      else {
+        _MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_OFF);
+        _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_OFF);
+      }
+    }
+
 #else
     inline mopo_float min(mopo_float one, mopo_float two) {
       return fmin(one, two);
@@ -102,6 +115,10 @@ namespace mopo {
     inline mopo_float clamp(mopo_float value, mopo_float min, mopo_float max) {
       return fmin(max, fmax(value, min));
     }
+
+    inline void enableDenormalFlushing(bool enable) {
+    }
+
 #endif
 
     inline int imax(int one, int two) {
@@ -133,6 +150,10 @@ namespace mopo {
     }
 
     inline bool closeToZero(mopo_float value) {
+      return value <= EPSILON && value >= -EPSILON;
+    }
+
+    inline bool closeToZerof(float value) {
       return value <= EPSILON && value >= -EPSILON;
     }
 
@@ -216,6 +237,14 @@ namespace mopo {
     inline bool isSilent(const mopo_float* buffer, int length) {
       for (int i = 0; i < length; ++i) {
         if (!closeToZero(buffer[i]))
+          return false;
+      }
+      return true;
+    }
+
+    inline bool isSilentf(const float* buffer, int length) {
+      for (int i = 0; i < length; ++i) {
+        if (!closeToZerof(buffer[i]))
           return false;
       }
       return true;

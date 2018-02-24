@@ -91,6 +91,8 @@ void OpenGLPeakMeter::updateVertices() {
 }
 
 void OpenGLPeakMeter::render(OpenGLContext& open_gl_context, bool animate) {
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
+
   if (!animate || peak_output_ == nullptr)
     return;
 
@@ -117,6 +119,8 @@ void OpenGLPeakMeter::render(OpenGLContext& open_gl_context, bool animate) {
 
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 void OpenGLPeakMeter::destroy(OpenGLContext& open_gl_context) {

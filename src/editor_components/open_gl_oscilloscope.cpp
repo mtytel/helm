@@ -89,9 +89,8 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable(GL_LINE_SMOOTH);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  int desktop_scale = roundToInt(open_gl_context.getRenderingScale());
-  float ratio = getHeight() / 64.0f;
-  glLineWidth(2.0f * ratio * desktop_scale);
+  glLineWidth(1.0f);
+
   setViewPort(open_gl_context);
 
   if (output_memory_) {
@@ -121,11 +120,13 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
                                                    GL_FALSE, 2 * sizeof(float), 0);
   open_gl_context.extensions.glEnableVertexAttribArray(position_->attributeID);
   glDrawElements(GL_LINES, 2 * RESOLUTION, GL_UNSIGNED_INT, 0);
+
   open_gl_context.extensions.glDisableVertexAttribArray(position_->attributeID);
 
   open_gl_context.extensions.glBindBuffer(GL_ARRAY_BUFFER, 0);
   open_gl_context.extensions.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glDisable(GL_LINE_SMOOTH);
+  MOPO_ASSERT(glGetError() == GL_NO_ERROR);
 }
 
 void OpenGLOscilloscope::render(OpenGLContext& open_gl_context, bool animate) {

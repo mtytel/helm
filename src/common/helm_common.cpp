@@ -169,7 +169,7 @@ namespace mopo {
       ValueDetails::kLinear, false, "cents", "Osc Feedback Tune" },
     { "osc_mix", 0.0, 1.0, 0, 0.5, 0.0, 1.0, // DEPRECATED
       ValueDetails::kLinear, false, "", "Osc Mix" },
-    { "pitch_bend_range", 0.0, 24.0, 25, 2.0, 0.0, 1.0,
+    { "pitch_bend_range", 0.0, 48.0, 49, 2.0, 0.0, 1.0,
       ValueDetails::kLinear, false, "semitones", "Pitch Bend Range" },
     { "poly_lfo_amplitude", -1.0, 1.0, 0, 1.0, 0.0, 1.0,
       ValueDetails::kLinear, false, "", "Poly LFO Amp" },
