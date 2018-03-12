@@ -290,7 +290,7 @@ namespace mopo {
     return 0;
   }
 
-  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
+  void VoiceHandler::noteOn(mopo_float note, mopo_float velocity, int sample, int channel, mopo_float aftertouch) {
     MOPO_ASSERT(sample >= 0 && sample < buffer_size_);
     MOPO_ASSERT(channel >= 0 && channel < NUM_MIDI_CHANNELS);
 
@@ -299,7 +299,7 @@ namespace mopo {
 
     if (last_played_note_ < 0)
       last_played_note_ = note;
-    voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample, channel);
+    voice->activate(note, velocity, last_played_note_, pressed_notes_.size(), sample, channel, aftertouch);
     active_voices_.push_back(voice);
     last_played_note_ = note;
   }
@@ -323,7 +323,7 @@ namespace mopo {
             pressed_notes_.pop_back();
             pressed_notes_.push_front(old_note);
             new_voice->activate(old_note, voice->state().velocity, last_played_note_,
-                                pressed_notes_.size() + 1, sample);
+            pressed_notes_.size() + 1, sample);
             last_played_note_ = old_note;
 
             voice_event = kVoiceReset;
@@ -341,6 +341,14 @@ namespace mopo {
       if (voice->state().note == note)
         voice->setAftertouch(aftertouch, sample);
     }
+  }
+  
+  void VoiceHandler::setPressure(mopo_float pressure, int channel, int sample) {
+    MOPO_ASSERT(channel >= 0 && channel <= mopo::NUM_MIDI_CHANNELS);
+    for (Voice* voice : active_voices_) {              
+      if (voice->state().channel == channel)
+        voice->setAftertouch(pressure, sample);
+    }    
   }
 
   void VoiceHandler::setPolyphony(size_t polyphony) {

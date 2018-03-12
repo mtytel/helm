@@ -53,13 +53,14 @@ namespace mopo {
       // Keyboard events.
       void allNotesOff(int sample = 0) override;
       void noteOn(mopo_float note, mopo_float velocity = 1.0,
-                  int sample = 0, int channel = 0) override;
+                  int sample = 0, int channel = 0, mopo_float aftertouch = 0) override;
       VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setModWheel(mopo_float value, int channel = 0);
       void setPitchWheel(mopo_float value, int channel = 0);
       void setBpm(mopo_float bpm);
       void correctToTime(mopo_float samples) override;
       void setAftertouch(mopo_float note, mopo_float value, int sample = 0);
+      void setPressure(mopo_float value, int channel = 0, int sample = 0);
 
       // Sustain pedal events.
       void sustainOn();

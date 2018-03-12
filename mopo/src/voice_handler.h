@@ -59,7 +59,7 @@ namespace mopo {
 
       void activate(mopo_float note, mopo_float velocity,
                     mopo_float last_note, int note_pressed = 0,
-                    int sample = 0, int channel = 0) {
+                    int sample = 0, int channel = 0, mopo_float aftertouch = 0) {
         event_sample_ = sample;
         state_.event = kVoiceOn;
         state_.note = note;
@@ -67,7 +67,7 @@ namespace mopo {
         state_.last_note = last_note;
         state_.note_pressed = note_pressed;
         state_.channel = channel;
-        aftertouch_ = velocity;
+        aftertouch_ = aftertouch;
         aftertouch_sample_ = sample;
         key_state_ = kHeld;
       }
@@ -143,9 +143,10 @@ namespace mopo {
 
       void allNotesOff(int sample = 0) override;
       virtual void noteOn(mopo_float note, mopo_float velocity = 1,
-                          int sample = 0, int channel = 0) override;
+                          int sample = 0, int channel = 0, mopo_float aftertouch = 0) override;
       virtual VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
+      void setPressure(mopo_float pressure, int channel = 0, int sample = 0);
       void sustainOn();
       void sustainOff(int sample = 0);
 

@@ -61,16 +61,21 @@ namespace mopo {
 
       int getNumNotes() { return pressed_notes_.size(); }
       CircularQueue<mopo_float>& getPressedNotes();
-      std::pair<mopo_float, mopo_float> getNextNote();
+      // tuple: note, velocity, channel, aftertouch
+      std::tuple<mopo_float, mopo_float, int, mopo_float> getNextNote();
       void addNoteToPatterns(mopo_float note);
       void removeNoteFromPatterns(mopo_float note);
 
       void allNotesOff(int sample = 0) override;
       void noteOn(mopo_float note, mopo_float velocity = 1,
-                  int sample = 0, int channel = 0) override;
+                  int sample = 0, int channel = 0, mopo_float aftertouch = 0) override;
       VoiceEvent noteOff(mopo_float note, int sample = 0) override;
       void sustainOn();
       void sustainOff();
+      
+      void setAftertouch(mopo_float note, mopo_float aftertouch, int sample = 0);
+      void setPressure(mopo_float pressure, int channel = 0, int sample = 0);
+      
 
     private:
       Arpeggiator() : Processor(0, 0) { }
@@ -89,8 +94,12 @@ namespace mopo {
       std::vector<mopo_float> decending_;
 
       std::map<mopo_float, mopo_float> active_notes_;
+      std::map<mopo_float, int> channel_;
+      std::map<mopo_float, mopo_float> aftertouch_;
+
       CircularQueue<mopo_float> pressed_notes_;
       CircularQueue<mopo_float> sustained_notes_;
+      
   };
 } // namespace mopo
 

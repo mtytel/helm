@@ -55,18 +55,19 @@ namespace mopo {
     }
 
     // Check if it's time to play the next note.
+    // FIXME: handle channel
     if (getNumNotes() && new_phase >= 1) {
       int offset = utils::iclamp((1 - phase_) / delta_phase, 0, buffer_size_ - 1);
-      std::pair<mopo_float, mopo_float> note = getNextNote();
-      note_handler_->noteOn(note.first, note.second, offset);
-      last_played_note_ = note.first;
+      std::tuple<mopo_float, mopo_float, int, mopo_float> note = getNextNote();
+      note_handler_->noteOn(std::get<0>(note), std::get<1>(note), offset, std::get<2>(note), std::get<3>(note));
+      last_played_note_ = std::get<0>(note);
       phase_ = new_phase - 1.0;
     }
     else
       phase_ = new_phase;
   }
 
-  std::pair<mopo_float, mopo_float> Arpeggiator::getNextNote() {
+  std::tuple<mopo_float, mopo_float, int, mopo_float> Arpeggiator::getNextNote() {
     int octaves = utils::imax(1, input(kOctaves)->at(0));
     Pattern type =
         static_cast<Pattern>(static_cast<int>(input(kPattern)->at(0)));
@@ -115,7 +116,10 @@ namespace mopo {
     mopo_float base_note = pattern->at(note_index_);
     mopo_float note = base_note + mopo::NOTES_PER_OCTAVE * current_octave_;
     mopo_float velocity = active_notes_[base_note];
-    return std::pair<mopo_float, mopo_float>(note, velocity);
+    int channel = channel_[base_note];
+    mopo_float aftertouch = aftertouch_[base_note];
+
+    return std::tuple<mopo_float, mopo_float, int, mopo_float>(note, velocity, channel, aftertouch);
   }
 
   CircularQueue<mopo_float>& Arpeggiator::getPressedNotes() {
@@ -152,6 +156,8 @@ namespace mopo {
 
   void Arpeggiator::allNotesOff(int sample) {
     active_notes_.clear();
+    channel_.clear();
+    aftertouch_.clear();
     pressed_notes_.clear();
     sustained_notes_.clear();
     ascending_.clear();
@@ -160,7 +166,7 @@ namespace mopo {
     note_handler_->allNotesOff();
   }
 
-  void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample, int channel) {
+  void Arpeggiator::noteOn(mopo_float note, mopo_float velocity, int sample, int channel, mopo_float aftertouch) {
     if (active_notes_.count(note))
       return;
     if (pressed_notes_.size() == 0) {
@@ -169,6 +175,8 @@ namespace mopo {
       phase_ = 1.0;
     }
     active_notes_[note] = velocity;
+    channel_[note] = channel;
+    aftertouch_[note] = aftertouch;
     pressed_notes_.push_back(note);
     addNoteToPatterns(note);
   }
@@ -181,10 +189,30 @@ namespace mopo {
       sustained_notes_.push_back(note);
     else {
       active_notes_.erase(note);
+      channel_.erase(note);
+      aftertouch_.erase(note);
       removeNoteFromPatterns(note);
     }
 
     pressed_notes_.remove(note);
     return kVoiceOff;
+  }
+  
+  void Arpeggiator::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {
+    // TODO: take channel into account
+    for (const auto &n : pressed_notes_) {
+      if (n == note) {
+        aftertouch_[n] = aftertouch;
+      }
+    }  
+  }
+  
+  void Arpeggiator::setPressure(mopo_float pressure, int channel, int sample) {
+    MOPO_ASSERT(channel >= 0 && channel <= mopo::NUM_MIDI_CHANNELS);      
+    for (const auto &n : pressed_notes_) {
+      if (channel_[n] == channel) {
+          aftertouch_[n] = pressure;
+      }
+    }  
   }
 } // namespace mopo
