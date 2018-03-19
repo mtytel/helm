@@ -406,6 +406,10 @@ namespace mopo {
     voice_handler_->setAftertouch(note, value, sample);
   }
 
+  void HelmEngine::setChannelAftertouch(int channel, mopo_float value, int sample) {
+    voice_handler_->setChannelAftertouch(channel, value, sample);
+  }
+
   void HelmEngine::setBpm(mopo_float bpm) {
     mopo_float bps = bpm / 60.0;
     if (bps_->value() != bps)

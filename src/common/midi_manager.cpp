@@ -123,6 +123,11 @@ void MidiManager::processMidiMessage(const MidiMessage& midi_message, int sample
     mopo::mopo_float value = (1.0 * midi_message.getAfterTouchValue()) / mopo::MIDI_SIZE;
     engine_->setAftertouch(note, value);
   }
+  else if (midi_message.isChannelPressure()) {
+    int channel = midi_message.getChannel();
+    mopo::mopo_float value = midi_message.getChannelPressureValue() / (mopo::MIDI_SIZE - 1.0f);
+    engine_->setChannelAftertouch(channel, value);
+  }
   else if (midi_message.isPitchWheel()) {
     double percent = (1.0 * midi_message.getPitchWheelValue()) / PITCH_WHEEL_RESOLUTION;
     double value = 2 * percent - 1.0;

@@ -344,6 +344,13 @@ namespace mopo {
     }
   }
 
+  void VoiceHandler::setChannelAftertouch(int channel, mopo_float aftertouch, int sample) {
+    for (Voice* voice : active_voices_) {
+      if (voice->state().channel == channel)
+        voice->setAftertouch(aftertouch, sample);
+    }
+  }
+
   void VoiceHandler::setPolyphony(size_t polyphony) {
     while (all_voices_.size() < polyphony) {
       Voice* new_voice = createVoice();
