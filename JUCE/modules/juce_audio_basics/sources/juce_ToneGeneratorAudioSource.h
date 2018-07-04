@@ -20,13 +20,15 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A simple AudioSource that generates a sine wave.
 
+
+    @tags{Audio}
 */
 class JUCE_API  ToneGeneratorAudioSource  : public AudioSource
 {
@@ -65,3 +67,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ToneGeneratorAudioSource)
 };
+
+} // namespace juce

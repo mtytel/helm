@@ -20,12 +20,15 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 Message::Message() noexcept {}
 Message::~Message() {}
 
 void Message::messageCallback()
 {
-    if (MessageListener* const r = recipient)
+    if (auto* r = recipient.get())
         r->handleMessage (*this);
 }
 
@@ -45,3 +48,5 @@ void MessageListener::postMessage (Message* const message) const
     message->recipient = const_cast<MessageListener*> (this);
     message->post();
 }
+
+} // namespace juce

@@ -24,15 +24,13 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 class ComponentAnimator::AnimationTask
 {
 public:
     AnimationTask (Component* c) noexcept  : component (c) {}
-
-    ~AnimationTask()
-    {
-        masterReference.clear();
-    }
 
     void reset (const Rectangle<int>& finalBounds,
                 float finalAlpha,
@@ -61,17 +59,17 @@ public:
         endSpeed = jmax (0.0, endSpd * invTotalDistance);
 
         if (useProxyComponent)
-            proxy = new ProxyComponent (*component);
+            proxy.reset (new ProxyComponent (*component));
         else
-            proxy = nullptr;
+            proxy.reset();
 
         component->setVisible (! useProxyComponent);
     }
 
     bool useTimeslice (const int elapsed)
     {
-        if (auto* c = proxy != nullptr ? static_cast<Component*> (proxy)
-                                       : static_cast<Component*> (component))
+        if (auto* c = proxy != nullptr ? proxy.get()
+                                       : component.get())
         {
             msElapsed += elapsed;
             double newProgress = msElapsed / (double) msTotal;
@@ -183,11 +181,8 @@ public:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ProxyComponent)
     };
 
-    WeakReference<AnimationTask>::Master masterReference;
-    friend class WeakReference<AnimationTask>;
-
     WeakReference<Component> component;
-    ScopedPointer<Component> proxy;
+    std::unique_ptr<Component> proxy;
 
     Rectangle<int> destination;
     double destAlpha;
@@ -205,6 +200,7 @@ private:
                                 + (time - 0.5) * (midSpeed + (time - 0.5) * (endSpeed - midSpeed));
     }
 
+    JUCE_DECLARE_WEAK_REFERENCEABLE (AnimationTask)
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AnimationTask)
 };
 
@@ -345,3 +341,5 @@ void ComponentAnimator::timerCallback()
     if (tasks.size() == 0)
         stopTimer();
 }
+
+} // namespace juce

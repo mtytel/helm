@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,6 +35,8 @@
     the plugin types in it.
 
     @see PluginListComponent
+
+    @tags{Audio}
 */
 class JUCE_API  KnownPluginList   : public ChangeBroadcaster
 {
@@ -62,6 +64,7 @@ public:
 
     /** Type iteration. */
     PluginDescription** begin() const noexcept                      { return types.begin(); }
+
     /** Type iteration. */
     PluginDescription** end() const noexcept                        { return types.end(); }
 
@@ -95,7 +98,7 @@ public:
     */
     bool scanAndAddFile (const String& possiblePluginFileOrIdentifier,
                          bool dontRescanIfAlreadyInList,
-                         OwnedArray <PluginDescription>& typesFound,
+                         OwnedArray<PluginDescription>& typesFound,
                          AudioPluginFormat& formatToUse);
 
     /** Tells a custom scanner that a scan has finished, and it can release any resources. */
@@ -112,7 +115,7 @@ public:
     */
     void scanAndAddDragAndDroppedFiles (AudioPluginFormatManager& formatManager,
                                         const StringArray& filenames,
-                                        OwnedArray <PluginDescription>& typesFound);
+                                        OwnedArray<PluginDescription>& typesFound);
 
     //==============================================================================
     /** Returns the list of blacklisted files. */
@@ -184,6 +187,7 @@ public:
     PluginTree* createTree (const SortMethod sortMethod) const;
 
     //==============================================================================
+    /** Class to define a custom plugin scanner */
     class CustomScanner
     {
     public:
@@ -194,7 +198,7 @@ public:
             @returns true if the plugin loaded, false if it crashed
         */
         virtual bool findPluginTypesFor (AudioPluginFormat& format,
-                                         OwnedArray <PluginDescription>& result,
+                                         OwnedArray<PluginDescription>& result,
                                          const String& fileOrIdentifier) = 0;
 
         /** Called when a scan has finished, to allow clean-up of resources. */
@@ -216,8 +220,10 @@ private:
     //==============================================================================
     OwnedArray<PluginDescription> types;
     StringArray blacklist;
-    ScopedPointer<CustomScanner> scanner;
+    std::unique_ptr<CustomScanner> scanner;
     CriticalSection scanLock, typesArrayLock;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (KnownPluginList)
 };
+
+} // namespace juce

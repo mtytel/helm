@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A table of horizontal scan-line segments - used for rasterising Paths.
 
     @see Path, Graphics
+
+    @tags{Graphics}
 */
 class JUCE_API  EdgeTable
 {
@@ -46,21 +48,21 @@ public:
         @param pathToAdd                the path to add to the table
         @param transform                a transform to apply to the path being added
     */
-    EdgeTable (const Rectangle<int>& clipLimits,
+    EdgeTable (Rectangle<int> clipLimits,
                const Path& pathToAdd,
                const AffineTransform& transform);
 
     /** Creates an edge table containing a rectangle. */
-    explicit EdgeTable (const Rectangle<int>& rectangleToAdd);
+    explicit EdgeTable (Rectangle<int> rectangleToAdd);
+
+    /** Creates an edge table containing a rectangle. */
+    explicit EdgeTable (Rectangle<float> rectangleToAdd);
 
     /** Creates an edge table containing a rectangle list. */
     explicit EdgeTable (const RectangleList<int>& rectanglesToAdd);
 
     /** Creates an edge table containing a rectangle list. */
     explicit EdgeTable (const RectangleList<float>& rectanglesToAdd);
-
-    /** Creates an edge table containing a rectangle. */
-    explicit EdgeTable (const Rectangle<float>& rectangleToAdd);
 
     /** Creates a copy of another edge table. */
     EdgeTable (const EdgeTable&);
@@ -72,8 +74,8 @@ public:
     ~EdgeTable();
 
     //==============================================================================
-    void clipToRectangle (const Rectangle<int>& r);
-    void excludeRectangle (const Rectangle<int>& r);
+    void clipToRectangle (Rectangle<int> r);
+    void excludeRectangle (Rectangle<int> r);
     void clipToEdgeTable (const EdgeTable&);
     void clipLineToMask (int x, int y, const uint8* mask, int maskStride, int numPixels);
     bool isEmpty() noexcept;
@@ -129,7 +131,7 @@ public:
                 while (--numPoints >= 0)
                 {
                     const int level = *++line;
-                    jassert (isPositiveAndBelow (level, (int) 256));
+                    jassert (isPositiveAndBelow (level, 256));
                     const int endX = *++line;
                     jassert (endX >= x);
                     const int endOfRun = (endX >> 8);
@@ -202,13 +204,14 @@ private:
     HeapBlock<int> table;
     Rectangle<int> bounds;
     int maxEdgesPerLine, lineStrideElements;
-    bool needToCheckEmptiness;
+    bool needToCheckEmptiness = true;
 
     void allocate();
     void clearLineSizes() noexcept;
     void addEdgePoint (int x, int y, int winding);
     void addEdgePointPair (int x1, int x2, int y, int winding);
     void remapTableForNumEdges (int newNumEdgesPerLine);
+    void remapWithExtraSpace (int numPointsNeeded);
     void intersectWithEdgeTableLine (int y, const int* otherLine);
     void clipEdgeTableLineToRange (int* line, int x1, int x2) noexcept;
     void sanitiseLevels (bool useNonZeroWinding) noexcept;
@@ -216,3 +219,5 @@ private:
 
     JUCE_LEAK_DETECTOR (EdgeTable)
 };
+
+} // namespace juce

@@ -20,19 +20,17 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 MPESynthesiserBase::MPESynthesiserBase()
-    : instrument (new MPEInstrument),
-      sampleRate (0),
-      minimumSubBlockSize (32),
-      subBlockSubdivisionIsStrict (false)
+    : instrument (new MPEInstrument)
 {
     instrument->addListener (this);
 }
 
 MPESynthesiserBase::MPESynthesiserBase (MPEInstrument* inst)
-    : instrument (inst),
-      sampleRate (0),
-      minimumSubBlockSize (32)
+    : instrument (inst)
 {
     jassert (instrument != nullptr);
     instrument->addListener (this);
@@ -129,7 +127,7 @@ void MPESynthesiserBase::renderNextBlock (AudioBuffer<floatType>& outputAudio,
             return;
         }
 
-        const int samplesToNextMidiMessage = midiEventPos - startSample;
+        auto samplesToNextMidiMessage = midiEventPos - startSample;
 
         if (samplesToNextMidiMessage >= numSamples)
         {
@@ -178,3 +176,5 @@ void MPESynthesiserBase::setMinimumRenderingSubdivisionSize (int numSamples, boo
     minimumSubBlockSize = numSamples;
     subBlockSubdivisionIsStrict = shouldBeStrict;
 }
+
+} // namespace juce

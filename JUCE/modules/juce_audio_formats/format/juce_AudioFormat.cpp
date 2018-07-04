@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 AudioFormat::AudioFormat (String name, StringArray extensions)
    : formatName (name), fileExtensions (extensions)
 {
@@ -40,15 +43,15 @@ AudioFormat::~AudioFormat()
 
 bool AudioFormat::canHandleFile (const File& f)
 {
-    for (int i = 0; i < fileExtensions.size(); ++i)
-        if (f.hasFileExtension (fileExtensions[i]))
+    for (auto& e : getFileExtensions())
+        if (f.hasFileExtension (e))
             return true;
 
     return false;
 }
 
 const String& AudioFormat::getFormatName() const                { return formatName; }
-const StringArray& AudioFormat::getFileExtensions() const       { return fileExtensions; }
+StringArray AudioFormat::getFileExtensions() const              { return fileExtensions; }
 bool AudioFormat::isCompressed()                                { return false; }
 StringArray AudioFormat::getQualityOptions()                    { return {}; }
 
@@ -62,3 +65,28 @@ MemoryMappedAudioFormatReader* AudioFormat::createMemoryMappedReader (FileInputS
     delete fin;
     return nullptr;
 }
+
+bool AudioFormat::isChannelLayoutSupported (const AudioChannelSet& channelSet)
+{
+    if (channelSet == AudioChannelSet::mono())      return canDoMono();
+    if (channelSet == AudioChannelSet::stereo())    return canDoStereo();
+
+    return false;
+}
+
+AudioFormatWriter* AudioFormat::createWriterFor (OutputStream* streamToWriteTo,
+                                                 double sampleRateToUse,
+                                                 const AudioChannelSet& channelLayout,
+                                                 int bitsPerSample,
+                                                 const StringPairArray& metadataValues,
+                                                 int qualityOptionIndex)
+{
+    if (isChannelLayoutSupported (channelLayout))
+        return createWriterFor (streamToWriteTo, sampleRateToUse,
+                                static_cast<unsigned int> (channelLayout.size()),
+                                bitsPerSample, metadataValues, qualityOptionIndex);
+
+    return nullptr;
+}
+
+} // namespace juce

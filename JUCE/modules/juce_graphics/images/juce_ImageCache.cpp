@@ -24,13 +24,16 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 struct ImageCache::Pimpl     : private Timer,
                                private DeletedAtShutdown
 {
     Pimpl() {}
     ~Pimpl() { clearSingletonInstance(); }
 
-    juce_DeclareSingleton_SingleThreaded_Minimal (ImageCache::Pimpl)
+    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (ImageCache::Pimpl)
 
     Image getFromHashCode (const int64 hashCode) noexcept
     {
@@ -108,7 +111,7 @@ struct ImageCache::Pimpl     : private Timer,
     JUCE_DECLARE_NON_COPYABLE (Pimpl)
 };
 
-juce_ImplementSingleton_SingleThreaded (ImageCache::Pimpl)
+JUCE_IMPLEMENT_SINGLETON (ImageCache::Pimpl)
 
 
 //==============================================================================
@@ -163,3 +166,5 @@ void ImageCache::releaseUnusedImages()
 {
     Pimpl::getInstance()->releaseUnusedImages();
 }
+
+} // namespace juce

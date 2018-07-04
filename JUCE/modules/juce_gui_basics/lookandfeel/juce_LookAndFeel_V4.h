@@ -24,9 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
+//==============================================================================
+/**
+    The latest JUCE look-and-feel style, as introduced in 2017.
+    @see LookAndFeel, LookAndFeel_V1, LookAndFeel_V2, LookAndFeel_V3
 
+    @tags{GUI}
+*/
 class JUCE_API  LookAndFeel_V4   : public LookAndFeel_V3
 {
 public:
@@ -105,6 +112,8 @@ public:
     void drawDocumentWindowTitleBar (DocumentWindow&, Graphics&, int, int, int, int, const Image*, bool) override;
 
     //==============================================================================
+    Font getTextButtonFont (TextButton&, int buttonHeight) override;
+
     void drawButtonBackground (Graphics&, Button&, const Colour& backgroundColour,
                                bool isMouseOverButton, bool isButtonDown) override;
 
@@ -112,6 +121,8 @@ public:
     void drawTickBox (Graphics&, Component&,
                       float x, float y, float w, float h,
                       bool ticked, bool isEnabled, bool isMouseOverButton, bool isButtonDown) override;
+
+    void changeToggleButtonWidthToFitText (ToggleButton&) override;
 
     //==============================================================================
     AlertWindow* createAlertWindow (const String& title, const String& message,
@@ -184,6 +195,8 @@ public:
     void positionComboBoxText (ComboBox&, Label&) override;
 
     //==============================================================================
+    int getSliderThumbRadius (Slider&) override;
+
     void drawLinearSlider (Graphics&, int x, int y, int width, int height,
                            float sliderPos, float minSliderPos, float maxSliderPos,
                            const Slider::SliderStyle, Slider&) override;
@@ -194,6 +207,8 @@ public:
 
     void drawPointer (Graphics&, float x, float y, float diameter,
                       const Colour&, int direction) noexcept;
+
+    Label* createSliderTextBox (Slider&) override;
 
     //==============================================================================
     void drawTooltip (Graphics&, const String& text, int width, int height) override;
@@ -226,7 +241,7 @@ public:
 
 private:
     //==============================================================================
-    void drawLinearProgressBar (Graphics&, ProgressBar&, int width, int height, double progress);
+    void drawLinearProgressBar (Graphics&, ProgressBar&, int width, int height, double progress, const String&);
     void drawCircularProgressBar (Graphics&, ProgressBar&, const String&);
 
     int getPropertyComponentIndent (PropertyComponent&);
@@ -238,3 +253,5 @@ private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LookAndFeel_V4)
 };
+
+} // namespace juce

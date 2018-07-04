@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,6 +35,8 @@
     standard ones which has a tick-box and a text label next to it.
 
     @see Button, DrawableButton, TextButton
+
+    @tags{GUI}
 */
 class JUCE_API  ToggleButton  : public Button
 {
@@ -85,3 +87,5 @@ protected:
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ToggleButton)
 };
+
+} // namespace juce

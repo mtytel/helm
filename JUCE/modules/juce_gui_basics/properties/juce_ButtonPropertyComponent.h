@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,9 +35,10 @@
     kind of action.
 
     @see PropertyComponent
+
+    @tags{GUI}
 */
-class JUCE_API  ButtonPropertyComponent  : public PropertyComponent,
-                                           private ButtonListener // (can't use Button::Listener due to idiotic VC2005 bug)
+class JUCE_API  ButtonPropertyComponent  : public PropertyComponent
 {
 public:
     //==============================================================================
@@ -66,11 +67,11 @@ public:
     //==============================================================================
     /** @internal */
     void refresh();
-    /** @internal */
-    void buttonClicked (Button*);
 
 private:
     TextButton button;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ButtonPropertyComponent)
 };
+
+} // namespace juce

@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 #if JUCE_WINDOWS || JUCE_LINUX || JUCE_MAC || DOXYGEN
 
@@ -48,6 +49,8 @@
     position will not be valid, you can use this to respond to clicks. Traditionally
     you'd use a left-click to show your application's window, and a right-click
     to show a pop-up menu.
+
+    @tags{GUI}
 */
 class JUCE_API  SystemTrayIconComponent  : public Component
 {
@@ -93,10 +96,12 @@ public:
 private:
     //==============================================================================
     JUCE_PUBLIC_IN_DLL_BUILD (class Pimpl)
-    ScopedPointer<Pimpl> pimpl;
+    std::unique_ptr<Pimpl> pimpl;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SystemTrayIconComponent)
 };
 
 
 #endif
+
+} // namespace juce

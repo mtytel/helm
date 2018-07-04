@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 Image juce_createIconForFile (const File&);
 
 //==============================================================================
@@ -88,7 +91,7 @@ public:
                 {
                     jassert (parentContentsList != nullptr);
 
-                    DirectoryContentsList* const l = new DirectoryContentsList (parentContentsList->getFilter(), thread);
+                    auto l = new DirectoryContentsList (parentContentsList->getFilter(), thread);
 
                     l->setDirectory (file,
                                      parentContentsList->isFindingDirectories(),
@@ -107,7 +110,7 @@ public:
         if (subContentsList != nullptr)
         {
             subContentsList->removeChangeListener (this);
-            subContentsList.clear();
+            subContentsList.reset();
         }
     }
 
@@ -174,6 +177,8 @@ public:
 
     void paintItem (Graphics& g, int width, int height) override
     {
+        ScopedLock lock (iconUpdate);
+
         if (file != File())
         {
             updateIcon (true);
@@ -226,6 +231,7 @@ private:
     OptionalScopedPointer<DirectoryContentsList> subContentsList;
     bool isDirectory;
     TimeSliceThread& thread;
+    CriticalSection iconUpdate;
     Image icon;
     String fileSize, modTime;
 
@@ -246,7 +252,11 @@ private:
 
             if (im.isValid())
             {
-                icon = im;
+                {
+                    ScopedLock lock (iconUpdate);
+                    icon = im;
+                }
+
                 triggerAsyncUpdate();
             }
         }
@@ -296,7 +306,7 @@ void FileTreeComponent::deselectAllFiles()
 
 void FileTreeComponent::scrollToTop()
 {
-    getViewport()->getVerticalScrollBar()->setCurrentRangeStart (0);
+    getViewport()->getVerticalScrollBar().setCurrentRangeStart (0);
 }
 
 void FileTreeComponent::setDragAndDropDescription (const String& description)
@@ -321,3 +331,5 @@ void FileTreeComponent::setItemHeight (int newHeight)
             root->treeHasChanged();
     }
 }
+
+} // namespace juce

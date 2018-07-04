@@ -26,6 +26,9 @@
 
 #if JUCE_MAC
 
+namespace juce
+{
+
 struct WebViewKeyEquivalentResponder : public ObjCClass<WebView>
 {
     WebViewKeyEquivalentResponder() : ObjCClass<WebView> ("WebViewKeyEquivalentResponder_")
@@ -38,7 +41,12 @@ private:
     static BOOL performKeyEquivalent (id self, SEL selector, NSEvent* event)
     {
         NSResponder* first = [[self window] firstResponder];
+
+       #if (defined (MAC_OS_X_VERSION_10_12) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_12)
+        if (([event modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask) == NSEventModifierFlagCommand)
+       #else
         if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSCommandKeyMask)
+       #endif
         {
             if ([[event charactersIgnoringModifiers] isEqualToString:@"x"]) return [NSApp sendAction:@selector(cut:)       to:first from:self];
             if ([[event charactersIgnoringModifiers] isEqualToString:@"c"]) return [NSApp sendAction:@selector(copy:)      to:first from:self];
@@ -111,13 +119,12 @@ private:
     {
         if ([frame isEqual: [sender mainFrame]] && error != nullptr && [error code] != NSURLErrorCancelled)
         {
-            String errorString (nsStringToJuce ([error localizedDescription]));
-
+            auto errorString = nsStringToJuce ([error localizedDescription]);
             bool proceedToErrorPage = getOwner (self)->pageLoadHadNetworkError (errorString);
 
             // WebKit doesn't have an internal error page, so make a really simple one ourselves
             if (proceedToErrorPage)
-                getOwner(self)->goToURL (String ("data:text/plain;charset=UTF-8,") + errorString);
+                getOwner (self)->goToURL ("data:text/plain;charset=UTF-8," + errorString);
         }
     }
 
@@ -147,8 +154,6 @@ private:
 
 #else
 
-} // (juce namespace)
-
 //==============================================================================
 @interface WebViewTapDetector  : NSObject<UIGestureRecognizerDelegate>
 {
@@ -163,7 +168,7 @@ private:
 - (BOOL) gestureRecognizer: (UIGestureRecognizer*) gestureRecognizer
          shouldRecognizeSimultaneouslyWithGestureRecognizer: (UIGestureRecognizer*) otherGestureRecognizer
 {
-    ignoreUnused (gestureRecognizer, otherGestureRecognizer);
+    juce::ignoreUnused (gestureRecognizer, otherGestureRecognizer);
     return YES;
 }
 
@@ -193,17 +198,18 @@ private:
 - (BOOL) webView: (UIWebView*) webView shouldStartLoadWithRequest: (NSURLRequest*) request
                                                    navigationType: (UIWebViewNavigationType) navigationType
 {
-    ignoreUnused (webView, navigationType);
-    return ownerComponent->pageAboutToLoad (nsStringToJuce (request.URL.absoluteString));
+    juce::ignoreUnused (webView, navigationType);
+    return ownerComponent->pageAboutToLoad (juce::nsStringToJuce (request.URL.absoluteString));
 }
 
 - (void) webViewDidFinishLoad: (UIWebView*) webView
 {
-    ownerComponent->pageFinishedLoading (nsStringToJuce (webView.request.URL.absoluteString));
+    ownerComponent->pageFinishedLoading (juce::nsStringToJuce (webView.request.URL.absoluteString));
 }
 @end
 
-namespace juce {
+namespace juce
+{
 
 #endif
 
@@ -350,19 +356,16 @@ private:
 };
 
 //==============================================================================
-WebBrowserComponent::WebBrowserComponent (const bool unloadWhenHidden)
-    : browser (nullptr),
-      blankPageShown (false),
-      unloadPageWhenBrowserIsHidden (unloadWhenHidden)
+WebBrowserComponent::WebBrowserComponent (bool unloadWhenHidden)
+    : unloadPageWhenBrowserIsHidden (unloadWhenHidden)
 {
     setOpaque (true);
-
-    addAndMakeVisible (browser = new Pimpl (this));
+    browser.reset (new Pimpl (this));
+    addAndMakeVisible (browser.get());
 }
 
 WebBrowserComponent::~WebBrowserComponent()
 {
-    deleteAndZero (browser);
 }
 
 //==============================================================================
@@ -480,3 +483,5 @@ void WebBrowserComponent::clearCookies()
 
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+} // namespace juce

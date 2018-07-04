@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if JUCE_USE_OGGVORBIS || defined (DOXYGEN)
 
 //==============================================================================
@@ -33,6 +36,8 @@
     To compile this, you'll need to set the JUCE_USE_OGGVORBIS flag.
 
     @see AudioFormat,
+
+    @tags{Audio}
 */
 class JUCE_API  OggVorbisAudioFormat  : public AudioFormat
 {
@@ -93,3 +98,5 @@ private:
 
 
 #endif
+
+} // namespace juce

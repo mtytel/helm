@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -40,6 +40,8 @@
     a voice stealing algorithm, and much more.
 
     @see MPESynthesiser, MPEInstrument
+
+    @tags{Audio}
 */
 struct JUCE_API  MPESynthesiserBase   : public MPEInstrument::Listener
 {
@@ -163,7 +165,7 @@ public:
     void setLegacyModePitchbendRange (int pitchbendRange);
 
     //==============================================================================
-    typedef MPEInstrument::TrackingMode TrackingMode;
+    using TrackingMode = MPEInstrument::TrackingMode;
 
     /** Set the MPE tracking mode for the pressure dimension. */
     void setPressureTrackingMode (TrackingMode modeToUse);
@@ -193,14 +195,16 @@ protected:
 protected:
     //==============================================================================
     /** @internal */
-    ScopedPointer<MPEInstrument> instrument;
+    std::unique_ptr<MPEInstrument> instrument;
 
 private:
     //==============================================================================
     CriticalSection noteStateLock;
-    double sampleRate;
-    int minimumSubBlockSize;
-    bool subBlockSubdivisionIsStrict;
+    double sampleRate = 0.0;
+    int minimumSubBlockSize = 32;
+    bool subBlockSubdivisionIsStrict = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MPESynthesiserBase)
 };
+
+} // namespace juce

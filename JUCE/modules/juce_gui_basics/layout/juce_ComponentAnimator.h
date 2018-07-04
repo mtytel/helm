@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -47,6 +47,8 @@
     start or finish being animated.
 
     @see Desktop::getAnimator
+
+    @tags{GUI}
 */
 class JUCE_API  ComponentAnimator  : public ChangeBroadcaster,
                                      private Timer
@@ -157,3 +159,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ComponentAnimator)
 };
+
+} // namespace juce

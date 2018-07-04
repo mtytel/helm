@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 /**
     Calculates and applies a sequence of changes to convert one text string into
@@ -30,6 +30,8 @@
     Once created, the TextDiff object contains an array of change objects, where
     each change can be either an insertion or a deletion. When applied in order
     to the original string, these changes will convert it to the target string.
+
+    @tags{Core}
 */
 class JUCE_API TextDiff
 {
@@ -68,3 +70,5 @@ public:
     */
     Array<Change> changes;
 };
+
+} // namespace juce

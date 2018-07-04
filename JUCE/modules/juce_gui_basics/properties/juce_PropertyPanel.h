@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -38,6 +38,8 @@
     or addSection().
 
     @see PropertyComponent
+
+    @tags{GUI}
 */
 class JUCE_API  PropertyPanel  : public Component
 {
@@ -173,3 +175,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PropertyPanel)
 };
+
+} // namespace juce

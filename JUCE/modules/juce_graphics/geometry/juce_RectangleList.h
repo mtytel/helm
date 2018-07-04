@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,9 +36,11 @@
     adjacent rectangles.
 
     @see Rectangle
+
+    @tags{Graphics}
 */
 template <typename ValueType>
-class RectangleList
+class RectangleList  final
 {
 public:
     typedef Rectangle<ValueType> RectangleType;
@@ -53,7 +55,7 @@ public:
     }
 
     /** Creates a list containing just one rectangle. */
-    RectangleList (const RectangleType& rect)
+    RectangleList (RectangleType rect)
     {
         addWithoutMerging (rect);
     }
@@ -106,7 +108,7 @@ public:
         The rectangle can have any size and may be empty, but if it's floating point
         then it's expected to not contain any INF values.
     */
-    void add (const RectangleType& rect)
+    void add (RectangleType rect)
     {
         jassert (rect.isFinite()); // You must provide a valid rectangle to this method!
 
@@ -176,7 +178,7 @@ public:
         The rectangle can have any size and may be empty, but if it's floating point
         then it's expected to not contain any INF values.
     */
-    void addWithoutMerging (const RectangleType& rect)
+    void addWithoutMerging (RectangleType rect)
     {
         jassert (rect.isFinite()); // You must provide a valid rectangle to this method!
 
@@ -200,7 +202,7 @@ public:
         Any rectangles in the list which overlap this will be clipped and subdivided
         if necessary.
     */
-    void subtract (const RectangleType& rect)
+    void subtract (RectangleType rect)
     {
         if (auto numRects = rects.size())
         {
@@ -310,7 +312,7 @@ public:
 
         @see getIntersectionWith
     */
-    bool clipTo (const RectangleType& rect)
+    bool clipTo (RectangleType rect)
     {
         jassert (rect.isFinite()); // You must provide a valid rectangle to this method!
 
@@ -377,7 +379,7 @@ public:
 
         @see clipTo
     */
-    bool getIntersectionWith (const RectangleType& rect, RectangleList& destRegion) const
+    bool getIntersectionWith (RectangleType rect, RectangleList& destRegion) const
     {
         jassert (rect.isFinite()); // You must provide a valid rectangle to this method!
 
@@ -428,7 +430,7 @@ public:
                     defined by this object
         @see intersectsRectangle, containsPoint
     */
-    bool containsRectangle (const RectangleType& rectangleToCheck) const
+    bool containsRectangle (RectangleType rectangleToCheck) const
     {
         if (rects.size() > 1)
         {
@@ -456,7 +458,7 @@ public:
                     defined by this object
         @see containsRectangle
     */
-    bool intersectsRectangle (const RectangleType& rectangleToCheck) const noexcept
+    bool intersectsRectangle (RectangleType rectangleToCheck) const noexcept
     {
         for (auto& r : rects)
             if (r.intersects (rectangleToCheck))
@@ -466,7 +468,6 @@ public:
     }
 
     /** Checks whether this region intersects any part of another one.
-
         @see intersectsRectangle
     */
     bool intersects (const RectangleList& other) const noexcept
@@ -649,3 +650,5 @@ private:
     //==============================================================================
     Array<RectangleType> rects;
 };
+
+} // namespace juce

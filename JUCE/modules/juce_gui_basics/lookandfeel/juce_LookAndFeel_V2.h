@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     This LookAndFeel subclass implements the juce style from around 2008-12.
 
     @see LookAndFeel, LookAndFeel_V1, LookAndFeel_V3
+
+    @tags{GUI}
 */
 class JUCE_API  LookAndFeel_V2  : public LookAndFeel
 {
@@ -180,6 +182,10 @@ public:
 
     Component* getParentComponentForMenuOptions (const PopupMenu::Options& options) override;
 
+    bool shouldPopupMenuScaleWithTargetComponent (const PopupMenu::Options& options) override;
+
+    int getPopupMenuBorderSize() override;
+
     //==============================================================================
     void drawComboBox (Graphics&, int width, int height, bool isButtonDown,
                        int buttonX, int buttonY, int buttonW, int buttonH,
@@ -270,6 +276,7 @@ public:
     Rectangle<int> getTabButtonExtraComponentBounds (const TabBarButton&, Rectangle<int>& textArea, Component& extraComp) override;
 
     void drawTabButton (TabBarButton&, Graphics&, bool isMouseOver, bool isMouseDown) override;
+    Font getTabButtonFont (TabBarButton&, float height) override;
     void drawTabButtonText (TabBarButton&, Graphics&, bool isMouseOver, bool isMouseDown) override;
     void drawTabbedButtonBarBackground (TabbedButtonBar&, Graphics&) override;
     void drawTabAreaBehindFrontButton (TabbedButtonBar&, Graphics&, int w, int h) override;
@@ -287,9 +294,9 @@ public:
     //==============================================================================
     void drawTableHeaderBackground (Graphics&, TableHeaderComponent&) override;
 
-    void drawTableHeaderColumn (Graphics&, const String& columnName, int columnId,
-                                int width, int height, bool isMouseOver, bool isMouseDown,
-                                int columnFlags) override;
+    void drawTableHeaderColumn (Graphics&, TableHeaderComponent&, const String& columnName,
+                                int columnId, int width, int height, bool isMouseOver,
+                                bool isMouseDown, int columnFlags) override;
 
     //==============================================================================
     void paintToolbarBackground (Graphics&, int width, int height, Toolbar&) override;
@@ -308,6 +315,7 @@ public:
     void drawPropertyComponentBackground (Graphics&, int width, int height, PropertyComponent&) override;
     void drawPropertyComponentLabel (Graphics&, int width, int height, PropertyComponent&) override;
     Rectangle<int> getPropertyComponentContentPosition (PropertyComponent&) override;
+    int getPropertyPanelSectionHeaderHeight (const String& sectionTitle) override;
 
     //==============================================================================
     void drawCallOutBoxBackground (CallOutBox&, Graphics&, const Path& path, Image& cachedImage) override;
@@ -317,6 +325,11 @@ public:
     void drawLevelMeter (Graphics&, int width, int height, float level) override;
 
     void drawKeymapChangeButton (Graphics&, int width, int height, Button&, const String& keyDescription) override;
+
+    //==============================================================================
+    Font getSidePanelTitleFont (SidePanel&) override;
+    Justification getSidePanelTitleJustification (SidePanel&) override;
+    Path getSidePanelDismissButtonShape (SidePanel&) override;
 
     //==============================================================================
     /** Draws a 3D raised (or indented) bevel using two colours.
@@ -356,7 +369,7 @@ public:
 
 private:
     //==============================================================================
-    ScopedPointer<Drawable> folderImage, documentImage;
+    std::unique_ptr<Drawable> folderImage, documentImage;
 
     void drawShinyButtonShape (Graphics&,
                                float x, float y, float w, float h, float maxCornerSize,
@@ -368,3 +381,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LookAndFeel_V2)
 };
+
+} // namespace juce

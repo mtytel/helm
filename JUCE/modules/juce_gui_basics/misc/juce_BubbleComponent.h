@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -41,6 +41,8 @@
     resize and position it, then make it visible.
 
     @see BubbleMessageComponent
+
+    @tags{GUI}
 */
 class JUCE_API  BubbleComponent  : public Component
 {
@@ -181,3 +183,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BubbleComponent)
 };
+
+} // namespace juce

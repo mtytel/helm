@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,6 +36,8 @@
 
     @see CriticalSection, WaitableEvent, Process, ThreadWithProgressWindow,
          MessageManagerLock
+
+    @tags{Core}
 */
 class JUCE_API  Thread
 {
@@ -76,8 +78,6 @@ public:
     virtual void run() = 0;
 
     //==============================================================================
-    // Thread control functions..
-
     /** Starts the thread running.
 
         This will cause the thread's run() method to be called by a new thread.
@@ -92,7 +92,7 @@ public:
         Launches the thread with a given priority, where 0 = lowest, 10 = highest.
         If the thread is already running, its priority will be changed.
 
-        @see startThread, setPriority
+        @see startThread, setPriority, realtimeAudioPriority
     */
     void startThread (int priority);
 
@@ -119,6 +119,18 @@ public:
     bool stopThread (int timeOutMilliseconds);
 
     //==============================================================================
+    /** Invokes a lambda or function on its own thread.
+        This will spin up a Thread object which calls the function and then exits.
+        Bear in mind that starting and stopping a thread can be a fairly heavyweight
+        operation, so you might prefer to use a ThreadPool if you're kicking off a lot
+        of short background tasks.
+        Also note that using an anonymous thread makes it very difficult to interrupt
+        the function when you need to stop it, e.g. when your app quits. So it's up to
+        you to deal with situations where the function may fail to stop in time.
+    */
+    static void launch (std::function<void()> functionToRun);
+
+    //==============================================================================
     /** Returns true if the thread is currently active */
     bool isThreadRunning() const;
 
@@ -143,7 +155,7 @@ public:
 
         @see signalThreadShouldExit, currentThreadShouldExit
     */
-    bool threadShouldExit() const                { return shouldExit; }
+    bool threadShouldExit() const;
 
     /** Checks whether the current thread has been told to stop running.
         On the message thread, this will always return false, otherwise
@@ -154,8 +166,7 @@ public:
     static bool currentThreadShouldExit();
 
     /** Waits for the thread to stop.
-
-        This will waits until isThreadRunning() is false or until a timeout expires.
+        This will wait until isThreadRunning() is false or until a timeout expires.
 
         @param timeOutMilliseconds  the time to wait, in milliseconds. If this value
                                     is less than zero, it will wait forever.
@@ -164,11 +175,60 @@ public:
     bool waitForThreadToExit (int timeOutMilliseconds) const;
 
     //==============================================================================
+    /** Used to receive callbacks for thread exit calls */
+    class JUCE_API Listener
+    {
+    public:
+        virtual ~Listener() {}
+
+        /** Called if Thread::signalThreadShouldExit was called.
+            @see Thread::threadShouldExit, Thread::addListener, Thread::removeListener
+        */
+        virtual void exitSignalSent() = 0;
+    };
+
+    /** Add a listener to this thread which will receive a callback when
+        signalThreadShouldExit was called on this thread.
+        @see signalThreadShouldExit, removeListener
+    */
+    void addListener (Listener*);
+
+    /** Removes a listener added with addListener. */
+    void removeListener (Listener*);
+
+    //==============================================================================
+    /** Special realtime audio thread priority
+
+        This priority will create a high-priority thread which is best suited
+        for realtime audio processing.
+
+        Currently, this priority is identical to priority 9, except when building
+        for Android with OpenSL/Oboe support.
+
+        In this case, JUCE will ask OpenSL/Oboe to construct a super high priority thread
+        specifically for realtime audio processing.
+
+        Note that this priority can only be set **before** the thread has
+        started. Switching to this priority, or from this priority to a different
+        priority, is not supported under Android and will assert.
+
+        For best performance this thread should yield at regular intervals
+        and not call any blocking APIs.
+
+        @see startThread, setPriority, sleep, WaitableEvent
+     */
+    enum
+    {
+        realtimeAudioPriority = -1
+    };
+
     /** Changes the thread's priority.
         May return false if for some reason the priority can't be changed.
 
         @param priority     the new priority, in the range 0 (lowest) to 10 (highest). A priority
                             of 5 is normal.
+
+        @see realtimeAudioPriority
     */
     bool setPriority (int priority);
 
@@ -241,27 +301,23 @@ public:
 
     /** Finds the thread object that is currently running.
 
-        Note that the main UI thread (or other non-Juce threads) don't have a Thread
+        Note that the main UI thread (or other non-JUCE threads) don't have a Thread
         object associated with them, so this will return nullptr.
     */
     static Thread* JUCE_CALLTYPE getCurrentThread();
 
     /** Returns the ID of this thread.
-
         That means the ID of this thread object - not of the thread that's calling the method.
-
         This can change when the thread is started and stopped, and will be invalid if the
         thread's not actually running.
-
         @see getCurrentThreadId
     */
-    ThreadID getThreadId() const noexcept                           { return threadId; }
+    ThreadID getThreadId() const noexcept;
 
     /** Returns the name of the thread.
-
         This is the name that gets set in the constructor.
     */
-    const String& getThreadName() const                             { return threadName; }
+    const String& getThreadName() const noexcept                    { return threadName; }
 
     /** Changes the name of the caller thread.
         Different OSes may place different length or content limits on this name.
@@ -272,14 +328,20 @@ public:
 private:
     //==============================================================================
     const String threadName;
-    void* volatile threadHandle;
-    ThreadID threadId;
+    Atomic<void*> threadHandle { nullptr };
+    Atomic<ThreadID> threadId = {};
     CriticalSection startStopLock;
     WaitableEvent startSuspensionEvent, defaultEvent;
-    int threadPriority;
+    int threadPriority = 5;
     size_t threadStackSize;
-    uint32 affinityMask;
-    bool volatile shouldExit;
+    uint32 affinityMask = 0;
+    bool deleteOnThreadEnd = false;
+    Atomic<int32> shouldExit { 0 };
+    ListenerList<Listener, Array<Listener*, CriticalSection>> listeners;
+
+   #if JUCE_ANDROID
+    bool isAndroidRealtimeThread = false;
+   #endif
 
    #ifndef DOXYGEN
     friend void JUCE_API juce_threadEntryPoint (void*);
@@ -293,3 +355,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Thread)
 };
+
+} // namespace juce

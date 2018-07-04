@@ -20,6 +20,14 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
+MidiMessageSequence::MidiEventHolder::MidiEventHolder (const MidiMessage& mm) : message (mm) {}
+MidiMessageSequence::MidiEventHolder::MidiEventHolder (MidiMessage&& mm) : message (static_cast<MidiMessage&&> (mm)) {}
+MidiMessageSequence::MidiEventHolder::~MidiEventHolder() {}
+
+//==============================================================================
 MidiMessageSequence::MidiMessageSequence()
 {
 }
@@ -27,7 +35,14 @@ MidiMessageSequence::MidiMessageSequence()
 MidiMessageSequence::MidiMessageSequence (const MidiMessageSequence& other)
 {
     list.addCopiesOf (other.list);
-    updateMatchedPairs();
+
+    for (int i = 0; i < list.size(); ++i)
+    {
+        auto noteOffIndex = other.getIndexOfMatchingKeyUp (i);
+
+        if (noteOffIndex >= 0)
+            list.getUnchecked(i)->noteOffObject = list.getUnchecked (noteOffIndex);
+    }
 }
 
 MidiMessageSequence& MidiMessageSequence::operator= (const MidiMessageSequence& other)
@@ -37,13 +52,24 @@ MidiMessageSequence& MidiMessageSequence::operator= (const MidiMessageSequence& 
     return *this;
 }
 
-void MidiMessageSequence::swapWith (MidiMessageSequence& other) noexcept
+MidiMessageSequence::MidiMessageSequence (MidiMessageSequence&& other) noexcept
+    : list (static_cast<OwnedArray<MidiEventHolder>&&> (other.list))
 {
-    list.swapWith (other.list);
+}
+
+MidiMessageSequence& MidiMessageSequence::operator= (MidiMessageSequence&& other) noexcept
+{
+    list = static_cast<OwnedArray<MidiEventHolder>&&> (other.list);
+    return *this;
 }
 
 MidiMessageSequence::~MidiMessageSequence()
 {
+}
+
+void MidiMessageSequence::swapWith (MidiMessageSequence& other) noexcept
+{
+    list.swapWith (other.list);
 }
 
 void MidiMessageSequence::clear()
@@ -56,38 +82,50 @@ int MidiMessageSequence::getNumEvents() const noexcept
     return list.size();
 }
 
-MidiMessageSequence::MidiEventHolder* MidiMessageSequence::getEventPointer (const int index) const noexcept
+MidiMessageSequence::MidiEventHolder* MidiMessageSequence::getEventPointer (int index) const noexcept
 {
-    return list [index];
+    return list[index];
 }
 
-double MidiMessageSequence::getTimeOfMatchingKeyUp (const int index) const noexcept
-{
-    if (const MidiEventHolder* const meh = list [index])
-        if (meh->noteOffObject != nullptr)
-            return meh->noteOffObject->message.getTimeStamp();
+MidiMessageSequence::MidiEventHolder** MidiMessageSequence::begin() const noexcept          { return list.begin(); }
+MidiMessageSequence::MidiEventHolder** MidiMessageSequence::end() const noexcept            { return list.end(); }
 
-    return 0.0;
+double MidiMessageSequence::getTimeOfMatchingKeyUp (int index) const noexcept
+{
+    if (auto* meh = list[index])
+        if (auto* noteOff = meh->noteOffObject)
+            return noteOff->message.getTimeStamp();
+
+    return 0;
 }
 
-int MidiMessageSequence::getIndexOfMatchingKeyUp (const int index) const noexcept
+int MidiMessageSequence::getIndexOfMatchingKeyUp (int index) const noexcept
 {
-    if (const MidiEventHolder* const meh = list [index])
-        return list.indexOf (meh->noteOffObject);
+    if (auto* meh = list[index])
+    {
+        if (auto* noteOff = meh->noteOffObject)
+        {
+            for (int i = index; i < list.size(); ++i)
+                if (list.getUnchecked(i) == noteOff)
+                    return i;
+
+            jassertfalse; // we've somehow got a pointer to a note-off object that isn't in the sequence
+        }
+    }
 
     return -1;
 }
 
-int MidiMessageSequence::getIndexOf (const MidiEventHolder* const event) const noexcept
+int MidiMessageSequence::getIndexOf (const MidiEventHolder* event) const noexcept
 {
     return list.indexOf (event);
 }
 
-int MidiMessageSequence::getNextIndexAtTime (const double timeStamp) const noexcept
+int MidiMessageSequence::getNextIndexAtTime (double timeStamp) const noexcept
 {
-    const int numEvents = list.size();
-
+    auto numEvents = list.size();
     int i;
+
     for (i = 0; i < numEvents; ++i)
         if (list.getUnchecked(i)->message.getTimeStamp() >= timeStamp)
             break;
@@ -108,32 +146,38 @@ double MidiMessageSequence::getEndTime() const noexcept
 
 double MidiMessageSequence::getEventTime (const int index) const noexcept
 {
-    if (const MidiEventHolder* const meh = list [index])
+    if (auto* meh = list[index])
         return meh->message.getTimeStamp();
 
-    return 0.0;
+    return 0;
 }
 
 //==============================================================================
-MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (const MidiMessage& newMessage,
-                                                                     double timeAdjustment)
+MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (MidiEventHolder* newEvent, double timeAdjustment)
 {
-    MidiEventHolder* const newOne = new MidiEventHolder (newMessage);
-
-    timeAdjustment += newMessage.getTimeStamp();
-    newOne->message.setTimeStamp (timeAdjustment);
-
+    newEvent->message.addToTimeStamp (timeAdjustment);
+    auto time = newEvent->message.getTimeStamp();
     int i;
+
     for (i = list.size(); --i >= 0;)
-        if (list.getUnchecked(i)->message.getTimeStamp() <= timeAdjustment)
+        if (list.getUnchecked(i)->message.getTimeStamp() <= time)
             break;
 
-    list.insert (i + 1, newOne);
-    return newOne;
+    list.insert (i + 1, newEvent);
+    return newEvent;
 }
 
-void MidiMessageSequence::deleteEvent (const int index,
-                                       const bool deleteMatchingNoteUp)
+MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (const MidiMessage& newMessage, double timeAdjustment)
+{
+    return addEvent (new MidiEventHolder (newMessage), timeAdjustment);
+}
+
+MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (MidiMessage&& newMessage, double timeAdjustment)
+{
+    return addEvent (new MidiEventHolder (static_cast<MidiMessage&&> (newMessage)), timeAdjustment);
+}
+
+void MidiMessageSequence::deleteEvent (int index, bool deleteMatchingNoteUp)
 {
     if (isPositiveAndBelow (index, list.size()))
     {
@@ -144,23 +188,11 @@ void MidiMessageSequence::deleteEvent (const int index,
     }
 }
 
-struct MidiMessageSequenceSorter
-{
-    static int compareElements (const MidiMessageSequence::MidiEventHolder* const first,
-                                const MidiMessageSequence::MidiEventHolder* const second) noexcept
-    {
-        const double diff = first->message.getTimeStamp() - second->message.getTimeStamp();
-        return (diff > 0) - (diff < 0);
-    }
-};
-
 void MidiMessageSequence::addSequence (const MidiMessageSequence& other, double timeAdjustment)
 {
-    for (int i = 0; i < other.list.size(); ++i)
+    for (auto* m : other)
     {
-        const MidiMessage& m = other.list.getUnchecked(i)->message;
-
-        MidiEventHolder* const newOne = new MidiEventHolder (m);
+        auto newOne = new MidiEventHolder (m->message);
         newOne->message.addToTimeStamp (timeAdjustment);
         list.add (newOne);
     }
@@ -173,16 +205,14 @@ void MidiMessageSequence::addSequence (const MidiMessageSequence& other,
                                        double firstAllowableTime,
                                        double endOfAllowableDestTimes)
 {
-    for (int i = 0; i < other.list.size(); ++i)
+    for (auto* m : other)
     {
-        const MidiMessage& m = other.list.getUnchecked(i)->message;
-        const double t = m.getTimeStamp() + timeAdjustment;
+        auto t = m->message.getTimeStamp() + timeAdjustment;
 
         if (t >= firstAllowableTime && t < endOfAllowableDestTimes)
         {
-            MidiEventHolder* const newOne = new MidiEventHolder (m);
+            auto newOne = new MidiEventHolder (m->message);
             newOne->message.setTimeStamp (t);
-
             list.add (newOne);
         }
     }
@@ -190,41 +220,42 @@ void MidiMessageSequence::addSequence (const MidiMessageSequence& other,
     sort();
 }
 
-//==============================================================================
 void MidiMessageSequence::sort() noexcept
 {
-    MidiMessageSequenceSorter sorter;
-    list.sort (sorter, true);
+    std::stable_sort (list.begin(), list.end(),
+                      [] (const MidiEventHolder* a, const MidiEventHolder* b) { return a->message.getTimeStamp() < b->message.getTimeStamp(); });
 }
 
 void MidiMessageSequence::updateMatchedPairs() noexcept
 {
     for (int i = 0; i < list.size(); ++i)
     {
-        MidiEventHolder* const meh = list.getUnchecked(i);
-        const MidiMessage& m1 = meh->message;
+        auto* meh = list.getUnchecked(i);
+        auto& m1 = meh->message;
 
         if (m1.isNoteOn())
         {
             meh->noteOffObject = nullptr;
-            const int note = m1.getNoteNumber();
-            const int chan = m1.getChannel();
-            const int len = list.size();
+            auto note = m1.getNoteNumber();
+            auto chan = m1.getChannel();
+            auto len = list.size();
 
             for (int j = i + 1; j < len; ++j)
             {
-                const MidiMessage& m = list.getUnchecked(j)->message;
+                auto* meh2 = list.getUnchecked(j);
+                auto& m = meh2->message;
 
                 if (m.getNoteNumber() == note && m.getChannel() == chan)
                 {
                     if (m.isNoteOff())
                     {
-                        meh->noteOffObject = list[j];
+                        meh->noteOffObject = meh2;
                         break;
                     }
-                    else if (m.isNoteOn())
+
+                    if (m.isNoteOn())
                     {
-                        MidiEventHolder* const newEvent = new MidiEventHolder (MidiMessage::noteOff (chan, note));
+                        auto newEvent = new MidiEventHolder (MidiMessage::noteOff (chan, note));
                         list.insert (j, newEvent);
                         newEvent->message.setTimeStamp (m.getTimeStamp());
                         meh->noteOffObject = newEvent;
@@ -236,13 +267,11 @@ void MidiMessageSequence::updateMatchedPairs() noexcept
     }
 }
 
-void MidiMessageSequence::addTimeToMessages (const double delta) noexcept
+void MidiMessageSequence::addTimeToMessages (double delta) noexcept
 {
-    for (int i = list.size(); --i >= 0;)
-    {
-        MidiMessage& mm = list.getUnchecked(i)->message;
-        mm.setTimeStamp (mm.getTimeStamp() + delta);
-    }
+    if (delta != 0)
+        for (auto* m : list)
+            m->message.addToTimeStamp (delta);
 }
 
 //==============================================================================
@@ -250,24 +279,17 @@ void MidiMessageSequence::extractMidiChannelMessages (const int channelNumberToE
                                                       MidiMessageSequence& destSequence,
                                                       const bool alsoIncludeMetaEvents) const
 {
-    for (int i = 0; i < list.size(); ++i)
-    {
-        const MidiMessage& mm = list.getUnchecked(i)->message;
-
-        if (mm.isForChannel (channelNumberToExtract) || (alsoIncludeMetaEvents && mm.isMetaEvent()))
-            destSequence.addEvent (mm);
-    }
+    for (auto* meh : list)
+        if (meh->message.isForChannel (channelNumberToExtract)
+             || (alsoIncludeMetaEvents && meh->message.isMetaEvent()))
+            destSequence.addEvent (meh->message);
 }
 
 void MidiMessageSequence::extractSysExMessages (MidiMessageSequence& destSequence) const
 {
-    for (int i = 0; i < list.size(); ++i)
-    {
-        const MidiMessage& mm = list.getUnchecked(i)->message;
-
-        if (mm.isSysEx())
-            destSequence.addEvent (mm);
-    }
+    for (auto* meh : list)
+        if (meh->message.isSysEx())
+            destSequence.addEvent (meh->message);
 }
 
 void MidiMessageSequence::deleteMidiChannelMessages (const int channelNumberToRemove)
@@ -285,15 +307,15 @@ void MidiMessageSequence::deleteSysExMessages()
 }
 
 //==============================================================================
-void MidiMessageSequence::createControllerUpdatesForTime (const int channelNumber, const double time, Array<MidiMessage>& dest)
+void MidiMessageSequence::createControllerUpdatesForTime (int channelNumber, double time, Array<MidiMessage>& dest)
 {
     bool doneProg = false;
     bool donePitchWheel = false;
-    bool doneControllers[128] = { 0 };
+    bool doneControllers[128] = {};
 
     for (int i = list.size(); --i >= 0;)
     {
-        const MidiMessage& mm = list.getUnchecked(i)->message;
+        auto& mm = list.getUnchecked(i)->message;
 
         if (mm.isForChannel (channelNumber) && mm.getTimeStamp() <= time)
         {
@@ -309,7 +331,7 @@ void MidiMessageSequence::createControllerUpdatesForTime (const int channelNumbe
             }
             else if (mm.isController())
             {
-                const int controllerNumber = mm.getControllerNumber();
+                auto controllerNumber = mm.getControllerNumber();
                 jassert (isPositiveAndBelow (controllerNumber, 128));
 
                 if (! doneControllers[controllerNumber])
@@ -322,13 +344,62 @@ void MidiMessageSequence::createControllerUpdatesForTime (const int channelNumbe
     }
 }
 
+#if JUCE_UNIT_TESTS
 
-//==============================================================================
-MidiMessageSequence::MidiEventHolder::MidiEventHolder (const MidiMessage& mm)
-   : message (mm), noteOffObject (nullptr)
+struct MidiMessageSequenceTest  : public juce::UnitTest
 {
-}
+    MidiMessageSequenceTest() : juce::UnitTest ("MidiMessageSequence") {}
 
-MidiMessageSequence::MidiEventHolder::~MidiEventHolder()
-{
-}
+    void runTest() override
+    {
+        MidiMessageSequence s;
+
+        s.addEvent (MidiMessage::noteOn  (1, 60, 0.5f).withTimeStamp (0.0));
+        s.addEvent (MidiMessage::noteOff (1, 60, 0.5f).withTimeStamp (4.0));
+        s.addEvent (MidiMessage::noteOn  (1, 30, 0.5f).withTimeStamp (2.0));
+        s.addEvent (MidiMessage::noteOff (1, 30, 0.5f).withTimeStamp (8.0));
+
+        beginTest ("Start & end time");
+        expectEquals (s.getStartTime(), 0.0);
+        expectEquals (s.getEndTime(), 8.0);
+        expectEquals (s.getEventTime (1), 2.0);
+
+        beginTest ("Matching note off & ons");
+        s.updateMatchedPairs();
+        expectEquals (s.getTimeOfMatchingKeyUp (0), 4.0);
+        expectEquals (s.getTimeOfMatchingKeyUp (1), 8.0);
+        expectEquals (s.getIndexOfMatchingKeyUp (0), 2);
+        expectEquals (s.getIndexOfMatchingKeyUp (1), 3);
+
+        beginTest ("Time & indeces");
+        expectEquals (s.getNextIndexAtTime (0.5), 1);
+        expectEquals (s.getNextIndexAtTime (2.5), 2);
+        expectEquals (s.getNextIndexAtTime (9.0), 4);
+
+        beginTest ("Deleting events");
+        s.deleteEvent (0, true);
+        expectEquals (s.getNumEvents(), 2);
+
+        beginTest ("Merging sequences");
+        MidiMessageSequence s2;
+        s2.addEvent (MidiMessage::noteOn  (2, 25, 0.5f).withTimeStamp (0.0));
+        s2.addEvent (MidiMessage::noteOn  (2, 40, 0.5f).withTimeStamp (1.0));
+        s2.addEvent (MidiMessage::noteOff (2, 40, 0.5f).withTimeStamp (5.0));
+        s2.addEvent (MidiMessage::noteOn  (2, 80, 0.5f).withTimeStamp (3.0));
+        s2.addEvent (MidiMessage::noteOff (2, 80, 0.5f).withTimeStamp (7.0));
+        s2.addEvent (MidiMessage::noteOff (2, 25, 0.5f).withTimeStamp (9.0));
+
+        s.addSequence (s2, 0.0, 0.0, 8.0); // Intentionally cut off the last note off
+        s.updateMatchedPairs();
+
+        expectEquals (s.getNumEvents(), 7);
+        expectEquals (s.getIndexOfMatchingKeyUp (0), -1); // Truncated note, should be no note off
+        expectEquals (s.getTimeOfMatchingKeyUp (1), 5.0);
+    }
+};
+
+static MidiMessageSequenceTest midiMessageSequenceTests;
+
+#endif
+
+} // namespace juce

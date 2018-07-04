@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /*
@@ -31,28 +32,28 @@
 // Definitions for the int8, int16, int32, int64 and pointer_sized_int types.
 
 /** A platform-independent 8-bit signed integer type. */
-typedef signed char                 int8;
+using int8      = signed char;
 /** A platform-independent 8-bit unsigned integer type. */
-typedef unsigned char               uint8;
+using uint8     = unsigned char;
 /** A platform-independent 16-bit signed integer type. */
-typedef signed short                int16;
+using int16     = signed short;
 /** A platform-independent 16-bit unsigned integer type. */
-typedef unsigned short              uint16;
+using uint16    = unsigned short;
 /** A platform-independent 32-bit signed integer type. */
-typedef signed int                  int32;
+using int32     = signed int;
 /** A platform-independent 32-bit unsigned integer type. */
 typedef unsigned int                uint32;
 
 #if JUCE_MSVC
   /** A platform-independent 64-bit integer type. */
-  typedef __int64                   int64;
+  using int64  = __int64;
   /** A platform-independent 64-bit unsigned integer type. */
-  typedef unsigned __int64          uint64;
+  using uint64 = unsigned __int64;
 #else
   /** A platform-independent 64-bit integer type. */
-  typedef long long                 int64;
+  using int64  = long long;
   /** A platform-independent 64-bit unsigned integer type. */
-  typedef unsigned long long        uint64;
+  using uint64 = unsigned long long;
 #endif
 
 #ifndef DOXYGEN
@@ -66,23 +67,23 @@ typedef unsigned int                uint32;
 
 #if JUCE_64BIT
   /** A signed integer type that's guaranteed to be large enough to hold a pointer without truncating it. */
-  typedef int64                     pointer_sized_int;
+  using pointer_sized_int  = int64;
   /** An unsigned integer type that's guaranteed to be large enough to hold a pointer without truncating it. */
-  typedef uint64                    pointer_sized_uint;
+  using pointer_sized_uint = uint64;
 #elif JUCE_MSVC
   /** A signed integer type that's guaranteed to be large enough to hold a pointer without truncating it. */
-  typedef _W64 int                  pointer_sized_int;
+  using pointer_sized_int  = _W64 int;
   /** An unsigned integer type that's guaranteed to be large enough to hold a pointer without truncating it. */
-  typedef _W64 unsigned int         pointer_sized_uint;
+  using pointer_sized_uint = _W64 unsigned int;
 #else
   /** A signed integer type that's guaranteed to be large enough to hold a pointer without truncating it. */
-  typedef int                       pointer_sized_int;
+  using pointer_sized_int  = int;
   /** An unsigned integer type that's guaranteed to be large enough to hold a pointer without truncating it. */
-  typedef unsigned int              pointer_sized_uint;
+  using pointer_sized_uint = unsigned int;
 #endif
 
 #if JUCE_WINDOWS && ! JUCE_MINGW
-  typedef pointer_sized_int ssize_t;
+  using ssize_t = pointer_sized_int;
 #endif
 
 //==============================================================================
@@ -90,33 +91,33 @@ typedef unsigned int                uint32;
 
 /** Returns the larger of two values. */
 template <typename Type>
-Type jmax (const Type a, const Type b)                                               { return (a < b) ? b : a; }
+JUCE_CONSTEXPR Type jmax (Type a, Type b)                                   { return a < b ? b : a; }
 
 /** Returns the larger of three values. */
 template <typename Type>
-Type jmax (const Type a, const Type b, const Type c)                                 { return (a < b) ? ((b < c) ? c : b) : ((a < c) ? c : a); }
+JUCE_CONSTEXPR Type jmax (Type a, Type b, Type c)                           { return a < b ? (b < c ? c : b) : (a < c ? c : a); }
 
 /** Returns the larger of four values. */
 template <typename Type>
-Type jmax (const Type a, const Type b, const Type c, const Type d)                   { return jmax (a, jmax (b, c, d)); }
+JUCE_CONSTEXPR Type jmax (Type a, Type b, Type c, Type d)                   { return jmax (a, jmax (b, c, d)); }
 
 /** Returns the smaller of two values. */
 template <typename Type>
-Type jmin (const Type a, const Type b)                                               { return (b < a) ? b : a; }
+JUCE_CONSTEXPR Type jmin (Type a, Type b)                                   { return b < a ? b : a; }
 
 /** Returns the smaller of three values. */
 template <typename Type>
-Type jmin (const Type a, const Type b, const Type c)                                 { return (b < a) ? ((c < b) ? c : b) : ((c < a) ? c : a); }
+JUCE_CONSTEXPR Type jmin (Type a, Type b, Type c)                           { return b < a ? (c < b ? c : b) : (c < a ? c : a); }
 
 /** Returns the smaller of four values. */
 template <typename Type>
-Type jmin (const Type a, const Type b, const Type c, const Type d)                   { return jmin (a, jmin (b, c, d)); }
+JUCE_CONSTEXPR Type jmin (Type a, Type b, Type c, Type d)                   { return jmin (a, jmin (b, c, d)); }
 
 /** Remaps a normalised value (between 0 and 1) to a target range.
     This effectively returns (targetRangeMin + value0To1 * (targetRangeMax - targetRangeMin)).
 */
 template <typename Type>
-Type jmap (Type value0To1, Type targetRangeMin, Type targetRangeMax)
+JUCE_CONSTEXPR Type jmap (Type value0To1, Type targetRangeMin, Type targetRangeMax)
 {
     return targetRangeMin + value0To1 * (targetRangeMax - targetRangeMin);
 }
@@ -134,14 +135,16 @@ template <typename Type>
 Type findMinimum (const Type* data, int numValues)
 {
     if (numValues <= 0)
-        return Type();
+        return Type (0);
 
-    Type result (*data++);
+    auto result = *data++;
 
     while (--numValues > 0) // (> 0 rather than >= 0 because we've already taken the first sample)
     {
-        const Type& v = *data++;
-        if (v < result)  result = v;
+        auto v = *data++;
+
+        if (v < result)
+            result = v;
     }
 
     return result;
@@ -152,14 +155,16 @@ template <typename Type>
 Type findMaximum (const Type* values, int numValues)
 {
     if (numValues <= 0)
-        return Type();
+        return Type (0);
 
-    Type result (*values++);
+    auto result = *values++;
 
     while (--numValues > 0) // (> 0 rather than >= 0 because we've already taken the first sample)
     {
-        const Type& v = *values++;
-        if (result < v)  result = v;
+        auto v = *values++;
+
+        if (result < v)
+            result = v;
     }
 
     return result;
@@ -171,17 +176,17 @@ void findMinAndMax (const Type* values, int numValues, Type& lowest, Type& highe
 {
     if (numValues <= 0)
     {
-        lowest = Type();
-        highest = Type();
+        lowest = Type (0);
+        highest = Type (0);
     }
     else
     {
-        Type mn (*values++);
-        Type mx (mn);
+        auto mn = *values++;
+        auto mx = mn;
 
         while (--numValues > 0) // (> 0 rather than >= 0 because we've already taken the first sample)
         {
-            const Type& v = *values++;
+            auto v = *values++;
 
             if (mx < v)  mx = v;
             if (v < mn)  mn = v;
@@ -211,15 +216,15 @@ void findMinAndMax (const Type* values, int numValues, Type& lowest, Type& highe
     @see jmin, jmax, jmap
 */
 template <typename Type>
-Type jlimit (const Type lowerLimit,
-             const Type upperLimit,
-             const Type valueToConstrain) noexcept
+Type jlimit (Type lowerLimit,
+             Type upperLimit,
+             Type valueToConstrain) noexcept
 {
     jassert (lowerLimit <= upperLimit); // if these are in the wrong order, results are unpredictable..
 
-    return (valueToConstrain < lowerLimit) ? lowerLimit
-                                           : ((upperLimit < valueToConstrain) ? upperLimit
-                                                                              : valueToConstrain);
+    return valueToConstrain < lowerLimit ? lowerLimit
+                                         : (upperLimit < valueToConstrain ? upperLimit
+                                                                          : valueToConstrain);
 }
 
 /** Returns true if a value is at least zero, and also below a specified upper limit.
@@ -227,15 +232,15 @@ Type jlimit (const Type lowerLimit,
     @code valueToTest >= 0 && valueToTest < upperLimit
     @endcode
 */
-template <typename Type>
-bool isPositiveAndBelow (Type valueToTest, Type upperLimit) noexcept
+template <typename Type1, typename Type2>
+bool isPositiveAndBelow (Type1 valueToTest, Type2 upperLimit) noexcept
 {
-    jassert (Type() <= upperLimit); // makes no sense to call this if the upper limit is itself below zero..
-    return Type() <= valueToTest && valueToTest < upperLimit;
+    jassert (Type1() <= static_cast<Type1> (upperLimit)); // makes no sense to call this if the upper limit is itself below zero..
+    return Type1() <= valueToTest && valueToTest < static_cast<Type1> (upperLimit);
 }
 
-template <>
-inline bool isPositiveAndBelow (const int valueToTest, const int upperLimit) noexcept
+template <typename Type>
+bool isPositiveAndBelow (int valueToTest, Type upperLimit) noexcept
 {
     jassert (upperLimit >= 0); // makes no sense to call this if the upper limit is itself below zero..
     return static_cast<unsigned int> (valueToTest) < static_cast<unsigned int> (upperLimit);
@@ -246,40 +251,24 @@ inline bool isPositiveAndBelow (const int valueToTest, const int upperLimit) noe
     @code valueToTest >= 0 && valueToTest <= upperLimit
     @endcode
 */
-template <typename Type>
-bool isPositiveAndNotGreaterThan (Type valueToTest, Type upperLimit) noexcept
+template <typename Type1, typename Type2>
+bool isPositiveAndNotGreaterThan (Type1 valueToTest, Type2 upperLimit) noexcept
 {
-    jassert (Type() <= upperLimit); // makes no sense to call this if the upper limit is itself below zero..
-    return Type() <= valueToTest && valueToTest <= upperLimit;
+    jassert (Type1() <= static_cast<Type1> (upperLimit)); // makes no sense to call this if the upper limit is itself below zero..
+    return Type1() <= valueToTest && valueToTest <= static_cast<Type1> (upperLimit);
 }
 
-template <>
-inline bool isPositiveAndNotGreaterThan (const int valueToTest, const int upperLimit) noexcept
+template <typename Type>
+bool isPositiveAndNotGreaterThan (int valueToTest, Type upperLimit) noexcept
 {
     jassert (upperLimit >= 0); // makes no sense to call this if the upper limit is itself below zero..
     return static_cast<unsigned int> (valueToTest) <= static_cast<unsigned int> (upperLimit);
 }
 
 //==============================================================================
-/** Handy function to swap two values. */
-template <typename Type>
-void swapVariables (Type& variable1, Type& variable2)
-{
-    std::swap (variable1, variable2);
-}
-
 /** Handy function for avoiding unused variables warning. */
-template <typename Type1>
-void ignoreUnused (const Type1&) noexcept {}
-
-template <typename Type1, typename Type2>
-void ignoreUnused (const Type1&, const Type2&) noexcept {}
-
-template <typename Type1, typename Type2, typename Type3>
-void ignoreUnused (const Type1&, const Type2&, const Type3&) noexcept {}
-
-template <typename Type1, typename Type2, typename Type3, typename Type4>
-void ignoreUnused (const Type1&, const Type2&, const Type3&, const Type4&) noexcept {}
+template <typename... Types>
+void ignoreUnused (Types&&...) noexcept {}
 
 /** Handy function for getting the number of elements in a simple const C array.
     E.g.
@@ -292,7 +281,7 @@ void ignoreUnused (const Type1&, const Type2&, const Type3&, const Type4&) noexc
 template <typename Type, int N>
 int numElementsInArray (Type (&array)[N])
 {
-    ignoreUnused (array);
+    (void) array;
     (void) sizeof (0[array]); // This line should cause an error if you pass an object with a user-defined subscript operator
     return N;
 }
@@ -324,12 +313,6 @@ inline float juce_hypot (float a, float b) noexcept
 }
 #endif
 
-/** 64-bit abs function. */
-inline int64 abs64 (const int64 n) noexcept
-{
-    return (n >= 0) ? n : -n;
-}
-
 #if JUCE_MSVC && ! defined (DOXYGEN)  // The MSVC libraries omit these functions for some reason...
  template<typename Type> Type asinh (Type x)  { return std::log (x + std::sqrt (x * x + (Type) 1)); }
  template<typename Type> Type acosh (Type x)  { return std::log (x + std::sqrt (x * x - (Type) 1)); }
@@ -337,28 +320,96 @@ inline int64 abs64 (const int64 n) noexcept
 #endif
 
 //==============================================================================
-/** A predefined value for Pi, at double-precision.
-    @see float_Pi
-*/
-const double  double_Pi  = 3.1415926535897932384626433832795;
+#if JUCE_HAS_CONSTEXPR
 
-/** A predefined value for Pi, at single-precision.
-    @see double_Pi
-*/
-const float   float_Pi   = 3.14159265358979323846f;
+/** Commonly used mathematical constants
 
+    @tags{Core}
+*/
+template <typename FloatType>
+struct MathConstants
+{
+    /** A predefined value for Pi */
+    static constexpr FloatType pi = static_cast<FloatType> (3.141592653589793238L);
+
+    /** A predefined value for 2 * Pi */
+    static constexpr FloatType twoPi = static_cast<FloatType> (2 * 3.141592653589793238L);
+
+    /** A predefined value for Pi / 2 */
+    static constexpr FloatType halfPi = static_cast<FloatType> (3.141592653589793238L / 2);
+
+    /** A predefined value for Euler's number */
+    static constexpr FloatType euler = static_cast<FloatType> (2.71828182845904523536L);
+
+    /** A predefined value for sqrt(2) */
+    static constexpr FloatType sqrt2 = static_cast<FloatType> (1.4142135623730950488L);
+};
+
+#else
+
+/** Commonly used mathematical constants
+
+    @tags{Core}
+*/
+template <typename FloatType>
+struct MathConstants
+{
+    /** A predefined value for Pi */
+    static const FloatType pi;
+
+    /** A predefined value for 2 * Pi */
+    static const FloatType twoPi;
+
+    /** A predefined value for Pi / 2 */
+    static const FloatType halfPi;
+
+    /** A predefined value for Euler's number */
+    static const FloatType euler;
+
+    /** A predefined value for sqrt(2) */
+    static const FloatType sqrt2;
+};
+
+template <typename FloatType>
+const FloatType MathConstants<FloatType>::pi = static_cast<FloatType> (3.141592653589793238L);
+
+template <typename FloatType>
+const FloatType MathConstants<FloatType>::twoPi = static_cast<FloatType> (2 * 3.141592653589793238L);
+
+template <typename FloatType>
+const FloatType MathConstants<FloatType>::halfPi = static_cast<FloatType> (3.141592653589793238L / 2);
+
+template <typename FloatType>
+const FloatType MathConstants<FloatType>::euler = static_cast<FloatType> (2.71828182845904523536L);
+
+template <typename FloatType>
+const FloatType MathConstants<FloatType>::sqrt2 = static_cast<FloatType> (1.4142135623730950488L);
+
+#endif
+
+#ifndef DOXYGEN
+/** A double-precision constant for pi.
+    @deprecated This is deprecated in favour of MathConstants<double>::pi.
+    The reason is that "double_Pi" was a confusing name, and many people misused it,
+    wrongly thinking it meant 2 * pi !
+*/
+const JUCE_CONSTEXPR double  double_Pi  = MathConstants<double>::pi;
+
+/** A single-precision constant for pi.
+    @deprecated This is deprecated in favour of MathConstants<float>::pi.
+    The reason is that "double_Pi" was a confusing name, and many people misused it,
+    wrongly thinking it meant 2 * pi !
+*/
+const JUCE_CONSTEXPR float   float_Pi   = MathConstants<float>::pi;
+#endif
 
 /** Converts an angle in degrees to radians. */
-inline float degreesToRadians (float degrees) noexcept     { return degrees * (float_Pi / 180.0f); }
-
-/** Converts an angle in degrees to radians. */
-inline double degreesToRadians (double degrees) noexcept   { return degrees * (double_Pi / 180.0); }
+template <typename FloatType>
+JUCE_CONSTEXPR FloatType degreesToRadians (FloatType degrees) noexcept     { return degrees * (MathConstants<FloatType>::pi / FloatType (180)); }
 
 /** Converts an angle in radians to degrees. */
-inline float radiansToDegrees (float radians) noexcept     { return radians * (180.0f / float_Pi); }
-
-/** Converts an angle in radians to degrees. */
-inline double radiansToDegrees (double radians) noexcept   { return radians * (180.0 / double_Pi); }
+template <typename FloatType>
+JUCE_CONSTEXPR FloatType radiansToDegrees (FloatType radians) noexcept     { return radians * (FloatType (180) / MathConstants<FloatType>::pi); }
 
 
 //==============================================================================
@@ -440,7 +491,7 @@ inline int roundToInt (int value) noexcept
 
 /** Fast floating-point-to-integer conversion.
 
-    This is a slightly slower and slightly more accurate version of roundDoubleToInt(). It works
+    This is a slightly slower and slightly more accurate version of roundToInt(). It works
     fine for values above zero, but negative numbers are rounded the wrong way.
 */
 inline int roundToIntAccurate (double value) noexcept
@@ -452,41 +503,26 @@ inline int roundToIntAccurate (double value) noexcept
     return roundToInt (value + 1.5e-8);
 }
 
-/** Fast floating-point-to-integer conversion.
+//==============================================================================
+/** Truncates a positive floating-point number to an unsigned int.
 
-    This is faster than using the normal c++ cast to convert a double to an int, and
-    it will round the value to the nearest integer, rather than rounding it down
-    like the normal cast does.
-
-    Note that this routine gets its speed at the expense of some accuracy, and when
-    rounding values whose floating point component is exactly 0.5, odd numbers and
-    even numbers will be rounded up or down differently. For a more accurate conversion,
-    see roundDoubleToIntAccurate().
+    This is generally faster than static_cast<unsigned int> (std::floor (x))
+    but it only works for positive numbers small enough to be represented as an
+    unsigned int.
 */
-inline int roundDoubleToInt (double value) noexcept
+template <typename FloatType>
+unsigned int truncatePositiveToUnsignedInt (FloatType value) noexcept
 {
-    return roundToInt (value);
-}
+    jassert (value >= static_cast<FloatType> (0));
+    jassert (static_cast<FloatType> (value) <= std::numeric_limits<unsigned int>::max());
 
-/** Fast floating-point-to-integer conversion.
-
-    This is faster than using the normal c++ cast to convert a float to an int, and
-    it will round the value to the nearest integer, rather than rounding it down
-    like the normal cast does.
-
-    Note that this routine gets its speed at the expense of some accuracy, and when
-    rounding values whose floating point component is exactly 0.5, odd numbers and
-    even numbers will be rounded up or down differently.
-*/
-inline int roundFloatToInt (float value) noexcept
-{
-    return roundToInt (value);
+    return static_cast<unsigned int> (value);
 }
 
 //==============================================================================
 /** Returns true if the specified integer is a power-of-two. */
 template <typename IntegerType>
-bool isPowerOfTwo (IntegerType value)
+JUCE_CONSTEXPR bool isPowerOfTwo (IntegerType value)
 {
    return (value & (value - 1)) == 0;
 }
@@ -539,7 +575,7 @@ IntegerType negativeAwareModulo (IntegerType dividend, const IntegerType divisor
 
 /** Returns the square of its argument. */
 template <typename NumericType>
-NumericType square (NumericType n) noexcept
+inline JUCE_CONSTEXPR NumericType square (NumericType n) noexcept
 {
     return n * n;
 }
@@ -588,43 +624,63 @@ namespace TypeHelpers
         E.g. "myFunction (typename TypeHelpers::ParameterType<int>::type, typename TypeHelpers::ParameterType<MyObject>::type)"
         would evaluate to "myfunction (int, const MyObject&)", keeping any primitive types as
         pass-by-value, but passing objects as a const reference, to avoid copying.
+
+        @tags{Core}
     */
-    template <typename Type> struct ParameterType                   { typedef const Type& type; };
+    template <typename Type> struct ParameterType                   { using type = const Type&; };
 
    #if ! DOXYGEN
-    template <typename Type> struct ParameterType <Type&>           { typedef Type& type; };
-    template <typename Type> struct ParameterType <Type*>           { typedef Type* type; };
-    template <>              struct ParameterType <char>            { typedef char type; };
-    template <>              struct ParameterType <unsigned char>   { typedef unsigned char type; };
-    template <>              struct ParameterType <short>           { typedef short type; };
-    template <>              struct ParameterType <unsigned short>  { typedef unsigned short type; };
-    template <>              struct ParameterType <int>             { typedef int type; };
-    template <>              struct ParameterType <unsigned int>    { typedef unsigned int type; };
-    template <>              struct ParameterType <long>            { typedef long type; };
-    template <>              struct ParameterType <unsigned long>   { typedef unsigned long type; };
-    template <>              struct ParameterType <int64>           { typedef int64 type; };
-    template <>              struct ParameterType <uint64>          { typedef uint64 type; };
-    template <>              struct ParameterType <bool>            { typedef bool type; };
-    template <>              struct ParameterType <float>           { typedef float type; };
-    template <>              struct ParameterType <double>          { typedef double type; };
+    template <typename Type> struct ParameterType <Type&>           { using type = Type&; };
+    template <typename Type> struct ParameterType <Type*>           { using type = Type*; };
+    template <>              struct ParameterType <char>            { using type = char; };
+    template <>              struct ParameterType <unsigned char>   { using type = unsigned char; };
+    template <>              struct ParameterType <short>           { using type = short; };
+    template <>              struct ParameterType <unsigned short>  { using type = unsigned short; };
+    template <>              struct ParameterType <int>             { using type = int; };
+    template <>              struct ParameterType <unsigned int>    { using type = unsigned int; };
+    template <>              struct ParameterType <long>            { using type = long; };
+    template <>              struct ParameterType <unsigned long>   { using type = unsigned long; };
+    template <>              struct ParameterType <int64>           { using type = int64; };
+    template <>              struct ParameterType <uint64>          { using type = uint64; };
+    template <>              struct ParameterType <bool>            { using type = bool; };
+    template <>              struct ParameterType <float>           { using type = float; };
+    template <>              struct ParameterType <double>          { using type = double; };
    #endif
 
     /** These templates are designed to take a type, and if it's a double, they return a double
         type; for anything else, they return a float type.
-    */
-    template <typename Type> struct SmallestFloatType               { typedef float  type; };
-    template <>              struct SmallestFloatType <double>      { typedef double type; };
 
+        @tags{Core}
+    */
+    template <typename Type> struct SmallestFloatType               { using type = float; };
+
+   #if ! DOXYGEN
+    template <>              struct SmallestFloatType <double>      { using type = double; };
+   #endif
 
     /** These templates are designed to take an integer type, and return an unsigned int
         version with the same size.
+
+        @tags{Core}
     */
     template <int bytes>     struct UnsignedTypeWithSize            {};
-    template <>              struct UnsignedTypeWithSize<1>         { typedef uint8  type; };
-    template <>              struct UnsignedTypeWithSize<2>         { typedef uint16 type; };
-    template <>              struct UnsignedTypeWithSize<4>         { typedef uint32 type; };
-    template <>              struct UnsignedTypeWithSize<8>         { typedef uint64 type; };
+
+   #if ! DOXYGEN
+    template <>              struct UnsignedTypeWithSize<1>         { using type = uint8; };
+    template <>              struct UnsignedTypeWithSize<2>         { using type = uint16; };
+    template <>              struct UnsignedTypeWithSize<4>         { using type = uint32; };
+    template <>              struct UnsignedTypeWithSize<8>         { using type = uint64; };
+   #endif
 }
 
-
 //==============================================================================
+#if ! DOXYGEN
+ // These old functions are deprecated: Just use roundToInt instead.
+ JUCE_DEPRECATED_ATTRIBUTE inline int roundDoubleToInt (double value) noexcept  { return roundToInt (value); }
+ JUCE_DEPRECATED_ATTRIBUTE inline int roundFloatToInt  (float  value) noexcept  { return roundToInt (value); }
+
+ // This old function isn't needed - just use std::abs() instead
+ JUCE_DEPRECATED_ATTRIBUTE inline int64 abs64 (int64 n) noexcept                { return std::abs (n); }
+#endif
+
+} // namespace juce

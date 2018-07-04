@@ -36,7 +36,7 @@ UpdateMemory::~UpdateMemory() {
   clearSingletonInstance();
 }
 
-juce_ImplementSingleton(UpdateMemory)
+JUCE_IMPLEMENT_SINGLETON(UpdateMemory)
 
 UpdateCheckSection::UpdateCheckSection(String name) : Component(name) {
   download_button_ = new TextButton(TRANS("Download"));

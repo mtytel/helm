@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,8 +35,10 @@
     a brush type. It can either be a solid colour, a gradient, or a tiled image.
 
     @see Graphics::setFillType, DrawablePath::setFill
+
+    @tags{Graphics}
 */
-class JUCE_API  FillType
+class JUCE_API  FillType  final
 {
 public:
     //==============================================================================
@@ -52,6 +54,11 @@ public:
         @see setGradient
     */
     FillType (const ColourGradient& gradient);
+
+    /** Creates a gradient fill type.
+        @see setGradient
+    */
+    FillType (ColourGradient&& gradient);
 
     /** Creates a tiled image fill type. The transform allows you to set the scaling, offset
         and rotation of the pattern.
@@ -128,7 +135,7 @@ public:
         If a gradient is active, the overall opacity with which it should be applied
         is indicated by the alpha channel of the colour variable.
     */
-    ScopedPointer<ColourGradient> gradient;
+    std::unique_ptr<ColourGradient> gradient;
 
     /** The image that should be used for tiling.
         If an image fill is active, the overall opacity with which it should be applied
@@ -146,3 +153,5 @@ public:
 private:
     JUCE_LEAK_DETECTOR (FillType)
 };
+
+} // namespace juce

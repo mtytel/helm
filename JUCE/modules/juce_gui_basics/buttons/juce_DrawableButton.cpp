@@ -24,11 +24,11 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 DrawableButton::DrawableButton (const String& name, const DrawableButton::ButtonStyle buttonStyle)
-    : Button (name),
-      style (buttonStyle),
-      currentImage (nullptr),
-      edgeIndent (3)
+    : Button (name), style (buttonStyle)
 {
 }
 
@@ -53,15 +53,16 @@ void DrawableButton::setImages (const Drawable* normal,
 {
     jassert (normal != nullptr); // you really need to give it at least a normal image..
 
-    normalImage     = copyDrawableIfNotNull (normal);
-    overImage       = copyDrawableIfNotNull (over);
-    downImage       = copyDrawableIfNotNull (down);
-    disabledImage   = copyDrawableIfNotNull (disabled);
-    normalImageOn   = copyDrawableIfNotNull (normalOn);
-    overImageOn     = copyDrawableIfNotNull (overOn);
-    downImageOn     = copyDrawableIfNotNull (downOn);
-    disabledImageOn = copyDrawableIfNotNull (disabledOn);
-    currentImage    = nullptr;
+    normalImage     .reset (copyDrawableIfNotNull (normal));
+    overImage       .reset (copyDrawableIfNotNull (over));
+    downImage       .reset (copyDrawableIfNotNull (down));
+    disabledImage   .reset (copyDrawableIfNotNull (disabled));
+    normalImageOn   .reset (copyDrawableIfNotNull (normalOn));
+    overImageOn     .reset (copyDrawableIfNotNull (overOn));
+    downImageOn     .reset (copyDrawableIfNotNull (downOn));
+    disabledImageOn .reset (copyDrawableIfNotNull (disabledOn));
+
+    currentImage = nullptr;
 
     buttonStateChanged();
 }
@@ -85,12 +86,12 @@ void DrawableButton::setEdgeIndent (const int numPixelsIndent)
 
 Rectangle<float> DrawableButton::getImageBounds() const
 {
-    Rectangle<int> r (getLocalBounds());
+    auto r = getLocalBounds();
 
     if (style != ImageStretched)
     {
-        int indentX = jmin (edgeIndent, proportionOfWidth  (0.3f));
-        int indentY = jmin (edgeIndent, proportionOfHeight (0.3f));
+        auto indentX = jmin (edgeIndent, proportionOfWidth  (0.3f));
+        auto indentY = jmin (edgeIndent, proportionOfHeight (0.3f));
 
         if (style == ImageOnButtonBackground)
         {
@@ -136,8 +137,8 @@ void DrawableButton::buttonStateChanged()
     }
     else
     {
-        imageToDraw = getToggleState() ? disabledImageOn
-                                       : disabledImage;
+        imageToDraw = getToggleState() ? disabledImageOn.get()
+                                       : disabledImage.get();
 
         if (imageToDraw == nullptr)
         {
@@ -178,7 +179,7 @@ void DrawableButton::paintButton (Graphics& g,
                                   const bool isMouseOverButton,
                                   const bool isButtonDown)
 {
-    LookAndFeel& lf = getLookAndFeel();
+    auto& lf = getLookAndFeel();
 
     if (style == ImageOnButtonBackground)
         lf.drawButtonBackground (g, *this,
@@ -200,25 +201,27 @@ Drawable* DrawableButton::getCurrentImage() const noexcept
 
 Drawable* DrawableButton::getNormalImage() const noexcept
 {
-    return (getToggleState() && normalImageOn != nullptr) ? normalImageOn
-                                                          : normalImage;
+    return (getToggleState() && normalImageOn != nullptr) ? normalImageOn.get()
+                                                          : normalImage.get();
 }
 
 Drawable* DrawableButton::getOverImage() const noexcept
 {
     if (getToggleState())
     {
-        if (overImageOn   != nullptr)   return overImageOn;
-        if (normalImageOn != nullptr)   return normalImageOn;
+        if (overImageOn   != nullptr)   return overImageOn.get();
+        if (normalImageOn != nullptr)   return normalImageOn.get();
     }
 
-    return overImage != nullptr ? overImage : normalImage;
+    return overImage != nullptr ? overImage.get() : normalImage.get();
 }
 
 Drawable* DrawableButton::getDownImage() const noexcept
 {
-    if (Drawable* const d = getToggleState() ? downImageOn : downImage)
+    if (auto* d = getToggleState() ? downImageOn.get() : downImage.get())
         return d;
 
     return getOverImage();
 }
+
+} // namespace juce

@@ -24,14 +24,14 @@
   ==============================================================================
 */
 
-#pragma once
-
-#include "juce_Vector3D.h"
-#include "juce_Matrix3D.h"
+namespace juce
+{
 
 //==============================================================================
 /**
     Holds a quaternion (a 3D vector and a scalar value).
+
+    @tags{OpenGL}
 */
 template <typename Type>
 class Quaternion
@@ -95,3 +95,5 @@ public:
     /** The scalar part of the quaternion. */
     Type scalar;
 };
+
+} // namespace juce

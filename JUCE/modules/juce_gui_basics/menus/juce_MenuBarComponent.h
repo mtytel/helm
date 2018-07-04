@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A menu bar component.
 
     @see MenuBarModel
+
+    @tags{GUI}
 */
 class JUCE_API  MenuBarComponent  : public Component,
                                     private MenuBarModel::Listener,
@@ -115,3 +117,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MenuBarComponent)
 };
+
+} // namespace juce

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -40,6 +40,8 @@
     sensible results.
 
     @see Point, Rectangle, Path, Graphics::drawLine
+
+    @tags{Graphics}
 */
 template <typename ValueType>
 class Line
@@ -251,7 +253,7 @@ public:
     */
     Point<ValueType> getPointAlongLineProportionally (typename Point<ValueType>::FloatType proportionOfLength) const noexcept
     {
-        return start + Point<ValueType> ((end - start) * proportionOfLength);
+        return start + (end - start) * proportionOfLength;
     }
 
     /** Returns the smallest distance between this line segment and a given point.
@@ -274,11 +276,11 @@ public:
         if (length > 0)
         {
             auto prop = ((targetPoint.x - start.x) * delta.x
-                       + (targetPoint.y - start.y) * delta.y) / length;
+                       + (targetPoint.y - start.y) * delta.y) / (double) length;
 
             if (prop >= 0 && prop <= 1.0)
             {
-                pointOnLine = start + delta * static_cast<ValueType> (prop);
+                pointOnLine = start + delta * prop;
                 return targetPoint.getDistanceFrom (pointOnLine);
             }
         }
@@ -424,3 +426,5 @@ private:
         return isZeroToOne (along2);
     }
 };
+
+} // namespace juce

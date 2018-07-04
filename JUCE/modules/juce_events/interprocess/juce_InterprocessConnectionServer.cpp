@@ -20,8 +20,10 @@
   ==============================================================================
 */
 
-InterprocessConnectionServer::InterprocessConnectionServer()
-    : Thread ("Juce IPC server")
+namespace juce
+{
+
+InterprocessConnectionServer::InterprocessConnectionServer() : Thread ("JUCE IPC server")
 {
 }
 
@@ -35,7 +37,7 @@ bool InterprocessConnectionServer::beginWaitingForSocket (const int portNumber, 
 {
     stop();
 
-    socket = new StreamingSocket();
+    socket.reset (new StreamingSocket());
 
     if (socket->createListener (portNumber, bindAddress))
     {
@@ -43,7 +45,7 @@ bool InterprocessConnectionServer::beginWaitingForSocket (const int portNumber, 
         return true;
     }
 
-    socket = nullptr;
+    socket.reset();
     return false;
 }
 
@@ -55,17 +57,24 @@ void InterprocessConnectionServer::stop()
         socket->close();
 
     stopThread (4000);
-    socket = nullptr;
+    socket.reset();
+}
+
+int InterprocessConnectionServer::getBoundPort() const noexcept
+{
+    return (socket == nullptr) ? -1 : socket->getBoundPort();
 }
 
 void InterprocessConnectionServer::run()
 {
     while ((! threadShouldExit()) && socket != nullptr)
     {
-        ScopedPointer<StreamingSocket> clientSocket (socket->waitForNextConnection());
+        std::unique_ptr<StreamingSocket> clientSocket (socket->waitForNextConnection());
 
         if (clientSocket != nullptr)
-            if (InterprocessConnection* newConnection = createConnectionObject())
+            if (auto* newConnection = createConnectionObject())
                 newConnection->initialiseWithSocket (clientSocket.release());
     }
 }
+
+} // namespace juce

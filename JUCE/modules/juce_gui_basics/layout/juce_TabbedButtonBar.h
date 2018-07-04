@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class TabbedButtonBar;
 
@@ -37,6 +38,8 @@ class TabbedButtonBar;
     method to create it instead of the default one.
 
     @see TabbedButtonBar
+
+    @tags{GUI}
 */
 class JUCE_API  TabBarButton  : public Button
 {
@@ -71,7 +74,7 @@ public:
                             ExtraComponentPlacement extraComponentPlacement);
 
     /** Returns the custom component, if there is one. */
-    Component* getExtraComponent() const noexcept                           { return extraComponent; }
+    Component* getExtraComponent() const noexcept                           { return extraComponent.get(); }
 
     /** Returns the placement of the custom component, if there is one. */
     ExtraComponentPlacement getExtraComponentPlacement() const noexcept     { return extraCompPlacement; }
@@ -119,10 +122,10 @@ public:
 protected:
     friend class TabbedButtonBar;
     TabbedButtonBar& owner;
-    int overlapPixels;
+    int overlapPixels = 0;
 
-    ScopedPointer<Component> extraComponent;
-    ExtraComponentPlacement extraCompPlacement;
+    std::unique_ptr<Component> extraComponent;
+    ExtraComponentPlacement extraCompPlacement = afterText;
 
 private:
     void calcAreas (Rectangle<int>&, Rectangle<int>&) const;
@@ -144,6 +147,8 @@ private:
     and other housekeeping.
 
     @see TabbedComponent
+
+    @tags{GUI}
 */
 class JUCE_API  TabbedButtonBar  : public Component,
                                    public ChangeBroadcaster
@@ -311,6 +316,7 @@ public:
         virtual Rectangle<int> getTabButtonExtraComponentBounds (const TabBarButton&, Rectangle<int>& textArea, Component& extraComp) = 0;
 
         virtual void drawTabButton (TabBarButton&, Graphics&, bool isMouseOver, bool isMouseDown) = 0;
+        virtual Font getTabButtonFont (TabBarButton&, float height) = 0;
         virtual void drawTabButtonText (TabBarButton&, Graphics&, bool isMouseOver, bool isMouseDown) = 0;
         virtual void drawTabbedButtonBarBackground (TabbedButtonBar&, Graphics&) = 0;
         virtual void drawTabAreaBehindFrontButton (TabbedButtonBar&, Graphics&, int w, int h) = 0;
@@ -339,25 +345,24 @@ protected:
     virtual TabBarButton* createTabButton (const String& tabName, int tabIndex);
 
 private:
-    Orientation orientation;
-
     struct TabInfo
     {
-        ScopedPointer<TabBarButton> button;
+        std::unique_ptr<TabBarButton> button;
         String name;
         Colour colour;
     };
 
-    OwnedArray <TabInfo> tabs;
+    OwnedArray<TabInfo> tabs;
 
-    double minimumScale;
-    int currentTabIndex;
+    Orientation orientation;
+    double minimumScale = 0.7;
+    int currentTabIndex = -1;
 
     class BehindFrontTabComp;
     friend class BehindFrontTabComp;
     friend struct ContainerDeletePolicy<BehindFrontTabComp>;
-    ScopedPointer<BehindFrontTabComp> behindFrontTab;
-    ScopedPointer<Button> extraTabsButton;
+    std::unique_ptr<BehindFrontTabComp> behindFrontTab;
+    std::unique_ptr<Button> extraTabsButton;
 
     void showExtraItemsMenu();
     static void extraItemsMenuCallback (int, TabbedButtonBar*);
@@ -365,3 +370,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TabbedButtonBar)
 };
+
+} // namespace juce

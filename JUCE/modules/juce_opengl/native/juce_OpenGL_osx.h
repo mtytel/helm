@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 class OpenGLContext::NativeContext
 {
 public:
@@ -108,12 +111,12 @@ public:
         }
     }
 
-    void initialiseOnRenderThread (OpenGLContext&) {}
-    void shutdownOnRenderThread()               { deactivateCurrentContext(); }
+    bool initialiseOnRenderThread (OpenGLContext&)    { return true; }
+    void shutdownOnRenderThread()                     { deactivateCurrentContext(); }
 
-    bool createdOk() const noexcept             { return getRawContext() != nullptr; }
-    void* getRawContext() const noexcept        { return static_cast<void*> (renderContext); }
-    GLuint getFrameBufferID() const noexcept    { return 0; }
+    bool createdOk() const noexcept                   { return getRawContext() != nullptr; }
+    void* getRawContext() const noexcept              { return static_cast<void*> (renderContext); }
+    GLuint getFrameBufferID() const noexcept          { return 0; }
 
     bool makeActive() const noexcept
     {
@@ -247,21 +250,13 @@ bool OpenGLHelpers::isContextActive()
 }
 
 //==============================================================================
-void componentPeerAboutToChange (ComponentPeer& peer, bool shouldSuspend)
+void componentPeerAboutToChange (Component& comp, bool shouldSuspend)
 {
-    Array<Component*> stack;
-    stack.add (&peer.getComponent());
+    if (auto* context = OpenGLContext::getContextAttachedTo (comp))
+        context->overrideCanBeAttached (shouldSuspend);
 
-    while (stack.size() != 0)
-    {
-        Component& comp = *stack.removeAndReturn (0);
-
-        const int n = comp.getNumChildComponents();
-        for (int i = 0; i < n; ++i)
-            if (Component* child = comp.getChildComponent (i))
-                stack.add (child);
-
-        if (OpenGLContext* context = OpenGLContext::getContextAttachedTo (comp))
-            context->overrideCanBeAttached (shouldSuspend);
-    }
+    for (auto* child : comp.getChildren())
+        componentPeerAboutToChange (*child, shouldSuspend);
 }
+
+} // namespace juce

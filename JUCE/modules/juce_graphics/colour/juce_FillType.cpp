@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 FillType::FillType() noexcept
     : colour (0xff000000)
 {
@@ -34,19 +37,24 @@ FillType::FillType (Colour c) noexcept
 {
 }
 
-FillType::FillType (const ColourGradient& gradient_)
-    : colour (0xff000000), gradient (new ColourGradient (gradient_))
+FillType::FillType (const ColourGradient& g)
+    : colour (0xff000000), gradient (new ColourGradient (g))
 {
 }
 
-FillType::FillType (const Image& image_, const AffineTransform& transform_) noexcept
-    : colour (0xff000000), image (image_), transform (transform_)
+FillType::FillType (ColourGradient&& g)
+    : colour (0xff000000), gradient (new ColourGradient (static_cast<ColourGradient&&> (g)))
+{
+}
+
+FillType::FillType (const Image& im, const AffineTransform& t) noexcept
+    : colour (0xff000000), image (im), transform (t)
 {
 }
 
 FillType::FillType (const FillType& other)
     : colour (other.colour),
-      gradient (other.gradient.createCopy()),
+      gradient (createCopyIfNotNull (other.gradient.get())),
       image (other.image),
       transform (other.transform)
 {
@@ -57,7 +65,7 @@ FillType& FillType::operator= (const FillType& other)
     if (this != &other)
     {
         colour = other.colour;
-        gradient = other.gradient.createCopy();
+        gradient.reset (createCopyIfNotNull (other.gradient.get()));
         image = other.image;
         transform = other.transform;
     }
@@ -67,7 +75,7 @@ FillType& FillType::operator= (const FillType& other)
 
 FillType::FillType (FillType&& other) noexcept
     : colour (other.colour),
-      gradient (other.gradient.release()),
+      gradient (static_cast<std::unique_ptr<ColourGradient>&&> (other.gradient)),
       image (static_cast<Image&&> (other.image)),
       transform (other.transform)
 {
@@ -78,7 +86,7 @@ FillType& FillType::operator= (FillType&& other) noexcept
     jassert (this != &other); // hopefully the compiler should make this situation impossible!
 
     colour = other.colour;
-    gradient = other.gradient.release();
+    gradient = static_cast<std::unique_ptr<ColourGradient>&&> (other.gradient);
     image = static_cast<Image&&> (other.image);
     transform = other.transform;
     return *this;
@@ -103,8 +111,8 @@ bool FillType::operator!= (const FillType& other) const
 
 void FillType::setColour (Colour newColour) noexcept
 {
-    gradient = nullptr;
-    image = Image();
+    gradient.reset();
+    image = {};
     colour = newColour;
 }
 
@@ -116,17 +124,17 @@ void FillType::setGradient (const ColourGradient& newGradient)
     }
     else
     {
-        image = Image();
-        gradient = new ColourGradient (newGradient);
+        image = {};
+        gradient.reset (new ColourGradient (newGradient));
         colour = Colours::black;
     }
 }
 
-void FillType::setTiledImage (const Image& image_, const AffineTransform& transform_) noexcept
+void FillType::setTiledImage (const Image& newImage, const AffineTransform& newTransform) noexcept
 {
-    gradient = nullptr;
-    image = image_;
-    transform = transform_;
+    gradient.reset();
+    image = newImage;
+    transform = newTransform;
     colour = Colours::black;
 }
 
@@ -146,3 +154,5 @@ FillType FillType::transformed (const AffineTransform& t) const
     f.transform = f.transform.followedBy (t);
     return f;
 }
+
+} // namespace juce

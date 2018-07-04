@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -38,6 +38,8 @@
 
     After creating an instance of this, use addListener to get callbacks when
     the activity status changes.
+
+    @tags{GUI}
 */
 class JUCE_API  MouseInactivityDetector  : private Timer,
                                            private MouseListener
@@ -90,8 +92,8 @@ private:
     Component& targetComp;
     ListenerList<Listener> listenerList;
     Point<int> lastMousePos;
-    int delayMs, toleranceDistance;
-    bool isActive;
+    int delayMs = 1500, toleranceDistance = 15;
+    bool isActive = true;
 
     void timerCallback() override;
     void wakeUp (const MouseEvent&, bool alwaysWake);
@@ -107,3 +109,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MouseInactivityDetector)
 };
+
+} // namespace juce

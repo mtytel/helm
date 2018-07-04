@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,6 +32,8 @@
          BufferedInputStream, so that it has to read larger blocks less often.
 
     @see GZIPCompressorOutputStream
+
+    @tags{Core}
 */
 class JUCE_API  GZIPDecompressorInputStream  : public InputStream
 {
@@ -82,14 +84,14 @@ private:
     OptionalScopedPointer<InputStream> sourceStream;
     const int64 uncompressedStreamLength;
     const Format format;
-    bool isEof;
-    int activeBufferSize;
-    int64 originalSourcePos, currentPos;
+    bool isEof = false;
+    int activeBufferSize = 0;
+    int64 originalSourcePos, currentPos = 0;
     HeapBlock<uint8> buffer;
 
     class GZIPDecompressHelper;
     friend struct ContainerDeletePolicy<GZIPDecompressHelper>;
-    ScopedPointer<GZIPDecompressHelper> helper;
+    std::unique_ptr<GZIPDecompressHelper> helper;
 
    #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
     // The arguments to this method have changed! Please pass a Format enum instead of the old dontWrap bool.
@@ -98,3 +100,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (GZIPDecompressorInputStream)
 };
+
+} // namespace juce

@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 #if JUCE_MAC || JUCE_WINDOWS || defined (DOXYGEN)
 
@@ -33,6 +34,8 @@
     to get the callbacks, there's no need to do anything else.
 
     @see File::findFileSystemRoots()
+
+    @tags{Events}
 */
 class JUCE_API  MountedVolumeListChangeDetector
 {
@@ -46,9 +49,11 @@ public:
 private:
     JUCE_PUBLIC_IN_DLL_BUILD (struct Pimpl)
     friend struct ContainerDeletePolicy<Pimpl>;
-    ScopedPointer<Pimpl> pimpl;
+    std::unique_ptr<Pimpl> pimpl;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MountedVolumeListChangeDetector)
 };
 
 #endif
+
+} // namespace juce

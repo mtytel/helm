@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -37,6 +37,8 @@
     A KnownPluginList contains a list of PluginDescription objects.
 
     @see KnownPluginList
+
+    @tags{Audio}
 */
 class JUCE_API  PluginDescription
 {
@@ -152,3 +154,5 @@ private:
     //==============================================================================
     JUCE_LEAK_DETECTOR (PluginDescription)
 };
+
+} // namespace juce

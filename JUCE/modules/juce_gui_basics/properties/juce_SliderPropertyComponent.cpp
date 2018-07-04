@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 SliderPropertyComponent::SliderPropertyComponent (const String& name,
                                                   const double rangeMin,
                                                   const double rangeMax,
@@ -38,7 +41,11 @@ SliderPropertyComponent::SliderPropertyComponent (const String& name,
     slider.setSkewFactor (skewFactor, symmetricSkew);
     slider.setSliderStyle (Slider::LinearBar);
 
-    slider.addListener (this);
+    slider.onValueChange = [this]
+    {
+        if (getValue() != slider.getValue())
+            setValue (slider.getValue());
+    };
 }
 
 SliderPropertyComponent::SliderPropertyComponent (const Value& valueToControl,
@@ -77,8 +84,4 @@ void SliderPropertyComponent::refresh()
     slider.setValue (getValue(), dontSendNotification);
 }
 
-void SliderPropertyComponent::sliderValueChanged (Slider*)
-{
-    if (getValue() != slider.getValue())
-        setValue (slider.getValue());
-}
+} // namespace juce

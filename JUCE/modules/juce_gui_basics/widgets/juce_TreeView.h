@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class TreeView;
 
@@ -42,6 +43,8 @@ class TreeView;
     do this the first time it's opened, or it might want to refresh itself each time.
     It also has the option of deleting its sub-items when it is closed, or leaving them
     in place.
+
+    @tags{GUI}
 */
 class JUCE_API  TreeViewItem
 {
@@ -55,15 +58,12 @@ public:
 
     //==============================================================================
     /** Returns the number of sub-items that have been added to this item.
-
         Note that this doesn't mean much if the node isn't open.
-
         @see getSubItem, mightContainSubItems, addSubItem
     */
     int getNumSubItems() const noexcept;
 
     /** Returns one of the item's sub-items.
-
         Remember that the object returned might get deleted at any time when its parent
         item is closed or refreshed, depending on the nature of the items you're using.
 
@@ -184,7 +184,7 @@ public:
 
     /** Selects or deselects the item.
         If shouldNotify == sendNotification, then a callback will be made
-        to itemSelectionChanged()
+        to itemSelectionChanged() if the item's selection has changed.
     */
     void setSelected (bool shouldBeSelected,
                       bool deselectOtherItemsFirst,
@@ -370,7 +370,7 @@ public:
 
         @see itemDoubleClicked
     */
-    virtual void itemClicked (const MouseEvent& e);
+    virtual void itemClicked (const MouseEvent&);
 
     /** Called when the user double-clicks on this item.
 
@@ -386,7 +386,7 @@ public:
 
         @see itemClicked
     */
-    virtual void itemDoubleClicked (const MouseEvent& e);
+    virtual void itemDoubleClicked (const MouseEvent&);
 
     /** Called when the item is selected or deselected.
 
@@ -569,23 +569,23 @@ public:
     class OpennessRestorer
     {
     public:
-        OpennessRestorer (TreeViewItem& treeViewItem);
+        OpennessRestorer (TreeViewItem&);
         ~OpennessRestorer();
 
     private:
         TreeViewItem& treeViewItem;
-        ScopedPointer<XmlElement> oldOpenness;
+        std::unique_ptr<XmlElement> oldOpenness;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OpennessRestorer)
     };
 
 private:
     //==============================================================================
-    TreeView* ownerView;
-    TreeViewItem* parentItem;
+    TreeView* ownerView = nullptr;
+    TreeViewItem* parentItem = nullptr;
     OwnedArray<TreeViewItem> subItems;
-    int y, itemHeight, totalHeight, itemWidth, totalWidth;
-    int uid;
+    int y = 0, itemHeight = 0, totalHeight = 0, itemWidth = 0, totalWidth = 0;
+    int uid = 0;
     bool selected           : 1;
     bool redrawNeeded       : 1;
     bool drawLinesInside    : 1;
@@ -633,6 +633,8 @@ private:
 
     Use one of these to hold and display a structure of TreeViewItem objects.
 
+
+    @tags{GUI}
 */
 class JUCE_API  TreeView  : public Component,
                             public SettableTooltipClient,
@@ -908,14 +910,14 @@ private:
     friend struct ContainerDeletePolicy<InsertPointHighlight>;
     friend struct ContainerDeletePolicy<TargetGroupHighlight>;
 
-    ScopedPointer<TreeViewport> viewport;
+    std::unique_ptr<TreeViewport> viewport;
     CriticalSection nodeAlterationLock;
-    TreeViewItem* rootItem;
-    ScopedPointer<InsertPointHighlight> dragInsertPointHighlight;
-    ScopedPointer<TargetGroupHighlight> dragTargetGroupHighlight;
-    int indentSize;
-    bool defaultOpenness, needsRecalculating, rootItemVisible;
-    bool multiSelectEnabled, openCloseButtonsVisible;
+    TreeViewItem* rootItem = nullptr;
+    std::unique_ptr<InsertPointHighlight> dragInsertPointHighlight;
+    std::unique_ptr<TargetGroupHighlight> dragTargetGroupHighlight;
+    int indentSize = -1;
+    bool defaultOpenness = false, needsRecalculating = true, rootItemVisible = true;
+    bool multiSelectEnabled = false, openCloseButtonsVisible = true;
 
     void itemsChanged() noexcept;
     void recalculateIfNeeded();
@@ -937,3 +939,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TreeView)
 };
+
+} // namespace juce

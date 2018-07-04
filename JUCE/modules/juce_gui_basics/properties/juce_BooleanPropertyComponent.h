@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,9 +35,10 @@
     toggle on/off.
 
     @see PropertyComponent
+
+    @tags{GUI}
 */
-class JUCE_API  BooleanPropertyComponent  : public PropertyComponent,
-                                            private ButtonListener // (can't use Button::Listener due to idiotic VC2005 bug)
+class JUCE_API  BooleanPropertyComponent  : public PropertyComponent
 {
 protected:
     //==============================================================================
@@ -98,8 +99,6 @@ public:
     void paint (Graphics&) override;
     /** @internal */
     void refresh() override;
-    /** @internal */
-    void buttonClicked (Button*) override;
 
 private:
     ToggleButton button;
@@ -107,3 +106,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BooleanPropertyComponent)
 };
+
+} // namespace juce

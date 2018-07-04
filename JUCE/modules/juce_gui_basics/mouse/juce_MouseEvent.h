@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,8 +33,10 @@
 
     @see MouseListener, Component::mouseMove, Component::mouseEnter, Component::mouseExit,
          Component::mouseDown, Component::mouseUp, Component::mouseDrag
+
+    @tags{GUI}
 */
-class JUCE_API  MouseEvent
+class JUCE_API  MouseEvent  final
 {
 public:
     //==============================================================================
@@ -233,8 +236,8 @@ public:
 
         This is only meaningful if called in either a mouseUp() or mouseDrag() method.
 
-        It will return true if the user has dragged the mouse more than a few pixels
-        from the place where the mouse-down occurred.
+        It will return true if the user has dragged the mouse more than a few pixels from the place
+        where the mouse-down occurred or the mouse has been held down for a significant amount of time.
 
         Once they have dragged it far enough for this method to return true, it will continue
         to return true until the mouse-up, even if they move the mouse back to the same
@@ -376,8 +379,10 @@ private:
     Contains status information about a mouse wheel event.
 
     @see MouseListener, MouseEvent
+
+    @tags{GUI}
 */
-struct MouseWheelDetails
+struct MouseWheelDetails  final
 {
     //==============================================================================
     /** The amount that the wheel has been moved in the X axis.
@@ -416,8 +421,10 @@ struct MouseWheelDetails
     Contains status information about a pen event.
 
     @see MouseListener, MouseEvent
+
+    @tags{GUI}
 */
-struct PenDetails
+struct PenDetails  final
 {
     /**
         The rotation of the pen device in radians. Indicates the clockwise rotation, or twist,
@@ -437,3 +444,5 @@ struct PenDetails
     */
     float tiltY;
 };
+
+} // namespace juce

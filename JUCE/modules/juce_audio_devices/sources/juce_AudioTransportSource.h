@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,6 +35,8 @@
     to control playback of an audio file.
 
     @see AudioSource, AudioSourcePlayer
+
+    @tags{Audio}
 */
 class JUCE_API  AudioTransportSource  : public PositionableAudioSource,
                                         public ChangeBroadcaster
@@ -85,7 +87,9 @@ public:
         The next time the getNextAudioBlock() method is called, this
         is the time from which it'll read data.
 
-        @see getPosition
+        @param newPosition    the new playback position in seconds
+
+        @see getCurrentPosition
     */
     void setPosition (double newPosition);
 
@@ -155,20 +159,22 @@ public:
 
 private:
     //==============================================================================
-    PositionableAudioSource* source;
-    ResamplingAudioSource* resamplerSource;
-    BufferingAudioSource* bufferingSource;
-    PositionableAudioSource* positionableSource;
-    AudioSource* masterSource;
+    PositionableAudioSource* source = nullptr;
+    ResamplingAudioSource* resamplerSource = nullptr;
+    BufferingAudioSource* bufferingSource = nullptr;
+    PositionableAudioSource* positionableSource = nullptr;
+    AudioSource* masterSource = nullptr;
 
     CriticalSection callbackLock;
-    float volatile gain, lastGain;
-    bool volatile playing, stopped;
-    double sampleRate, sourceSampleRate;
-    int blockSize, readAheadBufferSize;
-    bool volatile isPrepared, inputStreamEOF;
+    float gain = 1.0f, lastGain = 1.0f;
+    bool playing = false, stopped = true;
+    double sampleRate = 44100.0, sourceSampleRate = 0;
+    int blockSize = 128, readAheadBufferSize = 0;
+    bool isPrepared = false, inputStreamEOF = false;
 
     void releaseMasterResources();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioTransportSource)
 };
+
+} // namespace juce

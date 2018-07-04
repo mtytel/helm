@@ -27,8 +27,8 @@
 class OpenGLComponent;
 class SynthSlider;
 
-class SynthSection : public Component, public SliderListener,
-                     public ButtonListener, public SynthButton::ButtonListener {
+class SynthSection : public Component, public Slider::Listener,
+                     public Button::Listener, public SynthButton::ButtonListener {
   public:
     SynthSection(String name) : Component(name), activator_(nullptr), size_ratio_(1.0f) { }
 

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -56,7 +56,7 @@
 
             void initialise (const String& commandLine) override
             {
-                myMainWindow = new MyApplicationWindow();
+                myMainWindow.reset (new MyApplicationWindow());
                 myMainWindow->setBounds (100, 100, 400, 500);
                 myMainWindow->setVisible (true);
             }
@@ -77,7 +77,7 @@
             }
 
         private:
-            ScopedPointer<MyApplicationWindow> myMainWindow;
+            std::unique_ptr<MyApplicationWindow> myMainWindow;
         };
 
         // this generates boilerplate code to launch our app class:
@@ -85,6 +85,8 @@
     @endcode
 
     @see JUCEApplicationBase, START_JUCE_APPLICATION
+
+    @tags{GUI}
 */
 class JUCE_API  JUCEApplication  : public JUCEApplicationBase,
                                    public ApplicationCommandTarget
@@ -122,7 +124,7 @@ public:
 
     /** Checks whether multiple instances of the app are allowed.
 
-        If you application class returns true for this, more than one instance is
+        If your application class returns true for this, more than one instance is
         permitted to run (except on OSX where the OS automatically stops you launching
         a second instance of an app without explicitly starting it from the command-line).
 
@@ -188,3 +190,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (JUCEApplication)
 };
+
+} // namespace juce

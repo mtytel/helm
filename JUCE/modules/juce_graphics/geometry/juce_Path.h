@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -59,8 +59,10 @@
     be open or closed.
 
     @see PathFlatteningIterator, PathStrokeType, Graphics
+
+    @tags{Graphics}
 */
-class JUCE_API  Path
+class JUCE_API  Path  final
 {
 public:
     //==============================================================================
@@ -129,7 +131,7 @@ public:
 
         @see closeSubPath, setUsingNonZeroWinding
     */
-    bool contains (const Point<float> point,
+    bool contains (Point<float> point,
                    float tolerance = defaultToleranceForTesting) const;
 
     /** Checks whether a line crosses the path.
@@ -211,7 +213,7 @@ public:
 
         @see lineTo, quadraticTo, cubicTo, closeSubPath
     */
-    void startNewSubPath (const Point<float> start);
+    void startNewSubPath (Point<float> start);
 
     /** Closes a the current sub-path with a line back to its start-point.
 
@@ -247,7 +249,7 @@ public:
 
         @see startNewSubPath, quadraticTo, cubicTo, closeSubPath
     */
-    void lineTo (const Point<float> end);
+    void lineTo (Point<float> end);
 
     /** Adds a quadratic bezier curve from the shape's last position to a new position.
 
@@ -272,8 +274,8 @@ public:
 
         @see startNewSubPath, lineTo, cubicTo, closeSubPath
     */
-    void quadraticTo (const Point<float> controlPoint,
-                      const Point<float> endPoint);
+    void quadraticTo (Point<float> controlPoint,
+                      Point<float> endPoint);
 
     /** Adds a cubic bezier curve from the shape's last position to a new position.
 
@@ -300,9 +302,9 @@ public:
 
         @see startNewSubPath, lineTo, quadraticTo, closeSubPath
     */
-    void cubicTo (const Point<float> controlPoint1,
-                  const Point<float> controlPoint2,
-                  const Point<float> endPoint);
+    void cubicTo (Point<float> controlPoint1,
+                  Point<float> controlPoint2,
+                  Point<float> endPoint);
 
     /** Returns the last point that was added to the path by one of the drawing methods.
     */
@@ -320,7 +322,7 @@ public:
         @see addRoundedRectangle, addTriangle
     */
     template <typename ValueType>
-    void addRectangle (const Rectangle<ValueType>& rectangle)
+    void addRectangle (Rectangle<ValueType> rectangle)
     {
         addRectangle (static_cast<float> (rectangle.getX()), static_cast<float> (rectangle.getY()),
                       static_cast<float> (rectangle.getWidth()), static_cast<float> (rectangle.getHeight()));
@@ -355,7 +357,7 @@ public:
         @see addRectangle, addTriangle
     */
     template <typename ValueType>
-    void addRoundedRectangle (const Rectangle<ValueType>& rectangle, float cornerSizeX, float cornerSizeY)
+    void addRoundedRectangle (Rectangle<ValueType> rectangle, float cornerSizeX, float cornerSizeY)
     {
         addRoundedRectangle (static_cast<float> (rectangle.getX()), static_cast<float> (rectangle.getY()),
                              static_cast<float> (rectangle.getWidth()), static_cast<float> (rectangle.getHeight()),
@@ -367,7 +369,7 @@ public:
         @see addRectangle, addTriangle
     */
     template <typename ValueType>
-    void addRoundedRectangle (const Rectangle<ValueType>& rectangle, float cornerSize)
+    void addRoundedRectangle (Rectangle<ValueType> rectangle, float cornerSize)
     {
         addRoundedRectangle (rectangle, cornerSize, cornerSize);
     }
@@ -534,13 +536,13 @@ public:
 
         @see addArrow
     */
-    void addLineSegment (const Line<float>& line, float lineThickness);
+    void addLineSegment (Line<float> line, float lineThickness);
 
     /** Adds a line with an arrowhead on the end.
         The arrow is added as a new closed sub-path. (Any currently open paths will be left open).
         @see PathStrokeType::createStrokeWithArrowheads
     */
-    void addArrow (const Line<float>& line,
+    void addArrow (Line<float> line,
                    float lineThickness,
                    float arrowheadWidth,
                    float arrowheadLength);
@@ -548,7 +550,7 @@ public:
     /** Adds a polygon shape to the path.
         @see addStar
     */
-    void addPolygon (const Point<float> centre,
+    void addPolygon (Point<float> centre,
                      int numberOfSides,
                      float radius,
                      float startAngle = 0.0f);
@@ -556,7 +558,7 @@ public:
     /** Adds a star shape to the path.
         @see addPolygon
     */
-    void addStar (const Point<float> centre,
+    void addStar (Point<float> centre,
                   int numberOfPoints,
                   float innerRadius,
                   float outerRadius,
@@ -572,8 +574,8 @@ public:
         @param cornerSize       the size of the rounded corners
         @param arrowBaseWidth   the width of the base of the arrow where it joins the main rectangle
     */
-    void addBubble (const Rectangle<float>& bodyArea,
-                    const Rectangle<float>& maximumArea,
+    void addBubble (Rectangle<float> bodyArea,
+                    Rectangle<float> maximumArea,
                     const Point<float> arrowTipPosition,
                     const float cornerSize,
                     const float arrowBaseWidth);
@@ -677,7 +679,7 @@ public:
         @see applyTransform, scaleToFit
 
     */
-    AffineTransform getTransformToScaleToFit (const Rectangle<float>& area,
+    AffineTransform getTransformToScaleToFit (Rectangle<float> area,
                                               bool preserveProportions,
                                               Justification justificationType = Justification::centred) const;
 
@@ -753,7 +755,7 @@ public:
         //==============================================================================
     private:
         const Path& path;
-        size_t index = 0;
+        const float* index;
 
         JUCE_DECLARE_NON_COPYABLE (Iterator)
     };
@@ -781,9 +783,7 @@ public:
     void loadPathFromData (const void* data, size_t numberOfBytes);
 
     /** Stores the path by writing it out to a stream.
-
         After writing out a path, you can reload it using loadPathFromStream().
-
         @see loadPathFromStream, loadPathFromData
     */
     void writePathToStream (OutputStream& destination) const;
@@ -803,8 +803,9 @@ private:
     //==============================================================================
     friend class PathFlatteningIterator;
     friend class Path::Iterator;
-    ArrayAllocationBase<float, DummyCriticalSection> data;
-    size_t numElements = 0;
+    friend class EdgeTable;
+
+    Array<float> data;
 
     struct PathBounds
     {
@@ -813,7 +814,13 @@ private:
         void reset() noexcept;
         void reset (float, float) noexcept;
         void extend (float, float) noexcept;
-        void extend (float, float, float, float) noexcept;
+
+        template <typename... Coords>
+        void extend (float x, float y, Coords... coords) noexcept
+        {
+            extend (x, y);
+            extend (coords...);
+        }
 
         float pathXMin = 0, pathXMax = 0, pathYMin = 0, pathYMax = 0;
     };
@@ -829,3 +836,5 @@ private:
 
     JUCE_LEAK_DETECTOR (Path)
 };
+
+} // namespace juce

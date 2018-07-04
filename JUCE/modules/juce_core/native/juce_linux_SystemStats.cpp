@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 void Logger::outputDebugString (const String& text)
 {
     std::cerr << text << std::endl;
@@ -55,6 +58,11 @@ static inline String getCpuInfo (const char* key)
 String SystemStats::getDeviceDescription()
 {
     return getCpuInfo ("Hardware");
+}
+
+String SystemStats::getDeviceManufacturer()
+{
+    return {};
 }
 
 String SystemStats::getCpuVendor()
@@ -199,3 +207,5 @@ JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger() noexcept
              .getIntValue() > 0;
    #endif
 }
+
+} // namespace juce

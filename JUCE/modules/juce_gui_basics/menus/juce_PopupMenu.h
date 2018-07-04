@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** Creates and displays a popup-menu.
@@ -74,6 +74,8 @@
         ...etc
     }
     @endcode
+
+    @tags{GUI}
 */
 class JUCE_API  PopupMenu
 {
@@ -89,19 +91,19 @@ public:
     PopupMenu();
 
     /** Creates a copy of another menu. */
-    PopupMenu (const PopupMenu& other);
+    PopupMenu (const PopupMenu&);
 
     /** Destructor. */
     ~PopupMenu();
 
     /** Copies this menu from another one. */
-    PopupMenu& operator= (const PopupMenu& other);
+    PopupMenu& operator= (const PopupMenu&);
 
     /** Move constructor */
-    PopupMenu (PopupMenu&& other) noexcept;
+    PopupMenu (PopupMenu&&) noexcept;
 
     /** Move assignment operator */
-    PopupMenu& operator= (PopupMenu&& other) noexcept;
+    PopupMenu& operator= (PopupMenu&&) noexcept;
 
     //==============================================================================
     /** Resets the menu, removing all its items. */
@@ -125,14 +127,14 @@ public:
         /** The menu item's name. */
         String text;
 
-        /** The menu item's ID. This can not be 0 if you want the item to be triggerable! */
-        int itemID;
+        /** The menu item's ID. This must not be 0 if you want the item to be triggerable! */
+        int itemID = 0;
 
         /** A sub-menu, or nullptr if there isn't one. */
-        ScopedPointer<PopupMenu> subMenu;
+        std::unique_ptr<PopupMenu> subMenu;
 
         /** A drawable to use as an icon, or nullptr if there isn't one. */
-        ScopedPointer<Drawable> image;
+        std::unique_ptr<Drawable> image;
 
         /** A custom component for the item to display, or nullptr if there isn't one. */
         ReferenceCountedObjectPtr<CustomComponent> customComponent;
@@ -141,7 +143,7 @@ public:
         ReferenceCountedObjectPtr<CustomCallback> customCallback;
 
         /** A command manager to use to automatically invoke the command, or nullptr if none is specified. */
-        ApplicationCommandManager* commandManager;
+        ApplicationCommandManager* commandManager = nullptr;
 
         /** An optional string describing the shortcut key for this item.
             This is only used for displaying at the right-hand edge of a menu item - the
@@ -157,16 +159,16 @@ public:
         Colour colour;
 
         /** True if this menu item is enabled. */
-        bool isEnabled;
+        bool isEnabled = true;
 
         /** True if this menu item should have a tick mark next to it. */
-        bool isTicked;
+        bool isTicked = false;
 
         /** True if this menu item is a separator line. */
-        bool isSeparator;
+        bool isSeparator = false;
 
         /** True if this menu item is a section header. */
-        bool isSectionHeader;
+        bool isSectionHeader = false;
     };
 
     /** Adds an item to the menu.
@@ -247,8 +249,6 @@ public:
                          const String& displayName = String(),
                          Drawable* iconToUse = nullptr);
 
-
-
     /** Appends a text item with a special colour.
 
         This is the same as addItem(), but specifies a colour to use for the
@@ -280,6 +280,8 @@ public:
         This will add a user-defined component to use as a menu item. The component
         passed in will be deleted by this menu when it's no longer needed.
 
+        Note that native macOS menus do not support custom components.
+
         @see CustomComponent
     */
     void addCustomItem (int itemResultID,
@@ -296,6 +298,8 @@ public:
         detection of a mouse-click on your component, and use that to trigger the
         menu ID specified in itemResultID. If this is false, the menu item can't
         be triggered, so itemResultID is not used.
+
+        Note that native macOS menus do support custom components.
     */
     void addCustomItem (int itemResultID,
                         Component* customComponent,
@@ -385,33 +389,44 @@ public:
     {
     public:
         Options();
+        Options (const Options&) = default;
+        Options& operator= (const Options&) = default;
+
+        enum class PopupDirection
+        {
+            upwards,
+            downwards
+        };
 
         //==============================================================================
         Options withTargetComponent (Component* targetComponent) const noexcept;
-        Options withTargetScreenArea (const Rectangle<int>& targetArea) const noexcept;
+        Options withTargetScreenArea (Rectangle<int> targetArea) const noexcept;
         Options withMinimumWidth (int minWidth) const noexcept;
+        Options withMinimumNumColumns (int minNumColumns) const noexcept;
         Options withMaximumNumColumns (int maxNumColumns) const noexcept;
         Options withStandardItemHeight (int standardHeight) const noexcept;
         Options withItemThatMustBeVisible (int idOfItemToBeVisible) const noexcept;
         Options withParentComponent (Component* parentComponent) const noexcept;
+        Options withPreferredPopupDirection (PopupDirection direction) const noexcept;
 
         //==============================================================================
-        Component* getParentComponent() const noexcept          { return parentComponent; }
-        Component* getTargetComponent() const noexcept          { return targetComponent; }
-        Rectangle<int> getTargetScreenArea() const noexcept     { return targetArea; }
-        int getMinimumWidth() const noexcept                    { return minWidth; }
-        int getMaximumNumColumns() const noexcept               { return maxColumns; }
-        int getStandardItemHeight() const noexcept              { return standardHeight; }
-        int getItemThatMustBeVisible() const noexcept           { return visibleItemID; }
+        Component* getParentComponent() const noexcept               { return parentComponent; }
+        Component* getTargetComponent() const noexcept               { return targetComponent; }
+        Rectangle<int> getTargetScreenArea() const noexcept          { return targetArea; }
+        int getMinimumWidth() const noexcept                         { return minWidth; }
+        int getMaximumNumColumns() const noexcept                    { return maxColumns; }
+        int getMinimumNumColumns() const noexcept                    { return minColumns; }
+        int getStandardItemHeight() const noexcept                   { return standardHeight; }
+        int getItemThatMustBeVisible() const noexcept                { return visibleItemID; }
+        PopupDirection getPreferredPopupDirection() const noexcept   { return preferredPopupDirection; }
 
     private:
         //==============================================================================
-        friend class PopupMenu;
-        friend class PopupMenu::Window;
         Rectangle<int> targetArea;
-        Component* targetComponent;
-        Component* parentComponent;
-        int visibleItemID, minWidth, maxColumns, standardHeight;
+        Component* targetComponent = nullptr;
+        Component* parentComponent = nullptr;
+        int visibleItemID = 0, minWidth = 0, minColumns = 1, maxColumns = 0, standardHeight = 0;
+        PopupDirection preferredPopupDirection = PopupDirection::downwards;
     };
 
     //==============================================================================
@@ -469,7 +484,7 @@ public:
 
         @see show()
     */
-    int showAt (const Rectangle<int>& screenAreaToAttachTo,
+    int showAt (Rectangle<int> screenAreaToAttachTo,
                 int itemIDThatMustBeVisible = 0,
                 int minimumWidth = 0,
                 int maximumNumColumns = 0,
@@ -497,6 +512,10 @@ public:
     /** Runs the menu asynchronously, with a user-provided callback that will receive the result. */
     void showMenuAsync (const Options& options,
                         ModalComponentManager::Callback* callback);
+
+    /** Runs the menu asynchronously, with a user-provided callback that will receive the result. */
+    void showMenuAsync (const Options& options,
+                        std::function<void(int)> callback);
 
     //==============================================================================
     /** Closes any menus that are currently open.
@@ -581,9 +600,9 @@ public:
         //==============================================================================
         bool searchRecursively;
 
-        Array <int> index;
-        Array <const PopupMenu*> menus;
-        PopupMenu::Item *currentItem;
+        Array<int> index;
+        Array<const PopupMenu*> menus;
+        PopupMenu::Item* currentItem = nullptr;
 
         MenuItemIterator& operator= (const MenuItemIterator&);
         JUCE_LEAK_DETECTOR (MenuItemIterator)
@@ -634,7 +653,7 @@ public:
 
     private:
         //==============================================================================
-        bool isHighlighted, triggeredAutomatically;
+        bool isHighlighted = false, triggeredAutomatically;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomComponent)
     };
@@ -719,6 +738,12 @@ public:
         virtual Component* getParentComponentForMenuOptions (const PopupMenu::Options& options) = 0;
 
         virtual void preparePopupMenuWindow (Component& newWindow) = 0;
+
+        /** Return true if you want your popup menus to scale with the target component's AffineTransform
+            or scale factor */
+        virtual bool shouldPopupMenuScaleWithTargetComponent (const PopupMenu::Options& options) = 0;
+
+        virtual int getPopupMenuBorderSize() = 0;
     };
 
 private:
@@ -740,3 +765,5 @@ private:
 
     JUCE_LEAK_DETECTOR (PopupMenu)
 };
+
+} // namespace juce

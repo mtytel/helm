@@ -27,9 +27,9 @@ MidiKeyboard::MidiKeyboard(MidiKeyboardState& state, Orientation orientation) :
 }
 
 void MidiKeyboard::drawBlackNote(int midiNoteNumber, Graphics& g,
-                                 int x, int y, int w, int h,
+                                 Rectangle<float> area,
                                  bool isDown, bool isOver,
-                                 const Colour& noteFillColour) {
+                                 Colour noteFillColour) {
   Colour color(noteFillColour);
 
   if (isDown)
@@ -38,5 +38,5 @@ void MidiKeyboard::drawBlackNote(int midiNoteNumber, Graphics& g,
     color = color.overlaidWith(findColour(mouseOverKeyOverlayColourId));
 
   g.setColour(color);
-  g.fillRect(x, y, w, h);
+  g.fillRect(area);
 }

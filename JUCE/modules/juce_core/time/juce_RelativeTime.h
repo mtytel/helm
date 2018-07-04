@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** A relative measure of time.
@@ -30,6 +30,8 @@
     point accuracy, and may be positive or negative.
 
     If you need an absolute time, (i.e. a date + time), see the Time class.
+
+    @tags{Core}
 */
 class JUCE_API  RelativeTime
 {
@@ -171,3 +173,5 @@ JUCE_API bool JUCE_CALLTYPE operator<= (RelativeTime t1, RelativeTime t2) noexce
 JUCE_API RelativeTime  JUCE_CALLTYPE operator+  (RelativeTime t1, RelativeTime t2) noexcept;
 /** Subtracts two RelativeTimes. */
 JUCE_API RelativeTime  JUCE_CALLTYPE operator-  (RelativeTime t1, RelativeTime t2) noexcept;
+
+} // namespace juce

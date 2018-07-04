@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class ChangeBroadcaster;
 
@@ -37,6 +38,8 @@ class ChangeBroadcaster;
     callbacks, but ActionListeners perform one callback for every event posted.
 
     @see ChangeBroadcaster, ActionListener
+
+    @tags{Events}
 */
 class JUCE_API  ChangeListener
 {
@@ -56,3 +59,5 @@ public:
     private: virtual int changeListenerCallback (void*) { return 0; }
    #endif
 };
+
+} // namespace juce

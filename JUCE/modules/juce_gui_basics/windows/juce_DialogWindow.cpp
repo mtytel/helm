@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 DialogWindow::DialogWindow (const String& name, Colour colour,
                             const bool escapeCloses, const bool onDesktop)
     : DocumentWindow (name, colour, DocumentWindow::closeButton, onDesktop),
@@ -60,7 +63,7 @@ void DialogWindow::resized()
 
     if (escapeKeyTriggersCloseButton)
     {
-        if (Button* const close = getCloseButton())
+        if (auto* close = getCloseButton())
         {
             const KeyPress esc (KeyPress::escapeKey, 0, 0);
 
@@ -99,15 +102,7 @@ private:
     JUCE_DECLARE_NON_COPYABLE (DefaultDialogWindow)
 };
 
-DialogWindow::LaunchOptions::LaunchOptions() noexcept
-    : dialogBackgroundColour (Colours::lightgrey),
-      componentToCentreAround (nullptr),
-      escapeKeyTriggersCloseButton (true),
-      useNativeTitleBar (true),
-      resizable (true),
-      useBottomRightCornerResizer (false)
-{
-}
+DialogWindow::LaunchOptions::LaunchOptions() noexcept {}
 
 DialogWindow* DialogWindow::LaunchOptions::create()
 {
@@ -118,7 +113,7 @@ DialogWindow* DialogWindow::LaunchOptions::create()
 
 DialogWindow* DialogWindow::LaunchOptions::launchAsync()
 {
-    DialogWindow* const d = create();
+    auto* d = create();
     d->enterModalState (true, nullptr, true);
     return d;
 }
@@ -137,8 +132,7 @@ void DialogWindow::showDialog (const String& dialogTitle,
                                Colour backgroundColour,
                                const bool escapeKeyTriggersCloseButton,
                                const bool resizable,
-                               const bool useBottomRightCornerResizer,
-                               const bool useNativeTitleBar)
+                               const bool useBottomRightCornerResizer)
 {
     LaunchOptions o;
     o.dialogTitle = dialogTitle;
@@ -146,9 +140,9 @@ void DialogWindow::showDialog (const String& dialogTitle,
     o.componentToCentreAround = componentToCentreAround;
     o.dialogBackgroundColour = backgroundColour;
     o.escapeKeyTriggersCloseButton = escapeKeyTriggersCloseButton;
+    o.useNativeTitleBar = false;
     o.resizable = resizable;
     o.useBottomRightCornerResizer = useBottomRightCornerResizer;
-    o.useNativeTitleBar = useNativeTitleBar;
 
     o.launchAsync();
 }
@@ -160,8 +154,7 @@ int DialogWindow::showModalDialog (const String& dialogTitle,
                                    Colour backgroundColour,
                                    const bool escapeKeyTriggersCloseButton,
                                    const bool resizable,
-                                   const bool useBottomRightCornerResizer,
-                                   const bool useNativeTitleBar)
+                                   const bool useBottomRightCornerResizer)
 {
     LaunchOptions o;
     o.dialogTitle = dialogTitle;
@@ -169,10 +162,12 @@ int DialogWindow::showModalDialog (const String& dialogTitle,
     o.componentToCentreAround = componentToCentreAround;
     o.dialogBackgroundColour = backgroundColour;
     o.escapeKeyTriggersCloseButton = escapeKeyTriggersCloseButton;
+    o.useNativeTitleBar = false;
     o.resizable = resizable;
     o.useBottomRightCornerResizer = useBottomRightCornerResizer;
-    o.useNativeTitleBar = useNativeTitleBar;
 
     return o.runModal();
 }
 #endif
+
+} // namespace juce

@@ -24,13 +24,6 @@
   ==============================================================================
 */
 
-#pragma once
-
-// Hack to forward declare _XDisplay outside the
-// juce namespace
-
-}
-
 struct _XDisplay;
 
 namespace juce
@@ -38,21 +31,21 @@ namespace juce
 
 typedef ::_XDisplay* XDisplay;
 
-typedef unsigned long ATOM_TYPE;
-typedef unsigned long WINDOW_TYPE;
+typedef unsigned long AtomType;
+typedef unsigned long WindowType;
 
 
 //==============================================================================
-class XWindowSystem
+class XWindowSystem :  public DeletedAtShutdown
 {
 public:
     XDisplay displayRef() noexcept;
     XDisplay displayUnref() noexcept;
 
-    juce_DeclareSingleton (XWindowSystem, false)
+    JUCE_DECLARE_SINGLETON (XWindowSystem, false)
 
 private:
-    XDisplay display;
+    XDisplay display = {};
     Atomic<int> displayCount;
 
     XWindowSystem() noexcept;
@@ -63,9 +56,12 @@ private:
 };
 
 //==============================================================================
-class ScopedXDisplay
+/** Creates and holds a reference to the X display.
+
+    @tags{GUI}
+*/
+struct ScopedXDisplay
 {
-public:
     ScopedXDisplay();
     ~ScopedXDisplay();
 
@@ -75,12 +71,14 @@ public:
 //==============================================================================
 /** A handy class that uses XLockDisplay and XUnlockDisplay to lock the X server
     using RAII (Only available in Linux!).
+
+    @tags{GUI}
 */
 class ScopedXLock
 {
 public:
     /** Creating a ScopedXLock object locks the X display.
-        This uses XLockDisplay() to grab the display that Juce is using.
+        This uses XLockDisplay() to grab the display that JUCE is using.
     */
     ScopedXLock (XDisplay);
 
@@ -106,39 +104,39 @@ struct Atoms
         PING = 2
     };
 
-    ATOM_TYPE protocols, protocolList[3], changeState, state, userTime,
-              activeWin, pid, windowType, windowState,
-              XdndAware, XdndEnter, XdndLeave, XdndPosition, XdndStatus,
-              XdndDrop, XdndFinished, XdndSelection, XdndTypeList, XdndActionList,
-              XdndActionDescription, XdndActionCopy, XdndActionPrivate,
-              XembedMsgType, XembedInfo,
-              allowedActions[5],
-              allowedMimeTypes[4];
+    AtomType protocols, protocolList[3], changeState, state, userTime,
+             activeWin, pid, windowType, windowState,
+             XdndAware, XdndEnter, XdndLeave, XdndPosition, XdndStatus,
+             XdndDrop, XdndFinished, XdndSelection, XdndTypeList, XdndActionList,
+             XdndActionDescription, XdndActionCopy, XdndActionPrivate,
+             XembedMsgType, XembedInfo,
+             allowedActions[5],
+             allowedMimeTypes[4];
 
     static const unsigned long DndVersion;
 
-    static ATOM_TYPE getIfExists (XDisplay, const char* name);
-    static ATOM_TYPE getCreating (XDisplay, const char* name);
+    static AtomType getIfExists (XDisplay, const char* name);
+    static AtomType getCreating (XDisplay, const char* name);
 
-    static String getName (XDisplay, ATOM_TYPE atom);
+    static String getName (XDisplay, AtomType);
 
-    static bool isMimeTypeFile (XDisplay, ATOM_TYPE atom);
+    static bool isMimeTypeFile (XDisplay, AtomType);
 };
 
 //==============================================================================
 struct GetXProperty
 {
-    GetXProperty (XDisplay, WINDOW_TYPE window, ATOM_TYPE atom,
+    GetXProperty (XDisplay, WindowType, AtomType,
                   long offset, long length, bool shouldDelete,
-                  ATOM_TYPE requestedType);
+                  AtomType requestedType);
 
     ~GetXProperty();
 
     bool success;
-    unsigned char* data;
+    unsigned char* data = nullptr;
     unsigned long numItems, bytesLeft;
-    ATOM_TYPE actualType;
+    AtomType actualType;
     int actualFormat;
 };
 
-#undef ATOM_TYPE
+} // namespace juce

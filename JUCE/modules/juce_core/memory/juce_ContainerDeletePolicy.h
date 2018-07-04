@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,6 +33,8 @@
     delete that type of object in a more appropriate way.
 
     @see ScopedPointer, OwnedArray
+
+    @tags{Core}
 */
 template <typename ObjectType>
 struct ContainerDeletePolicy
@@ -51,3 +54,5 @@ struct ContainerDeletePolicy
         delete object;
     }
 };
+
+} // namespace juce

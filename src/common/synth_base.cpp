@@ -192,7 +192,7 @@ bool SynthBase::exportToFile() {
 }
 
 bool SynthBase::saveToFile(File patch) {
-  if (patch.getFileExtension() != mopo::PATCH_EXTENSION)
+  if (patch.getFileExtension() != String(mopo::PATCH_EXTENSION))
     patch = patch.withFileExtension(String(mopo::PATCH_EXTENSION));
 
   File parent = patch.getParentDirectory();

@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -39,6 +39,8 @@
     caused it.
 
     @see Timer
+
+    @tags{Events}
 */
 class JUCE_API  MultiTimer
 {
@@ -119,3 +121,5 @@ private:
     Timer* getCallback (int) const noexcept;
     MultiTimer& operator= (const MultiTimer&);
 };
+
+} // namespace juce

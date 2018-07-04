@@ -21,7 +21,7 @@ namespace BinaryData
     const int            RobotoThin_ttfSize = 127584;
 
     extern const char*   helm_debian_icon_xpm;
-    const int            helm_debian_icon_xpmSize = 6879;
+    const int            helm_debian_icon_xpmSize = 7204;
 
     extern const char*   helm_icon_16_1x_png;
     const int            helm_icon_16_1x_pngSize = 1230;
@@ -77,13 +77,20 @@ namespace BinaryData
     extern const char*   modulation_unselected_inactive_2x_png;
     const int            modulation_unselected_inactive_2x_pngSize = 4996;
 
+    // Number of elements in the namedResourceList and originalFileNames arrays.
+    const int namedResourceListSize = 23;
+
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
 
-    // Number of elements in the namedResourceList array.
-    const int namedResourceListSize = 23;
+    // Points to the start of a list of resource filenames.
+    extern const char* originalFilenames[];
 
     // If you provide the name of one of the binary resource variables above, this function will
     // return the corresponding data and its size (or a null pointer if the name isn't found).
-    const char* getNamedResource (const char* resourceNameUTF8, int& dataSizeInBytes) throw();
+    const char* getNamedResource (const char* resourceNameUTF8, int& dataSizeInBytes);
+
+    // If you provide the name of one of the binary resource variables above, this function will
+    // return the corresponding original, non-mangled filename (or a null pointer if the name isn't found).
+    const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8);
 }

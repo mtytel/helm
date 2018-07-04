@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -41,6 +41,8 @@
     each time.
 
     @see Image, ImageFileFormat
+
+    @tags{Graphics}
 */
 class JUCE_API  ImageCache
 {
@@ -122,3 +124,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (ImageCache)
 };
+
+} // namespace juce

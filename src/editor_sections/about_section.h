@@ -21,7 +21,7 @@
 #include "JuceHeader.h"
 #include "overlay.h"
 
-class AboutSection : public Overlay, public ButtonListener {
+class AboutSection : public Overlay, public Button::Listener {
   public:
     AboutSection(String name);
     ~AboutSection() { }

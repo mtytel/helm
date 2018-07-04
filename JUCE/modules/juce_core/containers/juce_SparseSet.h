@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -33,38 +33,30 @@
 
     The type used as a template parameter must be an integer type, such as int, short,
     int64, etc.
+
+    @tags{Core}
 */
 template <class Type>
 class SparseSet
 {
 public:
     //==============================================================================
-    /** Creates a new empty set. */
-    SparseSet()
-    {
-    }
+    SparseSet() noexcept {}
 
-    /** Creates a copy of another SparseSet. */
-    SparseSet (const SparseSet<Type>& other)
-        : values (other.values)
-    {
-    }
+    SparseSet (const SparseSet&) = default;
+    SparseSet& operator= (const SparseSet&) = default;
+
+    SparseSet (SparseSet&& other) noexcept : ranges (static_cast<Array<Range<Type>>&&> (other.ranges)) {}
+    SparseSet& operator= (SparseSet&& other) noexcept { ranges = static_cast<Array<Range<Type>>&&> (other.ranges); return *this; }
 
     //==============================================================================
     /** Clears the set. */
-    void clear()
-    {
-        values.clear();
-    }
+    void clear()                                { ranges.clear(); }
 
     /** Checks whether the set is empty.
-
         This is much quicker than using (size() == 0).
     */
-    bool isEmpty() const noexcept
-    {
-        return values.size() == 0;
-    }
+    bool isEmpty() const noexcept               { return ranges.isEmpty(); }
 
     /** Returns the number of values in the set.
 
@@ -72,12 +64,12 @@ public:
         are a lot of items in the set. Use isEmpty() for a quick test of whether there
         are any items.
     */
-    Type size() const
+    Type size() const noexcept
     {
-        Type total (0);
+        Type total = {};
 
-        for (int i = 0; i < values.size(); i += 2)
-            total += values.getUnchecked (i + 1) - values.getUnchecked (i);
+        for (auto& r : ranges)
+            total += r.getLength();
 
         return total;
     }
@@ -87,28 +79,34 @@ public:
         @param index    the index of the value to retrieve, in the range 0 to (size() - 1).
         @returns        the value at this index, or 0 if it's out-of-range
     */
-    Type operator[] (Type index) const
+    Type operator[] (Type index) const noexcept
     {
-        for (int i = 0; i < values.size(); i += 2)
+        Type total = {};
+
+        for (auto& r : ranges)
         {
-            const Type start (values.getUnchecked (i));
-            const Type len (values.getUnchecked (i + 1) - start);
+            auto end = total + r.getLength();
 
-            if (index < len)
-                return start + index;
+            if (index < end)
+                return r.getStart() + (index - total);
 
-            index -= len;
+            total = end;
         }
 
-        return Type();
+        return {};
     }
 
     /** Checks whether a particular value is in the set. */
-    bool contains (const Type valueToLookFor) const
+    bool contains (Type valueToLookFor) const noexcept
     {
-        for (int i = 0; i < values.size(); ++i)
-            if (valueToLookFor < values.getUnchecked(i))
-                return (i & 1) != 0;
+        for (auto& r : ranges)
+        {
+            if (r.getStart() > valueToLookFor)
+                break;
+
+            if (r.getEnd() > valueToLookFor)
+                return true;
+        }
 
         return false;
     }
@@ -117,54 +115,39 @@ public:
     /** Returns the number of contiguous blocks of values.
         @see getRange
     */
-    int getNumRanges() const noexcept
-    {
-        return values.size() >> 1;
-    }
+    int getNumRanges() const noexcept                           { return ranges.size(); }
 
     /** Returns one of the contiguous ranges of values stored.
         @param rangeIndex   the index of the range to look up, between 0
                             and (getNumRanges() - 1)
         @see getTotalRange
     */
-    const Range<Type> getRange (const int rangeIndex) const
-    {
-        if (isPositiveAndBelow (rangeIndex, getNumRanges()))
-            return Range<Type> (values.getUnchecked (rangeIndex << 1),
-                                values.getUnchecked ((rangeIndex << 1) + 1));
-
-        return Range<Type>();
-    }
+    Range<Type> getRange (int rangeIndex) const noexcept        { return ranges[rangeIndex]; }
 
     /** Returns the range between the lowest and highest values in the set.
         @see getRange
     */
-    Range<Type> getTotalRange() const
+    Range<Type> getTotalRange() const noexcept
     {
-        if (values.size() > 0)
-        {
-            jassert ((values.size() & 1) == 0);
-            return Range<Type> (values.getUnchecked (0),
-                                values.getUnchecked (values.size() - 1));
-        }
+        if (ranges.isEmpty())
+            return {};
 
-        return Range<Type>();
+        return { ranges.getFirst().getStart(),
+                 ranges.getLast().getEnd() };
     }
 
     //==============================================================================
     /** Adds a range of contiguous values to the set.
         e.g. addRange (Range \<int\> (10, 14)) will add (10, 11, 12, 13) to the set.
     */
-    void addRange (const Range<Type> range)
+    void addRange (Range<Type> range)
     {
-        jassert (range.getLength() >= 0);
-        if (range.getLength() > 0)
+        if (! range.isEmpty())
         {
             removeRange (range);
-
-            values.addUsingDefaultSort (range.getStart());
-            values.addUsingDefaultSort (range.getEnd());
-
+            ranges.add (range);
+            std::sort (ranges.begin(), ranges.end(),
+                       [] (Range<Type> a, Range<Type> b) { return a.getStart() < b.getStart(); });
             simplify();
         }
     }
@@ -172,116 +155,114 @@ public:
     /** Removes a range of values from the set.
         e.g. removeRange (Range\<int\> (10, 14)) will remove (10, 11, 12, 13) from the set.
     */
-    void removeRange (const Range<Type> rangeToRemove)
+    void removeRange (Range<Type> rangeToRemove)
     {
-        jassert (rangeToRemove.getLength() >= 0);
-
-        if (rangeToRemove.getLength() > 0
-             && values.size() > 0
-             && rangeToRemove.getStart() < values.getUnchecked (values.size() - 1)
-             && values.getUnchecked(0) < rangeToRemove.getEnd())
+        if (getTotalRange().intersects (rangeToRemove) && ! rangeToRemove.isEmpty())
         {
-            const bool onAtStart = contains (rangeToRemove.getStart() - 1);
-            const Type lastValue (jmin (rangeToRemove.getEnd(), values.getLast()));
-            const bool onAtEnd = contains (lastValue);
-
-            for (int i = values.size(); --i >= 0;)
+            for (int i = ranges.size(); --i >= 0;)
             {
-                if (values.getUnchecked(i) <= lastValue)
-                {
-                    while (values.getUnchecked(i) >= rangeToRemove.getStart())
-                    {
-                        values.remove (i);
+                auto& r = ranges.getReference(i);
 
-                        if (--i < 0)
-                            break;
-                    }
-
+                if (r.getEnd() <= rangeToRemove.getStart())
                     break;
+
+                if (r.getStart() >= rangeToRemove.getEnd())
+                    continue;
+
+                if (rangeToRemove.contains (r))
+                {
+                    ranges.remove (i);
+                }
+                else if (r.contains (rangeToRemove))
+                {
+                    auto r1 = r.withEnd (rangeToRemove.getStart());
+                    auto r2 = r.withStart (rangeToRemove.getEnd());
+
+                    // this should be covered in if (rangeToRemove.contains (r))
+                    jassert (! r1.isEmpty() || ! r2.isEmpty());
+
+                    r = r1;
+
+                    if (r.isEmpty())
+                        r = r2;
+
+                    if (! r1.isEmpty() && ! r2.isEmpty())
+                        ranges.insert (i + 1, r2);
+                }
+                else if (rangeToRemove.getEnd() > r.getEnd())
+                {
+                    r.setEnd (rangeToRemove.getStart());
+                }
+                else
+                {
+                    r.setStart (rangeToRemove.getEnd());
                 }
             }
-
-            if (onAtStart)   values.addUsingDefaultSort (rangeToRemove.getStart());
-            if (onAtEnd)     values.addUsingDefaultSort (lastValue);
-
-            simplify();
         }
     }
 
     /** Does an XOR of the values in a given range. */
-    void invertRange (const Range<Type> range)
+    void invertRange (Range<Type> range)
     {
         SparseSet newItems;
         newItems.addRange (range);
 
-        for (int i = getNumRanges(); --i >= 0;)
-            newItems.removeRange (getRange (i));
+        for (auto& r : ranges)
+            newItems.removeRange (r);
 
         removeRange (range);
 
-        for (int i = newItems.getNumRanges(); --i >= 0;)
-            addRange (newItems.getRange(i));
+        for (auto& r : newItems.ranges)
+            addRange (r);
     }
 
     /** Checks whether any part of a given range overlaps any part of this set. */
-    bool overlapsRange (const Range<Type> range)
+    bool overlapsRange (Range<Type> range) const noexcept
     {
-        if (range.getLength() > 0)
-        {
-            for (int i = getNumRanges(); --i >= 0;)
-            {
-                if (values.getUnchecked ((i << 1) + 1) <= range.getStart())
-                    return false;
-
-                if (values.getUnchecked (i << 1) < range.getEnd())
+        if (! range.isEmpty())
+            for (auto& r : ranges)
+                if (r.intersects (range))
                     return true;
-            }
-        }
 
         return false;
     }
 
     /** Checks whether the whole of a given range is contained within this one. */
-    bool containsRange (const Range<Type> range)
+    bool containsRange (Range<Type> range) const noexcept
     {
-        if (range.getLength() > 0)
-        {
-            for (int i = getNumRanges(); --i >= 0;)
-            {
-                if (values.getUnchecked ((i << 1) + 1) <= range.getStart())
-                    return false;
-
-                if (values.getUnchecked (i << 1) <= range.getStart()
-                     && range.getEnd() <= values.getUnchecked ((i << 1) + 1))
+        if (! range.isEmpty())
+            for (auto& r : ranges)
+                if (r.contains (range))
                     return true;
-            }
-        }
 
         return false;
     }
 
-    //==============================================================================
-    bool operator== (const SparseSet<Type>& other) noexcept
-    {
-        return values == other.values;
-    }
+    /** Returns the set as a list of ranges, which you may want to iterate over. */
+    const Array<Range<Type>>& getRanges() const noexcept        { return ranges; }
 
-    bool operator!= (const SparseSet<Type>& other) noexcept
-    {
-        return values != other.values;
-    }
+    //==============================================================================
+    bool operator== (const SparseSet& other) const noexcept     { return ranges == other.ranges; }
+    bool operator!= (const SparseSet& other) const noexcept     { return ranges != other.ranges; }
 
 private:
     //==============================================================================
-    // alternating start/end values of ranges of values that are present.
-    Array<Type, DummyCriticalSection> values;
+    Array<Range<Type>> ranges;
 
     void simplify()
     {
-        jassert ((values.size() & 1) == 0);
+        for (int i = ranges.size(); --i > 0;)
+        {
+            auto& r1 = ranges.getReference (i - 1);
+            auto& r2 = ranges.getReference (i);
 
-        for (int i = values.size(); --i > 0;)
-            if (values.getUnchecked(i) == values.getUnchecked (i - 1))
-                values.removeRange (--i, 2);
+            if (r1.getEnd() == r2.getStart())
+            {
+                r1.setEnd (r2.getEnd());
+                ranges.remove (i);
+            }
+        }
     }
 };
+
+} // namespace juce

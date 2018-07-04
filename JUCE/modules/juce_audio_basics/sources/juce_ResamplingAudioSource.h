@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A type of AudioSource that takes an input source and changes its sample rate.
 
     @see AudioSource, LagrangeInterpolator, CatmullRomInterpolator
+
+    @tags{Audio}
 */
 class JUCE_API  ResamplingAudioSource  : public AudioSource
 {
@@ -75,7 +77,7 @@ private:
     //==============================================================================
     OptionalScopedPointer<AudioSource> input;
     double ratio, lastRatio;
-    AudioSampleBuffer buffer;
+    AudioBuffer<float> buffer;
     int bufferPos, sampsInBuffer;
     double subSampleOffset;
     double coefficients[6];
@@ -99,3 +101,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ResamplingAudioSource)
 };
+
+} // namespace juce

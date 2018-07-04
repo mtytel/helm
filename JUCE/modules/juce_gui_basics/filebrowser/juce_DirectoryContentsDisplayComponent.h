@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A base class for components that display a list of the files in a directory.
 
     @see DirectoryContentsList
+
+    @tags{GUI}
 */
 class JUCE_API  DirectoryContentsDisplayComponent
 {
@@ -91,8 +93,9 @@ public:
     */
     enum ColourIds
     {
-        highlightColourId      = 0x1000540, /**< The colour to use to fill a highlighted row of the list. */
-        textColourId           = 0x1000541, /**< The colour for the text. */
+        highlightColourId          = 0x1000540, /**< The colour to use to fill a highlighted row of the list. */
+        textColourId               = 0x1000541, /**< The colour for the text. */
+        highlightedTextColourId    = 0x1000542  /**< The colour with which to draw the text in highlighted sections. */
     };
 
     //==============================================================================
@@ -110,3 +113,5 @@ protected:
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DirectoryContentsDisplayComponent)
 };
+
+} // namespace juce

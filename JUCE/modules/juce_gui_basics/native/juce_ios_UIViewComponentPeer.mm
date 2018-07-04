@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 class UIViewComponentPeer;
 
 // The way rotation works changed in iOS8..
@@ -95,7 +98,7 @@ namespace Orientations
 }
 
 //==============================================================================
-} // (juce namespace)
+} // namespace juce
 
 using namespace juce;
 
@@ -216,8 +219,7 @@ public:
     UIWindow* window;
     JuceUIView* view;
     JuceUIViewController* controller;
-    bool isSharedWindow, fullScreen, insideDrawRect;
-    static ModifierKeys currentModifiers;
+    bool isSharedWindow, fullScreen, insideDrawRect, isAppex;
 
     static int64 getMouseTime (UIEvent* e) noexcept
     {
@@ -312,8 +314,9 @@ private:
 static void sendScreenBoundsUpdate (JuceUIViewController* c)
 {
     JuceUIView* juceView = (JuceUIView*) [c view];
-    jassert (juceView != nil && juceView->owner != nullptr);
-    juceView->owner->updateTransformAndScreenBounds();
+
+    if (juceView != nil && juceView->owner != nullptr)
+        juceView->owner->updateTransformAndScreenBounds();
 }
 
 static bool isKioskModeView (JuceUIViewController* c)
@@ -326,8 +329,7 @@ static bool isKioskModeView (JuceUIViewController* c)
 
 MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
 
-
-} // (juce namespace)
+} // namespace juce
 
 //==============================================================================
 //==============================================================================
@@ -365,7 +367,7 @@ MultiTouchMapper<UITouch*> UIViewComponentPeer::currentTouches;
 
     // On some devices the screen-size isn't yet updated at this point, so also trigger another
     // async update to double-check..
-    MessageManager::callAsync ([=]() { sendScreenBoundsUpdate (self); });
+    MessageManager::callAsync ([=] { sendScreenBoundsUpdate (self); });
 }
 
 - (BOOL) prefersStatusBarHidden
@@ -533,18 +535,6 @@ bool KeyPress::isKeyCurrentlyDown (int)
     return false;
 }
 
-ModifierKeys UIViewComponentPeer::currentModifiers;
-
-ModifierKeys ModifierKeys::getCurrentModifiersRealtime() noexcept
-{
-    return UIViewComponentPeer::currentModifiers;
-}
-
-void ModifierKeys::updateCurrentModifiers() noexcept
-{
-    currentModifiers = UIViewComponentPeer::currentModifiers;
-}
-
 Point<float> juce_lastMousePos;
 
 //==============================================================================
@@ -555,7 +545,8 @@ UIViewComponentPeer::UIViewComponentPeer (Component& comp, const int windowStyle
       controller (nil),
       isSharedWindow (viewToAttachTo != nil),
       fullScreen (false),
-      insideDrawRect (false)
+      insideDrawRect (false),
+      isAppex (SystemStats::isRunningInAppExtensionSandbox())
 {
     CGRect r = convertToCGRect (component.getBounds());
 
@@ -606,6 +597,7 @@ UIViewComponentPeer::UIViewComponentPeer (Component& comp, const int windowStyle
 
 UIViewComponentPeer::~UIViewComponentPeer()
 {
+    currentTouches.deleteAllTouchesForPeer (this);
     Desktop::getInstance().removeFocusChangeListener (this);
 
     view->owner = nullptr;
@@ -837,17 +829,17 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
         juce_lastMousePos = pos + getBounds (true).getPosition().toFloat();
 
         const int64 time = getMouseTime (event);
-        const int touchIndex = currentTouches.getIndexOfTouch (touch);
+        const int touchIndex = currentTouches.getIndexOfTouch (this, touch);
 
-        ModifierKeys modsToSend (currentModifiers);
+        ModifierKeys modsToSend (ModifierKeys::currentModifiers);
 
         if (isDown)
         {
             if ([touch phase] != UITouchPhaseBegan)
                 continue;
 
-            currentModifiers = currentModifiers.withoutMouseButtons().withFlags (ModifierKeys::leftButtonModifier);
-            modsToSend = currentModifiers;
+            ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons().withFlags (ModifierKeys::leftButtonModifier);
+            modsToSend = ModifierKeys::currentModifiers;
 
             // this forces a mouse-enter/up event, in case for some reason we didn't get a mouse-up before.
             handleMouseEvent (MouseInputSource::InputSourceType::touch, pos, modsToSend.withoutMouseButtons(),
@@ -871,7 +863,7 @@ void UIViewComponentPeer::handleTouches (UIEvent* event, const bool isDown, cons
         if (isCancel)
         {
             currentTouches.clearTouch (touchIndex);
-            modsToSend = currentModifiers = currentModifiers.withoutMouseButtons();
+            modsToSend = ModifierKeys::currentModifiers = ModifierKeys::currentModifiers.withoutMouseButtons();
         }
 
         // NB: some devices return 0 or 1.0 if pressure is unknown, so we'll clip our value to a believable range:
@@ -922,6 +914,9 @@ void UIViewComponentPeer::viewFocusLoss()
 
 bool UIViewComponentPeer::isFocused() const
 {
+    if (isAppex)
+        return true;
+
     return isSharedWindow ? this == currentlyFocusedPeer
                           : (window != nil && [window isKeyWindow]);
 }
@@ -1123,6 +1118,25 @@ const int KeyPress::F13Key          = 0x200d;
 const int KeyPress::F14Key          = 0x200e;
 const int KeyPress::F15Key          = 0x200f;
 const int KeyPress::F16Key          = 0x2010;
+const int KeyPress::F17Key          = 0x2011;
+const int KeyPress::F18Key          = 0x2012;
+const int KeyPress::F19Key          = 0x2013;
+const int KeyPress::F20Key          = 0x2014;
+const int KeyPress::F21Key          = 0x2015;
+const int KeyPress::F22Key          = 0x2016;
+const int KeyPress::F23Key          = 0x2017;
+const int KeyPress::F24Key          = 0x2018;
+const int KeyPress::F25Key          = 0x2019;
+const int KeyPress::F26Key          = 0x201a;
+const int KeyPress::F27Key          = 0x201b;
+const int KeyPress::F28Key          = 0x201c;
+const int KeyPress::F29Key          = 0x201d;
+const int KeyPress::F30Key          = 0x201e;
+const int KeyPress::F31Key          = 0x201f;
+const int KeyPress::F32Key          = 0x2020;
+const int KeyPress::F33Key          = 0x2021;
+const int KeyPress::F34Key          = 0x2022;
+const int KeyPress::F35Key          = 0x2023;
 const int KeyPress::numberPad0      = 0x30020;
 const int KeyPress::numberPad1      = 0x30021;
 const int KeyPress::numberPad2      = 0x30022;
@@ -1145,3 +1159,5 @@ const int KeyPress::playKey         = 0x30000;
 const int KeyPress::stopKey         = 0x30001;
 const int KeyPress::fastForwardKey  = 0x30002;
 const int KeyPress::rewindKey       = 0x30003;
+
+} // namespace juce

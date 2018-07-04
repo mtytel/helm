@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 /*  This is some quick-and-dirty code to extract the typeface name from a lump of TTF file data.
     It's needed because although win32 will happily load a TTF file from in-memory data, it won't
     tell you the name of the damned font that it just loaded.. and in order to actually use the font,
@@ -361,15 +364,14 @@ public:
     {
         const CharPointer_UTF16 utf16 (text.toUTF16());
         const size_t numChars = utf16.length();
-        HeapBlock<int16> results (numChars + 1);
-        results[numChars] = -1;
+        HeapBlock<uint16> results (numChars);
         float x = 0;
 
         if (GetGlyphIndices (dc, utf16, (int) numChars, reinterpret_cast<WORD*> (results.getData()),
                              GGI_MARK_NONEXISTING_GLYPHS) != GDI_ERROR)
         {
             for (size_t i = 0; i < numChars; ++i)
-                x += getKerning (dc, results[i], results[i + 1]);
+                x += getKerning (dc, results[i], (i + 1) < numChars ? results[i + 1] : -1);
         }
 
         return x;
@@ -379,8 +381,7 @@ public:
     {
         const CharPointer_UTF16 utf16 (text.toUTF16());
         const size_t numChars = utf16.length();
-        HeapBlock<int16> results (numChars + 1);
-        results[numChars] = -1;
+        HeapBlock<uint16> results (numChars);
         float x = 0;
 
         if (GetGlyphIndices (dc, utf16, (int) numChars, reinterpret_cast<WORD*> (results.getData()),
@@ -393,7 +394,7 @@ public:
             {
                 resultGlyphs.add (results[i]);
                 xOffsets.add (x);
-                x += getKerning (dc, results[i], results[i + 1]);
+                x += getKerning (dc, results[i], (i + 1) < numChars ? results[i + 1] : -1);
             }
         }
 
@@ -625,7 +626,7 @@ Typeface::Ptr Typeface::createSystemTypefaceFor (const Font& font)
 
     if (factories->systemFonts != nullptr)
     {
-        ScopedPointer<WindowsDirectWriteTypeface> wtf (new WindowsDirectWriteTypeface (font, factories->systemFonts));
+        std::unique_ptr<WindowsDirectWriteTypeface> wtf (new WindowsDirectWriteTypeface (font, factories->systemFonts));
 
         if (wtf->loadedOk())
             return wtf.release();
@@ -644,3 +645,5 @@ void Typeface::scanFolderForFonts (const File&)
 {
     jassertfalse; // not implemented on this platform
 }
+
+} // namespace juce

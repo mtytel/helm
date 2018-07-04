@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -40,6 +40,8 @@
     see the FileDragAndDropTarget class.
 
     @see DragAndDropContainer, FileDragAndDropTarget
+
+    @tags{GUI}
 */
 class JUCE_API  DragAndDropTarget
 {
@@ -149,3 +151,5 @@ private:
     virtual int itemDropped (const String&, Component*, int, int) { return 0; }
    #endif
 };
+
+} // namespace juce

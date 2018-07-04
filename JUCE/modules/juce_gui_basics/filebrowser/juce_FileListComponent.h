@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -38,6 +38,8 @@
     class and the FileBrowserListener class.
 
     @see DirectoryContentsList, FileTreeComponent
+
+    @tags{GUI}
 */
 class JUCE_API  FileListComponent  : public ListBox,
                                      public DirectoryContentsDisplayComponent,
@@ -76,7 +78,7 @@ public:
 
 private:
     //==============================================================================
-    File lastDirectory;
+    File lastDirectory, fileWaitingToBeSelected;
     class ItemComponent;
 
     void changeListenerCallback (ChangeBroadcaster*) override;
@@ -89,3 +91,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileListComponent)
 };
+
+} // namespace juce

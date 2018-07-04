@@ -24,11 +24,13 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
+
+    @tags{GUI}
 */
 class JUCE_API  CaretComponent   : public Component,
                                    private Timer
@@ -76,3 +78,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (CaretComponent)
 };
+
+} // namespace juce

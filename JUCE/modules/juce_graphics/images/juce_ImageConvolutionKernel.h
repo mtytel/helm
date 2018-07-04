@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Represents a filter kernel to use in convoluting an image.
 
     @see Image::applyConvolution
+
+    @tags{Graphics}
 */
 class JUCE_API  ImageConvolutionKernel
 {
@@ -107,3 +109,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ImageConvolutionKernel)
 };
+
+} // namespace juce

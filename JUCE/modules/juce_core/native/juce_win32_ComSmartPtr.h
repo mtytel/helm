@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 #if JUCE_MINGW || (! (defined (_MSC_VER) || defined (__uuidof)))
  #ifdef __uuidof
@@ -77,6 +78,8 @@ inline GUID uuidFromString (const char* s) noexcept
 
 //==============================================================================
 /** A simple COM smart pointer.
+
+    @tags{Core}
 */
 template <class ComClass>
 class ComSmartPtr
@@ -173,6 +176,8 @@ protected:
 };
 
 /** Handy base class for writing COM objects, providing ref-counting and a basic QueryInterface method.
+
+    @tags{Core}
 */
 template <class ComClass>
 class ComBaseClassHelper   : public ComBaseClassHelperBase<ComClass>
@@ -189,3 +194,5 @@ public:
         return ComBaseClassHelperBase<ComClass>::QueryInterface (refId, result);
     }
 };
+
+} // namespace juce

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -43,9 +43,10 @@
     To use it, just add a set of named pages with the addSettingsPage() method,
     and implement the createComponentForPage() method to create suitable components
     for each of these pages.
+
+    @tags{GUI}
 */
-class JUCE_API  PreferencesPanel  : public Component,
-                                    private ButtonListener // (can't use Button::Listener due to idiotic VC2005 bug)
+class JUCE_API  PreferencesPanel  : public Component
 {
 public:
     //==============================================================================
@@ -131,15 +132,17 @@ public:
     void resized() override;
     /** @internal */
     void paint (Graphics&) override;
-    /** @internal */
-    void buttonClicked (Button*) override;
 
 private:
     //==============================================================================
     String currentPageName;
-    ScopedPointer<Component> currentPage;
+    std::unique_ptr<Component> currentPage;
     OwnedArray<DrawableButton> buttons;
     int buttonSize;
 
+    void clickedPage();
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PreferencesPanel)
 };
+
+} // namespace juce

@@ -22,8 +22,8 @@
 #include "file_list_box_model.h"
 #include "overlay.h"
 
-class SaveSection : public Overlay, public TextEditorListener,
-                    public FileListBoxModel::Listener, public ButtonListener {
+class SaveSection : public Overlay, public TextEditor::Listener,
+                    public FileListBoxModel::Listener, public Button::Listener {
   public:
     class Listener {
       public:

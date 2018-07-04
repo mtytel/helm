@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -37,6 +37,8 @@
     This is used for adding effects like shadows, blurs, etc.
 
     @see Component::setComponentEffect
+
+    @tags{Graphics}
 */
 class JUCE_API  ImageEffectFilter
 {
@@ -66,3 +68,5 @@ public:
     virtual ~ImageEffectFilter() {}
 
 };
+
+} // namespace juce

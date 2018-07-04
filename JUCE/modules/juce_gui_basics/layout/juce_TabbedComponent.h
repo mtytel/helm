@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,6 +36,8 @@
     user clicks on a different tab.
 
     @see TabbedButtonBar
+
+    @tags{GUI}
 */
 class JUCE_API  TabbedComponent  : public Component
 {
@@ -207,17 +209,18 @@ protected:
     virtual TabBarButton* createTabButton (const String& tabName, int tabIndex);
 
     /** @internal */
-    ScopedPointer<TabbedButtonBar> tabs;
+    std::unique_ptr<TabbedButtonBar> tabs;
 
 private:
     //==============================================================================
-    Array <WeakReference<Component> > contentComponents;
+    Array<WeakReference<Component>> contentComponents;
     WeakReference<Component> panelComponent;
-    int tabDepth, outlineThickness, edgeIndent;
+    int tabDepth = 30, outlineThickness = 1, edgeIndent = 0;
 
-    class ButtonBar;
-    friend class ButtonBar;
+    struct ButtonBar;
     void changeCallback (int newCurrentTabIndex, const String& newTabName);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TabbedComponent)
 };
+
+} // namespace juce

@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A simple implementation of a Logger that writes to a file.
 
     @see Logger
+
+    @tags{Core}
 */
 class JUCE_API  FileLogger  : public Logger
 {
@@ -127,3 +129,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileLogger)
 };
+
+} // namespace juce

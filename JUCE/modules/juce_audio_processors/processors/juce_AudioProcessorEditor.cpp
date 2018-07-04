@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 AudioProcessorEditor::AudioProcessorEditor (AudioProcessor& p) noexcept  : processor (p)
 {
     initialise();
@@ -43,11 +46,14 @@ AudioProcessorEditor::~AudioProcessorEditor()
     // if this fails, then the wrapper hasn't called editorBeingDeleted() on the
     // filter for some reason..
     jassert (processor.getActiveEditor() != this);
-    removeComponentListener (resizeListener);
+    removeComponentListener (resizeListener.get());
 }
 
 void AudioProcessorEditor::setControlHighlight (ParameterControlHighlightInfo) {}
-int AudioProcessorEditor::getControlParameterIndex (Component&)  { return -1; }
+int AudioProcessorEditor::getControlParameterIndex (Component&)                { return -1; }
+
+bool AudioProcessorEditor::supportsHostMIDIControllerPresence (bool)           { return true; }
+void AudioProcessorEditor::hostMIDIControllerIsAvailable (bool)                {}
 
 void AudioProcessorEditor::initialise()
 {
@@ -71,7 +77,8 @@ void AudioProcessorEditor::initialise()
     resizable = false;
 
     attachConstrainer (&defaultConstrainer);
-    addComponentListener (resizeListener = new AudioProcessorEditorListener (*this));
+    resizeListener.reset (new AudioProcessorEditorListener (*this));
+    addComponentListener (resizeListener.get());
 }
 
 //==============================================================================
@@ -102,12 +109,13 @@ void AudioProcessorEditor::setResizable (const bool shouldBeResizable, const boo
     {
         if (shouldHaveCornerResizer)
         {
-            Component::addChildComponent (resizableCorner = new ResizableCornerComponent (this, constrainer));
+            resizableCorner.reset (new ResizableCornerComponent (this, constrainer));
+            Component::addChildComponent (resizableCorner.get());
             resizableCorner->setAlwaysOnTop (true);
         }
         else
         {
-            resizableCorner = nullptr;
+            resizableCorner.reset();
         }
     }
 }
@@ -198,3 +206,5 @@ void AudioProcessorEditor::setScaleFactor (float newScale)
     setTransform (AffineTransform::scale (newScale));
     editorResized (true);
 }
+
+} // namespace juce

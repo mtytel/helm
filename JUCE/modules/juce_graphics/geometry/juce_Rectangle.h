@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Manages a rectangle and allows geometric operations to be performed on it.
 
     @see RectangleList, Path, Line, Point
+
+    @tags{Graphics}
 */
 template <typename ValueType>
 class Rectangle
@@ -792,7 +794,7 @@ public:
     */
     Rectangle transformedBy (const AffineTransform& transform) const noexcept
     {
-        typedef typename TypeHelpers::SmallestFloatType<ValueType>::type FloatType;
+        using FloatType = typename TypeHelpers::SmallestFloatType<ValueType>::type;
 
         auto x1 = static_cast<FloatType> (pos.x),     y1 = static_cast<FloatType> (pos.y);
         auto x2 = static_cast<FloatType> (pos.x + w), y2 = static_cast<FloatType> (pos.y);
@@ -814,7 +816,7 @@ public:
 
     /** Returns the smallest integer-aligned rectangle that completely contains this one.
         This is only relevant for floating-point rectangles, of course.
-        @see toFloat(), toNearestInt()
+        @see toFloat(), toNearestInt(), toNearestIntEdges()
     */
     Rectangle<int> getSmallestIntegerContainer() const noexcept
     {
@@ -827,12 +829,23 @@ public:
     /** Casts this rectangle to a Rectangle<int>.
         This uses roundToInt to snap x, y, width and height to the nearest integer (losing precision).
         If the rectangle already uses integers, this will simply return a copy.
-        @see getSmallestIntegerContainer()
+        @see getSmallestIntegerContainer(), toNearestIntEdges()
     */
     Rectangle<int> toNearestInt() const noexcept
     {
         return { roundToInt (pos.x), roundToInt (pos.y),
                  roundToInt (w),     roundToInt (h) };
+    }
+
+    /** Casts this rectangle to a Rectangle<int>.
+        This uses roundToInt to snap top, left, right and bottom to the nearest integer (losing precision).
+        If the rectangle already uses integers, this will simply return a copy.
+        @see getSmallestIntegerContainer(), toNearestInt()
+    */
+    Rectangle<int> toNearestIntEdges() const noexcept
+    {
+        return Rectangle<int>::leftTopRightBottom (roundToInt (pos.x),       roundToInt (pos.y),
+                                                   roundToInt (getRight()),  roundToInt (getBottom()));
     }
 
     /** Casts this rectangle to a Rectangle<float>.
@@ -977,3 +990,5 @@ private:
     static int ceilAsInt (float n) noexcept    { return n < (float)  std::numeric_limits<int>::max() ? (int) std::ceil (n) : std::numeric_limits<int>::max(); }
     static int ceilAsInt (double n) noexcept   { return n < (double) std::numeric_limits<int>::max() ? (int) std::ceil (n) : std::numeric_limits<int>::max(); }
 };
+
+} // namespace juce

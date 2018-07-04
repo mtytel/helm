@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -37,6 +37,8 @@
     Expression::Scope to be supplied when evaluating them, and this object
     is expected to be able to resolve the symbol names and perform the functions that
     are used.
+
+    @tags{Core}
 */
 class JUCE_API  Expression
 {
@@ -249,3 +251,5 @@ private:
 
     explicit Expression (Term*);
 };
+
+} // namespace juce

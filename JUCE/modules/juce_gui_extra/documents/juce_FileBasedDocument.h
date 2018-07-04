@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -46,6 +46,8 @@
     ChangeBroadcaster base class.
 
     @see ChangeBroadcaster
+
+    @tags{GUI}
 */
 class JUCE_API FileBasedDocument  : public ChangeBroadcaster
 {
@@ -290,3 +292,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileBasedDocument)
 };
+
+} // namespace juce

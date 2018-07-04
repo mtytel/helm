@@ -20,13 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 #if JUCE_WINDOWS || DOXYGEN
 
 /**
     Contains some static helper functions for manipulating the MS Windows registry
     (Only available on Windows, of course!)
+
+    @tags{Core}
 */
 class JUCE_API  WindowsRegistry
 {
@@ -126,8 +129,10 @@ public:
     JUCE_DEPRECATED (static bool keyExistsWow64 (const String&));
 
 private:
-    WindowsRegistry() JUCE_DELETED_FUNCTION;
+    WindowsRegistry() = delete;
     JUCE_DECLARE_NON_COPYABLE (WindowsRegistry)
 };
 
 #endif
+
+} // namespace juce

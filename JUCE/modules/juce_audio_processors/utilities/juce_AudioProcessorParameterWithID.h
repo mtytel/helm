@@ -24,10 +24,15 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 /**
     This abstract base class is used by some AudioProcessorParameter helper classes.
 
     @see AudioParameterFloat, AudioParameterInt, AudioParameterBool, AudioParameterChoice
+
+    @tags{Audio}
 */
 class JUCE_API  AudioProcessorParameterWithID  : public AudioProcessorParameter
 {
@@ -62,3 +67,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioProcessorParameterWithID)
 };
+
+} // namespace juce

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -39,6 +39,8 @@
     changes, to keep it in the correct position.
 
     @see ResizbleBorderComponent, ResizableCornerComponent
+
+    @tags{GUI}
 */
 class JUCE_API  ResizableEdgeComponent  : public Component
 {
@@ -95,3 +97,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ResizableEdgeComponent)
 };
+
+} // namespace juce

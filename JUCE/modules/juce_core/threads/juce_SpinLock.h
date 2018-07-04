@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -29,12 +29,14 @@
     uncontended situations.
 
     Note that unlike a CriticalSection, this type of lock is not re-entrant, and may
-    be less efficient when used it a highly contended situation, but it's very small and
+    be less efficient when used in a highly contended situation, but it's very small and
     requires almost no initialisation.
     It's most appropriate for simple situations where you're only going to hold the
     lock for a very brief time.
 
     @see CriticalSection
+
+    @tags{Core}
 */
 class JUCE_API  SpinLock
 {
@@ -62,7 +64,7 @@ public:
     /** Releases the lock. */
     inline void exit() const noexcept
     {
-        jassert (lock.value == 1); // Agh! Releasing a lock that isn't currently held!
+        jassert (lock.get() == 1); // Agh! Releasing a lock that isn't currently held!
         lock = 0;
     }
 
@@ -79,3 +81,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (SpinLock)
 };
+
+} // namespace juce

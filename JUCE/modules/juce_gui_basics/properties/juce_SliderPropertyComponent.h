@@ -24,17 +24,18 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A PropertyComponent that shows its value as a slider.
 
     @see PropertyComponent, Slider
+
+    @tags{GUI}
 */
-class JUCE_API  SliderPropertyComponent   : public PropertyComponent,
-                                            private SliderListener  // (can't use Slider::Listener due to idiotic VC2005 bug)
+class JUCE_API  SliderPropertyComponent   : public PropertyComponent
 {
 protected:
     //==============================================================================
@@ -92,8 +93,6 @@ public:
     //==============================================================================
     /** @internal */
     void refresh();
-    /** @internal */
-    void sliderValueChanged (Slider*);
 
 protected:
     /** The slider component being used in this component.
@@ -105,3 +104,5 @@ private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SliderPropertyComponent)
 };
+
+} // namespace juce

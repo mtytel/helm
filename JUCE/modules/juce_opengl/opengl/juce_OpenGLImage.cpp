@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 class OpenGLFrameBufferImage   : public ImagePixelData
 {
 public:
@@ -100,8 +103,8 @@ private:
 
         static void verticalRowFlip (PixelARGB* const data, const int w, const int h)
         {
-            HeapBlock<PixelARGB> tempRow ((size_t) w);
-            const size_t rowSize = sizeof (PixelARGB) * (size_t) w;
+            HeapBlock<PixelARGB> tempRow (w);
+            auto rowSize = sizeof (PixelARGB) * (size_t) w;
 
             for (int y = 0; y < h / 2; ++y)
             {
@@ -122,8 +125,8 @@ private:
 
         void write (const PixelARGB* const data) const noexcept
         {
-            HeapBlock<PixelARGB> invertedCopy ((size_t) (area.getWidth() * area.getHeight()));
-            const size_t rowSize = sizeof (PixelARGB) * (size_t) area.getWidth();
+            HeapBlock<PixelARGB> invertedCopy (area.getWidth() * area.getHeight());
+            auto rowSize = sizeof (PixelARGB) * (size_t) area.getWidth();
 
             for (int y = 0; y < area.getHeight(); ++y)
                 memcpy (invertedCopy + area.getWidth() * y,
@@ -153,10 +156,10 @@ private:
 
         static void initialise (OpenGLFrameBuffer& frameBuffer, Image::BitmapData& bitmapData, int x, int y)
         {
-            DataReleaser* r = new DataReleaser (frameBuffer, x, y, bitmapData.width, bitmapData.height);
-            bitmapData.dataReleaser = r;
+            auto* r = new DataReleaser (frameBuffer, x, y, bitmapData.width, bitmapData.height);
+            bitmapData.dataReleaser.reset (r);
 
-            bitmapData.data = (uint8*) r->data.getData();
+            bitmapData.data = (uint8*) r->data.get();
             bitmapData.lineStride = (bitmapData.width * bitmapData.pixelStride + 3) & ~3;
 
             ReaderType::read (frameBuffer, bitmapData, x, y);
@@ -184,7 +187,7 @@ ImagePixelData::Ptr OpenGLImageType::create (Image::PixelFormat, int width, int 
     OpenGLContext* currentContext = OpenGLContext::getCurrentContext();
     jassert (currentContext != nullptr); // an OpenGL image can only be created when a valid context is active!
 
-    ScopedPointer<OpenGLFrameBufferImage> im (new OpenGLFrameBufferImage (*currentContext, width, height));
+    std::unique_ptr<OpenGLFrameBufferImage> im (new OpenGLFrameBufferImage (*currentContext, width, height));
 
     if (! im->initialise())
         return ImagePixelData::Ptr();
@@ -200,3 +203,5 @@ OpenGLFrameBuffer* OpenGLImageType::getFrameBufferFrom (const Image& image)
 
     return nullptr;
 }
+
+} // namespace juce

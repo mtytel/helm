@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace CDReaderHelpers
 {
     inline const XmlElement* getElementForKey (const XmlElement& xml, const String& key)
@@ -45,7 +48,7 @@ namespace CDReaderHelpers
     // Returns NULL on success, otherwise a const char* representing an error.
     static const char* getTrackOffsets (XmlDocument& xmlDocument, Array<int>& offsets)
     {
-        const ScopedPointer<XmlElement> xml (xmlDocument.getDocumentElement());
+        const std::unique_ptr<XmlElement> xml (xmlDocument.getDocumentElement());
         if (xml == nullptr)
             return "Couldn't parse XML in file";
 
@@ -204,7 +207,7 @@ bool AudioCDReader::readSamples (int** destSamples, int numDestChannels, int sta
                 BufferedInputStream* const bin = new BufferedInputStream (in, 65536, true);
 
                 AiffAudioFormat format;
-                reader = format.createReaderFor (bin, true);
+                reader.reset (format.createReaderFor (bin, true));
 
                 if (reader == nullptr)
                     currentReaderTrack = -1;
@@ -258,5 +261,7 @@ int AudioCDReader::getLastIndex() const
 
 Array<int> AudioCDReader::findIndexesInTrack (const int /*trackNumber*/)
 {
-    return Array<int>();
+    return {};
 }
+
+} // namespace juce

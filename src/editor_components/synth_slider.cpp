@@ -71,7 +71,7 @@ void SynthSlider::resized() {
   if (parent_ == nullptr)
     parent_ = findParentComponentOfClass<FullInterface>();
 
-  setPopupDisplayEnabled(true, parent_);
+  setPopupDisplayEnabled(true, false, parent_);
   Slider::resized();
 }
 

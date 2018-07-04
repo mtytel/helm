@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 typedef void (*WindowMessageReceiveCallback) (XEvent&);
 WindowMessageReceiveCallback dispatchWindowMessage = nullptr;
 
@@ -31,14 +34,13 @@ typedef void (*SelectionRequestCallback) (XSelectionRequestEvent&);
 SelectionRequestCallback handleSelectionRequest = nullptr;
 
 ::Window juce_messageWindowHandle;
-
 XContext windowHandleXContext;
 
 //==============================================================================
 namespace X11ErrorHandling
 {
-    static XErrorHandler oldErrorHandler = (XErrorHandler) 0;
-    static XIOErrorHandler oldIOErrorHandler = (XIOErrorHandler) 0;
+    static XErrorHandler   oldErrorHandler = {};
+    static XIOErrorHandler oldIOErrorHandler = {};
 
     //==============================================================================
     // Usually happens when client-server connection is broken
@@ -49,8 +51,6 @@ namespace X11ErrorHandling
         if (JUCEApplicationBase::isStandaloneApp())
             MessageManager::getInstance()->stopDispatchLoop();
 
-        // set this somewhere
-        // errorOccurred = true;
         return 0;
     }
 
@@ -80,33 +80,36 @@ namespace X11ErrorHandling
     void removeXErrorHandlers()
     {
         XSetIOErrorHandler (oldIOErrorHandler);
-        oldIOErrorHandler = 0;
+        oldIOErrorHandler = {};
 
         XSetErrorHandler (oldErrorHandler);
-        oldErrorHandler = 0;
+        oldErrorHandler = {};
     }
 }
 
 //==============================================================================
 XWindowSystem::XWindowSystem() noexcept
-    : display (nullptr)
 {
-    // Initialise xlib for multiple thread support
-		static bool standaloneInitThreadCalled = false;
-		if (!JUCEApplicationBase::isStandaloneApp() || !standaloneInitThreadCalled)
-		{
-				if (! XInitThreads())
-				{
-						// This is fatal!  Print error and closedown
-						Logger::outputDebugString ("Failed to initialise xlib thread support.");
-						Process::terminate();
-						return;
-				}
+    if (JUCEApplicationBase::isStandaloneApp())
+    {
+        // Initialise xlib for multiple thread support
+        static bool initThreadCalled = false;
 
-				standaloneInitThreadCalled = true;
+        if (! initThreadCalled)
+        {
+            if (! XInitThreads())
+            {
+                // This is fatal!  Print error and closedown
+                Logger::outputDebugString ("Failed to initialise xlib thread support.");
+                Process::terminate();
+                return;
+            }
+
+            initThreadCalled = true;
+        }
 
         X11ErrorHandling::installXErrorHandlers();
-		}
+    }
 }
 
 XWindowSystem::~XWindowSystem() noexcept
@@ -117,21 +120,31 @@ XWindowSystem::~XWindowSystem() noexcept
     clearSingletonInstance();
 }
 
-
 ::Display* XWindowSystem::displayRef() noexcept
 {
-    if (++displayCount - 1 == 0)
+    if (++displayCount == 1)
     {
+        jassert (display == nullptr);
+
         String displayName (getenv ("DISPLAY"));
+
         if (displayName.isEmpty())
             displayName = ":0.0";
 
-        display = XOpenDisplay (displayName.toUTF8());
+        // it seems that on some systems XOpenDisplay will occasionally
+        // fail the first time, but succeed on a second attempt..
+        for (int retries = 2; --retries >= 0;)
+        {
+            display = XOpenDisplay (displayName.toUTF8());
+
+            if (display != nullptr)
+                break;
+        }
 
         initialiseXDisplay();
     }
 
-    return this->display;
+    return display;
 }
 
 ::Display* XWindowSystem::displayUnref() noexcept
@@ -176,9 +189,10 @@ void XWindowSystem::initialiseXDisplay() noexcept
 
     // Setup input event handler
     int fd = XConnectionNumber (display);
-    LinuxEventLoop::setWindowSystemFd
-        (fd,
-         [this](int /*fd*/) {
+
+    LinuxEventLoop::setWindowSystemFd (fd,
+         [this](int /*fd*/)
+         {
             do
             {
                 XEvent evt;
@@ -193,11 +207,15 @@ void XWindowSystem::initialiseXDisplay() noexcept
                 }
 
                 if (evt.type == SelectionRequest && evt.xany.window == juce_messageWindowHandle
-                    && handleSelectionRequest != nullptr)
+                     && handleSelectionRequest != nullptr)
+                {
                     handleSelectionRequest (evt.xselectionrequest);
+                }
                 else if (evt.xany.window != juce_messageWindowHandle
-                         && dispatchWindowMessage != nullptr)
+                          && dispatchWindowMessage != nullptr)
+                {
                     dispatchWindowMessage (evt);
+                }
 
             } while (display != nullptr);
 
@@ -208,17 +226,13 @@ void XWindowSystem::initialiseXDisplay() noexcept
 void XWindowSystem::destroyXDisplay() noexcept
 {
     ScopedXLock xlock (display);
-
     XDestroyWindow (display, juce_messageWindowHandle);
-
     juce_messageWindowHandle = 0;
-
     XSync (display, True);
-
     LinuxEventLoop::removeWindowSystemFd();
 }
 
-juce_ImplementSingleton (XWindowSystem)
+JUCE_IMPLEMENT_SINGLETON (XWindowSystem)
 
 //==============================================================================
 ScopedXDisplay::ScopedXDisplay() : display (XWindowSystem::getInstance()->displayRef())
@@ -231,18 +245,20 @@ ScopedXDisplay::~ScopedXDisplay()
 }
 
 //==============================================================================
-ScopedXLock::ScopedXLock(::Display* d) : display (d)
+ScopedXLock::ScopedXLock (::Display* d) : display (d)
 {
-    if (display != nullptr) XLockDisplay (display);
+    if (display != nullptr)
+        XLockDisplay (display);
 }
 
 ScopedXLock::~ScopedXLock()
 {
-    if (display != nullptr) XUnlockDisplay (display);
+    if (display != nullptr)
+        XUnlockDisplay (display);
 }
 
 //==============================================================================
-Atoms::Atoms(::Display* display)
+Atoms::Atoms (::Display* display)
 {
     protocols                    = getIfExists (display, "WM_PROTOCOLS");
     protocolList [TAKE_FOCUS]    = getIfExists (display, "WM_TAKE_FOCUS");
@@ -286,15 +302,8 @@ Atoms::Atoms(::Display* display)
     allowedActions[4]            = XdndActionPrivate;
 }
 
-Atom Atoms::getIfExists (::Display* display, const char* name)
-{
-    return XInternAtom (display, name, True);
-}
-
-Atom Atoms::getCreating (::Display* display, const char* name)
-{
-    return XInternAtom (display, name, False);
-}
+Atom Atoms::getIfExists (::Display* display, const char* name)  { return XInternAtom (display, name, True); }
+Atom Atoms::getCreating (::Display* display, const char* name)  { return XInternAtom (display, name, False); }
 
 String Atoms::getName (::Display* display, const Atom atom)
 {
@@ -316,7 +325,6 @@ const unsigned long Atoms::DndVersion = 3;
 GetXProperty::GetXProperty (::Display* display, Window window, Atom atom,
               long offset, long length, bool shouldDelete,
               Atom requestedType)
-    : data (nullptr)
 {
     success = (XGetWindowProperty (display, window, atom, offset, length,
                                    (Bool) shouldDelete, requestedType, &actualType,
@@ -329,3 +337,5 @@ GetXProperty::~GetXProperty()
     if (data != nullptr)
         XFree (data);
 }
+
+} // namespace juce

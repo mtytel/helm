@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** Wraps another input stream, and reads from a specific part of it.
 
     This lets you take a subsection of a stream and present it as an entire
     stream in its own right.
+
+    @tags{Core}
 */
 class JUCE_API  SubregionStream  : public InputStream
 {
@@ -77,3 +79,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SubregionStream)
 };
+
+} // namespace juce

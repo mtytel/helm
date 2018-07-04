@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 extern ComponentPeer* createNonRepaintingEmbeddedWindowsPeer (Component&, void* parent);
 
 //==============================================================================
@@ -36,7 +39,7 @@ public:
                    bool /*useMultisampling*/,
                    OpenGLVersion)
     {
-        dummyComponent = new DummyComponent (*this);
+        dummyComponent.reset (new DummyComponent (*this));
         createNativeWindow (component);
 
         PIXELFORMATDESCRIPTOR pfd;
@@ -86,7 +89,12 @@ public:
         releaseDC();
     }
 
-    void initialiseOnRenderThread (OpenGLContext& c) { context = &c; }
+    bool initialiseOnRenderThread (OpenGLContext& c)
+    {
+        context = &c;
+        return true;
+    }
+
     void shutdownOnRenderThread()           { deactivateCurrentContext(); context = nullptr; }
 
     static void deactivateCurrentContext()  { wglMakeCurrent (0, 0); }
@@ -137,8 +145,8 @@ private:
         NativeContext& context;
     };
 
-    ScopedPointer<DummyComponent> dummyComponent;
-    ScopedPointer<ComponentPeer> nativeWindow;
+    std::unique_ptr<DummyComponent> dummyComponent;
+    std::unique_ptr<ComponentPeer> nativeWindow;
     HGLRC renderContext;
     HDC dc;
     OpenGLContext* context = {};
@@ -163,7 +171,7 @@ private:
     void createNativeWindow (Component& component)
     {
         auto* topComp = component.getTopLevelComponent();
-        nativeWindow = createNonRepaintingEmbeddedWindowsPeer (*dummyComponent, topComp->getWindowHandle());
+        nativeWindow.reset (createNonRepaintingEmbeddedWindowsPeer (*dummyComponent, topComp->getWindowHandle()));
 
         if (auto* peer = topComp->getPeer())
             updateWindowPosition (peer->getAreaCoveredBy (component));
@@ -266,3 +274,5 @@ bool OpenGLHelpers::isContextActive()
 {
     return wglGetCurrentContext() != 0;
 }
+
+} // namespace juce

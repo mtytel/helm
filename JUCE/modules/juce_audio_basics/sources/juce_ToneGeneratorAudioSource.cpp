@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 ToneGeneratorAudioSource::ToneGeneratorAudioSource()
     : frequency (1000.0),
       sampleRate (44100.0),
@@ -60,7 +63,7 @@ void ToneGeneratorAudioSource::releaseResources()
 void ToneGeneratorAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& info)
 {
     if (phasePerSample == 0.0)
-        phasePerSample = double_Pi * 2.0 / (sampleRate / frequency);
+        phasePerSample = MathConstants<double>::twoPi / (sampleRate / frequency);
 
     for (int i = 0; i < info.numSamples; ++i)
     {
@@ -71,3 +74,5 @@ void ToneGeneratorAudioSource::getNextAudioBlock (const AudioSourceChannelInfo& 
             info.buffer->setSample (j, info.startSample + i, sample);
     }
 }
+
+} // namespace juce

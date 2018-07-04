@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -49,6 +49,8 @@
     int numItems = myList.size(); // returns 2
     MyObject* lastInList = myList.getLast();
     @endcode
+
+    @tags{Core}
 */
 template <class ObjectType>
 class LinkedListPointer
@@ -111,7 +113,7 @@ public:
     */
     LinkedListPointer& getLast() noexcept
     {
-        LinkedListPointer* l = this;
+        auto* l = this;
 
         while (l->item != nullptr)
             l = &(l->item->nextListItem);
@@ -127,7 +129,7 @@ public:
     {
         int total = 0;
 
-        for (ObjectType* i = item; i != nullptr; i = i->nextListItem)
+        for (auto* i = item; i != nullptr; i = i->nextListItem)
             ++total;
 
         return total;
@@ -139,7 +141,7 @@ public:
     */
     LinkedListPointer& operator[] (int index) noexcept
     {
-        LinkedListPointer* l = this;
+        auto* l = this;
 
         while (--index >= 0 && l->item != nullptr)
             l = &(l->item->nextListItem);
@@ -153,7 +155,7 @@ public:
     */
     const LinkedListPointer& operator[] (int index) const noexcept
     {
-        const LinkedListPointer* l = this;
+        auto* l = this;
 
         while (--index >= 0 && l->item != nullptr)
             l = &(l->item->nextListItem);
@@ -164,7 +166,7 @@ public:
     /** Returns true if the list contains the given item. */
     bool contains (const ObjectType* const itemToLookFor) const noexcept
     {
-        for (ObjectType* i = item; i != nullptr; i = i->nextListItem)
+        for (auto* i = item; i != nullptr; i = i->nextListItem)
             if (itemToLookFor == i)
                 return true;
 
@@ -190,7 +192,7 @@ public:
     void insertAtIndex (int index, ObjectType* newItem)
     {
         jassert (newItem != nullptr);
-        LinkedListPointer* l = this;
+        auto* l = this;
 
         while (index != 0 && l->item != nullptr)
         {
@@ -209,7 +211,7 @@ public:
         jassert (newItem != nullptr);
         jassert (newItem->nextListItem == nullptr);
 
-        ObjectType* const oldItem = item;
+        auto oldItem = item;
         item = newItem;
         item->nextListItem = oldItem->nextListItem.item;
         oldItem->nextListItem.item = nullptr;
@@ -233,9 +235,9 @@ public:
     */
     void addCopyOfList (const LinkedListPointer& other)
     {
-        LinkedListPointer* insertPoint = this;
+        auto* insertPoint = this;
 
-        for (ObjectType* i = other.item; i != nullptr; i = i->nextListItem)
+        for (auto* i = other.item; i != nullptr; i = i->nextListItem)
         {
             insertPoint->insertNext (new ObjectType (*i));
             insertPoint = &(insertPoint->item->nextListItem);
@@ -248,7 +250,7 @@ public:
     */
     ObjectType* removeNext() noexcept
     {
-        ObjectType* const oldItem = item;
+        auto oldItem = item;
 
         if (oldItem != nullptr)
         {
@@ -264,7 +266,7 @@ public:
     */
     void remove (ObjectType* const itemToRemove)
     {
-        if (LinkedListPointer* const l = findPointerTo (itemToRemove))
+        if (auto* l = findPointerTo (itemToRemove))
             l->removeNext();
     }
 
@@ -275,7 +277,7 @@ public:
     {
         while (item != nullptr)
         {
-            ObjectType* const oldItem = item;
+            auto oldItem = item;
             item = oldItem->nextListItem;
             delete oldItem;
         }
@@ -287,7 +289,7 @@ public:
     */
     LinkedListPointer* findPointerTo (ObjectType* const itemToLookFor) noexcept
     {
-        LinkedListPointer* l = this;
+        auto* l = this;
 
         while (l->item != nullptr)
         {
@@ -308,7 +310,7 @@ public:
     {
         jassert (destArray != nullptr);
 
-        for (ObjectType* i = item; i != nullptr; i = i->nextListItem)
+        for (auto* i = item; i != nullptr; i = i->nextListItem)
             *destArray++ = i;
     }
 
@@ -357,3 +359,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (LinkedListPointer)
 };
+
+} // namespace juce

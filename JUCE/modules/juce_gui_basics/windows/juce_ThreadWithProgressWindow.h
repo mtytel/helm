@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -78,6 +78,8 @@
     @endcode
 
     @see Thread, AlertWindow
+
+    @tags{GUI}
 */
 class JUCE_API  ThreadWithProgressWindow  : public Thread,
                                             private Timer
@@ -149,7 +151,7 @@ public:
     void setStatusMessage (const String& newStatusMessage);
 
     /** Returns the AlertWindow that is being used. */
-    AlertWindow* getAlertWindow() const noexcept        { return alertWindow; }
+    AlertWindow* getAlertWindow() const noexcept        { return alertWindow.get(); }
 
     //==============================================================================
     /** This method is called (on the message thread) when the operation has finished.
@@ -162,7 +164,7 @@ private:
     void timerCallback() override;
 
     double progress;
-    ScopedPointer<AlertWindow> alertWindow;
+    std::unique_ptr<AlertWindow> alertWindow;
     String message;
     CriticalSection messageLock;
     const int timeOutMsWhenCancelling;
@@ -170,3 +172,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ThreadWithProgressWindow)
 };
+
+} // namespace juce

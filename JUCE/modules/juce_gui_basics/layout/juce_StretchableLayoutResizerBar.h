@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,6 +35,8 @@
     One of these acts with a StretchableLayoutManager to resize the other components.
 
     @see StretchableLayoutManager
+
+    @tags{GUI}
 */
 class JUCE_API  StretchableLayoutResizerBar  : public Component
 {
@@ -100,3 +102,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StretchableLayoutResizerBar)
 };
+
+} // namespace juce

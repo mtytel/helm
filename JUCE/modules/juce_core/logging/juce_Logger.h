@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -34,6 +34,8 @@
     output stream.
 
     @see FileLogger
+
+    @tags{Core}
 */
 class JUCE_API  Logger
 {
@@ -85,3 +87,5 @@ protected:
 private:
     static Logger* currentLogger;
 };
+
+} // namespace juce

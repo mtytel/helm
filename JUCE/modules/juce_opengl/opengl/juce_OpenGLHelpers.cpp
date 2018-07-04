@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 void OpenGLHelpers::resetErrorState()
 {
     while (glGetError() != GL_NO_ERROR) {}
@@ -73,7 +76,7 @@ void OpenGLHelpers::clear (Colour colour)
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-void OpenGLHelpers::enableScissorTest (const Rectangle<int>& clip)
+void OpenGLHelpers::enableScissorTest (Rectangle<int> clip)
 {
     glEnable (GL_SCISSOR_TEST);
     glScissor (clip.getX(), clip.getY(), clip.getWidth(), clip.getHeight());
@@ -97,7 +100,7 @@ String OpenGLHelpers::translateVertexShaderToV3 (const String& code)
 
             for (int p = code.indexOf (0, "attribute "); p >= 0; p = code.indexOf (p + 1, "attribute "))
             {
-                output += code.substring (last, p) + String ("layout(location=") + String (--numAttributes) + ") in ";
+                output += code.substring (last, p) + "layout(location=" + String (--numAttributes) + ") in ";
 
                 last = p + 10;
             }
@@ -128,3 +131,5 @@ String OpenGLHelpers::translateFragmentShaderToV3 (const String& code)
 
     return code;
 }
+
+} // namespace juce

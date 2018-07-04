@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace CDBurnerHelpers
 {
     IDiscRecorder* enumCDBurners (StringArray* list, int indexToOpen, IDiscMaster** master)
@@ -233,7 +236,7 @@ AudioCDBurner::AudioCDBurner (const int deviceIndex)
     IDiscRecorder* discRecorder = CDBurnerHelpers::enumCDBurners (0, deviceIndex, &discMaster);
 
     if (discRecorder != nullptr)
-        pimpl = new Pimpl (*this, discMaster, discRecorder);
+        pimpl.reset (new Pimpl (*this, discMaster, discRecorder));
 }
 
 AudioCDBurner::~AudioCDBurner()
@@ -251,7 +254,7 @@ StringArray AudioCDBurner::findAvailableDevices()
 
 AudioCDBurner* AudioCDBurner::openDevice (const int deviceIndex)
 {
-    ScopedPointer<AudioCDBurner> b (new AudioCDBurner (deviceIndex));
+    std::unique_ptr<AudioCDBurner> b (new AudioCDBurner (deviceIndex));
 
     if (b->pimpl == 0)
         b = nullptr;
@@ -330,7 +333,7 @@ String AudioCDBurner::burn (AudioCDBurner::BurnProgressListener* listener, bool 
     pimpl->shouldCancel = false;
 
     UINT_PTR cookie;
-    HRESULT hr = pimpl->discMaster->ProgressAdvise ((AudioCDBurner::Pimpl*) pimpl, &cookie);
+    HRESULT hr = pimpl->discMaster->ProgressAdvise ((AudioCDBurner::Pimpl*) pimpl.get(), &cookie);
 
     hr = pimpl->discMaster->RecordDisc (performFakeBurnForTesting,
                                         ejectDiscAfterwards);
@@ -359,7 +362,7 @@ bool AudioCDBurner::addAudioTrack (AudioSource* audioSource, int numSamples)
     if (audioSource == 0)
         return false;
 
-    ScopedPointer<AudioSource> source (audioSource);
+    std::unique_ptr<AudioSource> source (audioSource);
 
     long bytesPerBlock;
     HRESULT hr = pimpl->redbook->GetAudioBlockSize (&bytesPerBlock);
@@ -370,7 +373,7 @@ bool AudioCDBurner::addAudioTrack (AudioSource* audioSource, int numSamples)
     hr = pimpl->redbook->CreateAudioTrack ((long) numSamples / (bytesPerBlock * 4));
 
     HeapBlock<byte> buffer (bytesPerBlock);
-    AudioSampleBuffer sourceBuffer (2, samplesPerBlock);
+    AudioBuffer<float> sourceBuffer (2, samplesPerBlock);
     int samplesDone = 0;
 
     source->prepareToPlay (samplesPerBlock, 44100.0);
@@ -411,3 +414,5 @@ bool AudioCDBurner::addAudioTrack (AudioSource* audioSource, int numSamples)
     hr = pimpl->redbook->CloseAudioTrack();
     return ok && hr == S_OK;
 }
+
+} // namespace juce

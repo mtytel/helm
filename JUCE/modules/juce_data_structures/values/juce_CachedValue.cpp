@@ -24,12 +24,15 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if JUCE_UNIT_TESTS
 
 class CachedValueTests  : public UnitTest
 {
 public:
-    CachedValueTests() : UnitTest ("CachedValues") {}
+    CachedValueTests() : UnitTest ("CachedValues", "Values") {}
 
     void runTest() override
     {
@@ -152,3 +155,5 @@ public:
 static CachedValueTests cachedValueTests;
 
 #endif
+
+} // namespace juce

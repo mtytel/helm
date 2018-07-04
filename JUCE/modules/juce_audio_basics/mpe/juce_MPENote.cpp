@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace
 {
     uint16 generateNoteID (int midiChannel, int midiNoteNumber) noexcept
@@ -45,26 +48,15 @@ MPENote::MPENote (int midiChannel_,
       noteOnVelocity (noteOnVelocity_),
       pitchbend (pitchbend_),
       pressure (pressure_),
+      initialTimbre (timbre_),
       timbre (timbre_),
-      noteOffVelocity (MPEValue::minValue()),
       keyState (keyState_)
 {
     jassert (keyState != MPENote::off);
     jassert (isValid());
 }
 
-MPENote::MPENote() noexcept
-    : noteID (0),
-      midiChannel (0),
-      initialNote (0),
-      noteOnVelocity (MPEValue::minValue()),
-      pitchbend (MPEValue::centreValue()),
-      pressure (MPEValue::centreValue()),
-      timbre (MPEValue::centreValue()),
-      noteOffVelocity (MPEValue::minValue()),
-      keyState (MPENote::off)
-{
-}
+MPENote::MPENote() noexcept {}
 
 //==============================================================================
 bool MPENote::isValid() const noexcept
@@ -75,7 +67,7 @@ bool MPENote::isValid() const noexcept
 //==============================================================================
 double MPENote::getFrequencyInHertz (double frequencyOfA) const noexcept
 {
-    double pitchInSemitones = double (initialNote) + totalPitchbendInSemitones;
+    auto pitchInSemitones = double (initialNote) + totalPitchbendInSemitones;
     return frequencyOfA * std::pow (2.0, (pitchInSemitones - 69.0) / 12.0);
 }
 
@@ -99,7 +91,7 @@ bool MPENote::operator!= (const MPENote& other) const noexcept
 class MPENoteTests : public UnitTest
 {
 public:
-    MPENoteTests() : UnitTest ("MPENote class") {}
+    MPENoteTests() : UnitTest ("MPENote class", "MIDI/MPE") {}
 
     //==============================================================================
     void runTest() override
@@ -128,3 +120,5 @@ private:
 static MPENoteTests MPENoteUnitTests;
 
 #endif // JUCE_UNIT_TESTS
+
+} // namespace juce

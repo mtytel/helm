@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -37,6 +38,8 @@
     input to send both streams through the processor.
 
     @see AudioProcessor, AudioProcessorGraph
+
+    @tags{Audio}
 */
 class JUCE_API  AudioProcessorPlayer    : public AudioIODeviceCallback,
                                           public MidiInputCallback
@@ -107,3 +110,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioProcessorPlayer)
 };
+
+} // namespace juce

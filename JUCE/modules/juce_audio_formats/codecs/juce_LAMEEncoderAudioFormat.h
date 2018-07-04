@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if JUCE_USE_LAME_AUDIO_FORMAT || defined (DOXYGEN)
 
 //==============================================================================
@@ -39,6 +42,8 @@
     the writer.
 
     @see AudioFormat
+
+    @tags{Audio}
 */
 class JUCE_API  LAMEEncoderAudioFormat    : public AudioFormat
 {
@@ -71,3 +76,5 @@ private:
 };
 
 #endif
+
+} // namespace juce

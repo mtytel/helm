@@ -20,7 +20,7 @@
 
 #include "JuceHeader.h"
 
-class UpdateMemory {
+class UpdateMemory : public DeletedAtShutdown {
   public:
     UpdateMemory();
     virtual ~UpdateMemory();
@@ -28,13 +28,13 @@ class UpdateMemory {
     bool shouldCheck() const { return needs_check_; }
     void check() { needs_check_ = false; }
 
-    juce_DeclareSingleton(UpdateMemory, false)
+    JUCE_DECLARE_SINGLETON(UpdateMemory, false)
 
   private:
     bool needs_check_;
 };
 
-class UpdateCheckSection : public Component, public ButtonListener {
+class UpdateCheckSection : public Component, public Button::Listener {
   public:
     UpdateCheckSection(String name);
     ~UpdateCheckSection() { }

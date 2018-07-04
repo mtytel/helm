@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class MessageListener;
 
@@ -36,6 +37,8 @@ class MessageListener;
     deleted automatically after the message has been delivered.
 
     @see MessageListener, MessageManager, ActionListener, ChangeListener
+
+    @tags{Events}
 */
 class JUCE_API  Message  : public MessageManager::MessageBase
 {
@@ -45,7 +48,7 @@ public:
     Message() noexcept;
     ~Message();
 
-    typedef ReferenceCountedObjectPtr<Message> Ptr;
+    using Ptr = ReferenceCountedObjectPtr<Message>;
 
     //==============================================================================
 private:
@@ -57,3 +60,5 @@ private:
     // messages still in the system event queue. These aren't harmful, but can cause annoying assertions.
     JUCE_DECLARE_NON_COPYABLE (Message)
 };
+
+} // namespace juce

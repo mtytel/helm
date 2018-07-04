@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 class Expression::Term  : public SingleThreadedReferenceCountedObject
 {
 public:
@@ -77,9 +80,9 @@ private:
 //==============================================================================
 struct Expression::Helpers
 {
-    typedef ReferenceCountedObjectPtr<Term> TermPtr;
+    using TermPtr = ReferenceCountedObjectPtr<Term>;
 
-    static void checkRecursionDepth (const int depth)
+    static void checkRecursionDepth (int depth)
     {
         if (depth > 256)
             throw EvaluationError ("Recursive symbol references");
@@ -242,10 +245,12 @@ struct Expression::Helpers
         {
             checkRecursionDepth (recursionDepth);
             double result = 0;
-            const int numParams = parameters.size();
+            auto numParams = parameters.size();
+
             if (numParams > 0)
             {
-                HeapBlock<double> params ((size_t) numParams);
+                HeapBlock<double> params (numParams);
+
                 for (int i = 0; i < numParams; ++i)
                     params[i] = parameters.getReference(i).term->resolve (scope, recursionDepth + 1)->toDouble();
 
@@ -621,10 +626,10 @@ struct Expression::Helpers
     class SymbolCheckVisitor  : public Term::SymbolVisitor
     {
     public:
-        SymbolCheckVisitor (const Symbol& symbol_) : wasFound (false), symbol (symbol_) {}
+        SymbolCheckVisitor (const Symbol& s) : symbol (s) {}
         void useSymbol (const Symbol& s)    { wasFound = wasFound || s == symbol; }
 
-        bool wasFound;
+        bool wasFound = false;
 
     private:
         const Symbol& symbol;
@@ -720,7 +725,7 @@ struct Expression::Helpers
         bool readIdentifier (String& identifier) noexcept
         {
             text = text.findEndOfWhitespace();
-            String::CharPointerType t (text);
+            auto t = text;
             int numChars = 0;
 
             if (t.isLetter() || *t == '_')
@@ -748,9 +753,9 @@ struct Expression::Helpers
         Term* readNumber() noexcept
         {
             text = text.findEndOfWhitespace();
-            String::CharPointerType t (text);
+            auto t = text;
+            bool isResolutionTarget = (*t == '@');
 
-            const bool isResolutionTarget = (*t == '@');
             if (isResolutionTarget)
             {
                 ++t;
@@ -852,7 +857,7 @@ struct Expression::Helpers
                 if (readOperator ("(")) // method call...
                 {
                     Function* const f = new Function (identifier);
-                    ScopedPointer<Term> func (f);  // (can't use ScopedPointer<Function> in MSVC)
+                    std::unique_ptr<Term> func (f);  // (can't use std::unique_ptr<Function> in MSVC)
 
                     TermPtr param (readExpression());
 
@@ -963,7 +968,7 @@ Expression& Expression::operator= (Expression&& other) noexcept
 
 Expression::Expression (const String& stringToParse, String& parseError)
 {
-    String::CharPointerType text (stringToParse.getCharPointer());
+    auto text = stringToParse.getCharPointer();
     Helpers::Parser parser (text);
     term = parser.readUpToComma();
     parseError = parser.error;
@@ -1016,24 +1021,24 @@ Expression Expression::function (const String& functionName, const Array<Express
 
 Expression Expression::adjustedToGiveNewResult (const double targetValue, const Expression::Scope& scope) const
 {
-    ScopedPointer<Term> newTerm (term->clone());
+    std::unique_ptr<Term> newTerm (term->clone());
 
-    Helpers::Constant* termToAdjust = Helpers::findTermToAdjust (newTerm, true);
+    Helpers::Constant* termToAdjust = Helpers::findTermToAdjust (newTerm.get(), true);
 
     if (termToAdjust == nullptr)
-        termToAdjust = Helpers::findTermToAdjust (newTerm, false);
+        termToAdjust = Helpers::findTermToAdjust (newTerm.get(), false);
 
     if (termToAdjust == nullptr)
     {
-        newTerm = new Helpers::Add (newTerm.release(), new Helpers::Constant (0, false));
-        termToAdjust = Helpers::findTermToAdjust (newTerm, false);
+        newTerm.reset (new Helpers::Add (newTerm.release(), new Helpers::Constant (0, false)));
+        termToAdjust = Helpers::findTermToAdjust (newTerm.get(), false);
     }
 
     jassert (termToAdjust != nullptr);
 
-    if (const Term* parent = Helpers::findDestinationFor (newTerm, termToAdjust))
+    if (const Term* parent = Helpers::findDestinationFor (newTerm.get(), termToAdjust))
     {
-        if (const Helpers::TermPtr reverseTerm = parent->createTermToEvaluateInput (scope, termToAdjust, targetValue, newTerm))
+        if (Helpers::TermPtr reverseTerm = parent->createTermToEvaluateInput (scope, termToAdjust, targetValue, newTerm.get()))
             termToAdjust->value = Expression (reverseTerm).evaluate (scope);
         else
             return Expression (targetValue);
@@ -1167,3 +1172,5 @@ String Expression::Scope::getScopeUID() const
 {
     return {};
 }
+
+} // namespace juce

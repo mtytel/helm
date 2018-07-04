@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -50,6 +50,8 @@
                                 + result.getErrorMessage());
     }
     @endcode
+
+    @tags{Core}
 */
 class JUCE_API  Result
 {
@@ -110,3 +112,5 @@ private:
     operator int() const;
     operator void*() const;
 };
+
+} // namespace juce

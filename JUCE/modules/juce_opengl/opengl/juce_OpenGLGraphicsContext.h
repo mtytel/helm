@@ -24,25 +24,24 @@
   ==============================================================================
 */
 
-#pragma once
-
-
-/** Creates a graphics context object that will render into the given OpenGL target.
-    The caller is responsible for deleting this object when no longer needed.
-*/
-LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext& target,
-                                                      int width, int height);
+namespace juce
+{
 
 /** Creates a graphics context object that will render into the given OpenGL target.
     The caller is responsible for deleting this object when no longer needed.
 */
-LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext& context,
-                                                      OpenGLFrameBuffer& target);
+LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext&, int width, int height);
 
-/** Creates a graphics context object that will render into the given OpenGL target.
+/** Creates a graphics context object that will render into the given OpenGL framebuffer.
     The caller is responsible for deleting this object when no longer needed.
 */
-LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext& context,
+LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext&, OpenGLFrameBuffer&);
+
+/** Creates a graphics context object that will render into the given OpenGL framebuffer,
+    with the given size.
+    The caller is responsible for deleting this object when no longer needed.
+*/
+LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext&,
                                                       unsigned int frameBufferID,
                                                       int width, int height);
 
@@ -53,6 +52,8 @@ LowLevelGraphicsContext* createOpenGLGraphicsContext (OpenGLContext& context,
 
     Given a GL-based rendering context, you can write a fragment shader that applies some
     kind of per-pixel effect.
+
+    @tags{OpenGL}
 */
 struct JUCE_API  OpenGLGraphicsContextCustomShader
 {
@@ -79,7 +80,7 @@ struct JUCE_API  OpenGLGraphicsContextCustomShader
     OpenGLShaderProgram* getProgram (LowLevelGraphicsContext&) const;
 
     /** Applies the shader to a rectangle within the graphics context. */
-    void fillRect (LowLevelGraphicsContext&, const Rectangle<int>& area) const;
+    void fillRect (LowLevelGraphicsContext&, Rectangle<int> area) const;
 
     /** Attempts to compile the program if necessary, and returns an error message if it fails. */
     Result checkCompilation (LowLevelGraphicsContext&);
@@ -87,8 +88,15 @@ struct JUCE_API  OpenGLGraphicsContextCustomShader
     /** Returns the code that was used to create this object. */
     const String& getFragmentShaderCode() const noexcept           { return code; }
 
+    /** Optional lambda that will be called when the shader is activated, to allow
+        user code to do setup tasks.
+    */
+    std::function<void(OpenGLShaderProgram&)> onShaderActivated;
+
 private:
     String code, hashName;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OpenGLGraphicsContextCustomShader)
 };
+
+} // namespace juce

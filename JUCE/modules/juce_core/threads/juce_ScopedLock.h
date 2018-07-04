@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -47,6 +47,8 @@
     @endcode
 
     @see GenericScopedUnlock, CriticalSection, SpinLock, ScopedLock, ScopedUnlock
+
+    @tags{Core}
 */
 template <class LockType>
 class GenericScopedLock
@@ -116,6 +118,8 @@ private:
     @endcode
 
     @see GenericScopedLock, CriticalSection, ScopedLock, ScopedUnlock
+
+    @tags{Core}
 */
 template <class LockType>
 class GenericScopedUnlock
@@ -186,6 +190,8 @@ private:
     @endcode
 
     @see CriticalSection::tryEnter, GenericScopedLock, GenericScopedUnlock
+
+    @tags{Core}
 */
 template <class LockType>
 class GenericScopedTryLock
@@ -194,16 +200,22 @@ public:
     //==============================================================================
     /** Creates a GenericScopedTryLock.
 
-        As soon as it is created, this will attempt to acquire the lock, and when the
-        GenericScopedTryLock is deleted, the lock will be released (if the lock was
-        successfully acquired).
+        If acquireLockOnInitialisation is true then as soon as this ScopedTryLock
+        is created, it will attempt to acquire the lock with tryEnter.
+
+        You can retry acquiring the lock by calling retryLock.
+
+        When GenericScopedTryLock is deleted, the lock will be released (if the lock
+        was successfully acquired).
 
         Make sure this object is created and deleted by the same thread,
         otherwise there are no guarantees what will happen! Best just to use it
         as a local stack object, rather than creating one with the new() operator.
+
+        @see retryLock, isLocked
     */
-    inline explicit GenericScopedTryLock (const LockType& lock) noexcept
-        : lock_ (lock), lockWasSuccessful (lock.tryEnter()) {}
+    inline explicit GenericScopedTryLock (const LockType& lock, bool acquireLockOnInitialisation = true) noexcept
+        : lock_ (lock), lockWasSuccessful (acquireLockOnInitialisation && lock.tryEnter()) {}
 
     /** Destructor.
 
@@ -218,10 +230,15 @@ public:
     /** Returns true if the mutex was successfully locked. */
     bool isLocked() const noexcept                  { return lockWasSuccessful; }
 
+    /** Retry gaining the lock by calling tryEnter on the underlying lock. */
+    bool retryLock() const noexcept                 { lockWasSuccessful = lock_.tryEnter(); return lockWasSuccessful; }
+
 private:
     //==============================================================================
     const LockType& lock_;
-    const bool lockWasSuccessful;
+    mutable bool lockWasSuccessful;
 
     JUCE_DECLARE_NON_COPYABLE (GenericScopedTryLock)
 };
+
+} // namespace juce

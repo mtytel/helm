@@ -24,11 +24,14 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /**
     Manages an OpenGL shader program.
+
+    @tags{OpenGL}
 */
 class JUCE_API  OpenGLShaderProgram
 {
@@ -198,3 +201,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OpenGLShaderProgram)
 };
+
+} // namespace juce

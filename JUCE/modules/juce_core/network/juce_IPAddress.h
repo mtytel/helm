@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Represents an IP address.
+
+    @tags{Core}
 */
-class JUCE_API  IPAddress
+class JUCE_API  IPAddress  final
 {
 public:
     //==============================================================================
@@ -108,3 +110,5 @@ private:
             address[i] = 0;
     }
 };
+
+} // namespace juce

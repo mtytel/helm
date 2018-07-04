@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -45,6 +45,8 @@
     @endcode
 
     @see ReadWriteLock, ScopedReadLock
+
+    @tags{Core}
 */
 class JUCE_API  ScopedWriteLock
 {
@@ -78,3 +80,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (ScopedWriteLock)
 };
+
+}
