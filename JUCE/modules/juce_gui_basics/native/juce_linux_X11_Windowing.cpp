@@ -2999,11 +2999,16 @@ private:
     {
         Atom netHints [2];
 
+        /*
         if ((styleFlags & windowIsTemporary) != 0
              || ((styleFlags & windowHasDropShadow) == 0 && Desktop::canUseSemiTransparentWindows()))
             netHints [0] = Atoms::getIfExists (display, "_NET_WM_WINDOW_TYPE_COMBO");
         else
             netHints [0] = Atoms::getIfExists (display, "_NET_WM_WINDOW_TYPE_NORMAL");
+        */
+
+        // just use normal top level window
+        netHints[0] = Atoms::getIfExists (display, "_NET_WM_WINDOW_TYPE_NORMAL");
 
         xchangeProperty (windowH, atoms->windowType, XA_ATOM, 32, &netHints, 1);
 
@@ -3031,8 +3036,12 @@ private:
         parentWindow = parentToAddTo;
 
         // Try to obtain a 32-bit visual or fallback to 24 or 16
-        visual = Visuals::findVisualFormat (display, (styleFlags & windowIsSemiTransparent) ? 32 : 24, depth);
-
+        //visual = Visuals::findVisualFormat (display, (styleFlags & windowIsSemiTransparent) ? 32 : 24, depth);
+        visual = Visuals::findVisualFormat(display, 32, depth);  // require 32bit depth
+        if (depth != 32) {
+            Logger::outputDebugString ("ERROR: System doesn't support 32 bit display.\n");
+            Process::terminate();
+        }
         if (visual == nullptr)
         {
             Logger::outputDebugString ("ERROR: System doesn't support 32, 24 or 16 bit RGB display.\n");
@@ -3102,6 +3111,15 @@ private:
 
         initialisePointerMap();
         updateModifierMappings();
+
+double alpha = 0.9;
+unsigned long opacity = (unsigned long)(0xFFFFFFFFul * alpha);
+Atom XA_NET_WM_WINDOW_OPACITY = XInternAtom(display, "_NET_WM_WINDOW_OPACITY", False);
+XChangeProperty(
+    display, windowH, XA_NET_WM_WINDOW_OPACITY, XA_CARDINAL, 32,
+    PropModeReplace, (unsigned char *)&opacity, 1L
+);
+
     }
 
     void destroyWindow()
