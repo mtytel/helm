@@ -32,7 +32,7 @@ class HelmApplication : public JUCEApplication {
       };
 
       MainWindow(String name, bool visible = true) :
-          DocumentWindow(name, Colours::lightgrey, DocumentWindow::allButtons, visible) {
+          DocumentWindow(name, Colour(0x11000000)/*Colours::lightgrey*/, DocumentWindow::allButtons, visible) {
         editor_ = new HelmEditor(visible);
         if (visible) {
           editor_->animate(LoadSave::shouldAnimateWidgets());

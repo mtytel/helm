@@ -62,7 +62,7 @@ HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
 
     setWantsKeyboardFocus(true);
     addKeyListener(computer_keyboard_);
-    setOpaque(true);
+    setOpaque(false);  // no change if true?
   }
 }
 

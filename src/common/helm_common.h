@@ -177,6 +177,8 @@ namespace mopo {
   const int DEFAULT_MODULATION_CONNECTIONS = 256;
   const int DEFAULT_WINDOW_WIDTH = 992;
   const int DEFAULT_WINDOW_HEIGHT = 734;
+  //const int DEFAULT_WINDOW_WIDTH = 1024;  ## TODO
+  //const int DEFAULT_WINDOW_HEIGHT = 420;
 
   const int DEFAULT_KEYBOARD_OFFSET = 48;
   const std::wstring DEFAULT_KEYBOARD = L"awsedftgyhujkolp;'";

@@ -105,7 +105,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   save_section_->toFront(false);
   delete_section_->toFront(false);
 
-  setOpaque(true);
+  setOpaque(false);
 }
 
 FullInterface::~FullInterface() {
@@ -146,7 +146,8 @@ void FullInterface::paintBackground(Graphics& g) {
 
   shadow.drawForRectangle(g, Rectangle<int>(x, logo_button_->getY(),
                                             width, logo_button_->getHeight()));
-  g.setColour(Colour(0xff303030));
+  //g.setColour(Colour(0xff303030));
+  g.setColour(Colour(0xff303000));
   g.fillRoundedRectangle(x, logo_button_->getY(), width, logo_button_->getHeight(), 3.0f);
 
   g.saveState();
