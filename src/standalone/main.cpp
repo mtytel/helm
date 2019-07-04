@@ -40,7 +40,7 @@ class HelmApplication : public JUCEApplication {
           setUsingNativeTitleBar(true);
           setContentOwned(editor_, true);
           setResizable(true, true);
-
+          /*
           constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
                                       2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
           constrainer_.setBorder(getPeer()->getFrameSize());
@@ -48,8 +48,8 @@ class HelmApplication : public JUCEApplication {
 
           constrainer_.setFixedAspectRatio(ratio);
           setConstrainer(&constrainer_);
-
-          centreWithSize(getWidth(), getHeight());
+          */
+          //centreWithSize(getWidth(), getHeight());
           setVisible(visible);
           triggerAsyncUpdate();
         }
@@ -146,7 +146,7 @@ class HelmApplication : public JUCEApplication {
       JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
       HelmEditor* editor_;
       ScopedPointer<ApplicationCommandManager> command_manager_;
-      BorderBoundsConstrainer constrainer_;
+      //BorderBoundsConstrainer constrainer_;
     };
 
     HelmApplication() { }

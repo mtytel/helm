@@ -127,6 +127,8 @@ void SynthesisInterface::resized() {
   int section_three_left_width = (section_three_width_ - padding_) / 2;
   int section_three_right_width = section_three_width_ - padding_ - section_three_left_width;
   int column_4_x = column_3_x + padding_ + section_three_left_width;
+  int column_5_x = column_4_x + padding_ + (section_three_left_width/2);
+  int section_five_width_ = 800;
 
   int sub_width = 0.53125f * section_one_width_;
   int mixer_width = section_one_width_ - padding_ - sub_width;
@@ -137,7 +139,8 @@ void SynthesisInterface::resized() {
   int filter_height = size_ratio_ * 196.0f;
   int feedback_height = audio_height - filter_height - padding_;
   int envelopes_height = size_ratio_ * 120.0f;
-  int step_lfo_height = size_ratio_ * 148.0f;
+  //int step_lfo_height = size_ratio_ * 148.0f;
+  int step_lfo_height = size_ratio_ * 120.0f;
   int dynamics_height = size_ratio_ * 64.0f;
   int keyboard_padding = size_ratio_ * 5.0f;
   int stutter_height = size_ratio_ * 141.0f;
@@ -146,55 +149,75 @@ void SynthesisInterface::resized() {
   int reverb_height = size_ratio_ * 91.0f;
   int distortion_height = audio_height - delay_height - reverb_height - 2.0f * padding_;
 
-  oscillator_section_->setBounds(column_1_x, padding_, section_one_width_, oscillators_height);
+  oscillator_section_->setBounds(column_1_x, padding_, section_one_width_, oscillators_height * 0.75);
   sub_section_->setBounds(column_1_x, oscillator_section_->getBottom() + padding_,
-                          sub_width, sub_mixer_height);
+                          sub_width, sub_mixer_height * 0.75);
   mixer_section_->setBounds(sub_section_->getRight() + padding_, sub_section_->getY(),
-                            mixer_width, sub_mixer_height);
-  amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + padding_,
-                                         section_one_width_, envelopes_height);
+                            mixer_width, sub_mixer_height * 0.75);
 
-  feedback_section_->setBounds(column_2_x, padding_, section_two_width_, feedback_height);
-  filter_section_->setBounds(column_2_x, feedback_section_->getBottom() + padding_,
-                             section_two_width_, filter_height);
-  filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + padding_,
-                                      section_two_width_, envelopes_height);
+  //amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + padding_,
+  //                                       section_one_width_, envelopes_height);
+
+  amplitude_envelope_section_->setBounds(column_1_x, sub_section_->getBottom() + padding_,
+                                         section_one_width_/2, envelopes_height*0.75);
+
+  delay_section_->setBounds(amplitude_envelope_section_->getRight()+2, 
+                            sub_section_->getBottom() + padding_,
+                            section_one_width_/2, delay_height);
+
+  filter_section_->setBounds(column_2_x, padding_,
+                             section_two_width_/2, filter_height*0.8);
+  //filter_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + padding_,
+  //                                    section_two_width_, envelopes_height);
+  filter_envelope_section_->setBounds(filter_section_->getRight()+2, padding_,
+                                      section_two_width_/2, envelopes_height*0.75);
+
+  extra_envelope_section_->setBounds(column_2_x, filter_section_->getBottom() + padding_,
+                                     section_two_width_/2, envelopes_height);
+  extra_mod_section_->setBounds(filter_section_->getRight()+2, filter_envelope_section_->getBottom() + padding_,
+                                extra_envelope_section_->getWidth(), step_lfo_height*0.75);
+
+  reverb_section_->setBounds(filter_section_->getRight()+2, extra_mod_section_->getBottom() + padding_,
+                             extra_envelope_section_->getWidth(), reverb_height);
+
 
   int lfo_width = 0.421875f * section_one_width_;
   int step_sequencer_width = section_one_width_ + section_two_width_ + padding_ -
                              3 * (lfo_width + padding_);
 
-  int step_lfo_y = amplitude_envelope_section_->getBottom() + padding_;
-  mono_lfo_1_section_->setBounds(column_1_x, step_lfo_y,
-                                 lfo_width, step_lfo_height);
-  mono_lfo_2_section_->setBounds(mono_lfo_1_section_->getRight() + padding_, step_lfo_y,
-                                 lfo_width, step_lfo_height);
-  poly_lfo_section_->setBounds(mono_lfo_2_section_->getRight() + padding_, step_lfo_y,
-                               lfo_width, step_lfo_height);
-  step_sequencer_section_->setBounds(poly_lfo_section_->getRight() + padding_, step_lfo_y,
-                                     step_sequencer_width, step_lfo_height);
+  //int step_lfo_y = amplitude_envelope_section_->getBottom() + padding_;
+  int step_lfo_y = padding_;
 
-  stutter_section_->setBounds(column_3_x, padding_, section_three_left_width, stutter_height);
+  //mono_lfo_1_section_->setBounds(column_1_x, step_lfo_y,
+  mono_lfo_1_section_->setBounds(column_5_x, step_lfo_y,
+                                 lfo_width, step_lfo_height * 0.75);
+  mono_lfo_2_section_->setBounds(column_5_x, mono_lfo_1_section_->getBottom() + padding_,
+                                 lfo_width, step_lfo_height * 0.75);
+  poly_lfo_section_->setBounds(column_5_x, mono_lfo_2_section_->getBottom() + padding_,
+                               lfo_width, step_lfo_height * 0.75);
+
+  stutter_section_->setBounds(column_3_x, padding_, section_three_left_width/2, stutter_height);
+
+  feedback_section_->setBounds(stutter_section_->getRight()+2, padding_, section_three_left_width/2, feedback_height);
+
+  step_sequencer_section_->setBounds(stutter_section_->getRight()+4, feedback_section_->getBottom()+12,
+                                     step_sequencer_width * 1.2, step_lfo_height);
+
+
   formant_section_->setBounds(column_3_x, stutter_section_->getBottom() + padding_,
-                              section_three_left_width, formant_height);
-  extra_envelope_section_->setBounds(column_3_x, formant_section_->getBottom() + padding_,
-                                     section_three_width_, envelopes_height);
-  extra_mod_section_->setBounds(column_3_x, extra_envelope_section_->getBottom() + padding_,
-                                extra_envelope_section_->getWidth(), step_lfo_height);
+                              section_three_left_width/2, formant_height);
+
 
   distortion_section_->setBounds(column_4_x, padding_,
-                                 section_three_right_width, distortion_height);
-  delay_section_->setBounds(column_4_x, distortion_section_->getBottom() + padding_,
-                            section_three_right_width, delay_height);
-  reverb_section_->setBounds(column_4_x, delay_section_->getBottom() + padding_,
-                             section_three_right_width, reverb_height);
+                                 section_three_right_width/2, distortion_height);
 
   int dynamic_width = size_ratio_ * DYNAMIC_WIDTH;
   int dynamics_y = getHeight() - padding_ - dynamics_height;
   
   voice_section_->setBounds(column_1_x, dynamics_y,
                             dynamic_width, dynamics_height);
-  dynamic_section_->setBounds(extra_envelope_section_->getRight() - dynamic_width, dynamics_y,
+  //dynamic_section_->setBounds(extra_envelope_section_->getRight() - dynamic_width, dynamics_y,
+  dynamic_section_->setBounds(poly_lfo_section_->getRight()-dynamic_width, dynamics_y,
                               dynamic_width, dynamics_height);
   keyboard_->setBounds(voice_section_->getRight() + padding_,
                        voice_section_->getY() + keyboard_padding,

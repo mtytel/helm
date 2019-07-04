@@ -72,7 +72,8 @@ void ExtraModSection::paintBackground(Graphics& g) {
 void ExtraModSection::resized() {
   int button_width = getModButtonWidth();
   int title_width = getTitleWidth();
-  int x = size_ratio_ * 30;
+  //int x = size_ratio_ * 30;
+  int x = size_ratio_ * 5;
   int x2 = getWidth() / 2 + size_ratio_ * 15.0f;
   float space = (getHeight() - title_width - (3.0f * button_width)) / 4.0f;
 

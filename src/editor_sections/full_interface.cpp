@@ -174,7 +174,7 @@ void FullInterface::resized() {
   if (width_ratio > height_ratio) {
     ratio = height_ratio;
     width = height_ratio * mopo::DEFAULT_WINDOW_WIDTH;
-    left = (getWidth() - width) / 2;
+    //left = (getWidth() - width) / 2;
   }
   else {
     ratio = width_ratio;
