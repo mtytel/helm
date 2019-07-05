@@ -35,7 +35,8 @@ class SynthBase : public MidiManager::Listener {
     void linkGamepadAxis(const std::string& name, int index);
     void unlinkGamepadAxis(const std::string& name);
     void updateGamepad(float x1, float y1, float x2, float y2);
-
+    int getGamepadAxisLinkedTo(const std::string& name);
+    
     void valueChanged(const std::string& name, mopo::mopo_float value);
     void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
     void patchChangedThroughMidi(File patch) override;

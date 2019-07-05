@@ -74,6 +74,18 @@ HelmEditor::~HelmEditor() {
   keyboard_state_ = nullptr;
 }
 
+//ScopedPointer<HelmComputerKeyboard> HelmEditor::getComputerKeyboard() {
+//  return this->computer_keyboard_;
+//}
+
+void HelmEditor::noteOn(int note){
+  this->computer_keyboard_->noteOn(note);
+}
+void HelmEditor::noteOff(int note){
+  this->computer_keyboard_->noteOff(note);
+}
+
+
 void HelmEditor::prepareToPlay(int buffer_size, double sample_rate) {
   engine_.setSampleRate(sample_rate);
   engine_.setBufferSize(std::min(buffer_size, MAX_BUFFER_PROCESS));

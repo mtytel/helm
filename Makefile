@@ -19,6 +19,7 @@ ifdef DPKG
 endif
 
 SDEBLDFLAGS += -lSDL2
+#SDEBCXXFLAGS += -std=c++11
 
 MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
 ifneq (,$(findstring aarch,$(MACHINE)))

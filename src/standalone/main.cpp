@@ -24,15 +24,19 @@
 #include <SDL2/SDL_hints.h>
 //#include <Python.h>
 
+static int gamepadButtons[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+
 class UpdateGamepad: private Timer { 
   public:
     HelmEditor* editor;
     SDL_Joystick *m_joystick;
     int gamepadHat = 0;
+
     UpdateGamepad( HelmEditor* editor_, SDL_Joystick *joystick ) {
       this->editor = editor_;
       this->m_joystick = joystick;
-      startTimer(30);
+      //startTimer(30);  // too fast? segfaults sometimes
+      startTimer(60);
     }
     ~UpdateGamepad() {}
     void timerCallback() override {
@@ -53,20 +57,20 @@ class UpdateGamepad: private Timer {
       float y2 = ((double)SDL_JoystickGetAxis(m_joystick, 3)) / 32768.0;
       //double z2 = (((double)SDL_JoystickGetAxis(m_joystick, 5)) / 32768.0) + 1.0;
       this->editor->updateGamepad( x1,y1, x2,y2 );
+      //auto keyboard = this->editor->getComputerKeyboard();
       for (int i=0; i<11; i++) {
         if (SDL_JoystickGetButton(m_joystick, i)) {
-          //if (! Engine::s_gamepad_buttons[i]) {
-          //  Engine::s_gamepad_buttons[i] = true;
-          //  emit gamepadButtonPressed(i);
-          //}
+          if (gamepadButtons[i]==0) {
+            gamepadButtons[i] = 1;
+            this->editor->noteOn( 64 );
+          }
         } else {
-          //if (Engine::s_gamepad_buttons[i]) {
-          //  Engine::s_gamepad_buttons[i] = false;
-          //  emit gamepadButtonReleased(i);
-          //}
+          if (gamepadButtons[i]==1) {
+            gamepadButtons[i] = 0;
+            this->editor->noteOff( 64 );
+          }
         }
       }
-
     }
 };
 

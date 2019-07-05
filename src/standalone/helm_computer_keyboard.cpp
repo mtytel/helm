@@ -32,6 +32,17 @@ HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
 HelmComputerKeyboard::~HelmComputerKeyboard() {
 }
 
+void HelmComputerKeyboard::noteOn(int note) {
+  printf("noteOn...\n");
+  this->keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+  printf("noteOn OK\n");
+}
+void HelmComputerKeyboard::noteOff(int note) {
+  printf("noteOff...\n");
+  this->keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+  printf("noteOff OK\n");
+}
+
 void HelmComputerKeyboard::changeKeyboardOffset(int new_offset) {
   for (int i = 0; i < layout_.length(); ++i) {
     int note = computer_keyboard_offset_ + i;

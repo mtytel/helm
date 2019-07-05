@@ -27,6 +27,7 @@
 namespace {
   enum MenuIds {
     kCancel = 0,
+    kUnlinkGamepadAxis,
     kGamepadAxis0,
     kGamepadAxis1,
     kGamepadAxis2,
@@ -91,11 +92,17 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
 
     m.addItem(kCancel, getName().toStdString());
 
-    //m.addItem(kGamepadAxis0, String::fromUTF8(u8"🕹 axis:0"));  // unicode not working in Juce?
-    m.addItem(kGamepadAxis0, "gamepad-axis: 1");
-    m.addItem(kGamepadAxis1, "gamepad-axis: 2");
-    m.addItem(kGamepadAxis2, "gamepad-axis: 3");
-    m.addItem(kGamepadAxis3, "gamepad-axis: 4");
+    if (synth->getGamepadAxisLinkedTo(getName().toStdString()) != -1 ) {
+      int axis = synth->getGamepadAxisLinkedTo(getName().toStdString());
+      m.addItem(kUnlinkGamepadAxis, std::string("unlink gamepad-axis: ")+std::to_string(axis) );
+
+    } else {
+      //m.addItem(kGamepadAxis0, String::fromUTF8(u8"🕹 axis:0"));  // unicode not working in Juce?
+      m.addItem(kGamepadAxis0, "gamepad-axis: 1");
+      m.addItem(kGamepadAxis1, "gamepad-axis: 2");
+      m.addItem(kGamepadAxis2, "gamepad-axis: 3");
+      m.addItem(kGamepadAxis3, "gamepad-axis: 4");      
+    }
 
     if (isDoubleClickReturnEnabled())
       m.addItem(kDefaultValue, "Set to Default Value");
@@ -318,7 +325,8 @@ void SynthSlider::handlePopupResult(int result) {
       parent->getSynth()->getDestinationConnections(getName().toStdString());
 
   if (result == kGamepadAxis0)
-    //synth->valueChangedThroughMidi(getName().toStdString(), -1.0f);
+    synth->unlinkGamepadAxis(getName().toStdString());
+  else if (result == kGamepadAxis0)
     synth->linkGamepadAxis(getName().toStdString(), 0 );
   else if (result == kGamepadAxis1)
     synth->linkGamepadAxis(getName().toStdString(), 1 );

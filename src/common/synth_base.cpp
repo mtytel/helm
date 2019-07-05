@@ -40,6 +40,12 @@ SynthBase::SynthBase() {
   Startup::doStartupChecks(midi_manager_);
 }
 
+int SynthBase::getGamepadAxisLinkedTo(const std::string& name) {
+  if (this->gamepad_axis_mapping_.count(name) > 0)
+    return this->gamepad_axis_mapping_[name];
+  else
+    return -1;
+}
 void SynthBase::linkGamepadAxis(const std::string& name, int index) {
   this->gamepad_axis_mapping_[name] = index;
 }
@@ -49,6 +55,7 @@ void SynthBase::unlinkGamepadAxis(const std::string& name) {
 void SynthBase::updateGamepad(float x1, float y1, float x2, float y2) {
   for (auto& kw : this->gamepad_axis_mapping_) {
     float value = 0.0;
+    if (kw.second == -1) continue;
     switch (kw.second) {
       case 0:
         value = x1;
@@ -66,7 +73,25 @@ void SynthBase::updateGamepad(float x1, float y1, float x2, float y2) {
     if (kw.first == std::string("distortion_drive")) {
         value *= 30.0;      
     }
-    else if (kw.first == std::string("distortion_mix") || kw.first == std::string("arp_gate")) {
+    else if (kw.first == std::string("filter_drive")) {
+        value *= 20.0;
+    }
+    else if (kw.first == std::string("fil_env_depth")) {
+        value *= 128.0; // semitones
+    }
+    else if (kw.first == std::string("volume")) {
+        value += 1.0;  // range from 0.0 - 2.0
+    }
+    else if (kw.first == std::string("amp_attack") || kw.first==std::string("amp_decay") || kw.first==std::string("amp_release")) {
+        value += 1.0;  // range from 0.0 - 16.0 (seconds)
+        value *= 5.0;
+    }
+    else if (kw.first == std::string("osc_1_volume") || kw.first == std::string("osc_2_volume") || kw.first == std::string("stutter_softness") || kw.first == std::string("reverb_feedback")  || kw.first == std::string("reverb_damping") || kw.first == std::string("reverb_dry_wet")) {
+        // range from 0.0 - 1.0
+        value *= 0.5;
+        value += 0.5;
+    }
+    else if (kw.first == std::string("distortion_mix") || kw.first == std::string("arp_gate") || kw.first == std::string("delay_dry_wet")) {
         value *= 0.5;
         value += 0.5;
     }
