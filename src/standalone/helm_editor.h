@@ -34,9 +34,10 @@ class HelmEditor : public AudioAppComponent,
     HelmEditor(bool use_gui = true);
     ~HelmEditor();
 
-    //segfaults//ScopedPointer<HelmComputerKeyboard> getComputerKeyboard();
     void noteOn(int note);
     void noteOff(int note);
+    void nextPatch() { gui_->nextPatch(); }
+    void prevPatch() { gui_->prevPatch(); }
 
     // AudioAppComponent
     void prepareToPlay(int buffer_size, double sample_rate) override;

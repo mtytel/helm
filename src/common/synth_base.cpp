@@ -70,7 +70,16 @@ void SynthBase::updateGamepad(float x1, float y1, float x2, float y2) {
         value = y2;
         break;
     }
-    if (kw.first == std::string("distortion_drive")) {
+    if (kw.first == std::string("formant_y")) {
+        value = -value;
+    }
+    else if (kw.first == std::string("beats_per_minute")) {
+        // in range from 20 to 300?
+        value = -value;
+        value += 1.5;
+        value *= 1.5;
+    }
+    else if (kw.first == std::string("distortion_drive")) {
         value *= 30.0;      
     }
     else if (kw.first == std::string("filter_drive")) {

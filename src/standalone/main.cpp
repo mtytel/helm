@@ -31,6 +31,7 @@ class UpdateGamepad: private Timer {
     HelmEditor* editor;
     SDL_Joystick *m_joystick;
     int gamepadHat = 0;
+    int prevNote = -1;
 
     UpdateGamepad( HelmEditor* editor_, SDL_Joystick *joystick ) {
       this->editor = editor_;
@@ -43,7 +44,21 @@ class UpdateGamepad: private Timer {
       SDL_PumpEvents();  // poll event not required when calling pump
       int hat = SDL_JoystickGetHat(m_joystick,0);
       if (hat != this->gamepadHat) {
-        //std::cout << hat << std::endl;
+        std::cout << hat << std::endl;
+        switch (hat) {
+          case 1: // up
+            this->editor->noteOn( 64 );
+            break;
+          case 2: // right
+            this->editor->nextPatch();
+            break;
+          case 4: // down
+            this->editor->noteOff( 64 );
+            break;
+          case 8: // left
+            this->editor->prevPatch();
+            break;
+        }
         //if (hat==0)
         //  emit gamepadHatReleased();
         //else
@@ -58,7 +73,7 @@ class UpdateGamepad: private Timer {
       //double z2 = (((double)SDL_JoystickGetAxis(m_joystick, 5)) / 32768.0) + 1.0;
       this->editor->updateGamepad( x1,y1, x2,y2 );
       //auto keyboard = this->editor->getComputerKeyboard();
-      for (int i=0; i<11; i++) {
+      for (int i=0; i<12; i++) {
         if (SDL_JoystickGetButton(m_joystick, i)) {
           if (gamepadButtons[i]==0) {
             gamepadButtons[i] = 1;

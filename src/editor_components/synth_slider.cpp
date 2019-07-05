@@ -324,7 +324,7 @@ void SynthSlider::handlePopupResult(int result) {
   std::vector<mopo::ModulationConnection*> connections =
       parent->getSynth()->getDestinationConnections(getName().toStdString());
 
-  if (result == kGamepadAxis0)
+  if (result == kUnlinkGamepadAxis)
     synth->unlinkGamepadAxis(getName().toStdString());
   else if (result == kGamepadAxis0)
     synth->linkGamepadAxis(getName().toStdString(), 0 );

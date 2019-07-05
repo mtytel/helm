@@ -68,6 +68,8 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     void notifyChange() { patch_selector_->setModified(true); }
     void notifyFresh();
     void externalPatchLoaded(File patch) { patch_browser_->externalPatchLoaded(patch); }
+    void nextPatch() { patch_browser_->loadNextPatch(); }
+    void prevPatch() { patch_browser_->loadPrevPatch(); }
 
   private:
     std::map<std::string, SynthSlider*> slider_lookup_;

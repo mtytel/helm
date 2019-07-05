@@ -74,10 +74,6 @@ HelmEditor::~HelmEditor() {
   keyboard_state_ = nullptr;
 }
 
-//ScopedPointer<HelmComputerKeyboard> HelmEditor::getComputerKeyboard() {
-//  return this->computer_keyboard_;
-//}
-
 void HelmEditor::noteOn(int note){
   this->computer_keyboard_->noteOn(note);
 }
