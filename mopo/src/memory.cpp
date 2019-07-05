@@ -38,6 +38,6 @@ namespace mopo {
   }
 
   Memory::~Memory() {
-    delete memory_;
+    delete[] memory_;
   }
 } // namespace mopo
