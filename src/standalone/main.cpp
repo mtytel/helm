@@ -19,6 +19,58 @@
 #include "helm_editor.h"
 #include "load_save.h"
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_joystick.h>
+#include <SDL2/SDL_hints.h>
+//#include <Python.h>
+
+class UpdateGamepad: private Timer { 
+  public:
+    HelmEditor* editor;
+    SDL_Joystick *m_joystick;
+    int gamepadHat = 0;
+    UpdateGamepad( HelmEditor* editor_, SDL_Joystick *joystick ) {
+      this->editor = editor_;
+      this->m_joystick = joystick;
+      startTimer(30);
+    }
+    ~UpdateGamepad() {}
+    void timerCallback() override {
+      SDL_PumpEvents();  // poll event not required when calling pump
+      int hat = SDL_JoystickGetHat(m_joystick,0);
+      if (hat != this->gamepadHat) {
+        //std::cout << hat << std::endl;
+        //if (hat==0)
+        //  emit gamepadHatReleased();
+        //else
+        //  emit gamepadHatPressed(hat);
+      }
+      this->gamepadHat = hat;
+      float x1 = ((double)SDL_JoystickGetAxis(m_joystick, 0)) / 32768.0;
+      float y1 = ((double)SDL_JoystickGetAxis(m_joystick, 1)) / 32768.0;
+      //double z1 = (((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0) + 1.0;
+      float x2 = ((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0;
+      float y2 = ((double)SDL_JoystickGetAxis(m_joystick, 3)) / 32768.0;
+      //double z2 = (((double)SDL_JoystickGetAxis(m_joystick, 5)) / 32768.0) + 1.0;
+      this->editor->updateGamepad( x1,y1, x2,y2 );
+      for (int i=0; i<11; i++) {
+        if (SDL_JoystickGetButton(m_joystick, i)) {
+          //if (! Engine::s_gamepad_buttons[i]) {
+          //  Engine::s_gamepad_buttons[i] = true;
+          //  emit gamepadButtonPressed(i);
+          //}
+        } else {
+          //if (Engine::s_gamepad_buttons[i]) {
+          //  Engine::s_gamepad_buttons[i] = false;
+          //  emit gamepadButtonReleased(i);
+          //}
+        }
+      }
+
+    }
+};
+
+
 class HelmApplication : public JUCEApplication {
   public:
     class MainWindow : public DocumentWindow,
@@ -52,6 +104,28 @@ class HelmApplication : public JUCEApplication {
           //centreWithSize(getWidth(), getHeight());
           setVisible(visible);
           triggerAsyncUpdate();
+
+          //SDL_Init(SDL_INIT_JOYSTICK);
+          SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS,"1");  // required in SDL2 when initialized before display
+          SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+          // Check for joystick
+          if (SDL_NumJoysticks() > 0) {
+            // Open joystick
+            auto m_joystick = SDL_JoystickOpen(0);
+            if (m_joystick) {
+              printf("Opened Gamepad 0\n");
+              printf("Name: %s\n", SDL_JoystickNameForIndex(0));  // SDL2
+              printf("Number of Axes: %d\n", SDL_JoystickNumAxes(m_joystick));
+              printf("Number of Buttons: %d\n", SDL_JoystickNumButtons(m_joystick));
+              printf("Number of Balls: %d\n", SDL_JoystickNumBalls(m_joystick));
+              printf("Number of Hats: %d\n", SDL_JoystickNumHats(m_joystick));
+              auto gamepad = new UpdateGamepad(editor_, m_joystick);
+            } else {
+              printf("Couldn't open gamepad 0\n");
+            }
+          } else {
+            printf("No gamepads are attached\n"); 
+          }
         }
         else
           editor_->animate(false);

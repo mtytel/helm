@@ -18,6 +18,8 @@ ifdef DPKG
 	PDEBLDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 endif
 
+SDEBLDFLAGS += -lSDL2
+
 MACHINE := $(shell sh -c 'uname -m 2> /dev/null || echo not')
 ifneq (,$(findstring aarch,$(MACHINE)))
 	SIMDFLAGS := -march=armv8-a -mtune=cortex-a53

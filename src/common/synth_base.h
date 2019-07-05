@@ -32,6 +32,9 @@ class SynthBase : public MidiManager::Listener {
   public:
     SynthBase();
     virtual ~SynthBase() { }
+    void linkGamepadAxis(const std::string& name, int index);
+    void unlinkGamepadAxis(const std::string& name);
+    void updateGamepad(float x1, float y1, float x2, float y2);
 
     void valueChanged(const std::string& name, mopo::mopo_float value);
     void valueChangedThroughMidi(const std::string& name, mopo::mopo_float value) override;
@@ -134,6 +137,8 @@ class SynthBase : public MidiManager::Listener {
     std::set<mopo::ModulationConnection*> mod_connections_;
     moodycamel::ConcurrentQueue<mopo::control_change> value_change_queue_;
     moodycamel::ConcurrentQueue<mopo::modulation_change> modulation_change_queue_;
+
+    std::map<std::string, int> gamepad_axis_mapping_;
 };
 
 #endif // SYNTH_BASE_H

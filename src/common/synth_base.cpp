@@ -40,6 +40,50 @@ SynthBase::SynthBase() {
   Startup::doStartupChecks(midi_manager_);
 }
 
+void SynthBase::linkGamepadAxis(const std::string& name, int index) {
+  this->gamepad_axis_mapping_[name] = index;
+}
+void SynthBase::unlinkGamepadAxis(const std::string& name) {
+  this->gamepad_axis_mapping_[name] = -1;
+}
+void SynthBase::updateGamepad(float x1, float y1, float x2, float y2) {
+  for (auto& kw : this->gamepad_axis_mapping_) {
+    float value = 0.0;
+    switch (kw.second) {
+      case 0:
+        value = x1;
+        break;
+      case 1:
+        value = y1;
+        break;
+      case 2:
+        value = x2;
+        break;
+      case 3:
+        value = y2;
+        break;
+    }
+    if (kw.first == std::string("distortion_drive")) {
+        value *= 30.0;      
+    }
+    else if (kw.first == std::string("distortion_mix") || kw.first == std::string("arp_gate")) {
+        value *= 0.5;
+        value += 0.5;
+    }
+    else if (kw.first == std::string("osc_feedback_transpose")) {
+        value *= 24.0;
+    }
+    else if (kw.first == std::string("arp_octaves")) {
+        value *= 0.5;
+        value += 0.5;
+        value *= 4.0;
+    }
+    
+    this->valueChangedThroughMidi( kw.first, value );
+  }
+}
+
+
 void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
   value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
 }

@@ -27,6 +27,10 @@
 namespace {
   enum MenuIds {
     kCancel = 0,
+    kGamepadAxis0,
+    kGamepadAxis1,
+    kGamepadAxis2,
+    kGamepadAxis3,
     kArmMidiLearn,
     kClearMidiLearn,
     kDefaultValue,
@@ -84,6 +88,14 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
   if (e.mods.isPopupMenu()) {
     PopupMenu m;
     m.setLookAndFeel(DefaultLookAndFeel::instance());
+
+    m.addItem(kCancel, getName().toStdString());
+
+    //m.addItem(kGamepadAxis0, String::fromUTF8(u8"🕹 axis:0"));  // unicode not working in Juce?
+    m.addItem(kGamepadAxis0, "gamepad-axis: 1");
+    m.addItem(kGamepadAxis1, "gamepad-axis: 2");
+    m.addItem(kGamepadAxis2, "gamepad-axis: 3");
+    m.addItem(kGamepadAxis3, "gamepad-axis: 4");
 
     if (isDoubleClickReturnEnabled())
       m.addItem(kDefaultValue, "Set to Default Value");
@@ -305,7 +317,16 @@ void SynthSlider::handlePopupResult(int result) {
   std::vector<mopo::ModulationConnection*> connections =
       parent->getSynth()->getDestinationConnections(getName().toStdString());
 
-  if (result == kArmMidiLearn)
+  if (result == kGamepadAxis0)
+    //synth->valueChangedThroughMidi(getName().toStdString(), -1.0f);
+    synth->linkGamepadAxis(getName().toStdString(), 0 );
+  else if (result == kGamepadAxis1)
+    synth->linkGamepadAxis(getName().toStdString(), 1 );
+  else if (result == kGamepadAxis2)
+    synth->linkGamepadAxis(getName().toStdString(), 2 );
+  else if (result == kGamepadAxis3)
+    synth->linkGamepadAxis(getName().toStdString(), 3 );
+  else if (result == kArmMidiLearn)
     synth->armMidiLearn(getName().toStdString());
   else if (result == kClearMidiLearn)
     synth->clearMidiLearn(getName().toStdString());

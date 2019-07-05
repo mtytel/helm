@@ -26,7 +26,8 @@ namespace {
   enum MenuIds {
     kCancel = 0,
     kArmMidiLearn,
-    kClearMidiLearn
+    kClearMidiLearn,
+    kGamepad
   };
 
   static void sliderPopupCallback(int result, SynthButton* button) {
@@ -87,6 +88,7 @@ void SynthButton::mouseDown(const MouseEvent& e) {
     PopupMenu m;
     m.setLookAndFeel(DefaultLookAndFeel::instance());
 
+    m.addItem(kGamepad, getName().toStdString());  // can be mapped to gamepad buttons
     m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
     if (parent->getSynth()->isMidiMapped(getName().toStdString()))
       m.addItem(kClearMidiLearn, "Clear MIDI Assignment");
