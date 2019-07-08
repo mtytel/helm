@@ -72,7 +72,7 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
     }
     consumed = true;
   }
-
+/*
   if (KeyPress::isKeyCurrentlyDown(down_key_)) {
     if (!keys_pressed_.count(down_key_)) {
       keys_pressed_.insert(down_key_);
@@ -92,7 +92,7 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
   }
   else
     keys_pressed_.erase(up_key_);
-
+*/
   if (KeyPress::isKeyCurrentlyDown(KeyPress::spaceKey)) {
     if (!keys_pressed_.count(' ')) {
       keys_pressed_.insert(' ');
