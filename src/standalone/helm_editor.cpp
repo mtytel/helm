@@ -27,7 +27,7 @@
 #define MAX_BUFFER_PROCESS 256
 
 HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
-  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_);
+  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_, this);
   int num_input_chans = 2;
   //setAudioChannels(0, mopo::NUM_CHANNELS);
   setAudioChannels(num_input_chans, mopo::NUM_CHANNELS);

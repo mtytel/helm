@@ -16,17 +16,20 @@
 
 #include "helm_computer_keyboard.h"
 #include "helm_common.h"
+#include "helm_editor.h"
 
 #define KEYBOARD_MIDI_CHANNEL 1
 
 HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
-                                           MidiKeyboardState* keyboard_state) {
+                                           MidiKeyboardState* keyboard_state,
+                                           HelmEditor* editor) {
   synth_ = synth;
   keyboard_state_ = keyboard_state;
   computer_keyboard_offset_ = mopo::DEFAULT_KEYBOARD_OFFSET;
   layout_ = mopo::DEFAULT_KEYBOARD;
   up_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_UP;
   down_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_DOWN;
+  editor_ = editor;
 }
 
 HelmComputerKeyboard::~HelmComputerKeyboard() {
@@ -72,27 +75,27 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
     }
     consumed = true;
   }
-/*
+
   if (KeyPress::isKeyCurrentlyDown(down_key_)) {
-    if (!keys_pressed_.count(down_key_)) {
-      keys_pressed_.insert(down_key_);
+    if (!keys_pressed_.count('\\')) {
+      keys_pressed_.insert('\\');
       changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
       consumed = true;
     }
   }
   else
-    keys_pressed_.erase(down_key_);
+    keys_pressed_.erase('\\');
 
   if (KeyPress::isKeyCurrentlyDown(up_key_)) {
-    if (!keys_pressed_.count(up_key_)) {
-      keys_pressed_.insert(up_key_);
+    if (!keys_pressed_.count('^')) {
+      keys_pressed_.insert('^');
       changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
       consumed = true;
     }
   }
   else
-    keys_pressed_.erase(up_key_);
-*/
+    keys_pressed_.erase('^');
+
   if (KeyPress::isKeyCurrentlyDown(KeyPress::spaceKey)) {
     if (!keys_pressed_.count(' ')) {
       keys_pressed_.insert(' ');
@@ -103,5 +106,26 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
   else
     keys_pressed_.erase(' ');
 
+  // TODO events to python api
+  if (KeyPress::isKeyCurrentlyDown(KeyPress::leftKey)) {
+    if (!keys_pressed_.count('<')) {
+      keys_pressed_.insert('<');
+      editor_->prevPatch();
+      consumed = true;
+    }
+  }
+  else
+    keys_pressed_.erase('>');
+  if (KeyPress::isKeyCurrentlyDown(KeyPress::rightKey)) {
+    if (!keys_pressed_.count('>')) {
+      keys_pressed_.insert('>');
+      editor_->nextPatch();
+      consumed = true;
+    }
+  }
+  else
+    keys_pressed_.erase('>');
+
+  
   return consumed;
 }

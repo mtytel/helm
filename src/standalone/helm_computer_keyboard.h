@@ -22,9 +22,13 @@
 #include "helm_common.h"
 #include "helm_engine.h"
 
+class HelmEditor;
+
 class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
   public:
-    HelmComputerKeyboard(mopo::HelmEngine* synth, MidiKeyboardState* keyboard_state);
+    HelmComputerKeyboard(mopo::HelmEngine* synth, 
+                        MidiKeyboardState* keyboard_state, 
+                        HelmEditor* editor);
     ~HelmComputerKeyboard();
 
     void changeKeyboardOffset(int new_offset);
@@ -36,7 +40,9 @@ class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
     void noteOn(int note);
     void noteOff(int note);
 
+
   private:
+    HelmEditor* editor_;
     mopo::HelmEngine* synth_;
     MidiKeyboardState* keyboard_state_;
     std::set<char> keys_pressed_;
