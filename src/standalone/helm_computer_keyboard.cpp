@@ -30,6 +30,7 @@ HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
   up_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_UP;
   down_key_ = mopo::DEFAULT_KEYBOARD_OCTAVE_DOWN;
   editor_ = editor;
+  autonext = false;
 }
 
 HelmComputerKeyboard::~HelmComputerKeyboard() {
@@ -66,7 +67,17 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
     if (KeyPress::isKeyCurrentlyDown(layout_[i]) &&
         !keys_pressed_.count(layout_[i]) && isKeyDown && !modifiers.isCommandDown()) {
       keys_pressed_.insert(layout_[i]);
+
       keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+
+      if (modifiers.isCtrlDown() || modifiers.isShiftDown())
+        this->autonext = true;
+      else if (modifiers.isAltDown())
+        this->autonext = false;
+
+      if (this->autonext)
+        editor_->nextPatch();
+
     }
     else if (!KeyPress::isKeyCurrentlyDown(layout_[i]) &&
              keys_pressed_.count(layout_[i])) {
@@ -115,7 +126,8 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
     }
   }
   else
-    keys_pressed_.erase('>');
+    keys_pressed_.erase('<');
+
   if (KeyPress::isKeyCurrentlyDown(KeyPress::rightKey)) {
     if (!keys_pressed_.count('>')) {
       keys_pressed_.insert('>');

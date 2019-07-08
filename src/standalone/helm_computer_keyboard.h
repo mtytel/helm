@@ -42,6 +42,7 @@ class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
 
 
   private:
+    bool autonext;
     HelmEditor* editor_;
     mopo::HelmEngine* synth_;
     MidiKeyboardState* keyboard_state_;
