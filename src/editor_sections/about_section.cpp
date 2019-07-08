@@ -42,6 +42,7 @@ AboutSection::AboutSection(String name) : Overlay(name) {
   developer_link_->setColour(HyperlinkButton::textColourId, Colour(0xffffd740));
   addAndMakeVisible(developer_link_);
 
+/*
   free_software_link_ = new HyperlinkButton(TRANS("Read more about free software"),
                                             URL("http://www.gnu.org/philosophy/free-sw.html"));
   free_software_link_->setFont(Fonts::instance()->proportional_light().withPointHeight(12.0f),
@@ -80,6 +81,8 @@ AboutSection::AboutSection(String name) : Overlay(name) {
   size_button_extra_large_->addListener(this);
 
   size_button_extra_large_->setLookAndFeel(DefaultLookAndFeel::instance());
+
+*/
 }
 
 void AboutSection::paint(Graphics& g) {
@@ -95,10 +98,10 @@ void AboutSection::paint(Graphics& g) {
 
   g.saveState();
   g.setOrigin(info_rect.getX() + PADDING_X, info_rect.getY() + PADDING_Y);
-  Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_128_1x_png,
-                                               BinaryData::helm_icon_128_1x_pngSize);
+  Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_1x_png,
+                                               BinaryData::helm_icon_32_1x_pngSize);
   shadow.drawForImage(g, helm_small);
-
+/*
   const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   if (display.scale > 1.5) {
     Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
@@ -107,6 +110,8 @@ void AboutSection::paint(Graphics& g) {
   }
   else
     g.drawImage(helm_small, 0, 0, 128, 128, 0, 0, 128, 128);
+*/
+    g.drawImage(helm_small, 0, 0, 32, 32, 0, 0, 32, 32);
 
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(32.0));
   g.setColour(Colour(0xff2196f3));
@@ -125,6 +130,7 @@ void AboutSection::paint(Graphics& g) {
              0.0f, 4.0f,
              info_rect.getWidth() - 2 * PADDING_X, 20.0f, Justification::right);
 
+/*
   g.setColour(Colour(0xffaaaaaa));
   g.drawText(TRANS("Helm is free software and"),
              0.0f, 62.0,
@@ -147,7 +153,7 @@ void AboutSection::paint(Graphics& g) {
              0.0f, 180.0f,
              155.0f,
              20.0f, Justification::topRight);
-
+*/
   g.restoreState();
 }
 
@@ -159,6 +165,7 @@ void AboutSection::resized() {
   developer_link_->setBounds(info_rect.getRight() - PADDING_X - developer_link_width,
                              info_rect.getY() + PADDING_Y + 24.0f, developer_link_width, 20.0f);
 
+/*
   free_software_link_->setBounds(info_rect.getRight() - PADDING_X - software_link_width,
                                  info_rect.getY() + PADDING_Y + 105.0f, software_link_width, 20.0f);
 
@@ -172,6 +179,7 @@ void AboutSection::resized() {
   int size_height = 2 * BUTTON_WIDTH;
   int size_width = 60;
   int size_padding = 5;
+
   size_button_extra_large_->setBounds(info_rect.getRight() - PADDING_X - size_width, size_y,
                                       size_width, size_height);
   size_button_large_->setBounds(size_button_extra_large_->getX() - size_padding - size_width,
@@ -186,6 +194,14 @@ void AboutSection::resized() {
     device_selector_->setBounds(info_rect.getX(), y,
                                 info_rect.getWidth(), info_rect.getBottom() - y);
   }
+
+*/
+  if (device_selector_) {
+    int y = info_rect.getY() + PADDING_Y + 50.0f;
+    device_selector_->setBounds(info_rect.getX(), y,
+                                info_rect.getWidth(), info_rect.getBottom() - y);
+  }
+
 }
 
 void AboutSection::mouseUp(const MouseEvent &e) {
@@ -193,14 +209,34 @@ void AboutSection::mouseUp(const MouseEvent &e) {
     setVisible(false);
 }
 
+/* from juce_AudioDeviceSelectorComponent.cpp
+
+AudioDeviceSelectorComponent::AudioDeviceSelectorComponent (AudioDeviceManager& dm,
+                                                            int minInputChannelsToUse,
+                                                            int maxInputChannelsToUse,
+                                                            int minOutputChannelsToUse,
+                                                            int maxOutputChannelsToUse,
+                                                            bool showMidiInputOptions,
+                                                            bool showMidiOutputSelector,
+                                                            bool showChannelsAsStereoPairsToUse,
+                                                            bool hideAdvancedOptionsWithButtonToUse)
+
+
+*/
+
 void AboutSection::setVisible(bool should_be_visible) {
   if (should_be_visible && device_selector_.get() == nullptr) {
     SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
     AudioDeviceManager* device_manager = parent->getAudioDeviceManager();
     if (device_manager) {
-      device_selector_ = new AudioDeviceSelectorComponent(*device_manager, 0, 0,
+      int num_input_chans_min = 1;
+      int num_input_chans = 4;
+      device_selector_ = new AudioDeviceSelectorComponent(*device_manager, num_input_chans_min, num_input_chans,
                                                           mopo::NUM_CHANNELS, mopo::NUM_CHANNELS,
-                                                          true, false, false, false);
+                                                          true, true, false, false);
+      //device_selector_ = new AudioDeviceSelectorComponent(*device_manager, 0, 0,
+      //                                                    mopo::NUM_CHANNELS, mopo::NUM_CHANNELS,
+      //                                                    true, false, false, false);
       device_selector_->setLookAndFeel(TextLookAndFeel::instance());
       addAndMakeVisible(device_selector_);
       Rectangle<int> info_rect = getInfoRect();
