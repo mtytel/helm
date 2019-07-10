@@ -37,7 +37,7 @@ class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
     bool keyPressed(const KeyPress &key, Component *origin) override;
     bool keyStateChanged(bool isKeyDown, Component *origin) override;
 
-    void noteOn(int note);
+    void noteOn(int note, float vel=1.0);
     void noteOff(int note);
 
 

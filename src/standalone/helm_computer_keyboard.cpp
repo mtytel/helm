@@ -36,8 +36,8 @@ HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
 HelmComputerKeyboard::~HelmComputerKeyboard() {
 }
 
-void HelmComputerKeyboard::noteOn(int note) {
-  this->keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+void HelmComputerKeyboard::noteOn(int note, float vel) {
+  this->keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, vel);
 }
 void HelmComputerKeyboard::noteOff(int note) {
   this->keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);

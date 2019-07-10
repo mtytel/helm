@@ -34,7 +34,7 @@ class HelmEditor : public AudioAppComponent,
     HelmEditor(bool use_gui = true);
     ~HelmEditor();
 
-    void noteOn(int note);
+    void noteOn(int note, float vel=1.0);
     void noteOff(int note);
     void nextPatch() { gui_->nextPatch(); }
     void prevPatch() { gui_->prevPatch(); }

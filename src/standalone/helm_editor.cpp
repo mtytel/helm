@@ -76,8 +76,8 @@ HelmEditor::~HelmEditor() {
   keyboard_state_ = nullptr;
 }
 
-void HelmEditor::noteOn(int note){
-  this->computer_keyboard_->noteOn(note);
+void HelmEditor::noteOn(int note, float vel){
+  this->computer_keyboard_->noteOn(note, vel);
 }
 void HelmEditor::noteOff(int note){
   this->computer_keyboard_->noteOff(note);

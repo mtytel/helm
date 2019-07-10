@@ -33,6 +33,7 @@ class UpdateGamepad: private Timer {
     SDL_Joystick *m_joystick;
     int gamepadHat = 0;
     int prevNote = -1;
+    bool analogKeyboard = false;
 
     UpdateGamepad( HelmEditor* editor_, SDL_Joystick *joystick ) {
       this->editor = editor_;
@@ -45,18 +46,20 @@ class UpdateGamepad: private Timer {
       int btns[12];
       SDL_PumpEvents();  // poll event not required when calling pump
       int hat = SDL_JoystickGetHat(m_joystick,0);
-      bool button_lock = hat != 0;
+      bool button_lock = hat == 1;  // if hat is up
       if (hat != this->gamepadHat) {
         std::cout << hat << std::endl;
         switch (hat) {
           case 1: // up
-            this->editor->noteOn( 64 );
+            //this->editor->noteOn( 64 );
+            this->analogKeyboard = true;
             break;
           case 2: // right
             this->editor->nextPatch();
             break;
           case 4: // down
-            this->editor->noteOff( 64 );
+            this->editor->noteOff( this->prevNote );
+            this->analogKeyboard = false;
             break;
           case 8: // left
             this->editor->prevPatch();
@@ -91,6 +94,19 @@ class UpdateGamepad: private Timer {
           }
         }
       }
+
+      if (this->analogKeyboard) {
+        //int keyindex = static_cast<int>( (x1 + x2) * 64.0 );
+        //int keyindex = static_cast<int>( ((x1+0.5)*64.0) + (x2*32.0) );
+        int keyindex = static_cast<int>( ((x1+1.0)*64.0) + (x2*8.0) );
+        if (keyindex != this->prevNote) {
+          if (this->prevNote != -1)
+            this->editor->noteOff( this->prevNote );
+          this->editor->noteOn( keyindex, -y2+1.1 );
+          this->prevNote = keyindex;
+        }
+      }
+
 
       // updates slider buttons set by user from UI
       this->editor->updateGamepad(
