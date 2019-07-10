@@ -69,6 +69,7 @@ void SynthBase::unlinkGamepadAxis(const std::string& name) {
 }
 void SynthBase::updateGamepad(
   float x1, float y1, float x2, float y2, 
+  float x3, float y3, float x4, float y4, 
   int b0,
   int b1,
   int b2,
@@ -148,6 +149,20 @@ void SynthBase::updateGamepad(
       case 3:
         value = y2;
         break;
+      // optional second gamepad
+      case 4:
+        value = x3;
+        break;
+      case 5:
+        value = y3;
+        break;
+      case 6:
+        value = x4;
+        break;
+      case 7:
+        value = y4;
+        break;
+
     }
     if (kw.first == std::string("formant_y")) {
         value = -value;

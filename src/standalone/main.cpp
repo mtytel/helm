@@ -30,22 +30,28 @@ static int gamepad_offset = 0;
 class UpdateGamepad: private Timer { 
   public:
     HelmEditor* editor;
-    SDL_Joystick *m_joystick;
+    SDL_Joystick *primary_joystick;
+    SDL_Joystick *secondary_joystick;
     int gamepadHat = 0;
     int prevNote = -1;
     bool analogKeyboard = false;
 
-    UpdateGamepad( HelmEditor* editor_, SDL_Joystick *joystick ) {
+    UpdateGamepad( HelmEditor* editor_, SDL_Joystick* pad1, SDL_Joystick* pad2) {
       this->editor = editor_;
-      this->m_joystick = joystick;
+      this->primary_joystick = pad1;
+      this->secondary_joystick = pad2;
       //startTimer(30);  // too fast? segfaults sometimes
       startTimer(60);
     }
     ~UpdateGamepad() {}
     void timerCallback() override {
+      float x3 = 0.0;
+      float y3 = 0.0;
+      float x4 = 0.0;
+      float y4 = 0.0;
       int btns[12];
       SDL_PumpEvents();  // poll event not required when calling pump
-      int hat = SDL_JoystickGetHat(m_joystick,0);
+      int hat = SDL_JoystickGetHat(this->primary_joystick, 0);
       bool button_lock = hat == 1;  // if hat is up
       if (hat != this->gamepadHat) {
         std::cout << hat << std::endl;
@@ -71,16 +77,23 @@ class UpdateGamepad: private Timer {
         //  emit gamepadHatPressed(hat);
       }
       this->gamepadHat = hat;
-      float x1 = ((double)SDL_JoystickGetAxis(m_joystick, 0)) / 32768.0;
-      float y1 = ((double)SDL_JoystickGetAxis(m_joystick, 1)) / 32768.0;
-      //double z1 = (((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0) + 1.0;
-      float x2 = ((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0;
-      float y2 = ((double)SDL_JoystickGetAxis(m_joystick, 3)) / 32768.0;
+      float x1 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 0)) / 32768.0;
+      float y1 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 1)) / 32768.0;
+      //double z1 = (((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0) + 1.0;  // xbox gamepads have 6 axes
+      float x2 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 2)) / 32768.0;
+      float y2 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 3)) / 32768.0;
       //double z2 = (((double)SDL_JoystickGetAxis(m_joystick, 5)) / 32768.0) + 1.0;
+
+      if (this->secondary_joystick) {
+        x3 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 0)) / 32768.0;
+        y3 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 1)) / 32768.0;
+        x4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 2)) / 32768.0;
+        y4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 3)) / 32768.0;
+      }
 
       for (int i=0; i<12; i++) {
         btns[i] = 0;
-        if (SDL_JoystickGetButton(m_joystick, i)) {
+        if (SDL_JoystickGetButton(this->primary_joystick, i)) {
           if (gamepadButtons[i]==0) {
             gamepadButtons[i] = 1;
             //this->editor->noteOn( 64 );
@@ -110,7 +123,8 @@ class UpdateGamepad: private Timer {
 
       // updates slider buttons set by user from UI
       this->editor->updateGamepad(
-        x1,y1, x2,y2, 
+        x1,y1, x2,y2, // primary gamepad
+        x3,y3, x4,y4, // optional secondary gamepad
         btns[0], 
         btns[1], 
         btns[2], 
@@ -169,15 +183,20 @@ class HelmApplication : public JUCEApplication {
           // Check for joystick
           if (SDL_NumJoysticks() > 0) {
             // Open joystick
-            auto m_joystick = SDL_JoystickOpen(gamepad_offset);
-            if (m_joystick) {
-              printf("Opened Gamepad %i\n", gamepad_offset);
-              printf("Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset));  // SDL2
-              printf("Number of Axes: %d\n", SDL_JoystickNumAxes(m_joystick));
-              printf("Number of Buttons: %d\n", SDL_JoystickNumButtons(m_joystick));
-              printf("Number of Balls: %d\n", SDL_JoystickNumBalls(m_joystick));
-              printf("Number of Hats: %d\n", SDL_JoystickNumHats(m_joystick));
-              auto gamepad = new UpdateGamepad(editor_, m_joystick);
+            auto joystick1 = SDL_JoystickOpen(gamepad_offset);
+            auto joystick2 = SDL_JoystickOpen(gamepad_offset + 1);
+            if (joystick1) {
+              printf("Primary Gamepad %i\n", gamepad_offset);
+              printf("Primary Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset));  // SDL2
+              printf("Number of Axes: %d\n", SDL_JoystickNumAxes(joystick1));
+              printf("Number of Buttons: %d\n", SDL_JoystickNumButtons(joystick1));
+              printf("Number of Balls: %d\n", SDL_JoystickNumBalls(joystick1));
+              printf("Number of Hats: %d\n", SDL_JoystickNumHats(joystick1));
+              if (joystick2){
+                printf("Secondary Gamepad %i\n", gamepad_offset+1);
+                printf("Secondary Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset + 1));
+              }
+              auto gamepad = new UpdateGamepad(editor_, joystick1, joystick2);
             } else {
               printf("Couldn't open gamepad %i\n", gamepad_offset);
             }

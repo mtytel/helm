@@ -32,6 +32,10 @@ namespace {
     kGamepadAxis1,
     kGamepadAxis2,
     kGamepadAxis3,
+    kGamepadAxis4,
+    kGamepadAxis5,
+    kGamepadAxis6,
+    kGamepadAxis7,
     kArmMidiLearn,
     kClearMidiLearn,
     kDefaultValue,
@@ -98,10 +102,15 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
 
     } else {
       //m.addItem(kGamepadAxis0, String::fromUTF8(u8"🕹 axis:0"));  // unicode not working in Juce?
-      m.addItem(kGamepadAxis0, "gamepad-axis: 1");
-      m.addItem(kGamepadAxis1, "gamepad-axis: 2");
-      m.addItem(kGamepadAxis2, "gamepad-axis: 3");
-      m.addItem(kGamepadAxis3, "gamepad-axis: 4");      
+      m.addItem(kGamepadAxis0, "gamepad1-axis: 1");
+      m.addItem(kGamepadAxis1, "gamepad1-axis: 2");
+      m.addItem(kGamepadAxis2, "gamepad1-axis: 3");
+      m.addItem(kGamepadAxis3, "gamepad1-axis: 4");
+      // optional secondary gamepad
+      m.addItem(kGamepadAxis4, "gamepad2-axis: 1");
+      m.addItem(kGamepadAxis5, "gamepad2-axis: 2");
+      m.addItem(kGamepadAxis6, "gamepad2-axis: 3");
+      m.addItem(kGamepadAxis7, "gamepad2-axis: 4");
     }
 
     if (isDoubleClickReturnEnabled())
@@ -334,6 +343,16 @@ void SynthSlider::handlePopupResult(int result) {
     synth->linkGamepadAxis(getName().toStdString(), 2 );
   else if (result == kGamepadAxis3)
     synth->linkGamepadAxis(getName().toStdString(), 3 );
+  // secondary gamepad
+  else if (result == kGamepadAxis4)
+    synth->linkGamepadAxis(getName().toStdString(), 4 );
+  else if (result == kGamepadAxis5)
+    synth->linkGamepadAxis(getName().toStdString(), 5 );
+  else if (result == kGamepadAxis6)
+    synth->linkGamepadAxis(getName().toStdString(), 6 );
+  else if (result == kGamepadAxis7)
+    synth->linkGamepadAxis(getName().toStdString(), 7 );
+
   else if (result == kArmMidiLearn)
     synth->armMidiLearn(getName().toStdString());
   else if (result == kClearMidiLearn)

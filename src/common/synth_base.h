@@ -43,7 +43,8 @@ class SynthBase : public MidiManager::Listener {
     int getGamepadAxisLinkedTo(const std::string& name);
 
     void updateGamepad(
-        float x1, float y1, float x2, float y2,
+        float x1, float y1, float x2, float y2,  // first gamepad
+        float x3, float y3, float x4, float y4,  // second gamepad
         int b0,
         int b1,
         int b2,
