@@ -25,6 +25,19 @@
 namespace {
   enum MenuIds {
     kCancel = 0,
+    kUnlinkGamepad,
+    kGamepad0,
+    kGamepad1,
+    kGamepad2,
+    kGamepad3,
+    kGamepad4,
+    kGamepad5,
+    kGamepad6,
+    kGamepad7,
+    kGamepad8,
+    kGamepad9,
+    kGamepad10,
+    kGamepad11,
     kArmMidiLearn,
     kClearMidiLearn
   };
@@ -71,7 +84,23 @@ void SynthButton::handlePopupResult(int result) {
 
   SynthBase* synth = parent->getSynth();
 
-  if (result == kArmMidiLearn)
+  if (result == kUnlinkGamepad)
+    synth->unlinkGamepadButton(getName().toStdString());
+
+  else if (result == kGamepad0) synth->linkGamepadButton(getName().toStdString(), 0 );
+  else if (result == kGamepad1) synth->linkGamepadButton(getName().toStdString(), 1 );
+  else if (result == kGamepad2) synth->linkGamepadButton(getName().toStdString(), 2 );
+  else if (result == kGamepad3) synth->linkGamepadButton(getName().toStdString(), 3 );
+  else if (result == kGamepad4) synth->linkGamepadButton(getName().toStdString(), 4 );
+  else if (result == kGamepad5) synth->linkGamepadButton(getName().toStdString(), 5 );
+  else if (result == kGamepad6) synth->linkGamepadButton(getName().toStdString(), 6 );
+  else if (result == kGamepad7) synth->linkGamepadButton(getName().toStdString(), 7 );
+  else if (result == kGamepad8) synth->linkGamepadButton(getName().toStdString(), 8 );
+  else if (result == kGamepad9) synth->linkGamepadButton(getName().toStdString(), 9 );
+  else if (result == kGamepad10) synth->linkGamepadButton(getName().toStdString(), 10 );
+  else if (result == kGamepad11) synth->linkGamepadButton(getName().toStdString(), 11 );
+
+  else if (result == kArmMidiLearn)
     synth->armMidiLearn(getName().toStdString());
   else if (result == kClearMidiLearn)
     synth->clearMidiLearn(getName().toStdString());
@@ -87,7 +116,28 @@ void SynthButton::mouseDown(const MouseEvent& e) {
     PopupMenu m;
     m.setLookAndFeel(DefaultLookAndFeel::instance());
 
-    //m.addItem(kGamepad, getName().toStdString());  // can be mapped to gamepad buttons
+    m.addItem(kCancel, getName().toStdString());
+
+    // gamepad button callbacks
+    if (synth->getGamepadButtonLinkedTo(getName().toStdString()) != -1 ) {
+      int btn = synth->getGamepadButtonLinkedTo(getName().toStdString());
+      m.addItem(kUnlinkGamepad, std::string("unlink gamepad-button: ")+std::to_string(btn) );
+
+    } else {
+      m.addItem(kGamepad0, "gamepad-button: 0");
+      m.addItem(kGamepad1, "gamepad-button: 1");
+      m.addItem(kGamepad2, "gamepad-button: 2");
+      m.addItem(kGamepad3, "gamepad-button: 3");
+      m.addItem(kGamepad4, "gamepad-button: 4");
+      m.addItem(kGamepad5, "gamepad-button: 5");
+      m.addItem(kGamepad6, "gamepad-button: 6");
+      m.addItem(kGamepad7, "gamepad-button: 7");
+      m.addItem(kGamepad8, "gamepad-button: 8");
+      m.addItem(kGamepad9, "gamepad-button: 9");
+      m.addItem(kGamepad10, "gamepad-button: 10");
+      m.addItem(kGamepad11, "gamepad-button: 11");
+    }
+
     m.addItem(kArmMidiLearn, "Learn MIDI Assignment");
     if (parent->getSynth()->isMidiMapped(getName().toStdString()))
       m.addItem(kClearMidiLearn, "Clear MIDI Assignment");

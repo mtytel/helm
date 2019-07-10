@@ -25,6 +25,7 @@
 //#include <Python.h>
 
 static int gamepadButtons[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+static int gamepad_offset = 0;
 
 class UpdateGamepad: private Timer { 
   public:
@@ -41,8 +42,10 @@ class UpdateGamepad: private Timer {
     }
     ~UpdateGamepad() {}
     void timerCallback() override {
+      int btns[12];
       SDL_PumpEvents();  // poll event not required when calling pump
       int hat = SDL_JoystickGetHat(m_joystick,0);
+      bool button_lock = hat != 0;
       if (hat != this->gamepadHat) {
         std::cout << hat << std::endl;
         switch (hat) {
@@ -71,21 +74,41 @@ class UpdateGamepad: private Timer {
       float x2 = ((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0;
       float y2 = ((double)SDL_JoystickGetAxis(m_joystick, 3)) / 32768.0;
       //double z2 = (((double)SDL_JoystickGetAxis(m_joystick, 5)) / 32768.0) + 1.0;
-      this->editor->updateGamepad( x1,y1, x2,y2 );
-      //auto keyboard = this->editor->getComputerKeyboard();
+
       for (int i=0; i<12; i++) {
+        btns[i] = 0;
         if (SDL_JoystickGetButton(m_joystick, i)) {
           if (gamepadButtons[i]==0) {
             gamepadButtons[i] = 1;
-            this->editor->noteOn( 64 );
+            //this->editor->noteOn( 64 );
+            btns[i] = 1;
           }
         } else {
           if (gamepadButtons[i]==1) {
             gamepadButtons[i] = 0;
-            this->editor->noteOff( 64 );
+            //this->editor->noteOff( 64 );
+            btns[i] = -1;
           }
         }
       }
+
+      // updates slider buttons set by user from UI
+      this->editor->updateGamepad(
+        x1,y1, x2,y2, 
+        btns[0], 
+        btns[1], 
+        btns[2], 
+        btns[3], 
+        btns[4], 
+        btns[5], 
+        btns[6], 
+        btns[7], 
+        btns[8], 
+        btns[9], 
+        btns[10], 
+        btns[11],
+        button_lock
+      );
     }
 };
 
@@ -130,17 +153,17 @@ class HelmApplication : public JUCEApplication {
           // Check for joystick
           if (SDL_NumJoysticks() > 0) {
             // Open joystick
-            auto m_joystick = SDL_JoystickOpen(0);
+            auto m_joystick = SDL_JoystickOpen(gamepad_offset);
             if (m_joystick) {
-              printf("Opened Gamepad 0\n");
-              printf("Name: %s\n", SDL_JoystickNameForIndex(0));  // SDL2
+              printf("Opened Gamepad %i\n", gamepad_offset);
+              printf("Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset));  // SDL2
               printf("Number of Axes: %d\n", SDL_JoystickNumAxes(m_joystick));
               printf("Number of Buttons: %d\n", SDL_JoystickNumButtons(m_joystick));
               printf("Number of Balls: %d\n", SDL_JoystickNumBalls(m_joystick));
               printf("Number of Hats: %d\n", SDL_JoystickNumHats(m_joystick));
               auto gamepad = new UpdateGamepad(editor_, m_joystick);
             } else {
-              printf("Couldn't open gamepad 0\n");
+              printf("Couldn't open gamepad %i\n", gamepad_offset);
             }
           } else {
             printf("No gamepads are attached\n"); 
@@ -263,7 +286,23 @@ class HelmApplication : public JUCEApplication {
         std::cout << "Application Options:" << newLine;
         std::cout << "  -v, --version                       Show version information and exit" << newLine;
         std::cout << "  --headless                          Run without graphical interface." << newLine << newLine;
+        std::cout << "  --gamepad=n                         For use with multiple gamepads, the offset index." << newLine << newLine;
         quit();
+      }
+      else if (command.contains(" --gamepad=2 ")) {
+        gamepad_offset = 1;
+      }
+      else if (command.contains(" --gamepad=3 ")) {
+        gamepad_offset = 2;
+      }
+      else if (command.contains(" --gamepad=4 ")) {
+        gamepad_offset = 3;
+      }
+      else if (command.contains(" --gamepad=5 ")) {
+        gamepad_offset = 4;
+      }
+      else if (command.contains(" --gamepad=6 ")) {
+        gamepad_offset = 5;
       }
       else {
         bool visible = !command.contains(" --headless ");

@@ -40,6 +40,21 @@ SynthBase::SynthBase() {
   Startup::doStartupChecks(midi_manager_);
 }
 
+// gamepad buttons
+int SynthBase::getGamepadButtonLinkedTo(const std::string& name) {
+  if (this->gamepad_btn_mapping_.count(name) > 0)
+    return this->gamepad_btn_mapping_[name];
+  else
+    return -1;
+}
+void SynthBase::linkGamepadButton(const std::string& name, int index) {
+  this->gamepad_btn_mapping_[name] = index;
+}
+void SynthBase::unlinkGamepadButton(const std::string& name) {
+  this->gamepad_btn_mapping_[name] = -1;
+}
+
+// analog sticks
 int SynthBase::getGamepadAxisLinkedTo(const std::string& name) {
   if (this->gamepad_axis_mapping_.count(name) > 0)
     return this->gamepad_axis_mapping_[name];
@@ -52,7 +67,71 @@ void SynthBase::linkGamepadAxis(const std::string& name, int index) {
 void SynthBase::unlinkGamepadAxis(const std::string& name) {
   this->gamepad_axis_mapping_[name] = -1;
 }
-void SynthBase::updateGamepad(float x1, float y1, float x2, float y2) {
+void SynthBase::updateGamepad(
+  float x1, float y1, float x2, float y2, 
+  int b0,
+  int b1,
+  int b2,
+  int b3,
+  int b4,
+  int b5,
+  int b6,
+  int b7,
+  int b8,
+  int b9,
+  int b10,
+  int b11,
+  bool button_lock
+  ){
+
+  for (auto& kw : this->gamepad_btn_mapping_) {
+    int value = 0;
+    if (kw.second == -1) continue;
+    switch (kw.second) {
+      case 0:
+        value = b0;
+        break;
+      case 1:
+        value = b1;
+        break;
+      case 2:
+        value = b2;
+        break;
+      case 3:
+        value = b3;
+        break;
+      case 4:
+        value = b4;
+        break;
+      case 5:
+        value = b5;
+        break;
+      case 6:
+        value = b6;
+        break;
+      case 7:
+        value = b7;
+        break;
+      case 8:
+        value = b8;
+        break;
+      case 9:
+        value = b9;
+        break;
+      case 10:
+        value = b10;
+        break;
+      case 11:
+        value = b11;
+        break;
+    }
+    if (value == 1)
+      this->valueChangedThroughMidi( kw.first, 1.0f );
+    else if (value == -1 && button_lock==false)
+      this->valueChangedThroughMidi( kw.first, 0.0f );
+  }
+
+
   for (auto& kw : this->gamepad_axis_mapping_) {
     float value = 0.0;
     if (kw.second == -1) continue;
