@@ -35,6 +35,7 @@ class UpdateGamepad: private Timer {
     int gamepadHat = 0;
     int prevNote = -1;
     bool analogKeyboard = false;
+    int analogKeyboardOffset = 0;
 
     UpdateGamepad( HelmEditor* editor_, SDL_Joystick* pad1, SDL_Joystick* pad2) {
       this->editor = editor_;
@@ -96,22 +97,48 @@ class UpdateGamepad: private Timer {
         if (SDL_JoystickGetButton(this->primary_joystick, i)) {
           if (gamepadButtons[i]==0) {
             gamepadButtons[i] = 1;
-            //this->editor->noteOn( 64 );
             btns[i] = 1;
+            //if (this->analogKeyboard)
+            //  this->editor->noteOn( this->prevNote + i - 6 );
+          } else {
+            gamepadButtons[i] += 1;
+            btns[i] = gamepadButtons[i];
           }
         } else {
-          if (gamepadButtons[i]==1) {
+          if (gamepadButtons[i] >= 1) {
             gamepadButtons[i] = 0;
-            //this->editor->noteOff( 64 );
             btns[i] = -1;
+            //if (this->analogKeyboard)
+            //  this->editor->noteOff( this->prevNote + i - 6 );
           }
         }
       }
 
       if (this->analogKeyboard) {
+        float x2mult = 8.0;
+
+        if (btns[4] >= 1){
+          this->analogKeyboardOffset = static_cast<int>( (x2+0.5) * 40);
+        }
+        else if (btns[5] >= 1) {
+              x2mult *= 0.3;
+        }
+        if (btns[6] >= 1)
+              x2mult *= 2;
+        if (btns[7] >= 1)
+              x2mult *= 3;
+
+        /*
+        else if (btns[8]==1)
+              this->analogKeyboardOffset -= 1;
+        else if (btns[9]==1)
+              this->analogKeyboardOffset += 1;
+        */
+
         //int keyindex = static_cast<int>( (x1 + x2) * 64.0 );
         //int keyindex = static_cast<int>( ((x1+0.5)*64.0) + (x2*32.0) );
-        int keyindex = static_cast<int>( ((x1+1.0)*64.0) + (x2*8.0) );
+        int keyindex = static_cast<int>( ((x1+1.0)*64.0) + (x2*x2mult) );
+        keyindex += this->analogKeyboardOffset;
         if (keyindex != this->prevNote) {
           if (this->prevNote != -1)
             this->editor->noteOff( this->prevNote );

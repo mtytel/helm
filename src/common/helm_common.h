@@ -180,10 +180,10 @@ namespace mopo {
   const int DEFAULT_MODULATION_CONNECTIONS = 256;
   //const int DEFAULT_WINDOW_WIDTH = 992;
   //const int DEFAULT_WINDOW_HEIGHT = 734;
-  const int DEFAULT_WINDOW_WIDTH = 1200;
-  const int DEFAULT_WINDOW_HEIGHT = 480;
+  const int DEFAULT_WINDOW_WIDTH = 1400;
+  const int DEFAULT_WINDOW_HEIGHT = 380;
 
-  const int DEFAULT_KEYBOARD_OFFSET = 18;
+  const int DEFAULT_KEYBOARD_OFFSET = 28;
   //const int DEFAULT_KEYBOARD_OFFSET = 48;
   //const std::wstring DEFAULT_KEYBOARD = L"awsedftgyhujkolp;'";
   const std::wstring DEFAULT_KEYBOARD = L"zxcvbnm,./asdfghjkl;'qwertyuiop[]1234567890-=";

@@ -92,6 +92,7 @@ class FullInterface : public SynthSection, public OpenGLRenderer {
     ScopedPointer<SaveSection> save_section_;
     ScopedPointer<DeleteSection> delete_section_;
     ScopedPointer<VolumeSection> volume_section_;
+    ScopedPointer<MidiKeyboardComponent> keyboard_;
 
     bool animate_;
     OpenGLContext open_gl_context;

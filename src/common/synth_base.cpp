@@ -164,7 +164,29 @@ void SynthBase::updateGamepad(
         break;
 
     }
-    if (kw.first == std::string("formant_y")) {
+    if (kw.first == std::string("cutoff")) {
+        value += 1.0;
+        value *= 64;  // 28 - 128
+    }
+    else if (kw.first == std::string("osc_1_transpose") || kw.first == std::string("osc_2_transpose")) {
+        value *= 48;  // +-48
+    }
+    else if (kw.first == std::string("reverb_feedback")) {
+        value += 0.9;  // 80 to 100percent
+    }
+    else if (kw.first == std::string("portamento")) {
+        value -= 1.3;
+        value *= 4.0;   // max 6?
+    }
+    else if (kw.first == std::string("pitch_bend_range")) {
+        value += 1.0;
+        value *= 24.0;  // max 48
+    }
+    else if (kw.first == std::string("polyphony")) {
+        value += 1.0;
+        value *= 16.0;  // max 32
+    }
+    else if (kw.first == std::string("formant_y")) {
         value = -value;
     }
     else if (kw.first == std::string("beats_per_minute")) {

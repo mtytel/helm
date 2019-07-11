@@ -234,9 +234,6 @@ void AboutSection::setVisible(bool should_be_visible) {
       device_selector_ = new AudioDeviceSelectorComponent(*device_manager, num_input_chans_min, num_input_chans,
                                                           mopo::NUM_CHANNELS, mopo::NUM_CHANNELS,
                                                           true, true, false, false);
-      //device_selector_ = new AudioDeviceSelectorComponent(*device_manager, 0, 0,
-      //                                                    mopo::NUM_CHANNELS, mopo::NUM_CHANNELS,
-      //                                                    true, false, false, false);
       device_selector_->setLookAndFeel(TextLookAndFeel::instance());
       addAndMakeVisible(device_selector_);
       Rectangle<int> info_rect = getInfoRect();

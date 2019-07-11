@@ -28,14 +28,12 @@
 
 HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
   computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_, this);
-  int num_input_chans = 2;
-  //setAudioChannels(0, mopo::NUM_CHANNELS);
+  int num_input_chans = 1;
   setAudioChannels(num_input_chans, mopo::NUM_CHANNELS);
 
   AudioDeviceManager::AudioDeviceSetup setup;
   deviceManager.getAudioDeviceSetup(setup);
   setup.sampleRate = mopo::DEFAULT_SAMPLE_RATE;
-  //deviceManager.initialise(0, mopo::NUM_CHANNELS, nullptr, true, "", &setup);
   deviceManager.initialise(num_input_chans, mopo::NUM_CHANNELS, nullptr, true, "", &setup);
 
   if (deviceManager.getCurrentAudioDevice() == nullptr) {
