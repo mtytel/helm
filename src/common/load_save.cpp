@@ -85,7 +85,11 @@ void LoadSave::loadControls(SynthBase* synth,
   mopo::control_map controls = synth->getControls();
   for (auto& control : controls) {
     String name = control.first;
-    if (properties.contains(name)) {
+    if (synth->getGamepadButtonLinkedTo(name.toStdString()) != -1){
+      //std::cout << "LoadSave::loadControls - gamepad button already linked to button, skipping: " << name.toStdString() << std::endl;
+      continue;
+    }
+    else if (properties.contains(name)) {
       mopo::mopo_float value = properties[name];
       control.second->set(value);
     }
