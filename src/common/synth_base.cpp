@@ -70,6 +70,7 @@ void SynthBase::unlinkGamepadAxis(const std::string& name) {
 void SynthBase::updateGamepad(
   float x1, float y1, float x2, float y2, 
   float x3, float y3, float x4, float y4, 
+  float x5, float y5, float x6, float y6, 
   int b0,
   int b1,
   int b2,
@@ -161,6 +162,19 @@ void SynthBase::updateGamepad(
         break;
       case 7:
         value = y4;
+        break;
+      // optional third gamepad
+      case 8:
+        value = x5;
+        break;
+      case 9:
+        value = y5;
+        break;
+      case 10:
+        value = x6;
+        break;
+      case 11:
+        value = y6;
         break;
 
     }

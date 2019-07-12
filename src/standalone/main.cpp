@@ -32,24 +32,66 @@ class UpdateGamepad: private Timer {
     HelmEditor* editor;
     SDL_Joystick *primary_joystick;
     SDL_Joystick *secondary_joystick;
+    SDL_Joystick *third_joystick;
+    //SDL_Joystick *fourth_joystick;
     int gamepadHat = 0;
     int prevNote = -1;
     bool analogKeyboard = false;
     int analogKeyboardOffset = 0;
 
-    UpdateGamepad( HelmEditor* editor_, SDL_Joystick* pad1, SDL_Joystick* pad2) {
+    UpdateGamepad( HelmEditor* editor_, SDL_Joystick* pad1, SDL_Joystick* pad2, SDL_Joystick* pad3) {
       this->editor = editor_;
       this->primary_joystick = pad1;
       this->secondary_joystick = pad2;
+      this->third_joystick = pad3;
+      if (this->secondary_joystick) {
+        this->analogKeyboard = true;
+        this->editor->linkGamepadAxis(std::string("osc_feedback_amount"), 1);
+        this->editor->linkGamepadAxis(std::string("cutoff"), 2);
+        this->editor->linkGamepadAxis(std::string("portamento"), 3);
+        this->editor->linkGamepadAxis(std::string("resonance"), 3);
+
+        this->editor->linkGamepadButton(std::string("formant_on"), 0);
+        this->editor->linkGamepadButton(std::string("arp_on"), 1);
+        this->editor->linkGamepadButton(std::string("distortion_on"), 2);
+        this->editor->linkGamepadButton(std::string("reverb_on"), 3);
+        this->editor->linkGamepadButton(std::string("delay_on"), 3);
+        this->editor->linkGamepadButton(std::string("filter_on"), 4);
+        this->editor->linkGamepadButton(std::string("stutter_on"), 5);
+
+        this->editor->linkGamepadAxis(std::string("arp_gate"), 4);
+        this->editor->linkGamepadAxis(std::string("sub_shuffle"), 4);
+        this->editor->linkGamepadAxis(std::string("beats_per_minute"), 5);
+        this->editor->linkGamepadAxis(std::string("formant_x"), 6);
+        this->editor->linkGamepadAxis(std::string("formant_y"), 7);
+      }
+      if (this->third_joystick) {
+        this->editor->linkGamepadAxis(std::string("osc_1_tune"), 8);
+        //this->editor->linkGamepadAxis(std::string("osc_1_transpose"), 9);
+        //this->editor->linkGamepadAxis(std::string("osc_1_volume"), 9);
+        this->editor->linkGamepadAxis(std::string("delay_feedback"), 9);
+
+        this->editor->linkGamepadAxis(std::string("osc_2_tune"), 10);
+        //this->editor->linkGamepadAxis(std::string("osc_2_transpose"), 11);
+        //this->editor->linkGamepadAxis(std::string("osc_2_volume"), 11);
+        this->editor->linkGamepadAxis(std::string("cross_modulation"), 11);
+      }
       //startTimer(30);  // too fast? segfaults sometimes
       startTimer(60);
     }
     ~UpdateGamepad() {}
     void timerCallback() override {
+      // secondary gamepad
       float x3 = 0.0;
       float y3 = 0.0;
       float x4 = 0.0;
       float y4 = 0.0;
+      // 3rd gamepad
+      float x5 = 0.0;
+      float y5 = 0.0;
+      float x6 = 0.0;
+      float y6 = 0.0;
+
       int btns[12];
       SDL_PumpEvents();  // poll event not required when calling pump
       int hat = SDL_JoystickGetHat(this->primary_joystick, 0);
@@ -91,6 +133,14 @@ class UpdateGamepad: private Timer {
         x4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 2)) / 32768.0;
         y4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 3)) / 32768.0;
       }
+
+      if (this->third_joystick) {
+        x5 = ((double)SDL_JoystickGetAxis(this->third_joystick, 0)) / 32768.0;
+        y5 = ((double)SDL_JoystickGetAxis(this->third_joystick, 1)) / 32768.0;
+        x6 = ((double)SDL_JoystickGetAxis(this->third_joystick, 2)) / 32768.0;
+        y6 = ((double)SDL_JoystickGetAxis(this->third_joystick, 3)) / 32768.0;
+      }
+
 
       for (int i=0; i<12; i++) {
         btns[i] = 0;
@@ -152,6 +202,7 @@ class UpdateGamepad: private Timer {
       this->editor->updateGamepad(
         x1,y1, x2,y2, // primary gamepad
         x3,y3, x4,y4, // optional secondary gamepad
+        x5,y5, x6,y6, // optional 3rd gamepad
         btns[0], 
         btns[1], 
         btns[2], 
@@ -212,6 +263,7 @@ class HelmApplication : public JUCEApplication {
             // Open joystick
             auto joystick1 = SDL_JoystickOpen(gamepad_offset);
             auto joystick2 = SDL_JoystickOpen(gamepad_offset + 1);
+            auto joystick3 = SDL_JoystickOpen(gamepad_offset + 2);
             if (joystick1) {
               printf("Primary Gamepad %i\n", gamepad_offset);
               printf("Primary Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset));  // SDL2
@@ -223,7 +275,12 @@ class HelmApplication : public JUCEApplication {
                 printf("Secondary Gamepad %i\n", gamepad_offset+1);
                 printf("Secondary Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset + 1));
               }
-              auto gamepad = new UpdateGamepad(editor_, joystick1, joystick2);
+              if (joystick3){
+                printf("3rd Gamepad %i\n", gamepad_offset+2);
+                printf("3rd Name: %s\n", SDL_JoystickNameForIndex(gamepad_offset + 2));
+              }
+              auto gamepad = new UpdateGamepad(editor_, joystick1, joystick2, joystick3);
+
             } else {
               printf("Couldn't open gamepad %i\n", gamepad_offset);
             }
