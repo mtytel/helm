@@ -34,10 +34,22 @@ class UpdateGamepad: private Timer {
     SDL_Joystick *secondary_joystick;
     SDL_Joystick *third_joystick;
     //SDL_Joystick *fourth_joystick;
-    int gamepadHat = 0;
+    int gamepadHat1 = 0;
+    int gamepadHat2 = 0;
+    int gamepadHat3 = 0;
+    // analog locks
+    bool pad1analog1_locked = false;
+    bool pad1analog2_locked = false;
+    std::pair<float,float> pad1analog1 = std::pair<float,float>(0.0, 0.0);
+    std::pair<float,float> pad1analog2 = std::pair<float,float>(0.0, 0.0);
     int prevNote = -1;
     bool analogKeyboard = false;
     int analogKeyboardOffset = 0;
+    std::vector<std::map<std::string,std::pair<float,float>>> recording_data = std::vector< std::map<std::string,std::pair<float,float>> >();
+    bool recording = false;
+    bool playing = false;
+    float playback_frame = -1.0;
+    float playback_rate = 1.0;
 
     UpdateGamepad( HelmEditor* editor_, SDL_Joystick* pad1, SDL_Joystick* pad2, SDL_Joystick* pad3) {
       this->editor = editor_;
@@ -51,13 +63,13 @@ class UpdateGamepad: private Timer {
         this->editor->linkGamepadAxis(std::string("portamento"), 3);
         this->editor->linkGamepadAxis(std::string("resonance"), 3);
 
-        this->editor->linkGamepadButton(std::string("formant_on"), 0);
-        this->editor->linkGamepadButton(std::string("arp_on"), 1);
-        this->editor->linkGamepadButton(std::string("distortion_on"), 2);
-        this->editor->linkGamepadButton(std::string("reverb_on"), 3);
-        this->editor->linkGamepadButton(std::string("delay_on"), 3);
-        this->editor->linkGamepadButton(std::string("filter_on"), 4);
+        this->editor->linkGamepadButton(std::string("formant_on"), 4);
+        this->editor->linkGamepadButton(std::string("delay_on"), 4);
+        this->editor->linkGamepadButton(std::string("filter_on"), 5);
         this->editor->linkGamepadButton(std::string("stutter_on"), 5);
+        this->editor->linkGamepadButton(std::string("distortion_on"), 6);
+        this->editor->linkGamepadButton(std::string("reverb_on"), 7);
+        this->editor->linkGamepadButton(std::string("arp_on"), 7);
 
         this->editor->linkGamepadAxis(std::string("arp_gate"), 4);
         this->editor->linkGamepadAxis(std::string("sub_shuffle"), 4);
@@ -96,7 +108,7 @@ class UpdateGamepad: private Timer {
       SDL_PumpEvents();  // poll event not required when calling pump
       int hat = SDL_JoystickGetHat(this->primary_joystick, 0);
       bool button_lock = hat == 1;  // if hat is up
-      if (hat != this->gamepadHat) {
+      if (hat != this->gamepadHat1) {
         std::cout << hat << std::endl;
         switch (hat) {
           case 1: // up
@@ -109,6 +121,7 @@ class UpdateGamepad: private Timer {
           case 4: // down
             this->editor->noteOff( this->prevNote );
             this->analogKeyboard = false;
+            this->recording_data.clear();
             break;
           case 8: // left
             this->editor->prevPatch();
@@ -119,7 +132,7 @@ class UpdateGamepad: private Timer {
         //else
         //  emit gamepadHatPressed(hat);
       }
-      this->gamepadHat = hat;
+      this->gamepadHat1 = hat;
       float x1 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 0)) / 32768.0;
       float y1 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 1)) / 32768.0;
       //double z1 = (((double)SDL_JoystickGetAxis(m_joystick, 2)) / 32768.0) + 1.0;  // xbox gamepads have 6 axes
@@ -132,6 +145,19 @@ class UpdateGamepad: private Timer {
         y3 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 1)) / 32768.0;
         x4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 2)) / 32768.0;
         y4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 3)) / 32768.0;
+
+        int hat2 = SDL_JoystickGetHat(this->secondary_joystick, 0);
+        if (hat2 != this->gamepadHat2) {
+          switch (hat2) {
+            case 2: // right
+              this->editor->nextPatch();
+              break;
+            case 8: // left
+              this->editor->prevPatch();
+              break;
+          }
+        }
+        this->gamepadHat2 = hat2;
       }
 
       if (this->third_joystick) {
@@ -139,6 +165,19 @@ class UpdateGamepad: private Timer {
         y5 = ((double)SDL_JoystickGetAxis(this->third_joystick, 1)) / 32768.0;
         x6 = ((double)SDL_JoystickGetAxis(this->third_joystick, 2)) / 32768.0;
         y6 = ((double)SDL_JoystickGetAxis(this->third_joystick, 3)) / 32768.0;
+
+        int hat3 = SDL_JoystickGetHat(this->third_joystick, 0);
+        if (hat3 != this->gamepadHat3) {
+          switch (hat3) {
+            case 2: // right
+              this->editor->nextPatch();
+              break;
+            case 8: // left
+              this->editor->prevPatch();
+              break;
+          }
+        }
+        this->gamepadHat3 = hat3;
       }
 
 
@@ -163,6 +202,100 @@ class UpdateGamepad: private Timer {
           }
         }
       }
+
+      //if (btns[10] >= 30)
+      if (btns[8]==1)  // select button
+        this->pad1analog1_locked = false;
+      else if (btns[10] == 1){  // left analog button
+        this->pad1analog1_locked = true;
+        this->pad1analog1.first = x1;
+        this->pad1analog1.second = y1;
+      }
+      if (btns[9]==1)  // start button
+        this->pad1analog2_locked = false;
+      else if (btns[11] == 1){  // right analog button
+        this->pad1analog2_locked = true;
+        this->pad1analog2.first = x2;
+        this->pad1analog2.second = y2;
+      }
+
+
+      if (this->pad1analog1_locked){
+        x1 = this->pad1analog1.first;
+        y1 = this->pad1analog2.second;
+      }
+      if (this->pad1analog2_locked){
+        x2 = this->pad1analog2.first;
+        y2 = this->pad1analog2.second;
+      }
+
+      if (btns[0]==1){
+        this->recording = true;
+        this->playback_frame = -1;
+        std::cout << "start recording" << std::endl;
+      }
+      else if (btns[1]==1){
+        this->recording = false;
+        this->playback_frame = -1;
+        std::cout << "stop recording: current frames="  << this->recording_data.size() << std::endl;
+      }
+
+      if (btns[2]==1){
+        this->playing = true;
+        this->playback_frame = -1;
+        std::cout << "start playback: frames=" << this->recording_data.size() << std::endl;
+      }
+      else if (btns[2] >= 1){
+        this->playback_rate = x1 + x2 + 1.0;
+        if (this->playback_rate < 0.01)
+          this->playback_rate = 0.01;
+      }
+      else if (btns[3]==1){
+        this->playing = false;
+        this->playback_frame = -1;
+        std::cout << "stop playback" << std::endl;
+      }
+
+      // playback
+      if (this->playing) {
+        this->playback_frame += this->playback_rate;
+        if (this->playback_frame >= this->recording_data.size() || this->playback_frame < 0 )
+          this->playback_frame = 0;
+        auto map = this->recording_data[ static_cast<int>(this->playback_frame) ];
+        x1 += map[std::string("pad1analog1")].first;
+        y1 += map[std::string("pad1analog1")].second;
+        x2 += map[std::string("pad1analog2")].first;
+        y2 += map[std::string("pad1analog2")].second;
+
+        x3 += map[std::string("pad2analog1")].first;
+        y3 += map[std::string("pad2analog1")].second;
+        x4 += map[std::string("pad2analog2")].first;
+        y4 += map[std::string("pad2analog2")].second;
+
+        x5 += map[std::string("pad3analog1")].first;
+        y5 += map[std::string("pad3analog1")].second;
+        x6 += map[std::string("pad3analog2")].first;
+        y6 += map[std::string("pad3analog2")].second;
+
+      }
+      // recording
+      if (this->recording) {
+        auto map = std::map<std::string, std::pair<float,float>>();
+        map[std::string("pad1analog1")] = std::pair<float,float>( x1, y1 );
+        map[std::string("pad1analog2")] = std::pair<float,float>( x2, y2 );
+
+        map[std::string("pad2analog1")] = std::pair<float,float>( x3, y3 );
+        map[std::string("pad2analog2")] = std::pair<float,float>( x4, y4 );
+
+        map[std::string("pad3analog1")] = std::pair<float,float>( x5, y5 );
+        map[std::string("pad3analog2")] = std::pair<float,float>( x6, y6 );
+
+        if (this->playback_frame == -1 || this->playback_frame >= this->recording_data.size())
+          this->recording_data.push_back(map);
+        else
+          this->recording_data[ static_cast<int>(this->playback_frame) ] = map;          
+      }
+
 
       if (this->analogKeyboard) {
         float x2mult = 8.0;

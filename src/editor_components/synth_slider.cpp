@@ -32,10 +32,17 @@ namespace {
     kGamepadAxis1,
     kGamepadAxis2,
     kGamepadAxis3,
+
     kGamepadAxis4,
     kGamepadAxis5,
     kGamepadAxis6,
     kGamepadAxis7,
+
+    kGamepadAxis8,
+    kGamepadAxis9,
+    kGamepadAxis10,
+    kGamepadAxis11,
+
     kArmMidiLearn,
     kClearMidiLearn,
     kDefaultValue,
@@ -111,6 +118,12 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
       m.addItem(kGamepadAxis5, "gamepad2-axis: 2");
       m.addItem(kGamepadAxis6, "gamepad2-axis: 3");
       m.addItem(kGamepadAxis7, "gamepad2-axis: 4");
+      // optional 3rd gamepad
+      m.addItem(kGamepadAxis8, "gamepad3-axis: 1");
+      m.addItem(kGamepadAxis9, "gamepad3-axis: 2");
+      m.addItem(kGamepadAxis10, "gamepad3-axis: 3");
+      m.addItem(kGamepadAxis11, "gamepad3-axis: 4");
+
     }
 
     if (isDoubleClickReturnEnabled())
@@ -352,6 +365,16 @@ void SynthSlider::handlePopupResult(int result) {
     synth->linkGamepadAxis(getName().toStdString(), 6 );
   else if (result == kGamepadAxis7)
     synth->linkGamepadAxis(getName().toStdString(), 7 );
+
+  // third gamepad
+  else if (result == kGamepadAxis8)
+    synth->linkGamepadAxis(getName().toStdString(), 8 );
+  else if (result == kGamepadAxis9)
+    synth->linkGamepadAxis(getName().toStdString(), 9 );
+  else if (result == kGamepadAxis10)
+    synth->linkGamepadAxis(getName().toStdString(), 10 );
+  else if (result == kGamepadAxis11)
+    synth->linkGamepadAxis(getName().toStdString(), 11 );
 
   else if (result == kArmMidiLearn)
     synth->armMidiLearn(getName().toStdString());
