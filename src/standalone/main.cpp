@@ -174,7 +174,7 @@ class UpdateGamepad: private Timer {
       int hat = SDL_JoystickGetHat(this->primary_joystick, 0);
       bool button_lock = hat == 1;  // if hat is up
       if (hat != this->gamepadHat1) {
-        std::cout << hat << std::endl;
+        //std::cout << hat << std::endl;
         switch (hat) {
           case 1: // up
             //this->editor->noteOn( 64 );
@@ -209,6 +209,8 @@ class UpdateGamepad: private Timer {
           if (gamepad1Buttons[i]==0) {
             gamepad1Buttons[i] = 1;
             btns[i] = 1;
+            if (use_pipe)
+              std::cout << "{\"button\":" << i << ",\"value\":1}" << std::endl;
           } else {
             gamepad1Buttons[i] += 1;
             btns[i] = gamepad1Buttons[i];
@@ -217,6 +219,8 @@ class UpdateGamepad: private Timer {
           if (gamepad1Buttons[i] >= 1) {
             gamepad1Buttons[i] = 0;
             btns[i] = -1;
+            if (use_pipe)
+              std::cout << "{\"button\":" << i << ",\"value\":-1}" << std::endl;
           }
         }
       }
