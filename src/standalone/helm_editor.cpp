@@ -26,8 +26,9 @@
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
-HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
-  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_, this);
+HelmEditor::HelmEditor(bool use_gui, bool use_pipe) : SynthGuiInterface(this, use_gui) {
+  this->use_pipe_ = use_pipe;
+  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_, this, use_pipe);
   int num_input_chans = 1;
   setAudioChannels(num_input_chans, mopo::NUM_CHANNELS);
 

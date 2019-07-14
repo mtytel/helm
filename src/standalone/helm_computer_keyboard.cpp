@@ -22,7 +22,8 @@
 
 HelmComputerKeyboard::HelmComputerKeyboard(mopo::HelmEngine* synth,
                                            MidiKeyboardState* keyboard_state,
-                                           HelmEditor* editor) {
+                                           HelmEditor* editor, bool use_pipe) {
+  this->use_pipe_ = use_pipe;
   synth_ = synth;
   keyboard_state_ = keyboard_state;
   computer_keyboard_offset_ = mopo::DEFAULT_KEYBOARD_OFFSET;
@@ -38,9 +39,13 @@ HelmComputerKeyboard::~HelmComputerKeyboard() {
 
 void HelmComputerKeyboard::noteOn(int note, float vel) {
   this->keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, vel);
+  if (this->use_pipe_)
+      std::cout << "{\"event\":\"note-on\",\"key\":" << note << ",\"vel\":" << vel << "}" << std::endl;
 }
 void HelmComputerKeyboard::noteOff(int note) {
   this->keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+  if (this->use_pipe_)
+      std::cout << "{\"event\":\"note-off\",\"key\":" << note << "}" << std::endl;
 }
 
 void HelmComputerKeyboard::changeKeyboardOffset(int new_offset) {
@@ -69,6 +74,8 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
       keys_pressed_.insert(layout_[i]);
 
       keyboard_state_->noteOn(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+      if (this->use_pipe_)
+          std::cout << "{\"event\":\"note-on\",\"key\":" << note << "}" << std::endl;
 
       if (modifiers.isCtrlDown() || modifiers.isShiftDown())
         this->autonext = true;
@@ -83,6 +90,9 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
              keys_pressed_.count(layout_[i])) {
       keys_pressed_.erase(layout_[i]);
       keyboard_state_->noteOff(KEYBOARD_MIDI_CHANNEL, note, 1.0f);
+      if (this->use_pipe_)
+          std::cout << "{\"event\":\"note-off\",\"key\":" << note << "}" << std::endl;
+
     }
     consumed = true;
   }
@@ -92,6 +102,8 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
       keys_pressed_.insert('\\');
       changeKeyboardOffset(computer_keyboard_offset_ - mopo::NOTES_PER_OCTAVE);
       consumed = true;
+      if (this->use_pipe_)
+          std::cout << "{\"event\":\"octave-up\"}" << std::endl;
     }
   }
   else
@@ -102,6 +114,8 @@ bool HelmComputerKeyboard::keyStateChanged(bool isKeyDown, Component *origin) {
       keys_pressed_.insert('^');
       changeKeyboardOffset(computer_keyboard_offset_ + mopo::NOTES_PER_OCTAVE);
       consumed = true;
+      if (this->use_pipe_)
+          std::cout << "{\"event\":\"octave-down\"}" << std::endl;
     }
   }
   else

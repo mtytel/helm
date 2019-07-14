@@ -24,8 +24,11 @@
 #include <SDL2/SDL_hints.h>
 //#include <Python.h>
 
-static int gamepadButtons[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+static int gamepad1Buttons[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+static int gamepad2Buttons[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+static int gamepad3Buttons[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
 static int gamepad_offset = 0;
+static bool use_pipe = false;
 
 class UpdateGamepad: private Timer { 
   public:
@@ -33,6 +36,9 @@ class UpdateGamepad: private Timer {
     SDL_Joystick *primary_joystick;
     SDL_Joystick *secondary_joystick;
     SDL_Joystick *third_joystick;
+    SDL_Joystick *pad1;
+    SDL_Joystick *pad2;
+    SDL_Joystick *pad3;
     //SDL_Joystick *fourth_joystick;
     int gamepadHat1 = 0;
     int gamepadHat2 = 0;
@@ -40,8 +46,16 @@ class UpdateGamepad: private Timer {
     // analog locks
     bool pad1analog1_locked = false;
     bool pad1analog2_locked = false;
+    bool pad2analog1_locked = false;
+    bool pad2analog2_locked = false;
+    bool pad3analog1_locked = false;
+    bool pad3analog2_locked = false;
     std::pair<float,float> pad1analog1 = std::pair<float,float>(0.0, 0.0);
     std::pair<float,float> pad1analog2 = std::pair<float,float>(0.0, 0.0);
+    std::pair<float,float> pad2analog1 = std::pair<float,float>(0.0, 0.0);
+    std::pair<float,float> pad2analog2 = std::pair<float,float>(0.0, 0.0);
+    std::pair<float,float> pad3analog1 = std::pair<float,float>(0.0, 0.0);
+    std::pair<float,float> pad3analog2 = std::pair<float,float>(0.0, 0.0);
     int prevNote = -1;
     bool analogKeyboard = false;
     int analogKeyboardOffset = 0;
@@ -50,12 +64,60 @@ class UpdateGamepad: private Timer {
     bool playing = false;
     float playback_frame = -1.0;
     float playback_rate = 1.0;
+    int gamepad_shift = -1;
 
-    UpdateGamepad( HelmEditor* editor_, SDL_Joystick* pad1, SDL_Joystick* pad2, SDL_Joystick* pad3) {
+    void shift_gamepads(int shift) {
+      this->gamepad_shift += shift;
+      if (this->gamepad_shift < 0)
+        this->gamepad_shift = 0;
+
+      if (this->pad3) {
+        if (this->gamepad_shift >= 3)
+          this->gamepad_shift = 2;
+
+        switch (this->gamepad_shift) {
+          case 0:
+            this->primary_joystick = this->pad1;
+            this->secondary_joystick = this->pad2;
+            this->third_joystick = this->pad3;
+            break;
+          case 1:
+            this->primary_joystick = this->pad3;
+            this->secondary_joystick = this->pad1;
+            this->third_joystick = this->pad2;
+            break;
+          case 2:
+            this->primary_joystick = this->pad2;
+            this->secondary_joystick = this->pad3;
+            this->third_joystick = this->pad1;
+            break;
+        }        
+      }
+      else {
+        if (this->gamepad_shift >= 2)
+          this->gamepad_shift = 1;
+
+        switch (this->gamepad_shift) {
+          case 0:
+            this->primary_joystick = this->pad1;
+            this->secondary_joystick = this->pad2;
+            break;
+          case 1:
+            this->primary_joystick = this->pad2;
+            this->secondary_joystick = this->pad1;
+            break;
+        }
+      }
+    }
+
+    UpdateGamepad( HelmEditor* editor_, SDL_Joystick* p1, SDL_Joystick* p2, SDL_Joystick* p3) {
       this->editor = editor_;
-      this->primary_joystick = pad1;
-      this->secondary_joystick = pad2;
-      this->third_joystick = pad3;
+      this->primary_joystick = p1;
+      this->secondary_joystick = p2;
+      this->third_joystick = p3;
+      this->pad1 = p1;
+      this->pad2 = p2;
+      this->pad3 = p3;
       if (this->secondary_joystick) {
         this->analogKeyboard = true;
         this->editor->linkGamepadAxis(std::string("osc_feedback_amount"), 1);
@@ -104,7 +166,10 @@ class UpdateGamepad: private Timer {
       float x6 = 0.0;
       float y6 = 0.0;
 
-      int btns[12];
+      int btns[12]  = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+      int btns2[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+      int btns3[12] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+
       SDL_PumpEvents();  // poll event not required when calling pump
       int hat = SDL_JoystickGetHat(this->primary_joystick, 0);
       bool button_lock = hat == 1;  // if hat is up
@@ -113,15 +178,13 @@ class UpdateGamepad: private Timer {
         switch (hat) {
           case 1: // up
             //this->editor->noteOn( 64 );
-            this->analogKeyboard = true;
+            this->shift_gamepads(-1);
             break;
           case 2: // right
             this->editor->nextPatch();
             break;
           case 4: // down
-            this->editor->noteOff( this->prevNote );
-            this->analogKeyboard = false;
-            this->recording_data.clear();
+            this->shift_gamepads(1);
             break;
           case 8: // left
             this->editor->prevPatch();
@@ -140,15 +203,103 @@ class UpdateGamepad: private Timer {
       float y2 = ((double)SDL_JoystickGetAxis(this->primary_joystick, 3)) / 32768.0;
       //double z2 = (((double)SDL_JoystickGetAxis(m_joystick, 5)) / 32768.0) + 1.0;
 
+      for (int i=0; i<12; i++) {
+        btns[i] = 0;
+        if (SDL_JoystickGetButton(this->primary_joystick, i)) {
+          if (gamepad1Buttons[i]==0) {
+            gamepad1Buttons[i] = 1;
+            btns[i] = 1;
+          } else {
+            gamepad1Buttons[i] += 1;
+            btns[i] = gamepad1Buttons[i];
+          }
+        } else {
+          if (gamepad1Buttons[i] >= 1) {
+            gamepad1Buttons[i] = 0;
+            btns[i] = -1;
+          }
+        }
+      }
+
+      if (btns[8]==1)  // select button
+        this->pad1analog1_locked = false;
+      else if (btns[10] == 1){  // left analog button
+        this->pad1analog1_locked = true;
+        this->pad1analog1.first = x1;
+        this->pad1analog1.second = y1;
+      }
+      if (btns[9]==1)  // start button
+        this->pad1analog2_locked = false;
+      else if (btns[11] == 1){  // right analog button
+        this->pad1analog2_locked = true;
+        this->pad1analog2.first = x2;
+        this->pad1analog2.second = y2;
+      }
+      if (this->pad1analog1_locked){
+        x1 = this->pad1analog1.first;
+        y1 = this->pad1analog2.second;
+      }
+      if (this->pad1analog2_locked){
+        x2 = this->pad1analog2.first;
+        y2 = this->pad1analog2.second;
+      }
+
       if (this->secondary_joystick) {
         x3 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 0)) / 32768.0;
         y3 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 1)) / 32768.0;
         x4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 2)) / 32768.0;
         y4 = ((double)SDL_JoystickGetAxis(this->secondary_joystick, 3)) / 32768.0;
 
+        for (int i=0; i<12; i++) {
+          btns2[i] = 0;
+          if (SDL_JoystickGetButton(this->secondary_joystick, i)) {
+            if (gamepad2Buttons[i]==0) {
+              gamepad2Buttons[i] = 1;
+              btns2[i] = 1;
+            } else {
+              gamepad2Buttons[i] += 1;
+              btns2[i] = gamepad2Buttons[i];
+            }
+          } else {
+            if (gamepad2Buttons[i] >= 1) {
+              gamepad2Buttons[i] = 0;
+              btns2[i] = -1;
+            }
+          }
+        }
+
+        if (btns2[8]==1)  // select button
+          this->pad2analog1_locked = false;
+        else if (btns2[10] == 1){  // left analog button
+          this->pad2analog1_locked = true;
+          this->pad2analog1.first = x3;
+          this->pad2analog1.second = y3;
+        }
+        if (btns2[9]==1)  // start button
+          this->pad2analog2_locked = false;
+        else if (btns2[11] == 1){  // right analog button
+          this->pad2analog2_locked = true;
+          this->pad2analog2.first = x4;
+          this->pad2analog2.second = y4;
+        }
+        if (this->pad2analog1_locked){
+          x3 = this->pad2analog1.first;
+          y3 = this->pad2analog2.second;
+        }
+        if (this->pad2analog2_locked){
+          x4 = this->pad2analog2.first;
+          y4 = this->pad2analog2.second;
+        }
+
         int hat2 = SDL_JoystickGetHat(this->secondary_joystick, 0);
         if (hat2 != this->gamepadHat2) {
           switch (hat2) {
+            case 1: // up
+              this->shift_gamepads(-1);
+              break;
+            case 4: // down
+              this->shift_gamepads(1);
+              break;
             case 2: // right
               this->editor->nextPatch();
               break;
@@ -166,9 +317,56 @@ class UpdateGamepad: private Timer {
         x6 = ((double)SDL_JoystickGetAxis(this->third_joystick, 2)) / 32768.0;
         y6 = ((double)SDL_JoystickGetAxis(this->third_joystick, 3)) / 32768.0;
 
+        for (int i=0; i<12; i++) {
+          btns3[i] = 0;
+          if (SDL_JoystickGetButton(this->third_joystick, i)) {
+            if (gamepad3Buttons[i]==0) {
+              gamepad3Buttons[i] = 1;
+              btns3[i] = 1;
+            } else {
+              gamepad3Buttons[i] += 1;
+              btns3[i] = gamepad3Buttons[i];
+            }
+          } else {
+            if (gamepad3Buttons[i] >= 1) {
+              gamepad3Buttons[i] = 0;
+              btns3[i] = -1;
+            }
+          }
+        }
+
+        if (btns3[8]==1)  // select button
+          this->pad3analog1_locked = false;
+        else if (btns3[10] == 1){  // left analog button
+          this->pad3analog1_locked = true;
+          this->pad3analog1.first = x5;
+          this->pad3analog1.second = y5;
+        }
+        if (btns3[9]==1)  // start button
+          this->pad3analog2_locked = false;
+        else if (btns2[11] == 1){  // right analog button
+          this->pad3analog2_locked = true;
+          this->pad3analog2.first = x6;
+          this->pad3analog2.second = y6;
+        }
+        if (this->pad3analog1_locked){
+          x5 = this->pad3analog1.first;
+          y5 = this->pad3analog2.second;
+        }
+        if (this->pad3analog2_locked){
+          x6 = this->pad3analog2.first;
+          y6 = this->pad3analog2.second;
+        }
+
         int hat3 = SDL_JoystickGetHat(this->third_joystick, 0);
         if (hat3 != this->gamepadHat3) {
           switch (hat3) {
+            case 1: // up
+              this->shift_gamepads(-1);
+              break;
+            case 4: // down
+              this->shift_gamepads(1);
+              break;
             case 2: // right
               this->editor->nextPatch();
               break;
@@ -181,79 +379,46 @@ class UpdateGamepad: private Timer {
       }
 
 
-      for (int i=0; i<12; i++) {
-        btns[i] = 0;
-        if (SDL_JoystickGetButton(this->primary_joystick, i)) {
-          if (gamepadButtons[i]==0) {
-            gamepadButtons[i] = 1;
-            btns[i] = 1;
-            //if (this->analogKeyboard)
-            //  this->editor->noteOn( this->prevNote + i - 6 );
-          } else {
-            gamepadButtons[i] += 1;
-            btns[i] = gamepadButtons[i];
-          }
+      if ( btns[0]==1 || btns2[0]==1 || btns3[0]==1 ){
+        if (this->recording) {
+          this->recording = false;
+          this->playback_frame = -1;
+          std::cout << "{\"event\":\"stop-recording\",\"frames\":" << this->recording_data.size() << "}" << std::endl;
         } else {
-          if (gamepadButtons[i] >= 1) {
-            gamepadButtons[i] = 0;
-            btns[i] = -1;
-            //if (this->analogKeyboard)
-            //  this->editor->noteOff( this->prevNote + i - 6 );
-          }
+          this->recording = true;
+          this->playback_frame = -1;
+          std::cout << "{\"event\":\"start-recording\",\"frames\":" << this->recording_data.size() << "}" << std::endl;
         }
       }
-
-      //if (btns[10] >= 30)
-      if (btns[8]==1)  // select button
-        this->pad1analog1_locked = false;
-      else if (btns[10] == 1){  // left analog button
-        this->pad1analog1_locked = true;
-        this->pad1analog1.first = x1;
-        this->pad1analog1.second = y1;
-      }
-      if (btns[9]==1)  // start button
-        this->pad1analog2_locked = false;
-      else if (btns[11] == 1){  // right analog button
-        this->pad1analog2_locked = true;
-        this->pad1analog2.first = x2;
-        this->pad1analog2.second = y2;
+      if ( btns[1] == 1 || btns2[1]==1 || btns3[1]==1 ){
+          std::cout << "{\"event\":\"clear-recording\"}" << std::endl;
+          this->recording_data.clear();
       }
 
-
-      if (this->pad1analog1_locked){
-        x1 = this->pad1analog1.first;
-        y1 = this->pad1analog2.second;
+      if (btns[2]==1  || btns2[2]==1 || btns3[2]==1 ){
+        if (this->playing) {
+          this->playing = false;
+          this->playback_frame = -1;
+          std::cout << "{\"event\":\"stop-playback\"}" << std::endl;
+        } 
+        else if (this->recording_data.size()==0) {
+          std::cout << "{\"event\":\"playback-null\"}" << std::endl;
+        }
+        else {
+          this->playing = true;
+          this->playback_frame = -1;
+          std::cout << "{\"event\":\"start-playback\",\"frames\":" << this->recording_data.size() << "}" << std::endl;
+        }
       }
-      if (this->pad1analog2_locked){
-        x2 = this->pad1analog2.first;
-        y2 = this->pad1analog2.second;
-      }
-
-      if (btns[0]==1){
-        this->recording = true;
-        this->playback_frame = -1;
-        std::cout << "start recording" << std::endl;
-      }
-      else if (btns[1]==1){
-        this->recording = false;
-        this->playback_frame = -1;
-        std::cout << "stop recording: current frames="  << this->recording_data.size() << std::endl;
-      }
-
-      if (btns[2]==1){
-        this->playing = true;
-        this->playback_frame = -1;
-        std::cout << "start playback: frames=" << this->recording_data.size() << std::endl;
-      }
-      else if (btns[2] >= 1){
-        this->playback_rate = x1 + x2 + 1.0;
-        if (this->playback_rate < 0.01)
-          this->playback_rate = 0.01;
-      }
-      else if (btns[3]==1){
-        this->playing = false;
-        this->playback_frame = -1;
-        std::cout << "stop playback" << std::endl;
+      //else if (btns[2] >= 1){
+      //  this->playback_rate = x1 + x2 + 1.0;
+      //  if (this->playback_rate < 0.01)
+      //    this->playback_rate = 0.01;
+      //}
+      if (btns[3]==1){
+        std::cout << "toggle analog keyboard" << std::endl;
+        this->editor->noteOff( this->prevNote );
+        this->analogKeyboard = ! this->analogKeyboard;
       }
 
       // playback
@@ -330,6 +495,17 @@ class UpdateGamepad: private Timer {
         }
       }
 
+      if (use_pipe) {
+        std::cout << "{"
+        << "\"pad1\":["
+          << x1 << "," << y1 << "," << x2 << "," << y2 << "]" << ","
+        << "\"pad2\":["
+          << x3 << "," << y3 << "," << x4 << "," << y4 << "]" << ","
+        << "\"pad3\":["
+          << x5 << "," << y5 << "," << x6 << "," << y6 << "]"
+        << "}" << std::endl;
+      }
+
 
       // updates slider buttons set by user from UI
       this->editor->updateGamepad(
@@ -368,7 +544,7 @@ class HelmApplication : public JUCEApplication {
 
       MainWindow(String name, bool visible = true) :
           DocumentWindow(name, Colour(0x11000000)/*Colours::lightgrey*/, DocumentWindow::allButtons, visible) {
-        editor_ = new HelmEditor(visible);
+        editor_ = new HelmEditor(visible, use_pipe);
         if (visible) {
           editor_->animate(LoadSave::shouldAnimateWidgets());
 
@@ -539,9 +715,13 @@ class HelmApplication : public JUCEApplication {
         std::cout << "  -v, --version                       Show version information and exit" << newLine;
         std::cout << "  --headless                          Run without graphical interface." << newLine << newLine;
         std::cout << "  --gamepad=n                         For use with multiple gamepads, the offset index." << newLine << newLine;
+        std::cout << "  --pipe                              print events in json format to stdout" << newLine << newLine;
         quit();
       }
-      else if (command.contains(" --gamepad=2 ")) {
+      if (command.contains(" --pipe ")) {
+        use_pipe = true;
+      }
+      if (command.contains(" --gamepad=2 ")) {
         gamepad_offset = 1;
       }
       else if (command.contains(" --gamepad=3 ")) {
@@ -556,17 +736,16 @@ class HelmApplication : public JUCEApplication {
       else if (command.contains(" --gamepad=6 ")) {
         gamepad_offset = 5;
       }
-      else {
-        bool visible = !command.contains(" --headless ");
-        main_window_ = new MainWindow(getApplicationName(), visible);
 
-        StringArray args = getCommandLineParameterArray();
-        File file;
+      bool visible = !command.contains(" --headless ");
+      main_window_ = new MainWindow(getApplicationName(), visible);
 
-        for (int i = 0; i < args.size(); ++i) {
-          if (args[i] != "" && args[i][0] != '-' && loadFromCommandLine(args[i]))
-            return;
-        }
+      StringArray args = getCommandLineParameterArray();
+      File file;
+
+      for (int i = 0; i < args.size(); ++i) {
+        if (args[i] != "" && args[i][0] != '-' && loadFromCommandLine(args[i]))
+          return;
       }
     }
 

@@ -28,7 +28,7 @@ class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
   public:
     HelmComputerKeyboard(mopo::HelmEngine* synth, 
                         MidiKeyboardState* keyboard_state, 
-                        HelmEditor* editor);
+                        HelmEditor* editor, bool use_pipe);
     ~HelmComputerKeyboard();
 
     void changeKeyboardOffset(int new_offset);
@@ -42,6 +42,7 @@ class HelmComputerKeyboard : public mopo::StringLayout, public KeyListener {
 
 
   private:
+    bool use_pipe_;
     bool autonext;
     HelmEditor* editor_;
     mopo::HelmEngine* synth_;
