@@ -31,8 +31,21 @@ class HelmEditor : public AudioAppComponent,
                    public SynthBase,
                    public SynthGuiInterface {
   public:
-    HelmEditor(bool use_gui = true);
+    HelmEditor(bool use_gui = true, bool use_pipe=false);
     ~HelmEditor();
+
+    void noteOn(int note, float vel=1.0);
+    void noteOff(int note);
+    void nextPatch() {
+        if (this->use_pipe_)
+            std::cout << "{\"event\":\"next-patch\"}" << std::endl;
+        gui_->nextPatch();
+    }
+    void prevPatch() {
+        if (this->use_pipe_)
+            std::cout << "{\"event\":\"prev-patch\"}" << std::endl;
+        gui_->prevPatch(); 
+    }
 
     // AudioAppComponent
     void prepareToPlay(int buffer_size, double sample_rate) override;
@@ -53,7 +66,7 @@ class HelmEditor : public AudioAppComponent,
   private:
     ScopedPointer<HelmComputerKeyboard> computer_keyboard_;
     CriticalSection critical_section_;
-
+    bool use_pipe_;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HelmEditor)
 };
 

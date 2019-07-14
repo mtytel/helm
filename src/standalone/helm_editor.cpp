@@ -26,15 +26,16 @@
 #define MAX_OUTPUT_MEMORY 1048576
 #define MAX_BUFFER_PROCESS 256
 
-HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
-  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_);
-
-  setAudioChannels(0, mopo::NUM_CHANNELS);
+HelmEditor::HelmEditor(bool use_gui, bool use_pipe) : SynthGuiInterface(this, use_gui) {
+  this->use_pipe_ = use_pipe;
+  computer_keyboard_ = new HelmComputerKeyboard(&engine_, keyboard_state_, this, use_pipe);
+  int num_input_chans = 1;
+  setAudioChannels(num_input_chans, mopo::NUM_CHANNELS);
 
   AudioDeviceManager::AudioDeviceSetup setup;
   deviceManager.getAudioDeviceSetup(setup);
   setup.sampleRate = mopo::DEFAULT_SAMPLE_RATE;
-  deviceManager.initialise(0, mopo::NUM_CHANNELS, nullptr, true, "", &setup);
+  deviceManager.initialise(num_input_chans, mopo::NUM_CHANNELS, nullptr, true, "", &setup);
 
   if (deviceManager.getCurrentAudioDevice() == nullptr) {
     const OwnedArray<AudioIODeviceType>& device_types = deviceManager.getAvailableDeviceTypes();
@@ -62,7 +63,7 @@ HelmEditor::HelmEditor(bool use_gui) : SynthGuiInterface(this, use_gui) {
 
     setWantsKeyboardFocus(true);
     addKeyListener(computer_keyboard_);
-    setOpaque(true);
+    setOpaque(false);  // no change if true?
   }
 }
 
@@ -73,6 +74,14 @@ HelmEditor::~HelmEditor() {
   gui_ = nullptr;
   keyboard_state_ = nullptr;
 }
+
+void HelmEditor::noteOn(int note, float vel){
+  this->computer_keyboard_->noteOn(note, vel);
+}
+void HelmEditor::noteOff(int note){
+  this->computer_keyboard_->noteOff(note);
+}
+
 
 void HelmEditor::prepareToPlay(int buffer_size, double sample_rate) {
   engine_.setSampleRate(sample_rate);

@@ -77,7 +77,8 @@ MidiKeyboardComponent::MidiKeyboardComponent (MidiKeyboardState& s, Orientation 
     // initialise with a default set of qwerty key-mappings..
     int note = 0;
 
-    for (char c : "awsedftgyhujkolp;")
+    //for (char c : "awsedftgyhujkolp;")
+    for (char c : "zxcvbnm,./asdfghjkl;'qwertyuiop[]1234567890-=")
         setKeyPressForNote (KeyPress (c, 0, 0), note++);
 
     mouseOverNotes.insertMultiple (0, -1, 32);

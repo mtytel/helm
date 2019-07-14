@@ -85,6 +85,7 @@ void SynthGuiInterface::setGuiSize(int width, int height) {
   Rectangle<int> bounds = gui_->getBounds();
   bounds.setWidth(width);
   bounds.setHeight(height);
-  bounds.setX(bounds.getX() + (bounds.getWidth() - width) / 2);
+  //bounds.setX(bounds.getX() + (bounds.getWidth() - width) / 2);
+  bounds.setX(8);
   gui_->getParentComponent()->setBounds(bounds);
 }

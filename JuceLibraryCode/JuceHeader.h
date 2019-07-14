@@ -40,7 +40,7 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "Helm";
-    const char* const  versionString  = "0.9.0";
+    const char* const  versionString  = "0.9.1";
     const int          versionNumber  = 0x900;
 }
 #endif

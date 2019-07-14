@@ -68,7 +68,6 @@ class SynthesisInterface  : public SynthSection {
     ScopedPointer<FormantSection> formant_section_;
     ScopedPointer<LfoSection> mono_lfo_1_section_;
     ScopedPointer<LfoSection> mono_lfo_2_section_;
-    ScopedPointer<MidiKeyboardComponent> keyboard_;
     ScopedPointer<MixerSection> mixer_section_;
     ScopedPointer<OscillatorSection> oscillator_section_;
     ScopedPointer<LfoSection> poly_lfo_section_;

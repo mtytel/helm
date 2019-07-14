@@ -35,7 +35,7 @@ ifeq ($(CONFIG),Debug)
     TARGET_ARCH := 
   endif
 
-  JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DDEBUG=1 -D_DEBUG=1 -DJUCE_JACK_CLIENT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_6B3E762A=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../JuceLibraryCode -I../../../JUCE/modules -I../../../concurrentqueue -I../../../mopo/src -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
+  JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DDEBUG=1 -D_DEBUG=1 -DJUCE_JACK=0 -DJUCE_JACK_CLIENT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_6B3E762A=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../JuceLibraryCode -I../../../JUCE/modules -I../../../concurrentqueue -I../../../mopo/src -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
   JUCE_CPPFLAGS_APP := -DJucePlugin_Build_VST=0 -DJucePlugin_Build_VST3=0 -DJucePlugin_Build_AU=0 -DJucePlugin_Build_AUv3=0 -DJucePlugin_Build_RTAS=0 -DJucePlugin_Build_AAX=0 -DJucePlugin_Build_Standalone=0
   JUCE_TARGET_APP := helm
 
@@ -56,7 +56,7 @@ ifeq ($(CONFIG),Release)
     TARGET_ARCH := 
   endif
 
-  JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DNDEBUG=1 -DJUCE_JACK_CLIENT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_6B3E762A=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../JuceLibraryCode -I../../../JUCE/modules -I../../../concurrentqueue -I../../../mopo/src -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
+  JUCE_CPPFLAGS := $(DEPFLAGS) -DLINUX=1 -DNDEBUG=1 -DJUCE_JACK=0 -DJUCE_JACK_CLIENT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_INPUT_NAME=\"Helm\" -DJUCE_ALSA_MIDI_OUTPUT_NAME=\"Helm\" -DJUCE_USE_XRANDR=0 -DJUCER_LINUX_MAKE_6B3E762A=1 -DJUCE_APP_VERSION=0.9.0 -DJUCE_APP_VERSION_HEX=0x900 $(shell pkg-config --cflags alsa freetype2 libcurl x11 xext xinerama) -pthread -I../../JuceLibraryCode -I../../../JUCE/modules -I../../../concurrentqueue -I../../../mopo/src -I../../../src -I../../../src/common -I../../../src/editor_components -I../../../src/editor_sections -I../../../src/look_and_feel -I../../../src/standalone -I../../../src/synthesis $(CPPFLAGS)
   JUCE_CPPFLAGS_APP := -DJucePlugin_Build_VST=0 -DJucePlugin_Build_VST3=0 -DJucePlugin_Build_AU=0 -DJucePlugin_Build_AUv3=0 -DJucePlugin_Build_RTAS=0 -DJucePlugin_Build_AAX=0 -DJucePlugin_Build_Standalone=0
   JUCE_TARGET_APP := helm
 

@@ -15,7 +15,7 @@
  */
 
 #include "full_interface.h"
-
+#include "midi_keyboard.h"
 #include "colors.h"
 #include "fonts.h"
 #include "helm_engine.h"
@@ -48,6 +48,21 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
   addSubSection(volume_section_ = new VolumeSection("VOLUME"));
   addOpenGLComponent(oscilloscope_ = new OpenGLOscilloscope());
+
+  this->keyboard_ = new MidiKeyboard(*keyboard_state, MidiKeyboardComponent::horizontalKeyboard);
+  addAndMakeVisible(keyboard_);
+  keyboard_->setWantsKeyboardFocus(false);
+  keyboard_->setMouseClickGrabsKeyboardFocus(false);
+  keyboard_->setColour(MidiKeyboardComponent::whiteNoteColourId, Colour(0xff444444));
+  keyboard_->setColour(MidiKeyboardComponent::blackNoteColourId, Colour(0xff222222));
+  keyboard_->setColour(MidiKeyboardComponent::keySeparatorLineColourId, Colour(0x00000000));
+  keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0x00000000));
+  keyboard_->setColour(MidiKeyboardComponent::upDownButtonBackgroundColourId, Colour(0xff222222));
+  keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colors::audio);
+  keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x4403a9f4));
+  keyboard_->setLowestVisibleKey(36);
+
+
 
   setAllValues(controls);
   createModulationSliders(modulation_sources, mono_modulations, poly_modulations);
@@ -105,7 +120,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
   save_section_->toFront(false);
   delete_section_->toFront(false);
 
-  setOpaque(true);
+  setOpaque(false);
 }
 
 FullInterface::~FullInterface() {
@@ -123,6 +138,7 @@ FullInterface::~FullInterface() {
   save_section_ = nullptr;
   delete_section_ = nullptr;
   volume_section_ = nullptr;
+  keyboard_ = nullptr;
 }
 
 void FullInterface::paint(Graphics& g) { }
@@ -146,7 +162,8 @@ void FullInterface::paintBackground(Graphics& g) {
 
   shadow.drawForRectangle(g, Rectangle<int>(x, logo_button_->getY(),
                                             width, logo_button_->getHeight()));
-  g.setColour(Colour(0xff303030));
+  //g.setColour(Colour(0xff303030));
+  g.setColour(Colour(0xff303000));
   g.fillRoundedRectangle(x, logo_button_->getY(), width, logo_button_->getHeight(), 3.0f);
 
   g.saveState();
@@ -161,7 +178,10 @@ void FullInterface::paintBackground(Graphics& g) {
 
   paintKnobShadows(g);
   paintChildrenBackgrounds(g);
+  shadow.drawForRectangle(g, keyboard_->getBounds());
+
 }
+
 
 void FullInterface::resized() {
   int left = 0;
@@ -170,10 +190,11 @@ void FullInterface::resized() {
   float ratio = 1.0f;
   float width_ratio = getWidth() / (1.0f * mopo::DEFAULT_WINDOW_WIDTH);
   float height_ratio = getHeight() / (1.0f * mopo::DEFAULT_WINDOW_HEIGHT);
+
   if (width_ratio > height_ratio) {
     ratio = height_ratio;
     width = height_ratio * mopo::DEFAULT_WINDOW_WIDTH;
-    left = (getWidth() - width) / 2;
+    //left = (getWidth() - width) / 2;
   }
   else {
     ratio = width_ratio;
@@ -206,19 +227,19 @@ void FullInterface::resized() {
 
   logo_button_->setBounds(left + padding + logo_padding, padding, top_height, top_height);
   patch_selector_->setBounds(logo_button_->getRight() + padding + logo_padding, padding,
-                             patch_selector_width, top_height);
+                             patch_selector_width/2, top_height);
   global_tool_tip_->setBounds(patch_selector_->getX() + 0.11 * patch_selector_->getWidth(),
                               patch_selector_->getY(),
                               0.78 * patch_selector_->getWidth(),
                               patch_selector_->getBrowseHeight());
 
-  int volume_width = (section_two_width - padding) / 2;
+  int volume_width = (section_two_width - padding) / 4;
   int oscilloscope_width = section_two_width - padding - volume_width;
   volume_section_->setBounds(patch_selector_->getRight() + padding, padding,
                              volume_width, top_height);
 
   oscilloscope_->setBounds(volume_section_->getRight() + padding, padding,
-                           oscilloscope_width, top_height);
+                           oscilloscope_width/4, top_height);
 
   int bpm_width = 40 * ratio;
   int arp_width = section_three_width - bpm_width - padding;
@@ -226,7 +247,13 @@ void FullInterface::resized() {
                           bpm_width, top_height);
 
   arp_section_->setBounds(bpm_section_->getRight() + padding, padding,
-                          arp_width, top_height);
+                          arp_width*0.3, top_height);
+
+  keyboard_->setBounds(arp_section_->getRight() + padding,
+                       padding,
+                       arp_width*1.1,
+                       top_height);
+  keyboard_->setKeyWidth(ratio * 16.0f);
 
   synthesis_interface_->setBounds(left, top_height + padding,
                                   width, height - top_height - padding);

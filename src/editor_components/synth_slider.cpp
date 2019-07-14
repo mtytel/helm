@@ -27,6 +27,22 @@
 namespace {
   enum MenuIds {
     kCancel = 0,
+    kUnlinkGamepadAxis,
+    kGamepadAxis0,
+    kGamepadAxis1,
+    kGamepadAxis2,
+    kGamepadAxis3,
+
+    kGamepadAxis4,
+    kGamepadAxis5,
+    kGamepadAxis6,
+    kGamepadAxis7,
+
+    kGamepadAxis8,
+    kGamepadAxis9,
+    kGamepadAxis10,
+    kGamepadAxis11,
+
     kArmMidiLearn,
     kClearMidiLearn,
     kDefaultValue,
@@ -84,6 +100,31 @@ void SynthSlider::mouseDown(const MouseEvent& e) {
   if (e.mods.isPopupMenu()) {
     PopupMenu m;
     m.setLookAndFeel(DefaultLookAndFeel::instance());
+
+    m.addItem(kCancel, getName().toStdString());
+
+    if (synth->getGamepadAxisLinkedTo(getName().toStdString()) != -1 ) {
+      int axis = synth->getGamepadAxisLinkedTo(getName().toStdString());
+      m.addItem(kUnlinkGamepadAxis, std::string("unlink gamepad-axis: ")+std::to_string(axis) );
+
+    } else {
+      //m.addItem(kGamepadAxis0, String::fromUTF8(u8"🕹 axis:0"));  // unicode not working in Juce?
+      m.addItem(kGamepadAxis0, "gamepad1-axis: 1");
+      m.addItem(kGamepadAxis1, "gamepad1-axis: 2");
+      m.addItem(kGamepadAxis2, "gamepad1-axis: 3");
+      m.addItem(kGamepadAxis3, "gamepad1-axis: 4");
+      // optional secondary gamepad
+      m.addItem(kGamepadAxis4, "gamepad2-axis: 1");
+      m.addItem(kGamepadAxis5, "gamepad2-axis: 2");
+      m.addItem(kGamepadAxis6, "gamepad2-axis: 3");
+      m.addItem(kGamepadAxis7, "gamepad2-axis: 4");
+      // optional 3rd gamepad
+      m.addItem(kGamepadAxis8, "gamepad3-axis: 1");
+      m.addItem(kGamepadAxis9, "gamepad3-axis: 2");
+      m.addItem(kGamepadAxis10, "gamepad3-axis: 3");
+      m.addItem(kGamepadAxis11, "gamepad3-axis: 4");
+
+    }
 
     if (isDoubleClickReturnEnabled())
       m.addItem(kDefaultValue, "Set to Default Value");
@@ -305,7 +346,37 @@ void SynthSlider::handlePopupResult(int result) {
   std::vector<mopo::ModulationConnection*> connections =
       parent->getSynth()->getDestinationConnections(getName().toStdString());
 
-  if (result == kArmMidiLearn)
+  if (result == kUnlinkGamepadAxis)
+    synth->unlinkGamepadAxis(getName().toStdString());
+  else if (result == kGamepadAxis0)
+    synth->linkGamepadAxis(getName().toStdString(), 0 );
+  else if (result == kGamepadAxis1)
+    synth->linkGamepadAxis(getName().toStdString(), 1 );
+  else if (result == kGamepadAxis2)
+    synth->linkGamepadAxis(getName().toStdString(), 2 );
+  else if (result == kGamepadAxis3)
+    synth->linkGamepadAxis(getName().toStdString(), 3 );
+  // secondary gamepad
+  else if (result == kGamepadAxis4)
+    synth->linkGamepadAxis(getName().toStdString(), 4 );
+  else if (result == kGamepadAxis5)
+    synth->linkGamepadAxis(getName().toStdString(), 5 );
+  else if (result == kGamepadAxis6)
+    synth->linkGamepadAxis(getName().toStdString(), 6 );
+  else if (result == kGamepadAxis7)
+    synth->linkGamepadAxis(getName().toStdString(), 7 );
+
+  // third gamepad
+  else if (result == kGamepadAxis8)
+    synth->linkGamepadAxis(getName().toStdString(), 8 );
+  else if (result == kGamepadAxis9)
+    synth->linkGamepadAxis(getName().toStdString(), 9 );
+  else if (result == kGamepadAxis10)
+    synth->linkGamepadAxis(getName().toStdString(), 10 );
+  else if (result == kGamepadAxis11)
+    synth->linkGamepadAxis(getName().toStdString(), 11 );
+
+  else if (result == kArmMidiLearn)
     synth->armMidiLearn(getName().toStdString());
   else if (result == kClearMidiLearn)
     synth->clearMidiLearn(getName().toStdString());

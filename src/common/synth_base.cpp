@@ -40,6 +40,214 @@ SynthBase::SynthBase() {
   Startup::doStartupChecks(midi_manager_);
 }
 
+// gamepad buttons
+int SynthBase::getGamepadButtonLinkedTo(const std::string& name) {
+  if (this->gamepad_btn_mapping_.count(name) > 0)
+    return this->gamepad_btn_mapping_[name];
+  else
+    return -1;
+}
+void SynthBase::linkGamepadButton(const std::string& name, int index) {
+  this->gamepad_btn_mapping_[name] = index;
+}
+void SynthBase::unlinkGamepadButton(const std::string& name) {
+  this->gamepad_btn_mapping_[name] = -1;
+}
+
+// analog sticks
+int SynthBase::getGamepadAxisLinkedTo(const std::string& name) {
+  if (this->gamepad_axis_mapping_.count(name) > 0)
+    return this->gamepad_axis_mapping_[name];
+  else
+    return -1;
+}
+void SynthBase::linkGamepadAxis(const std::string& name, int index) {
+  this->gamepad_axis_mapping_[name] = index;
+}
+void SynthBase::unlinkGamepadAxis(const std::string& name) {
+  this->gamepad_axis_mapping_[name] = -1;
+}
+void SynthBase::updateGamepad(
+  float x1, float y1, float x2, float y2, 
+  float x3, float y3, float x4, float y4, 
+  float x5, float y5, float x6, float y6, 
+  int b0,
+  int b1,
+  int b2,
+  int b3,
+  int b4,
+  int b5,
+  int b6,
+  int b7,
+  int b8,
+  int b9,
+  int b10,
+  int b11,
+  bool button_lock
+  ){
+
+  for (auto& kw : this->gamepad_btn_mapping_) {
+    int value = 0;
+    if (kw.second == -1) continue;
+    switch (kw.second) {
+      case 0:
+        value = b0;
+        break;
+      case 1:
+        value = b1;
+        break;
+      case 2:
+        value = b2;
+        break;
+      case 3:
+        value = b3;
+        break;
+      case 4:
+        value = b4;
+        break;
+      case 5:
+        value = b5;
+        break;
+      case 6:
+        value = b6;
+        break;
+      case 7:
+        value = b7;
+        break;
+      case 8:
+        value = b8;
+        break;
+      case 9:
+        value = b9;
+        break;
+      case 10:
+        value = b10;
+        break;
+      case 11:
+        value = b11;
+        break;
+    }
+    if (value == 1)
+      this->valueChangedThroughMidi( kw.first, 1.0f );
+    else if (value == -1 && button_lock==false)
+      this->valueChangedThroughMidi( kw.first, 0.0f );
+  }
+
+
+  for (auto& kw : this->gamepad_axis_mapping_) {
+    float value = 0.0;
+    if (kw.second == -1) continue;
+    switch (kw.second) {
+      case 0:
+        value = x1;
+        break;
+      case 1:
+        value = y1;
+        break;
+      case 2:
+        value = x2;
+        break;
+      case 3:
+        value = y2;
+        break;
+      // optional second gamepad
+      case 4:
+        value = x3;
+        break;
+      case 5:
+        value = y3;
+        break;
+      case 6:
+        value = x4;
+        break;
+      case 7:
+        value = y4;
+        break;
+      // optional third gamepad
+      case 8:
+        value = x5;
+        break;
+      case 9:
+        value = y5;
+        break;
+      case 10:
+        value = x6;
+        break;
+      case 11:
+        value = y6;
+        break;
+
+    }
+    if (kw.first == std::string("cutoff")) {
+        value += 1.0;
+        value *= 64;  // 28 - 128
+    }
+    else if (kw.first == std::string("osc_1_transpose") || kw.first == std::string("osc_2_transpose")) {
+        value *= 48;  // +-48
+    }
+    else if (kw.first == std::string("reverb_feedback")) {
+        value += 0.9;  // 80 to 100percent
+    }
+    else if (kw.first == std::string("portamento")) {
+        value -= 1.3;
+        value *= 4.0;   // max 6?
+    }
+    else if (kw.first == std::string("pitch_bend_range")) {
+        value += 1.0;
+        value *= 24.0;  // max 48
+    }
+    else if (kw.first == std::string("polyphony")) {
+        value += 1.0;
+        value *= 16.0;  // max 32
+    }
+    else if (kw.first == std::string("formant_y")) {
+        value = -value;
+    }
+    else if (kw.first == std::string("beats_per_minute")) {
+        // in range from 20 to 300?
+        value = -value;
+        value += 1.5;
+        value *= 1.5;
+    }
+    else if (kw.first == std::string("distortion_drive")) {
+        value *= 30.0;      
+    }
+    else if (kw.first == std::string("filter_drive")) {
+        value *= 20.0;
+    }
+    else if (kw.first == std::string("fil_env_depth")) {
+        value *= 128.0; // semitones
+    }
+    else if (kw.first == std::string("volume")) {
+        value += 1.0;  // range from 0.0 - 2.0
+    }
+    else if (kw.first == std::string("amp_attack") || kw.first==std::string("amp_decay") || kw.first==std::string("amp_release")) {
+        value += 1.0;  // range from 0.0 - 16.0 (seconds)
+        value *= 5.0;
+    }
+    else if (kw.first == std::string("osc_1_volume") || kw.first == std::string("osc_2_volume") || kw.first == std::string("stutter_softness") || kw.first == std::string("reverb_feedback")  || kw.first == std::string("reverb_damping") || kw.first == std::string("reverb_dry_wet")) {
+        // range from 0.0 - 1.0
+        value *= 0.5;
+        value += 0.5;
+    }
+    else if (kw.first == std::string("distortion_mix") || kw.first == std::string("arp_gate") || kw.first == std::string("delay_dry_wet")) {
+        value *= 0.5;
+        value += 0.5;
+    }
+    else if (kw.first == std::string("osc_feedback_transpose")) {
+        value *= 24.0;
+    }
+    else if (kw.first == std::string("arp_octaves")) {
+        value *= 0.5;
+        value += 0.5;
+        value *= 4.0;
+    }
+    
+    this->valueChangedThroughMidi( kw.first, value );
+  }
+}
+
+
 void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
   value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
 }

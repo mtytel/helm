@@ -635,12 +635,13 @@ bool Button::keyStateChangedCallback()
 
 bool Button::keyPressed (const KeyPress& key)
 {
+    /* do not trigger on return key
     if (isEnabled() && key.isKeyCode (KeyPress::returnKey))
     {
         triggerClick();
         return true;
     }
-
+    */
     return false;
 }
 
