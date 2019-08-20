@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -37,8 +37,10 @@
     These are used for various 2D transformation tasks, e.g. with Path objects.
 
     @see Path, Point, Line
+
+    @tags{Graphics}
 */
-class JUCE_API  AffineTransform
+class JUCE_API  AffineTransform  final
 {
 public:
     //==============================================================================
@@ -68,20 +70,12 @@ public:
     /** Compares two transforms. */
     bool operator!= (const AffineTransform& other) const noexcept;
 
-   #if JUCE_ALLOW_STATIC_NULL_VARIABLES
-    /** A ready-to-use identity transform.
-        Note that you should always avoid using a static variable like this, and
-        prefer AffineTransform() or {} if you need a default-constructed instance.
-    */
-    static const AffineTransform identity;
-   #endif
-
     //==============================================================================
     /** Transforms a 2D coordinate using this matrix. */
     template <typename ValueType>
     void transformPoint (ValueType& x, ValueType& y) const noexcept
     {
-        const ValueType oldX = x;
+        auto oldX = x;
         x = static_cast<ValueType> (mat00 * oldX + mat01 * y + mat02);
         y = static_cast<ValueType> (mat10 * oldX + mat11 * y + mat12);
     }
@@ -95,7 +89,7 @@ public:
     void transformPoints (ValueType& x1, ValueType& y1,
                           ValueType& x2, ValueType& y2) const noexcept
     {
-        const ValueType oldX1 = x1, oldX2 = x2;
+        auto oldX1 = x1, oldX2 = x2;
         x1 = static_cast<ValueType> (mat00 * oldX1 + mat01 * y1 + mat02);
         y1 = static_cast<ValueType> (mat10 * oldX1 + mat11 * y1 + mat12);
         x2 = static_cast<ValueType> (mat00 * oldX2 + mat01 * y2 + mat02);
@@ -112,7 +106,7 @@ public:
                           ValueType& x2, ValueType& y2,
                           ValueType& x3, ValueType& y3) const noexcept
     {
-        const ValueType oldX1 = x1, oldX2 = x2, oldX3 = x3;
+        auto oldX1 = x1, oldX2 = x2, oldX3 = x3;
         x1 = static_cast<ValueType> (mat00 * oldX1 + mat01 * y1 + mat02);
         y1 = static_cast<ValueType> (mat10 * oldX1 + mat11 * y1 + mat12);
         x2 = static_cast<ValueType> (mat00 * oldX2 + mat01 * y2 + mat02);
@@ -235,6 +229,17 @@ public:
                                              float sourceX2, float sourceY2, float targetX2, float targetY2,
                                              float sourceX3, float sourceY3, float targetX3, float targetY3) noexcept;
 
+    /** Returns the transform that will map three specified points onto three target points. */
+    template <typename PointType>
+    static AffineTransform fromTargetPoints (PointType source1, PointType target1,
+                                             PointType source2, PointType target2,
+                                             PointType source3, PointType target3) noexcept
+    {
+        return fromTargetPoints (source1.x, source1.y, target1.x, target1.y,
+                                 source2.x, source2.y, target2.x, target2.y,
+                                 source3.x, source3.y, target3.x, target3.y);
+    }
+
     //==============================================================================
     /** Returns the result of concatenating another transformation after this one. */
     AffineTransform followedBy (const AffineTransform& other) const noexcept;
@@ -265,6 +270,11 @@ public:
     */
     float getScaleFactor() const noexcept;
 
+    /* A ready-to-use identity transform - now depracated.
+       @deprecated If you need an identity transform, just use AffineTransform() or {}.
+    */
+    JUCE_DEPRECATED_STATIC (static const AffineTransform identity;)
+
     //==============================================================================
     /* The transform matrix is:
 
@@ -275,3 +285,5 @@ public:
     float mat00, mat01, mat02;
     float mat10, mat11, mat12;
 };
+
+} // namespace juce

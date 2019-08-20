@@ -29,8 +29,6 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
-#include "AppConfig.h"
-
 #define JUCE_CORE_INCLUDE_OBJC_HELPERS 1
 #define JUCE_CORE_INCLUDE_COM_SMART_PTR 1
 #define JUCE_CORE_INCLUDE_JNI_HELPERS 1
@@ -127,7 +125,7 @@
 
      The package you need to install to get ASLA support is "libasound2-dev".
 
-     If you don't have the ALSA library and don't want to build Juce with audio support,
+     If you don't have the ALSA library and don't want to build JUCE with audio support,
      just set the JUCE_ALSA flag to 0.
   */
   #include <alsa/asoundlib.h>
@@ -140,10 +138,19 @@
      The package you need to install to get JACK support is "libjack-dev".
 
      If you don't have the jack-audio-connection-kit library and don't want to build
-     Juce with low latency audio support, just set the JUCE_JACK flag to 0.
+     JUCE with low latency audio support, just set the JUCE_JACK flag to 0.
   */
   #include <jack/jack.h>
  #endif
+
+ #if JUCE_BELA
+  /* Got an include error here? If so, you've either not got the bela headers
+     installed, or you've not got your paths set up correctly to find its header
+     files.
+  */
+  #include <Bela.h>
+ #endif
+
  #undef SIZEOF
 
 //==============================================================================
@@ -155,10 +162,11 @@
   #include <SLES/OpenSLES_AndroidConfiguration.h>
  #endif
 
-#endif
+ #if JUCE_USE_ANDROID_OBOE
+  #include <oboe/Oboe.h>
+ #endif
 
-namespace juce
-{
+#endif
 
 #include "audio_io/juce_AudioDeviceManager.cpp"
 #include "audio_io/juce_AudioIODevice.cpp"
@@ -208,6 +216,10 @@ namespace juce
   #include "native/juce_linux_JackAudio.cpp"
  #endif
 
+ #if JUCE_BELA
+  #include "native/juce_linux_Bela.cpp"
+ #endif
+
 //==============================================================================
 #elif JUCE_ANDROID
  #include "native/juce_android_Audio.cpp"
@@ -217,13 +229,18 @@ namespace juce
   #include "native/juce_android_OpenSL.cpp"
  #endif
 
+ #if JUCE_USE_ANDROID_OBOE
+  #include "native/juce_android_Oboe.cpp"
+ #endif
 #endif
 
 #if ! JUCE_SYSTEMAUDIOVOL_IMPLEMENTED
- // None of these methods are available. (On Windows you might need to enable WASAPI for this)
- float JUCE_CALLTYPE SystemAudioVolume::getGain()         { jassertfalse; return 0.0f; }
- bool  JUCE_CALLTYPE SystemAudioVolume::setGain (float)   { jassertfalse; return false; }
- bool  JUCE_CALLTYPE SystemAudioVolume::isMuted()         { jassertfalse; return false; }
- bool  JUCE_CALLTYPE SystemAudioVolume::setMuted (bool)   { jassertfalse; return false; }
-#endif
+namespace juce
+{
+    // None of these methods are available. (On Windows you might need to enable WASAPI for this)
+    float JUCE_CALLTYPE SystemAudioVolume::getGain()         { jassertfalse; return 0.0f; }
+    bool  JUCE_CALLTYPE SystemAudioVolume::setGain (float)   { jassertfalse; return false; }
+    bool  JUCE_CALLTYPE SystemAudioVolume::isMuted()         { jassertfalse; return false; }
+    bool  JUCE_CALLTYPE SystemAudioVolume::setMuted (bool)   { jassertfalse; return false; }
 }
+#endif

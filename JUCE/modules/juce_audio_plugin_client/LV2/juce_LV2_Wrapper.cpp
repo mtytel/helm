@@ -93,6 +93,8 @@
  #define PLUGIN_EXT ".dll"
 #endif
 
+using namespace juce;
+
 /** Returns plugin type, defined in AppConfig.h or JucePluginCharacteristics.h */
 const String getPluginType()
 {

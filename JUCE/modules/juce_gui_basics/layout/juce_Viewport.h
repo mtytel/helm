@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -39,6 +39,8 @@
     A subclass of the viewport can be created which will receive calls to its
     visibleAreaChanged() method when the subcomponent changes position or size.
 
+
+    @tags{GUI}
 */
 class JUCE_API  Viewport  : public Component,
                             private ComponentListener,
@@ -202,6 +204,25 @@ public:
                              bool allowVerticalScrollingWithoutScrollbar = false,
                              bool allowHorizontalScrollingWithoutScrollbar = false);
 
+    /** Changes where the scroll bars are positioned
+
+        If verticalScrollbarOnRight is set to true, then the vertical scrollbar will
+        appear on the right side of the view port's content (this is the default),
+        otherwise it will be on the left side of the content.
+
+        If horizontalScrollbarAtBottom is set to true, then the horizontal scrollbar
+        will appear at the bottom of the view port's content (this is the default),
+        otherwise it will be at the top.
+    */
+    void setScrollBarPosition (bool verticalScrollbarOnRight,
+                               bool horizontalScrollbarAtBottom);
+
+    /** True if the vertical scrollbar will appear on the right side of the content */
+    bool isVerticalScrollbarOnTheRight() const noexcept         { return vScrollbarRight; }
+
+    /** True if the horizontal scrollbar will appear at the bottom of the content */
+    bool isHorizontalScrollbarAtBottom() const noexcept         { return hScrollbarBottom; }
+
     /** True if the vertical scrollbar is enabled.
         @see setScrollBarsShown
     */
@@ -231,12 +252,15 @@ public:
     /** Returns a pointer to the scrollbar component being used.
         Handy if you need to customise the bar somehow.
     */
-    ScrollBar* getVerticalScrollBar() noexcept                  { return &verticalScrollBar; }
+    ScrollBar& getVerticalScrollBar() noexcept                  { return *verticalScrollBar; }
 
     /** Returns a pointer to the scrollbar component being used.
         Handy if you need to customise the bar somehow.
     */
-    ScrollBar* getHorizontalScrollBar() noexcept                { return &horizontalScrollBar; }
+    ScrollBar& getHorizontalScrollBar() noexcept                { return *horizontalScrollBar; }
+
+    /** Re-instantiates the scrollbars, which is only really useful if you've overridden createScrollBarComponent(). */
+    void recreateScrollbars();
 
     /** True if there's any off-screen content that could be scrolled vertically,
         or false if everything is currently visible.
@@ -277,9 +301,16 @@ public:
     /** @internal */
     static bool respondsToKey (const KeyPress&);
 
+protected:
+    //==============================================================================
+    /** Creates the Scrollbar components that will be added to the Viewport.
+        Subclasses can override this if they need to customise the scrollbars in some way.
+    */
+    virtual ScrollBar* createScrollBarComponent (bool isVertical);
+
 private:
     //==============================================================================
-    ScrollBar verticalScrollBar { true }, horizontalScrollBar { false };
+    std::unique_ptr<ScrollBar> verticalScrollBar, horizontalScrollBar;
     Component contentHolder;
     WeakReference<Component> contentComp;
     Rectangle<int> lastVisibleArea;
@@ -288,11 +319,12 @@ private:
     bool showHScrollbar = true, showVScrollbar = true, deleteContent = true;
     bool customScrollBarThickness = false;
     bool allowScrollingWithoutScrollbarV = false, allowScrollingWithoutScrollbarH = false;
+    bool vScrollbarRight = true, hScrollbarBottom = true;
 
     struct DragToScrollListener;
     friend struct DragToScrollListener;
     friend struct ContainerDeletePolicy<DragToScrollListener>;
-    ScopedPointer<DragToScrollListener> dragToScrollListener;
+    std::unique_ptr<DragToScrollListener> dragToScrollListener;
 
     Point<int> viewportPosToCompPos (Point<int>) const;
 
@@ -306,3 +338,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Viewport)
 };
+
+} // namespace juce

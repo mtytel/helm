@@ -22,7 +22,7 @@
 #include "wave.h"
 #include "helm_common.h"
 
-class WaveViewer : public Component, public Timer, public SliderListener {
+class WaveViewer : public Component, public Timer, public Slider::Listener {
   public:
     WaveViewer(int resolution);
     ~WaveViewer();

@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -37,6 +37,8 @@
     it'll produce silence.
 
     @see AudioSource
+
+    @tags{Audio}
 */
 class ChannelRemappingAudioSource  : public AudioSource
 {
@@ -129,9 +131,11 @@ private:
     Array<int> remappedInputs, remappedOutputs;
     int requiredNumberOfChannels;
 
-    AudioSampleBuffer buffer;
+    AudioBuffer<float> buffer;
     AudioSourceChannelInfo remappedInfo;
     CriticalSection lock;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChannelRemappingAudioSource)
 };
+
+} // namespace juce

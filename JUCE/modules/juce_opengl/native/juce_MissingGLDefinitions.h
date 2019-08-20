@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 /** These are important openGL values that aren't defined by default
     by the GL headers on various platforms.
 */
@@ -89,6 +92,10 @@ enum MissingOpenGLDefinitions
     GL_MULTISAMPLE                  = 0x809D,
    #endif
 
+   #ifndef GL_MAX_ELEMENTS_INDICES
+    GL_MAX_ELEMENTS_INDICES         = 0x80E9,
+   #endif
+
    #if JUCE_WINDOWS && ! defined (GL_TEXTURE0)
     GL_OPERAND0_RGB                 = 0x8590,
     GL_OPERAND1_RGB                 = 0x8591,
@@ -115,6 +122,8 @@ enum MissingOpenGLDefinitions
     GL_STATIC_DRAW                  = 0x88E4,
     GL_DYNAMIC_DRAW                 = 0x88E8,
     GL_STREAM_DRAW                  = 0x88E0,
+    GL_GEOMETRY_SHADER              = 0x8DD9,
+    GL_LINE_STRIP_ADJACENCY         = 0x000B,
 
     WGL_NUMBER_PIXEL_FORMATS_ARB    = 0x2000,
     WGL_DRAW_TO_WINDOW_ARB          = 0x2001,
@@ -156,3 +165,5 @@ enum MissingOpenGLDefinitions
  typedef pointer_sized_int GLsizeiptr;
  typedef pointer_sized_int GLintptr;
 #endif
+
+} // namespace juce

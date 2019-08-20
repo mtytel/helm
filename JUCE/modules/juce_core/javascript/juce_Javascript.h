@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -41,8 +41,10 @@
     and var objects, they use reference-counting rather than garbage-collection, so if your
     script creates complex connections between objects, you run the risk of creating cyclic
     dependencies and hence leaking.
+
+    @tags{Core}
 */
-class JUCE_API  JavascriptEngine
+class JUCE_API  JavascriptEngine  final
 {
 public:
     /** Creates an instance of the engine.
@@ -116,3 +118,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (JavascriptEngine)
 };
+
+} // namespace juce

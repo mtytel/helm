@@ -25,9 +25,9 @@ class MidiKeyboard : public MidiKeyboardComponent {
     MidiKeyboard(MidiKeyboardState& state, Orientation orientation);
 
     virtual void drawBlackNote(int midiNoteNumber, Graphics& g,
-                               int x, int y, int w, int h,
+                               Rectangle<float> area,
                                bool isDown, bool isOver,
-                               const Colour& noteFillColour) override;
+                               Colour noteFillColour) override;
 
   private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MidiKeyboard)

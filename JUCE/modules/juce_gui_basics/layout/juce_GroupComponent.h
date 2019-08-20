@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A component that draws an outline around itself and has an optional title at
     the top, for drawing an outline around a group of controls.
 
+
+    @tags{GUI}
 */
 class JUCE_API  GroupComponent    : public Component
 {
@@ -107,3 +109,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (GroupComponent)
 };
+
+} // namespace juce

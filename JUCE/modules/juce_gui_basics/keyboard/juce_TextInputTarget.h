@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,6 +35,8 @@
     This class allows different types of text editor component to provide a uniform
     interface, which can be used by things like OS-specific input methods, on-screen
     keyboards, etc.
+
+    @tags{GUI}
 */
 class JUCE_API  TextInputTarget
 {
@@ -62,7 +64,7 @@ public:
     /** Sets a number of temporarily underlined sections.
         This is needed by MS Windows input method UI.
     */
-    virtual void setTemporaryUnderlining (const Array <Range<int> >& underlinedRegions) = 0;
+    virtual void setTemporaryUnderlining (const Array<Range<int>>& underlinedRegions) = 0;
 
     /** Returns a specified sub-section of the text. */
     virtual String getTextInRange (const Range<int>& range) const = 0;
@@ -91,3 +93,5 @@ public:
     */
     virtual VirtualKeyboardType getKeyboardType()       { return textKeyboard; }
 };
+
+} // namespace juce

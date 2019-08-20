@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Components derived from this class can have text dropped onto them by an external application.
 
     @see DragAndDropContainer
+
+    @tags{GUI}
 */
 class JUCE_API  TextDragAndDropTarget
 {
@@ -101,3 +103,5 @@ public:
     */
     virtual void textDropped (const String& text, int x, int y) = 0;
 };
+
+} // namespace juce

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -46,6 +46,8 @@
     Component::createFocusTraverser() to create it.
 
     @see Component::setExplicitFocusOrder, Component::createFocusTraverser
+
+    @tags{GUI}
 */
 class JUCE_API  KeyboardFocusTraverser
 {
@@ -85,3 +87,5 @@ public:
     */
     virtual Component* getDefaultComponent (Component* parentComponent);
 };
+
+} // namespace juce

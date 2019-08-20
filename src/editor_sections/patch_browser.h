@@ -28,7 +28,7 @@ class PatchBrowser : public Overlay,
                      public FileListBoxModel::Listener,
                      public TextEditor::Listener,
                      public KeyListener,
-                     public ButtonListener,
+                     public Button::Listener,
                      public SaveSection::Listener,
                      public DeleteSection::Listener {
   public:

@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace CDReaderHelpers
 {
 
@@ -289,7 +292,7 @@ public:
     BYTE readType;
 
 private:
-    ScopedPointer<CDController> controller;
+    std::unique_ptr<CDController> controller;
 
     bool testController (int readType, CDController* newController, CDReadBuffer& bufferToUse);
 };
@@ -890,7 +893,7 @@ void CDDeviceHandle::openDrawer (bool shouldBeOpen)
 
 bool CDDeviceHandle::testController (const int type, CDController* const newController, CDReadBuffer& rb)
 {
-    controller = newController;
+    controller.reset (newController);
     readType = (BYTE) type;
 
     controller->deviceInfo = this;
@@ -995,7 +998,7 @@ AudioCDReader* AudioCDReader::createReaderForCD (const int deviceIndex)
 
         if (h != INVALID_HANDLE_VALUE)
         {
-            ScopedPointer<AudioCDReader> cd (new AudioCDReader (new CDDeviceWrapper (list [deviceIndex], h)));
+            std::unique_ptr<AudioCDReader> cd (new AudioCDReader (new CDDeviceWrapper (list [deviceIndex], h)));
 
             if (cd->lengthInSamples > 0)
                 return cd.release();
@@ -1176,7 +1179,7 @@ int AudioCDReader::getLastIndex() const
 int AudioCDReader::getIndexAt (int samplePos)
 {
     using namespace CDReaderHelpers;
-    CDDeviceWrapper* const device = static_cast<CDDeviceWrapper*> (handle);
+    auto* device = static_cast<CDDeviceWrapper*> (handle);
 
     const int frameNeeded = samplePos / samplesPerFrame;
 
@@ -1210,7 +1213,7 @@ int AudioCDReader::getIndexAt (int samplePos)
 Array<int> AudioCDReader::findIndexesInTrack (const int trackNumber)
 {
     using namespace CDReaderHelpers;
-    Array <int> indexes;
+    Array<int> indexes;
 
     const int trackStart = getPositionOfTrackStart (trackNumber);
     const int trackEnd = getPositionOfTrackStart (trackNumber + 1);
@@ -1257,7 +1260,7 @@ Array<int> AudioCDReader::findIndexesInTrack (const int trackNumber)
 
     if (needToScan)
     {
-        CDDeviceWrapper* const device = static_cast<CDDeviceWrapper*> (handle);
+        auto* device = static_cast<CDDeviceWrapper*> (handle);
 
         int pos = trackStart;
         int last = -1;
@@ -1309,3 +1312,5 @@ void AudioCDReader::ejectDisk()
     using namespace CDReaderHelpers;
     static_cast<CDDeviceWrapper*> (handle)->deviceHandle.openDrawer (true);
 }
+
+} // namespace juce

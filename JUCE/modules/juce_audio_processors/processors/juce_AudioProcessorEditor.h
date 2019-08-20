@@ -24,9 +24,12 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
+class AudioProcessor;
 class AudioProcessorEditorListener;
+
 //==============================================================================
 /**
     Base class for the component that acts as the GUI for an AudioProcessor.
@@ -35,6 +38,8 @@ class AudioProcessorEditorListener;
     by overriding the AudioProcessor::createEditor() method.
 
     @see AudioProcessor, GenericAudioProcessorEditor
+
+    @tags{Audio}
 */
 class JUCE_API  AudioProcessorEditor  : public Component
 {
@@ -84,6 +89,28 @@ public:
         Currently only AAX plugins will call this, and implementing it is optional.
     */
     virtual int getControlParameterIndex (Component&);
+
+    /** Override this method to indicate if your editor supports the presence or
+        absence of a host-provided MIDI controller.
+
+        Currently only AUv3 plug-ins compiled for MacOS 10.13 or iOS 11.0 (or later)
+        support this functionality, and even then the host may choose to ignore this
+        information.
+
+        The default behaviour is to report support for both cases.
+    */
+    virtual bool supportsHostMIDIControllerPresence (bool hostMIDIControllerIsAvailable);
+
+    /** Called to indicate if a host is providing a MIDI controller when the host
+        reconfigures its layout.
+
+        Use this as an opportunity to hide or display your own onscreen keyboard or
+        other input component.
+
+        Currently only AUv3 plug-ins compiled for MacOS 10.13 or iOS 11.0 (or later)
+        support this functionality.
+    */
+    virtual void hostMIDIControllerIsAvailable (bool controllerIsAvailable);
 
     /** Can be called by a host to tell the editor that it should use a non-unity
         GUI scale.
@@ -150,7 +177,7 @@ public:
      */
     void setBoundsConstrained (Rectangle<int> newBounds);
 
-    ScopedPointer<ResizableCornerComponent> resizableCorner;
+    std::unique_ptr<ResizableCornerComponent> resizableCorner;
 
 private:
     //==============================================================================
@@ -162,6 +189,8 @@ private:
         void componentParentHierarchyChanged (Component&) override                  { ed.updatePeer(); }
 
         AudioProcessorEditor& ed;
+
+        JUCE_DECLARE_NON_COPYABLE (AudioProcessorEditorListener)
     };
 
     //==============================================================================
@@ -171,7 +200,7 @@ private:
     void attachConstrainer (ComponentBoundsConstrainer*);
 
     //==============================================================================
-    ScopedPointer<AudioProcessorEditorListener> resizeListener;
+    std::unique_ptr<AudioProcessorEditorListener> resizeListener;
     bool resizable;
     ComponentBoundsConstrainer defaultConstrainer;
     ComponentBoundsConstrainer* constrainer = {};
@@ -179,3 +208,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (AudioProcessorEditor)
 };
+
+} // namespace juce

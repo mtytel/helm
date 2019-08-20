@@ -24,52 +24,46 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace KeyboardFocusHelpers
 {
-    // This will sort a set of components, so that they are ordered in terms of
-    // left-to-right and then top-to-bottom.
-    struct ScreenPositionComparator
+    static int getOrder (const Component* c)
     {
-        static int compareElements (const Component* const first, const Component* const second)
-        {
-            const int explicitOrder1 = getOrder (first);
-            const int explicitOrder2 = getOrder (second);
+        auto order = c->getExplicitFocusOrder();
+        return order > 0 ? order : (std::numeric_limits<int>::max() / 2);
+    }
 
-            if (explicitOrder1 != explicitOrder2)
-                return explicitOrder1 - explicitOrder2;
-
-            const int yDiff = first->getY() - second->getY();
-
-            return yDiff == 0 ? first->getX() - second->getX()
-                              : yDiff;
-        }
-
-        static int getOrder (const Component* const c)
-        {
-            const int order = c->getExplicitFocusOrder();
-            return order > 0 ? order : (std::numeric_limits<int>::max() / 2);
-        }
-    };
-
-    static void findAllFocusableComponents (Component* const parent, Array <Component*>& comps)
+    static void findAllFocusableComponents (Component* parent, Array<Component*>& comps)
     {
-        if (parent->getNumChildComponents() > 0)
+        if (parent->getNumChildComponents() != 0)
         {
-            Array <Component*> localComps;
-            ScreenPositionComparator comparator;
+            Array<Component*> localComps;
 
-            for (int i = parent->getNumChildComponents(); --i >= 0;)
-            {
-                Component* const c = parent->getChildComponent (i);
-
+            for (auto* c : parent->getChildren())
                 if (c->isVisible() && c->isEnabled())
-                    localComps.addSorted (comparator, c);
-            }
+                    localComps.add (c);
 
-            for (int i = 0; i < localComps.size(); ++i)
+            // This will sort so that they are ordered in terms of left-to-right
+            // and then top-to-bottom.
+            std::stable_sort (localComps.begin(), localComps.end(),
+                              [] (const Component* a, const Component* b)
             {
-                Component* const c = localComps.getUnchecked (i);
+                auto explicitOrder1 = getOrder (a);
+                auto explicitOrder2 = getOrder (b);
 
+                if (explicitOrder1 != explicitOrder2)
+                    return explicitOrder1 < explicitOrder2;
+
+                if (a->getY() != b->getY())
+                    return a->getY() < b->getY();
+
+                return a->getX() < b->getX();
+            });
+
+            for (auto* c : localComps)
+            {
                 if (c->getWantsKeyboardFocus())
                     comps.add (c);
 
@@ -90,18 +84,16 @@ namespace KeyboardFocusHelpers
         return c;
     }
 
-    static Component* getIncrementedComponent (Component* const current, const int delta)
+    static Component* getIncrementedComponent (Component* current, int delta)
     {
-        Component* focusContainer = findFocusContainer (current);
-
-        if (focusContainer != nullptr)
+        if (auto* focusContainer = findFocusContainer (current))
         {
-            Array <Component*> comps;
+            Array<Component*> comps;
             KeyboardFocusHelpers::findAllFocusableComponents (focusContainer, comps);
 
-            if (comps.size() > 0)
+            if (! comps.isEmpty())
             {
-                const int index = comps.indexOf (current);
+                auto index = comps.indexOf (current);
                 return comps [(index + comps.size() + delta) % comps.size()];
             }
         }
@@ -128,10 +120,12 @@ Component* KeyboardFocusTraverser::getPreviousComponent (Component* current)
 
 Component* KeyboardFocusTraverser::getDefaultComponent (Component* parentComponent)
 {
-    Array <Component*> comps;
+    Array<Component*> comps;
 
     if (parentComponent != nullptr)
         KeyboardFocusHelpers::findAllFocusableComponents (parentComponent, comps);
 
     return comps.getFirst();
 }
+
+} // namespace juce

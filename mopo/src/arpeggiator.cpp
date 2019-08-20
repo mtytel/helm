@@ -39,7 +39,7 @@ namespace mopo {
   void Arpeggiator::process() {
     if (input(kOn)->at(0) == 0.0)
       return;
-    
+
     mopo_float frequency = input(kFrequency)->at(0);
     mopo_float min_gate = (MIN_VOICE_TIME + VOICE_KILL_TIME) * frequency;
     mopo_float gate = utils::interpolate(min_gate, 1.0, input(kGate)->at(0));
@@ -184,7 +184,7 @@ namespace mopo {
       removeNoteFromPatterns(note);
     }
 
-    pressed_notes_.remove(note);
+    pressed_notes_.removeAll(note);
     return kVoiceOff;
   }
 } // namespace mopo

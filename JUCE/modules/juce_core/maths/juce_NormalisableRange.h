@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,46 +32,41 @@
     and skew-factor.
 
     @see Range
+
+    @tags{Core}
 */
 template <typename ValueType>
 class NormalisableRange
 {
 public:
     /** Creates a continuous range that performs a dummy mapping. */
-    NormalisableRange() noexcept
-        : start(), end (1), interval(),
-          skew (static_cast<ValueType> (1)), symmetricSkew (false)
-    {}
+    NormalisableRange() noexcept {}
 
-    /** Creates a copy of another range. */
-    NormalisableRange (const NormalisableRange& other) noexcept
+    NormalisableRange (const NormalisableRange&) = default;
+    NormalisableRange& operator= (const NormalisableRange&) = default;
+
+    // VS2013 can't default move constructors
+    NormalisableRange (NormalisableRange&& other)
         : start (other.start), end (other.end),
           interval (other.interval), skew (other.skew),
-          symmetricSkew (other.symmetricSkew)
-         #if JUCE_COMPILER_SUPPORTS_LAMBDAS
-          , convertFrom0To1Function (other.convertFrom0To1Function)
-          , convertTo0To1Function (other.convertTo0To1Function)
-          , snapToLegalValueFunction (other.snapToLegalValueFunction)
-         #endif
+          symmetricSkew (other.symmetricSkew),
+          convertFrom0To1Function  (static_cast<ConverstionFunction&&> (other.convertFrom0To1Function)),
+          convertTo0To1Function    (static_cast<ConverstionFunction&&> (other.convertTo0To1Function)),
+          snapToLegalValueFunction (static_cast<ConverstionFunction&&> (other.snapToLegalValueFunction))
     {
-        checkInvariants();
     }
 
-    /** Creates a copy of another range. */
-    NormalisableRange& operator= (const NormalisableRange& other) noexcept
+    // VS2013 can't default move assignments
+    NormalisableRange& operator= (NormalisableRange&& other)
     {
         start = other.start;
         end = other.end;
         interval = other.interval;
         skew = other.skew;
         symmetricSkew = other.symmetricSkew;
-       #if JUCE_COMPILER_SUPPORTS_LAMBDAS
-        convertFrom0To1Function = other.convertFrom0To1Function;
-        convertTo0To1Function = other.convertTo0To1Function;
-        snapToLegalValueFunction = other.snapToLegalValueFunction;
-       #endif
-
-        checkInvariants();
+        convertFrom0To1Function  = static_cast<ConverstionFunction&&> (other.convertFrom0To1Function);
+        convertTo0To1Function    = static_cast<ConverstionFunction&&> (other.convertTo0To1Function);
+        snapToLegalValueFunction = static_cast<ConverstionFunction&&> (other.snapToLegalValueFunction);
 
         return *this;
     }
@@ -88,23 +83,33 @@ public:
         checkInvariants();
     }
 
+    /** Creates a NormalisableRange with a given range, continuous interval, but a dummy skew-factor. */
+    NormalisableRange (ValueType rangeStart,
+                       ValueType rangeEnd) noexcept
+        : start (rangeStart), end (rangeEnd)
+    {
+        checkInvariants();
+    }
+
     /** Creates a NormalisableRange with a given range and interval, but a dummy skew-factor. */
     NormalisableRange (ValueType rangeStart,
                        ValueType rangeEnd,
                        ValueType intervalValue) noexcept
-        : start (rangeStart), end (rangeEnd), interval (intervalValue),
-          skew (static_cast<ValueType> (1)), symmetricSkew (false)
+        : start (rangeStart), end (rangeEnd), interval (intervalValue)
     {
         checkInvariants();
     }
 
     /** Creates a NormalisableRange with a given range, continuous interval, but a dummy skew-factor. */
-    NormalisableRange (ValueType rangeStart,
-                       ValueType rangeEnd) noexcept
-        : start (rangeStart), end (rangeEnd), interval(),
-          skew (static_cast<ValueType> (1)), symmetricSkew (false)
+    NormalisableRange (Range<ValueType> range) noexcept
+        : NormalisableRange (range.getStart(), range.getEnd())
     {
-        checkInvariants();
+    }
+
+    /** Creates a NormalisableRange with a given range and interval, but a dummy skew-factor. */
+    NormalisableRange (Range<ValueType> range, ValueType intervalValue) noexcept
+        : NormalisableRange (range.getStart(), range.getEnd(), intervalValue)
+    {
     }
 
     /** Creates a NormalisableRange with a given range and an injective mapping function.
@@ -125,9 +130,6 @@ public:
                        std::function<ValueType (ValueType currentRangeStart, ValueType currentRangeEnd, ValueType valueToSnap)> snapToLegalValueFunc = nullptr) noexcept
         : start (rangeStart),
           end   (rangeEnd),
-          interval(),
-          skew (static_cast<ValueType> (1)),
-          symmetricSkew (false),
           convertFrom0To1Function  (convertFrom0To1Func),
           convertTo0To1Function    (convertTo0To1Func),
           snapToLegalValueFunction (snapToLegalValueFunc)
@@ -141,9 +143,9 @@ public:
     ValueType convertTo0to1 (ValueType v) const noexcept
     {
         if (convertTo0To1Function != nullptr)
-            return convertTo0To1Function (start, end, v);
+            return clampTo0To1 (convertTo0To1Function (start, end, v));
 
-        ValueType proportion = (v - start) / (end - start);
+        auto proportion = clampTo0To1 ((v - start) / (end - start));
 
         if (skew == static_cast<ValueType> (1))
             return proportion;
@@ -151,11 +153,11 @@ public:
         if (! symmetricSkew)
             return std::pow (proportion, skew);
 
-        ValueType distanceFromMiddle = static_cast<ValueType> (2) * proportion - static_cast<ValueType> (1);
+        auto distanceFromMiddle = static_cast<ValueType> (2) * proportion - static_cast<ValueType> (1);
 
         return (static_cast<ValueType> (1) + std::pow (std::abs (distanceFromMiddle), skew)
-                                           * (distanceFromMiddle < static_cast<ValueType> (0) ? static_cast<ValueType> (-1)
-                                                                                              : static_cast<ValueType> (1)))
+                                           * (distanceFromMiddle < ValueType() ? static_cast<ValueType> (-1)
+                                                                               : static_cast<ValueType> (1)))
                / static_cast<ValueType> (2);
     }
 
@@ -164,6 +166,8 @@ public:
     */
     ValueType convertFrom0to1 (ValueType proportion) const noexcept
     {
+        proportion = clampTo0To1 (proportion);
+
         if (convertFrom0To1Function != nullptr)
             return convertFrom0To1Function (start, end, proportion);
 
@@ -175,12 +179,12 @@ public:
             return start + (end - start) * proportion;
         }
 
-        ValueType distanceFromMiddle = static_cast<ValueType> (2) * proportion - static_cast<ValueType> (1);
+        auto distanceFromMiddle = static_cast<ValueType> (2) * proportion - static_cast<ValueType> (1);
 
         if (skew != static_cast<ValueType> (1) && distanceFromMiddle != static_cast<ValueType> (0))
             distanceFromMiddle = std::exp (std::log (std::abs (distanceFromMiddle)) / skew)
-                                 * (distanceFromMiddle < static_cast<ValueType> (0) ? static_cast<ValueType> (-1)
-                                                                                    : static_cast<ValueType> (1));
+                                 * (distanceFromMiddle < ValueType() ? static_cast<ValueType> (-1)
+                                                                     : static_cast<ValueType> (1));
 
         return start + (end - start) / static_cast<ValueType> (2) * (static_cast<ValueType> (1) + distanceFromMiddle);
     }
@@ -196,17 +200,11 @@ public:
         if (interval > ValueType())
             v = start + interval * std::floor ((v - start) / interval + static_cast<ValueType> (0.5));
 
-        if (v <= start || end <= start)
-            return start;
-
-        if (v >= end)
-            return end;
-
-        return v;
+        return (v <= start || end <= start) ? start : (v >= end ? end : v);
     }
 
     /** Returns the extent of the normalisable range. */
-    Range<ValueType> getRange() const noexcept          { return Range<ValueType> (start, end); }
+    Range<ValueType> getRange() const noexcept          { return { start, end }; }
 
     /** Given a value which is between the start and end points, this sets the skew
         such that convertFrom0to1 (0.5) will return this value.
@@ -222,16 +220,15 @@ public:
         jassert (centrePointValue < end);
 
         symmetricSkew = false;
-        skew = std::log (static_cast<ValueType> (0.5))
-                / std::log ((centrePointValue - start) / (end - start));
+        skew = std::log (static_cast<ValueType> (0.5)) / std::log ((centrePointValue - start) / (end - start));
         checkInvariants();
     }
 
     /** The minimum value of the non-normalised range. */
-    ValueType start;
+    ValueType start = 0;
 
     /** The maximum value of the non-normalised range. */
-    ValueType end;
+    ValueType end = 1;
 
     /** The snapping interval that should be used (for a non-normalised value). Use 0 for a
         continuous range.
@@ -239,7 +236,7 @@ public:
         If you have used a lambda function for snapToLegalValueFunction in the constructor of
         this class then the interval is ignored.
     */
-    ValueType interval;
+    ValueType interval = 0;
 
     /** An optional skew factor that alters the way values are distribute across the range.
 
@@ -253,10 +250,10 @@ public:
         If you have used lambda functions for convertFrom0to1Func and convertFrom0to1Func in the
         constructor of this class then the skew value is ignored.
     */
-    ValueType skew;
+    ValueType skew = 1;
 
     /** If true, the skew factor applies from the middle of the slider to each of its ends. */
-    bool symmetricSkew;
+    bool symmetricSkew = false;
 
 private:
     void checkInvariants() const
@@ -266,7 +263,22 @@ private:
         jassert (skew > ValueType());
     }
 
-    std::function<ValueType (ValueType, ValueType, ValueType)> convertFrom0To1Function  = nullptr,
-                                                               convertTo0To1Function    = nullptr,
-                                                               snapToLegalValueFunction = nullptr;
+    static ValueType clampTo0To1 (ValueType value)
+    {
+        auto clampedValue = jlimit (static_cast<ValueType> (0), static_cast<ValueType> (1), value);
+
+        // If you hit this assertion then either your normalisation function is not working
+        // correctly or your input is out of the expected bounds.
+        jassert (clampedValue == value);
+
+        return clampedValue;
+    }
+
+    using ConverstionFunction = std::function<ValueType(ValueType, ValueType, ValueType)>;
+
+    ConverstionFunction convertFrom0To1Function  = {},
+                        convertTo0To1Function    = {},
+                        snapToLegalValueFunction = {};
 };
+
+} // namespace juce

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,10 +35,11 @@
 
     This class is also a ChangeBroadcaster, so listeners can register to be told
     when the colour changes.
+
+    @tags{GUI}
 */
 class JUCE_API  ColourSelector  : public Component,
-                                  public ChangeBroadcaster,
-                                  protected SliderListener
+                                  public ChangeBroadcaster
 {
 public:
     //==============================================================================
@@ -80,7 +81,12 @@ public:
     */
     Colour getCurrentColour() const;
 
-    /** Changes the colour that is currently being shown. */
+    /** Changes the colour that is currently being shown.
+
+        @param newColour           the new colour to show
+        @param notificationType    whether to send a notification of the change to listeners.
+                                   A notification will only be sent if the colour has changed.
+    */
     void setCurrentColour (Colour newColour, NotificationType notificationType = sendNotification);
 
     //==============================================================================
@@ -143,9 +149,9 @@ private:
 
     Colour colour;
     float h, s, v;
-    ScopedPointer<Slider> sliders[4];
-    ScopedPointer<ColourSpaceView> colourSpace;
-    ScopedPointer<HueSelectorComp> hueSelector;
+    std::unique_ptr<Slider> sliders[4];
+    std::unique_ptr<ColourSpaceView> colourSpace;
+    std::unique_ptr<HueSelectorComp> hueSelector;
     OwnedArray<SwatchComponent> swatchComponents;
     const int flags;
     int edgeGap;
@@ -155,7 +161,7 @@ private:
     void setSV (float newS, float newV);
     void updateHSV();
     void update (NotificationType);
-    void sliderValueChanged (Slider*) override;
+    void changeColour();
     void paint (Graphics&) override;
     void resized() override;
 
@@ -167,3 +173,5 @@ private:
     ColourSelector (bool);
    #endif
 };
+
+} // namespace juce

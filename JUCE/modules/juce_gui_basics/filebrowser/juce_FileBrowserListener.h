@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A listener for user selection events in a file browser.
 
     This is used by a FileBrowserComponent or FileListComponent.
+
+    @tags{GUI}
 */
 class JUCE_API  FileBrowserListener
 {
@@ -53,3 +55,5 @@ public:
     /** Callback when the browser's root folder changes. */
     virtual void browserRootChanged (const File& newRoot) = 0;
 };
+
+} // namespace juce

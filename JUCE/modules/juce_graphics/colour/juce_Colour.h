@@ -24,16 +24,18 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Represents a colour, also including a transparency value.
 
     The colour is stored internally as unsigned 8-bit red, green, blue and alpha values.
+
+    @tags{Graphics}
 */
-class JUCE_API  Colour
+class JUCE_API  Colour  final
 {
 public:
     //==============================================================================
@@ -363,3 +365,5 @@ private:
     //==============================================================================
     PixelARGB argb;
 };
+
+} // namespace juce

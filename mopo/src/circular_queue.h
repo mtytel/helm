@@ -85,8 +85,7 @@ namespace mopo {
       CircularQueue() : data_(nullptr), capacity_(0), start_(0), end_(0) { }
 
       void reserve(int capcity) {
-        if (data_)
-          delete data_;
+        delete data_;
 
         capacity_ = capcity + 1;
         data_ = new T[capacity_];
@@ -138,6 +137,15 @@ namespace mopo {
           if (data_[i] == entry) {
             removeAt((i - start_ + capacity_) % capacity_);
             return;
+          }
+        }
+      }
+
+      void removeAll(T entry) {
+        for (int i = start_; i != end_; i = (i + 1) % capacity_) {
+          if (data_[i] == entry) {
+            removeAt((i - start_ + capacity_) % capacity_);
+            i--;
           }
         }
       }

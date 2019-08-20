@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace AudioPluginFormatHelpers
 {
     struct CallbackInvoker
@@ -41,8 +44,8 @@ namespace AudioPluginFormatHelpers
             //==============================================================================
             AudioPluginInstance* instance;
             String error;
-            ScopedPointer<AudioPluginFormat::InstantiationCompletionCallback> compCallback;
-            ScopedPointer<CallbackInvoker> owner;
+            std::unique_ptr<AudioPluginFormat::InstantiationCompletionCallback> compCallback;
+            std::unique_ptr<CallbackInvoker> owner;
         };
 
         //==============================================================================
@@ -116,13 +119,13 @@ AudioPluginInstance* AudioPluginFormat::createInstanceFromDescription (const Plu
     WaitableEvent waitForCreation;
     AudioPluginInstance* instance = nullptr;
 
-    ScopedPointer<EventSignaler> eventSignaler (new EventSignaler (waitForCreation, instance, errorMessage));
+    std::unique_ptr<EventSignaler> eventSignaler (new EventSignaler (waitForCreation, instance, errorMessage));
 
     if (! MessageManager::getInstance()->isThisTheMessageThread())
         createPluginInstanceAsync (desc, initialSampleRate, initialBufferSize, eventSignaler.release());
     else
         createPluginInstance (desc, initialSampleRate, initialBufferSize,
-                              eventSignaler, EventSignaler::staticCompletionCallback);
+                              eventSignaler.get(), EventSignaler::staticCompletionCallback);
 
 
     waitForCreation.wait();
@@ -207,3 +210,5 @@ void AudioPluginFormat::createPluginInstanceOnMessageThread (const PluginDescrip
     createPluginInstance (description, initialSampleRate, initialBufferSize, completion,
                           AudioPluginFormatHelpers::CallbackInvoker::staticCompletionCallback);
 }
+
+} // namespace juce

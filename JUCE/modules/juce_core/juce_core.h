@@ -32,7 +32,7 @@
 
   ID:               juce_core
   vendor:           juce
-  version:          5.0.2
+  version:          5.3.2
   name:             JUCE core classes
   description:      The essential set of basic JUCE classes, as required by all the other JUCE modules. Includes text, container, memory, threading and i/o functionality.
   website:          http://www.juce.com/juce
@@ -171,24 +171,27 @@
  #include "native/juce_BasicNativeHeaders.h"
 #endif
 
+#if JUCE_WINDOWS
+ #undef small
+#endif
+
 #include "system/juce_StandardHeader.h"
 
 namespace juce
 {
+    class StringRef;
+    class MemoryBlock;
+    class File;
+    class InputStream;
+    class OutputStream;
+    class DynamicObject;
+    class FileInputStream;
+    class FileOutputStream;
+    class XmlElement;
 
-class StringRef;
-class MemoryBlock;
-class File;
-class InputStream;
-class OutputStream;
-class DynamicObject;
-class FileInputStream;
-class FileOutputStream;
-class XmlElement;
-class JSONFormatter;
-
-extern JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger() noexcept;
-extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noexcept;
+    extern JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger() noexcept;
+    extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noexcept;
+}
 
 #include "memory/juce_Memory.h"
 #include "maths/juce_MathsFunctions.h"
@@ -247,6 +250,7 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
 #include "text/juce_LocalisedStrings.h"
 #include "text/juce_Base64.h"
 #include "misc/juce_Result.h"
+#include "misc/juce_Uuid.h"
 #include "containers/juce_Variant.h"
 #include "containers/juce_NamedValueSet.h"
 #include "containers/juce_DynamicObject.h"
@@ -277,7 +281,6 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
 #include "maths/juce_Expression.h"
 #include "maths/juce_Random.h"
 #include "misc/juce_RuntimePermissions.h"
-#include "misc/juce_Uuid.h"
 #include "misc/juce_WindowsRegistry.h"
 #include "threads/juce_ChildProcess.h"
 #include "threads/juce_DynamicLibrary.h"
@@ -299,6 +302,7 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
 #include "network/juce_Socket.h"
 #include "network/juce_URL.h"
 #include "network/juce_WebInputStream.h"
+#include "streams/juce_URLInputSource.h"
 #include "system/juce_SystemStats.h"
 #include "time/juce_PerformanceCounter.h"
 #include "unit_tests/juce_UnitTest.h"
@@ -319,11 +323,13 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
 #endif
 
 #if JUCE_CORE_INCLUDE_JNI_HELPERS && JUCE_ANDROID
+ #include <jni.h>
  #include "native/juce_android_JNIHelpers.h"
 #endif
 
-
 #ifndef DOXYGEN
+namespace juce
+{
  /*
     As the very long class names here try to explain, the purpose of this code is to cause
     a linker error if not all of your compile units are consistent in the options that they
@@ -341,9 +347,8 @@ extern JUCE_API void JUCE_CALLTYPE logAssertion (const char* file, int line) noe
   { this_will_fail_to_link_if_some_of_your_compile_units_are_built_in_release_mode() noexcept; };
   static this_will_fail_to_link_if_some_of_your_compile_units_are_built_in_release_mode compileUnitMismatchSentinel;
  #endif
-#endif
-
 }
+#endif
 
 #if JUCE_MSVC
  #pragma warning (pop)

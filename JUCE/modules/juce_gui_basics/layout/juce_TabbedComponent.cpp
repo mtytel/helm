@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace TabbedComponentHelpers
 {
     const Identifier deleteComponentId ("deleteByTabComp_");
@@ -51,12 +54,10 @@ namespace TabbedComponentHelpers
 }
 
 //==============================================================================
-class TabbedComponent::ButtonBar  : public TabbedButtonBar
+struct TabbedComponent::ButtonBar  : public TabbedButtonBar
 {
-public:
-    ButtonBar (TabbedComponent& owner_, const TabbedButtonBar::Orientation orientation_)
-        : TabbedButtonBar (orientation_),
-          owner (owner_)
+    ButtonBar (TabbedComponent& tabComp, TabbedButtonBar::Orientation o)
+        : TabbedButtonBar (o), owner (tabComp)
     {
     }
 
@@ -80,7 +81,6 @@ public:
         return owner.createTabButton (tabName, tabIndex);
     }
 
-private:
     TabbedComponent& owner;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ButtonBar)
@@ -89,17 +89,15 @@ private:
 
 //==============================================================================
 TabbedComponent::TabbedComponent (const TabbedButtonBar::Orientation orientation)
-    : tabDepth (30),
-      outlineThickness (1),
-      edgeIndent (0)
 {
-    addAndMakeVisible (tabs = new ButtonBar (*this, orientation));
+    tabs.reset (new ButtonBar (*this, orientation));
+    addAndMakeVisible (tabs.get());
 }
 
 TabbedComponent::~TabbedComponent()
 {
     clearTabs();
-    tabs = nullptr;
+    tabs.reset();
 }
 
 //==============================================================================
@@ -243,7 +241,7 @@ void TabbedComponent::paint (Graphics& g)
 {
     g.fillAll (findColour (backgroundColourId));
 
-    Rectangle<int> content (getLocalBounds());
+    auto content = getLocalBounds();
     BorderSize<int> outline (outlineThickness);
     TabbedComponentHelpers::getTabArea (content, outline, getOrientation(), tabDepth);
 
@@ -262,7 +260,7 @@ void TabbedComponent::paint (Graphics& g)
 
 void TabbedComponent::resized()
 {
-    Rectangle<int> content (getLocalBounds());
+    auto content = getLocalBounds();
     BorderSize<int> outline (outlineThickness);
 
     tabs->setBounds (TabbedComponentHelpers::getTabArea (content, outline, getOrientation(), tabDepth));
@@ -282,7 +280,7 @@ void TabbedComponent::lookAndFeelChanged()
 
 void TabbedComponent::changeCallback (const int newCurrentTabIndex, const String& newTabName)
 {
-    Component* const newPanelComp = getTabContentComponent (getCurrentTabIndex());
+    auto* newPanelComp = getTabContentComponent (getCurrentTabIndex());
 
     if (newPanelComp != panelComponent)
     {
@@ -308,9 +306,10 @@ void TabbedComponent::changeCallback (const int newCurrentTabIndex, const String
     }
 
     resized();
-
     currentTabChanged (newCurrentTabIndex, newTabName);
 }
 
-void TabbedComponent::currentTabChanged (const int, const String&) {}
-void TabbedComponent::popupMenuClickOnTab (const int, const String&) {}
+void TabbedComponent::currentTabChanged (int, const String&) {}
+void TabbedComponent::popupMenuClickOnTab (int, const String&) {}
+
+} // namespace juce

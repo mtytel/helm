@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Encapsulates a MIDI message.
 
     @see MidiMessageSequence, MidiOutput, MidiInput
+
+    @tags{Audio}
 */
 class JUCE_API  MidiMessage
 {
@@ -170,6 +172,11 @@ public:
         The units for the timestamp will be application-specific.
     */
     void addToTimeStamp (double delta) noexcept         { timeStamp += delta; }
+
+    /** Return a copy of this message with a new timestamp.
+        The units for the timestamp will be application-specific - see the notes for getTimeStamp().
+    */
+    MidiMessage withTimeStamp (double newTimestamp) const;
 
     //==============================================================================
     /** Returns the midi channel associated with the message.
@@ -495,6 +502,11 @@ public:
         @see allSoundOff
     */
     bool isAllSoundOff() const noexcept;
+
+    /** Checks whether this message is a reset all controllers message.
+        @see allControllerOff
+    */
+    bool isResetAllControllers() const noexcept;
 
     /** Creates an all-notes-off message.
         @param channel              the midi channel, in the range 1 to 16
@@ -936,3 +948,5 @@ private:
     inline uint8* getData() const noexcept        { return isHeapAllocated() ? packedData.allocatedData : (uint8*) packedData.asBytes; }
     uint8* allocateSpace (int);
 };
+
+} // namespace juce

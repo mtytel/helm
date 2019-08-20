@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** The base class for streams that read data.
@@ -30,6 +30,8 @@
     some or all of the virtual functions to implement their behaviour.
 
     @see OutputStream, MemoryInputStream, BufferedInputStream, FileInputStream
+
+    @tags{Core}
 */
 class JUCE_API  InputStream
 {
@@ -255,3 +257,5 @@ protected:
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (InputStream)
 };
+
+} // namespace juce

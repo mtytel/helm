@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,6 +36,8 @@
     having to re-scan audio files too often.
 
     @see AudioThumbnail
+
+    @tags{Audio}
 */
 class JUCE_API  AudioThumbnailCache
 {
@@ -114,3 +116,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioThumbnailCache)
 };
+
+} // namespace juce

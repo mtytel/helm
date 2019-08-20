@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if JUCE_MSVC
  #pragma warning (push)
  #pragma warning (disable: 4365)
@@ -40,6 +43,9 @@ namespace jpeglibNamespace
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wconversion"
     #pragma clang diagnostic ignored "-Wdeprecated-register"
+    #if __has_warning("-Wcomma")
+     #pragma clang diagnostic ignored "-Wcomma"
+    #endif
    #endif
 
     #define JPEG_INTERNALS
@@ -446,3 +452,5 @@ bool JPEGImageFormat::writeImageToStream (const Image& image, OutputStream& out)
 
     return true;
 }
+
+} // namespace juce

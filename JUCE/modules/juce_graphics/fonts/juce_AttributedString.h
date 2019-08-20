@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,6 +36,8 @@
     layout, etc., and draw it using AttributedString::draw().
 
     @see TextLayout
+
+    @tags{Graphics}
 */
 class JUCE_API  AttributedString
 {
@@ -203,3 +205,5 @@ private:
 
     JUCE_LEAK_DETECTOR (AttributedString)
 };
+
+} // namespace juce

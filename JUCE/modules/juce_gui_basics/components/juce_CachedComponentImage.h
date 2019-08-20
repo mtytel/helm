@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,6 +36,8 @@
     only for power-users!
 
     @see Component::setCachedComponentImage
+
+    @tags{GUI}
 */
 class JUCE_API  CachedComponentImage
 {
@@ -67,3 +69,5 @@ public:
     */
     virtual void releaseResources() = 0;
 };
+
+} // namespace juce

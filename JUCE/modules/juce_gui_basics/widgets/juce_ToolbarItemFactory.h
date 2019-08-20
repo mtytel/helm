@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -39,6 +39,8 @@
     bars).
 
     @see Toolbar, ToolbarItemComponent, ToolbarButton
+
+    @tags{GUI}
 */
 class JUCE_API  ToolbarItemFactory
 {
@@ -104,3 +106,5 @@ public:
     */
     virtual ToolbarItemComponent* createItem (int itemId) = 0;
 };
+
+} // namespace juce

@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 BooleanPropertyComponent::BooleanPropertyComponent (const String& name,
                                                     const String& buttonTextWhenTrue,
                                                     const String& buttonTextWhenFalse)
@@ -33,7 +36,7 @@ BooleanPropertyComponent::BooleanPropertyComponent (const String& name,
 {
     addAndMakeVisible (button);
     button.setClickingTogglesState (false);
-    button.addListener (this);
+    button.onClick = [this] { setState (! getState()); };
 }
 
 BooleanPropertyComponent::BooleanPropertyComponent (const Value& valueToControl,
@@ -81,7 +84,4 @@ void BooleanPropertyComponent::refresh()
     button.setButtonText (button.getToggleState() ? onText : offText);
 }
 
-void BooleanPropertyComponent::buttonClicked (Button*)
-{
-    setState (! getState());
-}
+} // namespace juce

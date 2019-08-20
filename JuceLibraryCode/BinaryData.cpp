@@ -12314,8 +12314,7 @@ static const unsigned char temp_binary_data_22[] =
 const char* modulation_unselected_inactive_2x_png = (const char*) temp_binary_data_22;
 
 
-const char* getNamedResource (const char*, int&) throw();
-const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw()
+const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
 {
     unsigned int hash = 0;
     if (resourceNameUTF8 != 0)
@@ -12351,7 +12350,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes) throw
     }
 
     numBytes = 0;
-    return 0;
+    return nullptr;
 }
 
 const char* namedResourceList[] =
@@ -12380,5 +12379,43 @@ const char* namedResourceList[] =
     "modulation_unselected_inactive_1x_png",
     "modulation_unselected_inactive_2x_png"
 };
+
+const char* originalFilenames[] =
+{
+    "DroidSansMono.ttf",
+    "Roboto-Light.ttf",
+    "Roboto-Regular.ttf",
+    "Roboto-Thin.ttf",
+    "helm_debian_icon.xpm",
+    "helm_icon_16_1x.png",
+    "helm_icon_16_2x.png",
+    "helm_icon_32_1x.png",
+    "helm_icon_32_2x.png",
+    "helm_icon_128_1x.png",
+    "helm_icon_128_2x.png",
+    "helm_icon_256_1x.png",
+    "helm_icon_256_2x.png",
+    "helm_icon_512_1x.png",
+    "helm_icon_512_2x.png",
+    "modulation_selected_active_1x.png",
+    "modulation_selected_active_2x.png",
+    "modulation_selected_inactive_1x.png",
+    "modulation_selected_inactive_2x.png",
+    "modulation_unselected_active_1x.png",
+    "modulation_unselected_active_2x.png",
+    "modulation_unselected_inactive_1x.png",
+    "modulation_unselected_inactive_2x.png"
+};
+
+const char* getNamedResourceOriginalFilename (const char* resourceNameUTF8)
+{
+    for (unsigned int i = 0; i < (sizeof (namedResourceList) / sizeof (namedResourceList[0])); ++i)
+    {
+        if (namedResourceList[i] == resourceNameUTF8)
+            return originalFilenames[i];
+    }
+
+    return nullptr;
+}
 
 }

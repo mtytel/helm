@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -41,6 +41,8 @@
     - Recursive locking is supported.
 
     @see ScopedReadLock, ScopedWriteLock, CriticalSection
+
+    @tags{Core}
 */
 class JUCE_API  ReadWriteLock
 {
@@ -140,3 +142,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE (ReadWriteLock)
 };
+
+} // namespace juce

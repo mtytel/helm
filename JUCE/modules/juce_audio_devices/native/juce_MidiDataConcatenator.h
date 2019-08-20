@@ -20,20 +20,22 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /**
     Helper class that takes chunks of incoming midi bytes, packages them into
     messages, and dispatches them to a midi callback.
+
+    @tags{Audio}
 */
 class MidiDataConcatenator
 {
 public:
     //==============================================================================
-    MidiDataConcatenator (const int initialBufferSize)
-        : pendingData ((size_t) initialBufferSize),
-          pendingDataTime (0), pendingBytes (0), runningStatus (0)
+    MidiDataConcatenator (int initialBufferSize)
+        : pendingData ((size_t) initialBufferSize)
     {
     }
 
@@ -181,9 +183,11 @@ private:
     }
 
     MemoryBlock pendingData;
-    double pendingDataTime;
-    int pendingBytes;
-    uint8 runningStatus;
+    double pendingDataTime = 0;
+    int pendingBytes = 0;
+    uint8 runningStatus = 0;
 
     JUCE_DECLARE_NON_COPYABLE (MidiDataConcatenator)
 };
+
+} // namespace juce

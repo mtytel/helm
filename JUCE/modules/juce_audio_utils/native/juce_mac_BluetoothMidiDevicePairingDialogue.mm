@@ -24,9 +24,13 @@
   ==============================================================================
 */
 
-bool BluetoothMidiDevicePairingDialogue::open (ModalComponentManager::Callback* exitCallback)
+namespace juce
 {
-    ScopedPointer<ModalComponentManager::Callback> cb (exitCallback);
+
+bool BluetoothMidiDevicePairingDialogue::open (ModalComponentManager::Callback* exitCallback,
+                                               Rectangle<int>*)
+{
+    std::unique_ptr<ModalComponentManager::Callback> cb (exitCallback);
     // Do not call this on OSX. Instead, you should pair Bluetooth MIDI devices
     // using the "Audio MIDI Setup" app (located in /Applications/Utilities).
     jassertfalse;
@@ -37,3 +41,5 @@ bool BluetoothMidiDevicePairingDialogue::isAvailable()
 {
     return false;
 }
+
+} // namespace juce

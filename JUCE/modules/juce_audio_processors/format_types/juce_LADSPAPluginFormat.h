@@ -24,11 +24,16 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if (JUCE_PLUGINHOST_LADSPA && JUCE_LINUX) || DOXYGEN
 
 //==============================================================================
 /**
     Implements a plugin format manager for LADSPA plugins.
+
+    @tags{Audio}
 */
 class JUCE_API  LADSPAPluginFormat   : public AudioPluginFormat
 {
@@ -63,3 +68,5 @@ private:
 
 
 #endif
+
+}

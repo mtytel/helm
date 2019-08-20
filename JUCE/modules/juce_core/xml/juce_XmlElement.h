@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** A handy macro to make it easy to iterate all the child elements in an XmlElement.
@@ -44,7 +44,7 @@
 */
 #define forEachXmlChildElement(parentXmlElement, childElementVariableName) \
 \
-    for (juce::XmlElement* childElementVariableName = (parentXmlElement).getFirstChildElement(); \
+    for (auto* childElementVariableName = (parentXmlElement).getFirstChildElement(); \
          childElementVariableName != nullptr; \
          childElementVariableName = childElementVariableName->getNextElement())
 
@@ -73,7 +73,7 @@
 */
 #define forEachXmlChildElementWithTagName(parentXmlElement, childElementVariableName, requiredTagName) \
 \
-    for (juce::XmlElement* childElementVariableName = (parentXmlElement).getChildByName (requiredTagName); \
+    for (auto* childElementVariableName = (parentXmlElement).getChildByName (requiredTagName); \
          childElementVariableName != nullptr; \
          childElementVariableName = childElementVariableName->getNextElementWithTagName (requiredTagName))
 
@@ -131,6 +131,8 @@
     @endcode
 
     @see XmlDocument
+
+    @tags{Core}
 */
 class JUCE_API  XmlElement
 {
@@ -275,6 +277,11 @@ public:
         @see getTagName
     */
     bool hasTagNameIgnoringNamespace (StringRef possibleTagName) const;
+
+    /** Changes this elements tag name.
+        @see getTagName
+     */
+    void setTagName (StringRef newTagName);
 
     //==============================================================================
     /** Returns the number of XML attributes this element contains.
@@ -632,11 +639,11 @@ public:
     void sortChildElements (ElementComparator& comparator,
                             bool retainOrderOfEquivalentItems = false)
     {
-        const int num = getNumChildElements();
+        auto num = getNumChildElements();
 
         if (num > 1)
         {
-            HeapBlock<XmlElement*> elems ((size_t) num);
+            HeapBlock<XmlElement*> elems (num);
             getChildElementsAsArray (elems);
             sortArray (comparator, (XmlElement**) elems, 0, num - 1, retainOrderOfEquivalentItems);
             reorderChildElements (elems, num);
@@ -734,7 +741,7 @@ private:
         String value;
 
     private:
-        XmlAttributeNode& operator= (const XmlAttributeNode&) JUCE_DELETED_FUNCTION;
+        XmlAttributeNode& operator= (const XmlAttributeNode&) = delete;
     };
 
     friend class XmlDocument;
@@ -758,7 +765,9 @@ private:
     // Sigh.. L"" or _T("") string literals are problematic in general, and really inappropriate
     // for XML tags. Use a UTF-8 encoded literal instead, or if you're really determined to use
     // UTF-16, cast it to a String and use the other constructor.
-    XmlElement (const wchar_t*) JUCE_DELETED_FUNCTION;
+    XmlElement (const wchar_t*) = delete;
 
     JUCE_LEAK_DETECTOR (XmlElement)
 };
+
+} // namespace juce

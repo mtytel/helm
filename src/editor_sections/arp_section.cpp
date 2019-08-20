@@ -134,6 +134,6 @@ void ArpSection::resized() {
 
   SynthSection::resized();
 
-  frequency_->setPopupDisplayEnabled(false, nullptr);
-  tempo_->setPopupDisplayEnabled(false, nullptr);
+  frequency_->setPopupDisplayEnabled(false, false, nullptr);
+  tempo_->setPopupDisplayEnabled(false, false, nullptr);
 }

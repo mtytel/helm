@@ -21,7 +21,7 @@
 #include "JuceHeader.h"
 #include "overlay.h"
 
-class DeleteSection : public Overlay, public ButtonListener {
+class DeleteSection : public Overlay, public Button::Listener {
   public:
     class Listener {
       public:

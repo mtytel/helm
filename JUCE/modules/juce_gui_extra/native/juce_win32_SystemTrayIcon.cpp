@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 extern void* getUser32Function (const char*);
 
 namespace IconConverters
@@ -101,7 +104,7 @@ public:
         }
         else
         {
-            ModifierKeys eventMods (ModifierKeys::getCurrentModifiersRealtime());
+            ModifierKeys eventMods (ComponentPeer::getCurrentModifiersRealtime());
 
             if (lParam == WM_LBUTTONDOWN || lParam == WM_LBUTTONDBLCLK)
                 eventMods = eventMods.withFlags (ModifierKeys::leftButtonModifier);
@@ -143,7 +146,7 @@ public:
         if (JuceWindowIdentifier::isJUCEWindow (hwnd))
             if (ComponentPeer* peer = (ComponentPeer*) GetWindowLongPtr (hwnd, 8))
                 if (SystemTrayIconComponent* const iconComp = dynamic_cast<SystemTrayIconComponent*> (&(peer->getComponent())))
-                    return iconComp->pimpl;
+                    return iconComp->pimpl.get();
 
         return nullptr;
     }
@@ -200,13 +203,13 @@ void SystemTrayIconComponent::setIconImage (const Image& newImage)
         HICON hicon = IconConverters::createHICONFromImage (newImage, TRUE, 0, 0);
 
         if (pimpl == nullptr)
-            pimpl = new Pimpl (*this, hicon, (HWND) getWindowHandle());
+            pimpl.reset (new Pimpl (*this, hicon, (HWND) getWindowHandle()));
         else
             pimpl->updateIcon (hicon);
     }
     else
     {
-        pimpl = nullptr;
+        pimpl.reset();
     }
 }
 
@@ -236,3 +239,5 @@ void* SystemTrayIconComponent::getNativeHandle() const
 {
     return pimpl != nullptr ? &(pimpl->iconData) : nullptr;
 }
+
+} // namespace juce

@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Represents the various properties of an OpenGL pixel format.
 
     @see OpenGLContext::setPixelFormat
+
+    @tags{OpenGL}
 */
 class JUCE_API  OpenGLPixelFormat
 {
@@ -66,3 +68,5 @@ public:
 
     uint8 multisamplingLevel;         /**< The number of samples to use for full-scene multisampled anti-aliasing (if available). */
 };
+
+} // namespace juce

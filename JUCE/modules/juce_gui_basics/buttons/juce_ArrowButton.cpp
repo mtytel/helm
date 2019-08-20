@@ -24,11 +24,14 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 ArrowButton::ArrowButton (const String& name, float arrowDirectionInRadians, Colour arrowColour)
    : Button (name), colour (arrowColour)
 {
     path.addTriangle (0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f);
-    path.applyTransform (AffineTransform::rotation (float_Pi * 2.0f * arrowDirectionInRadians, 0.5f, 0.5f));
+    path.applyTransform (AffineTransform::rotation (MathConstants<float>::twoPi * arrowDirectionInRadians, 0.5f, 0.5f));
 }
 
 ArrowButton::~ArrowButton() {}
@@ -45,3 +48,5 @@ void ArrowButton::paintButton (Graphics& g, bool /*isMouseOverButton*/, bool isB
     g.setColour (colour);
     g.fillPath (p);
 }
+
+} // namespace juce

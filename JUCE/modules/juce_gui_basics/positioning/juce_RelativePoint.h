@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     An X-Y position stored as a pair of RelativeCoordinate values.
 
     @see RelativeCoordinate, RelativeRectangle
+
+    @tags{GUI}
 */
 class JUCE_API  RelativePoint
 {
@@ -86,3 +88,5 @@ public:
     // The actual X and Y coords...
     RelativeCoordinate x, y;
 };
+
+} // namespace juce

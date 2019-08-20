@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -33,6 +33,8 @@
     code editor.
 
     @see CodeDocument, CodeEditorComponent
+
+    @tags{GUI}
 */
 class JUCE_API  CodeTokeniser
 {
@@ -54,3 +56,5 @@ public:
 private:
     JUCE_LEAK_DETECTOR (CodeTokeniser)
 };
+
+} // namespace juce

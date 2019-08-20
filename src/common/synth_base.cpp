@@ -192,7 +192,7 @@ bool SynthBase::exportToFile() {
 }
 
 bool SynthBase::saveToFile(File patch) {
-  if (patch.getFileExtension() != mopo::PATCH_EXTENSION)
+  if (patch.getFileExtension() != String(mopo::PATCH_EXTENSION))
     patch = patch.withFileExtension(String(mopo::PATCH_EXTENSION));
 
   File parent = patch.getParentDirectory();
@@ -220,6 +220,8 @@ bool SynthBase::saveToActiveFile() {
 }
 
 void SynthBase::processAudio(AudioSampleBuffer* buffer, int channels, int samples, int offset) {
+  mopo::utils::enableDenormalFlushing(true);
+
   if (engine_.getBufferSize() != samples)
     engine_.setBufferSize(samples);
 
@@ -323,9 +325,8 @@ void SynthBase::updateMemoryOutput(int samples, const mopo::mopo_float* left,
   memory_input_offset_ -= samples;
 }
 
-void SynthBase::armMidiLearn(const std::string& name,
-                             mopo::mopo_float min, mopo::mopo_float max) {
-  midi_manager_->armMidiLearn(name, min, max);
+void SynthBase::armMidiLearn(const std::string& name) {
+  midi_manager_->armMidiLearn(name);
 }
 
 void SynthBase::cancelMidiLearn() {

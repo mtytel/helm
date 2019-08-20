@@ -62,7 +62,7 @@ class SynthBase : public MidiManager::Listener {
     virtual void endChangeGesture(const std::string& name) { }
     virtual void setValueNotifyHost(const std::string& name, mopo::mopo_float value) { }
 
-    void armMidiLearn(const std::string& name, mopo::mopo_float min, mopo::mopo_float max);
+    void armMidiLearn(const std::string& name);
     void cancelMidiLearn();
     void clearMidiLearn(const std::string& name);
     bool isMidiMapped(const std::string& name);

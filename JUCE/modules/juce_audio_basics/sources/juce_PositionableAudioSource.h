@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,6 +32,8 @@
     that has a current read position.
 
     @see AudioSource, AudioTransportSource
+
+    @tags{Audio}
 */
 class JUCE_API  PositionableAudioSource  : public AudioSource
 {
@@ -70,3 +72,5 @@ public:
     /** Tells the source whether you'd like it to play in a loop. */
     virtual void setLooping (bool shouldLoop)       { ignoreUnused (shouldLoop); }
 };
+
+} // namespace juce

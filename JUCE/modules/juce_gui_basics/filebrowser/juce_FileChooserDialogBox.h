@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -61,9 +61,10 @@
     @endcode
 
     @see FileChooser
+
+    @tags{GUI}
 */
 class JUCE_API  FileChooserDialogBox : public ResizableWindow,
-                                       private ButtonListener,  // (can't use Button::Listener due to idiotic VC2005 bug)
                                        private FileBrowserListener
 {
 public:
@@ -136,7 +137,6 @@ private:
     ContentComponent* content;
     const bool warnAboutOverwritingExistingFiles;
 
-    void buttonClicked (Button*) override;
     void closeButtonPressed();
     void selectionChanged() override;
     void fileClicked (const File&, const MouseEvent&) override;
@@ -153,3 +153,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileChooserDialogBox)
 };
+
+} // namespace juce

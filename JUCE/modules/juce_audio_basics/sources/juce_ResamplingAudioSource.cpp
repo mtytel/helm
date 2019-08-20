@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 ResamplingAudioSource::ResamplingAudioSource (AudioSource* const inputSource,
                                               const bool deleteInputWhenDeleted,
                                               const int channels)
@@ -49,14 +52,14 @@ void ResamplingAudioSource::prepareToPlay (int samplesPerBlockExpected, double s
 {
     const SpinLock::ScopedLockType sl (ratioLock);
 
-    const int scaledBlockSize = roundToInt (samplesPerBlockExpected * ratio);
+    auto scaledBlockSize = roundToInt (samplesPerBlockExpected * ratio);
     input->prepareToPlay (scaledBlockSize, sampleRate * ratio);
 
     buffer.setSize (numChannels, scaledBlockSize + 32);
 
-    filterStates.calloc ((size_t) numChannels);
-    srcBuffers.calloc ((size_t) numChannels);
-    destBuffers.calloc ((size_t) numChannels);
+    filterStates.calloc (numChannels);
+    srcBuffers.calloc (numChannels);
+    destBuffers.calloc (numChannels);
     createLowPass (ratio);
 
     flushBuffers();
@@ -198,16 +201,16 @@ void ResamplingAudioSource::createLowPass (const double frequencyRatio)
     const double proportionalRate = (frequencyRatio > 1.0) ? 0.5 / frequencyRatio
                                                            : 0.5 * frequencyRatio;
 
-    const double n = 1.0 / std::tan (double_Pi * jmax (0.001, proportionalRate));
+    const double n = 1.0 / std::tan (MathConstants<double>::pi * jmax (0.001, proportionalRate));
     const double nSquared = n * n;
-    const double c1 = 1.0 / (1.0 + std::sqrt (2.0) * n + nSquared);
+    const double c1 = 1.0 / (1.0 + MathConstants<double>::sqrt2 * n + nSquared);
 
     setFilterCoefficients (c1,
                            c1 * 2.0f,
                            c1,
                            1.0,
                            c1 * 2.0 * (1.0 - nSquared),
-                           c1 * (1.0 - std::sqrt (2.0) * n + nSquared));
+                           c1 * (1.0 - MathConstants<double>::sqrt2 * n + nSquared));
 }
 
 void ResamplingAudioSource::setFilterCoefficients (double c1, double c2, double c3, double c4, double c5, double c6)
@@ -259,3 +262,5 @@ void ResamplingAudioSource::applyFilter (float* samples, int num, FilterState& f
         *samples++ = (float) out;
     }
 }
+
+} // namespace juce

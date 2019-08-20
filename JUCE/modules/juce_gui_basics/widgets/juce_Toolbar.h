@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class ToolbarItemComponent;
 class ToolbarItemFactory;
@@ -46,11 +47,12 @@ class ToolbarItemFactory;
     component as a source of new items.
 
     @see ToolbarItemFactory, ToolbarItemComponent, ToolbarItemPalette
+
+    @tags{GUI}
 */
 class JUCE_API  Toolbar   : public Component,
                             public DragAndDropContainer,
-                            public DragAndDropTarget,
-                            private ButtonListener  // (can't use Button::Listener due to idiotic VC2005 bug)
+                            public DragAndDropTarget
 {
 public:
     //==============================================================================
@@ -310,19 +312,21 @@ public:
 
 private:
     //==============================================================================
-    ScopedPointer<Button> missingItemsButton;
-    bool vertical, isEditingActive;
-    ToolbarItemStyle toolbarStyle;
+    std::unique_ptr<Button> missingItemsButton;
+    bool vertical = false, isEditingActive = false;
+    ToolbarItemStyle toolbarStyle = iconsOnly;
     class MissingItemsComponent;
     friend class MissingItemsComponent;
     OwnedArray<ToolbarItemComponent> items;
     class Spacer;
     class CustomisationDialog;
 
-    void buttonClicked (Button*) override;
+    void showMissingItems();
     void addItemInternal (ToolbarItemFactory& factory, int itemId, int insertIndex);
 
     ToolbarItemComponent* getNextActiveComponent (int index, int delta) const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Toolbar)
 };
+
+} // namespace juce

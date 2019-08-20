@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -34,6 +34,8 @@
     A subclass can inherit from this and implement just a few methods such as
     paint() and mouse-handling. The base class provides some simple abstractions
     to take care of continuously repainting itself.
+
+    @tags{GUI}
 */
 class AnimatedAppComponent   : public Component,
                                private Timer
@@ -72,3 +74,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AnimatedAppComponent)
 };
+
+} // namespace juce

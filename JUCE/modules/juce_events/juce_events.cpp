@@ -29,8 +29,6 @@
  #error "Incorrect use of JUCE cpp file"
 #endif
 
-#include "AppConfig.h"
-
 #define JUCE_CORE_INCLUDE_OBJC_HELPERS 1
 #define JUCE_CORE_INCLUDE_JNI_HELPERS 1
 #define JUCE_CORE_INCLUDE_NATIVE_HEADERS 1
@@ -56,9 +54,6 @@
 #endif
 
 //==============================================================================
-namespace juce
-{
-
 #include "messages/juce_ApplicationBase.cpp"
 #include "messages/juce_DeletedAtShutdown.cpp"
 #include "messages/juce_MessageListener.cpp"
@@ -105,5 +100,3 @@ namespace juce
  #include "native/juce_android_Messaging.cpp"
 
 #endif
-
-}

@@ -20,12 +20,14 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     An AudioSource that performs an IIR filter on another source.
+
+    @tags{Audio}
 */
 class JUCE_API  IIRFilterAudioSource  : public AudioSource
 {
@@ -62,3 +64,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (IIRFilterAudioSource)
 };
+
+} // namespace juce

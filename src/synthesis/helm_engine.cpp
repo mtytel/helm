@@ -372,6 +372,11 @@ namespace mopo {
     arpeggiator_->setBufferSize(buffer_size);
   }
 
+  void HelmEngine::setSampleRate(int sample_rate) {
+    ProcessorRouter::setSampleRate(sample_rate);
+    arpeggiator_->setSampleRate(sample_rate);
+  }
+
   void HelmEngine::allNotesOff(int sample) {
     arpeggiator_->allNotesOff(sample);
   }
@@ -399,6 +404,10 @@ namespace mopo {
 
   void HelmEngine::setAftertouch(mopo_float note, mopo_float value, int sample) {
     voice_handler_->setAftertouch(note, value, sample);
+  }
+
+  void HelmEngine::setChannelAftertouch(int channel, mopo_float value, int sample) {
+    voice_handler_->setChannelAftertouch(channel, value, sample);
   }
 
   void HelmEngine::setBpm(mopo_float bpm) {

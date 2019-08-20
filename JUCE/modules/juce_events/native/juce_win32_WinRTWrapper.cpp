@@ -20,4 +20,7 @@
   ==============================================================================
 */
 
-juce_ImplementSingleton (WinRTWrapper)
+namespace juce
+{
+    JUCE_IMPLEMENT_SINGLETON (WinRTWrapper)
+}

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -39,6 +39,8 @@
 
     @see ApplicationCommandTarget, ApplicationCommandTarget::getCommandInfo(),
          ApplicationCommandManager
+
+    @tags{GUI}
 */
 struct JUCE_API  ApplicationCommandInfo
 {
@@ -185,3 +187,5 @@ struct JUCE_API  ApplicationCommandInfo
     */
     int flags;
 };
+
+} // namespace juce

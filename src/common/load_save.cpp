@@ -502,8 +502,8 @@ void LoadSave::saveMidiMapConfig(MidiManager* midi_manager) {
       DynamicObject* midi_destination_object = new DynamicObject();
 
       midi_destination_object->setProperty("destination", String(midi_destination.first));
-      midi_destination_object->setProperty("min_range", midi_destination.second.first);
-      midi_destination_object->setProperty("max_range", midi_destination.second.second);
+      midi_destination_object->setProperty("min_range", midi_destination.second->min);
+      midi_destination_object->setProperty("max_range", midi_destination.second->max);
       midi_destinations_object.add(midi_destination_object);
     }
 
@@ -550,11 +550,8 @@ void LoadSave::loadConfig(MidiManager* midi_manager, mopo::StringLayout* layout)
           DynamicObject* destination_object = midi_destination->getDynamicObject();
 
           String destination_name = destination_object->getProperty("destination").toString();
-          mopo::mopo_float min_range = destination_object->getProperty("min_range");
-          mopo::mopo_float max_range = destination_object->getProperty("max_range");
-
-          midi_learn_map[source][destination_name.toStdString()] =
-              MidiManager::midi_range(min_range, max_range);
+          std::string dest = destination_name.toStdString();
+          midi_learn_map[source][dest] = &mopo::Parameters::getDetails(dest);
         }
       }
     }

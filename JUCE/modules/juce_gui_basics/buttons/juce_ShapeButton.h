@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A button that contains a filled shape.
 
     @see Button, ImageButton, TextButton, ArrowButton
+
+    @tags{GUI}
 */
 class JUCE_API  ShapeButton  : public Button
 {
@@ -121,3 +123,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ShapeButton)
 };
+
+} // namespace juce

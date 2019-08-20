@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -52,6 +52,8 @@
     out-of-the-box, but if you want to use more complex custom types, you may need to implement
     some template specialisations of VariantConverter which this class uses to convert between
     the type and the ValueTree's internal var.
+
+    @tags{DataStructures}
 */
 template <typename Type>
 class CachedValue   : private ValueTree::Listener
@@ -308,3 +310,5 @@ inline void CachedValue<Type>::valueTreePropertyChanged (ValueTree& changedTree,
     if (changedProperty == targetProperty && targetTree == changedTree)
         forceUpdateOfCachedValue();
 }
+
+} // namespace juce

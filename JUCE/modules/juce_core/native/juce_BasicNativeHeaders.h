@@ -117,7 +117,7 @@
  #define STRICT 1
  #define WIN32_LEAN_AND_MEAN 1
  #if JUCE_MINGW
-  #define _WIN32_WINNT 0x0502
+  #define _WIN32_WINNT 0x0501
  #else
   #define _WIN32_WINNT 0x0602
  #endif
@@ -143,6 +143,7 @@
  #include <shlobj.h>
  #include <shlwapi.h>
  #include <mmsystem.h>
+ #include <winioctl.h>
 
  #if JUCE_MINGW
   #include <basetyps.h>
@@ -205,33 +206,61 @@
 
 //==============================================================================
 #elif JUCE_LINUX
- #include <sched.h>
- #include <pthread.h>
- #include <sys/time.h>
- #include <errno.h>
- #include <sys/stat.h>
- #include <sys/dir.h>
- #include <sys/ptrace.h>
- #include <sys/vfs.h>
- #include <sys/wait.h>
- #include <sys/mman.h>
- #include <fnmatch.h>
- #include <utime.h>
- #include <pwd.h>
- #include <fcntl.h>
- #include <dlfcn.h>
- #include <netdb.h>
  #include <arpa/inet.h>
- #include <netinet/in.h>
- #include <sys/types.h>
- #include <sys/ioctl.h>
- #include <sys/socket.h>
+ #include <dlfcn.h>
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <fnmatch.h>
  #include <net/if.h>
- #include <sys/sysinfo.h>
- #include <sys/file.h>
- #include <sys/prctl.h>
+ #include <netdb.h>
+ #include <netinet/in.h>
+ #include <pthread.h>
+ #include <pwd.h>
+ #include <sched.h>
  #include <signal.h>
  #include <stddef.h>
+ #include <sys/dir.h>
+ #include <sys/file.h>
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
+ #include <sys/prctl.h>
+ #include <sys/ptrace.h>
+ #include <sys/socket.h>
+ #include <sys/stat.h>
+ #include <sys/sysinfo.h>
+ #include <sys/time.h>
+ #include <sys/types.h>
+ #include <sys/vfs.h>
+ #include <sys/wait.h>
+ #include <utime.h>
+
+//==============================================================================
+#elif JUCE_BSD
+ #include <arpa/inet.h>
+ #include <dirent.h>
+ #include <dlfcn.h>
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <fnmatch.h>
+ #include <net/if.h>
+ #include <netdb.h>
+ #include <netinet/in.h>
+ #include <pthread.h>
+ #include <pwd.h>
+ #include <sched.h>
+ #include <signal.h>
+ #include <stddef.h>
+ #include <sys/file.h>
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
+ #include <sys/mount.h>
+ #include <sys/ptrace.h>
+ #include <sys/socket.h>
+ #include <sys/stat.h>
+ #include <sys/time.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
+ #include <utime.h>
 
 //==============================================================================
 #elif JUCE_ANDROID

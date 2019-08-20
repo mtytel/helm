@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Interface class for delivery of events that are sent by an ActionBroadcaster.
 
     @see ActionBroadcaster, ChangeListener
+
+    @tags{Events}
 */
 class JUCE_API  ActionListener
 {
@@ -42,3 +44,5 @@ public:
     */
     virtual void actionListenerCallback (const String& message) = 0;
 };
+
+} // namespace juce

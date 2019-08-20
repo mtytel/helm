@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -34,6 +34,8 @@
     (This will only work on non-opaque components).
 
     @see Component::setComponentEffect, DropShadowEffect
+
+    @tags{Graphics}
 */
 class JUCE_API  GlowEffect  : public ImageEffectFilter
 {
@@ -71,3 +73,5 @@ private:
 
     JUCE_LEAK_DETECTOR (GlowEffect)
 };
+
+} // namespace juce

@@ -19,6 +19,7 @@
 
 #include "JuceHeader.h"
 #include "common.h"
+#include "helm_common.h"
 #include <string>
 #include <map>
 
@@ -30,8 +31,7 @@ namespace mopo {
 
 class MidiManager : public MidiInputCallback {
   public:
-    typedef std::pair<mopo::mopo_float, mopo::mopo_float> midi_range;
-    typedef std::map<int, std::map<std::string, midi_range>> midi_map;
+    typedef std::map<int, std::map<std::string, const mopo::ValueDetails*>> midi_map;
 
     class Listener {
       public:
@@ -45,7 +45,7 @@ class MidiManager : public MidiInputCallback {
                 std::map<std::string, String>* gui_state, Listener* listener = nullptr);
     virtual ~MidiManager();
 
-    void armMidiLearn(std::string name, mopo::mopo_float min, mopo::mopo_float max);
+    void armMidiLearn(std::string name);
     void cancelMidiLearn();
     void clearMidiLearn(const std::string& name);
     void midiInput(int control, mopo::mopo_float value);
@@ -85,8 +85,7 @@ class MidiManager : public MidiInputCallback {
     int current_folder_;
     int current_patch_;
 
-    std::string control_armed_;
-    std::pair<mopo::mopo_float, mopo::mopo_float> armed_range_;
+    const mopo::ValueDetails* armed_value_;
     midi_map midi_learn_map_;
 };
 

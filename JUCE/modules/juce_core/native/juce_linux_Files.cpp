@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 enum
 {
     U_ISOFS_SUPER_MAGIC = 0x9660,   // linux/iso_fs.h
@@ -206,22 +209,17 @@ bool Process::openDocument (const String& fileName, const String& parameters)
         cmdString = cmdLines.joinIntoString (" || ");
     }
 
-    const char* const argv[4] = { "/bin/sh", "-c", cmdString.toUTF8(), nullptr };
+    const char* const argv[4] = { "/bin/sh", "-c", cmdString.toUTF8(), 0 };
 
-#if JUCE_USE_VFORK
-    const int cpid = vfork();
-#else
     const int cpid = fork();
-#endif
 
     if (cpid == 0)
     {
-#if ! JUCE_USE_VFORK
         setsid();
-#endif
+
         // Child process
-        if (execvp (argv[0], (char**) argv) < 0)
-            _exit (0);
+        execve (argv[0], (char**) argv, environ);
+        exit (0);
     }
 
     return cpid >= 0;
@@ -234,3 +232,5 @@ void File::revealToUser() const
     else if (getParentDirectory().exists())
         getParentDirectory().startAsProcess();
 }
+
+} // namespace juce

@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="GfsdNK" name="Helm" projectType="guiapp" version="0.9.0"
               bundleIdentifier="org.tytel.helm" includeBinaryInAppConfig="1"
-              jucerVersion="5.0.2" companyName="Matt Tytel" companyWebsite="tytel.org"
+              jucerVersion="5.3.2" companyName="Matt Tytel" companyWebsite="tytel.org"
               companyEmail="matthewtytel@gmail.com" defines="" displaySplashScreen="1"
               reportAppUsage="1" splashScreenColour="Dark">
   <MAINGROUP id="CeypXq" name="Helm">
@@ -491,10 +491,10 @@
                extraCompilerFlags="" extraLinkerFlags="" iosDevelopmentTeamID="EFXDM6K3KJ"
                smallIcon="" bigIcon="PwV9iC" documentExtensions="helm,helmbank">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
+        <CONFIGURATION name="Debug" osxCompatibility="10.7 SDK" osxArchitecture="Native"
                        isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        codeSigningIdentity="" fastMath="0" cppLibType="libc++"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
+        <CONFIGURATION name="Release" osxCompatibility="10.7 SDK" osxArchitecture="64BitIntel"
                        isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
                        codeSigningIdentity="" cppLibType="libc++"/>
       </CONFIGURATIONS>
@@ -504,7 +504,6 @@
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
@@ -532,7 +531,6 @@
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
@@ -542,35 +540,32 @@
         <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
-    <VS2015 targetFolder="builds/vs15" windowsTargetPlatformVersion="8.1">
+    <VS2017 targetFolder="builds/vs17" windowsTargetPlatformVersion="8.1">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
-        <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"/>
-        <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
-                       warningsAreErrors="0" fastMath="1"/>
-        <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="Helm" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
-                       fastMath="1"/>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       winArchitecture="Win32" winWarningLevel="2"/>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       winArchitecture="x64" winWarningLevel="2"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       winArchitecture="Win32" winWarningLevel="2" fastMath="1"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../../concurrentqueue&#10;../../../mopo/src&#10;../../../src&#10;../../../src/common&#10;../../../src/editor_components&#10;../../../src/editor_sections&#10;../../../src/look_and_feel&#10;../../../src/standalone&#10;../../../src/synthesis"
+                       winArchitecture="x64" winWarningLevel="2" fastMath="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
+        <MODULEPATH id="juce_opengl" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
         <MODULEPATH id="juce_events" path="../JUCE/modules"/>
         <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_cryptography" path="../JUCE/modules"/>
         <MODULEPATH id="juce_core" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
       </MODULEPATHS>
-    </VS2015>
+    </VS2017>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
@@ -579,7 +574,6 @@
     <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
     <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
@@ -587,6 +581,9 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_WASAPI="enabled" JUCE_DIRECTSOUND="enabled" JUCE_ALSA="enabled"
-               JUCE_JACK="enabled" JUCE_WEB_BROWSER="disabled"/>
+  <JUCEOPTIONS JUCE_WASAPI="1" JUCE_DIRECTSOUND="1" JUCE_ALSA="1" JUCE_JACK="1"
+               JUCE_WEB_BROWSER="0"/>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

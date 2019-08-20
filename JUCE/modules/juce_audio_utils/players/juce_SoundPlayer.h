@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,6 +33,8 @@
     simple sounds.
 
     @see AudioProcessor, AudioProcessorGraph
+
+    @tags{Audio}
 */
 class JUCE_API  SoundPlayer             : public AudioIODeviceCallback
 {
@@ -77,8 +80,12 @@ public:
         @param deleteWhenFinished If this is true then the audio source will
                                   be deleted once the device manager has finished
                                   playing.
+        @param sampleRateOfSource The sample rate of the source. If this is zero, JUCE
+                                  will assume that the sample rate is the same as the
+                                  audio output device.
      */
-    void play (PositionableAudioSource* audioSource, bool deleteWhenFinished = false);
+    void play (PositionableAudioSource* audioSource, bool deleteWhenFinished = false,
+               double sampleRateOfSource = 0.0);
 
     /** Plays the sound from an audio sample buffer.
 
@@ -91,7 +98,7 @@ public:
         multiple outputs so that something is sent to all output channels. If it
         is false, then the buffer will just be played on the first output channels.
      */
-    void play (AudioSampleBuffer* buffer,
+    void play (AudioBuffer<float>* buffer,
                bool deleteWhenFinished = false,
                bool playOnAllOutputChannels = false);
 
@@ -126,3 +133,5 @@ private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SoundPlayer)
 };
+
+} // namespace juce

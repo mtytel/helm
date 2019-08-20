@@ -133,8 +133,8 @@ void StutterSection::resized() {
                                getWidth(), slider_height);
   SynthSection::resized();
 
-  stutter_frequency_->setPopupDisplayEnabled(false, nullptr);
-  stutter_tempo_->setPopupDisplayEnabled(false, nullptr);
-  resample_frequency_->setPopupDisplayEnabled(false, nullptr);
-  resample_tempo_->setPopupDisplayEnabled(false, nullptr);
+  stutter_frequency_->setPopupDisplayEnabled(false, false, nullptr);
+  stutter_tempo_->setPopupDisplayEnabled(false, false, nullptr);
+  resample_frequency_->setPopupDisplayEnabled(false, false, nullptr);
+  resample_tempo_->setPopupDisplayEnabled(false, false, nullptr);
 }

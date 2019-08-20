@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 ImagePreviewComponent::ImagePreviewComponent()
 {
 }
@@ -63,7 +66,7 @@ void ImagePreviewComponent::timerCallback()
     currentDetails.clear();
     repaint();
 
-    ScopedPointer<FileInputStream> in (fileToLoad.createInputStream());
+    std::unique_ptr<FileInputStream> in (fileToLoad.createInputStream());
 
     if (in != nullptr && in->getFile().existsAsFile())
     {
@@ -114,3 +117,5 @@ void ImagePreviewComponent::paint (Graphics& g)
                           Justification::centredTop, numLines);
     }
 }
+
+} // namespace juce

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -35,6 +35,8 @@
     a rectangle. It's used by various component classes to specify borders.
 
     @see Rectangle
+
+    @tags{Graphics}
 */
 template <typename ValueType>
 class BorderSize
@@ -149,3 +151,5 @@ private:
     //==============================================================================
     ValueType top, left, bottom, right;
 };
+
+} // namespace juce

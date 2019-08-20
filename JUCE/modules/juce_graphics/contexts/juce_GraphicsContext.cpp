@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace
 {
     template <typename Type>
@@ -38,7 +41,7 @@ namespace
               && (int) h >= 0 && (int) h <= maxVal);
        #endif
 
-        return Rectangle<Type> (x, y, w, h);
+        return { x, y, w, h };
     }
 }
 
@@ -49,15 +52,13 @@ LowLevelGraphicsContext::~LowLevelGraphicsContext() {}
 //==============================================================================
 Graphics::Graphics (const Image& imageToDrawOnto)
     : context (*imageToDrawOnto.createLowLevelContext()),
-      contextToDelete (&context),
-      saveStatePending (false)
+      contextToDelete (&context)
 {
     jassert (imageToDrawOnto.isValid()); // Can't draw into a null image!
 }
 
 Graphics::Graphics (LowLevelGraphicsContext& internalContext) noexcept
-    : context (internalContext),
-      saveStatePending (false)
+    : context (internalContext)
 {
 }
 
@@ -85,7 +86,7 @@ bool Graphics::reduceClipRegion (Rectangle<int> area)
     return context.clipToRectangle (area);
 }
 
-bool Graphics::reduceClipRegion (const int x, const int y, const int w, const int h)
+bool Graphics::reduceClipRegion (int x, int y, int w, int h)
 {
     return reduceClipRegion (coordsToRectangle (x, y, w, h));
 }
@@ -157,7 +158,7 @@ void Graphics::setOrigin (Point<int> newOrigin)
 
 void Graphics::setOrigin (int x, int y)
 {
-    setOrigin (Point<int> (x, y));
+    setOrigin ({ x, y });
 }
 
 void Graphics::addTransform (const AffineTransform& transform)
@@ -189,7 +190,7 @@ void Graphics::setColour (Colour newColour)
     context.setFill (newColour);
 }
 
-void Graphics::setOpacity (const float newOpacity)
+void Graphics::setOpacity (float newOpacity)
 {
     saveStateIfPending();
     context.setOpacity (newOpacity);
@@ -198,6 +199,11 @@ void Graphics::setOpacity (const float newOpacity)
 void Graphics::setGradientFill (const ColourGradient& gradient)
 {
     setFillType (gradient);
+}
+
+void Graphics::setGradientFill (ColourGradient&& gradient)
+{
+    setFillType (static_cast<ColourGradient&&> (gradient));
 }
 
 void Graphics::setTiledImageFill (const Image& imageToUse, const int anchorX, const int anchorY, const float opacity)
@@ -239,23 +245,20 @@ void Graphics::drawSingleLineText (const String& text, const int startX, const i
         // Don't pass any vertical placement flags to this method - they'll be ignored.
         jassert (justification.getOnlyVerticalFlags() == 0);
 
-        const int flags = justification.getOnlyHorizontalFlags();
+        auto flags = justification.getOnlyHorizontalFlags();
 
-        if (flags == Justification::right)
-        {
-            if (startX < context.getClipBounds().getX())
-                return;
-        }
-        else if (flags == Justification::left)
-            if (startX > context.getClipBounds().getRight())
-                return;
+        if (flags == Justification::right && startX < context.getClipBounds().getX())
+            return;
+
+        if (flags == Justification::left && startX > context.getClipBounds().getRight())
+            return;
 
         GlyphArrangement arr;
         arr.addLineOfText (context.getFont(), text, (float) startX, (float) baselineY);
 
         if (flags != Justification::left)
         {
-            float w = arr.getBoundingBox (0, -1, true).getWidth();
+            auto w = arr.getBoundingBox (0, -1, true).getWidth();
 
             if ((flags & (Justification::horizontallyCentred | Justification::horizontallyJustified)) != 0)
                 w /= 2.0f;
@@ -371,11 +374,6 @@ void Graphics::fillRectList (const RectangleList<int>& rects) const
         context.fillRect (r, false);
 }
 
-void Graphics::setPixel (int x, int y) const
-{
-    context.fillRect (coordsToRectangle (x, y, 1, 1), false);
-}
-
 void Graphics::fillAll() const
 {
     fillRect (context.getClipBounds());
@@ -385,7 +383,7 @@ void Graphics::fillAll (Colour colourToUse) const
 {
     if (! colourToUse.isTransparent())
     {
-        const Rectangle<int> clip (context.getClipBounds());
+        auto clip = context.getClipBounds();
 
         context.saveState();
         context.setFill (colourToUse);
@@ -507,15 +505,14 @@ void Graphics::drawRoundedRectangle (Rectangle<float> r, float cornerSize, float
     strokePath (p, PathStrokeType (lineThickness));
 }
 
-void Graphics::drawArrow (const Line<float>& line, float lineThickness, float arrowheadWidth, float arrowheadLength) const
+void Graphics::drawArrow (Line<float> line, float lineThickness, float arrowheadWidth, float arrowheadLength) const
 {
     Path p;
     p.addArrow (line, lineThickness, arrowheadWidth, arrowheadLength);
     fillPath (p);
 }
 
-void Graphics::fillCheckerBoard (Rectangle<int> area,
-                                 const int checkWidth, const int checkHeight,
+void Graphics::fillCheckerBoard (Rectangle<float> area, float checkWidth, float checkHeight,
                                  Colour colour1, Colour colour2) const
 {
     jassert (checkWidth > 0 && checkHeight > 0); // can't be zero or less!
@@ -527,31 +524,33 @@ void Graphics::fillCheckerBoard (Rectangle<int> area,
         if (colour1 == colour2)
         {
             context.setFill (colour1);
-            context.fillRect (area, false);
+            context.fillRect (area);
         }
         else
         {
-            const Rectangle<int> clipped (context.getClipBounds().getIntersection (area));
+            auto clipped = context.getClipBounds().getIntersection (area.getSmallestIntegerContainer());
 
             if (! clipped.isEmpty())
             {
-                context.clipToRectangle (clipped);
-
-                const int checkNumX = (clipped.getX() - area.getX()) / checkWidth;
-                const int checkNumY = (clipped.getY() - area.getY()) / checkHeight;
-                const int startX = area.getX() + checkNumX * checkWidth;
-                const int startY = area.getY() + checkNumY * checkHeight;
-                const int right  = clipped.getRight();
-                const int bottom = clipped.getBottom();
+                const int checkNumX = (int) ((clipped.getX() - area.getX()) / checkWidth);
+                const int checkNumY = (int) ((clipped.getY() - area.getY()) / checkHeight);
+                const float startX = area.getX() + checkNumX * checkWidth;
+                const float startY = area.getY() + checkNumY * checkHeight;
+                const float right  = (float) clipped.getRight();
+                const float bottom = (float) clipped.getBottom();
 
                 for (int i = 0; i < 2; ++i)
                 {
-                    context.setFill (i == ((checkNumX ^ checkNumY) & 1) ? colour1 : colour2);
-
                     int cy = i;
-                    for (int y = startY; y < bottom; y += checkHeight)
-                        for (int x = startX + (cy++ & 1) * checkWidth; x < right; x += checkWidth * 2)
-                            context.fillRect (Rectangle<int> (x, y, checkWidth, checkHeight), false);
+                    RectangleList<float> checks;
+
+                    for (float y = startY; y < bottom; y += checkHeight)
+                        for (float x = startX + (cy++ & 1) * checkWidth; x < right; x += checkWidth * 2.0f)
+                            checks.addWithoutMerging ({ x, y, checkWidth, checkHeight });
+
+                    checks.clipTo (area);
+                    context.setFill (i == ((checkNumX ^ checkNumY) & 1) ? colour1 : colour2);
+                    context.fillRectList (checks);
                 }
             }
         }
@@ -573,7 +572,7 @@ void Graphics::drawHorizontalLine (const int y, float left, float right) const
         context.fillRect (Rectangle<float> (left, (float) y, right - left, 1.0f));
 }
 
-void Graphics::drawLine (const Line<float>& line) const
+void Graphics::drawLine (Line<float> line) const
 {
     context.drawLine (line);
 }
@@ -588,15 +587,15 @@ void Graphics::drawLine (float x1, float y1, float x2, float y2, float lineThick
     drawLine (Line<float> (x1, y1, x2, y2), lineThickness);
 }
 
-void Graphics::drawLine (const Line<float>& line, const float lineThickness) const
+void Graphics::drawLine (Line<float> line, const float lineThickness) const
 {
     Path p;
     p.addLineSegment (line, lineThickness);
     fillPath (p);
 }
 
-void Graphics::drawDashedLine (const Line<float>& line, const float* const dashLengths,
-                               const int numDashLengths, const float lineThickness, int n) const
+void Graphics::drawDashedLine (Line<float> line, const float* dashLengths,
+                               int numDashLengths, float lineThickness, int n) const
 {
     jassert (n >= 0 && n < numDashLengths); // your start index must be valid!
 
@@ -702,3 +701,5 @@ Graphics::ScopedSaveState::~ScopedSaveState()
 {
     context.restoreState();
 }
+
+} // namespace juce

@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 class ListBox::RowComponent  : public Component,
                                public TooltipClient
 {
@@ -49,11 +52,11 @@ public:
         {
             setMouseCursor (m->getMouseCursorForRow (row));
 
-            customComponent = m->refreshComponentForRow (newRow, nowSelected, customComponent.release());
+            customComponent.reset (m->refreshComponentForRow (newRow, nowSelected, customComponent.release()));
 
             if (customComponent != nullptr)
             {
-                addAndMakeVisible (customComponent);
+                addAndMakeVisible (customComponent.get());
                 customComponent->setBounds (getLocalBounds());
             }
         }
@@ -149,7 +152,7 @@ public:
     }
 
     ListBox& owner;
-    ScopedPointer<Component> customComponent;
+    std::unique_ptr<Component> customComponent;
     int row = -1;
     bool selected = false, isDragging = false, isDraggingToScroll = false, selectRowOnMouseUp = false;
 
@@ -374,7 +377,8 @@ struct ListBoxMouseMoveSelector  : public MouseListener
 ListBox::ListBox (const String& name, ListBoxModel* const m)
     : Component (name), model (m)
 {
-    addAndMakeVisible (viewport = new ListViewport (*this));
+    viewport.reset (new ListViewport (*this));
+    addAndMakeVisible (viewport.get());
 
     ListBox::setWantsKeyboardFocus (true);
     ListBox::colourChanged();
@@ -382,8 +386,8 @@ ListBox::ListBox (const String& name, ListBoxModel* const m)
 
 ListBox::~ListBox()
 {
-    headerComponent = nullptr;
-    viewport = nullptr;
+    headerComponent.reset();
+    viewport.reset();
 }
 
 void ListBox::setModel (ListBoxModel* const newModel)
@@ -405,11 +409,11 @@ void ListBox::setMouseMoveSelectsRows (bool b)
     if (b)
     {
         if (mouseMoveSelector == nullptr)
-            mouseMoveSelector = new ListBoxMouseMoveSelector (*this);
+            mouseMoveSelector.reset (new ListBoxMouseMoveSelector (*this));
     }
     else
     {
-        mouseMoveSelector = nullptr;
+        mouseMoveSelector.reset();
     }
 }
 
@@ -448,7 +452,7 @@ void ListBox::visibilityChanged()
 
 Viewport* ListBox::getViewport() const noexcept
 {
-    return viewport;
+    return viewport.get();
 }
 
 //==============================================================================
@@ -651,7 +655,7 @@ int ListBox::getInsertionIndexForPosition (const int x, const int y) const noexc
 Component* ListBox::getComponentForRowNumber (const int row) const noexcept
 {
     if (auto* listRowComp = viewport->getComponentForRowIfOnscreen (row))
-        return listRowComp->customComponent;
+        return listRowComp->customComponent.get();
 
     return nullptr;
 }
@@ -788,16 +792,16 @@ void ListBox::mouseWheelMove (const MouseEvent& e, const MouseWheelDetails& whee
 {
     bool eventWasUsed = false;
 
-    if (wheel.deltaX != 0.0f && viewport->getHorizontalScrollBar()->isVisible())
+    if (wheel.deltaX != 0.0f && getHorizontalScrollBar().isVisible())
     {
         eventWasUsed = true;
-        viewport->getHorizontalScrollBar()->mouseWheelMove (e, wheel);
+        getHorizontalScrollBar().mouseWheelMove (e, wheel);
     }
 
-    if (wheel.deltaY != 0.0f && viewport->getVerticalScrollBar()->isVisible())
+    if (wheel.deltaY != 0.0f && getVerticalScrollBar().isVisible())
     {
         eventWasUsed = true;
-        viewport->getVerticalScrollBar()->mouseWheelMove (e, wheel);
+        getVerticalScrollBar().mouseWheelMove (e, wheel);
     }
 
     if (! eventWasUsed)
@@ -831,8 +835,8 @@ void ListBox::setMinimumContentWidth (const int newMinimumWidth)
 
 int ListBox::getVisibleContentWidth() const noexcept            { return viewport->getMaximumVisibleWidth(); }
 
-ScrollBar* ListBox::getVerticalScrollBar() const noexcept       { return viewport->getVerticalScrollBar(); }
-ScrollBar* ListBox::getHorizontalScrollBar() const noexcept     { return viewport->getHorizontalScrollBar(); }
+ScrollBar& ListBox::getVerticalScrollBar() const noexcept       { return viewport->getVerticalScrollBar(); }
+ScrollBar& ListBox::getHorizontalScrollBar() const noexcept     { return viewport->getHorizontalScrollBar(); }
 
 void ListBox::colourChanged()
 {
@@ -846,18 +850,17 @@ void ListBox::parentHierarchyChanged()
     colourChanged();
 }
 
-void ListBox::setOutlineThickness (const int newThickness)
+void ListBox::setOutlineThickness (int newThickness)
 {
     outlineThickness = newThickness;
     resized();
 }
 
-void ListBox::setHeaderComponent (Component* const newHeaderComponent)
+void ListBox::setHeaderComponent (Component* newHeaderComponent)
 {
-    if (headerComponent != newHeaderComponent)
+    if (headerComponent.get() != newHeaderComponent)
     {
-        headerComponent = newHeaderComponent;
-
+        headerComponent.reset (newHeaderComponent);
         addAndMakeVisible (newHeaderComponent);
         ListBox::resized();
     }
@@ -922,7 +925,7 @@ void ListBox::startDragAndDrop (const MouseEvent& e, const SparseSet<int>& rowsT
         auto dragImage = createSnapshotOfRows (rowsToDrag, x, y);
 
         auto p = Point<int> (x, y) - e.getEventRelativeTo (this).position.toInt();
-        dragContainer->startDragging (dragDescription, this, dragImage, allowDraggingToOtherWindows, &p);
+        dragContainer->startDragging (dragDescription, this, dragImage, allowDraggingToOtherWindows, &p, &e.source);
     }
     else
     {
@@ -950,3 +953,5 @@ void ListBoxModel::listWasScrolled() {}
 var ListBoxModel::getDragSourceDescription (const SparseSet<int>&)      { return {}; }
 String ListBoxModel::getTooltipForRow (int)                             { return {}; }
 MouseCursor ListBoxModel::getMouseCursorForRow (int)                    { return MouseCursor::NormalCursor; }
+
+} // namespace juce

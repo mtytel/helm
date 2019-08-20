@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace DragAndDropHelpers
 {
     //==============================================================================
@@ -254,7 +257,7 @@ namespace DragAndDropHelpers
 }
 
 //==============================================================================
-bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& files, const bool canMove)
+bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& files, const bool canMove, Component*)
 {
     FORMATETC format = { CF_HDROP, 0, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
     STGMEDIUM medium = { TYMED_HGLOBAL, { 0 }, 0 };
@@ -265,7 +268,7 @@ bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& fi
                                                                           : (DWORD) DROPEFFECT_COPY);
 }
 
-bool DragAndDropContainer::performExternalDragDropOfText (const String& text)
+bool DragAndDropContainer::performExternalDragDropOfText (const String& text, Component*)
 {
     FORMATETC format = { CF_TEXT, 0, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
     STGMEDIUM medium = { TYMED_HGLOBAL, { 0 }, 0 };
@@ -282,3 +285,5 @@ bool DragAndDropContainer::performExternalDragDropOfText (const String& text)
 
     return DragAndDropHelpers::performDragDrop (&format, &medium, DROPEFFECT_COPY | DROPEFFECT_MOVE);
 }
+
+} // namespace juce

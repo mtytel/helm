@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     MessageListener subclasses can post and receive Message objects.
 
     @see Message, MessageManager, ActionListener, ChangeListener
+
+    @tags{Events}
 */
 class JUCE_API  MessageListener
 {
@@ -64,3 +66,5 @@ private:
     WeakReference<MessageListener>::Master masterReference;
     friend class WeakReference<MessageListener>;
 };
+
+} // namespace juce

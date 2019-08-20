@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 /**
     This class contains a ValueTree which is used to manage an AudioProcessor's entire state.
@@ -41,6 +42,8 @@
     To use:
     1) Create an AudioProcessorValueTreeState, and give it some parameters using createAndAddParameter().
     2) Initialise the state member variable with a type name.
+
+    @tags{Audio}
 */
 class JUCE_API  AudioProcessorValueTreeState  : private Timer,
                                                 private ValueTree::Listener
@@ -66,16 +69,25 @@ public:
         Calling this will create and add a special type of AudioProcessorParameter to the
         AudioProcessor to which this state is attached.
 
-        @param parameterID          A unique string ID for the new parameter
-        @param parameterName        The name that the parameter will return from AudioProcessorParameter::getName()
-        @param labelText            The label that the parameter will return from AudioProcessorParameter::getLabel()
-        @param valueRange           A mapping that will be used to determine the value range which this parameter uses
-        @param defaultValue         A default value for the parameter (in non-normalised units)
-        @param valueToTextFunction  A function that will convert a non-normalised value to a string for the
-                                    AudioProcessorParameter::getText() method. This can be nullptr to use the
-                                    default implementation
-        @param textToValueFunction  The inverse of valueToTextFunction
-        @param isMetaParameter      Set this value to true if this should be a meta parameter
+        @param parameterID              A unique string ID for the new parameter
+        @param parameterName            The name that the parameter will return from AudioProcessorParameter::getName()
+        @param labelText                The label that the parameter will return from AudioProcessorParameter::getLabel()
+        @param valueRange               A mapping that will be used to determine the value range which this parameter uses
+        @param defaultValue             A default value for the parameter (in non-normalised units)
+        @param valueToTextFunction      A function that will convert a non-normalised value to a string for the
+                                        AudioProcessorParameter::getText() method. This can be nullptr to use the
+                                        default implementation
+        @param textToValueFunction      The inverse of valueToTextFunction
+        @param isMetaParameter          Set this value to true if this should be a meta parameter
+        @param isAutomatableParameter   Set this value to false if this parameter should not be automatable
+        @param isDiscrete               Set this value to true to make this parameter take discrete values in a host.
+                                        @see AudioProcessorParameter::isDiscrete
+        @param category                 Which category the parameter should use.
+                                        @see AudioProcessorParameter::Category
+        @param isBoolean                Set this value to true to make this parameter appear as a boolean toggle in
+                                        a hosts view of your plug-ins parameters
+                                        @see AudioProcessorParameter::isBoolean
+
         @returns the parameter object that was created
     */
     AudioProcessorParameterWithID* createAndAddParameter (const String& parameterID,
@@ -85,7 +97,12 @@ public:
                                                           float defaultValue,
                                                           std::function<String (float)> valueToTextFunction,
                                                           std::function<float (const String&)> textToValueFunction,
-                                                          bool isMetaParameter = false);
+                                                          bool isMetaParameter = false,
+                                                          bool isAutomatableParameter = true,
+                                                          bool isDiscrete = false,
+                                                          AudioProcessorParameter::Category category
+                                                             = AudioProcessorParameter::genericParameter,
+                                                          bool isBoolean = false);
 
     /** Returns a parameter by its ID string. */
     AudioProcessorParameterWithID* getParameter (StringRef parameterID) const noexcept;
@@ -118,6 +135,33 @@ public:
 
     /** Returns the range that was set when the given parameter was created. */
     NormalisableRange<float> getParameterRange (StringRef parameterID) const noexcept;
+
+    /** Returns a copy of the state value tree.
+
+        The AudioProcessorValueTreeState's ValueTree is updated internally on the
+        message thread, but there may be cases when you may want to access the state
+        from a different thread (getStateInformation is a good example). This method
+        flushes all pending audio parameter value updates and returns a copy of the
+        state in a thread safe way.
+
+        Note: This method uses locks to synchronise thread access, so whilst it is
+        thread-safe, it is not realtime-safe. Do not call this method from within
+        your audio processing code!
+    */
+    ValueTree copyState();
+
+    /** Replaces the state value tree.
+
+        The AudioProcessorValueTreeState's ValueTree is updated internally on the
+        message thread, but there may be cases when you may want to modify the state
+        from a different thread (setStateInformation is a good example). This method
+        allows you to replace the state in a thread safe way.
+
+        Note: This method uses locks to synchronise thread access, so whilst it is
+        thread-safe, it is not realtime-safe. Do not call this method from within
+        your audio processing code!
+    */
+    void replaceState (const ValueTree& newState);
 
     /** A reference to the processor with which this state is associated. */
     AudioProcessor& processor;
@@ -154,7 +198,7 @@ public:
     private:
         struct Pimpl;
         friend struct ContainerDeletePolicy<Pimpl>;
-        ScopedPointer<Pimpl> pimpl;
+        std::unique_ptr<Pimpl> pimpl;
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SliderAttachment)
     };
 
@@ -178,7 +222,7 @@ public:
     private:
         struct Pimpl;
         friend struct ContainerDeletePolicy<Pimpl>;
-        ScopedPointer<Pimpl> pimpl;
+        std::unique_ptr<Pimpl> pimpl;
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ComboBoxAttachment)
     };
 
@@ -202,7 +246,7 @@ public:
     private:
         struct Pimpl;
         friend struct ContainerDeletePolicy<Pimpl>;
-        ScopedPointer<Pimpl> pimpl;
+        std::unique_ptr<Pimpl> pimpl;
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ButtonAttachment)
     };
 
@@ -212,6 +256,7 @@ private:
     friend struct Parameter;
 
     ValueTree getOrCreateChildValueTree (const String&);
+    bool flushParameterValuesToValueTree();
     void timerCallback() override;
 
     void valueTreePropertyChanged (ValueTree&, const Identifier&) override;
@@ -222,8 +267,13 @@ private:
     void valueTreeRedirected (ValueTree&) override;
     void updateParameterConnectionsToChildTrees();
 
-    Identifier valueType, valuePropertyID, idPropertyID;
-    bool updatingConnections;
+    Identifier valueType { "PARAM" },
+               valuePropertyID { "value" },
+               idPropertyID { "id" };
+
+    CriticalSection valueTreeChanging;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioProcessorValueTreeState)
 };
+
+} // namespace juce

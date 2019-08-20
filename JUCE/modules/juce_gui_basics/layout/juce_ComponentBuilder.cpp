@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace ComponentBuilderHelpers
 {
     static String getStateId (const ValueTree& state)
@@ -52,9 +55,9 @@ namespace ComponentBuilderHelpers
         if (c.getComponentID() == compId)
             return &c;
 
-        for (int i = c.getNumChildComponents(); --i >= 0;)
-            if (Component* const child = findComponentWithID (*c.getChildComponent (i), compId))
-                return child;
+        for (auto* child : c.getChildren())
+            if (auto* found = findComponentWithID (*child, compId))
+                return found;
 
         return nullptr;
     }
@@ -111,7 +114,7 @@ ComponentBuilder::~ComponentBuilder()
    #if JUCE_DEBUG
     // Don't delete the managed component!! The builder owns that component, and will delete
     // it automatically when it gets deleted.
-    jassert (componentRef.get() == static_cast<Component*> (component));
+    jassert (componentRef.get() == component.get());
    #endif
 }
 
@@ -119,14 +122,14 @@ Component* ComponentBuilder::getManagedComponent()
 {
     if (component == nullptr)
     {
-        component = createComponent();
+        component.reset (createComponent());
 
        #if JUCE_DEBUG
-        componentRef = component;
+        componentRef = component.get();
        #endif
     }
 
-    return component;
+    return component.get();
 }
 
 Component* ComponentBuilder::createComponent()
@@ -179,7 +182,6 @@ ComponentBuilder::TypeHandler* ComponentBuilder::getHandler (const int index) co
 
 void ComponentBuilder::registerStandardComponentTypes()
 {
-    Drawable::registerDrawableTypeHandlers (*this);
 }
 
 void ComponentBuilder::setImageProvider (ImageProvider* newImageProvider) noexcept
@@ -238,7 +240,7 @@ void ComponentBuilder::updateChildComponents (Component& parent, const ValueTree
 {
     using namespace ComponentBuilderHelpers;
 
-    const int numExistingChildComps = parent.getNumChildComponents();
+    auto numExistingChildComps = parent.getNumChildComponents();
 
     Array<Component*> componentsInOrder;
     componentsInOrder.ensureStorageAllocated (numExistingChildComps);
@@ -250,15 +252,16 @@ void ComponentBuilder::updateChildComponents (Component& parent, const ValueTree
         for (int i = 0; i < numExistingChildComps; ++i)
             existingComponents.add (parent.getChildComponent (i));
 
-        const int newNumChildren = children.getNumChildren();
+        auto newNumChildren = children.getNumChildren();
+
         for (int i = 0; i < newNumChildren; ++i)
         {
-            const ValueTree childState (children.getChild (i));
-            Component* c = removeComponentWithID (existingComponents, getStateId (childState));
+            auto childState = children.getChild (i);
+            auto* c = removeComponentWithID (existingComponents, getStateId (childState));
 
             if (c == nullptr)
             {
-                if (TypeHandler* const type = getHandlerForState (childState))
+                if (auto* type = getHandlerForState (childState))
                     c = ComponentBuilderHelpers::createNewComponent (*type, childState, &parent);
                 else
                     jassertfalse;
@@ -280,3 +283,5 @@ void ComponentBuilder::updateChildComponents (Component& parent, const ValueTree
             componentsInOrder.getUnchecked(i)->toBehind (componentsInOrder.getUnchecked (i + 1));
     }
 }
+
+} // namespace juce

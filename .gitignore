@@ -6,6 +6,7 @@ xcuserdata
 xcshareddata
 build
 .clang_complete
+.vs
 .ycm_extra_conf.py*
 *.pbxuser
 *.perspective

@@ -24,14 +24,29 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 /** An interface to allow an AudioProcessor to receive VST specific calls from
     the host.
+
+    @tags{Audio}
 */
 struct VSTCallbackHandler
 {
     virtual ~VSTCallbackHandler() {}
+
+    /** This is called by the VST plug-in wrapper when it receives unhandled
+        plug-in "can do" calls from the host.
+    */
+    virtual pointer_sized_int handleVstPluginCanDo (int32 index,
+                                                    pointer_sized_int value,
+                                                    void* ptr,
+                                                    float opt)
+    {
+        ignoreUnused (index, value, ptr, opt);
+        return 0;
+    }
 
     /** This is called by the VST plug-in wrapper when it receives unhandled
         vendor specific calls from the host.
@@ -41,3 +56,5 @@ struct VSTCallbackHandler
                                                              void* ptr,
                                                              float opt) = 0;
 };
+
+} // namespace juce

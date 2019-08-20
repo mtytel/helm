@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class TimeSliceThread;
 
@@ -36,6 +37,8 @@ class TimeSliceThread;
     deleting your client!
 
     @see TimeSliceThread
+
+    @tags{Core}
 */
 class JUCE_API  TimeSliceClient
 {
@@ -73,6 +76,8 @@ private:
     all a chance to run some sort of short task.
 
     @see TimeSliceClient, Thread
+
+    @tags{Core}
 */
 class JUCE_API  TimeSliceThread   : public Thread
 {
@@ -134,10 +139,12 @@ public:
     //==============================================================================
 private:
     CriticalSection callbackLock, listLock;
-    Array <TimeSliceClient*> clients;
-    TimeSliceClient* clientBeingCalled;
+    Array<TimeSliceClient*> clients;
+    TimeSliceClient* clientBeingCalled = nullptr;
 
     TimeSliceClient* getNextClient (int index) const;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TimeSliceThread)
 };
+
+} // namespace juce

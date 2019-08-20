@@ -24,7 +24,9 @@
   ==============================================================================
 */
 
-//==============================================================================
+namespace juce
+{
+
 extern int juce_gtkWebkitMain (int argc, const char* argv[]);
 
 class CommandReceiver
@@ -417,7 +419,8 @@ private:
 };
 
 //==============================================================================
-class WebBrowserComponent::Pimpl : private Thread, private CommandReceiver::Responder
+class WebBrowserComponent::Pimpl  : private Thread,
+                                    private CommandReceiver::Responder
 {
 public:
     Pimpl (WebBrowserComponent& parent)
@@ -446,17 +449,18 @@ public:
 
         unsigned long windowHandle;
         ssize_t actual = read (inChannel, &windowHandle, sizeof (windowHandle));
+
         if (actual != sizeof (windowHandle))
         {
             killChild();
             return;
         }
 
-        receiver = new CommandReceiver (this, inChannel);
+        receiver.reset (new CommandReceiver (this, inChannel));
         startThread();
 
-        xembed = new XEmbedComponent (windowHandle);
-        owner.addAndMakeVisible (xembed);
+        xembed.reset (new XEmbedComponent (windowHandle));
+        owner.addAndMakeVisible (xembed.get());
     }
 
     void quit()
@@ -693,10 +697,10 @@ private:
 
 private:
     WebBrowserComponent& owner;
-    ScopedPointer<CommandReceiver> receiver;
+    std::unique_ptr<CommandReceiver> receiver;
     int childProcess = 0, inChannel = 0, outChannel = 0;
     int threadControl[2];
-    ScopedPointer<XEmbedComponent> xembed;
+    std::unique_ptr<XEmbedComponent> xembed;
     WaitableEvent threadBlocker;
 };
 
@@ -713,11 +717,6 @@ WebBrowserComponent::WebBrowserComponent (const bool unloadPageWhenBrowserIsHidd
 
 WebBrowserComponent::~WebBrowserComponent()
 {
-    if (browser != nullptr)
-    {
-        delete browser;
-        browser = nullptr;
-    }
 }
 
 //==============================================================================
@@ -821,3 +820,5 @@ int juce_gtkWebkitMain (int argc, const char* argv[])
                            String (argv[3]).getIntValue());
     return child.entry();
 }
+
+} // namespace juce

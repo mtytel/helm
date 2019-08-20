@@ -248,10 +248,10 @@ void OscillatorSection::resized() {
 
   SynthSection::resized();
 
-  unison_detune_1_->setPopupDisplayEnabled(false, nullptr);
-  unison_detune_2_->setPopupDisplayEnabled(false, nullptr);
-  unison_voices_1_->setPopupDisplayEnabled(false, nullptr);
-  unison_voices_2_->setPopupDisplayEnabled(false, nullptr);
+  unison_detune_1_->setPopupDisplayEnabled(false, false, nullptr);
+  unison_detune_2_->setPopupDisplayEnabled(false, false, nullptr);
+  unison_voices_1_->setPopupDisplayEnabled(false, false, nullptr);
+  unison_voices_2_->setPopupDisplayEnabled(false, false, nullptr);
 }
 
 void OscillatorSection::reset() {

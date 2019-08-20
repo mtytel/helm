@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,6 +36,8 @@
     stroke to draw.
 
     @see Path, Graphics::strokePath
+
+    @tags{Graphics}
 */
 class JUCE_API  PathStrokeType
 {
@@ -201,3 +203,5 @@ private:
 
     JUCE_LEAK_DETECTOR (PathStrokeType)
 };
+
+} // namespace juce

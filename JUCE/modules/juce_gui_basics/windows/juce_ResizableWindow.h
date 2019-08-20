@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -46,6 +46,8 @@
     to choose the style of resizing to use.
 
     @see TopLevelWindow
+
+    @tags{GUI}
 */
 class JUCE_API  ResizableWindow  : public TopLevelWindow
 {
@@ -377,8 +379,8 @@ protected:
     void addAndMakeVisible (Component*, int zOrder = -1);
    #endif
 
-    ScopedPointer<ResizableCornerComponent> resizableCorner;
-    ScopedPointer<ResizableBorderComponent> resizableBorder;
+    std::unique_ptr<ResizableCornerComponent> resizableCorner;
+    std::unique_ptr<ResizableBorderComponent> resizableBorder;
 
 private:
     //==============================================================================
@@ -406,3 +408,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ResizableWindow)
 };
+
+} // namespace juce

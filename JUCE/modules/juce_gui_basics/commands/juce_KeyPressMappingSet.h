@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -81,6 +81,8 @@
     to easily edit the key mappings.
 
     @see Component::addKeyListener(), KeyMappingEditorComponent, ApplicationCommandManager
+
+    @tags{GUI}
 */
 class JUCE_API  KeyPressMappingSet  : public KeyListener,
                                       public ChangeBroadcaster,
@@ -241,3 +243,5 @@ private:
     KeyPressMappingSet& operator= (const KeyPressMappingSet&);
     JUCE_LEAK_DETECTOR (KeyPressMappingSet)
 };
+
+} // namespace juce

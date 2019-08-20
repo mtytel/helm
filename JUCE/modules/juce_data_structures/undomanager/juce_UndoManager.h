@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -46,6 +46,8 @@
     when actions are performed or undone.
 
     @see UndoableAction
+
+    @tags{DataStructures}
 */
 class JUCE_API  UndoManager  : public ChangeBroadcaster
 {
@@ -156,14 +158,10 @@ public:
     */
     bool canUndo() const noexcept;
 
-    /** Returns the name of the transaction that will be rolled-back when undo() is called.
-        @see undo
-    */
-    String getUndoDescription() const;
-
     /** Tries to roll-back the last transaction.
         @returns    true if the transaction can be undone, and false if it fails, or
                     if there aren't any transactions to undo
+        @see undoCurrentTransactionOnly
     */
     bool undo();
 
@@ -182,6 +180,23 @@ public:
     */
     bool undoCurrentTransactionOnly();
 
+    /** Returns the name of the transaction that will be rolled-back when undo() is called.
+        @see undo, canUndo, getUndoDescriptions
+    */
+    String getUndoDescription() const;
+
+    /** Returns the names of the sequence of transactions that will be performed if undo()
+        is repeatedly called. Note that for transactions where no name was provided, the
+        corresponding string will be empty.
+        @see undo, canUndo, getUndoDescription
+    */
+    StringArray getUndoDescriptions() const;
+
+    /** Returns the time to which the state would be restored if undo() was to be called.
+        If an undo isn't currently possible, it'll return Time().
+    */
+    Time getTimeOfUndoTransaction() const;
+
     /** Returns a list of the UndoableAction objects that have been performed during the
         transaction that is currently open.
 
@@ -198,26 +213,11 @@ public:
     */
     int getNumActionsInCurrentTransaction() const;
 
-    /** Returns the time to which the state would be restored if undo() was to be called.
-        If an undo isn't currently possible, it'll return Time().
-    */
-    Time getTimeOfUndoTransaction() const;
-
-    /** Returns the time to which the state would be restored if redo() was to be called.
-        If a redo isn't currently possible, it'll return Time::getCurrentTime().
-    */
-    Time getTimeOfRedoTransaction() const;
-
     //==============================================================================
     /** Returns true if there's at least one action in the list to redo.
         @see getRedoDescription, redo, canUndo
     */
     bool canRedo() const noexcept;
-
-    /** Returns the name of the transaction that will be redone when redo() is called.
-        @see redo
-    */
-    String getRedoDescription() const;
 
     /** Tries to redo the last transaction that was undone.
         @returns   true if the transaction can be redone, and false if it fails, or
@@ -225,6 +225,23 @@ public:
     */
     bool redo();
 
+    /** Returns the name of the transaction that will be redone when redo() is called.
+        @see redo, canRedo, getRedoDescriptions
+    */
+    String getRedoDescription() const;
+
+    /** Returns the names of the sequence of transactions that will be performed if redo()
+        is repeatedly called. Note that for transactions where no name was provided, the
+        corresponding string will be empty.
+        @see redo, canRedo, getRedoDescription
+    */
+    StringArray getRedoDescriptions() const;
+
+    /** Returns the time to which the state would be restored if redo() was to be called.
+        If a redo isn't currently possible, it'll return Time::getCurrentTime().
+        @see redo, canRedo
+    */
+    Time getTimeOfRedoTransaction() const;
 
 private:
     //==============================================================================
@@ -232,8 +249,8 @@ private:
     friend struct ContainerDeletePolicy<ActionSet>;
     OwnedArray<ActionSet> transactions, stashedFutureTransactions;
     String newTransactionName;
-    int totalUnitsStored, maxNumUnitsToKeep, minimumTransactionsToKeep, nextIndex;
-    bool newTransaction, reentrancyCheck;
+    int totalUnitsStored = 0, maxNumUnitsToKeep = 0, minimumTransactionsToKeep = 0, nextIndex = 0;
+    bool newTransaction = true, reentrancyCheck = false;
     ActionSet* getCurrentSet() const noexcept;
     ActionSet* getNextSet() const noexcept;
     void moveFutureTransactionsToStash();
@@ -242,3 +259,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UndoManager)
 };
+
+} // namespace juce

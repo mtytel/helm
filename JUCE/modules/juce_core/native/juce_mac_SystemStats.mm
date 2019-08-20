@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 ScopedAutoReleasePool::ScopedAutoReleasePool()
 {
     pool = [[NSAutoreleasePool alloc] init];
@@ -144,10 +147,15 @@ String SystemStats::getDeviceDescription()
     {
         HeapBlock<char> model (size);
         if (sysctlbyname ("hw.model", model,   &size, nullptr, 0) >= 0)
-            return model.getData();
+            return model.get();
     }
     return {};
    #endif
+}
+
+String SystemStats::getDeviceManufacturer()
+{
+    return "Apple";
 }
 
 bool SystemStats::isOperatingSystem64Bit()
@@ -313,3 +321,5 @@ int SystemStats::getPageSize()
 {
     return (int) NSPageSize();
 }
+
+} // namespace juce

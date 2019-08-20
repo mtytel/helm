@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 void AudioDataConverters::convertFloatToInt16LE (const float* source, void* dest, int numSamples, const int destBytesPerSample)
 {
     const double maxVal = (double) 0x7fff;
@@ -309,7 +312,7 @@ void AudioDataConverters::convertInt24BEToFloat (const void* const source, float
 
 void AudioDataConverters::convertInt32LEToFloat (const void* const source, float* const dest, int numSamples, const int srcBytesPerSample)
 {
-    const float scale = 1.0f / 0x7fffffff;
+    const auto scale = 1.0f / (float) 0x7fffffff;
     const char* intData = static_cast<const char*> (source);
 
     if (source != (void*) dest || srcBytesPerSample >= 4)
@@ -334,7 +337,7 @@ void AudioDataConverters::convertInt32LEToFloat (const void* const source, float
 
 void AudioDataConverters::convertInt32BEToFloat (const void* const source, float* const dest, int numSamples, const int srcBytesPerSample)
 {
-    const float scale = 1.0f / 0x7fffffff;
+    const auto scale = 1.0f / (float) 0x7fffffff;
     const char* intData = static_cast<const char*> (source);
 
     if (source != (void*) dest || srcBytesPerSample >= 4)
@@ -475,7 +478,7 @@ void AudioDataConverters::deinterleaveSamples (const float* const source,
 class AudioConversionTests  : public UnitTest
 {
 public:
-    AudioConversionTests() : UnitTest ("Audio data conversion") {}
+    AudioConversionTests() : UnitTest ("Audio data conversion", "Audio") {}
 
     template <class F1, class E1, class F2, class E2>
     struct Test5
@@ -511,13 +514,13 @@ public:
             }
 
             // convert data from the source to dest format..
-            ScopedPointer<AudioData::Converter> conv (new AudioData::ConverterInstance <AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::Const>,
-                                                                                        AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::NonConst> >());
+            std::unique_ptr<AudioData::Converter> conv (new AudioData::ConverterInstance <AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::Const>,
+                                                                                          AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::NonConst>>());
             conv->convertSamples (inPlace ? reversed : converted, original, numSamples);
 
             // ..and back again..
-            conv = new AudioData::ConverterInstance <AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::Const>,
-                                                     AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::NonConst> >();
+            conv.reset (new AudioData::ConverterInstance <AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::Const>,
+                                                          AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::NonConst>>());
             if (! inPlace)
                 zeromem (reversed, sizeof (reversed));
 
@@ -529,7 +532,7 @@ public:
                 AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::Const> d2 (reversed);
 
                 const int errorMargin = 2 * AudioData::Pointer<F1, E1, AudioData::NonInterleaved, AudioData::Const>::get32BitResolution()
-                                            + AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::Const>::get32BitResolution();
+                                          + AudioData::Pointer<F2, E2, AudioData::NonInterleaved, AudioData::Const>::get32BitResolution();
 
                 for (int i = 0; i < numSamples; ++i)
                 {
@@ -596,3 +599,5 @@ public:
 static AudioConversionTests audioConversionUnitTests;
 
 #endif
+
+} // namespace juce

@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 KeyPressMappingSet::KeyPressMappingSet (ApplicationCommandManager& cm)
     : commandManager (cm)
 {
@@ -48,7 +51,7 @@ Array<KeyPress> KeyPressMappingSet::getKeyPressesAssignedToCommand (const Comman
         if (mappings.getUnchecked(i)->commandID == commandID)
             return mappings.getUnchecked (i)->keypresses;
 
-    return Array<KeyPress>();
+    return {};
 }
 
 void KeyPressMappingSet::addKeyPress (const CommandID commandID, const KeyPress& newKeyPress, int insertIndex)
@@ -254,11 +257,11 @@ bool KeyPressMappingSet::restoreFromXml (const XmlElement& xmlVersion)
 
 XmlElement* KeyPressMappingSet::createXml (const bool saveDifferencesFromDefaultSet) const
 {
-    ScopedPointer<KeyPressMappingSet> defaultSet;
+    std::unique_ptr<KeyPressMappingSet> defaultSet;
 
     if (saveDifferencesFromDefaultSet)
     {
-        defaultSet = new KeyPressMappingSet (commandManager);
+        defaultSet.reset (new KeyPressMappingSet (commandManager));
         defaultSet->resetToDefaultMappings();
     }
 
@@ -412,3 +415,5 @@ void KeyPressMappingSet::globalFocusChanged (Component* focusedComponent)
     if (focusedComponent != nullptr)
         focusedComponent->keyStateChanged (false);
 }
+
+} // namespace juce

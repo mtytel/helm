@@ -24,13 +24,9 @@
   ==============================================================================
 */
 
-} // namespace juce
+namespace juce
+{
 
-#include "../../juce_core/native/juce_osx_ObjCHelpers.h"
-
-namespace juce {
-
-//==============================================================================
 void LookAndFeel::playAlertSound()
 {
     NSBeep();
@@ -64,8 +60,8 @@ public:
                      ModalComponentManager::Callback* callback, const char* b1, const char* b2, const char* b3,
                      bool runAsync)
     {
-        ScopedPointer<OSXMessageBox> mb (new OSXMessageBox (iconType, title, message, b1, b2, b3,
-                                                            callback, runAsync));
+        std::unique_ptr<OSXMessageBox> mb (new OSXMessageBox (iconType, title, message, b1, b2, b3,
+                                                              callback, runAsync));
         if (! runAsync)
             return mb->getResult();
 
@@ -76,14 +72,14 @@ public:
 private:
     AlertWindow::AlertIconType iconType;
     String title, message;
-    ScopedPointer<ModalComponentManager::Callback> callback;
+    std::unique_ptr<ModalComponentManager::Callback> callback;
     const char* button1;
     const char* button2;
     const char* button3;
 
     void handleAsyncUpdate() override
     {
-        const int result = getResult();
+        auto result = getResult();
 
         if (callback != nullptr)
             callback->modalStateFinished (result);
@@ -168,11 +164,14 @@ static NSRect getDragRect (NSView* view, NSEvent* event)
                     fromView: nil];
 }
 
-NSView* getNSViewForDragEvent()
+static NSView* getNSViewForDragEvent (Component* sourceComp)
 {
-    if (auto* draggingSource = Desktop::getInstance().getDraggingMouseSource(0))
-        if (auto* sourceComp = draggingSource->getComponentUnderMouse())
-            return (NSView*) sourceComp->getWindowHandle();
+    if (sourceComp == nullptr)
+        if (auto* draggingSource = Desktop::getInstance().getDraggingMouseSource(0))
+            sourceComp = draggingSource->getComponentUnderMouse();
+
+    if (sourceComp != nullptr)
+        return (NSView*) sourceComp->getWindowHandle();
 
     jassertfalse;  // This method must be called in response to a component's mouseDown or mouseDrag event!
     return nil;
@@ -210,12 +209,12 @@ private:
     }
 };
 
-bool DragAndDropContainer::performExternalDragDropOfText (const String& text)
+bool DragAndDropContainer::performExternalDragDropOfText (const String& text, Component* sourceComponent)
 {
     if (text.isEmpty())
         return false;
 
-    if (auto* view = getNSViewForDragEvent())
+    if (auto* view = getNSViewForDragEvent (sourceComponent))
     {
         JUCE_AUTORELEASEPOOL
         {
@@ -248,18 +247,14 @@ bool DragAndDropContainer::performExternalDragDropOfText (const String& text)
     return false;
 }
 
-class NSDraggingSourceHelper   : public ObjCClass <NSObject <NSDraggingSource>>
+struct NSDraggingSourceHelper   : public ObjCClass<NSObject<NSDraggingSource>>
 {
-public:
-    NSDraggingSourceHelper()
-        : ObjCClass <NSObject <NSDraggingSource>> ("JUCENSDraggingSourceHelper_")
+    NSDraggingSourceHelper() : ObjCClass<NSObject<NSDraggingSource>> ("JUCENSDraggingSourceHelper_")
     {
         addMethod (@selector (draggingSession:sourceOperationMaskForDraggingContext:), sourceOperationMaskForDraggingContext, "c@:@@");
-
         registerClass();
     }
 
-private:
     static NSDragOperation sourceOperationMaskForDraggingContext (id, SEL, NSDraggingSession*, NSDraggingContext)
     {
         return NSDragOperationCopy;
@@ -268,18 +263,20 @@ private:
 
 static NSDraggingSourceHelper draggingSourceHelper;
 
-bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& files, bool /*canMoveFiles*/)
+bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& files, bool /*canMoveFiles*/,
+                                                           Component* sourceComponent)
 {
     if (files.isEmpty())
         return false;
 
-    if (auto* view = getNSViewForDragEvent())
+    if (auto* view = getNSViewForDragEvent (sourceComponent))
     {
         JUCE_AUTORELEASEPOOL
         {
             if (auto* event = [[view window] currentEvent])
             {
                 auto* dragItems = [[[NSMutableArray alloc] init] autorelease];
+
                 for (auto& filename : files)
                 {
                     auto* nsFilename = juceStringToNS (filename);
@@ -289,7 +286,7 @@ bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& fi
                     auto eventPos = [event locationInWindow];
                     auto dragRect = [view convertRect: NSMakeRect (eventPos.x - 16.0f, eventPos.y - 16.0f, 32.0f, 32.0f)
                                              fromView: nil];
-                    auto *dragImage = [[NSWorkspace sharedWorkspace] iconForFile: nsFilename];
+                    auto* dragImage = [[NSWorkspace sharedWorkspace] iconForFile: nsFilename];
                     [dragItem setDraggingFrame: dragRect
                                       contents: dragImage];
 
@@ -299,12 +296,9 @@ bool DragAndDropContainer::performExternalDragDropOfFiles (const StringArray& fi
 
                 auto* helper = [draggingSourceHelper.createInstance() autorelease];
 
-                if (! [view beginDraggingSessionWithItems: dragItems
-                                                    event: event
-                                                   source: helper])
-                    return false;
-
-                return true;
+                return [view beginDraggingSessionWithItems: dragItems
+                                                     event: event
+                                                    source: helper];
             }
         }
     }
@@ -370,11 +364,11 @@ public:
         if (Process::isForegroundProcess())
         {
             if (assertion == nullptr)
-                assertion = new PMAssertion();
+                assertion.reset (new PMAssertion());
         }
         else
         {
-            assertion = nullptr;
+            assertion.reset();
         }
     }
 
@@ -398,7 +392,7 @@ public:
         IOPMAssertionID assertionID;
     };
 
-    ScopedPointer<PMAssertion> assertion;
+    std::unique_ptr<PMAssertion> assertion;
    #else
     ScreenSaverDefeater()
     {
@@ -414,14 +408,14 @@ public:
    #endif
 };
 
-static ScopedPointer<ScreenSaverDefeater> screenSaverDefeater;
+static std::unique_ptr<ScreenSaverDefeater> screenSaverDefeater;
 
 void Desktop::setScreenSaverEnabled (const bool isEnabled)
 {
     if (isEnabled)
-        screenSaverDefeater = nullptr;
+        screenSaverDefeater.reset();
     else if (screenSaverDefeater == nullptr)
-        screenSaverDefeater = new ScreenSaverDefeater();
+        screenSaverDefeater.reset (new ScreenSaverDefeater());
 }
 
 bool Desktop::isScreenSaverEnabled()
@@ -430,9 +424,8 @@ bool Desktop::isScreenSaverEnabled()
 }
 
 //==============================================================================
-class DisplaySettingsChangeCallback  : private DeletedAtShutdown
+struct DisplaySettingsChangeCallback  : private DeletedAtShutdown
 {
-public:
     DisplaySettingsChangeCallback()
     {
         CGDisplayRegisterReconfigurationCallback (displayReconfigurationCallBack, 0);
@@ -449,13 +442,12 @@ public:
         const_cast<Desktop::Displays&> (Desktop::getInstance().getDisplays()).refresh();
     }
 
-    juce_DeclareSingleton_SingleThreaded_Minimal (DisplaySettingsChangeCallback)
+    JUCE_DECLARE_SINGLETON_SINGLETHREADED_MINIMAL (DisplaySettingsChangeCallback)
 
-private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DisplaySettingsChangeCallback)
 };
 
-juce_ImplementSingleton_SingleThreaded (DisplaySettingsChangeCallback)
+JUCE_IMPLEMENT_SINGLETON (DisplaySettingsChangeCallback)
 
 static Rectangle<int> convertDisplayRect (NSRect r, CGFloat mainScreenBottom)
 {
@@ -566,6 +558,7 @@ static Image createNSWindowSnapshot (NSWindow* nsWindow)
     }
 }
 
+Image createSnapshotOfNativeWindow (void*);
 Image createSnapshotOfNativeWindow (void* nativeWindowHandle)
 {
     if (id windowOrView = (id) nativeWindowHandle)
@@ -577,7 +570,7 @@ Image createSnapshotOfNativeWindow (void* nativeWindowHandle)
             return createNSWindowSnapshot ([(NSView*) windowOrView window]);
     }
 
-    return Image();
+    return {};
 }
 
 //==============================================================================
@@ -600,12 +593,9 @@ String SystemClipboard::getTextFromClipboard()
 void Process::setDockIconVisible (bool isVisible)
 {
     ProcessSerialNumber psn { 0, kCurrentProcess };
-    ProcessApplicationTransformState state = isVisible
-        ? kProcessTransformToForegroundApplication
-        : kProcessTransformToUIElementApplication;
 
-    OSStatus err = TransformProcessType (&psn, state);
-
+    OSStatus err = TransformProcessType (&psn, isVisible ? kProcessTransformToForegroundApplication
+                                                         : kProcessTransformToUIElementApplication);
     jassert (err == 0);
     ignoreUnused (err);
 }
@@ -615,3 +605,5 @@ bool Desktop::isOSXDarkModeActive()
     return [[[NSUserDefaults standardUserDefaults] stringForKey: nsStringLiteral ("AppleInterfaceStyle")]
                 isEqualToString: nsStringLiteral ("Dark")];
 }
+
+} // namespace juce

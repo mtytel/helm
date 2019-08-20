@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -34,6 +34,8 @@
     Use AudioProcessor::addListener() to register your listener with an AudioProcessor.
 
     @see AudioProcessor
+
+    @tags{Audio}
 */
 class JUCE_API  AudioProcessorListener
 {
@@ -103,3 +105,5 @@ public:
     virtual void audioProcessorParameterChangeGestureEnd (AudioProcessor* processor,
                                                           int parameterIndex);
 };
+
+} // namespace juce

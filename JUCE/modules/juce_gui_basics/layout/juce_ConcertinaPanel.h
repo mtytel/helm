@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -34,6 +34,8 @@
 
     Each section has its own header bar which can be dragged up and down
     to resize it, or double-clicked to fully expand that section.
+
+    @tags{GUI}
 */
 class JUCE_API  ConcertinaPanel   : public Component
 {
@@ -128,7 +130,7 @@ private:
     friend struct ContainerDeletePolicy<PanelSizes>;
     friend struct ContainerDeletePolicy<PanelHolder>;
 
-    ScopedPointer<PanelSizes> currentSizes;
+    std::unique_ptr<PanelSizes> currentSizes;
     OwnedArray<PanelHolder> holders;
     ComponentAnimator animator;
     int headerHeight;
@@ -141,3 +143,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConcertinaPanel)
 };
+
+} // namespace juce

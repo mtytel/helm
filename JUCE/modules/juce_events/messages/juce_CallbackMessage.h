@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -42,6 +42,8 @@
     times you may prefer to use MessageManager::callAsync() with a lambda.
 
     @see MessageManager::callAsync, MessageListener, ActionListener, ChangeListener
+
+    @tags{Events}
 */
 class JUCE_API  CallbackMessage   : public MessageManager::MessageBase
 {
@@ -68,3 +70,5 @@ private:
     // messages still in the system event queue. These aren't harmful, but can cause annoying assertions.
     JUCE_DECLARE_NON_COPYABLE (CallbackMessage)
 };
+
+} // namespace juce

@@ -23,7 +23,7 @@
     <key>CFBundleIconFile</key>
     <string>Icon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <string>org.tytel.helm</string>
     <key>CFBundleName</key>
     <string>Helm</string>
     <key>CFBundleDisplayName</key>
@@ -37,7 +37,7 @@
     <key>CFBundleVersion</key>
     <string>0.9.0</string>
     <key>NSHumanReadableCopyright</key>
-    <string>Matt Tytel</string>
+    <string></string>
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>CFBundleDocumentTypes</key>

@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -34,7 +34,7 @@
     @code
 
     XmlDocument myDocument (File ("myfile.xml"));
-    ScopedPointer<XmlElement> mainElement (myDocument.getDocumentElement());
+    std::unique_ptr<XmlElement> mainElement (myDocument.getDocumentElement());
 
     if (mainElement == nullptr)
     {
@@ -50,14 +50,17 @@
     Or you can use the static helper methods for quick parsing..
 
     @code
-    ScopedPointer<XmlElement> xml (XmlDocument::parse (myXmlFile));
+    std::unique_ptr<XmlElement> xml (XmlDocument::parse (myXmlFile));
 
     if (xml != nullptr && xml->hasTagName ("foobar"))
     {
         ...etc
+    }
     @endcode
 
     @see XmlElement
+
+    @tags{Core}
 */
 class JUCE_API  XmlDocument
 {
@@ -143,13 +146,12 @@ public:
     //==============================================================================
 private:
     String originalText;
-    String::CharPointerType input;
-    bool outOfData, errorOccurred;
-
+    String::CharPointerType input { nullptr };
+    bool outOfData = false, errorOccurred = false;
     String lastError, dtdText;
     StringArray tokenisedDTD;
-    bool needToLoadDTD, ignoreEmptyTextElements;
-    ScopedPointer<InputSource> inputSource;
+    bool needToLoadDTD = false, ignoreEmptyTextElements = true;
+    std::unique_ptr<InputSource> inputSource;
 
     XmlElement* parseDocumentElement (String::CharPointerType, bool outer);
     void setLastError (const String&, bool carryOn);
@@ -169,3 +171,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (XmlDocument)
 };
+
+} // namespace juce

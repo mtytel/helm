@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A button with an arrow in it.
 
     @see Button
+
+    @tags{GUI}
 */
 class JUCE_API  ArrowButton  : public Button
 {
@@ -60,3 +62,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ArrowButton)
 };
+
+} // namespace juce

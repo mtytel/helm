@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A simple preview component that shows thumbnails of image files.
 
     @see FileChooserDialogBox, FilePreviewComponent
+
+    @tags{GUI}
 */
 class JUCE_API  ImagePreviewComponent  : public FilePreviewComponent,
                                          private Timer
@@ -62,3 +64,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ImagePreviewComponent)
 };
+
+} // namespace juce

@@ -24,14 +24,15 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     An implementation of LowLevelGraphicsContext that turns the drawing operations
     into a PostScript document.
 
+    @tags{Graphics}
 */
 class JUCE_API  LowLevelGraphicsPostScriptRenderer    : public LowLevelGraphicsContext
 {
@@ -91,21 +92,20 @@ protected:
     bool needToClip;
     Colour lastColour;
 
+    /** Describes a saved state */
     struct SavedState
     {
         SavedState();
+        SavedState& operator= (const SavedState&) = delete;
         ~SavedState();
 
         RectangleList<int> clip;
         int xOffset, yOffset;
         FillType fillType;
         Font font;
-
-    private:
-        SavedState& operator= (const SavedState&);
     };
 
-    OwnedArray <SavedState> stateStack;
+    OwnedArray<SavedState> stateStack;
 
     void writeClip();
     void writeColour (Colour colour);
@@ -116,3 +116,5 @@ protected:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LowLevelGraphicsPostScriptRenderer)
 };
+
+} // namespace juce

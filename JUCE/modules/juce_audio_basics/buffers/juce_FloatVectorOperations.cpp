@@ -20,6 +20,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 namespace FloatVectorHelpers
 {
     #define JUCE_INCREMENT_SRC_DEST         dest += (16 / sizeof (*dest)); src += (16 / sizeof (*dest));
@@ -34,9 +37,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps32
     {
-        typedef float Type;
-        typedef __m128 ParallelType;
-        typedef __m128 IntegerType;
+        using Type = float;
+        using ParallelType = __m128;
+        using IntegerType  = __m128;
         enum { numParallel = 4 };
 
         // Integer and parallel types are the same for SSE. On neon they have different types
@@ -66,9 +69,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps64
     {
-        typedef double Type;
-        typedef __m128d ParallelType;
-        typedef __m128d IntegerType;
+        using Type = double;
+        using ParallelType = __m128d;
+        using IntegerType  = __m128d;
         enum { numParallel = 2 };
 
         // Integer and parallel types are the same for SSE. On neon they have different types
@@ -99,7 +102,7 @@ namespace FloatVectorHelpers
 
 
     #define JUCE_BEGIN_VEC_OP \
-        typedef FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode Mode; \
+        using Mode = FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode; \
         { \
             const int numLongOps = num / Mode::numParallel;
 
@@ -199,9 +202,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps32
     {
-        typedef float Type;
-        typedef float32x4_t ParallelType;
-        typedef uint32x4_t IntegerType;
+        using Type = float;
+        using ParallelType = float32x4_t;
+        using IntegerType = uint32x4_t;
         union signMaskUnion { ParallelType f; IntegerType i; };
         enum { numParallel = 4 };
 
@@ -231,9 +234,9 @@ namespace FloatVectorHelpers
 
     struct BasicOps64
     {
-        typedef double Type;
-        typedef double ParallelType;
-        typedef uint64 IntegerType;
+        using Type = double;
+        using ParallelType = double;
+        using IntegerType = uint64;
         union signMaskUnion { ParallelType f; IntegerType i; };
         enum { numParallel = 1 };
 
@@ -262,7 +265,7 @@ namespace FloatVectorHelpers
     };
 
     #define JUCE_BEGIN_VEC_OP \
-        typedef FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode Mode; \
+        using Mode = FloatVectorHelpers::ModeType<sizeof(*dest)>::Mode; \
         if (Mode::numParallel > 1) \
         { \
             const int numLongOps = num / Mode::numParallel;
@@ -350,14 +353,14 @@ namespace FloatVectorHelpers
     union signMask64 { double d; uint64 i; };
 
    #if JUCE_USE_SSE_INTRINSICS || JUCE_USE_ARM_NEON
-    template<int typeSize> struct ModeType    { typedef BasicOps32 Mode; };
-    template<>             struct ModeType<8> { typedef BasicOps64 Mode; };
+    template<int typeSize> struct ModeType    { using Mode = BasicOps32; };
+    template<>             struct ModeType<8> { using Mode = BasicOps64; };
 
     template <typename Mode>
     struct MinMax
     {
-        typedef typename Mode::Type Type;
-        typedef typename Mode::ParallelType ParallelType;
+        using Type = typename Mode::Type;
+        using ParallelType = typename Mode::ParallelType;
 
         static Type findMinOrMax (const Type* src, int num, const bool isMinimum) noexcept
         {
@@ -689,9 +692,13 @@ void JUCE_CALLTYPE FloatVectorOperations::addWithMultiply (float* dest, const fl
 
 void JUCE_CALLTYPE FloatVectorOperations::addWithMultiply (double* dest, const double* src, double multiplier, int num) noexcept
 {
+   #if JUCE_USE_VDSP_FRAMEWORK
+    vDSP_vsmaD (src, 1, &multiplier, dest, 1, dest, 1, (vDSP_Length) num);
+   #else
     JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] += src[i] * multiplier, Mode::add (d, Mode::mul (mult, s)),
                                   JUCE_LOAD_SRC_DEST, JUCE_INCREMENT_SRC_DEST,
                                   const Mode::ParallelType mult = Mode::load1 (multiplier);)
+   #endif
 }
 
 void JUCE_CALLTYPE FloatVectorOperations::addWithMultiply (float* dest, const float* src1, const float* src2, int num) noexcept
@@ -714,6 +721,34 @@ void JUCE_CALLTYPE FloatVectorOperations::addWithMultiply (double* dest, const d
                                              JUCE_LOAD_SRC1_SRC2_DEST,
                                              JUCE_INCREMENT_SRC1_SRC2_DEST, )
    #endif
+}
+
+void JUCE_CALLTYPE FloatVectorOperations::subtractWithMultiply (float* dest, const float* src, float multiplier, int num) noexcept
+{
+    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] -= src[i] * multiplier, Mode::sub (d, Mode::mul (mult, s)),
+                                  JUCE_LOAD_SRC_DEST, JUCE_INCREMENT_SRC_DEST,
+                                  const Mode::ParallelType mult = Mode::load1 (multiplier);)
+}
+
+void JUCE_CALLTYPE FloatVectorOperations::subtractWithMultiply (double* dest, const double* src, double multiplier, int num) noexcept
+{
+    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] -= src[i] * multiplier, Mode::sub (d, Mode::mul (mult, s)),
+                                  JUCE_LOAD_SRC_DEST, JUCE_INCREMENT_SRC_DEST,
+                                  const Mode::ParallelType mult = Mode::load1 (multiplier);)
+}
+
+void JUCE_CALLTYPE FloatVectorOperations::subtractWithMultiply (float* dest, const float* src1, const float* src2, int num) noexcept
+{
+    JUCE_PERFORM_VEC_OP_SRC1_SRC2_DEST_DEST (dest[i] -= src1[i] * src2[i], Mode::sub (d, Mode::mul (s1, s2)),
+                                             JUCE_LOAD_SRC1_SRC2_DEST,
+                                             JUCE_INCREMENT_SRC1_SRC2_DEST, )
+}
+
+void JUCE_CALLTYPE FloatVectorOperations::subtractWithMultiply (double* dest, const double* src1, const double* src2, int num) noexcept
+{
+    JUCE_PERFORM_VEC_OP_SRC1_SRC2_DEST_DEST (dest[i] -= src1[i] * src2[i], Mode::sub (d, Mode::mul (s1, s2)),
+                                             JUCE_LOAD_SRC1_SRC2_DEST,
+                                             JUCE_INCREMENT_SRC1_SRC2_DEST, )
 }
 
 void JUCE_CALLTYPE FloatVectorOperations::multiply (float* dest, const float* src, int num) noexcept
@@ -811,7 +846,7 @@ void FloatVectorOperations::abs (float* dest, const float* src, int num) noexcep
    #else
     FloatVectorHelpers::signMask32 signMask;
     signMask.i = 0x7fffffffUL;
-    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] = fabsf (src[i]), Mode::bit_and (s, mask),
+    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] = std::abs (src[i]), Mode::bit_and (s, mask),
                                   JUCE_LOAD_SRC, JUCE_INCREMENT_SRC_DEST,
                                   const Mode::ParallelType mask = Mode::load1 (signMask.f);)
 
@@ -827,7 +862,7 @@ void FloatVectorOperations::abs (double* dest, const double* src, int num) noexc
     FloatVectorHelpers::signMask64 signMask;
     signMask.i = 0x7fffffffffffffffULL;
 
-    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] = fabs (src[i]), Mode::bit_and (s, mask),
+    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] = std::abs (src[i]), Mode::bit_and (s, mask),
                                   JUCE_LOAD_SRC, JUCE_INCREMENT_SRC_DEST,
                                   const Mode::ParallelType mask = Mode::load1 (signMask.d);)
 
@@ -842,7 +877,7 @@ void JUCE_CALLTYPE FloatVectorOperations::convertFixedToFloat (float* dest, cons
                                   vmulq_n_f32 (vcvtq_f32_s32 (vld1q_s32 (src)), multiplier),
                                   JUCE_LOAD_NONE, JUCE_INCREMENT_SRC_DEST, )
    #else
-    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] = src[i] * multiplier,
+    JUCE_PERFORM_VEC_OP_SRC_DEST (dest[i] = (float) src[i] * multiplier,
                                   Mode::mul (mult, _mm_cvtepi32_ps (_mm_loadu_si128 ((const __m128i*) src))),
                                   JUCE_LOAD_NONE, JUCE_INCREMENT_SRC_DEST,
                                   const Mode::ParallelType mult = Mode::load1 (multiplier);)
@@ -993,20 +1028,115 @@ double JUCE_CALLTYPE FloatVectorOperations::findMaximum (const double* src, int 
    #endif
 }
 
-void JUCE_CALLTYPE FloatVectorOperations::enableFlushToZeroMode (bool shouldEnable) noexcept
+intptr_t JUCE_CALLTYPE FloatVectorOperations::getFpStatusRegister() noexcept
 {
-   #if JUCE_USE_SSE_INTRINSICS
-    _MM_SET_FLUSH_ZERO_MODE (shouldEnable ? _MM_FLUSH_ZERO_ON : _MM_FLUSH_ZERO_OFF);
+    intptr_t fpsr = 0;
+  #if JUCE_INTEL && JUCE_USE_SSE_INTRINSICS
+    fpsr = static_cast<intptr_t> (_mm_getcsr());
+  #elif defined (__arm64__) || defined (__aarch64__) || JUCE_USE_ARM_NEON
+   #if defined (__arm64__) || defined (__aarch64__)
+    asm volatile("mrs %0, fpcr" : "=r" (fpsr));
+   #elif JUCE_USE_ARM_NEON
+    asm volatile("vmrs %0, fpscr" : "=r" (fpsr));
    #endif
-    ignoreUnused (shouldEnable);
+  #else
+   #if ! (defined (JUCE_INTEL) || defined (JUCE_ARM))
+    jassertfalse; // No support for getting the floating point status register for your platform
+   #endif
+  #endif
+
+    return fpsr;
 }
 
-void JUCE_CALLTYPE FloatVectorOperations::disableDenormalisedNumberSupport() noexcept
+void JUCE_CALLTYPE FloatVectorOperations::setFpStatusRegister (intptr_t fpsr) noexcept
 {
-   #if JUCE_USE_SSE_INTRINSICS
-    const unsigned int mxcsr = _mm_getcsr();
-    _mm_setcsr (mxcsr | 0x8040); // add the DAZ and FZ bits
+  #if JUCE_INTEL && JUCE_USE_SSE_INTRINSICS
+    auto fpsr_w = static_cast<uint32_t> (fpsr);
+    _mm_setcsr (fpsr_w);
+  #elif defined (__arm64__) || defined (__aarch64__) || JUCE_USE_ARM_NEON
+   #if defined (__arm64__) || defined (__aarch64__)
+    asm volatile("msr fpcr, %0" : : "ri" (fpsr));
+   #elif JUCE_USE_ARM_NEON
+    asm volatile("vmsr fpscr, %0" : : "ri" (fpsr));
    #endif
+  #else
+   #if ! (defined (JUCE_INTEL) || defined (JUCE_ARM))
+    jassertfalse; // No support for getting the floating point status register for your platform
+   #endif
+    ignoreUnused (fpsr);
+  #endif
+}
+
+void JUCE_CALLTYPE FloatVectorOperations::enableFlushToZeroMode (bool shouldEnable) noexcept
+{
+  #if JUCE_USE_SSE_INTRINSICS || (JUCE_USE_ARM_NEON || defined (__arm64__) || defined (__aarch64__))
+   #if JUCE_USE_SSE_INTRINSICS
+    intptr_t mask = _MM_FLUSH_ZERO_MASK;
+   #else /*JUCE_USE_ARM_NEON*/
+    intptr_t mask = (1 << 24 /* FZ */);
+   #endif
+    setFpStatusRegister ((getFpStatusRegister() & (~mask)) | (shouldEnable ? mask : 0));
+  #else
+   #if ! (defined (JUCE_INTEL) || defined (JUCE_ARM))
+    jassertfalse; // No support for flush to zero mode on your platform
+   #endif
+    ignoreUnused (shouldEnable);
+  #endif
+}
+
+void JUCE_CALLTYPE FloatVectorOperations::disableDenormalisedNumberSupport (bool shouldDisable) noexcept
+{
+  #if JUCE_USE_SSE_INTRINSICS || (JUCE_USE_ARM_NEON || defined (__arm64__) || defined (__aarch64__))
+   #if JUCE_USE_SSE_INTRINSICS
+    intptr_t mask = 0x8040;
+   #else /*JUCE_USE_ARM_NEON*/
+    intptr_t mask = (1 << 24 /* FZ */);
+   #endif
+
+    setFpStatusRegister ((getFpStatusRegister() & (~mask)) | (shouldDisable ? mask : 0));
+  #else
+    ignoreUnused (shouldDisable);
+
+   #if ! (defined (JUCE_INTEL) || defined (JUCE_ARM))
+    jassertfalse; // No support for disable denormals mode on your platform
+   #endif
+  #endif
+}
+
+bool JUCE_CALLTYPE FloatVectorOperations::areDenormalsDisabled() noexcept
+{
+  #if JUCE_USE_SSE_INTRINSICS || (JUCE_USE_ARM_NEON || defined (__arm64__) || defined (__aarch64__))
+   #if JUCE_USE_SSE_INTRINSICS
+    intptr_t mask = 0x8040;
+   #else /*JUCE_USE_ARM_NEON*/
+    intptr_t mask = (1 << 24 /* FZ */);
+   #endif
+
+    return ((getFpStatusRegister() & mask) == mask);
+  #else
+    return false;
+  #endif
+}
+
+ScopedNoDenormals::ScopedNoDenormals() noexcept
+{
+  #if JUCE_USE_SSE_INTRINSICS || (JUCE_USE_ARM_NEON || defined (__arm64__) || defined (__aarch64__))
+   #if JUCE_USE_SSE_INTRINSICS
+    intptr_t mask = 0x8040;
+   #else /*JUCE_USE_ARM_NEON*/
+    intptr_t mask = (1 << 24 /* FZ */);
+   #endif
+
+    fpsr = FloatVectorOperations::getFpStatusRegister();
+    FloatVectorOperations::setFpStatusRegister (fpsr | mask);
+  #endif
+}
+
+ScopedNoDenormals::~ScopedNoDenormals() noexcept
+{
+  #if JUCE_USE_SSE_INTRINSICS || (JUCE_USE_ARM_NEON || defined (__arm64__) || defined (__aarch64__))
+    FloatVectorOperations::setFpStatusRegister (fpsr);
+  #endif
 }
 
 //==============================================================================
@@ -1016,7 +1146,7 @@ void JUCE_CALLTYPE FloatVectorOperations::disableDenormalisedNumberSupport() noe
 class FloatVectorOperationsTests  : public UnitTest
 {
 public:
-    FloatVectorOperationsTests() : UnitTest ("FloatVectorOperations") {}
+    FloatVectorOperationsTests() : UnitTest ("FloatVectorOperations", "Audio") {}
 
     template <typename ValueType>
     struct TestRunner
@@ -1026,17 +1156,19 @@ public:
             const int range = random.nextBool() ? 500 : 10;
             const int num = random.nextInt (range) + 1;
 
-            HeapBlock<ValueType> buffer1 ((size_t) num + 16), buffer2 ((size_t) num + 16);
-            HeapBlock<int> buffer3 ((size_t) num + 16);
+            HeapBlock<ValueType> buffer1 (num + 16), buffer2 (num + 16);
+            HeapBlock<int> buffer3 (num + 16);
 
            #if JUCE_ARM
             ValueType* const data1 = buffer1;
             ValueType* const data2 = buffer2;
             int* const int1 = buffer3;
            #else
-            ValueType* const data1 = addBytesToPointer (buffer1.getData(), random.nextInt (16));
-            ValueType* const data2 = addBytesToPointer (buffer2.getData(), random.nextInt (16));
-            int* const int1 = addBytesToPointer (buffer3.getData(), random.nextInt (16));
+            // These tests deliberately operate on misaligned memory and will be flagged up by
+            // checks for undefined behavior!
+            ValueType* const data1 = addBytesToPointer (buffer1.get(), random.nextInt (16));
+            ValueType* const data2 = addBytesToPointer (buffer2.get(), random.nextInt (16));
+            int* const int1 = addBytesToPointer (buffer3.get(), random.nextInt (16));
            #endif
 
             fillRandomly (random, data1, num);
@@ -1124,7 +1256,7 @@ public:
         static void convertFixed (float* d, const int* s, ValueType multiplier, int num)
         {
             while (--num >= 0)
-                *d++ = *s++ * multiplier;
+                *d++ = (float) *s++ * multiplier;
         }
 
         static bool areAllValuesEqual (const ValueType* d, int num, ValueType target)
@@ -1166,3 +1298,5 @@ public:
 static FloatVectorOperationsTests vectorOpTests;
 
 #endif
+
+} // namespace juce

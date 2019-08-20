@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     This maintains a list of known AudioPluginFormats.
 
     @see AudioPluginFormat
+
+    @tags{Audio}
 */
 class JUCE_API  AudioPluginFormatManager
 {
@@ -134,3 +136,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginFormatManager)
 };
+
+} // namespace juce

@@ -24,14 +24,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A parallelogram defined by three RelativePoint positions.
 
     @see RelativePoint, RelativeCoordinate
+
+    @tags{GUI}
 */
 class JUCE_API  RelativeParallelogram
 {
@@ -61,3 +63,5 @@ public:
     //==============================================================================
     RelativePoint topLeft, topRight, bottomLeft;
 };
+
+} // namespace juce

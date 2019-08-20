@@ -51,7 +51,7 @@ namespace mopo {
   VoiceHandler::~VoiceHandler() {
     voice_router_.destroy();
     global_router_.destroy();
-    
+
     for (Voice* voice : all_voices_)
       delete voice;
 
@@ -295,6 +295,7 @@ namespace mopo {
     MOPO_ASSERT(channel >= 0 && channel < NUM_MIDI_CHANNELS);
 
     Voice* voice = grabVoice();
+    pressed_notes_.remove(note);
     pressed_notes_.push_front(note);
 
     if (last_played_note_ < 0)
@@ -305,7 +306,7 @@ namespace mopo {
   }
 
   VoiceEvent VoiceHandler::noteOff(mopo_float note, int sample) {
-    pressed_notes_.remove(note);
+    pressed_notes_.removeAll(note);
 
     VoiceEvent voice_event = kVoiceOff;
 
@@ -339,6 +340,13 @@ namespace mopo {
   void VoiceHandler::setAftertouch(mopo_float note, mopo_float aftertouch, int sample) {
     for (Voice* voice : active_voices_) {
       if (voice->state().note == note)
+        voice->setAftertouch(aftertouch, sample);
+    }
+  }
+
+  void VoiceHandler::setChannelAftertouch(int channel, mopo_float aftertouch, int sample) {
+    for (Voice* voice : active_voices_) {
+      if (voice->state().channel == channel)
         voice->setAftertouch(aftertouch, sample);
     }
   }

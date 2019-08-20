@@ -24,11 +24,16 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if JUCE_WINDOWS || DOXYGEN
 
 //==============================================================================
 /**
     Audio format which uses the Windows Media codecs (Windows only).
+
+    @tags{Audio}
 */
 class WindowsMediaAudioFormat  : public AudioFormat
 {
@@ -53,3 +58,5 @@ public:
 };
 
 #endif
+
+}

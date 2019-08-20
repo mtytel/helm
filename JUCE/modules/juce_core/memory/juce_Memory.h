@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 /** Fills a block of memory with zeros. */
@@ -32,7 +33,7 @@ inline void zerostruct (Type& structure) noexcept                   { memset (&s
 
 /** Delete an object pointer, and sets the pointer to null.
 
-    Remember that it's not good c++ practice to use delete directly - always try to use a ScopedPointer
+    Remember that it's not good c++ practice to use delete directly - always try to use a std::unique_ptr
     or other automatic lifetime-management system rather than resorting to deleting raw pointers!
 */
 template <typename Type>
@@ -44,6 +45,14 @@ inline void deleteAndZero (Type& pointer)                           { delete poi
 */
 template <typename Type, typename IntegerType>
 inline Type* addBytesToPointer (Type* basePointer, IntegerType bytes) noexcept  { return (Type*) (((char*) basePointer) + bytes); }
+
+/** A handy function to round up a pointer to the nearest multiple of a given number of bytes.
+    alignmentBytes must be a power of two. */
+template <typename Type, typename IntegerType>
+inline Type* snapPointerToAlignment (Type* basePointer, IntegerType alignmentBytes) noexcept
+{
+    return (Type*) ((((size_t) basePointer) + (alignmentBytes - 1)) & ~(alignmentBytes - 1));
+}
 
 /** A handy function which returns the difference between any two pointers, in bytes.
     The address of the second pointer is subtracted from the first, and the difference in bytes is returned.
@@ -64,7 +73,6 @@ inline Type readUnaligned (const void* srcPtr) noexcept
 {
     Type value;
     memcpy (&value, srcPtr, sizeof (Type));
-
     return value;
 }
 
@@ -72,7 +80,7 @@ inline Type readUnaligned (const void* srcPtr) noexcept
 template <typename Type>
 inline void writeUnaligned (void* dstPtr, Type value) noexcept
 {
-    memcpy (dstPtr, &value, sizeof(Type));
+    memcpy (dstPtr, &value, sizeof (Type));
 }
 
 //==============================================================================
@@ -80,6 +88,8 @@ inline void writeUnaligned (void* dstPtr, Type value) noexcept
 
  /** A handy C++ wrapper that creates and deletes an NSAutoreleasePool object using RAII.
      You should use the JUCE_AUTORELEASEPOOL macro to create a local auto-release pool on the stack.
+
+     @tags{Core}
  */
  class JUCE_API  ScopedAutoReleasePool
  {
@@ -132,3 +142,5 @@ inline void writeUnaligned (void* dstPtr, Type value) noexcept
 #ifndef juce_UseDebuggingNewOperator
  #define juce_UseDebuggingNewOperator
 #endif
+
+} // namespace juce

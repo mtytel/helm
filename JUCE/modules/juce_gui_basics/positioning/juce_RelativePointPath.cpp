@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 RelativePointPath::RelativePointPath()
     : usesNonZeroWinding (true),
       containsDynamicPoints (false)
@@ -144,13 +147,6 @@ RelativePointPath::StartSubPath::StartSubPath (const RelativePoint& pos)
 {
 }
 
-ValueTree RelativePointPath::StartSubPath::createTree() const
-{
-    ValueTree v (DrawablePath::ValueTreeWrapper::Element::startSubPathElement);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point1, startPos.toString(), nullptr);
-    return v;
-}
-
 void RelativePointPath::StartSubPath::addToPath (Path& path, Expression::Scope* scope) const
 {
     path.startNewSubPath (startPos.resolve (scope));
@@ -171,11 +167,6 @@ RelativePointPath::ElementBase* RelativePointPath::StartSubPath::clone() const
 RelativePointPath::CloseSubPath::CloseSubPath()
     : ElementBase (closeSubPathElement)
 {
-}
-
-ValueTree RelativePointPath::CloseSubPath::createTree() const
-{
-    return ValueTree (DrawablePath::ValueTreeWrapper::Element::closeSubPathElement);
 }
 
 void RelativePointPath::CloseSubPath::addToPath (Path& path, Expression::Scope*) const
@@ -200,13 +191,6 @@ RelativePointPath::LineTo::LineTo (const RelativePoint& endPoint_)
 {
 }
 
-ValueTree RelativePointPath::LineTo::createTree() const
-{
-    ValueTree v (DrawablePath::ValueTreeWrapper::Element::lineToElement);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point1, endPoint.toString(), nullptr);
-    return v;
-}
-
 void RelativePointPath::LineTo::addToPath (Path& path, Expression::Scope* scope) const
 {
     path.lineTo (endPoint.resolve (scope));
@@ -229,14 +213,6 @@ RelativePointPath::QuadraticTo::QuadraticTo (const RelativePoint& controlPoint, 
 {
     controlPoints[0] = controlPoint;
     controlPoints[1] = endPoint;
-}
-
-ValueTree RelativePointPath::QuadraticTo::createTree() const
-{
-    ValueTree v (DrawablePath::ValueTreeWrapper::Element::quadraticToElement);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point1, controlPoints[0].toString(), nullptr);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point2, controlPoints[1].toString(), nullptr);
-    return v;
 }
 
 void RelativePointPath::QuadraticTo::addToPath (Path& path, Expression::Scope* scope) const
@@ -266,15 +242,6 @@ RelativePointPath::CubicTo::CubicTo (const RelativePoint& controlPoint1, const R
     controlPoints[2] = endPoint;
 }
 
-ValueTree RelativePointPath::CubicTo::createTree() const
-{
-    ValueTree v (DrawablePath::ValueTreeWrapper::Element::cubicToElement);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point1, controlPoints[0].toString(), nullptr);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point2, controlPoints[1].toString(), nullptr);
-    v.setProperty (DrawablePath::ValueTreeWrapper::point3, controlPoints[2].toString(), nullptr);
-    return v;
-}
-
 void RelativePointPath::CubicTo::addToPath (Path& path, Expression::Scope* scope) const
 {
     path.cubicTo (controlPoints[0].resolve (scope),
@@ -292,3 +259,5 @@ RelativePointPath::ElementBase* RelativePointPath::CubicTo::clone() const
 {
     return new CubicTo (controlPoints[0], controlPoints[1], controlPoints[2]);
 }
+
+} // namespace juce

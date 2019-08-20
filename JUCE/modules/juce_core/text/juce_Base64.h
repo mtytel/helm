@@ -20,12 +20,14 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 /**
     Contains some static methods for converting between binary and the
     standard base-64 encoding format.
+
+    @tags{Core}
 */
 struct JUCE_API Base64
 {
@@ -47,3 +49,5 @@ struct JUCE_API Base64
     /** Converts a string's UTF-8 representation to a base-64 string. */
     static String toBase64 (const String& textToEncode);
 };
+
+} // namespace juce

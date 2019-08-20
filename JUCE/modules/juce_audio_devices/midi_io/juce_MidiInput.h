@@ -20,7 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class MidiInput;
 
@@ -33,6 +34,8 @@ class MidiInput;
     class for more details.
 
     @see MidiInput
+
+    @tags{Audio}
 */
 class JUCE_API  MidiInputCallback
 {
@@ -83,6 +86,8 @@ public:
     available, and then use the openDevice() method to try to open one.
 
     @see MidiOutput
+
+    @tags{Audio}
 */
 class JUCE_API  MidiInput
 {
@@ -171,3 +176,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiInput)
 };
+
+} // namespace juce

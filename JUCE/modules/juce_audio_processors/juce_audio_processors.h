@@ -35,9 +35,9 @@
 
   ID:               juce_audio_processors
   vendor:           juce
-  version:          5.0.2
+  version:          5.3.2
   name:             JUCE audio processor classes
-  description:      Classes for loading and playing VST, AU, or internally-generated audio processors.
+  description:      Classes for loading and playing VST, AU, LADSPA, or internally-generated audio processors.
   website:          http://www.juce.com/juce
   license:          GPL/Commercial
 
@@ -56,12 +56,11 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <juce_audio_basics/juce_audio_basics.h>
 
-
 //==============================================================================
 /** Config: JUCE_PLUGINHOST_VST
     Enables the VST audio plugin hosting classes.
 
-    @see VSTPluginFormat, VST3PluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_AU, JUCE_PLUGINHOST_VST3
+    @see VSTPluginFormat, VST3PluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_AU, JUCE_PLUGINHOST_VST3, JUCE_PLUGINHOST_LADSPA
 */
 #ifndef JUCE_PLUGINHOST_VST
  #define JUCE_PLUGINHOST_VST 0
@@ -71,7 +70,7 @@
     Enables the VST3 audio plugin hosting classes. This requires the Steinberg VST3 SDK to be
     installed on your machine.
 
-    @see VSTPluginFormat, VST3PluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_VST, JUCE_PLUGINHOST_AU
+    @see VSTPluginFormat, VST3PluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_VST, JUCE_PLUGINHOST_AU, JUCE_PLUGINHOST_LADSPA
 */
 #ifndef JUCE_PLUGINHOST_VST3
  #define JUCE_PLUGINHOST_VST3 0
@@ -80,14 +79,23 @@
 /** Config: JUCE_PLUGINHOST_AU
     Enables the AudioUnit plugin hosting classes. This is Mac-only, of course.
 
-    @see AudioUnitPluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_VST, JUCE_PLUGINHOST_VST3
+    @see AudioUnitPluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_VST, JUCE_PLUGINHOST_VST3, JUCE_PLUGINHOST_LADSPA
 */
 #ifndef JUCE_PLUGINHOST_AU
  #define JUCE_PLUGINHOST_AU 0
 #endif
 
-#if ! (JUCE_PLUGINHOST_AU || JUCE_PLUGINHOST_VST || JUCE_PLUGINHOST_VST3)
-// #error "You need to set either the JUCE_PLUGINHOST_AU and/or JUCE_PLUGINHOST_VST and/or JUCE_PLUGINHOST_VST3 flags if you're using this module!"
+/** Config: JUCE_PLUGINHOST_LADSPA
+    Enables the LADSPA plugin hosting classes. This is Linux-only, of course.
+
+    @see LADSPAPluginFormat, AudioPluginFormat, AudioPluginFormatManager, JUCE_PLUGINHOST_VST, JUCE_PLUGINHOST_VST3, JUCE_PLUGINHOST_AU
+ */
+#ifndef JUCE_PLUGINHOST_LADSPA
+ #define JUCE_PLUGINHOST_LADSPA 0
+#endif
+
+#if ! (JUCE_PLUGINHOST_AU || JUCE_PLUGINHOST_VST || JUCE_PLUGINHOST_VST3 || JUCE_PLUGINHOST_LADSPA)
+// #error "You need to set either the JUCE_PLUGINHOST_AU and/or JUCE_PLUGINHOST_VST and/or JUCE_PLUGINHOST_VST3 and/or JUCE_PLUGINHOST_LADSPA flags if you're using this module!"
 #endif
 
 #if ! (defined (JUCE_SUPPORT_CARBON) || JUCE_64BIT || JUCE_IOS)
@@ -99,11 +107,6 @@
 #endif
 
 //==============================================================================
-//==============================================================================
-namespace juce
-{
-
-class AudioProcessor;
 #include "processors/juce_AudioProcessorEditor.h"
 #include "processors/juce_AudioProcessorListener.h"
 #include "processors/juce_AudioProcessorParameter.h"
@@ -128,5 +131,3 @@ class AudioProcessor;
 #include "utilities/juce_AudioParameterBool.h"
 #include "utilities/juce_AudioParameterChoice.h"
 #include "utilities/juce_AudioProcessorValueTreeState.h"
-
-}

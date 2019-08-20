@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 struct ConcertinaPanel::PanelSizes
 {
     struct Panel
@@ -180,14 +183,14 @@ private:
     int getTotalSize (int start, const int end) const noexcept
     {
         int tot = 0;
-        while (start < end)  tot += get(start++).size;
+        while (start < end)  tot += get (start++).size;
         return tot;
     }
 
     int getMinimumSize (int start, const int end) const noexcept
     {
         int tot = 0;
-        while (start < end)  tot += get(start++).minSize;
+        while (start < end)  tot += get (start++).minSize;
         return tot;
     }
 
@@ -196,7 +199,7 @@ private:
         int tot = 0;
         while (start < end)
         {
-            const int mx = get(start++).maxSize;
+            const int mx = get (start++).maxSize;
             if (mx > 0x100000)
                 return mx;
 
@@ -426,9 +429,9 @@ void ConcertinaPanel::applyLayout (const PanelSizes& sizes, const bool animate)
 
     for (int i = 0; i < holders.size(); ++i)
     {
-        PanelHolder& p = *holders.getUnchecked(i);
+        PanelHolder& p = *holders.getUnchecked (i);
 
-        const int h = sizes.get(i).size;
+        const int h = sizes.get (i).size;
         const Rectangle<int> pos (0, y, w, h);
 
         if (animate)
@@ -451,3 +454,5 @@ void ConcertinaPanel::panelHeaderDoubleClicked (Component* component)
     if (! expandPanelFully (component, true))
         setPanelSize (component, 0, true);
 }
+
+} // namespace juce

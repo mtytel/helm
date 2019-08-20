@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 ToolbarItemFactory::ToolbarItemFactory() {}
 ToolbarItemFactory::~ToolbarItemFactory() {}
 
@@ -72,7 +75,7 @@ public:
 
             if (DragAndDropContainer* const dnd = DragAndDropContainer::findParentDragContainerFor (this))
             {
-                dnd->startDragging (Toolbar::toolbarDragDescriptor, getParentComponent(), Image(), true);
+                dnd->startDragging (Toolbar::toolbarDragDescriptor, getParentComponent(), Image(), true, nullptr, &e.source);
 
                 if (ToolbarItemComponent* const tc = getToolbarItemComponent())
                 {
@@ -138,7 +141,7 @@ ToolbarItemComponent::ToolbarItemComponent (const int itemId_,
 
 ToolbarItemComponent::~ToolbarItemComponent()
 {
-    overlayComp = nullptr;
+    overlayComp.reset();
 }
 
 Toolbar* ToolbarItemComponent::getToolbar() const
@@ -170,9 +173,9 @@ void ToolbarItemComponent::paintButton (Graphics& g, const bool over, const bool
 
     if (toolbarStyle != Toolbar::iconsOnly)
     {
-        const int indent = contentArea.getX();
-        int y = indent;
-        int h = getHeight() - indent * 2;
+        auto indent = contentArea.getX();
+        auto y = indent;
+        auto h = getHeight() - indent * 2;
 
         if (toolbarStyle == Toolbar::iconsWithText)
         {
@@ -209,7 +212,7 @@ void ToolbarItemComponent::resized()
     }
     else
     {
-        contentArea = Rectangle<int>();
+        contentArea = {};
     }
 
     contentAreaChanged (contentArea);
@@ -224,14 +227,17 @@ void ToolbarItemComponent::setEditingMode (const ToolbarEditingMode newMode)
 
         if (mode == normalMode)
         {
-            overlayComp = nullptr;
+            overlayComp.reset();
         }
         else if (overlayComp == nullptr)
         {
-            addAndMakeVisible (overlayComp = new ItemDragAndDropOverlayComponent());
+            overlayComp.reset (new ItemDragAndDropOverlayComponent());
+            addAndMakeVisible (overlayComp.get());
             overlayComp->parentSizeChanged();
         }
 
         resized();
     }
 }
+
+} // namespace juce

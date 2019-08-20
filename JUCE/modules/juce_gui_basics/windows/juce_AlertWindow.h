@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** A window that displays a message and has buttons for the user to react to it.
@@ -39,9 +39,10 @@
     user pressed to dismiss the box.
 
     @see ThreadWithProgressWindow
+
+    @tags{GUI}
 */
-class JUCE_API  AlertWindow  : public TopLevelWindow,
-                               private ButtonListener  // (can't use Button::Listener due to idiotic VC2005 bug)
+class JUCE_API  AlertWindow  : public TopLevelWindow
 {
 public:
     //==============================================================================
@@ -455,8 +456,6 @@ protected:
     /** @internal */
     bool keyPressed (const KeyPress&) override;
     /** @internal */
-    void buttonClicked (Button*) override;
-    /** @internal */
     void lookAndFeelChanged() override;
     /** @internal */
     void userTriedToCloseWindow() override;
@@ -479,10 +478,13 @@ private:
     OwnedArray<Component> textBlocks;
     Array<Component*> allComps;
     StringArray textboxNames, comboBoxNames;
-    Component* associatedComponent;
-    bool escapeKeyCancels;
+    Component* const associatedComponent;
+    bool escapeKeyCancels = true;
 
+    void exitAlert (Button* button);
     void updateLayout (bool onlyIncreaseSize);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AlertWindow)
 };
+
+} // namespace juce

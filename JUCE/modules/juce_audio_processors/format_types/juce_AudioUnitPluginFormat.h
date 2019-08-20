@@ -24,11 +24,16 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if (JUCE_PLUGINHOST_AU && (JUCE_MAC || JUCE_IOS)) || DOXYGEN
 
 //==============================================================================
 /**
     Implements a plugin format manager for AudioUnits.
+
+    @tags{Audio}
 */
 class JUCE_API  AudioUnitPluginFormat   : public AudioPluginFormat
 {
@@ -72,3 +77,5 @@ enum
     kAudioUnitProperty_SupportsMPE = 58
 };
 #endif
+
+}

@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -42,6 +42,8 @@
     each time the parent's size changes.
 
     @see ResizableCornerComponent
+
+    @tags{GUI}
 */
 class JUCE_API  ResizableBorderComponent  : public Component
 {
@@ -191,3 +193,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ResizableBorderComponent)
 };
+
+} // namespace juce

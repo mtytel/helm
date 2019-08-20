@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** Wraps another input stream, and reads from it using an intermediate buffer
@@ -30,6 +30,8 @@
     small read accesses to it, it's probably sensible to wrap it in one of these,
     so that the source stream gets accessed in larger chunk sizes, meaning less
     work for the underlying stream.
+
+    @tags{Core}
 */
 class JUCE_API  BufferedInputStream  : public InputStream
 {
@@ -63,6 +65,9 @@ public:
 
 
     //==============================================================================
+    /** Returns the next byte that would be read by a call to readByte() */
+    char peekByte();
+
     int64 getTotalLength() override;
     int64 getPosition() override;
     bool setPosition (int64 newPosition) override;
@@ -75,9 +80,11 @@ private:
     //==============================================================================
     OptionalScopedPointer<InputStream> source;
     int bufferSize;
-    int64 position, lastReadPos, bufferStart, bufferOverlap;
+    int64 position, lastReadPos = 0, bufferStart, bufferOverlap = 128;
     HeapBlock<char> buffer;
-    void ensureBuffered();
+    bool ensureBuffered();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BufferedInputStream)
 };
+
+} // namespace juce

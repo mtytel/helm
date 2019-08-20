@@ -20,6 +20,14 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
+#if ! JUCE_MINGW
+ #pragma intrinsic (__cpuid)
+ #pragma intrinsic (__rdtsc)
+#endif
+
 void Logger::outputDebugString (const String& text)
 {
     OutputDebugString ((text + "\n").toWideCharPointer());
@@ -32,8 +40,6 @@ void Logger::outputDebugString (const String& text)
 #endif
 
 //==============================================================================
-#pragma intrinsic (__cpuid)
-#pragma intrinsic (__rdtsc)
 
 #if JUCE_MINGW
 static void callCPUID (int result[4], uint32 type)
@@ -84,7 +90,7 @@ String SystemStats::getCpuModel()
 
     const int numExtIDs = info[0];
 
-    if (numExtIDs < 0x80000004)  // if brand string is unsupported
+    if ((unsigned) numExtIDs < 0x80000004)  // if brand string is unsupported
         return {};
 
     callCPUID (info, 0x80000002);
@@ -101,6 +107,13 @@ String SystemStats::getCpuModel()
 
 static int findNumberOfPhysicalCores() noexcept
 {
+   #if JUCE_MINGW
+    // Not implemented in MinGW
+    jassertfalse;
+
+    return 1;
+   #else
+
     int numPhysicalCores = 0;
     DWORD bufferSize = 0;
     GetLogicalProcessorInformation (nullptr, &bufferSize);
@@ -116,6 +129,7 @@ static int findNumberOfPhysicalCores() noexcept
     }
 
     return numPhysicalCores;
+   #endif // JUCE_MINGW
 }
 
 //==============================================================================
@@ -223,6 +237,23 @@ String SystemStats::getOperatingSystemName()
 }
 
 String SystemStats::getDeviceDescription()
+{
+   #if WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
+    return "Windows (Desktop)";
+   #elif WINAPI_FAMILY == WINAPI_FAMILY_PC_APP
+    return "Windows (Store)";
+   #elif WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+    return "Windows (Phone)";
+   #elif WINAPI_FAMILY == WINAPI_FAMILY_SYSTEM
+    return "Windows (System)";
+   #elif WINAPI_FAMILY == WINAPI_FAMILY_SERVER
+    return "Windows (Server)";
+   #else
+    return "Windows";
+   #endif
+}
+
+String SystemStats::getDeviceManufacturer()
 {
     return {};
 }
@@ -464,3 +495,5 @@ String SystemStats::getDisplayLanguage()
 
     return mainLang;
 }
+
+} // namespace juce

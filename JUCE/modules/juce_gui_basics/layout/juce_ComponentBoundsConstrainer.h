@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -38,6 +38,8 @@
     also subclass this for custom uses.
 
     @see ResizableCornerComponent, ResizableBorderComponent, ResizableWindow
+
+    @tags{GUI}
 */
 class JUCE_API  ComponentBoundsConstrainer
 {
@@ -192,3 +194,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ComponentBoundsConstrainer)
 };
+
+} // namespace juce

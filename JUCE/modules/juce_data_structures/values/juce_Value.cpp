@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 Value::ValueSource::ValueSource()
 {
 }
@@ -203,7 +206,7 @@ bool Value::operator!= (const Value& other) const
 }
 
 //==============================================================================
-void Value::addListener (ValueListener* const listener)
+void Value::addListener (Value::Listener* listener)
 {
     if (listener != nullptr)
     {
@@ -214,7 +217,7 @@ void Value::addListener (ValueListener* const listener)
     }
 }
 
-void Value::removeListener (ValueListener* const listener)
+void Value::removeListener (Value::Listener* listener)
 {
     listeners.remove (listener);
 
@@ -227,7 +230,7 @@ void Value::callListeners()
     if (listeners.size() > 0)
     {
         Value v (*this); // (create a copy in case this gets deleted by a callback)
-        listeners.call (&ValueListener::valueChanged, v);
+        listeners.call ([&] (Value::Listener& l) { l.valueChanged (v); });
     }
 }
 
@@ -235,3 +238,5 @@ OutputStream& JUCE_CALLTYPE operator<< (OutputStream& stream, const Value& value
 {
     return stream << value.toString();
 }
+
+} // namespace juce

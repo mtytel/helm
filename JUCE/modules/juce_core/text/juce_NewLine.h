@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /** This class is used for represent a new-line character sequence.
@@ -33,6 +33,8 @@
 
     The exact character sequence that will be used for the new-line can be set and
     retrieved with OutputStream::setNewLineString() and OutputStream::getNewLineString().
+
+    @tags{Core}
 */
 class JUCE_API  NewLine
 {
@@ -76,3 +78,5 @@ inline String& operator+= (String& s1, const NewLine&)      { return s1 += NewLi
 inline String operator+ (const NewLine&, const NewLine&)    { return String (NewLine::getDefault()) + NewLine::getDefault(); }
 inline String operator+ (String s1, const NewLine&)         { return s1 += NewLine::getDefault(); }
 inline String operator+ (const NewLine&, const char* s2)    { return String (NewLine::getDefault()) + s2; }
+
+} // namespace juce

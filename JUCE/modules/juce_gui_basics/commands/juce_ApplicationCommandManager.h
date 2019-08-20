@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -81,6 +81,8 @@
     the object yourself.
 
     @see ApplicationCommandTarget, ApplicationCommandInfo
+
+    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandManager   : private AsyncUpdater,
                                               private FocusChangeListener
@@ -198,7 +200,7 @@ public:
 
         @see KeyPressMappingSet
     */
-    KeyPressMappingSet* getKeyMappings() const noexcept                         { return keyMappings; }
+    KeyPressMappingSet* getKeyMappings() const noexcept         { return keyMappings.get(); }
 
 
     //==============================================================================
@@ -303,8 +305,8 @@ private:
     //==============================================================================
     OwnedArray<ApplicationCommandInfo> commands;
     ListenerList<ApplicationCommandManagerListener> listeners;
-    ScopedPointer<KeyPressMappingSet> keyMappings;
-    ApplicationCommandTarget* firstTarget;
+    std::unique_ptr<KeyPressMappingSet> keyMappings;
+    ApplicationCommandTarget* firstTarget = nullptr;
 
     void sendListenerInvokeCallback (const ApplicationCommandTarget::InvocationInfo&);
     void handleAsyncUpdate() override;
@@ -328,6 +330,8 @@ private:
 
     @see ApplicationCommandManager::addListener, ApplicationCommandManager::removeListener
 
+
+    @tags{GUI}
 */
 class JUCE_API  ApplicationCommandManagerListener
 {
@@ -348,3 +352,5 @@ public:
     */
     virtual void applicationCommandListChanged() = 0;
 };
+
+} // namespace juce

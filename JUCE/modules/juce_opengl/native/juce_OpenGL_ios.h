@@ -24,8 +24,6 @@
   ==============================================================================
 */
 
-} // (juce namespace)
-
 @interface JuceGLView   : UIView
 {
 }
@@ -115,7 +113,7 @@ public:
         [view release];
     }
 
-    void initialiseOnRenderThread (OpenGLContext&) {}
+    bool initialiseOnRenderThread (OpenGLContext&)    { return true; }
 
     void shutdownOnRenderThread()
     {
@@ -309,3 +307,5 @@ bool OpenGLHelpers::isContextActive()
 {
     return [EAGLContext currentContext] != nil;
 }
+
+} // namespace juce

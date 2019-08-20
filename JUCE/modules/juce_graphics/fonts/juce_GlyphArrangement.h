@@ -24,8 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -36,22 +36,23 @@
     GlyphArrangement class will do what you need for text layout.
 
     @see GlyphArrangement, Font
+
+    @tags{Graphics}
 */
-class JUCE_API  PositionedGlyph
+class JUCE_API  PositionedGlyph  final
 {
 public:
     //==============================================================================
     PositionedGlyph() noexcept;
+
     PositionedGlyph (const Font& font, juce_wchar character, int glyphNumber,
                      float anchorX, float baselineY, float width, bool isWhitespace);
 
-    PositionedGlyph (const PositionedGlyph&);
-    PositionedGlyph& operator= (const PositionedGlyph&);
+    PositionedGlyph (const PositionedGlyph&) = default;
+    PositionedGlyph& operator= (const PositionedGlyph&) = default;
 
-    /** Move constructor */
+    // VS2013 can't default move constructors and assignmants
     PositionedGlyph (PositionedGlyph&&) noexcept;
-
-    /** Move assignment operator */
     PositionedGlyph& operator= (PositionedGlyph&&) noexcept;
 
     ~PositionedGlyph();
@@ -72,7 +73,7 @@ public:
     /** Returns the y position of the bottom of the glyph. */
     float getBottom() const                     { return y + font.getDescent(); }
     /** Returns the bounds of the glyph. */
-    Rectangle<float> getBounds() const          { return Rectangle<float> (x, getTop(), w, font.getHeight()); }
+    Rectangle<float> getBounds() const          { return { x, getTop(), w, font.getHeight() }; }
 
     //==============================================================================
     /** Shifts the glyph's position by a relative amount. */
@@ -87,7 +88,7 @@ public:
     /** Draws the glyph into a graphics context, with an extra transform applied to it.
         (Note that this may change the context's currently selected font).
     */
-    void draw (Graphics& g, const AffineTransform& transform) const;
+    void draw (Graphics& g, AffineTransform transform) const;
 
     /** Returns the path for this glyph.
         @param path     the glyph's outline will be appended to this path
@@ -119,21 +120,22 @@ private:
     Graphics class, but can be used directly if more control is needed.
 
     @see Font, PositionedGlyph
+
+    @tags{Graphics}
 */
-class JUCE_API  GlyphArrangement
+class JUCE_API  GlyphArrangement  final
 {
 public:
     //==============================================================================
     /** Creates an empty arrangement. */
     GlyphArrangement();
 
-    /** Takes a copy of another arrangement. */
-    GlyphArrangement (const GlyphArrangement&);
+    GlyphArrangement (const GlyphArrangement&) = default;
+    GlyphArrangement& operator= (const GlyphArrangement&) = default;
 
-    /** Copies another arrangement onto this one.
-        To add another arrangement without clearing this one, use addGlyphArrangement().
-    */
-    GlyphArrangement& operator= (const GlyphArrangement&);
+    // VS2013 can't default move constructors and assignmants
+    GlyphArrangement (GlyphArrangement&&);
+    GlyphArrangement& operator= (GlyphArrangement&&);
 
     /** Destructor. */
     ~GlyphArrangement();
@@ -148,7 +150,10 @@ public:
                         careful not to pass an out-of-range index here, as it
                         doesn't do any bounds-checking.
     */
-    PositionedGlyph& getGlyph (int index) const noexcept;
+    PositionedGlyph& getGlyph (int index) noexcept;
+
+    const PositionedGlyph* begin() const                        { return glyphs.begin(); }
+    const PositionedGlyph* end() const                          { return glyphs.end(); }
 
     //==============================================================================
     /** Clears all text from the arrangement and resets it. */
@@ -232,7 +237,7 @@ public:
     //==============================================================================
     /** Draws this glyph arrangement to a graphics context.
 
-        This uses cached bitmaps so is much faster than the draw (Graphics&, const AffineTransform&)
+        This uses cached bitmaps so is much faster than the draw (Graphics&, AffineTransform)
         method, which renders the glyphs as filled vectors.
     */
     void draw (const Graphics&) const;
@@ -242,7 +247,7 @@ public:
         This renders the paths as filled vectors, so is far slower than the draw (Graphics&)
         method for non-transformed arrangements.
     */
-    void draw (const Graphics&, const AffineTransform&) const;
+    void draw (const Graphics&, AffineTransform) const;
 
     /** Converts the set of glyphs into a path.
         @param path     the glyphs' outlines will be appended to this path
@@ -319,7 +324,9 @@ private:
     void splitLines (const String&, Font, int start, float x, float y, float w, float h, int maxLines,
                      float lineWidth, Justification, float minimumHorizontalScale);
     void addLinesWithLineBreaks (const String&, const Font&, float x, float y, float width, float height, Justification);
-    void drawGlyphUnderline (const Graphics&, const PositionedGlyph&, int, const AffineTransform&) const;
+    void drawGlyphUnderline (const Graphics&, const PositionedGlyph&, int, AffineTransform) const;
 
     JUCE_LEAK_DETECTOR (GlyphArrangement)
 };
+
+} // namespace juce

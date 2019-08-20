@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A type of InputSource that represents a normal file.
 
     @see InputSource
+
+    @tags{Core}
 */
 class JUCE_API  FileInputSource     : public InputSource
 {
@@ -54,3 +56,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FileInputSource)
 };
+
+}

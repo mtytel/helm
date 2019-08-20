@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 static XmlElement* findFontsConfFile()
 {
     static const char* pathsToSearch[] = { "/etc/fonts/fonts.conf",
@@ -45,7 +48,9 @@ StringArray FTTypefaceList::getDefaultFontDirectories()
 
     if (fontDirs.isEmpty())
     {
-        if (ScopedPointer<XmlElement> fontsInfo = findFontsConfFile())
+        std::unique_ptr<XmlElement> fontsInfo (findFontsConfFile());
+
+        if (fontsInfo != nullptr)
         {
             forEachXmlChildElementWithTagName (*fontsInfo, e, "dir")
             {
@@ -190,3 +195,5 @@ Typeface::Ptr Font::getDefaultTypefaceForFont (const Font& font)
     f.setTypefaceName (defaultNames.getRealFontName (font.getTypefaceName()));
     return Typeface::createSystemTypefaceFor (f);
 }
+
+} // namespace juce

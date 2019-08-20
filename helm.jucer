@@ -8,11 +8,11 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="1"
               pluginAUExportPrefix="helm" pluginRTASCategory="" aaxIdentifier="org.tytel.helm"
-              pluginAAXCategory="AAX_ePlugInCategory_SWGenerators" jucerVersion="5.0.2"
-              companyName="Matt Tytel" companyEmail="matthewtytel@gmail.com"
-              companyWebsite="tytel.org" pluginIsMidiEffectPlugin="0" buildAUv3="0"
-              displaySplashScreen="1" reportAppUsage="1" splashScreenColour="Dark"
-              buildStandalone="0" enableIAA="0">
+              pluginAAXCategory="2048" jucerVersion="5.3.2" companyName="Matt Tytel"
+              companyEmail="matthewtytel@gmail.com" companyWebsite="tytel.org"
+              pluginIsMidiEffectPlugin="0" buildAUv3="0" displaySplashScreen="1"
+              reportAppUsage="1" splashScreenColour="Dark" buildStandalone="0"
+              enableIAA="0" pluginFormats="buildVST,buildVST3,buildAU" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn,pluginEditorRequiresKeys">
   <MAINGROUP id="OwcEM5" name="Helm">
     <GROUP id="{600DADF0-4925-DDC4-81CF-48B3BAC03E18}" name="concurrentqueue">
       <FILE id="eNsxUt" name="blockingconcurrentqueue.h" compile="0" resource="0"
@@ -527,10 +527,10 @@
                extraCompilerFlags="" extraLinkerFlags="" iosDevelopmentTeamID="EFXDM6K3KJ"
                bigIcon="XC7smo">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
+        <CONFIGURATION name="Debug" osxCompatibility="10.7 SDK" osxArchitecture="Native"
                        isDebug="1" optimisation="1" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
                        linkTimeOptimisation="0" fastMath="0" cppLibType="libc++"/>
-        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="10.7 SDK" osxArchitecture="64BitUniversal"
+        <CONFIGURATION name="Release" osxCompatibility="10.7 SDK" osxArchitecture="64BitIntel"
                        isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
                        fastMath="1" linkTimeOptimisation="0" cppLibType="libc++"/>
       </CONFIGURATIONS>
@@ -550,21 +550,22 @@
         <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
-    <VS2015 targetFolder="builds/vs15" vstFolder="c:\srcs\VST3 SDK" vst3Folder="VST3_SDK"
-            aaxFolder="c:\srcs\AAX" windowsTargetPlatformVersion="8.1">
+    <VS2017 targetFolder="builds/vs17" vst3Folder="VST3_SDK" windowsTargetPlatformVersion="8.1">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
-        <CONFIGURATION name="Debug" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"/>
-        <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
-                       fastMath="1"/>
-        <CONFIGURATION name="Release" winWarningLevel="2" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="helm" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
-                       fastMath="1"/>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
+                       targetName="helm" winArchitecture="Win32" winWarningLevel="2"/>
+        <CONFIGURATION isDebug="1" name="Debug" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
+                       targetName="helm" winArchitecture="x64" winWarningLevel="2"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
+                       targetName="helm" winArchitecture="Win32" fastMath="1" optimisation="3"
+                       winWarningLevel="2"/>
+        <CONFIGURATION isDebug="0" name="Release" headerPath="../../concurrentqueue&#10;../../mopo/src&#10;../../src&#10;../../src/common&#10;../../src/editor_components&#10;../../src/editor_sections&#10;../../src/look_and_feel&#10;../../src/standalone&#10;../../src/synthesis"
+                       targetName="helm" winArchitecture="x64" fastMath="1" optimisation="3"
+                       winWarningLevel="2"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
+        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="JUCE/modules"/>
         <MODULEPATH id="juce_graphics" path="JUCE/modules"/>
         <MODULEPATH id="juce_events" path="JUCE/modules"/>
@@ -576,10 +577,8 @@
         <MODULEPATH id="juce_audio_formats" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="JUCE/modules"/>
-        <MODULEPATH id="juce_opengl" path="JUCE/modules"/>
       </MODULEPATHS>
-    </VS2015>
+    </VS2017>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
@@ -596,7 +595,7 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WEB_BROWSER="disabled"/>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WEB_BROWSER="0"/>
   <LIVE_SETTINGS>
     <OSX/>
   </LIVE_SETTINGS>

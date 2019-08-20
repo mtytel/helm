@@ -24,6 +24,9 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 #if JUCE_USE_DIRECTWRITE
 namespace
 {
@@ -265,6 +268,8 @@ public:
 
     IDWriteFontFace* getIDWriteFontFace() const noexcept    { return dwFontFace; }
 
+    float getUnitsToHeightScaleFactor() const noexcept      { return unitsToHeightScaleFactor; }
+
 private:
     SharedResourcePointer<Direct2DFactories> factories;
     ComSmartPtr<IDWriteFontFace> dwFontFace;
@@ -318,3 +323,5 @@ private:
 };
 
 #endif
+
+} // namespace juce

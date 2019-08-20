@@ -20,13 +20,15 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     A class to hold a resizable block of raw data.
 
+
+    @tags{Core}
 */
 class JUCE_API  MemoryBlock
 {
@@ -252,7 +254,9 @@ private:
     //==============================================================================
     typedef HeapBlock<char, true> HeapBlockType;
     HeapBlockType data;
-    size_t size;
+    size_t size = 0;
 
     JUCE_LEAK_DETECTOR (MemoryBlock)
 };
+
+} // namespace juce

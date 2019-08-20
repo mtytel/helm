@@ -45,7 +45,7 @@ class CustomAmountEditor : public TextEditor {
     std::vector<Listener*> listeners_;
 };
 
-class ContributeSection : public Overlay, public ButtonListener, CustomAmountEditor::Listener {
+class ContributeSection : public Overlay, public Button::Listener, CustomAmountEditor::Listener {
   public:
     ContributeSection(String name);
     ~ContributeSection() { }

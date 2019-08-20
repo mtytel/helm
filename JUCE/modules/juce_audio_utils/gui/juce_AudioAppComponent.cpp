@@ -24,7 +24,18 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 AudioAppComponent::AudioAppComponent()
+    : deviceManager (defaultDeviceManager),
+      usingCustomDeviceManager (false)
+{
+}
+
+AudioAppComponent::AudioAppComponent (AudioDeviceManager& adm)
+    : deviceManager (adm),
+      usingCustomDeviceManager (true)
 {
 }
 
@@ -37,7 +48,30 @@ AudioAppComponent::~AudioAppComponent()
 
 void AudioAppComponent::setAudioChannels (int numInputChannels, int numOutputChannels, const XmlElement* const xml)
 {
-    String audioError = deviceManager.initialise (numInputChannels, numOutputChannels, xml, true);
+    String audioError;
+
+    if (usingCustomDeviceManager && xml == nullptr)
+    {
+        AudioDeviceManager::AudioDeviceSetup setup;
+        deviceManager.getAudioDeviceSetup (setup);
+
+        if (setup.inputChannels.countNumberOfSetBits() != numInputChannels
+            || setup.outputChannels.countNumberOfSetBits() != numOutputChannels)
+        {
+            setup.inputChannels.clear();
+            setup.outputChannels.clear();
+
+            setup.inputChannels.setRange (0, numInputChannels, true);
+            setup.outputChannels.setRange (0, numOutputChannels, true);
+
+            audioError = deviceManager.setAudioDeviceSetup (setup, false);
+        }
+    }
+    else
+    {
+        audioError = deviceManager.initialise (numInputChannels, numOutputChannels, xml, true);
+    }
+
     jassert (audioError.isEmpty());
 
     deviceManager.addAudioCallback (&audioSourcePlayer);
@@ -48,5 +82,10 @@ void AudioAppComponent::shutdownAudio()
 {
     audioSourcePlayer.setSource (nullptr);
     deviceManager.removeAudioCallback (&audioSourcePlayer);
-    deviceManager.closeAudioDevice();
+
+    // other audio callbacks may still be using the device
+    if (! usingCustomDeviceManager)
+        deviceManager.closeAudioDevice();
 }
+
+} // namespace juce

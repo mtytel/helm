@@ -23,7 +23,7 @@
 #include "synth_slider.h"
 #include <vector>
 
-class GraphicalStepSequencer : public Component, public Timer, public SliderListener,
+class GraphicalStepSequencer : public Component, public Timer, public Slider::Listener,
                                public SynthSlider::SliderListener {
   public:
     GraphicalStepSequencer();

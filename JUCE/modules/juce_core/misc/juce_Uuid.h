@@ -20,8 +20,8 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
@@ -32,6 +32,8 @@
     formatted to meet the RFC 4122 version 4 standard.
 
     The class includes methods for saving the ID as a string or as raw binary data.
+
+    @tags{Core}
 */
 class JUCE_API  Uuid
 {
@@ -103,6 +105,9 @@ public:
     /** Returns the node section of the UUID. */
     uint64 getNode() const noexcept;
 
+    /** Returns a hash of the UUID. */
+    uint64 hash() const noexcept;
+
     //==============================================================================
     /** Returns a pointer to the internal binary representation of the ID.
 
@@ -128,3 +133,5 @@ private:
 
     JUCE_LEAK_DETECTOR (Uuid)
 };
+
+} // namespace juce

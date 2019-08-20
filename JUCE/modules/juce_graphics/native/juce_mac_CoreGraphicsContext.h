@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 //==============================================================================
 class CoreGraphicsContext   : public LowLevelGraphicsContext
@@ -96,7 +97,7 @@ private:
         CGGradientRef gradient;
     };
 
-    ScopedPointer<SavedState> state;
+    std::unique_ptr<SavedState> state;
     OwnedArray<SavedState> stateStack;
 
     void drawGradient();
@@ -110,3 +111,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CoreGraphicsContext)
 };
+
+} // namespace juce

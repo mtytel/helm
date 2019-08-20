@@ -40,6 +40,7 @@ namespace mopo {
 
       void process() override;
       void setBufferSize(int buffer_size) override;
+      void setSampleRate(int sample_rate) override;
 
       std::set<ModulationConnection*> getModulationConnections() { return mod_connections_; }
       bool isModulationActive(ModulationConnection* connection);
@@ -59,6 +60,7 @@ namespace mopo {
       void setBpm(mopo_float bpm);
       void correctToTime(mopo_float samples) override;
       void setAftertouch(mopo_float note, mopo_float value, int sample = 0);
+      void setChannelAftertouch(int channel, mopo_float value, int sample = 0);
 
       // Sustain pedal events.
       void sustainOn();

@@ -20,11 +20,14 @@
   ==============================================================================
 */
 
+namespace juce
+{
+
 void MessageManager::runDispatchLoop()
 {
     jassert (isThisTheMessageThread()); // must only be called by the message thread
 
-    while (! quitMessagePosted)
+    while (quitMessagePosted.get() == 0)
     {
         JUCE_AUTORELEASEPOOL
         {
@@ -52,7 +55,7 @@ bool MessageManager::runDispatchLoopUntil (int millisecondsToRunFor)
         uint32 startTime = Time::getMillisecondCounter();
         NSDate* endDate = [NSDate dateWithTimeIntervalSinceNow: millisecondsToRunFor * 0.001];
 
-        while (! quitMessagePosted)
+        while (quitMessagePosted.get() == 0)
         {
             JUCE_AUTORELEASEPOOL
             {
@@ -65,18 +68,18 @@ bool MessageManager::runDispatchLoopUntil (int millisecondsToRunFor)
             }
         }
 
-        return ! quitMessagePosted;
+        return quitMessagePosted.get() == 0;
     }
 }
 #endif
 
 //==============================================================================
-static ScopedPointer<MessageQueue> messageQueue;
+static std::unique_ptr<MessageQueue> messageQueue;
 
 void MessageManager::doPlatformSpecificInitialisation()
 {
     if (messageQueue == nullptr)
-        messageQueue = new MessageQueue();
+        messageQueue.reset (new MessageQueue());
 }
 
 void MessageManager::doPlatformSpecificShutdown()
@@ -96,3 +99,5 @@ void MessageManager::broadcastMessage (const String&)
 {
     // N/A on current iOS
 }
+
+} // namespace juce

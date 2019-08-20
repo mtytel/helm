@@ -20,14 +20,16 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     An AudioSource that uses the Reverb class to apply a reverb to another AudioSource.
 
     @see Reverb
+
+    @tags{Audio}
 */
 class JUCE_API  ReverbAudioSource   : public AudioSource
 {
@@ -64,7 +66,9 @@ private:
     CriticalSection lock;
     OptionalScopedPointer<AudioSource> input;
     Reverb reverb;
-    volatile bool bypass;
+    std::atomic<bool> bypass;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ReverbAudioSource)
 };
+
+} // namespace juce

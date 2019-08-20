@@ -20,22 +20,24 @@
   ==============================================================================
 */
 
-#pragma once
-
+namespace juce
+{
 
 //==============================================================================
 /**
     Wraps a pointer to a null-terminated UTF-16 character string, and provides
     various methods to operate on the data.
     @see CharPointer_UTF8, CharPointer_UTF32
+
+    @tags{Core}
 */
-class CharPointer_UTF16
+class CharPointer_UTF16  final
 {
 public:
    #if JUCE_NATIVE_WCHAR_IS_UTF16
-    typedef wchar_t CharType;
+    using CharType = wchar_t;
    #else
-    typedef int16 CharType;
+    using CharType = int16;
    #endif
 
     inline explicit CharPointer_UTF16 (const CharType* rawPointer) noexcept
@@ -516,3 +518,5 @@ private:
         return n;
     }
 };
+
+} // namespace juce

@@ -24,7 +24,8 @@
   ==============================================================================
 */
 
-#pragma once
+namespace juce
+{
 
 class CodeTokeniser;
 
@@ -35,6 +36,8 @@ class CodeTokeniser;
 
     This is designed to handle syntax highlighting and fast editing of very large
     files.
+
+    @tags{GUI}
 */
 class JUCE_API  CodeEditorComponent   : public Component,
                                         public ApplicationCommandTarget,
@@ -218,8 +221,10 @@ public:
     bool isReadOnly() const noexcept                    { return readOnly; }
 
     //==============================================================================
+    /** Defines a syntax highlighting colour scheme */
     struct JUCE_API  ColourScheme
     {
+        /** Defines a colour for a token type */
         struct TokenType
         {
             String name;
@@ -349,7 +354,7 @@ public:
     /** @internal */
     bool isTextInputActive() const override;
     /** @internal */
-    void setTemporaryUnderlining (const Array<Range<int> >&) override;
+    void setTemporaryUnderlining (const Array<Range<int>>&) override;
     /** @internal */
     ApplicationCommandTarget* getNextCommandTarget() override;
     /** @internal */
@@ -372,19 +377,19 @@ private:
     double xOffset = 0;
     CodeDocument::Position caretPos, selectionStart, selectionEnd;
 
-    ScopedPointer<CaretComponent> caret;
+    std::unique_ptr<CaretComponent> caret;
     ScrollBar verticalScrollBar { true }, horizontalScrollBar { false };
     ApplicationCommandManager* appCommandManager = nullptr;
 
     class Pimpl;
     friend class Pimpl;
     friend struct ContainerDeletePolicy<Pimpl>;
-    ScopedPointer<Pimpl> pimpl;
+    std::unique_ptr<Pimpl> pimpl;
 
     class GutterComponent;
     friend class GutterComponent;
     friend struct ContainerDeletePolicy<GutterComponent>;
-    ScopedPointer<GutterComponent> gutter;
+    std::unique_ptr<GutterComponent> gutter;
 
     enum DragType
     {
@@ -430,3 +435,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CodeEditorComponent)
 };
+
+} // namespace juce
