@@ -34,7 +34,7 @@ GraphicalStepSequencer::GraphicalStepSequencer() {
 GraphicalStepSequencer::~GraphicalStepSequencer() { }
 
 void GraphicalStepSequencer::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 1, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 1, juce::Point<int>(0, 0));
   if (sequence_.size() == 0 || num_steps_slider_ == nullptr)
     return;
 
@@ -189,7 +189,7 @@ void GraphicalStepSequencer::resetBackground() {
 // If the mouse skipped over some steps between last mouseDrag event, we'll interpolate
 // and set all the steps between to appropriate values.
 void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
-  Point<int> mouse_position = e.getPosition();
+  juce::Point<int> mouse_position = e.getPosition();
   int from_step = getHoveredStep(last_edit_position_);
   int selected_step = getHoveredStep(mouse_position);
 
@@ -220,7 +220,7 @@ void GraphicalStepSequencer::changeStep(const MouseEvent& e) {
   resetBackground();
 }
 
-int GraphicalStepSequencer::getHoveredStep(Point<int> position) {
+int GraphicalStepSequencer::getHoveredStep(juce::Point<int> position) {
   return floorf(num_steps_ * (1.0f * position.x) / getWidth());
 }
 

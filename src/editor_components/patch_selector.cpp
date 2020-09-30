@@ -97,7 +97,7 @@ void PatchSelector::paint(Graphics& g) {
 
 
 void PatchSelector::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xff000000), 4, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xff000000), 4, juce::Point<int>(0, 0));
 
   g.setColour(Colour(0xff383838));
   g.fillRect(0, 0, getWidth(), proportionOfHeight(BROWSE_PERCENT));

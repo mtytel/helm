@@ -117,7 +117,7 @@ OscillatorSection::~OscillatorSection() {
 }
 
 void OscillatorSection::paintBackground(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0x99000000), 4, Point<int>(0, 0));
+  static const DropShadow component_shadow(Colour(0x99000000), 4, juce::Point<int>(0, 0));
   float extra_knob_padding = size_ratio_ * 4.0f;
 
   SynthSection::paintBackground(g);

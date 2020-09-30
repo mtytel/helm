@@ -215,7 +215,7 @@ void SynthSlider::drawShadow(Graphics &g) {
 }
 
 void SynthSlider::drawRotaryShadow(Graphics &g) {
-  static const DropShadow shadow(Colour(0xee000000), 3, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xee000000), 3, juce::Point<int>(0, 0));
   static const float stroke_percent = 0.12f;
 
   g.saveState();
@@ -244,7 +244,7 @@ void SynthSlider::drawRotaryShadow(Graphics &g) {
 }
 
 void SynthSlider::drawRectangularShadow(Graphics &g) {
-  static const DropShadow shadow(Colour(0xbb000000), 2, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 2, juce::Point<int>(0, 0));
 
   g.saveState();
   g.setOrigin(getX(), getY());

@@ -101,7 +101,7 @@ FilterSection::~FilterSection() {
 
 void FilterSection::paintBackground(Graphics& g) {
   static const PathStrokeType stroke(1.000f, PathStrokeType::curved, PathStrokeType::rounded);
-  static const DropShadow component_shadow(Colour(0xbb000000), size_ratio_ * 4, Point<int>(0, 0));
+  static const DropShadow component_shadow(Colour(0xbb000000), size_ratio_ * 4, juce::Point<int>(0, 0));
   SynthSection::paintBackground(g);
 
   g.setColour(Colors::control_label_text);

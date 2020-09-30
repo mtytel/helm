@@ -107,11 +107,13 @@ class SynthSlider : public Slider {
     mopo::ValueDetails details_;
 
     const std::string* string_lookup_;
-    Point<float> click_position_;
+    juce::Point<float> click_position_;
 
     FullInterface* parent_;
 
     std::vector<SliderListener*> slider_listeners_;
+
+    juce::OSCSender sender;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SynthSlider)
 };

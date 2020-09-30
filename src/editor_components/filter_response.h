@@ -32,7 +32,7 @@ class FilterResponse : public Component, SynthSlider::SliderListener {
     float getPercentForMidiNote(float midi_note);
     void resetResponsePath();
     void computeFilterCoefficients();
-    void setFilterSettingsFromPosition(Point<int> position);
+    void setFilterSettingsFromPosition(juce::Point<int> position);
     void guiChanged(SynthSlider* slider) override;
 
     void setResonanceSlider(SynthSlider* slider);

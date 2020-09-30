@@ -141,7 +141,7 @@ ContributeSection::ContributeSection(String name) : Overlay(name) {
 }
 
 void ContributeSection::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xff000000), 5, juce::Point<int>(0, 0));
   static const int logo_padding = 0;
   static const int y_shift = 10;
   static const int logo_width = 256;

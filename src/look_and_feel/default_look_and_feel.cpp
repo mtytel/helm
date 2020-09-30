@@ -35,7 +35,7 @@ DefaultLookAndFeel::DefaultLookAndFeel() {
 void DefaultLookAndFeel::drawLinearSlider(Graphics& g, int x, int y, int width, int height,
                                           float slider_pos, float min, float max,
                                           const Slider::SliderStyle style, Slider& slider) {
-  static const DropShadow thumb_shadow(Colour(0x88000000), 3, Point<int>(-1, 0));
+  static const DropShadow thumb_shadow(Colour(0x88000000), 3, juce::Point<int>(-1, 0));
 
   bool bipolar = false;
   bool flip_coloring = false;
@@ -201,7 +201,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
 
 void DefaultLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                           bool hover, bool is_down) {
-  static const DropShadow shadow(Colour(0x88000000), 1.0f, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0x88000000), 1.0f, juce::Point<int>(0, 0));
   static float stroke_percent = 0.1f;
   float ratio = button.getWidth() / 20.0f;
   float padding = ratio * 3.0f;

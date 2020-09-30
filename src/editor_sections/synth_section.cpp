@@ -40,7 +40,7 @@ void SynthSection::resized() {
 void SynthSection::paint(Graphics& g) { }
 
 void SynthSection::paintBackground(Graphics& g) {
-  static const DropShadow button_shadow(Colour(0xff000000), size_ratio_ * 3.0f, Point<int>(0, 0));
+  static const DropShadow button_shadow(Colour(0xff000000), size_ratio_ * 3.0f, juce::Point<int>(0, 0));
 
   paintContainer(g);
   // Draw shadow divider.

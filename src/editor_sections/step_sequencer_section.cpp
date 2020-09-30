@@ -78,7 +78,7 @@ StepSequencerSection::~StepSequencerSection() {
 }
 
 void StepSequencerSection::paintBackground(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+  static const DropShadow component_shadow(Colour(0x88000000), 2, juce::Point<int>(0, 1));
   int text_height = size_ratio_ * TEXT_HEIGHT;
   float font_size = size_ratio_ * 10.0f;
   int text_buffer = 6;

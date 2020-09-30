@@ -46,7 +46,7 @@ FormantSection::~FormantSection() {
 }
 
 void FormantSection::paintBackground(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+  static const DropShadow component_shadow(Colour(0x88000000), 2, juce::Point<int>(0, 1));
   SynthSection::paintBackground(g);
   component_shadow.drawForRectangle(g, xy_pad_->getBounds());
 }

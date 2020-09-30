@@ -377,6 +377,12 @@
     <Filter Include="JUCE Modules\juce_opengl">
       <UniqueIdentifier>{9FBFF5E5-56F1-34A1-2C85-F760DA2B1EB7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="JUCE Modules\juce_osc\osc">
+      <UniqueIdentifier>{EEE9B92C-AD26-4BEA-4D95-3F859090EA9F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JUCE Modules\juce_osc">
+      <UniqueIdentifier>{B1DE8DB1-C00A-12C0-D690-8B3C9504A60A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JUCE Modules">
       <UniqueIdentifier>{FE955B6B-68AC-AA07-70D8-2413F6DB65C8}</UniqueIdentifier>
     </Filter>
@@ -2494,6 +2500,33 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.mm">
       <Filter>JUCE Modules\juce_opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCMessage.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCReceiver.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.cpp">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_osc\juce_osc.cpp">
+      <Filter>JUCE Modules\juce_osc</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\BinaryData.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
@@ -2531,6 +2564,9 @@
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_opengl.cpp">
+      <Filter>JUCE Library Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JuceLibraryCode\include_juce_osc.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>
   </ItemGroup>
@@ -4748,6 +4784,33 @@
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_opengl\juce_opengl.h">
       <Filter>JUCE Modules\juce_opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCAddress.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCArgument.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCBundle.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCMessage.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCReceiver.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCSender.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTimeTag.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\osc\juce_OSCTypes.h">
+      <Filter>JUCE Modules\juce_osc\osc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\JUCE\modules\juce_osc\juce_osc.h">
+      <Filter>JUCE Modules\juce_osc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h">
       <Filter>JUCE Library Code</Filter>

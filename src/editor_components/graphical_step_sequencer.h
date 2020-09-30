@@ -47,7 +47,7 @@ class GraphicalStepSequencer : public Component, public Timer, public Slider::Li
     void mouseDrag(const MouseEvent& e) override;
 
   private:
-    int getHoveredStep(Point<int> position);
+    int getHoveredStep(juce::Point<int> position);
     void updateHover(int step_index);
     void changeStep(const MouseEvent& e);
     void ensureMinSize();
@@ -58,7 +58,7 @@ class GraphicalStepSequencer : public Component, public Timer, public Slider::Li
     SynthSlider* num_steps_slider_;
     int highlighted_step_;
     std::vector<Slider*> sequence_;
-    Point<int> last_edit_position_;
+    juce::Point<int> last_edit_position_;
 
     Image background_;
 

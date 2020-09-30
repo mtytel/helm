@@ -29,7 +29,7 @@ Oscilloscope::Oscilloscope() : output_memory_(nullptr) { }
 Oscilloscope::~Oscilloscope() { }
 
 void Oscilloscope::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
   g.drawImageWithin(background_,
                     0, 0, getWidth(), getHeight(), RectanglePlacement());
 
@@ -42,7 +42,7 @@ void Oscilloscope::paint(Graphics& g) {
 }
 
 void Oscilloscope::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
 
   g.fillAll(Colour(0xff424242));
 

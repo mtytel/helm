@@ -27,7 +27,7 @@ class XYPad : public Component, public SynthSlider::SliderListener {
     ~XYPad();
 
     void guiChanged(SynthSlider* moved_slider) override;
-    void setSlidersFromPosition(Point<int> position);
+    void setSlidersFromPosition(juce::Point<int> position);
 
     void setXSlider(SynthSlider* slider);
     void setYSlider(SynthSlider* slider);

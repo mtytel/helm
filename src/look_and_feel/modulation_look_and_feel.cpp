@@ -168,7 +168,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
 
 void ModulationLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                              bool hover, bool is_down) {
-  static const DropShadow shadow(Colour(0x88000000), 2, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0x88000000), 2, juce::Point<int>(0, 0));
 
   static const Image on_active_2x =
       ImageCache::getFromMemory(BinaryData::modulation_selected_active_2x_png,

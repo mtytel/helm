@@ -28,7 +28,10 @@
 
 class SynthGuiInterface;
 
-class SynthBase : public MidiManager::Listener {
+class SynthBase : public MidiManager::Listener,
+                  private juce::OSCReceiver, // [1]
+                  private juce::OSCReceiver::ListenerWithOSCAddress<juce::OSCReceiver::MessageLoopCallback> // [2]
+{
   public:
     SynthBase();
     virtual ~SynthBase() { }
@@ -48,6 +51,8 @@ class SynthBase : public MidiManager::Listener {
     std::vector<mopo::ModulationConnection*> getSourceConnections(const std::string& source);
     std::vector<mopo::ModulationConnection*> getDestinationConnections(
         const std::string& destination);
+    
+    void oscMessageReceived (const juce::OSCMessage& message) override;
   
     mopo::Output* getModSource(const std::string& name);
 
@@ -134,6 +139,8 @@ class SynthBase : public MidiManager::Listener {
     std::set<mopo::ModulationConnection*> mod_connections_;
     moodycamel::ConcurrentQueue<mopo::control_change> value_change_queue_;
     moodycamel::ConcurrentQueue<mopo::modulation_change> modulation_change_queue_;
+
+    juce::OSCSender sender;
 };
 
 #endif // SYNTH_BASE_H

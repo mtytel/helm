@@ -60,7 +60,7 @@ void FilterResponse::paintBackground(Graphics& g) {
 }
 
 void FilterResponse::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
 
   g.drawImage(background_,
               0, 0, getWidth(), getHeight(),
@@ -201,7 +201,7 @@ void FilterResponse::computeFilterCoefficients() {
   resetResponsePath();
 }
 
-void FilterResponse::setFilterSettingsFromPosition(Point<int> position) {
+void FilterResponse::setFilterSettingsFromPosition(juce::Point<int> position) {
   if (cutoff_slider_) {
     double percent = mopo::utils::clamp((1.0 * position.x) / getWidth(), 0.0, 1.0);
     double frequency = cutoff_slider_->proportionOfLengthToValue(percent);

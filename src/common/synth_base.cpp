@@ -20,6 +20,7 @@
 #include "startup.h"
 #include "synth_gui_interface.h"
 #include "utils.h"
+#include <stdio.h>
 
 #define OUTPUT_WINDOW_MIN_NOTE 16.0
 
@@ -37,10 +38,30 @@ SynthBase::SynthBase() {
   memory_input_offset_ = 0;
   memory_index_ = 0;
 
+  if (! sender.connect ("127.0.0.1", 9001))   // [4]
+            printf("Error: could not connect to UDP port 9001.");
+
+
+
   Startup::doStartupChecks(midi_manager_);
 }
 
+
+void SynthBase::oscMessageReceived (const juce::OSCMessage& message){
+    if (message.size() == 1 && message[0].isFloat32()){
+        
+        //std::string& name = message.getAddressPattern().toString().toStdString();
+        //valueChangedInternal(mopo::control_change(controls_[name], message[0].getFloat32()));
+        printf("OSC received.");
+    }
+}
+
 void SynthBase::valueChanged(const std::string& name, mopo::mopo_float value) {
+
+ // sender.send ("/"+name, (float) value);
+    
+    sender.send(OSCAddressPattern("/"+name), (float)value);
+    
   value_change_queue_.enqueue(mopo::control_change(controls_[name], value));
 }
 

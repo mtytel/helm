@@ -53,7 +53,7 @@ class OpenGLEnvelope : public OpenGLComponent, public SynthSlider::SliderListene
     void drawPosition(OpenGLContext& open_gl_context);
     void paintPositionImage();
     void paintBackground();
-    Point<float> valuesToPosition(float phase, float amp);
+    juce::Point<float> valuesToPosition(float phase, float amp);
 
     float getAttackX();
     float getDecayX();

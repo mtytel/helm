@@ -138,7 +138,7 @@ void OpenGLModulationManager::resized() {
   // Update modulation slider locations.
   for (auto& slider : slider_lookup_) {
     SynthSlider* model = slider_model_lookup_[slider.first];
-    Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
+    juce::Point<float> local_top_left = getLocalPoint(model, juce::Point<float>(0.0f, 0.0f));
     slider.second->setVisible(model->isVisible());
     slider.second->setBounds(local_top_left.x, local_top_left.y,
                              model->getWidth(), model->getHeight());
@@ -147,7 +147,7 @@ void OpenGLModulationManager::resized() {
   // Update modulation meter locations.
   for (auto& meter : meter_lookup_) {
     Slider* model = slider_model_lookup_[meter.first];
-    Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
+    juce::Point<float> local_top_left = getLocalPoint(model, juce::Point<float>(0.0f, 0.0f));
     meter.second->setBounds(local_top_left.x, local_top_left.y,
                             model->getWidth(), model->getHeight());
     if (parent) {
@@ -160,7 +160,7 @@ void OpenGLModulationManager::resized() {
   // Update modulation highlight overlay locations.
   for (auto& overlay : overlay_lookup_) {
     ModulationButton* model = modulation_buttons_[overlay.first];
-    Point<float> local_top_left = getLocalPoint(model, Point<float>(0.0f, 0.0f));
+    juce::Point<float> local_top_left = getLocalPoint(model, juce::Point<float>(0.0f, 0.0f));
     overlay.second->setBounds(local_top_left.x, local_top_left.y,
                               model->getWidth(), model->getHeight());
   }

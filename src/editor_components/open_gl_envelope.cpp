@@ -64,7 +64,7 @@ OpenGLEnvelope::~OpenGLEnvelope() {
 }
 
 void OpenGLEnvelope::paintBackground() {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
 
   if (getWidth() <= 0 || getHeight() <= 0)
     return;
@@ -332,12 +332,12 @@ void OpenGLEnvelope::resetEnvelopeLine() {
   paintBackground();
 }
 
-Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
+juce::Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
   float y = (1.0 - amp) * getHeight();
   float x = 0.0;
 
   if (phase < 0.0 || phase > 2.5)
-    return Point<float>(-2.0, -2.0);
+    return juce::Point<float>(-2.0, -2.0);
 
   float attack_x = getAttackX();
   float decay_x = getDecayX();
@@ -362,8 +362,8 @@ Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
     x = decay_x + delta - delta * (amp / sustain);
   }
 
-  Point<float> closest;
-  envelope_line_.getNearestPoint(Point<float>(x, y), closest);
+  juce::Point<float> closest;
+  envelope_line_.getNearestPoint(juce::Point<float>(x, y), closest);
   if (phase > 1.5f && phase < 2.5f && closest.x < decay_x) {
     closest.x = decay_x;
     closest.y = (1.0 - amp) * getHeight();
@@ -372,7 +372,7 @@ Point<float> OpenGLEnvelope::valuesToPosition(float phase, float amp) {
     closest.x = decay_x;
     closest.y = (1.0 - amp) * getHeight();
   }
-  return Point<float>(2.0f * closest.x / getWidth() - 1.0f, 1.0f - 2.0f * closest.y / getHeight());
+  return juce::Point<float>(2.0f * closest.x / getWidth() - 1.0f, 1.0f - 2.0f * closest.y / getHeight());
 }
 
 void OpenGLEnvelope::init(OpenGLContext& open_gl_context) {
@@ -402,7 +402,7 @@ void OpenGLEnvelope::drawPosition(OpenGLContext& open_gl_context) {
   if (envelope_phase_ == nullptr || envelope_amp_ == nullptr || envelope_amp_->buffer[0] <= 0.0)
     return;
 
-  Point<float> point = valuesToPosition(envelope_phase_->buffer[0], envelope_amp_->buffer[0]);
+  juce::Point<float> point = valuesToPosition(envelope_phase_->buffer[0], envelope_amp_->buffer[0]);
   float x = point.x;
   float y = point.y;
 

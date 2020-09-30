@@ -128,9 +128,9 @@ FullInterface::~FullInterface() {
 void FullInterface::paint(Graphics& g) { }
 
 void FullInterface::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
-  static const DropShadow logo_shadow(Colour(0xff000000), 8, Point<int>(0, 0));
-  static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
+  static const DropShadow shadow(Colour(0xcc000000), 3, juce::Point<int>(0, 1));
+  static const DropShadow logo_shadow(Colour(0xff000000), 8, juce::Point<int>(0, 0));
+  static const DropShadow component_shadow(Colour(0xcc000000), 5, juce::Point<int>(0, 1));
   Image helm_small = ImageCache::getFromMemory(BinaryData::helm_icon_32_2x_png,
                                                BinaryData::helm_icon_32_2x_pngSize);
   g.setColour(Colors::background);

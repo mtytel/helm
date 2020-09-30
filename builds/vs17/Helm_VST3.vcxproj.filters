@@ -2,11 +2,26 @@
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="JUCE Modules\juce_audio_plugin_client\VST3">
+      <UniqueIdentifier>{68760A18-ED41-41C7-2560-F3A65E9AD133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JUCE Modules\juce_audio_plugin_client">
+      <UniqueIdentifier>{BA0A76FA-458F-0B1C-02E9-ECFBF81140EC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JUCE Modules">
+      <UniqueIdentifier>{FE955B6B-68AC-AA07-70D8-2413F6DB65C8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="JUCE Library Code">
       <UniqueIdentifier>{7ED5A90E-41AF-A1EF-659B-37CEEAB9BA61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\VST3\juce_VST3_Wrapper.cpp">
+      <Filter>JUCE Modules\juce_audio_plugin_client\VST3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client_VST3.cpp">
+      <Filter>JUCE Modules\juce_audio_plugin_client</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_audio_plugin_client_VST3.cpp">
       <Filter>JUCE Library Code</Filter>
     </ClCompile>

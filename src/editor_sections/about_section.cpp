@@ -83,7 +83,7 @@ AboutSection::AboutSection(String name) : Overlay(name) {
 }
 
 void AboutSection::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xff000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xff000000), 5, juce::Point<int>(0, 0));
 
   g.setColour(Colors::overlay_screen);
   g.fillAll();

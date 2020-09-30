@@ -92,8 +92,8 @@ SynthesisInterface::~SynthesisInterface() {
 }
 
 void SynthesisInterface::paintBackground(Graphics& g) {
-  static const DropShadow section_shadow(Colour(0xcc000000), 3, Point<int>(0, 1));
-  static const DropShadow component_shadow(Colour(0xcc000000), 5, Point<int>(0, 1));
+  static const DropShadow section_shadow(Colour(0xcc000000), 3, juce::Point<int>(0, 1));
+  static const DropShadow component_shadow(Colour(0xcc000000), 5, juce::Point<int>(0, 1));
 
   section_shadow.drawForRectangle(g, amplitude_envelope_section_->getBounds());
   section_shadow.drawForRectangle(g, delay_section_->getBounds());

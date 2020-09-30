@@ -57,6 +57,13 @@
         <string>Helm</string>
         <key>version</key>
         <integer>2304</integer>
+        <key>resourceUsage</key>
+        <dict>
+          <key>network.client</key>
+          <true/>
+          <key>temporary-exception.files.all.read-write</key>
+          <true/>
+        </dict>
       </dict>
     </array>
   </dict>

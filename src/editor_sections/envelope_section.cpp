@@ -64,7 +64,7 @@ EnvelopeSection::~EnvelopeSection() {
 }
 
 void EnvelopeSection::paintBackground(Graphics& g) {
-  static const DropShadow component_shadow(Colour(0x88000000), 2, Point<int>(0, 1));
+  static const DropShadow component_shadow(Colour(0x88000000), 2, juce::Point<int>(0, 1));
 
   int title_width = getTitleWidth();
   int text_width = size_ratio_ * TEXT_WIDTH;

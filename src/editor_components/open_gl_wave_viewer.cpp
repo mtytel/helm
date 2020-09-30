@@ -56,7 +56,7 @@ OpenGLWaveViewer::~OpenGLWaveViewer() {
 }
 
 void OpenGLWaveViewer::paintBackground() {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
 
   if (getWidth() <= 0 || getHeight() <= 0)
     return;

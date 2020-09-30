@@ -66,7 +66,7 @@ void WaveViewer::paint(juce::Graphics &g) {
 }
 
 void WaveViewer::paintBackground(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
 
   g.fillAll(Colour(0xff424242));
 

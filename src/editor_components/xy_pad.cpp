@@ -43,7 +43,7 @@ void XYPad::paintBackground(Graphics& g) {
 }
 
 void XYPad::paint(Graphics& g) {
-  static const DropShadow shadow(Colour(0xbb000000), 5, Point<int>(0, 0));
+  static const DropShadow shadow(Colour(0xbb000000), 5, juce::Point<int>(0, 0));
 
   g.drawImage(background_,
               0, 0, getWidth(), getHeight(),
@@ -104,7 +104,7 @@ void XYPad::mouseUp(const MouseEvent& e) {
   repaint();
 }
 
-void XYPad::setSlidersFromPosition(Point<int> position) {
+void XYPad::setSlidersFromPosition(juce::Point<int> position) {
   if (x_slider_) {
     double percent = mopo::utils::clamp((1.0 * position.x) / getWidth(), 0.0, 1.0);
     x_slider_->setValue(percent);
