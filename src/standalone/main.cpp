@@ -37,13 +37,13 @@ class HelmApplication : public JUCEApplication {
         if (visible) {
           editor_->animate(LoadSave::shouldAnimateWidgets());
 
+        setResizable(true, true);
         if(fullscreen)
         {
-          setFullScreen(true);
           setTitleBarHeight(0);
+          setFullScreen(true);
         } else {
           setUsingNativeTitleBar(true);
-          setResizable(true, true);
         }
         
          setContentOwned(editor_, true);
