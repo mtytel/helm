@@ -48,13 +48,15 @@ const char* Shaders::shaders_[] = {
   "{\n"
   "    gl_Position = position;\n"
   "}\n",
-  
+ 
+    
   "void main()\n"
   "{\n"
-  "    " JUCE_MEDIUMP " vec4 color = vec4(1.0, 1.0, 1.0, 1.0);\n"
+  "    " JUCE_MEDIUMP " vec4 color = vec4(1.10, 1.10, 1.10, 1.0);\n"
   "    gl_FragColor = color;\n"
   "}\n",
-
+     
+    
   "attribute " JUCE_MEDIUMP " vec4 position;\n"
   "attribute " JUCE_MEDIUMP " vec2 coordinates;\n"
   "attribute " JUCE_MEDIUMP " vec2 range;\n"

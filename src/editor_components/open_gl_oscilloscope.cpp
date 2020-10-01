@@ -95,7 +95,7 @@ void OpenGLOscilloscope::drawLines(OpenGLContext& open_gl_context) {
 
   if (output_memory_) {
     for (int i = 0; i < RESOLUTION; ++i) {
-      float memory_spot = (1.0f * i * mopo::MEMORY_RESOLUTION) / RESOLUTION;
+        float memory_spot = (1.0f * i * mopo::MEMORY_RESOLUTION) / RESOLUTION;
       int memory_index = memory_spot;
       float remainder = memory_spot - memory_index;
       line_data_[2 * i + 1] = mopo::utils::interpolate(output_memory_[memory_index],
