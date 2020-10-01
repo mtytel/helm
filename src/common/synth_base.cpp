@@ -48,7 +48,7 @@ SynthBase::SynthBase() {
 
 
 void SynthBase::oscMessageReceived (const juce::OSCMessage& message){
-    if (message.size() == 1 && message[0].isFloat32()){
+    if (message.size() == 2 && message[0].isFloat32()){
         
         //std::string& name = message.getAddressPattern().toString().toStdString();
         //valueChangedInternal(mopo::control_change(controls_[name], message[0].getFloat32()));
