@@ -11,12 +11,6 @@ namespace BinaryData
     extern const char*   DroidSansMono_ttf;
     const int            DroidSansMono_ttfSize = 119380;
 
-    extern const char*   MontserratExtraLight_ttf;
-    const int            MontserratExtraLight_ttfSize = 242128;
-
-    extern const char*   MontserratLight_ttf;
-    const int            MontserratLight_ttfSize = 242068;
-
     extern const char*   RobotoLight_ttf;
     const int            RobotoLight_ttfSize = 126792;
 
@@ -25,9 +19,6 @@ namespace BinaryData
 
     extern const char*   RobotoThin_ttf;
     const int            RobotoThin_ttfSize = 127584;
-
-    extern const char*   ShareTechMonoRegular_ttf;
-    const int            ShareTechMonoRegular_ttfSize = 42756;
 
     extern const char*   helm_debian_icon_xpm;
     const int            helm_debian_icon_xpmSize = 7204;
@@ -87,7 +78,7 @@ namespace BinaryData
     const int            modulation_unselected_inactive_2x_pngSize = 4996;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 26;
+    const int namedResourceListSize = 23;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
