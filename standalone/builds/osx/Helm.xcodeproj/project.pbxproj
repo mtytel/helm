@@ -642,13 +642,6 @@
 			path = "../../../src/editor_components/open_gl_background.cpp";
 			sourceTree = "SOURCE_ROOT";
 		};
-		01F387AA90969F2534AC33E8 = {
-			isa = PBXFileReference;
-			lastKnownFileType = file.ttf;
-			name = "ShareTechMono-Regular.ttf";
-			path = "../../../../../Downloads/Share_Tech_Mono/ShareTechMono-Regular.ttf";
-			sourceTree = "SOURCE_ROOT";
-		};
 		025EF1601A7D050B084ECDD4 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.png;
@@ -836,13 +829,6 @@
 			lastKnownFileType = image.png;
 			name = "helm_icon_32_1x.png";
 			path = "../../../images/helm_icon_32_1x.png";
-			sourceTree = "SOURCE_ROOT";
-		};
-		16CC44177D87902DB3875063 = {
-			isa = PBXFileReference;
-			lastKnownFileType = file.ttf;
-			name = "Montserrat-ExtraLight.ttf";
-			path = "../../../../../Downloads/Montserrat/Montserrat-ExtraLight.ttf";
 			sourceTree = "SOURCE_ROOT";
 		};
 		17B34A6F7C2B3DF8308E1F0A = {
@@ -1431,13 +1417,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = "filter_selector.cpp";
 			path = "../../../src/editor_components/filter_selector.cpp";
-			sourceTree = "SOURCE_ROOT";
-		};
-		5A6226E3EBE63EC26266FAF4 = {
-			isa = PBXFileReference;
-			lastKnownFileType = file.ttf;
-			name = "Montserrat-Light.ttf";
-			path = "../../../../../Downloads/Montserrat/Montserrat-Light.ttf";
 			sourceTree = "SOURCE_ROOT";
 		};
 		5AA6534E4E8973315DD40B14 = {
@@ -2958,12 +2937,9 @@
 			isa = PBXGroup;
 			children = (
 				C42D60BE3E7AC46A65CF80EA,
-				16CC44177D87902DB3875063,
-				5A6226E3EBE63EC26266FAF4,
 				E5886A6F6635940F266DC6C4,
 				1DD4C0AA444EEDDC36897D03,
 				4487739A99D0839AA2C6B02B,
-				01F387AA90969F2534AC33E8,
 			);
 			name = fonts;
 			sourceTree = "<group>";

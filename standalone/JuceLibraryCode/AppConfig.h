@@ -58,6 +58,7 @@
 #define JUCE_MODULE_AVAILABLE_juce_gui_basics            1
 #define JUCE_MODULE_AVAILABLE_juce_gui_extra             1
 #define JUCE_MODULE_AVAILABLE_juce_opengl                1
+#define JUCE_MODULE_AVAILABLE_juce_osc                   1
 
 #define JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED 1
 
