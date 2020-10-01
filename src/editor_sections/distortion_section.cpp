@@ -55,13 +55,13 @@ void DistortionSection::paintBackground(Graphics& g) {
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
 
-  g.drawText(TRANS("TYPE"),
+  g.drawText(TRANS("Type"),
              type_->getBounds().getX() - size_ratio_ * 5.0f,
              drive_->getBounds().getY() + knob_width + size_ratio_ * 4,
              type_->getBounds().getWidth() + size_ratio_ * 10.0f,
              size_ratio_ * 10.0f, Justification::centred, false);
-  drawTextForComponent(g, TRANS("DRIVE"), drive_);
-  drawTextForComponent(g, TRANS("MIX"), mix_);
+  drawTextForComponent(g, TRANS("Drive"), drive_);
+  drawTextForComponent(g, TRANS("Mix"), mix_);
 }
 
 void DistortionSection::resized() {

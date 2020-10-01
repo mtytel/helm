@@ -93,17 +93,17 @@ void StutterSection::paintBackground(Graphics& g) {
 
   int extra_bump = size_ratio_ * 5;
   int text_buffer = size_ratio_ * 6;
-  g.drawText(TRANS("FREQUENCY"),
+  g.drawText(TRANS("Frequency"),
              stutter_frequency_->getBounds().getX() - extra_bump,
              stutter_frequency_->getBounds().getBottom() + text_buffer,
              stutter_frequency_->getBounds().getWidth() + text_height + 2 * extra_bump,
              font_size + 1, Justification::centred, false);
-  g.drawText(TRANS("RESAMPLE"),
+  g.drawText(TRANS("Resample"),
              resample_frequency_->getBounds().getX() - extra_bump,
              resample_frequency_->getBounds().getBottom() + text_buffer,
              resample_frequency_->getBounds().getWidth() + text_height + 2 * extra_bump,
              font_size + 1, Justification::centred, false);
-  drawTextForComponent(g, TRANS("SOFTNESS"), stutter_softness_);
+  drawTextForComponent(g, TRANS("Softness"), stutter_softness_);
 }
 
 void StutterSection::resized() {

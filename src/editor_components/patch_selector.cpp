@@ -36,6 +36,8 @@ namespace {
 PatchSelector::PatchSelector() : SynthSection("patch_selector"),
                                  browser_(nullptr), save_section_(nullptr), modified_(false) {
   setLookAndFeel(BrowserLookAndFeel::instance());
+                                     
+
   addButton(prev_patch_ = new TextButton("prev_patch"));
   prev_patch_->setButtonText(TRANS("<"));
   prev_patch_->setColour(TextButton::buttonColourId, Colour(0xff464646));
@@ -47,17 +49,17 @@ PatchSelector::PatchSelector() : SynthSection("patch_selector"),
   next_patch_->setColour(TextButton::textColourOffId, Colours::white);
 
   addButton(save_ = new TextButton("save"));
-  save_->setButtonText(TRANS("SAVE"));
+  save_->setButtonText(TRANS("Save"));
   save_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   save_->setColour(TextButton::textColourOffId, Colours::white);
 
   addButton(export_ = new TextButton("export"));
-  export_->setButtonText(TRANS("EXPORT"));
+  export_->setButtonText(TRANS("Export"));
   export_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   export_->setColour(TextButton::textColourOffId, Colours::white);
 
   addButton(browse_ = new TextButton("browse"));
-  browse_->setButtonText(TRANS("BROWSE"));
+  browse_->setButtonText(TRANS("Browse"));
   browse_->setColour(TextButton::buttonColourId, Colour(0xff303030));
   browse_->setColour(TextButton::textColourOffId, Colours::white);
 }
@@ -76,7 +78,7 @@ void PatchSelector::paint(Graphics& g) {
   SynthGuiInterface* parent = findParentComponentOfClass<SynthGuiInterface>();
   patch_text_ = parent->getSynth()->getPatchName();
   if (patch_text_ == "")
-    patch_text_ = TRANS("init");
+    patch_text_ = TRANS("init patch");
 
   if (modified_)
     patch_text_ = "*" + patch_text_;
@@ -88,7 +90,8 @@ void PatchSelector::paint(Graphics& g) {
   Rectangle<int> bottom(proportionOfWidth(0.1f) + TEXT_PADDING, browse_height,
                         proportionOfWidth(0.8f) - TEXT_PADDING, browse_height);
 
-  g.setFont(Fonts::instance()->monospace().withPointHeight(size_ratio_ * 12.0f));
+  //g.setFont(Fonts::instance()->monospace().withPointHeight(size_ratio_ * 12.0f));
+    g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 12.0f));
   g.setColour(Colors::control_label_text);
   g.drawFittedText(folder_text_, top, Justification::centredLeft, 1);
   g.setColour(Colour(0xffffffff));

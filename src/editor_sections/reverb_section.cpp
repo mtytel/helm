@@ -48,9 +48,9 @@ void ReverbSection::paintBackground(Graphics& g) {
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
-  drawTextForComponent(g, TRANS("FEEDB"), feedback_);
-  drawTextForComponent(g, TRANS("DAMP"), damping_);
-  drawTextForComponent(g, TRANS("MIX"), dry_wet_);
+  drawTextForComponent(g, TRANS("Feedb."), feedback_);
+  drawTextForComponent(g, TRANS("Damping"), damping_);
+  drawTextForComponent(g, TRANS("Mix"), dry_wet_);
 }
 
 void ReverbSection::resized() {

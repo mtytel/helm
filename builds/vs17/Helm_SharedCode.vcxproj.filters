@@ -4928,6 +4928,12 @@
     <None Include="..\..\fonts\DroidSansMono.ttf">
       <Filter>Helm\fonts</Filter>
     </None>
+    <None Include="..\..\..\..\Downloads\Montserrat\Montserrat-ExtraLight.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
+    <None Include="..\..\..\..\Downloads\Montserrat\Montserrat-Light.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
     <None Include="..\..\fonts\Roboto-Light.ttf">
       <Filter>Helm\fonts</Filter>
     </None>
@@ -4935,6 +4941,9 @@
       <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\fonts\Roboto-Thin.ttf">
+      <Filter>Helm\fonts</Filter>
+    </None>
+    <None Include="..\..\..\..\Downloads\Share_Tech_Mono\ShareTechMono-Regular.ttf">
       <Filter>Helm\fonts</Filter>
     </None>
     <None Include="..\..\images\helm_debian_icon.xpm">

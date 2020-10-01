@@ -2023,11 +2023,25 @@
 			path = "../../JUCE/modules/juce_opengl";
 			sourceTree = "SOURCE_ROOT";
 		};
+		9C5A607D0A96C620F9DE1E72 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.ttf;
+			name = "Montserrat-Light.ttf";
+			path = "../../../../Downloads/Montserrat/Montserrat-Light.ttf";
+			sourceTree = "SOURCE_ROOT";
+		};
 		A24CA5B3123863A2F1D67164 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_events.mm";
 			path = "../../JuceLibraryCode/include_juce_events.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		A9A621517BC017AC268BFD79 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = "helm_icon_32_1x.png";
+			path = "../../images/helm_icon_32_1x.png";
 			sourceTree = "SOURCE_ROOT";
 		};
 		CA6250DAF9A79608E32E3639 = {
@@ -2245,13 +2259,6 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_audio_formats.mm";
 			path = "../../JuceLibraryCode/include_juce_audio_formats.mm";
-			sourceTree = "SOURCE_ROOT";
-		};
-		A9A621517BC017AC268BFD79 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			name = "helm_icon_32_1x.png";
-			path = "../../images/helm_icon_32_1x.png";
 			sourceTree = "SOURCE_ROOT";
 		};
 		A9CE52F3A53E301812896971 = {
@@ -2646,11 +2653,25 @@
 			path = "../../src/editor_sections/synth_section.cpp";
 			sourceTree = "SOURCE_ROOT";
 		};
+		D60CA8415E2C401EEF40FF88 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.ttf;
+			name = "Montserrat-ExtraLight.ttf";
+			path = "../../../../Downloads/Montserrat/Montserrat-ExtraLight.ttf";
+			sourceTree = "SOURCE_ROOT";
+		};
 		D66F1E9BD5A804D56E1FB9C4 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = "oscillator_section.cpp";
 			path = "../../src/editor_sections/oscillator_section.cpp";
+			sourceTree = "SOURCE_ROOT";
+		};
+		D716F662DD276211117AAF21 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.ttf;
+			name = "ShareTechMono-Regular.ttf";
+			path = "../../../../Downloads/Share_Tech_Mono/ShareTechMono-Regular.ttf";
 			sourceTree = "SOURCE_ROOT";
 		};
 		D71CB7C8C831213822745045 = {
@@ -3093,9 +3114,12 @@
 			isa = PBXGroup;
 			children = (
 				D9F15EEAEBAFDE95E5AA10B5,
+				D60CA8415E2C401EEF40FF88,
+				9C5A607D0A96C620F9DE1E72,
 				5E2F818FBD14C05BA63B40EC,
 				4AF86B86D3629A3FB44A85C1,
 				A6B25BEE44F66BF421287AD4,
+				D716F662DD276211117AAF21,
 			);
 			name = fonts;
 			sourceTree = "<group>";

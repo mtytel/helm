@@ -110,7 +110,7 @@ void AboutSection::paint(Graphics& g) {
 
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(32.0));
   g.setColour(Colour(0xff2196f3));
-  g.drawText(TRANS("HELM"),
+  g.drawText(TRANS("HELM++"),
              0.0f, 0.0f,
              info_rect.getWidth() - 2 * PADDING_X, 32.0f, Justification::centredTop);
 

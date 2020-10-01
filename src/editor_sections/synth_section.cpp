@@ -51,9 +51,12 @@ void SynthSection::paintBackground(Graphics& g) {
                                    false));
   g.fillRoundedRectangle(0, 0, getWidth(), title_width, 1.0f);
 
+
   // Draw text title.
+    
+  // XXX: Heading size
   g.setColour(Colors::tab_heading_text);
-  g.setFont(Fonts::instance()->proportional_light().withPointHeight(size_ratio_ * 14.0f));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 12.0f));
   g.drawText(TRANS(getName()), 0, 0, getWidth(), title_width,
              Justification::centred, true);
 
@@ -62,8 +65,8 @@ void SynthSection::paintBackground(Graphics& g) {
 }
 
 void SynthSection::paintContainer(Graphics& g) {
-  g.setColour(Colour(0xff303030));
-  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), size_ratio_ * 3.0f);
+  g.setColour(Colour(0xff393939));
+  g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), size_ratio_ * 5.0f);
 }
 
 void SynthSection::setSizeRatio(float ratio) {

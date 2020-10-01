@@ -25,7 +25,7 @@ class Fonts {
 
     Font& proportional_regular() { return proportional_regular_; }
     Font& proportional_light() { return proportional_light_; }
-    Font& monospace() { return monospace_; }
+    Font& monospace() { return proportional_regular_; }
 
     static Fonts* instance() {
       static Fonts instance;

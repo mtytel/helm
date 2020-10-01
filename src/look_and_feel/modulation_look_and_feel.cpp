@@ -24,7 +24,7 @@
 #include "text_look_and_feel.h"
 
 ModulationLookAndFeel::ModulationLookAndFeel() {
-  setColour(BubbleComponent::backgroundColourId, Colour(0xff222222));
+  setColour(BubbleComponent::backgroundColourId, Colour(0xff000000));
   setColour(TooltipWindow::textColourId, Colour(0xffdddddd));
 }
 
@@ -157,7 +157,7 @@ void ModulationLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int widt
   active_section.addCentredArc(center_x, center_y, knob_radius / 2.0, knob_radius / 2.0,
                                destination_angle, mod_diff, 0, true);
 
-  g.setColour(Colour(0xff69f0ae));
+  g.setColour(Colour(0xffeeeeee));
   g.strokePath(active_section, stroke_type);
 
   float end_x = draw_radius + 0.9f * knob_radius * sin(destination_angle + mod_diff);

@@ -700,7 +700,7 @@ File LoadSave::getFactoryBankDirectory() {
 #ifdef LINUX
   patch_dir = File(LINUX_FACTORY_PATCH_DIRECTORY);
 #elif defined(__APPLE__)
-  File data_dir = File::getSpecialLocation(File::commonApplicationDataDirectory);
+  File data_dir = File::getSpecialLocation(File::userApplicationDataDirectory);
   patch_dir = data_dir.getChildFile(String("Audio/Presets/") + "Helm");
 #elif defined(_WIN32)
   File data_dir = File::getSpecialLocation(File::commonDocumentsDirectory);

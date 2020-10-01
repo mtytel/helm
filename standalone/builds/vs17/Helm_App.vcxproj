@@ -2798,9 +2798,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\fonts\DroidSansMono.ttf"/>
+    <None Include="..\..\..\..\..\Downloads\Montserrat\Montserrat-ExtraLight.ttf"/>
+    <None Include="..\..\..\..\..\Downloads\Montserrat\Montserrat-Light.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Light.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Regular.ttf"/>
     <None Include="..\..\..\fonts\Roboto-Thin.ttf"/>
+    <None Include="..\..\..\..\..\Downloads\Share_Tech_Mono\ShareTechMono-Regular.ttf"/>
     <None Include="..\..\..\images\helm_debian_icon.xpm"/>
     <None Include="..\..\..\images\helm_icon_16_1x.png"/>
     <None Include="..\..\..\images\helm_icon_16_2x.png"/>

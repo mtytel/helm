@@ -55,24 +55,24 @@ void TextLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int
   else
     g.setColour(Colour(0xff555555));
 
-  g.setFont(Fonts::instance()->monospace().withPointHeight(height * text_percentage));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(height * text_percentage));
   g.drawText(slider.getTextFromValue(slider.getValue()),
              x, y, width, height, Justification::centred, false);
 }
 
 void TextLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
                                        bool hover, bool is_down) {
-  static const float text_percentage = 0.7f;
+  static const float text_percentage = 0.6f;
 
   if (button.getToggleState())
-    g.setColour(Colour(0xffffc400));
+    g.setColour(Colour(0xffcccccc));
   else
     g.setColour(Colour(0xff313131));
   g.fillRect(button.getLocalBounds());
 
   g.setColour(Colours::white);
   int height = button.getHeight();
-  g.setFont(Fonts::instance()->monospace().withPointHeight(height * text_percentage));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(height * text_percentage));
   g.drawText(button.getButtonText(), 0, 0,
              button.getWidth(), button.getHeight(), Justification::centred);
 
@@ -98,7 +98,7 @@ void TextLookAndFeel::drawTickBox(Graphics& g, Component& component,
              w - 2 * border_width, h - 2 * border_width, border_width);
 
   if (ticked) {
-    g.setColour(Colour(0xffffd740));
+    g.setColour(Colour(0xffcccccc));
     g.fillRect(x + 3 * border_width, y + 3 * border_width,
                w - 6 * border_width, h - 6 * border_width);
   }

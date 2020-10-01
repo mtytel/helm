@@ -23,12 +23,12 @@
 #define POWER_ARC_ANGLE 2.5
 
 DefaultLookAndFeel::DefaultLookAndFeel() {
-  setColour(PopupMenu::backgroundColourId, Colour(0xff333333));
+  setColour(PopupMenu::backgroundColourId, Colour(0xff000000));
   setColour(PopupMenu::textColourId, Colour(0xffcccccc));
   setColour(PopupMenu::headerTextColourId, Colour(0xff333333));
-  setColour(PopupMenu::highlightedBackgroundColourId, Colour(0xff111111));
+  setColour(PopupMenu::highlightedBackgroundColourId, Colour(0xff000000));
   setColour(PopupMenu::highlightedTextColourId, Colour(0xffcccccc));
-  setColour(BubbleComponent::backgroundColourId, Colour(0xff222222));
+  setColour(BubbleComponent::backgroundColourId, Colour(0xff000000));
   setColour(TooltipWindow::textColourId, Colour(0xffdddddd));
 }
                                                 
@@ -152,6 +152,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   rail.addCentredArc(full_radius, full_radius, small_outer_radius, small_outer_radius,
                      0.0f, start_angle, end_angle, true);
 
+  // XXX
   if (active)
     g.setColour(Colour(0xff4a4a4a));
   else
@@ -169,7 +170,7 @@ void DefaultLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, 
   }
 
   if (active)
-    g.setColour(Colour(0xffffab00));
+    g.setColour(Colour(0xffeeeeee));
   else
     g.setColour(Colour(0xff555555));
 

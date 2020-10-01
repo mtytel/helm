@@ -86,13 +86,13 @@ void StepSequencerSection::paintBackground(Graphics& g) {
   SynthSection::paintBackground(g);
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(font_size));
-  drawTextForComponent(g, TRANS("STEPS"), num_steps_, text_buffer);
-  g.drawText(TRANS("FREQUENCY"),
+  drawTextForComponent(g, TRANS("Steps"), num_steps_, text_buffer);
+  g.drawText(TRANS("Frequency"),
              retrigger_->getBounds().getX(), frequency_->getBounds().getBottom() + text_buffer,
              frequency_->getBounds().getWidth() + 2 * text_height, font_size,
              Justification::centred, false);
 
-  drawTextForComponent(g, TRANS("SLIDE"), smoothing_, text_buffer);
+  drawTextForComponent(g, TRANS("Slide"), smoothing_, text_buffer);
 
   component_shadow.drawForRectangle(g, step_sequencer_->getBounds());
 }

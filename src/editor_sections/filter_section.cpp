@@ -107,9 +107,9 @@ void FilterSection::paintBackground(Graphics& g) {
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
-  drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);
-  drawTextForComponent(g, TRANS("KEY TRACK"), keytrack_);
-  drawTextForComponent(g, TRANS("DRIVE"), drive_);
+  drawTextForComponent(g, TRANS("Env. Depth"), fil_env_depth_);
+  drawTextForComponent(g, TRANS("Keytrack"), keytrack_);
+  drawTextForComponent(g, TRANS("Drive"), drive_);
 
   g.setColour(Colour(0xffaaaaaa));
   g.strokePath(low_pass_, stroke);

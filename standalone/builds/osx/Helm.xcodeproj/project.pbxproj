@@ -166,6 +166,7 @@
 		01195B4D04F473A3877C53DB /* wave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wave.h; path = ../../../mopo/src/wave.h; sourceTree = SOURCE_ROOT; };
 		013CB825DD7007AA2478336F /* contribute_section.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = contribute_section.cpp; path = ../../../src/editor_sections/contribute_section.cpp; sourceTree = SOURCE_ROOT; };
 		01C23CE6397409B38672AC6E /* open_gl_background.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = open_gl_background.cpp; path = ../../../src/editor_components/open_gl_background.cpp; sourceTree = SOURCE_ROOT; };
+		01F387AA90969F2534AC33E8 /* ShareTechMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "ShareTechMono-Regular.ttf"; path = "../../../../../Downloads/Share_Tech_Mono/ShareTechMono-Regular.ttf"; sourceTree = SOURCE_ROOT; };
 		025EF1601A7D050B084ECDD4 /* modulation_selected_inactive_2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = modulation_selected_inactive_2x.png; path = ../../../images/modulation_selected_inactive_2x.png; sourceTree = SOURCE_ROOT; };
 		02D615BE8A1E786B83E2E8D1 /* reverb.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = reverb.cpp; path = ../../../mopo/src/reverb.cpp; sourceTree = SOURCE_ROOT; };
 		03D2927B97A866CD654F6BBC /* graphical_step_sequencer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = graphical_step_sequencer.h; path = ../../../src/editor_components/graphical_step_sequencer.h; sourceTree = SOURCE_ROOT; };
@@ -193,6 +194,7 @@
 		15F4C546EE2EDA0895E0884C /* browser_look_and_feel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = browser_look_and_feel.cpp; path = ../../../src/look_and_feel/browser_look_and_feel.cpp; sourceTree = SOURCE_ROOT; };
 		164A9C3F38FA59B4FA54FBE0 /* resonance_lookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = resonance_lookup.h; path = ../../../mopo/src/resonance_lookup.h; sourceTree = SOURCE_ROOT; };
 		165097814C46A5C78E03941E /* helm_icon_32_1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = helm_icon_32_1x.png; path = ../../../images/helm_icon_32_1x.png; sourceTree = SOURCE_ROOT; };
+		16CC44177D87902DB3875063 /* Montserrat-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "Montserrat-ExtraLight.ttf"; path = "../../../../../Downloads/Montserrat/Montserrat-ExtraLight.ttf"; sourceTree = SOURCE_ROOT; };
 		17B34A6F7C2B3DF8308E1F0A /* open_gl_modulation_manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = open_gl_modulation_manager.h; path = ../../../src/editor_sections/open_gl_modulation_manager.h; sourceTree = SOURCE_ROOT; };
 		1887734D1C5BC235D8D9303C /* reverb_comb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = reverb_comb.h; path = ../../../mopo/src/reverb_comb.h; sourceTree = SOURCE_ROOT; };
 		18D2EBFF6DD240BBF1046BBC /* helm_voice_handler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = helm_voice_handler.cpp; path = ../../../src/synthesis/helm_voice_handler.cpp; sourceTree = SOURCE_ROOT; };
@@ -277,6 +279,7 @@
 		591A5D7E1BDF114A78A7D6EF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		592E3610C2AC574CD5321C72 /* feedback_section.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = feedback_section.cpp; path = ../../../src/editor_sections/feedback_section.cpp; sourceTree = SOURCE_ROOT; };
 		5A4CA28BBAA4C606AFAE5EDF /* filter_selector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = filter_selector.cpp; path = ../../../src/editor_components/filter_selector.cpp; sourceTree = SOURCE_ROOT; };
+		5A6226E3EBE63EC26266FAF4 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; name = "Montserrat-Light.ttf"; path = "../../../../../Downloads/Montserrat/Montserrat-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		5AA6534E4E8973315DD40B14 /* helm_common.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = helm_common.cpp; path = ../../../src/common/helm_common.cpp; sourceTree = SOURCE_ROOT; };
 		5B45A0A549EE9EBDE12A9987 /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
 		5B5844A93452717CD6FE0276 /* helm_computer_keyboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = helm_computer_keyboard.h; path = ../../../src/standalone/helm_computer_keyboard.h; sourceTree = SOURCE_ROOT; };
@@ -815,9 +818,12 @@
 			isa = PBXGroup;
 			children = (
 				C42D60BE3E7AC46A65CF80EA /* DroidSansMono.ttf */,
+				16CC44177D87902DB3875063 /* Montserrat-ExtraLight.ttf */,
+				5A6226E3EBE63EC26266FAF4 /* Montserrat-Light.ttf */,
 				E5886A6F6635940F266DC6C4 /* Roboto-Light.ttf */,
 				1DD4C0AA444EEDDC36897D03 /* Roboto-Regular.ttf */,
 				4487739A99D0839AA2C6B02B /* Roboto-Thin.ttf */,
+				01F387AA90969F2534AC33E8 /* ShareTechMono-Regular.ttf */,
 			);
 			name = fonts;
 			sourceTree = "<group>";
@@ -1238,7 +1244,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;

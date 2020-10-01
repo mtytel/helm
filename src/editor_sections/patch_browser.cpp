@@ -205,7 +205,9 @@ void PatchBrowser::paint(Graphics& g) {
                data_x, BROWSE_PADDING + 160.0f, division, 20.0f,
                Justification::centredRight, false);
 
-    g.setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
+    //XXX
+    //g.setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
+          g.setFont(Fonts::instance()->proportional_regular().withPointHeight(14.0f));
     g.setColour(Colors::audio);
 
     File selected_patch = getSelectedPatch();
@@ -214,7 +216,8 @@ void PatchBrowser::paint(Graphics& g) {
                      info_width - 2.0f * BROWSE_PADDING, 20.0f,
                      Justification::centred, true);
 
-    g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
+          g.setFont(Fonts::instance()->proportional_regular().withPointHeight(12.0f));
+   // g.setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
     g.setColour(Colors::control_label_text);
 
     float data_width = info_width - division - buffer - 2.0f * BROWSE_PADDING;

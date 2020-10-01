@@ -47,7 +47,7 @@ void BrowserLookAndFeel::drawToggleButton(Graphics& g, ToggleButton& button,
   
   int height = button.getHeight();
   float text_height = std::min(max_text_height, height * text_percentage);
-  g.setFont(Fonts::instance()->monospace().withPointHeight(text_height));
+  g.setFont(Fonts::instance()->proportional_regular().withPointHeight(text_height));
   g.drawText(button.getButtonText(), 0, 0,
              button.getWidth(), button.getHeight(), Justification::centred);
 

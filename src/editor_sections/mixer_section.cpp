@@ -68,11 +68,11 @@ void MixerSection::paintBackground(Graphics& g) {
              slider_width, text_section_width,
              Justification::centred, false);
 
-  g.drawText(TRANS("SUB"), 2 * (slider_width + buffer), text_y,
+  g.drawText(TRANS("Sub"), 2 * (slider_width + buffer), text_y,
              slider_width, text_section_width,
              Justification::centred, false);
 
-  g.drawText(TRANS("NOISE"), 3 * (slider_width + buffer), text_y,
+  g.drawText(TRANS("Noise"), 3 * (slider_width + buffer), text_y,
              slider_width, text_section_width,
              Justification::centred, false);
 }

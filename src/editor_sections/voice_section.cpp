@@ -53,9 +53,9 @@ void VoiceSection::paintBackground(Graphics& g) {
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
-  drawTextForComponent(g, TRANS("VOICES"), polyphony_);
-  drawTextForComponent(g, TRANS("PITCH BEND"), pitch_bend_);
-  drawTextForComponent(g, TRANS("VEL TRACK"), velocity_track_);
+  drawTextForComponent(g, TRANS("Voices"), polyphony_);
+  drawTextForComponent(g, TRANS("Pitchbend"), pitch_bend_);
+  drawTextForComponent(g, TRANS("Vel. Track"), velocity_track_);
 }
 
 void VoiceSection::resized() {

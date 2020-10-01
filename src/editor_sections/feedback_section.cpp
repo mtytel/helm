@@ -48,9 +48,9 @@ void FeedbackSection::paintBackground(Graphics& g) {
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
-  drawTextForComponent(g, TRANS("TRANSPOSE"), transpose_);
-  drawTextForComponent(g, TRANS("TUNE"), tune_);
-  drawTextForComponent(g, TRANS("AMOUNT"), amount_);
+  drawTextForComponent(g, TRANS("Transpose"), transpose_);
+  drawTextForComponent(g, TRANS("Tune"), tune_);
+  drawTextForComponent(g, TRANS("Amount"), amount_);
 }
 
 void FeedbackSection::resized() {

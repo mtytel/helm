@@ -61,12 +61,12 @@ void ExtraModSection::paintBackground(Graphics& g) {
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
-  drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("AFTERTOUCH"));
-  drawTextToRightOfComponent(g, note_mod_, TRANS("NOTE"));
-  drawTextToRightOfComponent(g, velocity_mod_, TRANS("VELOCITY"));
-  drawTextToRightOfComponent(g, mod_wheel_mod_, TRANS("MOD WHEEL"));
-  drawTextToRightOfComponent(g, pitch_wheel_mod_, TRANS("PITCH WHEEL"));
-  drawTextToRightOfComponent(g, random_mod_, TRANS("RANDOM"));
+  drawTextToRightOfComponent(g, aftertouch_mod_, TRANS("Aftertouch"));
+  drawTextToRightOfComponent(g, note_mod_, TRANS("Note"));
+  drawTextToRightOfComponent(g, velocity_mod_, TRANS("Velocity"));
+  drawTextToRightOfComponent(g, mod_wheel_mod_, TRANS("Modwheel"));
+  drawTextToRightOfComponent(g, pitch_wheel_mod_, TRANS("Pitchbend"));
+  drawTextToRightOfComponent(g, random_mod_, TRANS("Random"));
 }
 
 void ExtraModSection::resized() {

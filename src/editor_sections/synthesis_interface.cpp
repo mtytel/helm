@@ -28,31 +28,31 @@
 
 SynthesisInterface::SynthesisInterface(
     mopo::control_map controls, MidiKeyboardState* keyboard_state) : SynthSection("synthesis") {
-  addSubSection(amplitude_envelope_section_ = new EnvelopeSection("AMPLITUDE ENVELOPE", "amp"));
-  addSubSection(delay_section_ = new DelaySection("DELAY"));
-  addSubSection(dynamic_section_ = new DynamicSection("DYNAMICS"));
-  addSubSection(extra_envelope_section_ = new EnvelopeSection("MOD ENVELOPE", "mod"));
-  addSubSection(extra_mod_section_ = new ExtraModSection("KEYBOARD MOD"));
-  addSubSection(feedback_section_ = new FeedbackSection("FEEDBACK"));
-  addSubSection(filter_envelope_section_ = new EnvelopeSection("FILTER ENVELOPE", "fil"));
-  addSubSection(filter_section_ = new FilterSection("FILTER"));
-  addSubSection(formant_section_ = new FormantSection("FORMANT"));
-  addSubSection(mono_lfo_1_section_ = new LfoSection("MONO LFO 1", "mono_lfo_1", true, true));
-  addSubSection(mono_lfo_2_section_ = new LfoSection("MONO LFO 2", "mono_lfo_2", true, true));
+  addSubSection(amplitude_envelope_section_ = new EnvelopeSection("Amplitude Envelope", "amp"));
+  addSubSection(delay_section_ = new DelaySection("Delay"));
+  addSubSection(dynamic_section_ = new DynamicSection("Dynamic"));
+  addSubSection(extra_envelope_section_ = new EnvelopeSection("Modulation Envelope", "mod"));
+  addSubSection(extra_mod_section_ = new ExtraModSection("External Mod."));
+  addSubSection(feedback_section_ = new FeedbackSection("Feedback"));
+  addSubSection(filter_envelope_section_ = new EnvelopeSection("Filter Envelope", "fil"));
+  addSubSection(filter_section_ = new FilterSection("Filter"));
+  addSubSection(formant_section_ = new FormantSection("Formant Shaper"));
+  addSubSection(mono_lfo_1_section_ = new LfoSection("LFO 1", "mono_lfo_1", true, true));
+  addSubSection(mono_lfo_2_section_ = new LfoSection("LFO 2", "mono_lfo_2", true, true));
   keyboard_ = new MidiKeyboard(*keyboard_state, MidiKeyboardComponent::horizontalKeyboard);
   addAndMakeVisible(keyboard_);
   keyboard_->setWantsKeyboardFocus(false);
   keyboard_->setMouseClickGrabsKeyboardFocus(false);
 
-  addSubSection(mixer_section_ = new MixerSection("MIXER"));
-  addSubSection(oscillator_section_ = new OscillatorSection("OSCILLATORS"));
-  addSubSection(poly_lfo_section_ = new LfoSection("POLY LFO", "poly_lfo", false));
-  addSubSection(reverb_section_ = new ReverbSection("REVERB"));
-  addSubSection(distortion_section_ = new DistortionSection("DISTORTION"));
-  addSubSection(step_sequencer_section_ = new StepSequencerSection("STEP SEQUENCER"));
-  addSubSection(stutter_section_ = new StutterSection("STUTTER"));
-  addSubSection(sub_section_ = new SubSection("SUB"));
-  addSubSection(voice_section_ = new VoiceSection("VOICE"));
+  addSubSection(mixer_section_ = new MixerSection("Mixer"));
+  addSubSection(oscillator_section_ = new OscillatorSection("Oscillators"));
+  addSubSection(poly_lfo_section_ = new LfoSection("Poly LFO", "poly_lfo", false));
+  addSubSection(reverb_section_ = new ReverbSection("Reverb"));
+  addSubSection(distortion_section_ = new DistortionSection("Distortion"));
+  addSubSection(step_sequencer_section_ = new StepSequencerSection("Step Sequencer"));
+  addSubSection(stutter_section_ = new StutterSection("Stutter"));
+  addSubSection(sub_section_ = new SubSection("Suboscillator"));
+  addSubSection(voice_section_ = new VoiceSection("Voice"));
 
   keyboard_->setColour(MidiKeyboardComponent::whiteNoteColourId, Colour(0xff444444));
   keyboard_->setColour(MidiKeyboardComponent::blackNoteColourId, Colour(0xff222222));
@@ -60,7 +60,7 @@ SynthesisInterface::SynthesisInterface(
   keyboard_->setColour(MidiKeyboardComponent::shadowColourId, Colour(0x00000000));
   keyboard_->setColour(MidiKeyboardComponent::upDownButtonBackgroundColourId, Colour(0xff222222));
   keyboard_->setColour(MidiKeyboardComponent::keyDownOverlayColourId, Colors::audio);
-  keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x4403a9f4));
+  keyboard_->setColour(MidiKeyboardComponent::mouseOverKeyOverlayColourId, Colour(0x44eeeeee));
   keyboard_->setLowestVisibleKey(36);
 
   setAllValues(controls);

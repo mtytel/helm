@@ -48,7 +48,7 @@ SaveSection::SaveSection(String name) : Overlay(name) {
   patch_name_ = new TextEditor("Patch Name");
   patch_name_->addListener(this);
   patch_name_->setTextToShowWhenEmpty(TRANS("Patch Name"), Colour(0xff777777));
-  patch_name_->setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
+  patch_name_->setFont(Fonts::instance()->proportional_regular().withPointHeight(16.0f));
   patch_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   patch_name_->setColour(TextEditor::textColourId, Colors::audio);
   patch_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xff03a9f4));
@@ -61,7 +61,7 @@ SaveSection::SaveSection(String name) : Overlay(name) {
   author_ = new TextEditor("Author");
   author_->addListener(this);
   author_->setTextToShowWhenEmpty(TRANS("Author"), Colour(0xff777777));
-  author_->setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
+  author_->setFont(Fonts::instance()->proportional_regular().withPointHeight(16.0f));
   author_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   author_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
   author_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
@@ -74,7 +74,7 @@ SaveSection::SaveSection(String name) : Overlay(name) {
   add_bank_name_ = new TextEditor("Add Bank");
   add_bank_name_->addListener(this);
   add_bank_name_->setTextToShowWhenEmpty(TRANS("New Bank"), Colour(0xff777777));
-  add_bank_name_->setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
+  add_bank_name_->setFont(Fonts::instance()->proportional_regular().withPointHeight(12.0f));
   add_bank_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   add_bank_name_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
   add_bank_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
@@ -87,7 +87,7 @@ SaveSection::SaveSection(String name) : Overlay(name) {
   add_folder_name_ = new TextEditor("Add Folder");
   add_folder_name_->addListener(this);
   add_folder_name_->setTextToShowWhenEmpty(TRANS("New Folder"), Colour(0xff777777));
-  add_folder_name_->setFont(Fonts::instance()->monospace().withPointHeight(12.0f));
+  add_folder_name_->setFont(Fonts::instance()->proportional_regular().withPointHeight(12.0f));
   add_folder_name_->setColour(CaretComponent::caretColourId, Colour(0xff888888));
   add_folder_name_->setColour(TextEditor::textColourId, Colour(0xffcccccc));
   add_folder_name_->setColour(TextEditor::highlightedTextColourId, Colour(0xffcccccc));
@@ -131,17 +131,17 @@ void SaveSection::paint(Graphics& g) {
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(14.0f));
   g.setColour(Colour(0xff888888));
 
-  g.drawText(TRANS("PATCH NAME"),
+  g.drawText(TRANS("Patch Name"),
              0, PADDING_Y, DIVISION - 10, TEXT_EDITOR_HEIGHT,
              Justification::centredRight, false);
-  g.drawText(TRANS("AUTHOR"),
+  g.drawText(TRANS("Author"),
              0, 2 * PADDING_Y + TEXT_EDITOR_HEIGHT, DIVISION - 10, TEXT_EDITOR_HEIGHT,
              Justification::centredRight, false);
-  g.drawText(TRANS("BANK"),
+  g.drawText(TRANS("Bank"),
              0, banks_view_->getY() - save_rect.getY() - PADDING_Y,
              DIVISION - 10, TEXT_EDITOR_HEIGHT,
              Justification::centredRight, false);
-  g.drawText(TRANS("FOLDER"),
+  g.drawText(TRANS("Folder"),
              0, folders_view_->getY() - save_rect.getY() - PADDING_Y,
              DIVISION - 10, TEXT_EDITOR_HEIGHT,
              Justification::centredRight, false);

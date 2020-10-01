@@ -23,7 +23,7 @@
 #include "utils.h"
 
 #define ANGLE 2.51327412f
-#define SLIDER_MOD_COLOR 0xff69f0ae
+#define SLIDER_MOD_COLOR 0xffcccccc
 
 ModulationMeter::ModulationMeter(const mopo::Output* mono_total,
                                  const mopo::Output* poly_total,

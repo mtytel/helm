@@ -63,7 +63,7 @@ void DeleteSection::paint(Graphics& g) {
              0, 0.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,
              Justification::centred, false);
 
-  g.setFont(Fonts::instance()->monospace().withPointHeight(16.0f));
+      g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 16.0f));
   g.setColour(Colors::audio);
   g.drawText(file_.getFileNameWithoutExtension(),
              0, 20.0f, delete_rect.getWidth() - 2 * PADDING_X, 22.0f,

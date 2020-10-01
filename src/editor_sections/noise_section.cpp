@@ -36,7 +36,7 @@ void NoiseSection::paintBackground(Graphics& g) {
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(10.0f));
-  drawTextForComponent(g, TRANS("AMP"), volume_);
+  drawTextForComponent(g, TRANS("Amp"), volume_);
 }
 
 void NoiseSection::resized() {

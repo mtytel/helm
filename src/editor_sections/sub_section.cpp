@@ -51,7 +51,7 @@ void SubSection::paintBackground(Graphics& g) {
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
-  drawTextForComponent(g, TRANS("SHUFFLE"), shuffle_);
+  drawTextForComponent(g, TRANS("Shuffle"), shuffle_);
 }
 
 void SubSection::resized() {

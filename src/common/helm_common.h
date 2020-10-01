@@ -110,14 +110,22 @@ namespace mopo {
       "sft clp",
       "hrd clp",
       "lin fld",
-      "sin fld"
+      "sin fld",
+      "vult1",
+      "vult2",
+      "vult3",
+      "vult4",
     };
 
     const std::string distortion_types_long[] = {
-      "Soft Clip",
-      "Hard Clip",
+      "Soft Clipping",
+      "Hard Clipping",
       "Linear Fold",
-      "Sine Fold"
+      "Sine Fold",
+      "Vult1",
+      "Vult2",
+      "Vult3",
+      "Vult4"
     };
 
     const std::string filter_shelves[] = {

@@ -88,15 +88,15 @@ void ArpSection::paintBackground(Graphics& g) {
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
-  drawTextForComponent(g, TRANS("GATE"), gate_);
-  drawTextForComponent(g, TRANS("OCTAVES"), octaves_);
+  drawTextForComponent(g, TRANS("Gate"), gate_);
+  drawTextForComponent(g, TRANS("Octaves"), octaves_);
   
   int font_y = gate_->getBounds().getY() + knob_width + size_ratio_ * 4;
-  g.drawText(TRANS("FREQUENCY"),
+  g.drawText(TRANS("Frequency"),
              frequency_->getBounds().getX() - size_ratio_ * 5, font_y,
              frequency_->getBounds().getWidth() + text_height + size_ratio_ * 10,
              size_ratio_ * 10, Justification::centred, false);
-  g.drawText(TRANS("PATTERN"),
+  g.drawText(TRANS("Direction"),
              pattern_->getBounds().getX() - size_ratio_ * 5, font_y,
              pattern_->getBounds().getWidth() + size_ratio_ * 10,
              size_ratio_ * 10, Justification::centred, false);

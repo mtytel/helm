@@ -132,28 +132,28 @@ void OscillatorSection::paintBackground(Graphics& g) {
   g.fillRect(0.0f, 1.0f * tune_1_->getBottom() + size_ratio_ * 2.0f,
              1.0f * getWidth(), size_ratio_ * 5.0f);
 
-  g.setColour(Colour(0xff4fc3f7));
+  g.setColour(Colour(0xffcccccc));
   g.strokePath(top_left_cross_path_, PathStrokeType(1.0f));
 
-  g.setColour(Colour(0xff4fc3f7));
+  g.setColour(Colour(0xffcccccc));
   g.strokePath(top_right_cross_path_, PathStrokeType(1.0f));
 
-  g.setColour(Colour(0xff4fc3f7));
+  g.setColour(Colour(0xffcccccc));
   g.strokePath(bottom_left_cross_path_, PathStrokeType(1.0f));
 
-  g.setColour(Colour(0xff4fc3f7));
+  g.setColour(Colour(0xffcccccc));
   g.strokePath(bottom_right_cross_path_, PathStrokeType(1.0f));
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
   
-  drawTextForComponent(g, TRANS("MOD"), cross_modulation_);
-  drawTextForComponent(g, TRANS("TRANS"), transpose_1_);
-  drawTextForComponent(g, TRANS("TRANS"), transpose_2_);
-  drawTextForComponent(g, TRANS("TUNE"), tune_1_);
-  drawTextForComponent(g, TRANS("TUNE"), tune_2_);
-  drawTextForComponent(g, TRANS("UNISON"), unison_detune_1_);
-  drawTextForComponent(g, TRANS("UNISON"), unison_detune_2_);
+  drawTextForComponent(g, TRANS("Mod"), cross_modulation_);
+  drawTextForComponent(g, TRANS("Coarse"), transpose_1_);
+  drawTextForComponent(g, TRANS("Coarse"), transpose_2_);
+  drawTextForComponent(g, TRANS("Fine"), tune_1_);
+  drawTextForComponent(g, TRANS("Fine"), tune_2_);
+  drawTextForComponent(g, TRANS("Unison"), unison_detune_1_);
+  drawTextForComponent(g, TRANS("Unison"), unison_detune_2_);
 
   component_shadow.drawForRectangle(g, wave_viewer_1_->getBounds());
   component_shadow.drawForRectangle(g, wave_viewer_2_->getBounds());

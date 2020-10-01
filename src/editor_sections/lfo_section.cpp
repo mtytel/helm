@@ -91,14 +91,14 @@ void LfoSection::paintBackground(Graphics& g) {
   float text_buffer = size_ratio_ * 6.0f;
 
   if (retrigger_->isVisible()) {
-    g.drawText(TRANS("FREQUENCY"),
+    g.drawText(TRANS("Frequency"),
                retrigger_->getBounds().getX(), frequency_->getBounds().getBottom() + text_buffer,
                frequency_->getBounds().getWidth() + 2 * text_slider_height, text_height + 1,
                Justification::centred, false);
   }
   else {
     float extra_bump = size_ratio_ * 5.0f;
-    g.drawText(TRANS("FREQUENCY"),
+    g.drawText(TRANS("Frequency"),
                frequency_->getBounds().getX() - extra_bump,
                frequency_->getBounds().getBottom() + text_buffer,
                frequency_->getBounds().getWidth() + text_slider_height + 2 * extra_bump,

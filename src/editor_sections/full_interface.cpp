@@ -46,7 +46,7 @@ FullInterface::FullInterface(mopo::control_map controls, mopo::output_map modula
 
   addSubSection(patch_selector_ = new PatchSelector());
   addAndMakeVisible(global_tool_tip_ = new GlobalToolTip());
-  addSubSection(volume_section_ = new VolumeSection("VOLUME"));
+  addSubSection(volume_section_ = new VolumeSection("Master Volume"));
   addOpenGLComponent(oscilloscope_ = new OpenGLOscilloscope());
 
   setAllValues(controls);
