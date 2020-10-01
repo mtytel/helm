@@ -182,7 +182,7 @@ class HelmApplication : public JUCEApplication {
       }
       else {
         bool visible = !command.contains(" --headless ");
-        bool fullscreen = !command.contains(" --fullscreen ");
+        bool fullscreen = command.contains(" --fullscreen ");
         main_window_ = new MainWindow(getApplicationName(), visible, fullscreen);
 
         StringArray args = getCommandLineParameterArray();
