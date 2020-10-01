@@ -15,11 +15,17 @@
     <GROUP id="{E196CA17-7FAE-9490-94C8-9030B5F1046D}" name="fonts">
       <FILE id="FShH5H" name="DroidSansMono.ttf" compile="0" resource="1"
             file="../fonts/DroidSansMono.ttf"/>
+      <FILE id="Mfrzmg" name="Montserrat-ExtraLight.ttf" compile="0" resource="1"
+            file="../../../Downloads/Montserrat/Montserrat-ExtraLight.ttf"/>
+      <FILE id="hP3woC" name="Montserrat-Light.ttf" compile="0" resource="1"
+            file="../../../Downloads/Montserrat/Montserrat-Light.ttf"/>
       <FILE id="ZQ0pdZ" name="Roboto-Light.ttf" compile="0" resource="1"
             file="../fonts/Roboto-Light.ttf"/>
       <FILE id="XdvVa2" name="Roboto-Regular.ttf" compile="0" resource="1"
             file="../fonts/Roboto-Regular.ttf"/>
       <FILE id="Q1ABLI" name="Roboto-Thin.ttf" compile="0" resource="1" file="../fonts/Roboto-Thin.ttf"/>
+      <FILE id="MuaofN" name="ShareTechMono-Regular.ttf" compile="0" resource="1"
+            file="../../../Downloads/Share_Tech_Mono/ShareTechMono-Regular.ttf"/>
     </GROUP>
     <GROUP id="{802F4747-12F6-500C-B830-DFECA787051D}" name="images">
       <FILE id="mkqu84" name="helm_debian_icon.xpm" compile="0" resource="1"
