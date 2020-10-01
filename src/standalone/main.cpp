@@ -39,16 +39,17 @@ class HelmApplication : public JUCEApplication {
 
         if(fullscreen)
         {
+          setContentOwned(editor_, true);
+          setResizable(true, true);
+          setFullScreen(true);
           setTitleBarHeight(0);
-          Desktop::getInstance().setKioskModeComponent(this);
-			    setFullScreen(true);
-          setResizable (false, true);
         } else {
+          setContentOwned(editor_, true);
           setUsingNativeTitleBar(true);
           setResizable (true, true);
         }
         
-         setContentOwned(editor_, true);
+         
 
           constrainer_.setMinimumSize(2 * mopo::DEFAULT_WINDOW_WIDTH / 3,
                                       2 * mopo::DEFAULT_WINDOW_HEIGHT / 3);
