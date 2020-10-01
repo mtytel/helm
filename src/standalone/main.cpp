@@ -37,13 +37,11 @@ class HelmApplication : public JUCEApplication {
         if (visible) {
           editor_->animate(LoadSave::shouldAnimateWidgets());
 
-        Desktop& desktop = Desktop::getInstance();
-
         if(fullscreen)
         {
           setTitleBarHeight(0);
-          setFullScreen(true);
-          desktop.setKioskModeComponent(this);
+          Desktop::getInstance().setKioskModeComponent(this);
+			    setFullScreen(true);
           setResizable (false, true);
         } else {
           setUsingNativeTitleBar(true);
