@@ -106,7 +106,7 @@ void FilterSection::paintBackground(Graphics& g) {
 
   g.setColour(Colors::control_label_text);
   g.setFont(Fonts::instance()->proportional_regular().withPointHeight(size_ratio_ * 10.0f));
-  
+
   drawTextForComponent(g, TRANS("ENV DEPTH"), fil_env_depth_);
   drawTextForComponent(g, TRANS("KEY TRACK"), keytrack_);
   drawTextForComponent(g, TRANS("DRIVE"), drive_);
@@ -171,6 +171,11 @@ void FilterSection::resized() {
   resizeHighPass(blend_->getRight() + style_label_padding_x, title_width + style_label_padding_y,
                  style_label_width - 2 * style_label_padding_x,
                  filter_type_width - 2 * style_label_padding_y);
+
+  // Filter style is not refreshed on initial opening of the window.
+  // Added safety check in case the filter is not initialiized at this point fot the first time.
+  if (filter_style_ != nullptr)
+    resetResponse();
 
   SynthSection::resized();
 }
