@@ -75,7 +75,7 @@ public:
 
     //==============================================================================
     /** Destructor. */
-    virtual ~Typeface();
+    ~Typeface() override;
 
     /** Returns true if this typeface can be used to render the specified font.
         When called, the font will already have been checked to make sure that its name and
@@ -119,7 +119,7 @@ public:
     */
     virtual bool getOutlineForGlyph (int glyphNumber, Path& path) = 0;
 
-    /** Returns a new EdgeTable that contains the path for the givem glyph, with the specified transform applied. */
+    /** Returns a new EdgeTable that contains the path for the given glyph, with the specified transform applied. */
     virtual EdgeTable* getEdgeTableForGlyph (int glyphNumber, const AffineTransform& transform, float fontHeight);
 
     /** Returns true if the typeface uses hinting. */
@@ -133,7 +133,7 @@ public:
     static void clearTypefaceCache();
 
     /** On some platforms, this allows a specific path to be scanned.
-        Currently only available when using FreeType.
+        On macOS you can load .ttf and .otf files, otherwise this is only available when using FreeType.
     */
     static void scanFolderForFonts (const File& folder);
 
@@ -153,7 +153,6 @@ protected:
 
 private:
     struct HintingParams;
-    friend struct ContainerDeletePolicy<HintingParams>;
     std::unique_ptr<HintingParams> hintingParams;
     CriticalSection hintingLock;
 

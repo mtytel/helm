@@ -108,7 +108,7 @@ public:
     KeyPressMappingSet (const KeyPressMappingSet&);
 
     /** Destructor. */
-    ~KeyPressMappingSet();
+    ~KeyPressMappingSet() override;
 
     //==============================================================================
     ApplicationCommandManager& getCommandManager() const noexcept       { return commandManager; }
@@ -206,7 +206,7 @@ public:
 
         @see restoreFromXml
     */
-    XmlElement* createXml (bool saveDifferencesFromDefaultSet) const;
+    std::unique_ptr<XmlElement> createXml (bool saveDifferencesFromDefaultSet) const;
 
     //==============================================================================
     /** @internal */

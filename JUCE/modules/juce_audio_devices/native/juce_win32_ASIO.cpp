@@ -43,7 +43,9 @@ namespace ASIODebugging
     {
         message = "ASIO: " + message;
         DBG (message);
-        Logger::writeToLog (message);
+
+        if (Logger::getCurrentLogger() != nullptr)
+            Logger::writeToLog (message);
     }
 
     static void logError (const String& context, long error)
@@ -336,7 +338,9 @@ public:
 
         close();
         JUCE_ASIO_LOG ("closed");
-        removeCurrentDriver();
+
+        if (! removeCurrentDriver())
+            JUCE_ASIO_LOG ("** Driver crashed while being closed");
     }
 
     void updateSampleRates()
@@ -346,11 +350,11 @@ public:
 
         if (asioObject != nullptr)
         {
-            const int possibleSampleRates[] = { 32000, 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000 };
-
-            for (int index = 0; index < numElementsInArray (possibleSampleRates); ++index)
-                if (asioObject->canSampleRate ((double) possibleSampleRates[index]) == 0)
-                    newRates.add ((double) possibleSampleRates[index]);
+            for (auto rate : { 8000, 11025, 16000, 22050, 32000,
+                               44100, 48000, 88200, 96000, 176400,
+                               192000, 352800, 384000, 705600, 768000 })
+                if (asioObject->canSampleRate ((double) rate) == 0)
+                    newRates.add ((double) rate);
         }
 
         if (newRates.isEmpty())
@@ -451,13 +455,17 @@ public:
         if (needToReset)
         {
             JUCE_ASIO_LOG (" Resetting");
-            removeCurrentDriver();
+
+            if (! removeCurrentDriver())
+                JUCE_ASIO_LOG ("** Driver crashed while being closed");
 
             loadDriver();
             String initError = initDriver();
 
             if (initError.isNotEmpty())
                 JUCE_ASIO_LOG ("ASIOInit: " + initError);
+
+            setSampleRate (getSampleRate());
 
             needToReset = false;
         }
@@ -638,8 +646,8 @@ public:
     BigInteger getActiveOutputChannels() const override    { return currentChansOut; }
     BigInteger getActiveInputChannels() const override     { return currentChansIn; }
 
-    int getOutputLatencyInSamples() override     { return outputLatency + currentBlockSizeSamples / 4; }
-    int getInputLatencyInSamples() override      { return inputLatency + currentBlockSizeSamples / 4; }
+    int getOutputLatencyInSamples() override     { return outputLatency; }
+    int getInputLatencyInSamples() override      { return inputLatency; }
 
     void start (AudioIODeviceCallback* callback) override
     {
@@ -770,7 +778,7 @@ private:
         if (CharPointer_UTF8::isValidString (text, length))
             return String::fromUTF8 (text, length);
 
-        WCHAR wideVersion[64] = {};
+        WCHAR wideVersion[512] = {};
         MultiByteToWideChar (CP_ACP, 0, text, length, wideVersion, numElementsInArray (wideVersion));
         return wideVersion;
     }
@@ -787,9 +795,14 @@ private:
 
     void reloadChannelNames()
     {
+        long totalInChannels = 0, totalOutChannels = 0;
+
         if (asioObject != nullptr
-             && asioObject->getChannels (&totalNumInputChans, &totalNumOutputChans) == ASE_OK)
+             && asioObject->getChannels (&totalInChannels, &totalOutChannels) == ASE_OK)
         {
+            totalNumInputChans  = totalInChannels;
+            totalNumOutputChans = totalOutChannels;
+
             inputChannelNames.clear();
             outputChannelNames.clear();
 
@@ -1068,18 +1081,32 @@ private:
         }
     }
 
-    void removeCurrentDriver()
+    bool removeCurrentDriver()
     {
+        bool releasedOK = true;
+
         if (asioObject != nullptr)
         {
-            asioObject->Release();
+           #if ! JUCE_MINGW
+            __try
+           #endif
+            {
+                asioObject->Release();
+            }
+           #if ! JUCE_MINGW
+            __except (EXCEPTION_EXECUTE_HANDLER) { releasedOK = false; }
+           #endif
+
             asioObject = nullptr;
         }
+
+        return releasedOK;
     }
 
     bool loadDriver()
     {
-        removeCurrentDriver();
+        if (! removeCurrentDriver())
+            JUCE_ASIO_LOG ("** Driver crashed while being closed");
 
         bool crashed = false;
         bool ok = tryCreatingDriver (crashed);
@@ -1108,9 +1135,11 @@ private:
     String getLastDriverError() const
     {
         jassert (asioObject != nullptr);
+
         char buffer[512] = {};
         asioObject->getErrorMessage (buffer);
-        return String (buffer, sizeof (buffer) - 1);
+
+        return convertASIOString (buffer, sizeof (buffer));
     }
 
     String initDriver()
@@ -1118,7 +1147,7 @@ private:
         if (asioObject == nullptr)
             return "No Driver";
 
-        const bool initOk = !! asioObject->init (juce_messageWindowHandle);
+        auto initOk = (asioObject->init (juce_messageWindowHandle) > 0);
         String driverError;
 
         // Get error message if init() failed, or if it's a buggy Denon driver,
@@ -1237,7 +1266,9 @@ private:
         {
             JUCE_ASIO_LOG_ERROR (error, err);
             disposeBuffers();
-            removeCurrentDriver();
+
+            if (! removeCurrentDriver())
+                JUCE_ASIO_LOG ("** Driver crashed while being closed");
         }
         else
         {
@@ -1420,7 +1451,12 @@ public:
             TCHAR name[256] = {};
 
             while (RegEnumKey (hk, index++, name, numElementsInArray (name)) == ERROR_SUCCESS)
+            {
+                if (isBlacklistedDriver (name))
+                    continue;
+
                 addDriverInfo (name, hk);
+            }
 
             RegCloseKey (hk);
         }
@@ -1552,6 +1588,11 @@ private:
     }
 
     //==============================================================================
+    static bool isBlacklistedDriver (const String& driverName)
+    {
+        return driverName.startsWith ("ASIO DirectX Full Duplex") || driverName == "ASIO Multimedia Driver";
+    }
+
     void addDriverInfo (const String& keyName, HKEY hk)
     {
         HKEY subKey;

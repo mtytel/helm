@@ -53,7 +53,7 @@ protected:
 
 public:
     /** Destructor. */
-    ~AudioProcessorEditor();
+    ~AudioProcessorEditor() override;
 
 
     //==============================================================================
@@ -193,11 +193,14 @@ private:
         JUCE_DECLARE_NON_COPYABLE (AudioProcessorEditorListener)
     };
 
+    ComponentPeer* createNewPeer (int styleFlags, void*) override;
+
     //==============================================================================
     void initialise();
     void editorResized (bool wasResized);
     void updatePeer();
     void attachConstrainer (ComponentBoundsConstrainer*);
+    void attachResizableCornerComponent();
 
     //==============================================================================
     std::unique_ptr<AudioProcessorEditorListener> resizeListener;

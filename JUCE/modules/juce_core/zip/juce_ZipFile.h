@@ -82,6 +82,12 @@ public:
 
         /** True if the zip entry is a symbolic link. */
         bool isSymbolicLink;
+
+        /** Platform specific data. Depending on how the zip file was created this
+            may contain macOS and Linux file types, permissions and
+            setuid/setgid/sticky bits.
+        */
+        uint32 externalFileAttributes;
     };
 
     //==============================================================================
@@ -224,7 +230,6 @@ public:
         //==============================================================================
     private:
         struct Item;
-        friend struct ContainerDeletePolicy<Item>;
         OwnedArray<Item> items;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Builder)
@@ -244,7 +249,7 @@ private:
    #if JUCE_DEBUG
     struct OpenStreamCounter
     {
-        OpenStreamCounter() {}
+        OpenStreamCounter() = default;
         ~OpenStreamCounter();
 
         int numOpenStreams = 0;

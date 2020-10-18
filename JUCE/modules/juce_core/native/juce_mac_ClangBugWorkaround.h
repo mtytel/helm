@@ -20,10 +20,10 @@
   ==============================================================================
 */
 
-
-// This hack is a workaround for a bug (?) in Apple's 10.11 SDK headers
-// which cause some configurations of Clang to throw out a spurious error..
 #if JUCE_PROJUCER_LIVE_BUILD && (defined (__APPLE_CPP__) || defined(__APPLE_CC__))
+
+ // This hack is a workaround for a bug (?) in Apple's 10.11 SDK headers
+ // which cause some configurations of Clang to throw out a spurious error..
  #include <CoreFoundation/CFAvailability.h>
  #undef CF_OPTIONS
  #define CF_OPTIONS(_type, _name) _type _name; enum
@@ -32,4 +32,10 @@
  // in the live-build engine.
  #define _Nullable
  #define _Nonnull
+
+ // A workaround for compiling the 10.15 headers with an older compiler version
+ #undef API_UNAVAILABLE_BEGIN
+ #define API_UNAVAILABLE_BEGIN(...)
+ #undef API_UNAVAILABLE_END
+ #define API_UNAVAILABLE_END
 #endif

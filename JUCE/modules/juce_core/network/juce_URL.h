@@ -39,7 +39,7 @@ class JUCE_API  URL
 public:
     //==============================================================================
     /** Creates an empty URL. */
-    URL() noexcept;
+    URL();
 
     /** Creates a URL from a string.
         This will parse any embedded parameters after a '?' character and store them
@@ -50,16 +50,14 @@ public:
 
     URL (const URL&) = default;
     URL& operator= (const URL&) = default;
-
-    // VS2013 can't default move constructors and assignments
-    URL (URL&&);
-    URL& operator= (URL&&);
+    URL (URL&&) = default;
+    URL& operator= (URL&&) = default;
 
     /** Creates URL referring to a local file on your disk using the file:// scheme. */
     explicit URL (File);
 
     /** Destructor. */
-    ~URL();
+    ~URL() = default;
 
     /** Compares two URLs.
         All aspects of the URLs must be identical for them to match, including any parameters,
@@ -90,8 +88,17 @@ public:
 
     /** Returns the path part of the URL.
         E.g. for "http://www.xyz.com/foo/bar?x=1", this will return "foo/bar".
+
+        If includeGetParameters is true and any parameters have been set with the
+        withParameter() method, then the string will have these appended on the
+        end and url-encoded.
     */
-    String getSubPath() const;
+    String getSubPath (bool includeGetParameters = false) const;
+
+    /** If any parameters are set, returns these URL encoded, including the "?"
+     *  prefix.
+    */
+    String getQueryString() const;
 
     /** Returns the scheme of the URL.
         E.g. for "http://www.xyz.com/foobar", this will return "http". (It won't
@@ -140,6 +147,11 @@ public:
         @see withNewDomainAndPath
     */
     URL withNewSubPath (const String& newPath) const;
+
+    /** Attempts to return a URL which is the parent folder containing this URL.
+        If there isn't a parent, this method will just return a copy of this URL.
+    */
+    URL getParentURL() const;
 
     /** Returns a new URL that refers to a sub-path relative to this one.
         E.g. if the URL is "http://www.xyz.com/foo" and you call this with
@@ -256,7 +268,7 @@ public:
     URL withPOSTData (const MemoryBlock& postData) const;
 
     /** Returns the data that was set using withPOSTData(). */
-    String getPostData() const noexcept                             { return postData.toString(); }
+    String getPostData() const                                      { return postData.toString(); }
 
     /** Returns the data that was set using withPOSTData() as MemoryBlock. */
     const MemoryBlock& getPostDataAsMemoryBlock() const noexcept    { return postData; }
@@ -284,7 +296,7 @@ public:
         It allows your app to receive progress updates during a lengthy POST operation. If you
         want to continue the operation, this should return true, or false to abort.
     */
-    typedef bool (OpenStreamProgressCallback) (void* context, int bytesSent, int totalBytes);
+    using OpenStreamProgressCallback = bool (void* context, int bytesSent, int totalBytes);
 
     /** Attempts to open a stream that can read from this URL.
 
@@ -331,12 +343,12 @@ public:
     InputStream* createInputStream (bool doPostLikeRequest,
                                     OpenStreamProgressCallback* progressCallback = nullptr,
                                     void* progressCallbackContext = nullptr,
-                                    String extraHeaders = String(),
+                                    String extraHeaders = {},
                                     int connectionTimeOutMs = 0,
                                     StringPairArray* responseHeaders = nullptr,
                                     int* statusCode = nullptr,
                                     int numRedirectsToFollow = 5,
-                                    String httpRequestCmd = String()) const;
+                                    String httpRequestCmd = {}) const;
 
     /** Attempts to open an output stream to a URL for writing
 
@@ -347,26 +359,25 @@ public:
 
     //==============================================================================
     /** Represents a download task.
-        Returned by downloadToFile to allow querying and controling the download task.
+        Returned by downloadToFile to allow querying and controlling the download task.
     */
-    class DownloadTask
+    class JUCE_API  DownloadTask
     {
     public:
         /** Used to receive callbacks for download progress */
-        struct Listener
+        struct JUCE_API  Listener
         {
             virtual ~Listener();
 
             /** Called when the download has finished. Be aware that this callback may
                 come on an arbitrary thread. */
-            virtual void finished (DownloadTask* task, bool success) = 0;
+            virtual void finished (URL::DownloadTask* task, bool success) = 0;
 
             /** Called periodically by the OS to indicate download progress.
                 Beware that this callback may come on an arbitrary thread.
             */
-            virtual void progress (DownloadTask* task, int64 bytesDownloaded, int64 totalLength);
+            virtual void progress (URL::DownloadTask* task, int64 bytesDownloaded, int64 totalLength);
         };
-
 
         /** Releases the resources of the download task, unregisters the listener
             and cancels the download if necessary. */
@@ -391,10 +402,14 @@ public:
         /** Returns true if there was an error. */
         inline bool hadError() const                      { return error; }
 
+        /** Returns the target file location that was provided in URL::downloadToFile. */
+        File getTargetLocation() const                    { return targetLocation; }
+
     protected:
         int64 contentLength = -1, downloaded = 0;
         bool finished = false, error = false;
         int httpCode = -1;
+        File targetLocation;
 
         DownloadTask();
 
@@ -464,7 +479,7 @@ public:
         If it fails, or if the text that it reads can't be parsed as XML, this will
         return nullptr.
 
-        When it returns a valid XmlElement object, the caller is responsibile for deleting
+        When it returns a valid XmlElement object, the caller is responsible for deleting
         this object when no longer needed.
 
         Note that on some platforms (Android, for example) it's not permitted to do any network
@@ -475,7 +490,7 @@ public:
 
         @see readEntireBinaryStream, readEntireTextStream
     */
-    XmlElement* readEntireXmlStream (bool usePostCommand = false) const;
+    std::unique_ptr<XmlElement> readEntireXmlStream (bool usePostCommand = false) const;
 
     //==============================================================================
     /** Adds escape sequences to a string to encode any characters that aren't
@@ -526,6 +541,7 @@ private:
     StringArray parameterNames, parameterValues;
 
     static File fileFromFileSchemeURL (const URL&);
+    String getDomainInternal (bool) const;
 
     struct Upload  : public ReferenceCountedObject
     {
@@ -537,7 +553,6 @@ private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Upload)
     };
 
-    friend struct ContainerDeletePolicy<Upload>;
     ReferenceCountedArray<Upload> filesToUpload;
 
   #if JUCE_IOS

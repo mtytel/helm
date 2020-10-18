@@ -38,7 +38,7 @@ class JUCE_API  FileDragAndDropTarget
 {
 public:
     /** Destructor. */
-    virtual ~FileDragAndDropTarget()  {}
+    virtual ~FileDragAndDropTarget() = default;
 
     /** Callback to check whether this target is interested in the set of files being offered.
 
@@ -47,7 +47,7 @@ public:
         inside them!
 
         @param files        the set of (absolute) pathnames of the files that the user is dragging
-        @returns            true if this component wants to receive the other callbacks regarging this
+        @returns            true if this component wants to receive the other callbacks regarding this
                             type of object; if it returns false, no other callbacks will be made.
     */
     virtual bool isInterestedInFileDrag (const StringArray& files) = 0;

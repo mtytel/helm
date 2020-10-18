@@ -54,12 +54,12 @@ public:
         @param buttonName           the text to put in the button (the component's name is also
                                     initially set to this string, but these can be changed later
                                     using the setName() and setButtonText() methods)
-        @param toolTip              an optional string to use as a toolip
+        @param toolTip              an optional string to use as a tooltip
     */
     TextButton (const String& buttonName, const String& toolTip);
 
     /** Destructor. */
-    ~TextButton();
+    ~TextButton() override;
 
     //==============================================================================
     /** A set of colour IDs to use to change the colour of various aspects of the button.
@@ -99,7 +99,7 @@ public:
 
     //==============================================================================
     /** @internal */
-    void paintButton (Graphics&, bool isMouseOverButton, bool isButtonDown) override;
+    void paintButton (Graphics&, bool, bool) override;
     /** @internal */
     void colourChanged() override;
 

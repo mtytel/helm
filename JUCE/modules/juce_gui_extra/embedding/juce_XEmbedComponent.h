@@ -87,7 +87,7 @@ public:
 
 
     /** Destructor. */
-    ~XEmbedComponent();
+    ~XEmbedComponent() override;
 
     /** Use this method to retrieve the host's window id when using the
         host initiated version of the XEmbedProtocol
@@ -107,7 +107,6 @@ private:
     friend unsigned long juce_getCurrentFocusWindow (ComponentPeer*);
 
     class Pimpl;
-    friend struct ContainerDeletePolicy<Pimpl>;
     std::unique_ptr<Pimpl> pimpl;
 };
 

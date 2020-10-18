@@ -54,7 +54,7 @@ private:
 template <typename Scalar>
 struct CmplxSIMDOps
 {
-    typedef typename SIMDNativeOps<Scalar>::vSIMDType vSIMDType;
+    using vSIMDType = typename SIMDNativeOps<Scalar>::vSIMDType;
 
     static inline vSIMDType JUCE_VECTOR_CALLTYPE load (const Scalar* a) noexcept
     {
@@ -88,12 +88,7 @@ struct CmplxSIMDOps
 
     static inline vSIMDType JUCE_VECTOR_CALLTYPE mul (vSIMDType a, vSIMDType b) noexcept
     {
-      return SIMDNativeOps<Scalar>::mul (a, b);
-    }
-
-    static inline vSIMDType JUCE_VECTOR_CALLTYPE div (vSIMDType a, vSIMDType b) noexcept
-    {
-      return SIMDNativeOps<Scalar>::div (a, b);
+        return SIMDNativeOps<Scalar>::mul (a, b);
     }
 
     static inline vSIMDType JUCE_VECTOR_CALLTYPE muladd (vSIMDType a, vSIMDType b, vSIMDType c) noexcept
@@ -106,7 +101,7 @@ struct CmplxSIMDOps
 template <typename Scalar>
 struct CmplxSIMDOps<std::complex<Scalar>>
 {
-    typedef typename SIMDNativeOps<Scalar>::vSIMDType vSIMDType;
+    using vSIMDType = typename SIMDNativeOps<Scalar>::vSIMDType;
 
     static inline vSIMDType JUCE_VECTOR_CALLTYPE load (const std::complex<Scalar>* a) noexcept
     {
@@ -125,7 +120,7 @@ struct CmplxSIMDOps<std::complex<Scalar>>
         union
         {
             vSIMDType v;
-            Scalar floats[n];
+            Scalar floats[(size_t) n];
         } u;
 
         for (int i = 0; i < n; ++i)

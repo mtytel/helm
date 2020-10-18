@@ -68,7 +68,7 @@ public:
                                      mapping from the integer range [0, numPointsToUse - 1].
         @param numPointsToUse        The number of pre-calculated values stored.
     */
-    LookupTable (const std::function<FloatType (size_t)>& functionToApproximate, size_t numPointsToUse);
+    LookupTable (const std::function<FloatType(size_t)>& functionToApproximate, size_t numPointsToUse);
 
     /** Initialises or changes the parameters of a LookupTable object.
 
@@ -80,7 +80,7 @@ public:
                                      mapping from the integer range [0, numPointsToUse - 1].
         @param numPointsToUse        The number of pre-calculated values stored.
     */
-    void initialise (const std::function<FloatType (size_t)>& functionToApproximate, size_t numPointsToUse);
+    void initialise (const std::function<FloatType(size_t)>& functionToApproximate, size_t numPointsToUse);
 
     //==============================================================================
     /** Calculates the approximated value for the given index without range checking.
@@ -164,7 +164,7 @@ private:
         LookupTableTransform<float> tanhApprox ([] (float x) { return std::tanh (x); }, -5.0f, 5.0f, 64);
         auto outValue = tanhApprox (4.2f);
 
-    Note : if you try to call the function with an input outside the provided
+    Note: If you try to call the function with an input outside the provided
     range, it will return either the first or the last recorded LookupTable value.
 
     @see LookupTable
@@ -183,8 +183,7 @@ public:
 
         @see initialise
     */
-    LookupTableTransform()
-    {}
+    LookupTableTransform() = default;
 
     //==============================================================================
     /** Creates and initialises a LookupTableTransform object.
@@ -197,7 +196,7 @@ public:
                                      fail for values higher than this.
         @param numPoints             The number of pre-calculated values stored.
     */
-    LookupTableTransform (const std::function<FloatType (FloatType)>& functionToApproximate,
+    LookupTableTransform (const std::function<FloatType(FloatType)>& functionToApproximate,
                           FloatType minInputValueToUse,
                           FloatType maxInputValueToUse,
                           size_t numPoints)
@@ -216,7 +215,7 @@ public:
                                      fail for values higher than this.
         @param numPoints             The number of pre-calculated values stored.
     */
-    void initialise (const std::function<FloatType (FloatType)>& functionToApproximate,
+    void initialise (const std::function<FloatType(FloatType)>& functionToApproximate,
                      FloatType minInputValueToUse,
                      FloatType maxInputValueToUse,
                      size_t numPoints);
@@ -310,7 +309,7 @@ public:
                                      accuracy of the error calculation. If it's zero
                                      then 100 * numPoints will be used.
     */
-    static double calculateMaxRelativeError (const std::function<FloatType (FloatType)>& functionToApproximate,
+    static double calculateMaxRelativeError (const std::function<FloatType(FloatType)>& functionToApproximate,
                                              FloatType minInputValue,
                                              FloatType maxInputValue,
                                              size_t numPoints,

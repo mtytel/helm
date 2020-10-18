@@ -99,7 +99,7 @@ void LoadSave::loadControls(SynthBase* synth,
 void LoadSave::loadModulations(SynthBase* synth,
                                const Array<var>* modulations) {
   synth->clearModulations();
-  var* modulation = modulations->begin();
+  const var* modulation = modulations->begin();
 
   for (; modulation != modulations->end(); ++modulation) {
     DynamicObject* mod = modulation->getDynamicObject();

@@ -59,17 +59,20 @@ namespace IIR
         */
         using NumericType = typename SampleTypeHelpers::ElementType<SampleType>::Type;
 
+        /** A typedef for a ref-counted pointer to the coefficients object */
+        using CoefficientsPtr = typename Coefficients<NumericType>::Ptr;
+
         //==============================================================================
         /** Creates a filter.
 
             Initially the filter is inactive, so will have no effect on samples that
-            you process with it. Use the setCoefficients() method to turn it into the
-            type of filter needed.
+            you process with it. You can modify the coefficients member to turn it into
+            the type of filter needed.
         */
         Filter();
 
         /** Creates a filter with a given set of coefficients. */
-        Filter (Coefficients<NumericType>* coefficientsToUse);
+        Filter (CoefficientsPtr coefficientsToUse);
 
         Filter (const Filter&) = default;
         Filter (Filter&&) = default;
@@ -77,13 +80,13 @@ namespace IIR
         Filter& operator= (Filter&&) = default;
 
         //==============================================================================
-        /** The coefficients of the IIR filter. It's up to the called to ensure that
+        /** The coefficients of the IIR filter. It's up to the caller to ensure that
             these coefficients are modified in a thread-safe way.
 
             If you change the order of the coefficients then you must call reset after
             modifying them.
         */
-        typename Coefficients<NumericType>::Ptr coefficients;
+        CoefficientsPtr coefficients;
 
         //==============================================================================
         /** Resets the filter's processing pipeline, ready to start a new stream of data.
@@ -102,7 +105,7 @@ namespace IIR
         /** Called before processing starts. */
         void prepare (const ProcessSpec&) noexcept;
 
-        /** Processes as a block of samples */
+        /** Processes a block of samples */
         template <typename ProcessContext>
         void process (const ProcessContext& context) noexcept
         {
@@ -131,7 +134,7 @@ namespace IIR
         //==============================================================================
         void check();
 
-        /** Processes as a block of samples */
+        /** Processes a block of samples */
         template <typename ProcessContext, bool isBypassed>
         void processInternal (const ProcessContext& context) noexcept;
 

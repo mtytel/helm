@@ -161,7 +161,7 @@ public:
         countries: fr be mc ch lu
         @endcode
 
-        The country codes are supposed to be 2-character ISO complient codes.
+        The country codes are supposed to be 2-character ISO compliant codes.
     */
     const StringArray& getCountryCodes() const            { return countryCodes; }
 
@@ -191,7 +191,6 @@ private:
     StringArray countryCodes;
     StringPairArray translations;
     std::unique_ptr<LocalisedStrings> fallback;
-    friend struct ContainerDeletePolicy<LocalisedStrings>;
 
     void loadFromText (const String&, bool ignoreCase);
 

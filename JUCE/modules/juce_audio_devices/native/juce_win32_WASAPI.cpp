@@ -352,8 +352,8 @@ void copyWavFormat (WAVEFORMATEXTENSIBLE& dest, const WAVEFORMATEX* src) noexcep
 class WASAPIDeviceBase
 {
 public:
-    WASAPIDeviceBase (const ComSmartPtr<IMMDevice>& d, bool exclusiveMode)
-        : device (d), useExclusiveMode (exclusiveMode)
+    WASAPIDeviceBase (const ComSmartPtr<IMMDevice>& d, bool exclusiveMode, std::function<void()>&& cb)
+        : device (d), useExclusiveMode (exclusiveMode), reopenCallback (cb)
     {
         clientEvent = CreateEvent (nullptr, false, false, nullptr);
 
@@ -387,21 +387,21 @@ public:
             // Got a format that is supported by the device so we can ask what sample rates are supported (in whatever format)
         }
 
-        static const int ratesToTest[] = { 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000 };
-
-        for (int i = 0; i < numElementsInArray (ratesToTest); ++i)
-        {
-            if (rates.contains (ratesToTest[i]))
+        for (auto rate : { 8000, 11025, 16000, 22050, 32000,
+                           44100, 48000, 88200, 96000, 176400,
+                           192000, 352800, 384000, 705600, 768000 })
+       {
+            if (rates.contains (rate))
                 continue;
 
-            format.Format.nSamplesPerSec  = (DWORD) ratesToTest[i];
+            format.Format.nSamplesPerSec  = (DWORD) rate;
             format.Format.nAvgBytesPerSec = (DWORD) (format.Format.nSamplesPerSec * format.Format.nChannels * format.Format.wBitsPerSample / 8);
 
             if (SUCCEEDED (tempClient->IsFormatSupported (useExclusiveMode ? AUDCLNT_SHAREMODE_EXCLUSIVE
                                                                            : AUDCLNT_SHAREMODE_SHARED,
                                                           (WAVEFORMATEX*) &format, 0)))
-                if (! rates.contains (ratesToTest[i]))
-                    rates.addUsingDefaultSort (ratesToTest[i]);
+                if (! rates.contains (rate))
+                    rates.addUsingDefaultSort (rate);
         }
     }
 
@@ -454,6 +454,10 @@ public:
         if (client != nullptr)
             client->Stop();
 
+        // N.B. this is needed to prevent a double-deletion of the IAudioSessionEvents object
+        // on older versions of Windows
+        Thread::sleep (5);
+
         deleteSessionEventCallback();
         client = nullptr;
         ResetEvent (clientEvent);
@@ -484,6 +488,7 @@ public:
     UINT32 actualBufferSize = 0;
     int bytesPerSample = 0, bytesPerFrame = 0;
     bool sampleRateHasChanged = false, shouldClose = false;
+    std::function<void()> reopenCallback;
 
     virtual void updateFormat (bool isFloat) = 0;
 
@@ -501,6 +506,9 @@ private:
 
         JUCE_COMRESULT OnStateChanged(AudioSessionState state)
         {
+            if (state == AudioSessionStateActive)
+                owner.reopenCallback();
+
             if (state == AudioSessionStateInactive || state == AudioSessionStateExpired)
                 owner.deviceBecameInactive();
 
@@ -509,7 +517,6 @@ private:
 
         JUCE_COMRESULT OnSessionDisconnected (AudioSessionDisconnectReason reason)
         {
-            Logger::writeToLog("OnSessionDisconnected");
             if (reason == DisconnectReasonFormatChanged)
                 owner.deviceSampleRateChanged();
 
@@ -685,8 +692,8 @@ private:
 class WASAPIInputDevice  : public WASAPIDeviceBase
 {
 public:
-    WASAPIInputDevice (const ComSmartPtr<IMMDevice>& d, bool exclusiveMode)
-        : WASAPIDeviceBase (d, exclusiveMode)
+    WASAPIInputDevice (const ComSmartPtr<IMMDevice>& d, bool exclusiveMode, std::function<void()>&& reopenCallback)
+        : WASAPIDeviceBase (d, exclusiveMode, std::move (reopenCallback))
     {
     }
 
@@ -846,8 +853,8 @@ private:
 class WASAPIOutputDevice  : public WASAPIDeviceBase
 {
 public:
-    WASAPIOutputDevice (const ComSmartPtr<IMMDevice>& d, bool exclusiveMode)
-        : WASAPIDeviceBase (d, exclusiveMode)
+    WASAPIOutputDevice (const ComSmartPtr<IMMDevice>& d, bool exclusiveMode, std::function<void()>&& reopenCallback)
+        : WASAPIDeviceBase (d, exclusiveMode, std::move (reopenCallback))
     {
     }
 
@@ -982,6 +989,7 @@ public:
 
     ~WASAPIAudioIODevice()
     {
+        cancelPendingUpdate();
         close();
     }
 
@@ -1012,7 +1020,9 @@ public:
                 sampleRates = d->rates;
             }
 
+            bufferSizes.clear();
             bufferSizes.addUsingDefaultSort (defaultBufferSize);
+
             if (minBufferSize != defaultBufferSize)
                 bufferSizes.addUsingDefaultSort (minBufferSize);
 
@@ -1278,7 +1288,7 @@ public:
                     outs.clear();
             }
 
-            if (outputDevice != nullptr && !deviceBecameInactive)
+            if (outputDevice != nullptr && ! deviceBecameInactive)
             {
                 // Note that this function is handed the input device so it can check for the event and make sure
                 // the input reservoir is filled up correctly even when bufferSize > device actualBufferSize
@@ -1358,14 +1368,36 @@ private:
 
             auto flow = getDataFlow (device);
 
+            auto deviceReopenCallback = [this]
+            {
+                if (deviceBecameInactive)
+                {
+                    deviceBecameInactive = false;
+                    MessageManager::callAsync ([this] { reopenDevices(); });
+                }
+            };
+
             if (deviceId == inputDeviceId && flow == eCapture)
-                inputDevice.reset (new WASAPIInputDevice (device, useExclusiveMode));
+                inputDevice.reset (new WASAPIInputDevice (device, useExclusiveMode, deviceReopenCallback));
             else if (deviceId == outputDeviceId && flow == eRender)
-                outputDevice.reset (new WASAPIOutputDevice (device, useExclusiveMode));
+                outputDevice.reset (new WASAPIOutputDevice (device, useExclusiveMode, deviceReopenCallback));
         }
 
         return (outputDeviceId.isEmpty() || (outputDevice != nullptr && outputDevice->isOk()))
              && (inputDeviceId.isEmpty() || (inputDevice != nullptr && inputDevice->isOk()));
+    }
+
+    void reopenDevices()
+    {
+        outputDevice = nullptr;
+        inputDevice = nullptr;
+
+        initialise();
+
+        open (lastKnownInputChannels, lastKnownOutputChannels,
+              getChangedSampleRate(), currentBufferSizeSamples);
+
+        start (callback);
     }
 
     //==============================================================================
@@ -1373,19 +1405,9 @@ private:
     {
         stop();
 
-        outputDevice = nullptr;
-        inputDevice = nullptr;
-
         // sample rate change
         if (! deviceBecameInactive)
-        {
-            initialise();
-
-            open (lastKnownInputChannels, lastKnownOutputChannels,
-                  getChangedSampleRate(), currentBufferSizeSamples);
-
-            start (callback);
-        }
+            reopenDevices();
     }
 
     double getChangedSampleRate() const
@@ -1423,7 +1445,7 @@ public:
     }
 
     //==============================================================================
-    void scanForDevices()
+    void scanForDevices() override
     {
         hasScanned = true;
 
@@ -1436,7 +1458,7 @@ public:
               outputDeviceIds, inputDeviceIds);
     }
 
-    StringArray getDeviceNames (bool wantInputNames) const
+    StringArray getDeviceNames (bool wantInputNames) const override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1444,13 +1466,13 @@ public:
                               : outputDeviceNames;
     }
 
-    int getDefaultDeviceIndex (bool /*forInput*/) const
+    int getDefaultDeviceIndex (bool /*forInput*/) const override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
         return 0;
     }
 
-    int getIndexOfDevice (AudioIODevice* device, bool asInput) const
+    int getIndexOfDevice (AudioIODevice* device, bool asInput) const override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1461,10 +1483,10 @@ public:
         return -1;
     }
 
-    bool hasSeparateInputsAndOutputs() const    { return true; }
+    bool hasSeparateInputsAndOutputs() const override    { return true; }
 
     AudioIODevice* createDevice (const String& outputDeviceName,
-                                 const String& inputDeviceName)
+                                 const String& inputDeviceName) override
     {
         jassert (hasScanned); // need to call scanForDevices() before doing this
 
@@ -1502,7 +1524,7 @@ private:
     class ChangeNotificationClient : public ComBaseClassHelper<IMMNotificationClient>
     {
     public:
-        ChangeNotificationClient (WASAPIAudioIODeviceType& d)
+        ChangeNotificationClient (WASAPIAudioIODeviceType* d)
             : ComBaseClassHelper<IMMNotificationClient> (0), device (d) {}
 
         HRESULT STDMETHODCALLTYPE OnDeviceAdded (LPCWSTR)                             { return notify(); }
@@ -1512,9 +1534,15 @@ private:
         HRESULT STDMETHODCALLTYPE OnPropertyValueChanged (LPCWSTR, const PROPERTYKEY) { return notify(); }
 
     private:
-        WASAPIAudioIODeviceType& device;
+        WeakReference<WASAPIAudioIODeviceType> device;
 
-        HRESULT notify()   { device.triggerAsyncDeviceChangeCallback(); return S_OK; }
+        HRESULT notify()
+        {
+            if (device != nullptr)
+            device->triggerAsyncDeviceChangeCallback();
+
+            return S_OK;
+        }
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChangeNotificationClient)
     };
@@ -1555,7 +1583,7 @@ private:
             if (! check (enumerator.CoCreateInstance (__uuidof (MMDeviceEnumerator))))
                 return;
 
-            notifyClient = new ChangeNotificationClient (*this);
+            notifyClient = new ChangeNotificationClient (this);
             enumerator->RegisterEndpointNotificationCallback (notifyClient);
         }
 
@@ -1644,6 +1672,7 @@ private:
     }
 
     //==============================================================================
+    JUCE_DECLARE_WEAK_REFERENCEABLE (WASAPIAudioIODeviceType)
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WASAPIAudioIODeviceType)
 };
 

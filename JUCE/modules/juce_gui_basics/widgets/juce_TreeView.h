@@ -514,7 +514,7 @@ public:
 
         @see TreeView::getOpennessState, restoreOpennessState
     */
-    XmlElement* getOpennessState() const;
+    std::unique_ptr<XmlElement> getOpennessState() const;
 
     /** Restores the openness of this item and all its sub-items from a saved state.
 
@@ -532,7 +532,7 @@ public:
     /** Returns the index of this item in its parent's sub-items. */
     int getIndexInParent() const noexcept;
 
-    /** Returns true if this item is the last of its parent's sub-itens. */
+    /** Returns true if this item is the last of its parent's sub-items. */
     bool isLastOfSiblings() const noexcept;
 
     /** Creates a string that can be used to uniquely retrieve this item in the tree.
@@ -617,12 +617,6 @@ private:
     void removeAllSubItemsFromList();
     bool areLinesDrawn() const;
 
-   #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
-    // The parameters for these methods have changed - please update your code!
-    virtual void isInterestedInDragSource (const String&, Component*) {}
-    virtual int itemDropped (const String&, Component*, int) { return 0; }
-   #endif
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TreeViewItem)
 };
 
@@ -651,7 +645,7 @@ public:
     TreeView (const String& componentName = String());
 
     /** Destructor. */
-    ~TreeView();
+    ~TreeView() override;
 
     //==============================================================================
     /** Sets the item that is displayed in the treeview.
@@ -818,7 +812,7 @@ public:
                                             so this can also be restored
         @see restoreOpennessState
     */
-    XmlElement* getOpennessState (bool alsoIncludeScrollPosition) const;
+    std::unique_ptr<XmlElement> getOpennessState (bool alsoIncludeScrollPosition) const;
 
     /** Restores a previously saved arrangement of open/closed nodes.
 
@@ -848,8 +842,8 @@ public:
         linesColourId                  = 0x1000501, /**< The colour to draw the lines with.*/
         dragAndDropIndicatorColourId   = 0x1000502, /**< The colour to use for the drag-and-drop target position indicator. */
         selectedItemBackgroundColourId = 0x1000503, /**< The colour to use to fill the background of any selected items. */
-        oddItemsColourId               = 0x1000504, /**< The colour to use to fill the backround of the odd numbered items. */
-        evenItemsColourId              = 0x1000505  /**< The colour to use to fill the backround of the even numbered items. */
+        oddItemsColourId               = 0x1000504, /**< The colour to use to fill the background of the odd numbered items. */
+        evenItemsColourId              = 0x1000505  /**< The colour to use to fill the background of the even numbered items. */
     };
 
     //==============================================================================
@@ -858,7 +852,7 @@ public:
     */
     struct JUCE_API  LookAndFeelMethods
     {
-        virtual ~LookAndFeelMethods() {}
+        virtual ~LookAndFeelMethods() = default;
 
         virtual void drawTreeviewPlusMinusBox (Graphics&, const Rectangle<float>& area,
                                                Colour backgroundColour, bool isItemOpen, bool isMouseOver) = 0;
@@ -900,15 +894,12 @@ public:
     void itemDropped (const SourceDetails&) override;
 
 private:
+    friend class TreeViewItem;
+
     class ContentComponent;
     class TreeViewport;
     class InsertPointHighlight;
     class TargetGroupHighlight;
-    friend class TreeViewItem;
-    friend class ContentComponent;
-    friend struct ContainerDeletePolicy<TreeViewport>;
-    friend struct ContainerDeletePolicy<InsertPointHighlight>;
-    friend struct ContainerDeletePolicy<TargetGroupHighlight>;
 
     std::unique_ptr<TreeViewport> viewport;
     CriticalSection nodeAlterationLock;

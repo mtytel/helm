@@ -32,9 +32,7 @@ namespace juce
 struct JUCE_API  AudioSourceChannelInfo
 {
     /** Creates an uninitialised AudioSourceChannelInfo. */
-    AudioSourceChannelInfo() noexcept
-    {
-    }
+    AudioSourceChannelInfo() = default;
 
     /** Creates an AudioSourceChannelInfo. */
     AudioSourceChannelInfo (AudioBuffer<float>* bufferToUse,
@@ -113,18 +111,18 @@ class JUCE_API  AudioSource
 protected:
     //==============================================================================
     /** Creates an AudioSource. */
-    AudioSource() noexcept      {}
+    AudioSource() = default;
 
 public:
     /** Destructor. */
-    virtual ~AudioSource()      {}
+    virtual ~AudioSource()      = default;
 
     //==============================================================================
     /** Tells the source to prepare for playing.
 
         An AudioSource has two states: prepared and unprepared.
 
-        The prepareToPlay() method is guaranteed to be called at least once on an 'unpreprared'
+        The prepareToPlay() method is guaranteed to be called at least once on an 'unprepared'
         source to put it into a 'prepared' state before any calls will be made to getNextAudioBlock().
         This callback allows the source to initialise any resources it might need when playing.
 

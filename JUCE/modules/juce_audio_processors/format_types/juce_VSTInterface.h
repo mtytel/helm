@@ -24,6 +24,16 @@
   ==============================================================================
 */
 
+/*
+  Copyright © 2019 IOhannes m zmölnig
+
+  Provide additional structs & enum-aliases, to allow compilation with JUCE-5.4.1
+
+  The names of the struct-members and enum-aliases have been derived by comparing
+  juce_audio_plugin_client/VST/juce_VST_Wrapper.cpp of
+  both JUCE-5.3.2 and JUCE-5.4.1
+ */
+
 #define JUCE_VSTINTERFACE_H_INCLUDED
 
 using namespace juce;
@@ -44,7 +54,10 @@ using namespace juce;
  #pragma pack(push, 8)
 #endif
 
+#define VSTCALLBACK VSTINTERFACECALL
+
 const int32 juceVstInterfaceVersion = 2400;
+#define kVstVersion 2400
 const int32 juceVstInterfaceIdentifier = 0x56737450;    // The "magic" identifier in the SDK is 'VstP'.
 
 //==============================================================================
@@ -79,7 +92,43 @@ struct VstEffectInterface
     char emptySpace[56];
 };
 
+struct AEffect;
+typedef pointer_sized_int (VSTINTERFACECALL*AEffectDispatcherProc)(AEffect*, int32 op, int32 index, pointer_sized_int value, void* ptr, float opt);
+typedef void  (VSTINTERFACECALL*AEffectProcessProc)(AEffect*, float** inputs, float** outputs, int32 numSamples);
+typedef void  (VSTINTERFACECALL*AEffectProcessDoubleProc)(AEffect*, double** inputs, double** outputs, int32 numSamples);
+typedef float (VSTINTERFACECALL*AEffectGetParameterProc)(AEffect*, int32 parameterIndex);
+typedef void  (VSTINTERFACECALL*AEffectSetParameterProc)(AEffect*, int32 parameterIndex, float value);
+
+struct AEffect
+{
+    int32 magic;
+  AEffectDispatcherProc dispatcher;
+  AEffectProcessProc process;
+  AEffectSetParameterProc setParameter;
+  AEffectGetParameterProc getParameter;
+    int32 numPrograms;
+    int32 numParams;
+    int32 numInputs;
+    int32 numOutputs;
+    int32 flags;
+    pointer_sized_int hostSpace1;
+    pointer_sized_int hostSpace2;
+    int32 initialDelay;
+    int32 deprecated1;
+    int32 deprecated2;
+    float deprecated3;
+    void* object;
+    void* userPointer;
+    int32 uniqueID;
+    int32 version;
+  AEffectProcessProc processReplacing;
+  AEffectProcessDoubleProc processDoubleReplacing;
+    char emptySpace[56];
+};
+
+
 typedef pointer_sized_int (VSTINTERFACECALL* VstHostCallback) (VstEffectInterface*, int32 op, int32 index, pointer_sized_int value, void* ptr, float opt);
+typedef pointer_sized_int (VSTINTERFACECALL* audioMasterCallback) (AEffect*, int32 op, int32 index, pointer_sized_int value, void* ptr, float opt);
 
 enum VstEffectInterfaceFlags
 {
@@ -88,6 +137,14 @@ enum VstEffectInterfaceFlags
     vstEffectFlagDataInChunks       = 32,
     vstEffectFlagIsSynth            = 256,
     vstEffectFlagInplaceDoubleAudio = 4096
+
+    , effFlagsHasEditor = vstEffectFlagHasEditor
+    , effFlagsNoSoundInStop = 0 // FIXXME
+    , effFlagsProgramChunks = vstEffectFlagDataInChunks
+
+    , effFlagsCanReplacing = vstEffectFlagInplaceAudio
+    , effFlagsIsSynth = vstEffectFlagIsSynth
+    , effFlagsCanDoubleReplacing = vstEffectFlagInplaceDoubleAudio
 };
 
 //==============================================================================
@@ -147,6 +204,57 @@ enum VstHostToPlugInOpcodes
     pluginOpcodeGetNumMidiInputChannels,
     pluginOpcodeGetNumMidiOutputChannels,
     plugInOpcodeMaximum = pluginOpcodeGetNumMidiOutputChannels
+
+    , effOpen = plugInOpcodeOpen
+    , effClose = plugInOpcodeClose
+    , effSetProgram = plugInOpcodeSetCurrentProgram
+    , effGetProgram = plugInOpcodeGetCurrentProgram
+    , effSetProgramName = plugInOpcodeSetCurrentProgramName
+    , effGetProgramName = plugInOpcodeGetCurrentProgramName
+    , effGetParamLabel = plugInOpcodeGetParameterLabel
+    , effGetParamDisplay = plugInOpcodeGetParameterText
+    , effGetParamName = plugInOpcodeGetParameterName
+    , effSetSampleRate = plugInOpcodeSetSampleRate
+    , effSetBlockSize = plugInOpcodeSetBlockSize
+    , effMainsChanged = plugInOpcodeResumeSuspend
+    , effEditGetRect = plugInOpcodeGetEditorBounds
+    , effEditOpen = plugInOpcodeOpenEditor
+    , effEditClose = plugInOpcodeCloseEditor
+    , effIdentify = plugInOpcodeIdentify
+    , effGetChunk = plugInOpcodeGetData
+    , effSetChunk = plugInOpcodeSetData
+    , effProcessEvents = plugInOpcodePreAudioProcessingEvents
+    , effCanBeAutomated = plugInOpcodeIsParameterAutomatable
+    , effString2Parameter = plugInOpcodeParameterValueForText
+    , effGetProgramNameIndexed = plugInOpcodeGetProgramName
+    , effGetInputProperties = plugInOpcodeGetInputPinProperties
+    , effGetOutputProperties = plugInOpcodeGetOutputPinProperties
+    , effGetPlugCategory = plugInOpcodeGetPlugInCategory
+    , effSetSpeakerArrangement = plugInOpcodeSetSpeakerConfiguration
+    , effSetBypass = plugInOpcodeSetBypass
+    , effGetEffectName = plugInOpcodeGetPlugInName
+    , effGetProductString = plugInOpcodeGetManufacturerProductName
+    , effGetVendorString = plugInOpcodeGetManufacturerName
+    , effGetVendorVersion = plugInOpcodeGetManufacturerVersion
+    , effVendorSpecific = plugInOpcodeManufacturerSpecific
+    , effCanDo = plugInOpcodeCanPlugInDo
+    , effGetTailSize = plugInOpcodeGetTailSize
+    , effKeysRequired = plugInOpcodeKeyboardFocusRequired
+    , effGetVstVersion = plugInOpcodeGetVstInterfaceVersion
+    , effGetCurrentMidiProgram = plugInOpcodeGetCurrentMidiProgram
+    , effGetSpeakerArrangement = plugInOpcodeGetSpeakerArrangement
+    , effSetTotalSampleToProcess = plugInOpcodeSetNumberOfSamplesToProcess
+    , effSetProcessPrecision = plugInOpcodeSetSampleFloatType
+    , effGetNumMidiInputChannels = pluginOpcodeGetNumMidiInputChannels
+    , effGetNumMidiOutputChannels = pluginOpcodeGetNumMidiOutputChannels
+
+    , effConnectInput = plugInOpcodeConnectInput
+    , effConnectOutput = plugInOpcodeConnectOutput
+    , effEditIdle = plugInOpcodeEditorIdle
+    , effIdle = plugInOpcodeIdle
+    , effShellGetNextPlugin = plugInOpcodeNextPlugInUniqueID
+    , effStartProcess = plugInOpcodeStartProcess
+    , effStopProcess = plugInOpcodeStopProcess
 };
 
 
@@ -195,7 +303,54 @@ enum VstPlugInToHostOpcodes
     hostOpcodeGetDirectory,
     hostOpcodeUpdateView,
     hostOpcodeParameterChangeGestureBegin,
-    hostOpcodeParameterChangeGestureEnd,
+    hostOpcodeParameterChangeGestureEnd
+
+    , audioMasterProcessEvents = hostOpcodePreAudioProcessingEvents
+    , audioMasterWantMidi = hostOpcodePlugInWantsMidi
+    , audioMasterVendorSpecific = hostOpcodeManufacturerSpecific
+    , audioMasterAutomate = hostOpcodeParameterChanged
+    , audioMasterBeginEdit = hostOpcodeParameterChangeGestureBegin
+    , audioMasterEndEdit = hostOpcodeParameterChangeGestureEnd
+    , audioMasterUpdateDisplay = hostOpcodeUpdateView
+    , audioMasterIOChanged = hostOpcodeIOModified
+    , audioMasterCanDo = hostOpcodeCanHostDo
+    , audioMasterGetCurrentProcessLevel = hostOpcodeGetCurrentAudioProcessingLevel
+    , audioMasterGetTime = hostOpcodeGetTimingInfo
+    , audioMasterSizeWindow = hostOpcodeWindowSize
+    , audioMasterVersion = hostOpcodeVstVersion
+
+    , audioMasterCloseWindow = hostOpcodeCloseEditorWindow
+    , audioMasterCurrentId = hostOpcodeCurrentId
+    , audioMasterGetAutomationState = hostOpcodeGetAutomationState
+    , audioMasterGetBlockSize = hostOpcodeGetBlockSize
+    , audioMasterGetDirectory = hostOpcodeGetDirectory
+    , audioMasterGetInputLatency = hostOpcodeGetInputLatency
+    , audioMasterGetLanguage = hostOpcodeGetLanguage
+    , audioMasterGetNextPlug = hostOpcodeGetNextPlugIn
+    , audioMasterGetNumAutomatableParameters = hostOpcodeGetNumberOfAutomatableParameters
+    , audioMasterGetOutputLatency = hostOpcodeGetOutputLatency
+    , audioMasterGetOutputSpeakerArrangement = hostOpcodeGetOutputSpeakerConfiguration
+    , audioMasterGetParameterQuantization = hostOpcodeGetParameterInterval
+    , audioMasterGetPreviousPlug = hostOpcodeGetPreviousPlugIn
+    , audioMasterGetProductString = hostOpcodeGetProductName
+    , audioMasterGetSampleRate = hostOpcodeGetSampleRate
+    , audioMasterGetVendorString = hostOpcodeGetManufacturerName
+    , audioMasterGetVendorVersion = hostOpcodeGetManufacturerVersion
+    , audioMasterIdle = hostOpcodeIdle
+    , audioMasterNeedIdle = hostOpcodeNeedsIdle
+    , audioMasterOfflineGetCurrentMetaPass = hostOpcodeOfflineGetCurrentMetaPass
+    , audioMasterOfflineGetCurrentPass = hostOpcodeOfflineGetCurrentPass
+    , audioMasterOfflineRead = hostOpcodeOfflineReadSource
+    , audioMasterOfflineStart = hostOpcodeOfflineStart
+    , audioMasterOfflineWrite = hostOpcodeOfflineWrite
+    , audioMasterOpenWindow = hostOpcodeOpenEditorWindow
+    , audioMasterPinConnected = hostOpcodePinConnected
+    , audioMasterSetIcon = hostOpcodeSetIcon
+    , audioMasterSetOutputSampleRate = hostOpcodeSetOutputSampleRate
+    , audioMasterSetTime = hostOpcodeSetTime
+    , audioMasterTempoAt = hostOpcodeTempoAt
+    , audioMasterWillReplaceOrAccumulate = hostOpcodeWillReplace
+
 };
 
 //==============================================================================
@@ -203,12 +358,15 @@ enum VstProcessingSampleType
 {
     vstProcessingSampleTypeFloat,
     vstProcessingSampleTypeDouble
+
+    , kVstProcessPrecision32 = vstProcessingSampleTypeFloat
+    , kVstProcessPrecision64 = vstProcessingSampleTypeDouble
 };
 
 //==============================================================================
 // These names must be identical to the Steinberg SDK so JUCE users can set
 // exactly what they want.
-enum VstPlugInCategory
+typedef enum VstPlugInCategory
 {
     kPlugCategUnknown,
     kPlugCategEffect,
@@ -222,7 +380,7 @@ enum VstPlugInCategory
     kPlugCategOfflineProcess,
     kPlugCategShell,
     kPlugCategGenerator
-};
+} VstPlugCategory;
 
 //==============================================================================
 /** Structure used for VSTs
@@ -236,6 +394,12 @@ struct VstEditorBounds
     int16 lower;
     int16 rightmost;
 };
+struct ERect {
+    int16 top;
+    int16 left;
+    int16 bottom;
+    int16 right;
+};
 
 //==============================================================================
 enum VstMaxStringLengths
@@ -246,6 +410,11 @@ enum VstMaxStringLengths
     vstMaxCategoryLength                 = 24,
     vstMaxManufacturerStringLength       = 64,
     vstMaxPlugInNameStringLength         = 64
+
+    , kVstMaxLabelLen = vstMaxParameterOrPinLabelLength
+    , kVstMaxShortLabelLen = vstMaxParameterOrPinShortLabelLength
+    , kVstMaxProductStrLen = vstMaxPlugInNameStringLength
+    , kVstMaxVendorStrLen = vstMaxManufacturerStringLength
 };
 
 //==============================================================================
@@ -261,12 +430,24 @@ struct VstPinInfo
     char shortText[vstMaxParameterOrPinShortLabelLength];
     char unused[48];
 };
+struct VstPinProperties
+{
+    char label[vstMaxParameterOrPinLabelLength];
+    int32 flags;
+  int32 arrangementType;
+    char shortLabel[vstMaxParameterOrPinShortLabelLength];
+    char unused[48];
+};
 
 enum VstPinInfoFlags
 {
     vstPinInfoFlagIsActive = 1,
     vstPinInfoFlagIsStereo = 2,
     vstPinInfoFlagValid    = 4
+
+    , kVstPinIsActive = vstPinInfoFlagIsActive
+    , kVstPinUseSpeaker = vstPinInfoFlagValid
+    , kVstPinIsStereo = vstPinInfoFlagIsStereo
 };
 
 //==============================================================================
@@ -277,8 +458,8 @@ enum VstPinInfoFlags
 struct VstEvent
 {
     int32 type;
-    int32 size;
-    int32 sampleOffset;
+  int32 byteSize; // size;
+  int32 deltaFrames; //? sampleOffset;
     int32 flags;
     char content[16];
 };
@@ -286,16 +467,18 @@ struct VstEvent
 enum VstEventTypes
 {
     vstMidiEventType  = 1,
-    vstSysExEventType = 6
+    vstSysExEventType = 6,
+    kVstMidiType = vstMidiEventType,
+    kVstSysExType = vstSysExEventType
 };
 
 /** Structure used for VSTs
 
     @tags{Audio}
 */
-struct VstEventBlock
+struct VstEvents
 {
-    int32 numberOfEvents;
+    int32 numEvents;
     pointer_sized_int future;
     VstEvent* events[2];
 };
@@ -307,14 +490,14 @@ struct VstEventBlock
 struct VstMidiEvent
 {
     int32 type;
-    int32 size;
-    int32 sampleOffset;
+  int32 byteSize; // size;
+  int32 deltaFrames; //? sampleOffset;
     int32 flags;
-    int32 noteSampleLength;
-    int32 noteSampleOffset;
+  int32 noteLength; // noteSampleLength;
+  int32 noteOffset; // noteSampleOffset;
     char midiData[4];
-    char tuning;
-    char noteVelocityOff;
+  char detune; // tuning;
+  char noteOffVelocity; // noteVelocityOff;
     char future1;
     char future2;
 };
@@ -331,14 +514,15 @@ enum VstMidiEventFlags
 struct VstSysExEvent
 {
     int32 type;
-    int32 size;
-    int32 offsetSamples;
+  int32 byteSize; // size;
+  int32 deltaFrames; //? offsetSamples;
     int32 flags;
-    int32 sysExDumpSize;
-    pointer_sized_int future1;
-    char* sysExDump;
-    pointer_sized_int future2;
+  int32 dumpBytes; // sysExDumpSize;
+  pointer_sized_int resvd1; // future1;
+  char* sysexDump; // sysExDump;
+  pointer_sized_int resvd2; // future2;
 };
+typedef VstSysExEvent VstMidiSysexEvent;
 
 //==============================================================================
 /** Structure used for VSTs
@@ -362,6 +546,23 @@ struct VstTimingInformation
     int32 samplesToNearestClock;
     int32 flags;
 };
+struct VstTimeInfo
+{
+  double samplePos;
+    double sampleRate;
+    double systemTimeNanoseconds;
+  double ppqPos;
+  double tempo;
+    double barStartPos;
+  double cycleStartPos;
+  double cycleEndPos;
+  int32 timeSigNumerator;
+  int32 timeSigDenominator;
+    int32 smpteOffset;
+  int32 smpteFrameRate;
+    int32 samplesToNearestClock;
+    int32 flags;
+};
 
 enum VstTimingInformationFlags
 {
@@ -379,6 +580,22 @@ enum VstTimingInformationFlags
     vstTimingInfoFlagTimeSignatureValid        = 8192,
     vstTimingInfoFlagSmpteValid                = 16384,
     vstTimingInfoFlagNearestClockValid         = 32768
+
+    , kVstTransportPlaying = vstTimingInfoFlagCurrentlyPlaying
+    , kVstTransportCycleActive = vstTimingInfoFlagLoopActive
+    , kVstTransportRecording = vstTimingInfoFlagCurrentlyRecording
+    , kVstPpqPosValid = vstTimingInfoFlagMusicalPositionValid
+    , kVstTempoValid = vstTimingInfoFlagTempoValid
+    , kVstBarsValid = vstTimingInfoFlagLastBarPositionValid
+    , kVstCyclePosValid = vstTimingInfoFlagLoopPositionValid
+    , kVstTimeSigValid = vstTimingInfoFlagTimeSignatureValid
+    , kVstSmpteValid = vstTimingInfoFlagSmpteValid
+    , kVstClockValid = vstTimingInfoFlagNearestClockValid
+
+    , kVstAutomationReading = vstTimingInfoFlagAutomationReadModeActive
+    , kVstAutomationWriting = vstTimingInfoFlagAutomationWriteModeActive
+    , kVstNanosValid = vstTimingInfoFlagNanosecondsValid
+    , kVstTransportChanged = vstTimingInfoFlagTransportChanged
 };
 
 //==============================================================================
@@ -395,9 +612,22 @@ enum VstSmpteRates
     vstSmpteRate35mmFilm,
 
     vstSmpteRateFps239 = vstSmpteRate35mmFilm + 3,
-    vstSmpteRateFps249 ,
+    vstSmpteRateFps249,
     vstSmpteRateFps599,
     vstSmpteRateFps60
+
+    , kVstSmpte239fps = vstSmpteRateFps239
+    , kVstSmpte24fps = vstSmpteRateFps24
+    , kVstSmpte25fps = vstSmpteRateFps25
+    , kVstSmpte2997fps = vstSmpteRateFps2997
+    , kVstSmpte30fps = vstSmpteRateFps30
+    , kVstSmpte2997dfps = vstSmpteRateFps2997drop
+    , kVstSmpte30dfps = vstSmpteRateFps30drop
+    , kVstSmpteFilm16mm = vstSmpteRate16mmFilm
+    , kVstSmpteFilm35mm = vstSmpteRate35mmFilm
+    , kVstSmpte249fps = vstSmpteRateFps249
+    , kVstSmpte599fps = vstSmpteRateFps599
+    , kVstSmpte60fps = vstSmpteRateFps60
 };
 
 //==============================================================================
@@ -415,6 +645,7 @@ struct VstIndividualSpeakerInfo
     int32 type;
     char unused[28];
 };
+typedef VstIndividualSpeakerInfo VstSpeakerProperties;
 
 enum VstIndividualSpeakerType
 {
@@ -440,6 +671,26 @@ enum VstIndividualSpeakerType
     vstIndividualSpeakerTypeTopRearCentre,
     vstIndividualSpeakerTypeTopRearRight,
     vstIndividualSpeakerTypeLFE2
+
+    , kSpeakerL = vstIndividualSpeakerTypeLeft
+    , kSpeakerR = vstIndividualSpeakerTypeRight
+    , kSpeakerC = vstIndividualSpeakerTypeCentre
+    , kSpeakerLfe = vstIndividualSpeakerTypeLFE
+    , kSpeakerLs = vstIndividualSpeakerTypeLeftSurround
+    , kSpeakerRs = vstIndividualSpeakerTypeRightSurround
+    , kSpeakerLc = vstIndividualSpeakerTypeLeftCentre
+    , kSpeakerRc = vstIndividualSpeakerTypeRightCentre
+    , kSpeakerS = vstIndividualSpeakerTypeSurround
+    , kSpeakerSl = vstIndividualSpeakerTypeLeftRearSurround
+    , kSpeakerSr = vstIndividualSpeakerTypeRightRearSurround
+    , kSpeakerTm = vstIndividualSpeakerTypeTopMiddle
+    , kSpeakerTfl = vstIndividualSpeakerTypeTopFrontLeft
+    , kSpeakerTfc = vstIndividualSpeakerTypeTopFrontCentre
+    , kSpeakerTfr = vstIndividualSpeakerTypeTopFrontRight
+    , kSpeakerTrl = vstIndividualSpeakerTypeTopRearLeft
+    , kSpeakerTrc = vstIndividualSpeakerTypeTopRearCentre
+    , kSpeakerTrr = vstIndividualSpeakerTypeTopRearRight
+    , kSpeakerLfe2 = vstIndividualSpeakerTypeLFE2
 };
 
 /** Structure used for VSTs
@@ -449,9 +700,10 @@ enum VstIndividualSpeakerType
 struct VstSpeakerConfiguration
 {
     int32 type;
-    int32 numberOfChannels;
+  int32 numChannels; // numberOfChannels;
     VstIndividualSpeakerInfo speakers[8];
 };
+typedef VstSpeakerConfiguration VstSpeakerArrangement;
 
 enum VstSpeakerConfigurationType
 {
@@ -486,6 +738,38 @@ enum VstSpeakerConfigurationType
     vstSpeakerConfigTypeLRCLfeLsRsLcRcCs,
     vstSpeakerConfigTypeLRCLfeLsRsCsSlSr,
     vstSpeakerConfigTypeLRCLfeLsRsTflTfcTfrTrlTrrLfe2
+
+    , kSpeakerArrMono = vstSpeakerConfigTypeMono
+    , kSpeakerArrStereo = vstSpeakerConfigTypeLR
+    , kSpeakerArrStereoCLfe = vstSpeakerConfigTypeCLfe
+    , kSpeakerArrStereoCenter = vstSpeakerConfigTypeLcRc
+    , kSpeakerArrStereoSide = vstSpeakerConfigTypeSlSr
+    , kSpeakerArrStereoSurround = vstSpeakerConfigTypeLsRs
+    , kSpeakerArr30Cine = vstSpeakerConfigTypeLRC
+    , kSpeakerArr31Cine = vstSpeakerConfigTypeLRCLfe
+    , kSpeakerArr40Cine = vstSpeakerConfigTypeLRCS
+    , kSpeakerArr41Cine = vstSpeakerConfigTypeLRCLfeS
+    , kSpeakerArr60Cine = vstSpeakerConfigTypeLRCLsRsCs
+    , kSpeakerArr61Cine = vstSpeakerConfigTypeLRCLfeLsRsCs
+    , kSpeakerArr70Cine = vstSpeakerConfigTypeLRCLsRsLcRc // create7point0SDDS
+    , kSpeakerArr71Cine = vstSpeakerConfigTypeLRCLfeLsRsLcRc
+    , kSpeakerArr80Cine = vstSpeakerConfigTypeLRCLsRsLcRcCs
+    , kSpeakerArr81Cine = vstSpeakerConfigTypeLRCLfeLsRsLcRcCs
+    , kSpeakerArr30Music = vstSpeakerConfigTypeLRS
+    , kSpeakerArr31Music = vstSpeakerConfigTypeLRLfeS
+    , kSpeakerArr40Music = vstSpeakerConfigTypeLRLsRs
+    , kSpeakerArr41Music = vstSpeakerConfigTypeLRLfeLsRs
+    , kSpeakerArr60Music = vstSpeakerConfigTypeLRLsRsSlSr
+    , kSpeakerArr61Music = vstSpeakerConfigTypeLRLfeLsRsSlSr
+    , kSpeakerArr70Music = vstSpeakerConfigTypeLRCLsRsSlSr // create7point0
+    , kSpeakerArr71Music = vstSpeakerConfigTypeLRCLfeLsRsSlSr
+    , kSpeakerArr80Music = vstSpeakerConfigTypeLRCLsRsCsSlSr
+    , kSpeakerArr81Music = vstSpeakerConfigTypeLRCLfeLsRsCsSlSr
+    , kSpeakerArr50 = vstSpeakerConfigTypeLRCLsRs
+    , kSpeakerArr51 = vstSpeakerConfigTypeLRCLfeLsRs
+    , kSpeakerArr102 = vstSpeakerConfigTypeLRCLfeLsRsTflTfcTfrTrlTrrLfe2
+    , kSpeakerArrEmpty = vstSpeakerConfigTypeEmpty
+    , kSpeakerArrUserDefined = vstSpeakerConfigTypeUser
 };
 
 #if JUCE_BIG_ENDIAN

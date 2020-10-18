@@ -29,10 +29,6 @@
 
 #if JucePlugin_Build_AUv3
 
-#import <CoreAudioKit/CoreAudioKit.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import <AVFoundation/AVFoundation.h>
-
 #if JUCE_MAC
  #if (! defined MAC_OS_X_VERSION_MIN_REQUIRED) || (! defined MAC_OS_X_VERSION_10_11) || (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_11)
   #error AUv3 needs Deployment Target OS X 10.11 or higher to compile
@@ -61,8 +57,12 @@
 
 #include "../utility/juce_IncludeSystemHeaders.h"
 #include "../utility/juce_IncludeModuleHeaders.h"
-#include "../../juce_graphics/native/juce_mac_CoreGraphicsHelpers.h"
 
+#import <CoreAudioKit/CoreAudioKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
+
+#include "../../juce_graphics/native/juce_mac_CoreGraphicsHelpers.h"
 #include "../../juce_audio_basics/native/juce_mac_CoreAudioLayouts.h"
 #include "../../juce_audio_processors/format_types/juce_LegacyAudioParameter.cpp"
 #include "../../juce_audio_processors/format_types/juce_AU_Shared.h"
@@ -131,7 +131,7 @@ public:
         initialiseJuce_GUI();
     }
 
-    virtual ~JuceAudioUnitv3Base() {}
+    virtual ~JuceAudioUnitv3Base() = default;
 
     //==============================================================================
     AUAudioUnit* getAudioUnit() noexcept                                   { return au; }
@@ -441,7 +441,7 @@ public:
         init();
     }
 
-    ~JuceAudioUnitv3()
+    ~JuceAudioUnitv3() override
     {
         auto& processor = getAudioProcessor();
         processor.removeListener (this);
@@ -566,7 +566,12 @@ public:
         }
 
         juce::MemoryBlock state;
+
+       #if JUCE_AU_WRAPPERS_SAVE_PROGRAM_STATES
         getAudioProcessor().getCurrentProgramStateInformation (state);
+       #else
+        getAudioProcessor().getStateInformation (state);
+       #endif
 
         if (state.getSize() > 0)
         {
@@ -612,7 +617,13 @@ public:
                 const juce::uint8* const rawBytes = reinterpret_cast< const juce::uint8* const> ([data bytes]);
 
                 if (numBytes > 0)
+                {
+                   #if JUCE_AU_WRAPPERS_SAVE_PROGRAM_STATES
                     getAudioProcessor().setCurrentProgramStateInformation (rawBytes, numBytes);
+                   #else
+                    getAudioProcessor().setStateInformation (rawBytes, numBytes);
+                   #endif
+                }
             }
         }
 
@@ -847,6 +858,9 @@ public:
         processor.setRateAndBufferSizeDetails (sampleRate, static_cast<int> (maxFrames));
         processor.prepareToPlay (sampleRate, static_cast<int> (maxFrames));
 
+        midiMessages.ensureSize (2048);
+        midiMessages.clear();
+
         zeromem (&lastAudioHead, sizeof (lastAudioHead));
         hostMusicalContextCallback = [getAudioUnit() musicalContextBlock];
         hostTransportStateCallback = [getAudioUnit() transportStateBlock];
@@ -887,7 +901,7 @@ public:
 
             for (auto i = 0u; i < n; ++i)
             {
-                if (auto* viewConfiguration = [configs objectAtIndex:i])
+                if (auto viewConfiguration = [configs objectAtIndex: i])
                 {
                     if (editor->supportsHostMIDIControllerPresence ([viewConfiguration hostHasController] == YES))
                     {
@@ -930,10 +944,12 @@ public:
             return;
         }
 
-        if (isPositiveAndBelow (idx, juceParameters.getNumParameters()))
+        if (auto* juceParam = juceParameters.getParamForIndex (idx))
         {
             if (AUParameter* param = [paramTree.get() parameterWithAddress: getAUParameterAddressForIndex (idx)])
             {
+                newValue *= getMaximumParameterValue (juceParam);
+
                 if (editorObserverToken != nullptr)
                     [param setValue: newValue  originator: editorObserverToken];
                 else
@@ -1152,107 +1168,175 @@ private:
        #endif
     }
 
+    std::unique_ptr<AUParameter, NSObjectDeleter> createParameter (AudioProcessorParameter* parameter)
+    {
+        const String name (parameter->getName (512));
+
+        AudioUnitParameterUnit unit = kAudioUnitParameterUnit_Generic;
+        AudioUnitParameterOptions flags = (UInt32) (kAudioUnitParameterFlag_IsWritable
+                                                  | kAudioUnitParameterFlag_IsReadable
+                                                  | kAudioUnitParameterFlag_HasCFNameString
+                                                  | kAudioUnitParameterFlag_ValuesHaveStrings);
+
+       #if ! JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
+        flags |= (UInt32) kAudioUnitParameterFlag_IsHighResolution;
+       #endif
+
+        // Set whether the param is automatable (unnamed parameters aren't allowed to be automated).
+        if (name.isEmpty() || ! parameter->isAutomatable())
+            flags |= kAudioUnitParameterFlag_NonRealTime;
+
+        const bool isParameterDiscrete = parameter->isDiscrete();
+
+        if (! isParameterDiscrete)
+            flags |= kAudioUnitParameterFlag_CanRamp;
+
+        if (parameter->isMetaParameter())
+            flags |= kAudioUnitParameterFlag_IsGlobalMeta;
+
+        std::unique_ptr<NSMutableArray, NSObjectDeleter> valueStrings;
+
+        // Is this a meter?
+        if (((parameter->getCategory() & 0xffff0000) >> 16) == 2)
+        {
+            flags &= ~kAudioUnitParameterFlag_IsWritable;
+            flags |= kAudioUnitParameterFlag_MeterReadOnly | kAudioUnitParameterFlag_DisplayLogarithmic;
+            unit = kAudioUnitParameterUnit_LinearGain;
+        }
+        else
+        {
+           #if ! JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
+            if (parameter->isDiscrete())
+            {
+                unit = parameter->isBoolean() ? kAudioUnitParameterUnit_Boolean : kAudioUnitParameterUnit_Indexed;
+                auto maxValue = getMaximumParameterValue (parameter);
+                auto numSteps = parameter->getNumSteps();
+
+                // Some hosts can't handle the huge numbers of discrete parameter values created when
+                // using the default number of steps.
+                jassert (numSteps != AudioProcessor::getDefaultNumParameterSteps());
+
+                valueStrings.reset ([NSMutableArray new]);
+
+                for (int i = 0; i < numSteps; ++i)
+                    [valueStrings.get() addObject: juceStringToNS (parameter->getText ((float) i / maxValue, 0))];
+            }
+           #endif
+        }
+
+        AUParameterAddress address = generateAUParameterAddress (parameter);
+
+       #if ! JUCE_FORCE_USE_LEGACY_PARAM_IDS
+        // If you hit this assertion then you have either put a parameter in two groups or you are
+        // very unlucky and the hash codes of your parameter ids are not unique.
+        jassert (! paramMap.contains (static_cast<int64> (address)));
+
+        paramAddresses.add (address);
+        paramMap.set (static_cast<int64> (address), parameter->getParameterIndex());
+       #endif
+
+        auto getParameterIdentifier = [parameter]
+        {
+            if (auto* paramWithID = dynamic_cast<AudioProcessorParameterWithID*> (parameter))
+                return paramWithID->paramID;
+
+            // This could clash if any groups have been given integer IDs!
+            return String (parameter->getParameterIndex());
+        };
+
+        std::unique_ptr<AUParameter, NSObjectDeleter> param;
+
+        @try
+        {
+            // Create methods in AUParameterTree return unretained objects (!) -> see Apple header AUAudioUnitImplementation.h
+            param.reset([[AUParameterTree createParameterWithIdentifier: juceStringToNS (getParameterIdentifier())
+                                                                   name: juceStringToNS (name)
+                                                                address: address
+                                                                    min: 0.0f
+                                                                    max: getMaximumParameterValue (parameter)
+                                                                   unit: unit
+                                                               unitName: nullptr
+                                                                  flags: flags
+                                                           valueStrings: valueStrings.get()
+                                                    dependentParameters: nullptr]
+                         retain]);
+        }
+
+        @catch (NSException* exception)
+        {
+            // Do you have duplicate identifiers in any of your groups or parameters,
+            // or do your identifiers have unusual characters in them?
+            jassertfalse;
+        }
+
+        [param.get() setValue: parameter->getDefaultValue()];
+
+        [overviewParams.get() addObject: [NSNumber numberWithUnsignedLongLong: address]];
+
+        return param;
+    }
+
+    std::unique_ptr<AUParameterGroup, NSObjectDeleter> createParameterGroup (AudioProcessorParameterGroup* group)
+    {
+        std::unique_ptr<NSMutableArray<AUParameterNode*>, NSObjectDeleter> children ([NSMutableArray<AUParameterNode*> new]);
+
+        for (auto* node : *group)
+        {
+            if (auto* childGroup = node->getGroup())
+                [children.get() addObject: createParameterGroup (childGroup).get()];
+            else
+                [children.get() addObject: createParameter (node->getParameter()).get()];
+        }
+
+        std::unique_ptr<AUParameterGroup, NSObjectDeleter> result;
+
+        @try
+        {
+            // Create methods in AUParameterTree return unretained objects (!) -> see Apple header AUAudioUnitImplementation.h
+            result.reset ([[AUParameterTree createGroupWithIdentifier: juceStringToNS (group->getID())
+                                                                 name: juceStringToNS (group->getName())
+                                                             children: children.get()]
+                           retain]);
+        }
+
+        @catch (NSException* exception)
+        {
+            // Do you have duplicate identifiers in any of your groups or parameters,
+            // or do your identifiers have unusual characters in them?
+            jassertfalse;
+        }
+
+        return result;
+    }
+
     void addParameters()
     {
-        std::unique_ptr<NSMutableArray<AUParameterNode*>, NSObjectDeleter> params ([[NSMutableArray<AUParameterNode*> alloc] init]);
-
-        overviewParams.reset ([[NSMutableArray<NSNumber*> alloc] init]);
-
         auto& processor = getAudioProcessor();
         juceParameters.update (processor, forceLegacyParamIDs);
 
-        const int n = juceParameters.getNumParameters();
+        // This is updated when we build the tree.
+        overviewParams.reset ([NSMutableArray<NSNumber*> new]);
 
-        for (int idx = 0; idx < n; ++idx)
-        {
-            auto* juceParam = juceParameters.getParamForIndex (idx);
+        std::unique_ptr<NSMutableArray<AUParameterNode*>, NSObjectDeleter> topLevelNodes ([NSMutableArray<AUParameterNode*> new]);
 
-            const String identifier (idx);
-            const String name = juceParam->getName (512);
-
-            AudioUnitParameterUnit unit = kAudioUnitParameterUnit_Generic;
-            AudioUnitParameterOptions flags = (UInt32) (kAudioUnitParameterFlag_IsWritable
-                                                      | kAudioUnitParameterFlag_IsReadable
-                                                      | kAudioUnitParameterFlag_HasCFNameString
-                                                      | kAudioUnitParameterFlag_ValuesHaveStrings);
-
-            if (! forceLegacyParamIDs)
-                flags |= (UInt32) kAudioUnitParameterFlag_IsHighResolution;
-
-            // set whether the param is automatable (unnamed parameters aren't allowed to be automated)
-            if (name.isEmpty() || ! juceParam->isAutomatable())
-                flags |= kAudioUnitParameterFlag_NonRealTime;
-
-            const bool isParameterDiscrete = juceParam->isDiscrete();
-
-            if (! isParameterDiscrete)
-                flags |= kAudioUnitParameterFlag_CanRamp;
-
-            if (juceParam->isMetaParameter())
-                flags |= kAudioUnitParameterFlag_IsGlobalMeta;
-
-            std::unique_ptr<NSMutableArray, NSObjectDeleter> valueStrings;
-
-            // is this a meter?
-            if (((juceParam->getCategory() & 0xffff0000) >> 16) == 2)
-            {
-                flags &= ~kAudioUnitParameterFlag_IsWritable;
-                flags |= kAudioUnitParameterFlag_MeterReadOnly | kAudioUnitParameterFlag_DisplayLogarithmic;
-                unit = kAudioUnitParameterUnit_LinearGain;
-            }
+        for (auto* node : processor.getParameterTree())
+            if (auto* childGroup = node->getGroup())
+                [topLevelNodes.get() addObject: createParameterGroup (childGroup).get()];
             else
-            {
-                if (! forceLegacyParamIDs)
-                {
-                    if (juceParam->isDiscrete())
-                    {
-                        unit = juceParam->isBoolean() ? kAudioUnitParameterUnit_Boolean : kAudioUnitParameterUnit_Indexed;
-                        auto maxValue = getMaximumParameterValue (juceParam);
-                        auto numSteps = juceParam->getNumSteps();
+                [topLevelNodes.get() addObject: createParameter (node->getParameter()).get()];
 
-                        // Some hosts can't handle the huge numbers of discrete parameter values created when
-                        // using the default number of steps.
-                        jassert (numSteps != AudioProcessor::getDefaultNumParameterSteps());
-
-                        valueStrings.reset ([NSMutableArray new]);
-
-                        for (int i = 0; i < numSteps; ++i)
-                            [valueStrings.get() addObject: juceStringToNS (juceParam->getText ((float) i / maxValue, 0))];
-                    }
-                }
-            }
-
-            AUParameterAddress address = generateAUParameterAddress (juceParam);
-
-           #if ! JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
-            // Consider yourself very unlucky if you hit this assertion. The hash codes of your
-            // parameter ids are not unique.
-            jassert (! paramMap.contains (static_cast<int64> (address)));
-
-            paramAddresses.add (address);
-            paramMap.set (static_cast<int64> (address), idx);
-           #endif
-
-            // create methods in AUParameterTree return unretained objects (!) -> see Apple header AUAudioUnitImplementation.h
-            std::unique_ptr<AUParameter, NSObjectDeleter> param ([[AUParameterTree createParameterWithIdentifier: juceStringToNS (identifier)
-                                                                                                            name: juceStringToNS (name)
-                                                                                                         address: address
-                                                                                                             min: 0.0f
-                                                                                                             max: getMaximumParameterValue (juceParam)
-                                                                                                            unit: unit
-                                                                                                        unitName: nullptr
-                                                                                                           flags: flags
-                                                                                                    valueStrings: valueStrings.get()
-                                                                                             dependentParameters: nullptr] retain]);
-
-            [param.get() setValue: juceParam->getDefaultValue()];
-
-            [params.get() addObject: param.get()];
-            [overviewParams.get() addObject: [NSNumber numberWithUnsignedLongLong:address]];
+        @try
+        {
+            // Create methods in AUParameterTree return unretained objects (!) -> see Apple header AUAudioUnitImplementation.h
+            paramTree.reset ([[AUParameterTree createTreeWithChildren: topLevelNodes.get()] retain]);
         }
 
-        // create methods in AUParameterTree return unretained objects (!) -> see Apple header AUAudioUnitImplementation.h
-        paramTree.reset ([[AUParameterTree createTreeWithChildren: params.get()] retain]);
+        @catch (NSException* exception)
+        {
+            // Do you have duplicate identifiers in any of your groups or parameters,
+            // or do your identifiers have unusual characters in them?
+            jassertfalse;
+        }
 
         paramObserver           = CreateObjCBlock (this, &JuceAudioUnitv3::valueChangedFromHost);
         paramProvider           = CreateObjCBlock (this, &JuceAudioUnitv3::getValue);
@@ -1449,20 +1533,22 @@ private:
 
             // send MIDI
            #if JucePlugin_ProducesMidiOutput && JUCE_AUV3_MIDI_OUTPUT_SUPPORTED
-            auto midiOut = [au MIDIOutputEventBlock];
-            MidiMessage msg;
-            int samplePosition;
+            if (auto midiOut = [au MIDIOutputEventBlock])
+            {
+                MidiMessage msg;
+                int samplePosition;
 
-            for (MidiBuffer::Iterator it (midiMessages); it.getNextEvent (msg, samplePosition);)
-                midiOut (samplePosition, 0, msg.getRawDataSize(), msg.getRawData());
+                for (MidiBuffer::Iterator it (midiMessages); it.getNextEvent (msg, samplePosition);)
+                    midiOut (samplePosition, 0, msg.getRawDataSize(), msg.getRawData());
+            }
            #endif
 
             midiMessages.clear();
-        }
 
-        // copy back
-        audioBuffer.pop (*outBusBuffers[(int) outputBusNumber]->get(),
-                         mapper.get (false, (int) outputBusNumber));
+            // copy back
+            audioBuffer.pop (*outBusBuffers[(int) outputBusNumber]->get(),
+                             mapper.get (false, (int) outputBusNumber));
+        }
 
         return noErr;
     }
@@ -1577,13 +1663,8 @@ private:
     {
         const String& juceParamID = LegacyAudioParameter::getParamID (param, forceLegacyParamIDs);
 
-       #if JUCE_FORCE_USE_LEGACY_PARAM_IDS
-        auto result = juceParamID.getIntValue();
-       #else
-        auto result = juceParamID.hashCode64();
-       #endif
-
-        return static_cast<AUParameterAddress> (result);
+        return static_cast<AUParameterAddress> (forceLegacyParamIDs ? juceParamID.getIntValue()
+                                                                    : juceParamID.hashCode64());
     }
 
     AudioProcessorParameter* getJuceParameterForAUAddress (AUParameterAddress address) const noexcept
@@ -1654,6 +1735,17 @@ JuceAudioUnitv3Base* JuceAudioUnitv3Base::create (AUAudioUnit* audioUnit, AudioC
     return new JuceAudioUnitv3 (audioUnit, descr, options, error);
 }
 
+#if JUCE_IOS
+namespace juce
+{
+struct UIViewPeerControllerReceiver
+{
+    virtual ~UIViewPeerControllerReceiver();
+    virtual void setViewController (UIViewController*) = 0;
+};
+}
+#endif
+
 //==============================================================================
 class JuceAUViewController
 {
@@ -1661,15 +1753,13 @@ public:
     JuceAUViewController (AUViewController<AUAudioUnitFactory>* p)
         : myself (p)
     {
-        jassert (MessageManager::getInstance()->isThisTheMessageThread());
-
         PluginHostType::jucePlugInClientCurrentWrapperType = AudioProcessor::wrapperType_AudioUnitv3;
         initialiseJuce_GUI();
     }
 
     ~JuceAUViewController()
     {
-        jassert (MessageManager::getInstance()->isThisTheMessageThread());
+        JUCE_ASSERT_MESSAGE_THREAD
 
         if (processorHolder != nullptr)
             JuceAudioUnitv3::removeEditor (getAudioProcessor());
@@ -1678,7 +1768,7 @@ public:
     //==============================================================================
     void loadView()
     {
-        jassert (MessageManager::getInstance()->isThisTheMessageThread());
+        JUCE_ASSERT_MESSAGE_THREAD
 
         if (AudioProcessor* p = createPluginFilterOfType (AudioProcessor::wrapperType_AudioUnitv3))
         {
@@ -1705,6 +1795,9 @@ public:
                    #if JUCE_IOS
                     if (JUCE_IOS_MAC_VIEW* peerView = [[[myself view] subviews] objectAtIndex: 0])
                         [peerView setContentMode: UIViewContentModeTop];
+
+                    if (auto* peer = dynamic_cast<UIViewPeerControllerReceiver*> (editor->getPeer()))
+                        peer->setViewController (myself);
                    #endif
                 }
             }
@@ -1812,7 +1905,7 @@ private:
     //==============================================================================
     AUAudioUnit* createAudioUnitOnMessageThread (const AudioComponentDescription& descr, NSError** error)
     {
-        jassert (MessageManager::getInstance()->isThisTheMessageThread());
+        JUCE_ASSERT_MESSAGE_THREAD
 
         [myself view];  // this will call [view load] and ensure that the AudioProcessor has been instantiated
 

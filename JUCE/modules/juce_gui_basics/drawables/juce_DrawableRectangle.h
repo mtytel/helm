@@ -45,7 +45,7 @@ public:
     DrawableRectangle (const DrawableRectangle&);
 
     /** Destructor. */
-    ~DrawableRectangle();
+    ~DrawableRectangle() override;
 
     //==============================================================================
     /** Sets the rectangle's bounds. */
@@ -62,7 +62,7 @@ public:
 
     //==============================================================================
     /** @internal */
-    Drawable* createCopy() const;
+    std::unique_ptr<Drawable> createCopy() const override;
 
 private:
     Parallelogram<float> bounds;

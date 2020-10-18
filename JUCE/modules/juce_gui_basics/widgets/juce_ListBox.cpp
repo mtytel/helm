@@ -352,7 +352,7 @@ struct ListBoxMouseMoveSelector  : public MouseListener
         owner.addMouseListener (this, true);
     }
 
-    ~ListBoxMouseMoveSelector()
+    ~ListBoxMouseMoveSelector() override
     {
         owner.removeMouseListener (this);
     }
@@ -723,7 +723,7 @@ bool ListBox::keyPressed (const KeyPress& key)
         if (multiple)
             selectRangeOfRows (lastRowSelected, lastRowSelected + 1);
         else
-            selectRow (jmin (totalItems - 1, jmax (0, lastRowSelected) + 1));
+            selectRow (jmin (totalItems - 1, jmax (0, lastRowSelected + 1)));
     }
     else if (key.isKeyCode (KeyPress::pageUpKey))
     {
@@ -893,7 +893,8 @@ Image ListBox::createSnapshotOfRows (const SparseSet<int>& rows, int& imageX, in
     imageX = imageArea.getX();
     imageY = imageArea.getY();
 
-    Image snapshot (Image::ARGB, imageArea.getWidth(), imageArea.getHeight(), true);
+    auto listScale = Component::getApproximateScaleFactorForComponent (this);
+    Image snapshot (Image::ARGB, roundToInt (imageArea.getWidth() * listScale), roundToInt (imageArea.getHeight() * listScale), true);
 
     for (int i = getNumRowsOnScreen() + 2; --i >= 0;)
     {
@@ -904,9 +905,12 @@ Image ListBox::createSnapshotOfRows (const SparseSet<int>& rows, int& imageX, in
                 Graphics g (snapshot);
                 g.setOrigin (getLocalPoint (rowComp, Point<int>()) - imageArea.getPosition());
 
-                if (g.reduceClipRegion (rowComp->getLocalBounds()))
+                auto rowScale = Component::getApproximateScaleFactorForComponent (rowComp);
+
+                if (g.reduceClipRegion (rowComp->getLocalBounds() * rowScale))
                 {
                     g.beginTransparencyLayer (0.6f);
+                    g.addTransform (AffineTransform::scale (rowScale));
                     rowComp->paintEntireComponent (g, false);
                     g.endTransparencyLayer();
                 }

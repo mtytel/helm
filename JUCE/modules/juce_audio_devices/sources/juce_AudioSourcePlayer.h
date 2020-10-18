@@ -45,7 +45,7 @@ public:
         Make sure this object isn't still being used by an AudioIODevice before
         deleting it!
     */
-    virtual ~AudioSourcePlayer();
+    ~AudioSourcePlayer() override;
 
     //==============================================================================
     /** Changes the current audio source to play from.
@@ -105,7 +105,8 @@ private:
     float* outputChans[128];
     const float* inputChans[128];
     AudioBuffer<float> tempBuffer;
-    float lastGain = 1.0f, gain = 1.0f;
+    float lastGain = 1.0f;
+    std::atomic<float> gain { 1.0f };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioSourcePlayer)
 };

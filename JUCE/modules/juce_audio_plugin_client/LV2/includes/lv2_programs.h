@@ -24,7 +24,7 @@
 #define LV2_PROGRAMS_H
 
 #include "lv2.h"
-#include "ui.h"
+#include "lv2/lv2plug.in/ns/extensions/ui/ui.h"
 
 #define LV2_PROGRAMS_URI    "http://kxstudio.sf.net/ns/lv2ext/programs"
 #define LV2_PROGRAMS_PREFIX LV2_PROGRAMS_URI "#"

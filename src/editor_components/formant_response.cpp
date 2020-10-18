@@ -73,7 +73,7 @@ void FormantResponse::paint(Graphics& g) {
 }
 
 void FormantResponse::resized() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_);
@@ -87,7 +87,7 @@ void FormantResponse::resized() {
 void FormantResponse::mouseMove(const MouseEvent& e) {
   if (cutoff_sliders_.empty())
     return;
-  
+
   double percent = mopo::utils::clamp((1.0 * e.getPosition().x) / getWidth(), 0.0, 1.0);
   midi_ = cutoff_sliders_[0]->proportionOfLengthToValue(percent);
   frequency_ = mopo::utils::midiNoteToFrequency(midi_);

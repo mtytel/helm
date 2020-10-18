@@ -38,14 +38,14 @@ public:
         popoverDelegate.reset ([cls.createInstance() init]);
     }
 
-    ~ContentSharerNativeImpl()
+    ~ContentSharerNativeImpl() override
     {
         exitModalState (0);
     }
 
     void shareFiles (const Array<URL>& files) override
     {
-        auto* urls = [NSMutableArray arrayWithCapacity: (NSUInteger) files.size()];
+        auto urls = [NSMutableArray arrayWithCapacity: (NSUInteger) files.size()];
 
         for (const auto& f : files)
         {
@@ -86,7 +86,7 @@ public:
 
     void shareText (const String& text) override
     {
-        auto* array = [NSArray arrayWithObject: juceStringToNS (text)];
+        auto array = [NSArray arrayWithObject: juceStringToNS (text)];
         share (array);
     }
 
@@ -164,9 +164,6 @@ private:
 
             if (auto* parentController = peer->controller)
                 [parentController showViewController: controller.get() sender: parentController];
-
-            if (peer->view.window != nil)
-                peer->view.window.autoresizesSubviews = YES;
         }
     }
 

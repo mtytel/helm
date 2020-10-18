@@ -79,13 +79,7 @@ namespace juce
 */
 class JUCE_API  PopupMenu
 {
-private:
-    class Window;
-
 public:
-    class CustomComponent;
-    class CustomCallback;
-
     //==============================================================================
     /** Creates an empty popup menu. */
     PopupMenu();
@@ -106,6 +100,10 @@ public:
     PopupMenu& operator= (PopupMenu&&) noexcept;
 
     //==============================================================================
+    class CustomComponent;
+    class CustomCallback;
+
+    //==============================================================================
     /** Resets the menu, removing all its items. */
     void clear();
 
@@ -116,19 +114,31 @@ public:
             You'll need to set some fields after creating an Item before you
             can add it to a PopupMenu
         */
-        Item() noexcept;
+        Item();
 
-        /** Creates a copy of an item. */
+        /** Creates an item with the given text.
+            This constructor also initialises the itemID to -1, which makes it suitable for
+            creating lambda-based item actions.
+        */
+        Item (String text);
+
         Item (const Item&);
-
-        /** Creates a copy of an item. */
         Item& operator= (const Item&);
+        Item (Item&&);
+        Item& operator= (Item&&);
 
         /** The menu item's name. */
         String text;
 
-        /** The menu item's ID. This must not be 0 if you want the item to be triggerable! */
+        /** The menu item's ID.
+            This must not be 0 if you want the item to be triggerable, but if you're attaching
+            an action callback to the item, you can set the itemID to -1 to indicate that it
+            isn't actively needed.
+        */
         int itemID = 0;
+
+        /** An optional function which should be invoked when this menu item is triggered. */
+        std::function<void()> action;
 
         /** A sub-menu, or nullptr if there isn't one. */
         std::unique_ptr<PopupMenu> subMenu;
@@ -169,13 +179,53 @@ public:
 
         /** True if this menu item is a section header. */
         bool isSectionHeader = false;
+
+        /** Sets the isTicked flag (and returns a reference to this item to allow chaining). */
+        Item& setTicked (bool shouldBeTicked = true) & noexcept;
+        /** Sets the isEnabled flag (and returns a reference to this item to allow chaining). */
+        Item& setEnabled (bool shouldBeEnabled) & noexcept;
+        /** Sets the action property (and returns a reference to this item to allow chaining). */
+        Item& setAction (std::function<void()> action) & noexcept;
+        /** Sets the itemID property (and returns a reference to this item to allow chaining). */
+        Item& setID (int newID) & noexcept;
+        /** Sets the colour property (and returns a reference to this item to allow chaining). */
+        Item& setColour (Colour) & noexcept;
+        /** Sets the customComponent property (and returns a reference to this item to allow chaining). */
+        Item& setCustomComponent (ReferenceCountedObjectPtr<CustomComponent> customComponent) & noexcept;
+        /** Sets the image property (and returns a reference to this item to allow chaining). */
+        Item& setImage (std::unique_ptr<Drawable>) & noexcept;
+
+        /** Sets the isTicked flag (and returns a reference to this item to allow chaining). */
+        Item&& setTicked (bool shouldBeTicked = true) && noexcept;
+        /** Sets the isEnabled flag (and returns a reference to this item to allow chaining). */
+        Item&& setEnabled (bool shouldBeEnabled) && noexcept;
+        /** Sets the action property (and returns a reference to this item to allow chaining). */
+        Item&& setAction (std::function<void()> action) && noexcept;
+        /** Sets the itemID property (and returns a reference to this item to allow chaining). */
+        Item&& setID (int newID) && noexcept;
+        /** Sets the colour property (and returns a reference to this item to allow chaining). */
+        Item&& setColour (Colour) && noexcept;
+        /** Sets the customComponent property (and returns a reference to this item to allow chaining). */
+        Item&& setCustomComponent (ReferenceCountedObjectPtr<CustomComponent> customComponent) && noexcept;
+        /** Sets the image property (and returns a reference to this item to allow chaining). */
+        Item&& setImage (std::unique_ptr<Drawable>) && noexcept;
     };
 
     /** Adds an item to the menu.
         You can call this method for full control over the item that is added, or use the other
         addItem helper methods if you want to pass arguments rather than creating an Item object.
     */
-    void addItem (const Item& newItem);
+    void addItem (Item newItem);
+
+    /** Adds an item to the menu with an action callback. */
+    void addItem (String itemText,
+                  std::function<void()> action);
+
+    /** Adds an item to the menu with an action callback. */
+    void addItem (String itemText,
+                  bool isEnabled,
+                  bool isTicked,
+                  std::function<void()> action);
 
     /** Appends a new text item for this menu to show.
 
@@ -190,7 +240,7 @@ public:
         @see addSeparator, addColouredItem, addCustomItem, addSubMenu
     */
     void addItem (int itemResultID,
-                  const String& itemText,
+                  String itemText,
                   bool isEnabled = true,
                   bool isTicked = false);
 
@@ -208,7 +258,7 @@ public:
         @see addSeparator, addColouredItem, addCustomItem, addSubMenu
     */
     void addItem (int itemResultID,
-                  const String& itemText,
+                  String itemText,
                   bool isEnabled,
                   bool isTicked,
                   const Image& iconToUse);
@@ -228,10 +278,10 @@ public:
         @see addSeparator, addColouredItem, addCustomItem, addSubMenu
     */
     void addItem (int itemResultID,
-                  const String& itemText,
+                  String itemText,
                   bool isEnabled,
                   bool isTicked,
-                  Drawable* iconToUse);
+                  std::unique_ptr<Drawable> iconToUse);
 
     /** Adds an item that represents one of the commands in a command manager object.
 
@@ -246,8 +296,8 @@ public:
     */
     void addCommandItem (ApplicationCommandManager* commandManager,
                          CommandID commandID,
-                         const String& displayName = String(),
-                         Drawable* iconToUse = nullptr);
+                         String displayName = {},
+                         std::unique_ptr<Drawable> iconToUse = {});
 
     /** Appends a text item with a special colour.
 
@@ -256,11 +306,11 @@ public:
         current look-and-feel. See addItem() for a description of the parameters.
     */
     void addColouredItem (int itemResultID,
-                          const String& itemText,
+                          String itemText,
                           Colour itemTextColour,
                           bool isEnabled = true,
                           bool isTicked = false,
-                          const Image& iconToUse = Image());
+                          const Image& iconToUse = {});
 
     /** Appends a text item with a special colour.
 
@@ -269,30 +319,29 @@ public:
         current look-and-feel. See addItem() for a description of the parameters.
     */
     void addColouredItem (int itemResultID,
-                          const String& itemText,
+                          String itemText,
                           Colour itemTextColour,
                           bool isEnabled,
                           bool isTicked,
-                          Drawable* iconToUse);
+                          std::unique_ptr<Drawable> iconToUse);
 
     /** Appends a custom menu item.
 
-        This will add a user-defined component to use as a menu item. The component
-        passed in will be deleted by this menu when it's no longer needed.
+        This will add a user-defined component to use as a menu item.
 
         Note that native macOS menus do not support custom components.
 
         @see CustomComponent
     */
     void addCustomItem (int itemResultID,
-                        CustomComponent* customComponent,
-                        const PopupMenu* optionalSubMenu = nullptr);
+                        std::unique_ptr<CustomComponent> customComponent,
+                        std::unique_ptr<const PopupMenu> optionalSubMenu = nullptr);
 
     /** Appends a custom menu item that can't be used to trigger a result.
 
         This will add a user-defined component to use as a menu item.
-        It's the caller's responsibility to delete the component that is passed-in
-        when it's no longer needed after the menu has been hidden.
+        The caller must ensure that the passed-in component stays alive
+        until after the menu has been hidden.
 
         If triggerMenuItemAutomaticallyWhenClicked is true, the menu itself will handle
         detection of a mouse-click on your component, and use that to trigger the
@@ -302,11 +351,11 @@ public:
         Note that native macOS menus do support custom components.
     */
     void addCustomItem (int itemResultID,
-                        Component* customComponent,
+                        Component& customComponent,
                         int idealWidth,
                         int idealHeight,
                         bool triggerMenuItemAutomaticallyWhenClicked,
-                        const PopupMenu* optionalSubMenu = nullptr);
+                        std::unique_ptr<const PopupMenu> optionalSubMenu = nullptr);
 
     /** Appends a sub-menu.
 
@@ -314,8 +363,8 @@ public:
         If the itemResultID argument is non-zero, then the sub-menu item itself can be
         clicked to trigger it as a command.
     */
-    void addSubMenu (const String& subMenuName,
-                     const PopupMenu& subMenu,
+    void addSubMenu (String subMenuName,
+                     PopupMenu subMenu,
                      bool isEnabled = true);
 
     /** Appends a sub-menu with an icon.
@@ -324,8 +373,8 @@ public:
         If the itemResultID argument is non-zero, then the sub-menu item itself can be
         clicked to trigger it as a command.
     */
-    void addSubMenu (const String& subMenuName,
-                     const PopupMenu& subMenu,
+    void addSubMenu (String subMenuName,
+                     PopupMenu subMenu,
                      bool isEnabled,
                      const Image& iconToUse,
                      bool isTicked = false,
@@ -341,16 +390,16 @@ public:
         the item. The menu will take ownership of this drawable object and will delete it
         later when no longer needed
     */
-    void addSubMenu (const String& subMenuName,
-                     const PopupMenu& subMenu,
+    void addSubMenu (String subMenuName,
+                     PopupMenu subMenu,
                      bool isEnabled,
-                     Drawable* iconToUse,
+                     std::unique_ptr<Drawable> iconToUse,
                      bool isTicked = false,
                      int itemResultID = 0);
 
     /** Appends a separator to the menu, to help break it up into sections.
         The menu class is smart enough not to display separators at the top or bottom
-        of the menu, and it will replace mutliple adjacent separators with a single
+        of the menu, and it will replace multiple adjacent separators with a single
         one, so your code can be quite free and easy about adding these, and it'll
         always look ok.
     */
@@ -360,7 +409,7 @@ public:
         This is a bold-font items which can be used as a header to separate the items
         into named groups.
     */
-    void addSectionHeader (const String& title);
+    void addSectionHeader (String title);
 
     /** Returns the number of items that the menu currently contains.
         (This doesn't count separators).
@@ -399,19 +448,22 @@ public:
         };
 
         //==============================================================================
-        Options withTargetComponent (Component* targetComponent) const noexcept;
-        Options withTargetScreenArea (Rectangle<int> targetArea) const noexcept;
-        Options withMinimumWidth (int minWidth) const noexcept;
-        Options withMinimumNumColumns (int minNumColumns) const noexcept;
-        Options withMaximumNumColumns (int maxNumColumns) const noexcept;
-        Options withStandardItemHeight (int standardHeight) const noexcept;
-        Options withItemThatMustBeVisible (int idOfItemToBeVisible) const noexcept;
-        Options withParentComponent (Component* parentComponent) const noexcept;
-        Options withPreferredPopupDirection (PopupDirection direction) const noexcept;
+        Options withTargetComponent (Component* targetComponent) const;
+        Options withTargetComponent (Component& targetComponent) const;
+        Options withTargetScreenArea (Rectangle<int> targetArea) const;
+        Options withDeletionCheck (Component& componentToWatchForDeletion) const;
+        Options withMinimumWidth (int minWidth) const;
+        Options withMinimumNumColumns (int minNumColumns) const;
+        Options withMaximumNumColumns (int maxNumColumns) const;
+        Options withStandardItemHeight (int standardHeight) const;
+        Options withItemThatMustBeVisible (int idOfItemToBeVisible) const;
+        Options withParentComponent (Component* parentComponent) const;
+        Options withPreferredPopupDirection (PopupDirection direction) const;
 
         //==============================================================================
         Component* getParentComponent() const noexcept               { return parentComponent; }
         Component* getTargetComponent() const noexcept               { return targetComponent; }
+        bool hasWatchedComponentBeenDeleted() const noexcept         { return isWatchingForDeletion && componentToWatchForDeletion == nullptr; }
         Rectangle<int> getTargetScreenArea() const noexcept          { return targetArea; }
         int getMinimumWidth() const noexcept                         { return minWidth; }
         int getMaximumNumColumns() const noexcept                    { return maxColumns; }
@@ -425,7 +477,9 @@ public:
         Rectangle<int> targetArea;
         Component* targetComponent = nullptr;
         Component* parentComponent = nullptr;
+        WeakReference<Component> componentToWatchForDeletion;
         int visibleItemID = 0, minWidth = 0, minColumns = 1, maxColumns = 0, standardHeight = 0;
+        bool isWatchingForDeletion = false;
         PopupDirection preferredPopupDirection = PopupDirection::downwards;
     };
 
@@ -508,6 +562,9 @@ public:
     */
     int showMenu (const Options& options);
    #endif
+
+    /** Runs the menu asynchronously. */
+    void showMenuAsync (const Options& options);
 
     /** Runs the menu asynchronously, with a user-provided callback that will receive the result. */
     void showMenuAsync (const Options& options,
@@ -594,7 +651,7 @@ public:
         /** Returns a reference to the description of the current item.
             It is only valid to call this after next() has returned true!
         */
-        Item& getItem() const noexcept;
+        Item& getItem() const;
 
     private:
         //==============================================================================
@@ -624,7 +681,7 @@ public:
         CustomComponent (bool isTriggeredAutomatically = true);
 
         /** Destructor. */
-        ~CustomComponent();
+        ~CustomComponent() override;
 
         /** Returns a rectangle with the size that this component would like to have.
 
@@ -646,6 +703,13 @@ public:
         */
         bool isItemHighlighted() const noexcept                 { return isHighlighted; }
 
+        /** Returns a pointer to the Item that holds this custom component, if this
+            component is currently held by an Item.
+            You can query the Item for information that you might want to use
+            in your paint() method, such as the item's enabled and ticked states.
+        */
+        const PopupMenu::Item* getItem() const noexcept         { return item; }
+
         /** @internal */
         bool isTriggeredAutomatically() const noexcept          { return triggeredAutomatically; }
         /** @internal */
@@ -654,6 +718,9 @@ public:
     private:
         //==============================================================================
         bool isHighlighted = false, triggeredAutomatically;
+        const PopupMenu::Item* item = nullptr;
+
+        friend PopupMenu;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomComponent)
     };
@@ -666,7 +733,7 @@ public:
     {
     public:
         CustomCallback();
-        ~CustomCallback();
+        ~CustomCallback() override;
 
         /** Callback to indicate this item has been triggered.
             @returns true if the itemID should be sent to the exitModalState method, or
@@ -684,7 +751,7 @@ public:
     */
     struct JUCE_API  LookAndFeelMethods
     {
-        virtual ~LookAndFeelMethods() {}
+        virtual ~LookAndFeelMethods() = default;
 
         /** Fills the background of a popup menu component. */
         virtual void drawPopupMenuBackground (Graphics&, int width, int height) = 0;
@@ -749,14 +816,17 @@ public:
 private:
     //==============================================================================
     JUCE_PUBLIC_IN_DLL_BUILD (struct HelperClasses)
+    class Window;
     friend struct HelperClasses;
     friend class MenuBarComponent;
 
-    OwnedArray<Item> items;
+    std::vector<Item> items;
     WeakReference<LookAndFeel> lookAndFeel;
 
     Component* createWindow (const Options&, ApplicationCommandManager**) const;
     int showWithOptionalCallback (const Options&, ModalComponentManager::Callback*, bool);
+
+    static void setItem (CustomComponent&, const Item*);
 
    #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
     // These methods have new implementations now - see its new definition

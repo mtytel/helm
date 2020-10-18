@@ -47,12 +47,10 @@ class JUCE_API  DragAndDropTarget
 {
 public:
     /** Destructor. */
-    virtual ~DragAndDropTarget()  {}
+    virtual ~DragAndDropTarget() = default;
 
     //==============================================================================
-    /** Contains details about the source of a drag-and-drop operation.
-        The contents of this
-    */
+    /** Contains details about the source of a drag-and-drop operation. */
     class JUCE_API  SourceDetails
     {
     public:
@@ -78,7 +76,7 @@ public:
         dragged.
 
         @param dragSourceDetails    contains information about the source of the drag operation.
-        @returns                    true if this component wants to receive the other callbacks regarging this
+        @returns                    true if this component wants to receive the other callbacks regarding this
                                     type of object; if it returns false, no other callbacks will be made.
     */
     virtual bool isInterestedInDragSource (const SourceDetails& dragSourceDetails) = 0;
@@ -138,18 +136,6 @@ public:
         image will not be shown when the cursor is over this target.
     */
     virtual bool shouldDrawDragImageWhenOver();
-
-
-    //==============================================================================
-private:
-   #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
-    // The parameters for these methods have changed - please update your code!
-    virtual void isInterestedInDragSource (const String&, Component*) {}
-    virtual int itemDragEnter (const String&, Component*, int, int) { return 0; }
-    virtual int itemDragMove (const String&, Component*, int, int) { return 0; }
-    virtual int itemDragExit (const String&, Component*) { return 0; }
-    virtual int itemDropped (const String&, Component*, int, int) { return 0; }
-   #endif
 };
 
 } // namespace juce

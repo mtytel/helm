@@ -35,17 +35,17 @@ namespace juce
 
     @tags{Audio}
 */
-class JUCE_API  AudioParameterFloat  : public AudioProcessorParameterWithID
+class JUCE_API  AudioParameterFloat  : public RangedAudioParameter
 {
 public:
     /** Creates a AudioParameterFloat with the specified parameters.
 
         @param parameterID         The parameter ID to use
-        @param name                The parameter name to use
+        @param parameterName       The parameter name to use
         @param normalisableRange   The NormalisableRange to use
         @param defaultValue        The non-normalised default value
-        @param label               An optional label for the parameter's value
-        @param category            An optional parameter category
+        @param parameterLabel      An optional label for the parameter's value
+        @param parameterCategory   An optional parameter category
         @param stringFromValue     An optional lambda function that converts a non-normalised
                                    value to a string with a maximum length. This may
                                    be used by hosts to display the parameter's value.
@@ -53,34 +53,40 @@ public:
                                    converts it into a non-normalised value. Some hosts use
                                    this to allow users to type in parameter values.
     */
-    AudioParameterFloat (const String& parameterID, const String& name,
+    AudioParameterFloat (const String& parameterID,
+                         const String& parameterName,
                          NormalisableRange<float> normalisableRange,
                          float defaultValue,
-                         const String& label = String(),
-                         Category category = AudioProcessorParameter::genericParameter,
-                         std::function<String (float value, int maximumStringLength)> stringFromValue = nullptr,
-                         std::function<float (const String& text)> valueFromString = nullptr);
+                         const String& parameterLabel = String(),
+                         Category parameterCategory = AudioProcessorParameter::genericParameter,
+                         std::function<String(float value, int maximumStringLength)> stringFromValue = nullptr,
+                         std::function<float(const String& text)> valueFromString = nullptr);
 
     /** Creates a AudioParameterFloat with an ID, name, and range.
         On creation, its value is set to the default value.
         For control over skew factors, you can use the other
         constructor and provide a NormalisableRange.
     */
-    AudioParameterFloat (String parameterID, String name,
+    AudioParameterFloat (String parameterID,
+                         String parameterName,
                          float minValue,
                          float maxValue,
                          float defaultValue);
 
     /** Destructor. */
-    ~AudioParameterFloat();
+    ~AudioParameterFloat() override;
 
     /** Returns the parameter's current value. */
     float get() const noexcept                  { return value; }
+
     /** Returns the parameter's current value. */
     operator float() const noexcept             { return value; }
 
     /** Changes the parameter's current value. */
     AudioParameterFloat& operator= (float newValue);
+
+    /** Returns the range of values that the parameter can take. */
+    const NormalisableRange<float>& getNormalisableRange() const override   { return range; }
 
     /** Provides access to the parameter's range. */
     NormalisableRange<float> range;
@@ -100,10 +106,10 @@ private:
     String getText (float, int) const override;
     float getValueForText (const String&) const override;
 
-    float value;
+    std::atomic<float> value;
     const float defaultValue;
-    std::function<String (float, int)> stringFromValueFunction;
-    std::function<float (const String&)> valueFromStringFunction;
+    std::function<String(float, int)> stringFromValueFunction;
+    std::function<float(const String&)> valueFromStringFunction;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioParameterFloat)
 };

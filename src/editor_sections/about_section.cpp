@@ -99,7 +99,7 @@ void AboutSection::paint(Graphics& g) {
                                                BinaryData::helm_icon_128_1x_pngSize);
   shadow.drawForImage(g, helm_small);
 
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   if (display.scale > 1.5) {
     Image helm = ImageCache::getFromMemory(BinaryData::helm_icon_128_2x_png,
                                            BinaryData::helm_icon_128_2x_pngSize);
@@ -253,4 +253,3 @@ void AboutSection::setGuiSize(float multiplier) {
                        percent * mopo::DEFAULT_WINDOW_HEIGHT);
   }
 }
-

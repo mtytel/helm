@@ -113,7 +113,7 @@ public:
                                             to the pipe, or -1 for an infinite timeout
         @param mustNotExist   if set to true, the method will fail if the pipe already exists
         @returns true if the pipe was created, or false if it fails (e.g. if another process is
-                 already using using the pipe)
+                 already using the pipe)
     */
     bool createPipe (const String& pipeName, int pipeReceiveMessageTimeoutMs, bool mustNotExist = false);
 
@@ -197,9 +197,9 @@ private:
     int readData (void*, int);
 
     struct ConnectionThread;
-    friend struct ConnectionThread;
-    friend struct ContainerDeletePolicy<ConnectionThread>;
     std::unique_ptr<ConnectionThread> thread;
+    std::atomic<bool> threadIsRunning { false };
+
     void runThread();
     int writeData (void*, int);
 

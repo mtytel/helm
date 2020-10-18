@@ -24,7 +24,7 @@ namespace juce
 {
 
 MidiMessageSequence::MidiEventHolder::MidiEventHolder (const MidiMessage& mm) : message (mm) {}
-MidiMessageSequence::MidiEventHolder::MidiEventHolder (MidiMessage&& mm) : message (static_cast<MidiMessage&&> (mm)) {}
+MidiMessageSequence::MidiEventHolder::MidiEventHolder (MidiMessage&& mm) : message (std::move (mm)) {}
 MidiMessageSequence::MidiEventHolder::~MidiEventHolder() {}
 
 //==============================================================================
@@ -53,13 +53,13 @@ MidiMessageSequence& MidiMessageSequence::operator= (const MidiMessageSequence& 
 }
 
 MidiMessageSequence::MidiMessageSequence (MidiMessageSequence&& other) noexcept
-    : list (static_cast<OwnedArray<MidiEventHolder>&&> (other.list))
+    : list (std::move (other.list))
 {
 }
 
 MidiMessageSequence& MidiMessageSequence::operator= (MidiMessageSequence&& other) noexcept
 {
-    list = static_cast<OwnedArray<MidiEventHolder>&&> (other.list);
+    list = std::move (other.list);
     return *this;
 }
 
@@ -87,8 +87,10 @@ MidiMessageSequence::MidiEventHolder* MidiMessageSequence::getEventPointer (int 
     return list[index];
 }
 
-MidiMessageSequence::MidiEventHolder** MidiMessageSequence::begin() const noexcept          { return list.begin(); }
-MidiMessageSequence::MidiEventHolder** MidiMessageSequence::end() const noexcept            { return list.end(); }
+MidiMessageSequence::MidiEventHolder** MidiMessageSequence::begin() noexcept               { return list.begin(); }
+MidiMessageSequence::MidiEventHolder* const* MidiMessageSequence::begin() const noexcept   { return list.begin(); }
+MidiMessageSequence::MidiEventHolder** MidiMessageSequence::end() noexcept                 { return list.end(); }
+MidiMessageSequence::MidiEventHolder* const* MidiMessageSequence::end() const noexcept     { return list.end(); }
 
 double MidiMessageSequence::getTimeOfMatchingKeyUp (int index) const noexcept
 {
@@ -174,7 +176,7 @@ MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (const MidiM
 
 MidiMessageSequence::MidiEventHolder* MidiMessageSequence::addEvent (MidiMessage&& newMessage, double timeAdjustment)
 {
-    return addEvent (new MidiEventHolder (static_cast<MidiMessage&&> (newMessage)), timeAdjustment);
+    return addEvent (new MidiEventHolder (std::move (newMessage)), timeAdjustment);
 }
 
 void MidiMessageSequence::deleteEvent (int index, bool deleteMatchingNoteUp)
@@ -344,11 +346,16 @@ void MidiMessageSequence::createControllerUpdatesForTime (int channelNumber, dou
     }
 }
 
+
+//==============================================================================
+//==============================================================================
 #if JUCE_UNIT_TESTS
 
-struct MidiMessageSequenceTest  : public juce::UnitTest
+struct MidiMessageSequenceTest  : public UnitTest
 {
-    MidiMessageSequenceTest() : juce::UnitTest ("MidiMessageSequence") {}
+    MidiMessageSequenceTest()
+        : UnitTest ("MidiMessageSequence", UnitTestCategories::midi)
+    {}
 
     void runTest() override
     {
@@ -371,7 +378,7 @@ struct MidiMessageSequenceTest  : public juce::UnitTest
         expectEquals (s.getIndexOfMatchingKeyUp (0), 2);
         expectEquals (s.getIndexOfMatchingKeyUp (1), 3);
 
-        beginTest ("Time & indeces");
+        beginTest ("Time & indices");
         expectEquals (s.getNextIndexAtTime (0.5), 1);
         expectEquals (s.getNextIndexAtTime (2.5), 2);
         expectEquals (s.getNextIndexAtTime (9.0), 4);

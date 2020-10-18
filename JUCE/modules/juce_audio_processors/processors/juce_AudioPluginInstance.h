@@ -59,11 +59,11 @@ public:
         Make sure that you delete any UI components that belong to this plugin before
         deleting the plugin.
     */
-    virtual ~AudioPluginInstance() {}
+    ~AudioPluginInstance() override = default;
 
     //==============================================================================
     /** Fills-in the appropriate parts of this plugin description object. */
-    virtual void fillInPluginDescription (PluginDescription& description) const = 0;
+    virtual void fillInPluginDescription (PluginDescription&) const = 0;
 
     /** Returns a PluginDescription for this plugin.
         This is just a convenience method to avoid calling fillInPluginDescription.
@@ -74,12 +74,7 @@ public:
         E.g. For a VST, this value can be cast to an AEffect*. For an AudioUnit, it can be
         cast to an AudioUnit handle.
     */
-    virtual void* getPlatformSpecificData()                 { return nullptr; }
-
-    /** For some formats (currently AudioUnit), this forces a reload of the list of
-        available parameters.
-    */
-    virtual void refreshParameterList() {}
+    virtual void* getPlatformSpecificData();
 
     // Rather than using these methods you should call the corresponding methods
     // on the AudioProcessorParameter objects returned from getParameters().
@@ -110,17 +105,17 @@ protected:
     struct Parameter   : public AudioProcessorParameter
     {
         Parameter();
-        virtual ~Parameter();
+        ~Parameter() override;
 
-        virtual String getText (float value, int maximumStringLength) const override;
-        virtual float getValueForText (const String& text) const override;
+        String getText (float value, int maximumStringLength) const override;
+        float getValueForText (const String& text) const override;
 
         StringArray onStrings, offStrings;
     };
 
-    AudioPluginInstance() {}
+    AudioPluginInstance() = default;
     AudioPluginInstance (const BusesProperties& ioLayouts) : AudioProcessor (ioLayouts) {}
-    template <int numLayouts>
+    template <size_t numLayouts>
     AudioPluginInstance (const short channelLayoutList[numLayouts][2]) : AudioProcessor (channelLayoutList) {}
 
 private:

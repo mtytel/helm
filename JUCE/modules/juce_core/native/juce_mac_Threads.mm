@@ -65,20 +65,10 @@ JUCE_API void JUCE_CALLTYPE Process::hide()
     }
 }
 
-JUCE_API void JUCE_CALLTYPE Process::raisePrivilege()
-{
-    jassertfalse;
-}
+JUCE_API void JUCE_CALLTYPE Process::raisePrivilege() {}
+JUCE_API void JUCE_CALLTYPE Process::lowerPrivilege() {}
 
-JUCE_API void JUCE_CALLTYPE Process::lowerPrivilege()
-{
-    jassertfalse;
-}
-
-JUCE_API void JUCE_CALLTYPE Process::setPriority (ProcessPriority)
-{
-    // xxx
-}
+JUCE_API void JUCE_CALLTYPE Process::setPriority (ProcessPriority) {}
 
 //==============================================================================
 JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger() noexcept
@@ -86,7 +76,7 @@ JUCE_API bool JUCE_CALLTYPE juce_isRunningUnderDebugger() noexcept
     struct kinfo_proc info;
     int m[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid() };
     size_t sz = sizeof (info);
-    sysctl (m, 4, &info, &sz, 0, 0);
+    sysctl (m, 4, &info, &sz, nullptr, 0);
     return (info.kp_proc.p_flag & P_TRACED) != 0;
 }
 

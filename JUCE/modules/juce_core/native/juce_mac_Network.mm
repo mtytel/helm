@@ -32,12 +32,12 @@ void MACAddress::findAllAddresses (Array<MACAddress>& result)
         for (const ifaddrs* cursor = addrs; cursor != nullptr; cursor = cursor->ifa_next)
         {
             // Required to avoid misaligned pointer access
-            sockaddr_storage sto;
-            std::memcpy (&sto, cursor->ifa_addr, sizeof (sockaddr_storage));
+            sockaddr sto;
+            std::memcpy (&sto, cursor->ifa_addr, sizeof (sockaddr));
 
-            if (sto.ss_family == AF_LINK)
+            if (sto.sa_family == AF_LINK)
             {
-                auto sadd = (const sockaddr_dl*) cursor->ifa_addr;
+                auto sadd = reinterpret_cast<const sockaddr_dl*> (cursor->ifa_addr);
 
                #ifndef IFT_ETHER
                 enum { IFT_ETHER = 6 };
@@ -110,7 +110,7 @@ bool JUCE_CALLTYPE Process::openEmailWithAttachments (const String& targetEmailA
 
 //==============================================================================
 // Unfortunately, we need to have this ugly ifdef here as long as some older OS X versions do not support NSURLSession
-#if JUCE_IOS || (defined (__MAC_OS_X_VERSION_MIN_REQUIRED) && defined (__MAC_10_10) && __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10)
+#if JUCE_IOS || (defined (MAC_OS_X_VERSION_10_10) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_10)
 
 //==============================================================================
 class URLConnectionState   : private Thread
@@ -127,7 +127,7 @@ public:
         DelegateClass::setState (delegate, this);
     }
 
-    ~URLConnectionState()
+    ~URLConnectionState() override
     {
         signalThreadShouldExit();
 
@@ -331,7 +331,8 @@ public:
     NSMutableData* data = nil;
     NSDictionary* headers = nil;
     int statusCode = 0;
-    bool initialised = false, hasFailed = false, hasFinished = false, isBeingDeleted = false;
+    std::atomic<bool> initialised { false }, hasFailed { false }, hasFinished { false };
+    bool isBeingDeleted = false;
     const int numRedirectsToFollow;
     int numRedirects = 0;
     int64 latestTotalBytes = 0;
@@ -413,9 +414,10 @@ struct BackgroundDownloadTask  : public URL::DownloadTask
                             String extraHeadersToUse,
                             URL::DownloadTask::Listener* listenerToUse,
                             bool shouldUsePostRequest)
-         : targetLocation (targetLocationToUse), listener (listenerToUse),
+         : listener (listenerToUse),
            uniqueIdentifier (String (urlToUse.toString (true).hashCode64()) + String (Random().nextInt64()))
     {
+        targetLocation = targetLocationToUse;
         downloaded = -1;
 
         static DelegateClass cls;
@@ -423,7 +425,8 @@ struct BackgroundDownloadTask  : public URL::DownloadTask
         DelegateClass::setState (delegate, this);
 
         activeSessions.set (uniqueIdentifier, this);
-        NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:juceStringToNS (urlToUse.toString (true))]];
+        auto nsUrl = [NSURL URLWithString: juceStringToNS (urlToUse.toString (true))];
+        NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL: nsUrl];
 
         if (shouldUsePostRequest)
             [request setHTTPMethod: @"POST"];
@@ -488,7 +491,6 @@ struct BackgroundDownloadTask  : public URL::DownloadTask
     }
 
     //==============================================================================
-    File targetLocation;
     URL::DownloadTask::Listener* listener;
     NSObject<NSURLSessionDelegate>* delegate = nil;
     NSURLSession* session = nil;
@@ -691,7 +693,7 @@ public:
         DelegateClass::setState (delegate, this);
     }
 
-    ~URLConnectionState()
+    ~URLConnectionState() override
     {
         stop();
 
@@ -808,7 +810,8 @@ public:
     {
         DBG (nsStringToJuce ([error description])); ignoreUnused (error);
         nsUrlErrorCode = [error code];
-        hasFailed = initialised = true;
+        hasFailed = true;
+        initialised = true;
         signalThreadShouldExit();
     }
 
@@ -826,7 +829,8 @@ public:
 
     void finishedLoading()
     {
-        hasFinished = initialised = true;
+        hasFinished = true;
+        initialised = true;
         signalThreadShouldExit();
     }
 
@@ -860,7 +864,7 @@ public:
     NSDictionary* headers = nil;
     NSInteger nsUrlErrorCode = 0;
     int statusCode = 0;
-    bool initialised = false, hasFailed = false, hasFinished = false;
+    std::atomic<bool> initialised { false }, hasFailed { false }, hasFinished { false };
     const int numRedirectsToFollow;
     int numRedirects = 0;
     int latestTotalBytes = 0;
@@ -962,10 +966,13 @@ public:
             createConnection();
         }
 
+        if (connection == nullptr)
+            return false;
+
         if (! connection->start (owner, webInputListener))
         {
             // Workaround for deployment targets below 10.10 where HTTPS POST requests with keep-alive fail with the NSURLErrorNetworkConnectionLost error code.
-           #if ! (JUCE_IOS || (defined (__MAC_OS_X_VERSION_MIN_REQUIRED) && defined (__MAC_10_10) && __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10))
+           #if ! (JUCE_IOS || (defined (MAC_OS_X_VERSION_10_10) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_10))
             if (numRetries == 0 && connection->nsUrlErrorCode == NSURLErrorNetworkConnectionLost)
             {
                 connection.reset();
@@ -977,7 +984,7 @@ public:
             return false;
         }
 
-        if (connection != nullptr && connection->headers != nil)
+        if (connection->headers != nil)
         {
             statusCode = connection->statusCode;
 
@@ -1093,38 +1100,44 @@ private:
     {
         jassert (connection == nullptr);
 
-        if (NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: [NSURL URLWithString: juceStringToNS (url.toString (! isPost))]
-                                                               cachePolicy: NSURLRequestReloadIgnoringLocalCacheData
-                                                           timeoutInterval: timeOutMs <= 0 ? 60.0 : (timeOutMs / 1000.0)])
+        if (NSURL* nsURL = [NSURL URLWithString: juceStringToNS (url.toString (! isPost))])
         {
-            [req setHTTPMethod: [NSString stringWithUTF8String: httpRequestCmd.toRawUTF8()]];
-
-            if (isPost)
+            if (NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: nsURL
+                                                                   cachePolicy: NSURLRequestReloadIgnoringLocalCacheData
+                                                               timeoutInterval: timeOutMs <= 0 ? 60.0 : (timeOutMs / 1000.0)])
             {
-                WebInputStream::createHeadersAndPostData (url, headers, postData);
+                if (NSString* httpMethod = [NSString stringWithUTF8String: httpRequestCmd.toRawUTF8()])
+                {
+                    [req setHTTPMethod: httpMethod];
 
-                if (postData.getSize() > 0)
-                    [req setHTTPBody: [NSData dataWithBytes: postData.getData()
-                                                     length: postData.getSize()]];
+                    if (isPost)
+                    {
+                        WebInputStream::createHeadersAndPostData (url, headers, postData);
+
+                        if (postData.getSize() > 0)
+                            [req setHTTPBody: [NSData dataWithBytes: postData.getData()
+                                                             length: postData.getSize()]];
+                    }
+
+                    StringArray headerLines;
+                    headerLines.addLines (headers);
+                    headerLines.removeEmptyStrings (true);
+
+                    for (int i = 0; i < headerLines.size(); ++i)
+                    {
+                        auto key   = headerLines[i].upToFirstOccurrenceOf (":", false, false).trim();
+                        auto value = headerLines[i].fromFirstOccurrenceOf (":", false, false).trim();
+
+                        if (key.isNotEmpty() && value.isNotEmpty())
+                            [req addValue: juceStringToNS (value) forHTTPHeaderField: juceStringToNS (key)];
+                    }
+
+                    // Workaround for an Apple bug. See https://github.com/AFNetworking/AFNetworking/issues/2334
+                    [req HTTPBody];
+
+                    connection.reset (new URLConnectionState (req, numRedirectsToFollow));
+                }
             }
-
-            StringArray headerLines;
-            headerLines.addLines (headers);
-            headerLines.removeEmptyStrings (true);
-
-            for (int i = 0; i < headerLines.size(); ++i)
-            {
-                String key   = headerLines[i].upToFirstOccurrenceOf (":", false, false).trim();
-                String value = headerLines[i].fromFirstOccurrenceOf (":", false, false).trim();
-
-                if (key.isNotEmpty() && value.isNotEmpty())
-                    [req addValue: juceStringToNS (value) forHTTPHeaderField: juceStringToNS (key)];
-            }
-
-            // Workaround for an Apple bug. See https://github.com/AFNetworking/AFNetworking/issues/2334
-            [req HTTPBody];
-
-            connection.reset (new URLConnectionState (req, numRedirectsToFollow));
         }
     }
 
