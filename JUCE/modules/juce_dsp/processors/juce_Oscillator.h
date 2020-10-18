@@ -44,15 +44,14 @@ public:
     using NumericType = typename SampleTypeHelpers::ElementType<SampleType>::Type;
 
     /** Creates an uninitialised oscillator. Call initialise before first use. */
-    Oscillator()
-    {}
+    Oscillator() = default;
 
     /** Creates an oscillator with a periodic input function (-pi..pi).
 
         If lookup table is not zero, then the function will be approximated
         with a lookup table.
     */
-    Oscillator (const std::function<NumericType (NumericType)>& function,
+    Oscillator (const std::function<NumericType(NumericType)>& function,
                 size_t lookupTableNumPoints = 0)
     {
         initialise (function, lookupTableNumPoints);
@@ -62,7 +61,7 @@ public:
     bool isInitialised() const noexcept     { return static_cast<bool> (generator); }
 
     /** Initialises the oscillator with a waveform. */
-    void initialise (const std::function<NumericType (NumericType)>& function,
+    void initialise (const std::function<NumericType(NumericType)>& function,
                      size_t lookupTableNumPoints = 0)
     {
         if (lookupTableNumPoints != 0)
@@ -83,7 +82,16 @@ public:
 
     //==============================================================================
     /** Sets the frequency of the oscillator. */
-    void setFrequency (NumericType newFrequency, bool force = false) noexcept    { frequency.setValue (newFrequency, force); }
+    void setFrequency (NumericType newFrequency, bool force = false) noexcept
+    {
+        if (force)
+        {
+            frequency.setCurrentAndTargetValue (newFrequency);
+            return;
+        }
+
+        frequency.setTargetValue (newFrequency);
+    }
 
     /** Returns the current frequency of the oscillator. */
     NumericType getFrequency() const noexcept                    { return frequency.getTargetValue(); }
@@ -124,7 +132,7 @@ public:
         auto&& outBlock = context.getOutputBlock();
         auto&& inBlock  = context.getInputBlock();
 
-        // this is an output-only processory
+        // this is an output-only processor
         jassert (outBlock.getNumSamples() <= static_cast<size_t> (rampBuffer.size()));
 
         auto len           = outBlock.getNumSamples();
@@ -232,10 +240,10 @@ public:
 
 private:
     //==============================================================================
-    std::function<NumericType (NumericType)> generator;
+    std::function<NumericType(NumericType)> generator;
     std::unique_ptr<LookupTableTransform<NumericType>> lookupTable;
     Array<NumericType> rampBuffer;
-    LinearSmoothedValue<NumericType> frequency { static_cast<NumericType> (440.0) };
+    SmoothedValue<NumericType> frequency { static_cast<NumericType> (440.0) };
     NumericType sampleRate = 48000.0;
     Phase<NumericType> phase;
 };

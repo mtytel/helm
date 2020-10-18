@@ -39,8 +39,7 @@ class Reverb
 public:
     //==============================================================================
     /** Creates an uninitialised Reverb processor. Call prepare() before first use. */
-    Reverb()
-    {}
+    Reverb() = default;
 
     //==============================================================================
     using Parameters = juce::Reverb::Parameters;
@@ -86,7 +85,7 @@ public:
 
         jassert (inputBlock.getNumSamples() == numSamples);
 
-        outputBlock.copy (inputBlock);
+        outputBlock.copyFrom (inputBlock);
 
         if (! enabled || context.isBypassed)
             return;

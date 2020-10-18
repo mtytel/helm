@@ -52,7 +52,7 @@ public:
     AudioAppComponent();
     AudioAppComponent (AudioDeviceManager&);
 
-    ~AudioAppComponent();
+    ~AudioAppComponent() override;
 
     /** A subclass should call this from their constructor, to set up the audio. */
     void setAudioChannels (int numInputChannels, int numOutputChannels, const XmlElement* const storedSettings = nullptr);
@@ -61,7 +61,7 @@ public:
 
         An AudioSource has two states: prepared and unprepared.
 
-        The prepareToPlay() method is guaranteed to be called at least once on an 'unpreprared'
+        The prepareToPlay() method is guaranteed to be called at least once on an 'unprepared'
         source to put it into a 'prepared' state before any calls will be made to getNextAudioBlock().
         This callback allows the source to initialise any resources it might need when playing.
 
@@ -84,7 +84,7 @@ public:
         @see releaseResources, getNextAudioBlock
     */
     virtual void prepareToPlay (int samplesPerBlockExpected,
-                                double sampleRate) = 0;
+                                double sampleRate) override = 0;
 
     /** Allows the source to release anything it no longer needs after playback has stopped.
 
@@ -98,7 +98,7 @@ public:
 
         @see prepareToPlay, getNextAudioBlock
     */
-    virtual void releaseResources() = 0;
+    virtual void releaseResources() override = 0;
 
     /** Called repeatedly to fetch subsequent blocks of audio data.
 
@@ -112,7 +112,7 @@ public:
 
         @see AudioSourceChannelInfo, prepareToPlay, releaseResources
     */
-    virtual void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) = 0;
+    virtual void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override = 0;
 
     /** Shuts down the audio device and clears the audio source.
 
@@ -125,7 +125,7 @@ public:
     AudioDeviceManager& deviceManager;
 
 private:
-    //=============================================================================
+    //==============================================================================
     AudioDeviceManager defaultDeviceManager;
     AudioSourcePlayer audioSourcePlayer;
     bool usingCustomDeviceManager;

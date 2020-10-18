@@ -40,7 +40,7 @@ class JUCE_API  VSTPluginFormat   : public AudioPluginFormat
 public:
     //==============================================================================
     VSTPluginFormat();
-    ~VSTPluginFormat();
+    ~VSTPluginFormat() override;
 
     //==============================================================================
     /** Attempts to retrieve the VSTXML data from a plugin.
@@ -98,7 +98,11 @@ public:
     static AudioPluginInstance* getPluginInstanceFromVstEffectInterface (void* aEffect);
 
     //==============================================================================
-    String getName() const override                { return "VST"; }
+    static String getFormatName()                   { return "VST"; }
+    String getName() const override                 { return getFormatName(); }
+    bool canScanForPlugins() const override         { return true; }
+    bool isTrivialToScan() const override           { return false; }
+
     void findAllTypesForFile (OwnedArray<PluginDescription>&, const String& fileOrIdentifier) override;
     bool fileMightContainThisPluginType (const String& fileOrIdentifier) override;
     String getNameOfPluginFromIdentifier (const String& fileOrIdentifier) override;
@@ -106,7 +110,6 @@ public:
     StringArray searchPathsForPlugins (const FileSearchPath&, bool recursive, bool) override;
     bool doesPluginStillExist (const PluginDescription&) override;
     FileSearchPath getDefaultLocationsToSearch() override;
-    bool canScanForPlugins() const override        { return true; }
 
     /** Can be overridden to receive a callback when each member of a shell plugin is about to be
         tested during a call to findAllTypesForFile().
@@ -118,12 +121,8 @@ public:
 private:
     //==============================================================================
     void createPluginInstance (const PluginDescription&, double initialSampleRate,
-                               int initialBufferSize, void* userData,
-                               void (*callback) (void*, AudioPluginInstance*, const String&)) override;
-
-    bool requiresUnblockedMessageThreadDuringCreation (const PluginDescription&) const noexcept override;
-
-private:
+                               int initialBufferSize, PluginCreationCallback) override;
+    bool requiresUnblockedMessageThreadDuringCreation (const PluginDescription&) const override;
     void recursiveFileSearch (StringArray&, const File&, bool recursive);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VSTPluginFormat)

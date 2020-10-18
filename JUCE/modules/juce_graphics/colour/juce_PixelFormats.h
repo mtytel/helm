@@ -60,8 +60,8 @@ class JUCE_API  PixelARGB
 {
 public:
     /** Creates a pixel without defining its colour. */
-    PixelARGB() noexcept {}
-    ~PixelARGB() noexcept {}
+    PixelARGB() = default;
+    ~PixelARGB() = default;
 
     PixelARGB (const uint8 a, const uint8 r, const uint8 g, const uint8 b) noexcept
     {
@@ -107,22 +107,9 @@ public:
 
     //==============================================================================
     forcedinline uint8 getAlpha() const noexcept      { return components.a; }
-    forcedinline uint8 getRed() const noexcept        { return components.r; }
+    forcedinline uint8 getRed()   const noexcept      { return components.r; }
     forcedinline uint8 getGreen() const noexcept      { return components.g; }
-    forcedinline uint8 getBlue() const noexcept       { return components.b; }
-
-   #if JUCE_GCC
-    // NB these are here as a workaround because GCC refuses to bind to packed values.
-    forcedinline uint8& getAlpha() noexcept           { return comps [indexA]; }
-    forcedinline uint8& getRed() noexcept             { return comps [indexR]; }
-    forcedinline uint8& getGreen() noexcept           { return comps [indexG]; }
-    forcedinline uint8& getBlue() noexcept            { return comps [indexB]; }
-   #else
-    forcedinline uint8& getAlpha() noexcept           { return components.a; }
-    forcedinline uint8& getRed() noexcept             { return components.r; }
-    forcedinline uint8& getGreen() noexcept           { return components.g; }
-    forcedinline uint8& getBlue() noexcept            { return components.b; }
-   #endif
+    forcedinline uint8 getBlue()  const noexcept      { return components.b; }
 
     //==============================================================================
     /** Copies another pixel colour over this one.
@@ -315,8 +302,7 @@ public:
 
 private:
     //==============================================================================
-    PixelARGB (const uint32 internalValue) noexcept
-        : internal (internalValue)
+    PixelARGB (uint32 internalValue) noexcept : internal (internalValue)
     {
     }
 
@@ -342,9 +328,6 @@ private:
     {
         uint32 internal;
         Components components;
-       #if JUCE_GCC
-        uint8 comps[4];  // helper struct needed because gcc does not allow references to packed union members
-       #endif
     };
 }
 #ifndef DOXYGEN
@@ -367,8 +350,8 @@ class JUCE_API  PixelRGB
 {
 public:
     /** Creates a pixel without defining its colour. */
-    PixelRGB() noexcept {}
-    ~PixelRGB() noexcept {}
+    PixelRGB() = default;
+    ~PixelRGB() = default;
 
     //==============================================================================
     /** Returns a uint32 which represents the pixel in a platform dependent format which is compatible
@@ -378,9 +361,9 @@ public:
     forcedinline uint32 getNativeARGB() const noexcept
     {
        #if JUCE_ANDROID
-        return (uint32) ((0xff << 24) | r | (g << 8) | (b << 16));
+        return (uint32) ((0xffu << 24) | r | ((uint32) g << 8) | ((uint32) b << 16));
        #else
-        return (uint32) ((0xff << 24) | b | (g << 8) | (r << 16));
+        return (uint32) ((0xffu << 24) | b | ((uint32) g << 8) | ((uint32) r << 16));
        #endif
     }
 
@@ -389,7 +372,7 @@ public:
     forcedinline uint32 getInARGBMaskOrder() const noexcept
     {
        #if JUCE_ANDROID
-        return (uint32) ((0xff << 24) | (r << 16) | (g << 8) | (b << 0));
+        return (uint32) ((0xffu << 24) | b | ((uint32) g << 8) | ((uint32) r << 16));
        #else
         return getNativeARGB();
        #endif
@@ -429,13 +412,9 @@ public:
 
     //==============================================================================
     forcedinline uint8 getAlpha() const noexcept    { return 0xff; }
-    forcedinline uint8 getRed() const noexcept      { return r; }
+    forcedinline uint8 getRed()   const noexcept    { return r; }
     forcedinline uint8 getGreen() const noexcept    { return g; }
-    forcedinline uint8 getBlue() const noexcept     { return b; }
-
-    forcedinline uint8& getRed() noexcept           { return r; }
-    forcedinline uint8& getGreen() noexcept         { return g; }
-    forcedinline uint8& getBlue() noexcept          { return b; }
+    forcedinline uint8 getBlue()  const noexcept    { return b; }
 
     //==============================================================================
     /** Copies another pixel colour over this one.
@@ -618,8 +597,8 @@ class JUCE_API  PixelAlpha
 {
 public:
     /** Creates a pixel without defining its colour. */
-    PixelAlpha() noexcept {}
-    ~PixelAlpha() noexcept {}
+    PixelAlpha() = default;
+    ~PixelAlpha() = default;
 
     //==============================================================================
     /** Returns a uint32 which represents the pixel in a platform dependent format which is compatible
@@ -652,11 +631,9 @@ public:
 
     //==============================================================================
     forcedinline uint8 getAlpha() const noexcept    { return a; }
-    forcedinline uint8& getAlpha() noexcept         { return a; }
-
-    forcedinline uint8 getRed() const noexcept      { return 0; }
+    forcedinline uint8 getRed()   const noexcept    { return 0; }
     forcedinline uint8 getGreen() const noexcept    { return 0; }
-    forcedinline uint8 getBlue() const noexcept     { return 0; }
+    forcedinline uint8 getBlue()  const noexcept    { return 0; }
 
     //==============================================================================
     /** Copies another pixel colour over this one.

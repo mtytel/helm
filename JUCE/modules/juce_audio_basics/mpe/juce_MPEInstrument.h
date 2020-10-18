@@ -27,7 +27,7 @@ namespace juce
 /**
     This class represents an instrument handling MPE.
 
-    It has an MPE zone layout and maintans a state of currently
+    It has an MPE zone layout and maintains a state of currently
     active (playing) notes and the values of their dimensions of expression.
 
     You can trigger and modulate notes:
@@ -90,7 +90,7 @@ public:
         When in legacy mode, this will return true if the given channel is
         contained in the current legacy mode channel range; false otherwise.
     */
-    bool isMemberChannel (int midiChannel) noexcept;
+    bool isMemberChannel (int midiChannel) const noexcept;
 
     /** Returns true if the given MIDI channel (1-16) is a master channel (channel
         1 or 16).
@@ -98,6 +98,14 @@ public:
         In legacy mode, this will always return false.
     */
     bool isMasterChannel (int midiChannel) const noexcept;
+
+    /** Returns true if the given MIDI channel (1-16) is used by any of the
+        MPEInstrument's MPE zones; false otherwise.
+
+        When in legacy mode, this will return true if the given channel is
+        contained in the current legacy mode channel range; false otherwise.
+     */
+    bool isUsingChannel (int midiChannel) const noexcept;
 
     //==============================================================================
     /** The MPE note tracking mode. In case there is more than one note playing
@@ -177,6 +185,13 @@ public:
     */
     virtual void timbre (int midiChannel, MPEValue value);
 
+    /** Request a poly-aftertouch change for a given note number.
+
+        The change will be broadcast to all notes sharing the channel and note
+        number of the change message.
+     */
+    virtual void polyAftertouch (int midiChannel, int midiNoteNumber, MPEValue value);
+
     /** Request a sustain pedal press or release.
 
         If midiChannel is a zone's master channel, this will act on all notes in
@@ -241,17 +256,17 @@ public:
     {
     public:
         /** Destructor. */
-        virtual ~Listener() {}
+        virtual ~Listener() = default;
 
         /** Implement this callback to be informed whenever a new expressive MIDI
             note is triggered.
         */
-        virtual void noteAdded (MPENote newNote) = 0;
+        virtual void noteAdded (MPENote newNote)                 { ignoreUnused (newNote); }
 
         /** Implement this callback to be informed whenever a currently playing
             MPE note's pressure value changes.
         */
-        virtual void notePressureChanged (MPENote changedNote) = 0;
+        virtual void notePressureChanged (MPENote changedNote)   { ignoreUnused (changedNote); }
 
         /** Implement this callback to be informed whenever a currently playing
             MPE note's pitchbend value changes.
@@ -260,36 +275,36 @@ public:
             master channel pitchbend event, or if both occur simultaneously.
             Call MPENote::getFrequencyInHertz to get the effective note frequency.
         */
-        virtual void notePitchbendChanged (MPENote changedNote) = 0;
+        virtual void notePitchbendChanged (MPENote changedNote)  { ignoreUnused (changedNote); }
 
         /** Implement this callback to be informed whenever a currently playing
             MPE note's timbre value changes.
         */
-        virtual void noteTimbreChanged (MPENote changedNote) = 0;
+        virtual void noteTimbreChanged (MPENote changedNote)     { ignoreUnused (changedNote); }
 
         /** Implement this callback to be informed whether a currently playing
             MPE note's key state (whether the key is down and/or the note is
             sustained) has changed.
 
-            Note: if the key state changes to MPENote::off, noteReleased is
+            Note: If the key state changes to MPENote::off, noteReleased is
             called instead.
         */
-        virtual void noteKeyStateChanged (MPENote changedNote) = 0;
+        virtual void noteKeyStateChanged (MPENote changedNote)   { ignoreUnused (changedNote); }
 
         /** Implement this callback to be informed whenever an MPE note
             is released (either by a note-off message, or by a sustain/sostenuto
             pedal release for a note that already received a note-off),
             and should therefore stop playing.
         */
-        virtual void noteReleased (MPENote finishedNote) = 0;
+        virtual void noteReleased (MPENote finishedNote)         { ignoreUnused (finishedNote); }
     };
 
     //==============================================================================
     /** Adds a listener. */
-    void addListener (Listener* listenerToAdd) noexcept;
+    void addListener (Listener* listenerToAdd);
 
     /** Removes a listener. */
-    void removeListener (Listener* listenerToRemove) noexcept;
+    void removeListener (Listener* listenerToRemove);
 
     //==============================================================================
     /** Puts the instrument into legacy mode.
@@ -352,8 +367,7 @@ private:
 
     struct MPEDimension
     {
-        MPEDimension() noexcept  : trackingMode (lastNotePlayedOnChannel) {}
-        TrackingMode trackingMode;
+        TrackingMode trackingMode = lastNotePlayedOnChannel;
         MPEValue lastValueReceivedOnChannel[16];
         MPEValue MPENote::* value;
         MPEValue& getValue (MPENote& note) noexcept   { return note.*(value); }
@@ -374,6 +388,7 @@ private:
     void processMidiChannelPressureMessage (const MidiMessage&);
     void processMidiControllerMessage (const MidiMessage&);
     void processMidiResetAllControllersMessage (const MidiMessage&);
+    void processMidiAfterTouchMessage (const MidiMessage&);
     void handlePressureMSB (int midiChannel, int value) noexcept;
     void handlePressureLSB (int midiChannel, int value) noexcept;
     void handleTimbreMSB (int midiChannel, int value) noexcept;

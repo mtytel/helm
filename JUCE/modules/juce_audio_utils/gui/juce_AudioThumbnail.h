@@ -68,7 +68,7 @@ public:
                     AudioThumbnailCache& cacheToUse);
 
     /** Destructor. */
-    ~AudioThumbnail();
+    ~AudioThumbnail() override;
 
     //==============================================================================
     /** Clears and resets the thumbnail. */
@@ -201,19 +201,13 @@ private:
     class ThumbData;
     class CachedWindow;
 
-    friend class LevelDataSource;
-    friend class ThumbData;
-    friend class CachedWindow;
-    friend struct ContainerDeletePolicy<LevelDataSource>;
-    friend struct ContainerDeletePolicy<ThumbData>;
-    friend struct ContainerDeletePolicy<CachedWindow>;
-
     std::unique_ptr<LevelDataSource> source;
     std::unique_ptr<CachedWindow> window;
     OwnedArray<ThumbData> channels;
 
     int32 samplesPerThumbSample = 0;
-    int64 totalSamples = 0, numSamplesFinished = 0;
+    std::atomic<int64> totalSamples { 0 };
+    int64 numSamplesFinished = 0;
     int32 numChannels = 0;
     double sampleRate = 0;
     CriticalSection lock;

@@ -32,7 +32,7 @@ class CoreGraphicsContext   : public LowLevelGraphicsContext
 {
 public:
     CoreGraphicsContext (CGContextRef context, float flipHeight, float targetScale);
-    ~CoreGraphicsContext();
+    ~CoreGraphicsContext() override;
 
     //==============================================================================
     bool isVectorDevice() const override         { return false; }
@@ -80,7 +80,7 @@ private:
     float targetScale;
     CGColorSpaceRef rgbColourSpace, greyColourSpace;
     mutable Rectangle<int> lastClipRect;
-    mutable bool lastClipRectIsValid;
+    mutable bool lastClipRectIsValid = false;
 
     struct SavedState
     {
@@ -92,9 +92,10 @@ private:
 
         FillType fillType;
         Font font;
-        CGFontRef fontRef;
-        CGAffineTransform fontTransform;
-        CGGradientRef gradient;
+        CGFontRef fontRef = {};
+        CGAffineTransform textMatrix = CGAffineTransformIdentity,
+                   inverseTextMatrix = CGAffineTransformIdentity;
+        CGGradientRef gradient = {};
     };
 
     std::unique_ptr<SavedState> state;

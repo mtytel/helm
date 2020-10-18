@@ -32,7 +32,7 @@ static Typeface::Ptr getTypefaceForFontFromLookAndFeel (const Font& font)
     return LookAndFeel::getDefaultLookAndFeel().getTypefaceForFont (font);
 }
 
-typedef Typeface::Ptr (*GetTypefaceForFont) (const Font&);
+using GetTypefaceForFont = Typeface::Ptr (*)(const Font&);
 extern GetTypefaceForFont juce_getTypefaceForFont;
 
 //==============================================================================
@@ -41,7 +41,7 @@ LookAndFeel::LookAndFeel()
     /* if this fails it means you're trying to create a LookAndFeel object before
        the static Colours have been initialised. That ain't gonna work. It probably
        means that you're using a static LookAndFeel object and that your compiler has
-       decided to intialise it before the Colours class.
+       decided to initialise it before the Colours class.
     */
     jassert (Colours::white == Colour (0xffffffff));
 
@@ -81,7 +81,7 @@ Colour LookAndFeel::findColour (int colourID) const noexcept
     auto index = colours.indexOf (c);
 
     if (index >= 0)
-        return colours.getReference (index).colour;
+        return colours[index].colour;
 
     jassertfalse;
     return Colours::black;
@@ -147,7 +147,7 @@ void LookAndFeel::setDefaultSansSerifTypefaceName (const String& newName)
 {
     if (defaultSans != newName)
     {
-        defaultTypeface = {};
+        defaultTypeface.reset();
         Typeface::clearTypefaceCache();
         defaultSans = newName;
     }
@@ -168,10 +168,11 @@ MouseCursor LookAndFeel::getMouseCursorFor (Component& component)
     return cursor;
 }
 
-LowLevelGraphicsContext* LookAndFeel::createGraphicsContext (const Image& imageToRenderOn, const Point<int>& origin,
-                                                             const RectangleList<int>& initialClip)
+std::unique_ptr<LowLevelGraphicsContext> LookAndFeel::createGraphicsContext (const Image& imageToRenderOn,
+                                                                             Point<int> origin,
+                                                                             const RectangleList<int>& initialClip)
 {
-    return new LowLevelGraphicsSoftwareRenderer (imageToRenderOn, origin, initialClip);
+    return std::make_unique<LowLevelGraphicsSoftwareRenderer> (imageToRenderOn, origin, initialClip);
 }
 
 //==============================================================================

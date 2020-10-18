@@ -28,8 +28,8 @@
     See also SystemStats::getJUCEVersion() for a string version.
 */
 #define JUCE_MAJOR_VERSION      5
-#define JUCE_MINOR_VERSION      3
-#define JUCE_BUILDNUMBER        2
+#define JUCE_MINOR_VERSION      4
+#define JUCE_BUILDNUMBER        7
 
 /** Current JUCE version number.
 
@@ -51,6 +51,14 @@
 #include <algorithm>
 #include <limits>
 #include <atomic>
+#include <sstream>
+#include <iomanip>
+#include <map>
+#include <cstddef>
+#include <unordered_set>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
 
 //==============================================================================
 #include "juce_CompilerSupport.h"
@@ -67,6 +75,9 @@
 #if JUCE_MAC || JUCE_IOS
  #include <libkern/OSAtomic.h>
  #include <xlocale.h>
+ #if JUCE_IOS
+  #include <signal.h>
+ #endif
 #endif
 
 #if JUCE_LINUX
@@ -108,11 +119,6 @@
 #undef major
 #undef minor
 #undef KeyPress
-
-// Include a replacement for std::function
-#if JUCE_PROJUCER_LIVE_BUILD
- #include "../misc/juce_StdFunctionCompat.h"
-#endif
 
 //==============================================================================
 // DLL building settings on Windows

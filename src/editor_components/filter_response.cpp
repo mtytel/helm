@@ -82,7 +82,7 @@ void FilterResponse::paint(Graphics& g) {
 }
 
 void FilterResponse::resized() {
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_ = Image(Image::RGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_);
@@ -184,7 +184,7 @@ void FilterResponse::computeFilterCoefficients() {
     resonance = sqrt(resonance);
     gain = sqrt(gain);
   }
-  
+
   if (style_ == mopo::StateVariableFilter::kShelf) {
     mopo::BiquadFilter::Type type = mopo::BiquadFilter::kLowShelf;
     if (shelf == mopo::StateVariableFilter::kBandShelf)

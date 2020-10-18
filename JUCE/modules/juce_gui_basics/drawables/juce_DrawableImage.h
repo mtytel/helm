@@ -43,7 +43,7 @@ public:
     DrawableImage (const DrawableImage&);
 
     /** Destructor. */
-    ~DrawableImage();
+    ~DrawableImage() override;
 
     //==============================================================================
     /** Sets the image that this drawable will render. */
@@ -90,7 +90,7 @@ public:
     /** @internal */
     bool hitTest (int x, int y) override;
     /** @internal */
-    Drawable* createCopy() const override;
+    std::unique_ptr<Drawable> createCopy() const override;
     /** @internal */
     Rectangle<float> getDrawableBounds() const override;
     /** @internal */

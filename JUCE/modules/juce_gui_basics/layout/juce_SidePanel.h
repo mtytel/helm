@@ -62,7 +62,7 @@ public:
                bool deleteComponentWhenNoLongerNeeded = true);
 
     /** Destructor */
-    ~SidePanel();
+    ~SidePanel() override;
 
     //==============================================================================
     /** Sets the component that this SidePanel will contain.
@@ -161,7 +161,7 @@ public:
      */
     struct JUCE_API  LookAndFeelMethods
     {
-        virtual ~LookAndFeelMethods() {}
+        virtual ~LookAndFeelMethods() = default;
 
         virtual Font getSidePanelTitleFont (SidePanel&) = 0;
         virtual Justification getSidePanelTitleJustification (SidePanel&) = 0;
@@ -181,8 +181,8 @@ public:
         titleTextColour           = 0x100f002,
         shadowBaseColour          = 0x100f003,
         dismissButtonNormalColour = 0x100f004,
-        dismissButtonOverColour   = 0x100f004,
-        dismissButtonDownColour   = 0x100f005
+        dismissButtonOverColour   = 0x100f005,
+        dismissButtonDownColour   = 0x100f006
     };
 
     //==============================================================================
@@ -193,7 +193,7 @@ public:
     std::function<void(bool)> onPanelShowHide;
 
 private:
-    //==========================================================================
+    //==============================================================================
     Component* parent = nullptr;
     OptionalScopedPointer<Component> contentComponent;
     OptionalScopedPointer<Component> titleBarComponent;
@@ -216,7 +216,7 @@ private:
 
     bool shouldShowDismissButton = true;
 
-    //==========================================================================
+    //==============================================================================
     void lookAndFeelChanged() override;
     void componentMovedOrResized (Component&, bool wasMoved, bool wasResized) override;
 

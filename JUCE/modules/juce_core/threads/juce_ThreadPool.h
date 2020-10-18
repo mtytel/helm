@@ -76,7 +76,7 @@ public:
                                      again when a thread is free. */
     };
 
-    /** Peforms the actual work that this job needs to do.
+    /** Performs the actual work that this job needs to do.
 
         Your subclass must implement this method, in which is does its work.
 
@@ -134,7 +134,7 @@ private:
     friend class ThreadPool;
     String jobName;
     ThreadPool* pool = nullptr;
-    bool shouldStop = false, isActive = false, shouldBeDeleted = false;
+    std::atomic<bool> shouldStop { false }, isActive { false }, shouldBeDeleted { false };
     ListenerList<Thread::Listener, Array<Thread::Listener*, CriticalSection>> listeners;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ThreadPoolJob)
@@ -191,7 +191,7 @@ public:
     class JUCE_API  JobSelector
     {
     public:
-        virtual ~JobSelector() {}
+        virtual ~JobSelector() = default;
 
         /** Should return true if the specified thread matches your criteria for whatever
             operation that this object is being used for.
@@ -322,8 +322,6 @@ private:
 
     struct ThreadPoolThread;
     friend class ThreadPoolJob;
-    friend struct ThreadPoolThread;
-    friend struct ContainerDeletePolicy<ThreadPoolThread>;
     OwnedArray<ThreadPoolThread> threads;
 
     CriticalSection lock;

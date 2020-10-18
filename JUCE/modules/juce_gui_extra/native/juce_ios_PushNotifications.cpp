@@ -37,7 +37,7 @@ namespace PushNotificationsDelegateDetails
     {
         if (iOSEarlierThan10)
         {
-            auto* action = [[UIMutableUserNotificationAction alloc] init];
+            auto action = [[UIMutableUserNotificationAction alloc] init];
 
             action.identifier     = juceStringToNS (a.identifier);
             action.title          = juceStringToNS (a.title);
@@ -77,10 +77,10 @@ namespace PushNotificationsDelegateDetails
     {
         if (iOSEarlierThan10)
         {
-            auto* category = [[UIMutableUserNotificationCategory alloc] init];
+            auto category = [[UIMutableUserNotificationCategory alloc] init];
             category.identifier = juceStringToNS (c.identifier);
 
-            auto* actions = [NSMutableArray arrayWithCapacity: (NSUInteger) c.actions.size()];
+            auto actions = [NSMutableArray arrayWithCapacity: (NSUInteger) c.actions.size()];
 
             for (const auto& a : c.actions)
             {
@@ -98,7 +98,7 @@ namespace PushNotificationsDelegateDetails
         else
         {
            #if defined (__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-            auto* actions = [NSMutableArray arrayWithCapacity: (NSUInteger) c.actions.size()];
+            auto actions = [NSMutableArray arrayWithCapacity: (NSUInteger) c.actions.size()];
 
             for (const auto& a : c.actions)
             {
@@ -119,7 +119,7 @@ namespace PushNotificationsDelegateDetails
     //==============================================================================
     UILocalNotification* juceNotificationToUILocalNotification (const PushNotifications::Notification& n)
     {
-        auto* notification = [[UILocalNotification alloc] init];
+        auto notification = [[UILocalNotification alloc] init];
 
         notification.alertTitle = juceStringToNS (n.title);
         notification.alertBody  = juceStringToNS (n.body);
@@ -144,7 +144,7 @@ namespace PushNotificationsDelegateDetails
     UNNotificationRequest* juceNotificationToUNNotificationRequest (const PushNotifications::Notification& n)
     {
         // content
-        auto* content = [[UNMutableNotificationContent alloc] init];
+        auto content = [[UNMutableNotificationContent alloc] init];
 
         content.title              = juceStringToNS (n.title);
         content.subtitle           = juceStringToNS (n.subtitle);
@@ -174,7 +174,7 @@ namespace PushNotificationsDelegateDetails
         }
 
         // request
-        // each notification on iOS 10 needs to have an identifer, otherwise it will not show up
+        // each notification on iOS 10 needs to have an identifier, otherwise it will not show up
         jassert (n.identifier.isNotEmpty());
         UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier: juceStringToNS (n.identifier)
                                                                               content: content
@@ -229,7 +229,7 @@ namespace PushNotificationsDelegateDetails
             propsVarObject->setProperty (propertyName, properties.getValueAt (i));
         }
 
-        return var (propsVarObject);
+        return var (propsVarObject.get());
     }
 
     //==============================================================================
@@ -300,7 +300,9 @@ namespace PushNotificationsDelegateDetails
         if (n.fireDate != nil)
         {
             NSDate* dateNow = [NSDate date];
-            notif.triggerIntervalSec = [dateNow timeIntervalSinceDate: n.fireDate];
+            NSDate* fireDate = n.fireDate;
+
+            notif.triggerIntervalSec = [dateNow timeIntervalSinceDate: fireDate];
         }
 
         notif.soundToPlay = URL (nsStringToJuce (n.soundName));
@@ -585,7 +587,7 @@ struct PushNotifications::Pimpl : private PushNotificationsDelegate
     {
         settings = settingsToUse;
 
-        auto* categories = [NSMutableSet setWithCapacity: (NSUInteger) settings.categories.size()];
+        auto categories = [NSMutableSet setWithCapacity: (NSUInteger) settings.categories.size()];
 
         if (iOSEarlierThan10)
         {
@@ -841,12 +843,22 @@ struct PushNotifications::Pimpl : private PushNotificationsDelegate
 
     void registeredForRemoteNotifications (NSData* deviceTokenToUse) override
     {
-        NSString* deviceTokenString = [[[[deviceTokenToUse description]
-                                          stringByReplacingOccurrencesOfString: nsStringLiteral ("<") withString: nsStringLiteral ("")]
-                                          stringByReplacingOccurrencesOfString: nsStringLiteral (">") withString: nsStringLiteral ("")]
-                                          stringByReplacingOccurrencesOfString: nsStringLiteral (" ") withString: nsStringLiteral ("")];
+        deviceToken = [deviceTokenToUse]() -> String
+        {
+            auto length = deviceTokenToUse.length;
 
-        deviceToken = nsStringToJuce (deviceTokenString);
+            if (auto* buffer = (const unsigned char*) deviceTokenToUse.bytes)
+            {
+                NSMutableString* hexString = [NSMutableString stringWithCapacity: (length * 2)];
+
+                for (NSUInteger i = 0; i < length; ++i)
+                    [hexString appendFormat:@"%02x", buffer[i]];
+
+                return nsStringToJuce ([hexString copy]);
+            }
+
+            return {};
+        }();
 
         initialised = true;
 

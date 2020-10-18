@@ -42,13 +42,16 @@ MPESynthesiser::~MPESynthesiser()
 void MPESynthesiser::startVoice (MPESynthesiserVoice* voice, MPENote noteToStart)
 {
     jassert (voice != nullptr);
+
     voice->currentlyPlayingNote = noteToStart;
+    voice->noteOnTime = lastNoteOnCounter++;
     voice->noteStarted();
 }
 
 void MPESynthesiser::stopVoice (MPESynthesiserVoice* voice, MPENote noteToStop, bool allowTailOff)
 {
     jassert (voice != nullptr);
+
     voice->currentlyPlayingNote = noteToStop;
     voice->noteStopped (allowTailOff);
 }
@@ -197,7 +200,7 @@ MPESynthesiserVoice* MPESynthesiser::findVoiceToSteal (MPENote noteToStealVoiceF
         // compilers generating code containing heap allocations..
         struct Sorter
         {
-            bool operator() (const MPESynthesiserVoice* a, const MPESynthesiserVoice* b) const noexcept { return a->wasStartedBefore (*b); }
+            bool operator() (const MPESynthesiserVoice* a, const MPESynthesiserVoice* b) const noexcept { return a->noteOnTime < b->noteOnTime; }
         };
 
         std::sort (usableVoices.begin(), usableVoices.end(), Sorter());
@@ -296,10 +299,14 @@ void MPESynthesiser::reduceNumVoices (const int newNumVoices)
 
 void MPESynthesiser::turnOffAllVoices (bool allowTailOff)
 {
-    // first turn off all voices (it's more efficient to do this immediately
-    // rather than to go through the MPEInstrument for this).
-    for (auto* voice : voices)
-        voice->noteStopped (allowTailOff);
+    {
+        const ScopedLock sl (voicesLock);
+
+        // first turn off all voices (it's more efficient to do this immediately
+        // rather than to go through the MPEInstrument for this).
+        for (auto* voice : voices)
+            voice->noteStopped (allowTailOff);
+    }
 
     // finally make sure the MPE Instrument also doesn't have any notes anymore.
     instrument->releaseAllNotes();
@@ -308,6 +315,8 @@ void MPESynthesiser::turnOffAllVoices (bool allowTailOff)
 //==============================================================================
 void MPESynthesiser::renderNextSubBlock (AudioBuffer<float>& buffer, int startSample, int numSamples)
 {
+    const ScopedLock sl (voicesLock);
+
     for (auto* voice : voices)
     {
         if (voice->isActive())
@@ -317,6 +326,8 @@ void MPESynthesiser::renderNextSubBlock (AudioBuffer<float>& buffer, int startSa
 
 void MPESynthesiser::renderNextSubBlock (AudioBuffer<double>& buffer, int startSample, int numSamples)
 {
+    const ScopedLock sl (voicesLock);
+
     for (auto* voice : voices)
     {
         if (voice->isActive())

@@ -121,7 +121,7 @@ class FIRFilterTest : public UnitTest
         template <typename FloatType>
         static void run (FIR::Filter<FloatType>& filter, FloatType* src, FloatType* dst, size_t n)
         {
-            AudioBlock<FloatType> input  (&src, 1, n);
+            AudioBlock<const FloatType> input (&src, 1, n);
             AudioBlock<FloatType> output (&dst, 1, n);
             ProcessContextNonReplacing<FloatType> context (input, output);
 
@@ -151,7 +151,7 @@ class FIRFilterTest : public UnitTest
                 auto* src = input + i;
                 auto* dst = output + i;
 
-                AudioBlock<FloatType> inBlock  (&src, 1, len);
+                AudioBlock<const FloatType> inBlock (&src, 1, len);
                 AudioBlock<FloatType> outBlock (&dst, 1, len);
                 ProcessContextNonReplacing<FloatType> context (inBlock, outBlock);
 
@@ -178,7 +178,7 @@ class FIRFilterTest : public UnitTest
             AudioBlock<NumericType> fir (firBlock, 1, static_cast<size_t> (size));
             fillRandom (random, fir.getChannelPointer (0), static_cast<size_t> (size));
 
-            FIR::Filter<SampleType> filter (new FIR::Coefficients<NumericType> (fir.getChannelPointer (0), static_cast<size_t> (size)));
+            FIR::Filter<SampleType> filter (*new FIR::Coefficients<NumericType> (fir.getChannelPointer (0), static_cast<size_t> (size)));
             ProcessSpec spec {0.0, n, 1};
             filter.prepare (spec);
 
@@ -205,7 +205,9 @@ class FIRFilterTest : public UnitTest
 
 
 public:
-    FIRFilterTest() : UnitTest ("FIR Filter", "DSP") {}
+    FIRFilterTest()
+        : UnitTest ("FIR Filter", UnitTestCategories::dsp)
+    {}
 
     void runTest() override
     {

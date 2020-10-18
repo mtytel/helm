@@ -47,7 +47,7 @@ public:
                            int numChannels = 2);
 
     /** Destructor. */
-    ~ResamplingAudioSource();
+    ~ResamplingAudioSource() override;
 
     /** Changes the resampling ratio.
 
@@ -76,12 +76,13 @@ public:
 private:
     //==============================================================================
     OptionalScopedPointer<AudioSource> input;
-    double ratio, lastRatio;
+    double ratio = 1.0, lastRatio = 1.0;
     AudioBuffer<float> buffer;
-    int bufferPos, sampsInBuffer;
-    double subSampleOffset;
+    int bufferPos = 0, sampsInBuffer = 0;
+    double subSampleOffset = 0.0;
     double coefficients[6];
     SpinLock ratioLock;
+    CriticalSection callbackLock;
     const int numChannels;
     HeapBlock<float*> destBuffers;
     HeapBlock<const float*> srcBuffers;

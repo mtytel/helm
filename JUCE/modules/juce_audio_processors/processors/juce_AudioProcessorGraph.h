@@ -55,10 +55,20 @@ public:
     /** Destructor.
         Any processor objects that have been added to the graph will also be deleted.
     */
-    ~AudioProcessorGraph();
+    ~AudioProcessorGraph() override;
 
     /** Each node in the graph has a UID of this type. */
-    using NodeID = uint32;
+    struct NodeID
+    {
+        NodeID() {}
+        explicit NodeID (uint32 i) : uid (i) {}
+
+        uint32 uid = 0;
+
+        bool operator== (const NodeID& other) const noexcept    { return uid == other.uid; }
+        bool operator!= (const NodeID& other) const noexcept    { return uid != other.uid; }
+        bool operator<  (const NodeID& other) const noexcept    { return uid <  other.uid; }
+    };
 
     //==============================================================================
     /** A special index that represents the midi channel of a node.
@@ -122,6 +132,8 @@ public:
     private:
         //==============================================================================
         friend class AudioProcessorGraph;
+        template <typename Float>
+        friend struct GraphRenderSequence;
 
         struct Connection
         {
@@ -133,13 +145,30 @@ public:
 
         const std::unique_ptr<AudioProcessor> processor;
         Array<Connection> inputs, outputs;
-        bool isPrepared = false, bypassed = false;
+        bool isPrepared = false;
+        std::atomic<bool> bypassed { false };
 
-        Node (NodeID, AudioProcessor*) noexcept;
+        Node (NodeID, std::unique_ptr<AudioProcessor>) noexcept;
 
         void setParentGraph (AudioProcessorGraph*) const;
         void prepare (double newSampleRate, int newBlockSize, AudioProcessorGraph*, ProcessingPrecision);
         void unprepare();
+
+        template <typename Sample>
+        void processBlock (AudioBuffer<Sample>& audio, MidiBuffer& midi)
+        {
+            const ScopedLock lock (processorLock);
+            processor->processBlock (audio, midi);
+        }
+
+        template <typename Sample>
+        void processBlockBypassed (AudioBuffer<Sample>& audio, MidiBuffer& midi)
+        {
+            const ScopedLock lock (processorLock);
+            processor->processBlockBypassed (audio, midi);
+        }
+
+        CriticalSection processorLock;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Node)
     };
@@ -152,6 +181,7 @@ public:
     struct JUCE_API  Connection
     {
         //==============================================================================
+        Connection() = default;
         Connection (NodeAndChannel source, NodeAndChannel destination) noexcept;
 
         Connection (const Connection&) = default;
@@ -163,10 +193,10 @@ public:
 
         //==============================================================================
         /** The channel and node which is the input source for this connection. */
-        NodeAndChannel source;
+        NodeAndChannel source { {}, 0 };
 
         /** The channel and node which is the input source for this connection. */
-        NodeAndChannel destination;
+        NodeAndChannel destination { {}, 0 };
     };
 
     //==============================================================================
@@ -185,7 +215,7 @@ public:
         This will return nullptr if the index is out of range.
         @see getNodeForId
     */
-    Node* getNode (int index) const noexcept                        { return nodes [index]; }
+    Node::Ptr getNode (int index) const noexcept                    { return nodes[index]; }
 
     /** Searches the graph for a node with the given ID number and returns it.
         If no such node was found, this returns nullptr.
@@ -199,12 +229,12 @@ public:
         added a processor to the graph, the graph owns it and will delete it later when
         it is no longer needed.
 
-        The optional nodeId parameter lets you specify an ID to use for the node, but
-        if the value is already in use, this new node will overwrite the old one.
+        The optional nodeId parameter lets you specify a unique ID to use for the node.
+        If the value is already in use, this method will fail and return an empty node.
 
         If this succeeds, it returns a pointer to the newly-created node.
     */
-    Node::Ptr addNode (AudioProcessor* newProcessor, NodeID nodeId = {});
+    Node::Ptr addNode (std::unique_ptr<AudioProcessor> newProcessor, NodeID nodeId = {});
 
     /** Deletes a node within the graph which has the specified ID.
         This will also delete any connections that are attached to this node.
@@ -312,7 +342,7 @@ public:
 
         //==============================================================================
         AudioGraphIOProcessor (IODeviceType);
-        ~AudioGraphIOProcessor();
+        ~AudioGraphIOProcessor() override;
 
         const String getName() const override;
         void fillInPluginDescription (PluginDescription&) const override;
@@ -385,7 +415,7 @@ private:
 
     friend class AudioGraphIOProcessor;
 
-    Atomic<int> isPrepared { 0 };
+    std::atomic<bool> isPrepared { false };
 
     void topologyChanged();
     void handleAsyncUpdate() override;

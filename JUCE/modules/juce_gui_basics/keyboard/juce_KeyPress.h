@@ -45,13 +45,16 @@ public:
 
         @see isValid
     */
-    KeyPress() noexcept;
+    KeyPress() = default;
+
+    /** Destructor. */
+    ~KeyPress() = default;
 
     /** Creates a KeyPress for a key and some modifiers.
 
         e.g.
-        CTRL+C would be: KeyPress ('c', ModifierKeys::ctrlModifier)
-        SHIFT+Escape would be: KeyPress (KeyPress::escapeKey, ModifierKeys::shiftModifier)
+        CTRL+C would be: KeyPress ('c', ModifierKeys::ctrlModifier, 0)
+        SHIFT+Escape would be: KeyPress (KeyPress::escapeKey, ModifierKeys::shiftModifier, 0)
 
         @param keyCode      a code that represents the key - this value must be
                             one of special constants listed in this class, or an
@@ -74,10 +77,10 @@ public:
     explicit KeyPress (int keyCode) noexcept;
 
     /** Creates a copy of another KeyPress. */
-    KeyPress (const KeyPress& other) noexcept;
+    KeyPress (const KeyPress&) = default;
 
     /** Copies this KeyPress from another one. */
-    KeyPress& operator= (const KeyPress& other) noexcept;
+    KeyPress& operator= (const KeyPress&) = default;
 
     /** Compares two KeyPress objects. */
     bool operator== (const KeyPress& other) const noexcept;

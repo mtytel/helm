@@ -35,17 +35,17 @@ namespace juce
 
     @tags{Audio}
 */
-class JUCE_API  AudioParameterInt  : public AudioProcessorParameterWithID
+class JUCE_API  AudioParameterInt  : public RangedAudioParameter
 {
 public:
     /** Creates a AudioParameterInt with the specified parameters.
 
         @param parameterID         The parameter ID to use
-        @param name                The parameter name to use
+        @param parameterName       The parameter name to use
         @param minValue            The minimum parameter value
         @param maxValue            The maximum parameter value
         @param defaultValue        The default value
-        @param label               An optional label for the parameter's value
+        @param parameterLabel      An optional label for the parameter's value
         @param stringFromInt       An optional lambda function that converts a int
                                    value to a string with a maximum length. This may
                                    be used by hosts to display the parameter's value.
@@ -53,18 +53,19 @@ public:
                                    and converts it into an int. Some hosts use this
                                    to allow users to type in parameter values.
     */
-    AudioParameterInt (const String& parameterID, const String& name,
+    AudioParameterInt (const String& parameterID, const String& parameterName,
                        int minValue, int maxValue,
                        int defaultValue,
-                       const String& label = String(),
-                       std::function<String (int value, int maximumStringLength)> stringFromInt = nullptr,
-                       std::function<int (const String& text)> intFromString = nullptr);
+                       const String& parameterLabel = String(),
+                       std::function<String(int value, int maximumStringLength)> stringFromInt = nullptr,
+                       std::function<int(const String& text)> intFromString = nullptr);
 
     /** Destructor. */
-    ~AudioParameterInt();
+    ~AudioParameterInt() override;
 
     /** Returns the parameter's current value as an integer. */
-    int get() const noexcept                    { return roundToInt (value); }
+    int get() const noexcept                    { return roundToInt (value.load()); }
+
     /** Returns the parameter's current value as an integer. */
     operator int() const noexcept               { return get(); }
 
@@ -74,7 +75,10 @@ public:
     AudioParameterInt& operator= (int newValue);
 
     /** Returns the parameter's range. */
-    Range<int> getRange() const noexcept        { return Range<int> (minValue, maxValue); }
+    Range<int> getRange() const noexcept        { return { (int) getNormalisableRange().start, (int) getNormalisableRange().end }; }
+
+    /** Returns the range of values that the parameter can take. */
+    const NormalisableRange<float>& getNormalisableRange() const override   { return range; }
 
 protected:
     /** Override this method if you are interested in receiving callbacks
@@ -91,15 +95,11 @@ private:
     String getText (float, int) const override;
     float getValueForText (const String&) const override;
 
-    int limitRange (int) const noexcept;
-    float convertTo0to1 (int) const noexcept;
-    int convertFrom0to1 (float) const noexcept;
-
-    const int minValue, maxValue, rangeOfValues;
-    float value;
+    const NormalisableRange<float> range;
+    std::atomic<float> value;
     const float defaultValue;
-    std::function<String (int, int)> stringFromIntFunction;
-    std::function<int (const String&)> intFromStringFunction;
+    std::function<String(int, int)> stringFromIntFunction;
+    std::function<int(const String&)> intFromStringFunction;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioParameterInt)
 };

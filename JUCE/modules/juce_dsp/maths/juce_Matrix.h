@@ -101,7 +101,7 @@ public:
     Array<size_t> getSize() const noexcept             { return { rows, columns }; }
 
     /** Fills the contents of the matrix with zeroes. */
-    void clear() noexcept                              { zeromem (data.begin(), sizeof (ElementType) * (size_t) data.size()); }
+    void clear() noexcept                              { zeromem (data.begin(), (size_t) data.size() * sizeof (ElementType)); }
 
     //==============================================================================
     /** Swaps the contents of two rows in the matrix and returns a reference to itself. */
@@ -198,7 +198,7 @@ public:
         with the coefficients of b. After the execution of the algorithm,
         the vector b will contain the solution.
 
-        Returns true if the linear system of euqations was successfully solved.
+        Returns true if the linear system of equations was successfully solved.
      */
     bool solve (Matrix& b) const noexcept;
 

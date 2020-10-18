@@ -76,7 +76,7 @@ public:
     AudioDeviceManager();
 
     /** Destructor. */
-    ~AudioDeviceManager();
+    ~AudioDeviceManager() override;
 
     //==============================================================================
     /**
@@ -89,17 +89,6 @@ public:
     */
     struct JUCE_API  AudioDeviceSetup
     {
-        /** Creates an AudioDeviceSetup object.
-
-            The default constructor sets all the member variables to indicate default values.
-            You can then fill-in any values you want to before passing the object to
-            AudioDeviceManager::initialise().
-        */
-        AudioDeviceSetup();
-
-        bool operator== (const AudioDeviceSetup& other) const;
-        bool operator!= (const AudioDeviceSetup& other) const;
-
         /** The name of the audio device used for output.
             The name has to be one of the ones listed by the AudioDeviceManager's currently
             selected device type.
@@ -119,13 +108,13 @@ public:
             A value of 0 indicates that you don't care what rate is used, and the
             device will choose a sensible rate for you.
         */
-        double sampleRate;
+        double sampleRate = 0;
 
         /** The buffer size, in samples.
             This buffer size is used for both the input and output devices.
             A value of 0 indicates the default buffer size.
         */
-        int bufferSize;
+        int bufferSize = 0;
 
         /** The set of active input channels.
             The bits that are set in this array indicate the channels of the
@@ -138,7 +127,7 @@ public:
             should be ignored, and instead, the device's default channels
             should be used.
         */
-        bool useDefaultInputChannels;
+        bool useDefaultInputChannels = true;
 
         /** The set of active output channels.
             The bits that are set in this array indicate the channels of the
@@ -151,7 +140,10 @@ public:
             should be ignored, and instead, the device's default channels
             should be used.
         */
-        bool useDefaultOutputChannels;
+        bool useDefaultOutputChannels = true;
+
+        bool operator== (const AudioDeviceSetup&) const;
+        bool operator!= (const AudioDeviceSetup&) const;
     };
 
 
@@ -205,11 +197,18 @@ public:
         Note that this can return a null pointer if no settings have been explicitly changed
         (i.e. if the device manager has just been left in its default state).
     */
-    XmlElement* createStateXml() const;
+    std::unique_ptr<XmlElement> createStateXml() const;
 
     //==============================================================================
     /** Returns the current device properties that are in use.
         @see setAudioDeviceSetup
+    */
+    AudioDeviceSetup getAudioDeviceSetup() const;
+
+    /** Returns the current device properties that are in use.
+        This is an old method, kept around for compatibility, but you should prefer the new
+        version which returns the result rather than taking an out-parameter.
+        @see getAudioDeviceSetup()
     */
     void getAudioDeviceSetup (AudioDeviceSetup& result) const;
 
@@ -232,8 +231,7 @@ public:
 
         @see getAudioDeviceSetup
     */
-    String setAudioDeviceSetup (const AudioDeviceSetup& newSetup,
-                                bool treatAsChosenDevice);
+    String setAudioDeviceSetup (const AudioDeviceSetup& newSetup, bool treatAsChosenDevice);
 
 
     /** Returns the currently-active audio device. */
@@ -257,8 +255,7 @@ public:
 
         For a list of types, see getAvailableDeviceTypes().
     */
-    void setCurrentAudioDeviceType (const String& type,
-                                    bool treatAsChosenDevice);
+    void setCurrentAudioDeviceType (const String& type, bool treatAsChosenDevice);
 
     /** Closes the currently-open device.
         You can call restartLastAudioDevice() later to reopen it in the same state
@@ -310,12 +307,12 @@ public:
     //==============================================================================
     /** Enables or disables a midi input device.
 
-        The list of devices can be obtained with the MidiInput::getDevices() method.
+        The list of devices can be obtained with the MidiInput::getAvailableDevices() method.
 
         Any incoming messages from enabled input devices will be forwarded on to all the
-        listeners that have been registered with the addMidiInputCallback() method. They
-        can either register for messages from a particular device, or from just the
-        "default" midi input.
+        listeners that have been registered with the addMidiInputDeviceCallback() method. They
+        can either register for messages from a particular device, or from just the "default"
+        midi input.
 
         Routing the midi input via an AudioDeviceManager means that when a listener
         registers for the default midi input, this default device can be changed by the
@@ -325,62 +322,65 @@ public:
         or not present, so that when the input is re-enabled, the listener will start
         receiving messages again.
 
-        @see addMidiInputCallback, isMidiInputEnabled
+        @see addMidiInputDeviceCallback, isMidiInputDeviceEnabled
     */
-    void setMidiInputEnabled (const String& midiInputDeviceName, bool enabled);
+    void setMidiInputDeviceEnabled (const String& deviceIdentifier, bool enabled);
 
     /** Returns true if a given midi input device is being used.
-        @see setMidiInputEnabled
+
+        @see setMidiInputDeviceEnabled
     */
-    bool isMidiInputEnabled (const String& midiInputDeviceName) const;
+    bool isMidiInputDeviceEnabled (const String& deviceIdentifier) const;
 
     /** Registers a listener for callbacks when midi events arrive from a midi input.
 
-        The device name can be empty to indicate that it wants to receive all incoming
-        events from all the enabled MIDI inputs. Or it can be the name of one of the
+        The device identifier can be empty to indicate that it wants to receive all incoming
+        events from all the enabled MIDI inputs. Or it can be the identifier of one of the
         MIDI input devices if it just wants the events from that device. (see
-        MidiInput::getDevices() for the list of device names).
+        MidiInput::getAvailableDevices() for the list of devices).
 
-        Only devices which are enabled (see the setMidiInputEnabled() method) will have their
+        Only devices which are enabled (see the setMidiInputDeviceEnabled() method) will have their
         events forwarded on to listeners.
     */
-    void addMidiInputCallback (const String& midiInputDeviceName,
-                               MidiInputCallback* callback);
+    void addMidiInputDeviceCallback (const String& deviceIdentifier,
+                                     MidiInputCallback* callback);
 
-    /** Removes a listener that was previously registered with addMidiInputCallback(). */
-    void removeMidiInputCallback (const String& midiInputDeviceName,
-                                  MidiInputCallback* callback);
+    /** Removes a listener that was previously registered with addMidiInputDeviceCallback(). */
+    void removeMidiInputDeviceCallback (const String& deviceIdentifier,
+                                        MidiInputCallback* callback);
 
     //==============================================================================
     /** Sets a midi output device to use as the default.
 
-        The list of devices can be obtained with the MidiOutput::getDevices() method.
+        The list of devices can be obtained with the MidiOutput::getAvailableDevices() method.
 
         The specified device will be opened automatically and can be retrieved with the
         getDefaultMidiOutput() method.
 
         Pass in an empty string to deselect all devices. For the default device, you
-        can use MidiOutput::getDevices() [MidiOutput::getDefaultDeviceIndex()].
+        can use MidiOutput::getDefaultDevice().
 
-        @see getDefaultMidiOutput, getDefaultMidiOutputName
+        @see getDefaultMidiOutput, getDefaultMidiOutputIdentifier
     */
-    void setDefaultMidiOutput (const String& deviceName);
+    void setDefaultMidiOutputDevice (const String& deviceIdentifier);
 
     /** Returns the name of the default midi output.
-        @see setDefaultMidiOutput, getDefaultMidiOutput
-    */
-    const String& getDefaultMidiOutputName() const noexcept         { return defaultMidiOutputName; }
 
-    /** Returns the current default midi output device.
-        If no device has been selected, or the device can't be opened, this will return nullptr.
-        @see getDefaultMidiOutputName
+        @see setDefaultMidiOutputDevice, getDefaultMidiOutput
+    */
+    const String& getDefaultMidiOutputIdentifier() const noexcept   { return defaultMidiOutputDeviceInfo.identifier; }
+
+    /** Returns the current default midi output device. If no device has been selected, or the
+        device can't be opened, this will return nullptr.
+
+        @see getDefaultMidiOutputIdentifier
     */
     MidiOutput* getDefaultMidiOutput() const noexcept               { return defaultMidiOutput.get(); }
 
+    //==============================================================================
     /** Returns a list of the types of device supported. */
     const OwnedArray<AudioIODeviceType>& getAvailableDeviceTypes();
 
-    //==============================================================================
     /** Creates a list of available types.
 
         This will add a set of new AudioIODeviceType objects to the specified list, to
@@ -391,10 +391,11 @@ public:
     */
     virtual void createAudioDeviceTypes (OwnedArray<AudioIODeviceType>& types);
 
-    /** Adds a new device type to the list of types.
-        The manager will take ownership of the object that is passed-in.
-    */
-    void addAudioDeviceType (AudioIODeviceType* newDeviceType);
+    /** Adds a new device type to the list of types. */
+    void addAudioDeviceType (std::unique_ptr<AudioIODeviceType> newDeviceType);
+
+    /** Removes a previously added device type from the manager. */
+    void removeAudioDeviceType (AudioIODeviceType* deviceTypeToRemove);
 
     //==============================================================================
     /** Plays a beep through the current audio device.
@@ -435,10 +436,10 @@ public:
     */
     LevelMeter::Ptr getInputLevelGetter() noexcept          { return inputLevelGetter; }
 
-    /** Returns a reference-counted object that can be used to get the current input level.
+    /** Returns a reference-counted object that can be used to get the current output level.
 
         You need to store this object locally to ensure that the reference count is incremented
-        and decremented properly. The current input level value can be read using getCurrentLevel().
+        and decremented properly. The current output level value can be read using getCurrentLevel().
     */
     LevelMeter::Ptr getOutputLevelGetter() noexcept         { return outputLevelGetter; }
 
@@ -464,6 +465,20 @@ public:
     */
     int getXRunCount() const noexcept;
 
+    //==============================================================================
+    /** Deprecated. */
+    void setMidiInputEnabled (const String&, bool);
+    /** Deprecated. */
+    bool isMidiInputEnabled (const String&) const;
+    /** Deprecated. */
+    void addMidiInputCallback (const String&, MidiInputCallback*);
+    /** Deprecated. */
+    void removeMidiInputCallback (const String&, MidiInputCallback*);
+    /** Deprecated. */
+    void setDefaultMidiOutput (const String&);
+    /** Deprecated. */
+    const String& getDefaultMidiOutputName() const noexcept  { return defaultMidiOutputDeviceInfo.name; }
+
 private:
     //==============================================================================
     OwnedArray<AudioIODeviceType> availableDeviceTypes;
@@ -473,39 +488,35 @@ private:
     std::unique_ptr<AudioIODevice> currentAudioDevice;
     Array<AudioIODeviceCallback*> callbacks;
     int numInputChansNeeded = 0, numOutputChansNeeded = 2;
-    String currentDeviceType;
-    BigInteger inputChannels, outputChannels;
+    String preferredDeviceName, currentDeviceType;
     std::unique_ptr<XmlElement> lastExplicitSettings;
     mutable bool listNeedsScanning = true;
     AudioBuffer<float> tempBuffer;
 
     struct MidiCallbackInfo
     {
-        String deviceName;
+        String deviceIdentifier;
         MidiInputCallback* callback;
     };
 
-    StringArray midiInsFromXml;
-    OwnedArray<MidiInput> enabledMidiInputs;
+    Array<MidiDeviceInfo> midiDeviceInfosFromXml;
+    std::vector<std::unique_ptr<MidiInput>> enabledMidiInputs;
     Array<MidiCallbackInfo> midiCallbacks;
 
-    String defaultMidiOutputName;
+    MidiDeviceInfo defaultMidiOutputDeviceInfo;
     std::unique_ptr<MidiOutput> defaultMidiOutput;
     CriticalSection audioCallbackLock, midiCallbackLock;
 
     std::unique_ptr<AudioBuffer<float>> testSound;
     int testSoundPosition = 0;
 
-    double cpuUsageMs = 0, timeToCpuScale = 0, msPerBlock = 0;
-    int xruns = 0;
+    AudioProcessLoadMeasurer loadMeasurer;
 
     LevelMeter::Ptr inputLevelGetter   { new LevelMeter() },
                     outputLevelGetter  { new LevelMeter() };
 
     //==============================================================================
     class CallbackHandler;
-    friend class CallbackHandler;
-    friend struct ContainerDeletePolicy<CallbackHandler>;
     std::unique_ptr<CallbackHandler> callbackHandler;
 
     void audioDeviceIOCallbackInt (const float** inputChannelData, int totalNumInputChannels,

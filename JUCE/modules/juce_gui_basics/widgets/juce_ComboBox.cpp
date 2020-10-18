@@ -83,7 +83,7 @@ void ComboBox::addItem (const String& newItemText, int newItemId)
     // you can't add empty strings to the list..
     jassert (newItemText.isNotEmpty());
 
-    // IDs must be non-zero, as zero is used to indicate a lack of selecion.
+    // IDs must be non-zero, as zero is used to indicate a lack of selection.
     jassert (newItemId != 0);
 
     // you shouldn't use duplicate item IDs!
@@ -369,16 +369,8 @@ void ComboBox::paint (Graphics& g)
                                    label->getRight(), 0, getWidth() - label->getRight(), getHeight(),
                                    *this);
 
-    if (textWhenNothingSelected.isNotEmpty()
-         && label->getText().isEmpty()
-         && ! label->isBeingEdited())
-    {
-        g.setColour (findColour (textColourId).withMultipliedAlpha (0.5f));
-        g.setFont (label->getLookAndFeel().getLabelFont (*label));
-        g.drawFittedText (textWhenNothingSelected, label->getBounds().reduced (2, 1),
-                          label->getJustificationType(),
-                          jmax (1, (int) (label->getHeight() / label->getFont().getHeight())));
-    }
+    if (textWhenNothingSelected.isNotEmpty() && label->getText().isEmpty() && ! label->isBeingEdited())
+        getLookAndFeel().drawComboBoxTextWhenNothingSelected (g, *this, *label);
 }
 
 void ComboBox::resized()
@@ -497,6 +489,8 @@ void ComboBox::showPopupIfNotActive()
         // showPopup asynchronously, we are giving the other popups a chance to properly
         // close themselves
         MessageManager::callAsync ([safePointer]() mutable { if (safePointer != nullptr) safePointer->showPopup(); });
+
+        repaint();
     }
 }
 
@@ -523,6 +517,9 @@ static void comboBoxPopupMenuFinishedCallback (int result, ComboBox* combo)
 
 void ComboBox::showPopup()
 {
+    if (! menuActive)
+        menuActive = true;
+
     auto menu = currentMenu;
 
     if (menu.getNumItems() > 0)
@@ -542,12 +539,10 @@ void ComboBox::showPopup()
         menu.addItem (1, noChoicesMessage, false, false);
     }
 
-    menu.setLookAndFeel (&getLookAndFeel());
-    menu.showMenuAsync (PopupMenu::Options().withTargetComponent (this)
-                                            .withItemThatMustBeVisible (getSelectedId())
-                                            .withMinimumWidth (getWidth())
-                                            .withMaximumNumColumns (1)
-                                            .withStandardItemHeight (label->getHeight()),
+    auto& lf = getLookAndFeel();
+
+    menu.setLookAndFeel (&lf);
+    menu.showMenuAsync (lf.getOptionsForComboBoxPopupMenu (*this, *label),
                         ModalCallbackFunction::forComponent (comboBoxPopupMenuFinishedCallback, this));
 }
 

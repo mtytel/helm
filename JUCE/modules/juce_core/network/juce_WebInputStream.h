@@ -36,7 +36,7 @@ class JUCE_API WebInputStream : public InputStream
     class JUCE_API Listener
     {
     public:
-        virtual ~Listener() {}
+        virtual ~Listener() = default;
 
         virtual bool postDataSendProgress (WebInputStream& /*request*/, int /*bytesSent*/, int /*totalBytes*/)    { return true; }
     };
@@ -50,7 +50,7 @@ class JUCE_API WebInputStream : public InputStream
     */
     WebInputStream (const URL& url, const bool usePost);
 
-    ~WebInputStream();
+    ~WebInputStream() override;
 
 
     /** Add extra headers to http request
@@ -101,7 +101,7 @@ class JUCE_API WebInputStream : public InputStream
 
         If getResponseHeaders is called without an established connection, then
         getResponseHeaders will call connect internally and block until connect
-        returns - either due to a succesful connection or a connection
+        returns - either due to a successful connection or a connection
         error.
 
         @see connect
@@ -112,7 +112,7 @@ class JUCE_API WebInputStream : public InputStream
 
         If getStatusCode is called without an established connection, then
         getStatusCode will call connect internally and block until connect
-        returns - either due to a succesful connection or a connection
+        returns - either due to a successful connection or a connection
         error.
 
         @see connect
@@ -153,7 +153,7 @@ class JUCE_API WebInputStream : public InputStream
 
         If getTotalLength is called without an established connection, then
         getTotalLength will call connect internally and block until connect
-        returns - either due to a succesful connection or a connection
+        returns - either due to a successful connection or a connection
         error.
 
         If the size of the stream isn't actually known, this will return -1.
@@ -190,10 +190,10 @@ class JUCE_API WebInputStream : public InputStream
         The position is an absolute number of bytes from the stream's start.
 
         For a WebInputStream, this method will fail if wantedPos is smaller
-        than the curent position. If wantedPos is greater than the current
+        than the current position. If wantedPos is greater than the current
         position, then calling setPosition is the same as calling read, i.e.
         the skipped data will still be downloaded, although skipped bytes will
-        be discarded immedietely.
+        be discarded immediately.
 
         @returns  true if the stream manages to reposition itself correctly
         @see getPosition

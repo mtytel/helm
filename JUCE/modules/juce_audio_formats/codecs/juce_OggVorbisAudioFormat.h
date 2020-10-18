@@ -44,7 +44,7 @@ class JUCE_API  OggVorbisAudioFormat  : public AudioFormat
 public:
     //==============================================================================
     OggVorbisAudioFormat();
-    ~OggVorbisAudioFormat();
+    ~OggVorbisAudioFormat() override;
 
     //==============================================================================
     Array<int> getPossibleSampleRates() override;
@@ -91,6 +91,7 @@ public:
                                         int bitsPerSample,
                                         const StringPairArray& metadataValues,
                                         int qualityOptionIndex) override;
+    using AudioFormat::createWriterFor;
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OggVorbisAudioFormat)

@@ -37,10 +37,7 @@ Viewport::Viewport (const String& name)  : Component (name)
 
     setInterceptsMouseClicks (false, true);
     setWantsKeyboardFocus (true);
-
-  #if JUCE_ANDROID || JUCE_IOS
-    setScrollOnDragEnabled (true);
-  #endif
+    setScrollOnDragEnabled (Desktop::getInstance().getMainMouseSource().isTouch());
 
     recreateScrollbars();
 }
@@ -66,7 +63,7 @@ void Viewport::deleteOrRemoveContentComp()
         {
             // This sets the content comp to a null pointer before deleting the old one, in case
             // anything tries to use the old one while it's in mid-deletion..
-            std::unique_ptr<Component> oldCompDeleter (contentComp);
+            std::unique_ptr<Component> oldCompDeleter (contentComp.get());
             contentComp = nullptr;
         }
         else
@@ -124,7 +121,7 @@ Point<int> Viewport::viewportPosToCompPos (Point<int> pos) const
 {
     jassert (contentComp != nullptr);
 
-    auto contentBounds = contentHolder.getLocalArea (contentComp, contentComp->getLocalBounds());
+    auto contentBounds = contentHolder.getLocalArea (contentComp.get(), contentComp->getLocalBounds());
 
     Point<int> p (jmax (jmin (0, contentHolder.getWidth()  - contentBounds.getWidth()),  jmin (0, -(pos.x))),
                   jmax (jmin (0, contentHolder.getHeight() - contentBounds.getHeight()), jmin (0, -(pos.y))));
@@ -214,7 +211,7 @@ struct Viewport::DragToScrollListener   : private MouseListener,
         offsetY.behaviour.setMinimumVelocity (60);
     }
 
-    ~DragToScrollListener()
+    ~DragToScrollListener() override
     {
         viewport.contentHolder.removeMouseListener (this);
         Desktop::getInstance().removeGlobalMouseListener (this);
@@ -392,14 +389,15 @@ void Viewport::updateVisibleArea()
         auto oldContentBounds = contentComp->getBounds();
         contentHolder.setBounds (contentArea);
 
-        // If the content has changed its size, that might affect our scrollbars, so go round again and re-caclulate..
+        // If the content has changed its size, that might affect our scrollbars, so go round again and re-calculate..
         if (oldContentBounds == contentComp->getBounds())
             break;
     }
 
     Rectangle<int> contentBounds;
-    if (contentComp != nullptr)
-        contentBounds = contentHolder.getLocalArea (contentComp, contentComp->getLocalBounds());
+
+    if (auto cc = contentComp.get())
+        contentBounds = contentHolder.getLocalArea (cc, cc->getLocalBounds());
 
     auto visibleOrigin = -contentBounds.getPosition();
 
@@ -410,7 +408,6 @@ void Viewport::updateVisibleArea()
     hbar.setRangeLimits (0.0, contentBounds.getWidth());
     hbar.setCurrentRange (visibleOrigin.x, contentArea.getWidth());
     hbar.setSingleStepSize (singleStepX);
-    hbar.cancelPendingUpdate();
 
     if (canShowHBar && ! hBarVisible)
         visibleOrigin.setX (0);
@@ -419,7 +416,6 @@ void Viewport::updateVisibleArea()
     vbar.setRangeLimits (0.0, contentBounds.getHeight());
     vbar.setCurrentRange (visibleOrigin.y, contentArea.getHeight());
     vbar.setSingleStepSize (singleStepY);
-    vbar.cancelPendingUpdate();
 
     if (canShowVBar && ! vBarVisible)
         visibleOrigin.setY (0);

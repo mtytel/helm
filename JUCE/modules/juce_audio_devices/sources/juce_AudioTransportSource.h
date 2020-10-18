@@ -49,7 +49,7 @@ public:
     AudioTransportSource();
 
     /** Destructor. */
-    ~AudioTransportSource();
+    ~AudioTransportSource() override;
 
     //==============================================================================
     /** Sets the reader that is being used as the input source.
@@ -167,7 +167,7 @@ private:
 
     CriticalSection callbackLock;
     float gain = 1.0f, lastGain = 1.0f;
-    bool playing = false, stopped = true;
+    std::atomic<bool> playing { false }, stopped { true };
     double sampleRate = 44100.0, sourceSampleRate = 0;
     int blockSize = 128, readAheadBufferSize = 0;
     bool isPrepared = false, inputStreamEOF = false;

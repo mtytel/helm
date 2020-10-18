@@ -34,15 +34,15 @@ namespace juce
 
     @tags{Audio}
 */
-class JUCE_API AudioParameterBool  : public AudioProcessorParameterWithID
+class JUCE_API AudioParameterBool  : public RangedAudioParameter
 {
 public:
     /** Creates a AudioParameterBool with the specified parameters.
 
         @param parameterID         The parameter ID to use
-        @param name                The parameter name to use
+        @param parameterName       The parameter name to use
         @param defaultValue        The default value
-        @param label               An optional label for the parameter's value
+        @param parameterLabel      An optional label for the parameter's value
         @param stringFromBool      An optional lambda function that converts a bool
                                    value to a string with a maximum length. This may
                                    be used by hosts to display the parameter's value.
@@ -50,21 +50,25 @@ public:
                                    converts it into a bool value. Some hosts use this
                                    to allow users to type in parameter values.
     */
-    AudioParameterBool (const String& parameterID, const String& name, bool defaultValue,
-                        const String& label = String(),
-                        std::function<String (bool value, int maximumStringLength)> stringFromBool = nullptr,
-                        std::function<bool (const String& text)> boolFromString = nullptr);
+    AudioParameterBool (const String& parameterID, const String& parameterName, bool defaultValue,
+                        const String& parameterLabel = String(),
+                        std::function<String(bool value, int maximumStringLength)> stringFromBool = nullptr,
+                        std::function<bool(const String& text)> boolFromString = nullptr);
 
     /** Destructor. */
-    ~AudioParameterBool();
+    ~AudioParameterBool() override;
 
     /** Returns the parameter's current boolean value. */
     bool get() const noexcept          { return value >= 0.5f; }
+
     /** Returns the parameter's current boolean value. */
     operator bool() const noexcept     { return get(); }
 
     /** Changes the parameter's current value to a new boolean. */
     AudioParameterBool& operator= (bool newValue);
+
+    /** Returns the range of values that the parameter can take. */
+    const NormalisableRange<float>& getNormalisableRange() const override   { return range; }
 
 protected:
     /** Override this method if you are interested in receiving callbacks
@@ -83,10 +87,11 @@ private:
     String getText (float, int) const override;
     float getValueForText (const String&) const override;
 
-    float value;
+    const NormalisableRange<float> range { 0.0f, 1.0f, 1.0f };
+    std::atomic<float> value;
     const float defaultValue;
-    std::function<String (bool, int)> stringFromBoolFunction;
-    std::function<bool (const String&)> boolFromStringFunction;
+    std::function<String(bool, int)> stringFromBoolFunction;
+    std::function<bool(const String&)> boolFromStringFunction;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioParameterBool)
 };

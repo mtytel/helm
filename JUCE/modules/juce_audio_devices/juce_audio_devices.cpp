@@ -70,12 +70,12 @@
   #include <mmreg.h>
  #endif
 
- #if JUCE_USE_WINRT_MIDI
+ #if JUCE_USE_WINRT_MIDI && JUCE_MSVC
   /* If you cannot find any of the header files below then you are probably
      attempting to use the Windows 10 Bluetooth Low Energy API. For this to work you
-     need to install version 10.0.14393.0 of the Windows Standalone SDK and add the
-     path to the WinRT headers to your build system. This path should have the form
-     "C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\winrt".
+     need to install version 10.0.14393.0 of the Windows Standalone SDK and you may
+     need to add the path to the WinRT headers to your build system. This path should
+     have the form "C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\winrt".
 
      Also please note that Microsoft's Bluetooth MIDI stack has multiple issues, so
      this API is EXPERIMENTAL - use at your own risk!
@@ -83,15 +83,16 @@
   #include <windows.devices.h>
   #include <windows.devices.midi.h>
   #include <windows.devices.enumeration.h>
+
+  #pragma warning (push)
+  #pragma warning (disable: 4265)
   #include <wrl/event.h>
-  #if JUCE_MSVC
-   #pragma warning (push)
-   #pragma warning (disable: 4467)
-  #endif
+  #pragma warning (pop)
+
+  #pragma warning (push)
+  #pragma warning (disable: 4467)
   #include <robuffer.h>
-  #if JUCE_MSVC
-   #pragma warning (pop)
-  #endif
+  #pragma warning (pop)
  #endif
 
  #if JUCE_ASIO
@@ -149,6 +150,7 @@
      files.
   */
   #include <Bela.h>
+  #include <Midi.h>
  #endif
 
  #undef SIZEOF
@@ -163,6 +165,10 @@
  #endif
 
  #if JUCE_USE_ANDROID_OBOE
+  #if JUCE_USE_ANDROID_OPENSLES
+   #error "Oboe cannot be enabled at the same time as openSL! Please disable JUCE_USE_ANDROID_OPENSLES"
+  #endif
+
   #include <oboe/Oboe.h>
  #endif
 
@@ -172,7 +178,7 @@
 #include "audio_io/juce_AudioIODevice.cpp"
 #include "audio_io/juce_AudioIODeviceType.cpp"
 #include "midi_io/juce_MidiMessageCollector.cpp"
-#include "midi_io/juce_MidiOutput.cpp"
+#include "midi_io/juce_MidiDevices.cpp"
 #include "sources/juce_AudioSourcePlayer.cpp"
 #include "sources/juce_AudioTransportSource.cpp"
 #include "native/juce_MidiDataConcatenator.h"
@@ -210,14 +216,14 @@
   #include "native/juce_linux_ALSA.cpp"
  #endif
 
- #include "native/juce_linux_Midi.cpp"
-
  #if JUCE_JACK
   #include "native/juce_linux_JackAudio.cpp"
  #endif
 
  #if JUCE_BELA
   #include "native/juce_linux_Bela.cpp"
+ #else
+  #include "native/juce_linux_Midi.cpp"
  #endif
 
 //==============================================================================

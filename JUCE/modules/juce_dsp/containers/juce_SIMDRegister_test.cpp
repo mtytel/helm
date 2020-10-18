@@ -90,13 +90,13 @@ namespace SIMDRegister_test_internal
     template <typename type>
     struct VecFiller<SIMDRegister<type>>
     {
-        static SIMDRegister<type> fill(Random& random)
+        static SIMDRegister<type> fill (Random& random)
         {
             constexpr int size = (int) SIMDRegister<type>::SIMDNumElements;
            #ifdef _MSC_VER
             __declspec(align(sizeof (SIMDRegister<type>))) type elements[size];
            #else
-            type elements[size] __attribute__((aligned(sizeof (SIMDRegister<type>))));
+            type elements[(size_t) size] __attribute__((aligned(sizeof (SIMDRegister<type>))));
            #endif
 
             VecFiller<type>::fill (elements, size, random);
@@ -131,12 +131,14 @@ namespace SIMDRegister_test_internal
 }
 
 // These tests need to be strictly run on all platforms supported by JUCE as the
-// SIMD code is highly platform dependant.
+// SIMD code is highly platform dependent.
 
 class SIMDRegisterUnitTests   : public UnitTest
 {
 public:
-    SIMDRegisterUnitTests()  : UnitTest ("SIMDRegister UnitTests", "DSP") {}
+    SIMDRegisterUnitTests()
+        : UnitTest ("SIMDRegister UnitTests", UnitTestCategories::dsp)
+    {}
 
     //==============================================================================
     // Some helper classes
@@ -193,7 +195,7 @@ public:
     }
 
     //==============================================================================
-    // Someuseful operations to test
+    // Some useful operations to test
     struct Addition
     {
         template <typename typeOne, typename typeTwo>
@@ -735,6 +737,50 @@ public:
         }
     };
 
+    struct CheckAbs
+    {
+        template <typename type>
+        static void run (UnitTest& u, Random& random)
+        {
+            type inArray[SIMDRegister<type>::SIMDNumElements];
+            type outArray[SIMDRegister<type>::SIMDNumElements];
+
+            SIMDRegister_test_internal::VecFiller<type>::fill (inArray, SIMDRegister<type>::SIMDNumElements, random);
+
+            SIMDRegister<type> a;
+            copy (a, inArray);
+            a = SIMDRegister<type>::abs (a);
+
+            auto calcAbs = [] (type x) -> type { return x >= type (0) ? x : -x; };
+
+            for (size_t j = 0; j < SIMDRegister<type>::SIMDNumElements; ++j)
+                outArray[j] = calcAbs (inArray[j]);
+
+            u.expect (vecEqualToArray (a, outArray));
+        }
+    };
+
+    struct CheckTruncate
+    {
+        template <typename type>
+        static void run (UnitTest& u, Random& random)
+        {
+            type inArray[SIMDRegister<type>::SIMDNumElements];
+            type outArray[SIMDRegister<type>::SIMDNumElements];
+
+            SIMDRegister_test_internal::VecFiller<type>::fill (inArray, SIMDRegister<type>::SIMDNumElements, random);
+
+            SIMDRegister<type> a;
+            copy (a, inArray);
+            a = SIMDRegister<type>::truncate (a);
+
+            for (size_t j = 0; j < SIMDRegister<type>::SIMDNumElements; ++j)
+                outArray[j] = (type) (int) inArray[j];
+
+            u.expect (vecEqualToArray (a, outArray));
+        }
+    };
+
     struct CheckBoolEquals
     {
         template <typename type>
@@ -771,6 +817,18 @@ public:
             u.expect (! (a == b));
         }
     };
+
+    //==============================================================================
+    template <class TheTest>
+    void runTestFloatingPoint (const char* unitTestName)
+    {
+        beginTest (unitTestName);
+
+        Random random = getRandom();
+
+        TheTest::template run<float>  (*this, random);
+        TheTest::template run<double> (*this, random);
+    }
 
     //==============================================================================
     template <class TheTest>
@@ -813,6 +871,21 @@ public:
         TheTest::template run<uint64_t>(*this, random);
     }
 
+    template <class TheTest>
+    void runTestSigned (const char* unitTestName)
+    {
+        beginTest (unitTestName);
+
+        Random random = getRandom();
+
+        TheTest::template run<float>   (*this, random);
+        TheTest::template run<double>  (*this, random);
+        TheTest::template run<int8_t>  (*this, random);
+        TheTest::template run<int16_t> (*this, random);
+        TheTest::template run<int32_t> (*this, random);
+        TheTest::template run<int64_t> (*this, random);
+    }
+
     void runTest()
     {
         runTestForAllTypes<InitializationTest> ("InitializationTest");
@@ -833,6 +906,10 @@ public:
 
         runTestForAllTypes<CheckMultiplyAdd> ("CheckMultiplyAdd");
         runTestForAllTypes<CheckSum> ("CheckSum");
+
+        runTestSigned<CheckAbs> ("CheckAbs");
+
+        runTestFloatingPoint<CheckTruncate> ("CheckTruncate");
     }
 };
 

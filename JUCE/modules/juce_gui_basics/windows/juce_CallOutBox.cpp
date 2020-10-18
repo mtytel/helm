@@ -42,8 +42,7 @@ CallOutBox::CallOutBox (Component& c, Rectangle<int> area, Component* const pare
     {
         setAlwaysOnTop (juce_areThereAnyAlwaysOnTopWindows());
 
-        updatePosition (area, Desktop::getInstance().getDisplays()
-                                .getDisplayContaining (area.getCentre()).userArea);
+        updatePosition (area, Desktop::getInstance().getDisplays().findDisplayForRect (area).userArea);
 
         addToDesktop (ComponentPeer::windowIsTemporary);
 
@@ -255,7 +254,7 @@ void CallOutBox::refreshPath()
     outline.addBubble (content.getBounds().toFloat().expanded (gap, gap),
                        getLocalBounds().toFloat(),
                        targetPoint - getPosition().toFloat(),
-                       9.0f, arrowSize * 0.7f);
+                       getLookAndFeel().getCallOutBoxCornerSize (*this), arrowSize * 0.7f);
 }
 
 void CallOutBox::timerCallback()

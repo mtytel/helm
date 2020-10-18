@@ -106,6 +106,7 @@ MidiBuffer MPEMessages::setZoneLayout (MPEZoneLayout layout)
     return buffer;
 }
 
+
 //==============================================================================
 //==============================================================================
 #if JUCE_UNIT_TESTS
@@ -113,7 +114,9 @@ MidiBuffer MPEMessages::setZoneLayout (MPEZoneLayout layout)
 class MPEMessagesTests  : public UnitTest
 {
 public:
-    MPEMessagesTests() : UnitTest ("MPEMessages class", "MIDI/MPE") {}
+    MPEMessagesTests()
+        : UnitTest ("MPEMessages class", UnitTestCategories::midi)
+    {}
 
     void runTest() override
     {
@@ -215,7 +218,7 @@ private:
         std::size_t pos = 0;
         MidiBuffer::Iterator iter (midiBuffer);
         MidiMessage midiMessage;
-        int samplePosition; // Note: not actually used, so no need to initialise.
+        int samplePosition; // Note: Not actually used, so no need to initialise.
 
         while (iter.getNextEvent (midiMessage, samplePosition))
         {
@@ -233,6 +236,6 @@ private:
 
 static MPEMessagesTests MPEMessagesUnitTests;
 
-#endif // JUCE_UNIT_TESTS
+#endif
 
 } // namespace juce

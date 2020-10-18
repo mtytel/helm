@@ -35,7 +35,7 @@ namespace juce
     Each MouseEvent object contains a reference to the MouseInputSource that generated
     it. In an environment with a single mouse for input, all events will come from the
     same source, but in a multi-touch system, there may be multiple MouseInputSource
-    obects active, each representing a stream of events coming from a particular finger.
+    objects active, each representing a stream of events coming from a particular finger.
 
     Events coming from a single MouseInputSource are always sent in a fixed and predictable
     order: a mouseMove will never be called without a mouseEnter having been sent beforehand,
@@ -236,6 +236,11 @@ public:
     /** Default values for tilt, which are used when a device doesn't support it */
     static const float invalidTiltX;
     static const float invalidTiltY;
+
+    /** An offscreen mouse position used when triggering mouse exits where we don't want to move
+        the cursor over an existing component.
+    */
+    static const Point<float> offscreenMousePos;
 
    #if ! DOXYGEN
     // This method has been deprecated and replaced with the isLongPressOrDrag() and hasMovedSignificantlySincePressed()

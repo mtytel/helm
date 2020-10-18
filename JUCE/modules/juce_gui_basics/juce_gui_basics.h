@@ -24,6 +24,7 @@
   ==============================================================================
 */
 
+
 /*******************************************************************************
  The block below describes the properties of this module, and is read by
  the Projucer to automatically generate project code that uses it.
@@ -33,18 +34,18 @@
 
  BEGIN_JUCE_MODULE_DECLARATION
 
-  ID:               juce_gui_basics
-  vendor:           juce
-  version:          5.3.2
-  name:             JUCE GUI core classes
-  description:      Basic user-interface components and related classes.
-  website:          http://www.juce.com/juce
-  license:          GPL/Commercial
+  ID:                 juce_gui_basics
+  vendor:             juce
+  version:            5.4.7
+  name:               JUCE GUI core classes
+  description:        Basic user-interface components and related classes.
+  website:            http://www.juce.com/juce
+  license:            GPL/Commercial
 
-  dependencies:     juce_graphics juce_data_structures
-  OSXFrameworks:    Cocoa Carbon QuartzCore
-  iOSFrameworks:    UIKit MobileCoreServices
-  linuxPackages:    x11 xinerama xext
+  dependencies:       juce_graphics juce_data_structures
+  OSXFrameworks:      Cocoa Carbon QuartzCore
+  iOSFrameworks:      UIKit MobileCoreServices
+  linuxPackages:      x11 xinerama xext
 
  END_JUCE_MODULE_DECLARATION
 
@@ -111,6 +112,13 @@
  #define JUCE_USE_XCURSOR 1
 #endif
 
+/** Config: JUCE_WIN_PER_MONITOR_DPI_AWARE
+    Enables per-monitor DPI awareness on Windows 8.1 and above.
+*/
+#ifndef JUCE_WIN_PER_MONITOR_DPI_AWARE
+ #define JUCE_WIN_PER_MONITOR_DPI_AWARE 1
+#endif
+
 //==============================================================================
 namespace juce
 {
@@ -148,6 +156,7 @@ namespace juce
     class KeyPressMappingSet;
     class ApplicationCommandManagerListener;
     class DrawableButton;
+    class Displays;
 
     class FlexBox;
     #if JUCE_HAS_CONSTEXPR
@@ -168,7 +177,8 @@ namespace juce
 #include "components/juce_CachedComponentImage.h"
 #include "components/juce_Component.h"
 #include "layout/juce_ComponentAnimator.h"
-#include "components/juce_Desktop.h"
+#include "desktop/juce_Desktop.h"
+#include "desktop/juce_Displays.h"
 #include "layout/juce_ComponentBoundsConstrainer.h"
 #include "mouse/juce_ComponentDragger.h"
 #include "mouse/juce_DragAndDropTarget.h"

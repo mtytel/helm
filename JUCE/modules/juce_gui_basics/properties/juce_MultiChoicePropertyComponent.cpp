@@ -43,6 +43,12 @@ public:
     }
 };
 
+void updateButtonTickColour (ToggleButton* button, bool usingDefault)
+{
+    button->setColour (ToggleButton::tickColourId, button->getLookAndFeel().findColour (ToggleButton::tickColourId)
+                                                                              .withAlpha (usingDefault ? 0.4f : 1.0f));
+}
+
 //==============================================================================
 class MultiChoicePropertyComponent::MultiChoiceRemapperSource    : public Value::ValueSource,
                                                                    private Value::Listener
@@ -106,10 +112,10 @@ class MultiChoicePropertyComponent::MultiChoiceRemapperSourceWithDefault    : pu
                                                                               private Value::Listener
 {
 public:
-    MultiChoiceRemapperSourceWithDefault (ValueWithDefault& vwd, var v, int c, ToggleButton* b)
+    MultiChoiceRemapperSourceWithDefault (ValueWithDefault* vwd, var v, int c, ToggleButton* b)
         : valueWithDefault (vwd),
           varToControl (v),
-          sourceValue (valueWithDefault.getPropertyAsValue()),
+          sourceValue (valueWithDefault->getPropertyAsValue()),
           maxChoices (c),
           buttonToControl (b)
     {
@@ -118,13 +124,16 @@ public:
 
     var getValue() const override
     {
-        auto v = valueWithDefault.get();
+        if (valueWithDefault == nullptr)
+            return {};
+
+        auto v = valueWithDefault->get();
 
         if (auto* arr = v.getArray())
         {
             if (arr->contains (varToControl))
             {
-                updateButtonTickColour();
+                updateButtonTickColour (buttonToControl, valueWithDefault->isUsingDefault());
                 return true;
             }
         }
@@ -134,11 +143,14 @@ public:
 
     void setValue (const var& newValue) override
     {
-        auto v = valueWithDefault.get();
+        if (valueWithDefault == nullptr)
+            return;
+
+        auto v = valueWithDefault->get();
 
         OptionalScopedPointer<Array<var>> arrayToControl;
 
-        if (valueWithDefault.isUsingDefault())
+        if (valueWithDefault->isUsingDefault())
             arrayToControl.set (new Array<var>(), true); // use an empty array so the default values are overwritten
         else
             arrayToControl.set (v.getArray(), false);
@@ -149,7 +161,7 @@ public:
 
             bool newState = newValue;
 
-            if (valueWithDefault.isUsingDefault())
+            if (valueWithDefault->isUsingDefault())
             {
                 if (auto* defaultArray = v.getArray())
                 {
@@ -171,32 +183,25 @@ public:
             StringComparator c;
             temp.sort (c);
 
-            valueWithDefault = temp;
+            *valueWithDefault = temp;
 
             if (temp.size() == 0)
-                valueWithDefault.resetToDefault();
+                valueWithDefault->resetToDefault();
         }
     }
 
 private:
-    ValueWithDefault& valueWithDefault;
+    //==============================================================================
+    void valueChanged (Value&) override { sendChangeMessage (true); }
+
+    //==============================================================================
+    WeakReference<ValueWithDefault> valueWithDefault;
     var varToControl;
     Value sourceValue;
 
     int maxChoices;
 
     ToggleButton* buttonToControl;
-
-    //==============================================================================
-    void valueChanged (Value&) override    { sendChangeMessage (true); }
-
-    void updateButtonTickColour() const noexcept
-    {
-        auto alpha = valueWithDefault.isUsingDefault() ? 0.4f : 1.0f;
-        auto baseColour = buttonToControl->findColour (ToggleButton::tickColourId);
-
-        buttonToControl->setColour (ToggleButton::tickColourId, baseColour.withAlpha (alpha));
-    }
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MultiChoiceRemapperSourceWithDefault)
@@ -254,16 +259,24 @@ MultiChoicePropertyComponent::MultiChoicePropertyComponent (ValueWithDefault& va
                                                             int maxChoices)
     : MultiChoicePropertyComponent (propertyName, choices, correspondingValues)
 {
+    valueWithDefault = &valueToControl;
+
     // The value to control must be an array!
-    jassert (valueToControl.get().isArray());
+    jassert (valueWithDefault->get().isArray());
 
     for (int i = 0; i < choiceButtons.size(); ++i)
-        choiceButtons[i]->getToggleStateValue().referTo (Value (new MultiChoiceRemapperSourceWithDefault (valueToControl,
+        choiceButtons[i]->getToggleStateValue().referTo (Value (new MultiChoiceRemapperSourceWithDefault (valueWithDefault,
                                                                                                           correspondingValues[i],
                                                                                                           maxChoices,
                                                                                                           choiceButtons[i])));
 
-    valueToControl.onDefaultChange = [this] { repaint(); };
+    valueWithDefault->onDefaultChange = [this] { repaint(); };
+}
+
+MultiChoicePropertyComponent::~MultiChoicePropertyComponent()
+{
+    if (valueWithDefault != nullptr)
+        valueWithDefault->onDefaultChange = nullptr;
 }
 
 void MultiChoicePropertyComponent::paint (Graphics& g)
@@ -335,6 +348,14 @@ void MultiChoicePropertyComponent::lookAndFeelChanged()
 {
     auto iconColour = findColour (TextEditor::backgroundColourId).contrasting();
     expandButton.setColours (iconColour, iconColour.darker(), iconColour.darker());
+
+    if (valueWithDefault != nullptr)
+    {
+        auto usingDefault = valueWithDefault->isUsingDefault();
+
+        for (auto* button : choiceButtons)
+            updateButtonTickColour (button, usingDefault);
+    }
 }
 
 } // namespace juce

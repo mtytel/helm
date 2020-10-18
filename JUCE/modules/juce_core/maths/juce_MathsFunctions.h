@@ -42,7 +42,7 @@ using uint16    = unsigned short;
 /** A platform-independent 32-bit signed integer type. */
 using int32     = signed int;
 /** A platform-independent 32-bit unsigned integer type. */
-typedef unsigned int                uint32;
+using uint32    = unsigned int;
 
 #if JUCE_MSVC
   /** A platform-independent 64-bit integer type. */
@@ -197,7 +197,6 @@ void findMinAndMax (const Type* values, int numValues, Type& lowest, Type& highe
     }
 }
 
-
 //==============================================================================
 /** Constrains a value to keep it within a given range.
 
@@ -265,6 +264,25 @@ bool isPositiveAndNotGreaterThan (int valueToTest, Type upperLimit) noexcept
     return static_cast<unsigned int> (valueToTest) <= static_cast<unsigned int> (upperLimit);
 }
 
+/** Computes the absolute difference between two values and returns true if it is less than or equal
+    to a given tolerance, otherwise it returns false.
+*/
+template <typename Type>
+bool isWithin (Type a, Type b, Type tolerance) noexcept
+{
+    return std::abs (a - b) <= tolerance;
+}
+
+/** Returns true if the two numbers are approximately equal. This is useful for floating-point
+    and double comparisons.
+*/
+template <typename Type>
+bool approximatelyEqual (Type a, Type b) noexcept
+{
+    return std::abs (a - b) <= (std::numeric_limits<Type>::epsilon() * std::max (a, b))
+            || std::abs (a - b) < std::numeric_limits<Type>::min();
+}
+
 //==============================================================================
 /** Handy function for avoiding unused variables warning. */
 template <typename... Types>
@@ -278,13 +296,8 @@ void ignoreUnused (Types&&...) noexcept {}
     int numElements = numElementsInArray (myArray) // returns 3
     @endcode
 */
-template <typename Type, int N>
-int numElementsInArray (Type (&array)[N])
-{
-    (void) array;
-    (void) sizeof (0[array]); // This line should cause an error if you pass an object with a user-defined subscript operator
-    return N;
-}
+template <typename Type, size_t N>
+JUCE_CONSTEXPR int numElementsInArray (Type (&)[N]) noexcept     { return N; }
 
 //==============================================================================
 // Some useful maths functions that aren't always present with all compilers and build settings.
@@ -311,12 +324,6 @@ inline float juce_hypot (float a, float b) noexcept
     return hypotf (a, b);
    #endif
 }
-#endif
-
-#if JUCE_MSVC && ! defined (DOXYGEN)  // The MSVC libraries omit these functions for some reason...
- template<typename Type> Type asinh (Type x)  { return std::log (x + std::sqrt (x * x + (Type) 1)); }
- template<typename Type> Type acosh (Type x)  { return std::log (x + std::sqrt (x * x - (Type) 1)); }
- template<typename Type> Type atanh (Type x)  { return (std::log (x + (Type) 1) - std::log (((Type) 1) - x)) / (Type) 2; }
 #endif
 
 //==============================================================================

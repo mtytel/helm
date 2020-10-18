@@ -57,7 +57,7 @@ namespace juce
 static const int millisecondsToDisplaySplash = 2000, splashScreenFadeOutTime = 2000;
 static const int splashScreenLogoWidth = 123, splashScreenLogoHeight = 63;
 static uint32 splashDisplayTime = 0;
-static bool appUsageReported = false;
+static bool splashHasStartedFading = false, appUsageReported = false;
 
 
 static Rectangle<float> getLogoArea (Rectangle<float> parentRect)
@@ -74,7 +74,7 @@ struct ReportingThreadContainer  : public ChangeListener,
                                    public DeletedAtShutdown
 {
     ReportingThreadContainer() {}
-    ~ReportingThreadContainer() { clearSingletonInstance(); }
+    ~ReportingThreadContainer() override  { clearSingletonInstance(); }
 
     void sendReport (String, String&, StringPairArray&);
     void changeListenerCallback (ChangeBroadcaster*) override;
@@ -109,7 +109,7 @@ struct ReportingThread  : public Thread,
         addChangeListener (&threadContainer);
     }
 
-    ~ReportingThread()
+    ~ReportingThread() override
     {
         removeChangeListener (&threadContainer);
 
@@ -150,7 +150,6 @@ void ReportingThreadContainer::changeListenerCallback (ChangeBroadcaster*)
 //==============================================================================
 JUCESplashScreen::JUCESplashScreen (Component& parent)
 {
-    ignoreUnused (hasStartedFading);
     ignoreUnused (parent);
 
    #if JUCE_REPORT_APP_USAGE
@@ -294,8 +293,9 @@ std::unique_ptr<Drawable> JUCESplashScreen::getSplashScreenLogo()
     </svg>
     )JUCESPLASHSCREEN";
 
-    std::unique_ptr<XmlElement> svgXml (XmlDocument::parse (svgData));
-    return std::unique_ptr<Drawable> (Drawable::createFromSVG (*svgXml));
+    auto svgXml = parseXML (svgData);
+    jassert (svgXml != nullptr);
+    return Drawable::createFromSVG (*svgXml);
 }
 
 void JUCESplashScreen::paint (Graphics& g)
@@ -325,13 +325,13 @@ void JUCESplashScreen::paint (Graphics& g)
 void JUCESplashScreen::timerCallback()
 {
    #if JUCE_DISPLAY_SPLASH_SCREEN
-    if (isVisible() && ! hasStartedFading)
+    if (isVisible() && ! splashHasStartedFading)
     {
-        hasStartedFading = true;
+        splashHasStartedFading = true;
         fader.animateComponent (this, getBounds(), 0.0f, splashScreenFadeOutTime, false, 0, 0);
     }
 
-    if (hasStartedFading && ! fader.isAnimating())
+    if (splashHasStartedFading && ! fader.isAnimating())
    #endif
         delete this;
 }
@@ -350,7 +350,7 @@ void JUCESplashScreen::parentHierarchyChanged()
 
 bool JUCESplashScreen::hitTest (int x, int y)
 {
-    if (! hasStartedFading)
+    if (! splashHasStartedFading)
         return getLogoArea (getLocalBounds().toFloat()).contains ((float) x, (float) y);
 
     return false;

@@ -61,7 +61,7 @@ void OpenGLWaveViewer::paintBackground() {
   if (getWidth() <= 0 || getHeight() <= 0)
     return;
 
-  const Desktop::Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
+  const Displays::Display& display = Desktop::getInstance().getDisplays().getMainDisplay();
   float scale = display.scale;
   background_image_ = Image(Image::ARGB, scale * getWidth(), scale * getHeight(), true);
   Graphics g(background_image_);
@@ -218,7 +218,7 @@ void OpenGLWaveViewer::resetWavePath() {
     drawRandom();
   else
     drawSmoothRandom();
-  
+
   paintBackground();
 }
 

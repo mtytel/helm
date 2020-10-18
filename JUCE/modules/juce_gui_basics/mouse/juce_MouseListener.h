@@ -40,7 +40,7 @@ class JUCE_API  MouseListener
 {
 public:
     /** Destructor. */
-    virtual ~MouseListener()  {}
+    virtual ~MouseListener() = default;
 
     /** Called when the mouse moves inside a component.
 
@@ -167,14 +167,6 @@ public:
                             values greater than 1.0 mean it should be enlarged.
     */
     virtual void mouseMagnify (const MouseEvent& event, float scaleFactor);
-
-
-private:
-   #if JUCE_CATCH_DEPRECATED_CODE_MISUSE
-    // This is just here to cause a compile error in old code that hasn't been
-    // updated to use the new version of this method.
-    virtual int mouseWheelMove (const MouseEvent&, float, float) { return 0; }
-   #endif
 };
 
 } // namespace juce

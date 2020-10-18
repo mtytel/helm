@@ -33,11 +33,11 @@ struct JuceMainMenuBarHolder : private DeletedAtShutdown
     JuceMainMenuBarHolder()
         : mainMenuBar ([[NSMenu alloc] initWithTitle: nsStringLiteral ("MainMenu")])
     {
-        auto* item = [mainMenuBar addItemWithTitle: nsStringLiteral ("Apple")
-                                            action: nil
+        auto item = [mainMenuBar addItemWithTitle: nsStringLiteral ("Apple")
+                                           action: nil
                                      keyEquivalent: nsEmptyString()];
 
-        auto* appMenu = [[NSMenu alloc] initWithTitle: nsStringLiteral ("Apple")];
+        auto appMenu = [[NSMenu alloc] initWithTitle: nsStringLiteral ("Apple")];
 
         [NSApp performSelector: @selector (setAppleMenu:) withObject: appMenu];
         [mainMenuBar setSubmenu: appMenu forItem: item];
@@ -73,7 +73,7 @@ public:
         JuceMenuCallbackClass::setOwner (callback, this);
     }
 
-    ~JuceMainMenuHandler()
+    ~JuceMainMenuHandler() override
     {
         setMenu (nullptr, nullptr, String());
 
@@ -200,6 +200,12 @@ public:
     {
         if (currentModel != nullptr)
         {
+            if (item.action != nullptr)
+            {
+                MessageManager::callAsync (item.action);
+                return;
+            }
+
             if (item.customCallback != nullptr)
                 if (! item.customCallback->menuItemTriggered())
                     return;
@@ -249,10 +255,10 @@ public:
         }
         else if (i.subMenu != nullptr)
         {
-            if (i.text == recentItemsMenuName)
+            if (recentItemsMenuName.isNotEmpty() && i.text == recentItemsMenuName)
             {
                 if (recent == nullptr)
-                    recent.reset (new RecentFilesMenuItem());
+                    recent = std::make_unique<RecentFilesMenuItem>();
 
                 if (recent->recentItem != nil)
                 {
@@ -277,13 +283,17 @@ public:
         }
         else
         {
-            auto* item = [[NSMenuItem alloc] initWithTitle: text
-                                                    action: @selector (menuItemInvoked:)
-                                             keyEquivalent: nsEmptyString()];
+            auto item = [[NSMenuItem alloc] initWithTitle: text
+                                                   action: @selector (menuItemInvoked:)
+                                            keyEquivalent: nsEmptyString()];
 
             [item setTag: topLevelIndex];
             [item setEnabled: i.isEnabled];
+           #if defined (MAC_OS_X_VERSION_10_13) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_13
+            [item setState: i.isTicked ? NSControlStateValueOn : NSControlStateValueOff];
+           #else
             [item setState: i.isTicked ? NSOnState : NSOffState];
+           #endif
             [item setTarget: (id) callback];
 
             auto* juceItem = new PopupMenu::Item (i);
@@ -327,13 +337,7 @@ public:
         [m setAutoenablesItems: false];
 
         if (addDelegate)
-        {
-           #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
             [m setDelegate: (id<NSMenuDelegate>) callback];
-           #else
-            [m setDelegate: callback];
-           #endif
-        }
 
         for (PopupMenu::MenuItemIterator iter (menu); iter.next();)
             addMenuItem (iter, m, topLevelMenuId, topLevelIndex);
@@ -478,9 +482,9 @@ private:
     {
         if (isPositiveAndBelow (menuItemIndex, (int) [parentMenu numberOfItems]))
         {
-            auto* menuItem = [parentMenu itemAtIndex:menuItemIndex];
+            auto menuItem = [parentMenu itemAtIndex:menuItemIndex];
 
-            if (auto* submenu = [menuItem submenu])
+            if (auto submenu = [menuItem submenu])
                 removeItemRecursive (submenu);
 
             [parentMenu removeItem:menuItem];
@@ -515,9 +519,7 @@ private:
             addMethod (@selector (menuItemInvoked:),  menuItemInvoked, "v@:@");
             addMethod (@selector (menuNeedsUpdate:),  menuNeedsUpdate, "v@:@");
 
-           #if defined (MAC_OS_X_VERSION_10_6) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
             addProtocol (@protocol (NSMenuDelegate));
-           #endif
 
             registerClass();
         }
@@ -576,7 +578,7 @@ public:
         : oldMenu (MenuBarModel::getMacMainMenu())
     {
         if (auto* appleMenu = MenuBarModel::getMacExtraAppleItemsMenu())
-            oldAppleMenu.reset (new PopupMenu (*appleMenu));
+            oldAppleMenu = std::make_unique<PopupMenu> (*appleMenu);
 
         if (auto* handler = JuceMainMenuHandler::instance)
             oldRecentItems = handler->recentItemsMenuName;
@@ -706,7 +708,7 @@ namespace MainMenuHelpers
             {
                 if ([mainMenu numberOfItems] > 0)
                 {
-                    if (auto* appMenu = [[mainMenu itemAtIndex:0] submenu])
+                    if (auto appMenu = [[mainMenu itemAtIndex: 0] submenu])
                     {
                         [appMenu removeAllItems];
                         MainMenuHelpers::createStandardAppMenu (appMenu, app->getApplicationName(), extraItems);
@@ -765,7 +767,7 @@ const PopupMenu* MenuBarModel::getMacExtraAppleItemsMenu()
     return nullptr;
 }
 
-typedef void (*MenuTrackingChangedCallback) (bool);
+using MenuTrackingChangedCallback = void (*)(bool);
 extern MenuTrackingChangedCallback menuTrackingChangedCallback;
 
 static void mainMenuTrackingChanged (bool isTracking)
