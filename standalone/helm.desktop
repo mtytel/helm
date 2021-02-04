@@ -1,12 +1,15 @@
 [Desktop Entry]
 Name=Helm
 Comment=A free polyphonic synth with a lot of modulation
+Comment[de]=Ein freier polyphoner Synthesizer mit viel Modulation
 Comment[fr]=Un synthétiseur polyphonique libre avec un tas de module
 GenericName=Synth
+GenericName[de]=Synthesizer
 GenericName[fr]=Synthétiseur
 Exec=helm
 Icon=helm
 Terminal=false
 Type=Application
 Categories=Audio;AudioVideo;
+Keywords=audio;sound;
 MimeType=text/helm;
