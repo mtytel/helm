@@ -324,7 +324,7 @@ namespace mopo {
             pressed_notes_.pop_back();
             pressed_notes_.push_front(old_note);
             new_voice->activate(old_note, voice->state().velocity, last_played_note_,
-                                pressed_notes_.size() + 1, sample);
+                                pressed_notes_.size() + 1, sample, voice->state().channel);
             last_played_note_ = old_note;
 
             voice_event = kVoiceReset;
