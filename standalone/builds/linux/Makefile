@@ -41,7 +41,7 @@ ifeq ($(CONFIG),Debug)
 
   JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -g -ggdb -O0 $(DEBCXXFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize $(CFLAGS)
   JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++14 $(CXXFLAGS)
-  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) $(DEBLDFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize -lGL -ldl -lpthread -lrt $(LDFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) $(DEBLDFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize -lGL -ldl -lpthread -latomic -lrt $(LDFLAGS)
 
   CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(TARGET) $(JUCE_OBJDIR)
 endif
@@ -62,7 +62,7 @@ ifeq ($(CONFIG),Release)
 
   JUCE_CFLAGS += $(JUCE_CPPFLAGS) $(TARGET_ARCH) -O3 $(DEBCXXFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize $(CFLAGS)
   JUCE_CXXFLAGS += $(JUCE_CFLAGS) -std=c++14 $(CXXFLAGS)
-  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -fvisibility=hidden $(DEBLDFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize -lGL -ldl -lpthread -lrt $(LDFLAGS)
+  JUCE_LDFLAGS += $(TARGET_ARCH) -L$(JUCE_BINDIR) -L$(JUCE_LIBDIR) -L/usr/X11R6/lib/ $(shell pkg-config --libs alsa freetype2 libcurl x11 xext xinerama) -fvisibility=hidden $(DEBLDFLAGS) -ffast-math $(SIMDFLAGS) -ftree-vectorize -ftree-slp-vectorize -lGL -ldl -lpthread -latomic -lrt $(LDFLAGS)
 
   CLEANCMD = rm -rf $(JUCE_OUTDIR)/$(TARGET) $(JUCE_OBJDIR)
 endif
